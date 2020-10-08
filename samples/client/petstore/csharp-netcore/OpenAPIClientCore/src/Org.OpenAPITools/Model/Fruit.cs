@@ -32,6 +32,15 @@ namespace Org.OpenAPITools.Model
     public partial class Fruit : AbstractOpenAPISchema, IEquatable<Fruit>, IValidatableObject
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Fruit" /> class.
+        /// </summary>
+        public Fruit()
+        {
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Fruit" /> class
         /// with the <see cref="Apple" /> class
         /// </summary>
@@ -123,7 +132,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance);
+            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
         }
 
         /// <summary>
@@ -137,7 +146,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<Apple>(jsonString);
+                this.ActualInstance = JsonConvert.DeserializeObject<Apple>(jsonString, _serializerSettings);
                 matchedTypes.Add("Apple");
                 match++;
             }
@@ -150,7 +159,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<Banana>(jsonString);
+                this.ActualInstance = JsonConvert.DeserializeObject<Banana>(jsonString, _serializerSettings);
                 matchedTypes.Add("Banana");
                 match++;
             }

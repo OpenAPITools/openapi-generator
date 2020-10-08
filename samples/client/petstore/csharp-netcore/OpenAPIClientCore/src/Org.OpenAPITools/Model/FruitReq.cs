@@ -132,7 +132,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance);
+            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<AppleReq>(jsonString);
+                this.ActualInstance = JsonConvert.DeserializeObject<AppleReq>(jsonString, _serializerSettings);
                 matchedTypes.Add("AppleReq");
                 match++;
             }
@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<BananaReq>(jsonString);
+                this.ActualInstance = JsonConvert.DeserializeObject<BananaReq>(jsonString, _serializerSettings);
                 matchedTypes.Add("BananaReq");
                 match++;
             }

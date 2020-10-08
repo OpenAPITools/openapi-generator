@@ -33,6 +33,15 @@ namespace Org.OpenAPITools.Model
     public partial class Shape : AbstractOpenAPISchema, IEquatable<Shape>, IValidatableObject
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Shape" /> class.
+        /// </summary>
+        public Shape()
+        {
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Shape" /> class
         /// with the <see cref="Quadrilateral" /> class
         /// </summary>
@@ -124,7 +133,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance);
+            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
         }
 
         /// <summary>
@@ -138,7 +147,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString);
+                this.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, _serializerSettings);
                 matchedTypes.Add("Quadrilateral");
                 match++;
             }
@@ -151,7 +160,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString);
+                this.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, _serializerSettings);
                 matchedTypes.Add("Triangle");
                 match++;
             }

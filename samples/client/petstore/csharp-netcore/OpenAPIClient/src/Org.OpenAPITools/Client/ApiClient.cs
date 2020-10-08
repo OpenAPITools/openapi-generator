@@ -15,6 +15,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
 using System.Text;
@@ -458,6 +459,15 @@ namespace Org.OpenAPITools.Client
                 response = client.Execute<T>(req);
             }
 
+            // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
+            if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
+            {
+                T instance = (T)Activator.CreateInstance(typeof(T));
+                MethodInfo method = typeof(T).GetMethod("FromJson");
+                method.Invoke(instance, new object[] { response.Content });
+                response.Data = instance;
+            }
+
             InterceptResponse(req, response);
 
             var result = ToApiResponse(response);
@@ -553,6 +563,15 @@ namespace Org.OpenAPITools.Client
             else
             {
                  response = await client.ExecuteAsync<T>(req, cancellationToken).ConfigureAwait(false);
+            }
+
+            // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
+            if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
+            {
+                T instance = (T)Activator.CreateInstance(typeof(T));
+                MethodInfo method = typeof(T).GetMethod("FromJson");
+                method.Invoke(instance, new object[] { response.Content });
+                response.Data = instance;
             }
 
             InterceptResponse(req, response);

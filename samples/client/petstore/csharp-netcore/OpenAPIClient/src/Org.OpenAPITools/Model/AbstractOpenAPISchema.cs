@@ -9,6 +9,8 @@
 
 
 using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Org.OpenAPITools.Model
 {
@@ -17,6 +19,20 @@ namespace Org.OpenAPITools.Model
     /// </summary>
     public abstract partial class AbstractOpenAPISchema
     {
+        protected readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
+        {
+            // OpenAPI generated types generally hide default constructors.
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+            MissingMemberHandling = MissingMemberHandling.Error,
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy
+                {
+                    OverrideSpecifiedNames = false
+                }
+            }
+        };
+
         /// <summary>
         /// Gets or Sets the actual instance
         /// </summary>

@@ -4,7 +4,6 @@
     [DataContract(Name = "{{{name}}}")]
     {{>visibility}} partial class {{classname}} : AbstractOpenAPISchema, {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
     {
-        {{#isNullable}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
@@ -14,7 +13,6 @@
             this.SchemaType= "oneOf";
         }
 
-        {{/isNullable}}
         {{#oneOf}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class
@@ -87,7 +85,7 @@
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance);
+            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
         }
 
         /// <summary>
@@ -102,7 +100,7 @@
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<{{{.}}}>(jsonString);
+                this.ActualInstance = JsonConvert.DeserializeObject<{{{.}}}>(jsonString, _serializerSettings);
                 matchedTypes.Add("{{{.}}}");
                 match++;
             }

@@ -1,6 +1,8 @@
 {{>partial_header}}
 
 using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace {{packageName}}.{{modelPackage}}
 {
@@ -9,6 +11,20 @@ namespace {{packageName}}.{{modelPackage}}
     /// </summary>
     {{>visibility}} abstract partial class AbstractOpenAPISchema
     {
+        protected readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
+        {
+            // OpenAPI generated types generally hide default constructors.
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+            MissingMemberHandling = MissingMemberHandling.Error,
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy
+                {
+                    OverrideSpecifiedNames = false
+                }
+            }
+        };
+
         /// <summary>
         /// Gets or Sets the actual instance
         /// </summary>

@@ -33,6 +33,15 @@ namespace Org.OpenAPITools.Model
     public partial class Triangle : AbstractOpenAPISchema, IEquatable<Triangle>, IValidatableObject
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Triangle" /> class.
+        /// </summary>
+        public Triangle()
+        {
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class
         /// with the <see cref="EquilateralTriangle" /> class
         /// </summary>
@@ -150,7 +159,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance);
+            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
         }
 
         /// <summary>
@@ -164,7 +173,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString);
+                this.ActualInstance = JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, _serializerSettings);
                 matchedTypes.Add("EquilateralTriangle");
                 match++;
             }
@@ -177,7 +186,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString);
+                this.ActualInstance = JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, _serializerSettings);
                 matchedTypes.Add("IsoscelesTriangle");
                 match++;
             }
@@ -190,7 +199,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString);
+                this.ActualInstance = JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, _serializerSettings);
                 matchedTypes.Add("ScaleneTriangle");
                 match++;
             }

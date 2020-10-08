@@ -33,6 +33,15 @@ namespace Org.OpenAPITools.Model
     public partial class Mammal : AbstractOpenAPISchema, IEquatable<Mammal>, IValidatableObject
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Mammal" /> class.
+        /// </summary>
+        public Mammal()
+        {
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Mammal" /> class
         /// with the <see cref="Pig" /> class
         /// </summary>
@@ -150,7 +159,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance);
+            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
         }
 
         /// <summary>
@@ -164,7 +173,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<Pig>(jsonString);
+                this.ActualInstance = JsonConvert.DeserializeObject<Pig>(jsonString, _serializerSettings);
                 matchedTypes.Add("Pig");
                 match++;
             }
@@ -177,7 +186,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<Whale>(jsonString);
+                this.ActualInstance = JsonConvert.DeserializeObject<Whale>(jsonString, _serializerSettings);
                 matchedTypes.Add("Whale");
                 match++;
             }
@@ -190,7 +199,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<Zebra>(jsonString);
+                this.ActualInstance = JsonConvert.DeserializeObject<Zebra>(jsonString, _serializerSettings);
                 matchedTypes.Add("Zebra");
                 match++;
             }

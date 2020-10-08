@@ -33,6 +33,15 @@ namespace Org.OpenAPITools.Model
     public partial class Quadrilateral : AbstractOpenAPISchema, IEquatable<Quadrilateral>, IValidatableObject
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
+        /// </summary>
+        public Quadrilateral()
+        {
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Quadrilateral" /> class
         /// with the <see cref="ComplexQuadrilateral" /> class
         /// </summary>
@@ -124,7 +133,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance);
+            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
         }
 
         /// <summary>
@@ -138,7 +147,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString);
+                this.ActualInstance = JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, _serializerSettings);
                 matchedTypes.Add("ComplexQuadrilateral");
                 match++;
             }
@@ -151,7 +160,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString);
+                this.ActualInstance = JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, _serializerSettings);
                 matchedTypes.Add("SimpleQuadrilateral");
                 match++;
             }

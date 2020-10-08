@@ -33,6 +33,15 @@ namespace Org.OpenAPITools.Model
     public partial class Pig : AbstractOpenAPISchema, IEquatable<Pig>, IValidatableObject
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Pig" /> class.
+        /// </summary>
+        public Pig()
+        {
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Pig" /> class
         /// with the <see cref="BasquePig" /> class
         /// </summary>
@@ -124,7 +133,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance);
+            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
         }
 
         /// <summary>
@@ -138,7 +147,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<BasquePig>(jsonString);
+                this.ActualInstance = JsonConvert.DeserializeObject<BasquePig>(jsonString, _serializerSettings);
                 matchedTypes.Add("BasquePig");
                 match++;
             }
@@ -151,7 +160,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<DanishPig>(jsonString);
+                this.ActualInstance = JsonConvert.DeserializeObject<DanishPig>(jsonString, _serializerSettings);
                 matchedTypes.Add("DanishPig");
                 match++;
             }
