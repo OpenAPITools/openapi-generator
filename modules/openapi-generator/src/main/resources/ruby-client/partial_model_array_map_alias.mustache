@@ -26,11 +26,11 @@
         self[k] = _deserialize("{{additionalPropertiesType}}", v)
       end
       {{/isMapModel}}
-      {{#isMapModel}}
+      {{#isArrayModel}}
       attributes.each do |v|
         self << _deserialize("{{arrayModelType}}", v)
       end
-      {{/isMapModel}}
+      {{/isArrayModel}}
       self
     end
 

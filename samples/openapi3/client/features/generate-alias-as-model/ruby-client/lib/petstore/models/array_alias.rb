@@ -33,6 +33,9 @@ module Petstore
     def build_from_hash(attributes)
       return nil unless attributes.is_a?(Array)
       self.clear
+      attributes.each do |v|
+        self << _deserialize("", v)
+      end
       self
     end
 

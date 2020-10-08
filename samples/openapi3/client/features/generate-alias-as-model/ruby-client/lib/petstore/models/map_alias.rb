@@ -36,9 +36,6 @@ module Petstore
       attributes.each do |k, v|
         self[k] = _deserialize("String", v)
       end
-      attributes.each do |v|
-        self << _deserialize("", v)
-      end
       self
     end
 
