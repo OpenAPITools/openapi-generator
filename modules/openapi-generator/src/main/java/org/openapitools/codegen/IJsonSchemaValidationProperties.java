@@ -52,4 +52,12 @@ public interface IJsonSchemaValidationProperties {
     Number getMultipleOf();
 
     void setMultipleOf(Number multipleOf);
+
+    CodegenProperty getItems();
+
+    void setItems(CodegenProperty items);
+
+    boolean getIsModel();
+
+    void setIsModel(boolean isModel);
 }
