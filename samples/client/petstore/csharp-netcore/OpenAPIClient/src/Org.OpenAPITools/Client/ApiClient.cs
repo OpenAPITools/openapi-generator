@@ -15,6 +15,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
 using System.Text;
@@ -64,8 +65,15 @@ namespace Org.OpenAPITools.Client
 
         public string Serialize(object obj)
         {
-            var result = JsonConvert.SerializeObject(obj, _serializerSettings);
-            return result;
+            if (obj != null && obj.GetType().IsInstanceOfType(typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema)))
+            {
+                // the object to be serialized is an oneOf/anyOf schema
+                return ((Org.OpenAPITools.Model.AbstractOpenAPISchema)obj).ToJson();
+            }
+            else
+            {
+                return JsonConvert.SerializeObject(obj, _serializerSettings);
+            }
         }
 
         public T Deserialize<T>(IRestResponse response)
@@ -125,7 +133,17 @@ namespace Org.OpenAPITools.Client
             // at this point, it must be a model (json)
             try
             {
-                return JsonConvert.DeserializeObject(response.Content, type, _serializerSettings);
+                if (type.IsInstanceOfType(typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema)))
+                {
+                    // the response is an oneOf/anyOf schema
+                    Org.OpenAPITools.Model.AbstractOpenAPISchema instance = (Org.OpenAPITools.Model.AbstractOpenAPISchema)Activator.CreateInstance(type);
+                    instance.FromJson(response.Content);
+                    return instance;
+                }
+                else
+                {
+                    return JsonConvert.DeserializeObject(response.Content, type, _serializerSettings);
+                }
             }
             catch (Exception e)
             {
@@ -441,6 +459,15 @@ namespace Org.OpenAPITools.Client
                 response = client.Execute<T>(req);
             }
 
+            // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
+            if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
+            {
+                T instance = (T)Activator.CreateInstance(typeof(T));
+                MethodInfo method = typeof(T).GetMethod("FromJson");
+                method.Invoke(instance, new object[] { response.Content });
+                response.Data = instance;
+            }
+
             InterceptResponse(req, response);
 
             var result = ToApiResponse(response);
@@ -536,6 +563,15 @@ namespace Org.OpenAPITools.Client
             else
             {
                  response = await client.ExecuteAsync<T>(req, cancellationToken).ConfigureAwait(false);
+            }
+
+            // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
+            if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
+            {
+                T instance = (T)Activator.CreateInstance(typeof(T));
+                MethodInfo method = typeof(T).GetMethod("FromJson");
+                method.Invoke(instance, new object[] { response.Content });
+                response.Data = instance;
             }
 
             InterceptResponse(req, response);
