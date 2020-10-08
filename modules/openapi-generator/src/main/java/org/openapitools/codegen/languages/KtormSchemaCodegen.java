@@ -39,9 +39,11 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
 
     public static final String VENDOR_EXTENSION_SCHEMA = "x-ktorm-schema";
     public static final String DEFAULT_DATABASE_NAME = "defaultDatabaseName";
+    public static final String IMPORT_MODEL_PACKAGE_NAME = "importModelPackageName";
     public static final String IDENTIFIER_NAMING_CONVENTION = "identifierNamingConvention";
     public static final Integer IDENTIFIER_MAX_LENGTH = 255;
 
+    protected String importModelPackageName = "";
     protected String defaultDatabaseName = "sqlite.db";
     protected String databaseNamePrefix = "_", databaseNameSuffix = "";
     protected String tableNamePrefix = "_", tableNameSuffix = "";
@@ -189,15 +191,15 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         modelTemplateFiles.put("model.mustache", ".kt");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         modelPackage = packageName + ".models";
+        importModelPackageName = modelPackage;
 
+        // we don't clear clioptions from Kotlin
         // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, artifactId);
         updateOption(CodegenConstants.PACKAGE_NAME, packageName);
         removeOption(CodegenConstants.API_SUFFIX);
-
-        // we don't clear clioptions from Kotlin
-        // cliOptions.clear();
         addOption(DEFAULT_DATABASE_NAME, "Default database name for all queries", defaultDatabaseName);
+        addOption(IMPORT_MODEL_PACKAGE_NAME, "Package name of the imported models", importModelPackageName);
 
         // we used to snake_case table/column names, let's add this option
         CliOption identifierNamingOpt = new CliOption(IDENTIFIER_NAMING_CONVENTION,
@@ -239,6 +241,10 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
 
         if (additionalProperties.containsKey(IDENTIFIER_NAMING_CONVENTION)) {
             setIdentifierNamingConvention((String) additionalProperties.get(IDENTIFIER_NAMING_CONVENTION));
+        }
+
+        if (additionalProperties.containsKey(IMPORT_MODEL_PACKAGE_NAME)) {
+            setImportModelPackageName((String) additionalProperties.get(IMPORT_MODEL_PACKAGE_NAME));
         }
 
         // make model src path available in mustache template
@@ -946,6 +952,24 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      */
     public String getDefaultDatabaseName() {
         return this.defaultDatabaseName;
+    }
+
+    /**
+     * Sets imported package name for the models
+     *
+     * @param name name
+     */
+    public void setImportModelPackageName(String name) {
+        this.importModelPackageName = name;
+    }
+
+    /**
+     * Returns imported package name for the models
+     *
+     * @return name
+     */
+    public String getImportModelPackageName() {
+        return this.importModelPackageName;
     }
 
     /**
