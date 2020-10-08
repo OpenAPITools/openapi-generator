@@ -572,7 +572,7 @@ public class ApiClient {
             builder.queryParams(queryParams);
         }
 
-		URI uri;
+        URI uri;
         try {
             uri = new URI(builder.build().toUriString());
         } catch(URISyntaxException ex)  {
