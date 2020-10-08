@@ -1,0 +1,43 @@
+  {{#description}}
+  # {{{description}}}
+  {{/description}}
+  class {{classname}}{{#parent}} < {{{.}}}{{/parent}}
+
+    # Show invalid properties with the reasons. Usually used together with valid?
+    # @return Array for valid properties with the reasons
+    def list_invalid_properties
+      Array.new
+    end
+
+    # Check to see if the all the properties in the model are valid
+    # @return true if the model is valid
+    def valid?
+      true
+    end
+
+    # Builds the object from hash
+    # @param [Hash] attributes Model attributes in the form of hash
+    # @return [Object] Returns the model itself
+    def build_from_hash(attributes)
+      return nil unless attributes.is_a?({{#isMapModel}}Hash{{/isMapModel}}{{#isArrayModel}}Array{{/isArrayModel}})
+      self.clear
+      {{#isMapModel}}
+      attributes.each do |k, v|
+        self[k] = _deserialize("{{additionalPropertiesType}}", v)
+      end
+      {{/isMapModel}}
+      {{#isMapModel}}
+      attributes.each do |v|
+        self << _deserialize("{{arrayModelType}}", v)
+      end
+      {{/isMapModel}}
+      self
+    end
+
+    # Returns the object in the form of hash
+    # @return [Hash] Returns the object in the form of hash
+    def to_hash
+      _to_hash(self)
+    end
+{{>base_object}}
+  end
