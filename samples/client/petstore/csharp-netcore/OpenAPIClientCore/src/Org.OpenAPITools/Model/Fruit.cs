@@ -29,46 +29,89 @@ namespace Org.OpenAPITools.Model
     /// Fruit
     /// </summary>
     [DataContract(Name = "fruit")]
-    public partial class Fruit : IEquatable<Fruit>, IValidatableObject
+    public partial class Fruit : AbstractOpenAPISchema, IEquatable<Fruit>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Fruit" /> class.
         /// </summary>
-        /// <param name="color">color.</param>
-        /// <param name="cultivar">cultivar.</param>
-        /// <param name="origin">origin.</param>
-        /// <param name="lengthCm">lengthCm.</param>
-        public Fruit(string color = default(string), string cultivar = default(string), string origin = default(string), decimal lengthCm = default(decimal))
+        public Fruit()
         {
-            this.Color = color;
-            this.Cultivar = cultivar;
-            this.Origin = origin;
-            this.LengthCm = lengthCm;
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
         }
 
         /// <summary>
-        /// Gets or Sets Color
+        /// Initializes a new instance of the <see cref="Fruit" /> class
+        /// with the <see cref="Apple" /> class
         /// </summary>
-        [DataMember(Name = "color", EmitDefaultValue = false)]
-        public string Color { get; set; }
+        /// <param name="actualInstance">An instance of Apple.</param>
+        public Fruit(Apple actualInstance)
+        {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+        }
 
         /// <summary>
-        /// Gets or Sets Cultivar
+        /// Initializes a new instance of the <see cref="Fruit" /> class
+        /// with the <see cref="Banana" /> class
         /// </summary>
-        [DataMember(Name = "cultivar", EmitDefaultValue = false)]
-        public string Cultivar { get; set; }
+        /// <param name="actualInstance">An instance of Banana.</param>
+        public Fruit(Banana actualInstance)
+        {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+        }
+
+
+        private Object _actualInstance;
 
         /// <summary>
-        /// Gets or Sets Origin
+        /// Gets or Sets ActualInstance
         /// </summary>
-        [DataMember(Name = "origin", EmitDefaultValue = false)]
-        public string Origin { get; set; }
+        public override Object ActualInstance
+        {
+            get
+            {
+                return _actualInstance;
+            }
+            set
+            {
+                if (value.GetType() == typeof(Apple))
+                {
+                    this._actualInstance = value;
+                }
+                else if (value.GetType() == typeof(Banana))
+                {
+                    this._actualInstance = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid instance found. Must be the following types: Apple, Banana");
+                }
+            }
+        }
 
         /// <summary>
-        /// Gets or Sets LengthCm
+        /// Get the actual instance of `Apple`. If the actual instanct is not `Apple`,
+        /// the InvalidClassException will be thrown
         /// </summary>
-        [DataMember(Name = "lengthCm", EmitDefaultValue = false)]
-        public decimal LengthCm { get; set; }
+        /// <returns>An instance of Apple</returns>
+        public Apple GetApple()
+        {
+            return (Apple)this.ActualInstance;
+        }
+
+        /// <summary>
+        /// Get the actual instance of `Banana`. If the actual instanct is not `Banana`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of Banana</returns>
+        public Banana GetBanana()
+        {
+            return (Banana)this.ActualInstance;
+        }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -78,10 +121,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Fruit {\n");
-            sb.Append("  Color: ").Append(Color).Append("\n");
-            sb.Append("  Cultivar: ").Append(Cultivar).Append("\n");
-            sb.Append("  Origin: ").Append(Origin).Append("\n");
-            sb.Append("  LengthCm: ").Append(LengthCm).Append("\n");
+            sb.Append("  ActualInstance: ").Append(this.ActualInstance).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -90,9 +130,56 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
+        }
+
+        /// <summary>
+        /// Converts the JSON string into the object
+        /// </summary>
+        /// <param name="jsonString">JSON string</param>
+        public override void FromJson(string jsonString)
+        {
+            int match = 0;
+            List<string> matchedTypes = new List<string>();
+
+            try
+            {
+                this.ActualInstance = JsonConvert.DeserializeObject<Apple>(jsonString, _serializerSettings);
+                matchedTypes.Add("Apple");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                // uncomment the line below for troubleshooting
+                //Console.WriteLine(exception.ToString());
+            }
+
+            try
+            {
+                this.ActualInstance = JsonConvert.DeserializeObject<Banana>(jsonString, _serializerSettings);
+                matchedTypes.Add("Banana");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                // uncomment the line below for troubleshooting
+                //Console.WriteLine(exception.ToString());
+            }
+
+            if (match == 0)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` cannot be deserialized into any schema defined.");
+            }
+            else if (match > 1)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
+            }
+            
+            // deserialization is considered successful at this point if no exception has been thrown.
         }
 
         /// <summary>
@@ -124,13 +211,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Color != null)
-                    hashCode = hashCode * 59 + this.Color.GetHashCode();
-                if (this.Cultivar != null)
-                    hashCode = hashCode * 59 + this.Cultivar.GetHashCode();
-                if (this.Origin != null)
-                    hashCode = hashCode * 59 + this.Origin.GetHashCode();
-                hashCode = hashCode * 59 + this.LengthCm.GetHashCode();
+                if (this.ActualInstance != null)
+                    hashCode = hashCode * 59 + this.ActualInstance.GetHashCode();
                 return hashCode;
             }
         }
@@ -142,20 +224,6 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            // Cultivar (string) pattern
-            Regex regexCultivar = new Regex(@"^[a-zA-Z\\s]*$", RegexOptions.CultureInvariant);
-            if (false == regexCultivar.Match(this.Cultivar).Success)
-            {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Cultivar, must match a pattern of " + regexCultivar, new [] { "Cultivar" });
-            }
-
-            // Origin (string) pattern
-            Regex regexOrigin = new Regex(@"^[A-Z\\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-            if (false == regexOrigin.Match(this.Origin).Success)
-            {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Origin, must match a pattern of " + regexOrigin, new [] { "Origin" });
-            }
-
             yield break;
         }
     }

@@ -30,7 +30,7 @@ using OpenAPIClientUtils = {{packageName}}.Client.ClientUtils;
 
 namespace {{packageName}}.{{modelPackage}}
 {
-{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>modelGeneric}}{{/isEnum}}
+{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}{{^oneOf}}{{>modelGeneric}}{{/oneOf}}{{/isEnum}}
 {{/model}}
 {{/models}}
 }
