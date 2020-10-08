@@ -78,9 +78,10 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Gets the Headers for HTTpSIgning
         /// </summary>
-        /// <param name="method"></param>
-        /// <param name="path"></param>
-        /// <param name="requestOptions"></param>
+        /// <param name="basePath">Base path</param>
+        /// <param name="method">HTTP method</param>
+        /// <param name="path">Path</param>
+        /// <param name="requestOptions">Request options</param>
         /// <returns></returns>
         internal Dictionary<string, string> GetHttpSignedHeader(string basePath,string method, string path, RequestOptions requestOptions)
         {
@@ -313,16 +314,16 @@ namespace Org.OpenAPITools.Client
             var ecKeyBase64String = keyStr.Replace(ecKeyHeader, "").Replace(ecKeyFooter, "").Trim();
             var keyBytes = System.Convert.FromBase64String(ecKeyBase64String);
             var ecdsa = ECDsa.Create();
-            var bytCount = 0;
 
 #if (NETCOREAPP3_0 || NETCOREAPP3_1 || NET5_0)
+            var byteCount = 0;
             if (configuration.KeyPassPhrase != null)
             {
-                ecdsa.ImportEncryptedPkcs8PrivateKey(keyPassPhrase, keyBytes, out bytCount);
+                ecdsa.ImportEncryptedPkcs8PrivateKey(keyPassPhrase, keyBytes, out byteCount);
             }
             else
             {
-                ecdsa.ImportPkcs8PrivateKey(keyBytes, out bytCount);
+                ecdsa.ImportPkcs8PrivateKey(keyBytes, out byteCount);
             }
             var signedBytes = ecdsa.SignHash(dataToSign);
             var derBytes = ConvertToECDSAANS1Format(signedBytes);
@@ -687,7 +688,6 @@ namespace Org.OpenAPITools.Client
             else if (key[0].ToString().Contains(ecPrivateKeyHeader) &&
                 key[key.Length - 1].ToString().Contains(ecPrivateKeyFooter))
             {
-
                 /*this type of key can hold many type different types of private key, but here due lack of pem header
                 Considering this as EC key
                 */
