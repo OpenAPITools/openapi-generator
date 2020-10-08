@@ -1,7 +1,3 @@
-/* SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO"; */
-/* SET AUTOCOMMIT = 0; */
-/* START TRANSACTION; */
-/* SET time_zone = "+00:00"; */
 {{#defaultDatabaseName}}
 --
 -- Database: `{{{defaultDatabaseName}}}`
@@ -12,34 +8,34 @@ CREATE DATABASE IF NOT EXISTS `{{{defaultDatabaseName}}}` DEFAULT CHARACTER SET 
 -- --------------------------------------------------------
 
 {{#models}}{{#model}}{{#hasVars}}{{^isArrayModel}}--
--- Table structure{{#vendorExtensions}}{{#x-mysql-schema}}{{#tableDefinition}} for table `{{tblName}}`{{/tableDefinition}}{{/x-mysql-schema}}{{/vendorExtensions}} generated from model '{{classVarName}}'
+-- Table structure{{#vendorExtensions}}{{#x-ktorm-schema}}{{#tableDefinition}} for table `{{tblName}}`{{/tableDefinition}}{{/x-ktorm-schema}}{{/vendorExtensions}} generated from model '{{classVarName}}'
 {{#description}}
 -- {{description}}
 {{/description}}
 --
 
 {{#vendorExtensions}}
-{{#x-mysql-schema}}
+{{#x-ktorm-schema}}
 {{#tableDefinition}}
 CREATE TABLE IF NOT EXISTS {{#defaultDatabaseName}}`{{{defaultDatabaseName}}}`.{{/defaultDatabaseName}}`{{tblName}}` (
 {{/tableDefinition}}
-{{/x-mysql-schema}}
+{{/x-ktorm-schema}}
 {{/vendorExtensions}}
   {{#vars}}
   {{#vendorExtensions}}
-  {{#x-mysql-schema}}
+  {{#x-ktorm-schema}}
   {{#columnDefinition}}
-  `{{colName}}` {{colDataType}}{{#colDataTypeArguments}}{{#-first}}({{/-first}}{{#isString}}'{{/isString}}{{argumentValue}}{{#isString}}'{{/isString}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/colDataTypeArguments}}{{#colUnsigned}} UNSIGNED{{/colUnsigned}}{{#colNotNull}} NOT NULL{{/colNotNull}}{{#colDefault}} DEFAULT {{#isString}}'{{defaultValue}}'{{/isString}}{{^isString}}{{defaultValue}}{{/isString}}{{/colDefault}}{{#colComment}} COMMENT '{{colComment}}'{{/colComment}}{{^-last}},{{/-last}}
+  `{{colName}}` {{colType}}{{#colTypeArguments}}{{#-first}}({{/-first}}{{#isString}}'{{/isString}}{{argumentValue}}{{#isString}}'{{/isString}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/colTypeArguments}}{{#colUnsigned}} UNSIGNED{{/colUnsigned}}{{#colNotNull}} NOT NULL{{/colNotNull}}{{#colDefault}} DEFAULT {{#isString}}'{{defaultValue}}'{{/isString}}{{^isString}}{{defaultValue}}{{/isString}}{{/colDefault}}{{#colComment}} COMMENT '{{colComment}}'{{/colComment}}{{^-last}},{{/-last}}
   {{/columnDefinition}}
-  {{/x-mysql-schema}}
+  {{/x-ktorm-schema}}
   {{/vendorExtensions}}
   {{/vars}}
 {{#vendorExtensions}}
-{{#x-mysql-schema}}
+{{#x-ktorm-schema}}
 {{#tableDefinition}}
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci{{#tblComment}} COMMENT='{{tblComment}}'{{/tblComment}};
+) {{#tblComment}} COMMENT='{{tblComment}}'{{/tblComment}};
 {{/tableDefinition}}
-{{/x-mysql-schema}}
+{{/x-ktorm-schema}}
 {{/vendorExtensions}}
 
 {{/isArrayModel}}{{/hasVars}}{{/model}}{{/models}}
