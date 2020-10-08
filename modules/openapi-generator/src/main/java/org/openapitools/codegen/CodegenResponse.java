@@ -73,13 +73,14 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     private String maximum;
     public String pattern;
     public Number multipleOf;
+    public CodegenProperty items;
 
     @Override
     public int hashCode() {
         return Objects.hash(headers, code, message, hasMore, examples, dataType, baseType, containerType, hasHeaders,
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
-                isMapContainer, isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions,
+                isMapContainer, isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions, items,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern());
     }
@@ -114,6 +115,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isListContainer == that.isListContainer &&
                 isBinary == that.isBinary &&
                 isFile == that.isFile &&
+                items == that.items &&
                 Objects.equals(headers, that.headers) &&
                 Objects.equals(code, that.code) &&
                 Objects.equals(message, that.message) &&
@@ -271,6 +273,24 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public CodegenProperty getItems() {
+        return items;
+    }
+
+    @Override
+    public void setItems(CodegenProperty items) {
+        this.items = items;
+    }
+
+    @Override
+    public boolean getIsModel() { return isModel; }
+
+    @Override
+    public void setIsModel(boolean isModel)  {
+        this.isModel = isModel;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenResponse{");
         sb.append("headers=").append(headers);
@@ -321,6 +341,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", maximum='").append(maximum).append('\'');
         sb.append(", pattern='").append(pattern).append('\'');
         sb.append(", multipleOf='").append(multipleOf).append('\'');
+        sb.append(", items='").append(items).append('\'');
         sb.append('}');
         return sb.toString();
     }
