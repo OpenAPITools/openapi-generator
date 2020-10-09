@@ -173,8 +173,17 @@ namespace Org.OpenAPITools.Model
             string discriminatorValue = JObject.Parse(jsonString)["triangleType"].ToString();
             switch (discriminatorValue)
             {
+                case "EquilateralTriangle":
+                    this.actualInstance = JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, _serializerSettings);
+                    break;
+                case "IsoscelesTriangle":
+                    this.actualInstance = JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, _serializerSettings);
+                    break;
+                case "ScaleneTriangle":
+                    this.actualInstance = JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, _serializerSettings);
+                    break;
                 default:
-                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for Triangle. Possible values:", discriminatorValue));
+                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for Triangle. Possible values: EquilateralTriangle IsoscelesTriangle ScaleneTriangle", discriminatorValue));
                     break;
             }
 

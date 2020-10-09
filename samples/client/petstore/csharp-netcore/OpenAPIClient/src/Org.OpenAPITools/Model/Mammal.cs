@@ -173,8 +173,17 @@ namespace Org.OpenAPITools.Model
             string discriminatorValue = JObject.Parse(jsonString)["className"].ToString();
             switch (discriminatorValue)
             {
+                case "Pig":
+                    this.actualInstance = JsonConvert.DeserializeObject<Pig>(jsonString, _serializerSettings);
+                    break;
+                case "whale":
+                    this.actualInstance = JsonConvert.DeserializeObject<whale>(jsonString, _serializerSettings);
+                    break;
+                case "zebra":
+                    this.actualInstance = JsonConvert.DeserializeObject<zebra>(jsonString, _serializerSettings);
+                    break;
                 default:
-                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for Mammal. Possible values:", discriminatorValue));
+                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for Mammal. Possible values: Pig whale zebra", discriminatorValue));
                     break;
             }
 

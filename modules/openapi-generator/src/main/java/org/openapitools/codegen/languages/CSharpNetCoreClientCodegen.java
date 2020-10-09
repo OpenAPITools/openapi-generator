@@ -527,6 +527,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public void processOpts() {
+        this.setLegacyDiscriminatorBehavior(false);
+
         super.processOpts();
 
         /*
@@ -686,7 +688,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         this.optionalAssemblyInfoFlag = flag;
     }
 
-    public void setOptionalEmitDefaultValuesFlag(boolean flag){
+    public void setOptionalEmitDefaultValuesFlag(boolean flag) {
         this.optionalEmitDefaultValuesFlag = flag;
     }
 
