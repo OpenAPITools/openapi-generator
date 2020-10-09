@@ -65,7 +65,7 @@ namespace {{packageName}}.Client
         /// <returns>A JSON string.</returns>
         public string Serialize(object obj)
         {
-            if (obj != null && typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(obj)))
+            if (obj != null && obj is Org.OpenAPITools.Model.AbstractOpenAPISchema)
             {
                 // the object to be serialized is an oneOf/anyOf schema
                 return ((Org.OpenAPITools.Model.AbstractOpenAPISchema)obj).ToJson();
