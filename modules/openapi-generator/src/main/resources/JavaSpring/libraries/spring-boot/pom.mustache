@@ -12,6 +12,7 @@
         {{#useSpringfox}}
         <springfox-version>2.9.2</springfox-version>
         {{/useSpringfox}}
+        <jackson-databind-version>2.9.8</jackson-databind-version>
     </properties>
 {{#parentOverridden}}
     <parent>
@@ -82,6 +83,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web{{#reactive}}flux{{/reactive}}</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+        </dependency>
         {{#useSpringfox}}
         <!--SpringFox dependencies -->
         <dependency>
@@ -101,6 +106,11 @@
         </dependency>
         {{/useSpringfox}}
         {{^useSpringfox}}
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.8.0</version>
+        </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>swagger-ui</artifactId>
@@ -189,5 +199,10 @@
             <artifactId>spring-boot-starter-hateoas</artifactId>
         </dependency>
 {{/hateoas}}
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind-version}</version>
+        </dependency>
     </dependencies>
 </project>
