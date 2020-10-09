@@ -23,3 +23,10 @@
                 type(self).__name__, name),
             [name]
         )
+
+    def __contains__(self, name):
+        """this allows us to use `in` operator: `'attr' in instance`"""
+        if name in self.required_properties:
+            return name in self.__dict__
+
+        return name in self.__dict__['_data_store']
