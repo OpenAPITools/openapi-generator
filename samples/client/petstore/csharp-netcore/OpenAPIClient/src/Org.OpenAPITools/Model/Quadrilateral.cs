@@ -148,10 +148,10 @@ namespace Org.OpenAPITools.Model
             switch (discriminatorValue)
             {
                 case "ComplexQuadrilateral":
-                    this.actualInstance = JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, _serializerSettings);
+                    this.ActualInstance = JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, _serializerSettings);
                     break;
                 case "SimpleQuadrilateral":
-                    this.actualInstance = JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, _serializerSettings);
+                    this.ActualInstance = JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, _serializerSettings);
                     break;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for Quadrilateral. Possible values: ComplexQuadrilateral SimpleQuadrilateral", discriminatorValue));

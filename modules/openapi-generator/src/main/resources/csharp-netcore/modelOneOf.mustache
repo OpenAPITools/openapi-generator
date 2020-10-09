@@ -102,7 +102,7 @@
             {
                 {{#mappedModels}}
                 case "{{{mappingName}}}":
-                    this.actualInstance = JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, _serializerSettings);
+                    this.ActualInstance = JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, _serializerSettings);
                     break;
                 {{/mappedModels}}
                 default:

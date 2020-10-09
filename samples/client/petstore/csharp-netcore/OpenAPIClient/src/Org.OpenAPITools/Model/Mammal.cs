@@ -174,13 +174,13 @@ namespace Org.OpenAPITools.Model
             switch (discriminatorValue)
             {
                 case "Pig":
-                    this.actualInstance = JsonConvert.DeserializeObject<Pig>(jsonString, _serializerSettings);
+                    this.ActualInstance = JsonConvert.DeserializeObject<Pig>(jsonString, _serializerSettings);
                     break;
                 case "whale":
-                    this.actualInstance = JsonConvert.DeserializeObject<whale>(jsonString, _serializerSettings);
+                    this.ActualInstance = JsonConvert.DeserializeObject<Whale>(jsonString, _serializerSettings);
                     break;
                 case "zebra":
-                    this.actualInstance = JsonConvert.DeserializeObject<zebra>(jsonString, _serializerSettings);
+                    this.ActualInstance = JsonConvert.DeserializeObject<Zebra>(jsonString, _serializerSettings);
                     break;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for Mammal. Possible values: Pig whale zebra", discriminatorValue));
