@@ -5569,10 +5569,10 @@ public class DefaultCodegen implements CodegenConfig {
         codegenSecurity.tokenUrl = flow.getTokenUrl();
 
         if (flow.getScopes() != null && !flow.getScopes().isEmpty()) {
-            List<Map<String, Object>> scopes = new ArrayList<Map<String, Object>>();
+            List<Map<String, Object>> scopes = new ArrayList<>();
             int count = 0, numScopes = flow.getScopes().size();
             for (Map.Entry<String, String> scopeEntry : flow.getScopes().entrySet()) {
-                Map<String, Object> scope = new HashMap<String, Object>();
+                Map<String, Object> scope = new HashMap<>();
                 scope.put("scope", scopeEntry.getKey());
                 scope.put("description", escapeText(scopeEntry.getValue()));
 
