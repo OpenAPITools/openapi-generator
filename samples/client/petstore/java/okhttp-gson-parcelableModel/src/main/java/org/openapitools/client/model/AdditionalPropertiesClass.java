@@ -33,8 +33,8 @@ import android.os.Parcel;
 /**
  * AdditionalPropertiesClass
  */
-
-public class AdditionalPropertiesClass implements Parcelable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+public class AdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_MAP_STRING = "map_string";
   @SerializedName(SERIALIZED_NAME_MAP_STRING)
   private Map<String, String> mapString = null;
@@ -400,7 +400,7 @@ public class AdditionalPropertiesClass implements Parcelable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -450,7 +450,7 @@ public class AdditionalPropertiesClass implements Parcelable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
@@ -481,9 +481,9 @@ public class AdditionalPropertiesClass implements Parcelable {
     mapArrayAnytype = (Map<String, List<Object>>)in.readValue(List.class.getClassLoader());
     mapMapString = (Map<String, Map<String, String>>)in.readValue(Map.class.getClassLoader());
     mapMapAnytype = (Map<String, Map<String, Object>>)in.readValue(Map.class.getClassLoader());
-    anytype1 = (Object)in.readValue(.class.getClassLoader());
-    anytype2 = (Object)in.readValue(.class.getClassLoader());
-    anytype3 = (Object)in.readValue(.class.getClassLoader());
+    anytype1 = (Object)in.readValue(null);
+    anytype2 = (Object)in.readValue(null);
+    anytype3 = (Object)in.readValue(null);
   }
 
   public int describeContents() {

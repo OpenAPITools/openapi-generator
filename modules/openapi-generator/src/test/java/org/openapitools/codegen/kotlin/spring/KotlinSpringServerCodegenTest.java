@@ -1,26 +1,22 @@
 package org.openapitools.codegen.kotlin.spring;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.parser.core.models.ParseOptions;
+import com.google.common.collect.testing.Helpers;
+
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.kotlin.KotlinTestUtils;
-import org.openapitools.codegen.languages.AbstractJavaCodegen;
-import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
-import org.openapitools.codegen.languages.SpringCodegen;
-import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.util.Collections;
+import java.util.List;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.servers.Server;
 
 public class KotlinSpringServerCodegenTest {
 
@@ -181,6 +177,30 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.apiTemplateFiles().get("apiInterface.mustache"), ".kt");
         Assert.assertEquals(codegen.apiTemplateFiles().get("apiInterface.mustache"), ".kt");
 
-        Assert.assertTrue(codegen.supportingFiles().stream().anyMatch(supportingFile -> supportingFile.templateFile.equals("apiUtil.mustache")));
+        Assert.assertTrue(codegen.supportingFiles().stream().anyMatch(supportingFile -> supportingFile.getTemplateFile().equals("apiUtil.mustache")));
+    }
+
+    @Test(description = "test delegate with tags")
+    public void delegateWithTags() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile(); //may be move to /build
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
+
+        List<File> files = new DefaultGenerator()
+            .opts(
+                new ClientOptInput()
+                    .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue5497-use-tags-kotlin.yaml"))
+                    .config(codegen)
+            )
+            .generate();
+
+        Helpers.assertContainsAllOf(files,
+            new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
+            new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
+            new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiController.kt"),
+            new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt")
+        );
     }
 }

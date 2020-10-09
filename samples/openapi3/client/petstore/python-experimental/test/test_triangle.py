@@ -10,11 +10,17 @@
 """
 
 
-from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.equilateral_triangle import EquilateralTriangle
+from petstore_api.model.isosceles_triangle import IsoscelesTriangle
+from petstore_api.model.scalene_triangle import ScaleneTriangle
+globals()['EquilateralTriangle'] = EquilateralTriangle
+globals()['IsoscelesTriangle'] = IsoscelesTriangle
+globals()['ScaleneTriangle'] = ScaleneTriangle
+from petstore_api.model.triangle import Triangle
 
 
 class TestTriangle(unittest.TestCase):
@@ -28,12 +34,9 @@ class TestTriangle(unittest.TestCase):
 
     def testTriangle(self):
         """Test Triangle"""
-        equilateral_triangle = petstore_api.Triangle(shape_type="Triangle", triangle_type="EquilateralTriangle")
-        assert isinstance(equilateral_triangle, petstore_api.EquilateralTriangle)
-        isosceles_triangle = petstore_api.Triangle(shape_type="Triangle", triangle_type="IsoscelesTriangle")
-        assert isinstance(isosceles_triangle, petstore_api.IsoscelesTriangle)
-        scalene_triangle = petstore_api.Triangle(shape_type="Triangle", triangle_type="ScaleneTriangle")
-        assert isinstance(scalene_triangle, petstore_api.ScaleneTriangle)
+        # FIXME: construct object with mandatory attributes with example values
+        # model = Triangle()  # noqa: E501
+        pass
 
 
 if __name__ == '__main__':

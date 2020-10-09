@@ -96,7 +96,6 @@ The following generators are available:
 * [nodejs-express-server (beta)](nodejs-express-server.md)  
 * [php-laravel](php-laravel.md)  
 * [php-lumen](php-lumen.md)  
-* [php-silex](php-silex.md)  
 * [php-slim4](php-slim4.md)  
 * [php-symfony](php-symfony.md)  
 * [php-ze-ph](php-ze-ph.md)  

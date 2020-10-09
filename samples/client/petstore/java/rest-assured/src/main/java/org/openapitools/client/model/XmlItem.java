@@ -33,7 +33,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * XmlItem
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class XmlItem {
   public static final String SERIALIZED_NAME_ATTRIBUTE_STRING = "attribute_string";
   @SerializedName(SERIALIZED_NAME_ATTRIBUTE_STRING)
@@ -897,7 +897,7 @@ public class XmlItem {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -983,7 +983,7 @@ public class XmlItem {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

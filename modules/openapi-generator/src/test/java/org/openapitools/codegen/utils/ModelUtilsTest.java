@@ -129,6 +129,15 @@ public class ModelUtilsTest {
     }
 
     @Test
+    public void testIsModelAllowsEmptyBaseModel() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/emptyBaseModel.yaml");
+        Schema commandSchema = ModelUtils.getSchema(openAPI, "Command");
+
+        Assert.assertTrue(ModelUtils.isModel(commandSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(openAPI, commandSchema));
+    }
+
+    @Test
     public void testReferencedSchema() {
         Schema otherObj = new ObjectSchema().addProperties("sprop", new StringSchema()).addProperties("iprop", new IntegerSchema());
 
@@ -226,25 +235,26 @@ public class ModelUtilsTest {
      */
     @Test
     public void testIsFreeFormObject() {
+        OpenAPI openAPI = new OpenAPI().openapi("3.0.0");
         // Create initial "empty" object schema.
         ObjectSchema objSchema = new ObjectSchema();
-        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
+        Assert.assertTrue(ModelUtils.isFreeFormObject(openAPI, objSchema));
 
         // Set additionalProperties to an empty ObjectSchema.
         objSchema.setAdditionalProperties(new ObjectSchema());
-        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
+        Assert.assertTrue(ModelUtils.isFreeFormObject(openAPI, objSchema));
 
         // Add a single property to the schema (no longer a free-form object).
         Map<String, Schema> props = new HashMap<>();
         props.put("prop1", new StringSchema());
         objSchema.setProperties(props);
-        Assert.assertFalse(ModelUtils.isFreeFormObject(objSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(openAPI, objSchema));
 
         // Test a non-object schema
-        Assert.assertFalse(ModelUtils.isFreeFormObject(new StringSchema()));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(openAPI, new StringSchema()));
 
         // Test a null schema
-        Assert.assertFalse(ModelUtils.isFreeFormObject(null));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(openAPI, null));
     }
 
     @Test
@@ -269,5 +279,11 @@ public class ModelUtilsTest {
     public void testIsSetFailsForNullSchema() {
         ArraySchema as = null;
         Assert.assertFalse(ModelUtils.isSet(as));
+    }
+
+    @Test
+    public void testSimpleRefDecoding() {
+        String decoded = ModelUtils.getSimpleRef("#/components/~01%20Hallo~1Welt");
+        Assert.assertEquals(decoded, "~1 Hallo/Welt");
     }
 }

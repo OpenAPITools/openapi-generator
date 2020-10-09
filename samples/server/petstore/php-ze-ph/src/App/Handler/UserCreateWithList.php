@@ -18,6 +18,8 @@ class UserCreateWithList
     /**
      * Creates list of users with given input array
      * @PHA\Post()
+     * TODO check if consumer is valid, if it has correct priority and if it can be moved to class annotation
+     * @PHA\Consumer(name=PHConsumer\Json::class, mediaType="application/json")
      * TODO check if attribute is valid and can handle your container type
      * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":"\App\DTO\User[]","objectAttr":"bodyData"})
      * @param ServerRequestInterface $request

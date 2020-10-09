@@ -5,15 +5,17 @@ sidebar_label: go
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|disallowAdditionalPropertiesIfNotPresent|Specify the behavior when the 'additionalProperties' keyword is not present in the OAS document. If false: the 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications. If true: when the 'additionalProperties' keyword is not present in a schema, the value of 'additionalProperties' is set to false, i.e. no additional properties are allowed. Note: this mode is not compliant with the JSON schema specification. This is the original openapi-generator behavior.This setting is currently ignored for OAS 2.0 documents:  1) When the 'additionalProperties' keyword is not present in a 2.0 schema, additional properties are NOT allowed.  2) Boolean values of the 'additionalProperties' keyword are ignored. It's as if additional properties are NOT allowed.Note: the root cause are issues #1369 and #1371, which must be resolved in the swagger-parser project.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>when the 'additionalProperties' keyword is not present in a schema, the value of 'additionalProperties' is automatically set to false, i.e. no additional properties are allowed. Note: this mode is not compliant with the JSON schema specification. This is the original openapi-generator behavior.</dd></dl>|true|
 |enumClassPrefix|Prefix enum with class name| |false|
+|generateInterfaces|Generate interfaces for api classes| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |isGoSubmodule|whether the generated Go module is a submodule| |false|
 |packageName|Go package name (convention: lowercase).| |openapi|
 |packageVersion|Go package version.| |1.0.0|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |structPrefix|whether to prefix struct with the class name. e.g. DeletePetOpts =&gt; PetApiDeletePetOpts| |false|
+|useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and onlye one match in oneOf's schemas) will be skipped.| |false|
 |withAWSV4Signature|whether to include AWS v4 signature support| |false|
-|withGoCodegenComment|whether to include Go codegen comment to disable Go Lint and collapse by default in GitHub PRs and diffs| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 
 ## IMPORT MAPPING
@@ -109,6 +111,7 @@ sidebar_label: go
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✓|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

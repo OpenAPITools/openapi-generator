@@ -53,13 +53,13 @@ public enum StatusEnum {
         return String.valueOf(value);
     }
 
-    public static StatusEnum fromValue(String v) {
+    public static StatusEnum fromValue(String value) {
         for (StatusEnum b : StatusEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
@@ -202,7 +202,7 @@ public enum StatusEnum {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

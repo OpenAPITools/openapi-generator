@@ -31,7 +31,7 @@ class ApiClient {
   {{/isBasicBearer}}
   {{/isBasic}}
   {{#isApiKey}}
-    _authentications['{{name}}'] = ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");
+    _authentications['{{name}}'] = ApiKeyAuth({{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}{{^isKeyInCookie}}{{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}{{/isKeyInCookie}}, "{{keyParamName}}");
   {{/isApiKey}}
   {{#isOAuth}}
     _authentications['{{name}}'] = OAuth();

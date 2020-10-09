@@ -7,6 +7,7 @@ import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
 import java.util.Map;
+import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
@@ -22,11 +23,12 @@ import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-@Path("/Fake")
-@Api(description = "the Fake API")
-public interface FakeApi {
+@Path("/fake")
+@Api(description = "the fake API")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public interface FakeApi {
 
     @POST
+    @Path("/create_xml_item")
     @Consumes({ "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" })
     @ApiOperation(value = "creates an XmlItem", notes = "this route creates an XmlItem", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -34,6 +36,7 @@ public interface FakeApi {
     Response createXmlItem(@Valid XmlItem xmlItem);
 
     @POST
+    @Path("/outer/boolean")
     @Produces({ "*/*" })
     @ApiOperation(value = "", notes = "Test serialization of outer boolean types", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -41,6 +44,7 @@ public interface FakeApi {
     Response fakeOuterBooleanSerialize(@Valid Boolean body);
 
     @POST
+    @Path("/outer/composite")
     @Produces({ "*/*" })
     @ApiOperation(value = "", notes = "Test serialization of object with outer number type", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -48,6 +52,7 @@ public interface FakeApi {
     Response fakeOuterCompositeSerialize(@Valid OuterComposite body);
 
     @POST
+    @Path("/outer/number")
     @Produces({ "*/*" })
     @ApiOperation(value = "", notes = "Test serialization of outer number types", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -55,6 +60,7 @@ public interface FakeApi {
     Response fakeOuterNumberSerialize(@Valid BigDecimal body);
 
     @POST
+    @Path("/outer/string")
     @Produces({ "*/*" })
     @ApiOperation(value = "", notes = "Test serialization of outer string types", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -62,6 +68,7 @@ public interface FakeApi {
     Response fakeOuterStringSerialize(@Valid String body);
 
     @PUT
+    @Path("/body-with-file-schema")
     @Consumes({ "application/json" })
     @ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -69,6 +76,7 @@ public interface FakeApi {
     Response testBodyWithFileSchema(@Valid FileSchemaTestClass body);
 
     @PUT
+    @Path("/body-with-query-params")
     @Consumes({ "application/json" })
     @ApiOperation(value = "", notes = "", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -85,7 +93,7 @@ public interface FakeApi {
 
     @POST
     @Consumes({ "application/x-www-form-urlencoded" })
-    @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", authorizations = {
+    @ApiOperation(value = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", notes = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", authorizations = {
         @Authorization(value = "http_basic_test")
     }, tags={ "fake",  })
     @ApiResponses(value = { 
@@ -108,6 +116,7 @@ public interface FakeApi {
     Response testGroupParameters(@QueryParam("required_string_group") @NotNull   @ApiParam("Required String in group parameters")  Integer requiredStringGroup,@HeaderParam("required_boolean_group") @NotNull    @ApiParam("Required Boolean in group parameters") Boolean requiredBooleanGroup,@QueryParam("required_int64_group") @NotNull   @ApiParam("Required Integer in group parameters")  Long requiredInt64Group,@QueryParam("string_group")   @ApiParam("String in group parameters")  Integer stringGroup,@HeaderParam("boolean_group")    @ApiParam("Boolean in group parameters") Boolean booleanGroup,@QueryParam("int64_group")   @ApiParam("Integer in group parameters")  Long int64Group);
 
     @POST
+    @Path("/inline-additionalProperties")
     @Consumes({ "application/json" })
     @ApiOperation(value = "test inline additionalProperties", notes = "", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -115,6 +124,7 @@ public interface FakeApi {
     Response testInlineAdditionalProperties(@Valid Map<String, String> param);
 
     @GET
+    @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
     @ApiOperation(value = "test json serialization of form data", notes = "", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -122,8 +132,23 @@ public interface FakeApi {
     Response testJsonFormData(@FormParam(value = "param")  String param,@FormParam(value = "param2")  String param2);
 
     @PUT
-    @ApiOperation(value = "", notes = "To test the collection format in query parameters", tags={ "fake" })
+    @Path("/test-query-paramters")
+    @ApiOperation(value = "", notes = "To test the collection format in query parameters", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class) })
     Response testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull    List<String> pipe,@QueryParam("ioutil") @NotNull    List<String> ioutil,@QueryParam("http") @NotNull    List<String> http,@QueryParam("url") @NotNull    List<String> url,@QueryParam("context") @NotNull    List<String> context);
+
+    @POST
+    @Path("/{petId}/uploadImageWithRequiredFile")
+    @Consumes({ "multipart/form-data" })
+    @Produces({ "application/json" })
+    @ApiOperation(value = "uploads an image (required)", notes = "", authorizations = {
+        @Authorization(value = "petstore_auth", scopes = {
+            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+            @AuthorizationScope(scope = "read:pets", description = "read your pets")
+        })
+    }, tags={ "pet" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
+    Response uploadFileWithRequiredFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId, @FormParam(value = "requiredFile") InputStream requiredFileInputStream,@FormParam(value = "additionalMetadata")  String additionalMetadata);
 }

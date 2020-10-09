@@ -13,7 +13,7 @@ internal struct Cat: Codable {
     internal var color: String? = "red"
     internal var declawed: Bool?
 
-    internal init(className: String, color: String?, declawed: Bool?) {
+    internal init(className: String, color: String? = nil, declawed: Bool? = nil) {
         self.className = className
         self.color = color
         self.declawed = declawed

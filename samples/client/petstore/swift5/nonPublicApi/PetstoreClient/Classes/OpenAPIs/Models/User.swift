@@ -19,7 +19,7 @@ internal struct User: Codable {
     /** User Status */
     internal var userStatus: Int?
 
-    internal init(id: Int64?, username: String?, firstName: String?, lastName: String?, email: String?, password: String?, phone: String?, userStatus: Int?) {
+    internal init(id: Int64? = nil, username: String? = nil, firstName: String? = nil, lastName: String? = nil, email: String? = nil, password: String? = nil, phone: String? = nil, userStatus: Int? = nil) {
         self.id = id
         self.username = username
         self.firstName = firstName

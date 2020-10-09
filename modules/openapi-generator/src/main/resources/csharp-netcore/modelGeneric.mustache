@@ -1,7 +1,7 @@
     /// <summary>
     /// {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "{{{name}}}")]
     {{#discriminator}}
     [JsonConverter(typeof(JsonSubtypes), "{{{discriminatorName}}}")]
     {{#children}}
@@ -11,7 +11,7 @@
     [JsonSubtypes.KnownSubType(typeof({{{modelName}}}), "{{{mappingName}}}")]
     {{/mappedModels}}
     {{/discriminator}}
-    {{>visibility}} partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
+    {{>visibility}} partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
     {
         {{#vars}}
         {{#items.isEnum}}
@@ -33,7 +33,7 @@
         {{#description}}
         /// <value>{{description}}</value>
         {{/description}}
-        [DataMember(Name="{{baseName}}", EmitDefaultValue={{#vendorExtensions.x-emit-default-value}}true{{/vendorExtensions.x-emit-default-value}}{{^vendorExtensions.x-emit-default-value}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/vendorExtensions.x-emit-default-value}})]
+        [DataMember(Name = "{{baseName}}", EmitDefaultValue = {{#vendorExtensions.x-emit-default-value}}true{{/vendorExtensions.x-emit-default-value}}{{^vendorExtensions.x-emit-default-value}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/vendorExtensions.x-emit-default-value}})]
         public {{#complexType}}{{{complexType}}}{{/complexType}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} {{name}} { get; set; }
         {{/isEnum}}
         {{/vars}}
@@ -43,7 +43,15 @@
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
         [JsonConstructorAttribute]
+        {{^isAdditionalPropertiesTrue}}
         protected {{classname}}() { }
+        {{/isAdditionalPropertiesTrue}}
+        {{#isAdditionalPropertiesTrue}}
+        protected {{classname}}()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+        {{/isAdditionalPropertiesTrue}}
     {{/hasOnlyReadOnly}}
     {{/hasRequired}}
         /// <summary>
@@ -55,7 +63,7 @@
     {{#hasOnlyReadOnly}}
         [JsonConstructorAttribute]
     {{/hasOnlyReadOnly}}
-        public {{classname}}({{#readWriteVars}}{{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}}{{/isEnum}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}default({{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}}{{/isEnum}}){{/defaultValue}}{{^-last}}, {{/-last}}{{/readWriteVars}}){{#parent}} : base({{#parentVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#hasMore}}, {{/hasMore}}{{/parentVars}}){{/parent}}
+        public {{classname}}({{#readWriteVars}}{{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}}{{/isEnum}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{#defaultValue}}{{^isDateTime}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default({{{datatypeWithEnum}}}){{/isDateTime}}{{/defaultValue}}{{^defaultValue}}default({{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}}{{/isEnum}}){{/defaultValue}}{{^-last}}, {{/-last}}{{/readWriteVars}}){{#parent}} : base({{#parentVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#hasMore}}, {{/hasMore}}{{/parentVars}}){{/parent}}
         {
             {{#vars}}
             {{^isInherited}}
@@ -92,8 +100,11 @@
             {{/isReadOnly}}
             {{/isInherited}}
             {{/vars}}
+            {{#isAdditionalPropertiesTrue}}
+            this.AdditionalProperties = new Dictionary<string, object>();
+            {{/isAdditionalPropertiesTrue}}
         }
-        
+
         {{#vars}}
         {{^isInherited}}
         {{^isEnum}}
@@ -101,13 +112,23 @@
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{description}}</value>{{/description}}
-        [DataMember(Name="{{baseName}}", EmitDefaultValue={{#vendorExtensions.x-emit-default-value}}true{{/vendorExtensions.x-emit-default-value}}{{^vendorExtensions.x-emit-default-value}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/vendorExtensions.x-emit-default-value}})]{{#isDate}}
-        [JsonConverter(typeof(OpenAPIDateConverter))]{{/isDate}}
+        [DataMember(Name = "{{baseName}}", EmitDefaultValue = {{#vendorExtensions.x-emit-default-value}}true{{/vendorExtensions.x-emit-default-value}}{{^vendorExtensions.x-emit-default-value}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/vendorExtensions.x-emit-default-value}})]
+        {{#isDate}}
+        [JsonConverter(typeof(OpenAPIDateConverter))]
+        {{/isDate}}
         public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
 
         {{/isEnum}}
         {{/isInherited}}
         {{/vars}}
+        {{#isAdditionalPropertiesTrue}}
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        {{/isAdditionalPropertiesTrue}}
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -122,10 +143,13 @@
             {{#vars}}
             sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
             {{/vars}}
+            {{#isAdditionalPropertiesTrue}}
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            {{/isAdditionalPropertiesTrue}}
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -180,7 +204,10 @@
                     {{^vendorExtensions.x-is-value-type}}this.{{name}} != null &&
                     input.{{name}} != null &&
                     {{/vendorExtensions.x-is-value-type}}this.{{name}}.SequenceEqual(input.{{name}})
-                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/vars}};
+                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/vars}}{{^isAdditionalPropertiesTrue}};{{/isAdditionalPropertiesTrue}}
+                {{#isAdditionalPropertiesTrue}}
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
+                {{/isAdditionalPropertiesTrue}}
             {{/useCompareNetObjects}}
         }
 
@@ -207,6 +234,10 @@
                 hashCode = hashCode * 59 + this.{{name}}.GetHashCode();
                 {{/vendorExtensions.x-is-value-type}}
                 {{/vars}}
+                {{#isAdditionalPropertiesTrue}}
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {{/isAdditionalPropertiesTrue}}
                 return hashCode;
             }
         }

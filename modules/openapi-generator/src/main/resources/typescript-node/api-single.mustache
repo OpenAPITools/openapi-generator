@@ -1,10 +1,11 @@
 {{>licenseInfo}}
-import localVarRequest = require('request');
-import http = require('http');
+
+import localVarRequest from 'request';
+import http from 'http';
 
 /* tslint:disable:no-unused-locals */
 {{#imports}}
-import { {{classname}} } from '../{{filename}}';
+import { {{classname}} } from '{{filename}}';
 {{/imports}}
 
 import { ObjectSerializer, Authentication, VoidAuth, Interceptor } from '../model/models';
@@ -153,7 +154,7 @@ export class {{classname}} {
      * @param {{paramName}} {{description}}
      {{/allParams}}
      */
-    public async {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.{{#supportsES6}}IncomingMessage{{/supportsES6}}{{^supportsES6}}ClientResponse{{/supportsES6}}; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }> {
+    public async {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }> {
         const localVarPath = this.basePath + '{{{path}}}'{{#pathParams}}
             .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
         let localVarQueryParameters: any = {};
@@ -260,7 +261,7 @@ export class {{classname}} {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.{{#supportsES6}}IncomingMessage{{/supportsES6}}{{^supportsES6}}ClientResponse{{/supportsES6}}; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);

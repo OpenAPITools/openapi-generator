@@ -186,7 +186,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         CliOption option = cliOptions.stream().filter(o -> JAVA_8.equals(o.getOpt())).findFirst()
                 .orElseThrow(() -> new RuntimeException("Missing java8 option"));
         Map<String, String> java8ModeOptions = option.getEnum();
-        java8ModeOptions.put("true", "Use Java 8 classes such as Base64. Use java8 default interface when a responseWrapper is used");
+        java8ModeOptions.put("true", "Use Java 8 classes such as Base64. Use java8 default interface when a responseWrapper is used. IMPORTANT: This option has been deprecated as Java 8 is the default.");
     }
 
     @Override
@@ -217,9 +217,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         // Process java8 option before common java ones to change the default dateLibrary to java8.
         LOGGER.info("----------------------------------");
         if (additionalProperties.containsKey(JAVA_8)) {
-            LOGGER.info("has JAVA8");
             this.setJava8(Boolean.valueOf(additionalProperties.get(JAVA_8).toString()));
             additionalProperties.put(JAVA_8, java8);
+            LOGGER.warn("java8 option has been deprecated as it's set to true by default (JDK7 support has been deprecated)");
         }
         if (this.java8 && !additionalProperties.containsKey(DATE_LIBRARY)) {
             setDateLibrary("java8");

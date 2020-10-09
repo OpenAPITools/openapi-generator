@@ -9,8 +9,4 @@ Name | Type | Description | Notes
 **client** | **String** |  |  [optional]
 
 
-## Implemented Interfaces
-
-* Parcelable
-
 

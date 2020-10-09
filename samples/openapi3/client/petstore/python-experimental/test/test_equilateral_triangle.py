@@ -10,11 +10,15 @@
 """
 
 
-from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.shape_interface import ShapeInterface
+from petstore_api.model.triangle_interface import TriangleInterface
+globals()['ShapeInterface'] = ShapeInterface
+globals()['TriangleInterface'] = TriangleInterface
+from petstore_api.model.equilateral_triangle import EquilateralTriangle
 
 
 class TestEquilateralTriangle(unittest.TestCase):
@@ -29,7 +33,7 @@ class TestEquilateralTriangle(unittest.TestCase):
     def testEquilateralTriangle(self):
         """Test EquilateralTriangle"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.EquilateralTriangle()  # noqa: E501
+        # model = EquilateralTriangle()  # noqa: E501
         pass
 
 

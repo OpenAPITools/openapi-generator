@@ -92,12 +92,12 @@ public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfi
         String serverPrefix = srcPrefix + "server" + File.separator + toFilename(modelPackage);
         String modelPrefix = srcPrefix + "model" + File.separator + toFilename(modelPackage);
         String implPrefix = srcPrefix + toFilename(modelPackage);
-        supportingFiles.add(new SupportingFile("model-spec.mustache", null, modelPrefix + "-models.ads"));
-        supportingFiles.add(new SupportingFile("model-body.mustache", null, modelPrefix + "-models.adb"));
-        supportingFiles.add(new SupportingFile("server-skeleton-spec.mustache", null, serverPrefix + "-skeletons.ads"));
-        supportingFiles.add(new SupportingFile("server-skeleton-body.mustache", null, serverPrefix + "-skeletons.adb"));
-        supportingFiles.add(new SupportingFile("server-spec.mustache", null, implPrefix + "-servers.ads"));
-        supportingFiles.add(new SupportingFile("server-body.mustache", null, implPrefix + "-servers.adb"));
+        supportingFiles.add(new SupportingFile("model-spec.mustache", "", modelPrefix + "-models.ads"));
+        supportingFiles.add(new SupportingFile("model-body.mustache", "", modelPrefix + "-models.adb"));
+        supportingFiles.add(new SupportingFile("server-skeleton-spec.mustache", "", serverPrefix + "-skeletons.ads"));
+        supportingFiles.add(new SupportingFile("server-skeleton-body.mustache", "", serverPrefix + "-skeletons.adb"));
+        supportingFiles.add(new SupportingFile("server-spec.mustache", "", implPrefix + "-servers.ads"));
+        supportingFiles.add(new SupportingFile("server-body.mustache", "", implPrefix + "-servers.adb"));
 
         supportingFiles.add(new SupportingFile("openapi.mustache", "web" + File.separator + "swagger", "openapi.json"));
 
@@ -128,17 +128,17 @@ public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfi
         String names[] = this.modelPackage.split("\\.");
         String pkgName = names[0];
         additionalProperties.put("packageLevel1", pkgName);
-        supportingFiles.add(new SupportingFile("package-spec-level1.mustache", null,
+        supportingFiles.add(new SupportingFile("package-spec-level1.mustache", "",
                             "src" + File.separator + toFilename(names[0]) + ".ads"));
         if (names.length > 1) {
             String fileName = toFilename(names[0]) + "-" + toFilename(names[1]) + ".ads";
             pkgName = names[0] + "." + names[1];
             additionalProperties.put("packageLevel2", pkgName);
-            supportingFiles.add(new SupportingFile("package-spec-level2.mustache", null,
+            supportingFiles.add(new SupportingFile("package-spec-level2.mustache", "",
                                 "src" + File.separator + fileName));
         }
         pkgName = this.modelPackage;
-        supportingFiles.add(new SupportingFile("server.mustache", null,
+        supportingFiles.add(new SupportingFile("server.mustache", "",
                             "src" + File.separator + toFilename(pkgName) + "-server.adb"));
         additionalProperties.put("packageName", toFilename(pkgName));
 

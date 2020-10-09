@@ -17,7 +17,9 @@ lazy val root = (project in file(".")).
       "com.fasterxml.jackson.core" % "jackson-core" % "2.10.3",
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.3",
       "com.fasterxml.jackson.core" % "jackson-databind" % "2.10.3",
+      {{#openApiNullable}}
       "org.openapitools" % "jackson-databind-nullable" % "0.2.1",
+      {{/openApiNullable}}
       {{#withXml}}
       "com.fasterxml.jackson.dataformat" % "jackson-dataformat-xml" % "2.10.3",
       {{/withXml}}
@@ -48,6 +50,7 @@ lazy val root = (project in file(".")).
 {{#performBeanValidation}}
       "org.hibernate" % "hibernate-validator" % "6.0.19.Final" % "compile",
 {{/performBeanValidation}}
+	"javax.annotation" % "javax.annotation-api" % "1.3.2" % "compile",
       "junit" % "junit" % "4.13" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"
     )

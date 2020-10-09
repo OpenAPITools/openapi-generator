@@ -14,7 +14,7 @@
     "artifactVersion" : "1.2.3",
     "library" : "jersey2",
     "ignoreFileOverride": "/path/to/override/.openapi-generator-ignore",
-    "systemProperties" : {
+    "globalProperties" : {
         "systemProp1" : "value1"
     },
     "instantiationTypes" : {
@@ -29,6 +29,5 @@
     "importMappings" : {
         "type1" : "import1"
     },
-    "languageSpecificPrimitives" : [ "rolex" ],
-    "localVariablePrefix" : "_"
+    "languageSpecificPrimitives" : [ "rolex" ]
 }

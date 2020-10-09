@@ -12,20 +12,20 @@ import java.util.HashMap;
 
 @SuppressWarnings("RedundantThrows")
 public interface PetApiControllerImpInterface {
-    void addPet(Pet body) throws Exception;
+    void addPet(Http.Request request, Pet body) throws Exception;
 
-    void deletePet(Long petId, String apiKey) throws Exception;
+    void deletePet(Http.Request request, Long petId, String apiKey) throws Exception;
 
-    List<Pet> findPetsByStatus(List<String> status) throws Exception;
+    List<Pet> findPetsByStatus(Http.Request request, List<String> status) throws Exception;
 
-    List<Pet> findPetsByTags(List<String> tags) throws Exception;
+    List<Pet> findPetsByTags(Http.Request request, List<String> tags) throws Exception;
 
-    Pet getPetById(Long petId) throws Exception;
+    Pet getPetById(Http.Request request, Long petId) throws Exception;
 
-    void updatePet(Pet body) throws Exception;
+    void updatePet(Http.Request request, Pet body) throws Exception;
 
-    void updatePetWithForm(Long petId, String name, String status) throws Exception;
+    void updatePetWithForm(Http.Request request, Long petId, String name, String status) throws Exception;
 
-    ModelApiResponse uploadFile(Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file) throws Exception;
+    ModelApiResponse uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file) throws Exception;
 
 }

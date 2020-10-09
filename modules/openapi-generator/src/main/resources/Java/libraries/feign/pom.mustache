@@ -161,6 +161,17 @@
                 <version>3.1.1</version>
                 <configuration>
                     <doclint>none</doclint>
+                    {{#supportJava6}}
+                        <source>1.6</source>
+                    {{/supportJava6}}
+                    {{^supportJava6}}
+                    {{#java8}}
+                        <source>1.8</source>
+                    {{/java8}}
+                    {{^java8}}
+                        <source>1.7</source>
+                    {{/java8}}
+                    {{/supportJava6}}
                 </configuration>
                 <executions>
                     <execution>
@@ -263,11 +274,13 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind-version}</version>
         </dependency>
+        {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
             <version>${jackson-databind-nullable-version}</version>
         </dependency>
+        {{/openApiNullable}}
         {{#withXml}}
 
             <!-- XML Support -->
@@ -304,6 +317,12 @@
             <artifactId>org.apache.oltu.oauth2.client</artifactId>
             <version>${oltu-version}</version>
         </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>${javax-annotation-version}</version>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- test dependencies -->
         <dependency>
@@ -331,14 +350,17 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <swagger-annotations-version>1.5.24</swagger-annotations-version>
-        <feign-version>{{#useFeign10}}11.0{{/useFeign10}}{{^useFeign10}}9.7.0{{/useFeign10}}</feign-version>
-        <feign-form-version>{{#useFeign10}}3.8.0{{/useFeign10}}{{^useFeign10}}2.1.0{{/useFeign10}}</feign-form-version>
+        <feign-version>10.11</feign-version>
+        <feign-form-version>3.8.0</feign-form-version>
         <jackson-version>2.10.3</jackson-version>
+        {{#openApiNullable}}
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
+        {{/openApiNullable}}
         <jackson-databind-version>2.10.3</jackson-databind-version>
         {{#threetenbp}}
         <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>
         {{/threetenbp}}
+        <javax-annotation-version>1.3.2</javax-annotation-version>
         <junit-version>4.13</junit-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <oltu-version>1.0.1</oltu-version>

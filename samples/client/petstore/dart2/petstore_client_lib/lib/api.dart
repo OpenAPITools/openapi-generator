@@ -3,6 +3,8 @@ library openapi.api;
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
+import 'package:meta/meta.dart';
 
 part 'api_client.dart';
 part 'api_helper.dart';

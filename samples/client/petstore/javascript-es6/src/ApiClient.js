@@ -43,6 +43,7 @@ class ApiClient {
         this.authentications = {
             'api_key': {type: 'apiKey', 'in': 'header', name: 'api_key'},
             'api_key_query': {type: 'apiKey', 'in': 'query', name: 'api_key_query'},
+            'bearer_test': {type: 'bearer'}, // JWT
             'http_basic_test': {type: 'basic'},
             'petstore_auth': {type: 'oauth2'}
         }
@@ -108,9 +109,28 @@ class ApiClient {
         if (param instanceof Date) {
             return param.toJSON();
         }
+        if (ApiClient.canBeJsonified(param)) {
+            return JSON.stringify(param);
+        }
 
         return param.toString();
     }
+
+    /**
+    * Returns a boolean indicating if the parameter could be JSON.stringified
+    * @param param The actual parameter
+    * @returns {Boolean} Flag indicating if <code>param</code> can be JSON.stringified
+    */
+    static canBeJsonified(str) {
+        if (typeof str !== 'string' && typeof str !== 'object') return false;
+        try {
+            const type = str.toString();
+            return type === '[object Object]'
+                || type === '[object Array]';
+        } catch (err) {
+            return false;
+        }
+    };
 
    /**
     * Builds full URL by appending the given path to the base URL and replacing path parameter place-holders with parameter values.
@@ -474,12 +494,15 @@ class ApiClient {
     }
 
     /**
-    * Parses an ISO-8601 string representation of a date value.
+    * Parses an ISO-8601 string representation or epoch representation of a date value.
     * @param {String} str The date value as a string.
     * @returns {Date} The parsed date object.
     */
     static parseDate(str) {
-        return new Date(str);
+        if (isNaN(str)) {
+            return new Date(str);
+        }
+        return new Date(+str);
     }
 
     /**
@@ -557,8 +580,41 @@ class ApiClient {
     hostSettings() {
         return [
             {
-              'url': "http://petstore.swagger.io:80/v2",
-              'description': "No description provided",
+              'url': "http://{server}.swagger.io:{port}/v2",
+              'description': "petstore server",
+              'variables': {
+                server: {
+                    'description': "No description provided",
+                    'default_value': "petstore",
+                    'enum_values': [
+                      "petstore",
+                      "qa-petstore",
+                      "dev-petstore"
+                    ]
+                  },
+                port: {
+                    'description': "No description provided",
+                    'default_value': "80",
+                    'enum_values': [
+                      "80",
+                      "8080"
+                    ]
+                  }
+                }
+            },
+            {
+              'url': "https://localhost:8080/{version}",
+              'description': "The local server",
+              'variables': {
+                version: {
+                    'description': "No description provided",
+                    'default_value': "v2",
+                    'enum_values': [
+                      "v1",
+                      "v2"
+                    ]
+                  }
+                }
             }
       ];
     }

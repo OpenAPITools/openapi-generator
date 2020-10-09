@@ -10,11 +10,15 @@
 """
 
 
-from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.quadrilateral import Quadrilateral
+from petstore_api.model.triangle import Triangle
+globals()['Quadrilateral'] = Quadrilateral
+globals()['Triangle'] = Triangle
+from petstore_api.model.shape import Shape
 
 
 class TestShape(unittest.TestCase):
@@ -28,56 +32,9 @@ class TestShape(unittest.TestCase):
 
     def testShape(self):
         """Test Shape"""
-        equilateral_triangle = petstore_api.Triangle(
-            shape_type="Triangle",
-            triangle_type="EquilateralTriangle"
-        )
-        assert isinstance(equilateral_triangle, petstore_api.EquilateralTriangle)
-
-        isosceles_triangle = petstore_api.Triangle(
-            shape_type="Triangle",
-            triangle_type="IsoscelesTriangle"
-        )
-        assert isinstance(isosceles_triangle, petstore_api.IsoscelesTriangle)
-
-        scalene_triangle = petstore_api.Triangle(
-            shape_type="Triangle",
-            triangle_type="ScaleneTriangle"
-        )
-        assert isinstance(scalene_triangle, petstore_api.ScaleneTriangle)
-
-        complex_quadrilateral = petstore_api.Shape(
-            shape_type="Quadrilateral",
-            quadrilateral_type="ComplexQuadrilateral"
-        )
-        assert isinstance(complex_quadrilateral, petstore_api.ComplexQuadrilateral)
-
-        simple_quadrilateral = petstore_api.Shape(
-            shape_type="Quadrilateral",
-            quadrilateral_type="SimpleQuadrilateral"
-        )
-        assert isinstance(simple_quadrilateral, petstore_api.SimpleQuadrilateral)
-
-        # invalid shape_type (first discriminator)
-        err_msg = ("Cannot deserialize input data due to invalid discriminator "
-            "value. The OpenAPI document has no mapping for discriminator "
-            "property '{}'='{}' at path: ()"
-        )
-        with self.assertRaisesRegexp(
-            petstore_api.ApiValueError,
-            err_msg.format("shapeType", "Circle")
-        ):
-            petstore_api.Shape(shape_type="Circle")
-
-        # invalid quadrilateral_type (second discriminator)
-        with self.assertRaisesRegexp(
-            petstore_api.ApiValueError,
-            err_msg.format("quadrilateralType", "Triangle")
-        ):
-            petstore_api.Shape(
-                shape_type="Quadrilateral",
-                quadrilateral_type="Triangle"
-            )
+        # FIXME: construct object with mandatory attributes with example values
+        # model = Shape()  # noqa: E501
+        pass
 
 
 if __name__ == '__main__':

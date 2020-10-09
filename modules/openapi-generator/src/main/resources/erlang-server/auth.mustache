@@ -40,7 +40,7 @@ get_api_key(header, KeyParam, Req) ->
     Headers = cowboy_req:headers(Req),
     {
         maps:get(
-            openapi_utils:to_header(KeyParam),
+            {{packageName}}_utils:to_header(KeyParam),
             Headers,
             undefined
         ),

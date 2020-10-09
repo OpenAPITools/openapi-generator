@@ -91,7 +91,7 @@ class Pet(object):
 
 
         :param id: The id of this Pet.  # noqa: E501
-        :type: int
+        :type id: int
         """
 
         self._id = id
@@ -112,7 +112,7 @@ class Pet(object):
 
 
         :param category: The category of this Pet.  # noqa: E501
-        :type: Category
+        :type category: Category
         """
 
         self._category = category
@@ -133,7 +133,7 @@ class Pet(object):
 
 
         :param name: The name of this Pet.  # noqa: E501
-        :type: str
+        :type name: str
         """
         if self.local_vars_configuration.client_side_validation and name is None:  # noqa: E501
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
@@ -156,7 +156,7 @@ class Pet(object):
 
 
         :param photo_urls: The photo_urls of this Pet.  # noqa: E501
-        :type: list[str]
+        :type photo_urls: list[str]
         """
         if self.local_vars_configuration.client_side_validation and photo_urls is None:  # noqa: E501
             raise ValueError("Invalid value for `photo_urls`, must not be `None`")  # noqa: E501
@@ -179,7 +179,7 @@ class Pet(object):
 
 
         :param tags: The tags of this Pet.  # noqa: E501
-        :type: list[Tag]
+        :type tags: list[Tag]
         """
 
         self._tags = tags
@@ -202,7 +202,7 @@ class Pet(object):
         pet status in the store  # noqa: E501
 
         :param status: The status of this Pet.  # noqa: E501
-        :type: str
+        :type status: str
         """
         allowed_values = ["available", "pending", "sold"]  # noqa: E501
         if self.local_vars_configuration.client_side_validation and status not in allowed_values:  # noqa: E501

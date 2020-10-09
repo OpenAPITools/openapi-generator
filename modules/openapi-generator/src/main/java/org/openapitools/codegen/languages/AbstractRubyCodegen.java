@@ -77,6 +77,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         typeMapping.put("date", "Date");
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("array", "Array");
+        typeMapping.put("set", "Array");
         typeMapping.put("List", "Array");
         typeMapping.put("map", "Hash");
         typeMapping.put("object", "Object");
@@ -110,7 +111,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
             Schema inner = ((ArraySchema) schema).getItems();
             return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(schema)) {
-            Schema inner = ModelUtils.getAdditionalProperties(schema);
+            Schema inner = getAdditionalProperties(schema);
             return getSchemaType(schema) + "<String, " + getTypeDeclaration(inner) + ">";
         }
 

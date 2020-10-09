@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
+
 /**
  * 
  * @param id 
@@ -32,10 +33,8 @@ data class Order (
     /* Order Status */
     @SerialName(value = "status") val status: Order.Status? = null,
     @SerialName(value = "complete") val complete: kotlin.Boolean? = null
-) 
+) {
 
-
-{
     /**
     * Order Status
     * Values: placed,approved,delivered

@@ -92,14 +92,10 @@ configuration = {{{packageName}}}.Configuration(
 {{#isApiKey}}
 
 # Configure API key authorization: {{{name}}}
-configuration = {{{packageName}}}.Configuration(
-    host = "{{{basePath}}}",
-    api_key = {
-        '{{{keyParamName}}}': 'YOUR_API_KEY'
-    }
-)
+configuration.api_key['{{{name}}}'] = 'YOUR_API_KEY'
+
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['{{{keyParamName}}}'] = 'Bearer'
+# configuration.api_key_prefix['{{name}}'] = 'Bearer'
 {{/isApiKey}}
 {{#isOAuth}}
 

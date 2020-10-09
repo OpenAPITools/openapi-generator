@@ -31,8 +31,8 @@ paths:
                     $ref: '#/components/schemas/Foo'
   /pet:
     servers:
-    - url: 'http://petstore.swagger.io/v2'
-    - url: 'http://path-server-test.petstore.local/v2'
+      - url: 'http://petstore.swagger.io/v2'
+      - url: 'http://path-server-test.petstore.local/v2'
     post:
       tags:
         - pet
@@ -758,6 +758,8 @@ paths:
                   description: None
                   type: string
                   format: date-time
+                  default: '2010-02-01T10:20:10.11111+01:00'
+                  example: '2020-02-02T20:20:20.22222Z'
                 password:
                   description: None
                   type: string
@@ -820,82 +822,211 @@ paths:
       responses:
         '400':
           description: Someting wrong
-  /fake/outer/number:
+  /fake/refs/number:
     post:
       tags:
         - fake
       description: Test serialization of outer number types
-      operationId: fakeOuterNumberSerialize
+      operationId: NumberWithValidations
+      requestBody:
+        description: Input number as post body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NumberWithValidations'
+        required: false
       responses:
         '200':
           description: Output number
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/OuterNumber'
+                $ref: '#/components/schemas/NumberWithValidations'
+  /fake/refs/mammal:
+    post:
+      tags:
+        - fake
+      description: Test serialization of mammals
+      operationId: Mammal
       requestBody:
+        description: Input mammal
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OuterNumber'
-        description: Input number as post body
-  /fake/outer/string:
+              $ref: '#/components/schemas/mammal'
+        required: true
+      responses:
+        '200':
+          description: Output mammal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mammal'
+  /fake/refs/string:
     post:
       tags:
         - fake
       description: Test serialization of outer string types
-      operationId: fakeOuterStringSerialize
+      operationId: String
+      requestBody:
+        description: Input string as post body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/String'
+        required: false
       responses:
         '200':
           description: Output string
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/OuterString'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OuterString'
-        description: Input string as post body
-  /fake/outer/boolean:
+                $ref: '#/components/schemas/String'
+      x-codegen-request-body-name: body
+  /fake/refs/boolean:
     post:
       tags:
         - fake
       description: Test serialization of outer boolean types
-      operationId: fakeOuterBooleanSerialize
+      operationId: Boolean
+      requestBody:
+        description: Input boolean as post body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Boolean'
+        required: false
       responses:
         '200':
           description: Output boolean
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/OuterBoolean'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OuterBoolean'
-        description: Input boolean as post body
-  /fake/outer/composite:
+                $ref: '#/components/schemas/Boolean'
+      x-codegen-request-body-name: body
+  /fake/refs/arraymodel:
     post:
       tags:
         - fake
-      description: Test serialization of object with outer number type
-      operationId: fakeOuterCompositeSerialize
-      responses:
-        '200':
-          description: Output composite
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/OuterComposite'
+      description: Test serialization of ArrayModel
+      operationId: ArrayModel
       requestBody:
+        description: Input model
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OuterComposite'
-        description: Input composite as post body
+              $ref: '#/components/schemas/AnimalFarm'
+        required: false
+      responses:
+        '200':
+          description: Output model
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnimalFarm'
+      x-codegen-request-body-name: body
+  /fake/refs/composed_one_of_number_with_validations:
+    post:
+      tags:
+        - fake
+      description: Test serialization of object with $refed properties
+      operationId: ComposedOneOfNumberWithValidations
+      requestBody:
+        description: Input model
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComposedOneOfNumberWithValidations'
+        required: false
+      responses:
+        '200':
+          description: Output model
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComposedOneOfNumberWithValidations'
+  /fake/refs/object_model_with_ref_props:
+    post:
+      tags:
+        - fake
+      description: Test serialization of object with $refed properties
+      operationId: ObjectModelWithRefProps
+      requestBody:
+        description: Input model
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectModelWithRefProps'
+        required: false
+      responses:
+        '200':
+          description: Output model
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectModelWithRefProps'
+      x-codegen-request-body-name: body
+  /fake/refs/enum:
+    post:
+      tags:
+        - fake
+      description: Test serialization of outer enum
+      operationId: StringEnum
+      requestBody:
+        description: Input enum
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StringEnum'
+        required: false
+      responses:
+        '200':
+          description: Output enum
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringEnum'
+      x-codegen-request-body-name: body
+  /fake/refs/array-of-enums:
+    post:
+      tags:
+        - fake
+      summary: Array of Enums
+      operationId: ArrayOfEnums
+      requestBody:
+        description: Input enum
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArrayOfEnums'
+        required: false
+      responses:
+        200:
+          description: Got named array of enums
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfEnums'
+  /fake/additional-properties-with-array-of-enums:
+    get:
+      tags:
+        - fake
+      summary: Additional Properties with Array of Enums
+      operationId: AdditionalPropertiesWithArrayOfEnums
+      requestBody:
+        description: Input enum
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdditionalPropertiesWithArrayOfEnums'
+        required: false
+      responses:
+        200:
+          description: Got object with additional properties with array of enums
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdditionalPropertiesWithArrayOfEnums'
   /fake/jsonFormData:
     get:
       tags:
@@ -1202,6 +1333,7 @@ components:
         shipDate:
           type: string
           format: date-time
+          example: '2020-02-02T20:20:20.000222Z'
         status:
           type: string
           description: Order Status
@@ -1250,22 +1382,36 @@ components:
           type: integer
           format: int32
           description: User Status
-        arbitraryObject:
+        objectWithNoDeclaredProps:
           type: object
+          # Note: the 'additionalProperties' keyword is not specified, which is
+          # equivalent to allowing undeclared properties of any type.
           description: test code generation for objects
             Value must be a map of strings to values. It cannot be the 'null' value.
-        arbitraryNullableObject:
+        objectWithNoDeclaredPropsNullable:
           type: object
+          # Note: the 'additionalProperties' keyword is not specified, which is
+          # equivalent to allowing undeclared properties of any type.
           description: test code generation for nullable objects.
             Value must be a map of strings to values or the 'null' value.
           nullable: true
-        arbitraryTypeValue:
+        anyTypeProp:
           description: test code generation for any type
-            Value can be any type - string, number, boolean, array or object.
-        arbitraryNullableTypeValue:
+            Here the 'type' attribute is not specified, which means the value can be anything,
+            including the null value, string, number, boolean, array or object.
+            See https://github.com/OAI/OpenAPI-Specification/issues/1389
+        # TODO: this should be supported, currently there are some issues in the code generation.
+        #anyTypeExceptNullProp:
+        #  description: any type except 'null'
+        #    Here the 'type' attribute is not specified, which means the value can be anything,
+        #    including the null value, string, number, boolean, array or object.
+        #  not:
+        #    type: 'null'
+        anyTypePropNullable:
           description: test code generation for any type
-            Value can be any type - string, number, boolean, array, object or
-            the 'null' value.
+            Here the 'type' attribute is not specified, which means the value can be anything,
+            including the null value, string, number, boolean, array or object.
+            The 'nullable' attribute does not change the allowed values.
           nullable: true
       xml:
         name: User
@@ -1281,6 +1427,7 @@ components:
         name: Tag
     Pet:
       type: object
+      description: Pet object that needs to be added to the store
       required:
         - name
         - photoUrls
@@ -1387,7 +1534,7 @@ components:
     Address:
       type: object
       additionalProperties:
-         type: integer
+        type: integer
     Animal:
       type: object
       discriminator:
@@ -1416,6 +1563,7 @@ components:
           type: integer
           maximum: 100
           minimum: 10
+          multipleOf: 2
         int32:
           type: integer
           format: int32
@@ -1428,6 +1576,7 @@ components:
           maximum: 543.2
           minimum: 32.1
           type: number
+          multipleOf: 32.5
         float:
           type: number
           format: float
@@ -1450,13 +1599,18 @@ components:
         date:
           type: string
           format: date
+          example: '2020-02-02'
         dateTime:
           type: string
           format: date-time
+          example: '2007-12-03T10:15:30+01:00'
         uuid:
           type: string
           format: uuid
           example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+        uuidNoExample:
+          type: string
+          format: uuid
         password:
           type: string
           format: password
@@ -1506,14 +1660,16 @@ components:
           enum:
             - 1.1
             - -1.2
-        outerEnum:
-          $ref: '#/components/schemas/OuterEnum'
-        outerEnumInteger:
-          $ref: '#/components/schemas/OuterEnumInteger'
-        outerEnumDefaultValue:
-          $ref: '#/components/schemas/OuterEnumDefaultValue'
-        outerEnumIntegerDefaultValue:
-          $ref: '#/components/schemas/OuterEnumIntegerDefaultValue'
+        stringEnum:
+          $ref: '#/components/schemas/StringEnum'
+        IntegerEnum:
+          $ref: '#/components/schemas/IntegerEnum'
+        StringEnumWithDefaultValue:
+          $ref: '#/components/schemas/StringEnumWithDefaultValue'
+        IntegerEnumWithDefaultValue:
+          $ref: '#/components/schemas/IntegerEnumWithDefaultValue'
+        IntegerEnumOneValue:
+          $ref: '#/components/schemas/IntegerEnumOneValue'
     AdditionalPropertiesClass:
       type: object
       properties:
@@ -1527,6 +1683,24 @@ components:
             type: object
             additionalProperties:
               type: string
+        anytype_1: {}
+        map_with_undeclared_properties_anytype_1:
+          type: object
+        map_with_undeclared_properties_anytype_2:
+          type: object
+          properties: {}
+        map_with_undeclared_properties_anytype_3:
+          type: object
+          additionalProperties: true
+        empty_map:
+          type: object
+          description: an object with no declared properties and no undeclared
+            properties, hence it's an empty map.
+          additionalProperties: false
+        map_with_undeclared_properties_string:
+          type: object
+          additionalProperties:
+            type: string
     MixedPropertiesAndAdditionalPropertiesClass:
       type: object
       properties:
@@ -1662,47 +1836,69 @@ components:
             enum:
               - fish
               - crab
-    OuterEnum:
+    StringEnum:
       nullable: true
+      type: string
+      enum:
+        - "placed"
+        - "approved"
+        - "delivered"
+        - 'single quoted'
+        - |-
+          multiple
+          lines
+        - "double quote \n with newline"
+    IntegerEnum:
+      type: integer
+      enum:
+        - 0
+        - 1
+        - 2
+    StringEnumWithDefaultValue:
       type: string
       enum:
         - placed
         - approved
         - delivered
-    OuterEnumInteger:
-      type: integer
-      enum:
-      - 0
-      - 1
-      - 2
-    OuterEnumDefaultValue:
-      type: string
-      enum:
-      - placed
-      - approved
-      - delivered
       default: placed
-    OuterEnumIntegerDefaultValue:
+    IntegerEnumWithDefaultValue:
       type: integer
       enum:
-      - 0
-      - 1
-      - 2
+        - 0
+        - 1
+        - 2
       default: 0
-    OuterComposite:
+    IntegerEnumOneValue:
+      type: integer
+      enum:
+        - 0
+    ObjectModelWithRefProps:
+      description: a model that includes properties which should stay primitive (String + Boolean) and one which is defined as a class, NumberWithValidations
       type: object
       properties:
         my_number:
-          $ref: '#/components/schemas/OuterNumber'
+          $ref: '#/definitions/NumberWithValidations'
         my_string:
-          $ref: '#/components/schemas/OuterString'
+          $ref: '#/definitions/String'
         my_boolean:
-          $ref: '#/components/schemas/OuterBoolean'
-    OuterNumber:
+          $ref: '#/definitions/Boolean'
+    NumberWithValidations:
       type: number
-    OuterString:
+      minimum: 10
+      maximum: 20
+    ComposedOneOfNumberWithValidations:
+      description: this is a model that allows payloads of type object or number
+      oneOf:
+        - $ref: '#/components/schemas/NumberWithValidations'
+        - $ref: '#/components/schemas/Animal'
+        - type: 'null'
+        - type: string
+          format: date
+    Number:
+      type: number
+    String:
       type: string
-    OuterBoolean:
+    Boolean:
       type: boolean
       x-codegen-body-parameter-name: boolean_post_body
     StringBooleanMap:
@@ -1803,11 +1999,19 @@ components:
       oneOf:
         - $ref: '#/components/schemas/apple'
         - $ref: '#/components/schemas/banana'
+      # Below additionalProperties is set to false to validate the use
+      # case when a composed schema has additionalProperties set to false.
+      additionalProperties: false
     apple:
       type: object
       properties:
         cultivar:
           type: string
+          pattern: ^[a-zA-Z\s]*$
+        origin:
+          type: string
+          pattern: /^[A-Z\s]*$/i
+      nullable: true
     banana:
       type: object
       properties:
@@ -1817,11 +2021,9 @@ components:
       oneOf:
         - $ref: '#/components/schemas/whale'
         - $ref: '#/components/schemas/zebra'
+        - $ref: '#/components/schemas/Pig'
       discriminator:
         propertyName: className
-        mapping:
-          whale: '#/components/schemas/whale'
-          zebra: '#/components/schemas/zebra'
     whale:
       type: object
       properties:
@@ -1846,17 +2048,41 @@ components:
           type: string
       required:
         - className
+      additionalProperties: true
+    Pig:
+      oneOf:
+        - $ref: '#/components/schemas/BasquePig'
+        - $ref: '#/components/schemas/DanishPig'
+      discriminator:
+        propertyName: className
+    BasquePig:
+      type: object
+      properties:
+        className:
+          type: string
+      required:
+        - className
+    DanishPig:
+      type: object
+      properties:
+        className:
+          type: string
+      required:
+        - className
     gmFruit:
-       properties:
-          color:
-             type: string
-       anyOf:
-          - $ref: '#/components/schemas/apple'
-          - $ref: '#/components/schemas/banana'
+      properties:
+        color:
+          type: string
+      anyOf:
+        - $ref: '#/components/schemas/apple'
+        - $ref: '#/components/schemas/banana'
+      additionalProperties: false
     fruitReq:
-       oneOf:
-          - $ref: '#/components/schemas/appleReq'
-          - $ref: '#/components/schemas/bananaReq'
+      oneOf:
+        - type: 'null'
+        - $ref: '#/components/schemas/appleReq'
+        - $ref: '#/components/schemas/bananaReq'
+      additionalProperties: false
     appleReq:
       type: object
       properties:
@@ -1866,6 +2092,7 @@ components:
           type: boolean
       required:
         - cultivar
+      additionalProperties: false
     bananaReq:
       type: object
       properties:
@@ -1875,14 +2102,61 @@ components:
           type: boolean
       required:
         - lengthCm
+      additionalProperties: false
     # go-experimental is unable to make Triangle and Quadrilateral models
     # correctly https://github.com/OpenAPITools/openapi-generator/issues/6149
+    Drawing:
+      type: object
+      properties:
+        mainShape:
+          # A property whose value is a 'oneOf' type, and the type is referenced instead
+          # of being defined inline. The value cannot be null.
+          $ref: '#/components/schemas/Shape'
+        shapeOrNull:
+          # A property whose value is a 'oneOf' type, and the type is referenced instead
+          # of being defined inline. The value may be null because ShapeOrNull has 'null'
+          # type as a child schema of 'oneOf'.
+          $ref: '#/components/schemas/ShapeOrNull'
+        nullableShape:
+          # A property whose value is a 'oneOf' type, and the type is referenced instead
+          # of being defined inline. The value may be null because NullableShape has the
+          # 'nullable: true' attribute. For this specific scenario this is exactly the
+          # same thing as 'shapeOrNull'.
+          $ref: '#/components/schemas/NullableShape'
+        shapes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Shape'
+      additionalProperties:
+        # Here the additional properties are specified using a referenced schema.
+        # This is just to validate the generated code works when using $ref
+        # under 'additionalProperties'.
+        $ref: '#/components/schemas/fruit'
     Shape:
       oneOf:
         - $ref: '#/components/schemas/Triangle'
         - $ref: '#/components/schemas/Quadrilateral'
       discriminator:
         propertyName: shapeType
+    ShapeOrNull:
+      description: The value may be a shape or the 'null' value.
+        This is introduced in OAS schema >= 3.1.
+      oneOf:
+        - type: 'null'
+        - $ref: '#/components/schemas/Triangle'
+        - $ref: '#/components/schemas/Quadrilateral'
+      discriminator:
+        propertyName: shapeType
+    NullableShape:
+      description: The value may be a shape or the 'null' value.
+        The 'nullable' attribute was introduced in OAS schema >= 3.0
+        and has been deprecated in OAS schema >= 3.1.
+      oneOf:
+        - $ref: '#/components/schemas/Triangle'
+        - $ref: '#/components/schemas/Quadrilateral'
+      discriminator:
+        propertyName: shapeType
+      nullable: true
     ShapeInterface:
       properties:
         shapeType:
@@ -1902,6 +2176,8 @@ components:
         - $ref: '#/components/schemas/ScaleneTriangle'
       discriminator:
         propertyName: triangleType
+      # Note: the 'additionalProperties' keyword is not specified, which is
+      # equivalent to allowing undeclared properties of any type.
     EquilateralTriangle:
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
@@ -1910,6 +2186,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/TriangleInterface'
+      additionalProperties: false
     ScaleneTriangle:
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
@@ -1934,3 +2211,46 @@ components:
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/QuadrilateralInterface'
+    GrandparentAnimal:
+      type: object
+      required:
+        - pet_type
+      properties:
+        pet_type:
+          type: string
+      discriminator:
+        propertyName: pet_type
+    ParentPet:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/GrandparentAnimal'
+    ChildCat:
+      allOf:
+        - $ref: '#/components/schemas/ParentPet'
+        - type: object
+          properties:
+            name:
+              type: string
+    ArrayOfEnums:
+      type: array
+      items:
+        $ref: '#/components/schemas/StringEnum'
+    AdditionalPropertiesWithArrayOfEnums:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          $ref: '#/components/schemas/EnumClass'
+    DateTimeTest:
+      type: string
+      default: '2010-01-01T10:10:10.000111+01:00'
+      example: '2010-01-01T10:10:10.000111+01:00'
+      format: date-time
+    ObjectInterface:
+      type: object
+    ObjectWithValidations:
+      type: object
+      minProperties: 1
+    SomeObject:
+      allOf:
+        - $ref: '#/components/schemas/ObjectInterface'

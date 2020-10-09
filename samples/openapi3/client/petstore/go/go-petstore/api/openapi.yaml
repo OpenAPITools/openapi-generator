@@ -57,6 +57,7 @@ paths:
         "405":
           description: Invalid input
       security:
+      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -75,6 +76,7 @@ paths:
         "405":
           description: Validation exception
       security:
+      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -121,6 +123,7 @@ paths:
         "400":
           description: Invalid status value
       security:
+      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -161,6 +164,7 @@ paths:
         "400":
           description: Invalid tag value
       security:
+      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -1169,36 +1173,6 @@ paths:
       summary: Health check endpoint
       tags:
       - fake
-  /fake/http-signature-test:
-    get:
-      operationId: fake-http-signature-test
-      parameters:
-      - description: query parameter
-        explode: true
-        in: query
-        name: query_1
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: header parameter
-        explode: false
-        in: header
-        name: header_1
-        required: false
-        schema:
-          type: string
-        style: simple
-      requestBody:
-        $ref: '#/components/requestBodies/Pet'
-      responses:
-        "200":
-          description: The instance started successfully
-      security:
-      - http_signature_test: []
-      summary: test http signature authentication
-      tags:
-      - fake
 components:
   requestBodies:
     UserArray:
@@ -1325,9 +1299,13 @@ components:
         lastName: lastName
         password: password
         userStatus: 6
+        arbitraryTypeValue: ""
+        arbitraryNullableTypeValue: ""
         phone: phone
         id: 0
+        arbitraryObject: '{}'
         email: email
+        arbitraryNullableObject: '{}'
         username: username
       properties:
         id:
@@ -1350,6 +1328,22 @@ components:
           description: User Status
           format: int32
           type: integer
+        arbitraryObject:
+          description: test code generation for objects Value must be a map of strings
+            to values. It cannot be the 'null' value.
+          type: object
+        arbitraryNullableObject:
+          description: test code generation for nullable objects. Value must be a
+            map of strings to values or the 'null' value.
+          nullable: true
+          type: object
+        arbitraryTypeValue:
+          description: test code generation for any type Value can be any type - string,
+            number, boolean, array or object.
+        arbitraryNullableTypeValue:
+          description: test code generation for any type Value can be any type - string,
+            number, boolean, array, object or the 'null' value.
+          nullable: true
       type: object
       xml:
         name: User
@@ -1482,7 +1476,12 @@ components:
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
+      - $ref: '#/components/schemas/Address'
       - $ref: '#/components/schemas/Cat_allOf'
+    Address:
+      additionalProperties:
+        type: integer
+      type: object
     Animal:
       discriminator:
         propertyName: className
@@ -1913,6 +1912,86 @@ components:
             type: object
           type: object
       type: object
+    fruit:
+      oneOf:
+      - $ref: '#/components/schemas/apple'
+      - $ref: '#/components/schemas/banana'
+      properties:
+        color:
+          type: string
+    apple:
+      properties:
+        cultivar:
+          type: string
+      type: object
+    banana:
+      additionalProperties: true
+      properties:
+        lengthCm:
+          type: number
+      type: object
+    mammal:
+      discriminator:
+        mapping:
+          whale: '#/components/schemas/whale'
+          zebra: '#/components/schemas/zebra'
+        propertyName: className
+      oneOf:
+      - $ref: '#/components/schemas/whale'
+      - $ref: '#/components/schemas/zebra'
+    whale:
+      properties:
+        hasBaleen:
+          type: boolean
+        hasTeeth:
+          type: boolean
+        className:
+          type: string
+      required:
+      - className
+      type: object
+    zebra:
+      properties:
+        type:
+          enum:
+          - plains
+          - mountain
+          - grevys
+          type: string
+        className:
+          type: string
+      required:
+      - className
+      type: object
+    gmFruit:
+      anyOf:
+      - $ref: '#/components/schemas/apple'
+      - $ref: '#/components/schemas/banana'
+      properties:
+        color:
+          type: string
+    fruitReq:
+      oneOf:
+      - $ref: '#/components/schemas/appleReq'
+      - $ref: '#/components/schemas/bananaReq'
+    appleReq:
+      properties:
+        cultivar:
+          type: string
+        mealy:
+          type: boolean
+      required:
+      - cultivar
+      type: object
+    bananaReq:
+      properties:
+        lengthCm:
+          type: number
+        sweet:
+          type: boolean
+      required:
+      - lengthCm
+      type: object
     inline_response_default:
       example:
         string:
@@ -1920,6 +1999,7 @@ components:
       properties:
         string:
           $ref: '#/components/schemas/Foo'
+      type: object
     inline_object:
       properties:
         name:
@@ -2059,10 +2139,12 @@ components:
       properties:
         breed:
           type: string
+      type: object
     Cat_allOf:
       properties:
         declawed:
           type: boolean
+      type: object
   securitySchemes:
     petstore_auth:
       flows:

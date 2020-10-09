@@ -26,11 +26,11 @@ import javax.ws.rs.*;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-@Path("/User")
+@Path("/user")
 
 
 @io.swagger.annotations.Api(description = "the User API")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class UserApi  {
    private final UserApiService delegate = UserApiServiceFactory.getUserApi();
 

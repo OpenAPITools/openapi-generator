@@ -46,6 +46,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NodeJSExpressServerCodegen.class);
     public static final String EXPORTED_NAME = "exportedName";
+    public static final String SERVER_HOST = "serverHost";
     public static final String SERVER_PORT = "serverPort";
 
     protected String apiVersion = "1.0.0";
@@ -120,8 +121,10 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         supportingFiles.add(new SupportingFile("services" + File.separator + "Service.mustache", "services", "Service.js"));
 
         // do not overwrite if the file is already present
-        writeOptional(outputFolder, new SupportingFile("package.mustache", "", "package.json"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("package.mustache", "", "package.json")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
+                .doNotOverwrite());
 
         cliOptions.add(new CliOption(SERVER_PORT,
                 "TCP port to listen on."));
@@ -331,6 +334,11 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         String host = URLPathUtils.getProtocolAndHost(url);
         String port = URLPathUtils.getPort(url, defaultServerPort);
         String basePath = url.getPath();
+
+        if (additionalProperties.containsKey(SERVER_HOST)) {
+            host = additionalProperties.get(SERVER_HOST).toString();
+        }
+        this.additionalProperties.put(SERVER_HOST, host);
 
         if (additionalProperties.containsKey(SERVER_PORT)) {
             port = additionalProperties.get(SERVER_PORT).toString();

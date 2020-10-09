@@ -13,7 +13,7 @@ internal struct OuterComposite: Codable {
     internal var myString: String?
     internal var myBoolean: Bool?
 
-    internal init(myNumber: Double?, myString: String?, myBoolean: Bool?) {
+    internal init(myNumber: Double? = nil, myString: String? = nil, myBoolean: Bool? = nil) {
         self.myNumber = myNumber
         self.myString = myString
         self.myBoolean = myBoolean

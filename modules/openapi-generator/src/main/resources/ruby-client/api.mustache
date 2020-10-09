@@ -173,13 +173,13 @@ module {{moduleName}}
       {{/formParams}}
 
       # http body (model)
-      post_body = opts[:body] {{#bodyParam}}|| @api_client.object_to_http_body({{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}}) {{/bodyParam}}
+      post_body = opts[:debug_body]{{#bodyParam}} || @api_client.object_to_http_body({{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}}){{/bodyParam}}
 
       # auth_names
-      auth_names = opts[:auth_names] || [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
+      auth_names = opts[:debug_auth_names] || [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
 
       # return_type
-      return_type = opts[:return_type]
+      return_type = opts[:debug_return_type]
 
       {{#returnType}}
       {{#responses}}

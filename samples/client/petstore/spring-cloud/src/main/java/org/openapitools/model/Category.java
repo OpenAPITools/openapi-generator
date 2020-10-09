@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * A category for a pet
  */
 @ApiModel(description = "A category for a pet")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Category   {
   @JsonProperty("id")
   private Long id;
@@ -63,7 +63,7 @@ public class Category   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -95,7 +95,7 @@ public class Category   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

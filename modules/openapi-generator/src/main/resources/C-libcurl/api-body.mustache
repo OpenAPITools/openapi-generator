@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include "{{classname}}.h"
 
-
+#define MAX_NUMBER_LENGTH 16
 #define MAX_BUFFER_LENGTH 4096
 #define intToStr(dst, src) \
     do {\
@@ -193,8 +193,8 @@ end:
     {{#headerParams}}
 
     // header parameters
-    char *keyHeader_{{{paramName}}};
-    {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}{{{dataType}}}{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}{{dataType}}{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}}{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueHeader_{{{paramName}}};
+    char *keyHeader_{{{paramName}}} = NULL;
+    {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}{{{dataType}}}{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}{{dataType}}{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}}{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueHeader_{{{paramName}}} = 0;
     keyValuePair_t *keyPairHeader_{{paramName}} = 0;
     if ({{paramName}}) {
         keyHeader_{{{paramName}}} = strdup("{{{baseName}}}");
@@ -209,7 +209,7 @@ end:
     // query parameters
     {{^isListContainer}}
     char *keyQuery_{{{paramName}}} = NULL;
-    {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}{{{dataType}}}{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}{{{dataType}}}{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}}{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueQuery_{{{paramName}}} {{#isString}}{{^isEnum}}= NULL{{/isEnum}}{{/isString}};
+    {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}char *{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}char *{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}}{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueQuery_{{{paramName}}} {{#isString}}{{^isEnum}}= NULL{{/isEnum}}{{/isString}}{{#isInteger}}= NULL{{/isInteger}};
     keyValuePair_t *keyPairQuery_{{paramName}} = 0;
     {{/isListContainer}}
     if ({{paramName}})
@@ -219,9 +219,21 @@ end:
         {{/isListContainer}}
         {{^isListContainer}}
         keyQuery_{{{paramName}}} = strdup("{{{baseName}}}");
+        {{#isInteger}}
+        valueQuery_{{{paramName}}} = calloc(1,MAX_NUMBER_LENGTH);
+        snprintf(valueQuery_{{{paramName}}}, MAX_NUMBER_LENGTH, "%d", {{{paramName}}});
+        {{/isInteger}}
+        {{#isBoolean}}
+        valueQuery_{{{paramName}}} = calloc(1,MAX_NUMBER_LENGTH);
+        snprintf(valueQuery_{{{paramName}}}, MAX_NUMBER_LENGTH, "%d", {{{paramName}}});
+        {{/isBoolean}}
+        {{^isInteger}}
+        {{^isBoolean}}
         valueQuery_{{{paramName}}} = {{#isString}}{{^isEnum}}strdup({{/isEnum}}{{/isString}}({{{paramName}}}){{#isString}}{{^isEnum}}){{/isEnum}}{{/isString}};
+        {{/isBoolean}}
+        {{/isInteger}}
         keyPairQuery_{{paramName}} = keyValuePair_create(keyQuery_{{{paramName}}}, {{#isEnum}}(void *)strdup({{{operationId}}}_{{enumName}}_ToString(
-		{{/isEnum}}{{^isString}}&{{/isString}}valueQuery_{{{paramName}}}{{#isEnum}})){{/isEnum}});
+		{{/isEnum}}{{^isString}}{{^isInteger}}{{^isBoolean}}&{{/isBoolean}}{{/isInteger}}{{/isString}}valueQuery_{{{paramName}}}{{#isEnum}})){{/isEnum}});
         list_addElement(localVarQueryParameters,keyPairQuery_{{paramName}});
         {{/isListContainer}}
     }
@@ -230,13 +242,13 @@ end:
 
     // form parameters
     {{#isFile}}
-    char *keyForm_{{paramName}};
-    {{{dataType}}} valueForm_{{paramName}};
+    char *keyForm_{{paramName}} = NULL;
+    {{{dataType}}} valueForm_{{paramName}} = 0;
     keyValuePair_t *keyPairForm_{{paramName}} = 0;
     {{/isFile}}
     {{^isFile}}
-    char *keyForm_{{paramName}};
-    {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}{{{dataType}}}{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}{{dataType}}{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}}{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueForm_{{paramName}};
+    char *keyForm_{{paramName}} = NULL;
+    {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}{{{dataType}}}{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}{{dataType}}{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}}{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueForm_{{paramName}} = 0;
     keyValuePair_t *keyPairForm_{{paramName}} = 0;
     {{/isFile}}
     if ({{paramName}} != NULL)
@@ -260,9 +272,9 @@ end:
     // Body Param
     {{#isListContainer}}
     //notstring
-    cJSON *localVar_{{paramName}};
-    cJSON *localVarItemJSON_{{paramName}};
-    cJSON *localVarSingleItemJSON_{{paramName}};
+    cJSON *localVar_{{paramName}} = NULL;
+    cJSON *localVarItemJSON_{{paramName}} = NULL;
+    cJSON *localVarSingleItemJSON_{{paramName}} = NULL;
     if ({{paramName}} != NULL)
     {
         localVarItemJSON_{{paramName}} = cJSON_CreateObject();
@@ -288,7 +300,7 @@ end:
     }
     {{/isListContainer}}
     {{^isListContainer}}
-    cJSON *localVarSingleItemJSON_{{paramName}};
+    cJSON *localVarSingleItemJSON_{{paramName}} = NULL;
     if ({{paramName}} != NULL)
     {
         //string
@@ -387,23 +399,44 @@ end:
     {{/pathParams}}
     {{#headerParams}}
     {{#isString}}
-    free(keyHeader_{{{paramName}}});
-    free(valueHeader_{{{paramName}}});
+    if (keyHeader_{{{paramName}}}) {
+        free(keyHeader_{{{paramName}}});
+        keyHeader_{{{paramName}}} = NULL;
+    }
+    if (valueHeader_{{{paramName}}}) {
+        free(valueHeader_{{{paramName}}});
+        valueHeader_{{{paramName}}} = NULL;
+    }
     {{/isString}}
     {{^isString}}
-    free(keyHeader_{{{paramName}}});
+    if (keyHeader_{{{paramName}}}) {
+        free(keyHeader_{{{paramName}}});
+        keyHeader_{{{paramName}}} = NULL;
+    }
     {{/isString}}
     free(keyPairHeader_{{paramName}});
     {{/headerParams}}
     {{#bodyParams}}
     {{#isListContainer}}
-    cJSON_Delete(localVarItemJSON_{{paramName}});
-    cJSON_Delete(localVarSingleItemJSON_{{paramName}});
-    cJSON_Delete(localVar_{{paramName}});
+    if (localVarItemJSON_{{paramName}}) {
+        cJSON_Delete(localVarItemJSON_{{paramName}});
+        localVarItemJSON_{{paramName}} = NULL;
+    }
+    if (localVarSingleItemJSON_{{paramName}}) {
+        cJSON_Delete(localVarSingleItemJSON_{{paramName}});
+        localVarSingleItemJSON_{{paramName}} = NULL;
+    }
+    if (localVar_{{paramName}}) {
+        cJSON_Delete(localVar_{{paramName}});
+        localVar_{{paramName}} = NULL;
+    }
     free(localVarBodyParameters);
     {{/isListContainer}}
     {{^isListContainer}}
-    cJSON_Delete(localVarSingleItemJSON_{{paramName}});
+    if (localVarSingleItemJSON_{{paramName}}) {
+        cJSON_Delete(localVarSingleItemJSON_{{paramName}});
+        localVarSingleItemJSON_{{paramName}} = NULL;
+    }
     free(localVarBodyParameters);
     {{/isListContainer}}
     {{/bodyParams}}
@@ -439,25 +472,38 @@ end:
     {{/queryParams}}
     {{#formParams}}
     {{#isFile}}
-    free(keyForm_{{{paramName}}});
+    if (keyForm_{{{paramName}}}) {
+        free(keyForm_{{{paramName}}});
+        keyForm_{{{paramName}}} = NULL;
+    }
 //    free(fileVar_{{paramName}}->data);
 //    free(fileVar_{{paramName}});
     free(keyPairForm_{{paramName}});
     {{/isFile}}
     {{^isFile}}
     {{#isString}}
-    free(keyForm_{{{paramName}}});
-    free(valueForm_{{{paramName}}});
+    if (keyForm_{{{paramName}}}) {
+        free(keyForm_{{{paramName}}});
+        keyForm_{{{paramName}}} = NULL;
+    }
+    if (valueForm_{{{paramName}}}) {
+        free(valueForm_{{{paramName}}});
+        valueForm_{{{paramName}}} = NULL;
+    }
     free(keyPairForm_{{paramName}});
     {{/isString}}
     {{^isString}}
-    free(keyForm_{{{paramName}}});
+    if (keyForm_{{{paramName}}}) {
+        free(keyForm_{{{paramName}}});
+        keyForm_{{{paramName}}} = NULL;
+    }
     free(keyPairForm_{{paramName}});
     {{/isString}}
     {{/isFile}}
     {{/formParams}}
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
     {{/returnType}}
     {{^returnType}}
@@ -479,23 +525,44 @@ end:
     {{/pathParams}}
     {{#headerParams}}
     {{#isString}}
-    free(keyHeader_{{{paramName}}});
-    free(valueHeader_{{{paramName}}});
+    if (keyHeader_{{{paramName}}}) {
+        free(keyHeader_{{{paramName}}});
+        keyHeader_{{{paramName}}} = NULL;
+    }
+    if (valueHeader_{{{paramName}}}) {
+        free(valueHeader_{{{paramName}}});
+        valueHeader_{{{paramName}}} = NULL;
+    }
     {{/isString}}
     {{^isString}}
-    free(keyHeader_{{{paramName}}});
+    if (keyHeader_{{{paramName}}}) {
+        free(keyHeader_{{{paramName}}});
+        keyHeader_{{{paramName}}} = NULL;
+    }
     {{/isString}}
     free(keyPairHeader_{{paramName}});
     {{/headerParams}}
     {{#bodyParams}}
     {{#isListContainer}}
-    cJSON_Delete(localVarItemJSON_{{paramName}});
-    cJSON_Delete(localVarSingleItemJSON_{{paramName}});
-    cJSON_Delete(localVar_{{paramName}});
+    if (localVarItemJSON_{{paramName}}) {
+        cJSON_Delete(localVarItemJSON_{{paramName}});
+        localVarItemJSON_{{paramName}} = NULL;
+    }
+    if (localVarSingleItemJSON_{{paramName}}) {
+        cJSON_Delete(localVarSingleItemJSON_{{paramName}});
+        localVarSingleItemJSON_{{paramName}} = NULL;
+    }
+    if (localVar_{{paramName}}) {
+        cJSON_Delete(localVar_{{paramName}});
+        localVar_{{paramName}} = NULL;
+    }
     free(localVarBodyParameters);
     {{/isListContainer}}
     {{^isListContainer}}
-    cJSON_Delete(localVarSingleItemJSON_{{paramName}});
+    if (localVarSingleItemJSON_{{paramName}}) {
+        cJSON_Delete(localVarSingleItemJSON_{{paramName}});
+        localVarSingleItemJSON_{{paramName}} = NULL;
+    }
     free(localVarBodyParameters);
     {{/isListContainer}}
     {{/bodyParams}}
@@ -529,18 +596,30 @@ end:
     {{/queryParams}}
     {{#formParams}}
     {{#isFile}}
-    free(keyForm_{{{paramName}}});
+    if (keyForm_{{{paramName}}}) {
+        free(keyForm_{{{paramName}}});
+        keyForm_{{{paramName}}} = NULL;
+    }
 //    free(fileVar_{{paramName}}->data);
 //    free(fileVar_{{paramName}});
     {{/isFile}}
     {{^isFile}}
     {{#isString}}
-    free(keyForm_{{{paramName}}});
-    free(valueForm_{{{paramName}}});
+    if (keyForm_{{{paramName}}}) {
+        free(keyForm_{{{paramName}}});
+        keyForm_{{{paramName}}} = NULL;
+    }
+    if (valueForm_{{{paramName}}}) {
+        free(valueForm_{{{paramName}}});
+        valueForm_{{{paramName}}} = NULL;
+    }
     keyValuePair_free(keyPairForm_{{{paramName}}});
     {{/isString}}
     {{^isString}}
-    free(keyForm_{{{paramName}}});
+    if (keyForm_{{{paramName}}}) {
+        free(keyForm_{{{paramName}}});
+        keyForm_{{{paramName}}} = NULL;
+    }
     free(keyPairForm_{{paramName}});
     {{/isString}}
     {{/isFile}}

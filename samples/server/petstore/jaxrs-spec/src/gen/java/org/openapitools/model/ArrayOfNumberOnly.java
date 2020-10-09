@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class ArrayOfNumberOnly  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ArrayOfNumberOnly  implements Serializable {
   
   private @Valid List<BigDecimal> arrayNumber = new ArrayList<BigDecimal>();
 
@@ -42,7 +42,7 @@ public class ArrayOfNumberOnly  implements Serializable {
   }
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -72,7 +72,7 @@ public class ArrayOfNumberOnly  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

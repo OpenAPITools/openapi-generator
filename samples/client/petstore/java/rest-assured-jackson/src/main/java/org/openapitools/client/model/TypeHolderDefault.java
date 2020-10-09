@@ -18,6 +18,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -39,7 +40,8 @@ import org.hibernate.validator.constraints.*;
   TypeHolderDefault.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
 })
-
+@JsonTypeName("TypeHolderDefault")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TypeHolderDefault {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   private String stringItem = "what";
@@ -189,7 +191,7 @@ public class TypeHolderDefault {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -227,7 +229,7 @@ public class TypeHolderDefault {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

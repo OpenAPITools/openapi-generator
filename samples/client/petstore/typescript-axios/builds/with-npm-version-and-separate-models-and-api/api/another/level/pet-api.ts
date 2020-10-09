@@ -1,4 +1,5 @@
-// tslint:disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -12,7 +13,6 @@
  */
 
 
-import * as globalImportUrl from 'url';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 import { Configuration } from '../../../configuration';
 // Some imports not used depending on template conditions
@@ -41,11 +41,13 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 throw new RequiredError('body','Required parameter body was null or undefined when calling addPet.');
             }
             const localVarPath = `/pet`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -54,8 +56,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             if (configuration && configuration.accessToken) {
                 const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-                    : configuration.accessToken;
+                    ? await configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : await configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -63,16 +65,21 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                query.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
                 options: localVarRequestOptions,
             };
         },
@@ -91,11 +98,13 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             }
             const localVarPath = `/pet/{petId}`
                 .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -104,8 +113,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             if (configuration && configuration.accessToken) {
                 const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-                    : configuration.accessToken;
+                    ? await configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : await configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -115,14 +124,19 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                query.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
                 options: localVarRequestOptions,
             };
         },
@@ -139,11 +153,13 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 throw new RequiredError('status','Required parameter status was null or undefined when calling findPetsByStatus.');
             }
             const localVarPath = `/pet/findByStatus`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -152,8 +168,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             if (configuration && configuration.accessToken) {
                 const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-                    : configuration.accessToken;
+                    ? await configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : await configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -163,14 +179,19 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                query.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
                 options: localVarRequestOptions,
             };
         },
@@ -187,11 +208,13 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 throw new RequiredError('tags','Required parameter tags was null or undefined when calling findPetsByTags.');
             }
             const localVarPath = `/pet/findByTags`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -200,8 +223,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             if (configuration && configuration.accessToken) {
                 const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-                    : configuration.accessToken;
+                    ? await configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : await configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -211,14 +234,19 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                query.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
                 options: localVarRequestOptions,
             };
         },
@@ -236,11 +264,13 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             }
             const localVarPath = `/pet/{petId}`
                 .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -255,14 +285,19 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                query.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
                 options: localVarRequestOptions,
             };
         },
@@ -279,11 +314,13 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 throw new RequiredError('body','Required parameter body was null or undefined when calling updatePet.');
             }
             const localVarPath = `/pet`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -292,8 +329,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             if (configuration && configuration.accessToken) {
                 const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-                    : configuration.accessToken;
+                    ? await configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : await configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -301,16 +338,21 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                query.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
                 options: localVarRequestOptions,
             };
         },
@@ -330,11 +372,13 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             }
             const localVarPath = `/pet/{petId}`
                 .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -344,8 +388,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             if (configuration && configuration.accessToken) {
                 const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-                    : configuration.accessToken;
+                    ? await configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : await configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -361,15 +405,20 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
     
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                query.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = localVarFormParams.toString();
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
                 options: localVarRequestOptions,
             };
         },
@@ -389,22 +438,24 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             }
             const localVarPath = `/pet/{petId}/uploadImage`
                 .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-            const localVarFormParams = new FormData();
+            const localVarFormParams = new (configuration?.formDataCtor || FormData)();
 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
                 const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-                    : configuration.accessToken;
+                    ? await configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : await configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -420,15 +471,20 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
     
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                query.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = localVarFormParams;
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
                 options: localVarRequestOptions,
             };
         },
@@ -762,5 +818,4 @@ export class PetApi extends BaseAPI {
     public uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any) {
         return PetApiFp(this.configuration).uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
     }
-
 }

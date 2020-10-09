@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -138,6 +139,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         typeMapping.put("object", "Object");
         typeMapping.put("UUID", "Guid");
         typeMapping.put("URI", "string");
+        typeMapping.put("AnyType", "Object");
 
         setSupportNullable(Boolean.TRUE);
         hideGenerationTimestamp = Boolean.TRUE;
@@ -298,7 +300,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 }
 
                 for (final CodegenProperty property : codegenModel.readWriteVars) {
-                    if (property.defaultValue == null && parentCodegenModel.discriminator != null && property.baseName.equals(parentCodegenModel.discriminator.getPropertyName())) {
+                    if (property.defaultValue == null && parentCodegenModel.discriminator != null && property.name.equals(parentCodegenModel.discriminator.getPropertyName())) {
                         property.defaultValue = "\"" + name + "\"";
                     }
                 }
@@ -341,8 +343,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     public String getHelp() {
         return "Generates a C# client library (.NET Standard, .NET Core).";
     }
-
-//    private void syncStringProperty(Map<String, Object> properties, String key)
 
     public String getModelPropertyNaming() {
         return this.modelPropertyNaming;
@@ -475,7 +475,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                         + "/pattern/modifiers convention. " + pattern + " is not valid.");
             }
 
-            String regex = pattern.substring(1, i).replace("'", "\'");
+            String regex = pattern.substring(1, i).replace("'", "\'").replace("\"", "\"\"");
             List<String> modifiers = new ArrayList<String>();
 
             // perl requires an explicit modifier to be culture specific and .NET is the reverse.
@@ -582,9 +582,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         syncBooleanProperty(additionalProperties, CodegenConstants.VALIDATABLE, this::setValidatable, this.validatable);
         syncBooleanProperty(additionalProperties, CodegenConstants.SUPPORTS_ASYNC, this::setSupportsAsync, this.supportsAsync);
-        syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_PROJECT_FILE, this::setOptionalProjectFileFlag, optionalProjectFileFlag);
         syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_METHOD_ARGUMENT, this::setOptionalMethodArgumentFlag, optionalMethodArgumentFlag);
-        syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_ASSEMBLY_INFO, this::setOptionalAssemblyInfoFlag, optionalAssemblyInfoFlag);
         syncBooleanProperty(additionalProperties, CodegenConstants.NON_PUBLIC_API, this::setNonPublicApi, isNonPublicApi());
 
         final String testPackageName = testPackageName();
@@ -613,14 +611,16 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateConverter.cs"));
         supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
         supportingFiles.add(new SupportingFile("HttpMethod.mustache", clientPackageDir, "HttpMethod.cs"));
-        supportingFiles.add(new SupportingFile("IAsynchronousClient.mustache", clientPackageDir, "IAsynchronousClient.cs"));
+        if (ProcessUtils.hasHttpSignatureMethods(openAPI)) {
+            supportingFiles.add(new SupportingFile("HTTPSigningConfiguration.mustache", clientPackageDir, "HTTPSigningConfiguration.cs"));
+        }
+        if (supportsAsync) {
+            supportingFiles.add(new SupportingFile("IAsynchronousClient.mustache", clientPackageDir, "IAsynchronousClient.cs"));
+        }
         supportingFiles.add(new SupportingFile("ISynchronousClient.mustache", clientPackageDir, "ISynchronousClient.cs"));
         supportingFiles.add(new SupportingFile("RequestOptions.mustache", clientPackageDir, "RequestOptions.cs"));
         supportingFiles.add(new SupportingFile("Multimap.mustache", clientPackageDir, "Multimap.cs"));
-
-        if (Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
-            supportingFiles.add(new SupportingFile("project.json.mustache", packageFolder + File.separator, "project.json"));
-        }
+        supportingFiles.add(new SupportingFile("RetryConfiguration.mustache", clientPackageDir, "RetryConfiguration.cs"));
 
         supportingFiles.add(new SupportingFile("IReadableConfiguration.mustache",
                 clientPackageDir, "IReadableConfiguration.cs"));
@@ -637,31 +637,14 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
-        if (optionalAssemblyInfoFlag && Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
-            supportingFiles.add(new SupportingFile("AssemblyInfo.mustache", packageFolder + File.separator + "Properties", "AssemblyInfo.cs"));
+        supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
+        supportingFiles.add(new SupportingFile("netcore_project.mustache", packageFolder, packageName + ".csproj"));
+
+        if (Boolean.FALSE.equals(excludeTests.get())) {
+            supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
         }
 
-        if (optionalProjectFileFlag) {
-            supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
-
-            if (Boolean.TRUE.equals(this.netCoreProjectFileFlag)) {
-                supportingFiles.add(new SupportingFile("netcore_project.mustache", packageFolder, packageName + ".csproj"));
-            } else {
-                supportingFiles.add(new SupportingFile("Project.mustache", packageFolder, packageName + ".csproj"));
-                if (Boolean.FALSE.equals(this.netStandard)) {
-                    supportingFiles.add(new SupportingFile("nuspec.mustache", packageFolder, packageName + ".nuspec"));
-                }
-            }
-
-            if (Boolean.FALSE.equals(excludeTests.get())) {
-                // NOTE: This exists here rather than previous excludeTests block because the test project is considered an optional project file.
-                if (Boolean.TRUE.equals(this.netCoreProjectFileFlag)) {
-                    supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
-                } else {
-                    supportingFiles.add(new SupportingFile("TestProject.mustache", testPackageFolder, testPackageName + ".csproj"));
-                }
-            }
-        }
+        supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -941,7 +924,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     @Override
     public String toInstantiationType(Schema schema) {
         if (ModelUtils.isMapSchema(schema)) {
-            Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+            Schema additionalProperties = getAdditionalProperties(schema);
             String inner = getSchemaType(additionalProperties);
             if (ModelUtils.isMapSchema(additionalProperties)) {
                 inner = toInstantiationType(additionalProperties);

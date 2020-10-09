@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
@@ -107,6 +108,14 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
                         "continue", "for", "import", "return", "var", "error", "nil")
                 // Added "error" as it's used so frequently that it may as well be a keyword
         );
+
+        cliOptions.add(new CliOption("apiPath", "Name of the folder that contains the Go source code")
+                .defaultValue(apiPath));
+
+        CliOption optServerPort = new CliOption("serverPort", "The network port the generated server binds to");
+        optServerPort.setType("int");
+        optServerPort.defaultValue(Integer.toString(serverPort));
+        cliOptions.add(optServerPort);
     }
 
     @Override
@@ -168,7 +177,8 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
         supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
         supportingFiles.add(new SupportingFile("routers.mustache", apiPath, "routers.go"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", apiPath, "README.md"));
+        supportingFiles.add(new SupportingFile("README.mustache", apiPath, "README.md")
+                .doNotOverwrite());
     }
 
     @Override

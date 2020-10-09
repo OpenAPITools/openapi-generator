@@ -30,11 +30,11 @@ export class Configuration {
     constructor(private configuration: ConfigurationParameters = {}) {}
 
     get basePath(): string {
-        return this.configuration.basePath || BASE_PATH;
+        return this.configuration.basePath ?? BASE_PATH;
     }
 
     get middleware(): Middleware[] {
-        return this.configuration.middleware || [];
+        return this.configuration.middleware ?? [];
     }
 
     get username(): string | undefined {
@@ -46,19 +46,13 @@ export class Configuration {
     }
 
     get apiKey(): ((name: string) => string) | undefined {
-        const apiKey = this.configuration.apiKey;
-        if (!apiKey) {
-            return undefined;
-        }
-        return typeof apiKey === 'string' ? () => apiKey : apiKey;
+        const { apiKey } = this.configuration;
+        return apiKey ? (typeof apiKey === 'string' ? () => apiKey : apiKey) : undefined;
     }
 
     get accessToken(): ((name: string, scopes?: string[]) => string) | undefined {
-        const accessToken = this.configuration.accessToken;
-        if (!accessToken) {
-            return undefined;
-        }
-        return typeof accessToken === 'string' ? () => accessToken : accessToken;
+        const { accessToken } = this.configuration;
+        return accessToken ? (typeof accessToken === 'string' ? () => accessToken : accessToken) : undefined;
     }
 }
 
@@ -72,7 +66,7 @@ export class BaseAPI {
         this.middleware = configuration.middleware;
     }
 
-    withMiddleware = (middlewares: Middleware[]) => {
+    withMiddleware = (middlewares: Middleware[]): this => {
         const next = this.clone();
         next.middleware = next.middleware.concat(middlewares);
         return next;
@@ -84,31 +78,32 @@ export class BaseAPI {
     withPostMiddleware = (postMiddlewares: Array<Middleware['post']>) =>
         this.withMiddleware(postMiddlewares.map((post) => ({ post })));
 
-    protected request = <T>(requestOpts: RequestOpts): Observable<T> =>
-        this.rxjsRequest(this.createRequestArgs(requestOpts)).pipe(
+    protected request<T>(requestOpts: RequestOpts): Observable<T>
+    protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<RawAjaxResponse<T>>
+    protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<T | RawAjaxResponse<T>> {
+        return this.rxjsRequest(this.createRequestArgs(requestOpts)).pipe(
             map((res) => {
-                if (res.status >= 200 && res.status < 300) {
-                    return res.response as T;
+                const { status, response } = res;
+                if (status >= 200 && status < 300) {
+                    return responseOpts?.respone === 'raw' ? res : response;
                 }
                 throw res;
             })
         );
+    }
 
-    private createRequestArgs = (requestOpts: RequestOpts): RequestArgs => {
-        let url = this.configuration.basePath + requestOpts.path;
-        if (requestOpts.query !== undefined && Object.keys(requestOpts.query).length !== 0) {
-            // only add the queryString to the URL if there are query parameters.
-            // this is done to avoid urls ending with a '?' character which buggy webservers
-            // do not handle correctly sometimes.
-            url += '?' + queryString(requestOpts.query);
-        }
+    private createRequestArgs = ({ url: baseUrl, query, method, headers, body, responseType }: RequestOpts): RequestArgs => {
+        // only add the queryString to the URL if there are query parameters.
+        // this is done to avoid urls ending with a '?' character which buggy webservers
+        // do not handle correctly sometimes.
+        const url = `${this.configuration.basePath}${baseUrl}${query && Object.keys(query).length ? `?${queryString(query)}`: ''}`;
 
         return {
             url,
-            method: requestOpts.method,
-            headers: requestOpts.headers,
-            body: requestOpts.body instanceof FormData ? requestOpts.body : JSON.stringify(requestOpts.body),
-            responseType: requestOpts.responseType || 'json',
+            method,
+            headers,
+            body: body instanceof FormData ? body : JSON.stringify(body),
+            responseType: responseType ?? 'json',
         };
     }
 
@@ -132,7 +127,7 @@ export class BaseAPI {
      * Create a shallow clone of `this` by constructing a new instance
      * and then shallow cloning data members.
      */
-    private clone = (): BaseAPI =>
+    private clone = (): this =>
         Object.assign(Object.create(Object.getPrototypeOf(this)), this);
 }
 
@@ -157,24 +152,35 @@ export type HttpHeaders = { [key: string]: string };
 export type HttpQuery = Partial<{ [key: string]: string | number | null | boolean | Array<string | number | null | boolean> }>; // partial is needed for strict mode
 export type HttpBody = Json | FormData;
 
-export interface RequestOpts {
-    path: string;
+export interface RequestOpts extends AjaxRequest {
+    query?: HttpQuery; // additional prop
+    // the following props have improved types over AjaxRequest 
     method: HttpMethod;
     headers?: HttpHeaders;
-    query?: HttpQuery;
     body?: HttpBody;
     responseType?: 'json' | 'blob' | 'arraybuffer' | 'text';
 }
 
-export const encodeURI = (value: any) => encodeURIComponent(String(value));
+export interface ResponseOpts {
+    respone?: 'raw';
+}
 
-const queryString = (params: HttpQuery): string => Object.keys(params)
-    .map((key) => {
-        const value = params[key];
-        return (value instanceof Array)
-            ? value.map((val) => `${encodeURI(key)}=${encodeURI(val)}`).join('&')
-            : `${encodeURI(key)}=${encodeURI(value)}`;
-    })
+export interface OperationOpts {
+    responseOpts?: ResponseOpts;
+}
+
+// AjaxResponse with typed response 
+export interface RawAjaxResponse<T> extends AjaxResponse {
+    response: T;
+}
+
+export const encodeURI = (value: any) => encodeURIComponent(`${value}`);
+
+const queryString = (params: HttpQuery): string => Object.entries(params)
+    .map(([key, value]) => value instanceof Array
+        ? value.map((val) => `${encodeURI(key)}=${encodeURI(val)}`).join('&')
+        : `${encodeURI(key)}=${encodeURI(value)}`
+    )
     .join('&');
 
 // alias fallback for not being a breaking change
@@ -189,9 +195,9 @@ export const throwIfRequired = (params: {[key: string]: any}, key: string, nickn
     }
 };
 
-export const throwIfNullOrUndefined = (value: any, nickname?: string) => {
+export const throwIfNullOrUndefined = (value: any, paramName: string, nickname: string) => {
     if (value == null) {
-        throw new Error(`Parameter "${value}" was null or undefined when calling "${nickname}".`);
+        throw new Error(`Parameter "${paramName}" was null or undefined when calling "${nickname}".`);
     }
 };
 

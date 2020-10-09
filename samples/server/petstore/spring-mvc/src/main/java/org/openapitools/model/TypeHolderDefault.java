@@ -15,6 +15,8 @@ import javax.validation.constraints.*;
 /**
  * TypeHolderDefault
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class TypeHolderDefault   {
   @JsonProperty("string_item")
@@ -31,7 +33,7 @@ public class TypeHolderDefault   {
 
   @JsonProperty("array_item")
   @Valid
-  private List<Integer> arrayItem = new ArrayList<Integer>();
+  private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderDefault stringItem(String stringItem) {
     this.stringItem = stringItem;
@@ -146,7 +148,7 @@ public class TypeHolderDefault   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -184,7 +186,7 @@ public class TypeHolderDefault   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
