@@ -1,5 +1,5 @@
 {{>licenseInfo}}
-  
+
 package {{invokerPackage}}.auth;
 
 import {{invokerPackage}}.Pair;
@@ -51,7 +51,7 @@ public class HttpSignatureAuth implements Authentication {
   // The digest algorithm which is used to calculate a cryptographic digest of the HTTP request body.
   private String digestAlgorithm;
 
-  // The maximum validity duration of the HTTP signature. 
+  // The maximum validity duration of the HTTP signature.
   private Long maxSignatureValidity;
 
   /**

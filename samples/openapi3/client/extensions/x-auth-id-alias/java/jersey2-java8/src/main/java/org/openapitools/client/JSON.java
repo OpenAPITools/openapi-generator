@@ -180,7 +180,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
       return false;
     }
     visitedClasses.add(modelClass);
-    
+
     // Traverse the oneOf/anyOf composed schemas.
     Map<String, GenericType> descendants = modelDescendants.get(modelClass);
     if (descendants != null) {
