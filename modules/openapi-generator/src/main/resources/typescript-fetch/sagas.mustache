@@ -1,38 +1,90 @@
 /* tslint:disable */
 /* eslint-disable */
 {{>licenseInfo}}
+
+import {List} from 'immutable';
+import {all, fork, put} from "redux-saga/effects";
+import {apiCall, createSagaAction as originalCreateSagaAction, BasePayloadApiAction} from "../runtimeSagasAndRecords";
+
+{{#imports.0}}
+import {
+    {{#imports}}
+    {{className}},
+    {{className}}FromJSON,
+    {{className}}ToJSON,
+    {{/imports}}
+} from '../models';
+{{/imports.0}}
+
+const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "{{className}}"});
+
+export const {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}SagaMap = new Map<string, () => Generator<any, any, any>>([
 {{#operations}}
 	{{#operation}}
-
-		{{^useSingleRequestParameter}}
-			async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): Promise
-			<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
-			{{#returnType}}
-					const response = await this.{{nickname}}Raw({{#allParams.0}}
-						{ {{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}
-							, {{/hasMore}}{{/allParams}} }{{/allParams.0}});
-					return await response.value();
-			{{/returnType}}
-			{{^returnType}}
-					await this.{{nickname}}Raw({{#allParams.0}}
-						{ {{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}
-							, {{/hasMore}}{{/allParams}} }{{/allParams.0}});
-			{{/returnType}}
-				}
-		{{/useSingleRequestParameter}}
-		{{#useSingleRequestParameter}}
-				async {{nickname}}({{#allParams.0}}
-					requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}
-					Request{{/allParams.0}}): Promise
-			<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
-			{{#returnType}}
-					const response = await this.{{nickname}}Raw({{#allParams.0}}requestParameters{{/allParams.0}});
-					return await response.value();
-			{{/returnType}}
-			{{^returnType}}
-					await this.{{nickname}}Raw({{#allParams.0}}requestParameters{{/allParams.0}});
-			{{/returnType}}
-				}
-		{{/useSingleRequestParameter}}
+    	["{{nickname}}", {{nickname}}Saga],
 	{{/operation}}
 {{/operations}}
+	]
+);
+
+export function *{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}AllSagas() {
+	yield all([...{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}SagaMap.values()].map(actionSaga => fork(actionSaga)));
+}
+
+{{#operations}}
+{{#operation}}
+//region {{nickname}}
+export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}} extends {{#allParams.0}}Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request, {{/allParams.0}}BasePayloadApiAction {
+}
+{{#allParams.0}}
+export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request {
+{{#allParams}}
+    {{paramName}}{{^required}}?{{/required}}: {{{dataTypeAlternate}}};
+{{/allParams}}
+}
+{{/allParams.0}}
+//endregion
+{{/operation}}
+{{/operations}}
+
+/*
+
+export interface PayloadGetAffiliateBrandsRequest {
+	affiliateId: string;
+	wantedStatuses?: string[];
+	brandCode?: string;
+	isLibrary?: boolean;
+}
+
+export interface PayloadGetAffiliateBrandsSuccess {
+	data: List<BrandListingInfoRecord>;
+}
+
+export const getAffiliateBrands = createSagaAction<PayloadGetAffiliateBrands>("{{nickname}}");
+
+export const getAffiliateBrandsRequest = createSagaAction<PayloadGetAffiliateBrandsRequest>("getAffiliateBrandsRequest");
+export const getAffiliateBrandsSuccess = createSagaAction<PayloadGetAffiliateBrandsSuccess>("getAffiliateBrandsSuccess");
+export const getAffiliateBrandsSuccess_Entities = createSagaAction<NormalizedRecordEntities>("getAffiliateBrandsSuccess_Entities");
+export const getAffiliateBrandsFailure = createSagaAction<any>("getAffiliateBrandsFailure");
+
+export function *getAffiliateBrandsSaga() {
+	yield takeLatest(publishConfig, publishConfigSagaImp);
+}
+
+export function *getAffiliateBrandsSagaImp(action: Action<PayloadGetAffiliateBrands>) {
+	try {
+		const {toEntities, affiliateId, wantedStatuses, brandCode, isLibrary} = action.payload;
+		yield put(getAffiliateBrandsRequest());
+		const response: Required<GetBrandsResponse> = yield apiCall(Api.affiliateAPI, Api.affiliateAPI.getAffiliateBrands, parseFloat(affiliateId), wantedStatuses, brandCode, isLibrary);
+		if (toEntities) {
+			const normalizeDataEntities = brandListingInfoRecordUtils.fromApiArrayAsEntities(response.data);
+			yield put(normalizedEntities(normalizeDataEntities));
+			yield put(getAffiliateBrandsSuccess_Entities(normalizeDataEntities));
+		} else {
+			yield put(getAffiliateBrandsSuccess({data: brandListingInfoRecordUtils.fromApiArray(response.data)}));
+		}
+	} catch (error) {
+		yield put(getAffiliateBrandsFailure(error));
+	}
+}
+*/

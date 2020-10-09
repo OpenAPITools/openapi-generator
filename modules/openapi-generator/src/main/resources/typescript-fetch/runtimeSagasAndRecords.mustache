@@ -3,6 +3,7 @@
 
 import {fromJS as originalFromJS, isIndexed, List, Map as ImmMap, RecordOf} from 'immutable';
 import {normalize, NormalizedSchema, schema, Schema} from "normalizr";
+import {ActionDefinition, createAction} from "redux-ts-simple";
 
 export const knownRecordFactories = new Map<string, any>();
 export const knownIndexedSetByKey = [];
@@ -69,7 +70,7 @@ export abstract class ApiRecordUtils<TAPI, TREC extends RecordOf<any>> {
 		return apiObject;
 	}
 
-	private static toNormalizedRecordEntities(normalizedAsEntities: any, forArray: boolean) {
+	public static toNormalizedRecordEntities(normalizedAsEntities: any, forArray: boolean) {
 		const entities = normalizedAsEntities.entities;
 		for (const entityKey of Object.keys(entities)) {
 			entities[entityKey] = appFromJS(entities[entityKey]);
@@ -77,4 +78,31 @@ export abstract class ApiRecordUtils<TAPI, TREC extends RecordOf<any>> {
 		normalizedAsEntities.result = appFromJS(normalizedAsEntities.result || (forArray ? "" : []));
 		return normalizedAsEntities;
 	}
+}
+
+export const allApiActionFailures: SagaActionDefinition<any>[] = [];
+
+export interface BasePayloadApiAction {
+	toEntities?: boolean;
+}
+
+export interface SagaActionDefinition<TPayload> extends ActionDefinition<TPayload> {
+	toString: () => string;
+}
+
+export function createSagaAction<TPayload>(type: string, options?: { doNotAutoRegisterFailure?: boolean, namespace?: string }): SagaActionDefinition<TPayload> {
+	const {doNotAutoRegisterFailure, namespace} = options || {} as any;
+	let actionDefinition = createAction<TPayload>(namespace ? `${namespace}-${type}` : type);
+	(actionDefinition as any).toString = () => actionDefinition.type;
+	if (type.endsWith("Failure") && !doNotAutoRegisterFailure) {
+		allApiActionFailures.push(actionDefinition);
+	}
+	return actionDefinition;
+}
+
+export let apiCall: <Ctx, Fn extends (this: Ctx, ...args: any[]) => any>(context: Ctx, fn: Fn, ...args: Parameters<Fn>) => Generator<any, any, any>;
+
+export function setApiCall(apiCallFc: <Ctx, Fn extends (this: Ctx, ...args: any[]) => any>(context: Ctx, fn: Fn, ...args: Parameters<Fn>) => Generator<any, any, any>) {
+	console.log("init apiCall");
+	apiCall = apiCallFc;
 }

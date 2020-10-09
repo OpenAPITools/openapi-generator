@@ -101,7 +101,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      * Is a model containing an "id" property marked as isUniqueId; field populated only by typescript fetch for now.
      */
     public boolean isEntity;
-
+    public boolean isMetaDataResponse;
+    public boolean isMetaOnlyResponse;
     /**
      * Indicates the OAS schema specifies "deprecated: true".
      */
@@ -677,6 +678,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 hasChildren == that.hasChildren &&
                 isMapModel == that.isMapModel &&
                 isEntity == that.isEntity &&
+                isMetaDataResponse == that.isMetaDataResponse &&
+                isMetaOnlyResponse == that.isMetaOnlyResponse &&
                 isDeprecated == that.isDeprecated &&
                 hasOnlyReadOnly == that.hasOnlyReadOnly &&
                 getUniqueItems() == that.getUniqueItems() &&
@@ -745,7 +748,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getVars(), getAllVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), getModelImports(), hasVars,
                 isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArrayModel,
-                hasChildren, isMapModel, isEntity, isDeprecated, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
+                hasChildren, isMapModel, isEntity, isMetaDataResponse, isMetaOnlyResponse, isDeprecated, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
                 getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf());
@@ -811,6 +814,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", hasChildren=").append(hasChildren);
         sb.append(", isMapModel=").append(isMapModel);
         sb.append(", isEntity=").append(isEntity);
+        sb.append(", isMetaDataResponse=").append(isMetaDataResponse);
+        sb.append(", isMetaOnlyResponse=").append(isMetaOnlyResponse);
         sb.append(", isDeprecated=").append(isDeprecated);
         sb.append(", hasOnlyReadOnly=").append(hasOnlyReadOnly);
         sb.append(", externalDocumentation=").append(externalDocumentation);

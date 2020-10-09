@@ -29,7 +29,7 @@ public class CodegenOperation {
             isListContainer, isMultipart, hasMore = true,
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
-            isRestful, isDeprecated, isCallbackRequest, uniqueItems;
+            isRestful, isDeprecated, isCallbackRequest, uniqueItems, returnTypeIsMetaDataResponse, returnTypeIsMetaOnlyResponse;
     public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse; 
     public CodegenDiscriminator discriminator;
@@ -271,6 +271,8 @@ public class CodegenOperation {
         sb.append(", isDeprecated=").append(isDeprecated);
         sb.append(", isCallbackRequest=").append(isCallbackRequest);
         sb.append(", uniqueItems='").append(uniqueItems);
+        sb.append(", returnTypeIsMetaDataResponse='").append(returnTypeIsMetaDataResponse);
+        sb.append(", returnTypeIsMetaOnlyResponse='").append(returnTypeIsMetaOnlyResponse);
         sb.append(", path='").append(path).append('\'');
         sb.append(", operationId='").append(operationId).append('\'');
         sb.append(", returnType='").append(returnType).append('\'');
@@ -345,6 +347,8 @@ public class CodegenOperation {
                 isDeprecated == that.isDeprecated &&
                 isCallbackRequest == that.isCallbackRequest &&
                 uniqueItems == that.uniqueItems &&
+                returnTypeIsMetaDataResponse == that.returnTypeIsMetaDataResponse &&
+                returnTypeIsMetaOnlyResponse == that.returnTypeIsMetaOnlyResponse &&
                 Objects.equals(responseHeaders, that.responseHeaders) &&
                 Objects.equals(path, that.path) &&
                 Objects.equals(operationId, that.operationId) &&
@@ -395,7 +399,7 @@ public class CodegenOperation {
                 hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMapContainer,
                 isListContainer, isMultipart, hasMore, isResponseBinary, isResponseFile, hasReference, isRestfulIndex,
                 isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy, isRestful, isDeprecated,
-                isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod, returnBaseType,
+                isCallbackRequest, uniqueItems, returnTypeIsMetaDataResponse, returnTypeIsMetaOnlyResponse, path, operationId, returnType, httpMethod, returnBaseType,
                 returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, consumes,
                 produces, prioritizedContentTypes, servers, bodyParam, allParams, bodyParams, pathParams, queryParams,
                 headerParams, formParams, cookieParams, requiredParams, optionalParams, authMethods, tags,

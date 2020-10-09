@@ -19,8 +19,9 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
-import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -33,6 +34,7 @@ import java.util.*;
 public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final String X_IS_UNIQUE_ID = "x-isUniqueId";
     private static final String X_ENTITY_ID = "x-entityId";
+    private static final String X_IS_META_DATA_RESPONSE = "x-isMetaDataResponse";
 
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
@@ -182,6 +184,31 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
+    protected void handleMethodResponse(Operation operation,
+                                        Map<String, Schema> schemas,
+                                        CodegenOperation op,
+                                        ApiResponse methodResponse,
+                                        Map<String, String> importMappings) {
+        super.handleMethodResponse(operation, schemas, op, methodResponse, importMappings);
+
+        Schema schema = null;
+        if (schemas != null) {
+            schema = schemas.get(op.returnBaseType);
+        }
+        if (schema != null) {
+            CodegenModel cm = fromModel(op.returnBaseType, schema);
+            if (Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_META_DATA_RESPONSE))) {
+                if (cm.vars.size() == 1 && "meta".equals(cm.vars.get(0).name)) {
+                    op.returnTypeIsMetaOnlyResponse = true;
+                }
+                if (cm.vars.size() == 2 && "data".equals(cm.vars.get(1).name)) {
+                    op.returnTypeIsMetaDataResponse = true;
+                }
+            }
+        }
+    }
+
+    @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         List<Object> models = (List<Object>) postProcessModelsEnum(objs).get("models");
 
@@ -220,6 +247,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                         if (var.items.isModel) {
                             var.itemsDataType = var.items.dataType + "Record";
                             var.dataTypeAlternate = var.dataTypeAlternate.replace(var.items.dataType, var.itemsDataType);
+                        } else if (var.items.isEnum) {
+                            var.itemsDataType = var.items.datatypeWithEnum;
+                            var.dataTypeAlternate = var.dataTypeAlternate.replace(var.items.dataType, var.itemsDataType);
                         }
                     } else if (var.isEnum) {
                         var.dataTypeAlternate = var.datatypeWithEnum;
@@ -233,6 +263,16 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     }
                 }
             }
+
+            if (Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_META_DATA_RESPONSE))) {
+                if (cm.vars.size() == 1 && "meta".equals(cm.vars.get(0).name)) {
+                    cm.isMetaOnlyResponse = true;
+                }
+                if (cm.vars.size() == 2 && "data".equals(cm.vars.get(1).name)) {
+                    cm.isMetaDataResponse = true;
+                }
+            }
+
             if (cm.parent != null) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
@@ -345,7 +385,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         this.addOperationModelImportInfomation(operations);
-        this.updateOperationParameterEnumInformation(operations);
+        this.updateOperationParameterForEnum(operations);
+        if (this.getSagasAndRecords()) {
+            this.updateOperationParameterForSagaAndRecords(operations);
+        }
         this.addOperationObjectResponseInformation(operations);
         this.addOperationPrefixParameterInterfacesInformation(operations);
         this.escapeOperationIds(operations);
@@ -385,9 +428,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
     }
 
-    private void updateOperationParameterEnumInformation(Map<String, Object> operations) {
+    private void updateOperationParameterForEnum(Map<String, Object> operations) {
         // This method will add extra infomation as to whether or not we have enums and
         // update their names with the operation.id prefixed.
+        // It will also set the uniqueId status if provided.
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
         boolean hasEnum = false;
@@ -402,6 +446,41 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         operations.put("hasEnums", hasEnum);
+    }
+
+    private void updateOperationParameterForSagaAndRecords(Map<String, Object> operations) {
+        // This method will add extra infomation as to whether or not we have enums and
+        // update their names with the operation.id prefixed.
+        // It will also set the uniqueId status if provided.
+        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
+        for (CodegenOperation op : operationList) {
+            for (CodegenParameter param : op.allParams) {
+                if (Boolean.TRUE.equals(param.vendorExtensions.get(X_IS_UNIQUE_ID))) {
+                    param.isUniqueId = true;
+                }
+
+                if (this.getSagasAndRecords()) {
+                    param.dataTypeAlternate = param.dataType;
+                    if (param.isListContainer) {
+                        if (param.items.isModel) {
+                            param.dataTypeAlternate = param.dataType.replace("Array<", "List<");
+                            param.itemsDataType = param.items.dataType + "Record";
+                            param.dataTypeAlternate = param.dataTypeAlternate.replace(param.items.dataType, param.itemsDataType);
+                        } else if (param.items.isEnum) {
+                            param.itemsDataType = param.datatypeWithEnum.substring(param.datatypeWithEnum.indexOf("<") + 1, param.datatypeWithEnum.lastIndexOf(">"));
+                            param.dataTypeAlternate = param.datatypeWithEnum.replace("Array<", "List<");
+                        }
+                    } else if (param.isEnum) {
+                        param.dataTypeAlternate = param.datatypeWithEnum;
+                    } else if (param.isModel) {
+                        param.dataTypeAlternate = param.dataType + "Record";
+                    } else if (param.isUniqueId) {
+                        param.dataTypeAlternate = "string";
+                    }
+                }
+            }
+        }
     }
 
     private void addOperationObjectResponseInformation(Map<String, Object> operations) {

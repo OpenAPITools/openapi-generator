@@ -1,4 +1,4 @@
-import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
+import {ApiRecordUtils, knownRecordFactories{{#isMetaDataResponse}}, appFromJS, NormalizedRecordEntities{{/isMetaDataResponse}}} from "../runtimeSagasAndRecords";
 import {List, Record, RecordOf} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
@@ -104,6 +104,45 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
 		});
 	}
 {{/isEntity}}
+{{#isMetaDataResponse}}
+{{#vars.1}}
+
+	public fromApi_data(apiObject: {{classname}}): {{{dataTypeAlternate}}} {
+    {{#isModel}}
+	    if (!apiObject.data) {return {{{defaultValue}}}; }
+		const normalizedApiObject = {{#lambda.camelcase}}{{dataTypeAlternate}}{{/lambda.camelcase}}Utils.normalize(apiObject.data);
+		return appFromJS(normalizedApiObject);
+    {{/isModel}}
+    {{#itemsAreModels}}
+	    if (!apiObject.data) {return {{{defaultValue}}}; }
+		const normalizedApiObject = {{#lambda.camelcase}}{{itemsDataType}}{{/lambda.camelcase}}Utils.normalizeArray(apiObject.data);
+		return appFromJS(normalizedApiObject);
+    {{/itemsAreModels}}
+    {{^isModel}}
+    {{^itemsAreModels}}
+	    return apiObject.data;
+    {{/itemsAreModels}}
+    {{/isModel}}
+	}
+
+	public fromApiAsEntities_data(apiObject: {{classname}}): NormalizedRecordEntities {
+    {{#isEntity}}
+		if (!apiObject.data) {return {entities: {}, result: List<string>()}; }
+		return ApiRecordUtils.toNormalizedRecordEntities({{#lambda.camelcase}}{{dataTypeAlternate}}{{/lambda.camelcase}}Utils.normalizeArrayAsEntities([apiObject.data]), true);
+    {{/isEntity}}
+    {{#itemsAreEntities}}
+		if (!apiObject.data) {return {entities: {}, result: List<string>()}; }
+		return ApiRecordUtils.toNormalizedRecordEntities({{#lambda.camelcase}}{{itemsDataType}}{{/lambda.camelcase}}Utils.normalizeArrayAsEntities(apiObject.data), true);
+    {{/itemsAreEntities}}
+    {{^isEntity}}
+    {{^itemsAreEntities}}
+	    console.log("entities revival not supported on this response");
+		return {entities: {}, result: List<string>()};
+    {{/itemsAreEntities}}
+    {{/isEntity}}
+	}
+{{/vars.1}}
+{{/isMetaDataResponse}}
 }
 
 export const {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}RecordUtils = new {{classname}}RecordUtils();
