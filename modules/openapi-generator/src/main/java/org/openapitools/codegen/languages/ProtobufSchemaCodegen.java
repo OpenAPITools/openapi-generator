@@ -223,14 +223,14 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             int index = 1;
             for (CodegenProperty var : cm.vars) {
                 // add x-protobuf-type: repeated if it's an array
-                if (Boolean.TRUE.equals(var.isListContainer)) {
+                if (Boolean.TRUE.equals(var.isArray)) {
                     var.vendorExtensions.put("x-protobuf-type", "repeated");
                 }
 
                 // add x-protobuf-data-type
                 // ref: https://developers.google.com/protocol-buffers/docs/proto3
                 if (!var.vendorExtensions.containsKey("x-protobuf-data-type")) {
-                    if (var.isListContainer) {
+                    if (var.isArray) {
                         var.vendorExtensions.put("x-protobuf-data-type", var.items.dataType);
                     } else {
                         var.vendorExtensions.put("x-protobuf-data-type", var.dataType);
@@ -408,7 +408,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             int index = 1;
             for (CodegenParameter p : op.allParams) {
                 // add x-protobuf-type: repeated if it's an array
-                if (Boolean.TRUE.equals(p.isListContainer)) {
+                if (Boolean.TRUE.equals(p.isArray)) {
                     p.vendorExtensions.put("x-protobuf-type", "repeated");
                 } else if (Boolean.TRUE.equals(p.isMap)) {
                     LOGGER.warn("Map parameter (name: {}, operation ID: {}) not yet supported", p.paramName, op.operationId);
@@ -417,7 +417,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 // add x-protobuf-data-type
                 // ref: https://developers.google.com/protocol-buffers/docs/proto3
                 if (!p.vendorExtensions.containsKey("x-protobuf-data-type")) {
-                    if (Boolean.TRUE.equals(p.isListContainer)) {
+                    if (Boolean.TRUE.equals(p.isArray)) {
                         p.vendorExtensions.put("x-protobuf-data-type", p.items.dataType);
                     } else {
                         p.vendorExtensions.put("x-protobuf-data-type", p.dataType);

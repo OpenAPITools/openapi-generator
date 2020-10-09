@@ -174,16 +174,16 @@ class {{{classname}}} {
         {{/returnType}}
       {{/isListContainer}}
       {{^isListContainer}}
-        {{#isMap}}
+        {{#isMapContainer}}
           {{#returnType}}
       return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
           {{/returnType}}
-        {{/isMap}}
-        {{^isMap}}
+        {{/isMapContainer}}
+        {{^isMapContainer}}
           {{#returnType}}
       return apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}};
           {{/returnType}}
-        {{/isMap}}
+        {{/isMapContainer}}
       {{/isListContainer}}
     }
     return{{#returnType}} null{{/returnType}};

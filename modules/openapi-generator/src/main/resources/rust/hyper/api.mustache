@@ -57,36 +57,36 @@ impl<C: hyper::client::Connect>{{{classname}}} for {{{classname}}}Client<C> {
         {{#queryParams}}
         {{#required}}
         {{^isNullable}}
-        req = req.with_query_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        req = req.with_query_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isArray}}.join(","){{/isArray}}.to_string());
         {{/isNullable}}
         {{#isNullable}}
         match {{{paramName}}} {
-            Some(param_value) => { req = req.with_query_param("{{{baseName}}}".to_string(), param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string()); },
+            Some(param_value) => { req = req.with_query_param("{{{baseName}}}".to_string(), param_value{{#isArray}}.join(","){{/isArray}}.to_string()); },
             None => { req = req.with_query_param("{{{baseName}}}".to_string(), "".to_string()); },
         }
         {{/isNullable}}
         {{/required}}
         {{^required}}
         if let Some(ref s) = {{{paramName}}} {
-            req = req.with_query_param("{{{baseName}}}".to_string(), s{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+            req = req.with_query_param("{{{baseName}}}".to_string(), s{{#isArray}}.join(","){{/isArray}}.to_string());
         }
         {{/required}}
         {{/queryParams}}
         {{#pathParams}}
         {{#required}}
         {{^isNullable}}
-        req = req.with_path_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        req = req.with_path_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isArray}}.join(","){{/isArray}}.to_string());
         {{/isNullable}}
         {{#isNullable}}
         match {{{paramName}}} {
-            Some(param_value) => { req = req.with_path_param("{{{baseName}}}".to_string(), param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string()); },
+            Some(param_value) => { req = req.with_path_param("{{{baseName}}}".to_string(), param_value{{#isArray}}.join(","){{/isArray}}.to_string()); },
             None => { req = req.with_path_param("{{{baseName}}}".to_string(), "".to_string()); },
         }
         {{/isNullable}}
         {{/required}}
         {{^required}}
         if let Some(param_value) = {{{paramName}}} {
-            req = req.with_path_param("{{{baseName}}}".to_string(), param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+            req = req.with_path_param("{{{baseName}}}".to_string(), param_value{{#isArray}}.join(","){{/isArray}}.to_string());
         }
         {{/required}}
         {{/pathParams}}
@@ -94,18 +94,18 @@ impl<C: hyper::client::Connect>{{{classname}}} for {{{classname}}}Client<C> {
         {{#headerParams}}
         {{#required}}
         {{^isNullable}}
-        req = req.with_header_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        req = req.with_header_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isArray}}.join(","){{/isArray}}.to_string());
         {{/isNullable}}
         {{#isNullable}}
         match {{{paramName}}} {
-            Some(param_value) => { req = req.with_header_param("{{{baseName}}}".to_string(), param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string()); },
+            Some(param_value) => { req = req.with_header_param("{{{baseName}}}".to_string(), param_value{{#isArray}}.join(","){{/isArray}}.to_string()); },
             None => { req = req.with_header_param("{{{baseName}}}".to_string(), "".to_string()); },
         }
         {{/isNullable}}
         {{/required}}
         {{^required}}
         if let Some(param_value) = {{{paramName}}} {
-            req = req.with_header_param("{{{baseName}}}".to_string(), param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+            req = req.with_header_param("{{{baseName}}}".to_string(), param_value{{#isArray}}.join(","){{/isArray}}.to_string());
         }
         {{/required}}
         {{/headerParams}}
@@ -133,18 +133,18 @@ impl<C: hyper::client::Connect>{{{classname}}} for {{{classname}}}Client<C> {
         {{^isFile}}
         {{#required}}
         {{^isNullable}}
-        req = req.with_form_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        req = req.with_form_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isArray}}.join(","){{/isArray}}.to_string());
         {{/isNullable}}
         {{#isNullable}}
         match {{{paramName}}} {
-            Some(param_value) => { req = req.with_form_param("{{{baseName}}}".to_string(), param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string()); },
+            Some(param_value) => { req = req.with_form_param("{{{baseName}}}".to_string(), param_value{{#isArray}}.join(","){{/isArray}}.to_string()); },
             None => { req = req.with_form_param("{{{baseName}}}".to_string(), "".to_string()); },
         }
         {{/isNullable}}
         {{/required}}
         {{^required}}
         if let Some(param_value) = {{{paramName}}} {
-            req = req.with_form_param("{{{baseName}}}".to_string(), param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+            req = req.with_form_param("{{{baseName}}}".to_string(), param_value{{#isArray}}.join(","){{/isArray}}.to_string());
         }
         {{/required}}
         {{/isFile}}

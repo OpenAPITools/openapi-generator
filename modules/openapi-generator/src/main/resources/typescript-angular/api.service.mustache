@@ -175,7 +175,7 @@ export class {{classname}} {
 {{#hasQueryParams}}
         let queryParameters = new HttpParams({encoder: this.encoder});
 {{#queryParams}}
-        {{#isListContainer}}
+        {{#isArray}}
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element) => {
@@ -188,28 +188,28 @@ export class {{classname}} {
                 {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']), '{{baseName}}');
         {{/isCollectionFormatMulti}}
         }
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         if ({{paramName}} !== undefined && {{paramName}} !== null) {
           queryParameters = this.addToHttpParams(queryParameters,
             <any>{{paramName}}, '{{baseName}}');
         }
-        {{/isListContainer}}
+        {{/isArray}}
 {{/queryParams}}
 
 {{/hasQueryParams}}
         let headers = this.defaultHeaders;
 {{#headerParams}}
-        {{#isListContainer}}
+        {{#isArray}}
         if ({{paramName}}) {
             headers = headers.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
         }
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         if ({{paramName}} !== undefined && {{paramName}} !== null) {
             headers = headers.set('{{baseName}}', String({{paramName}}));
         }
-        {{/isListContainer}}
+        {{/isArray}}
 {{/headerParams}}
 
 {{#authMethods}}
@@ -301,7 +301,7 @@ export class {{classname}} {
         }
 
 {{#formParams}}
-        {{#isListContainer}}
+        {{#isArray}}
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element) => {
@@ -318,12 +318,12 @@ export class {{classname}} {
             }
         {{/isCollectionFormatMulti}}
         }
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         if ({{paramName}} !== undefined) {
             formParams = formParams.append('{{baseName}}', {{^isModel}}<any>{{paramName}}{{/isModel}}{{#isModel}}useForm ? new Blob([JSON.stringify({{paramName}})], {type: 'application/json'}) : <any>{{paramName}}{{/isModel}}) as any || formParams;
         }
-        {{/isListContainer}}
+        {{/isArray}}
 {{/formParams}}
 
 {{/hasFormParams}}

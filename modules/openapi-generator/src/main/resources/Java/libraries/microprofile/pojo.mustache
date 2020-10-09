@@ -76,18 +76,18 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
 {{/vendorExtensions.x-extra-annotation}}
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#withXml}}{{#isEnum}}{{^isListContainer}}{{^isMap}}public {{dataType}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#withXml}}{{#isEnum}}{{^isListContainer}}{{^isMapContainer}}public {{dataType}} {{getter}}() {
     if ({{name}} == null) {
       return null;
     }
     return {{name}}.value();
-  }{{/isMap}}{{/isListContainer}}{{/isEnum}}{{/withXml}}{{^withXml}}{{#isEnum}}{{^isListContainer}}{{^isMap}}public {{datatypeWithEnum}} {{getter}}() {
+  }{{/isMapContainer}}{{/isListContainer}}{{/isEnum}}{{/withXml}}{{^withXml}}{{#isEnum}}{{^isListContainer}}{{^isMapContainer}}public {{datatypeWithEnum}} {{getter}}() {
     return {{name}};
-  }{{/isMap}}{{/isListContainer}}{{/isEnum}}{{/withXml}}{{#isEnum}}{{#isListContainer}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isMapContainer}}{{/isListContainer}}{{/isEnum}}{{/withXml}}{{#isEnum}}{{#isListContainer}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
-  }{{/isListContainer}}{{/isEnum}}{{#isEnum}}{{#isMap}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isListContainer}}{{/isEnum}}{{#isEnum}}{{#isMapContainer}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
-  }{{/isMap}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isMapContainer}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }{{/isEnum}}
 
@@ -110,13 +110,13 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
     return this;
   }
   {{/isListContainer}}
-  {{#isMap}}
+  {{#isMapContainer}}
 
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     this.{{name}}.put(key, {{name}}Item);
     return this;
   }
-  {{/isMap}}
+  {{/isMapContainer}}
   {{/isReadOnly}}
 
   {{/vars}}

@@ -186,9 +186,9 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isPrimitiveType}}
     {{/isListContainer}}
-    {{#isMap}}
+    {{#isMapContainer}}
     {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
-    {{/isMap}}
+    {{/isMapContainer}}
     {{/isContainer}}
     {{/vars}}
     ) {
@@ -259,14 +259,14 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
     list_free({{classname}}->{{name}});
     {{/isPrimitiveType}}
     {{/isListContainer}}
-    {{#isMap}}
+    {{#isMapContainer}}
     list_ForEach(listEntry, {{classname}}->{{name}}) {
         keyValuePair_t *localKeyValue = (keyValuePair_t*) listEntry->data;
         free (localKeyValue->key);
         free (localKeyValue->value);
     }
     list_free({{classname}}->{{name}});
-    {{/isMap}}
+    {{/isMapContainer}}
     {{/isContainer}}
     {{/vars}}
     free({{classname}});
@@ -430,7 +430,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     }
     {{/isPrimitiveType}}
     {{/isListContainer}}
-    {{#isMap}}
+    {{#isMapContainer}}
     cJSON *{{{name}}} = cJSON_AddObjectToObject(item, "{{{baseName}}}");
     if({{{name}}} == NULL) {
         goto fail; //primitive map container
@@ -462,7 +462,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
         {{/items}}
     }
     }
-    {{/isMap}}
+    {{/isMapContainer}}
     {{/isContainer}}
     {{^required}}
     {{^isEnum}} } {{/isEnum}}
@@ -653,7 +653,7 @@ fail:
     }
     {{/isPrimitiveType}}
     {{/isListContainer}}
-    {{#isMap}}
+    {{#isMapContainer}}
     list_t *{{{name}}}List;
     {{^required}}if ({{{name}}}) { {{/required}}
     cJSON *{{{name}}}_local_map;
@@ -690,7 +690,7 @@ fail:
 		{{/items}}
         list_addElement({{{name}}}List , localMapKeyPair);
     }
-    {{/isMap}}
+    {{/isMapContainer}}
     {{/isContainer}}
     {{^required}}
     }
@@ -760,9 +760,9 @@ fail:
         {{^required}}{{{name}}} ? {{/required}}{{{name}}}List{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
         {{/isPrimitiveType}}
         {{/isListContainer}}
-        {{#isMap}}
+        {{#isMapContainer}}
         {{^required}}{{{name}}} ? {{/required}}{{{name}}}List{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
-        {{/isMap}}
+        {{/isMapContainer}}
         {{/isContainer}}
         {{/vars}}
         );

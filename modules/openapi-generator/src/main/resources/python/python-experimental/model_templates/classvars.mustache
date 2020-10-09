@@ -102,9 +102,9 @@
 {{#isEnum}}
             'value': ({{{dataType}}},),
 {{/isEnum}}
-{{#isArrayModel}}
+{{#isArray}}
             'value': ({{{dataType}}},),
-{{/isArrayModel}}
+{{/isArray}}
 {{#requiredVars}}
             '{{name}}': ({{{dataType}}},),  # noqa: E501
 {{/requiredVars}}

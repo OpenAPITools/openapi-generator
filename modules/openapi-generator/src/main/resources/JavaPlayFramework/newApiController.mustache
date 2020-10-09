@@ -75,11 +75,11 @@ public class {{classname}}Controller extends Controller {
                     OpenAPIUtils.validate(curItem);
                 }
                 {{/isListContainer}}
-                {{#isMap}}
+                {{#isMapContainer}}
                 for (Map.Entry<String, {{{items.baseType}}}> entry : {{paramName}}.entrySet()) {
                     OpenAPIUtils.validate(entry.getValue());
                 }
-                {{/isMap}}
+                {{/isMapContainer}}
                 {{^isContainer}}
                 OpenAPIUtils.validate({{paramName}});
                 {{/isContainer}}
@@ -219,11 +219,11 @@ public class {{classname}}Controller extends Controller {
                 OpenAPIUtils.validate(curItem);
             }
             {{/isListContainer}}
-            {{#isMap}}
+            {{#isMapContainer}}
             for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
                 OpenAPIUtils.validate(entry.getValue());
             }
-            {{/isMap}}
+            {{/isMapContainer}}
             {{^returnContainer}}
             OpenAPIUtils.validate(obj);
             {{/returnContainer}}
@@ -236,11 +236,11 @@ public class {{classname}}Controller extends Controller {
                     OpenAPIUtils.validate(curItem);
                 }
                 {{/isListContainer}}
-                {{#isMap}}
+                {{#isMapContainer}}
                 for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
                     OpenAPIUtils.validate(entry.getValue());
                 }
-                {{/isMap}}
+                {{/isMapContainer}}
                 {{^returnContainer}}
                 OpenAPIUtils.validate(obj);
                 {{/returnContainer}}

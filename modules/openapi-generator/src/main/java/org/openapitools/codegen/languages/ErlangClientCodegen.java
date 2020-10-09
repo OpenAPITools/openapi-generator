@@ -403,7 +403,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
-            this.isMap = o.isMap;
+            this.isMapContainer = o.isMapContainer;
             this.isListContainer = o.isListContainer;
             this.isMultipart = o.isMultipart;
             this.hasMore = o.hasMore;

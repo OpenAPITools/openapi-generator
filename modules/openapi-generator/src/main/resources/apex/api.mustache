@@ -39,17 +39,17 @@ public class {{classname}} {
         // cast query params to verify their expected type
     {{/hasQueryParams}}
     {{#queryParams}}
-      {{#isListContainer}}
+      {{#isArray}}
         {{#isCollectionFormatMulti}}
         query.addAll(client.makeParams('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}')));
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
         query.addAll(client.makeParam('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}'), '{{collectionFormat}}'));
         {{/isCollectionFormatMulti}}
-      {{/isListContainer}}
-      {{^isListContainer}}
+      {{/isArray}}
+      {{^isArray}}
         query.addAll(client.makeParam('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}')));
-      {{/isListContainer}}
+      {{/isArray}}
       {{^hasMore}}
 
       {{/hasMore}}
@@ -60,17 +60,17 @@ public class {{classname}} {
         // cast form params to verify their expected type
     {{/hasFormParams}}
     {{#formParams}}
-      {{#isListContainer}}
+      {{#isArray}}
         {{#isCollectionFormatMulti}}
         form.addAll(client.makeParams('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}')));
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
         form.addAll(client.makeParam('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}'), '{{collectionFormat}}'));
         {{/isCollectionFormatMulti}}
-      {{/isListContainer}}
-      {{^isListContainer}}
+      {{/isArray}}
+      {{^isArray}}
         form.addAll(client.makeParam('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}')));
-      {{/isListContainer}}
+      {{/isArray}}
     {{/formParams}}
 
         {{#returnType}}return ({{{returnType}}}) {{/returnType}}client.invoke(

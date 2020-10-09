@@ -32,12 +32,12 @@ class {{classname}} {
       {{name}} = {{complexType}}.listFromJson(json['{{baseName}}']);
       {{/isListContainer}}
       {{^isListContainer}}
-      {{#isMap}}
+      {{#isMapContainer}}
       {{name}} = {{complexType}}.mapFromJson(json['{{baseName}}']);
-      {{/isMap}}
-      {{^isMap}}
+      {{/isMapContainer}}
+      {{^isMapContainer}}
       {{name}} = new {{complexType}}.fromJson(json['{{baseName}}']);
-      {{/isMap}}
+      {{/isMapContainer}}
       {{/isListContainer}}
     {{/complexType}}
     {{^complexType}}

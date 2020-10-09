@@ -144,7 +144,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
      * If the nullable attribute is set to true, the 'null' value is valid.
      */
     public boolean isAnyType;
-    public boolean isListContainer;
+    public boolean isArray;
     public boolean isMap;
     public boolean isEnum;
     public boolean isReadOnly;
@@ -470,6 +470,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     }
 
     @Override
+<<<<<<< HEAD
     public boolean getIsDate() { return isDate; }
 
     @Override
@@ -491,6 +492,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     @Override
     public void setIsMap(boolean isMap)  {
         this.isMap = isMap;
+    }
+
+    @Override
+    public boolean getIsArray() { return isArray; }
+
+    @Override
+    public void setIsArray(boolean isArray)  {
+        this.isArray = isArray;
     }
 
     public Map<String, Object> getVendorExtensions() {
@@ -692,7 +701,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isUri=").append(isUri);
         sb.append(", isEmail=").append(isEmail);
         sb.append(", isFreeFormObject=").append(isFreeFormObject);
-        sb.append(", isListContainer=").append(isListContainer);
+        sb.append(", isArray=").append(isArray);
         sb.append(", isMap=").append(isMap);
         sb.append(", isEnum=").append(isEnum);
         sb.append(", isReadOnly=").append(isReadOnly);
@@ -759,7 +768,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isUri == that.isUri &&
                 isEmail == that.isEmail &&
                 isFreeFormObject == that.isFreeFormObject &&
-                isListContainer == that.isListContainer &&
+                isArray == that.isArray &&
                 isMap == that.isMap &&
                 isEnum == that.isEnum &&
                 isReadOnly == that.isReadOnly &&
@@ -825,7 +834,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
-                isListContainer, isMap, isEnum, isReadOnly, isWriteOnly, isNullable,
+                isArray, isMap, isEnum, isReadOnly, isWriteOnly, isNullable,
                 isSelfReference, isCircularReference, isDiscriminator, _enum, allowableValues, items, mostInnerItems,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,

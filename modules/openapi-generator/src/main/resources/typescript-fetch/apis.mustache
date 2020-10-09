@@ -275,9 +275,9 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/isResponseFile}}
         {{^isResponseFile}}
         {{#returnTypeIsPrimitive}}
-        {{#isMap}}
+        {{#isMapContainer}}
         return new runtime.JSONApiResponse<any>(response);
-        {{/isMap}}
+        {{/isMapContainer}}
         {{#isListContainer}}
         return new runtime.JSONApiResponse<any>(response);
         {{/isListContainer}}
@@ -290,12 +290,12 @@ export class {{classname}} extends runtime.BaseAPI {
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map({{returnBaseType}}FromJSON));
         {{/isListContainer}}
         {{^isListContainer}}
-        {{#isMap}}
+        {{#isMapContainer}}
         return new runtime.JSONApiResponse(response, (jsonValue) => runtime.mapValues(jsonValue, {{returnBaseType}}FromJSON));
-        {{/isMap}}
-        {{^isMap}}
+        {{/isMapContainer}}
+        {{^isMapContainer}}
         return new runtime.JSONApiResponse(response, (jsonValue) => {{returnBaseType}}FromJSON(jsonValue));
-        {{/isMap}}
+        {{/isMapContainer}}
         {{/isListContainer}}
         {{/returnTypeIsPrimitive}}
         {{/isResponseFile}}
