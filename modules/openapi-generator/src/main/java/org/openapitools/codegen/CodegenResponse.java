@@ -53,7 +53,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean isDefault;
     public boolean simpleType;
     public boolean primitiveType;
-    public boolean isMapContainer;
+    public boolean isMap;
     public boolean isListContainer;
     public boolean isBinary = false;
     public boolean isFile = false;
@@ -80,7 +80,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         return Objects.hash(headers, code, message, hasMore, examples, dataType, baseType, containerType, hasHeaders,
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
-                isMapContainer, isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions, items,
+                isMap, isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions, items,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern());
     }
@@ -111,7 +111,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isDefault == that.isDefault &&
                 simpleType == that.simpleType &&
                 primitiveType == that.primitiveType &&
-                isMapContainer == that.isMapContainer &&
+                isMap == that.isMap &&
                 isListContainer == that.isListContainer &&
                 isBinary == that.isBinary &&
                 isFile == that.isFile &&
@@ -307,6 +307,14 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public boolean getIsMap() { return isMap; }
+
+    @Override
+    public void setIsMap(boolean isMap)  {
+        this.isMap = isMap;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenResponse{");
         sb.append("headers=").append(headers);
@@ -337,7 +345,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", isDefault=").append(isDefault);
         sb.append(", simpleType=").append(simpleType);
         sb.append(", primitiveType=").append(primitiveType);
-        sb.append(", isMapContainer=").append(isMapContainer);
+        sb.append(", isMap=").append(isMap);
         sb.append(", isListContainer=").append(isListContainer);
         sb.append(", isBinary=").append(isBinary);
         sb.append(", isFile=").append(isFile);

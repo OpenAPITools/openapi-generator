@@ -202,7 +202,7 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
                 localVarJsonArray.push_back(ModelBase::toJson(localVarItem));
             }
             localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("{{paramName}}"), localVarJsonArray, utility::conversions::to_string_t("application/json")));
-        }{{/isListContainer}}{{#isMapContainer}}
+        }{{/isListContainer}}{{#isMap}}
         {
             std::map<utility::string_t, web::json::value> localVarJsonMap;
             for( auto& localVarItem : {{paramName}}{{^required}}.get(){{/required}} )
@@ -211,14 +211,14 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
                 localVarJsonMap.insert( std::pair<utility::string_t, web::json::value>(localVarItem.first, ModelBase::toJson(localVarItem.second) ));
             }
             localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("{{paramName}}"), localVarJsonMap, utility::conversions::to_string_t("application/json")));
-        }{{/isMapContainer}}
-        {{^isListContainer}}{{^isMapContainer}}{{#isString}}localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("{{paramName}}"), {{paramName}}));
+        }{{/isMap}}
+        {{^isListContainer}}{{^isMap}}{{#isString}}localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("{{paramName}}"), {{paramName}}));
         {{/isString}}{{^isString}}if({{^required}}{{paramName}} && (*{{paramName}}){{/required}}{{#required}}{{paramName}}{{/required}}.get())
         {
             {{^required}}(*{{/required}}{{paramName}}{{^required}}){{/required}}->toMultipart(localVarMultipart, utility::conversions::to_string_t("{{paramName}}"));
         }
         {{/isString}}
-        {{/isMapContainer}}{{/isListContainer}}{{/isPrimitiveType}}
+        {{/isMap}}{{/isListContainer}}{{/isPrimitiveType}}
 
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
@@ -326,14 +326,14 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
                 {{{vendorExtensions.x-codegen-response.items.datatype}}} localVarItemObj;
                 ModelBase::fromJson(localVarItem, localVarItemObj);
                 localVarResult.push_back(localVarItemObj);
-            }{{/isListContainer}}{{#isMapContainer}}
+            }{{/isListContainer}}{{#isMap}}
             for( auto& localVarItem : localVarJson.as_object() )
             {
                 {{{vendorExtensions.x-codegen-response.items.datatype}}} localVarItemObj;
                 ModelBase::fromJson(localVarItem.second, localVarItemObj);
                 localVarResult[localVarItem.first] = localVarItemObj;
-            }{{/isMapContainer}}{{^isListContainer}}{{^isMapContainer}}
-            ModelBase::fromJson(localVarJson, localVarResult);{{/isMapContainer}}{{/isListContainer}}
+            }{{/isMap}}{{^isListContainer}}{{^isMap}}
+            ModelBase::fromJson(localVarJson, localVarResult);{{/isMap}}{{/isListContainer}}
         }{{#vendorExtensions.x-codegen-response.isString}}
         else if(localVarResponseHttpContentType == utility::conversions::to_string_t("text/plain"))
         {

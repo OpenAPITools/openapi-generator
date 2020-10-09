@@ -36,7 +36,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public String jsonSchema;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary,
             isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isAnyType;
-    public boolean isListContainer, isMapContainer;
+    public boolean isListContainer, isMap;
     public boolean isFile;
     public boolean isEnum;
     public List<String> _enum;
@@ -181,7 +181,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.isFreeFormObject = this.isFreeFormObject;
         output.isAnyType = this.isAnyType;
         output.isListContainer = this.isListContainer;
-        output.isMapContainer = this.isMapContainer;
+        output.isMap = this.isMap;
         output.isExplode = this.isExplode;
         output.style = this.style;
         output.contentType = this.contentType;
@@ -191,7 +191,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
 
     @Override
     public int hashCode() {
-        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, hasMore, isContainer, secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isAnyType, isListContainer, isMapContainer, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf);
+        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, hasMore, isContainer, secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isAnyType, isListContainer, isMap, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf);
     }
 
     @Override
@@ -230,7 +230,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 isFreeFormObject == that.isFreeFormObject &&
                 isAnyType == that.isAnyType &&
                 isListContainer == that.isListContainer &&
-                isMapContainer == that.isMapContainer &&
+                isMap == that.isMap &&
                 isFile == that.isFile &&
                 isEnum == that.isEnum &&
                 hasValidation == that.hasValidation &&
@@ -319,7 +319,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", isFreeFormObject=").append(isFreeFormObject);
         sb.append(", isAnyType=").append(isAnyType);
         sb.append(", isListContainer=").append(isListContainer);
-        sb.append(", isMapContainer=").append(isMapContainer);
+        sb.append(", isMap=").append(isMap);
         sb.append(", isFile=").append(isFile);
         sb.append(", isEnum=").append(isEnum);
         sb.append(", _enum=").append(_enum);
@@ -510,6 +510,14 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     @Override
     public void setIsDateTime(boolean isDateTime)   {
         this.isDateTime = isDateTime;
+    }
+
+    @Override
+    public boolean getIsMap() { return isMap; }
+
+    @Override
+    public void setIsMap(boolean isMap)  {
+        this.isMap = isMap;
     }
 }
 

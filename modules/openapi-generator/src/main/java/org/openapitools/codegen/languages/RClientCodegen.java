@@ -586,7 +586,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             example = "NULL";
         } else if (Boolean.TRUE.equals(p.isListContainer)) {
             example = "[" + example + "]";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(p.isMap)) {
             example = "{'key' => " + example + "}";
         }
 
@@ -707,7 +707,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
         if (codegenParameter.isListContainer) { // array
             return "list(" + constructExampleCode(codegenParameter.items, modelMaps) + ")";
-        } else if (codegenParameter.isMapContainer) { // TODO: map
+        } else if (codegenParameter.isMap) { // TODO: map
             return "TODO";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
             return codegenParameter.example;
@@ -725,7 +725,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps) {
         if (codegenProperty.isListContainer) { // array
             return "list(" + constructExampleCode(codegenProperty.items, modelMaps) + ")";
-        } else if (codegenProperty.isMapContainer) { // TODO: map
+        } else if (codegenProperty.isMap) { // TODO: map
             return "TODO";
         } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) { // primitive type
             if ("character".equals(codegenProperty.dataType)) {

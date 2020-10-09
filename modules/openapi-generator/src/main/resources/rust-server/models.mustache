@@ -45,12 +45,12 @@ impl std::str::FromStr for {{{classname}}} {
 {{/isEnum}}
 {{^isEnum}}
 {{#dataType}}
-{{#isMapModel}}
+{{#isMap}}
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
-{{/isMapModel}}
-{{^isMapModel}}
+{{/isMap}}
+{{^isMap}}
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
-{{/isMapModel}}
+{{/isMap}}
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 {{#xmlName}}
 #[serde(rename = "{{{xmlName}}}")]
@@ -318,13 +318,13 @@ impl std::string::ToString for {{{classname}}} {
 {{#isBinary}}
         // Skipping {{baseName}} in query parameter serialization
 {{/isBinary}}
-{{#isMapContainer}}
+{{#isMap}}
         // Skipping {{baseName}} in query parameter serialization
-{{/isMapContainer}}
+{{/isMap}}
 {{^isPrimitiveType}}
         // Skipping {{baseName}} in query parameter serialization
 {{/isPrimitiveType}}
-{{^isByteArray}}{{^isBinary}}{{^isMapContainer}}{{#isPrimitiveType}}
+{{^isByteArray}}{{^isBinary}}{{^isMap}}{{#isPrimitiveType}}
 {{#required}}
         params.push("{{{baseName}}}".to_string());
 {{^isListContainer}}
@@ -365,7 +365,7 @@ impl std::string::ToString for {{{classname}}} {
 {{/isListContainer}}
         }
 {{/required}}
-{{/isPrimitiveType}}{{/isMapContainer}}{{/isBinary}}{{/isByteArray}}
+{{/isPrimitiveType}}{{/isMap}}{{/isBinary}}{{/isByteArray}}
 {{/vars}}
         params.join(",").to_string()
     }
