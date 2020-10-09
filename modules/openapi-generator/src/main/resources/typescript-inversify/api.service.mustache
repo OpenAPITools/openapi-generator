@@ -73,7 +73,7 @@ export class {{classname}} {
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element) => {
-                queryParameters.push('{{paramName}}='+encodeURIComponent(String({{paramName}})));
+                queryParameters.push('{{paramName}}='+encodeURIComponent(String(element)));
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
