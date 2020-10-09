@@ -108,6 +108,6 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Gets the HTTPSigning configuration
         /// </summary>
-        HTTPSigningConfiguration HTTPSigningConfiguration { get; }
+        HttpSigningConfiguration HttpSigningConfiguration { get; }
     }
 }

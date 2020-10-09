@@ -12,15 +12,15 @@ using System.Web;
 namespace Org.OpenAPITools.Client
 {
     /// <summary>
-    /// Class for HTTPSigning auth related parameter and methods
+    /// Class for HttpSigning auth related parameter and methods
     /// </summary>
-    public class HTTPSigningConfiguration
+    public class HttpSigningConfiguration
     {
         #region
         /// <summary>
         /// Initailize the HashAlgorithm and SigningAlgorithm to default value
         /// </summary>
-        public HTTPSigningConfiguration()
+        public HttpSigningConfiguration()
         {
             HashAlgorithm = HashAlgorithmName.SHA256;
             SigningAlgorithm = "PKCS1-v15";
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Gets the HTTP signing header
         /// </summary>
-        public List<string> HTTPSigningHeader { get; set; }
+        public List<string> HttpSigningHeader { get; set; }
 
         /// <summary>
         /// Gets the hash algorithm sha256 or sha512
@@ -76,12 +76,11 @@ namespace Org.OpenAPITools.Client
 
         #region Methods
         /// <summary>
-        /// Gets the Headers for HTTpSIgning
+        /// Gets the Headers for HttpSigning
         /// </summary>
-        /// <param name="basePath">Base path</param>
-        /// <param name="method">HTTP method</param>
-        /// <param name="path">Path</param>
-        /// <param name="requestOptions">Request options</param>
+        /// <param name="method"></param>
+        /// <param name="path"></param>
+        /// <param name="requestOptions"></param>
         /// <returns></returns>
         internal Dictionary<string, string> GetHttpSignedHeader(string basePath,string method, string path, RequestOptions requestOptions)
         {
@@ -103,12 +102,12 @@ namespace Org.OpenAPITools.Client
             const string HEADER_AUTHORIZATION = "Authorization";
 
             //Hash table to store singed headers
-            var httpSignedRequestHeader = new Dictionary<string, string>();
-            var httpSignatureHeader = new Dictionary<string, string>();
+            var HttpSignedRequestHeader = new Dictionary<string, string>();
+            var HttpSignatureHeader = new Dictionary<string, string>();
 
-            if (HTTPSigningHeader.Count == 0)
+            if (HttpSigningHeader.Count == 0)
             {
-                HTTPSigningHeader.Add("(created)");
+                HttpSigningHeader.Add("(created)");
             }
 
             if (requestOptions.PathParameters != null)
@@ -167,37 +166,37 @@ namespace Org.OpenAPITools.Client
             }
 
 
-            foreach (var header in HTTPSigningHeader)
+            foreach (var header in HttpSigningHeader)
             {
                 if (header.Equals(HEADER_REQUEST_TARGET))
                 {
                     var targetUrl = string.Format("{0} {1}{2}", method.ToLower(), uriBuilder.Path, uriBuilder.Query);
-                    httpSignatureHeader.Add(header.ToLower(), targetUrl);
+                    HttpSignatureHeader.Add(header.ToLower(), targetUrl);
                 }
                 else if (header.Equals(HEADER_EXPIRES))
                 {
                     var expireDateTime = dateTime.AddSeconds(SignatureValidityPeriod);
-                    httpSignatureHeader.Add(header.ToLower(), GetUnixTime(expireDateTime).ToString());
+                    HttpSignatureHeader.Add(header.ToLower(), GetUnixTime(expireDateTime).ToString());
                 }
                 else if (header.Equals(HEADER_DATE))
                 {
                     var utcDateTime = dateTime.ToString("r").ToString();
-                    httpSignatureHeader.Add(header.ToLower(), utcDateTime);
-                    httpSignedRequestHeader.Add(HEADER_DATE, utcDateTime);
+                    HttpSignatureHeader.Add(header.ToLower(), utcDateTime);
+                    HttpSignedRequestHeader.Add(HEADER_DATE, utcDateTime);
                 }
                 else if (header.Equals(HEADER_HOST))
                 {
-                    httpSignatureHeader.Add(header.ToLower(), uriBuilder.Host);
-                    httpSignedRequestHeader.Add(HEADER_HOST, uriBuilder.Host);
+                    HttpSignatureHeader.Add(header.ToLower(), uriBuilder.Host);
+                    HttpSignedRequestHeader.Add(HEADER_HOST, uriBuilder.Host);
                 }
                 else if (header.Equals(HEADER_CREATED))
                 {
-                    httpSignatureHeader.Add(header.ToLower(), GetUnixTime(dateTime).ToString());
+                    HttpSignatureHeader.Add(header.ToLower(), GetUnixTime(dateTime).ToString());
                 }
                 else if (header.Equals(HEADER_DIGEST))
                 {
-                    httpSignedRequestHeader.Add(HEADER_DIGEST, Digest);
-                    httpSignatureHeader.Add(header.ToLower(), Digest);
+                    HttpSignedRequestHeader.Add(HEADER_DIGEST, Digest);
+                    HttpSignatureHeader.Add(header.ToLower(), Digest);
                 }
                 else
                 {
@@ -206,7 +205,7 @@ namespace Org.OpenAPITools.Client
                     {
                         if (string.Equals(item.Key, header, StringComparison.OrdinalIgnoreCase))
                         {
-                            httpSignatureHeader.Add(header.ToLower(), item.Value.ToString());
+                            HttpSignatureHeader.Add(header.ToLower(), item.Value.ToString());
                             isHeaderFound = true;
                             break;
                         }
@@ -218,10 +217,10 @@ namespace Org.OpenAPITools.Client
                 }
 
             }
-            var headersKeysString = String.Join(" ", httpSignatureHeader.Keys);
+            var headersKeysString = String.Join(" ", HttpSignatureHeader.Keys);
             var headerValuesList = new List<string>();
 
-            foreach (var keyVal in httpSignatureHeader)
+            foreach (var keyVal in HttpSignatureHeader)
             {
                 headerValuesList.Add(string.Format("{0}: {1}", keyVal.Key, keyVal.Value));
 
@@ -245,22 +244,22 @@ namespace Org.OpenAPITools.Client
                 KeyId, cryptographicScheme);
 
 
-            if (httpSignatureHeader.ContainsKey(HEADER_CREATED))
+            if (HttpSignatureHeader.ContainsKey(HEADER_CREATED))
             {
-                authorizationHeaderValue += string.Format(",created={0}", httpSignatureHeader[HEADER_CREATED]);
+                authorizationHeaderValue += string.Format(",created={0}", HttpSignatureHeader[HEADER_CREATED]);
             }
 
-            if (httpSignatureHeader.ContainsKey(HEADER_EXPIRES))
+            if (HttpSignatureHeader.ContainsKey(HEADER_EXPIRES))
             {
-                authorizationHeaderValue += string.Format(",expires={0}", httpSignatureHeader[HEADER_EXPIRES]);
+                authorizationHeaderValue += string.Format(",expires={0}", HttpSignatureHeader[HEADER_EXPIRES]);
             }
 
             authorizationHeaderValue += string.Format(",headers=\"{0}\",signature=\"{1}\"",
                 headersKeysString, headerSignatureStr);
 
-            httpSignedRequestHeader.Add(HEADER_AUTHORIZATION, authorizationHeaderValue);
+            HttpSignedRequestHeader.Add(HEADER_AUTHORIZATION, authorizationHeaderValue);
 
-            return httpSignedRequestHeader;
+            return HttpSignedRequestHeader;
         }
 
         private byte[] GetStringHash(string hashName, string stringToBeHashed)
@@ -314,16 +313,16 @@ namespace Org.OpenAPITools.Client
             var ecKeyBase64String = keyStr.Replace(ecKeyHeader, "").Replace(ecKeyFooter, "").Trim();
             var keyBytes = System.Convert.FromBase64String(ecKeyBase64String);
             var ecdsa = ECDsa.Create();
+            var bytCount = 0;
 
 #if (NETCOREAPP3_0 || NETCOREAPP3_1 || NET5_0)
-            var byteCount = 0;
             if (configuration.KeyPassPhrase != null)
             {
-                ecdsa.ImportEncryptedPkcs8PrivateKey(keyPassPhrase, keyBytes, out byteCount);
+                ecdsa.ImportEncryptedPkcs8PrivateKey(keyPassPhrase, keyBytes, out bytCount);
             }
             else
             {
-                ecdsa.ImportPkcs8PrivateKey(keyBytes, out byteCount);
+                ecdsa.ImportPkcs8PrivateKey(keyBytes, out bytCount);
             }
             var signedBytes = ecdsa.SignHash(dataToSign);
             var derBytes = ConvertToECDSAANS1Format(signedBytes);
@@ -688,6 +687,7 @@ namespace Org.OpenAPITools.Client
             else if (key[0].ToString().Contains(ecPrivateKeyHeader) &&
                 key[key.Length - 1].ToString().Contains(ecPrivateKeyFooter))
             {
+
                 /*this type of key can hold many type different types of private key, but here due lack of pem header
                 Considering this as EC key
                 */

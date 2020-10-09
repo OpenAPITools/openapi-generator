@@ -604,9 +604,9 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Data = pet;
 
             // authentication (http_signature_test) required
-            if (this.Configuration.HTTPSigningConfiguration != null)
+            if (this.Configuration.HttpSigningConfiguration != null)
             {
-                var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "POST", "/pet", localVarRequestOptions);
+                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "POST", "/pet", localVarRequestOptions);
                 foreach (var headerItem in HttpSigningHeaders)
                 {
                     if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
@@ -685,7 +685,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Data = pet;
 
             // authentication (http_signature_test) required
-            if (this.Configuration.HTTPSigningConfiguration != null)
+            if (this.Configuration.HttpSigningConfiguration != null)
             {
                 var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "POST", "/pet", localVarRequestOptions);
                 foreach (var headerItem in HttpSigningHeaders)
@@ -891,9 +891,9 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "status", status));
 
             // authentication (http_signature_test) required
-            if (this.Configuration.HTTPSigningConfiguration != null)
+            if (this.Configuration.HttpSigningConfiguration != null)
             {
-                var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByStatus", localVarRequestOptions);
+                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByStatus", localVarRequestOptions);
                 foreach (var headerItem in HttpSigningHeaders)
                 {
                     if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
@@ -973,7 +973,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "status", status));
 
             // authentication (http_signature_test) required
-            if (this.Configuration.HTTPSigningConfiguration != null)
+            if (this.Configuration.HttpSigningConfiguration != null)
             {
                 var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByStatus", localVarRequestOptions);
                 foreach (var headerItem in HttpSigningHeaders)
@@ -1052,9 +1052,9 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "tags", tags));
 
             // authentication (http_signature_test) required
-            if (this.Configuration.HTTPSigningConfiguration != null)
+            if (this.Configuration.HttpSigningConfiguration != null)
             {
-                var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByTags", localVarRequestOptions);
+                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByTags", localVarRequestOptions);
                 foreach (var headerItem in HttpSigningHeaders)
                 {
                     if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
@@ -1134,7 +1134,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "tags", tags));
 
             // authentication (http_signature_test) required
-            if (this.Configuration.HTTPSigningConfiguration != null)
+            if (this.Configuration.HttpSigningConfiguration != null)
             {
                 var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByTags", localVarRequestOptions);
                 foreach (var headerItem in HttpSigningHeaders)
@@ -1331,9 +1331,9 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Data = pet;
 
             // authentication (http_signature_test) required
-            if (this.Configuration.HTTPSigningConfiguration != null)
+            if (this.Configuration.HttpSigningConfiguration != null)
             {
-                var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "PUT", "/pet", localVarRequestOptions);
+                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "PUT", "/pet", localVarRequestOptions);
                 foreach (var headerItem in HttpSigningHeaders)
                 {
                     if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
@@ -1412,7 +1412,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Data = pet;
 
             // authentication (http_signature_test) required
-            if (this.Configuration.HTTPSigningConfiguration != null)
+            if (this.Configuration.HttpSigningConfiguration != null)
             {
                 var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "PUT", "/pet", localVarRequestOptions);
                 foreach (var headerItem in HttpSigningHeaders)
