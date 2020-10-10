@@ -588,6 +588,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         final String testPackageName = testPackageName();
         String packageFolder = sourceFolder + File.separator + packageName;
         String clientPackageDir = packageFolder + File.separator + clientPackage;
+        String modelPackageDir = packageFolder + File.separator + modelPackage;
         String testPackageFolder = testFolder + File.separator + testPackageName;
 
         additionalProperties.put("testPackageName", testPackageName);
@@ -645,6 +646,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
+        supportingFiles.add(new SupportingFile("AbstractOpenAPISchema.mustache", modelPackageDir, "AbstractOpenAPISchema.cs"));
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -937,5 +939,32 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         } else {
             return null;
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        objs = super.postProcessModels(objs);
+        List<Object> models = (List<Object>) objs.get("models");
+
+        // add implements for serializable/parcelable to all models
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+
+            if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
+                // if oneOf contains "null" type
+                cm.isNullable = true;
+                cm.oneOf.remove("ModelNull");
+            }
+
+            if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("ModelNull")) {
+                // if anyOf contains "null" type
+                cm.isNullable = true;
+                cm.anyOf.remove("ModelNull");
+            }
+        }
+
+        return objs;
     }
 }

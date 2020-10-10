@@ -26,7 +26,12 @@ defmodule {{moduleName}}.Api.{{classname}} do
 {{/requiredParams}}
   - opts (KeywordList): [optional] Optional parameters
 {{#optionalParams}}
+{{#isBodyParam}}
+    - :body ({{dataType}}): {{&description}}
+{{/isBodyParam}}
+{{^isBodyParam}}
     - {{#underscored}}:{{paramName}}{{/underscored}} ({{dataType}}): {{&description}}
+{{/isBodyParam}}
 {{/optionalParams}}
   ## Returns
 
@@ -39,7 +44,12 @@ defmodule {{moduleName}}.Api.{{classname}} do
 {{#-first}}
     optional_params = %{
 {{/-first}}
-      :"{{baseName}}" => {{#isBodyParam}}:body{{/isBodyParam}}{{#isFormParam}}:form{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}{{#hasMore}},{{/hasMore}}
+{{#isBodyParam}}
+      :body => :body
+{{/isBodyParam}}
+{{^isBodyParam}}
+      :"{{baseName}}" => {{#isFormParam}}:form{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}{{#hasMore}},{{/hasMore}}
+{{/isBodyParam}}
 {{#-last}}
     }
 {{/-last}}

@@ -1,245 +1,287 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.0
+
+// ignore_for_file: unused_element, unused_import
+// ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: lines_longer_than_80_chars
+
 part of openapi.api;
 
 
-
 class StoreApi {
-  final ApiClient apiClient;
-
   StoreApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
-  /// Delete purchase order by ID with HTTP info returned
+  final ApiClient apiClient;
+
+  /// Delete purchase order by ID
   ///
-  /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+  /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] orderId (required):
+  ///   ID of the order that needs to be deleted
   Future deleteOrderWithHttpInfo(String orderId) async {
+    // Verify required params are set.
+    if (orderId == null) {
+     throw ApiException(400, 'Missing required param: orderId');
+    }
+
+    final path = '/store/order/{orderId}'.replaceAll('{format}', 'json').replaceAll('{' + 'orderId' + '}', orderId.toString());
+
     Object postBody;
 
-    // verify required params are set
-    if(orderId == null) {
-     throw ApiException(400, "Missing required param: orderId");
-    }
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
 
-    // create path and map variables
-    String path = "/store/order/{orderId}".replaceAll("{format}","json").replaceAll("{" + "orderId" + "}", orderId.toString());
 
-    // query params
-    List<QueryParam> queryParams = [];
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
+    final contentTypes = <String>[];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
 
-    List<String> contentTypes = [];
-
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    List<String> authNames = [];
-
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      final mp = MultipartRequest(null, null);
+      if (hasFields) {
         postBody = mp;
-    }
-    else {
+      }
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'DELETE',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      'DELETE',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Delete purchase order by ID
   ///
-  ///String orderId  (required):
-  ///     ID of the order that needs to be deleted
-  /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+  /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+  ///
+  /// Parameters:
+  ///
+  /// * [String] orderId (required):
+  ///   ID of the order that needs to be deleted
   Future deleteOrder(String orderId) async {
-    Response response = await deleteOrderWithHttpInfo(orderId);
-    if(response.statusCode >= 400) {
+    final response = await deleteOrderWithHttpInfo(orderId);
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if (response.body != null) {
+    }
+    return;
   }
 
-  /// Returns pet inventories by status with HTTP info returned
+  /// Returns pet inventories by status
   ///
   /// Returns a map of status codes to quantities
+  ///
+  /// Note: This method returns the HTTP [Response].
   Future<Response> getInventoryWithHttpInfo() async {
+    // Verify required params are set.
+
+    final path = '/store/inventory'.replaceAll('{format}', 'json');
+
     Object postBody;
 
-    // verify required params are set
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
 
-    // create path and map variables
-    String path = "/store/inventory".replaceAll("{format}","json");
 
-    // query params
-    List<QueryParam> queryParams = [];
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
+    final contentTypes = <String>[];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>['api_key'];
 
-    List<String> contentTypes = [];
-
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    List<String> authNames = ["api_key"];
-
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      final mp = MultipartRequest(null, null);
+      if (hasFields) {
         postBody = mp;
-    }
-    else {
+      }
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'GET',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Returns pet inventories by status
   ///
   /// Returns a map of status codes to quantities
   Future<Map<String, int>> getInventory() async {
-    Response response = await getInventoryWithHttpInfo();
-    if(response.statusCode >= 400) {
+    final response = await getInventoryWithHttpInfo();
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
+    }
+    if (response.body != null) {
       return Map<String, int>.from(apiClient.deserialize(_decodeBodyBytes(response), 'Map<String, int>'));
-          ;
-    } else {
-      return null;
     }
-  }
-
-  /// Find purchase order by ID with HTTP info returned
-  ///
-  /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-  Future<Response> getOrderByIdWithHttpInfo(int orderId) async {
-    Object postBody;
-
-    // verify required params are set
-    if(orderId == null) {
-     throw ApiException(400, "Missing required param: orderId");
-    }
-
-    // create path and map variables
-    String path = "/store/order/{orderId}".replaceAll("{format}","json").replaceAll("{" + "orderId" + "}", orderId.toString());
-
-    // query params
-    List<QueryParam> queryParams = [];
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
-
-    List<String> contentTypes = [];
-
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    List<String> authNames = [];
-
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
-      bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-    }
-
-    var response = await apiClient.invokeAPI(path,
-                                             'GET',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return null;
   }
 
   /// Find purchase order by ID
   ///
-  ///int orderId  (required):
-  ///     ID of pet that needs to be fetched
-  /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-  Future<Order> getOrderById(int orderId) async {
-    Response response = await getOrderByIdWithHttpInfo(orderId);
-    if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
-    } else {
-      return null;
+  /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [int] orderId (required):
+  ///   ID of pet that needs to be fetched
+  Future<Response> getOrderByIdWithHttpInfo(int orderId) async {
+    // Verify required params are set.
+    if (orderId == null) {
+     throw ApiException(400, 'Missing required param: orderId');
     }
+
+    final path = '/store/order/{orderId}'.replaceAll('{format}', 'json').replaceAll('{' + 'orderId' + '}', orderId.toString());
+
+    Object postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+
+    final contentTypes = <String>[];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
+      bool hasFields = false;
+      final mp = MultipartRequest(null, null);
+      if (hasFields) {
+        postBody = mp;
+      }
+    } else {
+    }
+
+    return await apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
-  /// Place an order for a pet with HTTP info returned
+  /// Find purchase order by ID
   ///
-  /// 
-  Future<Response> placeOrderWithHttpInfo(Order body) async {
-    Object postBody = body;
-
-    // verify required params are set
-    if(body == null) {
-     throw ApiException(400, "Missing required param: body");
+  /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+  ///
+  /// Parameters:
+  ///
+  /// * [int] orderId (required):
+  ///   ID of pet that needs to be fetched
+  Future<Order> getOrderById(int orderId) async {
+    final response = await getOrderByIdWithHttpInfo(orderId);
+    if (response.statusCode >= 400) {
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-
-    // create path and map variables
-    String path = "/store/order".replaceAll("{format}","json");
-
-    // query params
-    List<QueryParam> queryParams = [];
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
-
-    List<String> contentTypes = [];
-
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    List<String> authNames = [];
-
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
-      bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
-        postBody = mp;
+    if (response.body != null) {
+      return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
     }
-    else {
-    }
-
-    var response = await apiClient.invokeAPI(path,
-                                             'POST',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return null;
   }
 
   /// Place an order for a pet
   ///
-  ///Order body  (required):
-  ///     order placed for purchasing the pet
-  /// 
-  Future<Order> placeOrder(Order body) async {
-    Response response = await placeOrderWithHttpInfo(body);
-    if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
-    } else {
-      return null;
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [Order] body (required):
+  ///   order placed for purchasing the pet
+  Future<Response> placeOrderWithHttpInfo(Order body) async {
+    // Verify required params are set.
+    if (body == null) {
+     throw ApiException(400, 'Missing required param: body');
     }
+
+    final path = '/store/order'.replaceAll('{format}', 'json');
+
+    Object postBody = body;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+
+    final contentTypes = <String>[];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
+      bool hasFields = false;
+      final mp = MultipartRequest(null, null);
+      if (hasFields) {
+        postBody = mp;
+      }
+    } else {
+    }
+
+    return await apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
+  /// Place an order for a pet
+  ///
+  /// Parameters:
+  ///
+  /// * [Order] body (required):
+  ///   order placed for purchasing the pet
+  Future<Order> placeOrder(Order body) async {
+    final response = await placeOrderWithHttpInfo(body);
+    if (response.statusCode >= 400) {
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+    }
+    if (response.body != null) {
+      return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
+    }
+    return null;
+  }
 }

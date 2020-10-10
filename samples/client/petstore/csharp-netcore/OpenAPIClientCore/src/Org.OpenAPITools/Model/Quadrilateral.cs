@@ -30,38 +30,89 @@ namespace Org.OpenAPITools.Model
     /// Quadrilateral
     /// </summary>
     [DataContract(Name = "Quadrilateral")]
-    [JsonConverter(typeof(JsonSubtypes), "QuadrilateralType")]
-    public partial class Quadrilateral : IEquatable<Quadrilateral>, IValidatableObject
+    public partial class Quadrilateral : AbstractOpenAPISchema, IEquatable<Quadrilateral>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        protected Quadrilateral() { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
-        /// </summary>
-        /// <param name="shapeType">shapeType (required).</param>
-        /// <param name="quadrilateralType">quadrilateralType (required).</param>
-        public Quadrilateral(string shapeType = default(string), string quadrilateralType = default(string))
+        public Quadrilateral()
         {
-            // to ensure "shapeType" is required (not null)
-            this.ShapeType = shapeType ?? throw new ArgumentNullException("shapeType is a required property for Quadrilateral and cannot be null");
-            // to ensure "quadrilateralType" is required (not null)
-            this.QuadrilateralType = quadrilateralType ?? throw new ArgumentNullException("quadrilateralType is a required property for Quadrilateral and cannot be null");
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
         }
 
         /// <summary>
-        /// Gets or Sets ShapeType
+        /// Initializes a new instance of the <see cref="Quadrilateral" /> class
+        /// with the <see cref="ComplexQuadrilateral" /> class
         /// </summary>
-        [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = false)]
-        public string ShapeType { get; set; }
+        /// <param name="actualInstance">An instance of ComplexQuadrilateral.</param>
+        public Quadrilateral(ComplexQuadrilateral actualInstance)
+        {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+        }
 
         /// <summary>
-        /// Gets or Sets QuadrilateralType
+        /// Initializes a new instance of the <see cref="Quadrilateral" /> class
+        /// with the <see cref="SimpleQuadrilateral" /> class
         /// </summary>
-        [DataMember(Name = "quadrilateralType", IsRequired = true, EmitDefaultValue = false)]
-        public string QuadrilateralType { get; set; }
+        /// <param name="actualInstance">An instance of SimpleQuadrilateral.</param>
+        public Quadrilateral(SimpleQuadrilateral actualInstance)
+        {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+        }
+
+
+        private Object _actualInstance;
+
+        /// <summary>
+        /// Gets or Sets ActualInstance
+        /// </summary>
+        public override Object ActualInstance
+        {
+            get
+            {
+                return _actualInstance;
+            }
+            set
+            {
+                if (value.GetType() == typeof(ComplexQuadrilateral))
+                {
+                    this._actualInstance = value;
+                }
+                else if (value.GetType() == typeof(SimpleQuadrilateral))
+                {
+                    this._actualInstance = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid instance found. Must be the following types: ComplexQuadrilateral, SimpleQuadrilateral");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the actual instance of `ComplexQuadrilateral`. If the actual instanct is not `ComplexQuadrilateral`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of ComplexQuadrilateral</returns>
+        public ComplexQuadrilateral GetComplexQuadrilateral()
+        {
+            return (ComplexQuadrilateral)this.ActualInstance;
+        }
+
+        /// <summary>
+        /// Get the actual instance of `SimpleQuadrilateral`. If the actual instanct is not `SimpleQuadrilateral`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of SimpleQuadrilateral</returns>
+        public SimpleQuadrilateral GetSimpleQuadrilateral()
+        {
+            return (SimpleQuadrilateral)this.ActualInstance;
+        }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -71,8 +122,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Quadrilateral {\n");
-            sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
-            sb.Append("  QuadrilateralType: ").Append(QuadrilateralType).Append("\n");
+            sb.Append("  ActualInstance: ").Append(this.ActualInstance).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -81,9 +131,56 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
+        }
+
+        /// <summary>
+        /// Converts the JSON string into the object
+        /// </summary>
+        /// <param name="jsonString">JSON string</param>
+        public override void FromJson(string jsonString)
+        {
+            int match = 0;
+            List<string> matchedTypes = new List<string>();
+
+            try
+            {
+                this.ActualInstance = JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, _serializerSettings);
+                matchedTypes.Add("ComplexQuadrilateral");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                // uncomment the line below for troubleshooting
+                //Console.WriteLine(exception.ToString());
+            }
+
+            try
+            {
+                this.ActualInstance = JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, _serializerSettings);
+                matchedTypes.Add("SimpleQuadrilateral");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                // uncomment the line below for troubleshooting
+                //Console.WriteLine(exception.ToString());
+            }
+
+            if (match == 0)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` cannot be deserialized into any schema defined.");
+            }
+            else if (match > 1)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
+            }
+            
+            // deserialization is considered successful at this point if no exception has been thrown.
         }
 
         /// <summary>
@@ -115,10 +212,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ShapeType != null)
-                    hashCode = hashCode * 59 + this.ShapeType.GetHashCode();
-                if (this.QuadrilateralType != null)
-                    hashCode = hashCode * 59 + this.QuadrilateralType.GetHashCode();
+                if (this.ActualInstance != null)
+                    hashCode = hashCode * 59 + this.ActualInstance.GetHashCode();
                 return hashCode;
             }
         }
@@ -129,16 +224,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            return this.BaseValidate(validationContext);
-        }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }

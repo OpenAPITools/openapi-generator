@@ -27,7 +27,7 @@ paths:
         200:
           description: State changed
       security:
-        - oauht_auth:
+        - oauth_auth:
             - import:process
 components:
   securitySchemes:

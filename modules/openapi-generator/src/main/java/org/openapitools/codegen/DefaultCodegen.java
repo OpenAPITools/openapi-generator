@@ -2314,7 +2314,9 @@ public class DefaultCodegen implements CodegenConfig {
         }
         if (ModelUtils.isArraySchema(schema)) {
             m.isArrayModel = true;
-            m.arrayModelType = fromProperty(name, schema).complexType;
+            CodegenProperty arrayProperty = fromProperty(name, schema);
+            m.setItems(arrayProperty.items);
+            m.arrayModelType = arrayProperty.complexType;
             addParentContainer(m, name, schema);
             ModelUtils.syncValidationProperties(schema, m);
         } else if (schema instanceof ComposedSchema) {
@@ -4002,8 +4004,10 @@ public class DefaultCodegen implements CodegenConfig {
 
             if (ModelUtils.isArraySchema(responseSchema)) {
                 ArraySchema as = (ArraySchema) responseSchema;
-                CodegenProperty innerProperty = fromProperty("response", getSchemaItems(as));
-                CodegenProperty innerCp = innerProperty;
+                CodegenProperty items = fromProperty("response", getSchemaItems(as));
+                r.setItems(items);
+                CodegenProperty innerCp = items;
+
                 while (innerCp != null) {
                     r.baseType = innerCp.baseType;
                     innerCp = innerCp.items;
@@ -5565,10 +5569,10 @@ public class DefaultCodegen implements CodegenConfig {
         codegenSecurity.tokenUrl = flow.getTokenUrl();
 
         if (flow.getScopes() != null && !flow.getScopes().isEmpty()) {
-            List<Map<String, Object>> scopes = new ArrayList<Map<String, Object>>();
+            List<Map<String, Object>> scopes = new ArrayList<>();
             int count = 0, numScopes = flow.getScopes().size();
             for (Map.Entry<String, String> scopeEntry : flow.getScopes().entrySet()) {
-                Map<String, Object> scope = new HashMap<String, Object>();
+                Map<String, Object> scope = new HashMap<>();
                 scope.put("scope", scopeEntry.getKey());
                 scope.put("description", escapeText(scopeEntry.getValue()));
 
