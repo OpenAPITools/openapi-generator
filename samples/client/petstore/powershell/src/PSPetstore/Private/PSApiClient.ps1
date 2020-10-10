@@ -172,7 +172,7 @@ function DeserializeResponse {
         [string[]]$ContentTypes
     )
 
-    If ([string]::IsNullOrEmpty($ReturnType)) { # void response
+    If ([string]::IsNullOrEmpty($ReturnType) -and $ContentTypes.Count -eq 0) { # void response
         return $Response
     } Elseif ($ReturnType -match '\[\]$') { # array
         return ConvertFrom-Json $Response

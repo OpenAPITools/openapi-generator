@@ -128,10 +128,14 @@ module Petstore
 
       if attributes.key?(:'outer_enum_default_value')
         self.outer_enum_default_value = attributes[:'outer_enum_default_value']
+      else
+        self.outer_enum_default_value = 'placed'
       end
 
       if attributes.key?(:'outer_enum_integer_default_value')
         self.outer_enum_integer_default_value = attributes[:'outer_enum_integer_default_value']
+      else
+        self.outer_enum_integer_default_value = OuterEnumIntegerDefaultValue::N0
       end
     end
 
@@ -241,7 +245,9 @@ module Petstore
     def build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
       self.class.openapi_types.each_pair do |key, type|
-        if type =~ /\AArray<(.*)>/i
+        if attributes[self.class.attribute_map[key]].nil? && self.class.openapi_nullable.include?(key)
+          self.send("#{key}=", nil)
+        elsif type =~ /\AArray<(.*)>/i
           # check to ensure the input is an array given that the attribute
           # is documented as an array but the input is not
           if attributes[self.class.attribute_map[key]].is_a?(Array)
@@ -249,8 +255,6 @@ module Petstore
           end
         elsif !attributes[self.class.attribute_map[key]].nil?
           self.send("#{key}=", _deserialize(type, attributes[self.class.attribute_map[key]]))
-        elsif attributes[self.class.attribute_map[key]].nil? && self.class.openapi_nullable.include?(key)
-          self.send("#{key}=", nil)
         end
       end
 

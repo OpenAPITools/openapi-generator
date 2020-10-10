@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Test
             s.SpecialPropertyName = 123l;
             Assert.Equal("{\"$special[property.name]\":123}", JsonConvert.SerializeObject(s));
             // comment out the following as the result is OS-dependent
-            //Assert.Equal("{\"$special[property.name]\":123}", s.ToJson());
+            //Assert.Equal("{\"id\":123}", s.ToJson());
         }
 
     }

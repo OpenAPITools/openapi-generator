@@ -1,0 +1,184 @@
+    /// <summary>
+    /// {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
+    /// </summary>
+    [DataContract(Name = "{{{name}}}")]
+    {{>visibility}} partial class {{classname}} : AbstractOpenAPISchema, {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}" /> class.
+        /// </summary>
+        public {{classname}}()
+        {
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
+        }
+
+        {{#oneOf}}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}" /> class
+        /// with the <see cref="{{{.}}}" /> class
+        /// </summary>
+        /// <param name="actualInstance">An instance of {{{.}}}.</param>
+        public {{classname}}({{{.}}} actualInstance)
+        {
+            this.IsNullable = {{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}};
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance{{^isNullable}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isNullable}};
+        }
+
+        {{/oneOf}}
+
+        private Object _actualInstance;
+
+        /// <summary>
+        /// Gets or Sets ActualInstance
+        /// </summary>
+        public override Object ActualInstance
+        {
+            get
+            {
+                return _actualInstance;
+            }
+            set
+            {
+                {{#oneOf}}
+                {{^-first}}else {{/-first}}if (value.GetType() == typeof({{{.}}}))
+                {
+                    this._actualInstance = value;
+                }
+                {{/oneOf}}
+                else
+                {
+                    throw new ArgumentException("Invalid instance found. Must be the following types:{{#oneOf}} {{{.}}}{{^-last}},{{/-last}}{{/oneOf}}");
+                }
+            }
+        }
+        {{#oneOf}}
+
+        /// <summary>
+        /// Get the actual instance of `{{{.}}}`. If the actual instanct is not `{{{.}}}`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of {{{.}}}</returns>
+        public {{{.}}} Get{{{.}}}()
+        {
+            return ({{{.}}})this.ActualInstance;
+        }
+        {{/oneOf}}
+
+        /// <summary>
+        /// Returns the string presentation of the object
+        /// </summary>
+        /// <returns>String presentation of the object</returns>
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.Append("class {{classname}} {\n");
+            sb.Append("  ActualInstance: ").Append(this.ActualInstance).Append("\n");
+            sb.Append("}\n");
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns the JSON string presentation of the object
+        /// </summary>
+        /// <returns>JSON string presentation of the object</returns>
+        public override string ToJson()
+        {
+            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
+        }
+
+        /// <summary>
+        /// Converts the JSON string into the object
+        /// </summary>
+        /// <param name="jsonString">JSON string</param>
+        public override void FromJson(string jsonString)
+        {
+            int match = 0;
+            List<string> matchedTypes = new List<string>();
+            {{#oneOf}}
+
+            try
+            {
+                this.ActualInstance = JsonConvert.DeserializeObject<{{{.}}}>(jsonString, _serializerSettings);
+                matchedTypes.Add("{{{.}}}");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                // uncomment the line below for troubleshooting
+                //Console.WriteLine(exception.ToString());
+            }
+            {{/oneOf}}
+
+            if (match == 0)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` cannot be deserialized into any schema defined.");
+            }
+            else if (match > 1)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
+            }
+            
+            // deserialization is considered successful at this point if no exception has been thrown.
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            {{#useCompareNetObjects}}
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as {{classname}}).AreEqual;
+            {{/useCompareNetObjects}}
+            {{^useCompareNetObjects}}
+            return this.Equals(input as {{classname}});
+            {{/useCompareNetObjects}}
+        }
+
+        /// <summary>
+        /// Returns true if {{classname}} instances are equal
+        /// </summary>
+        /// <param name="input">Instance of {{classname}} to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals({{classname}} input)
+        {
+            {{#useCompareNetObjects}}
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+            {{/useCompareNetObjects}}
+            {{^useCompareNetObjects}}
+            if (input == null)
+                return false;
+
+            return this.ActualInstance.Equals(input.ActualInstance);
+            {{/useCompareNetObjects}}
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (this.ActualInstance != null)
+                    hashCode = hashCode * 59 + this.ActualInstance.GetHashCode();
+                return hashCode;
+            }
+        }
+
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+            yield break;
+        }
+    }
