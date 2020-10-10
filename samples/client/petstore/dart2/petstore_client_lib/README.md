@@ -42,13 +42,13 @@ import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
-var api_instance = PetApi();
-var body = Pet(); // Pet | Pet object that needs to be added to the store
+final api_instance = PetApi();
+final body = Pet(); // Pet | Pet object that needs to be added to the store
 
 try {
     api_instance.addPet(body);
 } catch (e) {
-    print("Exception when calling PetApi->addPet: $e\n");
+    print('Exception when calling PetApi->addPet: $e\n');
 }
 
 ```

@@ -59,6 +59,7 @@ import io.swagger.v3.oas.models.media.Schema;
 public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
 
+    public static final String PUB_LIBRARY = "pubLibrary";
     public static final String PUB_NAME = "pubName";
     public static final String PUB_VERSION = "pubVersion";
     public static final String PUB_DESCRIPTION = "pubDescription";
@@ -67,6 +68,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PUB_HOMEPAGE = "pubHomepage";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
 
+    protected String pubLibrary = "openapi.api";
     protected String pubName = "openapi";
     protected String pubVersion = "1.0.0";
     protected String pubDescription = "OpenAPI API client";
@@ -169,6 +171,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("URI", "String");
         typeMapping.put("ByteArray", "String");
 
+        cliOptions.add(new CliOption(PUB_LIBRARY, "Library name in generated code"));
         cliOptions.add(new CliOption(PUB_NAME, "Name in generated pubspec"));
         cliOptions.add(new CliOption(PUB_VERSION, "Version in generated pubspec"));
         cliOptions.add(new CliOption(PUB_DESCRIPTION, "Description in generated pubspec"));
@@ -212,6 +215,13 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             //not set, use to be passed to template
             additionalProperties.put(PUB_NAME, pubName);
+        }
+
+        if (additionalProperties.containsKey(PUB_LIBRARY)) {
+            this.setPubLibrary((String) additionalProperties.get(PUB_LIBRARY));
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(PUB_LIBRARY, pubLibrary);
         }
 
         if (additionalProperties.containsKey(PUB_VERSION)) {
@@ -409,7 +419,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (schema.getDefault() != null) {
             if (ModelUtils.isStringSchema(schema)) {
-                return "\"" + schema.getDefault().toString().replaceAll("\"", "\\\"") + "\"";
+                return "'" + schema.getDefault().toString().replaceAll("'", "\\'") + "'";
             }
             return schema.getDefault().toString();
         } else {
@@ -532,7 +542,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                 "int".equalsIgnoreCase(datatype)) {
             return value;
         } else {
-            return "\"" + escapeText(value) + "\"";
+            return "'" + escapeText(value) + "'";
         }
     }
 
@@ -546,6 +556,10 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         return camelize(operationId, true);
+    }
+
+    public void setPubLibrary(String pubLibrary) {
+        this.pubLibrary = pubLibrary;
     }
 
     public void setPubName(String pubName) {
