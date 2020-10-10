@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -153,8 +154,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                // uncomment the line below for troubleshooting
-                //Console.WriteLine(exception.ToString());
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into AppleReq: %s", jsonString, exception.ToString()));
             }
 
             try
@@ -166,8 +166,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                // uncomment the line below for troubleshooting
-                //Console.WriteLine(exception.ToString());
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into BananaReq: %s", jsonString, exception.ToString()));
             }
 
             if (match == 0)

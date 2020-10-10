@@ -94,6 +94,24 @@
         /// <param name="jsonString">JSON string</param>
         public override void FromJson(string jsonString)
         {
+            {{#useOneOfDiscriminatorLookup}}
+            {{#discriminator}}
+
+            string discriminatorValue = JObject.Parse(jsonString)["{{{propertyBaseName}}}"].ToString();
+            switch (discriminatorValue)
+            {
+                {{#mappedModels}}
+                case "{{{mappingName}}}":
+                    this.ActualInstance = JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, _serializerSettings);
+                    return;
+                {{/mappedModels}}
+                default:
+                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
+                    break;
+            }
+
+            {{/discriminator}}
+            {{/useOneOfDiscriminatorLookup}}
             int match = 0;
             List<string> matchedTypes = new List<string>();
             {{#oneOf}}
@@ -107,8 +125,7 @@
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                // uncomment the line below for troubleshooting
-                //Console.WriteLine(exception.ToString());
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into {{{.}}}: %s", jsonString, exception.ToString()));
             }
             {{/oneOf}}
 
