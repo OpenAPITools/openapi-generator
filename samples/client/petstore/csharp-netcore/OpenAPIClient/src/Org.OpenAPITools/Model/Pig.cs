@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
@@ -142,6 +143,21 @@ namespace Org.OpenAPITools.Model
         /// <param name="jsonString">JSON string</param>
         public override void FromJson(string jsonString)
         {
+
+            string discriminatorValue = JObject.Parse(jsonString)["className"].ToString();
+            switch (discriminatorValue)
+            {
+                case "BasquePig":
+                    this.ActualInstance = JsonConvert.DeserializeObject<BasquePig>(jsonString, _serializerSettings);
+                    return;
+                case "DanishPig":
+                    this.ActualInstance = JsonConvert.DeserializeObject<DanishPig>(jsonString, _serializerSettings);
+                    return;
+                default:
+                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for Pig. Possible values: BasquePig DanishPig", discriminatorValue));
+                    break;
+            }
+
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
@@ -154,8 +170,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                // uncomment the line below for troubleshooting
-                //Console.WriteLine(exception.ToString());
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into BasquePig: %s", jsonString, exception.ToString()));
             }
 
             try
@@ -167,8 +182,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                // uncomment the line below for troubleshooting
-                //Console.WriteLine(exception.ToString());
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into DanishPig: %s", jsonString, exception.ToString()));
             }
 
             if (match == 0)

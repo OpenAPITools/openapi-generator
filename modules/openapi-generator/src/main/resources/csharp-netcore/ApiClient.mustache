@@ -58,12 +58,17 @@ namespace {{packageName}}.Client
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Serialize the object into a JSON string.
+        /// </summary>
+        /// <param name="obj">Object to be serialized.</param>
+        /// <returns>A JSON string.</returns>
         public string Serialize(object obj)
         {
-            if (obj != null && obj.GetType().IsInstanceOfType(typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema)))
+            if (obj != null && obj is {{{packageName}}}.Model.AbstractOpenAPISchema)
             {
                 // the object to be serialized is an oneOf/anyOf schema
-                return ((Org.OpenAPITools.Model.AbstractOpenAPISchema)obj).ToJson();
+                return (({{{packageName}}}.Model.AbstractOpenAPISchema)obj).ToJson();
             }
             else
             {
@@ -128,17 +133,7 @@ namespace {{packageName}}.Client
             // at this point, it must be a model (json)
             try
             {
-                if (type.IsInstanceOfType(typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema)))
-                {
-                    // the response is an oneOf/anyOf schema
-                    Org.OpenAPITools.Model.AbstractOpenAPISchema instance = (Org.OpenAPITools.Model.AbstractOpenAPISchema)Activator.CreateInstance(type);
-                    instance.FromJson(response.Content);
-                    return instance;
-                }
-                else
-                {
-                    return JsonConvert.DeserializeObject(response.Content, type, _serializerSettings);
-                }
+                return JsonConvert.DeserializeObject(response.Content, type, _serializerSettings);
             }
             catch (Exception e)
             {
@@ -456,7 +451,7 @@ namespace {{packageName}}.Client
             }
 
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
-            if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
+            if (typeof({{{packageName}}}.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
             {
                 T instance = (T)Activator.CreateInstance(typeof(T));
                 MethodInfo method = typeof(T).GetMethod("FromJson");
@@ -559,11 +554,11 @@ namespace {{packageName}}.Client
             }
             else
             {
-                 response = await client.ExecuteAsync<T>(req, cancellationToken).ConfigureAwait(false);
+                response = await client.ExecuteAsync<T>(req, cancellationToken).ConfigureAwait(false);
             }
 
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
-            if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
+            if (typeof({{{packageName}}}.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
             {
                 T instance = (T)Activator.CreateInstance(typeof(T));
                 MethodInfo method = typeof(T).GetMethod("FromJson");
