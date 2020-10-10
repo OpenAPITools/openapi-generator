@@ -727,34 +727,45 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 }
             }
 
-            sb.append("keyword()) :: {:ok, ");
-            if (returnBaseType == null) {
-                sb.append("nil");
-            } else if (returnSimpleType) {
-                if (!returnTypeIsPrimitive) {
-                    sb.append(moduleName);
-                    sb.append(".Model.");
-                }
-                sb.append(returnBaseType);
-                sb.append(".t");
-            } else if (returnContainer == null) {
-                sb.append(returnBaseType);
-                sb.append(".t");
-            } else {
-                if (returnContainer.equals("array") ||
-                    returnContainer.equals("set")) {
-                    sb.append("list(");
-                    if (!returnTypeIsPrimitive) {
-                        sb.append(moduleName);
-                        sb.append(".Model.");
+            sb.append("keyword()) :: ");
+            HashSet<String> uniqueResponseTypes = new HashSet<String>();
+            for (CodegenResponse response : this.responses) {
+                ExtendedCodegenResponse exResponse = (ExtendedCodegenResponse) response;
+                StringBuilder returnEntry = new StringBuilder("");
+                if (exResponse.baseType == null) {
+                    returnEntry.append("nil");
+                } else if (exResponse.simpleType) {
+                    if (!exResponse.primitiveType) {
+                        returnEntry.append(moduleName);
+                        returnEntry.append(".Model.");
                     }
-                    sb.append(returnBaseType);
-                    sb.append(".t)");
-                } else if (returnContainer.equals("map")) {
-                    sb.append("map()");
+                    returnEntry.append(exResponse.baseType);
+                    returnEntry.append(".t");
+                } else if (exResponse.containerType == null) {
+                    returnEntry.append(returnBaseType);
+                    returnEntry.append(".t");
+                } else {
+                    if (exResponse.containerType.equals("array") ||
+                            exResponse.containerType.equals("set")) {
+                        returnEntry.append("list(");
+                        if (!exResponse.primitiveType) {
+                            returnEntry.append(moduleName);
+                            returnEntry.append(".Model.");
+                        }
+                        returnEntry.append(exResponse.baseType);
+                        returnEntry.append(".t)");
+                    } else if (exResponse.containerType.equals("map")) {
+                        returnEntry.append("map()");
+                    }
                 }
+                uniqueResponseTypes.add(returnEntry.toString());
             }
-            sb.append("} | {:error, Tesla.Env.t}");
+
+            for (String returnType : uniqueResponseTypes) {
+                sb.append("{:ok, ").append(returnType).append("} | ");
+            }
+
+            sb.append("{:error, Tesla.Env.t}");
             return sb.toString();
         }
 
