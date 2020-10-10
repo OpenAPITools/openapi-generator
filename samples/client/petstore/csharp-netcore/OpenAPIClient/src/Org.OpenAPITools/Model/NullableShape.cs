@@ -149,10 +149,10 @@ namespace Org.OpenAPITools.Model
             {
                 case "Quadrilateral":
                     this.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, _serializerSettings);
-                    break;
+                    return;
                 case "Triangle":
                     this.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, _serializerSettings);
-                    break;
+                    return;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for NullableShape. Possible values: Quadrilateral Triangle", discriminatorValue));
                     break;

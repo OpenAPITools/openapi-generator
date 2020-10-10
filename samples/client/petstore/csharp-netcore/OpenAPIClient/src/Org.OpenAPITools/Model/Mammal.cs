@@ -175,13 +175,13 @@ namespace Org.OpenAPITools.Model
             {
                 case "Pig":
                     this.ActualInstance = JsonConvert.DeserializeObject<Pig>(jsonString, _serializerSettings);
-                    break;
+                    return;
                 case "whale":
                     this.ActualInstance = JsonConvert.DeserializeObject<Whale>(jsonString, _serializerSettings);
-                    break;
+                    return;
                 case "zebra":
                     this.ActualInstance = JsonConvert.DeserializeObject<Zebra>(jsonString, _serializerSettings);
-                    break;
+                    return;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for Mammal. Possible values: Pig whale zebra", discriminatorValue));
                     break;

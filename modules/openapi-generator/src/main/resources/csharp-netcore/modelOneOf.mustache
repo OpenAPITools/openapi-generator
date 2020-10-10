@@ -103,7 +103,7 @@
                 {{#mappedModels}}
                 case "{{{mappingName}}}":
                     this.ActualInstance = JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, _serializerSettings);
-                    break;
+                    return;
                 {{/mappedModels}}
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));

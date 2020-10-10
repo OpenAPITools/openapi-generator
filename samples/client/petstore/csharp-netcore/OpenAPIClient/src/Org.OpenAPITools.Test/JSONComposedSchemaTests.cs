@@ -45,12 +45,12 @@ namespace Org.OpenAPITools.Test
             m.FromJson(str);
             Assert.NotNull(m);
             Assert.IsType<Whale>(m.ActualInstance);
-
+            
             String str2 = "{ \"className\": \"zebra\", \"type\": \"plains\" }";
             Mammal m2 = new Mammal();
             m2.FromJson(str2);
             Assert.NotNull(m2);
-            Assert.IsType<Zebra>(m.ActualInstance);
+            Assert.IsType<Zebra>(m2.ActualInstance);
         }
 
         /// <summary>
