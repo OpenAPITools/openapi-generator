@@ -750,12 +750,10 @@ paths:
                   description: None
                   type: string
                   format: date
-                  default: '2010-02-01'
                 dateTime:
                   description: None
                   type: string
                   format: date-time
-                  default: '2010-02-01T10:20:10.11111+01:00'
                 password:
                   description: None
                   type: string
