@@ -28,7 +28,7 @@ class UserApi {
   Future createUserWithHttpInfo(User body) async {
     // Verify required params are set.
     if (body == null) {
-     throw ApiException(400, 'Missing required param: body');
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
     }
 
     final path = '/user'.replaceAll('{format}', 'json');
@@ -78,7 +78,7 @@ class UserApi {
   ///   Created user object
   Future createUser(User body) async {
     final response = await createUserWithHttpInfo(body);
-    if (response.statusCode >= 400) {
+    if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
   }
@@ -94,7 +94,7 @@ class UserApi {
   Future createUsersWithArrayInputWithHttpInfo(List<User> body) async {
     // Verify required params are set.
     if (body == null) {
-     throw ApiException(400, 'Missing required param: body');
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
     }
 
     final path = '/user/createWithArray'.replaceAll('{format}', 'json');
@@ -142,7 +142,7 @@ class UserApi {
   ///   List of user object
   Future createUsersWithArrayInput(List<User> body) async {
     final response = await createUsersWithArrayInputWithHttpInfo(body);
-    if (response.statusCode >= 400) {
+    if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
   }
@@ -158,7 +158,7 @@ class UserApi {
   Future createUsersWithListInputWithHttpInfo(List<User> body) async {
     // Verify required params are set.
     if (body == null) {
-     throw ApiException(400, 'Missing required param: body');
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
     }
 
     final path = '/user/createWithList'.replaceAll('{format}', 'json');
@@ -206,7 +206,7 @@ class UserApi {
   ///   List of user object
   Future createUsersWithListInput(List<User> body) async {
     final response = await createUsersWithListInputWithHttpInfo(body);
-    if (response.statusCode >= 400) {
+    if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
   }
@@ -224,7 +224,7 @@ class UserApi {
   Future deleteUserWithHttpInfo(String username) async {
     // Verify required params are set.
     if (username == null) {
-     throw ApiException(400, 'Missing required param: username');
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
     }
 
     final path = '/user/{username}'.replaceAll('{format}', 'json').replaceAll('{' + 'username' + '}', username.toString());
@@ -274,7 +274,7 @@ class UserApi {
   ///   The name that needs to be deleted
   Future deleteUser(String username) async {
     final response = await deleteUserWithHttpInfo(username);
-    if (response.statusCode >= 400) {
+    if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
   }
@@ -290,7 +290,7 @@ class UserApi {
   Future<Response> getUserByNameWithHttpInfo(String username) async {
     // Verify required params are set.
     if (username == null) {
-     throw ApiException(400, 'Missing required param: username');
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
     }
 
     final path = '/user/{username}'.replaceAll('{format}', 'json').replaceAll('{' + 'username' + '}', username.toString());
@@ -338,14 +338,14 @@ class UserApi {
   ///   The name that needs to be fetched. Use user1 for testing.
   Future<User> getUserByName(String username) async {
     final response = await getUserByNameWithHttpInfo(username);
-    if (response.statusCode >= 400) {
+    if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    final responseBody = response.body;
-    if (responseBody != null && (responseBody.isNotEmpty || 204 != response.statusCode)) {
+    final body = response.body;
+    if (body != null && (body.isNotEmpty || response.statusCode != HttpStatus.noContent)) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'User') as User;
     }
     return null;
@@ -365,10 +365,10 @@ class UserApi {
   Future<Response> loginUserWithHttpInfo(String username, String password) async {
     // Verify required params are set.
     if (username == null) {
-     throw ApiException(400, 'Missing required param: username');
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
     }
     if (password == null) {
-     throw ApiException(400, 'Missing required param: password');
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: password');
     }
 
     final path = '/user/login'.replaceAll('{format}', 'json');
@@ -421,14 +421,14 @@ class UserApi {
   ///   The password for login in clear text
   Future<String> loginUser(String username, String password) async {
     final response = await loginUserWithHttpInfo(username, password);
-    if (response.statusCode >= 400) {
+    if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    final responseBody = response.body;
-    if (responseBody != null && (responseBody.isNotEmpty || 204 != response.statusCode)) {
+    final body = response.body;
+    if (body != null && (body.isNotEmpty || response.statusCode != HttpStatus.noContent)) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
     }
     return null;
@@ -480,7 +480,7 @@ class UserApi {
   /// Logs out current logged in user session
   Future logoutUser() async {
     final response = await logoutUserWithHttpInfo();
-    if (response.statusCode >= 400) {
+    if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
   }
@@ -501,10 +501,10 @@ class UserApi {
   Future updateUserWithHttpInfo(String username, User body) async {
     // Verify required params are set.
     if (username == null) {
-     throw ApiException(400, 'Missing required param: username');
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
     }
     if (body == null) {
-     throw ApiException(400, 'Missing required param: body');
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
     }
 
     final path = '/user/{username}'.replaceAll('{format}', 'json').replaceAll('{' + 'username' + '}', username.toString());
@@ -557,7 +557,7 @@ class UserApi {
   ///   Updated user object
   Future updateUser(String username, User body) async {
     final response = await updateUserWithHttpInfo(username, body);
-    if (response.statusCode >= 400) {
+    if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
   }

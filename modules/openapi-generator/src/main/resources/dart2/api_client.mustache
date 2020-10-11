@@ -125,16 +125,16 @@ class ApiClient {
         case 'GET': return await _client.get(url, headers: nullableHeaderParams);
       }
     } on SocketException catch (e, trace) {
-      throw ApiException.withInner(400, 'Socket operation failed: $method $path', e, trace);
+      throw ApiException.withInner(HttpStatus.badRequest, 'Socket operation failed: $method $path', e, trace);
     } on TlsException catch (e, trace) {
-      throw ApiException.withInner(400, 'TLS/SSL communication failed: $method $path', e, trace);
+      throw ApiException.withInner(HttpStatus.badRequest, 'TLS/SSL communication failed: $method $path', e, trace);
     } on IOException catch (e, trace) {
-      throw ApiException.withInner(400, 'I/O operation failed: $method $path', e, trace);
+      throw ApiException.withInner(HttpStatus.badRequest, 'I/O operation failed: $method $path', e, trace);
     } on Exception catch (e, trace) {
-      throw ApiException.withInner(400, 'Exception occurred: $method $path', e, trace);
+      throw ApiException.withInner(HttpStatus.badRequest, 'Exception occurred: $method $path', e, trace);
     }
 
-    throw ApiException(400, 'Invalid HTTP operation: $method $path');
+    throw ApiException(HttpStatus.badRequest, 'Invalid HTTP operation: $method $path');
   }
 
   dynamic _deserialize(dynamic value, String targetType, {bool growable}) {
@@ -182,9 +182,9 @@ class ApiClient {
           break;
       }
     } on Exception catch (e, stack) {
-      throw ApiException.withInner(500, 'Exception during deserialization.', e, stack);
+      throw ApiException.withInner(HttpStatus.internalServerError, 'Exception during deserialization.', e, stack);
     }
-    throw ApiException(500, 'Could not find a suitable class for deserialization');
+    throw ApiException(HttpStatus.internalServerError, 'Could not find a suitable class for deserialization');
   }
 
   /// Update query and header parameters based on authentication settings.

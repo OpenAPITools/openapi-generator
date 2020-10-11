@@ -54,7 +54,7 @@ class {{{classname}}} {
     {{#allParams}}
       {{#required}}
     if ({{{paramName}}} == null) {
-     throw ApiException(400, 'Missing required param: {{{paramName}}}');
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: {{{paramName}}}');
     }
       {{/required}}
     {{/allParams}}
@@ -162,15 +162,15 @@ class {{{classname}}} {
   {{/allParams}}
   {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
     final response = await {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{{paramName}}}: {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
-    if (response.statusCode >= 400) {
+    if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
     {{#returnType}}
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    final responseBody = response.body;
-    if (responseBody != null && (responseBody.isNotEmpty || 204 != response.statusCode)) {
+    final body = response.body;
+    if (body != null && (body.isNotEmpty || response.statusCode != HttpStatus.noContent)) {
       {{#isListContainer}}
       return (apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as List)
         .map((item) => item as {{{returnBaseType}}})
