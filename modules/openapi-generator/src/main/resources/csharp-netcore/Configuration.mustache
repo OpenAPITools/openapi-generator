@@ -95,9 +95,9 @@ namespace {{packageName}}.Client
         {{#hasHttpSignatureMethods}}
 
         /// <summary>
-        /// HTTPSigning configuration
+        /// HttpSigning configuration
         /// </summary>
-        private HTTPSigningConfiguration _HTTPSigningConfiguration = null;
+        private HttpSigningConfiguration _HttpSigningConfiguration = null;
         {{/hasHttpSignatureMethods}}
         #endregion Private Members
 
@@ -472,12 +472,12 @@ namespace {{packageName}}.Client
         {{#hasHttpSignatureMethods}}
 
         /// <summary>
-        /// Gets and Sets the HTTPSigningConfiuration
+        /// Gets and Sets the HttpSigningConfiuration
         /// </summary>
-        public HTTPSigningConfiguration HTTPSigningConfiguration
+        public HttpSigningConfiguration HttpSigningConfiguration
         {
-            get { return _HTTPSigningConfiguration; }
-            set { _HTTPSigningConfiguration = value; }
+            get { return _HttpSigningConfiguration; }
+            set { _HttpSigningConfiguration = value; }
         }
         {{/hasHttpSignatureMethods}}
 
@@ -558,7 +558,7 @@ namespace {{packageName}}.Client
                 Password = second.Password ?? first.Password,
                 AccessToken = second.AccessToken ?? first.AccessToken,
                 {{#hasHttpSignatureMethods}}
-                HTTPSigningConfiguration = second.HTTPSigningConfiguration ?? first.HTTPSigningConfiguration,
+                HttpSigningConfiguration = second.HttpSigningConfiguration ?? first.HttpSigningConfiguration,
                 {{/hasHttpSignatureMethods}}
                 TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
                 DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat

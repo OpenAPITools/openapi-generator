@@ -641,7 +641,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
         supportingFiles.add(new SupportingFile("HttpMethod.mustache", clientPackageDir, "HttpMethod.cs"));
         if (ProcessUtils.hasHttpSignatureMethods(openAPI)) {
-            supportingFiles.add(new SupportingFile("HTTPSigningConfiguration.mustache", clientPackageDir, "HTTPSigningConfiguration.cs"));
+            supportingFiles.add(new SupportingFile("HttpSigningConfiguration.mustache", clientPackageDir, "HttpSigningConfiguration.cs"));
         }
         if (supportsAsync) {
             supportingFiles.add(new SupportingFile("IAsynchronousClient.mustache", clientPackageDir, "IAsynchronousClient.cs"));
