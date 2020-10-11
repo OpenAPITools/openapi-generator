@@ -164,7 +164,7 @@ module Petstore
       if attributes.key?(:'date_time')
         self.date_time = attributes[:'date_time']
       else
-        self.date_time = Date.parse("2010-02-01T09:20:10.111110Z[UTC]")
+        self.date_time = DateTime.parse("2010-02-01T09:20:10.111110Z[UTC]")
       end
 
       if attributes.key?(:'password')
