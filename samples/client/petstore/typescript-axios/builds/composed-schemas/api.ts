@@ -135,6 +135,13 @@ export interface InlineObject {
 /**
  * 
  * @export
+ * @interface Pet
+ */
+export interface Pet {
+}
+/**
+ * 
+ * @export
  * @interface PetByAge
  */
 export interface PetByAge {
