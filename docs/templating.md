@@ -86,9 +86,9 @@ The Java generator supports a `library` option. This option works by defining ba
 
 To get started, we will need to copy our target generator's directory in full.
 
-The directory will be located under `modules/opeanpi-generator/src/main/resources/{generator}`. In general, the generator directory matches the generator name (what you would pass to the `generator` option), but this is not a requirement-- if you are having a hard time finding the template directory, look at the `embeddedTemplateDir` option in your target generator's implementation.
+The directory will be located under `modules/openapi-generator/src/main/resources/{generator}`. In general, the generator directory matches the generator name (what you would pass to the `generator` option), but this is not a requirement-- if you are having a hard time finding the template directory, look at the `embeddedTemplateDir` option in your target generator's implementation.
 
-If you've already cloned openapi-generator, find and copy the `modules/opeanpi-generator/src/main/resources/Java` directory. If you have the [Refined GitHub](https://github.com/sindresorhus/refined-github) Chrome or Firefox Extension, you can navigate to this directory on GitHub and click the "Download" button. Or, to pull the directory from latest master:
+If you've already cloned openapi-generator, find and copy the `modules/openapi-generator/src/main/resources/Java` directory. If you have the [Refined GitHub](https://github.com/sindresorhus/refined-github) Chrome or Firefox Extension, you can navigate to this directory on GitHub and click the "Download" button. Or, to pull the directory from latest master:
 
 ```bash
 mkdir -p ~/.openapi-generator/templates/ && cd $_
