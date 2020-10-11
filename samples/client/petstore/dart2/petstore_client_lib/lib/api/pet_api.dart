@@ -77,14 +77,6 @@ class PetApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    final responseBody = response.body;
-    if (responseBody != null && (responseBody.isNotEmpty || 204 != response.statusCode)) {
-    }
-    return;
   }
 
   /// Deletes a pet
@@ -154,14 +146,6 @@ class PetApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    final responseBody = response.body;
-    if (responseBody != null && (responseBody.isNotEmpty || 204 != response.statusCode)) {
-    }
-    return;
   }
 
   /// Finds Pets by status
@@ -231,7 +215,6 @@ class PetApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
@@ -311,7 +294,6 @@ class PetApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
@@ -390,7 +372,6 @@ class PetApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
@@ -463,14 +444,6 @@ class PetApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    final responseBody = response.body;
-    if (responseBody != null && (responseBody.isNotEmpty || 204 != response.statusCode)) {
-    }
-    return;
   }
 
   /// Updates a pet in the store with form data
@@ -561,14 +534,6 @@ class PetApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    final responseBody = response.body;
-    if (responseBody != null && (responseBody.isNotEmpty || 204 != response.statusCode)) {
-    }
-    return;
   }
 
   /// uploads an image
@@ -657,7 +622,6 @@ class PetApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
