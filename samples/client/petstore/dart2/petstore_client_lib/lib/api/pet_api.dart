@@ -77,7 +77,12 @@ class PetApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-    if (response.body != null) {
+
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    final responseBody = response.body;
+    if (responseBody != null && (responseBody.isNotEmpty || 204 != response.statusCode)) {
     }
     return;
   }
@@ -149,7 +154,12 @@ class PetApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-    if (response.body != null) {
+
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    final responseBody = response.body;
+    if (responseBody != null && (responseBody.isNotEmpty || 204 != response.statusCode)) {
     }
     return;
   }
@@ -221,7 +231,12 @@ class PetApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-    if (response.body != null) {
+
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    final responseBody = response.body;
+    if (responseBody != null && (responseBody.isNotEmpty || 204 != response.statusCode)) {
       return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
         .map((item) => item as Pet)
         .toList(growable: false);
@@ -296,7 +311,12 @@ class PetApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-    if (response.body != null) {
+
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    final responseBody = response.body;
+    if (responseBody != null && (responseBody.isNotEmpty || 204 != response.statusCode)) {
       return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
         .map((item) => item as Pet)
         .toList(growable: false);
@@ -370,7 +390,12 @@ class PetApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-    if (response.body != null) {
+
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    final responseBody = response.body;
+    if (responseBody != null && (responseBody.isNotEmpty || 204 != response.statusCode)) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'Pet') as Pet;
     }
     return null;
@@ -438,7 +463,12 @@ class PetApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-    if (response.body != null) {
+
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    final responseBody = response.body;
+    if (responseBody != null && (responseBody.isNotEmpty || 204 != response.statusCode)) {
     }
     return;
   }
@@ -531,7 +561,12 @@ class PetApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-    if (response.body != null) {
+
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    final responseBody = response.body;
+    if (responseBody != null && (responseBody.isNotEmpty || 204 != response.statusCode)) {
     }
     return;
   }
@@ -622,7 +657,12 @@ class PetApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-    if (response.body != null) {
+
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    final responseBody = response.body;
+    if (responseBody != null && (responseBody.isNotEmpty || 204 != response.statusCode)) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
     }
     return null;

@@ -81,7 +81,12 @@ class StoreApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-    if (response.body != null) {
+
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    final responseBody = response.body;
+    if (responseBody != null && (responseBody.isNotEmpty || 204 != response.statusCode)) {
     }
     return;
   }
@@ -139,7 +144,12 @@ class StoreApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-    if (response.body != null) {
+
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    final responseBody = response.body;
+    if (responseBody != null && (responseBody.isNotEmpty || 204 != response.statusCode)) {
       return Map<String, int>.from(apiClient.deserialize(_decodeBodyBytes(response), 'Map<String, int>'));
     }
     return null;
@@ -211,7 +221,12 @@ class StoreApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-    if (response.body != null) {
+
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    final responseBody = response.body;
+    if (responseBody != null && (responseBody.isNotEmpty || 204 != response.statusCode)) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
     }
     return null;
@@ -279,7 +294,12 @@ class StoreApi {
     if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-    if (response.body != null) {
+
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    final responseBody = response.body;
+    if (responseBody != null && (responseBody.isNotEmpty || 204 != response.statusCode)) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
     }
     return null;

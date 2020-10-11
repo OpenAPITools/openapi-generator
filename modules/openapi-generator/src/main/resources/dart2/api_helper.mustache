@@ -56,6 +56,6 @@ String parameterToString(dynamic value) {
 String _decodeBodyBytes(Response response) {
   final contentType = response.headers['content-type'];
   return contentType != null && contentType.contains('application/json')
-    ? utf8.decode(response.bodyBytes)
+    ? response.bodyBytes == null ? null : utf8.decode(response.bodyBytes)
     : response.body;
 }
