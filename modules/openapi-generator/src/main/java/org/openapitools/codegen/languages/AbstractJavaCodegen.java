@@ -983,7 +983,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (example == null) {
                 example = p.paramName + "_example";
             }
-            example = "\"" + escapeText(example) + "\"";
+            example = escapeText(example);
         } else if ("Integer".equals(type) || "Short".equals(type)) {
             if (example == null) {
                 example = "56";
@@ -992,17 +992,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (example == null) {
                 example = "56";
             }
-            example = StringUtils.appendIfMissingIgnoreCase(example, "L");
         } else if ("Float".equals(type)) {
             if (example == null) {
                 example = "3.4";
             }
-            example = StringUtils.appendIfMissingIgnoreCase(example, "F");
         } else if ("Double".equals(type)) {
             if (example == null) {
                 example = "3.4";
             }
-            example = StringUtils.appendIfMissingIgnoreCase(example, "D");
         } else if ("Boolean".equals(type)) {
             if (example == null) {
                 example = "true";
@@ -1011,9 +1008,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (example == null) {
                 example = "/path/to/file";
             }
-            example = "new File(\"" + escapeText(example) + "\")";
         } else if ("Date".equals(type)) {
-            example = "new Date()";
+            example = "2013-10-20";
         } else if ("OffsetDateTime".equals(type)) {
             example = "OffsetDateTime.now()";
         } else if ("BigDecimal".equals(type)) {
@@ -1024,13 +1020,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             example = type + ".fromValue(\"" + String.valueOf(values.get(0)) + "\")";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
-            example = "new " + type + "()";
+            example = null;
         }
 
-        if (example == null) {
-            example = "null";
-        } else if (Boolean.TRUE.equals(p.isArray)) {
-
+        if (Boolean.TRUE.equals(p.isArray)) {
             if (p.items.defaultValue != null) {
                 String innerExample;
                 if ("String".equals(p.items.dataType)) {
@@ -1038,12 +1031,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 } else {
                     innerExample = p.items.defaultValue;
                 }
-                example = "Arrays.asList(" + innerExample + ")";
+                example = "[" + innerExample + "]";
             } else {
-                example = "Arrays.asList()";
+                example = "[]";
             }
         } else if (Boolean.TRUE.equals(p.isMap)) {
-            example = "new HashMap()";
+            example = null;
         }
 
         p.example = example;

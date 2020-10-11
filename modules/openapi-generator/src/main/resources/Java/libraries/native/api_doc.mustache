@@ -67,7 +67,7 @@ public class Example {
 
         {{{classname}}} apiInstance = new {{{classname}}}(defaultClient);
         {{#allParams}}
-        {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
+        {{{dataType}}} {{{paramName}}} = {{>javaExample}}; // {{{dataType}}} | {{{description}}}
         {{/allParams}}
         try {
             {{^vendorExtensions.x-group-parameters}}
@@ -188,7 +188,7 @@ public class Example {
 
         {{{classname}}} apiInstance = new {{{classname}}}(defaultClient);
         {{#allParams}}
-        {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
+        {{{dataType}}} {{{paramName}}} = {{>javaExample}}; // {{{dataType}}} | {{{description}}}
         {{/allParams}}
         try {
             {{^vendorExtensions.x-group-parameters}}
