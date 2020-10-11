@@ -1132,7 +1132,9 @@ public class ModelUtils {
                 if (isComposedSchema(schema)) {
                     ComposedSchema composedChild = (ComposedSchema) schema;
                     boolean b = composedChild.getAllOf()
-                            .stream().map(Schema::get$ref)
+                            .stream()
+                            .map(Schema::get$ref)
+                            .filter(Objects::nonNull)
                             .map(ModelUtils::getSimpleRef)
                             .anyMatch(simpleRef::equals);
                     if (b) {
