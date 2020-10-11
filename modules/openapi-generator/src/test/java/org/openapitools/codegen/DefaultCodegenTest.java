@@ -2341,4 +2341,50 @@ public class DefaultCodegenTest {
         assertEquals(co.responses.get(0).getItems().getMaximum(), "7");
     }
 
+    @Test
+    public void testIsXPresence() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7651.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName;
+        Schema sc;
+        CodegenModel cm;
+
+        modelName = "DateWithValidation";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.isString, false);
+        assertEquals(cm.isDate, true);
+
+        modelName = "ObjectWithDateWithValidation";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.getVars().get(0).isString, false);
+        assertEquals(cm.getVars().get(0).isDate, true);
+
+        String path;
+        Operation operation;
+        CodegenOperation co;
+
+        path = "/ref_date_with_validation/{date}";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        assertEquals(co.pathParams.get(0).isString, false);
+        assertEquals(co.pathParams.get(0).isDate, true);
+        assertEquals(co.bodyParams.get(0).isString, false);
+        assertEquals(co.bodyParams.get(0).isDate, true);
+        assertEquals(co.responses.get(0).isString, false);
+        assertEquals(co.responses.get(0).isDate, true);
+
+        path = "/date_with_validation/{date}";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        assertEquals(co.pathParams.get(0).isString, false);
+        assertEquals(co.pathParams.get(0).isDate, true);
+        assertEquals(co.bodyParams.get(0).isString, false);
+        assertEquals(co.bodyParams.get(0).isDate, true);
+        assertEquals(co.responses.get(0).isString, false);
+        assertEquals(co.responses.get(0).isDate, true);
+    }
 }

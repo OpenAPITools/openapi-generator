@@ -64,7 +64,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public String defaultValue;
     public String arrayModelType;
     public boolean isAlias; // Is this effectively an alias of another simple type
-    public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble;
+    public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble, isDate;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
     public List<CodegenProperty> allVars = new ArrayList<CodegenProperty>(); // all properties (with parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>(); // a list of required properties
@@ -570,6 +570,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.isModel = isModel;
     }
 
+    @Override
+    public boolean getIsDate() { return isDate; }
+
+    @Override
+    public void setIsDate(boolean isDate)   {
+        this.isDate = isDate;
+    }
+
     // indicates if the model component has validation on the root level schema
     // this will be true when minItems or minProperties is set
     public boolean hasValidation() {
@@ -670,6 +678,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 isNumeric == that.isNumeric &&
                 isFloat == that.isFloat &&
                 isDouble == that.isDouble &&
+                isDate == that.isDate &&
                 hasVars == that.hasVars &&
                 emptyVars == that.emptyVars &&
                 hasMoreModels == that.hasMoreModels &&
@@ -746,6 +755,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getDescription(), getClassVarName(), getModelJson(), getDataType(), getXmlPrefix(), getXmlNamespace(),
                 getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
                 getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
+                isDate,
                 getVars(), getAllVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
                 isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArrayModel,
@@ -791,6 +801,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", isNumeric=").append(isNumeric);
         sb.append(", isFloat=").append(isFloat);
         sb.append(", isDouble=").append(isDouble);
+        sb.append(", isDate=").append(isDate);
         sb.append(", vars=").append(vars);
         sb.append(", allVars=").append(allVars);
         sb.append(", requiredVars=").append(requiredVars);
