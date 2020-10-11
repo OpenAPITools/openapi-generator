@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.utils;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
@@ -27,6 +28,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.*;
+
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.singletonList;
+import static org.testng.Assert.assertEquals;
 
 public class ModelUtilsTest {
 
@@ -226,6 +231,19 @@ public class ModelUtilsTest {
 
         Assert.assertEquals(emailSchema, ModelUtils.unaliasSchema(openAPI, emailSchema, importMappings));
         Assert.assertEquals(stringSchema, ModelUtils.unaliasSchema(openAPI, emailSchema, new HashMap<>()));
+    }
+
+    @Test
+    public void unaliasSchemaWithRef() {
+        Schema pony = new Schema().$ref("#/components/schemas/Pony").type("object");
+        Schema unicorn = new ComposedSchema().allOf(singletonList(pony)).$ref("#/components/schemas/Unicorn");
+
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.setComponents(new Components());
+        openAPI.getComponents().addSchemas("Pony", pony);
+        openAPI.getComponents().addSchemas("Unicorn", unicorn);
+
+        assertEquals(pony, ModelUtils.unaliasSchema(openAPI, pony, emptyMap()));
     }
 
     /**

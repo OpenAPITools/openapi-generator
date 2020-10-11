@@ -1072,7 +1072,7 @@ public class ModelUtils {
         }
 
         if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
-            String simpleRef = ModelUtils.getSimpleRef(schema.get$ref());
+            String simpleRef = getSimpleRef(schema.get$ref());
             if (importMappings.containsKey(simpleRef)) {
                 LOGGER.debug("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, importMappings.get(simpleRef));
                 return schema;
@@ -1088,7 +1088,7 @@ public class ModelUtils {
                 if (isGenerateAliasAsModel(ref)) {
                     return schema; // generate a model extending array
                 } else {
-                    return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
+                    return unaliasSchema(openAPI, allSchemas.get(getSimpleRef(schema.get$ref())),
                             importMappings);
                 }
             } else if (isComposedSchema(ref)) {
@@ -1101,22 +1101,51 @@ public class ModelUtils {
                         return schema; // generate a model extending map
                     } else {
                         // treat it as a typical map
-                        return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
+                        return unaliasSchema(openAPI, allSchemas.get(getSimpleRef(schema.get$ref())),
                                 importMappings);
                     }
                 }
             } else if (isObjectSchema(ref)) { // model
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property
                     return schema;
-                } else { // free form object (type: object)
-                    return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
+                } else {
+                    // free form object (type: object)
+                    if (hasValidation(ref)) {
+                        return schema;
+                    } else if (hasDescendants(simpleRef, openAPI)) {
+                        return schema;
+                    }
+                    return unaliasSchema(openAPI, allSchemas.get(getSimpleRef(schema.get$ref())),
                             importMappings);
                 }
             } else {
-                return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())), importMappings);
+                return unaliasSchema(openAPI, allSchemas.get(getSimpleRef(schema.get$ref())), importMappings);
             }
         }
         return schema;
+    }
+
+    private static boolean hasDescendants(String simpleRef, OpenAPI openAPI) {
+        for (Map.Entry<String, Schema> entry : getSchemas(openAPI).entrySet()) {
+            if (!isSameSchema(simpleRef, entry.getKey())) {
+                Schema schema = entry.getValue();
+                if (isComposedSchema(schema)) {
+                    ComposedSchema composedChild = (ComposedSchema) schema;
+                    boolean b = composedChild.getAllOf()
+                            .stream().map(Schema::get$ref)
+                            .map(ModelUtils::getSimpleRef)
+                            .anyMatch(simpleRef::equals);
+                    if (b) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean isSameSchema(String simpleRef, String schema) {
+        return simpleRef.equals(schema);
     }
 
     /**
