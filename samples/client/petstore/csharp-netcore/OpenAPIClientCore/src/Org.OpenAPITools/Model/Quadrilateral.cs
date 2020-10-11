@@ -141,14 +141,15 @@ namespace Org.OpenAPITools.Model
         /// Converts the JSON string into the object
         /// </summary>
         /// <param name="jsonString">JSON string</param>
-        public override void FromJson(string jsonString)
+        public static Quadrilateral FromJson(string jsonString)
         {
+            Quadrilateral newQuadrilateral = new Quadrilateral();
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, _serializerSettings);
+                newQuadrilateral.ActualInstance = JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, newQuadrilateral._serializerSettings);
                 matchedTypes.Add("ComplexQuadrilateral");
                 match++;
             }
@@ -160,7 +161,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, _serializerSettings);
+                newQuadrilateral.ActualInstance = JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, newQuadrilateral._serializerSettings);
                 matchedTypes.Add("SimpleQuadrilateral");
                 match++;
             }
@@ -180,6 +181,7 @@ namespace Org.OpenAPITools.Model
             }
             
             // deserialization is considered successful at this point if no exception has been thrown.
+            return newQuadrilateral;
         }
 
         /// <summary>

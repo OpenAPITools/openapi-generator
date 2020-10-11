@@ -52,10 +52,5 @@ namespace Org.OpenAPITools.Model
         /// Converts the instance into JSON string.
         /// </summary>
         public abstract string ToJson();
-
-        /// <summary>
-        /// Converts the JSON string into the instance
-        /// </summary>
-        public abstract void FromJson(string jsonString);
     }
 }
