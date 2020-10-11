@@ -1,0 +1,82 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore
+  description: "sample spec"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://petstore.swagger.io:80/v2
+tags:
+  - name: isX
+    description: an api that ensures that isX properties are present on Schema classes
+paths:
+  /ref_date_with_validation/{date}:
+    post:
+      tags:
+        - isX
+      operationId: refDateWithValidation
+      parameters:
+        - name: date
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/DateWithValidation'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DateWithValidation'
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DateWithValidation'
+  /date_with_validation/{date}:
+    post:
+      tags:
+        - isX
+      operationId: dateWithValidation
+      parameters:
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+            pattern: '^2020.*'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              format: date
+              pattern: '^2020.*'
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                format: date
+                pattern: '^2020.*'
+components:
+  schemas:
+    DateWithValidation:
+      type: string
+      format: date
+      pattern: '^2020.*'
+    ObjectWithDateWithValidation:
+      type: object
+      properties:
+        dateWithValidation:
+          type: string
+          format: date
+          pattern: '^2020.*'
+  securitySchemes: {}

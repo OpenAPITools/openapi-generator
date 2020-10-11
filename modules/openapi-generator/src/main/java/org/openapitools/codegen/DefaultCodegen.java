@@ -2520,6 +2520,11 @@ public class DefaultCodegen implements CodegenConfig {
                 } else { // int32 format
                     m.isInteger = Boolean.TRUE;
                 }
+            } else if (ModelUtils.isDateSchema(schema)) {
+                // NOTE: Date schemas as CodegenModel is a rare use case and may be removed at a later date.
+                // Sync of properties is done for consistency with other data types like CodegenParameter/CodegenProperty.
+                ModelUtils.syncValidationProperties(schema, m);
+                m.isDate = Boolean.TRUE;
             } else if (ModelUtils.isStringSchema(schema)) {
                 // NOTE: String schemas as CodegenModel is a rare use case and may be removed at a later date.
                 // Sync of properties is done for consistency with other data types like CodegenParameter/CodegenProperty.
