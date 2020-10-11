@@ -750,6 +750,7 @@ paths:
                   description: None
                   type: string
                   format: date
+                  default: '2010-02-01'
                 dateTime:
                   description: None
                   type: string

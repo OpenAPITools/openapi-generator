@@ -582,7 +582,7 @@ module Petstore
     # @option opts [Float] :float None
     # @option opts [String] :string None
     # @option opts [File] :binary None
-    # @option opts [Date] :date None
+    # @option opts [Date] :date None (default to Date.parse("2010-02-01"))
     # @option opts [DateTime] :date_time None (default to DateTime.parse("2010-02-01T09:20:10.111110Z[UTC]"))
     # @option opts [String] :password None
     # @option opts [String] :callback None

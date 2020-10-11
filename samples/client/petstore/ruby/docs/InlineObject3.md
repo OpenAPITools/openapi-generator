@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **pattern_without_delimiter** | **String** | None | 
 **byte** | **String** | None | 
 **binary** | **File** | None | [optional] 
-**date** | **Date** | None | [optional] 
+**date** | **Date** | None | [optional] [default to Date.parse(&quot;2010-02-01&quot;)]
 **date_time** | **DateTime** | None | [optional] [default to DateTime.parse(&quot;2010-02-01T09:20:10.111110Z[UTC]&quot;)]
 **password** | **String** | None | [optional] 
 **callback** | **String** | None | [optional] 

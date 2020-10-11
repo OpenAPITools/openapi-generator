@@ -159,6 +159,8 @@ module Petstore
 
       if attributes.key?(:'date')
         self.date = attributes[:'date']
+      else
+        self.date = Date.parse("2010-02-01")
       end
 
       if attributes.key?(:'date_time')
