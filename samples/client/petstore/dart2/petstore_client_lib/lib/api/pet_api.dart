@@ -218,8 +218,7 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    final body = response.body;
-    if (body != null && (body.isNotEmpty || response.statusCode != HttpStatus.noContent)) {
+    if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
         .map((item) => item as Pet)
         .toList(growable: false);
@@ -297,8 +296,7 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    final body = response.body;
-    if (body != null && (body.isNotEmpty || response.statusCode != HttpStatus.noContent)) {
+    if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
         .map((item) => item as Pet)
         .toList(growable: false);
@@ -375,8 +373,7 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    final body = response.body;
-    if (body != null && (body.isNotEmpty || response.statusCode != HttpStatus.noContent)) {
+    if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'Pet') as Pet;
     }
     return null;
@@ -625,8 +622,7 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    final body = response.body;
-    if (body != null && (body.isNotEmpty || response.statusCode != HttpStatus.noContent)) {
+    if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
     }
     return null;

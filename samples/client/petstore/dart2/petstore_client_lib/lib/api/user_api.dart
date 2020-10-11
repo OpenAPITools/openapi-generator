@@ -344,8 +344,7 @@ class UserApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    final body = response.body;
-    if (body != null && (body.isNotEmpty || response.statusCode != HttpStatus.noContent)) {
+    if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'User') as User;
     }
     return null;
@@ -427,8 +426,7 @@ class UserApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    final body = response.body;
-    if (body != null && (body.isNotEmpty || response.statusCode != HttpStatus.noContent)) {
+    if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
     }
     return null;
