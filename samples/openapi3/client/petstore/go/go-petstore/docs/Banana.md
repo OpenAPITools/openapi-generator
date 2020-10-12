@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetLengthCm
 
-`func (o *Banana) GetLengthCm() `
+`func (o *Banana) GetLengthCm() float32`
 
 GetLengthCm returns the LengthCm field if non-nil, zero value otherwise.
 
 ### GetLengthCmOk
 
-`func (o *Banana) GetLengthCmOk() (*, bool)`
+`func (o *Banana) GetLengthCmOk() (*float32, bool)`
 
 GetLengthCmOk returns a tuple with the LengthCm field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLengthCm
 
-`func (o *Banana) SetLengthCm(v )`
+`func (o *Banana) SetLengthCm(v float32)`
 
 SetLengthCm sets LengthCm field to given value.
 

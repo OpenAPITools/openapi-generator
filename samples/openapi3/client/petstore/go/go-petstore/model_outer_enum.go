@@ -12,6 +12,7 @@ package petstore
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // OuterEnum the model 'OuterEnum'

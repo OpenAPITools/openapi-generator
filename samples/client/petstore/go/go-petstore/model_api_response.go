@@ -39,9 +39,9 @@ func NewApiResponseWithDefaults() *ApiResponse {
 }
 
 // GetCode returns the Code field value if set, zero value otherwise.
-func (o *ApiResponse) GetCode()  {
+func (o *ApiResponse) GetCode() int32 {
 	if o == nil || o.Code == nil {
-		var ret 
+		var ret int32
 		return ret
 	}
 	return *o.Code
@@ -49,7 +49,7 @@ func (o *ApiResponse) GetCode()  {
 
 // GetCodeOk returns a tuple with the Code field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApiResponse) GetCodeOk() (*, bool) {
+func (o *ApiResponse) GetCodeOk() (*int32, bool) {
 	if o == nil || o.Code == nil {
 		return nil, false
 	}
@@ -66,14 +66,14 @@ func (o *ApiResponse) HasCode() bool {
 }
 
 // SetCode gets a reference to the given int32 and assigns it to the Code field.
-func (o *ApiResponse) SetCode(v ) {
+func (o *ApiResponse) SetCode(v int32) {
 	o.Code = &v
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
-func (o *ApiResponse) GetType()  {
+func (o *ApiResponse) GetType() string {
 	if o == nil || o.Type == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Type
@@ -81,7 +81,7 @@ func (o *ApiResponse) GetType()  {
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApiResponse) GetTypeOk() (*, bool) {
+func (o *ApiResponse) GetTypeOk() (*string, bool) {
 	if o == nil || o.Type == nil {
 		return nil, false
 	}
@@ -98,14 +98,14 @@ func (o *ApiResponse) HasType() bool {
 }
 
 // SetType gets a reference to the given string and assigns it to the Type field.
-func (o *ApiResponse) SetType(v ) {
+func (o *ApiResponse) SetType(v string) {
 	o.Type = &v
 }
 
 // GetMessage returns the Message field value if set, zero value otherwise.
-func (o *ApiResponse) GetMessage()  {
+func (o *ApiResponse) GetMessage() string {
 	if o == nil || o.Message == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Message
@@ -113,7 +113,7 @@ func (o *ApiResponse) GetMessage()  {
 
 // GetMessageOk returns a tuple with the Message field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApiResponse) GetMessageOk() (*, bool) {
+func (o *ApiResponse) GetMessageOk() (*string, bool) {
 	if o == nil || o.Message == nil {
 		return nil, false
 	}
@@ -130,7 +130,7 @@ func (o *ApiResponse) HasMessage() bool {
 }
 
 // SetMessage gets a reference to the given string and assigns it to the Message field.
-func (o *ApiResponse) SetMessage(v ) {
+func (o *ApiResponse) SetMessage(v string) {
 	o.Message = &v
 }
 

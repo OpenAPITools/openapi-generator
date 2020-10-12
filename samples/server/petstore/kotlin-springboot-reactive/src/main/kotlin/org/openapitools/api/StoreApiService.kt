@@ -6,7 +6,7 @@ interface StoreApiService {
 
 	suspend fun deleteOrder(orderId: kotlin.String): Unit
 
-	suspend fun getInventory(): 
+	suspend fun getInventory(): Map<String, kotlin.Int>
 
 	suspend fun getOrderById(orderId: kotlin.Long): Order
 

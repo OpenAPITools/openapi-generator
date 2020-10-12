@@ -140,7 +140,7 @@ class StoreApi {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
     if (response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Map<String, int>') as Map<String, int>;
+      return Map<String, int>.from(apiClient.deserialize(_decodeBodyBytes(response), 'Map<String, int>'));
     }
     return null;
   }

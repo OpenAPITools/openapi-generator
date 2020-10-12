@@ -86,15 +86,27 @@ module Petstore
       }
 
       if attributes.key?(:'map_map_of_string')
+        if (value = attributes[:'map_map_of_string']).is_a?(Hash)
+          self.map_map_of_string = value
+        end
       end
 
       if attributes.key?(:'map_of_enum_string')
+        if (value = attributes[:'map_of_enum_string']).is_a?(Hash)
+          self.map_of_enum_string = value
+        end
       end
 
       if attributes.key?(:'direct_map')
+        if (value = attributes[:'direct_map']).is_a?(Hash)
+          self.direct_map = value
+        end
       end
 
       if attributes.key?(:'indirect_map')
+        if (value = attributes[:'indirect_map']).is_a?(Hash)
+          self.indirect_map = value
+        end
       end
     end
 

@@ -148,8 +148,14 @@ namespace Org.OpenAPITools.Model
             string discriminatorValue = JObject.Parse(jsonString)["shapeType"].ToString();
             switch (discriminatorValue)
             {
+                case "Quadrilateral":
+                    newNullableShape.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, newNullableShape._serializerSettings);
+                    return newNullableShape;
+                case "Triangle":
+                    newNullableShape.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, newNullableShape._serializerSettings);
+                    return newNullableShape;
                 default:
-                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for NullableShape. Possible values:", discriminatorValue));
+                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for NullableShape. Possible values: Quadrilateral Triangle", discriminatorValue));
                     break;
             }
 

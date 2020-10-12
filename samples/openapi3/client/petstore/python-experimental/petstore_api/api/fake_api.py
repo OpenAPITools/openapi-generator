@@ -1668,7 +1668,7 @@ class FakeApi(object):
                 string (str): None. [optional]
                 binary (file_type): None. [optional]
                 date (date): None. [optional]
-                date_time (datetime): None. [optional]
+                date_time (datetime): None. [optional] if omitted the server will use the default value of dateutil_parser('2010-02-01T10:20:10.11111+01:00')
                 password (str): None. [optional]
                 param_callback (str): None. [optional]
                 _return_http_data_only (bool): response data without head status
@@ -1911,13 +1911,13 @@ class FakeApi(object):
 
             Keyword Args:
                 enum_header_string_array ([str]): Header parameter enum test (string array). [optional]
-                enum_header_string (str): Header parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
+                enum_header_string (str): Header parameter enum test (string). [optional] if omitted the server will use the default value of "-efg"
                 enum_query_string_array ([str]): Query parameter enum test (string array). [optional]
-                enum_query_string (str): Query parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
+                enum_query_string (str): Query parameter enum test (string). [optional] if omitted the server will use the default value of "-efg"
                 enum_query_integer (int): Query parameter enum test (double). [optional]
                 enum_query_double (float): Query parameter enum test (double). [optional]
-                enum_form_string_array ([str]): Form parameter enum test (string array). [optional] if omitted the server will use the default value of '$'
-                enum_form_string (str): Form parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
+                enum_form_string_array ([str]): Form parameter enum test (string array). [optional] if omitted the server will use the default value of "$"
+                enum_form_string (str): Form parameter enum test (string). [optional] if omitted the server will use the default value of "-efg"
                 _return_http_data_only (bool): response data without head status
                     code and headers. Default is True.
                 _preload_content (bool): if False, the urllib3.HTTPResponse object

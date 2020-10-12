@@ -9,7 +9,7 @@ class StoreApiServiceImpl : StoreApiService {
         TODO("Implement me")
     }
 
-    override fun getInventory():  {
+    override fun getInventory(): Map<String, kotlin.Int> {
         TODO("Implement me")
     }
 

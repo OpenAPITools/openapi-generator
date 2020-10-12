@@ -22,7 +22,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 
-@Path("fake_classname_test")
+@Path("/fake_classname_test")
 
 
 @io.swagger.annotations.Api(description = "the fake_classname_test API")

@@ -5,7 +5,7 @@ interface StoreApiService {
 
 	fun deleteOrder(orderId: kotlin.String): Unit
 
-	fun getInventory(): 
+	fun getInventory(): Map<String, kotlin.Int>
 
 	fun getOrderById(orderId: kotlin.Long): Order
 

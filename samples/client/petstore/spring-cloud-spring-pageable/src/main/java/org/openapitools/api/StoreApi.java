@@ -62,7 +62,7 @@ public interface StoreApi {
         value = "/store/inventory",
         produces = "application/json"
     )
-    ResponseEntity<> getInventory();
+    ResponseEntity<Map<String, Integer>> getInventory();
 
 
     /**

@@ -71,7 +71,9 @@ docs/NullableClass.md
 docs/NullableShape.md
 docs/NumberOnly.md
 docs/NumberWithValidations.md
+docs/ObjectInterface.md
 docs/ObjectModelWithRefProps.md
+docs/ObjectWithValidations.md
 docs/Order.md
 docs/ParentPet.md
 docs/Pet.md
@@ -178,7 +180,9 @@ petstore_api/model/nullable_class.py
 petstore_api/model/nullable_shape.py
 petstore_api/model/number_only.py
 petstore_api/model/number_with_validations.py
+petstore_api/model/object_interface.py
 petstore_api/model/object_model_with_ref_props.py
+petstore_api/model/object_with_validations.py
 petstore_api/model/order.py
 petstore_api/model/parent_pet.py
 petstore_api/model/pet.py

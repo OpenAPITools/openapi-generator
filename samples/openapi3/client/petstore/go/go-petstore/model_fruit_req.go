@@ -12,6 +12,7 @@ package petstore
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // FruitReq - struct for FruitReq

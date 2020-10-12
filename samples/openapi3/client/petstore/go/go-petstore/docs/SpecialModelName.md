@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetSpecialPropertyName
 
-`func (o *SpecialModelName) GetSpecialPropertyName() `
+`func (o *SpecialModelName) GetSpecialPropertyName() int64`
 
 GetSpecialPropertyName returns the SpecialPropertyName field if non-nil, zero value otherwise.
 
 ### GetSpecialPropertyNameOk
 
-`func (o *SpecialModelName) GetSpecialPropertyNameOk() (*, bool)`
+`func (o *SpecialModelName) GetSpecialPropertyNameOk() (*int64, bool)`
 
 GetSpecialPropertyNameOk returns a tuple with the SpecialPropertyName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSpecialPropertyName
 
-`func (o *SpecialModelName) SetSpecialPropertyName(v )`
+`func (o *SpecialModelName) SetSpecialPropertyName(v int64)`
 
 SetSpecialPropertyName sets SpecialPropertyName field to given value.
 

@@ -68,6 +68,9 @@ module Petstore
       end
 
       if attributes.key?(:'map')
+        if (value = attributes[:'map']).is_a?(Hash)
+          self.map = value
+        end
       end
     end
 

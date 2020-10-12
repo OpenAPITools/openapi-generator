@@ -24,9 +24,9 @@ type Category struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCategory(Name string, ) *Category {
+func NewCategory(name string, ) *Category {
 	this := Category{}
-	this.Name = Name
+	this.Name = name
 	return &this
 }
 
@@ -35,15 +35,15 @@ func NewCategory(Name string, ) *Category {
 // but it doesn't guarantee that properties required by API are set
 func NewCategoryWithDefaults() *Category {
 	this := Category{}
-	var Name string = default-name
-	this.Name = Name
+	var name string = "default-name"
+	this.Name = name
 	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *Category) GetId()  {
+func (o *Category) GetId() int64 {
 	if o == nil || o.Id == nil {
-		var ret 
+		var ret int64
 		return ret
 	}
 	return *o.Id
@@ -51,7 +51,7 @@ func (o *Category) GetId()  {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Category) GetIdOk() (*, bool) {
+func (o *Category) GetIdOk() (*int64, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
@@ -68,14 +68,14 @@ func (o *Category) HasId() bool {
 }
 
 // SetId gets a reference to the given int64 and assigns it to the Id field.
-func (o *Category) SetId(v ) {
+func (o *Category) SetId(v int64) {
 	o.Id = &v
 }
 
 // GetName returns the Name field value
-func (o *Category) GetName()  {
+func (o *Category) GetName() string {
 	if o == nil  {
-		var ret 
+		var ret string
 		return ret
 	}
 
@@ -84,7 +84,7 @@ func (o *Category) GetName()  {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *Category) GetNameOk() (*, bool) {
+func (o *Category) GetNameOk() (*string, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -92,7 +92,7 @@ func (o *Category) GetNameOk() (*, bool) {
 }
 
 // SetName sets field value
-func (o *Category) SetName(v ) {
+func (o *Category) SetName(v string) {
 	o.Name = v
 }
 

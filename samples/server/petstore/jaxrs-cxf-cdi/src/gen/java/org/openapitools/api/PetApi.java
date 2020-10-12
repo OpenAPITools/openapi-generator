@@ -22,7 +22,7 @@ import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 import java.util.Map;
 import java.util.List;
 import javax.validation.constraints.*;
-@Path("pet")
+@Path("/pet")
 @RequestScoped
 
 @Api(description = "the pet API")

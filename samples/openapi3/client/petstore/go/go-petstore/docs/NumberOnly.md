@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetJustNumber
 
-`func (o *NumberOnly) GetJustNumber() `
+`func (o *NumberOnly) GetJustNumber() float32`
 
 GetJustNumber returns the JustNumber field if non-nil, zero value otherwise.
 
 ### GetJustNumberOk
 
-`func (o *NumberOnly) GetJustNumberOk() (*, bool)`
+`func (o *NumberOnly) GetJustNumberOk() (*float32, bool)`
 
 GetJustNumberOk returns a tuple with the JustNumber field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetJustNumber
 
-`func (o *NumberOnly) SetJustNumber(v )`
+`func (o *NumberOnly) SetJustNumber(v float32)`
 
 SetJustNumber sets JustNumber field to given value.
 

@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 public interface StoreApiControllerImpInterface {
     void deleteOrder(Http.Request request, String orderId) ;
 
-     getInventory(Http.Request request) ;
+    Map<String, Integer> getInventory(Http.Request request) ;
 
     Order getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId) ;
 

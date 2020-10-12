@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
 public interface StoreApiControllerImpInterface {
     void deleteOrder(Http.Request request, String orderId) throws Exception;
 
-    CompletionStage<> getInventory(Http.Request request) throws Exception;
+    CompletionStage<Map<String, Integer>> getInventory(Http.Request request) throws Exception;
 
     CompletionStage<Order> getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId) throws Exception;
 

@@ -33,7 +33,9 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = another_fake_api.AnotherFakeApi(api_client)
-    client = Client() # Client | client model
+    client = Client(
+        client="client_example",
+    ) # Client | client model
 
     # example passing only required values which don't have defaults set
     try:

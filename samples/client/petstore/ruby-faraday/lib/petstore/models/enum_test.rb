@@ -128,10 +128,14 @@ module Petstore
 
       if attributes.key?(:'outer_enum_default_value')
         self.outer_enum_default_value = attributes[:'outer_enum_default_value']
+      else
+        self.outer_enum_default_value = 'placed'
       end
 
       if attributes.key?(:'outer_enum_integer_default_value')
         self.outer_enum_integer_default_value = attributes[:'outer_enum_integer_default_value']
+      else
+        self.outer_enum_integer_default_value = OuterEnumIntegerDefaultValue::N0
       end
     end
 

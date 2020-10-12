@@ -7,11 +7,11 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **String** |  |  [optional]
-**petType** | [**PetTypeEnum**](#PetTypeEnum) |  |  [optional]
+**petType** | [**String**](#String) |  | 
 
 
 
-## Enum: PetTypeEnum
+## Enum: String
 
 Name | Value
 ---- | -----

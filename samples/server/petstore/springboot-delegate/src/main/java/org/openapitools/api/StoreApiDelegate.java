@@ -46,7 +46,7 @@ public interface StoreApiDelegate {
      * @return successful operation (status code 200)
      * @see StoreApi#getInventory
      */
-    default ResponseEntity<> getInventory() {
+    default ResponseEntity<Map<String, Integer>> getInventory() {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

@@ -35,7 +35,7 @@ public interface StoreApiDelegate {
      * @return successful operation (status code 200)
      * @see StoreApi#getInventory
      */
-    ResponseEntity<> getInventory();
+    ResponseEntity<Map<String, Integer>> getInventory();
 
     /**
      * GET /store/order/{order_id} : Find purchase order by ID

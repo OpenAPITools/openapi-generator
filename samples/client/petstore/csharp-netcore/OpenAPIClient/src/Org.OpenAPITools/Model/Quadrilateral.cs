@@ -148,8 +148,14 @@ namespace Org.OpenAPITools.Model
             string discriminatorValue = JObject.Parse(jsonString)["quadrilateralType"].ToString();
             switch (discriminatorValue)
             {
+                case "ComplexQuadrilateral":
+                    newQuadrilateral.ActualInstance = JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, newQuadrilateral._serializerSettings);
+                    return newQuadrilateral;
+                case "SimpleQuadrilateral":
+                    newQuadrilateral.ActualInstance = JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, newQuadrilateral._serializerSettings);
+                    return newQuadrilateral;
                 default:
-                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for Quadrilateral. Possible values:", discriminatorValue));
+                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for Quadrilateral. Possible values: ComplexQuadrilateral SimpleQuadrilateral", discriminatorValue));
                     break;
             }
 

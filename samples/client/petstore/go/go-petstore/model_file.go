@@ -38,9 +38,9 @@ func NewFileWithDefaults() *File {
 }
 
 // GetSourceURI returns the SourceURI field value if set, zero value otherwise.
-func (o *File) GetSourceURI()  {
+func (o *File) GetSourceURI() string {
 	if o == nil || o.SourceURI == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.SourceURI
@@ -48,7 +48,7 @@ func (o *File) GetSourceURI()  {
 
 // GetSourceURIOk returns a tuple with the SourceURI field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *File) GetSourceURIOk() (*, bool) {
+func (o *File) GetSourceURIOk() (*string, bool) {
 	if o == nil || o.SourceURI == nil {
 		return nil, false
 	}
@@ -65,7 +65,7 @@ func (o *File) HasSourceURI() bool {
 }
 
 // SetSourceURI gets a reference to the given string and assigns it to the SourceURI field.
-func (o *File) SetSourceURI(v ) {
+func (o *File) SetSourceURI(v string) {
 	o.SourceURI = &v
 }
 

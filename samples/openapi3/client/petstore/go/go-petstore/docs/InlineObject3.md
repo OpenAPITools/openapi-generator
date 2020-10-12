@@ -23,7 +23,7 @@ Name | Type | Description | Notes
 
 ### NewInlineObject3
 
-`func NewInlineObject3(Number float32, Double float64, PatternWithoutDelimiter string, Byte string, ) *InlineObject3`
+`func NewInlineObject3(number float32, double float64, patternWithoutDelimiter string, byte_ string, ) *InlineObject3`
 
 NewInlineObject3 instantiates a new InlineObject3 object
 This constructor will assign default values to properties that have it defined,
@@ -40,20 +40,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetInteger
 
-`func (o *InlineObject3) GetInteger() `
+`func (o *InlineObject3) GetInteger() int32`
 
 GetInteger returns the Integer field if non-nil, zero value otherwise.
 
 ### GetIntegerOk
 
-`func (o *InlineObject3) GetIntegerOk() (*, bool)`
+`func (o *InlineObject3) GetIntegerOk() (*int32, bool)`
 
 GetIntegerOk returns a tuple with the Integer field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetInteger
 
-`func (o *InlineObject3) SetInteger(v )`
+`func (o *InlineObject3) SetInteger(v int32)`
 
 SetInteger sets Integer field to given value.
 
@@ -65,20 +65,20 @@ HasInteger returns a boolean if a field has been set.
 
 ### GetInt32
 
-`func (o *InlineObject3) GetInt32() `
+`func (o *InlineObject3) GetInt32() int32`
 
 GetInt32 returns the Int32 field if non-nil, zero value otherwise.
 
 ### GetInt32Ok
 
-`func (o *InlineObject3) GetInt32Ok() (*, bool)`
+`func (o *InlineObject3) GetInt32Ok() (*int32, bool)`
 
 GetInt32Ok returns a tuple with the Int32 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetInt32
 
-`func (o *InlineObject3) SetInt32(v )`
+`func (o *InlineObject3) SetInt32(v int32)`
 
 SetInt32 sets Int32 field to given value.
 
@@ -90,20 +90,20 @@ HasInt32 returns a boolean if a field has been set.
 
 ### GetInt64
 
-`func (o *InlineObject3) GetInt64() `
+`func (o *InlineObject3) GetInt64() int64`
 
 GetInt64 returns the Int64 field if non-nil, zero value otherwise.
 
 ### GetInt64Ok
 
-`func (o *InlineObject3) GetInt64Ok() (*, bool)`
+`func (o *InlineObject3) GetInt64Ok() (*int64, bool)`
 
 GetInt64Ok returns a tuple with the Int64 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetInt64
 
-`func (o *InlineObject3) SetInt64(v )`
+`func (o *InlineObject3) SetInt64(v int64)`
 
 SetInt64 sets Int64 field to given value.
 
@@ -115,40 +115,40 @@ HasInt64 returns a boolean if a field has been set.
 
 ### GetNumber
 
-`func (o *InlineObject3) GetNumber() `
+`func (o *InlineObject3) GetNumber() float32`
 
 GetNumber returns the Number field if non-nil, zero value otherwise.
 
 ### GetNumberOk
 
-`func (o *InlineObject3) GetNumberOk() (*, bool)`
+`func (o *InlineObject3) GetNumberOk() (*float32, bool)`
 
 GetNumberOk returns a tuple with the Number field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetNumber
 
-`func (o *InlineObject3) SetNumber(v )`
+`func (o *InlineObject3) SetNumber(v float32)`
 
 SetNumber sets Number field to given value.
 
 
 ### GetFloat
 
-`func (o *InlineObject3) GetFloat() `
+`func (o *InlineObject3) GetFloat() float32`
 
 GetFloat returns the Float field if non-nil, zero value otherwise.
 
 ### GetFloatOk
 
-`func (o *InlineObject3) GetFloatOk() (*, bool)`
+`func (o *InlineObject3) GetFloatOk() (*float32, bool)`
 
 GetFloatOk returns a tuple with the Float field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFloat
 
-`func (o *InlineObject3) SetFloat(v )`
+`func (o *InlineObject3) SetFloat(v float32)`
 
 SetFloat sets Float field to given value.
 
@@ -160,40 +160,40 @@ HasFloat returns a boolean if a field has been set.
 
 ### GetDouble
 
-`func (o *InlineObject3) GetDouble() `
+`func (o *InlineObject3) GetDouble() float64`
 
 GetDouble returns the Double field if non-nil, zero value otherwise.
 
 ### GetDoubleOk
 
-`func (o *InlineObject3) GetDoubleOk() (*, bool)`
+`func (o *InlineObject3) GetDoubleOk() (*float64, bool)`
 
 GetDoubleOk returns a tuple with the Double field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDouble
 
-`func (o *InlineObject3) SetDouble(v )`
+`func (o *InlineObject3) SetDouble(v float64)`
 
 SetDouble sets Double field to given value.
 
 
 ### GetString
 
-`func (o *InlineObject3) GetString() `
+`func (o *InlineObject3) GetString() string`
 
 GetString returns the String field if non-nil, zero value otherwise.
 
 ### GetStringOk
 
-`func (o *InlineObject3) GetStringOk() (*, bool)`
+`func (o *InlineObject3) GetStringOk() (*string, bool)`
 
 GetStringOk returns a tuple with the String field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetString
 
-`func (o *InlineObject3) SetString(v )`
+`func (o *InlineObject3) SetString(v string)`
 
 SetString sets String field to given value.
 
@@ -205,60 +205,60 @@ HasString returns a boolean if a field has been set.
 
 ### GetPatternWithoutDelimiter
 
-`func (o *InlineObject3) GetPatternWithoutDelimiter() `
+`func (o *InlineObject3) GetPatternWithoutDelimiter() string`
 
 GetPatternWithoutDelimiter returns the PatternWithoutDelimiter field if non-nil, zero value otherwise.
 
 ### GetPatternWithoutDelimiterOk
 
-`func (o *InlineObject3) GetPatternWithoutDelimiterOk() (*, bool)`
+`func (o *InlineObject3) GetPatternWithoutDelimiterOk() (*string, bool)`
 
 GetPatternWithoutDelimiterOk returns a tuple with the PatternWithoutDelimiter field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPatternWithoutDelimiter
 
-`func (o *InlineObject3) SetPatternWithoutDelimiter(v )`
+`func (o *InlineObject3) SetPatternWithoutDelimiter(v string)`
 
 SetPatternWithoutDelimiter sets PatternWithoutDelimiter field to given value.
 
 
 ### GetByte
 
-`func (o *InlineObject3) GetByte() `
+`func (o *InlineObject3) GetByte() string`
 
 GetByte returns the Byte field if non-nil, zero value otherwise.
 
 ### GetByteOk
 
-`func (o *InlineObject3) GetByteOk() (*, bool)`
+`func (o *InlineObject3) GetByteOk() (*string, bool)`
 
 GetByteOk returns a tuple with the Byte field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetByte
 
-`func (o *InlineObject3) SetByte(v )`
+`func (o *InlineObject3) SetByte(v string)`
 
 SetByte sets Byte field to given value.
 
 
 ### GetBinary
 
-`func (o *InlineObject3) GetBinary() `
+`func (o *InlineObject3) GetBinary() *os.File`
 
 GetBinary returns the Binary field if non-nil, zero value otherwise.
 
 ### GetBinaryOk
 
-`func (o *InlineObject3) GetBinaryOk() (*, bool)`
+`func (o *InlineObject3) GetBinaryOk() (**os.File, bool)`
 
 GetBinaryOk returns a tuple with the Binary field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBinary
 
-`func (o *InlineObject3) SetBinary(v )`
+`func (o *InlineObject3) SetBinary(v *os.File)`
 
 SetBinary sets Binary field to given value.
 
@@ -270,20 +270,20 @@ HasBinary returns a boolean if a field has been set.
 
 ### GetDate
 
-`func (o *InlineObject3) GetDate() `
+`func (o *InlineObject3) GetDate() string`
 
 GetDate returns the Date field if non-nil, zero value otherwise.
 
 ### GetDateOk
 
-`func (o *InlineObject3) GetDateOk() (*, bool)`
+`func (o *InlineObject3) GetDateOk() (*string, bool)`
 
 GetDateOk returns a tuple with the Date field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDate
 
-`func (o *InlineObject3) SetDate(v )`
+`func (o *InlineObject3) SetDate(v string)`
 
 SetDate sets Date field to given value.
 
@@ -295,20 +295,20 @@ HasDate returns a boolean if a field has been set.
 
 ### GetDateTime
 
-`func (o *InlineObject3) GetDateTime() `
+`func (o *InlineObject3) GetDateTime() time.Time`
 
 GetDateTime returns the DateTime field if non-nil, zero value otherwise.
 
 ### GetDateTimeOk
 
-`func (o *InlineObject3) GetDateTimeOk() (*, bool)`
+`func (o *InlineObject3) GetDateTimeOk() (*time.Time, bool)`
 
 GetDateTimeOk returns a tuple with the DateTime field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDateTime
 
-`func (o *InlineObject3) SetDateTime(v )`
+`func (o *InlineObject3) SetDateTime(v time.Time)`
 
 SetDateTime sets DateTime field to given value.
 
@@ -320,20 +320,20 @@ HasDateTime returns a boolean if a field has been set.
 
 ### GetPassword
 
-`func (o *InlineObject3) GetPassword() `
+`func (o *InlineObject3) GetPassword() string`
 
 GetPassword returns the Password field if non-nil, zero value otherwise.
 
 ### GetPasswordOk
 
-`func (o *InlineObject3) GetPasswordOk() (*, bool)`
+`func (o *InlineObject3) GetPasswordOk() (*string, bool)`
 
 GetPasswordOk returns a tuple with the Password field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPassword
 
-`func (o *InlineObject3) SetPassword(v )`
+`func (o *InlineObject3) SetPassword(v string)`
 
 SetPassword sets Password field to given value.
 
@@ -345,20 +345,20 @@ HasPassword returns a boolean if a field has been set.
 
 ### GetCallback
 
-`func (o *InlineObject3) GetCallback() `
+`func (o *InlineObject3) GetCallback() string`
 
 GetCallback returns the Callback field if non-nil, zero value otherwise.
 
 ### GetCallbackOk
 
-`func (o *InlineObject3) GetCallbackOk() (*, bool)`
+`func (o *InlineObject3) GetCallbackOk() (*string, bool)`
 
 GetCallbackOk returns a tuple with the Callback field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCallback
 
-`func (o *InlineObject3) SetCallback(v )`
+`func (o *InlineObject3) SetCallback(v string)`
 
 SetCallback sets Callback field to given value.
 

@@ -40,7 +40,20 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = user_api.UserApi(api_client)
-    user = User() # User | Created user object
+    user = User(
+        id=1,
+        username="username_example",
+        first_name="first_name_example",
+        last_name="last_name_example",
+        email="email_example",
+        password="password_example",
+        phone="phone_example",
+        user_status=1,
+        object_with_no_declared_props={},
+        object_with_no_declared_props_nullable={},
+        any_type_prop=None,
+        any_type_prop_nullable=None,
+    ) # User | Created user object
 
     # example passing only required values which don't have defaults set
     try:
@@ -100,7 +113,22 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = user_api.UserApi(api_client)
-    user = [User()] # [User] | List of user object
+    user = [
+        User(
+            id=1,
+            username="username_example",
+            first_name="first_name_example",
+            last_name="last_name_example",
+            email="email_example",
+            password="password_example",
+            phone="phone_example",
+            user_status=1,
+            object_with_no_declared_props={},
+            object_with_no_declared_props_nullable={},
+            any_type_prop=None,
+            any_type_prop_nullable=None,
+        ),
+    ] # [User] | List of user object
 
     # example passing only required values which don't have defaults set
     try:
@@ -160,7 +188,22 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = user_api.UserApi(api_client)
-    user = [User()] # [User] | List of user object
+    user = [
+        User(
+            id=1,
+            username="username_example",
+            first_name="first_name_example",
+            last_name="last_name_example",
+            email="email_example",
+            password="password_example",
+            phone="phone_example",
+            user_status=1,
+            object_with_no_declared_props={},
+            object_with_no_declared_props_nullable={},
+            any_type_prop=None,
+            any_type_prop_nullable=None,
+        ),
+    ] # [User] | List of user object
 
     # example passing only required values which don't have defaults set
     try:
@@ -221,7 +264,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = user_api.UserApi(api_client)
-    username = 'username_example' # str | The name that needs to be deleted
+    username = "username_example" # str | The name that needs to be deleted
 
     # example passing only required values which don't have defaults set
     try:
@@ -282,7 +325,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = user_api.UserApi(api_client)
-    username = 'username_example' # str | The name that needs to be fetched. Use user1 for testing.
+    username = "username_example" # str | The name that needs to be fetched. Use user1 for testing.
 
     # example passing only required values which don't have defaults set
     try:
@@ -344,8 +387,8 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = user_api.UserApi(api_client)
-    username = 'username_example' # str | The user name for login
-    password = 'password_example' # str | The password for login in clear text
+    username = "username_example" # str | The user name for login
+    password = "password_example" # str | The password for login in clear text
 
     # example passing only required values which don't have defaults set
     try:
@@ -465,8 +508,21 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = user_api.UserApi(api_client)
-    username = 'username_example' # str | name that need to be deleted
-    user = User() # User | Updated user object
+    username = "username_example" # str | name that need to be deleted
+    user = User(
+        id=1,
+        username="username_example",
+        first_name="first_name_example",
+        last_name="last_name_example",
+        email="email_example",
+        password="password_example",
+        phone="phone_example",
+        user_status=1,
+        object_with_no_declared_props={},
+        object_with_no_declared_props_nullable={},
+        any_type_prop=None,
+        any_type_prop_nullable=None,
+    ) # User | Updated user object
 
     # example passing only required values which don't have defaults set
     try:

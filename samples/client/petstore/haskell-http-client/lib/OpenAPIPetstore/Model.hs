@@ -367,14 +367,14 @@ mkAdditionalPropertiesClass
   :: AdditionalPropertiesClass
 mkAdditionalPropertiesClass =
   AdditionalPropertiesClass
-  { additionalPropertiesClassMapString = 
-  , additionalPropertiesClassMapNumber = 
-  , additionalPropertiesClassMapInteger = 
-  , additionalPropertiesClassMapBoolean = 
-  , additionalPropertiesClassMapArrayInteger = 
-  , additionalPropertiesClassMapArrayAnytype = 
-  , additionalPropertiesClassMapMapString = 
-  , additionalPropertiesClassMapMapAnytype = 
+  { additionalPropertiesClassMapString = Nothing
+  , additionalPropertiesClassMapNumber = Nothing
+  , additionalPropertiesClassMapInteger = Nothing
+  , additionalPropertiesClassMapBoolean = Nothing
+  , additionalPropertiesClassMapArrayInteger = Nothing
+  , additionalPropertiesClassMapArrayAnytype = Nothing
+  , additionalPropertiesClassMapMapString = Nothing
+  , additionalPropertiesClassMapMapAnytype = Nothing
   , additionalPropertiesClassAnytype1 = Nothing
   , additionalPropertiesClassAnytype2 = Nothing
   , additionalPropertiesClassAnytype3 = Nothing
@@ -1278,10 +1278,10 @@ mkMapTest
   :: MapTest
 mkMapTest =
   MapTest
-  { mapTestMapMapOfString = 
-  , mapTestMapOfEnumString = 
-  , mapTestDirectMap = 
-  , mapTestIndirectMap = 
+  { mapTestMapMapOfString = Nothing
+  , mapTestMapOfEnumString = Nothing
+  , mapTestDirectMap = Nothing
+  , mapTestIndirectMap = Nothing
   }
 
 -- ** MixedPropertiesAndAdditionalPropertiesClass
@@ -1317,7 +1317,7 @@ mkMixedPropertiesAndAdditionalPropertiesClass =
   MixedPropertiesAndAdditionalPropertiesClass
   { mixedPropertiesAndAdditionalPropertiesClassUuid = Nothing
   , mixedPropertiesAndAdditionalPropertiesClassDateTime = Nothing
-  , mixedPropertiesAndAdditionalPropertiesClassMap = 
+  , mixedPropertiesAndAdditionalPropertiesClassMap = Nothing
   }
 
 -- ** Model200Response

@@ -53,7 +53,7 @@ public interface StoreApiDelegate {
      * @return successful operation (status code 200)
      * @see StoreApi#getInventory
      */
-    default Mono<ResponseEntity<>> getInventory(ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Map<String, Integer>>> getInventory(ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         return result.then(Mono.empty());

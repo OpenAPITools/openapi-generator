@@ -32,20 +32,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetSmallCamel
 
-`func (o *Capitalization) GetSmallCamel() `
+`func (o *Capitalization) GetSmallCamel() string`
 
 GetSmallCamel returns the SmallCamel field if non-nil, zero value otherwise.
 
 ### GetSmallCamelOk
 
-`func (o *Capitalization) GetSmallCamelOk() (*, bool)`
+`func (o *Capitalization) GetSmallCamelOk() (*string, bool)`
 
 GetSmallCamelOk returns a tuple with the SmallCamel field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSmallCamel
 
-`func (o *Capitalization) SetSmallCamel(v )`
+`func (o *Capitalization) SetSmallCamel(v string)`
 
 SetSmallCamel sets SmallCamel field to given value.
 
@@ -57,20 +57,20 @@ HasSmallCamel returns a boolean if a field has been set.
 
 ### GetCapitalCamel
 
-`func (o *Capitalization) GetCapitalCamel() `
+`func (o *Capitalization) GetCapitalCamel() string`
 
 GetCapitalCamel returns the CapitalCamel field if non-nil, zero value otherwise.
 
 ### GetCapitalCamelOk
 
-`func (o *Capitalization) GetCapitalCamelOk() (*, bool)`
+`func (o *Capitalization) GetCapitalCamelOk() (*string, bool)`
 
 GetCapitalCamelOk returns a tuple with the CapitalCamel field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCapitalCamel
 
-`func (o *Capitalization) SetCapitalCamel(v )`
+`func (o *Capitalization) SetCapitalCamel(v string)`
 
 SetCapitalCamel sets CapitalCamel field to given value.
 
@@ -82,20 +82,20 @@ HasCapitalCamel returns a boolean if a field has been set.
 
 ### GetSmallSnake
 
-`func (o *Capitalization) GetSmallSnake() `
+`func (o *Capitalization) GetSmallSnake() string`
 
 GetSmallSnake returns the SmallSnake field if non-nil, zero value otherwise.
 
 ### GetSmallSnakeOk
 
-`func (o *Capitalization) GetSmallSnakeOk() (*, bool)`
+`func (o *Capitalization) GetSmallSnakeOk() (*string, bool)`
 
 GetSmallSnakeOk returns a tuple with the SmallSnake field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSmallSnake
 
-`func (o *Capitalization) SetSmallSnake(v )`
+`func (o *Capitalization) SetSmallSnake(v string)`
 
 SetSmallSnake sets SmallSnake field to given value.
 
@@ -107,20 +107,20 @@ HasSmallSnake returns a boolean if a field has been set.
 
 ### GetCapitalSnake
 
-`func (o *Capitalization) GetCapitalSnake() `
+`func (o *Capitalization) GetCapitalSnake() string`
 
 GetCapitalSnake returns the CapitalSnake field if non-nil, zero value otherwise.
 
 ### GetCapitalSnakeOk
 
-`func (o *Capitalization) GetCapitalSnakeOk() (*, bool)`
+`func (o *Capitalization) GetCapitalSnakeOk() (*string, bool)`
 
 GetCapitalSnakeOk returns a tuple with the CapitalSnake field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCapitalSnake
 
-`func (o *Capitalization) SetCapitalSnake(v )`
+`func (o *Capitalization) SetCapitalSnake(v string)`
 
 SetCapitalSnake sets CapitalSnake field to given value.
 
@@ -132,20 +132,20 @@ HasCapitalSnake returns a boolean if a field has been set.
 
 ### GetSCAETHFlowPoints
 
-`func (o *Capitalization) GetSCAETHFlowPoints() `
+`func (o *Capitalization) GetSCAETHFlowPoints() string`
 
 GetSCAETHFlowPoints returns the SCAETHFlowPoints field if non-nil, zero value otherwise.
 
 ### GetSCAETHFlowPointsOk
 
-`func (o *Capitalization) GetSCAETHFlowPointsOk() (*, bool)`
+`func (o *Capitalization) GetSCAETHFlowPointsOk() (*string, bool)`
 
 GetSCAETHFlowPointsOk returns a tuple with the SCAETHFlowPoints field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSCAETHFlowPoints
 
-`func (o *Capitalization) SetSCAETHFlowPoints(v )`
+`func (o *Capitalization) SetSCAETHFlowPoints(v string)`
 
 SetSCAETHFlowPoints sets SCAETHFlowPoints field to given value.
 
@@ -157,20 +157,20 @@ HasSCAETHFlowPoints returns a boolean if a field has been set.
 
 ### GetATT_NAME
 
-`func (o *Capitalization) GetATT_NAME() `
+`func (o *Capitalization) GetATT_NAME() string`
 
 GetATT_NAME returns the ATT_NAME field if non-nil, zero value otherwise.
 
 ### GetATT_NAMEOk
 
-`func (o *Capitalization) GetATT_NAMEOk() (*, bool)`
+`func (o *Capitalization) GetATT_NAMEOk() (*string, bool)`
 
 GetATT_NAMEOk returns a tuple with the ATT_NAME field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetATT_NAME
 
-`func (o *Capitalization) SetATT_NAME(v )`
+`func (o *Capitalization) SetATT_NAME(v string)`
 
 SetATT_NAME sets ATT_NAME field to given value.
 

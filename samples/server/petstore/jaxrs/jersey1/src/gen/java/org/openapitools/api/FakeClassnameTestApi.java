@@ -25,7 +25,7 @@ import javax.ws.rs.*;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-@Path("fake_classname_test")
+@Path("/fake_classname_test")
 
 
 @io.swagger.annotations.Api(description = "the fake_classname_test API")

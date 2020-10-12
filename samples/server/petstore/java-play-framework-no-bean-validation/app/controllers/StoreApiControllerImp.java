@@ -17,9 +17,9 @@ public class StoreApiControllerImp implements StoreApiControllerImpInterface {
     }
 
     @Override
-    public  getInventory(Http.Request request) throws Exception {
+    public Map<String, Integer> getInventory(Http.Request request) throws Exception {
         //Do your magic!!!
-        return new ();
+        return new HashMap<String, Integer>();
     }
 
     @Override

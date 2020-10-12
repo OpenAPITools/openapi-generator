@@ -41,9 +41,9 @@ func NewHasOnlyReadOnlyWithDefaults() *HasOnlyReadOnly {
 }
 
 // GetBar returns the Bar field value if set, zero value otherwise.
-func (o *HasOnlyReadOnly) GetBar()  {
+func (o *HasOnlyReadOnly) GetBar() string {
 	if o == nil || o.Bar == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Bar
@@ -51,7 +51,7 @@ func (o *HasOnlyReadOnly) GetBar()  {
 
 // GetBarOk returns a tuple with the Bar field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *HasOnlyReadOnly) GetBarOk() (*, bool) {
+func (o *HasOnlyReadOnly) GetBarOk() (*string, bool) {
 	if o == nil || o.Bar == nil {
 		return nil, false
 	}
@@ -68,14 +68,14 @@ func (o *HasOnlyReadOnly) HasBar() bool {
 }
 
 // SetBar gets a reference to the given string and assigns it to the Bar field.
-func (o *HasOnlyReadOnly) SetBar(v ) {
+func (o *HasOnlyReadOnly) SetBar(v string) {
 	o.Bar = &v
 }
 
 // GetFoo returns the Foo field value if set, zero value otherwise.
-func (o *HasOnlyReadOnly) GetFoo()  {
+func (o *HasOnlyReadOnly) GetFoo() string {
 	if o == nil || o.Foo == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Foo
@@ -83,7 +83,7 @@ func (o *HasOnlyReadOnly) GetFoo()  {
 
 // GetFooOk returns a tuple with the Foo field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *HasOnlyReadOnly) GetFooOk() (*, bool) {
+func (o *HasOnlyReadOnly) GetFooOk() (*string, bool) {
 	if o == nil || o.Foo == nil {
 		return nil, false
 	}
@@ -100,7 +100,7 @@ func (o *HasOnlyReadOnly) HasFoo() bool {
 }
 
 // SetFoo gets a reference to the given string and assigns it to the Foo field.
-func (o *HasOnlyReadOnly) SetFoo(v ) {
+func (o *HasOnlyReadOnly) SetFoo(v string) {
 	o.Foo = &v
 }
 

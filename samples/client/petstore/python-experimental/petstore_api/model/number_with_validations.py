@@ -55,6 +55,10 @@ class NumberWithValidations(ModelSimple):
     }
 
     validations = {
+        ('value',): {
+            'inclusive_maximum': 2E+1,
+            'inclusive_minimum': 1E+1,
+        },
     }
 
     additional_properties_type = None

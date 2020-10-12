@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Set;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
-import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -146,6 +145,9 @@ public class Pet   {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new LinkedHashSet<String>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }

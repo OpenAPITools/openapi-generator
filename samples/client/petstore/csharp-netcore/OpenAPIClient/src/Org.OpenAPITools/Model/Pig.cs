@@ -148,8 +148,14 @@ namespace Org.OpenAPITools.Model
             string discriminatorValue = JObject.Parse(jsonString)["className"].ToString();
             switch (discriminatorValue)
             {
+                case "BasquePig":
+                    newPig.ActualInstance = JsonConvert.DeserializeObject<BasquePig>(jsonString, newPig._serializerSettings);
+                    return newPig;
+                case "DanishPig":
+                    newPig.ActualInstance = JsonConvert.DeserializeObject<DanishPig>(jsonString, newPig._serializerSettings);
+                    return newPig;
                 default:
-                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for Pig. Possible values:", discriminatorValue));
+                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for Pig. Possible values: BasquePig DanishPig", discriminatorValue));
                     break;
             }
 

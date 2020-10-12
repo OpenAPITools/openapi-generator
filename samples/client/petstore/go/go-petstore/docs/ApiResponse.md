@@ -29,20 +29,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetCode
 
-`func (o *ApiResponse) GetCode() `
+`func (o *ApiResponse) GetCode() int32`
 
 GetCode returns the Code field if non-nil, zero value otherwise.
 
 ### GetCodeOk
 
-`func (o *ApiResponse) GetCodeOk() (*, bool)`
+`func (o *ApiResponse) GetCodeOk() (*int32, bool)`
 
 GetCodeOk returns a tuple with the Code field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCode
 
-`func (o *ApiResponse) SetCode(v )`
+`func (o *ApiResponse) SetCode(v int32)`
 
 SetCode sets Code field to given value.
 
@@ -54,20 +54,20 @@ HasCode returns a boolean if a field has been set.
 
 ### GetType
 
-`func (o *ApiResponse) GetType() `
+`func (o *ApiResponse) GetType() string`
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *ApiResponse) GetTypeOk() (*, bool)`
+`func (o *ApiResponse) GetTypeOk() (*string, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *ApiResponse) SetType(v )`
+`func (o *ApiResponse) SetType(v string)`
 
 SetType sets Type field to given value.
 
@@ -79,20 +79,20 @@ HasType returns a boolean if a field has been set.
 
 ### GetMessage
 
-`func (o *ApiResponse) GetMessage() `
+`func (o *ApiResponse) GetMessage() string`
 
 GetMessage returns the Message field if non-nil, zero value otherwise.
 
 ### GetMessageOk
 
-`func (o *ApiResponse) GetMessageOk() (*, bool)`
+`func (o *ApiResponse) GetMessageOk() (*string, bool)`
 
 GetMessageOk returns a tuple with the Message field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessage
 
-`func (o *ApiResponse) SetMessage(v )`
+`func (o *ApiResponse) SetMessage(v string)`
 
 SetMessage sets Message field to given value.
 

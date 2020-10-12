@@ -31,8 +31,8 @@ type _InlineObject2 InlineObject2
 // will change when the set of required properties is changed
 func NewInlineObject2() *InlineObject2 {
 	this := InlineObject2{}
-	var EnumFormString string = ENUM_FORM_STRING_EFG
-	this.EnumFormString = &EnumFormString
+	var enumFormString string = "-efg"
+	this.EnumFormString = &enumFormString
 	return &this
 }
 
@@ -41,15 +41,15 @@ func NewInlineObject2() *InlineObject2 {
 // but it doesn't guarantee that properties required by API are set
 func NewInlineObject2WithDefaults() *InlineObject2 {
 	this := InlineObject2{}
-	var EnumFormString string = ENUM_FORM_STRING_EFG
-	this.EnumFormString = &EnumFormString
+	var enumFormString string = "-efg"
+	this.EnumFormString = &enumFormString
 	return &this
 }
 
 // GetEnumFormStringArray returns the EnumFormStringArray field value if set, zero value otherwise.
-func (o *InlineObject2) GetEnumFormStringArray()  {
+func (o *InlineObject2) GetEnumFormStringArray() []string {
 	if o == nil || o.EnumFormStringArray == nil {
-		var ret 
+		var ret []string
 		return ret
 	}
 	return *o.EnumFormStringArray
@@ -57,7 +57,7 @@ func (o *InlineObject2) GetEnumFormStringArray()  {
 
 // GetEnumFormStringArrayOk returns a tuple with the EnumFormStringArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject2) GetEnumFormStringArrayOk() (*, bool) {
+func (o *InlineObject2) GetEnumFormStringArrayOk() (*[]string, bool) {
 	if o == nil || o.EnumFormStringArray == nil {
 		return nil, false
 	}
@@ -74,14 +74,14 @@ func (o *InlineObject2) HasEnumFormStringArray() bool {
 }
 
 // SetEnumFormStringArray gets a reference to the given []string and assigns it to the EnumFormStringArray field.
-func (o *InlineObject2) SetEnumFormStringArray(v ) {
+func (o *InlineObject2) SetEnumFormStringArray(v []string) {
 	o.EnumFormStringArray = &v
 }
 
 // GetEnumFormString returns the EnumFormString field value if set, zero value otherwise.
-func (o *InlineObject2) GetEnumFormString()  {
+func (o *InlineObject2) GetEnumFormString() string {
 	if o == nil || o.EnumFormString == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.EnumFormString
@@ -89,7 +89,7 @@ func (o *InlineObject2) GetEnumFormString()  {
 
 // GetEnumFormStringOk returns a tuple with the EnumFormString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject2) GetEnumFormStringOk() (*, bool) {
+func (o *InlineObject2) GetEnumFormStringOk() (*string, bool) {
 	if o == nil || o.EnumFormString == nil {
 		return nil, false
 	}
@@ -106,7 +106,7 @@ func (o *InlineObject2) HasEnumFormString() bool {
 }
 
 // SetEnumFormString gets a reference to the given string and assigns it to the EnumFormString field.
-func (o *InlineObject2) SetEnumFormString(v ) {
+func (o *InlineObject2) SetEnumFormString(v string) {
 	o.EnumFormString = &v
 }
 

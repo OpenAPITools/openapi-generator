@@ -63,7 +63,9 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = another_fake_api.AnotherFakeApi(api_client)
-    client = Client() # Client | client model
+    client = Client(
+        client="client_example",
+    ) # Client | client model
 
     try:
         # To test special tags
@@ -192,7 +194,9 @@ Class | Method | HTTP request | Description
  - [NullableShape](docs/NullableShape.md)
  - [NumberOnly](docs/NumberOnly.md)
  - [NumberWithValidations](docs/NumberWithValidations.md)
+ - [ObjectInterface](docs/ObjectInterface.md)
  - [ObjectModelWithRefProps](docs/ObjectModelWithRefProps.md)
+ - [ObjectWithValidations](docs/ObjectWithValidations.md)
  - [Order](docs/Order.md)
  - [ParentPet](docs/ParentPet.md)
  - [Pet](docs/Pet.md)

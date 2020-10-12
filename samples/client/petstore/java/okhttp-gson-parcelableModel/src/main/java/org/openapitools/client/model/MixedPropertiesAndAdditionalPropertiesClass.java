@@ -36,7 +36,7 @@ import android.os.Parcel;
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
+public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
   private UUID uuid;
@@ -101,6 +101,14 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
     
     this.map = map;
+    return this;
+  }
+
+  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
+    if (this.map == null) {
+      this.map = new HashMap<String, Animal>();
+    }
+    this.map.put(key, mapItem);
     return this;
   }
 

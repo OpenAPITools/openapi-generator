@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetName
 
-`func (o *InlineObject) GetName() `
+`func (o *InlineObject) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *InlineObject) GetNameOk() (*, bool)`
+`func (o *InlineObject) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *InlineObject) SetName(v )`
+`func (o *InlineObject) SetName(v string)`
 
 SetName sets Name field to given value.
 
@@ -53,20 +53,20 @@ HasName returns a boolean if a field has been set.
 
 ### GetStatus
 
-`func (o *InlineObject) GetStatus() `
+`func (o *InlineObject) GetStatus() string`
 
 GetStatus returns the Status field if non-nil, zero value otherwise.
 
 ### GetStatusOk
 
-`func (o *InlineObject) GetStatusOk() (*, bool)`
+`func (o *InlineObject) GetStatusOk() (*string, bool)`
 
 GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStatus
 
-`func (o *InlineObject) SetStatus(v )`
+`func (o *InlineObject) SetStatus(v string)`
 
 SetStatus sets Status field to given value.
 

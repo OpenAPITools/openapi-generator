@@ -41,9 +41,9 @@ func NewReadOnlyFirstWithDefaults() *ReadOnlyFirst {
 }
 
 // GetBar returns the Bar field value if set, zero value otherwise.
-func (o *ReadOnlyFirst) GetBar()  {
+func (o *ReadOnlyFirst) GetBar() string {
 	if o == nil || o.Bar == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Bar
@@ -51,7 +51,7 @@ func (o *ReadOnlyFirst) GetBar()  {
 
 // GetBarOk returns a tuple with the Bar field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ReadOnlyFirst) GetBarOk() (*, bool) {
+func (o *ReadOnlyFirst) GetBarOk() (*string, bool) {
 	if o == nil || o.Bar == nil {
 		return nil, false
 	}
@@ -68,14 +68,14 @@ func (o *ReadOnlyFirst) HasBar() bool {
 }
 
 // SetBar gets a reference to the given string and assigns it to the Bar field.
-func (o *ReadOnlyFirst) SetBar(v ) {
+func (o *ReadOnlyFirst) SetBar(v string) {
 	o.Bar = &v
 }
 
 // GetBaz returns the Baz field value if set, zero value otherwise.
-func (o *ReadOnlyFirst) GetBaz()  {
+func (o *ReadOnlyFirst) GetBaz() string {
 	if o == nil || o.Baz == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Baz
@@ -83,7 +83,7 @@ func (o *ReadOnlyFirst) GetBaz()  {
 
 // GetBazOk returns a tuple with the Baz field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ReadOnlyFirst) GetBazOk() (*, bool) {
+func (o *ReadOnlyFirst) GetBazOk() (*string, bool) {
 	if o == nil || o.Baz == nil {
 		return nil, false
 	}
@@ -100,7 +100,7 @@ func (o *ReadOnlyFirst) HasBaz() bool {
 }
 
 // SetBaz gets a reference to the given string and assigns it to the Baz field.
-func (o *ReadOnlyFirst) SetBaz(v ) {
+func (o *ReadOnlyFirst) SetBaz(v string) {
 	o.Baz = &v
 }
 

@@ -416,6 +416,9 @@ public class FakeApiController extends Controller {
         if (nodeparam != null) {
             param = mapper.readValue(nodeparam.toString(), new TypeReference<Map<String, String>>(){});
             if (configuration.getBoolean("useInputBeanValidation")) {
+                for (Map.Entry<String, String> entry : param.entrySet()) {
+                    OpenAPIUtils.validate(entry.getValue());
+                }
             }
         } else {
             throw new IllegalArgumentException("'param' parameter is required");

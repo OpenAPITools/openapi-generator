@@ -13,7 +13,7 @@ OpenAPI Generator version: 5.0.0-SNAPSHOT
 require 'date'
 
 module Petstore
-  class ArrayAlias < null<Integer>
+  class ArrayAlias < Array
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {

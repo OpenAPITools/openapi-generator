@@ -70,7 +70,7 @@ public interface StoreApi {
         value = "/store/inventory",
         produces = { "application/json" }
     )
-    default CompletableFuture<ResponseEntity<>> getInventory() {
+    default CompletableFuture<ResponseEntity<Map<String, Integer>>> getInventory() {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }

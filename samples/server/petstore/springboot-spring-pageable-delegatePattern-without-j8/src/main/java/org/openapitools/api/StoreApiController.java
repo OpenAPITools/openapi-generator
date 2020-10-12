@@ -53,7 +53,7 @@ public class StoreApiController implements StoreApi {
      * @return successful operation (status code 200)
      * @see StoreApi#getInventory
      */
-    public ResponseEntity<> getInventory() {
+    public ResponseEntity<Map<String, Integer>> getInventory() {
         return delegate.getInventory();
     }
 

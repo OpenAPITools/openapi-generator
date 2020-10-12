@@ -246,7 +246,12 @@ pplx::task<std::map<utility::string_t, int32_t>> StoreApi::getInventory() const
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
 
-            ModelBase::fromJson(localVarJson, localVarResult);
+            for( auto& localVarItem : localVarJson.as_object() )
+            {
+                int32_t localVarItemObj;
+                ModelBase::fromJson(localVarItem.second, localVarItemObj);
+                localVarResult[localVarItem.first] = localVarItemObj;
+            }
         }
         // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
         // {

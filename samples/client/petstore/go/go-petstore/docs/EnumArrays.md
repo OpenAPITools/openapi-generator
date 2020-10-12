@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetJustSymbol
 
-`func (o *EnumArrays) GetJustSymbol() `
+`func (o *EnumArrays) GetJustSymbol() string`
 
 GetJustSymbol returns the JustSymbol field if non-nil, zero value otherwise.
 
 ### GetJustSymbolOk
 
-`func (o *EnumArrays) GetJustSymbolOk() (*, bool)`
+`func (o *EnumArrays) GetJustSymbolOk() (*string, bool)`
 
 GetJustSymbolOk returns a tuple with the JustSymbol field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetJustSymbol
 
-`func (o *EnumArrays) SetJustSymbol(v )`
+`func (o *EnumArrays) SetJustSymbol(v string)`
 
 SetJustSymbol sets JustSymbol field to given value.
 
@@ -53,20 +53,20 @@ HasJustSymbol returns a boolean if a field has been set.
 
 ### GetArrayEnum
 
-`func (o *EnumArrays) GetArrayEnum() `
+`func (o *EnumArrays) GetArrayEnum() []string`
 
 GetArrayEnum returns the ArrayEnum field if non-nil, zero value otherwise.
 
 ### GetArrayEnumOk
 
-`func (o *EnumArrays) GetArrayEnumOk() (*, bool)`
+`func (o *EnumArrays) GetArrayEnumOk() (*[]string, bool)`
 
 GetArrayEnumOk returns a tuple with the ArrayEnum field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetArrayEnum
 
-`func (o *EnumArrays) SetArrayEnum(v )`
+`func (o *EnumArrays) SetArrayEnum(v []string)`
 
 SetArrayEnum sets ArrayEnum field to given value.
 

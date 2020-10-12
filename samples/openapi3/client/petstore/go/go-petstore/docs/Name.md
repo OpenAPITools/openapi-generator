@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewName
 
-`func NewName(Name int32, ) *Name`
+`func NewName(name int32, ) *Name`
 
 NewName instantiates a new Name object
 This constructor will assign default values to properties that have it defined,
@@ -30,40 +30,40 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetName
 
-`func (o *Name) GetName() `
+`func (o *Name) GetName() int32`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *Name) GetNameOk() (*, bool)`
+`func (o *Name) GetNameOk() (*int32, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *Name) SetName(v )`
+`func (o *Name) SetName(v int32)`
 
 SetName sets Name field to given value.
 
 
 ### GetSnakeCase
 
-`func (o *Name) GetSnakeCase() `
+`func (o *Name) GetSnakeCase() int32`
 
 GetSnakeCase returns the SnakeCase field if non-nil, zero value otherwise.
 
 ### GetSnakeCaseOk
 
-`func (o *Name) GetSnakeCaseOk() (*, bool)`
+`func (o *Name) GetSnakeCaseOk() (*int32, bool)`
 
 GetSnakeCaseOk returns a tuple with the SnakeCase field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSnakeCase
 
-`func (o *Name) SetSnakeCase(v )`
+`func (o *Name) SetSnakeCase(v int32)`
 
 SetSnakeCase sets SnakeCase field to given value.
 
@@ -75,20 +75,20 @@ HasSnakeCase returns a boolean if a field has been set.
 
 ### GetProperty
 
-`func (o *Name) GetProperty() `
+`func (o *Name) GetProperty() string`
 
 GetProperty returns the Property field if non-nil, zero value otherwise.
 
 ### GetPropertyOk
 
-`func (o *Name) GetPropertyOk() (*, bool)`
+`func (o *Name) GetPropertyOk() (*string, bool)`
 
 GetPropertyOk returns a tuple with the Property field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetProperty
 
-`func (o *Name) SetProperty(v )`
+`func (o *Name) SetProperty(v string)`
 
 SetProperty sets Property field to given value.
 
@@ -100,20 +100,20 @@ HasProperty returns a boolean if a field has been set.
 
 ### GetVar123Number
 
-`func (o *Name) GetVar123Number() `
+`func (o *Name) GetVar123Number() int32`
 
 GetVar123Number returns the Var123Number field if non-nil, zero value otherwise.
 
 ### GetVar123NumberOk
 
-`func (o *Name) GetVar123NumberOk() (*, bool)`
+`func (o *Name) GetVar123NumberOk() (*int32, bool)`
 
 GetVar123NumberOk returns a tuple with the Var123Number field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVar123Number
 
-`func (o *Name) SetVar123Number(v )`
+`func (o *Name) SetVar123Number(v int32)`
 
 SetVar123Number sets Var123Number field to given value.
 

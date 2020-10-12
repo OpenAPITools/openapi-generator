@@ -44,26 +44,14 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ShapeOrNull" /> class
-        /// with the <see cref="ModelNull" /> class
-        /// </summary>
-        /// <param name="actualInstance">An instance of ModelNull.</param>
-        public ShapeOrNull(ModelNull actualInstance)
-        {
-            this.IsNullable = false;
-            this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ShapeOrNull" /> class
         /// with the <see cref="Quadrilateral" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of Quadrilateral.</param>
         public ShapeOrNull(Quadrilateral actualInstance)
         {
-            this.IsNullable = false;
+            this.IsNullable = true;
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+            this.ActualInstance = actualInstance;
         }
 
         /// <summary>
@@ -73,9 +61,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of Triangle.</param>
         public ShapeOrNull(Triangle actualInstance)
         {
-            this.IsNullable = false;
+            this.IsNullable = true;
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+            this.ActualInstance = actualInstance;
         }
 
 
@@ -92,11 +80,7 @@ namespace Org.OpenAPITools.Model
             }
             set
             {
-                if (value.GetType() == typeof(ModelNull))
-                {
-                    this._actualInstance = value;
-                }
-                else if (value.GetType() == typeof(Quadrilateral))
+                if (value.GetType() == typeof(Quadrilateral))
                 {
                     this._actualInstance = value;
                 }
@@ -106,19 +90,9 @@ namespace Org.OpenAPITools.Model
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid instance found. Must be the following types: ModelNull, Quadrilateral, Triangle");
+                    throw new ArgumentException("Invalid instance found. Must be the following types: Quadrilateral, Triangle");
                 }
             }
-        }
-
-        /// <summary>
-        /// Get the actual instance of `ModelNull`. If the actual instanct is not `ModelNull`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of ModelNull</returns>
-        public ModelNull GetModelNull()
-        {
-            return (ModelNull)this.ActualInstance;
         }
 
         /// <summary>
@@ -172,18 +146,6 @@ namespace Org.OpenAPITools.Model
             ShapeOrNull newShapeOrNull = new ShapeOrNull();
             int match = 0;
             List<string> matchedTypes = new List<string>();
-
-            try
-            {
-                newShapeOrNull.ActualInstance = JsonConvert.DeserializeObject<ModelNull>(jsonString, newShapeOrNull._serializerSettings);
-                matchedTypes.Add("ModelNull");
-                match++;
-            }
-            catch (Exception exception)
-            {
-                // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into ModelNull: %s", jsonString, exception.ToString()));
-            }
 
             try
             {

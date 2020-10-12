@@ -41,9 +41,9 @@ func NewTagWithDefaults() *Tag {
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *Tag) GetId()  {
+func (o *Tag) GetId() int64 {
 	if o == nil || o.Id == nil {
-		var ret 
+		var ret int64
 		return ret
 	}
 	return *o.Id
@@ -51,7 +51,7 @@ func (o *Tag) GetId()  {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Tag) GetIdOk() (*, bool) {
+func (o *Tag) GetIdOk() (*int64, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
@@ -68,14 +68,14 @@ func (o *Tag) HasId() bool {
 }
 
 // SetId gets a reference to the given int64 and assigns it to the Id field.
-func (o *Tag) SetId(v ) {
+func (o *Tag) SetId(v int64) {
 	o.Id = &v
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *Tag) GetName()  {
+func (o *Tag) GetName() string {
 	if o == nil || o.Name == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Name
@@ -83,7 +83,7 @@ func (o *Tag) GetName()  {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Tag) GetNameOk() (*, bool) {
+func (o *Tag) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -100,7 +100,7 @@ func (o *Tag) HasName() bool {
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *Tag) SetName(v ) {
+func (o *Tag) SetName(v string) {
 	o.Name = &v
 }
 

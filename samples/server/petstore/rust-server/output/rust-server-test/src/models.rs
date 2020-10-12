@@ -136,7 +136,7 @@ impl std::str::FromStr for ANullableContainer {
 
 
 /// An additionalPropertiesObject
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesObject(std::collections::HashMap<String, String>);
 

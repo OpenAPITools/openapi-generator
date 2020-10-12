@@ -116,7 +116,8 @@ void OAIStoreApiRequest::deleteOrderResponse(){
 
 void OAIStoreApiRequest::getInventoryResponse(const QMap<QString, qint32>& res){
     setSocketResponseHeaders();
-    socket->write(::OpenAPI::toStringValue(res).toUtf8());
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
     if(socket->isOpen()){
         socket->close();
     }
@@ -155,7 +156,8 @@ void OAIStoreApiRequest::getInventoryError(const QMap<QString, qint32>& res, QNe
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
     setSocketResponseHeaders();
     Q_UNUSED(error_str);  // response will be used instead of error string
-    socket->write(::OpenAPI::toStringValue(res).toUtf8());
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
     if(socket->isOpen()){
         socket->close();
     }

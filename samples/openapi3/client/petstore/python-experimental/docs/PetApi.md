@@ -110,7 +110,24 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pet_api.PetApi(api_client)
-    pet = Pet() # Pet | Pet object that needs to be added to the store
+    pet = Pet(
+        id=1,
+        category=Category(
+            id=1,
+            name="default-name",
+        ),
+        name="doggie",
+        photo_urls=[
+            "photo_urls_example",
+        ],
+        tags=[
+            Tag(
+                id=1,
+                name="name_example",
+            ),
+        ],
+        status="available",
+    ) # Pet | Pet object that needs to be added to the store
 
     # example passing only required values which don't have defaults set
     try:
@@ -180,8 +197,8 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pet_api.PetApi(api_client)
-    pet_id = 56 # int | Pet id to delete
-    api_key = 'api_key_example' # str |  (optional)
+    pet_id = 1 # int | Pet id to delete
+    api_key = "api_key_example" # str |  (optional)
 
     # example passing only required values which don't have defaults set
     try:
@@ -323,7 +340,9 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pet_api.PetApi(api_client)
-    status = ['status_example'] # [str] | Status values that need to be considered for filter
+    status = [
+        "available",
+    ] # [str] | Status values that need to be considered for filter
 
     # example passing only required values which don't have defaults set
     try:
@@ -458,7 +477,9 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pet_api.PetApi(api_client)
-    tags = ['tags_example'] # [str] | Tags to filter by
+    tags = [
+        "tags_example",
+    ] # [str] | Tags to filter by
 
     # example passing only required values which don't have defaults set
     try:
@@ -533,7 +554,7 @@ configuration.api_key['api_key'] = 'YOUR_API_KEY'
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pet_api.PetApi(api_client)
-    pet_id = 56 # int | ID of pet to return
+    pet_id = 1 # int | ID of pet to return
 
     # example passing only required values which don't have defaults set
     try:
@@ -667,7 +688,24 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pet_api.PetApi(api_client)
-    pet = Pet() # Pet | Pet object that needs to be added to the store
+    pet = Pet(
+        id=1,
+        category=Category(
+            id=1,
+            name="default-name",
+        ),
+        name="doggie",
+        photo_urls=[
+            "photo_urls_example",
+        ],
+        tags=[
+            Tag(
+                id=1,
+                name="name_example",
+            ),
+        ],
+        status="available",
+    ) # Pet | Pet object that needs to be added to the store
 
     # example passing only required values which don't have defaults set
     try:
@@ -739,9 +777,9 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pet_api.PetApi(api_client)
-    pet_id = 56 # int | ID of pet that needs to be updated
-    name = 'name_example' # str | Updated name of the pet (optional)
-    status = 'status_example' # str | Updated status of the pet (optional)
+    pet_id = 1 # int | ID of pet that needs to be updated
+    name = "name_example" # str | Updated name of the pet (optional)
+    status = "status_example" # str | Updated status of the pet (optional)
 
     # example passing only required values which don't have defaults set
     try:
@@ -822,8 +860,8 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pet_api.PetApi(api_client)
-    pet_id = 56 # int | ID of pet to update
-    additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
+    pet_id = 1 # int | ID of pet to update
+    additional_metadata = "additional_metadata_example" # str | Additional data to pass to server (optional)
     file = open('/path/to/file', 'rb') # file_type | file to upload (optional)
 
     # example passing only required values which don't have defaults set
@@ -907,9 +945,9 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pet_api.PetApi(api_client)
-    pet_id = 56 # int | ID of pet to update
+    pet_id = 1 # int | ID of pet to update
     required_file = open('/path/to/file', 'rb') # file_type | file to upload
-    additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
+    additional_metadata = "additional_metadata_example" # str | Additional data to pass to server (optional)
 
     # example passing only required values which don't have defaults set
     try:

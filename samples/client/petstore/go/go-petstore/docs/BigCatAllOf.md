@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetKind
 
-`func (o *BigCatAllOf) GetKind() `
+`func (o *BigCatAllOf) GetKind() string`
 
 GetKind returns the Kind field if non-nil, zero value otherwise.
 
 ### GetKindOk
 
-`func (o *BigCatAllOf) GetKindOk() (*, bool)`
+`func (o *BigCatAllOf) GetKindOk() (*string, bool)`
 
 GetKindOk returns a tuple with the Kind field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKind
 
-`func (o *BigCatAllOf) SetKind(v )`
+`func (o *BigCatAllOf) SetKind(v string)`
 
 SetKind sets Kind field to given value.
 

@@ -31,7 +31,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 
-@Path("fake")
+@Path("/fake")
 
 
 @io.swagger.annotations.Api(description = "the fake API")

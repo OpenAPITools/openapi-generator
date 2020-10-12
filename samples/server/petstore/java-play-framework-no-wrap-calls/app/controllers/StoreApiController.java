@@ -45,7 +45,7 @@ public class StoreApiController extends Controller {
 
     
     public Result getInventory(Http.Request request) throws Exception {
-         obj = imp.getInventory(request);
+        Map<String, Integer> obj = imp.getInventory(request);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
     }

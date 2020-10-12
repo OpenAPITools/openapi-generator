@@ -43,9 +43,9 @@ func NewInlineObjectWithDefaults() *InlineObject {
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *InlineObject) GetName()  {
+func (o *InlineObject) GetName() string {
 	if o == nil || o.Name == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Name
@@ -53,7 +53,7 @@ func (o *InlineObject) GetName()  {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject) GetNameOk() (*, bool) {
+func (o *InlineObject) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -70,14 +70,14 @@ func (o *InlineObject) HasName() bool {
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *InlineObject) SetName(v ) {
+func (o *InlineObject) SetName(v string) {
 	o.Name = &v
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *InlineObject) GetStatus()  {
+func (o *InlineObject) GetStatus() string {
 	if o == nil || o.Status == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Status
@@ -85,7 +85,7 @@ func (o *InlineObject) GetStatus()  {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject) GetStatusOk() (*, bool) {
+func (o *InlineObject) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -102,7 +102,7 @@ func (o *InlineObject) HasStatus() bool {
 }
 
 // SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *InlineObject) SetStatus(v ) {
+func (o *InlineObject) SetStatus(v string) {
 	o.Status = &v
 }
 

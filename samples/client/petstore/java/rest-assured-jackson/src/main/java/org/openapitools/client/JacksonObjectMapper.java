@@ -15,6 +15,7 @@ package org.openapitools.client;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import io.restassured.internal.mapping.Jackson2Mapper;
@@ -39,6 +40,8 @@ public class JacksonObjectMapper extends Jackson2Mapper {
             mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
             mapper.setDateFormat(new RFC3339DateFormat());
             mapper.registerModule(new JavaTimeModule());
+            JsonNullableModule jnm = new JsonNullableModule();
+            mapper.registerModule(jnm);
             return mapper;
         };
     }

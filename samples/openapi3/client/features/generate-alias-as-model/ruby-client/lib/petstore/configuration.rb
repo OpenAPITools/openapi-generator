@@ -139,7 +139,7 @@ module Petstore
 
     def initialize
       @scheme = 'http'
-      @host = 'petstore.swagger.io'
+      @host = 'petstore.swagger.io:-1'
       @base_path = '/v2'
       @server_index = 0
       @server_operation_index = {}

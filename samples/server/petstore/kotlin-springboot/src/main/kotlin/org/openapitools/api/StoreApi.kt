@@ -62,7 +62,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         value = ["/store/inventory"],
         produces = ["application/json"]
     )
-    fun getInventory(): ResponseEntity<> {
+    fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
         return ResponseEntity(service.getInventory(), HttpStatus.valueOf(200))
     }
 

@@ -38,12 +38,12 @@ type FormatTest struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFormatTest(Number float32, Byte string, Date string, Password string, ) *FormatTest {
+func NewFormatTest(number float32, byte_ string, date string, password string, ) *FormatTest {
 	this := FormatTest{}
-	this.Number = Number
-	this.Byte = Byte
-	this.Date = Date
-	this.Password = Password
+	this.Number = number
+	this.Byte = byte_
+	this.Date = date
+	this.Password = password
 	return &this
 }
 
@@ -56,9 +56,9 @@ func NewFormatTestWithDefaults() *FormatTest {
 }
 
 // GetInteger returns the Integer field value if set, zero value otherwise.
-func (o *FormatTest) GetInteger()  {
+func (o *FormatTest) GetInteger() int32 {
 	if o == nil || o.Integer == nil {
-		var ret 
+		var ret int32
 		return ret
 	}
 	return *o.Integer
@@ -66,7 +66,7 @@ func (o *FormatTest) GetInteger()  {
 
 // GetIntegerOk returns a tuple with the Integer field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetIntegerOk() (*, bool) {
+func (o *FormatTest) GetIntegerOk() (*int32, bool) {
 	if o == nil || o.Integer == nil {
 		return nil, false
 	}
@@ -83,14 +83,14 @@ func (o *FormatTest) HasInteger() bool {
 }
 
 // SetInteger gets a reference to the given int32 and assigns it to the Integer field.
-func (o *FormatTest) SetInteger(v ) {
+func (o *FormatTest) SetInteger(v int32) {
 	o.Integer = &v
 }
 
 // GetInt32 returns the Int32 field value if set, zero value otherwise.
-func (o *FormatTest) GetInt32()  {
+func (o *FormatTest) GetInt32() int32 {
 	if o == nil || o.Int32 == nil {
-		var ret 
+		var ret int32
 		return ret
 	}
 	return *o.Int32
@@ -98,7 +98,7 @@ func (o *FormatTest) GetInt32()  {
 
 // GetInt32Ok returns a tuple with the Int32 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetInt32Ok() (*, bool) {
+func (o *FormatTest) GetInt32Ok() (*int32, bool) {
 	if o == nil || o.Int32 == nil {
 		return nil, false
 	}
@@ -115,14 +115,14 @@ func (o *FormatTest) HasInt32() bool {
 }
 
 // SetInt32 gets a reference to the given int32 and assigns it to the Int32 field.
-func (o *FormatTest) SetInt32(v ) {
+func (o *FormatTest) SetInt32(v int32) {
 	o.Int32 = &v
 }
 
 // GetInt64 returns the Int64 field value if set, zero value otherwise.
-func (o *FormatTest) GetInt64()  {
+func (o *FormatTest) GetInt64() int64 {
 	if o == nil || o.Int64 == nil {
-		var ret 
+		var ret int64
 		return ret
 	}
 	return *o.Int64
@@ -130,7 +130,7 @@ func (o *FormatTest) GetInt64()  {
 
 // GetInt64Ok returns a tuple with the Int64 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetInt64Ok() (*, bool) {
+func (o *FormatTest) GetInt64Ok() (*int64, bool) {
 	if o == nil || o.Int64 == nil {
 		return nil, false
 	}
@@ -147,14 +147,14 @@ func (o *FormatTest) HasInt64() bool {
 }
 
 // SetInt64 gets a reference to the given int64 and assigns it to the Int64 field.
-func (o *FormatTest) SetInt64(v ) {
+func (o *FormatTest) SetInt64(v int64) {
 	o.Int64 = &v
 }
 
 // GetNumber returns the Number field value
-func (o *FormatTest) GetNumber()  {
+func (o *FormatTest) GetNumber() float32 {
 	if o == nil  {
-		var ret 
+		var ret float32
 		return ret
 	}
 
@@ -163,7 +163,7 @@ func (o *FormatTest) GetNumber()  {
 
 // GetNumberOk returns a tuple with the Number field value
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetNumberOk() (*, bool) {
+func (o *FormatTest) GetNumberOk() (*float32, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -171,14 +171,14 @@ func (o *FormatTest) GetNumberOk() (*, bool) {
 }
 
 // SetNumber sets field value
-func (o *FormatTest) SetNumber(v ) {
+func (o *FormatTest) SetNumber(v float32) {
 	o.Number = v
 }
 
 // GetFloat returns the Float field value if set, zero value otherwise.
-func (o *FormatTest) GetFloat()  {
+func (o *FormatTest) GetFloat() float32 {
 	if o == nil || o.Float == nil {
-		var ret 
+		var ret float32
 		return ret
 	}
 	return *o.Float
@@ -186,7 +186,7 @@ func (o *FormatTest) GetFloat()  {
 
 // GetFloatOk returns a tuple with the Float field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetFloatOk() (*, bool) {
+func (o *FormatTest) GetFloatOk() (*float32, bool) {
 	if o == nil || o.Float == nil {
 		return nil, false
 	}
@@ -203,14 +203,14 @@ func (o *FormatTest) HasFloat() bool {
 }
 
 // SetFloat gets a reference to the given float32 and assigns it to the Float field.
-func (o *FormatTest) SetFloat(v ) {
+func (o *FormatTest) SetFloat(v float32) {
 	o.Float = &v
 }
 
 // GetDouble returns the Double field value if set, zero value otherwise.
-func (o *FormatTest) GetDouble()  {
+func (o *FormatTest) GetDouble() float64 {
 	if o == nil || o.Double == nil {
-		var ret 
+		var ret float64
 		return ret
 	}
 	return *o.Double
@@ -218,7 +218,7 @@ func (o *FormatTest) GetDouble()  {
 
 // GetDoubleOk returns a tuple with the Double field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetDoubleOk() (*, bool) {
+func (o *FormatTest) GetDoubleOk() (*float64, bool) {
 	if o == nil || o.Double == nil {
 		return nil, false
 	}
@@ -235,14 +235,14 @@ func (o *FormatTest) HasDouble() bool {
 }
 
 // SetDouble gets a reference to the given float64 and assigns it to the Double field.
-func (o *FormatTest) SetDouble(v ) {
+func (o *FormatTest) SetDouble(v float64) {
 	o.Double = &v
 }
 
 // GetString returns the String field value if set, zero value otherwise.
-func (o *FormatTest) GetString()  {
+func (o *FormatTest) GetString() string {
 	if o == nil || o.String == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.String
@@ -250,7 +250,7 @@ func (o *FormatTest) GetString()  {
 
 // GetStringOk returns a tuple with the String field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetStringOk() (*, bool) {
+func (o *FormatTest) GetStringOk() (*string, bool) {
 	if o == nil || o.String == nil {
 		return nil, false
 	}
@@ -267,14 +267,14 @@ func (o *FormatTest) HasString() bool {
 }
 
 // SetString gets a reference to the given string and assigns it to the String field.
-func (o *FormatTest) SetString(v ) {
+func (o *FormatTest) SetString(v string) {
 	o.String = &v
 }
 
 // GetByte returns the Byte field value
-func (o *FormatTest) GetByte()  {
+func (o *FormatTest) GetByte() string {
 	if o == nil  {
-		var ret 
+		var ret string
 		return ret
 	}
 
@@ -283,7 +283,7 @@ func (o *FormatTest) GetByte()  {
 
 // GetByteOk returns a tuple with the Byte field value
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetByteOk() (*, bool) {
+func (o *FormatTest) GetByteOk() (*string, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -291,14 +291,14 @@ func (o *FormatTest) GetByteOk() (*, bool) {
 }
 
 // SetByte sets field value
-func (o *FormatTest) SetByte(v ) {
+func (o *FormatTest) SetByte(v string) {
 	o.Byte = v
 }
 
 // GetBinary returns the Binary field value if set, zero value otherwise.
-func (o *FormatTest) GetBinary()  {
+func (o *FormatTest) GetBinary() *os.File {
 	if o == nil || o.Binary == nil {
-		var ret 
+		var ret *os.File
 		return ret
 	}
 	return *o.Binary
@@ -306,7 +306,7 @@ func (o *FormatTest) GetBinary()  {
 
 // GetBinaryOk returns a tuple with the Binary field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetBinaryOk() (*, bool) {
+func (o *FormatTest) GetBinaryOk() (**os.File, bool) {
 	if o == nil || o.Binary == nil {
 		return nil, false
 	}
@@ -323,14 +323,14 @@ func (o *FormatTest) HasBinary() bool {
 }
 
 // SetBinary gets a reference to the given *os.File and assigns it to the Binary field.
-func (o *FormatTest) SetBinary(v ) {
+func (o *FormatTest) SetBinary(v *os.File) {
 	o.Binary = &v
 }
 
 // GetDate returns the Date field value
-func (o *FormatTest) GetDate()  {
+func (o *FormatTest) GetDate() string {
 	if o == nil  {
-		var ret 
+		var ret string
 		return ret
 	}
 
@@ -339,7 +339,7 @@ func (o *FormatTest) GetDate()  {
 
 // GetDateOk returns a tuple with the Date field value
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetDateOk() (*, bool) {
+func (o *FormatTest) GetDateOk() (*string, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -347,14 +347,14 @@ func (o *FormatTest) GetDateOk() (*, bool) {
 }
 
 // SetDate sets field value
-func (o *FormatTest) SetDate(v ) {
+func (o *FormatTest) SetDate(v string) {
 	o.Date = v
 }
 
 // GetDateTime returns the DateTime field value if set, zero value otherwise.
-func (o *FormatTest) GetDateTime()  {
+func (o *FormatTest) GetDateTime() time.Time {
 	if o == nil || o.DateTime == nil {
-		var ret 
+		var ret time.Time
 		return ret
 	}
 	return *o.DateTime
@@ -362,7 +362,7 @@ func (o *FormatTest) GetDateTime()  {
 
 // GetDateTimeOk returns a tuple with the DateTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetDateTimeOk() (*, bool) {
+func (o *FormatTest) GetDateTimeOk() (*time.Time, bool) {
 	if o == nil || o.DateTime == nil {
 		return nil, false
 	}
@@ -379,14 +379,14 @@ func (o *FormatTest) HasDateTime() bool {
 }
 
 // SetDateTime gets a reference to the given time.Time and assigns it to the DateTime field.
-func (o *FormatTest) SetDateTime(v ) {
+func (o *FormatTest) SetDateTime(v time.Time) {
 	o.DateTime = &v
 }
 
 // GetUuid returns the Uuid field value if set, zero value otherwise.
-func (o *FormatTest) GetUuid()  {
+func (o *FormatTest) GetUuid() string {
 	if o == nil || o.Uuid == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Uuid
@@ -394,7 +394,7 @@ func (o *FormatTest) GetUuid()  {
 
 // GetUuidOk returns a tuple with the Uuid field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetUuidOk() (*, bool) {
+func (o *FormatTest) GetUuidOk() (*string, bool) {
 	if o == nil || o.Uuid == nil {
 		return nil, false
 	}
@@ -411,14 +411,14 @@ func (o *FormatTest) HasUuid() bool {
 }
 
 // SetUuid gets a reference to the given string and assigns it to the Uuid field.
-func (o *FormatTest) SetUuid(v ) {
+func (o *FormatTest) SetUuid(v string) {
 	o.Uuid = &v
 }
 
 // GetPassword returns the Password field value
-func (o *FormatTest) GetPassword()  {
+func (o *FormatTest) GetPassword() string {
 	if o == nil  {
-		var ret 
+		var ret string
 		return ret
 	}
 
@@ -427,7 +427,7 @@ func (o *FormatTest) GetPassword()  {
 
 // GetPasswordOk returns a tuple with the Password field value
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetPasswordOk() (*, bool) {
+func (o *FormatTest) GetPasswordOk() (*string, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -435,14 +435,14 @@ func (o *FormatTest) GetPasswordOk() (*, bool) {
 }
 
 // SetPassword sets field value
-func (o *FormatTest) SetPassword(v ) {
+func (o *FormatTest) SetPassword(v string) {
 	o.Password = v
 }
 
 // GetBigDecimal returns the BigDecimal field value if set, zero value otherwise.
-func (o *FormatTest) GetBigDecimal()  {
+func (o *FormatTest) GetBigDecimal() float64 {
 	if o == nil || o.BigDecimal == nil {
-		var ret 
+		var ret float64
 		return ret
 	}
 	return *o.BigDecimal
@@ -450,7 +450,7 @@ func (o *FormatTest) GetBigDecimal()  {
 
 // GetBigDecimalOk returns a tuple with the BigDecimal field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetBigDecimalOk() (*, bool) {
+func (o *FormatTest) GetBigDecimalOk() (*float64, bool) {
 	if o == nil || o.BigDecimal == nil {
 		return nil, false
 	}
@@ -467,7 +467,7 @@ func (o *FormatTest) HasBigDecimal() bool {
 }
 
 // SetBigDecimal gets a reference to the given float64 and assigns it to the BigDecimal field.
-func (o *FormatTest) SetBigDecimal(v ) {
+func (o *FormatTest) SetBigDecimal(v float64) {
 	o.BigDecimal = &v
 }
 

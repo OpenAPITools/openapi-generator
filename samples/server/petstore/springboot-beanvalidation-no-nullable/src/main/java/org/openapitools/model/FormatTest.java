@@ -10,7 +10,6 @@ import java.util.UUID;
 import org.springframework.core.io.Resource;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
-import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 

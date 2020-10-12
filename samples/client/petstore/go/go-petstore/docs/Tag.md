@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *Tag) GetId() `
+`func (o *Tag) GetId() int64`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *Tag) GetIdOk() (*, bool)`
+`func (o *Tag) GetIdOk() (*int64, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *Tag) SetId(v )`
+`func (o *Tag) SetId(v int64)`
 
 SetId sets Id field to given value.
 
@@ -53,20 +53,20 @@ HasId returns a boolean if a field has been set.
 
 ### GetName
 
-`func (o *Tag) GetName() `
+`func (o *Tag) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *Tag) GetNameOk() (*, bool)`
+`func (o *Tag) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *Tag) SetName(v )`
+`func (o *Tag) SetName(v string)`
 
 SetName sets Name field to given value.
 

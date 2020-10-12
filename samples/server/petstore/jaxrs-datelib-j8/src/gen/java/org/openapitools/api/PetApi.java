@@ -29,7 +29,7 @@ import javax.ws.rs.*;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-@Path("pet")
+@Path("/pet")
 
 
 @io.swagger.annotations.Api(description = "the pet API")

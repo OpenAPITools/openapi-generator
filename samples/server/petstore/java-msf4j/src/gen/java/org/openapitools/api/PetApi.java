@@ -25,7 +25,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 
-@Path("pet")
+@Path("/pet")
 
 
 @io.swagger.annotations.Api(description = "the pet API")
