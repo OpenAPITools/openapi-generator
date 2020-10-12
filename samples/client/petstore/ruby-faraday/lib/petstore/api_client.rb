@@ -14,6 +14,7 @@ require 'date'
 require 'json'
 require 'logger'
 require 'tempfile'
+require 'time'
 require 'faraday'
 
 module Petstore
