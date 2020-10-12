@@ -14,8 +14,8 @@
     self = [super init];
     if (self != nil) {
 {{#isArrayModel}}    _entriesBuilder = [[{{arrayModelType}}ManagedObjectBuilder alloc] init];
-{{/isArrayModel}}{{#vars}}{{#complexType}}{{^isMapContainer}}       _{{name}}Builder = [[{{complexType}}ManagedObjectBuilder alloc] init];
-{{/isMapContainer}}{{/complexType}}{{/vars}}    }
+{{/isArrayModel}}{{#vars}}{{#complexType}}{{^isMap}}       _{{name}}Builder = [[{{complexType}}ManagedObjectBuilder alloc] init];
+{{/isMap}}{{/complexType}}{{/vars}}    }
     return self;
 }
 
@@ -47,12 +47,12 @@
             [convertedObjs addObject:convertedObj];
         }
         managedObject.{{name}} = convertedObjs;
-    }{{/isListContainer}}{{^isListContainer}}{{^isMapContainer}}
+    }{{/isListContainer}}{{^isListContainer}}{{^isMap}}
     if(!managedObject.{{name}}) {
         managedObject.{{name}} = [self.{{name}}Builder {{complexType}}ManagedObjectFrom{{complexType}}:object.{{name}} context:managedObject.managedObjectContext];
     } else {
         [self.{{name}}Builder update{{complexType}}ManagedObject:managedObject.{{name}} with{{complexType}}:object.{{name}}];
-    }{{/isMapContainer}}{{#isMapContainer}}managedObject.{{name}} = [object.{{name}} copy];{{/isMapContainer}}{{/isListContainer}}{{/complexType}}
+    }{{/isMap}}{{#isMap}}managedObject.{{name}} = [object.{{name}} copy];{{/isMap}}{{/isListContainer}}{{/complexType}}
 {{/vars}}{{#isArrayModel}}    NSMutableOrderedSet * convertedObjs = [NSMutableOrderedSet orderedSet];
     for (id innerObject in object) {
         id convertedObj = [self.entriesBuilder {{arrayModelType}}ManagedObjectFrom{{arrayModelType}}:innerObject context:managedObject.managedObjectContext];

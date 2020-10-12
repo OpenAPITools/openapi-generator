@@ -99,14 +99,14 @@ class {{classname}}(Model):
                         ", ".join(map(str, allowed_values)))
             )
 {{/isListContainer}}
-{{#isMapContainer}}
+{{#isMap}}
         if not set({{{name}}}.keys()).issubset(set(allowed_values)):
             raise ValueError(
                 "Invalid keys in `{{{name}}}` [{0}], must be a subset of [{1}]"
                 .format(", ".join(map(str, set({{{name}}}.keys()) - set(allowed_values))),
                         ", ".join(map(str, allowed_values)))
             )
-{{/isMapContainer}}
+{{/isMap}}
 {{/isContainer}}
 {{^isContainer}}
         allowed_values = [{{#isNullable}}None,{{/isNullable}}{{#allowableValues}}{{#values}}{{#isString}}"{{/isString}}{{{this}}}{{#isString}}"{{/isString}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]  # noqa: E501

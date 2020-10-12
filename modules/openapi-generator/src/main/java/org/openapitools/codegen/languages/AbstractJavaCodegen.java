@@ -979,7 +979,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             } else {
                 example = "Arrays.asList()";
             }
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(p.isMap)) {
             example = "new HashMap()";
         }
 

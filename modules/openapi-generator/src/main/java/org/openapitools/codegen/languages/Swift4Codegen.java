@@ -1009,7 +1009,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
         if (codegenParameter.isListContainer) { // array
             return "[" + constructExampleCode(codegenParameter.items, modelMaps) + "]";
-        } else if (codegenParameter.isMapContainer) { // TODO: map, file type
+        } else if (codegenParameter.isMap) { // TODO: map, file type
             return "\"TODO\"";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
             if ("String".equals(codegenParameter.dataType) || "Character".equals(codegenParameter.dataType)) {
@@ -1049,7 +1049,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps) {
         if (codegenProperty.isListContainer) { // array
             return "[" + constructExampleCode(codegenProperty.items, modelMaps) + "]";
-        } else if (codegenProperty.isMapContainer) { // TODO: map, file type
+        } else if (codegenProperty.isMap) { // TODO: map, file type
             return "\"TODO\"";
         } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) { // primitive type
             if ("String".equals(codegenProperty.dataType) || "Character".equals(codegenProperty.dataType)) {

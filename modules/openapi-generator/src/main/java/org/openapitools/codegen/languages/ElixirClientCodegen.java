@@ -583,7 +583,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.isDefault = o.isDefault;
             this.simpleType = o.simpleType;
             this.primitiveType = o.primitiveType;
-            this.isMapContainer = o.isMapContainer;
+            this.isMap = o.isMap;
             this.isListContainer = o.isListContainer;
             this.isBinary = o.isBinary;
             this.isFile = o.isFile;
@@ -609,7 +609,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
         public String decodedStruct() {
             // Let Poison decode the entire response into a generic blob
-            if (isMapContainer) {
+            if (isMap) {
                 return "%{}";
             }
             // Primitive return type, don't even try to decode
@@ -652,7 +652,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
-            this.isMapContainer = o.isMapContainer;
+            this.isMap = o.isMap;
             this.isListContainer = o.isListContainer;
             this.isMultipart = o.isMultipart;
             this.hasMore = o.hasMore;
@@ -777,7 +777,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 sb.append("list(");
                 buildTypespec(param.items, sb);
                 sb.append(")");
-            } else if (param.isMapContainer) {
+            } else if (param.isMap) {
                 // %{optional(String.t) => <subtype>}
                 sb.append("%{optional(String.t) => ");
                 buildTypespec(param.items, sb);
@@ -806,7 +806,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 sb.append("list(");
                 buildTypespec(property.items, sb);
                 sb.append(")");
-            } else if (property.isMapContainer) {
+            } else if (property.isMap) {
                 sb.append("%{optional(String.t) => ");
                 buildTypespec(property.items, sb);
                 sb.append("}");
