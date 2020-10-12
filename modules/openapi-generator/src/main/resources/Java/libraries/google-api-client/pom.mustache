@@ -267,11 +267,13 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-version}</version>
         </dependency>
+        {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
             <version>${jackson-databind-nullable-version}</version>
         </dependency>
+        {{/openApiNullable}}
         {{#withXml}}
             <!-- XML processing: Jackson -->
             <dependency>
@@ -328,7 +330,9 @@
         <jersey-common-version>2.25.1</jersey-common-version>
         <jackson-version>2.10.4</jackson-version>
         <jackson-databind-version>2.10.4</jackson-databind-version>
+        {{#openApiNullable}}
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
+        {{/openApiNullable}}
         {{#joda}}
         <jodatime-version>2.9.9</jodatime-version>
         {{/joda}}

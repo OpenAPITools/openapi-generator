@@ -53,7 +53,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean isDefault;
     public boolean simpleType;
     public boolean primitiveType;
-    public boolean isMapContainer;
+    public boolean isMap;
     public boolean isListContainer;
     public boolean isBinary = false;
     public boolean isFile = false;
@@ -73,13 +73,14 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     private String maximum;
     public String pattern;
     public Number multipleOf;
+    public CodegenProperty items;
 
     @Override
     public int hashCode() {
         return Objects.hash(headers, code, message, hasMore, examples, dataType, baseType, containerType, hasHeaders,
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
-                isMapContainer, isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions,
+                isMap, isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions, items,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern());
     }
@@ -110,10 +111,11 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isDefault == that.isDefault &&
                 simpleType == that.simpleType &&
                 primitiveType == that.primitiveType &&
-                isMapContainer == that.isMapContainer &&
+                isMap == that.isMap &&
                 isListContainer == that.isListContainer &&
                 isBinary == that.isBinary &&
                 isFile == that.isFile &&
+                items == that.items &&
                 Objects.equals(headers, that.headers) &&
                 Objects.equals(code, that.code) &&
                 Objects.equals(message, that.message) &&
@@ -271,6 +273,48 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public CodegenProperty getItems() {
+        return items;
+    }
+
+    @Override
+    public void setItems(CodegenProperty items) {
+        this.items = items;
+    }
+
+    @Override
+    public boolean getIsModel() { return isModel; }
+
+    @Override
+    public void setIsModel(boolean isModel)  {
+        this.isModel = isModel;
+    }
+
+    @Override
+    public boolean getIsDate() { return isDate; }
+
+    @Override
+    public void setIsDate(boolean isDate)   {
+        this.isDate = isDate;
+    }
+
+    @Override
+    public boolean getIsDateTime() { return isDateTime; }
+
+    @Override
+    public void setIsDateTime(boolean isDateTime)   {
+        this.isDateTime = isDateTime;
+    }
+
+    @Override
+    public boolean getIsMap() { return isMap; }
+
+    @Override
+    public void setIsMap(boolean isMap)  {
+        this.isMap = isMap;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenResponse{");
         sb.append("headers=").append(headers);
@@ -301,7 +345,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", isDefault=").append(isDefault);
         sb.append(", simpleType=").append(simpleType);
         sb.append(", primitiveType=").append(primitiveType);
-        sb.append(", isMapContainer=").append(isMapContainer);
+        sb.append(", isMap=").append(isMap);
         sb.append(", isListContainer=").append(isListContainer);
         sb.append(", isBinary=").append(isBinary);
         sb.append(", isFile=").append(isFile);
@@ -321,6 +365,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", maximum='").append(maximum).append('\'');
         sb.append(", pattern='").append(pattern).append('\'');
         sb.append(", multipleOf='").append(multipleOf).append('\'');
+        sb.append(", items='").append(items).append('\'');
         sb.append('}');
         return sb.toString();
     }

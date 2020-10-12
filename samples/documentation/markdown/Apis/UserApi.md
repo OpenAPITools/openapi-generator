@@ -26,7 +26,7 @@ Create user
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **User** | [**User**](..//Models/User.md)| Created user object |
+ **User** | [**User**](../Models/User.md)| Created user object |
 
 ### Return type
 
@@ -51,7 +51,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **User** | [**List**](..//Models/User.md)| List of user object |
+ **User** | [**List**](../Models/User.md)| List of user object |
 
 ### Return type
 
@@ -76,7 +76,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **User** | [**List**](..//Models/User.md)| List of user object |
+ **User** | [**List**](../Models/User.md)| List of user object |
 
 ### Return type
 
@@ -132,7 +132,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**User**](..//Models/User.md)
+[**User**](../Models/User.md)
 
 ### Authorization
 
@@ -158,7 +158,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**String**](..//Models/string.md)
+[**String**](../Models/string.md)
 
 ### Authorization
 
@@ -204,7 +204,7 @@ Updated user
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted | [default to null]
- **User** | [**User**](..//Models/User.md)| Updated user object |
+ **User** | [**User**](../Models/User.md)| Updated user object |
 
 ### Return type
 

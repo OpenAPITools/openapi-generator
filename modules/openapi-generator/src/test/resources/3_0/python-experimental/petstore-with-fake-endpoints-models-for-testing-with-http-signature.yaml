@@ -842,6 +842,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NumberWithValidations'
+  /fake/refs/mammal:
+    post:
+      tags:
+        - fake
+      description: Test serialization of mammals
+      operationId: Mammal
+      requestBody:
+        description: Input mammal
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mammal'
+        required: true
+      responses:
+        '200':
+          description: Output mammal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mammal'
   /fake/refs/string:
     post:
       tags:
@@ -1407,6 +1427,7 @@ components:
         name: Tag
     Pet:
       type: object
+      description: Pet object that needs to be added to the store
       required:
         - name
         - photoUrls
@@ -1587,6 +1608,9 @@ components:
           type: string
           format: uuid
           example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+        uuidNoExample:
+          type: string
+          format: uuid
         password:
           type: string
           format: password
@@ -1819,6 +1843,11 @@ components:
         - "placed"
         - "approved"
         - "delivered"
+        - 'single quoted'
+        - |-
+          multiple
+          lines
+        - "double quote \n with newline"
     IntegerEnum:
       type: integer
       enum:
@@ -2217,3 +2246,11 @@ components:
       default: '2010-01-01T10:10:10.000111+01:00'
       example: '2010-01-01T10:10:10.000111+01:00'
       format: date-time
+    ObjectInterface:
+      type: object
+    ObjectWithValidations:
+      type: object
+      minProperties: 1
+    SomeObject:
+      allOf:
+        - $ref: '#/components/schemas/ObjectInterface'

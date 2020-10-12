@@ -31,6 +31,7 @@ import java.util.Map;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -119,19 +120,40 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
     /**
      * Test
-     * {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation, CodegenOperation, Map)} for Resource with path "/" and set tag.
+     * {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation, CodegenOperation, Map)} for Resource with path "/" without "useTags"
      */
     @Test
-    public void testAddOperationToGroupForRootResource() {
+    public void testAddOperationToGroupForRootResourceAndUseTagsFalse() {
         CodegenOperation codegenOperation = new CodegenOperation();
         codegenOperation.operationId = "findPrimaryresource";
+        codegenOperation.path = "/";
         Operation operation = new Operation();
         Map<String, List<CodegenOperation>> operationList = new HashMap<>();
 
         codegen.addOperationToGroup("Primaryresource", "/", operation, codegenOperation, operationList);
 
         Assert.assertEquals(operationList.size(), 1);
-        assertTrue(operationList.containsKey(""));
+        Assert.assertTrue(operationList.containsKey("default"));
+        Assert.assertEquals(codegenOperation.baseName, "default");
+    }
+
+    /**
+     * Test
+     * {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation, CodegenOperation, Map)} for Resource with path "/" with "useTags"
+     */
+    @Test
+    public void testAddOperationToGroupForRootResourceAndUseTagsTrue() {
+        CodegenOperation codegenOperation = new CodegenOperation();
+        codegenOperation.operationId = "findPrimaryresource";
+        codegenOperation.path = "/";
+        Operation operation = new Operation();
+        Map<String, List<CodegenOperation>> operationList = new HashMap<>();
+        codegen.setUseTags(true);
+
+        codegen.addOperationToGroup("Primaryresource", "/", operation, codegenOperation, operationList);
+
+        Assert.assertEquals(operationList.size(), 1);
+        Assert.assertTrue(operationList.containsKey("Primaryresource"));
         Assert.assertEquals(codegenOperation.baseName, "Primaryresource");
     }
 
@@ -140,16 +162,36 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
      * {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation, CodegenOperation, Map)} for Resource with path param.
      */
     @Test
-    public void testAddOperationToGroupForRootResourcePathParam() {
+    public void testAddOperationToGroupForRootResourcePathParamAndUseTagsFalse() {
         CodegenOperation codegenOperation = new CodegenOperation();
         codegenOperation.operationId = "getPrimaryresource";
+        codegenOperation.path = "/{uuid}";
         Operation operation = new Operation();
         Map<String, List<CodegenOperation>> operationList = new HashMap<>();
 
         codegen.addOperationToGroup("Primaryresource", "/{uuid}", operation, codegenOperation, operationList);
 
         Assert.assertEquals(operationList.size(), 1);
-        assertTrue(operationList.containsKey(""));
+        Assert.assertTrue(operationList.containsKey("default"));
+    }
+
+    /**
+     * Test
+     * {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation, CodegenOperation, Map)} for Resource with path param.
+     */
+    @Test
+    public void testAddOperationToGroupForRootResourcePathParamAndUseTagsTrue() {
+        CodegenOperation codegenOperation = new CodegenOperation();
+        codegenOperation.operationId = "getPrimaryresource";
+        codegenOperation.path = "/{uuid}";
+        Operation operation = new Operation();
+        Map<String, List<CodegenOperation>> operationList = new HashMap<>();
+        codegen.setUseTags(true);
+
+        codegen.addOperationToGroup("Primaryresource", "/{uuid}", operation, codegenOperation, operationList);
+
+        Assert.assertEquals(operationList.size(), 1);
+        Assert.assertTrue(operationList.containsKey("Primaryresource"));
         Assert.assertEquals(codegenOperation.baseName, "Primaryresource");
     }
 
@@ -179,21 +221,6 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     public void testToApiNameForSubresource() {
         final String subresource = codegen.toApiName("subresource");
         Assert.assertEquals(subresource, "SubresourceApi");
-    }
-
-    /**
-     * Test {@link JavaJAXRSSpecServerCodegen#toApiName(String)} with primary resource.
-     */
-    @Test
-    public void testToApiNameForPrimaryResource() {
-        CodegenOperation codegenOperation = new CodegenOperation();
-        codegenOperation.operationId = "findPrimaryresource";
-        Operation operation = new Operation();
-        Map<String, List<CodegenOperation>> operationList = new HashMap<>();
-        codegen.addOperationToGroup("Primaryresource", "/", operation, codegenOperation, operationList);
-
-        final String subresource = codegen.toApiName("");
-        Assert.assertEquals(subresource, "PrimaryresourceApi");
     }
 
     @Test

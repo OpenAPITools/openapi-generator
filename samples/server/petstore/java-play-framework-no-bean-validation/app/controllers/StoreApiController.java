@@ -3,6 +3,7 @@ package controllers;
 import java.util.Map;
 import apimodels.Order;
 
+import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
@@ -34,35 +35,35 @@ public class StoreApiController extends Controller {
 
 
     @ApiAction
-    public Result deleteOrder(String orderId) throws Exception {
-        imp.deleteOrder(orderId);
+    public Result deleteOrder(Http.Request request, String orderId) throws Exception {
+        imp.deleteOrder(request, orderId);
         return ok();
     }
 
     @ApiAction
-    public Result getInventory() throws Exception {
-        Map<String, Integer> obj = imp.getInventory();
+    public Result getInventory(Http.Request request) throws Exception {
+        Map<String, Integer> obj = imp.getInventory(request);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
     }
 
     @ApiAction
-    public Result getOrderById(Long orderId) throws Exception {
-        Order obj = imp.getOrderById(orderId);
+    public Result getOrderById(Http.Request request, Long orderId) throws Exception {
+        Order obj = imp.getOrderById(request, orderId);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
     }
 
     @ApiAction
-    public Result placeOrder() throws Exception {
-        JsonNode nodebody = request().body().asJson();
+    public Result placeOrder(Http.Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
         Order body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), Order.class);
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        Order obj = imp.placeOrder(body);
+        Order obj = imp.placeOrder(request, body);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
     }

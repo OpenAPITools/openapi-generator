@@ -86,7 +86,7 @@
             <version>${reactor-version}</version>
         </dependency>
 
-        <!-- HTTP client: Spring RestTemplate -->
+        <!-- HTTP client: Spring WebFlux -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webflux</artifactId>
@@ -105,11 +105,13 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind-version}</version>
         </dependency>
+        {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
             <version>${jackson-databind-nullable-version}</version>
         </dependency>
+        {{/openApiNullable}}
 
         {{#java8}}
             <dependency>

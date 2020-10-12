@@ -14,31 +14,16 @@ import sys
 import unittest
 
 import petstore_api
-try:
-    from petstore_api.model import integer_enum
-except ImportError:
-    integer_enum = sys.modules[
-        'petstore_api.model.integer_enum']
-try:
-    from petstore_api.model import integer_enum_one_value
-except ImportError:
-    integer_enum_one_value = sys.modules[
-        'petstore_api.model.integer_enum_one_value']
-try:
-    from petstore_api.model import integer_enum_with_default_value
-except ImportError:
-    integer_enum_with_default_value = sys.modules[
-        'petstore_api.model.integer_enum_with_default_value']
-try:
-    from petstore_api.model import string_enum
-except ImportError:
-    string_enum = sys.modules[
-        'petstore_api.model.string_enum']
-try:
-    from petstore_api.model import string_enum_with_default_value
-except ImportError:
-    string_enum_with_default_value = sys.modules[
-        'petstore_api.model.string_enum_with_default_value']
+from petstore_api.model.integer_enum import IntegerEnum
+from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue
+from petstore_api.model.integer_enum_with_default_value import IntegerEnumWithDefaultValue
+from petstore_api.model.string_enum import StringEnum
+from petstore_api.model.string_enum_with_default_value import StringEnumWithDefaultValue
+globals()['IntegerEnum'] = IntegerEnum
+globals()['IntegerEnumOneValue'] = IntegerEnumOneValue
+globals()['IntegerEnumWithDefaultValue'] = IntegerEnumWithDefaultValue
+globals()['StringEnum'] = StringEnum
+globals()['StringEnumWithDefaultValue'] = StringEnumWithDefaultValue
 from petstore_api.model.enum_test import EnumTest
 
 

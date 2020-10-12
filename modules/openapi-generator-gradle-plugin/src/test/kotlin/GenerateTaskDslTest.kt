@@ -5,6 +5,7 @@ import org.gradle.testkit.runner.TaskOutcome
 import org.testng.annotations.Test
 import java.io.File
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class GenerateTaskDslTest : TestBase() {
@@ -78,17 +79,17 @@ class GenerateTaskDslTest : TestBase() {
         // Act
         val resultFirstRun = GradleRunner.create()
                 .withProjectDir(temp)
-                .withArguments("openApiGenerate")
+                .withArguments("openApiGenerate", "--info")
                 .withPluginClasspath()
                 .build()
         val resultSecondRun = GradleRunner.create()
                 .withProjectDir(temp)
-                .withArguments("openApiGenerate")
+                .withArguments("openApiGenerate", "--info")
                 .withPluginClasspath()
                 .build()
 
         // Assert
-        assertTrue(resultFirstRun.output.contains("Task ':openApiGenerate' is not up-to-date"), "First run should not be up-to-date")
+        assertFalse(resultFirstRun.output.contains("Task :openApiGenerate UP-TO-DATE"), "First run should not be up-to-date")
         assertTrue(resultSecondRun.output.contains("Task :openApiGenerate UP-TO-DATE"), "Task of second run should be up-to-date")
     }
 
@@ -103,7 +104,7 @@ class GenerateTaskDslTest : TestBase() {
         // Act
         val resultFirstRun = GradleRunner.create()
                 .withProjectDir(temp)
-                .withArguments("openApiGenerate", "--build-cache")
+                .withArguments("openApiGenerate", "--build-cache", "--info")
                 .withPluginClasspath()
                 .build()
 
@@ -113,13 +114,22 @@ class GenerateTaskDslTest : TestBase() {
         // re-run
         val resultSecondRun = GradleRunner.create()
                 .withProjectDir(temp)
-                .withArguments("openApiGenerate", "--build-cache")
+                .withArguments("openApiGenerate", "--build-cache", "--info")
                 .withPluginClasspath()
                 .build()
 
+        // re-run without deletes
+        val resultThirdRun = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate", "--build-cache", "--info")
+            .withPluginClasspath()
+            .build()
+
         // Assert
-        assertTrue(resultFirstRun.output.contains("Task ':openApiGenerate' is not up-to-date"), "First run should not be up-to-date")
-        assertTrue(resultSecondRun.output.contains("Task :openApiGenerate FROM-CACHE"), "Task of second run should be from cache")
+        assertTrue(resultFirstRun.output.contains("No history is available."), "First run should not be up-to-date")
+        assertFalse(resultSecondRun.output.contains("No history is available."), "Task of second run should be from cache")
+        assertTrue(resultSecondRun.output.contains("has been removed."), "Task of second run should detect cache changes for untracked files")
+        assertTrue(resultThirdRun.output.contains("Skipping task ':openApiGenerate' as it is up-to-date."), "Task of third run should not require rebuild")
     }
 
     @Test

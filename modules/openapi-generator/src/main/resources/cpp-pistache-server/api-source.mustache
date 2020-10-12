@@ -43,7 +43,7 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
     // Getting the body param
     {{#bodyParam}}
     {{^isPrimitiveType}}{{^isContainer}}
-    {{baseType}} {{paramName}};{{/isContainer}}{{#isListContainer}}std::vector<{{items.baseType}}> {{paramName}};{{/isListContainer}}{{#isMapContainer}}std::map<std::string, {{items.baseType}}> {{paramName}};{{/isMapContainer}}{{/isPrimitiveType}}
+    {{baseType}} {{paramName}};{{/isContainer}}{{#isListContainer}}std::vector<{{items.baseType}}> {{paramName}};{{/isListContainer}}{{#isMap}}std::map<std::string, {{items.baseType}}> {{paramName}};{{/isMap}}{{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{dataType}} {{paramName}};
     {{/isPrimitiveType}}

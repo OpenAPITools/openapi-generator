@@ -35,12 +35,8 @@ configuration = petstore_api.Configuration(
 # satisfies your auth use case.
 
 # Configure API key authorization: api_key_query
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2",
-    api_key = {
-        'api_key_query': 'YOUR_API_KEY'
-    }
-)
+configuration.api_key['api_key_query'] = 'YOUR_API_KEY'
+
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key_query'] = 'Bearer'
 
@@ -48,8 +44,10 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = fake_classname_tags_123_api.FakeClassnameTags123Api(api_client)
-    client = Client() # Client | client model
-    
+    client = Client(
+        client="client_example",
+    ) # Client | client model
+
     # example passing only required values which don't have defaults set
     try:
         # To test class name in snake case

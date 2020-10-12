@@ -42,14 +42,10 @@
     }
 
     validations = {
-{{#isAlias}}
-{{^isEnum}}
-{{^isArrayModel}}
+{{#hasValidation}}
         ('value',): {
 {{> python-experimental/model_templates/validations }}
-{{/isArrayModel}}
-{{/isEnum}}
-{{/isAlias}}
+{{/hasValidation}}
 {{#requiredVars}}
 {{#hasValidation}}
         ('{{name}}',): {

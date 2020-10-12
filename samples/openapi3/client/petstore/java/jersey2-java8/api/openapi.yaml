@@ -31,6 +31,8 @@ servers:
       enum:
       - v1
       - v2
+- description: The local server without variables
+  url: https://127.0.0.1/no_variable
 tags:
 - description: Everything about your Pets
   name: pet
@@ -2401,6 +2403,12 @@ components:
       properties:
         name:
           type: string
+        pet_type:
+          default: ChildCat
+          enum:
+          - ChildCat
+          type: string
+          x-enum-as-string: true
       type: object
   securitySchemes:
     petstore_auth:

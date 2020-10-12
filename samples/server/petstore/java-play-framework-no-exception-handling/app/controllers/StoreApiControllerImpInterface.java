@@ -12,12 +12,12 @@ import javax.validation.constraints.*;
 
 @SuppressWarnings("RedundantThrows")
 public interface StoreApiControllerImpInterface {
-    void deleteOrder(String orderId) ;
+    void deleteOrder(Http.Request request, String orderId) ;
 
-    Map<String, Integer> getInventory() ;
+    Map<String, Integer> getInventory(Http.Request request) ;
 
-    Order getOrderById( @Min(1) @Max(5)Long orderId) ;
+    Order getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId) ;
 
-    Order placeOrder(Order body) ;
+    Order placeOrder(Http.Request request, Order body) ;
 
 }

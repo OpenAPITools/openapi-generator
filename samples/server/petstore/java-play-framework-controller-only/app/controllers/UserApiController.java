@@ -3,6 +3,7 @@ package controllers;
 import java.util.List;
 import apimodels.User;
 
+import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
@@ -18,7 +19,7 @@ import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
-import play.Configuration;
+import com.typesafe.config.Config;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
@@ -26,18 +27,18 @@ import openapitools.OpenAPIUtils.ApiAction;
 public class UserApiController extends Controller {
 
     private final ObjectMapper mapper;
-    private final Configuration configuration;
+    private final Config configuration;
 
     @Inject
-    private UserApiController(Configuration configuration) {
+    private UserApiController(Config configuration) {
         mapper = new ObjectMapper();
         this.configuration = configuration;
     }
 
 
     @ApiAction
-    public Result createUser() throws Exception {
-        JsonNode nodebody = request().body().asJson();
+    public Result createUser(Http.Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
         User body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), User.class);
@@ -51,8 +52,8 @@ public class UserApiController extends Controller {
     }
 
     @ApiAction
-    public Result createUsersWithArrayInput() throws Exception {
-        JsonNode nodebody = request().body().asJson();
+    public Result createUsersWithArrayInput(Http.Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
         List<User> body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
@@ -68,8 +69,8 @@ public class UserApiController extends Controller {
     }
 
     @ApiAction
-    public Result createUsersWithListInput() throws Exception {
-        JsonNode nodebody = request().body().asJson();
+    public Result createUsersWithListInput(Http.Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
         List<User> body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
@@ -85,25 +86,25 @@ public class UserApiController extends Controller {
     }
 
     @ApiAction
-    public Result deleteUser(String username) throws Exception {
+    public Result deleteUser(Http.Request request, String username) throws Exception {
         return ok();
     }
 
     @ApiAction
-    public Result getUserByName(String username) throws Exception {
+    public Result getUserByName(Http.Request request, String username) throws Exception {
         return ok();
     }
 
     @ApiAction
-    public Result loginUser() throws Exception {
-        String valueusername = request().getQueryString("username");
+    public Result loginUser(Http.Request request) throws Exception {
+        String valueusername = request.getQueryString("username");
         String username;
         if (valueusername != null) {
             username = valueusername;
         } else {
             throw new IllegalArgumentException("'username' parameter is required");
         }
-        String valuepassword = request().getQueryString("password");
+        String valuepassword = request.getQueryString("password");
         String password;
         if (valuepassword != null) {
             password = valuepassword;
@@ -114,13 +115,13 @@ public class UserApiController extends Controller {
     }
 
     @ApiAction
-    public Result logoutUser() throws Exception {
+    public Result logoutUser(Http.Request request) throws Exception {
         return ok();
     }
 
     @ApiAction
-    public Result updateUser(String username) throws Exception {
-        JsonNode nodebody = request().body().asJson();
+    public Result updateUser(Http.Request request, String username) throws Exception {
+        JsonNode nodebody = request.body().asJson();
         User body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), User.class);

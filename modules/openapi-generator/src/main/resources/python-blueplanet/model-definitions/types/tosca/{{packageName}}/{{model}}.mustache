@@ -41,9 +41,9 @@ resourceTypes {
               {{/isPrimitiveType}}
             {{/items}}
           {{/isListContainer}}
-          {{#isMapContainer}}
+          {{#isMap}}
           # TODO
-          {{/isMapContainer}}
+          {{/isMap}}
           description = "{{description}}"
           {{#isEnum}}
           enum = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]

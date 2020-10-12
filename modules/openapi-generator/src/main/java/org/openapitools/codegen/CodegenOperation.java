@@ -25,7 +25,7 @@ import java.util.*;
 public class CodegenOperation {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
     public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
-            returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMapContainer,
+            returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
             isListContainer, isMultipart, hasMore = true,
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
@@ -255,7 +255,7 @@ public class CodegenOperation {
         sb.append(", returnTypeIsPrimitive=").append(returnTypeIsPrimitive);
         sb.append(", returnSimpleType=").append(returnSimpleType);
         sb.append(", subresourceOperation=").append(subresourceOperation);
-        sb.append(", isMapContainer=").append(isMapContainer);
+        sb.append(", isMap=").append(isMap);
         sb.append(", isListContainer=").append(isListContainer);
         sb.append(", isMultipart=").append(isMultipart);
         sb.append(", hasMore=").append(hasMore);
@@ -329,7 +329,7 @@ public class CodegenOperation {
                 returnTypeIsPrimitive == that.returnTypeIsPrimitive &&
                 returnSimpleType == that.returnSimpleType &&
                 subresourceOperation == that.subresourceOperation &&
-                isMapContainer == that.isMapContainer &&
+                isMap == that.isMap &&
                 isListContainer == that.isListContainer &&
                 isMultipart == that.isMultipart &&
                 hasMore == that.hasMore &&
@@ -392,7 +392,7 @@ public class CodegenOperation {
     public int hashCode() {
 
         return Objects.hash(responseHeaders, hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams,
-                hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMapContainer,
+                hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
                 isListContainer, isMultipart, hasMore, isResponseBinary, isResponseFile, hasReference, isRestfulIndex,
                 isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy, isRestful, isDeprecated,
                 isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod, returnBaseType,

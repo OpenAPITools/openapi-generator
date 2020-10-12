@@ -771,7 +771,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     protected boolean needToImport(String type) {
         // provides extra protection against improperly trying to import language primitives and java types
-        boolean imports = !type.startsWith("kotlin.") && !type.startsWith("java.") && !defaultIncludes.contains(type) && !languageSpecificPrimitives.contains(type);
+        boolean imports = !type.startsWith("kotlin.") && !type.startsWith("java.") &&
+                !defaultIncludes.contains(type) && !languageSpecificPrimitives.contains(type) &&
+                !type.contains(".");
         return imports;
     }
 
@@ -834,8 +836,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeKotlinSpecificNames(name);
         name = sanitizeName(name, "\\W-[\\$]");
+        name = sanitizeKotlinSpecificNames(name);
 
         if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
             return "propertyClass";

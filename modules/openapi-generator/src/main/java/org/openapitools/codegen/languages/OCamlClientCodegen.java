@@ -237,7 +237,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     protected void updateDataTypeWithEnumForMap(CodegenProperty property) {
         CodegenProperty baseItem = property.items;
-        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMapContainer)
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap)
                 || Boolean.TRUE.equals(baseItem.isListContainer))) {
             baseItem = baseItem.items;
         }
@@ -255,7 +255,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     protected void updateDataTypeWithEnumForArray(CodegenProperty property) {
         CodegenProperty baseItem = property.items;
-        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMapContainer)
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap)
                 || Boolean.TRUE.equals(baseItem.isListContainer))) {
             baseItem = baseItem.items;
         }
@@ -437,7 +437,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         if (StringUtils.isEmpty(System.getenv("OCAML_POST_PROCESS_FILE"))) {
             LOGGER.info("Hint: Environment variable 'OCAML_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export OCAML_POST_PROCESS_FILE=\"ocamlformat -i --enable-outside-detected-project\"' (Linux/Mac)");
-            LOGGER.info("Note: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         } else if (!this.isEnablePostProcessFile()) {
             LOGGER.info("Warning: Environment variable 'OCAML_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
