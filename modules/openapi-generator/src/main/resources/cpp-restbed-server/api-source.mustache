@@ -15,16 +15,21 @@ namespace {{this}} {
 using namespace {{modelNamespace}};
 
 {{classname}}::{{classname}}() {
-	{{#operation}}
-	std::shared_ptr<{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource> sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource = std::make_shared<{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource>();
-	this->publish(sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource);
-
-	{{/operation}}
 }
 
 {{classname}}::~{{classname}}() {}
 
 void {{classname}}::startService(int const& port) {
+	// A typical pattern is to derive a class from {{classname}} and allocate the shared pointers for restbed::Resource objects
+	// and manipulate them (e.g. binding GET/POST handler functions) before this startService() gets called.
+	// In such a case we want to use our m_spXXX variables.
+	// However in case these shared pointers are nullptr, then allocate the restbed::Resources now:
+	{{#operation}}
+	if (!m_sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource)
+		m_sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource = std::make_shared<{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource>();
+	this->publish(m_sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource);
+	{{/operation}}
+
 	std::shared_ptr<restbed::Settings> settings = std::make_shared<restbed::Settings>();
 	settings->set_port(port);
 	settings->set_root("{{contextPath}}");
