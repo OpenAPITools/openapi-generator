@@ -469,6 +469,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.isModel = isModel;
     }
 
+    @Override
+    public boolean getIsDate() { return isDate; }
+
+    @Override
+    public void setIsDate(boolean isDate)   {
+        this.isDate = isDate;
+    }
+
     public Map<String, Object> getVendorExtensions() {
         return vendorExtensions;
     }
