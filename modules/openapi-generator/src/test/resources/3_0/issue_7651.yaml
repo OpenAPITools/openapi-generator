@@ -66,6 +66,60 @@ paths:
                 type: string
                 format: date
                 pattern: '^2020.*'
+  /ref_date_time_with_validation/{dateTime}:
+    post:
+      tags:
+        - isX
+      operationId: refDateTimeWithValidation
+      parameters:
+        - name: dateTime
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/DateTimeWithValidation'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DateTimeWithValidation'
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DateTimeWithValidation'
+  /date_time_with_validation/{dateTime}:
+    post:
+      tags:
+        - isX
+      operationId: dateTimeWithValidation
+      parameters:
+        - name: dateTime
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date-time
+            pattern: '^2020.*'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              format: date-time
+              pattern: '^2020.*'
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                format: date-time
+                pattern: '^2020.*'
 components:
   schemas:
     DateWithValidation:
@@ -78,5 +132,16 @@ components:
         dateWithValidation:
           type: string
           format: date
+          pattern: '^2020.*'
+    DateTimeWithValidation:
+      type: string
+      format: date-time
+      pattern: '^2020.*'
+    ObjectWithDateTimeWithValidation:
+      type: object
+      properties:
+        dateWithValidation:
+          type: string
+          format: date-time
           pattern: '^2020.*'
   securitySchemes: {}
