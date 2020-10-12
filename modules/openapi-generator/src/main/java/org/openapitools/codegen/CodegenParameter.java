@@ -503,5 +503,13 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public void setIsDate(boolean isDate)   {
         this.isDate = isDate;
     }
+
+    @Override
+    public boolean getIsDateTime() { return isDateTime; }
+
+    @Override
+    public void setIsDateTime(boolean isDateTime)   {
+        this.isDateTime = isDateTime;
+    }
 }
 
