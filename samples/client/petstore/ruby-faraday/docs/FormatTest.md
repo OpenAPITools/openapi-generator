@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **byte** | **String** |  | 
 **binary** | **File** |  | [optional] 
 **date** | **Date** |  | 
-**date_time** | **DateTime** |  | [optional] 
+**date_time** | **Time** |  | [optional] 
 **uuid** | **String** |  | [optional] 
 **password** | **String** |  | 
 **pattern_with_digits** | **String** | A string that is a 10 digit number. Can have leading zeros. | [optional] 

@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **byte** | **String** | None | 
 **binary** | **File** | None | [optional] 
 **date** | **Date** | None | [optional] 
-**date_time** | **DateTime** | None | [optional] 
+**date_time** | **Time** | None | [optional] 
 **password** | **String** | None | [optional] 
 **callback** | **String** | None | [optional] 
 

@@ -157,8 +157,8 @@ module Petstore
     # @return [Object] Deserialized data
     def _deserialize(type, value)
       case type.to_sym
-      when :DateTime
-        DateTime.parse(value)
+      when :Time
+        Time.parse(value)
       when :Date
         Date.parse(value)
       when :String
@@ -237,5 +237,6 @@ module Petstore
         value
       end
     end
+
   end
 end

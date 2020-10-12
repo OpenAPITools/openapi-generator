@@ -207,7 +207,7 @@ module Petstore
       begin
         data = JSON.parse("[#{body}]", :symbolize_names => true)[0]
       rescue JSON::ParserError => e
-        if %w(String Date DateTime).include?(return_type)
+        if %w(String Date Time).include?(return_type)
           data = body
         else
           raise e
@@ -232,9 +232,9 @@ module Petstore
         data.to_f
       when 'Boolean'
         data == true
-      when 'DateTime'
+      when 'Time'
         # parse date time (expecting ISO 8601 format)
-        DateTime.parse data
+        Time.parse data
       when 'Date'
         # parse date time (expecting ISO 8601 format)
         Date.parse data
