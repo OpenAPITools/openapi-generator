@@ -137,9 +137,10 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Converts the JSON string into the object
+        /// Converts the JSON string into an instance of FruitReq
         /// </summary>
         /// <param name="jsonString">JSON string</param>
+        /// <returns>An instance of FruitReq</returns>
         public static FruitReq FromJson(string jsonString)
         {
             FruitReq newFruitReq = new FruitReq();

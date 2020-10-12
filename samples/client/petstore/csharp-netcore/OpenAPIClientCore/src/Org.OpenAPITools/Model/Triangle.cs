@@ -164,9 +164,10 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Converts the JSON string into the object
+        /// Converts the JSON string into an instance of Triangle
         /// </summary>
         /// <param name="jsonString">JSON string</param>
+        /// <returns>An instance of Triangle</returns>
         public static Triangle FromJson(string jsonString)
         {
             Triangle newTriangle = new Triangle();

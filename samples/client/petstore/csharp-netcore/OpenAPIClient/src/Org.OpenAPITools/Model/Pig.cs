@@ -138,9 +138,10 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Converts the JSON string into the object
+        /// Converts the JSON string into an instance of Pig
         /// </summary>
         /// <param name="jsonString">JSON string</param>
+        /// <returns>An instance of Pig</returns>
         public static Pig FromJson(string jsonString)
         {
             Pig newPig = new Pig();

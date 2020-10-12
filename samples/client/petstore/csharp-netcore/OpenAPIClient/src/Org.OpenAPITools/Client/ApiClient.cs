@@ -439,7 +439,7 @@ namespace Org.OpenAPITools.Client
             InterceptRequest(req);
 
             IRestResponse<T> response;
-            if (RetryConfiguration.RetryPolicy != null)	
+            if (RetryConfiguration.RetryPolicy != null)
             {
                 var policy = RetryConfiguration.RetryPolicy;
                 var policyResult = policy.ExecuteAndCapture(() => client.Execute(req));

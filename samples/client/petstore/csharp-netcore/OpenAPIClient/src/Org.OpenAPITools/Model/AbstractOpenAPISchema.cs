@@ -19,6 +19,9 @@ namespace Org.OpenAPITools.Model
     /// </summary>
     public abstract partial class AbstractOpenAPISchema
     {
+        /// <summary>
+        ///  Custom JSON serializer
+        /// </summary>
         protected readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
         {
             // OpenAPI generated types generally hide default constructors.
