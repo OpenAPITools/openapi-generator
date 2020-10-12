@@ -408,10 +408,10 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
         boolean isPrimitiveType = parameter.isPrimitiveType == Boolean.TRUE;
         boolean isArray = parameter.isArray == Boolean.TRUE;
-        boolean isMapContainer = parameter.isMapContainer == Boolean.TRUE;
+        boolean isMap = parameter.isMap == Boolean.TRUE;
         boolean isString = parameter.isString == Boolean.TRUE;
 
-        if (!isPrimitiveType && !isArray && !isMapContainer && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
+        if (!isPrimitiveType && !isArray && !isMap && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
             parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";
         }
     }

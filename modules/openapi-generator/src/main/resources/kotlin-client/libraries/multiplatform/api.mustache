@@ -43,7 +43,7 @@ import kotlinx.serialization.internal.StringDescriptor
 
         val localVariableAuthNames = listOf<String>({{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}})
 
-        val localVariableBody = {{#hasBodyParam}}{{#bodyParam}}{{#isArray}}{{operationIdCamelCase}}Request({{{paramName}}}{{^isList}}.asList(){{/isList}}){{/isArray}}{{^isArray}}{{#isMapContainer}}{{operationIdCamelCase}}Request({{{paramName}}}){{/isMapContainer}}{{^isMapContainer}}{{{paramName}}}{{/isMapContainer}}{{/isArray}}{{/bodyParam}}{{/hasBodyParam}}
+        val localVariableBody = {{#hasBodyParam}}{{#bodyParam}}{{#isArray}}{{operationIdCamelCase}}Request({{{paramName}}}{{^isList}}.asList(){{/isList}}){{/isArray}}{{^isArray}}{{#isMap}}{{operationIdCamelCase}}Request({{{paramName}}}){{/isMap}}{{^isMap}}{{{paramName}}}{{/isMap}}{{/isArray}}{{/bodyParam}}{{/hasBodyParam}}
             {{^hasBodyParam}}
             {{#hasFormParams}}
             {{#isMultipart}}
@@ -87,20 +87,20 @@ import kotlinx.serialization.internal.StringDescriptor
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
-        ).{{#isArray}}wrap<{{operationIdCamelCase}}Response>().map { value{{^isList}}.toTypedArray(){{/isList}} }{{/isArray}}{{^isArray}}{{#isMapContainer}}wrap<{{operationIdCamelCase}}Response>().map { value }{{/isMapContainer}}{{^isMapContainer}}wrap(){{/isMapContainer}}{{/isArray}}
+        ).{{#isArray}}wrap<{{operationIdCamelCase}}Response>().map { value{{^isList}}.toTypedArray(){{/isList}} }{{/isArray}}{{^isArray}}{{#isMap}}wrap<{{operationIdCamelCase}}Response>().map { value }{{/isMap}}{{^isMap}}wrap(){{/isMap}}{{/isArray}}
     }
 
 {{#hasBodyParam}}
 {{#bodyParam}}
-{{#isArray}}{{>serial_wrapper_request_list}}{{/isArray}}{{#isMapContainer}}{{>serial_wrapper_request_map}}{{/isMapContainer}}
+{{#isArray}}{{>serial_wrapper_request_list}}{{/isArray}}{{#isMap}}{{>serial_wrapper_request_map}}{{/isMap}}
 {{/bodyParam}}
 {{/hasBodyParam}}
 {{#isArray}}
 {{>serial_wrapper_response_list}}
 {{/isArray}}
-{{#isMapContainer}}
+{{#isMap}}
 {{>serial_wrapper_response_map}}
-{{/isMapContainer}}
+{{/isMap}}
 
     {{/operation}}
 
@@ -109,15 +109,15 @@ import kotlinx.serialization.internal.StringDescriptor
             {{#operation}}
             {{#hasBodyParam}}
             {{#bodyParam}}
-            {{#isArray}}serializer.setMapper({{operationIdCamelCase}}Request::class, {{operationIdCamelCase}}Request.serializer()){{/isArray}}{{#isMapContainer}}serializer.setMapper({{operationIdCamelCase}}Request::class, {{operationIdCamelCase}}Request.serializer()){{/isMapContainer}}
+            {{#isArray}}serializer.setMapper({{operationIdCamelCase}}Request::class, {{operationIdCamelCase}}Request.serializer()){{/isArray}}{{#isMap}}serializer.setMapper({{operationIdCamelCase}}Request::class, {{operationIdCamelCase}}Request.serializer()){{/isMap}}
             {{/bodyParam}}
             {{/hasBodyParam}}
             {{#isArray}}
             serializer.setMapper({{operationIdCamelCase}}Response::class, {{operationIdCamelCase}}Response.serializer())
             {{/isArray}}
-            {{#isMapContainer}}
+            {{#isMap}}
             serializer.setMapper({{operationIdCamelCase}}Response::class, {{operationIdCamelCase}}Response.serializer())
-            {{/isMapContainer}}
+            {{/isMap}}
             {{/operation}}
         }
     }

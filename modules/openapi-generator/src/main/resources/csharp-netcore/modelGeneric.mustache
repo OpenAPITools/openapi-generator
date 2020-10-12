@@ -154,7 +154,7 @@
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public {{#parent}}{{^isArray}}{{^isMapModel}}override {{/isMapModel}}{{/isArray}}{{/parent}}{{^parent}}virtual {{/parent}}string ToJson()
+        public {{#parent}}{{^isArray}}{{^isMap}}override {{/isMap}}{{/isArray}}{{/parent}}{{^parent}}virtual {{/parent}}string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -273,9 +273,9 @@
 {{/discriminator}}
             {{#parent}}
             {{^isArray}}
-            {{^isMapModel}}
+            {{^isMap}}
             foreach(var x in BaseValidate(validationContext)) yield return x;
-            {{/isMapModel}}
+            {{/isMap}}
             {{/isArray}}
             {{/parent}}
             {{#vars}}

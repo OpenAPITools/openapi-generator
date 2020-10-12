@@ -56,7 +56,7 @@ class {{{classname}}} {
         {{/items.isArray}}
       {{/isArray}}
       {{^isArray}}
-        {{#isMapContainer}}
+        {{#isMap}}
           {{#items.isArray}}
       {{{name}}} = json['{{{baseName}}}'] == null
         ? null
@@ -72,10 +72,10 @@ class {{{classname}}} {
         ? null
         : {{{complexType}}}.mapFromJson(json['{{{baseName}}}']);
           {{/items.isArray}}
-        {{/isMapContainer}}
-        {{^isMapContainer}}
+        {{/isMap}}
+        {{^isMap}}
       {{{name}}} = {{{complexType}}}.fromJson(json['{{{baseName}}}']);
-        {{/isMapContainer}}
+        {{/isMap}}
       {{/isArray}}
     {{/complexType}}
     {{^complexType}}
@@ -90,12 +90,12 @@ class {{{classname}}} {
         {{/isEnum}}
       {{/isArray}}
       {{^isArray}}
-        {{#isMapContainer}}
+        {{#isMap}}
       {{{name}}} = json['{{{baseName}}}'] == null ?
         null :
         (json['{{{baseName}}}'] as Map).cast<String, {{{items.datatype}}}>();
-        {{/isMapContainer}}
-        {{^isMapContainer}}
+        {{/isMap}}
+        {{^isMap}}
           {{#isNumber}}
       {{{name}}} = json['{{{baseName}}}'] == null ?
         null :
@@ -109,7 +109,7 @@ class {{{classname}}} {
       {{{name}}} = {{{classname}}}{{{enumName}}}.fromJson(json['{{{baseName}}}']);
     {{/isEnum}}
           {{/isNumber}}
-        {{/isMapContainer}}
+        {{/isMap}}
       {{/isArray}}
     {{/complexType}}
   {{/isDate}}
@@ -128,9 +128,9 @@ class {{{classname}}} {
       {{#isArray}}
   List<{{{classname}}}{{{enumName}}}> {{{name}}};
       {{/isArray}}
-      {{#isMapContainer}}
+      {{#isMap}}
   Map<String, dynamic> {{{name}}};
-      {{/isMapContainer}}
+      {{/isMap}}
     {{/isContainer}}
     {{^isContainer}}
       {{#allowableValues}}
