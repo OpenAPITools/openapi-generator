@@ -64,8 +64,8 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         Map<String, Object> allowableValues;
         boolean isArray;
         boolean isContainer;
-        boolean isArray;
-        boolean isMap;
+        boolean isListContainer;
+        boolean isMapContainer;
         boolean isPrimitiveType;
         CodegenVariable items;
         Integer minItems;
@@ -95,8 +95,8 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             enumName = null;// op.enumName;
             allowableValues = null;// op.allowableValues;
             isContainer = op.isArray || op.isMap;
-            isArray = op.isArray;
-            isMap = op.isMap;
+            isListContainer = op.isArray;
+            isMapContainer = op.isMap;
             isPrimitiveType = op.returnTypeIsPrimitive;
             minItems = null;// op.minItems;
             minimum = null;// op.minimum;
@@ -130,8 +130,8 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             enumName = param.enumName;
             allowableValues = param.allowableValues;
             isContainer = param.isContainer;
-            isArray = param.isArray;
-            isMap = param.isMap;
+            isListContainer = param.isArray;
+            isMapContainer = param.isMap;
             isPrimitiveType = param.isPrimitiveType;
             minItems = param.minItems;
             minimum = param.minimum;
@@ -157,8 +157,8 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             enumName = prop.enumName;
             allowableValues = prop.allowableValues;
             isContainer = prop.isContainer;
-            isArray = prop.isArray;
-            isMap = prop.isMap;
+            isListContainer = prop.isArray;
+            isMapContainer = prop.isMap;
             isPrimitiveType = prop.isPrimitiveType;
             minItems = prop.minItems;
             minimum = prop.minimum;
@@ -218,8 +218,8 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             CodegenModel cm = models.get(dataType);
             if (cm != null && (cm.isArray || cm.isMap)) {
                 this.isContainer = true;
-                this.isArray = cm.isArray;
-                this.isMap = cm.isMap;
+                this.isListContainer = cm.isArray;
+                this.isMapContainer = cm.isMap;
                 this.items = new CodegenVariable();
                 this.items.name = "item";
                 this.items.dataType = cm.additionalPropertiesType;
@@ -234,11 +234,11 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         }
 
         private boolean isIndexed() {
-            return isArray || isArray && !dataType.equals("byte[]");
+            return isListContainer || isArray && !dataType.equals("byte[]");
         }
 
         private boolean isListItem() {
-            return parent != null && parent.isArray;
+            return parent != null && parent.isListContainer;
         }
 
         int size() {
@@ -248,8 +248,8 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         @Override
         public String toString() {
             return "CodegenVariable [name=" + name + ", dataType=" + dataType + ", dataFormat=" + dataFormat
-                    + ", isArray=" + isArray + ", isContainer=" + isContainer + ", isArray=" + isArray
-                    + ", isMap=" + isMap + ", isPrimitiveType=" + isPrimitiveType + ", testDataPath="
+                    + ", isArray=" + isArray + ", isContainer=" + isContainer + ", isListContainer=" + isListContainer
+                    + ", isMapContainer=" + isMapContainer + ", isPrimitiveType=" + isPrimitiveType + ", testDataPath="
                     + testDataPath + ", enumName=" + enumName + ", allowableValues=" + allowableValues + ", minItems="
                     + minItems + ", itemCount=" + itemCount + ", minimum=" + minimum + ", maximum=" + maximum
                     + ", exclusiveMinimum=" + exclusiveMinimum + ", exclusiveMaximum=" + exclusiveMaximum
@@ -512,7 +512,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                                            CodegenVariable parent, String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
 
         CodegenModel cm = models.get(parent.dataType);
-        if (cm != null) { // TODO: handle isArray and isMap
+        if (cm != null) { // TODO: handle isArrayModel and isMapModel
             for (CodegenProperty cp : cm.allVars) {
                 CodegenVariable var = new CodegenVariable(parent, cp, null, models);
                 if (var.isContainer || !var.isPrimitiveType) {
@@ -881,9 +881,9 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
     private StringBuilder appendValue(StringBuilder buffer, String indent, CodegenOperation op, CodegenVariable var,
                                       String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
 
-        if (var.isArray)
+        if (var.isListContainer)
             appendListValue(buffer, indent, op, var, localVar, localVars, models);
-        else if (var.isMap)
+        else if (var.isMapContainer)
             appendMapValue(buffer, indent, op, var, localVar, localVars, models);
         else if (var.isArray)
             appendArrayValue(buffer, indent, op, var, localVar, localVars, models);
@@ -986,7 +986,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 method = "getString";
                 break;
             default:
-                method = var.isArray ? "getObjects" : "getObject";
+                method = var.isListContainer ? "getObjects" : "getObject";
                 break;
         }
         return method;
@@ -1202,9 +1202,9 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                             buffer.append(NL).append(INDENT).append(var.dataType).append(' ').append(localVar)
                                     .append(" = cache.").append(getCacheMethod(var)).append("(\"/")
                                     .append(op.operationId).append('/').append(var.name).append('"');
-                            if (var.isArray)
+                            if (var.isListContainer)
                                 buffer.append(", ").append(var.getComponentType()).append(".class");
-                            else if (var.isMap)
+                            else if (var.isMapContainer)
                                 buffer.append(", Map.class");
                             else if (!hasCacheMethod(var))
                                 buffer.append(", ").append(var.dataType).append(".class");
@@ -1227,9 +1227,9 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                                     .append(NL).append(INDENT).append("    ").append(var.dataType).append(' ')
                                     .append(localVar).append(" = cache.").append(getCacheMethod(var)).append("(\"/")
                                     .append(op.operationId).append('/').append(var.name).append('"');
-                            if (var.isArray)
+                            if (var.isListContainer)
                                 buffer.append(", ").append(var.getComponentType()).append(".class");
-                            else if (var.isMap)
+                            else if (var.isMapContainer)
                                 buffer.append(", Map.class");
                             else if (!hasCacheMethod(var))
                                 buffer.append(", ").append(var.dataType).append(".class");
