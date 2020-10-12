@@ -167,14 +167,15 @@ namespace Org.OpenAPITools.Model
         /// Converts the JSON string into the object
         /// </summary>
         /// <param name="jsonString">JSON string</param>
-        public override void FromJson(string jsonString)
+        public static Mammal FromJson(string jsonString)
         {
+            Mammal newMammal = new Mammal();
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<Pig>(jsonString, _serializerSettings);
+                newMammal.ActualInstance = JsonConvert.DeserializeObject<Pig>(jsonString, newMammal._serializerSettings);
                 matchedTypes.Add("Pig");
                 match++;
             }
@@ -186,7 +187,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<Whale>(jsonString, _serializerSettings);
+                newMammal.ActualInstance = JsonConvert.DeserializeObject<Whale>(jsonString, newMammal._serializerSettings);
                 matchedTypes.Add("Whale");
                 match++;
             }
@@ -198,7 +199,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<Zebra>(jsonString, _serializerSettings);
+                newMammal.ActualInstance = JsonConvert.DeserializeObject<Zebra>(jsonString, newMammal._serializerSettings);
                 matchedTypes.Add("Zebra");
                 match++;
             }
@@ -218,6 +219,7 @@ namespace Org.OpenAPITools.Model
             }
             
             // deserialization is considered successful at this point if no exception has been thrown.
+            return newMammal;
         }
 
         /// <summary>

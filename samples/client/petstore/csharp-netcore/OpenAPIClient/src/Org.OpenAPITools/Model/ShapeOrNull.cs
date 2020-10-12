@@ -141,18 +141,19 @@ namespace Org.OpenAPITools.Model
         /// Converts the JSON string into the object
         /// </summary>
         /// <param name="jsonString">JSON string</param>
-        public override void FromJson(string jsonString)
+        public static ShapeOrNull FromJson(string jsonString)
         {
+            ShapeOrNull newShapeOrNull = new ShapeOrNull();
 
             string discriminatorValue = JObject.Parse(jsonString)["shapeType"].ToString();
             switch (discriminatorValue)
             {
                 case "Quadrilateral":
-                    this.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, _serializerSettings);
-                    return;
+                    newShapeOrNull.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, newShapeOrNull._serializerSettings);
+                    return newShapeOrNull;
                 case "Triangle":
-                    this.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, _serializerSettings);
-                    return;
+                    newShapeOrNull.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, newShapeOrNull._serializerSettings);
+                    return newShapeOrNull;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for ShapeOrNull. Possible values: Quadrilateral Triangle", discriminatorValue));
                     break;
@@ -163,7 +164,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, _serializerSettings);
+                newShapeOrNull.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, newShapeOrNull._serializerSettings);
                 matchedTypes.Add("Quadrilateral");
                 match++;
             }
@@ -175,7 +176,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, _serializerSettings);
+                newShapeOrNull.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, newShapeOrNull._serializerSettings);
                 matchedTypes.Add("Triangle");
                 match++;
             }
@@ -195,6 +196,7 @@ namespace Org.OpenAPITools.Model
             }
             
             // deserialization is considered successful at this point if no exception has been thrown.
+            return newShapeOrNull;
         }
 
         /// <summary>

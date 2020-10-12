@@ -141,18 +141,19 @@ namespace Org.OpenAPITools.Model
         /// Converts the JSON string into the object
         /// </summary>
         /// <param name="jsonString">JSON string</param>
-        public override void FromJson(string jsonString)
+        public static Quadrilateral FromJson(string jsonString)
         {
+            Quadrilateral newQuadrilateral = new Quadrilateral();
 
             string discriminatorValue = JObject.Parse(jsonString)["quadrilateralType"].ToString();
             switch (discriminatorValue)
             {
                 case "ComplexQuadrilateral":
-                    this.ActualInstance = JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, _serializerSettings);
-                    return;
+                    newQuadrilateral.ActualInstance = JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, newQuadrilateral._serializerSettings);
+                    return newQuadrilateral;
                 case "SimpleQuadrilateral":
-                    this.ActualInstance = JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, _serializerSettings);
-                    return;
+                    newQuadrilateral.ActualInstance = JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, newQuadrilateral._serializerSettings);
+                    return newQuadrilateral;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for Quadrilateral. Possible values: ComplexQuadrilateral SimpleQuadrilateral", discriminatorValue));
                     break;
@@ -163,7 +164,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, _serializerSettings);
+                newQuadrilateral.ActualInstance = JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, newQuadrilateral._serializerSettings);
                 matchedTypes.Add("ComplexQuadrilateral");
                 match++;
             }
@@ -175,7 +176,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, _serializerSettings);
+                newQuadrilateral.ActualInstance = JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, newQuadrilateral._serializerSettings);
                 matchedTypes.Add("SimpleQuadrilateral");
                 match++;
             }
@@ -195,6 +196,7 @@ namespace Org.OpenAPITools.Model
             }
             
             // deserialization is considered successful at this point if no exception has been thrown.
+            return newQuadrilateral;
         }
 
         /// <summary>
