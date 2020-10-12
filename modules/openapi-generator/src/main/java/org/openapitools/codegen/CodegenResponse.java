@@ -299,14 +299,6 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public boolean getIsDateTime() { return isDateTime; }
-
-    @Override
-    public void setIsDateTime(boolean isDateTime)   {
-        this.isDateTime = isDateTime;
-    }
-
-    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenResponse{");
         sb.append("headers=").append(headers);

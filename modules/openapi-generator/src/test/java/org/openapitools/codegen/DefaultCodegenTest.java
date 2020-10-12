@@ -2386,37 +2386,5 @@ public class DefaultCodegenTest {
         assertEquals(co.bodyParams.get(0).isDate, true);
         assertEquals(co.responses.get(0).isString, false);
         assertEquals(co.responses.get(0).isDate, true);
-
-        modelName = "DateTimeWithValidation";
-        sc = openAPI.getComponents().getSchemas().get(modelName);
-        cm = codegen.fromModel(modelName, sc);
-        assertEquals(cm.isString, false);
-        assertEquals(cm.isDateTime, true);
-
-        modelName = "ObjectWithDateTimeWithValidation";
-        sc = openAPI.getComponents().getSchemas().get(modelName);
-        cm = codegen.fromModel(modelName, sc);
-        assertEquals(cm.getVars().get(0).isString, false);
-        assertEquals(cm.getVars().get(0).isDateTime, true);
-
-        path = "/ref_date_time_with_validation/{dateTime}";
-        operation = openAPI.getPaths().get(path).getPost();
-        co = codegen.fromOperation(path, "POST", operation, null);
-        assertEquals(co.pathParams.get(0).isString, false);
-        assertEquals(co.pathParams.get(0).isDateTime, true);
-        assertEquals(co.bodyParams.get(0).isString, false);
-        assertEquals(co.bodyParams.get(0).isDateTime, true);
-        assertEquals(co.responses.get(0).isString, false);
-        assertEquals(co.responses.get(0).isDateTime, true);
-
-        path = "/date_time_with_validation/{dateTime}";
-        operation = openAPI.getPaths().get(path).getPost();
-        co = codegen.fromOperation(path, "POST", operation, null);
-        assertEquals(co.pathParams.get(0).isString, false);
-        assertEquals(co.pathParams.get(0).isDateTime, true);
-        assertEquals(co.bodyParams.get(0).isString, false);
-        assertEquals(co.bodyParams.get(0).isDateTime, true);
-        assertEquals(co.responses.get(0).isString, false);
-        assertEquals(co.responses.get(0).isDateTime, true);
     }
 }
