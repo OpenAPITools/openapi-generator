@@ -35,9 +35,13 @@ class Pet {
       null :
       Category.fromJson(json['category']);
     name = json['name'];
+    if (name == null)
+      throw ArgumentError("$json has no name field which is required for Pet");
     photoUrls = (json['photoUrls'] == null) ?
       null :
       (json['photoUrls'] as List).cast<String>();
+    if (photoUrls == null)
+      throw ArgumentError("$json has no photoUrls field which is required for Pet");
     tags = (json['tags'] == null) ?
       null :
       Tag.listFromJson(json['tags']);
