@@ -137,7 +137,7 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public {{#parent}}{{^isArrayModel}}{{^isMapModel}}override {{/isMapModel}}{{/isArrayModel}}{{/parent}}{{^parent}}virtual {{/parent}}string ToJson()
+        public {{#parent}}{{^isArray}}{{^isMapModel}}override {{/isMapModel}}{{/isArray}}{{/parent}}{{^parent}}virtual {{/parent}}string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -251,11 +251,11 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
         {
 {{/hasChildren}}
             {{#parent}}
-            {{^isArrayModel}}
+            {{^isArray}}
             {{^isMapModel}}
             foreach(var x in base.BaseValidate(validationContext)) yield return x;
             {{/isMapModel}}
-            {{/isArrayModel}}
+            {{/isArray}}
             {{/parent}}
             {{#vars}}
             {{#hasValidation}}

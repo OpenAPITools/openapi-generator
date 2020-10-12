@@ -55,14 +55,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
 {{/vendorExtensions.x-extra-annotation}}
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isListContainer}}{{^isMapContainer}}public {{dataType}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isArray}}{{^isMapContainer}}public {{dataType}} {{getter}}() {
     if ({{name}} == null) {
       return null;
     }
     return {{name}}.value();
-  }{{/isMapContainer}}{{/isListContainer}}{{/isEnum}}{{#isEnum}}{{#isListContainer}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isMapContainer}}{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isArray}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
-  }{{/isListContainer}}{{/isEnum}}{{#isEnum}}{{#isMapContainer}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isMapContainer}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }{{/isMapContainer}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
@@ -77,13 +77,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
     this.{{name}} = {{name}};
     return this;
   }
-  {{#isListContainer}}
+  {{#isArray}}
 
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     this.{{name}}.add({{name}}Item);
     return this;
   }
-  {{/isListContainer}}
+  {{/isArray}}
   {{#isMapContainer}}
 
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {

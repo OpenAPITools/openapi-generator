@@ -70,11 +70,11 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
 {{/vendorExtensions.x-extra-annotation}}
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isListContainer}}{{^isMapContainer}}public {{dataType}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isArray}}{{^isMapContainer}}public {{dataType}} {{getter}}() {
     return {{name}} == null ? null : {{name}}.value();
-  }{{/isMapContainer}}{{/isListContainer}}{{/isEnum}}{{#isEnum}}{{#isListContainer}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isMapContainer}}{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isArray}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
-  }{{/isListContainer}}{{/isEnum}}{{#isEnum}}{{#isMapContainer}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isMapContainer}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }{{/isMapContainer}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
@@ -100,7 +100,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
     this.{{name}} = {{name}};
     return this;
   }
-  {{#isListContainer}}
+  {{#isArray}}
 
   /**
    * Adds a new item to the <code>{{name}}</code> list.
@@ -112,7 +112,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
     this.{{name}}.add({{name}}Item);
     return this;
   }
-  {{/isListContainer}}
+  {{/isArray}}
   {{#isMapContainer}}
 
   /**

@@ -166,14 +166,14 @@ class {{{classname}}} {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
     if (response.body != null) {
-      {{#isListContainer}}
+      {{#isArray}}
         {{#returnType}}
       return (apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as List)
         .map((item) => item as {{{returnBaseType}}})
         .toList(growable: false);
         {{/returnType}}
-      {{/isListContainer}}
-      {{^isListContainer}}
+      {{/isArray}}
+      {{^isArray}}
         {{#isMapContainer}}
           {{#returnType}}
       return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
@@ -184,7 +184,7 @@ class {{{classname}}} {
       return apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}};
           {{/returnType}}
         {{/isMapContainer}}
-      {{/isListContainer}}
+      {{/isArray}}
     }
     return{{#returnType}} null{{/returnType}};
   }

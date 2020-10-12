@@ -328,7 +328,7 @@ public class ObjcModelTest {
     }
 
     @Test(description = "test isArray")
-    public void isArrayModelTest() {
+    public void isArrayTest() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final Schema definition = openAPI.getComponents().getSchemas().get("AnimalFarm");
