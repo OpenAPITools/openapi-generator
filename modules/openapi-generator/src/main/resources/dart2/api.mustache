@@ -179,12 +179,12 @@ class {{{classname}}} {
         .toList(growable: false);
       {{/isListContainer}}
       {{^isListContainer}}
-        {{#isMapContainer}}
+        {{#isMap}}
       return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
-        {{/isMapContainer}}
-        {{^isMapContainer}}
+        {{/isMap}}
+        {{^isMap}}
       return apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}};
-        {{/isMapContainer}}
+        {{/isMap}}
       {{/isListContainer}}
     }
     return null;

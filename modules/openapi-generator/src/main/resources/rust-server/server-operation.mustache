@@ -355,7 +355,7 @@
 {{#-first}}
                                 // Form parameters
 {{/-first}}
-                                let param_{{{paramName}}} = {{^isContainer}}{{#vendorExtensions}}{{{x-example}}};{{/vendorExtensions}}{{/isContainer}}{{#isListContainer}}{{#required}}Vec::new();{{/required}}{{^required}}None;{{/required}}{{/isListContainer}}{{#isMapContainer}}None;{{/isMapContainer}}
+                                let param_{{{paramName}}} = {{^isContainer}}{{#vendorExtensions}}{{{x-example}}};{{/vendorExtensions}}{{/isContainer}}{{#isListContainer}}{{#required}}Vec::new();{{/required}}{{^required}}None;{{/required}}{{/isListContainer}}{{#isMap}}None;{{/isMap}}
 {{#-last}}
 
 {{/-last}}

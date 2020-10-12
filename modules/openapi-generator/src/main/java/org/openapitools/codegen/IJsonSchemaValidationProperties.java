@@ -64,4 +64,12 @@ public interface IJsonSchemaValidationProperties {
     boolean getIsDate();
 
     void setIsDate(boolean isDate);
+
+    boolean getIsDateTime();
+
+    void setIsDateTime(boolean isDateTime);
+
+    boolean getIsMap();
+
+    void setIsMap(boolean isMap);
 }

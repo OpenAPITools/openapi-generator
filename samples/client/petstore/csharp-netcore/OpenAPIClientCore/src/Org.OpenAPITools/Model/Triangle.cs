@@ -167,14 +167,15 @@ namespace Org.OpenAPITools.Model
         /// Converts the JSON string into the object
         /// </summary>
         /// <param name="jsonString">JSON string</param>
-        public override void FromJson(string jsonString)
+        public static Triangle FromJson(string jsonString)
         {
+            Triangle newTriangle = new Triangle();
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, _serializerSettings);
+                newTriangle.ActualInstance = JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, newTriangle._serializerSettings);
                 matchedTypes.Add("EquilateralTriangle");
                 match++;
             }
@@ -186,7 +187,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, _serializerSettings);
+                newTriangle.ActualInstance = JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, newTriangle._serializerSettings);
                 matchedTypes.Add("IsoscelesTriangle");
                 match++;
             }
@@ -198,7 +199,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, _serializerSettings);
+                newTriangle.ActualInstance = JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, newTriangle._serializerSettings);
                 matchedTypes.Add("ScaleneTriangle");
                 match++;
             }
@@ -218,6 +219,7 @@ namespace Org.OpenAPITools.Model
             }
             
             // deserialization is considered successful at this point if no exception has been thrown.
+            return newTriangle;
         }
 
         /// <summary>

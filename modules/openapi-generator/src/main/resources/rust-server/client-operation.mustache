@@ -357,7 +357,7 @@
 {{#-first}}
         // Header parameters
 {{/-first}}
-{{^isMapContainer}}
+{{^isMap}}
 {{^required}}
         match param_{{{paramName}}} {
             Some(param_{{{paramName}}}) => {
@@ -376,10 +376,10 @@
             None => {}
         }
 {{/required}}
-{{/isMapContainer}}
-{{#isMapContainer}}
+{{/isMap}}
+{{#isMap}}
         let param_{{{paramName}}}: Option<{{{dataType}}}> = None;
-{{/isMapContainer}}
+{{/isMap}}
 
 {{/headerParams}}
         let mut response = client_service.call((request, context.clone()))

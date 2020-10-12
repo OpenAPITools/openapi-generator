@@ -92,8 +92,9 @@
         /// Converts the JSON string into the object
         /// </summary>
         /// <param name="jsonString">JSON string</param>
-        public override void FromJson(string jsonString)
+        public static {{classname}} FromJson(string jsonString)
         {
+            {{classname}} new{{classname}} = new {{classname}}();
             {{#useOneOfDiscriminatorLookup}}
             {{#discriminator}}
 
@@ -102,8 +103,8 @@
             {
                 {{#mappedModels}}
                 case "{{{mappingName}}}":
-                    this.ActualInstance = JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, _serializerSettings);
-                    return;
+                    new{{classname}}.ActualInstance = JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, new{{classname}}._serializerSettings);
+                    return new{{classname}};
                 {{/mappedModels}}
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
@@ -118,7 +119,7 @@
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<{{{.}}}>(jsonString, _serializerSettings);
+                new{{classname}}.ActualInstance = JsonConvert.DeserializeObject<{{{.}}}>(jsonString, new{{classname}}._serializerSettings);
                 matchedTypes.Add("{{{.}}}");
                 match++;
             }
@@ -139,6 +140,7 @@
             }
             
             // deserialization is considered successful at this point if no exception has been thrown.
+            return new{{classname}};
         }
 
         /// <summary>

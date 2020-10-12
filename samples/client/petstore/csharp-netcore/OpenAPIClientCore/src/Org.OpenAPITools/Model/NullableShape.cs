@@ -141,14 +141,15 @@ namespace Org.OpenAPITools.Model
         /// Converts the JSON string into the object
         /// </summary>
         /// <param name="jsonString">JSON string</param>
-        public override void FromJson(string jsonString)
+        public static NullableShape FromJson(string jsonString)
         {
+            NullableShape newNullableShape = new NullableShape();
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, _serializerSettings);
+                newNullableShape.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, newNullableShape._serializerSettings);
                 matchedTypes.Add("Quadrilateral");
                 match++;
             }
@@ -160,7 +161,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, _serializerSettings);
+                newNullableShape.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, newNullableShape._serializerSettings);
                 matchedTypes.Add("Triangle");
                 match++;
             }
@@ -180,6 +181,7 @@ namespace Org.OpenAPITools.Model
             }
             
             // deserialization is considered successful at this point if no exception has been thrown.
+            return newNullableShape;
         }
 
         /// <summary>

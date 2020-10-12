@@ -682,7 +682,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
         if (Boolean.TRUE.equals(p.isListContainer)) {
             example = setPropertyExampleValue(p.items);
             example = "[" + example + "]";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(p.isMap)) {
             example = setPropertyExampleValue(p.items);
             example = "{key: " + example + "}";
         } else if (example == null) {
@@ -880,7 +880,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
         String dataType = trimBrackets(cp.dataType);
         if (Boolean.TRUE.equals(cp.isListContainer)) {
             return "Array.<" + dataType + ">";
-        } else if (Boolean.TRUE.equals(cp.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(cp.isMap)) {
             return "Object.<String, " + dataType + ">";
         }
         return dataType;
@@ -891,7 +891,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
         if (returnType != null) {
             if (Boolean.TRUE.equals(co.isListContainer)) {
                 return "Array.<" + returnType + ">";
-            } else if (Boolean.TRUE.equals(co.isMapContainer)) {
+            } else if (Boolean.TRUE.equals(co.isMap)) {
                 return "Object.<String, " + returnType + ">";
             }
         }

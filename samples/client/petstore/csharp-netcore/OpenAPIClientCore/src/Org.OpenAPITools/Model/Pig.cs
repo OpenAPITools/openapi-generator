@@ -141,14 +141,15 @@ namespace Org.OpenAPITools.Model
         /// Converts the JSON string into the object
         /// </summary>
         /// <param name="jsonString">JSON string</param>
-        public override void FromJson(string jsonString)
+        public static Pig FromJson(string jsonString)
         {
+            Pig newPig = new Pig();
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<BasquePig>(jsonString, _serializerSettings);
+                newPig.ActualInstance = JsonConvert.DeserializeObject<BasquePig>(jsonString, newPig._serializerSettings);
                 matchedTypes.Add("BasquePig");
                 match++;
             }
@@ -160,7 +161,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<DanishPig>(jsonString, _serializerSettings);
+                newPig.ActualInstance = JsonConvert.DeserializeObject<DanishPig>(jsonString, newPig._serializerSettings);
                 matchedTypes.Add("DanishPig");
                 match++;
             }
@@ -180,6 +181,7 @@ namespace Org.OpenAPITools.Model
             }
             
             // deserialization is considered successful at this point if no exception has been thrown.
+            return newPig;
         }
 
         /// <summary>

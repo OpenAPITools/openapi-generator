@@ -141,18 +141,19 @@ namespace Org.OpenAPITools.Model
         /// Converts the JSON string into the object
         /// </summary>
         /// <param name="jsonString">JSON string</param>
-        public override void FromJson(string jsonString)
+        public static Pig FromJson(string jsonString)
         {
+            Pig newPig = new Pig();
 
             string discriminatorValue = JObject.Parse(jsonString)["className"].ToString();
             switch (discriminatorValue)
             {
                 case "BasquePig":
-                    this.ActualInstance = JsonConvert.DeserializeObject<BasquePig>(jsonString, _serializerSettings);
-                    return;
+                    newPig.ActualInstance = JsonConvert.DeserializeObject<BasquePig>(jsonString, newPig._serializerSettings);
+                    return newPig;
                 case "DanishPig":
-                    this.ActualInstance = JsonConvert.DeserializeObject<DanishPig>(jsonString, _serializerSettings);
-                    return;
+                    newPig.ActualInstance = JsonConvert.DeserializeObject<DanishPig>(jsonString, newPig._serializerSettings);
+                    return newPig;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for Pig. Possible values: BasquePig DanishPig", discriminatorValue));
                     break;
@@ -163,7 +164,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<BasquePig>(jsonString, _serializerSettings);
+                newPig.ActualInstance = JsonConvert.DeserializeObject<BasquePig>(jsonString, newPig._serializerSettings);
                 matchedTypes.Add("BasquePig");
                 match++;
             }
@@ -175,7 +176,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<DanishPig>(jsonString, _serializerSettings);
+                newPig.ActualInstance = JsonConvert.DeserializeObject<DanishPig>(jsonString, newPig._serializerSettings);
                 matchedTypes.Add("DanishPig");
                 match++;
             }
@@ -195,6 +196,7 @@ namespace Org.OpenAPITools.Model
             }
             
             // deserialization is considered successful at this point if no exception has been thrown.
+            return newPig;
         }
 
         /// <summary>

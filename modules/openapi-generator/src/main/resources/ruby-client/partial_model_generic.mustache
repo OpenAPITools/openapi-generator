@@ -137,11 +137,11 @@
           self.{{{name}}} = value
         end
         {{/isListContainer}}
-        {{#isMapContainer}}
+        {{#isMap}}
         if (value = attributes[:'{{{name}}}']).is_a?(Hash)
           self.{{{name}}} = value
         end
-        {{/isMapContainer}}
+        {{/isMap}}
         {{^isContainer}}
         self.{{{name}}} = attributes[:'{{{name}}}']
         {{/isContainer}}

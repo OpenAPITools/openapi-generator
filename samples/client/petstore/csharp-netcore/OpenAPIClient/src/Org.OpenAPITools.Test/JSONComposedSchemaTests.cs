@@ -41,14 +41,12 @@ namespace Org.OpenAPITools.Test
             // pig has sub-classes.
 
             String str = "{ \"className\": \"whale\", \"hasBaleen\": true, \"hasTeeth\": false }";
-            Mammal m = new Mammal();
-            m.FromJson(str);
+            Mammal m = Mammal.FromJson(str);
             Assert.NotNull(m);
             Assert.IsType<Whale>(m.ActualInstance);
             
             String str2 = "{ \"className\": \"zebra\", \"type\": \"plains\" }";
-            Mammal m2 = new Mammal();
-            m2.FromJson(str2);
+            Mammal m2 = Mammal.FromJson(str2);
             Assert.NotNull(m2);
             Assert.IsType<Zebra>(m2.ActualInstance);
         }
@@ -83,11 +81,11 @@ namespace Org.OpenAPITools.Test
             Assert.Equal("{\"lengthCm\":13.0}", f1.ToJson());
             Assert.Equal("{\"origin\":\"Japan\"}", f2.ToJson());
 
-            f1.FromJson("{\"lengthCm\":98}");
-            Assert.IsType<Banana>(f1.ActualInstance);
+            Fruit f3 = Fruit.FromJson("{\"lengthCm\":98}");
+            Assert.IsType<Banana>(f3.ActualInstance);
 
-            f2.FromJson("{\"origin\":\"Japan\"}");
-            Assert.IsType<Apple>(f2.ActualInstance);
+            Fruit f4 = Fruit.FromJson("{\"origin\":\"Japan\"}");
+            Assert.IsType<Apple>(f4.ActualInstance);
         }
     }
 }

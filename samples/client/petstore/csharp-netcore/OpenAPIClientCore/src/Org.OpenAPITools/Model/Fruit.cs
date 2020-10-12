@@ -140,14 +140,15 @@ namespace Org.OpenAPITools.Model
         /// Converts the JSON string into the object
         /// </summary>
         /// <param name="jsonString">JSON string</param>
-        public override void FromJson(string jsonString)
+        public static Fruit FromJson(string jsonString)
         {
+            Fruit newFruit = new Fruit();
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<Apple>(jsonString, _serializerSettings);
+                newFruit.ActualInstance = JsonConvert.DeserializeObject<Apple>(jsonString, newFruit._serializerSettings);
                 matchedTypes.Add("Apple");
                 match++;
             }
@@ -159,7 +160,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                this.ActualInstance = JsonConvert.DeserializeObject<Banana>(jsonString, _serializerSettings);
+                newFruit.ActualInstance = JsonConvert.DeserializeObject<Banana>(jsonString, newFruit._serializerSettings);
                 matchedTypes.Add("Banana");
                 match++;
             }
@@ -179,6 +180,7 @@ namespace Org.OpenAPITools.Model
             }
             
             // deserialization is considered successful at this point if no exception has been thrown.
+            return newFruit;
         }
 
         /// <summary>

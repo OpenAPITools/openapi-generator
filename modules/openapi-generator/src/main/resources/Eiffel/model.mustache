@@ -80,7 +80,7 @@ feature -- Change Element
           end
         end 
         {{/isListContainer}}
-        {{#isMapContainer}}
+        {{#isMap}}
         if attached {{name}} as l_{{name}} then
           Result.append ("%N{{name}}:")
           across l_{{name}} as ic loop
@@ -93,7 +93,7 @@ feature -- Change Element
             Result.append ("%N")
           end
         end        
-        {{/isMapContainer}}
+        {{/isMap}}
         {{^isContainer}}
         if attached {{name}} as l_{{name}} then
           Result.append ("%N{{name}}:")

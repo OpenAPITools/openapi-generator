@@ -820,7 +820,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends DefaultCodege
             if (Boolean.TRUE.equals(p.isBodyParam)) {
                 example = "[" + example + "]";
             }
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(p.isMap)) {
             example = "{'key': " + example + "}";
         }
 
