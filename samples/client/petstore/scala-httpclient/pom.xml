@@ -267,7 +267,7 @@
         <maven-plugin.version>1.0.0</maven-plugin.version>
         <jackson-version>2.9.9</jackson-version>
 
-        <junit-version>4.13</junit-version>
+        <junit-version>4.13.1</junit-version>
         <scala-maven-plugin-version>3.1.5</scala-maven-plugin-version>
         <scala-test-version>3.0.4</scala-test-version>
         <async-httpclient-version>0.3.5</async-httpclient-version>
