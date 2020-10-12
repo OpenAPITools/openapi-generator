@@ -95,7 +95,8 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}'.replaceAll('{format}', 'json').replaceAll('{' + 'petId' + '}', petId.toString());
+    final path = '/pet/{petId}'.replaceAll('{format}', 'json')
+      .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
 
@@ -320,7 +321,8 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}'.replaceAll('{format}', 'json').replaceAll('{' + 'petId' + '}', petId.toString());
+    final path = '/pet/{petId}'.replaceAll('{format}', 'json')
+      .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
 
@@ -463,7 +465,8 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}'.replaceAll('{format}', 'json').replaceAll('{' + 'petId' + '}', petId.toString());
+    final path = '/pet/{petId}'.replaceAll('{format}', 'json')
+      .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
 
@@ -553,7 +556,8 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}/uploadImage'.replaceAll('{format}', 'json').replaceAll('{' + 'petId' + '}', petId.toString());
+    final path = '/pet/{petId}/uploadImage'.replaceAll('{format}', 'json')
+      .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
 

@@ -31,7 +31,8 @@ class StoreApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: orderId');
     }
 
-    final path = '/store/order/{orderId}'.replaceAll('{format}', 'json').replaceAll('{' + 'orderId' + '}', orderId.toString());
+    final path = '/store/order/{orderId}'.replaceAll('{format}', 'json')
+      .replaceAll('{' + 'orderId' + '}', orderId.toString());
 
     Object postBody;
 
@@ -89,8 +90,6 @@ class StoreApi {
   ///
   /// Note: This method returns the HTTP [Response].
   Future<Response> getInventoryWithHttpInfo() async {
-    // Verify required params are set.
-
     final path = '/store/inventory'.replaceAll('{format}', 'json');
 
     Object postBody;
@@ -161,7 +160,8 @@ class StoreApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: orderId');
     }
 
-    final path = '/store/order/{orderId}'.replaceAll('{format}', 'json').replaceAll('{' + 'orderId' + '}', orderId.toString());
+    final path = '/store/order/{orderId}'.replaceAll('{format}', 'json')
+      .replaceAll('{' + 'orderId' + '}', orderId.toString());
 
     Object postBody;
 

@@ -227,7 +227,8 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
     }
 
-    final path = '/user/{username}'.replaceAll('{format}', 'json').replaceAll('{' + 'username' + '}', username.toString());
+    final path = '/user/{username}'.replaceAll('{format}', 'json')
+      .replaceAll('{' + 'username' + '}', username.toString());
 
     Object postBody;
 
@@ -293,7 +294,8 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
     }
 
-    final path = '/user/{username}'.replaceAll('{format}', 'json').replaceAll('{' + 'username' + '}', username.toString());
+    final path = '/user/{username}'.replaceAll('{format}', 'json')
+      .replaceAll('{' + 'username' + '}', username.toString());
 
     Object postBody;
 
@@ -436,8 +438,6 @@ class UserApi {
   ///
   /// Note: This method returns the HTTP [Response].
   Future logoutUserWithHttpInfo() async {
-    // Verify required params are set.
-
     final path = '/user/logout'.replaceAll('{format}', 'json');
 
     Object postBody;
@@ -505,7 +505,8 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
     }
 
-    final path = '/user/{username}'.replaceAll('{format}', 'json').replaceAll('{' + 'username' + '}', username.toString());
+    final path = '/user/{username}'.replaceAll('{format}', 'json')
+      .replaceAll('{' + 'username' + '}', username.toString());
 
     Object postBody = body;
 

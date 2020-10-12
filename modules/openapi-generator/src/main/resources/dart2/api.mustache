@@ -50,6 +50,7 @@ class {{{classname}}} {
     {{/hasMore}}
   {{/allParams}}
   {{#returnType}}Future<Response> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+  {{#hasParams}}
     // Verify required params are set.
     {{#allParams}}
       {{#required}}
@@ -59,7 +60,9 @@ class {{{classname}}} {
       {{/required}}
     {{/allParams}}
 
-    final path = '{{{path}}}'.replaceAll('{format}', 'json'){{#pathParams}}.replaceAll('{' + '{{{baseName}}}' + '}', {{{paramName}}}.toString()){{/pathParams}};
+  {{/hasParams}}
+    final path = '{{{path}}}'.replaceAll('{format}', 'json'){{#pathParams}}
+      .replaceAll('{' + '{{{baseName}}}' + '}', {{{paramName}}}.toString()){{/pathParams}};
 
     Object postBody{{#bodyParam}} = {{{paramName}}}{{/bodyParam}};
 
