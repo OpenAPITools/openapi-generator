@@ -41,9 +41,9 @@ func NewFileSchemaTestClassWithDefaults() *FileSchemaTestClass {
 }
 
 // GetFile returns the File field value if set, zero value otherwise.
-func (o *FileSchemaTestClass) GetFile() File {
+func (o *FileSchemaTestClass) GetFile()  {
 	if o == nil || o.File == nil {
-		var ret File
+		var ret 
 		return ret
 	}
 	return *o.File
@@ -51,7 +51,7 @@ func (o *FileSchemaTestClass) GetFile() File {
 
 // GetFileOk returns a tuple with the File field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FileSchemaTestClass) GetFileOk() (*File, bool) {
+func (o *FileSchemaTestClass) GetFileOk() (*, bool) {
 	if o == nil || o.File == nil {
 		return nil, false
 	}
@@ -68,14 +68,14 @@ func (o *FileSchemaTestClass) HasFile() bool {
 }
 
 // SetFile gets a reference to the given File and assigns it to the File field.
-func (o *FileSchemaTestClass) SetFile(v File) {
+func (o *FileSchemaTestClass) SetFile(v ) {
 	o.File = &v
 }
 
 // GetFiles returns the Files field value if set, zero value otherwise.
-func (o *FileSchemaTestClass) GetFiles() []File {
+func (o *FileSchemaTestClass) GetFiles()  {
 	if o == nil || o.Files == nil {
-		var ret []File
+		var ret 
 		return ret
 	}
 	return *o.Files
@@ -83,7 +83,7 @@ func (o *FileSchemaTestClass) GetFiles() []File {
 
 // GetFilesOk returns a tuple with the Files field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FileSchemaTestClass) GetFilesOk() (*[]File, bool) {
+func (o *FileSchemaTestClass) GetFilesOk() (*, bool) {
 	if o == nil || o.Files == nil {
 		return nil, false
 	}
@@ -100,7 +100,7 @@ func (o *FileSchemaTestClass) HasFiles() bool {
 }
 
 // SetFiles gets a reference to the given []File and assigns it to the Files field.
-func (o *FileSchemaTestClass) SetFiles(v []File) {
+func (o *FileSchemaTestClass) SetFiles(v ) {
 	o.Files = &v
 }
 

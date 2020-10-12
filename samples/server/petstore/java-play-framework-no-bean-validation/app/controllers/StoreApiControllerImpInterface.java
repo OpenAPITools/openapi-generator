@@ -13,7 +13,7 @@ import java.util.HashMap;
 public interface StoreApiControllerImpInterface {
     void deleteOrder(Http.Request request, String orderId) throws Exception;
 
-    Map<String, Integer> getInventory(Http.Request request) throws Exception;
+     getInventory(Http.Request request) throws Exception;
 
     Order getOrderById(Http.Request request, Long orderId) throws Exception;
 

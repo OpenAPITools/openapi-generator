@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetBreed
 
-`func (o *DogAllOf) GetBreed() string`
+`func (o *DogAllOf) GetBreed() `
 
 GetBreed returns the Breed field if non-nil, zero value otherwise.
 
 ### GetBreedOk
 
-`func (o *DogAllOf) GetBreedOk() (*string, bool)`
+`func (o *DogAllOf) GetBreedOk() (*, bool)`
 
 GetBreedOk returns a tuple with the Breed field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBreed
 
-`func (o *DogAllOf) SetBreed(v string)`
+`func (o *DogAllOf) SetBreed(v )`
 
 SetBreed sets Breed field to given value.
 

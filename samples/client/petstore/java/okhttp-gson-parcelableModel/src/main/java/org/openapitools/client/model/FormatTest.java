@@ -35,7 +35,7 @@ import android.os.Parcel;
  * FormatTest
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class FormatTest {
+public class FormatTest implements Parcelable {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
   @SerializedName(SERIALIZED_NAME_INTEGER)
   private Integer integer;

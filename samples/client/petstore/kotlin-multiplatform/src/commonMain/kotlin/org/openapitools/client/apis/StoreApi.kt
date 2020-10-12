@@ -97,19 +97,9 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
-        ).wrap<GetInventoryResponse>().map { value }
+        ).wrap()
     }
 
-    @Serializable
-    private class GetInventoryResponse(val value: Map<kotlin.String, kotlin.Int>) {
-        @Serializer(GetInventoryResponse::class)
-        companion object : KSerializer<GetInventoryResponse> {
-            private val serializer: KSerializer<Map<kotlin.String, kotlin.Int>> = (kotlin.String.serializer() to kotlin.Int.serializer()).map
-                override val descriptor = StringDescriptor.withName("GetInventoryResponse")
-                override fun serialize(encoder: Encoder, obj: GetInventoryResponse) = serializer.serialize(encoder, obj.value)
-                override fun deserialize(decoder: Decoder) = GetInventoryResponse(serializer.deserialize(decoder))
-        }
-    }
 
     /**
      * Find purchase order by ID
@@ -180,7 +170,6 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
 
     companion object {
         internal fun setMappers(serializer: KotlinxSerializer) {
-            serializer.setMapper(GetInventoryResponse::class, GetInventoryResponse.serializer())
             
         }
     }

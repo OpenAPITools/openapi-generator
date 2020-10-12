@@ -51,7 +51,7 @@ public class StoreApiController extends Controller {
 
     @ApiAction
     public CompletionStage<Result> getInventory(Http.Request request) throws Exception {
-        CompletionStage<Map<String, Integer>> stage = imp.getInventory(request).thenApply(obj -> { 
+        CompletionStage<> stage = imp.getInventory(request).thenApply(obj -> { 
             return obj;
         });
         stage.thenApply(obj -> {

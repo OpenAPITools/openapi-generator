@@ -44,9 +44,9 @@ func NewInlineObject1WithDefaults() *InlineObject1 {
 }
 
 // GetAdditionalMetadata returns the AdditionalMetadata field value if set, zero value otherwise.
-func (o *InlineObject1) GetAdditionalMetadata() string {
+func (o *InlineObject1) GetAdditionalMetadata()  {
 	if o == nil || o.AdditionalMetadata == nil {
-		var ret string
+		var ret 
 		return ret
 	}
 	return *o.AdditionalMetadata
@@ -54,7 +54,7 @@ func (o *InlineObject1) GetAdditionalMetadata() string {
 
 // GetAdditionalMetadataOk returns a tuple with the AdditionalMetadata field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject1) GetAdditionalMetadataOk() (*string, bool) {
+func (o *InlineObject1) GetAdditionalMetadataOk() (*, bool) {
 	if o == nil || o.AdditionalMetadata == nil {
 		return nil, false
 	}
@@ -71,14 +71,14 @@ func (o *InlineObject1) HasAdditionalMetadata() bool {
 }
 
 // SetAdditionalMetadata gets a reference to the given string and assigns it to the AdditionalMetadata field.
-func (o *InlineObject1) SetAdditionalMetadata(v string) {
+func (o *InlineObject1) SetAdditionalMetadata(v ) {
 	o.AdditionalMetadata = &v
 }
 
 // GetFile returns the File field value if set, zero value otherwise.
-func (o *InlineObject1) GetFile() *os.File {
+func (o *InlineObject1) GetFile()  {
 	if o == nil || o.File == nil {
-		var ret *os.File
+		var ret 
 		return ret
 	}
 	return *o.File
@@ -86,7 +86,7 @@ func (o *InlineObject1) GetFile() *os.File {
 
 // GetFileOk returns a tuple with the File field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject1) GetFileOk() (**os.File, bool) {
+func (o *InlineObject1) GetFileOk() (*, bool) {
 	if o == nil || o.File == nil {
 		return nil, false
 	}
@@ -103,7 +103,7 @@ func (o *InlineObject1) HasFile() bool {
 }
 
 // SetFile gets a reference to the given *os.File and assigns it to the File field.
-func (o *InlineObject1) SetFile(v *os.File) {
+func (o *InlineObject1) SetFile(v ) {
 	o.File = &v
 }
 

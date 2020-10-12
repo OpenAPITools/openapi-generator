@@ -56,15 +56,9 @@ module Petstore
       }
 
       if attributes.key?(:'map_property')
-        if (value = attributes[:'map_property']).is_a?(Hash)
-          self.map_property = value
-        end
       end
 
       if attributes.key?(:'map_of_map_property')
-        if (value = attributes[:'map_of_map_property']).is_a?(Hash)
-          self.map_of_map_property = value
-        end
       end
     end
 

@@ -18,9 +18,9 @@ public class StoreApiControllerImp  {
     }
 
     
-    public Map<String, Integer> getInventory(Http.Request request) throws Exception {
+    public  getInventory(Http.Request request) throws Exception {
         //Do your magic!!!
-        return new HashMap<String, Integer>();
+        return new ();
     }
 
     

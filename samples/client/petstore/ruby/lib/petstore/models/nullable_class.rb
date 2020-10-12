@@ -148,21 +148,12 @@ module Petstore
       end
 
       if attributes.key?(:'object_nullable_prop')
-        if (value = attributes[:'object_nullable_prop']).is_a?(Hash)
-          self.object_nullable_prop = value
-        end
       end
 
       if attributes.key?(:'object_and_items_nullable_prop')
-        if (value = attributes[:'object_and_items_nullable_prop']).is_a?(Hash)
-          self.object_and_items_nullable_prop = value
-        end
       end
 
       if attributes.key?(:'object_items_nullable')
-        if (value = attributes[:'object_items_nullable']).is_a?(Hash)
-          self.object_items_nullable = value
-        end
       end
     end
 

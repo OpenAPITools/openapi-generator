@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **EnumFormStringArray** | Pointer to **[]string** | Form parameter enum test (string array) | [optional] 
-**EnumFormString** | Pointer to **string** | Form parameter enum test (string) | [optional] [default to "-efg"]
+**EnumFormString** | Pointer to **string** | Form parameter enum test (string) | [optional] [default to ENUM_FORM_STRING_EFG]
 
 ## Methods
 
@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetEnumFormStringArray
 
-`func (o *InlineObject2) GetEnumFormStringArray() []string`
+`func (o *InlineObject2) GetEnumFormStringArray() `
 
 GetEnumFormStringArray returns the EnumFormStringArray field if non-nil, zero value otherwise.
 
 ### GetEnumFormStringArrayOk
 
-`func (o *InlineObject2) GetEnumFormStringArrayOk() (*[]string, bool)`
+`func (o *InlineObject2) GetEnumFormStringArrayOk() (*, bool)`
 
 GetEnumFormStringArrayOk returns a tuple with the EnumFormStringArray field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEnumFormStringArray
 
-`func (o *InlineObject2) SetEnumFormStringArray(v []string)`
+`func (o *InlineObject2) SetEnumFormStringArray(v )`
 
 SetEnumFormStringArray sets EnumFormStringArray field to given value.
 
@@ -53,20 +53,20 @@ HasEnumFormStringArray returns a boolean if a field has been set.
 
 ### GetEnumFormString
 
-`func (o *InlineObject2) GetEnumFormString() string`
+`func (o *InlineObject2) GetEnumFormString() `
 
 GetEnumFormString returns the EnumFormString field if non-nil, zero value otherwise.
 
 ### GetEnumFormStringOk
 
-`func (o *InlineObject2) GetEnumFormStringOk() (*string, bool)`
+`func (o *InlineObject2) GetEnumFormStringOk() (*, bool)`
 
 GetEnumFormStringOk returns a tuple with the EnumFormString field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEnumFormString
 
-`func (o *InlineObject2) SetEnumFormString(v string)`
+`func (o *InlineObject2) SetEnumFormString(v )`
 
 SetEnumFormString sets EnumFormString field to given value.
 

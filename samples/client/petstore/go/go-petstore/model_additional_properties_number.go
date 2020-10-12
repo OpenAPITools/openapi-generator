@@ -16,6 +16,7 @@ import (
 
 // AdditionalPropertiesNumber struct for AdditionalPropertiesNumber
 type AdditionalPropertiesNumber struct {
+	map[string]float32
 	Name *string `json:"name,omitempty"`
 }
 
@@ -37,9 +38,9 @@ func NewAdditionalPropertiesNumberWithDefaults() *AdditionalPropertiesNumber {
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *AdditionalPropertiesNumber) GetName() string {
+func (o *AdditionalPropertiesNumber) GetName()  {
 	if o == nil || o.Name == nil {
-		var ret string
+		var ret 
 		return ret
 	}
 	return *o.Name
@@ -47,7 +48,7 @@ func (o *AdditionalPropertiesNumber) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesNumber) GetNameOk() (*string, bool) {
+func (o *AdditionalPropertiesNumber) GetNameOk() (*, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -64,12 +65,20 @@ func (o *AdditionalPropertiesNumber) HasName() bool {
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *AdditionalPropertiesNumber) SetName(v string) {
+func (o *AdditionalPropertiesNumber) SetName(v ) {
 	o.Name = &v
 }
 
 func (o AdditionalPropertiesNumber) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
+	serializedmap[string]float32, errmap[string]float32 := json.Marshal(o.map[string]float32)
+	if errmap[string]float32 != nil {
+		return []byte{}, errmap[string]float32
+	}
+	errmap[string]float32 = json.Unmarshal([]byte(serializedmap[string]float32), &toSerialize)
+	if errmap[string]float32 != nil {
+		return []byte{}, errmap[string]float32
+	}
 	if o.Name != nil {
 		toSerialize["name"] = o.Name
 	}

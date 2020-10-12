@@ -79,14 +79,6 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-  public AdditionalPropertiesClass putMapPropertyItem(String key, String mapPropertyItem) {
-    if (this.mapProperty == null) {
-      this.mapProperty = new HashMap<>();
-    }
-    this.mapProperty.put(key, mapPropertyItem);
-    return this;
-  }
-
    /**
    * Get mapProperty
    * @return mapProperty
@@ -108,14 +100,6 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapOfMapProperty = mapOfMapProperty;
-    return this;
-  }
-
-  public AdditionalPropertiesClass putMapOfMapPropertyItem(String key, Map<String, String> mapOfMapPropertyItem) {
-    if (this.mapOfMapProperty == null) {
-      this.mapOfMapProperty = new HashMap<>();
-    }
-    this.mapOfMapProperty.put(key, mapOfMapPropertyItem);
     return this;
   }
 
@@ -225,14 +209,6 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-  public AdditionalPropertiesClass putMapWithUndeclaredPropertiesAnytype3Item(String key, Object mapWithUndeclaredPropertiesAnytype3Item) {
-    if (this.mapWithUndeclaredPropertiesAnytype3 == null) {
-      this.mapWithUndeclaredPropertiesAnytype3 = new HashMap<>();
-    }
-    this.mapWithUndeclaredPropertiesAnytype3.put(key, mapWithUndeclaredPropertiesAnytype3Item);
-    return this;
-  }
-
    /**
    * Get mapWithUndeclaredPropertiesAnytype3
    * @return mapWithUndeclaredPropertiesAnytype3
@@ -240,7 +216,7 @@ public class AdditionalPropertiesClass {
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3)
-  @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Object> getMapWithUndeclaredPropertiesAnytype3() {
     return mapWithUndeclaredPropertiesAnytype3;
@@ -278,14 +254,6 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass mapWithUndeclaredPropertiesString(Map<String, String> mapWithUndeclaredPropertiesString) {
     this.mapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
-    return this;
-  }
-
-  public AdditionalPropertiesClass putMapWithUndeclaredPropertiesStringItem(String key, String mapWithUndeclaredPropertiesStringItem) {
-    if (this.mapWithUndeclaredPropertiesString == null) {
-      this.mapWithUndeclaredPropertiesString = new HashMap<>();
-    }
-    this.mapWithUndeclaredPropertiesString.put(key, mapWithUndeclaredPropertiesStringItem);
     return this;
   }
 

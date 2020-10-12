@@ -57,7 +57,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
-import java.time.OffsetDateTime;
 
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
@@ -66,7 +65,7 @@ import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class ApiClient extends JavaTimeFormatter {
+public class ApiClient {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
 
@@ -136,8 +135,8 @@ public class ApiClient extends JavaTimeFormatter {
     }
 
     /**
-    * Build the WebClient used to make HTTP requests.
-    * @return WebClient
+    * Build the RestTemplate used to make HTTP requests.
+    * @return RestTemplate
     */
     public static WebClient buildWebClient(ObjectMapper mapper) {
         ExchangeStrategies strategies = ExchangeStrategies
@@ -347,8 +346,6 @@ public class ApiClient extends JavaTimeFormatter {
             return "";
         } else if (param instanceof Date) {
             return formatDate( (Date) param);
-        } else if (param instanceof OffsetDateTime) {
-            return formatOffsetDateTime((OffsetDateTime) param);
         } else if (param instanceof Collection) {
             StringBuilder b = new StringBuilder();
             for(Object o : (Collection<?>) param) {
@@ -491,7 +488,7 @@ public class ApiClient extends JavaTimeFormatter {
      */
     protected BodyInserter<?, ? super ClientHttpRequest> selectBody(Object obj, MultiValueMap<String, Object> formParams, MediaType contentType) {
         if(MediaType.APPLICATION_FORM_URLENCODED.equals(contentType)) {
-            MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+            MultiValueMap<String, String> map = new LinkedMultiValueMap();
 
             formParams
                     .toSingleValueMap()

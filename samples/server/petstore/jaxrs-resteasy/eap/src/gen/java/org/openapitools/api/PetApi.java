@@ -22,7 +22,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
-@Path("/pet")
+@Path("pet")
 
 
 @io.swagger.annotations.Api(description = "the pet API")

@@ -28,4 +28,8 @@ FISH | &quot;fish&quot;
 CRAB | &quot;crab&quot;
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 

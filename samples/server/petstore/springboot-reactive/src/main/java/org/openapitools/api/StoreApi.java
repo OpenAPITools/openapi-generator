@@ -68,7 +68,7 @@ public interface StoreApi {
         value = "/store/inventory",
         produces = { "application/json" }
     )
-    default Mono<ResponseEntity<Map<String, Integer>>> getInventory(ServerWebExchange exchange) {
+    default Mono<ResponseEntity<>> getInventory(ServerWebExchange exchange) {
         return getDelegate().getInventory(exchange);
     }
 

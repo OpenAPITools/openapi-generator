@@ -12,7 +12,6 @@ package petstore
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 // EnumClass the model 'EnumClass'

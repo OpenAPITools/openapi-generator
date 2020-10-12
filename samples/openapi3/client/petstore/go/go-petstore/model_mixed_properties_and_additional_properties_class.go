@@ -43,9 +43,9 @@ func NewMixedPropertiesAndAdditionalPropertiesClassWithDefaults() *MixedProperti
 }
 
 // GetUuid returns the Uuid field value if set, zero value otherwise.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuid() string {
+func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuid()  {
 	if o == nil || o.Uuid == nil {
-		var ret string
+		var ret 
 		return ret
 	}
 	return *o.Uuid
@@ -53,7 +53,7 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuid() string {
 
 // GetUuidOk returns a tuple with the Uuid field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuidOk() (*string, bool) {
+func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuidOk() (*, bool) {
 	if o == nil || o.Uuid == nil {
 		return nil, false
 	}
@@ -70,14 +70,14 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) HasUuid() bool {
 }
 
 // SetUuid gets a reference to the given string and assigns it to the Uuid field.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) SetUuid(v string) {
+func (o *MixedPropertiesAndAdditionalPropertiesClass) SetUuid(v ) {
 	o.Uuid = &v
 }
 
 // GetDateTime returns the DateTime field value if set, zero value otherwise.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTime() time.Time {
+func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTime()  {
 	if o == nil || o.DateTime == nil {
-		var ret time.Time
+		var ret 
 		return ret
 	}
 	return *o.DateTime
@@ -85,7 +85,7 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTime() time.Time {
 
 // GetDateTimeOk returns a tuple with the DateTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTimeOk() (*time.Time, bool) {
+func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTimeOk() (*, bool) {
 	if o == nil || o.DateTime == nil {
 		return nil, false
 	}
@@ -102,14 +102,14 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) HasDateTime() bool {
 }
 
 // SetDateTime gets a reference to the given time.Time and assigns it to the DateTime field.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) SetDateTime(v time.Time) {
+func (o *MixedPropertiesAndAdditionalPropertiesClass) SetDateTime(v ) {
 	o.DateTime = &v
 }
 
 // GetMap returns the Map field value if set, zero value otherwise.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap() map[string]Animal {
+func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap()  {
 	if o == nil || o.Map == nil {
-		var ret map[string]Animal
+		var ret 
 		return ret
 	}
 	return *o.Map
@@ -117,7 +117,7 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap() map[string]Animal
 
 // GetMapOk returns a tuple with the Map field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMapOk() (*map[string]Animal, bool) {
+func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMapOk() (*, bool) {
 	if o == nil || o.Map == nil {
 		return nil, false
 	}
@@ -134,7 +134,7 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) HasMap() bool {
 }
 
 // SetMap gets a reference to the given map[string]Animal and assigns it to the Map field.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) SetMap(v map[string]Animal) {
+func (o *MixedPropertiesAndAdditionalPropertiesClass) SetMap(v ) {
 	o.Map = &v
 }
 

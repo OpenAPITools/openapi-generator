@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetFile
 
-`func (o *FileSchemaTestClass) GetFile() File`
+`func (o *FileSchemaTestClass) GetFile() `
 
 GetFile returns the File field if non-nil, zero value otherwise.
 
 ### GetFileOk
 
-`func (o *FileSchemaTestClass) GetFileOk() (*File, bool)`
+`func (o *FileSchemaTestClass) GetFileOk() (*, bool)`
 
 GetFileOk returns a tuple with the File field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFile
 
-`func (o *FileSchemaTestClass) SetFile(v File)`
+`func (o *FileSchemaTestClass) SetFile(v )`
 
 SetFile sets File field to given value.
 
@@ -53,20 +53,20 @@ HasFile returns a boolean if a field has been set.
 
 ### GetFiles
 
-`func (o *FileSchemaTestClass) GetFiles() []File`
+`func (o *FileSchemaTestClass) GetFiles() `
 
 GetFiles returns the Files field if non-nil, zero value otherwise.
 
 ### GetFilesOk
 
-`func (o *FileSchemaTestClass) GetFilesOk() (*[]File, bool)`
+`func (o *FileSchemaTestClass) GetFilesOk() (*, bool)`
 
 GetFilesOk returns a tuple with the Files field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFiles
 
-`func (o *FileSchemaTestClass) SetFiles(v []File)`
+`func (o *FileSchemaTestClass) SetFiles(v )`
 
 SetFiles sets Files field to given value.
 

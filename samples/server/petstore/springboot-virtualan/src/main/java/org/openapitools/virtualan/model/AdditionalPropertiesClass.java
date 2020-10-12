@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -64,14 +63,6 @@ public class AdditionalPropertiesClass   {
     return this;
   }
 
-  public AdditionalPropertiesClass putMapStringItem(String key, String mapStringItem) {
-    if (this.mapString == null) {
-      this.mapString = new HashMap<>();
-    }
-    this.mapString.put(key, mapStringItem);
-    return this;
-  }
-
   /**
    * Get mapString
    * @return mapString
@@ -89,14 +80,6 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
-    return this;
-  }
-
-  public AdditionalPropertiesClass putMapNumberItem(String key, BigDecimal mapNumberItem) {
-    if (this.mapNumber == null) {
-      this.mapNumber = new HashMap<>();
-    }
-    this.mapNumber.put(key, mapNumberItem);
     return this;
   }
 
@@ -121,14 +104,6 @@ public class AdditionalPropertiesClass   {
     return this;
   }
 
-  public AdditionalPropertiesClass putMapIntegerItem(String key, Integer mapIntegerItem) {
-    if (this.mapInteger == null) {
-      this.mapInteger = new HashMap<>();
-    }
-    this.mapInteger.put(key, mapIntegerItem);
-    return this;
-  }
-
   /**
    * Get mapInteger
    * @return mapInteger
@@ -149,14 +124,6 @@ public class AdditionalPropertiesClass   {
     return this;
   }
 
-  public AdditionalPropertiesClass putMapBooleanItem(String key, Boolean mapBooleanItem) {
-    if (this.mapBoolean == null) {
-      this.mapBoolean = new HashMap<>();
-    }
-    this.mapBoolean.put(key, mapBooleanItem);
-    return this;
-  }
-
   /**
    * Get mapBoolean
    * @return mapBoolean
@@ -174,14 +141,6 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass mapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
-    return this;
-  }
-
-  public AdditionalPropertiesClass putMapArrayIntegerItem(String key, List<Integer> mapArrayIntegerItem) {
-    if (this.mapArrayInteger == null) {
-      this.mapArrayInteger = new HashMap<>();
-    }
-    this.mapArrayInteger.put(key, mapArrayIntegerItem);
     return this;
   }
 
@@ -206,14 +165,6 @@ public class AdditionalPropertiesClass   {
     return this;
   }
 
-  public AdditionalPropertiesClass putMapArrayAnytypeItem(String key, List<Object> mapArrayAnytypeItem) {
-    if (this.mapArrayAnytype == null) {
-      this.mapArrayAnytype = new HashMap<>();
-    }
-    this.mapArrayAnytype.put(key, mapArrayAnytypeItem);
-    return this;
-  }
-
   /**
    * Get mapArrayAnytype
    * @return mapArrayAnytype
@@ -235,14 +186,6 @@ public class AdditionalPropertiesClass   {
     return this;
   }
 
-  public AdditionalPropertiesClass putMapMapStringItem(String key, Map<String, String> mapMapStringItem) {
-    if (this.mapMapString == null) {
-      this.mapMapString = new HashMap<>();
-    }
-    this.mapMapString.put(key, mapMapStringItem);
-    return this;
-  }
-
   /**
    * Get mapMapString
    * @return mapMapString
@@ -261,14 +204,6 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
-    return this;
-  }
-
-  public AdditionalPropertiesClass putMapMapAnytypeItem(String key, Map<String, Object> mapMapAnytypeItem) {
-    if (this.mapMapAnytype == null) {
-      this.mapMapAnytype = new HashMap<>();
-    }
-    this.mapMapAnytype.put(key, mapMapAnytypeItem);
     return this;
   }
 

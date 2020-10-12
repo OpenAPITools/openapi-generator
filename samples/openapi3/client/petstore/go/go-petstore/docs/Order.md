@@ -32,20 +32,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *Order) GetId() int64`
+`func (o *Order) GetId() `
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *Order) GetIdOk() (*int64, bool)`
+`func (o *Order) GetIdOk() (*, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *Order) SetId(v int64)`
+`func (o *Order) SetId(v )`
 
 SetId sets Id field to given value.
 
@@ -57,20 +57,20 @@ HasId returns a boolean if a field has been set.
 
 ### GetPetId
 
-`func (o *Order) GetPetId() int64`
+`func (o *Order) GetPetId() `
 
 GetPetId returns the PetId field if non-nil, zero value otherwise.
 
 ### GetPetIdOk
 
-`func (o *Order) GetPetIdOk() (*int64, bool)`
+`func (o *Order) GetPetIdOk() (*, bool)`
 
 GetPetIdOk returns a tuple with the PetId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPetId
 
-`func (o *Order) SetPetId(v int64)`
+`func (o *Order) SetPetId(v )`
 
 SetPetId sets PetId field to given value.
 
@@ -82,20 +82,20 @@ HasPetId returns a boolean if a field has been set.
 
 ### GetQuantity
 
-`func (o *Order) GetQuantity() int32`
+`func (o *Order) GetQuantity() `
 
 GetQuantity returns the Quantity field if non-nil, zero value otherwise.
 
 ### GetQuantityOk
 
-`func (o *Order) GetQuantityOk() (*int32, bool)`
+`func (o *Order) GetQuantityOk() (*, bool)`
 
 GetQuantityOk returns a tuple with the Quantity field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetQuantity
 
-`func (o *Order) SetQuantity(v int32)`
+`func (o *Order) SetQuantity(v )`
 
 SetQuantity sets Quantity field to given value.
 
@@ -107,20 +107,20 @@ HasQuantity returns a boolean if a field has been set.
 
 ### GetShipDate
 
-`func (o *Order) GetShipDate() time.Time`
+`func (o *Order) GetShipDate() `
 
 GetShipDate returns the ShipDate field if non-nil, zero value otherwise.
 
 ### GetShipDateOk
 
-`func (o *Order) GetShipDateOk() (*time.Time, bool)`
+`func (o *Order) GetShipDateOk() (*, bool)`
 
 GetShipDateOk returns a tuple with the ShipDate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetShipDate
 
-`func (o *Order) SetShipDate(v time.Time)`
+`func (o *Order) SetShipDate(v )`
 
 SetShipDate sets ShipDate field to given value.
 
@@ -132,20 +132,20 @@ HasShipDate returns a boolean if a field has been set.
 
 ### GetStatus
 
-`func (o *Order) GetStatus() string`
+`func (o *Order) GetStatus() `
 
 GetStatus returns the Status field if non-nil, zero value otherwise.
 
 ### GetStatusOk
 
-`func (o *Order) GetStatusOk() (*string, bool)`
+`func (o *Order) GetStatusOk() (*, bool)`
 
 GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStatus
 
-`func (o *Order) SetStatus(v string)`
+`func (o *Order) SetStatus(v )`
 
 SetStatus sets Status field to given value.
 
@@ -157,20 +157,20 @@ HasStatus returns a boolean if a field has been set.
 
 ### GetComplete
 
-`func (o *Order) GetComplete() bool`
+`func (o *Order) GetComplete() `
 
 GetComplete returns the Complete field if non-nil, zero value otherwise.
 
 ### GetCompleteOk
 
-`func (o *Order) GetCompleteOk() (*bool, bool)`
+`func (o *Order) GetCompleteOk() (*, bool)`
 
 GetCompleteOk returns a tuple with the Complete field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetComplete
 
-`func (o *Order) SetComplete(v bool)`
+`func (o *Order) SetComplete(v )`
 
 SetComplete sets Complete field to given value.
 

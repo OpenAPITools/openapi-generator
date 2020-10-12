@@ -80,18 +80,16 @@ public enum InnerEnum {
     return this;
   }
 
-  public MapTest putMapMapOfStringItem(String key, Map<String, String> mapMapOfStringItem) {
-    this.mapMapOfString.put(key, mapMapOfStringItem);
-    return this;
-  }
-
  /**
    * Get mapOfEnumString
    * @return mapOfEnumString
   **/
   @JsonProperty("map_of_enum_string")
-  public Map<String, InnerEnum> getMapOfEnumString() {
-    return mapOfEnumString;
+  public Map&lt;String, String&gt; getMapOfEnumString() {
+    if (mapOfEnumString == null) {
+      return null;
+    }
+    return mapOfEnumString.value();
   }
 
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
@@ -100,11 +98,6 @@ public enum InnerEnum {
 
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
-    return this;
-  }
-
-  public MapTest putMapOfEnumStringItem(String key, InnerEnum mapOfEnumStringItem) {
-    this.mapOfEnumString.put(key, mapOfEnumStringItem);
     return this;
   }
 
@@ -126,11 +119,6 @@ public enum InnerEnum {
     return this;
   }
 
-  public MapTest putDirectMapItem(String key, Boolean directMapItem) {
-    this.directMap.put(key, directMapItem);
-    return this;
-  }
-
  /**
    * Get indirectMap
    * @return indirectMap
@@ -146,11 +134,6 @@ public enum InnerEnum {
 
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
-    return this;
-  }
-
-  public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
-    this.indirectMap.put(key, indirectMapItem);
     return this;
   }
 

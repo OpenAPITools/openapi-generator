@@ -38,9 +38,9 @@ func NewModel200ResponseWithDefaults() *Model200Response {
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *Model200Response) GetName() int32 {
+func (o *Model200Response) GetName()  {
 	if o == nil || o.Name == nil {
-		var ret int32
+		var ret 
 		return ret
 	}
 	return *o.Name
@@ -48,7 +48,7 @@ func (o *Model200Response) GetName() int32 {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Model200Response) GetNameOk() (*int32, bool) {
+func (o *Model200Response) GetNameOk() (*, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -65,14 +65,14 @@ func (o *Model200Response) HasName() bool {
 }
 
 // SetName gets a reference to the given int32 and assigns it to the Name field.
-func (o *Model200Response) SetName(v int32) {
+func (o *Model200Response) SetName(v ) {
 	o.Name = &v
 }
 
 // GetClass returns the Class field value if set, zero value otherwise.
-func (o *Model200Response) GetClass() string {
+func (o *Model200Response) GetClass()  {
 	if o == nil || o.Class == nil {
-		var ret string
+		var ret 
 		return ret
 	}
 	return *o.Class
@@ -80,7 +80,7 @@ func (o *Model200Response) GetClass() string {
 
 // GetClassOk returns a tuple with the Class field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Model200Response) GetClassOk() (*string, bool) {
+func (o *Model200Response) GetClassOk() (*, bool) {
 	if o == nil || o.Class == nil {
 		return nil, false
 	}
@@ -97,7 +97,7 @@ func (o *Model200Response) HasClass() bool {
 }
 
 // SetClass gets a reference to the given string and assigns it to the Class field.
-func (o *Model200Response) SetClass(v string) {
+func (o *Model200Response) SetClass(v ) {
 	o.Class = &v
 }
 

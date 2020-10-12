@@ -13,11 +13,12 @@ import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-@Path("/another-fake/dummy")
+@Path("/another-fake")
 @Api(description = "the another-fake API")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class AnotherFakeApi {
 
     @PATCH
+    @Path("/dummy")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @ApiOperation(value = "To test special tags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?" })

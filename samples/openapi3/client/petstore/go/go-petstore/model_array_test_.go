@@ -42,9 +42,9 @@ func NewArrayTestWithDefaults() *ArrayTest {
 }
 
 // GetArrayOfString returns the ArrayOfString field value if set, zero value otherwise.
-func (o *ArrayTest) GetArrayOfString() []string {
+func (o *ArrayTest) GetArrayOfString()  {
 	if o == nil || o.ArrayOfString == nil {
-		var ret []string
+		var ret 
 		return ret
 	}
 	return *o.ArrayOfString
@@ -52,7 +52,7 @@ func (o *ArrayTest) GetArrayOfString() []string {
 
 // GetArrayOfStringOk returns a tuple with the ArrayOfString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ArrayTest) GetArrayOfStringOk() (*[]string, bool) {
+func (o *ArrayTest) GetArrayOfStringOk() (*, bool) {
 	if o == nil || o.ArrayOfString == nil {
 		return nil, false
 	}
@@ -69,14 +69,14 @@ func (o *ArrayTest) HasArrayOfString() bool {
 }
 
 // SetArrayOfString gets a reference to the given []string and assigns it to the ArrayOfString field.
-func (o *ArrayTest) SetArrayOfString(v []string) {
+func (o *ArrayTest) SetArrayOfString(v ) {
 	o.ArrayOfString = &v
 }
 
 // GetArrayArrayOfInteger returns the ArrayArrayOfInteger field value if set, zero value otherwise.
-func (o *ArrayTest) GetArrayArrayOfInteger() [][]int64 {
+func (o *ArrayTest) GetArrayArrayOfInteger()  {
 	if o == nil || o.ArrayArrayOfInteger == nil {
-		var ret [][]int64
+		var ret 
 		return ret
 	}
 	return *o.ArrayArrayOfInteger
@@ -84,7 +84,7 @@ func (o *ArrayTest) GetArrayArrayOfInteger() [][]int64 {
 
 // GetArrayArrayOfIntegerOk returns a tuple with the ArrayArrayOfInteger field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ArrayTest) GetArrayArrayOfIntegerOk() (*[][]int64, bool) {
+func (o *ArrayTest) GetArrayArrayOfIntegerOk() (*, bool) {
 	if o == nil || o.ArrayArrayOfInteger == nil {
 		return nil, false
 	}
@@ -101,14 +101,14 @@ func (o *ArrayTest) HasArrayArrayOfInteger() bool {
 }
 
 // SetArrayArrayOfInteger gets a reference to the given [][]int64 and assigns it to the ArrayArrayOfInteger field.
-func (o *ArrayTest) SetArrayArrayOfInteger(v [][]int64) {
+func (o *ArrayTest) SetArrayArrayOfInteger(v ) {
 	o.ArrayArrayOfInteger = &v
 }
 
 // GetArrayArrayOfModel returns the ArrayArrayOfModel field value if set, zero value otherwise.
-func (o *ArrayTest) GetArrayArrayOfModel() [][]ReadOnlyFirst {
+func (o *ArrayTest) GetArrayArrayOfModel()  {
 	if o == nil || o.ArrayArrayOfModel == nil {
-		var ret [][]ReadOnlyFirst
+		var ret 
 		return ret
 	}
 	return *o.ArrayArrayOfModel
@@ -116,7 +116,7 @@ func (o *ArrayTest) GetArrayArrayOfModel() [][]ReadOnlyFirst {
 
 // GetArrayArrayOfModelOk returns a tuple with the ArrayArrayOfModel field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ArrayTest) GetArrayArrayOfModelOk() (*[][]ReadOnlyFirst, bool) {
+func (o *ArrayTest) GetArrayArrayOfModelOk() (*, bool) {
 	if o == nil || o.ArrayArrayOfModel == nil {
 		return nil, false
 	}
@@ -133,7 +133,7 @@ func (o *ArrayTest) HasArrayArrayOfModel() bool {
 }
 
 // SetArrayArrayOfModel gets a reference to the given [][]ReadOnlyFirst and assigns it to the ArrayArrayOfModel field.
-func (o *ArrayTest) SetArrayArrayOfModel(v [][]ReadOnlyFirst) {
+func (o *ArrayTest) SetArrayArrayOfModel(v ) {
 	o.ArrayArrayOfModel = &v
 }
 

@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**NullableMessage** | Pointer to **NullableString** |  | [optional] 
+**NullableMessage** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetNullableMessage
 
-`func (o *HealthCheckResult) GetNullableMessage() string`
+`func (o *HealthCheckResult) GetNullableMessage() `
 
 GetNullableMessage returns the NullableMessage field if non-nil, zero value otherwise.
 
 ### GetNullableMessageOk
 
-`func (o *HealthCheckResult) GetNullableMessageOk() (*string, bool)`
+`func (o *HealthCheckResult) GetNullableMessageOk() (*, bool)`
 
 GetNullableMessageOk returns a tuple with the NullableMessage field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetNullableMessage
 
-`func (o *HealthCheckResult) SetNullableMessage(v string)`
+`func (o *HealthCheckResult) SetNullableMessage(v )`
 
 SetNullableMessage sets NullableMessage field to given value.
 

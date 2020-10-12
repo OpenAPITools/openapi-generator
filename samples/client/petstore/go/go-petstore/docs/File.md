@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetSourceURI
 
-`func (o *File) GetSourceURI() string`
+`func (o *File) GetSourceURI() `
 
 GetSourceURI returns the SourceURI field if non-nil, zero value otherwise.
 
 ### GetSourceURIOk
 
-`func (o *File) GetSourceURIOk() (*string, bool)`
+`func (o *File) GetSourceURIOk() (*, bool)`
 
 GetSourceURIOk returns a tuple with the SourceURI field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSourceURI
 
-`func (o *File) SetSourceURI(v string)`
+`func (o *File) SetSourceURI(v )`
 
 SetSourceURI sets SourceURI field to given value.
 

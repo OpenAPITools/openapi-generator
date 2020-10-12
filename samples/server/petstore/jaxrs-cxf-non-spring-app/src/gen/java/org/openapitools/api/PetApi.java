@@ -27,7 +27,7 @@ import javax.validation.Valid;
  * <p>This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  */
-@Path("/pet")
+@Path("Pet")
 @Api(value = "/", description = "")
 public interface PetApi  {
 
@@ -36,7 +36,7 @@ public interface PetApi  {
      *
      */
     @POST
-    
+    @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
     @ApiOperation(value = "Add a new pet to the store", tags={ "pet",  })
     @ApiResponses(value = { 
@@ -48,7 +48,7 @@ public interface PetApi  {
      *
      */
     @DELETE
-    @Path("/{petId}")
+    @Path("/pet/{petId}")
     @ApiOperation(value = "Deletes a pet", tags={ "pet",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid pet value") })
@@ -61,7 +61,7 @@ public interface PetApi  {
      *
      */
     @GET
-    @Path("/findByStatus")
+    @Path("/pet/findByStatus")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Finds Pets by status", tags={ "pet",  })
     @ApiResponses(value = { 
@@ -76,7 +76,7 @@ public interface PetApi  {
      *
      */
     @GET
-    @Path("/findByTags")
+    @Path("/pet/findByTags")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Finds Pets by tags", tags={ "pet",  })
     @ApiResponses(value = { 
@@ -91,7 +91,7 @@ public interface PetApi  {
      *
      */
     @GET
-    @Path("/{petId}")
+    @Path("/pet/{petId}")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Find pet by ID", tags={ "pet",  })
     @ApiResponses(value = { 
@@ -105,7 +105,7 @@ public interface PetApi  {
      *
      */
     @PUT
-    
+    @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
     @ApiOperation(value = "Update an existing pet", tags={ "pet",  })
     @ApiResponses(value = { 
@@ -119,7 +119,7 @@ public interface PetApi  {
      *
      */
     @POST
-    @Path("/{petId}")
+    @Path("/pet/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
     @ApiOperation(value = "Updates a pet in the store with form data", tags={ "pet",  })
     @ApiResponses(value = { 
@@ -131,7 +131,7 @@ public interface PetApi  {
      *
      */
     @POST
-    @Path("/{petId}/uploadImage")
+    @Path("/pet/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
     @ApiOperation(value = "uploads an image", tags={ "pet" })

@@ -26,7 +26,7 @@ import javax.ws.rs.*;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-@Path("/foo")
+@Path("foo")
 
 
 @io.swagger.annotations.Api(description = "the foo API")

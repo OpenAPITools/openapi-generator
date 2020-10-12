@@ -40,9 +40,9 @@ func NewAppleWithDefaults() *Apple {
 }
 
 // GetCultivar returns the Cultivar field value if set, zero value otherwise.
-func (o *Apple) GetCultivar() string {
+func (o *Apple) GetCultivar()  {
 	if o == nil || o.Cultivar == nil {
-		var ret string
+		var ret 
 		return ret
 	}
 	return *o.Cultivar
@@ -50,7 +50,7 @@ func (o *Apple) GetCultivar() string {
 
 // GetCultivarOk returns a tuple with the Cultivar field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Apple) GetCultivarOk() (*string, bool) {
+func (o *Apple) GetCultivarOk() (*, bool) {
 	if o == nil || o.Cultivar == nil {
 		return nil, false
 	}
@@ -67,7 +67,7 @@ func (o *Apple) HasCultivar() bool {
 }
 
 // SetCultivar gets a reference to the given string and assigns it to the Cultivar field.
-func (o *Apple) SetCultivar(v string) {
+func (o *Apple) SetCultivar(v ) {
 	o.Cultivar = &v
 }
 

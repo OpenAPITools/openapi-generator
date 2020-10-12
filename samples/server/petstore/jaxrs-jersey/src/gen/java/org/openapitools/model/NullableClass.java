@@ -304,14 +304,6 @@ public class NullableClass extends HashMap<String, Object>  {
     return this;
   }
 
-  public NullableClass putObjectNullablePropItem(String key, Object objectNullablePropItem) {
-    if (this.objectNullableProp == null) {
-      this.objectNullableProp = new HashMap<String, Object>();
-    }
-    this.objectNullableProp.put(key, objectNullablePropItem);
-    return this;
-  }
-
   /**
    * Get objectNullableProp
    * @return objectNullableProp
@@ -332,14 +324,6 @@ public class NullableClass extends HashMap<String, Object>  {
     return this;
   }
 
-  public NullableClass putObjectAndItemsNullablePropItem(String key, Object objectAndItemsNullablePropItem) {
-    if (this.objectAndItemsNullableProp == null) {
-      this.objectAndItemsNullableProp = new HashMap<String, Object>();
-    }
-    this.objectAndItemsNullableProp.put(key, objectAndItemsNullablePropItem);
-    return this;
-  }
-
   /**
    * Get objectAndItemsNullableProp
    * @return objectAndItemsNullableProp
@@ -357,14 +341,6 @@ public class NullableClass extends HashMap<String, Object>  {
 
   public NullableClass objectItemsNullable(Map<String, Object> objectItemsNullable) {
     this.objectItemsNullable = objectItemsNullable;
-    return this;
-  }
-
-  public NullableClass putObjectItemsNullableItem(String key, Object objectItemsNullableItem) {
-    if (this.objectItemsNullable == null) {
-      this.objectItemsNullable = new HashMap<String, Object>();
-    }
-    this.objectItemsNullable.put(key, objectItemsNullableItem);
     return this;
   }
 

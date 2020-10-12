@@ -140,5 +140,3 @@ model_user.go
 model_whale.go
 model_zebra.go
 response.go
-signing.go
-utils.go

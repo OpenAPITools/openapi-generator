@@ -34,7 +34,7 @@ import javax.validation.Valid;
  * <p>This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  */
-@Path("/fake")
+@Path("Fake")
 @Api(value = "/", description = "")
 public interface FakeApi  {
 
@@ -45,7 +45,7 @@ public interface FakeApi  {
      *
      */
     @POST
-    @Path("/create_xml_item")
+    @Path("/fake/create_xml_item")
     @Consumes({ "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" })
     @ApiOperation(value = "creates an XmlItem", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -53,7 +53,7 @@ public interface FakeApi  {
     public void createXmlItem(@Valid XmlItem xmlItem);
 
     @POST
-    @Path("/outer/boolean")
+    @Path("/fake/outer/boolean")
     @Produces({ "*/*" })
     @ApiOperation(value = "", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -61,7 +61,7 @@ public interface FakeApi  {
     public Boolean fakeOuterBooleanSerialize(@Valid Boolean body);
 
     @POST
-    @Path("/outer/composite")
+    @Path("/fake/outer/composite")
     @Produces({ "*/*" })
     @ApiOperation(value = "", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -69,7 +69,7 @@ public interface FakeApi  {
     public OuterComposite fakeOuterCompositeSerialize(@Valid OuterComposite body);
 
     @POST
-    @Path("/outer/number")
+    @Path("/fake/outer/number")
     @Produces({ "*/*" })
     @ApiOperation(value = "", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -77,7 +77,7 @@ public interface FakeApi  {
     public BigDecimal fakeOuterNumberSerialize(@Valid BigDecimal body);
 
     @POST
-    @Path("/outer/string")
+    @Path("/fake/outer/string")
     @Produces({ "*/*" })
     @ApiOperation(value = "", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -85,7 +85,7 @@ public interface FakeApi  {
     public String fakeOuterStringSerialize(@Valid String body);
 
     @PUT
-    @Path("/body-with-file-schema")
+    @Path("/fake/body-with-file-schema")
     @Consumes({ "application/json" })
     @ApiOperation(value = "", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -93,7 +93,7 @@ public interface FakeApi  {
     public void testBodyWithFileSchema(@Valid FileSchemaTestClass body);
 
     @PUT
-    @Path("/body-with-query-params")
+    @Path("/fake/body-with-query-params")
     @Consumes({ "application/json" })
     @ApiOperation(value = "", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -107,7 +107,7 @@ public interface FakeApi  {
      *
      */
     @PATCH
-    
+    @Path("/fake")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @ApiOperation(value = "To test \"client\" model", tags={ "fake",  })
@@ -122,7 +122,7 @@ public interface FakeApi  {
      *
      */
     @POST
-    
+    @Path("/fake")
     @Consumes({ "application/x-www-form-urlencoded" })
     @ApiOperation(value = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -137,7 +137,7 @@ public interface FakeApi  {
      *
      */
     @GET
-    
+    @Path("/fake")
     @Consumes({ "application/x-www-form-urlencoded" })
     @ApiOperation(value = "To test enum parameters", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -152,7 +152,7 @@ public interface FakeApi  {
      *
      */
     @DELETE
-    
+    @Path("/fake")
     @ApiOperation(value = "Fake endpoint to test group parameters (optional)", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Someting wrong") })
@@ -163,7 +163,7 @@ public interface FakeApi  {
      *
      */
     @POST
-    @Path("/inline-additionalProperties")
+    @Path("/fake/inline-additionalProperties")
     @Consumes({ "application/json" })
     @ApiOperation(value = "test inline additionalProperties", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -175,7 +175,7 @@ public interface FakeApi  {
      *
      */
     @GET
-    @Path("/jsonFormData")
+    @Path("/fake/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
     @ApiOperation(value = "test json serialization of form data", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -183,7 +183,7 @@ public interface FakeApi  {
     public void testJsonFormData(@Multipart(value = "param")  String param, @Multipart(value = "param2")  String param2);
 
     @PUT
-    @Path("/test-query-paramters")
+    @Path("/fake/test-query-paramters")
     @ApiOperation(value = "", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success") })

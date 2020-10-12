@@ -25,14 +25,14 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+     "./openapi"
 )
 
 func main() {
-    client := openapiclient.Client{Client: "Client_example"} // Client | client model
+    client :=  // Client | client model
 
-    configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
+    configuration := .NewConfiguration()
+    api_client := .NewAPIClient(configuration)
     resp, r, err := api_client.FakeClassnameTags123Api.TestClassname(context.Background()).Client(client).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeClassnameTags123Api.TestClassname``: %v\n", err)

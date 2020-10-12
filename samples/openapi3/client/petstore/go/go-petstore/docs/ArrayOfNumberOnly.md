@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetArrayNumber
 
-`func (o *ArrayOfNumberOnly) GetArrayNumber() []float32`
+`func (o *ArrayOfNumberOnly) GetArrayNumber() `
 
 GetArrayNumber returns the ArrayNumber field if non-nil, zero value otherwise.
 
 ### GetArrayNumberOk
 
-`func (o *ArrayOfNumberOnly) GetArrayNumberOk() (*[]float32, bool)`
+`func (o *ArrayOfNumberOnly) GetArrayNumberOk() (*, bool)`
 
 GetArrayNumberOk returns a tuple with the ArrayNumber field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetArrayNumber
 
-`func (o *ArrayOfNumberOnly) SetArrayNumber(v []float32)`
+`func (o *ArrayOfNumberOnly) SetArrayNumber(v )`
 
 SetArrayNumber sets ArrayNumber field to given value.
 

@@ -48,9 +48,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of AppleReq.</param>
         public FruitReq(AppleReq actualInstance)
         {
-            this.IsNullable = true;
+            this.IsNullable = false;
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance;
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
         /// <summary>
@@ -60,9 +60,21 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of BananaReq.</param>
         public FruitReq(BananaReq actualInstance)
         {
-            this.IsNullable = true;
+            this.IsNullable = false;
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance;
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FruitReq" /> class
+        /// with the <see cref="ModelNull" /> class
+        /// </summary>
+        /// <param name="actualInstance">An instance of ModelNull.</param>
+        public FruitReq(ModelNull actualInstance)
+        {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
 
@@ -87,9 +99,13 @@ namespace Org.OpenAPITools.Model
                 {
                     this._actualInstance = value;
                 }
+                else if (value.GetType() == typeof(ModelNull))
+                {
+                    this._actualInstance = value;
+                }
                 else
                 {
-                    throw new ArgumentException("Invalid instance found. Must be the following types: AppleReq, BananaReq");
+                    throw new ArgumentException("Invalid instance found. Must be the following types: AppleReq, BananaReq, ModelNull");
                 }
             }
         }
@@ -112,6 +128,16 @@ namespace Org.OpenAPITools.Model
         public BananaReq GetBananaReq()
         {
             return (BananaReq)this.ActualInstance;
+        }
+
+        /// <summary>
+        /// Get the actual instance of `ModelNull`. If the actual instanct is not `ModelNull`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of ModelNull</returns>
+        public ModelNull GetModelNull()
+        {
+            return (ModelNull)this.ActualInstance;
         }
 
         /// <summary>
@@ -168,6 +194,18 @@ namespace Org.OpenAPITools.Model
             {
                 // deserialization failed, try the next one
                 System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into BananaReq: %s", jsonString, exception.ToString()));
+            }
+
+            try
+            {
+                newFruitReq.ActualInstance = JsonConvert.DeserializeObject<ModelNull>(jsonString, newFruitReq._serializerSettings);
+                matchedTypes.Add("ModelNull");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into ModelNull: %s", jsonString, exception.ToString()));
             }
 
             if (match == 0)

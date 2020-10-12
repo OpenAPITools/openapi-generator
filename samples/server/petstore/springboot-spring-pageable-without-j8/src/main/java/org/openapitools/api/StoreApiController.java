@@ -56,7 +56,7 @@ public class StoreApiController implements StoreApi {
      * @return successful operation (status code 200)
      * @see StoreApi#getInventory
      */
-    public ResponseEntity<Map<String, Integer>> getInventory() {
+    public ResponseEntity<> getInventory() {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

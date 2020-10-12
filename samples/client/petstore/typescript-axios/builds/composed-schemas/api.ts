@@ -201,7 +201,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -210,17 +209,17 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            const queryParameters = new URLSearchParams(localVarUrlObj.search);
+            const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                queryParameters.set(key, localVarQueryParameter[key]);
+                query.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                queryParameters.set(key, options.query[key]);
+                query.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof inlineObject !== "string") && configuration.isJsonMime(localVarRequestOptions.headers['Content-Type']);
+            const needsSerialization = (typeof inlineObject !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(inlineObject !== undefined ? inlineObject : {}) : (inlineObject || "");
 
             return {
@@ -242,7 +241,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -251,17 +249,17 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            const queryParameters = new URLSearchParams(localVarUrlObj.search);
+            const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                queryParameters.set(key, localVarQueryParameter[key]);
+                query.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                queryParameters.set(key, options.query[key]);
+                query.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof petByAgePetByType !== "string") && configuration.isJsonMime(localVarRequestOptions.headers['Content-Type']);
+            const needsSerialization = (typeof petByAgePetByType !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(petByAgePetByType !== undefined ? petByAgePetByType : {}) : (petByAgePetByType || "");
 
             return {
@@ -283,7 +281,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -292,17 +289,17 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            const queryParameters = new URLSearchParams(localVarUrlObj.search);
+            const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                queryParameters.set(key, localVarQueryParameter[key]);
+                query.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                queryParameters.set(key, options.query[key]);
+                query.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof catDog !== "string") && configuration.isJsonMime(localVarRequestOptions.headers['Content-Type']);
+            const needsSerialization = (typeof catDog !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(catDog !== undefined ? catDog : {}) : (catDog || "");
 
             return {

@@ -32,10 +32,10 @@ type _Pet Pet
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPet(name string, photoUrls []string, ) *Pet {
+func NewPet(Name string, PhotoUrls []string, ) *Pet {
 	this := Pet{}
-	this.Name = name
-	this.PhotoUrls = photoUrls
+	this.Name = Name
+	this.PhotoUrls = PhotoUrls
 	return &this
 }
 
@@ -48,9 +48,9 @@ func NewPetWithDefaults() *Pet {
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *Pet) GetId() int64 {
+func (o *Pet) GetId()  {
 	if o == nil || o.Id == nil {
-		var ret int64
+		var ret 
 		return ret
 	}
 	return *o.Id
@@ -58,7 +58,7 @@ func (o *Pet) GetId() int64 {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Pet) GetIdOk() (*int64, bool) {
+func (o *Pet) GetIdOk() (*, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
@@ -75,14 +75,14 @@ func (o *Pet) HasId() bool {
 }
 
 // SetId gets a reference to the given int64 and assigns it to the Id field.
-func (o *Pet) SetId(v int64) {
+func (o *Pet) SetId(v ) {
 	o.Id = &v
 }
 
 // GetCategory returns the Category field value if set, zero value otherwise.
-func (o *Pet) GetCategory() Category {
+func (o *Pet) GetCategory()  {
 	if o == nil || o.Category == nil {
-		var ret Category
+		var ret 
 		return ret
 	}
 	return *o.Category
@@ -90,7 +90,7 @@ func (o *Pet) GetCategory() Category {
 
 // GetCategoryOk returns a tuple with the Category field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Pet) GetCategoryOk() (*Category, bool) {
+func (o *Pet) GetCategoryOk() (*, bool) {
 	if o == nil || o.Category == nil {
 		return nil, false
 	}
@@ -107,14 +107,14 @@ func (o *Pet) HasCategory() bool {
 }
 
 // SetCategory gets a reference to the given Category and assigns it to the Category field.
-func (o *Pet) SetCategory(v Category) {
+func (o *Pet) SetCategory(v ) {
 	o.Category = &v
 }
 
 // GetName returns the Name field value
-func (o *Pet) GetName() string {
+func (o *Pet) GetName()  {
 	if o == nil  {
-		var ret string
+		var ret 
 		return ret
 	}
 
@@ -123,7 +123,7 @@ func (o *Pet) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *Pet) GetNameOk() (*string, bool) {
+func (o *Pet) GetNameOk() (*, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -131,14 +131,14 @@ func (o *Pet) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value
-func (o *Pet) SetName(v string) {
+func (o *Pet) SetName(v ) {
 	o.Name = v
 }
 
 // GetPhotoUrls returns the PhotoUrls field value
-func (o *Pet) GetPhotoUrls() []string {
+func (o *Pet) GetPhotoUrls()  {
 	if o == nil  {
-		var ret []string
+		var ret 
 		return ret
 	}
 
@@ -147,7 +147,7 @@ func (o *Pet) GetPhotoUrls() []string {
 
 // GetPhotoUrlsOk returns a tuple with the PhotoUrls field value
 // and a boolean to check if the value has been set.
-func (o *Pet) GetPhotoUrlsOk() (*[]string, bool) {
+func (o *Pet) GetPhotoUrlsOk() (*, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -155,14 +155,14 @@ func (o *Pet) GetPhotoUrlsOk() (*[]string, bool) {
 }
 
 // SetPhotoUrls sets field value
-func (o *Pet) SetPhotoUrls(v []string) {
+func (o *Pet) SetPhotoUrls(v ) {
 	o.PhotoUrls = v
 }
 
 // GetTags returns the Tags field value if set, zero value otherwise.
-func (o *Pet) GetTags() []Tag {
+func (o *Pet) GetTags()  {
 	if o == nil || o.Tags == nil {
-		var ret []Tag
+		var ret 
 		return ret
 	}
 	return *o.Tags
@@ -170,7 +170,7 @@ func (o *Pet) GetTags() []Tag {
 
 // GetTagsOk returns a tuple with the Tags field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Pet) GetTagsOk() (*[]Tag, bool) {
+func (o *Pet) GetTagsOk() (*, bool) {
 	if o == nil || o.Tags == nil {
 		return nil, false
 	}
@@ -187,14 +187,14 @@ func (o *Pet) HasTags() bool {
 }
 
 // SetTags gets a reference to the given []Tag and assigns it to the Tags field.
-func (o *Pet) SetTags(v []Tag) {
+func (o *Pet) SetTags(v ) {
 	o.Tags = &v
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *Pet) GetStatus() string {
+func (o *Pet) GetStatus()  {
 	if o == nil || o.Status == nil {
-		var ret string
+		var ret 
 		return ret
 	}
 	return *o.Status
@@ -202,7 +202,7 @@ func (o *Pet) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Pet) GetStatusOk() (*string, bool) {
+func (o *Pet) GetStatusOk() (*, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -219,7 +219,7 @@ func (o *Pet) HasStatus() bool {
 }
 
 // SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *Pet) SetStatus(v string) {
+func (o *Pet) SetStatus(v ) {
 	o.Status = &v
 }
 

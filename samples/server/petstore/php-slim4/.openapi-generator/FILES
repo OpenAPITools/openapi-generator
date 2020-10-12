@@ -2,9 +2,6 @@
 .htaccess
 README.md
 composer.json
-config/.htaccess
-config/dev/example.inc.php
-config/prod/example.inc.php
 index.php
 lib/Api/AbstractPetApi.php
 lib/Api/AbstractStoreApi.php

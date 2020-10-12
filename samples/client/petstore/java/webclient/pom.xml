@@ -79,7 +79,7 @@
             <version>${reactor-version}</version>
         </dependency>
 
-        <!-- HTTP client: Spring WebFlux -->
+        <!-- HTTP client: Spring RestTemplate -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webflux</artifactId>

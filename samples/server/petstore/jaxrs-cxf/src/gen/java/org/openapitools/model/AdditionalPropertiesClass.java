@@ -74,11 +74,6 @@ public class AdditionalPropertiesClass  {
     return this;
   }
 
-  public AdditionalPropertiesClass putMapStringItem(String key, String mapStringItem) {
-    this.mapString.put(key, mapStringItem);
-    return this;
-  }
-
  /**
    * Get mapNumber
    * @return mapNumber
@@ -94,11 +89,6 @@ public class AdditionalPropertiesClass  {
 
   public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
-    return this;
-  }
-
-  public AdditionalPropertiesClass putMapNumberItem(String key, BigDecimal mapNumberItem) {
-    this.mapNumber.put(key, mapNumberItem);
     return this;
   }
 
@@ -120,11 +110,6 @@ public class AdditionalPropertiesClass  {
     return this;
   }
 
-  public AdditionalPropertiesClass putMapIntegerItem(String key, Integer mapIntegerItem) {
-    this.mapInteger.put(key, mapIntegerItem);
-    return this;
-  }
-
  /**
    * Get mapBoolean
    * @return mapBoolean
@@ -140,11 +125,6 @@ public class AdditionalPropertiesClass  {
 
   public AdditionalPropertiesClass mapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
-    return this;
-  }
-
-  public AdditionalPropertiesClass putMapBooleanItem(String key, Boolean mapBooleanItem) {
-    this.mapBoolean.put(key, mapBooleanItem);
     return this;
   }
 
@@ -166,11 +146,6 @@ public class AdditionalPropertiesClass  {
     return this;
   }
 
-  public AdditionalPropertiesClass putMapArrayIntegerItem(String key, List<Integer> mapArrayIntegerItem) {
-    this.mapArrayInteger.put(key, mapArrayIntegerItem);
-    return this;
-  }
-
  /**
    * Get mapArrayAnytype
    * @return mapArrayAnytype
@@ -186,11 +161,6 @@ public class AdditionalPropertiesClass  {
 
   public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
-    return this;
-  }
-
-  public AdditionalPropertiesClass putMapArrayAnytypeItem(String key, List<Object> mapArrayAnytypeItem) {
-    this.mapArrayAnytype.put(key, mapArrayAnytypeItem);
     return this;
   }
 
@@ -212,11 +182,6 @@ public class AdditionalPropertiesClass  {
     return this;
   }
 
-  public AdditionalPropertiesClass putMapMapStringItem(String key, Map<String, String> mapMapStringItem) {
-    this.mapMapString.put(key, mapMapStringItem);
-    return this;
-  }
-
  /**
    * Get mapMapAnytype
    * @return mapMapAnytype
@@ -232,11 +197,6 @@ public class AdditionalPropertiesClass  {
 
   public AdditionalPropertiesClass mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
-    return this;
-  }
-
-  public AdditionalPropertiesClass putMapMapAnytypeItem(String key, Map<String, Object> mapMapAnytypeItem) {
-    this.mapMapAnytype.put(key, mapMapAnytypeItem);
     return this;
   }
 

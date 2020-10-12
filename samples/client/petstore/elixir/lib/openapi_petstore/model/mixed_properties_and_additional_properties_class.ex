@@ -25,7 +25,7 @@ defimpl Poison.Decoder, for: OpenapiPetstore.Model.MixedPropertiesAndAdditionalP
   import OpenapiPetstore.Deserializer
   def decode(value, options) do
     value
-    |> deserialize(:"map", :map, OpenapiPetstore.Model.Animal, options)
+    |> deserialize(:"map", :struct, OpenapiPetstore.Model.%{optional(String.t) &#x3D;&gt; Animal}, options)
   end
 end
 

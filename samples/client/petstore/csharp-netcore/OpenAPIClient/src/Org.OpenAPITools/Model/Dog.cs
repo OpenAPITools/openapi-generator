@@ -20,7 +20,6 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -31,7 +30,6 @@ namespace Org.OpenAPITools.Model
     /// Dog
     /// </summary>
     [DataContract(Name = "Dog")]
-    [JsonConverter(typeof(JsonSubtypes), "ClassName")]
     public partial class Dog : Animal, IEquatable<Dog>, IValidatableObject
     {
         /// <summary>
@@ -46,9 +44,9 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Dog" /> class.
         /// </summary>
         /// <param name="breed">breed.</param>
-        /// <param name="className">className (required) (default to &quot;Dog&quot;).</param>
+        /// <param name="className">className (required).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Dog(string breed = default(string), string className = "Dog", string color = "red") : base(className, color)
+        public Dog(string breed = default(string), string className = default(string), string color = "red") : base(className, color)
         {
             this.Breed = breed;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -133,16 +131,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            return this.BaseValidate(validationContext);
-        }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             foreach(var x in BaseValidate(validationContext)) yield return x;
             yield break;

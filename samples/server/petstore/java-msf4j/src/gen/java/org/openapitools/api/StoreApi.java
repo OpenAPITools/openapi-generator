@@ -23,7 +23,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 
-@Path("/store")
+@Path("store")
 
 
 @io.swagger.annotations.Api(description = "the store API")

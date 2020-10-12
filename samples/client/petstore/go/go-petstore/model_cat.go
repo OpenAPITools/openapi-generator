@@ -38,9 +38,9 @@ func NewCatWithDefaults() *Cat {
 }
 
 // GetDeclawed returns the Declawed field value if set, zero value otherwise.
-func (o *Cat) GetDeclawed() bool {
+func (o *Cat) GetDeclawed()  {
 	if o == nil || o.Declawed == nil {
-		var ret bool
+		var ret 
 		return ret
 	}
 	return *o.Declawed
@@ -48,7 +48,7 @@ func (o *Cat) GetDeclawed() bool {
 
 // GetDeclawedOk returns a tuple with the Declawed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Cat) GetDeclawedOk() (*bool, bool) {
+func (o *Cat) GetDeclawedOk() (*, bool) {
 	if o == nil || o.Declawed == nil {
 		return nil, false
 	}
@@ -65,7 +65,7 @@ func (o *Cat) HasDeclawed() bool {
 }
 
 // SetDeclawed gets a reference to the given bool and assigns it to the Declawed field.
-func (o *Cat) SetDeclawed(v bool) {
+func (o *Cat) SetDeclawed(v ) {
 	o.Declawed = &v
 }
 

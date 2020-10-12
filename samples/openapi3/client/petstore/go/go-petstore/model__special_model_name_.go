@@ -40,9 +40,9 @@ func NewSpecialModelNameWithDefaults() *SpecialModelName {
 }
 
 // GetSpecialPropertyName returns the SpecialPropertyName field value if set, zero value otherwise.
-func (o *SpecialModelName) GetSpecialPropertyName() int64 {
+func (o *SpecialModelName) GetSpecialPropertyName()  {
 	if o == nil || o.SpecialPropertyName == nil {
-		var ret int64
+		var ret 
 		return ret
 	}
 	return *o.SpecialPropertyName
@@ -50,7 +50,7 @@ func (o *SpecialModelName) GetSpecialPropertyName() int64 {
 
 // GetSpecialPropertyNameOk returns a tuple with the SpecialPropertyName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SpecialModelName) GetSpecialPropertyNameOk() (*int64, bool) {
+func (o *SpecialModelName) GetSpecialPropertyNameOk() (*, bool) {
 	if o == nil || o.SpecialPropertyName == nil {
 		return nil, false
 	}
@@ -67,7 +67,7 @@ func (o *SpecialModelName) HasSpecialPropertyName() bool {
 }
 
 // SetSpecialPropertyName gets a reference to the given int64 and assigns it to the SpecialPropertyName field.
-func (o *SpecialModelName) SetSpecialPropertyName(v int64) {
+func (o *SpecialModelName) SetSpecialPropertyName(v ) {
 	o.SpecialPropertyName = &v
 }
 

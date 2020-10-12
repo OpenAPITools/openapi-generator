@@ -74,7 +74,7 @@ public interface StoreApi {
         value = "/store/inventory",
         produces = { "application/json" }
     )
-    default ResponseEntity<Map<String, Integer>> getInventory() {
+    default ResponseEntity<> getInventory() {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

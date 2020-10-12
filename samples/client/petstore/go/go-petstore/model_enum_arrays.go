@@ -38,9 +38,9 @@ func NewEnumArraysWithDefaults() *EnumArrays {
 }
 
 // GetJustSymbol returns the JustSymbol field value if set, zero value otherwise.
-func (o *EnumArrays) GetJustSymbol() string {
+func (o *EnumArrays) GetJustSymbol()  {
 	if o == nil || o.JustSymbol == nil {
-		var ret string
+		var ret 
 		return ret
 	}
 	return *o.JustSymbol
@@ -48,7 +48,7 @@ func (o *EnumArrays) GetJustSymbol() string {
 
 // GetJustSymbolOk returns a tuple with the JustSymbol field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumArrays) GetJustSymbolOk() (*string, bool) {
+func (o *EnumArrays) GetJustSymbolOk() (*, bool) {
 	if o == nil || o.JustSymbol == nil {
 		return nil, false
 	}
@@ -65,14 +65,14 @@ func (o *EnumArrays) HasJustSymbol() bool {
 }
 
 // SetJustSymbol gets a reference to the given string and assigns it to the JustSymbol field.
-func (o *EnumArrays) SetJustSymbol(v string) {
+func (o *EnumArrays) SetJustSymbol(v ) {
 	o.JustSymbol = &v
 }
 
 // GetArrayEnum returns the ArrayEnum field value if set, zero value otherwise.
-func (o *EnumArrays) GetArrayEnum() []string {
+func (o *EnumArrays) GetArrayEnum()  {
 	if o == nil || o.ArrayEnum == nil {
-		var ret []string
+		var ret 
 		return ret
 	}
 	return *o.ArrayEnum
@@ -80,7 +80,7 @@ func (o *EnumArrays) GetArrayEnum() []string {
 
 // GetArrayEnumOk returns a tuple with the ArrayEnum field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumArrays) GetArrayEnumOk() (*[]string, bool) {
+func (o *EnumArrays) GetArrayEnumOk() (*, bool) {
 	if o == nil || o.ArrayEnum == nil {
 		return nil, false
 	}
@@ -97,7 +97,7 @@ func (o *EnumArrays) HasArrayEnum() bool {
 }
 
 // SetArrayEnum gets a reference to the given []string and assigns it to the ArrayEnum field.
-func (o *EnumArrays) SetArrayEnum(v []string) {
+func (o *EnumArrays) SetArrayEnum(v ) {
 	o.ArrayEnum = &v
 }
 

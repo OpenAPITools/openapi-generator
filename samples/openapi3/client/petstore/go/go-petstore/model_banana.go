@@ -16,6 +16,7 @@ import (
 
 // Banana struct for Banana
 type Banana struct {
+	map[string]map[string]interface{}
 	LengthCm *float32 `json:"lengthCm,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
@@ -40,9 +41,9 @@ func NewBananaWithDefaults() *Banana {
 }
 
 // GetLengthCm returns the LengthCm field value if set, zero value otherwise.
-func (o *Banana) GetLengthCm() float32 {
+func (o *Banana) GetLengthCm()  {
 	if o == nil || o.LengthCm == nil {
-		var ret float32
+		var ret 
 		return ret
 	}
 	return *o.LengthCm
@@ -50,7 +51,7 @@ func (o *Banana) GetLengthCm() float32 {
 
 // GetLengthCmOk returns a tuple with the LengthCm field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Banana) GetLengthCmOk() (*float32, bool) {
+func (o *Banana) GetLengthCmOk() (*, bool) {
 	if o == nil || o.LengthCm == nil {
 		return nil, false
 	}
@@ -67,12 +68,20 @@ func (o *Banana) HasLengthCm() bool {
 }
 
 // SetLengthCm gets a reference to the given float32 and assigns it to the LengthCm field.
-func (o *Banana) SetLengthCm(v float32) {
+func (o *Banana) SetLengthCm(v ) {
 	o.LengthCm = &v
 }
 
 func (o Banana) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
+	serializedmap[string]map[string]interface{}, errmap[string]map[string]interface{} := json.Marshal(o.map[string]map[string]interface{})
+	if errmap[string]map[string]interface{} != nil {
+		return []byte{}, errmap[string]map[string]interface{}
+	}
+	errmap[string]map[string]interface{} = json.Unmarshal([]byte(serializedmap[string]map[string]interface{}), &toSerialize)
+	if errmap[string]map[string]interface{} != nil {
+		return []byte{}, errmap[string]map[string]interface{}
+	}
 	if o.LengthCm != nil {
 		toSerialize["lengthCm"] = o.LengthCm
 	}
@@ -85,16 +94,53 @@ func (o Banana) MarshalJSON() ([]byte, error) {
 }
 
 func (o *Banana) UnmarshalJSON(bytes []byte) (err error) {
+	type BananaWithoutEmbeddedStruct struct {
+		LengthCm *float32 `json:"lengthCm,omitempty"`
+	}
+
+	varBananaWithoutEmbeddedStruct := BananaWithoutEmbeddedStruct{}
+
+	err = json.Unmarshal(bytes, &varBananaWithoutEmbeddedStruct)
+	if err == nil {
+		varBanana := _Banana{}
+		varBanana.LengthCm = varBananaWithoutEmbeddedStruct.LengthCm
+		*o = Banana(varBanana)
+	} else {
+		return err
+	}
+
 	varBanana := _Banana{}
 
-	if err = json.Unmarshal(bytes, &varBanana); err == nil {
-		*o = Banana(varBanana)
+	err = json.Unmarshal(bytes, &varBanana)
+	if err == nil {
+		o.map[string]map[string]interface{} = varBanana.map[string]map[string]interface{}
+	} else {
+		return err
 	}
 
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
 		delete(additionalProperties, "lengthCm")
+
+		// remove fields from embedded structs
+		reflectmap[string]map[string]interface{} := reflect.ValueOf(o.map[string]map[string]interface{})
+		for i := 0; i < reflectmap[string]map[string]interface{}.Type().NumField(); i++ {
+			t := reflectmap[string]map[string]interface{}.Type().Field(i)
+
+			if jsonTag := t.Tag.Get("json"); jsonTag != "" {
+				fieldName := ""
+				if commaIdx := strings.Index(jsonTag, ","); commaIdx > 0 {
+					fieldName = jsonTag[:commaIdx]
+				} else {
+					fieldName = jsonTag
+				}
+				if fieldName != "AdditionalProperties" {
+					delete(additionalProperties, fieldName)
+				}
+			}
+		}
+
 		o.AdditionalProperties = additionalProperties
 	}
 

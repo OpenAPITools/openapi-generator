@@ -40,9 +40,9 @@ func NewClassModelWithDefaults() *ClassModel {
 }
 
 // GetClass returns the Class field value if set, zero value otherwise.
-func (o *ClassModel) GetClass() string {
+func (o *ClassModel) GetClass()  {
 	if o == nil || o.Class == nil {
-		var ret string
+		var ret 
 		return ret
 	}
 	return *o.Class
@@ -50,7 +50,7 @@ func (o *ClassModel) GetClass() string {
 
 // GetClassOk returns a tuple with the Class field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClassModel) GetClassOk() (*string, bool) {
+func (o *ClassModel) GetClassOk() (*, bool) {
 	if o == nil || o.Class == nil {
 		return nil, false
 	}
@@ -67,7 +67,7 @@ func (o *ClassModel) HasClass() bool {
 }
 
 // SetClass gets a reference to the given string and assigns it to the Class field.
-func (o *ClassModel) SetClass(v string) {
+func (o *ClassModel) SetClass(v ) {
 	o.Class = &v
 }
 

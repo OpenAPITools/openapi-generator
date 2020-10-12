@@ -37,9 +37,9 @@ func NewDogAllOfWithDefaults() *DogAllOf {
 }
 
 // GetBreed returns the Breed field value if set, zero value otherwise.
-func (o *DogAllOf) GetBreed() string {
+func (o *DogAllOf) GetBreed()  {
 	if o == nil || o.Breed == nil {
-		var ret string
+		var ret 
 		return ret
 	}
 	return *o.Breed
@@ -47,7 +47,7 @@ func (o *DogAllOf) GetBreed() string {
 
 // GetBreedOk returns a tuple with the Breed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DogAllOf) GetBreedOk() (*string, bool) {
+func (o *DogAllOf) GetBreedOk() (*, bool) {
 	if o == nil || o.Breed == nil {
 		return nil, false
 	}
@@ -64,7 +64,7 @@ func (o *DogAllOf) HasBreed() bool {
 }
 
 // SetBreed gets a reference to the given string and assigns it to the Breed field.
-func (o *DogAllOf) SetBreed(v string) {
+func (o *DogAllOf) SetBreed(v ) {
 	o.Breed = &v
 }
 

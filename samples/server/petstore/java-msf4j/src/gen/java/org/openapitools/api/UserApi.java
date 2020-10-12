@@ -23,7 +23,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 
-@Path("/user")
+@Path("user")
 
 
 @io.swagger.annotations.Api(description = "the user API")

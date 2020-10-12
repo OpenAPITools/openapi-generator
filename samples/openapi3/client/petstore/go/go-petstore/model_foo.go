@@ -28,8 +28,8 @@ type _Foo Foo
 // will change when the set of required properties is changed
 func NewFoo() *Foo {
 	this := Foo{}
-	var bar string = "bar"
-	this.Bar = &bar
+	var Bar string = bar
+	this.Bar = &Bar
 	return &this
 }
 
@@ -38,15 +38,15 @@ func NewFoo() *Foo {
 // but it doesn't guarantee that properties required by API are set
 func NewFooWithDefaults() *Foo {
 	this := Foo{}
-	var bar string = "bar"
-	this.Bar = &bar
+	var Bar string = bar
+	this.Bar = &Bar
 	return &this
 }
 
 // GetBar returns the Bar field value if set, zero value otherwise.
-func (o *Foo) GetBar() string {
+func (o *Foo) GetBar()  {
 	if o == nil || o.Bar == nil {
-		var ret string
+		var ret 
 		return ret
 	}
 	return *o.Bar
@@ -54,7 +54,7 @@ func (o *Foo) GetBar() string {
 
 // GetBarOk returns a tuple with the Bar field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Foo) GetBarOk() (*string, bool) {
+func (o *Foo) GetBarOk() (*, bool) {
 	if o == nil || o.Bar == nil {
 		return nil, false
 	}
@@ -71,7 +71,7 @@ func (o *Foo) HasBar() bool {
 }
 
 // SetBar gets a reference to the given string and assigns it to the Bar field.
-func (o *Foo) SetBar(v string) {
+func (o *Foo) SetBar(v ) {
 	o.Bar = &v
 }
 

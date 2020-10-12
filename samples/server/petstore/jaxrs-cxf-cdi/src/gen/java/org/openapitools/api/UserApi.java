@@ -21,7 +21,7 @@ import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 import java.util.Map;
 import java.util.List;
 import javax.validation.constraints.*;
-@Path("/user")
+@Path("user")
 @RequestScoped
 
 @Api(description = "the user API")

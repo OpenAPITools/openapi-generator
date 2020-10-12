@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Model
     [JsonConverter(typeof(JsonSubtypes), "PetType")]
     [JsonSubtypes.KnownSubType(typeof(ParentPet), "ParentPet")]
     [JsonSubtypes.KnownSubType(typeof(ChildCat), "ChildCat")]
-    [JsonSubtypes.KnownSubType(typeof(ChildCat), "ChildCat")]
     [JsonSubtypes.KnownSubType(typeof(ParentPet), "ParentPet")]
+    [JsonSubtypes.KnownSubType(typeof(ChildCat), "ChildCat")]
     public partial class GrandparentAnimal : IEquatable<GrandparentAnimal>, IValidatableObject
     {
         /// <summary>

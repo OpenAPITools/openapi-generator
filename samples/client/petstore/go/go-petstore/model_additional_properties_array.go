@@ -16,6 +16,7 @@ import (
 
 // AdditionalPropertiesArray struct for AdditionalPropertiesArray
 type AdditionalPropertiesArray struct {
+	map[string][]map[string]interface{}
 	Name *string `json:"name,omitempty"`
 }
 
@@ -37,9 +38,9 @@ func NewAdditionalPropertiesArrayWithDefaults() *AdditionalPropertiesArray {
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *AdditionalPropertiesArray) GetName() string {
+func (o *AdditionalPropertiesArray) GetName()  {
 	if o == nil || o.Name == nil {
-		var ret string
+		var ret 
 		return ret
 	}
 	return *o.Name
@@ -47,7 +48,7 @@ func (o *AdditionalPropertiesArray) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesArray) GetNameOk() (*string, bool) {
+func (o *AdditionalPropertiesArray) GetNameOk() (*, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -64,12 +65,20 @@ func (o *AdditionalPropertiesArray) HasName() bool {
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *AdditionalPropertiesArray) SetName(v string) {
+func (o *AdditionalPropertiesArray) SetName(v ) {
 	o.Name = &v
 }
 
 func (o AdditionalPropertiesArray) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
+	serializedmap[string][]map[string]interface{}, errmap[string][]map[string]interface{} := json.Marshal(o.map[string][]map[string]interface{})
+	if errmap[string][]map[string]interface{} != nil {
+		return []byte{}, errmap[string][]map[string]interface{}
+	}
+	errmap[string][]map[string]interface{} = json.Unmarshal([]byte(serializedmap[string][]map[string]interface{}), &toSerialize)
+	if errmap[string][]map[string]interface{} != nil {
+		return []byte{}, errmap[string][]map[string]interface{}
+	}
 	if o.Name != nil {
 		toSerialize["name"] = o.Name
 	}

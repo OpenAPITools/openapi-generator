@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetAdditionalMetadata
 
-`func (o *InlineObject1) GetAdditionalMetadata() string`
+`func (o *InlineObject1) GetAdditionalMetadata() `
 
 GetAdditionalMetadata returns the AdditionalMetadata field if non-nil, zero value otherwise.
 
 ### GetAdditionalMetadataOk
 
-`func (o *InlineObject1) GetAdditionalMetadataOk() (*string, bool)`
+`func (o *InlineObject1) GetAdditionalMetadataOk() (*, bool)`
 
 GetAdditionalMetadataOk returns a tuple with the AdditionalMetadata field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAdditionalMetadata
 
-`func (o *InlineObject1) SetAdditionalMetadata(v string)`
+`func (o *InlineObject1) SetAdditionalMetadata(v )`
 
 SetAdditionalMetadata sets AdditionalMetadata field to given value.
 
@@ -53,20 +53,20 @@ HasAdditionalMetadata returns a boolean if a field has been set.
 
 ### GetFile
 
-`func (o *InlineObject1) GetFile() *os.File`
+`func (o *InlineObject1) GetFile() `
 
 GetFile returns the File field if non-nil, zero value otherwise.
 
 ### GetFileOk
 
-`func (o *InlineObject1) GetFileOk() (**os.File, bool)`
+`func (o *InlineObject1) GetFileOk() (*, bool)`
 
 GetFileOk returns a tuple with the File field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFile
 
-`func (o *InlineObject1) SetFile(v *os.File)`
+`func (o *InlineObject1) SetFile(v )`
 
 SetFile sets File field to given value.
 

@@ -39,9 +39,9 @@ func NewOuterCompositeWithDefaults() *OuterComposite {
 }
 
 // GetMyNumber returns the MyNumber field value if set, zero value otherwise.
-func (o *OuterComposite) GetMyNumber() float32 {
+func (o *OuterComposite) GetMyNumber()  {
 	if o == nil || o.MyNumber == nil {
-		var ret float32
+		var ret 
 		return ret
 	}
 	return *o.MyNumber
@@ -49,7 +49,7 @@ func (o *OuterComposite) GetMyNumber() float32 {
 
 // GetMyNumberOk returns a tuple with the MyNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OuterComposite) GetMyNumberOk() (*float32, bool) {
+func (o *OuterComposite) GetMyNumberOk() (*, bool) {
 	if o == nil || o.MyNumber == nil {
 		return nil, false
 	}
@@ -66,14 +66,14 @@ func (o *OuterComposite) HasMyNumber() bool {
 }
 
 // SetMyNumber gets a reference to the given float32 and assigns it to the MyNumber field.
-func (o *OuterComposite) SetMyNumber(v float32) {
+func (o *OuterComposite) SetMyNumber(v ) {
 	o.MyNumber = &v
 }
 
 // GetMyString returns the MyString field value if set, zero value otherwise.
-func (o *OuterComposite) GetMyString() string {
+func (o *OuterComposite) GetMyString()  {
 	if o == nil || o.MyString == nil {
-		var ret string
+		var ret 
 		return ret
 	}
 	return *o.MyString
@@ -81,7 +81,7 @@ func (o *OuterComposite) GetMyString() string {
 
 // GetMyStringOk returns a tuple with the MyString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OuterComposite) GetMyStringOk() (*string, bool) {
+func (o *OuterComposite) GetMyStringOk() (*, bool) {
 	if o == nil || o.MyString == nil {
 		return nil, false
 	}
@@ -98,14 +98,14 @@ func (o *OuterComposite) HasMyString() bool {
 }
 
 // SetMyString gets a reference to the given string and assigns it to the MyString field.
-func (o *OuterComposite) SetMyString(v string) {
+func (o *OuterComposite) SetMyString(v ) {
 	o.MyString = &v
 }
 
 // GetMyBoolean returns the MyBoolean field value if set, zero value otherwise.
-func (o *OuterComposite) GetMyBoolean() bool {
+func (o *OuterComposite) GetMyBoolean()  {
 	if o == nil || o.MyBoolean == nil {
-		var ret bool
+		var ret 
 		return ret
 	}
 	return *o.MyBoolean
@@ -113,7 +113,7 @@ func (o *OuterComposite) GetMyBoolean() bool {
 
 // GetMyBooleanOk returns a tuple with the MyBoolean field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OuterComposite) GetMyBooleanOk() (*bool, bool) {
+func (o *OuterComposite) GetMyBooleanOk() (*, bool) {
 	if o == nil || o.MyBoolean == nil {
 		return nil, false
 	}
@@ -130,7 +130,7 @@ func (o *OuterComposite) HasMyBoolean() bool {
 }
 
 // SetMyBoolean gets a reference to the given bool and assigns it to the MyBoolean field.
-func (o *OuterComposite) SetMyBoolean(v bool) {
+func (o *OuterComposite) SetMyBoolean(v ) {
 	o.MyBoolean = &v
 }
 

@@ -12,7 +12,6 @@ package petstore
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 // OuterEnumDefaultValue the model 'OuterEnumDefaultValue'

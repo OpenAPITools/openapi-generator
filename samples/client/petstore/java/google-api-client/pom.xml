@@ -238,11 +238,6 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.openapitools</groupId>
-            <artifactId>jackson-databind-nullable</artifactId>
-            <version>${jackson-databind-nullable-version}</version>
-        </dependency>
             <dependency>
                 <groupId>com.github.joschi.jackson</groupId>
                 <artifactId>jackson-datatype-threetenbp</artifactId>
@@ -270,7 +265,6 @@
         <jersey-common-version>2.25.1</jersey-common-version>
         <jackson-version>2.10.4</jackson-version>
         <jackson-databind-version>2.10.4</jackson-databind-version>
-        <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
         <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>
         <javax-annotation-version>1.3.2</javax-annotation-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>

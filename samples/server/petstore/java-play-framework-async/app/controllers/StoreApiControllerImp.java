@@ -20,10 +20,10 @@ public class StoreApiControllerImp implements StoreApiControllerImpInterface {
     }
 
     @Override
-    public CompletionStage<Map<String, Integer>> getInventory(Http.Request request) throws Exception {
+    public CompletionStage<> getInventory(Http.Request request) throws Exception {
         //Do your magic!!!
         return CompletableFuture.supplyAsync(() -> {
-           return new HashMap<String, Integer>();
+           return new ();
         });
     }
 

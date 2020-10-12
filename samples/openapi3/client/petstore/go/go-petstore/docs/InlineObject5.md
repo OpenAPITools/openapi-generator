@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 
 ### NewInlineObject5
 
-`func NewInlineObject5(requiredFile *os.File, ) *InlineObject5`
+`func NewInlineObject5(RequiredFile *os.File, ) *InlineObject5`
 
 NewInlineObject5 instantiates a new InlineObject5 object
 This constructor will assign default values to properties that have it defined,
@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetAdditionalMetadata
 
-`func (o *InlineObject5) GetAdditionalMetadata() string`
+`func (o *InlineObject5) GetAdditionalMetadata() `
 
 GetAdditionalMetadata returns the AdditionalMetadata field if non-nil, zero value otherwise.
 
 ### GetAdditionalMetadataOk
 
-`func (o *InlineObject5) GetAdditionalMetadataOk() (*string, bool)`
+`func (o *InlineObject5) GetAdditionalMetadataOk() (*, bool)`
 
 GetAdditionalMetadataOk returns a tuple with the AdditionalMetadata field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAdditionalMetadata
 
-`func (o *InlineObject5) SetAdditionalMetadata(v string)`
+`func (o *InlineObject5) SetAdditionalMetadata(v )`
 
 SetAdditionalMetadata sets AdditionalMetadata field to given value.
 
@@ -53,20 +53,20 @@ HasAdditionalMetadata returns a boolean if a field has been set.
 
 ### GetRequiredFile
 
-`func (o *InlineObject5) GetRequiredFile() *os.File`
+`func (o *InlineObject5) GetRequiredFile() `
 
 GetRequiredFile returns the RequiredFile field if non-nil, zero value otherwise.
 
 ### GetRequiredFileOk
 
-`func (o *InlineObject5) GetRequiredFileOk() (**os.File, bool)`
+`func (o *InlineObject5) GetRequiredFileOk() (*, bool)`
 
 GetRequiredFileOk returns a tuple with the RequiredFile field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRequiredFile
 
-`func (o *InlineObject5) SetRequiredFile(v *os.File)`
+`func (o *InlineObject5) SetRequiredFile(v )`
 
 SetRequiredFile sets RequiredFile field to given value.
 

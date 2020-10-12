@@ -107,13 +107,6 @@ class MapTest(object):
         :type map_of_enum_string: dict(str, str)
         """
         allowed_values = ["UPPER", "lower"]  # noqa: E501
-        if (self.local_vars_configuration.client_side_validation and
-                not set(map_of_enum_string.keys()).issubset(set(allowed_values))):  # noqa: E501
-            raise ValueError(
-                "Invalid keys in `map_of_enum_string` [{0}], must be a subset of [{1}]"  # noqa: E501
-                .format(", ".join(map(str, set(map_of_enum_string.keys()) - set(allowed_values))),  # noqa: E501
-                        ", ".join(map(str, allowed_values)))
-            )
 
         self._map_of_enum_string = map_of_enum_string
 

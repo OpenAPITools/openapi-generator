@@ -27,9 +27,9 @@ type _BananaReq BananaReq
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewBananaReq(lengthCm float32, ) *BananaReq {
+func NewBananaReq(LengthCm float32, ) *BananaReq {
 	this := BananaReq{}
-	this.LengthCm = lengthCm
+	this.LengthCm = LengthCm
 	return &this
 }
 
@@ -42,9 +42,9 @@ func NewBananaReqWithDefaults() *BananaReq {
 }
 
 // GetLengthCm returns the LengthCm field value
-func (o *BananaReq) GetLengthCm() float32 {
+func (o *BananaReq) GetLengthCm()  {
 	if o == nil  {
-		var ret float32
+		var ret 
 		return ret
 	}
 
@@ -53,7 +53,7 @@ func (o *BananaReq) GetLengthCm() float32 {
 
 // GetLengthCmOk returns a tuple with the LengthCm field value
 // and a boolean to check if the value has been set.
-func (o *BananaReq) GetLengthCmOk() (*float32, bool) {
+func (o *BananaReq) GetLengthCmOk() (*, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -61,14 +61,14 @@ func (o *BananaReq) GetLengthCmOk() (*float32, bool) {
 }
 
 // SetLengthCm sets field value
-func (o *BananaReq) SetLengthCm(v float32) {
+func (o *BananaReq) SetLengthCm(v ) {
 	o.LengthCm = v
 }
 
 // GetSweet returns the Sweet field value if set, zero value otherwise.
-func (o *BananaReq) GetSweet() bool {
+func (o *BananaReq) GetSweet()  {
 	if o == nil || o.Sweet == nil {
-		var ret bool
+		var ret 
 		return ret
 	}
 	return *o.Sweet
@@ -76,7 +76,7 @@ func (o *BananaReq) GetSweet() bool {
 
 // GetSweetOk returns a tuple with the Sweet field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BananaReq) GetSweetOk() (*bool, bool) {
+func (o *BananaReq) GetSweetOk() (*, bool) {
 	if o == nil || o.Sweet == nil {
 		return nil, false
 	}
@@ -93,7 +93,7 @@ func (o *BananaReq) HasSweet() bool {
 }
 
 // SetSweet gets a reference to the given bool and assigns it to the Sweet field.
-func (o *BananaReq) SetSweet(v bool) {
+func (o *BananaReq) SetSweet(v ) {
 	o.Sweet = &v
 }
 

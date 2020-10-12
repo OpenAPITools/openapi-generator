@@ -29,10 +29,10 @@ type _InlineObject4 InlineObject4
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewInlineObject4(param string, param2 string, ) *InlineObject4 {
+func NewInlineObject4(Param string, Param2 string, ) *InlineObject4 {
 	this := InlineObject4{}
-	this.Param = param
-	this.Param2 = param2
+	this.Param = Param
+	this.Param2 = Param2
 	return &this
 }
 
@@ -45,9 +45,9 @@ func NewInlineObject4WithDefaults() *InlineObject4 {
 }
 
 // GetParam returns the Param field value
-func (o *InlineObject4) GetParam() string {
+func (o *InlineObject4) GetParam()  {
 	if o == nil  {
-		var ret string
+		var ret 
 		return ret
 	}
 
@@ -56,7 +56,7 @@ func (o *InlineObject4) GetParam() string {
 
 // GetParamOk returns a tuple with the Param field value
 // and a boolean to check if the value has been set.
-func (o *InlineObject4) GetParamOk() (*string, bool) {
+func (o *InlineObject4) GetParamOk() (*, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -64,14 +64,14 @@ func (o *InlineObject4) GetParamOk() (*string, bool) {
 }
 
 // SetParam sets field value
-func (o *InlineObject4) SetParam(v string) {
+func (o *InlineObject4) SetParam(v ) {
 	o.Param = v
 }
 
 // GetParam2 returns the Param2 field value
-func (o *InlineObject4) GetParam2() string {
+func (o *InlineObject4) GetParam2()  {
 	if o == nil  {
-		var ret string
+		var ret 
 		return ret
 	}
 
@@ -80,7 +80,7 @@ func (o *InlineObject4) GetParam2() string {
 
 // GetParam2Ok returns a tuple with the Param2 field value
 // and a boolean to check if the value has been set.
-func (o *InlineObject4) GetParam2Ok() (*string, bool) {
+func (o *InlineObject4) GetParam2Ok() (*, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -88,7 +88,7 @@ func (o *InlineObject4) GetParam2Ok() (*string, bool) {
 }
 
 // SetParam2 sets field value
-func (o *InlineObject4) SetParam2(v string) {
+func (o *InlineObject4) SetParam2(v ) {
 	o.Param2 = v
 }
 

@@ -37,9 +37,9 @@ func NewArrayOfNumberOnlyWithDefaults() *ArrayOfNumberOnly {
 }
 
 // GetArrayNumber returns the ArrayNumber field value if set, zero value otherwise.
-func (o *ArrayOfNumberOnly) GetArrayNumber() []float32 {
+func (o *ArrayOfNumberOnly) GetArrayNumber()  {
 	if o == nil || o.ArrayNumber == nil {
-		var ret []float32
+		var ret 
 		return ret
 	}
 	return *o.ArrayNumber
@@ -47,7 +47,7 @@ func (o *ArrayOfNumberOnly) GetArrayNumber() []float32 {
 
 // GetArrayNumberOk returns a tuple with the ArrayNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ArrayOfNumberOnly) GetArrayNumberOk() (*[]float32, bool) {
+func (o *ArrayOfNumberOnly) GetArrayNumberOk() (*, bool) {
 	if o == nil || o.ArrayNumber == nil {
 		return nil, false
 	}
@@ -64,7 +64,7 @@ func (o *ArrayOfNumberOnly) HasArrayNumber() bool {
 }
 
 // SetArrayNumber gets a reference to the given []float32 and assigns it to the ArrayNumber field.
-func (o *ArrayOfNumberOnly) SetArrayNumber(v []float32) {
+func (o *ArrayOfNumberOnly) SetArrayNumber(v ) {
 	o.ArrayNumber = &v
 }
 

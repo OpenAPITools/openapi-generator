@@ -27,9 +27,9 @@ type _AppleReq AppleReq
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAppleReq(cultivar string, ) *AppleReq {
+func NewAppleReq(Cultivar string, ) *AppleReq {
 	this := AppleReq{}
-	this.Cultivar = cultivar
+	this.Cultivar = Cultivar
 	return &this
 }
 
@@ -42,9 +42,9 @@ func NewAppleReqWithDefaults() *AppleReq {
 }
 
 // GetCultivar returns the Cultivar field value
-func (o *AppleReq) GetCultivar() string {
+func (o *AppleReq) GetCultivar()  {
 	if o == nil  {
-		var ret string
+		var ret 
 		return ret
 	}
 
@@ -53,7 +53,7 @@ func (o *AppleReq) GetCultivar() string {
 
 // GetCultivarOk returns a tuple with the Cultivar field value
 // and a boolean to check if the value has been set.
-func (o *AppleReq) GetCultivarOk() (*string, bool) {
+func (o *AppleReq) GetCultivarOk() (*, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -61,14 +61,14 @@ func (o *AppleReq) GetCultivarOk() (*string, bool) {
 }
 
 // SetCultivar sets field value
-func (o *AppleReq) SetCultivar(v string) {
+func (o *AppleReq) SetCultivar(v ) {
 	o.Cultivar = v
 }
 
 // GetMealy returns the Mealy field value if set, zero value otherwise.
-func (o *AppleReq) GetMealy() bool {
+func (o *AppleReq) GetMealy()  {
 	if o == nil || o.Mealy == nil {
-		var ret bool
+		var ret 
 		return ret
 	}
 	return *o.Mealy
@@ -76,7 +76,7 @@ func (o *AppleReq) GetMealy() bool {
 
 // GetMealyOk returns a tuple with the Mealy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AppleReq) GetMealyOk() (*bool, bool) {
+func (o *AppleReq) GetMealyOk() (*, bool) {
 	if o == nil || o.Mealy == nil {
 		return nil, false
 	}
@@ -93,7 +93,7 @@ func (o *AppleReq) HasMealy() bool {
 }
 
 // SetMealy gets a reference to the given bool and assigns it to the Mealy field.
-func (o *AppleReq) SetMealy(v bool) {
+func (o *AppleReq) SetMealy(v ) {
 	o.Mealy = &v
 }
 

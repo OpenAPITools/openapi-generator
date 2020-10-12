@@ -5,7 +5,7 @@ use crate::models;
 use crate::header;
 
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesWithList(std::collections::HashMap<String, Vec<String>>);
 

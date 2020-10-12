@@ -20,7 +20,6 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -31,9 +30,6 @@ namespace Org.OpenAPITools.Model
     /// ParentPet
     /// </summary>
     [DataContract(Name = "ParentPet")]
-    [JsonConverter(typeof(JsonSubtypes), "PetType")]
-    [JsonSubtypes.KnownSubType(typeof(ChildCat), "ChildCat")]
-    [JsonSubtypes.KnownSubType(typeof(ChildCat), "ChildCat")]
     public partial class ParentPet : GrandparentAnimal, IEquatable<ParentPet>, IValidatableObject
     {
         /// <summary>
@@ -44,8 +40,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ParentPet" /> class.
         /// </summary>
-        /// <param name="petType">petType (required) (default to &quot;ParentPet&quot;).</param>
-        public ParentPet(string petType = "ParentPet") : base(petType)
+        /// <param name="petType">petType (required).</param>
+        public ParentPet(string petType = default(string)) : base(petType)
         {
         }
 
@@ -110,16 +106,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            return this.BaseValidate(validationContext);
-        }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             foreach(var x in BaseValidate(validationContext)) yield return x;
             yield break;

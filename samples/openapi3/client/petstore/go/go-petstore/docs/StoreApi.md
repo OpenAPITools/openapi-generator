@@ -28,14 +28,14 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+     "./openapi"
 )
 
 func main() {
-    orderId := "orderId_example" // string | ID of the order that needs to be deleted
+    orderId :=  // string | ID of the order that needs to be deleted
 
-    configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
+    configuration := .NewConfiguration()
+    api_client := .NewAPIClient(configuration)
     resp, r, err := api_client.StoreApi.DeleteOrder(context.Background(), orderId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.DeleteOrder``: %v\n", err)
@@ -96,13 +96,13 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+     "./openapi"
 )
 
 func main() {
 
-    configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
+    configuration := .NewConfiguration()
+    api_client := .NewAPIClient(configuration)
     resp, r, err := api_client.StoreApi.GetInventory(context.Background()).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.GetInventory``: %v\n", err)
@@ -157,14 +157,14 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+     "./openapi"
 )
 
 func main() {
-    orderId := 987 // int64 | ID of pet that needs to be fetched
+    orderId :=  // int64 | ID of pet that needs to be fetched
 
-    configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
+    configuration := .NewConfiguration()
+    api_client := .NewAPIClient(configuration)
     resp, r, err := api_client.StoreApi.GetOrderById(context.Background(), orderId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.GetOrderById``: %v\n", err)
@@ -225,14 +225,14 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+     "./openapi"
 )
 
 func main() {
-    order := openapiclient.Order{Id: int64(123), PetId: int64(123), Quantity: 123, ShipDate: "TODO", Status: "Status_example", Complete: false} // Order | order placed for purchasing the pet
+    order :=  // Order | order placed for purchasing the pet
 
-    configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
+    configuration := .NewConfiguration()
+    api_client := .NewAPIClient(configuration)
     resp, r, err := api_client.StoreApi.PlaceOrder(context.Background()).Order(order).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.PlaceOrder``: %v\n", err)

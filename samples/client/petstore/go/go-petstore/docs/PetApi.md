@@ -31,14 +31,14 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+     "./openapi"
 )
 
 func main() {
-    body := openapiclient.Pet{Id: int64(123), Category: openapiclient.Category{Id: int64(123), Name: "Name_example"}, Name: "Name_example", PhotoUrls: []string{"PhotoUrls_example"), Tags: []Tag{openapiclient.Tag{Id: int64(123), Name: "Name_example"}), Status: "Status_example"} // Pet | Pet object that needs to be added to the store
+    body :=  // Pet | Pet object that needs to be added to the store
 
-    configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
+    configuration := .NewConfiguration()
+    api_client := .NewAPIClient(configuration)
     resp, r, err := api_client.PetApi.AddPet(context.Background()).Body(body).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PetApi.AddPet``: %v\n", err)
@@ -93,15 +93,15 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+     "./openapi"
 )
 
 func main() {
-    petId := 987 // int64 | Pet id to delete
-    apiKey := "apiKey_example" // string |  (optional)
+    petId :=  // int64 | Pet id to delete
+    apiKey :=  // string |  (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
+    configuration := .NewConfiguration()
+    api_client := .NewAPIClient(configuration)
     resp, r, err := api_client.PetApi.DeletePet(context.Background(), petId).ApiKey(apiKey).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PetApi.DeletePet``: %v\n", err)
@@ -163,14 +163,14 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+     "./openapi"
 )
 
 func main() {
-    status := []string{"Status_example"} // []string | Status values that need to be considered for filter
+    status :=  // []string | Status values that need to be considered for filter
 
-    configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
+    configuration := .NewConfiguration()
+    api_client := .NewAPIClient(configuration)
     resp, r, err := api_client.PetApi.FindPetsByStatus(context.Background()).Status(status).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PetApi.FindPetsByStatus``: %v\n", err)
@@ -229,14 +229,14 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+     "./openapi"
 )
 
 func main() {
-    tags := []string{"Inner_example"} // []string | Tags to filter by
+    tags :=  // []string | Tags to filter by
 
-    configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
+    configuration := .NewConfiguration()
+    api_client := .NewAPIClient(configuration)
     resp, r, err := api_client.PetApi.FindPetsByTags(context.Background()).Tags(tags).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PetApi.FindPetsByTags``: %v\n", err)
@@ -295,14 +295,14 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+     "./openapi"
 )
 
 func main() {
-    petId := 987 // int64 | ID of pet to return
+    petId :=  // int64 | ID of pet to return
 
-    configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
+    configuration := .NewConfiguration()
+    api_client := .NewAPIClient(configuration)
     resp, r, err := api_client.PetApi.GetPetById(context.Background(), petId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PetApi.GetPetById``: %v\n", err)
@@ -363,14 +363,14 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+     "./openapi"
 )
 
 func main() {
-    body := openapiclient.Pet{Id: int64(123), Category: openapiclient.Category{Id: int64(123), Name: "Name_example"}, Name: "Name_example", PhotoUrls: []string{"PhotoUrls_example"), Tags: []Tag{openapiclient.Tag{Id: int64(123), Name: "Name_example"}), Status: "Status_example"} // Pet | Pet object that needs to be added to the store
+    body :=  // Pet | Pet object that needs to be added to the store
 
-    configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
+    configuration := .NewConfiguration()
+    api_client := .NewAPIClient(configuration)
     resp, r, err := api_client.PetApi.UpdatePet(context.Background()).Body(body).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PetApi.UpdatePet``: %v\n", err)
@@ -425,16 +425,16 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+     "./openapi"
 )
 
 func main() {
-    petId := 987 // int64 | ID of pet that needs to be updated
-    name := "name_example" // string | Updated name of the pet (optional)
-    status := "status_example" // string | Updated status of the pet (optional)
+    petId :=  // int64 | ID of pet that needs to be updated
+    name :=  // string | Updated name of the pet (optional)
+    status :=  // string | Updated status of the pet (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
+    configuration := .NewConfiguration()
+    api_client := .NewAPIClient(configuration)
     resp, r, err := api_client.PetApi.UpdatePetWithForm(context.Background(), petId).Name(name).Status(status).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PetApi.UpdatePetWithForm``: %v\n", err)
@@ -495,16 +495,16 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+     "./openapi"
 )
 
 func main() {
-    petId := 987 // int64 | ID of pet to update
-    additionalMetadata := "additionalMetadata_example" // string | Additional data to pass to server (optional)
-    file := 987 // *os.File | file to upload (optional)
+    petId :=  // int64 | ID of pet to update
+    additionalMetadata :=  // string | Additional data to pass to server (optional)
+    file :=  // *os.File | file to upload (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
+    configuration := .NewConfiguration()
+    api_client := .NewAPIClient(configuration)
     resp, r, err := api_client.PetApi.UploadFile(context.Background(), petId).AdditionalMetadata(additionalMetadata).File(file).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PetApi.UploadFile``: %v\n", err)
@@ -567,16 +567,16 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+     "./openapi"
 )
 
 func main() {
-    petId := 987 // int64 | ID of pet to update
-    requiredFile := 987 // *os.File | file to upload
-    additionalMetadata := "additionalMetadata_example" // string | Additional data to pass to server (optional)
+    petId :=  // int64 | ID of pet to update
+    requiredFile :=  // *os.File | file to upload
+    additionalMetadata :=  // string | Additional data to pass to server (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
+    configuration := .NewConfiguration()
+    api_client := .NewAPIClient(configuration)
     resp, r, err := api_client.PetApi.UploadFileWithRequiredFile(context.Background(), petId).RequiredFile(requiredFile).AdditionalMetadata(additionalMetadata).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PetApi.UploadFileWithRequiredFile``: %v\n", err)

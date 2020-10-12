@@ -24,7 +24,7 @@ import javax.inject.Inject;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-@Path("/store")
+@Path("store")
 
 
 @io.swagger.annotations.Api(description = "the store API")

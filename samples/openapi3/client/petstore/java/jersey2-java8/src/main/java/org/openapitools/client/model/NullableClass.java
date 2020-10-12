@@ -431,18 +431,6 @@ public class NullableClass {
     return this;
   }
 
-  public NullableClass putObjectNullablePropItem(String key, Object objectNullablePropItem) {
-    if (this.objectNullableProp == null || !this.objectNullableProp.isPresent()) {
-      this.objectNullableProp = JsonNullable.<Map<String, Object>>of(new HashMap<>());
-    }
-    try {
-      this.objectNullableProp.get().put(key, objectNullablePropItem);
-    } catch (java.util.NoSuchElementException e) {
-      // this can never happen, as we make sure above that the value is present
-    }
-    return this;
-  }
-
    /**
    * Get objectNullableProp
    * @return objectNullableProp
@@ -477,18 +465,6 @@ public class NullableClass {
     return this;
   }
 
-  public NullableClass putObjectAndItemsNullablePropItem(String key, Object objectAndItemsNullablePropItem) {
-    if (this.objectAndItemsNullableProp == null || !this.objectAndItemsNullableProp.isPresent()) {
-      this.objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>of(new HashMap<>());
-    }
-    try {
-      this.objectAndItemsNullableProp.get().put(key, objectAndItemsNullablePropItem);
-    } catch (java.util.NoSuchElementException e) {
-      // this can never happen, as we make sure above that the value is present
-    }
-    return this;
-  }
-
    /**
    * Get objectAndItemsNullableProp
    * @return objectAndItemsNullableProp
@@ -502,7 +478,7 @@ public class NullableClass {
   }
 
   @JsonProperty(JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP)
-  @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<Map<String, Object>> getObjectAndItemsNullableProp_JsonNullable() {
     return objectAndItemsNullableProp;
@@ -523,14 +499,6 @@ public class NullableClass {
     return this;
   }
 
-  public NullableClass putObjectItemsNullableItem(String key, Object objectItemsNullableItem) {
-    if (this.objectItemsNullable == null) {
-      this.objectItemsNullable = new HashMap<>();
-    }
-    this.objectItemsNullable.put(key, objectItemsNullableItem);
-    return this;
-  }
-
    /**
    * Get objectItemsNullable
    * @return objectItemsNullable
@@ -538,7 +506,7 @@ public class NullableClass {
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
-  @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Object> getObjectItemsNullable() {
     return objectItemsNullable;

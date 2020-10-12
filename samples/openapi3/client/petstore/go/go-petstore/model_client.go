@@ -40,9 +40,9 @@ func NewClientWithDefaults() *Client {
 }
 
 // GetClient returns the Client field value if set, zero value otherwise.
-func (o *Client) GetClient() string {
+func (o *Client) GetClient()  {
 	if o == nil || o.Client == nil {
-		var ret string
+		var ret 
 		return ret
 	}
 	return *o.Client
@@ -50,7 +50,7 @@ func (o *Client) GetClient() string {
 
 // GetClientOk returns a tuple with the Client field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Client) GetClientOk() (*string, bool) {
+func (o *Client) GetClientOk() (*, bool) {
 	if o == nil || o.Client == nil {
 		return nil, false
 	}
@@ -67,7 +67,7 @@ func (o *Client) HasClient() bool {
 }
 
 // SetClient gets a reference to the given string and assigns it to the Client field.
-func (o *Client) SetClient(v string) {
+func (o *Client) SetClient(v ) {
 	o.Client = &v
 }
 

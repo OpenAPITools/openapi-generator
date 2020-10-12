@@ -20,7 +20,6 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -31,7 +30,6 @@ namespace Org.OpenAPITools.Model
     /// ChildCat
     /// </summary>
     [DataContract(Name = "ChildCat")]
-    [JsonConverter(typeof(JsonSubtypes), "PetType")]
     public partial class ChildCat : ParentPet, IEquatable<ChildCat>, IValidatableObject
     {
         /// <summary>
@@ -51,8 +49,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets PetType
         /// </summary>
-        [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = false)]
-        public PetTypeEnum PetType { get; set; }
+        [DataMember(Name = "pet_type", EmitDefaultValue = false)]
+        public PetTypeEnum? PetType { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
@@ -65,11 +63,11 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
         /// <param name="name">name.</param>
-        /// <param name="petType">petType (required) (default to PetTypeEnum.ChildCat).</param>
-        public ChildCat(string name = default(string), PetTypeEnum petType = PetTypeEnum.ChildCat) : base()
+        /// <param name="petType">petType (default to PetTypeEnum.ChildCat).</param>
+        public ChildCat(string name = default(string), PetTypeEnum? petType = PetTypeEnum.ChildCat) : base()
         {
-            this.PetType = petType;
             this.Name = name;
+            this.PetType = petType;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -154,16 +152,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            return this.BaseValidate(validationContext);
-        }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             foreach(var x in BaseValidate(validationContext)) yield return x;
             yield break;

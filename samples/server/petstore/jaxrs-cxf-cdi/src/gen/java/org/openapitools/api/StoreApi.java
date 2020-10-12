@@ -21,7 +21,7 @@ import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 import java.util.Map;
 import java.util.List;
 import javax.validation.constraints.*;
-@Path("/store")
+@Path("store")
 @RequestScoped
 
 @Api(description = "the store API")
