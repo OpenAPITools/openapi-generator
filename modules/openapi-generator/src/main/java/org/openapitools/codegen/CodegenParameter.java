@@ -497,7 +497,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     }
 
     @Override
-<<<<<<< HEAD
     public boolean getIsDate() { return isDate; }
 
     @Override

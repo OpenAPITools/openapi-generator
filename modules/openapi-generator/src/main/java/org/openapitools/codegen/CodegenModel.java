@@ -571,7 +571,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
-<<<<<<< HEAD
     public boolean getIsDate() { return isDate; }
 
     @Override

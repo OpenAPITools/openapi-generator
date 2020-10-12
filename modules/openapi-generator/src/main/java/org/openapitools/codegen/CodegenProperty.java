@@ -470,7 +470,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     }
 
     @Override
-<<<<<<< HEAD
     public boolean getIsDate() { return isDate; }
 
     @Override
