@@ -226,13 +226,14 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("float", "Float");
         typeMapping.put("number", "Double");
         typeMapping.put("double", "Double");
-        typeMapping.put("object", "Any");
         typeMapping.put("file", "URL");
         typeMapping.put("binary", "URL");
         typeMapping.put("ByteArray", "Data");
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "String");
         typeMapping.put("BigDecimal", "Decimal");
+        typeMapping.put("object", "Any");
+        typeMapping.put("AnyType", "Any");
 
         importMapping = new HashMap<>();
 
