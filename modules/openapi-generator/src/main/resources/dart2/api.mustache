@@ -50,16 +50,19 @@ class {{{classname}}} {
     {{/hasMore}}
   {{/allParams}}
   {{#returnType}}Future<Response> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+  {{#hasParams}}
     // Verify required params are set.
     {{#allParams}}
       {{#required}}
     if ({{{paramName}}} == null) {
-     throw ApiException(400, 'Missing required param: {{{paramName}}}');
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: {{{paramName}}}');
     }
       {{/required}}
     {{/allParams}}
 
-    final path = '{{{path}}}'.replaceAll('{format}', 'json'){{#pathParams}}.replaceAll('{' + '{{{baseName}}}' + '}', {{{paramName}}}.toString()){{/pathParams}};
+  {{/hasParams}}
+    final path = '{{{path}}}'.replaceAll('{format}', 'json'){{#pathParams}}
+      .replaceAll('{' + '{{{baseName}}}' + '}', {{{paramName}}}.toString()){{/pathParams}};
 
     Object postBody{{#bodyParam}} = {{{paramName}}}{{/bodyParam}};
 
@@ -162,31 +165,30 @@ class {{{classname}}} {
   {{/allParams}}
   {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
     final response = await {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{{paramName}}}: {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
-    if (response.statusCode >= 400) {
+    if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-    if (response.body != null) {
+    {{#returnType}}
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body != null && response.statusCode != HttpStatus.noContent) {
       {{#isListContainer}}
-        {{#returnType}}
       return (apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as List)
         .map((item) => item as {{{returnBaseType}}})
         .toList(growable: false);
-        {{/returnType}}
       {{/isListContainer}}
       {{^isListContainer}}
         {{#isMap}}
-          {{#returnType}}
       return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
-          {{/returnType}}
         {{/isMap}}
         {{^isMap}}
-          {{#returnType}}
       return apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}};
-          {{/returnType}}
         {{/isMap}}
       {{/isListContainer}}
     }
-    return{{#returnType}} null{{/returnType}};
+    return null;
+    {{/returnType}}
   }
   {{/operation}}
 }

@@ -55,7 +55,7 @@ String parameterToString(dynamic value) {
 /// content type. Otherwise, returns the decoded body as decoded by dart:http package.
 String _decodeBodyBytes(Response response) {
   final contentType = response.headers['content-type'];
-  return contentType != null && contentType.contains('application/json')
-    ? utf8.decode(response.bodyBytes)
+  return contentType != null && contentType.toLowerCase().startsWith('application/json')
+    ? response.bodyBytes == null ? null : utf8.decode(response.bodyBytes)
     : response.body;
 }
