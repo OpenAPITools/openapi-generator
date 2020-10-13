@@ -138,9 +138,10 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Converts the JSON string into the object
+        /// Converts the JSON string into an instance of ShapeOrNull
         /// </summary>
         /// <param name="jsonString">JSON string</param>
+        /// <returns>An instance of ShapeOrNull</returns>
         public static ShapeOrNull FromJson(string jsonString)
         {
             ShapeOrNull newShapeOrNull = new ShapeOrNull();
