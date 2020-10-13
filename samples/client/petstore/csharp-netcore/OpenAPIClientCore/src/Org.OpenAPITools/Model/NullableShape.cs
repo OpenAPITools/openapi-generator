@@ -138,9 +138,10 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Converts the JSON string into the object
+        /// Converts the JSON string into an instance of NullableShape
         /// </summary>
         /// <param name="jsonString">JSON string</param>
+        /// <returns>An instance of NullableShape</returns>
         public static NullableShape FromJson(string jsonString)
         {
             NullableShape newNullableShape = new NullableShape();

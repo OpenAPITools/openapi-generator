@@ -11,6 +11,9 @@ namespace {{packageName}}.{{modelPackage}}
     /// </summary>
     {{>visibility}} abstract partial class AbstractOpenAPISchema
     {
+        /// <summary>
+        ///  Custom JSON serializer
+        /// </summary>
         protected readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
         {
             // OpenAPI generated types generally hide default constructors.

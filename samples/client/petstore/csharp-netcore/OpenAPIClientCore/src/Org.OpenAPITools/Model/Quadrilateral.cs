@@ -138,9 +138,10 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Converts the JSON string into the object
+        /// Converts the JSON string into an instance of Quadrilateral
         /// </summary>
         /// <param name="jsonString">JSON string</param>
+        /// <returns>An instance of Quadrilateral</returns>
         public static Quadrilateral FromJson(string jsonString)
         {
             Quadrilateral newQuadrilateral = new Quadrilateral();

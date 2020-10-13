@@ -128,7 +128,7 @@ namespace Org.OpenAPITools.Client
                                                 "dev-petstore"
                                             }
                                         }
-                                    } 
+                                    }
                                 },
                                 {
                                     "port", new Dictionary<string, object> {
@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Client
                                                 "8080"
                                             }
                                         }
-                                    } 
+                                    }
                                 }
                             }
                         }
@@ -162,7 +162,7 @@ namespace Org.OpenAPITools.Client
                                                 "v2"
                                             }
                                         }
-                                    } 
+                                    }
                                 }
                             }
                         }
@@ -415,7 +415,7 @@ namespace Org.OpenAPITools.Client
         /// Gets or sets the servers.
         /// </summary>
         /// <value>The servers.</value>
-        public virtual IList<IReadOnlyDictionary<string, object>> Servers 
+        public virtual IList<IReadOnlyDictionary<string, object>> Servers
         {
             get { return _servers; }
             set
@@ -465,7 +465,7 @@ namespace Org.OpenAPITools.Client
             {
 
                 IReadOnlyDictionary<string, object> serverVariables = (IReadOnlyDictionary<string, object>)(variable.Value);
-                
+
                 if (inputVariables.ContainsKey(variable.Key))
                 {
                     if (((List<string>)serverVariables["enum_values"]).Contains(inputVariables[variable.Key]))

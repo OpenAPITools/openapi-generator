@@ -137,9 +137,10 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Converts the JSON string into the object
+        /// Converts the JSON string into an instance of Fruit
         /// </summary>
         /// <param name="jsonString">JSON string</param>
+        /// <returns>An instance of Fruit</returns>
         public static Fruit FromJson(string jsonString)
         {
             Fruit newFruit = new Fruit();

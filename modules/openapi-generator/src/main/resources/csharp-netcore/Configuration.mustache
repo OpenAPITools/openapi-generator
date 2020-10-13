@@ -143,7 +143,7 @@ namespace {{packageName}}.Client
                                         }
                                         {{/-last}}
                                         {{/enumValues}}
-                                    } 
+                                    }
                                 }{{^-last}},{{/-last}}
                         {{#-last}}
                             }
@@ -397,7 +397,7 @@ namespace {{packageName}}.Client
         /// Gets or sets the servers.
         /// </summary>
         /// <value>The servers.</value>
-        public virtual IList<IReadOnlyDictionary<string, object>> Servers 
+        public virtual IList<IReadOnlyDictionary<string, object>> Servers
         {
             get { return _servers; }
             set
@@ -447,7 +447,7 @@ namespace {{packageName}}.Client
             {
 
                 IReadOnlyDictionary<string, object> serverVariables = (IReadOnlyDictionary<string, object>)(variable.Value);
-                
+
                 if (inputVariables.ContainsKey(variable.Key))
                 {
                     if (((List<string>)serverVariables["enum_values"]).Contains(inputVariables[variable.Key]))
