@@ -144,8 +144,8 @@ const callouts = [
                    |# install the latest version of "openapi-generator-cli"
                    |npm install @openapitools/openapi-generator-cli -g
                    |
-                   |# install a specific version of "openapi-generator-cli"
-                   |npm install @openapitools/openapi-generator-cli@cli-4.3.1 -g
+                   |# use a specific version of "openapi-generator-cli"
+                   |openapi-generator-cli version-manager set 4.3.1
                    |
                    |# Or install it as dev-dependency in your node.js projects
                    |npm install @openapitools/openapi-generator-cli -D

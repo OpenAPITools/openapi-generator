@@ -480,7 +480,7 @@ At a minimum, `generate` requires:
 
 ### Examples
 
-The following examples use [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml).
+The following examples use [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml).
 
 #### Additional Properties
 
@@ -649,7 +649,7 @@ Example:
 ```bash
 # create "shared" config
 mkdir shared && cat > shared/common.yaml <<EOF
-inputSpec: https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+inputSpec: https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 additionalProperties:
     x-ext-name: "Your Name"
 EOF
