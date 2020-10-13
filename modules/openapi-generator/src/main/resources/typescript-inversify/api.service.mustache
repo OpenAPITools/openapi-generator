@@ -69,7 +69,7 @@ export class {{classname}} {
 {{#hasQueryParams}}
         let queryParameters: string[] = [];
 {{#queryParams}}
-        {{#isListContainer}}
+        {{#isArray}}
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element) => {
@@ -80,8 +80,8 @@ export class {{classname}} {
             queryParameters.push('{{paramName}}='+encodeURIComponent({{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])));
         {{/isCollectionFormatMulti}}
         }
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         if ({{paramName}} !== undefined) {
         {{#isDateTime}}
            queryParameters.push('{{paramName}}='+encodeURIComponent(({{paramName}} as Date).toISOString()));
@@ -90,21 +90,21 @@ export class {{classname}} {
             queryParameters.push('{{paramName}}='+encodeURIComponent(String({{paramName}})));
         {{/isDateTime}}
         }
-        {{/isListContainer}}
+        {{/isArray}}
 {{/queryParams}}
 
 {{/hasQueryParams}}
 {{#headerParams}}
-        {{#isListContainer}}
+        {{#isArray}}
         if ({{paramName}}) {
             headers['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']);
         }
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         if ({{paramName}}) {
             headers['{{baseName}}'] = String({{paramName}});
         }
-        {{/isListContainer}}
+        {{/isArray}}
 
 {{/headerParams}}
 {{#authMethods}}
@@ -159,7 +159,7 @@ export class {{classname}} {
         headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
         {{/isMultipart}}
 {{#formParams}}
-        {{#isListContainer}}
+        {{#isArray}}
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element) => {
@@ -170,12 +170,12 @@ export class {{classname}} {
             formData.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
         {{/isCollectionFormatMulti}}
         }
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         if ({{paramName}} !== undefined) {
             formData.append('{{baseName}}', <any>{{paramName}});
         }
-        {{/isListContainer}}
+        {{/isArray}}
 {{/formParams}}
 
 {{/hasFormParams}}

@@ -2,13 +2,13 @@
 type {{classname}} struct {
 {{#parent}}
 {{^isMap}}
-{{^isArrayModel}}
+{{^isArray}}
 	{{{parent}}}
-{{/isArrayModel}}
+{{/isArray}}
 {{/isMap}}
-{{#isArrayModel}}
+{{#isArray}}
 	Items {{{parent}}}
-{{/isArrayModel}}
+{{/isArray}}
 {{/parent}}
 {{#vars}}
 {{^-first}}
@@ -223,10 +223,10 @@ func (o *{{classname}}) Unset{{name}}() {
 {{/required}}
 {{/vars}}
 func (o {{classname}}) MarshalJSON() ([]byte, error) {
-	toSerialize := {{#isArrayModel}}make([]interface{}, len(o.Items)){{/isArrayModel}}{{^isArrayModel}}map[string]interface{}{}{{/isArrayModel}}
+	toSerialize := {{#isArray}}make([]interface{}, len(o.Items)){{/isArray}}{{^isArray}}map[string]interface{}{}{{/isArray}}
 	{{#parent}}
 	{{^isMap}}
-	{{^isArrayModel}}
+	{{^isArray}}
 	serialized{{parent}}, err{{parent}} := json.Marshal(o.{{parent}})
 	if err{{parent}} != nil {
 		return []byte{}, err{{parent}}
@@ -235,13 +235,13 @@ func (o {{classname}}) MarshalJSON() ([]byte, error) {
 	if err{{parent}} != nil {
 		return []byte{}, err{{parent}}
 	}
-	{{/isArrayModel}}
+	{{/isArray}}
 	{{/isMap}}
-	{{#isArrayModel}}
+	{{#isArray}}
 	for i, item := range o.Items {
 		toSerialize[i] = item
 	}
-	{{/isArrayModel}}
+	{{/isArray}}
 	{{/parent}}
 	{{#vars}}
 	{{! if argument is nullable, only serialize it if it is set}}
@@ -382,10 +382,10 @@ func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 }
 
 {{/isAdditionalPropertiesTrue}}
-{{#isArrayModel}}
+{{#isArray}}
 func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 	return json.Unmarshal(bytes, &o.Items)
 }
 
-{{/isArrayModel}}
+{{/isArray}}
 {{>nullable_model}}

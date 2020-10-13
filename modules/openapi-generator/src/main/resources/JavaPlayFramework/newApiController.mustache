@@ -70,11 +70,11 @@ public class {{classname}}Controller extends Controller {
             {{paramName}} = mapper.readValue(node{{paramName}}.toString(), {{#isContainer}}new TypeReference<{{{dataType}}}>(){}{{/isContainer}}{{^isContainer}}{{{dataType}}}.class{{/isContainer}});
             {{#useBeanValidation}}
             if (configuration.getBoolean("useInputBeanValidation")) {
-                {{#isListContainer}}
+                {{#isArray}}
                 for ({{{items.baseType}}} curItem : {{paramName}}) {
                     OpenAPIUtils.validate(curItem);
                 }
-                {{/isListContainer}}
+                {{/isArray}}
                 {{#isMap}}
                 for (Map.Entry<String, {{{items.baseType}}}> entry : {{paramName}}.entrySet()) {
                     OpenAPIUtils.validate(entry.getValue());
@@ -214,11 +214,11 @@ public class {{classname}}Controller extends Controller {
         {{#useBeanValidation}}
         {{^supportAsync}}
         if (configuration.getBoolean("useOutputBeanValidation")) {
-            {{#isListContainer}}
+            {{#isArray}}
             for ({{{returnType}}} curItem : obj) {
                 OpenAPIUtils.validate(curItem);
             }
-            {{/isListContainer}}
+            {{/isArray}}
             {{#isMap}}
             for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
                 OpenAPIUtils.validate(entry.getValue());
@@ -231,11 +231,11 @@ public class {{classname}}Controller extends Controller {
         {{/supportAsync}}
         {{#supportAsync}}
             if (configuration.getBoolean("useOutputBeanValidation")) {
-                {{#isListContainer}}
+                {{#isArray}}
                 for ({{{returnType}}} curItem : obj) {
                     OpenAPIUtils.validate(curItem);
                 }
-                {{/isListContainer}}
+                {{/isArray}}
                 {{#isMap}}
                 for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
                     OpenAPIUtils.validate(entry.getValue());

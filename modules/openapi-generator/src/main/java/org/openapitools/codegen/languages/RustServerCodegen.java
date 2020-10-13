@@ -1122,7 +1122,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             // type.
             codegenParameter.dataType = getTypeDeclaration(original_schema);
             codegenParameter.isPrimitiveType = false;
-            codegenParameter.isListContainer = false;
+            codegenParameter.isArray = false;
             codegenParameter.isString = false;
             codegenParameter.isByteArray = ModelUtils.isByteArraySchema(original_schema);
 
@@ -1587,7 +1587,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 param.vendorExtensions.put("x-format-string", "{}");
                 example = (param.example != null) ? param.example : "";
             }
-        } else if (param.isListContainer) {
+        } else if (param.isArray) {
             param.vendorExtensions.put("x-format-string", "{:?}");
             example = (param.example != null) ? param.example : "&Vec::new()";
         } else {
@@ -1600,7 +1600,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         if (param.required) {
             if (example != null) {
                 param.vendorExtensions.put("x-example", example);
-            } else if (param.isListContainer) {
+            } else if (param.isArray) {
                 // Use the empty list if we don't have an example
                 param.vendorExtensions.put("x-example", "&Vec::new()");
             } else {

@@ -33,22 +33,22 @@ def lazy_import():
 
 
 {{^interfaces}}
-{{#isArrayModel}}
+{{#isArray}}
 {{> python-experimental/model_templates/model_simple }}
-{{/isArrayModel}}
+{{/isArray}}
 {{#isEnum}}
 {{> python-experimental/model_templates/model_simple }}
 {{/isEnum}}
 {{#isAlias}}
 {{> python-experimental/model_templates/model_simple }}
 {{/isAlias}}
-{{^isArrayModel}}
+{{^isArray}}
 {{^isEnum}}
 {{^isAlias}}
 {{> python-experimental/model_templates/model_normal }}
 {{/isAlias}}
 {{/isEnum}}
-{{/isArrayModel}}
+{{/isArray}}
 {{/interfaces}}
 {{#interfaces}}
 {{#-last}}

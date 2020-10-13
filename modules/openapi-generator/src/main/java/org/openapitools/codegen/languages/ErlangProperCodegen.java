@@ -265,7 +265,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
         String r = "";
         CodegenParameter q = (CodegenParameter) o;
         if (q.required) {
-            if (q.isListContainer) {
+            if (q.isArray) {
                 r += "[{<<\"" + q.baseName + "\">>, X} || X <- " + q.paramName + "]";
             } else {
                 r += "{<<\"" + q.baseName + "\">>, " + q.paramName + "}";
@@ -376,7 +376,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
             // force http method to lower case
             o.httpMethod = o.httpMethod.toLowerCase(Locale.ROOT);
 
-            if (o.isListContainer) {
+            if (o.isArray) {
                 o.returnType = "[" + o.returnBaseType + "]";
             }
 
@@ -486,7 +486,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
             this.isEnum = cm.isEnum;
             this.hasRequired = cm.hasRequired;
             this.hasOptional = cm.hasOptional;
-            this.isArrayModel = cm.isArrayModel;
+            this.isArray = cm.isArray;
             this.hasChildren = cm.hasChildren;
             this.hasOnlyReadOnly = cm.hasOnlyReadOnly;
             this.externalDocumentation = cm.externalDocumentation;
@@ -516,7 +516,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
             this.isMap = o.isMap;
-            this.isListContainer = o.isListContainer;
+            this.isArray = o.isArray;
             this.isMultipart = o.isMultipart;
             this.hasMore = o.hasMore;
             this.isResponseBinary = o.isResponseBinary;

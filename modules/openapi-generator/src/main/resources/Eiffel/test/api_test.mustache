@@ -31,9 +31,9 @@ feature -- Test routines
             {{#allParams}}
             {{#required}}
             {{#isContainer}}
-            {{#isListContainer}}              
+            {{#isArray}}
             -- create {ARRAYED_{{dataType}}} l_{{paramName}}.make (2)
-            {{/isListContainer}}
+            {{/isArray}}
             {{/isContainer}}
             {{^isContainer}}
             -- l_{{paramName}}

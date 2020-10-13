@@ -49,25 +49,25 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
     m_{{name}}_isValid = ::{{cppNamespace}}::fromJsonValue({{name}}, json[QString("{{baseName}}")]);
     m_{{name}}_isSet = !json[QString("{{baseName}}")].isNull() && m_{{name}}_isValid;{{/isContainer}}{{#isContainer}}{{^items.isContainer}}
     m_{{name}}_isValid = ::{{cppNamespace}}::fromJsonValue({{name}}, json[QString("{{baseName}}")]);
-    m_{{name}}_isSet = !json[QString("{{baseName}}")].isNull() && m_{{name}}_isValid;{{/items.isContainer}}{{#items.isContainer}}{{#isListContainer}}
+    m_{{name}}_isSet = !json[QString("{{baseName}}")].isNull() && m_{{name}}_isValid;{{/items.isContainer}}{{#items.isContainer}}{{#isArray}}
     if(json["{{baseName}}"].isArray()){
         auto arr = json["{{baseName}}"].toArray();
         m_{{name}}_isValid = true;
         if(arr.count() > 0) {
             for (const QJsonValue jval : arr) {
-                {{^items.isContainer}}{{items.baseType}}{{/items.isContainer}}{{#items.isListContainer}}QList<{{items.items.baseType}}>{{/items.isListContainer}}{{#items.isMap}}QMap<QString, {{items.items.baseType}}>{{/items.isMap}} item;
+                {{^items.isContainer}}{{items.baseType}}{{/items.isContainer}}{{#items.isArray}}QList<{{items.items.baseType}}>{{/items.isArray}}{{#items.isMap}}QMap<QString, {{items.items.baseType}}>{{/items.isMap}} item;
                 m_{{name}}_isValid &= ::{{cppNamespace}}::fromJsonValue(item, jval);
                 m_{{name}}_isSet = !jval.isNull() && m_{{name}}_isValid;
                 {{name}}.push_back(item);
             }
         }
-    }{{/isListContainer}}{{#isMap}}
+    }{{/isArray}}{{#isMap}}
     if(json["{{baseName}}"].isObject()){
         auto varmap = json["{{baseName}}"].toObject().toVariantMap();
         m_{{name}}_isValid = true;
         if(varmap.count() > 0){
             for(auto val : varmap.keys()){
-                {{^items.isContainer}}{{items.baseType}}{{/items.isContainer}}{{#items.isListContainer}}QList<{{items.items.baseType}}>{{/items.isListContainer}}{{#items.isMap}}QMap<QString, {{items.items.baseType}}>{{/items.isMap}} item;
+                {{^items.isContainer}}{{items.baseType}}{{/items.isContainer}}{{#items.isArray}}QList<{{items.items.baseType}}>{{/items.isArray}}{{#items.isMap}}QMap<QString, {{items.items.baseType}}>{{/items.isMap}} item;
                 auto jval = QJsonValue::fromVariant(varmap.value(val));
                 m_{{name}}_isValid &= ::{{cppNamespace}}::fromJsonValue(item, jval);
                 m_{{name}}_isSet &= !jval.isNull() && m_{{name}}_isValid;

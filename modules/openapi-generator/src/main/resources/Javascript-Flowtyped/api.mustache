@@ -136,7 +136,7 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
 
     {{/authMethods}}
     {{#queryParams}}
-            {{#isListContainer}}
+            {{#isArray}}
             if ({{paramName}}) {
             {{#isCollectionFormatMulti}}
                 localVarQueryParameter['{{baseName}}'] = {{paramName}};
@@ -145,8 +145,8 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
                 localVarQueryParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
             {{/isCollectionFormatMulti}}
             }
-            {{/isListContainer}}
-            {{^isListContainer}}
+            {{/isArray}}
+            {{^isArray}}
             if ({{paramName}} !== undefined) {
                 {{#isDateTime}}
                 localVarQueryParameter['{{baseName}}'] = (({{paramName}}:any):Date).toISOString();
@@ -160,24 +160,24 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
                 {{/isDate}}
                 {{/isDateTime}}
             }
-            {{/isListContainer}}
+            {{/isArray}}
 
     {{/queryParams}}
     {{#headerParams}}
-            {{#isListContainer}}
+            {{#isArray}}
             if ({{paramName}}) {
                 localVarHeaderParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
             }
-            {{/isListContainer}}
-            {{^isListContainer}}
+            {{/isArray}}
+            {{^isArray}}
             if ({{paramName}} !== undefined && {{paramName}} !== null) {
                 localVarHeaderParameter['{{baseName}}'] = (({{paramName}}:any):string);
             }
-            {{/isListContainer}}
+            {{/isArray}}
 
     {{/headerParams}}
     {{#formParams}}
-            {{#isListContainer}}
+            {{#isArray}}
             if ({{paramName}}) {
             {{#isCollectionFormatMulti}}
                 {{paramName}}.forEach((element) => {
@@ -188,12 +188,12 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
                     localVarFormParams.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
             {{/isCollectionFormatMulti}}
             }
-            {{/isListContainer}}
-            {{^isListContainer}}
+            {{/isArray}}
+            {{^isArray}}
             if ({{paramName}} !== undefined) {
                 localVarFormParams.set('{{baseName}}', (({{paramName}}:any):string));
             }
-            {{/isListContainer}}
+            {{/isArray}}
 
     {{/formParams}}
     {{#bodyParam}}

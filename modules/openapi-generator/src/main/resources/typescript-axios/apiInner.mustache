@@ -105,7 +105,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
 
     {{/authMethods}}
     {{#queryParams}}
-            {{#isListContainer}}
+            {{#isArray}}
             if ({{paramName}}) {
             {{#isCollectionFormatMulti}}
                 localVarQueryParameter['{{baseName}}'] = {{paramName}};
@@ -114,8 +114,8 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                 localVarQueryParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}});
             {{/isCollectionFormatMulti}}
             }
-            {{/isListContainer}}
-            {{^isListContainer}}
+            {{/isArray}}
+            {{^isArray}}
             if ({{paramName}} !== undefined) {
                 {{#isDateTime}}
                 localVarQueryParameter['{{baseName}}'] = ({{paramName}} as any instanceof Date) ?
@@ -133,17 +133,17 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                 {{/isDate}}
                 {{/isDateTime}}
             }
-            {{/isListContainer}}
+            {{/isArray}}
 
     {{/queryParams}}
     {{#headerParams}}
-            {{#isListContainer}}
+            {{#isArray}}
             if ({{paramName}}) {
                 let mapped = {{paramName}}.map(value => (<any>"{{{dataType}}}" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
                 localVarHeaderParameter['{{baseName}}'] = mapped.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
             }
-            {{/isListContainer}}
-            {{^isListContainer}}
+            {{/isArray}}
+            {{^isArray}}
             if ({{paramName}} !== undefined && {{paramName}} !== null) {
                 {{#isString}}
                 localVarHeaderParameter['{{baseName}}'] = String({{paramName}});
@@ -152,12 +152,12 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                 localVarHeaderParameter['{{baseName}}'] = String(JSON.stringify({{paramName}}));
                 {{/isString}}
             }
-            {{/isListContainer}}
+            {{/isArray}}
 
     {{/headerParams}}
     {{#vendorExtensions}}
     {{#formParams}}
-            {{#isListContainer}}
+            {{#isArray}}
             if ({{paramName}}) {
             {{#isCollectionFormatMulti}}
                 {{paramName}}.forEach((element) => {
@@ -168,13 +168,13 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                 localVarFormParams.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));{{/multipartFormData}}{{#multipartFormData}}
                 localVarFormParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));{{/multipartFormData}}
             {{/isCollectionFormatMulti}}
-            }{{/isListContainer}}
-            {{^isListContainer}}
+            }{{/isArray}}
+            {{^isArray}}
             if ({{paramName}} !== undefined) { {{^multipartFormData}}
                 localVarFormParams.set('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}{{#multipartFormData}}
                 localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}
             }
-            {{/isListContainer}}
+            {{/isArray}}
     {{/formParams}}{{/vendorExtensions}}
     {{#vendorExtensions}}{{#hasFormParams}}{{^multipartFormData}}
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';{{/multipartFormData}}{{#multipartFormData}}
