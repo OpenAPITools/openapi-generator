@@ -92,7 +92,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      * Indicates the type has at least one optional property.
      */
     public boolean hasOptional;
-    public boolean isArrayModel;
+    public boolean isArray;
     public boolean hasChildren;
     public boolean isMap;
     /**
@@ -594,6 +594,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.isMap = isMap;
     }
 
+    @Override
+    public boolean getIsArray() { return isArray; }
+
+    @Override
+    public void setIsArray(boolean isArray)  {
+        this.isArray = isArray;
+    }
+
     // indicates if the model component has validation on the root level schema
     // this will be true when minItems or minProperties is set
     public boolean hasValidation() {
@@ -704,7 +712,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 isNullable == that.isNullable &&
                 hasRequired == that.hasRequired &&
                 hasOptional == that.hasOptional &&
-                isArrayModel == that.isArrayModel &&
+                isArray == that.isArray &&
                 hasChildren == that.hasChildren &&
                 isMap == that.isMap &&
                 isDeprecated == that.isDeprecated &&
@@ -775,7 +783,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 isDate, isDateTime,
                 getVars(), getAllVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
-                isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArrayModel,
+                isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArray,
                 hasChildren, isMap, isDeprecated, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
                 getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
@@ -839,7 +847,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", isNullable=").append(isNullable);
         sb.append(", hasRequired=").append(hasRequired);
         sb.append(", hasOptional=").append(hasOptional);
-        sb.append(", isArrayModel=").append(isArrayModel);
+        sb.append(", isArray=").append(isArray);
         sb.append(", hasChildren=").append(hasChildren);
         sb.append(", isMap=").append(isMap);
         sb.append(", isDeprecated=").append(isDeprecated);
