@@ -154,7 +154,7 @@ const callouts = [
                 {/*  <!-- /RELEASE_VERSION --> */}
 
                 <p>Then, <strong>generate</strong> a ruby client from a valid <a
-                    href="https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml"
+                    href="https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml"
                     className="href">petstore.yaml</a> doc:</p>
 
                 <p><CodeBlock className="bash">{`
@@ -175,7 +175,7 @@ const callouts = [
 
                 <p>
                     Then, <strong>generate</strong> a ruby client from a valid <a
-                    href="https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml"
+                    href="https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml"
                     className="href">petstore.yaml</a> doc:
                 </p>
 
@@ -193,7 +193,7 @@ const callouts = [
                     installing via homebrew, or for developers who are unable to install Java or upgrade the installed
                     version.</p>
                 <p>To generate code from a valid <a
-                    href="https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml">petstore.yaml</a> doc
+                    href="https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml">petstore.yaml</a> doc
                     with this image, you'll need to mount a local location as a volume.
                 </p>
                 <p>
