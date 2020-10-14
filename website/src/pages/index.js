@@ -91,6 +91,8 @@ const callouts = [
             <li>Maven Plugin</li>
             <li>Gradle Plugin</li>
             <li>Bazel Plugin</li>
+            <li>SBT Plugin</li>
+            <li>Cake Plugin</li>
             <li>CLI via Homebrew</li>
             <li>CLI via Docker</li>
             <li>CLI via npm</li>
@@ -158,7 +160,7 @@ const callouts = [
                     className="href">petstore.yaml</a> doc:</p>
 
                 <p><CodeBlock className="bash">{`
-                openapi-generator generate -i petstore.yaml -g ruby -o /tmp/test/
+                openapi-generator-cli generate -i petstore.yaml -g ruby -o /tmp/test/
                 `}</CodeBlock></p>
             </>
         ),
