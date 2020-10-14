@@ -1127,7 +1127,7 @@ public class ModelUtils {
 
     private static boolean hasDescendants(String simpleRef, OpenAPI openAPI) {
         for (Map.Entry<String, Schema> entry : getSchemas(openAPI).entrySet()) {
-            if (!isSameSchema(simpleRef, entry.getKey())) {
+            if (!simpleRef.equals(entry.getKey())) {
                 Schema schema = entry.getValue();
                 if (isComposedSchema(schema)) {
                     ComposedSchema composedChild = (ComposedSchema) schema;
@@ -1144,10 +1144,6 @@ public class ModelUtils {
             }
         }
         return false;
-    }
-
-    private static boolean isSameSchema(String simpleRef, String schema) {
-        return simpleRef.equals(schema);
     }
 
     /**
