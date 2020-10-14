@@ -443,7 +443,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     private boolean isStreamType(CodegenProperty parameter) {
         boolean isStreamType = parameter.isString || parameter.isBoolean || parameter.isDate
                 || parameter.isDateTime || parameter.isInteger || parameter.isLong
-                || (parameter.isFreeFormObject && !parameter.isMapContainer);
+                || (parameter.isFreeFormObject && !parameter.isMap);
 
         return isStreamType;
     }
@@ -462,7 +462,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     private boolean isStreamType(CodegenParameter parameter) {
         boolean isStreamType = parameter.isString || parameter.isBoolean || parameter.isDate
                 || parameter.isDateTime || parameter.isInteger || parameter.isLong
-                || (parameter.isFreeFormObject && !parameter.isMapContainer);
+                || (parameter.isFreeFormObject && !parameter.isMap);
 
         return isStreamType;
     }
