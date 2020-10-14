@@ -1,0 +1,113 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore
+  description: "sample spec"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://petstore.swagger.io:80/v2
+tags:
+  - name: items
+    description: Everything about your Pets
+paths:
+  /ref_array_with_validations_in_items/{items}:
+    post:
+      tags:
+        - items
+      operationId: refArrayWithValidationsInItems
+      parameters:
+        - name: items
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ArrayWithValidationsInItems'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArrayWithValidationsInItems'
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayWithValidationsInItems'
+  /array_with_validations_in_items/{items}:
+    post:
+      tags:
+        - items
+      operationId: arrayWithValidationsInItems
+      parameters:
+        - name: items
+          in: path
+          required: true
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int64
+              maximum: 7
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int64
+                maximum: 7
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+                  maximum: 7
+components:
+  schemas:
+    ArrayWithValidationsInItems:
+      type: array
+      items:
+        type: integer
+        format: int64
+        maximum: 7
+    ObjectWithValidationsInArrayPropItems:
+      type: object
+      properties:
+        arrayProp:
+          type: array
+          items:
+            type: integer
+            format: int64
+            maximum: 7
+    ObjectWithValidationsInAdditionalProperties:
+      type: object
+      additionalProperties:
+        type: integer
+        format: int64
+        maximum: 7
+    ComposedOneOfInlineValidation:
+      oneOf:
+        - type: integer
+          format: int64
+          maximum: 7
+    ComposedAnyOfInlineValidation:
+      anyOf:
+        - type: integer
+          format: int64
+          maximum: 7
+    ComposedAllOfInlineValidation:
+      allOf:
+        - type: integer
+          format: int64
+          maximum: 7
+  securitySchemes: {}

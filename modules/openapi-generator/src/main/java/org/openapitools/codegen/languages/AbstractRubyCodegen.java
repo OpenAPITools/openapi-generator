@@ -31,7 +31,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Locale;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -140,17 +143,34 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toDefaultValue(Schema p) {
+        p = ModelUtils.getReferencedSchema(this.openAPI, p);
         if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                return "'" + escapeText((String) p.getDefault()) + "'";
+                String _default;
+                if (p.getDefault() instanceof Date) {
+                    Date date = (Date) p.getDefault();
+                    LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    return "Date.parse(\"" + String.format(Locale.ROOT, localDate.toString(), "") + "\")";
+                } else if (p.getDefault() instanceof java.time.OffsetDateTime) {
+                    return "DateTime.parse(\"" + String.format(Locale.ROOT, ((java.time.OffsetDateTime) p.getDefault()).atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\")";
+                } else {
+                    _default = (String) p.getDefault();
+                }
+
+                return "'" + escapeText(_default) + "'";
             }
         }
 
         return null;
+    }
+
+    @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        return datatype + "::" + value;
     }
 
     @Override

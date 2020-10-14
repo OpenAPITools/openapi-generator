@@ -145,6 +145,8 @@ class StoreApi(object):
         body_params = None
         # Authentication setting
         auth_settings = []  # noqa: E501
+        
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/store/order/{order_id}', 'DELETE',
@@ -154,7 +156,7 @@ class StoreApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -265,6 +267,10 @@ class StoreApi(object):
 
         # Authentication setting
         auth_settings = ['api_key']  # noqa: E501
+        
+        response_types_map = {
+            200: "dict(str, int)",
+        }
 
         return self.api_client.call_api(
             '/store/inventory', 'GET',
@@ -274,7 +280,7 @@ class StoreApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='dict(str, int)',  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -400,6 +406,12 @@ class StoreApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
+        
+        response_types_map = {
+            200: "Order",
+            400: None,
+            404: None,
+        }
 
         return self.api_client.call_api(
             '/store/order/{order_id}', 'GET',
@@ -409,7 +421,7 @@ class StoreApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='Order',  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -533,6 +545,11 @@ class StoreApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
+        
+        response_types_map = {
+            200: "Order",
+            400: None,
+        }
 
         return self.api_client.call_api(
             '/store/order', 'POST',
@@ -542,7 +559,7 @@ class StoreApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='Order',  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501

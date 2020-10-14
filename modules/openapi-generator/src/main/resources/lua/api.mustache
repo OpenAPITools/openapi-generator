@@ -133,14 +133,14 @@ function {{classname}}:{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, 
 		end
 		return result, headers
 		{{/isListContainer}}
-		{{#isMapContainer}}
+		{{#isMap}}
 		return result, headers
-		{{/isMapContainer}}
-		{{^isMapContainer}}
+		{{/isMap}}
+		{{^isMap}}
 		{{^isListContainer}}
 		return {{packageName}}_{{returnType}}.cast(result), headers
 		{{/isListContainer}}
-		{{/isMapContainer}}
+		{{/isMap}}
 		{{/returnTypeIsPrimitive}}
 		{{/returnType}}
 		{{^returnType}}

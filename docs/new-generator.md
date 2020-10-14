@@ -334,7 +334,7 @@ The `new.sh` script created the generation config file `bin/configs/common-mark-
 ```bash
 generatorName: common-mark
 outputDir: samples/documentation/petstore/common/mark
-inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/common-mark
 additionalProperties:
   hideGenerationTimestamp: "true"

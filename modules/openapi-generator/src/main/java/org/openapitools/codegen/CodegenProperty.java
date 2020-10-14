@@ -145,7 +145,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
      */
     public boolean isAnyType;
     public boolean isListContainer;
-    public boolean isMapContainer;
+    public boolean isMap;
     public boolean isEnum;
     public boolean isReadOnly;
     public boolean isWriteOnly;
@@ -451,12 +451,46 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.allowableValues = allowableValues;
     }
 
+    @Override
     public CodegenProperty getItems() {
         return items;
     }
 
+    @Override
     public void setItems(CodegenProperty items) {
         this.items = items;
+    }
+
+    @Override
+    public boolean getIsModel() { return isModel; }
+
+    @Override
+    public void setIsModel(boolean isModel)  {
+        this.isModel = isModel;
+    }
+
+    @Override
+    public boolean getIsDate() { return isDate; }
+
+    @Override
+    public void setIsDate(boolean isDate)   {
+        this.isDate = isDate;
+    }
+
+    @Override
+    public boolean getIsDateTime() { return isDateTime; }
+
+    @Override
+    public void setIsDateTime(boolean isDateTime)   {
+        this.isDateTime = isDateTime;
+    }
+
+    @Override
+    public boolean getIsMap() { return isMap; }
+
+    @Override
+    public void setIsMap(boolean isMap)  {
+        this.isMap = isMap;
     }
 
     public Map<String, Object> getVendorExtensions() {
@@ -659,7 +693,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isEmail=").append(isEmail);
         sb.append(", isFreeFormObject=").append(isFreeFormObject);
         sb.append(", isListContainer=").append(isListContainer);
-        sb.append(", isMapContainer=").append(isMapContainer);
+        sb.append(", isMap=").append(isMap);
         sb.append(", isEnum=").append(isEnum);
         sb.append(", isReadOnly=").append(isReadOnly);
         sb.append(", isWriteOnly=").append(isWriteOnly);
@@ -726,7 +760,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isEmail == that.isEmail &&
                 isFreeFormObject == that.isFreeFormObject &&
                 isListContainer == that.isListContainer &&
-                isMapContainer == that.isMapContainer &&
+                isMap == that.isMap &&
                 isEnum == that.isEnum &&
                 isReadOnly == that.isReadOnly &&
                 isWriteOnly == that.isWriteOnly &&
@@ -791,7 +825,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
-                isListContainer, isMapContainer, isEnum, isReadOnly, isWriteOnly, isNullable,
+                isListContainer, isMap, isEnum, isReadOnly, isWriteOnly, isNullable,
                 isSelfReference, isCircularReference, isDiscriminator, _enum, allowableValues, items, mostInnerItems,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,

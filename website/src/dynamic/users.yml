@@ -384,6 +384,11 @@
   infoLink: "https://www.traveltimeplatform.com/"
   pinned: false
 -
+  caption: "TribalScale"
+  image: "img/companies/tribalscale.png"
+  infoLink: "https://www.tribalscale.com"
+  pinned: false
+-
   caption: "TUI InfoTec GmbH"
   image: "img/companies/infotec.png"
   infoLink: "http://www.tui-infotec.com/"

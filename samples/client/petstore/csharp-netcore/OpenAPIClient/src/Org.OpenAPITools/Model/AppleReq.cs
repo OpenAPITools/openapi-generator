@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -51,7 +52,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Cultivar
         /// </summary>
-        [DataMember(Name = "cultivar", EmitDefaultValue = false)]
+        [DataMember(Name = "cultivar", IsRequired = true, EmitDefaultValue = false)]
         public string Cultivar { get; set; }
 
         /// <summary>

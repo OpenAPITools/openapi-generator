@@ -212,13 +212,14 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("float", "Float");
         typeMapping.put("number", "Double");
         typeMapping.put("double", "Double");
-        typeMapping.put("object", "Any");
         typeMapping.put("file", "URL");
         typeMapping.put("binary", "URL");
         typeMapping.put("ByteArray", "Data");
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "String");
         typeMapping.put("BigDecimal", "Decimal");
+        typeMapping.put("object", "Any");
+        typeMapping.put("AnyType", "Any");
 
         importMapping = new HashMap<>();
 
@@ -1012,7 +1013,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, ExampleCodeGenerationContext context) {
         if (codegenParameter.isListContainer) { // array
             return "[" + constructExampleCode(codegenParameter.items, modelMaps, context) + "]";
-        } else if (codegenParameter.isMapContainer) { // TODO: map, file type
+        } else if (codegenParameter.isMap) { // TODO: map, file type
             return "\"TODO\"";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
             if ("String".equals(codegenParameter.dataType) || "Character".equals(codegenParameter.dataType)) {
@@ -1052,7 +1053,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, ExampleCodeGenerationContext context) {
         if (codegenProperty.isListContainer) { // array
             return "[" + constructExampleCode(codegenProperty.items, modelMaps, context) + "]";
-        } else if (codegenProperty.isMapContainer) { // TODO: map, file type
+        } else if (codegenProperty.isMap) { // TODO: map, file type
             return "\"TODO\"";
         } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) { // primitive type
             if ("String".equals(codegenProperty.dataType) || "Character".equals(codegenProperty.dataType)) {

@@ -55,26 +55,26 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
         m_{{name}}_isValid = true;
         if(arr.count() > 0) {
             for (const QJsonValue jval : arr) {
-                {{^items.isContainer}}{{items.baseType}}{{/items.isContainer}}{{#items.isListContainer}}QList<{{items.items.baseType}}>{{/items.isListContainer}}{{#items.isMapContainer}}QMap<QString, {{items.items.baseType}}>{{/items.isMapContainer}} item;
+                {{^items.isContainer}}{{items.baseType}}{{/items.isContainer}}{{#items.isListContainer}}QList<{{items.items.baseType}}>{{/items.isListContainer}}{{#items.isMap}}QMap<QString, {{items.items.baseType}}>{{/items.isMap}} item;
                 m_{{name}}_isValid &= ::{{cppNamespace}}::fromJsonValue(item, jval);
                 m_{{name}}_isSet = !jval.isNull() && m_{{name}}_isValid;
                 {{name}}.push_back(item);
             }
         }
-    }{{/isListContainer}}{{#isMapContainer}}
+    }{{/isListContainer}}{{#isMap}}
     if(json["{{baseName}}"].isObject()){
         auto varmap = json["{{baseName}}"].toObject().toVariantMap();
         m_{{name}}_isValid = true;
         if(varmap.count() > 0){
             for(auto val : varmap.keys()){
-                {{^items.isContainer}}{{items.baseType}}{{/items.isContainer}}{{#items.isListContainer}}QList<{{items.items.baseType}}>{{/items.isListContainer}}{{#items.isMapContainer}}QMap<QString, {{items.items.baseType}}>{{/items.isMapContainer}} item;
+                {{^items.isContainer}}{{items.baseType}}{{/items.isContainer}}{{#items.isListContainer}}QList<{{items.items.baseType}}>{{/items.isListContainer}}{{#items.isMap}}QMap<QString, {{items.items.baseType}}>{{/items.isMap}} item;
                 auto jval = QJsonValue::fromVariant(varmap.value(val));
                 m_{{name}}_isValid &= ::{{cppNamespace}}::fromJsonValue(item, jval);
                 m_{{name}}_isSet &= !jval.isNull() && m_{{name}}_isValid;
                 {{name}}.insert({{name}}.end(), val, item);
             }
         }
-    }{{/isMapContainer}}{{/items.isContainer}}{{/isContainer}}{{^-last}}
+    }{{/isMap}}{{/items.isContainer}}{{/isContainer}}{{^-last}}
 {{/-last}}
 {{/vars}}{{/isEnum}}{{#isEnum}}{{#allowableValues}}{{#enumVars}}{{#-first}}{{#isString}}fromJson(json.toString());{{/isString}}{{^isString}}m_value = static_cast<e{{classname}}>(json.toInt());{{/isString}}{{/-first}}{{/enumVars}}{{/allowableValues}}{{/isEnum}}
 }

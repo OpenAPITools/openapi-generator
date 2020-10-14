@@ -61,8 +61,9 @@ public interface StoreApi {
      * @return successful operation (status code 200)
      */
     @ApiOperation(value = "Returns pet inventories by status", nickname = "getInventory", notes = "Returns a map of status codes to quantities", response = Integer.class, responseContainer = "Map", authorizations = {
+        
         @Authorization(value = "api_key")
-    }, tags={ "store", })
+         }, tags={ "store", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map") })
     @GetMapping(

@@ -43,7 +43,7 @@ async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^re
                 {{/isPrimitiveType}}
             {{/items}}
         {{/isListContainer}}
-        {{#isMapContainer}}
+        {{#isMap}}
             {{#items}}
                 {{#isPrimitiveType}}
     :type {{paramName}}: Dict[str, {{>param_type}}]
@@ -52,7 +52,7 @@ async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^re
     :type {{paramName}}: dict | bytes
                 {{/isPrimitiveType}}
             {{/items}}
-        {{/isMapContainer}}
+        {{/isMap}}
     {{/allParams}}
 
     """
@@ -85,7 +85,7 @@ async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^re
                 {{/complexType}}
             {{/items}}
         {{/isListContainer}}
-        {{#isMapContainer}}
+        {{#isMap}}
             {{#items}}
                 {{#isDate}}
     {{paramName}} = {k: util.deserialize_date(v) for k, v in {{paramName}}}
@@ -97,7 +97,7 @@ async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^re
     {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in {{paramName}}}
                 {{/complexType}}
             {{/items}}
-        {{/isMapContainer}}
+        {{/isMap}}
     {{/allParams}}
     return web.Response(status=200)
 {{/operation}}

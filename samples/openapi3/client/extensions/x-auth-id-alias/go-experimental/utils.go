@@ -15,7 +15,7 @@ import (
 	"time"
 )
 
-// PtrBool is a helper routine that returns a pointer to given integer value.
+// PtrBool is a helper routine that returns a pointer to given boolean value.
 func PtrBool(v bool) *bool { return &v }
 
 // PtrInt is a helper routine that returns a pointer to given integer value.
