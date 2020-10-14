@@ -94,13 +94,11 @@ class ApiClient {
     }
 
     if (body is MultipartRequest) {
-      final request = MultipartRequest(method, Uri.parse(url));
-      request.fields.addAll(body.fields);
-      request.files.addAll(body.files);
-      request.headers.addAll(body.headers);
-      request.headers.addAll(headerParams);
-      final response = await _client.send(request);
-      return Response.fromStream(response);
+      return _uploadMultipartRequest(_client, url, method, body, headerParams);
+    }
+
+    if (body is StreamedFile) {
+      return _uploadStreamedFile(_client, url, method, body, headerParams);
     }
 
     final msgBody = nullableContentType == 'application/x-www-form-urlencoded'

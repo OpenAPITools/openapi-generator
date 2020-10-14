@@ -1,0 +1,27 @@
+{{>header}}
+{{>part_of}}
+/// A signature of a function that notifies about file upload progress.
+typedef StreamedFileProgressHandler = void Function(
+  int progressBytes,
+  int totalBytes,
+  StreamedFile streamedFile,
+);
+
+/// A signature of a function that notifies about a file upload error.
+typedef StreamedFileErrorHandler = void Function(dynamic e, [StackTrace trace]);
+
+/// A helper class to upload files using an efficient [Stream].
+class StreamedFile {
+  const StreamedFile({
+    @required this.filePath,
+    Map<String, String> headers,
+    this.onProgress,
+    this.onError,
+  })  : assert(filePath != null),
+        headers = headers ?? const <String, String>{};
+
+  final String filePath;
+  final Map<String, String> headers;
+  final StreamedFileProgressHandler onProgress;
+  final StreamedFileErrorHandler onError;
+}

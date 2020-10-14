@@ -59,3 +59,65 @@ String _decodeBodyBytes(Response response) {
     ? response.bodyBytes == null ? null : utf8.decode(response.bodyBytes)
     : response.body;
 }
+
+/// Uploads a [StreamedFile] via the provided HTTP [client] to [url] using the
+/// specified HTTP [method].
+///
+/// If [streamedFile] does not exist, or its size is zero, an [ApiException] is thrown.
+Future<Response> _uploadStreamedFile(
+  Client client,
+  String url,
+  String method,
+  StreamedFile streamedFile,
+  Map<String, String> headerParams,
+) async {
+  final file = File(streamedFile.filePath);
+  if (!file.existsSync()) {
+    throw ApiException(HttpStatus.badRequest, 'File not found: ${streamedFile.filePath}');
+  }
+  final totalBytes = await file.length();
+  if (totalBytes < 0) {
+    throw ApiException(HttpStatus.badRequest, 'File is invalid: ${streamedFile.filePath}');
+  }
+  final request = StreamedRequest(method, Uri.parse(url));
+  request.headers.addAll(streamedFile.headers);
+  request.headers.addAll(headerParams);
+  request.contentLength = totalBytes;
+  final stream = ByteStream(file.openRead());
+  var progressBytes = 0;
+  stream.listen(
+    (chunk) {
+      request.sink.add(chunk);
+      progressBytes += chunk.length;
+      if (streamedFile.onProgress != null) {
+        streamedFile.onProgress(progressBytes, totalBytes, streamedFile);
+      }
+    },
+    onDone: request.sink.close,
+    onError: (error, trace) {
+      request.sink.close();
+      if (streamedFile.onError != null) {
+        streamedFile.onError(error, trace);
+      }
+    },
+    cancelOnError: true,
+  );
+  return Response.fromStream(await client.send(request));
+}
+
+/// Uploads a [MultipartRequest] via the provided HTTP [client] to [url] using the
+/// specified HTTP [method].
+Future<Response> _uploadMultipartRequest(
+  Client client,
+  String url,
+  String method,
+  MultipartRequest body,
+  Map<String, String> headerParams,
+) async {
+  final request = MultipartRequest(method, Uri.parse(url));
+  request.fields.addAll(body.fields);
+  request.files.addAll(body.files);
+  request.headers.addAll(body.headers);
+  request.headers.addAll(headerParams);
+  return Response.fromStream(await client.send(request));
+}
