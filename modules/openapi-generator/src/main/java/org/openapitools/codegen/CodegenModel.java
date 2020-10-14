@@ -64,7 +64,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public String defaultValue;
     public String arrayModelType;
     public boolean isAlias; // Is this effectively an alias of another simple type
-    public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble;
+    public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble, isDate, isDateTime;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
     public List<CodegenProperty> allVars = new ArrayList<CodegenProperty>(); // all properties (with parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>(); // a list of required properties
@@ -94,7 +94,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public boolean hasOptional;
     public boolean isArrayModel;
     public boolean hasChildren;
-    public boolean isMapModel;
+    public boolean isMap;
     /**
      * Indicates the OAS schema specifies "deprecated: true".
      */
@@ -149,6 +149,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private String maximum;
     private String pattern;
     private Number multipleOf;
+    private CodegenProperty items;
+    private boolean isModel;
 
     public String getAdditionalPropertiesType() {
         return additionalPropertiesType;
@@ -550,6 +552,48 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.multipleOf = multipleOf;
     }
 
+    @Override
+    public CodegenProperty getItems() {
+        return items;
+    }
+
+    @Override
+    public void setItems(CodegenProperty items) {
+        this.items = items;
+    }
+
+    @Override
+    public boolean getIsModel() { return isModel; }
+
+    @Override
+    public void setIsModel(boolean isModel)  {
+        this.isModel = isModel;
+    }
+
+    @Override
+    public boolean getIsDate() { return isDate; }
+
+    @Override
+    public void setIsDate(boolean isDate)   {
+        this.isDate = isDate;
+    }
+
+    @Override
+    public boolean getIsDateTime() { return isDateTime; }
+
+    @Override
+    public void setIsDateTime(boolean isDateTime)   {
+        this.isDateTime = isDateTime;
+    }
+
+    @Override
+    public boolean getIsMap() { return isMap; }
+
+    @Override
+    public void setIsMap(boolean isMap)  {
+        this.isMap = isMap;
+    }
+
     // indicates if the model component has validation on the root level schema
     // this will be true when minItems or minProperties is set
     public boolean hasValidation() {
@@ -650,6 +694,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 isNumeric == that.isNumeric &&
                 isFloat == that.isFloat &&
                 isDouble == that.isDouble &&
+                isDate == that.isDate &&
+                isDateTime == that.isDateTime &&
                 hasVars == that.hasVars &&
                 emptyVars == that.emptyVars &&
                 hasMoreModels == that.hasMoreModels &&
@@ -660,7 +706,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 hasOptional == that.hasOptional &&
                 isArrayModel == that.isArrayModel &&
                 hasChildren == that.hasChildren &&
-                isMapModel == that.isMapModel &&
+                isMap == that.isMap &&
                 isDeprecated == that.isDeprecated &&
                 hasOnlyReadOnly == that.hasOnlyReadOnly &&
                 getUniqueItems() == that.getUniqueItems() &&
@@ -714,8 +760,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(getMinimum(), that.getMinimum()) &&
                 Objects.equals(getMaximum(), that.getMaximum()) &&
                 Objects.equals(getPattern(), that.getPattern()) &&
+                Objects.equals(getItems(), that.getItems()) &&
+                Objects.equals(getIsModel(), that.getIsModel()) &&
                 Objects.equals(getMultipleOf(), that.getMultipleOf());
-
     }
 
     @Override
@@ -725,13 +772,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getDescription(), getClassVarName(), getModelJson(), getDataType(), getXmlPrefix(), getXmlNamespace(),
                 getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
                 getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
+                isDate, isDateTime,
                 getVars(), getAllVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
                 isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArrayModel,
-                hasChildren, isMapModel, isDeprecated, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
+                hasChildren, isMap, isDeprecated, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
                 getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
-                getMaximum(), getPattern(), getMultipleOf());
+                getMaximum(), getPattern(), getMultipleOf(), getItems(), getIsModel());
     }
 
     @Override
@@ -770,6 +818,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", isNumeric=").append(isNumeric);
         sb.append(", isFloat=").append(isFloat);
         sb.append(", isDouble=").append(isDouble);
+        sb.append(", isDate=").append(isDate);
+        sb.append(", isDateTime=").append(isDateTime);
         sb.append(", vars=").append(vars);
         sb.append(", allVars=").append(allVars);
         sb.append(", requiredVars=").append(requiredVars);
@@ -791,7 +841,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", hasOptional=").append(hasOptional);
         sb.append(", isArrayModel=").append(isArrayModel);
         sb.append(", hasChildren=").append(hasChildren);
-        sb.append(", isMapModel=").append(isMapModel);
+        sb.append(", isMap=").append(isMap);
         sb.append(", isDeprecated=").append(isDeprecated);
         sb.append(", hasOnlyReadOnly=").append(hasOnlyReadOnly);
         sb.append(", externalDocumentation=").append(externalDocumentation);
@@ -810,6 +860,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", maximum='").append(maximum).append('\'');
         sb.append(", pattern='").append(pattern).append('\'');
         sb.append(", multipleOf='").append(multipleOf).append('\'');
+        sb.append(", items='").append(items).append('\'');
+        sb.append(", isModel='").append(isModel).append('\'');
         sb.append('}');
         return sb.toString();
     }

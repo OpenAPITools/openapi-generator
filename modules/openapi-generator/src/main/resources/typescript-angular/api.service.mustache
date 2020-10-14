@@ -177,6 +177,11 @@ export class {{classname}} {
 {{#queryParams}}
         {{#isListContainer}}
         if ({{paramName}}) {
+        {{#isQueryParamObjectFormatJson}}
+        queryParameters = this.addToHttpParams(queryParameters,
+            <any>{{paramName}}, '{{baseName}}');
+        {{/isQueryParamObjectFormatJson}}
+        {{^isQueryParamObjectFormatJson}}
         {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element) => {
                 queryParameters = this.addToHttpParams(queryParameters,
@@ -187,6 +192,7 @@ export class {{classname}} {
             queryParameters = this.addToHttpParams(queryParameters,
                 {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']), '{{baseName}}');
         {{/isCollectionFormatMulti}}
+        {{/isQueryParamObjectFormatJson}}
         }
         {{/isListContainer}}
         {{^isListContainer}}

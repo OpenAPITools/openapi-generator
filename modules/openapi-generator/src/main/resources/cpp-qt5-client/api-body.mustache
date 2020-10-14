@@ -134,8 +134,8 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
 {{#formParams}}{{^isFile}}
     input.add_var("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}));{{/isFile}}{{#isFile}}
     input.add_file("{{baseName}}", {{paramName}}.local_filename, {{paramName}}.request_filename, {{paramName}}.mime_type);{{/isFile}}{{/formParams}}{{#bodyParams}}{{#isContainer}}{{#isListContainer}}
-    QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}).toArray());{{/isListContainer}}{{#isMapContainer}}
-    QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}).toObject());{{/isMapContainer}}
+    QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}).toArray());{{/isListContainer}}{{#isMap}}
+    QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}).toObject());{{/isMap}}
     QByteArray bytes = doc.toJson();
     input.request_body.append(bytes);
 {{/isContainer}}{{^isContainer}}{{#isString}}
@@ -181,13 +181,13 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
     }
     {{/isListContainer}}
     {{^isListContainer}}
-    {{^isMapContainer}}
+    {{^isMap}}
     {{#returnTypeIsPrimitive}}
     {{{returnType}}} output;
     ::{{cppNamespace}}::fromStringValue(QString(worker->response), output);
     {{/returnTypeIsPrimitive}}
-    {{/isMapContainer}}
-    {{#isMapContainer}}
+    {{/isMap}}
+    {{#isMap}}
     {{{returnType}}} output;
     QString json(worker->response);
     QByteArray array(json.toStdString().c_str());
@@ -198,12 +198,12 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
         ::{{cppNamespace}}::fromJsonValue(val, obj[key]);
         output.insert(key, val);
     }
-    {{/isMapContainer}}
-    {{^isMapContainer}}
+    {{/isMap}}
+    {{^isMap}}
     {{^returnTypeIsPrimitive}}
     {{{returnType}}} output{{^isResponseFile}}(QString(worker->response)){{/isResponseFile}}{{#isResponseFile}} = worker->getHttpFileElement(){{/isResponseFile}};
     {{/returnTypeIsPrimitive}}
-    {{/isMapContainer}}
+    {{/isMap}}
     {{/isListContainer}}
     {{/returnType}}
     worker->deleteLater();

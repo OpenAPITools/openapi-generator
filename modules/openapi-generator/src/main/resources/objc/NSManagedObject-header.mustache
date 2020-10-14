@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 {{#vars}}
 {{#description}}/* {{{description}}} {{^required}}[optional]{{/required}}
  */{{/description}}
-@property (nullable, nonatomic, retain) {{^complexType}}{{{ datatype }}}{{/complexType}}{{#complexType}}{{#isListContainer}}NSOrderedSet<{{{complexType}}}ManagedObject*>*{{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}{{{ datatype }}}{{/isMapContainer}}{{^isMapContainer}}{{{complexType}}}ManagedObject*{{/isMapContainer}}{{/isListContainer}}{{/complexType}} {{name}};
+@property (nullable, nonatomic, retain) {{^complexType}}{{{ datatype }}}{{/complexType}}{{#complexType}}{{#isListContainer}}NSOrderedSet<{{{complexType}}}ManagedObject*>*{{/isListContainer}}{{^isListContainer}}{{#isMap}}{{{ datatype }}}{{/isMap}}{{^isMap}}{{{complexType}}}ManagedObject*{{/isMap}}{{/isListContainer}}{{/complexType}} {{name}};
 {{/vars}}
 {{/isArrayModel}}
 @end

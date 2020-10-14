@@ -9,7 +9,7 @@
 #' @format An \code{R6Class} generator object
 #'
 {{#vars}}
-#' @field {{baseName}} {{title}} {{#isContainer}}{{#isListContainer}}list( {{/isListContainer}}{{#isMapContainer}}named list( {{/isMapContainer}}{{/isContainer}}{{^isPrimitiveType}}\link{{=<% %>=}}{<%/isPrimitiveType%><%={{ }}=%>{{#isContainer}}{{#items}}{{dataType}}{{/items}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}{{=<% %>=}}<%^isPrimitiveType%>}<%={{ }}=%>{{/isPrimitiveType}}{{#isContainer}}{{#isListContainer}} ){{/isListContainer}}{{#isMapContainer}} ){{/isMapContainer}}{{/isContainer}} {{^required}}[optional]{{/required}}
+#' @field {{baseName}} {{title}} {{#isContainer}}{{#isListContainer}}list( {{/isListContainer}}{{#isMap}}named list( {{/isMap}}{{/isContainer}}{{^isPrimitiveType}}\link{{=<% %>=}}{<%/isPrimitiveType%><%={{ }}=%>{{#isContainer}}{{#items}}{{dataType}}{{/items}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}{{=<% %>=}}<%^isPrimitiveType%>}<%={{ }}=%>{{/isPrimitiveType}}{{#isContainer}}{{#isListContainer}} ){{/isListContainer}}{{#isMap}} ){{/isMap}}{{/isContainer}} {{^required}}[optional]{{/required}}
 #'
 {{/vars}}
 #' @importFrom R6 R6Class
@@ -126,14 +126,14 @@
           lapply(self$`{{baseName}}`, function(x) x$toJSON())
         {{/isPrimitiveType}}
        {{/isListContainer}}
-       {{#isMapContainer}}
+       {{#isMap}}
        {{#isPrimitiveType}}
           self$`{{baseName}}`
        {{/isPrimitiveType}}
        {{^isPrimitiveType}}
           lapply(self$`{{baseName}}`, function(x) x$toJSON())
        {{/isPrimitiveType}}
-       {{/isMapContainer}}
+       {{/isMap}}
        {{/isContainer}}
        {{^isContainer}}
        {{#isPrimitiveType}}
@@ -183,13 +183,13 @@
         {{^isPrimitiveType}}[%s]
         {{/isPrimitiveType}}
         {{/isListContainer}}
-        {{#isMapContainer}}
+        {{#isMap}}
         {{#isPrimitiveType}}
           {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}"%s"{{/isNumeric}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}%s
         {{/isPrimitiveType}}
-        {{/isMapContainer}}
+        {{/isMap}}
         {{/isContainer}}
         {{^isContainer}}
         {{#isPrimitiveType}}
@@ -207,14 +207,14 @@
         paste(sapply(self$`{{{baseName}}}`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
         {{/isPrimitiveType}}
         {{/isListContainer}}
-        {{#isMapContainer}}
+        {{#isMap}}
         {{#isPrimitiveType}}
         jsonlite::toJSON(lapply(self$`{{{baseName}}}`, function(x){ x }), auto_unbox = TRUE, digits=NA)
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         jsonlite::toJSON(lapply(self$`{{{baseName}}}`, function(x){ x$toJSON() }), auto_unbox = TRUE, digits=NA)
         {{/isPrimitiveType}}
-        {{/isMapContainer}}
+        {{/isMap}}
         {{/isContainer}}
         {{^isContainer}}
         {{#isPrimitiveType}}

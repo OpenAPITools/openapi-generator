@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
@@ -30,48 +31,115 @@ namespace Org.OpenAPITools.Model
     /// Triangle
     /// </summary>
     [DataContract(Name = "Triangle")]
-    [JsonConverter(typeof(JsonSubtypes), "TriangleType")]
-    public partial class Triangle : IEquatable<Triangle>, IValidatableObject
+    public partial class Triangle : AbstractOpenAPISchema, IEquatable<Triangle>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        protected Triangle()
+        public Triangle()
         {
-            this.AdditionalProperties = new Dictionary<string, object>();
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Triangle" /> class.
-        /// </summary>
-        /// <param name="shapeType">shapeType (required).</param>
-        /// <param name="triangleType">triangleType (required).</param>
-        public Triangle(string shapeType = default(string), string triangleType = default(string))
-        {
-            // to ensure "shapeType" is required (not null)
-            this.ShapeType = shapeType ?? throw new ArgumentNullException("shapeType is a required property for Triangle and cannot be null");
-            // to ensure "triangleType" is required (not null)
-            this.TriangleType = triangleType ?? throw new ArgumentNullException("triangleType is a required property for Triangle and cannot be null");
-            this.AdditionalProperties = new Dictionary<string, object>();
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
         }
 
         /// <summary>
-        /// Gets or Sets ShapeType
+        /// Initializes a new instance of the <see cref="Triangle" /> class
+        /// with the <see cref="EquilateralTriangle" /> class
         /// </summary>
-        [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = false)]
-        public string ShapeType { get; set; }
+        /// <param name="actualInstance">An instance of EquilateralTriangle.</param>
+        public Triangle(EquilateralTriangle actualInstance)
+        {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+        }
 
         /// <summary>
-        /// Gets or Sets TriangleType
+        /// Initializes a new instance of the <see cref="Triangle" /> class
+        /// with the <see cref="IsoscelesTriangle" /> class
         /// </summary>
-        [DataMember(Name = "triangleType", IsRequired = true, EmitDefaultValue = false)]
-        public string TriangleType { get; set; }
+        /// <param name="actualInstance">An instance of IsoscelesTriangle.</param>
+        public Triangle(IsoscelesTriangle actualInstance)
+        {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+        }
 
         /// <summary>
-        /// Gets or Sets additional properties
+        /// Initializes a new instance of the <see cref="Triangle" /> class
+        /// with the <see cref="ScaleneTriangle" /> class
         /// </summary>
-        [JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperties { get; set; }
+        /// <param name="actualInstance">An instance of ScaleneTriangle.</param>
+        public Triangle(ScaleneTriangle actualInstance)
+        {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+        }
+
+
+        private Object _actualInstance;
+
+        /// <summary>
+        /// Gets or Sets ActualInstance
+        /// </summary>
+        public override Object ActualInstance
+        {
+            get
+            {
+                return _actualInstance;
+            }
+            set
+            {
+                if (value.GetType() == typeof(EquilateralTriangle))
+                {
+                    this._actualInstance = value;
+                }
+                else if (value.GetType() == typeof(IsoscelesTriangle))
+                {
+                    this._actualInstance = value;
+                }
+                else if (value.GetType() == typeof(ScaleneTriangle))
+                {
+                    this._actualInstance = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid instance found. Must be the following types: EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the actual instance of `EquilateralTriangle`. If the actual instanct is not `EquilateralTriangle`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of EquilateralTriangle</returns>
+        public EquilateralTriangle GetEquilateralTriangle()
+        {
+            return (EquilateralTriangle)this.ActualInstance;
+        }
+
+        /// <summary>
+        /// Get the actual instance of `IsoscelesTriangle`. If the actual instanct is not `IsoscelesTriangle`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of IsoscelesTriangle</returns>
+        public IsoscelesTriangle GetIsoscelesTriangle()
+        {
+            return (IsoscelesTriangle)this.ActualInstance;
+        }
+
+        /// <summary>
+        /// Get the actual instance of `ScaleneTriangle`. If the actual instanct is not `ScaleneTriangle`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of ScaleneTriangle</returns>
+        public ScaleneTriangle GetScaleneTriangle()
+        {
+            return (ScaleneTriangle)this.ActualInstance;
+        }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -81,9 +149,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Triangle {\n");
-            sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
-            sb.Append("  TriangleType: ").Append(TriangleType).Append("\n");
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            sb.Append("  ActualInstance: ").Append(this.ActualInstance).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -92,9 +158,87 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
+        }
+
+        /// <summary>
+        /// Converts the JSON string into an instance of Triangle
+        /// </summary>
+        /// <param name="jsonString">JSON string</param>
+        /// <returns>An instance of Triangle</returns>
+        public static Triangle FromJson(string jsonString)
+        {
+            Triangle newTriangle = new Triangle();
+
+            string discriminatorValue = JObject.Parse(jsonString)["triangleType"].ToString();
+            switch (discriminatorValue)
+            {
+                case "EquilateralTriangle":
+                    newTriangle.ActualInstance = JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, newTriangle._serializerSettings);
+                    return newTriangle;
+                case "IsoscelesTriangle":
+                    newTriangle.ActualInstance = JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, newTriangle._serializerSettings);
+                    return newTriangle;
+                case "ScaleneTriangle":
+                    newTriangle.ActualInstance = JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, newTriangle._serializerSettings);
+                    return newTriangle;
+                default:
+                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for Triangle. Possible values: EquilateralTriangle IsoscelesTriangle ScaleneTriangle", discriminatorValue));
+                    break;
+            }
+
+            int match = 0;
+            List<string> matchedTypes = new List<string>();
+
+            try
+            {
+                newTriangle.ActualInstance = JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, newTriangle._serializerSettings);
+                matchedTypes.Add("EquilateralTriangle");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into EquilateralTriangle: %s", jsonString, exception.ToString()));
+            }
+
+            try
+            {
+                newTriangle.ActualInstance = JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, newTriangle._serializerSettings);
+                matchedTypes.Add("IsoscelesTriangle");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into IsoscelesTriangle: %s", jsonString, exception.ToString()));
+            }
+
+            try
+            {
+                newTriangle.ActualInstance = JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, newTriangle._serializerSettings);
+                matchedTypes.Add("ScaleneTriangle");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into ScaleneTriangle: %s", jsonString, exception.ToString()));
+            }
+
+            if (match == 0)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` cannot be deserialized into any schema defined.");
+            }
+            else if (match > 1)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
+            }
+            
+            // deserialization is considered successful at this point if no exception has been thrown.
+            return newTriangle;
         }
 
         /// <summary>
@@ -126,12 +270,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ShapeType != null)
-                    hashCode = hashCode * 59 + this.ShapeType.GetHashCode();
-                if (this.TriangleType != null)
-                    hashCode = hashCode * 59 + this.TriangleType.GetHashCode();
-                if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                if (this.ActualInstance != null)
+                    hashCode = hashCode * 59 + this.ActualInstance.GetHashCode();
                 return hashCode;
             }
         }
@@ -142,16 +282,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            return this.BaseValidate(validationContext);
-        }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }

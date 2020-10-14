@@ -83,7 +83,7 @@ defmodule OpenapiPetstore.Api.Pet do
   {:ok, [%Pet{}, ...]} on success
   {:error, info} on failure
   """
-  @spec find_pets_by_status(Tesla.Env.client, list(String.t), keyword()) :: {:ok, list(OpenapiPetstore.Model.Pet.t)} | {:error, Tesla.Env.t}
+  @spec find_pets_by_status(Tesla.Env.client, list(String.t), keyword()) :: {:ok, nil} | {:ok, list(OpenapiPetstore.Model.Pet.t)} | {:error, Tesla.Env.t}
   def find_pets_by_status(connection, status, _opts \\ []) do
     %{}
     |> method(:get)
@@ -111,7 +111,7 @@ defmodule OpenapiPetstore.Api.Pet do
   {:ok, [%Pet{}, ...]} on success
   {:error, info} on failure
   """
-  @spec find_pets_by_tags(Tesla.Env.client, list(String.t), keyword()) :: {:ok, list(OpenapiPetstore.Model.Pet.t)} | {:error, Tesla.Env.t}
+  @spec find_pets_by_tags(Tesla.Env.client, list(String.t), keyword()) :: {:ok, nil} | {:ok, list(OpenapiPetstore.Model.Pet.t)} | {:error, Tesla.Env.t}
   def find_pets_by_tags(connection, tags, _opts \\ []) do
     %{}
     |> method(:get)
@@ -139,7 +139,7 @@ defmodule OpenapiPetstore.Api.Pet do
   {:ok, %OpenapiPetstore.Model.Pet{}} on success
   {:error, info} on failure
   """
-  @spec get_pet_by_id(Tesla.Env.client, integer(), keyword()) :: {:ok, OpenapiPetstore.Model.Pet.t} | {:error, Tesla.Env.t}
+  @spec get_pet_by_id(Tesla.Env.client, integer(), keyword()) :: {:ok, nil} | {:ok, OpenapiPetstore.Model.Pet.t} | {:error, Tesla.Env.t}
   def get_pet_by_id(connection, pet_id, _opts \\ []) do
     %{}
     |> method(:get)

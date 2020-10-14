@@ -62,7 +62,7 @@ impl {{{classname}}} {
     pub fn new({{#requiredVars}}{{{name}}}: {{#isNullable}}Option<{{/isNullable}}{{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}>{{/isNullable}}{{^-last}}, {{/-last}}{{/requiredVars}}) -> {{{classname}}} {
         {{{classname}}} {
             {{#vars}}
-            {{{name}}}{{^required}}{{#isListContainer}}: None{{/isListContainer}}{{#isMapContainer}}: None{{/isMapContainer}}{{^isContainer}}: None{{/isContainer}}{{/required}},
+            {{{name}}}{{^required}}{{#isListContainer}}: None{{/isListContainer}}{{#isMap}}: None{{/isMap}}{{^isContainer}}: None{{/isContainer}}{{/required}},
             {{/vars}}
         }
     }

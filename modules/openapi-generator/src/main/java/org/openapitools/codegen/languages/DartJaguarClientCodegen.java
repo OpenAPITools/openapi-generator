@@ -140,7 +140,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
         if (schema.getDefault() != null) {
             if (ModelUtils.isStringSchema(schema)) {
-                return "\"" + schema.getDefault().toString().replaceAll("\"", "\\\"") + "\"";
+                return "'" + schema.getDefault().toString().replaceAll("'", "\\'") + "'";
             }
             return schema.getDefault().toString();
         } else {
@@ -170,6 +170,13 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             //not set, use to be passed to template
             additionalProperties.put(IS_FORMAT_JSON, true);
             additionalProperties.put(IS_FORMAT_PROTO, false);
+        }
+
+        if (additionalProperties.containsKey(PUB_LIBRARY)) {
+            this.setPubLibrary((String) additionalProperties.get(PUB_LIBRARY));
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(PUB_LIBRARY, pubLibrary);
         }
 
         if (additionalProperties.containsKey(PUB_NAME)) {

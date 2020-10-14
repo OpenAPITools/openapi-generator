@@ -54,7 +54,7 @@ defmodule OpenapiPetstore.Api.Fake do
   @spec fake_outer_boolean_serialize(Tesla.Env.client, keyword()) :: {:ok, Boolean.t} | {:error, Tesla.Env.t}
   def fake_outer_boolean_serialize(connection, opts \\ []) do
     optional_params = %{
-      :"body" => :body
+      :body => :body
     }
     %{}
     |> method(:post)
@@ -84,7 +84,7 @@ defmodule OpenapiPetstore.Api.Fake do
   @spec fake_outer_composite_serialize(Tesla.Env.client, keyword()) :: {:ok, OpenapiPetstore.Model.OuterComposite.t} | {:error, Tesla.Env.t}
   def fake_outer_composite_serialize(connection, opts \\ []) do
     optional_params = %{
-      :"body" => :body
+      :body => :body
     }
     %{}
     |> method(:post)
@@ -114,7 +114,7 @@ defmodule OpenapiPetstore.Api.Fake do
   @spec fake_outer_number_serialize(Tesla.Env.client, keyword()) :: {:ok, Float.t} | {:error, Tesla.Env.t}
   def fake_outer_number_serialize(connection, opts \\ []) do
     optional_params = %{
-      :"body" => :body
+      :body => :body
     }
     %{}
     |> method(:post)
@@ -144,7 +144,7 @@ defmodule OpenapiPetstore.Api.Fake do
   @spec fake_outer_string_serialize(Tesla.Env.client, keyword()) :: {:ok, String.t} | {:error, Tesla.Env.t}
   def fake_outer_string_serialize(connection, opts \\ []) do
     optional_params = %{
-      :"body" => :body
+      :body => :body
     }
     %{}
     |> method(:post)

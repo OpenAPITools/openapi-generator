@@ -392,7 +392,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
                 for (CodegenProperty param : model.vars) {
                     param.vendorExtensions.put("x-go-base-type", param.dataType);
-                    if (!param.isNullable || param.isMapContainer || param.isListContainer ||
+                    if (!param.isNullable || param.isMap || param.isListContainer ||
                             param.isFreeFormObject || param.isAnyType) {
                         continue;
                     }
@@ -420,7 +420,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 }
 
                 // additionalProperties: true and parent
-                if (model.isAdditionalPropertiesTrue && model.parent != null && Boolean.FALSE.equals(model.isMapModel)) {
+                if (model.isAdditionalPropertiesTrue && model.parent != null && Boolean.FALSE.equals(model.isMap)) {
                     imports.add(createMapping("import", "reflect"));
                     imports.add(createMapping("import", "strings"));
                 }
@@ -463,7 +463,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         if (codegenParameter.isListContainer) { // array
             return codegenParameter.dataType + "{" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
-        } else if (codegenParameter.isMapContainer) {
+        } else if (codegenParameter.isMap) {
             return "map[string]string{ \"Key\" = \"Value\" }";
         } else if (codegenParameter.isPrimitiveType) { // primitive type
             if (codegenParameter.isString) {
@@ -503,7 +503,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         if (codegenProperty.isListContainer) { // array
             return codegenProperty.dataType + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + ")";
-        } else if (codegenProperty.isMapContainer) { // map
+        } else if (codegenProperty.isMap) { // map
             return "map[string]string{ \"Key\" = \"Value\" }";
         } else if (codegenProperty.isPrimitiveType) { // primitive type
             if (codegenProperty.isString) {

@@ -42,7 +42,6 @@ namespace Org.OpenAPITools.Test
             //Assert.IsType<SpecialModelName> (instance, "variable 'instance' is a SpecialModelName");
         }
 
-
         /// <summary>
         /// Test the property 'SpecialPropertyName'
         /// </summary>
@@ -50,7 +49,7 @@ namespace Org.OpenAPITools.Test
         public void SpecialPropertyNameTest()
         {
             SpecialModelName s = new SpecialModelName();
-            s.SpecialPropertyName = 123l;
+            s.SpecialPropertyName = 123L;
             Assert.Equal("{\"$special[property.name]\":123}", JsonConvert.SerializeObject(s));
             // comment out the following as the result is OS-dependent
             //Assert.Equal("{\"id\":123}", s.ToJson());
