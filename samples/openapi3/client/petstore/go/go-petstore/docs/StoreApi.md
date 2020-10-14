@@ -103,7 +103,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.StoreApi.GetInventory(context.Background(), ).Execute()
+    resp, r, err := api_client.StoreApi.GetInventory(context.Background()).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.GetInventory``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -233,7 +233,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.StoreApi.PlaceOrder(context.Background(), order).Execute()
+    resp, r, err := api_client.StoreApi.PlaceOrder(context.Background()).Order(order).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.PlaceOrder``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

@@ -43,7 +43,7 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
                 {{/isPrimitiveType}}
             {{/items}}
         {{/isListContainer}}
-        {{#isMapContainer}}
+        {{#isMap}}
             {{#items}}
                 {{#isPrimitiveType}}
     :type {{paramName}}: Dict[str, {{#isString}}str{{/isString}}{{#isInteger}}int{{/isInteger}}{{#isLong}}int{{/isLong}}{{#isFloat}}float{{/isFloat}}{{#isDouble}}float{{/isDouble}}{{#isByteArray}}str{{/isByteArray}}{{#isBinary}}str{{/isBinary}}{{#isBoolean}}bool{{/isBoolean}}{{#isDate}}str{{/isDate}}{{#isDateTime}}str{{/isDateTime}}]
@@ -52,7 +52,7 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
     :type {{paramName}}: dict | bytes
                 {{/isPrimitiveType}}
             {{/items}}
-        {{/isMapContainer}}
+        {{/isMap}}
     {{/allParams}}
 
     :rtype: {{#returnType}}{{.}}{{/returnType}}{{^returnType}}None{{/returnType}}
@@ -90,7 +90,7 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
                 {{/complexType}}
             {{/items}}
         {{/isListContainer}}
-        {{#isMapContainer}}
+        {{#isMap}}
             {{#items}}
                 {{#isDate}}
     if connexion.request.is_json:
@@ -105,7 +105,7 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
         {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
                 {{/complexType}}
             {{/items}}
-        {{/isMapContainer}}
+        {{/isMap}}
     {{/allParams}}
     return 'do some magic!'
 {{/operation}}

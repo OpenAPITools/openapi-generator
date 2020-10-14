@@ -166,7 +166,7 @@ public class {{classname}} {
             ExecutableValidator executableValidator = factory.getValidator().forExecutables();
 
             Object[] parameterValues = { {{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}} };
-            Method method = this.getClass().getMethod("{{operationId}}WithHttpInfo"{{#allParams}}, {{#isListContainer}}java.util.List{{/isListContainer}}{{#isMapContainer}}java.util.Map{{/isMapContainer}}{{^isListContainer}}{{^isMapContainer}}{{{dataType}}}{{/isMapContainer}}{{/isListContainer}}.class{{/allParams}});
+            Method method = this.getClass().getMethod("{{operationId}}WithHttpInfo"{{#allParams}}, {{#isListContainer}}java.util.List{{/isListContainer}}{{#isMap}}java.util.Map{{/isMap}}{{^isListContainer}}{{^isMap}}{{{dataType}}}{{/isMap}}{{/isListContainer}}.class{{/allParams}});
             Set<ConstraintViolation<{{classname}}>> violations = executableValidator.validateParameters(this, method,
                     parameterValues);
 

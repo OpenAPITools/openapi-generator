@@ -2,5 +2,5 @@ val innerFormat = Format.of[{{parent}}]
 
 Format(
   innerFormat.map(inner => {{classname}}(inner)),
-  {{classVarName}} => innerFormat.writes({{classVarName}}.{{#isArrayModel}}items{{/isArrayModel}}{{#isMapModel}}additionalProperties{{/isMapModel}}
+  {{classVarName}} => innerFormat.writes({{classVarName}}.{{#isArrayModel}}items{{/isArrayModel}}{{#isMap}}additionalProperties{{/isMap}}
 )

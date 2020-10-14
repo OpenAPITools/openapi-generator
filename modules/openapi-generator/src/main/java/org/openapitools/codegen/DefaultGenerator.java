@@ -775,7 +775,7 @@ public class DefaultGenerator implements Generator {
         bundle.put("basePathWithoutHost", basePathWithoutHost);
         bundle.put("scheme", URLPathUtils.getScheme(url, config));
         bundle.put("host", url.getHost());
-        if (url.getPort() != 80 ) {
+        if (url.getPort() != 80 && url.getPort() != 443 ) {
             bundle.put("port", url.getPort());
         }
         bundle.put("contextPath", contextPath);
@@ -1359,7 +1359,9 @@ public class DefaultGenerator implements Generator {
     private static OAuthFlow cloneOAuthFlow(OAuthFlow originFlow, List<String> operationScopes) {
         Scopes newScopes = new Scopes();
         for (String operationScope : operationScopes) {
-            newScopes.put(operationScope, originFlow.getScopes().get(operationScope));
+            if (originFlow.getScopes().containsKey(operationScope)) {
+                newScopes.put(operationScope, originFlow.getScopes().get(operationScope));
+            }
         }
 
         return new OAuthFlow()

@@ -96,9 +96,9 @@ namespace Org.OpenAPITools.Client
         private IList<IReadOnlyDictionary<string, object>> _servers;
 
         /// <summary>
-        /// HTTPSigning configuration
+        /// HttpSigning configuration
         /// </summary>
-        private HTTPSigningConfiguration _HTTPSigningConfiguration = null;
+        private HttpSigningConfiguration _HttpSigningConfiguration = null;
         #endregion Private Members
 
         #region Constructors
@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Client
                                                 "dev-petstore"
                                             }
                                         }
-                                    } 
+                                    }
                                 },
                                 {
                                     "port", new Dictionary<string, object> {
@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Client
                                                 "8080"
                                             }
                                         }
-                                    } 
+                                    }
                                 }
                             }
                         }
@@ -167,10 +167,16 @@ namespace Org.OpenAPITools.Client
                                                 "v2"
                                             }
                                         }
-                                    } 
+                                    }
                                 }
                             }
                         }
+                    }
+                },
+                {
+                    new Dictionary<string, object> {
+                        {"url", "https://127.0.0.1/no_variable"},
+                        {"description", "The local server without variables"},
                     }
                 }
             };
@@ -414,7 +420,7 @@ namespace Org.OpenAPITools.Client
         /// Gets or sets the servers.
         /// </summary>
         /// <value>The servers.</value>
-        public virtual IList<IReadOnlyDictionary<string, object>> Servers 
+        public virtual IList<IReadOnlyDictionary<string, object>> Servers
         {
             get { return _servers; }
             set
@@ -464,7 +470,7 @@ namespace Org.OpenAPITools.Client
             {
 
                 IReadOnlyDictionary<string, object> serverVariables = (IReadOnlyDictionary<string, object>)(variable.Value);
-                
+
                 if (inputVariables.ContainsKey(variable.Key))
                 {
                     if (((List<string>)serverVariables["enum_values"]).Contains(inputVariables[variable.Key]))
@@ -487,12 +493,12 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
-        /// Gets and Sets the HTTPSigningConfiuration
+        /// Gets and Sets the HttpSigningConfiuration
         /// </summary>
-        public HTTPSigningConfiguration HTTPSigningConfiguration
+        public HttpSigningConfiguration HttpSigningConfiguration
         {
-            get { return _HTTPSigningConfiguration; }
-            set { _HTTPSigningConfiguration = value; }
+            get { return _HttpSigningConfiguration; }
+            set { _HttpSigningConfiguration = value; }
         }
 
         #endregion Properties
@@ -566,9 +572,9 @@ namespace Org.OpenAPITools.Client
                 Username = second.Username ?? first.Username,
                 Password = second.Password ?? first.Password,
                 AccessToken = second.AccessToken ?? first.AccessToken,
+                HttpSigningConfiguration = second.HttpSigningConfiguration ?? first.HttpSigningConfiguration,
                 TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
-                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat,
-                HTTPSigningConfiguration = second.HTTPSigningConfiguration ?? first.HTTPSigningConfiguration
+                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat
             };
             return config;
         }

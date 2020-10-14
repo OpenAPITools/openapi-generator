@@ -183,3 +183,18 @@ char* findStrInStrList(list_t *strList, const char *str)
 
     return NULL;
 }
+
+void clear_and_free_string_list(list_t *list)
+{
+    if (!list) {
+        return;
+    }
+
+    listEntry_t *listEntry = NULL;
+    list_ForEach(listEntry, list) {
+        char *list_item = listEntry->data;
+        free(list_item);
+        list_item = NULL;
+    }
+    list_free(list);
+}

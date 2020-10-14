@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -50,7 +51,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets LengthCm
         /// </summary>
-        [DataMember(Name = "lengthCm", EmitDefaultValue = false)]
+        [DataMember(Name = "lengthCm", IsRequired = true, EmitDefaultValue = false)]
         public decimal LengthCm { get; set; }
 
         /// <summary>

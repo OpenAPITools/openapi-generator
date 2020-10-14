@@ -288,7 +288,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             if (p.items != null && p.items.example != null) {
                 p.example = "new " + p.dataType + "{" + p.items.example + "}";
             }
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(p.isMap)) {
             if (p.items != null && p.items.example != null) {
                 p.example = "new " + p.dataType + "{" + p.items.example + "}";
             }

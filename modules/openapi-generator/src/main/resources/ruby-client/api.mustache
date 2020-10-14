@@ -199,6 +199,7 @@ module {{moduleName}}
       {{/returnType}}
 
       new_options = opts.merge(
+        :operation => :"{{classname}}.{{operationId}}",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,

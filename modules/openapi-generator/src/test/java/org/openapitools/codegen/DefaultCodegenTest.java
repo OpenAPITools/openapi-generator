@@ -31,6 +31,7 @@ import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.core.models.ParseOptions;
 
 import org.openapitools.codegen.config.CodegenConfigurator;
@@ -2285,5 +2286,137 @@ public class DefaultCodegenTest {
         TestUtils.ensureDoesNotContainsFile(files, output, "src/main/java/org/openapitools/client/model/FreeFormInterface.java");
         TestUtils.ensureDoesNotContainsFile(files, output, "src/main/java/org/openapitools/client/model/FreeForm.java");
         output.deleteOnExit();
+    }
+
+    @Test
+    public void testOauthMultipleFlows() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7193.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents().getSecuritySchemes();
+        final List<CodegenSecurity> securities = codegen.fromSecurity(securitySchemes);
+
+        assertEquals(securities.size(), 2);
+        final List<String> flows = securities.stream().map(c -> c.flow).collect(Collectors.toList());
+        assertTrue(flows.containsAll(Arrays.asList("password", "application")));
+    }
+
+    @Test
+    public void testItemsPresent() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName;
+        Schema sc;
+        CodegenModel cm;
+
+        modelName = "ArrayWithValidationsInItems";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.getItems().getMaximum(), "7");
+
+        modelName = "ObjectWithValidationsInArrayPropItems";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.getVars().get(0).getItems().getMaximum(), "7");
+
+        String path;
+        Operation operation;
+        CodegenOperation co;
+
+        path = "/ref_array_with_validations_in_items/{items}";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        assertEquals(co.pathParams.get(0).getItems().getMaximum(), "7");
+        assertEquals(co.bodyParams.get(0).getItems().getMaximum(), "7");
+        assertEquals(co.responses.get(0).getItems().getMaximum(), "7");
+
+        path = "/array_with_validations_in_items/{items}";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        assertEquals(co.pathParams.get(0).getItems().getMaximum(), "7");
+        assertEquals(co.bodyParams.get(0).getItems().getMaximum(), "7");
+        assertEquals(co.responses.get(0).getItems().getMaximum(), "7");
+    }
+
+    @Test
+    public void testIsXPresence() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7651.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName;
+        Schema sc;
+        CodegenModel cm;
+
+        modelName = "DateWithValidation";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.isString, false);
+        assertEquals(cm.isDate, true);
+
+        modelName = "ObjectWithDateWithValidation";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.getVars().get(0).isString, false);
+        assertEquals(cm.getVars().get(0).isDate, true);
+
+        String path;
+        Operation operation;
+        CodegenOperation co;
+
+        path = "/ref_date_with_validation/{date}";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        assertEquals(co.pathParams.get(0).isString, false);
+        assertEquals(co.pathParams.get(0).isDate, true);
+        assertEquals(co.bodyParams.get(0).isString, false);
+        assertEquals(co.bodyParams.get(0).isDate, true);
+        assertEquals(co.responses.get(0).isString, false);
+        assertEquals(co.responses.get(0).isDate, true);
+
+        path = "/date_with_validation/{date}";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        assertEquals(co.pathParams.get(0).isString, false);
+        assertEquals(co.pathParams.get(0).isDate, true);
+        assertEquals(co.bodyParams.get(0).isString, false);
+        assertEquals(co.bodyParams.get(0).isDate, true);
+        assertEquals(co.responses.get(0).isString, false);
+        assertEquals(co.responses.get(0).isDate, true);
+
+        modelName = "DateTimeWithValidation";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.isString, false);
+        assertEquals(cm.isDateTime, true);
+
+        modelName = "ObjectWithDateTimeWithValidation";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.getVars().get(0).isString, false);
+        assertEquals(cm.getVars().get(0).isDateTime, true);
+
+        path = "/ref_date_time_with_validation/{dateTime}";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        assertEquals(co.pathParams.get(0).isString, false);
+        assertEquals(co.pathParams.get(0).isDateTime, true);
+        assertEquals(co.bodyParams.get(0).isString, false);
+        assertEquals(co.bodyParams.get(0).isDateTime, true);
+        assertEquals(co.responses.get(0).isString, false);
+        assertEquals(co.responses.get(0).isDateTime, true);
+
+        path = "/date_time_with_validation/{dateTime}";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        assertEquals(co.pathParams.get(0).isString, false);
+        assertEquals(co.pathParams.get(0).isDateTime, true);
+        assertEquals(co.bodyParams.get(0).isString, false);
+        assertEquals(co.bodyParams.get(0).isDateTime, true);
+        assertEquals(co.responses.get(0).isString, false);
+        assertEquals(co.responses.get(0).isDateTime, true);
     }
 }

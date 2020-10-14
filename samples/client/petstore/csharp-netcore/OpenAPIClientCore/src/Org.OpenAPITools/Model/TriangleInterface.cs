@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -49,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets TriangleType
         /// </summary>
-        [DataMember(Name = "triangleType", EmitDefaultValue = false)]
+        [DataMember(Name = "triangleType", IsRequired = true, EmitDefaultValue = false)]
         public string TriangleType { get; set; }
 
         /// <summary>

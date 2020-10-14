@@ -599,7 +599,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             example = "NULL";
         } else if (Boolean.TRUE.equals(p.isListContainer)) {
             example = "array(" + example + ")";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(p.isMap)) {
             example = "array('key' => " + example + ")";
         }
 

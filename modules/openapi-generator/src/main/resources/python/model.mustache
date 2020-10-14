@@ -127,7 +127,7 @@ class {{classname}}(object):
                         ", ".join(map(str, allowed_values)))
             )
 {{/isListContainer}}
-{{#isMapContainer}}
+{{#isMap}}
         if (self.local_vars_configuration.client_side_validation and
                 not set({{{name}}}.keys()).issubset(set(allowed_values))):  # noqa: E501
             raise ValueError(
@@ -135,7 +135,7 @@ class {{classname}}(object):
                 .format(", ".join(map(str, set({{{name}}}.keys()) - set(allowed_values))),  # noqa: E501
                         ", ".join(map(str, allowed_values)))
             )
-{{/isMapContainer}}
+{{/isMap}}
 {{/isContainer}}
 {{^isContainer}}
         allowed_values = [{{#isNullable}}None,{{/isNullable}}{{#allowableValues}}{{#values}}{{#isString}}"{{/isString}}{{{this}}}{{#isString}}"{{/isString}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]  # noqa: E501

@@ -122,7 +122,7 @@ class ApiClient(object):
     def __call_api(
             self, resource_path, method, path_params=None,
             query_params=None, header_params=None, body=None, post_params=None,
-            files=None, response_type=None, auth_settings=None,
+            files=None, response_types_map=None, auth_settings=None,
             _return_http_data_only=None, collection_formats=None,
             _preload_content=True, _request_timeout=None, _host=None,
             _request_auth=None):
@@ -200,6 +200,8 @@ class ApiClient(object):
 
         if not _preload_content:
             raise tornado.gen.Return(return_data)
+        
+        response_type = response_types_map.get(response_data.status, None)
 
         if six.PY3 and response_type not in ["file", "bytes"]:
             match = None
@@ -209,6 +211,7 @@ class ApiClient(object):
             response_data.data = response_data.data.decode(encoding)
 
         # deserialize response data
+        
         if response_type:
             return_data = self.deserialize(response_data, response_type)
         else:
@@ -326,10 +329,10 @@ class ApiClient(object):
     def call_api(self, resource_path, method,
                  path_params=None, query_params=None, header_params=None,
                  body=None, post_params=None, files=None,
-                 response_type=None, auth_settings=None, async_req=None,
-                 _return_http_data_only=None, collection_formats=None,
-                 _preload_content=True, _request_timeout=None, _host=None,
-                 _request_auth=None):
+                 response_types_map=None, auth_settings=None,
+                 async_req=None, _return_http_data_only=None,
+                 collection_formats=None,_preload_content=True,
+                  _request_timeout=None, _host=None, _request_auth=None):
         """Makes the HTTP request (synchronous) and returns deserialized data.
 
         To make an async_req request, set the async_req parameter.
@@ -374,7 +377,7 @@ class ApiClient(object):
             return self.__call_api(resource_path, method,
                                    path_params, query_params, header_params,
                                    body, post_params, files,
-                                   response_type, auth_settings,
+                                   response_types_map, auth_settings,
                                    _return_http_data_only, collection_formats,
                                    _preload_content, _request_timeout, _host,
                                    _request_auth)
@@ -384,7 +387,7 @@ class ApiClient(object):
                                                        query_params,
                                                        header_params, body,
                                                        post_params, files,
-                                                       response_type,
+                                                       response_types_map,
                                                        auth_settings,
                                                        _return_http_data_only,
                                                        collection_formats,

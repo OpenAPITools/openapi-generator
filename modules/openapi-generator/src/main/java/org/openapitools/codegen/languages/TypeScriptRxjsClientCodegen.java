@@ -365,7 +365,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
-            this.isMapContainer = o.isMapContainer;
+            this.isMap = o.isMap;
             this.isListContainer = o.isListContainer;
             this.isMultipart = o.isMultipart;
             this.hasMore = o.hasMore;

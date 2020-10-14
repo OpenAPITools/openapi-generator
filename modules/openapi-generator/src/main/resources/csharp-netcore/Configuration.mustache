@@ -92,11 +92,13 @@ namespace {{packageName}}.Client
         /// <value>The servers</value>
         private IList<IReadOnlyDictionary<string, object>> _servers;
         {{/servers.0}}
+        {{#hasHttpSignatureMethods}}
 
         /// <summary>
-        /// HTTPSigning configuration
+        /// HttpSigning configuration
         /// </summary>
-        private HTTPSigningConfiguration _HTTPSigningConfiguration = null;
+        private HttpSigningConfiguration _HttpSigningConfiguration = null;
+        {{/hasHttpSignatureMethods}}
         #endregion Private Members
 
         #region Constructors
@@ -141,7 +143,7 @@ namespace {{packageName}}.Client
                                         }
                                         {{/-last}}
                                         {{/enumValues}}
-                                    } 
+                                    }
                                 }{{^-last}},{{/-last}}
                         {{#-last}}
                             }
@@ -395,7 +397,7 @@ namespace {{packageName}}.Client
         /// Gets or sets the servers.
         /// </summary>
         /// <value>The servers.</value>
-        public virtual IList<IReadOnlyDictionary<string, object>> Servers 
+        public virtual IList<IReadOnlyDictionary<string, object>> Servers
         {
             get { return _servers; }
             set
@@ -445,7 +447,7 @@ namespace {{packageName}}.Client
             {
 
                 IReadOnlyDictionary<string, object> serverVariables = (IReadOnlyDictionary<string, object>)(variable.Value);
-                
+
                 if (inputVariables.ContainsKey(variable.Key))
                 {
                     if (((List<string>)serverVariables["enum_values"]).Contains(inputVariables[variable.Key]))
@@ -467,15 +469,17 @@ namespace {{packageName}}.Client
             return url;
         }
         {{/servers.0}}
+        {{#hasHttpSignatureMethods}}
 
         /// <summary>
-        /// Gets and Sets the HTTPSigningConfiuration
+        /// Gets and Sets the HttpSigningConfiuration
         /// </summary>
-        public HTTPSigningConfiguration HTTPSigningConfiguration
+        public HttpSigningConfiguration HttpSigningConfiguration
         {
-            get { return _HTTPSigningConfiguration; }
-            set { _HTTPSigningConfiguration = value; }
+            get { return _HttpSigningConfiguration; }
+            set { _HttpSigningConfiguration = value; }
         }
+        {{/hasHttpSignatureMethods}}
 
         #endregion Properties
 
@@ -553,9 +557,11 @@ namespace {{packageName}}.Client
                 Username = second.Username ?? first.Username,
                 Password = second.Password ?? first.Password,
                 AccessToken = second.AccessToken ?? first.AccessToken,
+                {{#hasHttpSignatureMethods}}
+                HttpSigningConfiguration = second.HttpSigningConfiguration ?? first.HttpSigningConfiguration,
+                {{/hasHttpSignatureMethods}}
                 TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
-                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat,
-                HTTPSigningConfiguration = second.HTTPSigningConfiguration ?? first.HTTPSigningConfiguration
+                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat
             };
             return config;
         }

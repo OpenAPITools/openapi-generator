@@ -518,7 +518,7 @@ public class CodegenConfigurator {
         SwaggerParseResult result = new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
 
         // TODO: Move custom validations to a separate type as part of a "Workflow"
-        Set<String> validationMessages = new HashSet<>(result.getMessages());
+        Set<String> validationMessages = new HashSet<>(null != result.getMessages() ? result.getMessages() : new ArrayList<>());
         OpenAPI specification = result.getOpenAPI();
         // TODO: The line below could be removed when at least one of the issue below has been resolved.
         // https://github.com/swagger-api/swagger-parser/issues/1369
