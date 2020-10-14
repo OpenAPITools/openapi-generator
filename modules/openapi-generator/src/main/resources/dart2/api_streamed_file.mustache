@@ -12,8 +12,7 @@ typedef StreamedFileErrorHandler = void Function(dynamic e, [StackTrace trace]);
 
 /// A helper class to upload files using an efficient [Stream].
 class StreamedFile {
-  const StreamedFile({
-    @required this.filePath,
+  const StreamedFile(this.filePath, {
     Map<String, String> headers,
     this.onProgress,
     this.onError,
