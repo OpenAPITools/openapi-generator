@@ -76,7 +76,7 @@ Future<Response> _uploadStreamedFile(
     throw ApiException(HttpStatus.badRequest, 'File not found: ${streamedFile.filePath}');
   }
   final totalBytes = await file.length();
-  if (totalBytes < 0) {
+  if (totalBytes <= 0) {
     throw ApiException(HttpStatus.badRequest, 'File is invalid: ${streamedFile.filePath}');
   }
   final request = StreamedRequest(method, Uri.parse(url));
