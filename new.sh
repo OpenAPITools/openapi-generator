@@ -204,7 +204,7 @@ echo "Creating bin/configs/${gen_name_camel}-${gen_type}-petstore-new.yaml"
 cat > "${root}/bin/configs/${gen_name_camel}-${gen_type}-petstore-new.yaml"<<EOF
 generatorName: ${gen_name_camel}
 outputDir: samples/${gen_type}/petstore/${gen_name_camel_path}
-inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/${gen_name_camel}
 additionalProperties:
   hideGenerationTimestamp: "true"

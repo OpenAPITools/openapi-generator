@@ -393,6 +393,12 @@ openapi-generator-cli version
 ```
 
 <!-- RELEASE_VERSION -->
+To use a specific version of "openapi-generator-cli"
+
+```sh
+openapi-generator-cli version-manager set 4.3.1
+```
+
 Or install it as dev-dependency:
 
 ```sh
