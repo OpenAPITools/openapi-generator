@@ -32,7 +32,7 @@ test {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0-RC2"
+    compile "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0"
     compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.0"
     compile "com.squareup.okhttp3:logging-interceptor:4.4.0"
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
