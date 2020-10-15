@@ -31,14 +31,17 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## LANGUAGE PRIMITIVES
 
 <ul class="column-ul">
-<li>Boolean</li>
-<li>Character</li>
-<li>Integer</li>
+<li>DateTime</li>
+<li>binary</li>
 <li>boolean</li>
+<li>date</li>
 <li>double</li>
 <li>float</li>
 <li>integer</li>
 <li>long</li>
+<li>number</li>
+<li>object</li>
+<li>string</li>
 </ul>
 
 ## RESERVED WORDS
@@ -210,8 +213,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ### Security Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|BasicAuth|✓|OAS2,OAS3
-|ApiKey|✓|OAS2,OAS3
+|BasicAuth|✗|OAS2,OAS3
+|ApiKey|✗|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
 |BearerToken|✗|OAS3
 |OAuth2_Implicit|✗|OAS2,OAS3

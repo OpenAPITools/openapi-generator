@@ -39,10 +39,15 @@ package body {{package}}.Clients is
       URI.Add_Param ("{{baseName}}", {{paramName}});{{/isDateTime}}{{/isQueryParam}}{{/queryParams}}
       URI.Set_Path ("{{path}}");{{#pathParams}}
       URI.Set_Path_Param ("{{baseName}}", {{^isString}}Swagger.To_String ({{/isString}}{{paramName}}{{^isString}}){{/isString}});{{/pathParams}}
-      Client.Call (Swagger.Clients.{{httpMethod}}, URI{{#hasBodyParam}}, Req{{/hasBodyParam}}{{#hasFormParams}}, Req{{/hasFormParams}}{{#returnType}}, Reply{{/returnType}});{{#returnType}}{{#vendorExtensions.x-codegen-response.isString}}
-      Swagger.Streams.Deserialize (Reply, "", Result);{{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}{{#returnTypeIsPrimitive}}
-      Swagger.Streams.Deserialize (Reply, "", Result);{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}
-      {{package}}.Models.Deserialize (Reply, "", Result);{{/returnTypeIsPrimitive}}{{/vendorExtensions.x-codegen-response.isString}}{{/returnType}}
+      Client.Call (Swagger.Clients.{{httpMethod}}, URI{{#hasBodyParam}}, Req{{/hasBodyParam}}{{#hasFormParams}}, Req{{/hasFormParams}}{{#returnType}}, Reply{{/returnType}});
+      {{#returnType}}
+      {{^vendorExtensions.x-is-model-type}}
+      Swagger.Streams.Deserialize (Reply, "", Result);
+      {{/vendorExtensions.x-is-model-type}}
+      {{#vendorExtensions.x-is-model-type}}
+      {{package}}.Models.Deserialize (Reply, "", Result);
+      {{/vendorExtensions.x-is-model-type}}
+      {{/returnType}}
    end {{operationId}};
 {{/operation}}
 {{/operations}}
