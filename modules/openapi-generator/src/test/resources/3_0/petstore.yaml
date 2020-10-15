@@ -94,6 +94,14 @@ paths:
                 - pending
                 - sold
               default: available
+        - name: booltest
+          in: query
+          description: test for boolean parse generation
+          required: true
+          schema:
+            type: boolean
+            default: true
+            example: true
       responses:
         '200':
           description: successful operation
