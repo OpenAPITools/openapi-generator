@@ -9,13 +9,6 @@
 
 part of openapi.api;
 
-class QueryParam {
-  QueryParam(this.name, this.value);
-
-  String name;
-  String value;
-}
-
 class ApiClient {
   ApiClient({this.basePath = 'http://petstore.swagger.io/v2'}) {
     // Setup authentications (key: authentication name, value: authentication).
@@ -24,6 +17,8 @@ class ApiClient {
   }
 
   final String basePath;
+  final _defaultHeaderMap = <String, String>{};
+  final _authentications = <String, Authentication>{};
 
   var _client = Client();
 
@@ -42,8 +37,8 @@ class ApiClient {
     _client = newClient;
   }
 
-  final _defaultHeaderMap = <String, String>{};
-  final _authentications = <String, Authentication>{};
+  /// Returns a copy of the default header [Map].
+  Map<String, String> get defaultHeaderMap => <String, String>{}..addAll(_defaultHeaderMap);
 
   void addDefaultHeader(String key, String value) {
      _defaultHeaderMap[key] = value;
@@ -77,21 +72,14 @@ class ApiClient {
     String nullableContentType,
     List<String> authNames,
   ) async {
-    _updateParamsForAuth(authNames, queryParams, headerParams);
-
+    updateParamsForAuth(authNames, queryParams, headerParams);
     headerParams.addAll(_defaultHeaderMap);
-
-    final ps = queryParams
-      .where((p) => p.value != null)
-      .map((p) => '${p.name}=${Uri.encodeQueryComponent(p.value)}');
-
-    final queryString = ps.isNotEmpty ? '?' + ps.join('&') : '';
-
-    final url = '$basePath$path$queryString';
-
     if (nullableContentType != null) {
       headerParams['Content-Type'] = nullableContentType;
     }
+
+    final queryString = queryParamsToString(queryParams);
+    final url = '$basePath$path$queryString';
 
     if (body is MultipartRequest) {
       final request = MultipartRequest(method, Uri.parse(url));
@@ -110,21 +98,27 @@ class ApiClient {
 
     try {
       switch(method) {
-        case 'POST': return await _client.post(url, headers: nullableHeaderParams, body: msgBody);
-        case 'PUT': return await _client.put(url, headers: nullableHeaderParams, body: msgBody);
-        case 'DELETE': return await _client.delete(url, headers: nullableHeaderParams);
-        case 'PATCH': return await _client.patch(url, headers: nullableHeaderParams, body: msgBody);
-        case 'HEAD': return await _client.head(url, headers: nullableHeaderParams);
-        case 'GET': return await _client.get(url, headers: nullableHeaderParams);
+        case 'POST':
+           return await _client.post(url, headers: nullableHeaderParams, body: msgBody);
+        case 'PUT':
+           return await _client.put(url, headers: nullableHeaderParams, body: msgBody);
+        case 'DELETE':
+           return await _client.delete(url, headers: nullableHeaderParams);
+        case 'PATCH':
+           return await _client.patch(url, headers: nullableHeaderParams, body: msgBody);
+        case 'HEAD':
+           return await _client.head(url, headers: nullableHeaderParams);
+        case 'GET':
+           return await _client.get(url, headers: nullableHeaderParams);
       }
-    } on SocketException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'Socket operation failed: $method $path', e, trace);
-    } on TlsException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'TLS/SSL communication failed: $method $path', e, trace);
-    } on IOException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'I/O operation failed: $method $path', e, trace);
-    } on Exception catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'Exception occurred: $method $path', e, trace);
+    } on SocketException catch (err, trace) {
+      throw ApiException.withInner(HttpStatus.badRequest, 'Socket operation failed: $method $path', err, trace);
+    } on TlsException catch (err, trace) {
+      throw ApiException.withInner(HttpStatus.badRequest, 'TLS/SSL communication failed: $method $path', err, trace);
+    } on IOException catch (err, trace) {
+      throw ApiException.withInner(HttpStatus.badRequest, 'I/O operation failed: $method $path', err, trace);
+    } on Exception catch (err, trace) {
+      throw ApiException.withInner(HttpStatus.badRequest, 'Exception occurred: $method $path', err, trace);
     }
 
     throw ApiException(HttpStatus.badRequest, 'Invalid HTTP operation: $method $path');
@@ -175,15 +169,21 @@ class ApiClient {
           }
           break;
       }
-    } on Exception catch (e, stack) {
-      throw ApiException.withInner(HttpStatus.internalServerError, 'Exception during deserialization.', e, stack);
+    } on Exception catch (err, stack) {
+      throw ApiException.withInner(HttpStatus.internalServerError, 'Exception during deserialization.', err, stack);
     }
     throw ApiException(HttpStatus.internalServerError, 'Could not find a suitable class for deserialization');
   }
 
   /// Update query and header parameters based on authentication settings.
-  /// @param authNames The authentications to apply
-  void _updateParamsForAuth(
+  ///
+  /// Parameters:
+  ///
+  /// * [authNames] the authentications to apply
+  /// * [queryParams] the query parameters [List] to update
+  /// * [headerParams] the query parameters [Map] to update
+  @protected
+  void updateParamsForAuth(
     List<String> authNames,
     List<QueryParam> queryParams,
     Map<String, String> headerParams,

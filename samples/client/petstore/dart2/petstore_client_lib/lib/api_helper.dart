@@ -9,6 +9,21 @@
 
 part of openapi.api;
 
+class QueryParam {
+  const QueryParam(this.name, this.value);
+
+  final String name;
+  final String value;
+}
+
+String queryParamsToString(Iterable<QueryParam> queryParams) {
+  final filteredParams = queryParams
+    .where((p) => p.value != null)
+    .map((p) => '${Uri.encodeQueryComponent(p.name)}=${Uri.encodeQueryComponent(p.value)}');
+
+  return filteredParams.isNotEmpty ? '?' + filteredParams.join('&') : '';
+}
+
 // Ported from the Java version.
 Iterable<QueryParam> _convertParametersForCollectionFormat(
   String collectionFormat,
