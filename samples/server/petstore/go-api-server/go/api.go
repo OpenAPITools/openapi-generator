@@ -61,7 +61,7 @@ type UserApiRouter interface {
 type PetApiServicer interface { 
 	AddPet(context.Context, Pet) (ImplResponse, error)
 	DeletePet(context.Context, int64, string) (ImplResponse, error)
-	FindPetsByStatus(context.Context, []string) (ImplResponse, error)
+	FindPetsByStatus(context.Context, []string, bool) (ImplResponse, error)
 	FindPetsByTags(context.Context, []string) (ImplResponse, error)
 	GetPetById(context.Context, int64) (ImplResponse, error)
 	UpdatePet(context.Context, Pet) (ImplResponse, error)

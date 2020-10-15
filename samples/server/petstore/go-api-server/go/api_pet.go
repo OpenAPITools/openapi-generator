@@ -124,7 +124,13 @@ func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Request) { 
 	query := r.URL.Query()
 	status := strings.Split(query.Get("status"), ",")
-	result, err := c.service.FindPetsByStatus(r.Context(), status)
+	booltest, err := parseBoolParameter(query.Get("booltest"))
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	
+	result, err := c.service.FindPetsByStatus(r.Context(), status, booltest)
 	//If an error occured, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, w)

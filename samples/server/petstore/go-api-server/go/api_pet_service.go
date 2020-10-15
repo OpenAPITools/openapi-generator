@@ -53,7 +53,7 @@ func (s *PetApiService) DeletePet(ctx context.Context, petId int64, apiKey strin
 }
 
 // FindPetsByStatus - Finds Pets by status
-func (s *PetApiService) FindPetsByStatus(ctx context.Context, status []string) (ImplResponse, error) {
+func (s *PetApiService) FindPetsByStatus(ctx context.Context, status []string, booltest bool) (ImplResponse, error) {
 	// TODO - update FindPetsByStatus with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
