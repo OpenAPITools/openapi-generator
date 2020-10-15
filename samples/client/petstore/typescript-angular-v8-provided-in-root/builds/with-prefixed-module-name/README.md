@@ -54,12 +54,12 @@ In your Angular project:
 
 ```
 // without configuring providers
-import { ApiModule } from '@openapitools/typescript-angular-petstore';
+import { PetStoreApiModule } from '@openapitools/typescript-angular-petstore';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     imports: [
-        ApiModule,
+        PetStoreApiModule,
         // make sure to import the HttpClientModule in the AppModule only,
         // see https://github.com/angular/angular/issues/20575
         HttpClientModule
@@ -73,7 +73,7 @@ export class AppModule {}
 
 ```
 // configuring providers
-import { ApiModule, PetStoreConfiguration, PetStoreConfigurationParameters } from '@openapitools/typescript-angular-petstore';
+import { PetStoreApiModule, PetStoreConfiguration, PetStoreConfigurationParameters } from '@openapitools/typescript-angular-petstore';
 
 export function apiConfigFactory (): PetStoreConfiguration => {
   const params: PetStoreConfigurationParameters = {
@@ -83,7 +83,7 @@ export function apiConfigFactory (): PetStoreConfiguration => {
 }
 
 @NgModule({
-    imports: [ ApiModule.forRoot(apiConfigFactory) ],
+    imports: [ PetStoreApiModule.forRoot(apiConfigFactory) ],
     declarations: [ AppComponent ],
     providers: [],
     bootstrap: [ AppComponent ]
@@ -93,10 +93,10 @@ export class AppModule {}
 
 ```
 // configuring providers with an authentication service that manages your access tokens
-import { ApiModule, PetStoreConfiguration } from '@openapitools/typescript-angular-petstore';
+import { PetStoreApiModule, PetStoreConfiguration } from '@openapitools/typescript-angular-petstore';
 
 @NgModule({
-    imports: [ ApiModule ],
+    imports: [ PetStoreApiModule ],
     declarations: [ AppComponent ],
     providers: [
       {
@@ -124,21 +124,21 @@ export class AppComponent {
 }
 ```
 
-Note: The ApiModule is restricted to being instantiated once app wide.
+Note: The PetStoreApiModule is restricted to being instantiated once app wide.
 This is to ensure that all services are treated as singletons.
 
-#### Using multiple OpenAPI files / APIs / ApiModules
-In order to use multiple `ApiModules` generated from different OpenAPI files,
+#### Using multiple OpenAPI files / APIs / PetStoreApiModules
+In order to use multiple `PetStoreApiModules` generated from different OpenAPI files,
 you can create an alias name when importing the modules
 in order to avoid naming conflicts:
 ```
-import { ApiModule } from 'my-api-path';
-import { ApiModule as OtherApiModule } from 'my-other-api-path';
+import { PetStoreApiModule } from 'my-api-path';
+import { PetStoreApiModule as OtherApiModule } from 'my-other-api-path';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
-    ApiModule,
+    PetStoreApiModule,
     OtherApiModule,
     // make sure to import the HttpClientModule in the AppModule only,
     // see https://github.com/angular/angular/issues/20575
