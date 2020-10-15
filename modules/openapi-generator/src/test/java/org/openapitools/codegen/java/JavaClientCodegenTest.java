@@ -435,7 +435,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 28);
+        Assert.assertEquals(files.size(), 31);
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
@@ -471,7 +471,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 31);
+        Assert.assertEquals(files.size(), 34);
         validateJavaSourceFiles(files);
 
         Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/PingApi.java");

@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -23,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * ModelApiResponse
@@ -32,7 +36,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ModelApiResponse.JSON_PROPERTY_TYPE,
   ModelApiResponse.JSON_PROPERTY_MESSAGE
 })
-@JsonTypeName("ApiResponse")
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelApiResponse {
   public static final String JSON_PROPERTY_CODE = "code";
@@ -46,7 +49,6 @@ public class ModelApiResponse {
 
 
   public ModelApiResponse code(Integer code) {
-    
     this.code = code;
     return this;
   }
@@ -71,7 +73,6 @@ public class ModelApiResponse {
 
 
   public ModelApiResponse type(String type) {
-    
     this.type = type;
     return this;
   }
@@ -96,7 +97,6 @@ public class ModelApiResponse {
 
 
   public ModelApiResponse message(String message) {
-    
     this.message = message;
     return this;
   }
@@ -120,6 +120,9 @@ public class ModelApiResponse {
   }
 
 
+  /**
+   * Return true if this ApiResponse object is equal to o.
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -138,7 +141,6 @@ public class ModelApiResponse {
   public int hashCode() {
     return Objects.hash(code, type, message);
   }
-
 
   @Override
   public String toString() {
