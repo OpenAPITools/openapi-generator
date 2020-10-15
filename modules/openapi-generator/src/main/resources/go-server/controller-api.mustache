@@ -32,66 +32,112 @@ func (c *{{classname}}Controller) Routes() Routes {
 }{{#operations}}{{#operation}}
 
 // {{nickname}} - {{{summary}}}
-func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Request) { {{#hasFormParams}}
+func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Request) {
+	{{#hasFormParams}}
 	err := r.ParseForm()
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	{{/hasFormParams}}{{#hasPathParams}}
-	params := mux.Vars(r){{/hasPathParams}}{{#hasQueryParams}}
-	query := r.URL.Query(){{/hasQueryParams}}{{#allParams}}{{#isPathParam}}{{#isLong}}
+	{{/hasFormParams}}
+	{{#hasPathParams}}
+	params := mux.Vars(r)
+	{{/hasPathParams}}
+	{{#hasQueryParams}}
+	query := r.URL.Query()
+	{{/hasQueryParams}}
+	{{#allParams}}
+	{{#isPathParam}}
+	{{#isLong}}
 	{{paramName}}, err := parseInt64Parameter(params["{{baseName}}"])
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
-	}{{/isLong}}{{#isInteger}}
+	}
+    {{/isLong}}
+	{{#isInteger}}
 	{{paramName}}, err := parseInt32Parameter(params["{{baseName}}"])
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	{{/isInteger}}{{^isLong}}{{^isInteger}}
-	{{paramName}} := params["{{baseName}}"]{{/isInteger}}{{/isLong}}{{/isPathParam}}{{#isQueryParam}}{{#isLong}}
+	{{/isInteger}}
+	{{^isLong}}
+	{{^isInteger}}
+	{{paramName}} := params["{{baseName}}"]
+	{{/isInteger}}{{/isLong}}
+	{{/isPathParam}}
+	{{#isQueryParam}}
+	{{#isLong}}
 	{{paramName}}, err := parseInt64Parameter(query.Get("{{baseName}}"))
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	{{/isLong}}{{#isInteger}}
+	{{/isLong}}
+	{{#isInteger}}
 	{{paramName}}, err := parseInt32Parameter(query.Get("{{baseName}}"))
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	{{/isInteger}}{{^isLong}}{{^isInteger}}
-	{{paramName}} := {{#isArray}}strings.Split({{/isArray}}query.Get("{{baseName}}"){{#isArray}}, ","){{/isArray}}{{/isInteger}}{{/isLong}}{{/isQueryParam}}{{#isFormParam}}{{#isFile}}
-	{{#isArray}}{{paramName}}, err := ReadFormFilesToTempFiles(r, "{{baseName}}"){{/isArray}}{{^isArray}}{{paramName}}, err := ReadFormFileToTempFile(r, "{{baseName}}"){{/isArray}}
+	{{/isInteger}}
+	{{#isBoolean}}
+	{{paramName}}, err := parseBoolParameter(query.Get("{{paramName}}"))
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	{{/isBoolean}}
+	{{^isLong}}
+	{{^isInteger}}
+	{{^isBoolean}}
+	{{paramName}} := {{#isArray}}strings.Split({{/isArray}}query.Get("{{paramName}}"){{#isArray}}, ","){{/isArray}}
+	{{/isBoolean}}
+	{{/isInteger}}
+	{{/isLong}}
+	{{/isQueryParam}}
+	{{#isFormParam}}
+	{{#isFile}}
+	{{#isArray}}
+	{{paramName}}, err := ReadFormFilesToTempFiles(r, "{{baseName}}"){{/isArray}}{{^isArray}}{{paramName}}, err := ReadFormFileToTempFile(r, "{{baseName}}")
+	{{/isArray}}
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	{{/isFile}}{{#isLong}}
+	{{/isFile}}
+	{{#isLong}}
 	{{paramName}}, err := parseInt64Parameter( r.FormValue("{{baseName}}"))
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	{{/isLong}}{{#isInteger}}
+	{{/isLong}}
+	{{#isInteger}}
 	{{paramName}}, err := parseInt32Parameter( r.FormValue("{{baseName}}"))
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	{{/isInteger}}{{^isFile}}{{^isLong}}
-	{{paramName}} := r.FormValue("{{baseName}}"){{/isLong}}{{/isFile}}{{/isFormParam}}{{#isHeaderParam}}
-	{{paramName}} := r.Header.Get("{{baseName}}"){{/isHeaderParam}}{{#isBodyParam}}
+	{{/isInteger}}
+	{{^isFile}}
+	{{^isLong}}
+	{{paramName}} := r.FormValue("{{baseName}}")
+	{{/isLong}}
+	{{/isFile}}
+	{{/isFormParam}}
+	{{#isHeaderParam}}
+	{{paramName}} := r.Header.Get("{{baseName}}")
+	{{/isHeaderParam}}
+	{{#isBodyParam}}
 	{{paramName}} := &{{dataType}}{}
 	if err := json.NewDecoder(r.Body).Decode(&{{paramName}}); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	{{/isBodyParam}}{{/allParams}}
+	{{/isBodyParam}}
+	{{/allParams}}
 	result, err := c.service.{{nickname}}(r.Context(){{#allParams}}, {{#isBodyParam}}*{{/isBodyParam}}{{paramName}}{{/allParams}})
 	//If an error occured, encode the error with the status code
 	if err != nil {

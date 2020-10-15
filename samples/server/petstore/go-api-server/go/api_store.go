@@ -58,9 +58,10 @@ func (c *StoreApiController) Routes() Routes {
 }
 
 // DeleteOrder - Delete purchase order by ID
-func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request) { 
+func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	orderId := params["orderId"]
+	
 	result, err := c.service.DeleteOrder(r.Context(), orderId)
 	//If an error occured, encode the error with the status code
 	if err != nil {
@@ -73,7 +74,7 @@ func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request)
 }
 
 // GetInventory - Returns pet inventories by status
-func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request) { 
+func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.GetInventory(r.Context())
 	//If an error occured, encode the error with the status code
 	if err != nil {
@@ -86,13 +87,14 @@ func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request
 }
 
 // GetOrderById - Find purchase order by ID
-func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request) { 
+func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	orderId, err := parseInt64Parameter(params["orderId"])
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+
 	result, err := c.service.GetOrderById(r.Context(), orderId)
 	//If an error occured, encode the error with the status code
 	if err != nil {
@@ -105,13 +107,12 @@ func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request
 }
 
 // PlaceOrder - Place an order for a pet
-func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) { 
+func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) {
 	order := &Order{}
 	if err := json.NewDecoder(r.Body).Decode(&order); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	
 	result, err := c.service.PlaceOrder(r.Context(), *order)
 	//If an error occured, encode the error with the status code
 	if err != nil {
