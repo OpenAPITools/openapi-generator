@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -1296,11 +1297,11 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 if (testDataCache.root().isDirty()) {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     testDataCache.root().flush(out);
-                    String testDataJson = new String(out.toByteArray(), "UTF-8");
+                    String testDataJson = new String(out.toByteArray(), StandardCharsets.UTF_8);
                     objs.put("test-data.json", testDataJson);
                     supportingFiles.add(new SupportingFile("testData.mustache", testDataFile.getAbsolutePath()));
                 }
-            } catch (CacheException | UnsupportedEncodingException e) {
+            } catch (CacheException e) {
                 LOGGER.error("Error writing JSON test data file " + testDataFile, e);
             }
 
@@ -1308,12 +1309,12 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 if (testDataControlCache.root().isDirty()) {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     testDataControlCache.root().flush(out);
-                    String testDataControlJson = new String(out.toByteArray(), "UTF-8");
+                    String testDataControlJson = new String(out.toByteArray(), StandardCharsets.UTF_8);
                     objs.put("test-data-control.json", testDataControlJson);
                     supportingFiles
                             .add(new SupportingFile("testDataControl.mustache", testDataControlFile.getAbsolutePath()));
                 }
-            } catch (CacheException | UnsupportedEncodingException e) {
+            } catch (CacheException e) {
                 LOGGER.error("Error writing JSON test data control file " + testDataControlFile, e);
             }
         }

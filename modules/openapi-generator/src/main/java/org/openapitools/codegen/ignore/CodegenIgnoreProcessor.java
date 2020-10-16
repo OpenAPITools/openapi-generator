@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -107,7 +108,7 @@ public class CodegenIgnoreProcessor {
     }
 
     void loadCodegenRules(final File codegenIgnore) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(codegenIgnore), Charset.forName("UTF-8")))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(codegenIgnore), StandardCharsets.UTF_8))) {
             String line;
 
             // NOTE: Comments that start with a : (e.g. //:) are pulled from git documentation for .gitignore
