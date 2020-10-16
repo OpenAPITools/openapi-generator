@@ -265,7 +265,6 @@ module Petstore
     #
     # @see Configuration#temp_folder_path
     def download_file(request)
-      tempfile = nil
       encoding = nil
       request.headers do |response|
         content_disposition = response.headers['Content-Disposition']
@@ -277,8 +276,11 @@ module Petstore
         end
         prefix = prefix + '-' unless prefix.end_with?('-')
         encoding = response.body.encoding
-        tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
-        @tempfile = tempfile
+        @tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
+      end
+
+      if @tempfile.nil?
+        @tempfile = Tempfile.open('download-', @config.temp_folder_path)
       end
 
       # handle streaming Responses
