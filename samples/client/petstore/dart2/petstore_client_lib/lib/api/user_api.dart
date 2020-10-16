@@ -48,7 +48,7 @@ class UserApi {
       }
     }
 
-    return await apiClient.streamAPI(
+    return apiClient.streamAPI(
       path,
       'POST',
       queryParams,
@@ -115,7 +115,7 @@ class UserApi {
       }
     }
 
-    return await apiClient.streamAPI(
+    return apiClient.streamAPI(
       path,
       'POST',
       queryParams,
@@ -180,7 +180,7 @@ class UserApi {
       }
     }
 
-    return await apiClient.streamAPI(
+    return apiClient.streamAPI(
       path,
       'POST',
       queryParams,
@@ -246,7 +246,7 @@ class UserApi {
       }
     }
 
-    return await apiClient.streamAPI(
+    return apiClient.streamAPI(
       path,
       'DELETE',
       queryParams,
@@ -314,7 +314,7 @@ class UserApi {
       }
     }
 
-    return await apiClient.streamAPI(
+    return apiClient.streamAPI(
       path,
       'GET',
       queryParams,
@@ -391,7 +391,7 @@ class UserApi {
       }
     }
 
-    return await apiClient.streamAPI(
+    return apiClient.streamAPI(
       path,
       'GET',
       queryParams,
@@ -461,7 +461,7 @@ class UserApi {
       }
     }
 
-    return await apiClient.streamAPI(
+    return apiClient.streamAPI(
       path,
       'GET',
       queryParams,
@@ -526,7 +526,7 @@ class UserApi {
       }
     }
 
-    return await apiClient.streamAPI(
+    return apiClient.streamAPI(
       path,
       'PUT',
       queryParams,

@@ -49,7 +49,7 @@ class StoreApi {
       }
     }
 
-    return await apiClient.streamAPI(
+    return apiClient.streamAPI(
       path,
       'DELETE',
       queryParams,
@@ -111,7 +111,7 @@ class StoreApi {
       }
     }
 
-    return await apiClient.streamAPI(
+    return apiClient.streamAPI(
       path,
       'GET',
       queryParams,
@@ -182,7 +182,7 @@ class StoreApi {
       }
     }
 
-    return await apiClient.streamAPI(
+    return apiClient.streamAPI(
       path,
       'GET',
       queryParams,
@@ -256,7 +256,7 @@ class StoreApi {
       }
     }
 
-    return await apiClient.streamAPI(
+    return apiClient.streamAPI(
       path,
       'POST',
       queryParams,
