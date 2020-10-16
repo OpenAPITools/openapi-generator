@@ -288,7 +288,7 @@ module Petstore
       request.options.on_data = Proc.new do |chunk, overall_received_bytes|
         begin
           @tempfile.write(chunk)
-        rescue Faraday::Error::ConnectionFailed => e
+        rescue Faraday::ConnectionFailed => e
           puts "Connection failed: #{e}"
         end
       end
