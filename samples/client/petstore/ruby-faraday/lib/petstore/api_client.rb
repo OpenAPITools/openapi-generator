@@ -286,7 +286,11 @@ module Petstore
       # handle streaming Responses
       #streamed = []
       request.options.on_data = Proc.new do |chunk, overall_received_bytes|
-        @tempfile.write(chunk)
+        begin
+          @tempfile.write(chunk)
+        rescue Faraday::Error::ConnectionFailed => e
+          puts "Connection failed: #{e}"
+        end
       end
 
       #@tempfile.write(streamed.join)
