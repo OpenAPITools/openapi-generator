@@ -61,6 +61,17 @@ describe "Pet" do
       expect(pet.category.name).to eq("category test")
     end
 
+    it "should fetch a pet object (file)" do
+      pet = @pet_api.get_pet_by_id_download(@pet_id)
+      expect(pet).to be_a(Tempfile)
+      pet.open
+      expect(pet.read).to eq("")
+      #expect(pet.id).to eq(@pet_id)
+      #expect(pet.name).to eq("RUBY UNIT TESTING")
+      #expect(pet.tags[0].name).to eq("tag test")
+      #expect(pet.category.name).to eq("category test")
+    end
+
     it "should fetch a pet object with http info" do
       pet, status_code, headers = @pet_api.get_pet_by_id_with_http_info(@pet_id)
       expect(status_code).to eq(200)
