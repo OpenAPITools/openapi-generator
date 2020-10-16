@@ -15,17 +15,10 @@ class StoreApi {
 
   final ApiClient apiClient;
 
-  /// Delete purchase order by ID
-  ///
-  /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [String] orderId (required):
-  ///   ID of the order that needs to be deleted
-  Future deleteOrderWithHttpInfo(String orderId) async {
+  /// Executes the same logic as [deleteOrder] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> deleteOrderAsStreamedResponse(String orderId) async {
     // Verify required params are set.
     if (orderId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: orderId');
@@ -54,10 +47,9 @@ class StoreApi {
       if (hasFields) {
         postBody = mp;
       }
-    } else {
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'DELETE',
       queryParams,
@@ -69,27 +61,32 @@ class StoreApi {
     );
   }
 
+  /// Executes the same logic as [deleteOrder] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> deleteOrderWithHttpInfo(String orderId) =>
+    apiClient.getResponse(deleteOrderAsStreamedResponse(orderId));
+
   /// Delete purchase order by ID
   ///
   /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+  ///
+  /// Note: This method returns nothing.
   ///
   /// Parameters:
   ///
   /// * [String] orderId (required):
   ///   ID of the order that needs to be deleted
-  Future deleteOrder(String orderId) async {
+  Future<void> deleteOrder(String orderId) async {
     final response = await deleteOrderWithHttpInfo(orderId);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
   }
 
-  /// Returns pet inventories by status
-  ///
-  /// Returns a map of status codes to quantities
-  ///
-  /// Note: This method returns the HTTP [Response].
-  Future<Response> getInventoryWithHttpInfo() async {
+  /// Executes the same logic as [getInventory] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> getInventoryAsStreamedResponse() async {
     final path = '/store/inventory'.replaceAll('{format}', 'json');
 
     Object postBody;
@@ -112,10 +109,9 @@ class StoreApi {
       if (hasFields) {
         postBody = mp;
       }
-    } else {
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'GET',
       queryParams,
@@ -127,9 +123,17 @@ class StoreApi {
     );
   }
 
+  /// Executes the same logic as [getInventory] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> getInventoryWithHttpInfo() =>
+    apiClient.getResponse(getInventoryAsStreamedResponse());
+
   /// Returns pet inventories by status
   ///
   /// Returns a map of status codes to quantities
+  ///
+  /// After the method completes, the result is returned as an instance of [Map<String, int>].
+  ///
   Future<Map<String, int>> getInventory() async {
     final response = await getInventoryWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -144,17 +148,10 @@ class StoreApi {
     return null;
   }
 
-  /// Find purchase order by ID
-  ///
-  /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [int] orderId (required):
-  ///   ID of pet that needs to be fetched
-  Future<Response> getOrderByIdWithHttpInfo(int orderId) async {
+  /// Executes the same logic as [getOrderById] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> getOrderByIdAsStreamedResponse(int orderId) async {
     // Verify required params are set.
     if (orderId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: orderId');
@@ -183,10 +180,9 @@ class StoreApi {
       if (hasFields) {
         postBody = mp;
       }
-    } else {
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'GET',
       queryParams,
@@ -198,9 +194,16 @@ class StoreApi {
     );
   }
 
+  /// Executes the same logic as [getOrderById] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> getOrderByIdWithHttpInfo(int orderId) =>
+    apiClient.getResponse(getOrderByIdAsStreamedResponse(orderId));
+
   /// Find purchase order by ID
   ///
   /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+  ///
+  /// After the method completes, the result is returned as an instance of [Order].
   ///
   /// Parameters:
   ///
@@ -220,15 +223,10 @@ class StoreApi {
     return null;
   }
 
-  /// Place an order for a pet
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [Order] body (required):
-  ///   order placed for purchasing the pet
-  Future<Response> placeOrderWithHttpInfo(Order body) async {
+  /// Executes the same logic as [placeOrder] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> placeOrderAsStreamedResponse(Order body) async {
     // Verify required params are set.
     if (body == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
@@ -256,10 +254,9 @@ class StoreApi {
       if (hasFields) {
         postBody = mp;
       }
-    } else {
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'POST',
       queryParams,
@@ -271,7 +268,14 @@ class StoreApi {
     );
   }
 
+  /// Executes the same logic as [placeOrder] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> placeOrderWithHttpInfo(Order body) =>
+    apiClient.getResponse(placeOrderAsStreamedResponse(body));
+
   /// Place an order for a pet
+  ///
+  /// After the method completes, the result is returned as an instance of [Order].
   ///
   /// Parameters:
   ///

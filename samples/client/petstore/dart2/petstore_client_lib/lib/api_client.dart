@@ -9,13 +9,6 @@
 
 part of openapi.api;
 
-class QueryParam {
-  QueryParam(this.name, this.value);
-
-  String name;
-  String value;
-}
-
 class ApiClient {
   ApiClient({this.basePath = 'http://petstore.swagger.io/v2'}) {
     // Setup authentications (key: authentication name, value: authentication).
@@ -24,6 +17,8 @@ class ApiClient {
   }
 
   final String basePath;
+  final _defaultHeaderMap = <String, String>{};
+  final _authentications = <String, Authentication>{};
 
   var _client = Client();
 
@@ -42,11 +37,17 @@ class ApiClient {
     _client = newClient;
   }
 
-  final _defaultHeaderMap = <String, String>{};
-  final _authentications = <String, Authentication>{};
+  /// Returns a copy of the [default headers][Map] that are sent with every request.
+  Map<String, String> get defaultHeaderMap => <String, String>{}..addAll(_defaultHeaderMap);
 
+  /// Adds, or updates if present, a header to the [default headers][Map] sent with every request.
   void addDefaultHeader(String key, String value) {
      _defaultHeaderMap[key] = value;
+  }
+
+  /// Removes a header, if present, from the [default headers][Map] sent with every request.
+  void removeDefaultHeader(String key) {
+     _defaultHeaderMap.remove(key);
   }
 
   dynamic deserialize(String json, String targetType, {bool growable}) {
@@ -65,9 +66,19 @@ class ApiClient {
     return authentication is T ? authentication : null;
   }
 
-  // We don’t use a Map<String, String> for queryParams.
-  // If collectionFormat is 'multi', a key might appear multiple times.
-  Future<Response> invokeAPI(
+  /// Waits for a [StreamedResponse] to fully realize and returns the processed result as an
+  /// HTTP [Response].
+  Future<Response> getResponse(Future<StreamedResponse> streamedResponse) async =>
+    Response.fromStream(await streamedResponse);
+
+  /// Invokes an API endpoint and returns a [StreamedResponse] that can be listened to.
+  ///
+  /// This is useful if you want to upload a multipart or binary file and be able to listen
+  /// to the upload progress.
+  ///
+  /// In the event of an HTTP error, this method will throw an [ApiException] and its
+  /// [inner Exception][ApiException.innerException] would point to the erroneous cause.
+  Future<StreamedResponse> streamAPI(
     String path,
     String method,
     Iterable<QueryParam> queryParams,
@@ -77,58 +88,53 @@ class ApiClient {
     String nullableContentType,
     List<String> authNames,
   ) async {
-    _updateParamsForAuth(authNames, queryParams, headerParams);
-
-    headerParams.addAll(_defaultHeaderMap);
-
-    final ps = queryParams
-      .where((p) => p.value != null)
-      .map((p) => '${p.name}=${Uri.encodeQueryComponent(p.value)}');
-
-    final queryString = ps.isNotEmpty ? '?' + ps.join('&') : '';
-
-    final url = '$basePath$path$queryString';
-
-    if (nullableContentType != null) {
-      headerParams['Content-Type'] = nullableContentType;
-    }
-
-    if (body is MultipartRequest) {
-      final request = MultipartRequest(method, Uri.parse(url));
-      request.fields.addAll(body.fields);
-      request.files.addAll(body.files);
-      request.headers.addAll(body.headers);
-      request.headers.addAll(headerParams);
-      final response = await _client.send(request);
-      return Response.fromStream(response);
-    }
-
-    final msgBody = nullableContentType == 'application/x-www-form-urlencoded'
-      ? formParams
-      : serialize(body);
-    final nullableHeaderParams = headerParams.isEmpty ? null : headerParams;
+    final request = buildRequest(
+      path,
+      method,
+      queryParams,
+      body,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
 
     try {
-      switch(method) {
-        case 'POST': return await _client.post(url, headers: nullableHeaderParams, body: msgBody);
-        case 'PUT': return await _client.put(url, headers: nullableHeaderParams, body: msgBody);
-        case 'DELETE': return await _client.delete(url, headers: nullableHeaderParams);
-        case 'PATCH': return await _client.patch(url, headers: nullableHeaderParams, body: msgBody);
-        case 'HEAD': return await _client.head(url, headers: nullableHeaderParams);
-        case 'GET': return await _client.get(url, headers: nullableHeaderParams);
-      }
-    } on SocketException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'Socket operation failed: $method $path', e, trace);
-    } on TlsException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'TLS/SSL communication failed: $method $path', e, trace);
-    } on IOException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'I/O operation failed: $method $path', e, trace);
-    } on Exception catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'Exception occurred: $method $path', e, trace);
+      return _client.send(request);
+    } on SocketException catch (err, trace) {
+      throw ApiException.withInner(HttpStatus.badRequest, 'Socket operation failed: $method $path', err, trace);
+    } on TlsException catch (err, trace) {
+      throw ApiException.withInner(HttpStatus.badRequest, 'TLS/SSL communication failed: $method $path', err, trace);
+    } on IOException catch (err, trace) {
+      throw ApiException.withInner(HttpStatus.badRequest, 'I/O operation failed: $method $path', err, trace);
+    } on Exception catch (err, trace) {
+      throw ApiException.withInner(HttpStatus.badRequest, 'Exception occurred: $method $path', err, trace);
     }
-
-    throw ApiException(HttpStatus.badRequest, 'Invalid HTTP operation: $method $path');
   }
+
+  /// Invokes an API endpoint and returns a fully realized HTTP [Response].
+  ///
+  /// In the event of an HTTP error, this method will throw an [ApiException] and its
+  /// [inner Exception][ApiException.innerException] would point to the erroneous cause.
+  Future<Response> invokeAPI(
+    String path,
+    String method,
+    Iterable<QueryParam> queryParams,
+    Object body,
+    Map<String, String> headerParams,
+    Map<String, String> formParams,
+    String nullableContentType,
+    List<String> authNames,
+  ) => getResponse(streamAPI(
+    path,
+    method,
+    queryParams,
+    body,
+    headerParams,
+    formParams,
+    nullableContentType,
+    authNames,
+  ));
 
   dynamic _deserialize(dynamic value, String targetType, {bool growable}) {
     try {
@@ -175,15 +181,77 @@ class ApiClient {
           }
           break;
       }
-    } on Exception catch (e, stack) {
-      throw ApiException.withInner(HttpStatus.internalServerError, 'Exception during deserialization.', e, stack);
+    } on Exception catch (err, stack) {
+      throw ApiException.withInner(HttpStatus.internalServerError, 'Exception during deserialization.', err, stack);
     }
     throw ApiException(HttpStatus.internalServerError, 'Could not find a suitable class for deserialization');
   }
 
-  /// Update query and header parameters based on authentication settings.
-  /// @param authNames The authentications to apply
-  void _updateParamsForAuth(
+  @protected
+  BaseRequest buildRequest(
+    String path,
+    String method,
+    Iterable<QueryParam> queryParams,
+    Object body,
+    Map<String, String> headerParams,
+    Map<String, String> formParams,
+    String nullableContentType,
+    List<String> authNames,
+  ) {
+    final url = prepareUrlAndHeaderParams(
+      path,
+      queryParams,
+      headerParams,
+      nullableContentType,
+      authNames,
+    );
+    final uri = Uri.parse(url);
+
+    if (body is MultipartFile) {
+      final request = StreamedRequest(method, uri);
+      request.headers.addAll(headerParams);
+      return request;
+    }
+
+    if (body is MultipartRequest) {
+      final request = MultipartRequest(method, uri);
+      request.fields.addAll(body.fields);
+      request.files.addAll(body.files);
+      request.headers.addAll(body.headers);
+      request.headers.addAll(headerParams);
+      return request;
+    }
+
+    final request = Request(method, uri);
+    if (headerParams.isNotEmpty) {
+      request.headers.addAll(headerParams);
+    }
+    final msgBody = nullableContentType == 'application/x-www-form-urlencoded' ? formParams : serialize(body);
+    if (msgBody != null) {
+      request.body = msgBody;
+    }
+    return request;
+  }
+
+  @protected
+  String prepareUrlAndHeaderParams(
+    String path,
+    Iterable<QueryParam> queryParams,
+    Map<String, String> headerParams,
+    String nullableContentType,
+    List<String> authNames,
+  ) {
+    updateParamsForAuth(authNames, queryParams, headerParams);
+    headerParams.addAll(_defaultHeaderMap);
+    if (nullableContentType != null) {
+      headerParams['Content-Type'] = nullableContentType;
+    }
+    final queryString = queryParamsToString(queryParams);
+    return '$basePath$path$queryString';
+  }
+
+  @protected
+  void updateParamsForAuth(
     List<String> authNames,
     List<QueryParam> queryParams,
     Map<String, String> headerParams,

@@ -15,17 +15,10 @@ class UserApi {
 
   final ApiClient apiClient;
 
-  /// Create user
-  ///
-  /// This can only be done by the logged in user.
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [User] body (required):
-  ///   Created user object
-  Future createUserWithHttpInfo(User body) async {
+  /// Executes the same logic as [createUser] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> createUserAsStreamedResponse(User body) async {
     // Verify required params are set.
     if (body == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
@@ -53,10 +46,9 @@ class UserApi {
       if (hasFields) {
         postBody = mp;
       }
-    } else {
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'POST',
       queryParams,
@@ -68,30 +60,32 @@ class UserApi {
     );
   }
 
+  /// Executes the same logic as [createUser] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> createUserWithHttpInfo(User body) =>
+    apiClient.getResponse(createUserAsStreamedResponse(body));
+
   /// Create user
   ///
   /// This can only be done by the logged in user.
+  ///
+  /// Note: This method returns nothing.
   ///
   /// Parameters:
   ///
   /// * [User] body (required):
   ///   Created user object
-  Future createUser(User body) async {
+  Future<void> createUser(User body) async {
     final response = await createUserWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
   }
 
-  /// Creates list of users with given input array
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [List<User>] body (required):
-  ///   List of user object
-  Future createUsersWithArrayInputWithHttpInfo(List<User> body) async {
+  /// Executes the same logic as [createUsersWithArrayInput] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> createUsersWithArrayInputAsStreamedResponse(List<User> body) async {
     // Verify required params are set.
     if (body == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
@@ -119,10 +113,9 @@ class UserApi {
       if (hasFields) {
         postBody = mp;
       }
-    } else {
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'POST',
       queryParams,
@@ -134,28 +127,30 @@ class UserApi {
     );
   }
 
+  /// Executes the same logic as [createUsersWithArrayInput] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> createUsersWithArrayInputWithHttpInfo(List<User> body) =>
+    apiClient.getResponse(createUsersWithArrayInputAsStreamedResponse(body));
+
   /// Creates list of users with given input array
+  ///
+  /// Note: This method returns nothing.
   ///
   /// Parameters:
   ///
   /// * [List<User>] body (required):
   ///   List of user object
-  Future createUsersWithArrayInput(List<User> body) async {
+  Future<void> createUsersWithArrayInput(List<User> body) async {
     final response = await createUsersWithArrayInputWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
   }
 
-  /// Creates list of users with given input array
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [List<User>] body (required):
-  ///   List of user object
-  Future createUsersWithListInputWithHttpInfo(List<User> body) async {
+  /// Executes the same logic as [createUsersWithListInput] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> createUsersWithListInputAsStreamedResponse(List<User> body) async {
     // Verify required params are set.
     if (body == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
@@ -183,10 +178,9 @@ class UserApi {
       if (hasFields) {
         postBody = mp;
       }
-    } else {
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'POST',
       queryParams,
@@ -198,30 +192,30 @@ class UserApi {
     );
   }
 
+  /// Executes the same logic as [createUsersWithListInput] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> createUsersWithListInputWithHttpInfo(List<User> body) =>
+    apiClient.getResponse(createUsersWithListInputAsStreamedResponse(body));
+
   /// Creates list of users with given input array
+  ///
+  /// Note: This method returns nothing.
   ///
   /// Parameters:
   ///
   /// * [List<User>] body (required):
   ///   List of user object
-  Future createUsersWithListInput(List<User> body) async {
+  Future<void> createUsersWithListInput(List<User> body) async {
     final response = await createUsersWithListInputWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
   }
 
-  /// Delete user
-  ///
-  /// This can only be done by the logged in user.
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [String] username (required):
-  ///   The name that needs to be deleted
-  Future deleteUserWithHttpInfo(String username) async {
+  /// Executes the same logic as [deleteUser] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> deleteUserAsStreamedResponse(String username) async {
     // Verify required params are set.
     if (username == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
@@ -250,10 +244,9 @@ class UserApi {
       if (hasFields) {
         postBody = mp;
       }
-    } else {
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'DELETE',
       queryParams,
@@ -265,30 +258,32 @@ class UserApi {
     );
   }
 
+  /// Executes the same logic as [deleteUser] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> deleteUserWithHttpInfo(String username) =>
+    apiClient.getResponse(deleteUserAsStreamedResponse(username));
+
   /// Delete user
   ///
   /// This can only be done by the logged in user.
+  ///
+  /// Note: This method returns nothing.
   ///
   /// Parameters:
   ///
   /// * [String] username (required):
   ///   The name that needs to be deleted
-  Future deleteUser(String username) async {
+  Future<void> deleteUser(String username) async {
     final response = await deleteUserWithHttpInfo(username);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
   }
 
-  /// Get user by user name
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [String] username (required):
-  ///   The name that needs to be fetched. Use user1 for testing.
-  Future<Response> getUserByNameWithHttpInfo(String username) async {
+  /// Executes the same logic as [getUserByName] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> getUserByNameAsStreamedResponse(String username) async {
     // Verify required params are set.
     if (username == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
@@ -317,10 +312,9 @@ class UserApi {
       if (hasFields) {
         postBody = mp;
       }
-    } else {
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'GET',
       queryParams,
@@ -332,7 +326,14 @@ class UserApi {
     );
   }
 
+  /// Executes the same logic as [getUserByName] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> getUserByNameWithHttpInfo(String username) =>
+    apiClient.getResponse(getUserByNameAsStreamedResponse(username));
+
   /// Get user by user name
+  ///
+  /// After the method completes, the result is returned as an instance of [User].
   ///
   /// Parameters:
   ///
@@ -352,18 +353,10 @@ class UserApi {
     return null;
   }
 
-  /// Logs user into the system
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [String] username (required):
-  ///   The user name for login
-  ///
-  /// * [String] password (required):
-  ///   The password for login in clear text
-  Future<Response> loginUserWithHttpInfo(String username, String password) async {
+  /// Executes the same logic as [loginUser] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> loginUserAsStreamedResponse(String username, String password) async {
     // Verify required params are set.
     if (username == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
@@ -396,10 +389,9 @@ class UserApi {
       if (hasFields) {
         postBody = mp;
       }
-    } else {
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'GET',
       queryParams,
@@ -411,7 +403,14 @@ class UserApi {
     );
   }
 
+  /// Executes the same logic as [loginUser] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> loginUserWithHttpInfo(String username, String password) =>
+    apiClient.getResponse(loginUserAsStreamedResponse(username, password));
+
   /// Logs user into the system
+  ///
+  /// After the method completes, the result is returned as an instance of [String].
   ///
   /// Parameters:
   ///
@@ -434,10 +433,10 @@ class UserApi {
     return null;
   }
 
-  /// Logs out current logged in user session
-  ///
-  /// Note: This method returns the HTTP [Response].
-  Future logoutUserWithHttpInfo() async {
+  /// Executes the same logic as [logoutUser] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> logoutUserAsStreamedResponse() async {
     final path = '/user/logout'.replaceAll('{format}', 'json');
 
     Object postBody;
@@ -460,10 +459,9 @@ class UserApi {
       if (hasFields) {
         postBody = mp;
       }
-    } else {
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'GET',
       queryParams,
@@ -475,28 +473,26 @@ class UserApi {
     );
   }
 
+  /// Executes the same logic as [logoutUser] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> logoutUserWithHttpInfo() =>
+    apiClient.getResponse(logoutUserAsStreamedResponse());
+
   /// Logs out current logged in user session
-  Future logoutUser() async {
+  ///
+  /// Note: This method returns nothing.
+  ///
+  Future<void> logoutUser() async {
     final response = await logoutUserWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
   }
 
-  /// Updated user
-  ///
-  /// This can only be done by the logged in user.
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [String] username (required):
-  ///   name that need to be deleted
-  ///
-  /// * [User] body (required):
-  ///   Updated user object
-  Future updateUserWithHttpInfo(String username, User body) async {
+  /// Executes the same logic as [updateUser] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> updateUserAsStreamedResponse(String username, User body) async {
     // Verify required params are set.
     if (username == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
@@ -528,10 +524,9 @@ class UserApi {
       if (hasFields) {
         postBody = mp;
       }
-    } else {
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'PUT',
       queryParams,
@@ -543,9 +538,16 @@ class UserApi {
     );
   }
 
+  /// Executes the same logic as [updateUser] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> updateUserWithHttpInfo(String username, User body) =>
+    apiClient.getResponse(updateUserAsStreamedResponse(username, body));
+
   /// Updated user
   ///
   /// This can only be done by the logged in user.
+  ///
+  /// Note: This method returns nothing.
   ///
   /// Parameters:
   ///
@@ -554,7 +556,7 @@ class UserApi {
   ///
   /// * [User] body (required):
   ///   Updated user object
-  Future updateUser(String username, User body) async {
+  Future<void> updateUser(String username, User body) async {
     final response = await updateUserWithHttpInfo(username, body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));

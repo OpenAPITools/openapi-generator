@@ -15,15 +15,10 @@ class PetApi {
 
   final ApiClient apiClient;
 
-  /// Add a new pet to the store
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [Pet] body (required):
-  ///   Pet object that needs to be added to the store
-  Future addPetWithHttpInfo(Pet body) async {
+  /// Executes the same logic as [addPet] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> addPetAsStreamedResponse(Pet body) async {
     // Verify required params are set.
     if (body == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
@@ -51,10 +46,9 @@ class PetApi {
       if (hasFields) {
         postBody = mp;
       }
-    } else {
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'POST',
       queryParams,
@@ -66,30 +60,30 @@ class PetApi {
     );
   }
 
+  /// Executes the same logic as [addPet] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> addPetWithHttpInfo(Pet body) =>
+    apiClient.getResponse(addPetAsStreamedResponse(body));
+
   /// Add a new pet to the store
+  ///
+  /// Note: This method returns nothing.
   ///
   /// Parameters:
   ///
   /// * [Pet] body (required):
   ///   Pet object that needs to be added to the store
-  Future addPet(Pet body) async {
+  Future<void> addPet(Pet body) async {
     final response = await addPetWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
   }
 
-  /// Deletes a pet
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [int] petId (required):
-  ///   Pet id to delete
-  ///
-  /// * [String] apiKey:
-  Future deletePetWithHttpInfo(int petId, { String apiKey }) async {
+  /// Executes the same logic as [deletePet] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> deletePetAsStreamedResponse(int petId, { String apiKey }) async {
     // Verify required params are set.
     if (petId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
@@ -119,10 +113,9 @@ class PetApi {
       if (hasFields) {
         postBody = mp;
       }
-    } else {
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'DELETE',
       queryParams,
@@ -134,7 +127,14 @@ class PetApi {
     );
   }
 
+  /// Executes the same logic as [deletePet] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> deletePetWithHttpInfo(int petId, { String apiKey }) =>
+    apiClient.getResponse(deletePetAsStreamedResponse(petId,  apiKey: apiKey ));
+
   /// Deletes a pet
+  ///
+  /// Note: This method returns nothing.
   ///
   /// Parameters:
   ///
@@ -142,24 +142,17 @@ class PetApi {
   ///   Pet id to delete
   ///
   /// * [String] apiKey:
-  Future deletePet(int petId, { String apiKey }) async {
+  Future<void> deletePet(int petId, { String apiKey }) async {
     final response = await deletePetWithHttpInfo(petId,  apiKey: apiKey );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
   }
 
-  /// Finds Pets by status
-  ///
-  /// Multiple status values can be provided with comma separated strings
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [List<String>] status (required):
-  ///   Status values that need to be considered for filter
-  Future<Response> findPetsByStatusWithHttpInfo(List<String> status) async {
+  /// Executes the same logic as [findPetsByStatus] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> findPetsByStatusAsStreamedResponse(List<String> status) async {
     // Verify required params are set.
     if (status == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: status');
@@ -188,10 +181,9 @@ class PetApi {
       if (hasFields) {
         postBody = mp;
       }
-    } else {
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'GET',
       queryParams,
@@ -203,9 +195,16 @@ class PetApi {
     );
   }
 
+  /// Executes the same logic as [findPetsByStatus] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> findPetsByStatusWithHttpInfo(List<String> status) =>
+    apiClient.getResponse(findPetsByStatusAsStreamedResponse(status));
+
   /// Finds Pets by status
   ///
   /// Multiple status values can be provided with comma separated strings
+  ///
+  /// After the method completes, the result is returned as an instance of [List<Pet>].
   ///
   /// Parameters:
   ///
@@ -227,17 +226,10 @@ class PetApi {
     return null;
   }
 
-  /// Finds Pets by tags
-  ///
-  /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [List<String>] tags (required):
-  ///   Tags to filter by
-  Future<Response> findPetsByTagsWithHttpInfo(List<String> tags) async {
+  /// Executes the same logic as [findPetsByTags] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> findPetsByTagsAsStreamedResponse(List<String> tags) async {
     // Verify required params are set.
     if (tags == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: tags');
@@ -266,10 +258,9 @@ class PetApi {
       if (hasFields) {
         postBody = mp;
       }
-    } else {
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'GET',
       queryParams,
@@ -281,9 +272,16 @@ class PetApi {
     );
   }
 
+  /// Executes the same logic as [findPetsByTags] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> findPetsByTagsWithHttpInfo(List<String> tags) =>
+    apiClient.getResponse(findPetsByTagsAsStreamedResponse(tags));
+
   /// Finds Pets by tags
   ///
   /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+  ///
+  /// After the method completes, the result is returned as an instance of [List<Pet>].
   ///
   /// Parameters:
   ///
@@ -305,17 +303,10 @@ class PetApi {
     return null;
   }
 
-  /// Find pet by ID
-  ///
-  /// Returns a single pet
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [int] petId (required):
-  ///   ID of pet to return
-  Future<Response> getPetByIdWithHttpInfo(int petId) async {
+  /// Executes the same logic as [getPetById] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> getPetByIdAsStreamedResponse(int petId) async {
     // Verify required params are set.
     if (petId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
@@ -344,10 +335,9 @@ class PetApi {
       if (hasFields) {
         postBody = mp;
       }
-    } else {
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'GET',
       queryParams,
@@ -359,9 +349,16 @@ class PetApi {
     );
   }
 
+  /// Executes the same logic as [getPetById] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> getPetByIdWithHttpInfo(int petId) =>
+    apiClient.getResponse(getPetByIdAsStreamedResponse(petId));
+
   /// Find pet by ID
   ///
   /// Returns a single pet
+  ///
+  /// After the method completes, the result is returned as an instance of [Pet].
   ///
   /// Parameters:
   ///
@@ -381,15 +378,10 @@ class PetApi {
     return null;
   }
 
-  /// Update an existing pet
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [Pet] body (required):
-  ///   Pet object that needs to be added to the store
-  Future updatePetWithHttpInfo(Pet body) async {
+  /// Executes the same logic as [updatePet] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> updatePetAsStreamedResponse(Pet body) async {
     // Verify required params are set.
     if (body == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
@@ -417,10 +409,9 @@ class PetApi {
       if (hasFields) {
         postBody = mp;
       }
-    } else {
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'PUT',
       queryParams,
@@ -432,34 +423,30 @@ class PetApi {
     );
   }
 
+  /// Executes the same logic as [updatePet] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> updatePetWithHttpInfo(Pet body) =>
+    apiClient.getResponse(updatePetAsStreamedResponse(body));
+
   /// Update an existing pet
+  ///
+  /// Note: This method returns nothing.
   ///
   /// Parameters:
   ///
   /// * [Pet] body (required):
   ///   Pet object that needs to be added to the store
-  Future updatePet(Pet body) async {
+  Future<void> updatePet(Pet body) async {
     final response = await updatePetWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
   }
 
-  /// Updates a pet in the store with form data
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [int] petId (required):
-  ///   ID of pet that needs to be updated
-  ///
-  /// * [String] name:
-  ///   Updated name of the pet
-  ///
-  /// * [String] status:
-  ///   Updated status of the pet
-  Future updatePetWithFormWithHttpInfo(int petId, { String name, String status }) async {
+  /// Executes the same logic as [updatePetWithForm] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> updatePetWithFormAsStreamedResponse(int petId, { String name, String status }) async {
     // Verify required params are set.
     if (petId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
@@ -505,7 +492,7 @@ class PetApi {
       }
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'POST',
       queryParams,
@@ -517,7 +504,14 @@ class PetApi {
     );
   }
 
+  /// Executes the same logic as [updatePetWithForm] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> updatePetWithFormWithHttpInfo(int petId, { String name, String status }) =>
+    apiClient.getResponse(updatePetWithFormAsStreamedResponse(petId,  name: name, status: status ));
+
   /// Updates a pet in the store with form data
+  ///
+  /// Note: This method returns nothing.
   ///
   /// Parameters:
   ///
@@ -529,28 +523,17 @@ class PetApi {
   ///
   /// * [String] status:
   ///   Updated status of the pet
-  Future updatePetWithForm(int petId, { String name, String status }) async {
+  Future<void> updatePetWithForm(int petId, { String name, String status }) async {
     final response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
   }
 
-  /// uploads an image
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [int] petId (required):
-  ///   ID of pet to update
-  ///
-  /// * [String] additionalMetadata:
-  ///   Additional data to pass to server
-  ///
-  /// * [MultipartFile] file:
-  ///   file to upload
-  Future<Response> uploadFileWithHttpInfo(int petId, { String additionalMetadata, MultipartFile file }) async {
+  /// Executes the same logic as [uploadFile] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> uploadFileAsStreamedResponse(int petId, { String additionalMetadata, MultipartFile file }) async {
     // Verify required params are set.
     if (petId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
@@ -594,7 +577,7 @@ class PetApi {
       }
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       'POST',
       queryParams,
@@ -606,7 +589,14 @@ class PetApi {
     );
   }
 
+  /// Executes the same logic as [uploadFile] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> uploadFileWithHttpInfo(int petId, { String additionalMetadata, MultipartFile file }) =>
+    apiClient.getResponse(uploadFileAsStreamedResponse(petId,  additionalMetadata: additionalMetadata, file: file ));
+
   /// uploads an image
+  ///
+  /// After the method completes, the result is returned as an instance of [ApiResponse].
   ///
   /// Parameters:
   ///

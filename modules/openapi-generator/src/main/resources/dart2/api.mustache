@@ -8,48 +8,10 @@ class {{{classname}}} {
   final ApiClient apiClient;
   {{#operation}}
 
-  {{#summary}}
-  /// {{{summary}}}
-  {{/summary}}
-  {{#notes}}
-    {{#summary}}
-  ///
-    {{/summary}}
-  /// {{{notes}}}
-  ///
-  /// Note: This method returns the HTTP [Response].
-  {{/notes}}
-  {{^notes}}
-    {{#summary}}
-  ///
-  /// Note: This method returns the HTTP [Response].
-    {{/summary}}
-    {{^summary}}
-  /// Performs an HTTP '{{{httpMethod}}} {{{path}}}' operation and returns the [Response].
-    {{/summary}}
-  {{/notes}}
-  {{#hasParams}}
-    {{#summary}}
-  ///
-    {{/summary}}
-    {{^summary}}
-      {{#notes}}
-  ///
-      {{/notes}}
-    {{/summary}}
-  /// Parameters:
-  ///
-  {{/hasParams}}
-  {{#allParams}}
-  /// * [{{{dataType}}}] {{{paramName}}}{{#required}} (required){{/required}}{{#optional}} (optional){{/optional}}:
-    {{#description}}
-  ///   {{{description}}}
-    {{/description}}
-    {{#hasMore}}
-  ///
-    {{/hasMore}}
-  {{/allParams}}
-  {{#returnType}}Future<Response> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+  /// Executes the same logic as [{{{nickname}}}] but instead returns a
+  /// [StreamedResponse] that clients can listen to, for example to monitor the progress of
+  /// the network activity.
+  Future<StreamedResponse> {{{nickname}}}AsStreamedResponse({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
   {{#hasParams}}
     // Verify required params are set.
     {{#allParams}}
@@ -111,17 +73,19 @@ class {{{classname}}} {
       if (hasFields) {
         postBody = mp;
       }
+      {{#hasFormParams}}
     } else {
-      {{#formParams}}
-      {{^isFile}}
+        {{#formParams}}
+          {{^isFile}}
       if ({{{paramName}}} != null) {
         formParams['{{{baseName}}}'] = parameterToString({{{paramName}}});
       }
-      {{/isFile}}
-      {{/formParams}}
+          {{/isFile}}
+        {{/formParams}}
+      {{/hasFormParams}}
     }
 
-    return await apiClient.invokeAPI(
+    return await apiClient.streamAPI(
       path,
       '{{{httpMethod}}}',
       queryParams,
@@ -133,24 +97,33 @@ class {{{classname}}} {
     );
   }
 
+  /// Executes the same logic as [{{{nickname}}}] but instead returns the processed result as
+  /// an HTTP [Response].
+  Future<Response> {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) =>
+    apiClient.getResponse({{{nickname}}}AsStreamedResponse({{#allParams}}{{#required}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{{paramName}}}: {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} {{/hasOptionalParams}}));
+
   {{#summary}}
   /// {{{summary}}}
+  ///
   {{/summary}}
   {{#notes}}
-  {{#summary}}
-  ///
-  {{/summary}}
   /// {{{notes}}}
+  ///
   {{/notes}}
-  {{#hasParams}}
-    {{#summary}}
-  ///
-    {{/summary}}
+  {{^notes}}
     {{^summary}}
-      {{#notes}}
+  /// Performs an HTTP '{{{httpMethod}}} {{{path}}}' operation.
   ///
-      {{/notes}}
     {{/summary}}
+  {{/notes}}
+  {{#returnType}}
+  /// After the method completes, the result is returned as an instance of [{{{returnType}}}].
+  {{/returnType}}
+  {{^returnType}}
+  /// Note: This method returns nothing.
+  {{/returnType}}
+  ///
+  {{#hasParams}}
   /// Parameters:
   ///
   {{/hasParams}}
@@ -163,7 +136,7 @@ class {{{classname}}} {
   ///
     {{/hasMore}}
   {{/allParams}}
-  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future<void> {{/returnType}}{{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
     final response = await {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{{paramName}}}: {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
