@@ -11,13 +11,10 @@ package body {{package}}.Models is
                         Name  : in String;
                         Value : in {{classname}}) is
    begin
-      Into.Start_Entity (Name);{{#vars}}{{^isPrimitiveType}}{{^isString}}{{^isContainer}}{{^isDateTime}}
-      Serialize (Into, "{{baseName}}", Value.{{name}});{{/isDateTime}}{{/isContainer}}{{/isString}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{^isLong}}
-      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/isLong}}{{/isPrimitiveType}}{{#isLong}}
-      Serialize (Into, "{{baseName}}", Value.{{name}});{{/isLong}}{{#isString}}
-      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/isString}}{{#isContainer}}
-      Serialize (Into, "{{baseName}}", Value.{{name}});{{/isContainer}}{{#isDateTime}}
-      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/isDateTime}}{{/vars}}
+      Into.Start_Entity (Name);{{#vars}}{{#vendorExtensions.x-is-stream-type}}{{^isLong}}
+      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/isLong}}{{#isLong}}
+      Into.Write_Long_Entity ("{{baseName}}", Value.{{name}});{{/isLong}}{{/vendorExtensions.x-is-stream-type}}{{^vendorExtensions.x-is-stream-type}}
+      Serialize (Into, "{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-stream-type}}{{/vars}}
       Into.End_Entity (Name);
    end Serialize;
 
