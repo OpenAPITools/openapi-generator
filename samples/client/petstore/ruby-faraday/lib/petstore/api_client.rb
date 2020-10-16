@@ -284,12 +284,12 @@ module Petstore
       end
 
       # handle streaming Responses
-      streamed = []
+      #streamed = []
       request.options.on_data = Proc.new do |chunk, overall_received_bytes|
-        streamed << chunk
+        @tempfile.write(chunk)
       end
 
-      @tempfile.write(streamed.join)
+      #@tempfile.write(streamed.join)
 
       if @tempfile
         @tempfile.close
