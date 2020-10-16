@@ -155,6 +155,44 @@ module Petstore
       data
     end
 
+    # Save response body into a file in (the defined) temporary folder, using the filename
+    # from the "Content-Disposition" header if provided, otherwise a random filename.
+    # The response body is written to the file in chunks in order to handle files which
+    # size is larger than maximum Ruby String or even larger than the maximum memory a Ruby
+    # process can use.
+    #
+    # @see Configuration#temp_folder_path
+    def download_file(request)
+      tempfile = nil
+      encoding = nil
+      request.on_headers do |response|
+        content_disposition = response.headers['Content-Disposition']
+        if content_disposition && content_disposition =~ /filename=/i
+          filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
+          prefix = sanitize_filename(filename)
+        else
+          prefix = 'download-'
+        end
+        prefix = prefix + '-' unless prefix.end_with?('-')
+        encoding = response.body.encoding
+        tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
+        @tempfile = tempfile
+      end
+      request.on_body do |chunk|
+        chunk.force_encoding(encoding)
+        tempfile.write(chunk)
+      end
+      request.on_complete do |response|
+        if tempfile
+          tempfile.close
+          @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
+                              "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
+                              "will be deleted automatically with GC. It's also recommended to delete the temp file "\
+                              "explicitly with `tempfile.delete`"
+        end
+      end
+    end
+
     # Check if the given MIME is a JSON MIME.
     # JSON MIME examples:
     #   application/json
@@ -238,44 +276,6 @@ module Petstore
       else
         # models, e.g. Pet
         Petstore.const_get(return_type).build_from_hash(data)
-      end
-    end
-
-    # Save response body into a file in (the defined) temporary folder, using the filename
-    # from the "Content-Disposition" header if provided, otherwise a random filename.
-    # The response body is written to the file in chunks in order to handle files which
-    # size is larger than maximum Ruby String or even larger than the maximum memory a Ruby
-    # process can use.
-    #
-    # @see Configuration#temp_folder_path
-    def download_file(request)
-      tempfile = nil
-      encoding = nil
-      request.on_headers do |response|
-        content_disposition = response.headers['Content-Disposition']
-        if content_disposition && content_disposition =~ /filename=/i
-          filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
-          prefix = sanitize_filename(filename)
-        else
-          prefix = 'download-'
-        end
-        prefix = prefix + '-' unless prefix.end_with?('-')
-        encoding = response.body.encoding
-        tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
-        @tempfile = tempfile
-      end
-      request.on_body do |chunk|
-        chunk.force_encoding(encoding)
-        tempfile.write(chunk)
-      end
-      request.on_complete do |response|
-        if tempfile
-          tempfile.close
-          @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
-                              "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
-                              "will be deleted automatically with GC. It's also recommended to delete the temp file "\
-                              "explicitly with `tempfile.delete`"
-        end
       end
     end
 
