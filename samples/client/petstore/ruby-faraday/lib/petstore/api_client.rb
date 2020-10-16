@@ -282,17 +282,16 @@ module Petstore
       end
 
       # handle streaming Responses
-      request.opts.on_data = = Proc.new do |chunk, overall_received_bytes|
+      request.opts.on_data = Proc.new do |chunk, overall_received_bytes|
         tempfile.write(chunk)
       end
-      request.on_complete do |response|
-        if tempfile
-          tempfile.close
-          @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
-                              "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
-                              "will be deleted automatically with GC. It's also recommended to delete the temp file "\
-                              "explicitly with `tempfile.delete`"
-        end
+
+      if tempfile
+        tempfile.close
+        @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
+                            "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
+                            "will be deleted automatically with GC. It's also recommended to delete the temp file "\
+                            "explicitly with `tempfile.delete`"
       end
     end
 
