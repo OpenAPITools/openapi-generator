@@ -265,6 +265,7 @@ module Petstore
     #
     # @see Configuration#temp_folder_path
     def download_file(request)
+      tempfile = nil
       encoding = nil
       request.headers do |response|
         content_disposition = response.headers['Content-Disposition']
@@ -276,24 +277,23 @@ module Petstore
         end
         prefix = prefix + '-' unless prefix.end_with?('-')
         encoding = response.body.encoding
-        @tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
+        tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
+        @tempfile = tempfile
       end
 
-      if @tempfile.nil?
-        @tempfile = Tempfile.open('download-', @config.temp_folder_path)
+      if tempfile.nil?
+        tempfile = Tempfile.open('download-', @config.temp_folder_path)
+        @tempfile = tempfile
       end
 
       # handle streaming Responses
-      streamed = []
       request.options.on_data = Proc.new do |chunk, overall_received_bytes|
         puts "Received #{overall_received_bytes} characters"
-        streamed << chunk
+        tempfile.write(chunk)
       end
 
-      @tempfile.write(streamed.join)
-
-      if @tempfile
-        @tempfile.close
+      if tempfile
+        tempfile.close
         @config.logger.info "Temp file written to #{@tempfile.path}, please copy the file to a proper folder "\
                             "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
                             "will be deleted automatically with GC. It's also recommended to delete the temp file "\
