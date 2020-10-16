@@ -73,13 +73,13 @@ export class AppModule {}
 
 ```
 // configuring providers
-import { ApiModule, Configuration, ConfigurationParameters } from '@openapitools/typescript-angular-petstore';
+import { ApiModule, PetStoreConfiguration, PetStoreConfigurationParameters } from '@openapitools/typescript-angular-petstore';
 
-export function apiConfigFactory (): Configuration => {
-  const params: ConfigurationParameters = {
+export function apiConfigFactory (): PetStoreConfiguration => {
+  const params: PetStoreConfigurationParameters = {
     // set configuration parameters here.
   }
-  return new Configuration(params);
+  return new PetStoreConfiguration(params);
 }
 
 @NgModule({
@@ -93,15 +93,15 @@ export class AppModule {}
 
 ```
 // configuring providers with an authentication service that manages your access tokens
-import { ApiModule, Configuration } from '@openapitools/typescript-angular-petstore';
+import { ApiModule, PetStoreConfiguration } from '@openapitools/typescript-angular-petstore';
 
 @NgModule({
     imports: [ ApiModule ],
     declarations: [ AppComponent ],
     providers: [
       {
-        provide: Configuration,
-        useFactory: (authService: AuthService) => new Configuration(
+        provide: PetStoreConfiguration,
+        useFactory: (authService: AuthService) => new PetStoreConfiguration(
           {
             basePath: environment.apiUrl,
             accessToken: authService.getAccessToken.bind(authService)
