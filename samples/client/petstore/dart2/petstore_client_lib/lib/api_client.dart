@@ -223,12 +223,13 @@ class ApiClient {
     }
 
     final request = Request(method, uri);
-    if (headerParams.isNotEmpty) {
-      request.headers.addAll(headerParams);
-    }
-    final msgBody = nullableContentType == 'application/x-www-form-urlencoded' ? formParams : serialize(body);
-    if (msgBody != null) {
-      request.body = msgBody;
+    request.headers.addAll(headerParams);
+    final requestBody = nullableContentType != null &&
+      nullableContentType.startsWith('application/x-www-form-urlencoded')
+        ? formParams
+        : serialize(body);
+    if (requestBody != null) {
+      request.body = requestBody;
     }
     return request;
   }
