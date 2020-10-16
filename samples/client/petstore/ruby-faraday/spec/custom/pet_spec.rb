@@ -52,6 +52,15 @@ describe "Pet" do
       expect(pet.category.object_id).not_to eq(pet2.category.object_id)
     end
 
+    it "should fetch a pet object (file)" do
+      pet = @pet_api.get_pet_by_id_download(@pet_id)
+      expect(pet).to be_a(File)
+      #expect(pet.id).to eq(@pet_id)
+      #expect(pet.name).to eq("RUBY UNIT TESTING")
+      #expect(pet.tags[0].name).to eq("tag test")
+      #expect(pet.category.name).to eq("category test")
+    end
+
     it "should fetch a pet object" do
       pet = @pet_api.get_pet_by_id(@pet_id)
       expect(pet).to be_a(Petstore::Pet)

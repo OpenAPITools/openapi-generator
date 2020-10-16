@@ -333,6 +333,69 @@ module Petstore
       return data, status_code, headers
     end
 
+    # Find pet by ID
+    # Returns a single pet
+    # @param pet_id [Integer] ID of pet to return
+    # @param [Hash] opts the optional parameters
+    # @return [File]
+    def get_pet_by_id_download(pet_id, opts = {})
+      data, _status_code, _headers = get_pet_by_id_download_with_http_info(pet_id, opts)
+      data
+    end
+
+    # Find pet by ID
+    # Returns a single pet
+    # @param pet_id [Integer] ID of pet to return
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(File, Integer, Hash)>] File data, response status code and response headers
+    def get_pet_by_id_download_with_http_info(pet_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: PetApi.get_pet_by_id_download ...'
+      end
+      # verify the required parameter 'pet_id' is set
+      if @api_client.config.client_side_validation && pet_id.nil?
+        fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.get_pet_by_id_download"
+      end
+      # resource path
+      local_var_path = '/pet/{petId}?download'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s).gsub('%2F', '/'))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/xml', 'application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'File'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['api_key']
+
+      new_options = opts.merge(
+        :operation => :"PetApi.get_pet_by_id_download",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PetApi#get_pet_by_id_download\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Update an existing pet
     # @param pet [Pet] Pet object that needs to be added to the store
     # @param [Hash] opts the optional parameters

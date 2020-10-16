@@ -267,7 +267,7 @@ module Petstore
     def download_file(request)
       tempfile = nil
       encoding = nil
-      request.on_headers do |response|
+      request.headers do |response|
         content_disposition = response.headers['Content-Disposition']
         if content_disposition && content_disposition =~ /filename=/i
           filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
@@ -280,8 +280,9 @@ module Petstore
         tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
         @tempfile = tempfile
       end
-      request.on_body do |chunk|
-        chunk.force_encoding(encoding)
+
+      # handle streaming Responses
+      request.opts.on_data = = Proc.new do |chunk, overall_received_bytes|
         tempfile.write(chunk)
       end
       request.on_complete do |response|
