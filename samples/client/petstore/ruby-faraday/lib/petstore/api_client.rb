@@ -284,16 +284,13 @@ module Petstore
       end
 
       # handle streaming Responses
-      #streamed = []
+      streamed = []
       request.options.on_data = Proc.new do |chunk, overall_received_bytes|
-        begin
-          @tempfile.write(chunk)
-        rescue StandardError => e
-          puts "Failed: #{e}"
-        end
+        puts "Received #{overall_received_bytes} characters"
+        streamed << chunk
       end
 
-      #@tempfile.write(streamed.join)
+      @tempfile.write(streamed.join)
 
       if @tempfile
         @tempfile.close
