@@ -55,6 +55,7 @@ describe "Pet" do
     it "should fetch a pet object (file)" do
       pet = @pet_api.get_pet_by_id_download(@pet_id)
       expect(pet).to be_a(Tempfile)
+      pet.open
       expect(pet.read).to eq("")
       #expect(pet.id).to eq(@pet_id)
       #expect(pet.name).to eq("RUBY UNIT TESTING")
