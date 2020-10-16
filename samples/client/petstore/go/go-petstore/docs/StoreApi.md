@@ -229,7 +229,7 @@ import (
 )
 
 func main() {
-    body := openapiclient.Order{Id: int64(123), PetId: int64(123), Quantity: 123, ShipDate: "TODO", Status: "Status_example", Complete: false} // Order | order placed for purchasing the pet
+    body := *openapiclient.NewOrder() // Order | order placed for purchasing the pet
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)

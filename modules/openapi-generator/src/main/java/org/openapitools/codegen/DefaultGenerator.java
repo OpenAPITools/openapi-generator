@@ -1433,6 +1433,11 @@ public class DefaultGenerator implements Generator {
         }
     }
 
+    private Path absPath(File input) {
+        // intentionally creates a new absolute path instance, disconnected from underlying FileSystem provider of File
+        return java.nio.file.Paths.get(input.getAbsolutePath());
+    }
+
     /**
      * Generates a file at .openapi-generator/FILES to track the files created by the user's latest run.
      * This is ideal for CI and regeneration of code without stale/unused files from older generations.
@@ -1443,7 +1448,7 @@ public class DefaultGenerator implements Generator {
         if (generateMetadata) {
             try {
                 StringBuilder sb = new StringBuilder();
-                File outDir = new File(this.config.getOutputDir());
+                Path outDir = absPath(new File(this.config.getOutputDir()));
 
                 List<File> filesToSort = new ArrayList<>();
 
@@ -1452,7 +1457,7 @@ public class DefaultGenerator implements Generator {
                     // We have seen NPE on CI for getPath() returning null, so guard against this (to be fixed in 5.0 template management refactor)
                     //noinspection ConstantConditions
                     if (f != null && f.getPath() != null) {
-                        filesToSort.add(f);
+                        filesToSort.add(outDir.relativize(absPath(f)).normalize().toFile());
                     }
                 });
 
@@ -1461,13 +1466,12 @@ public class DefaultGenerator implements Generator {
                 String relativeMeta = METADATA_DIR + "/VERSION";
                 filesToSort.sort(PathFileComparator.PATH_COMPARATOR);
                 filesToSort.forEach(f -> {
-                    String tmp = outDir.toPath().relativize(f.toPath()).normalize().toString();
                     // some Java implementations don't honor .relativize documentation fully.
                     // When outDir is /a/b and the input is /a/b/c/d, the result should be c/d.
                     // Some implementations make the output ./c/d which seems to mix the logic
                     // as documented for symlinks. So we need to trim any / or ./ from the start,
                     // as nobody should be generating into system root and our expectation is no ./
-                    String relativePath = removeStart(removeStart(tmp, "." + File.separator), File.separator);
+                    String relativePath = removeStart(removeStart(f.toString(), "." + File.separator), File.separator);
                     if (File.separator.equals("\\")) {
                         // ensure that windows outputs same FILES format
                         relativePath = relativePath.replace(File.separator, "/");

@@ -464,7 +464,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         if (codegenParameter.isListContainer) { // array
             return codegenParameter.dataType + "{" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
         } else if (codegenParameter.isMap) {
-            return "map[string]string{ \"Key\" = \"Value\" }";
+            return codegenParameter.dataType + "{ \"key\": " + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
         } else if (codegenParameter.isPrimitiveType) { // primitive type
             if (codegenParameter.isString) {
                 if (StringUtils.isEmpty(codegenParameter.example)) {
@@ -479,9 +479,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
                     return "false";
                 }
             } else if (codegenParameter.isUri) { // URL
-                return "URL(string: \"https://example.com\")!";
+                return "\"https://example.com\"";
             } else if (codegenParameter.isDateTime || codegenParameter.isDate) { // datetime or date
-                return "Get-Date";
+                return "time.Now()";
             } else { // numeric
                 if (StringUtils.isEmpty(codegenParameter.example)) {
                     return codegenParameter.example;
@@ -502,9 +502,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         if (codegenProperty.isListContainer) { // array
-            return codegenProperty.dataType + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + ")";
+            return codegenProperty.dataType + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
         } else if (codegenProperty.isMap) { // map
-            return "map[string]string{ \"Key\" = \"Value\" }";
+            return codegenProperty.dataType + "{ \"key\": " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
         } else if (codegenProperty.isPrimitiveType) { // primitive type
             if (codegenProperty.isString) {
                 if (StringUtils.isEmpty(codegenProperty.example)) {
@@ -519,7 +519,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                     return "false";
                 }
             } else if (codegenProperty.isUri) { // URL
-                return "\"https://example.com\")!";
+                return "\"https://example.com\"";
             } else if (codegenProperty.isDateTime || codegenProperty.isDate) { // datetime or date
                 return "time.Now()";
             } else { // numeric
@@ -565,13 +565,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
             processedModelMap.put(model, 1);
         }
 
-        example = "" + goImportAlias + "." + codegenModel.name + "{";
         List<String> propertyExamples = new ArrayList<>();
-        for (CodegenProperty codegenProperty : codegenModel.allVars) {
-            propertyExamples.add(codegenProperty.name + ": " + constructExampleCode(codegenProperty, modelMaps, processedModelMap));
+        for (CodegenProperty codegenProperty : codegenModel.requiredVars) {
+            propertyExamples.add(constructExampleCode(codegenProperty, modelMaps, processedModelMap));
         }
-        example += StringUtils.join(propertyExamples, ", ");
-        example += "}";
-        return example;
+        return "*" + goImportAlias + ".New" + codegenModel.name + "(" + StringUtils.join(propertyExamples, ", ") + ")";
     }
 }
