@@ -282,7 +282,7 @@ module Petstore
       end
 
       # handle streaming Responses
-      request.opts.on_data = Proc.new do |chunk, overall_received_bytes|
+      request.options.on_data = Proc.new do |chunk, overall_received_bytes|
         tempfile.write(chunk)
       end
 
