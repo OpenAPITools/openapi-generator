@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -100,7 +101,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Number
         /// </summary>
-        [DataMember(Name = "number", EmitDefaultValue = false)]
+        [DataMember(Name = "number", IsRequired = true, EmitDefaultValue = false)]
         public decimal Number { get; set; }
 
         /// <summary>
@@ -124,7 +125,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Byte
         /// </summary>
-        [DataMember(Name = "byte", EmitDefaultValue = false)]
+        [DataMember(Name = "byte", IsRequired = true, EmitDefaultValue = false)]
         public byte[] Byte { get; set; }
 
         /// <summary>
@@ -136,7 +137,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        [DataMember(Name = "date", EmitDefaultValue = false)]
+        [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = false)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateTime Date { get; set; }
 
@@ -155,7 +156,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
-        [DataMember(Name = "password", EmitDefaultValue = false)]
+        [DataMember(Name = "password", IsRequired = true, EmitDefaultValue = false)]
         public string Password { get; set; }
 
         /// <summary>

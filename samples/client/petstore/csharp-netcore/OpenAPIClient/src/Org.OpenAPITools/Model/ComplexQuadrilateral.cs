@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -56,13 +57,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ShapeType
         /// </summary>
-        [DataMember(Name = "shapeType", EmitDefaultValue = false)]
+        [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = false)]
         public string ShapeType { get; set; }
 
         /// <summary>
         /// Gets or Sets QuadrilateralType
         /// </summary>
-        [DataMember(Name = "quadrilateralType", EmitDefaultValue = false)]
+        [DataMember(Name = "quadrilateralType", IsRequired = true, EmitDefaultValue = false)]
         public string QuadrilateralType { get; set; }
 
         /// <summary>

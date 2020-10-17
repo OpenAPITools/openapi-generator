@@ -53,13 +53,13 @@ static gpointer __{{classname}}threadFunc(gpointer data)
 static bool {{nickname}}Processor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
 	void(* voidHandler)())
 {
-	{{#returnType}}void(* handler)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMapContainer}}{{returnType}}<string,string>{{/isMapContainer}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* )
-	= reinterpret_cast<void(*)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMapContainer}}{{returnType}}<string,string>{{/isMapContainer}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* )> (voidHandler);{{/returnType}}
+	{{#returnType}}void(* handler)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMap}}{{returnType}}<string,string>{{/isMap}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* )
+	= reinterpret_cast<void(*)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMap}}{{returnType}}<string,string>{{/isMap}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* )> (voidHandler);{{/returnType}}
 	{{^returnType}}void(* handler)(Error, void* ) = reinterpret_cast<void(*)(Error, void* )> (voidHandler);{{/returnType}}
 	JsonNode* pJson;
 	char * data = p_chunk.memory;
 
-	{{#returnType}}{{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMapContainer}}{{returnType}}<string,string>{{/isMapContainer}} out;{{/returnContainer}}
+	{{#returnType}}{{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMap}}{{returnType}}<string,string>{{/isMap}} out;{{/returnContainer}}
 	{{^returnContainer}}{{returnType}} out;{{/returnContainer}}{{/returnType}}
 
 	if (code >= 200 && code < 300) {
@@ -136,7 +136,7 @@ static bool {{nickname}}Processor(MemoryStruct_s p_chunk, long code, char* error
 
 static bool {{nickname}}Helper(char * accessToken,
 	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
-	{{#returnType}}void(* handler)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMapContainer}}{{returnType}}<string,string>{{/isMapContainer}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* ){{/returnType}}
+	{{#returnType}}void(* handler)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMap}}{{returnType}}<string,string>{{/isMap}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* ){{/returnType}}
 	{{^returnType}}void(* handler)(Error, void* ) {{/returnType}}, void* userData, bool isAsync)
 {
 
@@ -230,7 +230,7 @@ static bool {{nickname}}Helper(char * accessToken,
 
 
 
-	{{#isMapContainer}}
+	{{#isMap}}
 	//IF CODE IS HERE, SOMETHING IS SLIGHTLY WRONG!
 	if (isprimitive("{{baseType}}")) {
 		node = converttoJson(&{{paramName}}, "{{baseType}}", "array");
@@ -250,7 +250,7 @@ static bool {{nickname}}Helper(char * accessToken,
 		json_array_unref(json_array);
 	}
 	{{/isDouble}}{{/isDateTime}}{{/isString}}{{/isFloat}}{{/isBoolean}}{{/isLong}}{{/isDate}}{{/isInteger}}
-	{{/isMapContainer}}
+	{{/isMap}}
 	{{/isContainer}}
 
 	{{^isContainer}}
@@ -329,7 +329,7 @@ static bool {{nickname}}Helper(char * accessToken,
 
 bool {{classname}}::{{nickname}}Async(char * accessToken,
 	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
-	{{#returnType}}void(* handler)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMapContainer}}{{returnType}}<string,string>{{/isMapContainer}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* ){{/returnType}}
+	{{#returnType}}void(* handler)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMap}}{{returnType}}<string,string>{{/isMap}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* ){{/returnType}}
 	{{^returnType}}void(* handler)(Error, void* ) {{/returnType}}, void* userData)
 {
 	return {{nickname}}Helper(accessToken,
@@ -339,7 +339,7 @@ bool {{classname}}::{{nickname}}Async(char * accessToken,
 
 bool {{classname}}::{{nickname}}Sync(char * accessToken,
 	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
-	{{#returnType}}void(* handler)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMapContainer}}{{returnType}}<string,string>{{/isMapContainer}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* ){{/returnType}}
+	{{#returnType}}void(* handler)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMap}}{{returnType}}<string,string>{{/isMap}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* ){{/returnType}}
 	{{^returnType}}void(* handler)(Error, void* ) {{/returnType}}, void* userData)
 {
 	return {{nickname}}Helper(accessToken,

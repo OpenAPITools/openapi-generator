@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
@@ -33,8 +34,8 @@ namespace Org.OpenAPITools.Model
     [JsonConverter(typeof(JsonSubtypes), "PetType")]
     [JsonSubtypes.KnownSubType(typeof(ParentPet), "ParentPet")]
     [JsonSubtypes.KnownSubType(typeof(ChildCat), "ChildCat")]
-    [JsonSubtypes.KnownSubType(typeof(ParentPet), "ParentPet")]
     [JsonSubtypes.KnownSubType(typeof(ChildCat), "ChildCat")]
+    [JsonSubtypes.KnownSubType(typeof(ParentPet), "ParentPet")]
     public partial class GrandparentAnimal : IEquatable<GrandparentAnimal>, IValidatableObject
     {
         /// <summary>
@@ -55,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets PetType
         /// </summary>
-        [DataMember(Name = "pet_type", EmitDefaultValue = false)]
+        [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = false)]
         public string PetType { get; set; }
 
         /// <summary>

@@ -48,7 +48,7 @@ Let's see how to pass Ruby generated files to Rubocop, a static code analysis/li
 # First, export the required environment variable
 export RUBY_POST_PROCESS_FILE="/usr/local/bin/rubocop -a"
 
-export OPENAPI_DOC="https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml"
+export OPENAPI_DOC="https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml"
 
 # Invoke the generator with --enable-post-process-file
 openapi-generator generate --enable-post-process-file -i $OPENAPI_DOC -g ruby -o .out-ruby/

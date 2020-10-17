@@ -136,9 +136,9 @@ typedef struct {{classname}}_t {
     {{datatype}}_t *{{name}}; //nonprimitive container
     {{/isPrimitiveType}}
     {{/isListContainer}}
-    {{#isMapContainer}}
+    {{#isMap}}
     {{datatype}} {{name}}; //map
-    {{/isMapContainer}}
+    {{/isMap}}
     {{/isContainer}}
     {{/vars}}
 
@@ -206,9 +206,9 @@ typedef struct {{classname}}_t {
     {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isPrimitiveType}}
     {{/isListContainer}}
-    {{#isMapContainer}}
+    {{#isMap}}
     {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
-    {{/isMapContainer}}
+    {{/isMap}}
     {{/isContainer}}
     {{/vars}}
 );

@@ -559,7 +559,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                     if ( end > 0 ) {
                         p.dataType = "Vec<" + rt.substring("Vec<".length(), end).trim() + ">";
                     }
-                } else if (p.isMapContainer && !languageSpecificPrimitives.contains(p.dataType)) {
+                } else if (p.isMap && !languageSpecificPrimitives.contains(p.dataType)) {
                     // map of model
                     String rt = p.dataType;
                     int end = rt.lastIndexOf(">");

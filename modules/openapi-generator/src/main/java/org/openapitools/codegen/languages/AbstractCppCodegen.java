@@ -351,7 +351,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
             // cannot handle inheritance from maps and arrays in C++
-            if((cm.isArrayModel || cm.isMapModel ) && (cm.parentModel == null)) {
+            if((cm.isArrayModel || cm.isMap ) && (cm.parentModel == null)) {
                 cm.parent = null;
             }
         }

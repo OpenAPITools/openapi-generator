@@ -98,22 +98,19 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         // https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_reserved_words.htm
         setReservedWordsLowerCase(
                 Arrays.asList("abstract", "activate", "and", "any", "array", "as", "asc", "autonomous",
-                        "begin", "bigdecimal", "blob", "break", "bulk", "by", "byte", "case", "cast",
+                        "begin", "bigdecimal", "blob", "boolean", "break", "bulk", "by", "byte", "case", "cast",
                         "catch", "char", "class", "collect", "commit", "const", "continue",
-                        "convertcurrency", "currency", "date", "datetime", "decimal", "default", "delete", "desc", "do", "else",
+                        "currency", "date", "datetime", "decimal", "default", "delete", "desc", "do", "double", "else",
                         "end", "enum", "exception", "exit", "export", "extends", "false", "final",
-                        "finally", "float", "for", "from", "future", "global", "goto", "group", "having",
-                        "hint", "if", "implements", "import", "in", "inner", "insert", "instanceof", "int",
-                        "interface", "into", "join", "last_90_days", "last_month", "last_n_days",
-                        "last_week", "like", "limit", "list", "long", "loop", "map", "merge", "new",
-                        "next_90_days", "next_month", "next_n_days", "next_week", "not", "null", "nulls",
-                        "number", "object", "of", "on", "or", "outer", "override", "package", "parallel",
-                        "pragma", "private", "protected", "public", "retrieve", "return", "returning",
-                        "rollback", "savepoint", "search", "select", "set", "short", "sort", "stat",
-                        "static", "super", "switch", "synchronized", "system", "testmethod", "then", "this",
-                        "this_month", "this_week", "throw", "time", "today", "tolabel", "tomorrow", "transaction",
-                        "trigger", "true", "try", "type", "undelete", "update", "upsert", "using",
-                        "virtual", "webservice", "when", "where", "while", "yesterday"
+                        "finally", "float", "for", "from", "global", "goto", "group", "having",
+                        "hint", "if", "implements", "import", "in", "inner", "insert", "instanceof", "int", "integer",
+                        "interface", "into", "join", "like", "limit", "list", "long", "loop", "map", "merge", "new",
+                        "not", "null", "nulls", "number", "object", "of", "on", "or", "outer", "override", "package", "parallel",
+                        "pragma", "private", "protected", "public", "retrieve", "return", 
+                        "rollback", "select", "set", "short", "sObject", "sort", "static", "string", 
+                        "super", "switch", "synchronized", "system", "testmethod", "then", "this",
+                        "throw", "time", "transaction", "trigger", "true", "try", "undelete", "update", "upsert", "using",
+                        "virtual", "void", "webservice", "when", "where", "while"
                 ));
 
         languageSpecificPrimitives = new HashSet<String>(

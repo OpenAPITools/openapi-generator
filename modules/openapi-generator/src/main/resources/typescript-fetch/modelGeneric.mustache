@@ -78,18 +78,18 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         {{#isListContainer}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}({{#isNullable}}json['{{baseName}}'] === null ? null : {{/isNullable}}(json['{{baseName}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}FromJSON)),
         {{/isListContainer}}
-        {{#isMapContainer}}
+        {{#isMap}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}({{#isNullable}}json['{{baseName}}'] === null ? null : {{/isNullable}}mapValues(json['{{baseName}}'], {{#items}}{{datatype}}{{/items}}FromJSON)),
-        {{/isMapContainer}}
+        {{/isMap}}
         {{^isListContainer}}
-        {{^isMapContainer}}
+        {{^isMap}}
         {{^isFreeFormObject}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}{{datatype}}FromJSON(json['{{baseName}}']),
         {{/isFreeFormObject}}
         {{#isFreeFormObject}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}json['{{baseName}}'],
         {{/isFreeFormObject}}
-        {{/isMapContainer}}
+        {{/isMap}}
         {{/isListContainer}}
         {{/isPrimitiveType}}
         {{/vars}}
@@ -122,18 +122,18 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
         {{#isListContainer}}
         '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}(value.{{name}} as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON)),
         {{/isListContainer}}
-        {{#isMapContainer}}
+        {{#isMap}}
         '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}mapValues(value.{{name}}, {{#items}}{{datatype}}{{/items}}ToJSON)),
-        {{/isMapContainer}}
+        {{/isMap}}
         {{^isListContainer}}
-        {{^isMapContainer}}
+        {{^isMap}}
         {{^isFreeFormObject}}
         '{{baseName}}': {{datatype}}ToJSON(value.{{name}}),
         {{/isFreeFormObject}}
         {{#isFreeFormObject}}
         '{{baseName}}': value.{{name}},
         {{/isFreeFormObject}}
-        {{/isMapContainer}}
+        {{/isMap}}
         {{/isListContainer}}
         {{/isPrimitiveType}}
         {{/isReadOnly}}

@@ -1,17 +1,17 @@
 case class {{classname}}(
 {{#vars}}
-  {{&name}}: {{^required}}Option[{{/required}}{{#isEnum}}{{classname}}.{{enumName}}.Value{{/isEnum}}{{^isEnum}}{{dataType}}{{/isEnum}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}{{^hasMore}}{{#isMapModel}},{{/isMapModel}}{{/hasMore}}
+  {{&name}}: {{^required}}Option[{{/required}}{{#isEnum}}{{classname}}.{{enumName}}.Value{{/isEnum}}{{^isEnum}}{{dataType}}{{/isEnum}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}{{^hasMore}}{{#isMap}},{{/isMap}}{{/hasMore}}
 {{/vars}}
-{{#isMapModel}}
+{{#isMap}}
   additionalProperties: {{parent}}
-{{/isMapModel}}
+{{/isMap}}
 )
 
 object {{classname}} {
   {{^vendorExtensions.x-has-files}}
-  implicit lazy val {{classVarName}}JsonFormat: Format[{{classname}}] = {{^isMapModel}}Json.format[{{classname}}]{{/isMapModel}}{{#isMapModel}}{
+  implicit lazy val {{classVarName}}JsonFormat: Format[{{classname}}] = {{^isMap}}Json.format[{{classname}}]{{/isMap}}{{#isMap}}{
     {{#lambda.indented_4}}{{>extensibleObjectJsonFormat}}{{/lambda.indented_4}}
-  }{{/isMapModel}}
+  }{{/isMap}}
   {{/vendorExtensions.x-has-files}}
   {{#vendorExtensions.x-has-files}}
   // NOTE: The JSON format for {{classname}} was not generated because it contains a file variable which cannot be encoded to JSON.

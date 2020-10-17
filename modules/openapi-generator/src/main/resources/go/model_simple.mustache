@@ -1,11 +1,11 @@
 // {{classname}}{{#description}} {{{description}}}{{/description}}{{^description}} struct for {{{classname}}}{{/description}}
 type {{classname}} struct {
 {{#parent}}
-{{^isMapModel}}
+{{^isMap}}
 {{^isArrayModel}}
 	{{{parent}}}
 {{/isArrayModel}}
-{{/isMapModel}}
+{{/isMap}}
 {{#isArrayModel}}
 	Items {{{parent}}}
 {{/isArrayModel}}
@@ -225,7 +225,7 @@ func (o *{{classname}}) Unset{{name}}() {
 func (o {{classname}}) MarshalJSON() ([]byte, error) {
 	toSerialize := {{#isArrayModel}}make([]interface{}, len(o.Items)){{/isArrayModel}}{{^isArrayModel}}map[string]interface{}{}{{/isArrayModel}}
 	{{#parent}}
-	{{^isMapModel}}
+	{{^isMap}}
 	{{^isArrayModel}}
 	serialized{{parent}}, err{{parent}} := json.Marshal(o.{{parent}})
 	if err{{parent}} != nil {
@@ -236,7 +236,7 @@ func (o {{classname}}) MarshalJSON() ([]byte, error) {
 		return []byte{}, err{{parent}}
 	}
 	{{/isArrayModel}}
-	{{/isMapModel}}
+	{{/isMap}}
 	{{#isArrayModel}}
 	for i, item := range o.Items {
 		toSerialize[i] = item
@@ -278,7 +278,7 @@ func (o {{classname}}) MarshalJSON() ([]byte, error) {
 {{#isAdditionalPropertiesTrue}}
 func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 {{#parent}}
-{{^isMapModel}}
+{{^isMap}}
 	type {{classname}}WithoutEmbeddedStruct struct {
 	{{#vars}}
 	{{^-first}}
@@ -341,8 +341,8 @@ func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 	}
 
 	return err
-{{/isMapModel}}
-{{#isMapModel}}
+{{/isMap}}
+{{#isMap}}
 	var{{{classname}}} := _{{{classname}}}{}
 
 	if err = json.Unmarshal(bytes, &var{{{classname}}}); err == nil {
@@ -359,7 +359,7 @@ func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 	}
 
 	return err
-{{/isMapModel}}
+{{/isMap}}
 {{/parent}}
 {{^parent}}
 	var{{{classname}}} := _{{{classname}}}{}
