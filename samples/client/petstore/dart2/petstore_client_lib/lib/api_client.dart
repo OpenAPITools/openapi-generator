@@ -9,13 +9,6 @@
 
 part of openapi.api;
 
-class QueryParam {
-  QueryParam(this.name, this.value);
-
-  String name;
-  String value;
-}
-
 class ApiClient {
   ApiClient({this.basePath = 'http://petstore.swagger.io/v2'}) {
     // Setup authentications (key: authentication name, value: authentication).
@@ -81,11 +74,13 @@ class ApiClient {
 
     headerParams.addAll(_defaultHeaderMap);
 
-    final ps = queryParams
-      .where((p) => p.value != null)
-      .map((p) => '${p.name}=${Uri.encodeQueryComponent(p.value)}');
+    final urlEncodedQueryParams = queryParams
+      .where((param) => param.value != null)
+      .map((param) => '$param');
 
-    final queryString = ps.isNotEmpty ? '?' + ps.join('&') : '';
+    final queryString = urlEncodedQueryParams.isNotEmpty
+      ? '?${urlEncodedQueryParams.join('&')}'
+      : '';
 
     final url = '$basePath$path$queryString';
 
@@ -93,10 +88,16 @@ class ApiClient {
       headerParams['Content-Type'] = nullableContentType;
     }
 
+    if (body is MultipartFile) {
+      body = MultipartFileRequest(method, Uri.parse(url), file: body);
+    }
+
     if (body is MultipartRequest) {
       final request = MultipartRequest(method, Uri.parse(url));
-      request.fields.addAll(body.fields);
-      request.files.addAll(body.files);
+      if (body is! MultipartFileRequest) {
+        request.fields.addAll(body.fields);
+        request.files.addAll(body.files);
+      }
       request.headers.addAll(body.headers);
       request.headers.addAll(headerParams);
       final response = await _client.send(request);
@@ -110,24 +111,24 @@ class ApiClient {
 
     try {
       switch(method) {
-        case 'POST': return await _client.post(url, headers: nullableHeaderParams, body: msgBody);
-        case 'PUT': return await _client.put(url, headers: nullableHeaderParams, body: msgBody);
-        case 'DELETE': return await _client.delete(url, headers: nullableHeaderParams);
-        case 'PATCH': return await _client.patch(url, headers: nullableHeaderParams, body: msgBody);
-        case 'HEAD': return await _client.head(url, headers: nullableHeaderParams);
-        case 'GET': return await _client.get(url, headers: nullableHeaderParams);
+        case 'POST': return await _client.post(url, headers: nullableHeaderParams, body: msgBody,);
+        case 'PUT': return await _client.put(url, headers: nullableHeaderParams, body: msgBody,);
+        case 'DELETE': return await _client.delete(url, headers: nullableHeaderParams,);
+        case 'PATCH': return await _client.patch(url, headers: nullableHeaderParams, body: msgBody,);
+        case 'HEAD': return await _client.head(url, headers: nullableHeaderParams,);
+        case 'GET': return await _client.get(url, headers: nullableHeaderParams,);
       }
     } on SocketException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'Socket operation failed: $method $path', e, trace);
+      throw ApiException.withInner(HttpStatus.badRequest, 'Socket operation failed: $method $path', e, trace,);
     } on TlsException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'TLS/SSL communication failed: $method $path', e, trace);
+      throw ApiException.withInner(HttpStatus.badRequest, 'TLS/SSL communication failed: $method $path', e, trace,);
     } on IOException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'I/O operation failed: $method $path', e, trace);
+      throw ApiException.withInner(HttpStatus.badRequest, 'I/O operation failed: $method $path', e, trace,);
     } on Exception catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'Exception occurred: $method $path', e, trace);
+      throw ApiException.withInner(HttpStatus.badRequest, 'Exception occurred: $method $path', e, trace,);
     }
 
-    throw ApiException(HttpStatus.badRequest, 'Invalid HTTP operation: $method $path');
+    throw ApiException(HttpStatus.badRequest, 'Invalid HTTP operation: $method $path',);
   }
 
   dynamic _deserialize(dynamic value, String targetType, {bool growable}) {

@@ -9,6 +9,40 @@
 
 part of openapi.api;
 
+class QueryParam {
+  const QueryParam(this.name, this.value);
+
+  final String name;
+  final String value;
+
+  @override
+  String toString() => '${Uri.encodeQueryComponent(name)}=${Uri.encodeQueryComponent(value)}';
+}
+
+/// A [MultipartRequest] that streams a single [MultipartFile].
+class MultipartFileRequest extends MultipartRequest {
+  MultipartFileRequest(String method, Uri url, {@required MultipartFile file})
+    : assert(file != null),
+      _file = file,
+      super(method, url);
+
+  final MultipartFile _file;
+
+  @override
+  List<MultipartFile> get files {
+    throw UnsupportedError('Adding additional files in this request is not supported.');
+  }
+
+  @override
+  int get contentLength => _file.length;
+
+  @override
+  ByteStream finalize() {
+    super.finalize();
+    return _file.finalize();
+  }
+}
+
 // Ported from the Java version.
 Iterable<QueryParam> _convertParametersForCollectionFormat(
   String collectionFormat,
