@@ -88,16 +88,21 @@ class ApiClient {
       headerParams['Content-Type'] = nullableContentType;
     }
 
-    if (body is MultipartFile) {
-      body = MultipartFileRequest(method, Uri.parse(url), file: body);
+    // Special case for uploading a single file which isn’t a 'multipart/form-data'.
+    if (
+      body is MultipartFile && (nullableContentType == null ||
+      !nullableContentType.toLowerCase().startsWith('multipart/form-data'))
+    ) {
+      final request = MultipartFileRequest(method, Uri.parse(url), file: body);
+      request.headers.addAll(headerParams);
+      final response = await _client.send(request);
+      return Response.fromStream(response);
     }
 
     if (body is MultipartRequest) {
       final request = MultipartRequest(method, Uri.parse(url));
-      if (body is! MultipartFileRequest) {
-        request.fields.addAll(body.fields);
-        request.files.addAll(body.files);
-      }
+      request.fields.addAll(body.fields);
+      request.files.addAll(body.files);
       request.headers.addAll(body.headers);
       request.headers.addAll(headerParams);
       final response = await _client.send(request);
