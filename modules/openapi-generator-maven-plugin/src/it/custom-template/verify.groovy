@@ -29,3 +29,10 @@ assert api.isFile()
 
 File model = new File(basedir, "out/src/main/kotlin/org/openapitools/client/models/Pet.kt")
 assert model.isFile()
+
+// note that in Java 11+, this anything matching this condition could fail due to
+// Illegal reflective access by org.codehaus.groovy.reflection.CachedClass
+// and cause tests to fail. This is more to document for engineers.
+if (GroovySystem.version.tokenize('.')[0].toInteger() < 3) {
+    throw new IllegalStateException("Found:" + GroovySystem.version + ", need Groovy 3.x or higher for Java 11+, so we require it for all versions")
+}
