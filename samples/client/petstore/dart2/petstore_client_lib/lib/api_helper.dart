@@ -37,10 +37,10 @@ class MultipartFileRequest extends MultipartRequest {
   int get contentLength => _file.length;
 
   @override
-  ByteStream finalize() {
-    super.finalize();
-    return _file.finalize();
-  }
+  bool get finalized => _file.isFinalized;
+
+  @override
+  ByteStream finalize() => _file.finalize();
 }
 
 // Ported from the Java version.

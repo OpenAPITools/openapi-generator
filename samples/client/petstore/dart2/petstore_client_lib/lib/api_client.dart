@@ -177,9 +177,9 @@ class ApiClient {
           break;
       }
     } on Exception catch (e, stack) {
-      throw ApiException.withInner(HttpStatus.internalServerError, 'Exception during deserialization.', e, stack);
+      throw ApiException.withInner(HttpStatus.internalServerError, 'Exception during deserialization.', e, stack,);
     }
-    throw ApiException(HttpStatus.internalServerError, 'Could not find a suitable class for deserialization');
+    throw ApiException(HttpStatus.internalServerError, 'Could not find a suitable class for deserialization',);
   }
 
   /// Update query and header parameters based on authentication settings.
