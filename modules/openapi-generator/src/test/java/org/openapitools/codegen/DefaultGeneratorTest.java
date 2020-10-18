@@ -433,4 +433,208 @@ public class DefaultGeneratorTest {
         Assert.assertEquals(((Schema) codegenResponse.schema).getPattern(), expectedPattern);
         Assert.assertEquals(codegenResponse.pattern, escapedPattern);
     }
+
+    @Test
+    public void testBuiltinLibraryTemplates() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("kotlin")
+                    .setLibrary("jvm-okhttp4")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString());
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            Assert.assertEquals(files.size(), 20);
+
+            // Generator should report a library templated file as a generated file
+            TestUtils.ensureContainsFile(files, output, "src/main/kotlin/org/openapitools/client/infrastructure/Errors.kt");
+
+            // Generated file should exist on the filesystem after generation
+            File generatedFile = new File(output, "src/main/kotlin/org/openapitools/client/infrastructure/Errors.kt");
+            Assert.assertTrue(generatedFile.exists());
+
+            // Generated file should contain some expected text
+            TestUtils.assertFileContains(generatedFile.toPath(), "package org.openapitools.client.infrastructure",
+                    "open class ClientException",
+                    "open class ServerException");
+        } finally {
+            output.delete();
+        }
+    }
+
+    @Test
+    public void testBuiltinNonLibraryTemplates() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("kotlin")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString());
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            Assert.assertEquals(files.size(), 20);
+
+            // Generator should report README.md as a generated file
+            TestUtils.ensureContainsFile(files, output, "README.md");
+
+            // Generated file should exist on the filesystem after generation
+            File readme = new File(output, "README.md");
+            Assert.assertTrue(readme.exists());
+
+            // README.md should contain some expected text
+            TestUtils.assertFileContains(readme.toPath(), "# org.openapitools.client - Kotlin client library for OpenAPI Petstore",
+                    "## Requires",
+                    "## Build",
+                    "## Features/Implementation Notes");
+        } finally {
+            output.delete();
+        }
+    }
+
+    @Test
+    public void testCustomLibraryTemplates() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        Path templates = Files.createTempDirectory("templates");
+        File output = target.toFile();
+        try {
+            // Create custom template
+            File customTemplate = new File(templates.toFile(), "libraries/jvm-okhttp/infrastructure/Errors.kt.mustache");
+            new File(customTemplate.getParent()).mkdirs();
+            StringBuilder sb = new StringBuilder();
+            sb.append("// {{someKey}}").append("\n");
+            sb.append("@file:Suppress(\"unused\")").append("\n");
+            sb.append("package org.openapitools.client.infrastructure").append("\n");
+            sb.append("import java.lang.RuntimeException").append("\n");
+            sb.append("open class CustomException(").append("\n");
+            sb.append("  message: kotlin.String? = null, val statusCode: Int = -1, val response: Response? = null) : RuntimeException(message) {").append("\n");
+            sb.append("    companion object {").append("\n");
+            sb.append("      private const val serialVersionUID: Long = 789L").append("\n");
+            sb.append("    }").append("\n");
+            sb.append("}").append("\n");
+            Files.write(customTemplate.toPath(),
+                    sb.toString().getBytes(StandardCharsets.UTF_8),
+                    StandardOpenOption.CREATE);
+
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("kotlin")
+                    .addAdditionalProperty("someKey", "testCustomLibraryTemplates")
+                    .setTemplateDir(templates.toAbsolutePath().toString())
+                    .setLibrary("jvm-okhttp4")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString());
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            Assert.assertEquals(files.size(), 20);
+
+            // Generator should report a library templated file as a generated file
+            TestUtils.ensureContainsFile(files, output, "src/main/kotlin/org/openapitools/client/infrastructure/Errors.kt");
+
+            // Generated file should exist on the filesystem after generation
+            File readme = new File(output, "src/main/kotlin/org/openapitools/client/infrastructure/Errors.kt");
+            Assert.assertTrue(readme.exists());
+
+            // Generated file should contain our custom templated text
+            TestUtils.assertFileContains(readme.toPath(), "// testCustomLibraryTemplates",
+                    "package org.openapitools.client.infrastructure",
+                    "open class CustomException(",
+                    "private const val serialVersionUID: Long = 789L");
+        } finally {
+            output.delete();
+            templates.toFile().delete();
+        }
+    }
+
+    @Test
+    public void testCustomNonLibraryTemplates() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        Path templates = Files.createTempDirectory("templates");
+        File output = target.toFile();
+        try {
+            // Create custom template
+            File customTemplate = new File(templates.toFile(), "README.mustache");
+            new File(customTemplate.getParent()).mkdirs();
+            Files.write(customTemplate.toPath(),
+                    "# {{someKey}}".getBytes(StandardCharsets.UTF_8),
+                    StandardOpenOption.CREATE);
+
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("kotlin")
+                    .addAdditionalProperty("someKey", "testCustomNonLibraryTemplates")
+                    .setTemplateDir(templates.toAbsolutePath().toString())
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString());
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            Assert.assertEquals(files.size(), 20);
+
+            // Generator should report README.md as a generated file
+            TestUtils.ensureContainsFile(files, output, "README.md");
+
+            // Generated file should exist on the filesystem after generation
+            File readme = new File(output, "README.md");
+            Assert.assertTrue(readme.exists());
+
+            // README.md should contain our custom templated text
+            TestUtils.assertFileContains(readme.toPath(), "# testCustomNonLibraryTemplates");
+        } finally {
+            output.delete();
+            templates.toFile().delete();
+        }
+    }
 }
+
