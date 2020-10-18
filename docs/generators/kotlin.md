@@ -28,6 +28,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useRxJava|Whether to use the RxJava adapter with the retrofit2 library.| |false|
 |useRxJava2|Whether to use the RxJava2 adapter with the retrofit2 library.| |false|
 |useRxJava3|Whether to use the RxJava3 adapter with the retrofit2 library.| |false|
+|useSafeEnum|Adds fallback logic for unknown enum value on runtime(supported: kotlinx.serialization)| |false|
 
 ## IMPORT MAPPING
 
