@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 {{/jackson}}
 import java.util.Date
-{{#kotlin_serialization}}
+{{#kotlinx_serialization}}
 import java.math.BigDecimal
 import java.math.BigInteger
 {{^threetenbp}}
@@ -52,7 +52,7 @@ import java.net.URL
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
-{{/kotlin_serialization}}
+{{/kotlinx_serialization}}
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer {
 {{#moshi}}
@@ -95,7 +95,7 @@ import java.util.concurrent.atomic.AtomicLong
         .setSerializationInclusion(JsonInclude.Include.NON_ABSENT)
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
 {{/jackson}}
-{{#kotlin_serialization}}
+{{#kotlinx_serialization}}
     @JvmStatic
     val kotlinSerializationAdapters = SerializersModule {
         contextual(BigDecimal::class, BigDecimalAdapter)
@@ -115,5 +115,5 @@ import java.util.concurrent.atomic.AtomicLong
 
     @JvmStatic
     val jvmJson: Json by lazy { Json { serializersModule = kotlinSerializationAdapters } }
-{{/kotlin_serialization}}
+{{/kotlinx_serialization}}
 }

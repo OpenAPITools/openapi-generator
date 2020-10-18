@@ -238,7 +238,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
         this.useRxJava2 = useRxJava2;
     }
-    
+
     public void setUseRxJava3(boolean useRxJava3) {
         if (useRxJava3) {
             this.useRxJava = false;
@@ -386,7 +386,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             if(ProcessUtils.hasHttpBearerMethods(openAPI)) {
                 supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
             }
-            
+
             if(ProcessUtils.hasHttpBasicMethods(openAPI)) {
                 supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
             }
@@ -487,7 +487,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 //supportingFiles.add(new SupportingFile("jvm-common/infrastructure/DateAdapter.kt.mustache", infrastructureFolder, "DateAdapter.kt"));
                 break;
 
-            case kotlin_serialization:
+            case kotlinx_serialization:
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/AtomicBooleanAdapter.kt.mustache", infrastructureFolder, "AtomicBooleanAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/AtomicIntegerAdapter.kt.mustache", infrastructureFolder, "AtomicIntegerAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/AtomicLongAdapter.kt.mustache", infrastructureFolder, "AtomicLongAdapter.kt"));

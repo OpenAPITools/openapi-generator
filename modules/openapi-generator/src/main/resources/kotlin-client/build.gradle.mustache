@@ -34,9 +34,9 @@ apply plugin: 'kotlin'
 {{#moshiCodeGen}}
 apply plugin: 'kotlin-kapt'
 {{/moshiCodeGen}}
-{{#kotlin_serialization}}
+{{#kotlinx_serialization}}
 apply plugin: 'kotlinx-serialization'
-{{/kotlin_serialization}}
+{{/kotlinx_serialization}}
 
 repositories {
     maven { url "https://repo1.maven.org/maven2" }
@@ -67,9 +67,9 @@ dependencies {
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.10.2"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.2"
     {{/jackson}}
-    {{#kotlin_serialization}}
+    {{#kotlinx_serialization}}
     compile "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0"
-    {{/kotlin_serialization}}
+    {{/kotlinx_serialization}}
     {{#jvm-okhttp3}}
     {{^moshi}}
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
@@ -120,9 +120,9 @@ dependencies {
     {{#moshi}}
     compile "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
     {{/moshi}}
-    {{#kotlin_serialization}}
+    {{#kotlinx_serialization}}
     compile "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.7.0"
-    {{/kotlin_serialization}}
+    {{/kotlinx_serialization}}
     compile "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
     {{/jvm-retrofit2}}
     testCompile "io.kotlintest:kotlintest-runner-junit5:3.1.0"

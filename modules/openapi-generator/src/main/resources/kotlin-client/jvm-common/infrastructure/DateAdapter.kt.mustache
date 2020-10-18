@@ -1,6 +1,6 @@
 package {{packageName}}.infrastructure
 
-{{#kotlin_serialization}}
+{{#kotlinx_serialization}}
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializer
 import kotlinx.serialization.encoding.Decoder
@@ -8,7 +8,7 @@ import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.SerialDescriptor
-{{/kotlin_serialization}}
+{{/kotlinx_serialization}}
 {{#gson}}
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
@@ -48,7 +48,7 @@ import java.util.Locale
     }
 }
 {{/gson}}
-{{#kotlin_serialization}}
+{{#kotlinx_serialization}}
 
 @Serializer(forClass = Date::class)
 object DateAdapter : KSerializer<Date> {
@@ -64,4 +64,4 @@ object DateAdapter : KSerializer<Date> {
         return df.parse(decoder.decodeString())!!
     }
 }
-{{/kotlin_serialization}}
+{{/kotlinx_serialization}}

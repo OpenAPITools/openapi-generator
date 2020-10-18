@@ -11,8 +11,8 @@
     {{#jackson}}
     @get:JsonProperty("{{{vendorExtensions.x-base-name-literal}}}")
     {{/jackson}}
-    {{#kotlin_serialization}}
+    {{#kotlinx_serialization}}
     @SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}")
-    {{/kotlin_serialization}}
+    {{/kotlinx_serialization}}
     {{/multiplatform}}
-    {{#multiplatform}}@SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}") @Required {{/multiplatform}}{{>modelMutable}} {{{name}}}: {{#isEnum}}{{#isListContainer}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{#kotlin_serialization}}{{^isPrimitiveType}}@Contextual {{/isPrimitiveType}}{{/kotlin_serialization}} {{classname}}.{{{nameInCamelCase}}}>{{/isListContainer}}{{^isListContainer}}{{classname}}.{{{nameInCamelCase}}}{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}?{{/isNullable}}
+    {{#multiplatform}}@SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}") @Required {{/multiplatform}}{{>modelMutable}} {{{name}}}: {{#isEnum}}{{#isListContainer}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{classname}}.{{{nameInCamelCase}}}>{{/isListContainer}}{{^isListContainer}}{{classname}}.{{{nameInCamelCase}}}{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{#isListContainer}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{^items.isPrimitiveType}}{{^items.isModel}}{{#kotlinx_serialization}}@Contextual {{/kotlinx_serialization}}{{/items.isModel}}{{/items.isPrimitiveType}}{{{items.dataType}}}>{{/isListContainer}}{{^isListContainer}}{{{dataType}}}{{/isListContainer}}{{/isEnum}}{{#isNullable}}?{{/isNullable}}

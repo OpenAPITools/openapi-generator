@@ -8,7 +8,7 @@ import com.squareup.moshi.Json
 {{#jackson}}
 import com.fasterxml.jackson.annotation.JsonProperty
 {{/jackson}}
-{{#kotlin_serialization}}
+{{#kotlinx_serialization}}
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 {{#useSafeEnum}}
@@ -16,7 +16,7 @@ import org.openapitools.client.infrastructure.SafeEnum
 import org.openapitools.client.infrastructure.SafeEnum.Companion.UNKNOWN_VALUE
 import org.openapitools.client.infrastructure.SafeEnumAdapter
 {{/useSafeEnum}}
-{{/kotlin_serialization}}
+{{/kotlinx_serialization}}
 {{/multiplatform}}
 {{#multiplatform}}
 import kotlinx.serialization.Serializable
@@ -25,10 +25,10 @@ import kotlinx.serialization.SerialName
 
 /**
 * {{{description}}}
-* Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{#-last}}{{#kotlin_serialization}}{{#useSafeEnum}},unknown_value{{/useSafeEnum}}{{/kotlin_serialization}}{{/-last}}{{/enumVars}}{{/allowableValues}}
+* Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{#-last}}{{#kotlinx_serialization}}{{#useSafeEnum}},unknown_value{{/useSafeEnum}}{{/kotlinx_serialization}}{{/-last}}{{/enumVars}}{{/allowableValues}}
 */
-{{#multiplatform}}@Serializable(with = {{classname}}.Serializer::class){{/multiplatform}}{{^multiplatform}}{{#kotlin_serialization}}@Serializable(with = {{classname}}.Serializer::class){{/kotlin_serialization}}{{/multiplatform}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{classname}}({{#kotlin_serialization}}{{#useSafeEnum}}override {{/useSafeEnum}}{{/kotlin_serialization}}val serialName: {{{dataType}}}){{#kotlin_serialization}}{{#useSafeEnum}} : SafeEnum{{/useSafeEnum}}{{/kotlin_serialization}} {
+{{#multiplatform}}@Serializable(with = {{classname}}.Serializer::class){{/multiplatform}}{{^multiplatform}}{{#kotlinx_serialization}}@Serializable(with = {{classname}}.Serializer::class){{/kotlinx_serialization}}{{/multiplatform}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{classname}}({{#kotlinx_serialization}}{{#useSafeEnum}}override {{/useSafeEnum}}{{/kotlinx_serialization}}val serialName: {{{dataType}}}){{#kotlinx_serialization}}{{#useSafeEnum}} : SafeEnum{{/useSafeEnum}}{{/kotlinx_serialization}} {
 
 {{#allowableValues}}{{#enumVars}}
     {{^multiplatform}}
@@ -41,9 +41,9 @@ import kotlinx.serialization.SerialName
     {{#jackson}}
     @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
     {{/jackson}}
-    {{#kotlin_serialization}}
+    {{#kotlinx_serialization}}
     @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
-    {{/kotlin_serialization}}
+    {{/kotlinx_serialization}}
     {{/multiplatform}}
     {{#isListContainer}}
     {{#isList}}
@@ -68,7 +68,7 @@ import kotlinx.serialization.SerialName
         return value{{^isString}}.toString(){{/isString}}
     }
 
-{{#kotlin_serialization}}
+{{#kotlinx_serialization}}
     {{#useSafeEnum}}{{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : SafeEnumAdapter<{{nameInCamelCase}}>({{nameInCamelCase}}::class){{/useSafeEnum}}
-{{/kotlin_serialization}}
+{{/kotlinx_serialization}}
 }
