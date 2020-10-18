@@ -19,11 +19,13 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
+{{#hasEnums}}
 {{#useSafeEnum}}
 import org.openapitools.client.infrastructure.SafeEnum
 import org.openapitools.client.infrastructure.SafeEnum.Companion.UNKNOWN_VALUE
 import org.openapitools.client.infrastructure.SafeEnumAdapter
 {{/useSafeEnum}}
+{{/hasEnums}}
 {{/kotlinx_serialization}}
 {{#parcelizeModels}}
 import android.os.Parcelable

@@ -453,7 +453,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     private void processJVMRetrofit2Library(String infrastructureFolder) {
         if (additionalProperties.containsKey(USE_SAFE_ENUM)) {
-            setUseSafeEnum(Boolean.valueOf(additionalProperties.get(USE_SAFE_ENUM).toString()));
+            setUseSafeEnum(Boolean.parseBoolean(additionalProperties.get(USE_SAFE_ENUM).toString()));
         }
 
         additionalProperties.put(JVM, true);
@@ -503,6 +503,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/StringBuilderAdapter.kt.mustache", infrastructureFolder, "StringBuilderAdapter.kt"));
                 if (useSafeEnum) {
                     supportingFiles.add(new SupportingFile("jvm-common/infrastructure/SafeEnumSerializer.kt.mustache", infrastructureFolder, "SafeEnumSerializer.kt"));
+                    defaultIncludes.add("org.openapitools.client.infrastructure.SafeEnum");
+                    defaultIncludes.add("org.openapitools.client.infrastructure.SafeEnum.Companion.UNKNOWN_VALUE");
+                    defaultIncludes.add("org.openapitools.client.infrastructure.SafeEnumAdapter");
                 }
                 break;
         }
