@@ -114,7 +114,7 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
 
     {{/hasHttpSignatureMethods}}
     if ($SkipCertificateCheck -eq $true) {
-        if ($Configuration["SkipCertificateCheck"] -eq $null) {
+        if ($Configuration["Proxy"] -eq $null) {
             # skip certification check, no proxy
             $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
                                       -Method $Method `
@@ -136,7 +136,7 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
                                       -ProxyUseDefaultCredentials
         }
     } else {
-        if ($Configuration["SkipCertificateCheck"] -eq $null) {
+        if ($Configuration["Proxy"] -eq $null) {
             # perform certification check, no proxy
             $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
                                       -Method $Method `

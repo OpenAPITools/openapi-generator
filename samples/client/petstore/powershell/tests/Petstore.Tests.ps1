@@ -44,6 +44,9 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Result."name" | Should -Be "PowerShell Update"
             $Result."status" | Should -Be "Pending"
 
+            # clear proxy setting
+            Set-PSConfiguration -Proxy $null
+
             # Update (put)
             $NewPet = Initialize-PSPet -Id $Id -Name 'PowerShell2' -Category (
                 Initialize-PSCategory -Id $Id -Name 'PSCategory2'
