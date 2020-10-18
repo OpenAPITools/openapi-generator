@@ -2,7 +2,7 @@
 
 ## Requires
 
-* Kotlin 1.4.10
+* Kotlin 1.3.50
 
 ## Build
 

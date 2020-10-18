@@ -14,9 +14,8 @@ package org.openapitools.client.models
 import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Required
+import kotlinx.serialization.*
+import kotlinx.serialization.internal.CommonEnumSerializer
 
 /**
  * A pet for sale in the pet store
