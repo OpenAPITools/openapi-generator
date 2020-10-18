@@ -122,4 +122,38 @@ public class CodegenConfiguratorTest {
         want(props, "foo", "bar");
         want(props, "baz", "quux");
     }
+
+    @Test
+    public void shouldParsAdditionalProperties() throws IOException {
+        Map<String, Object> properties = new HashMap<String, Object>() {{
+            put("reactive", "true");
+            put("interfaceOnly", "false");
+            put("java8", true);
+            put("apiFirst", false);
+            put("anotherOne", "true");
+        }};
+
+        File output = Files.createTempDirectory("test").toFile();
+        String outDir = Paths.get(output.toURI()).toAbsolutePath().toString();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(outDir);
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        CodegenConfig config = clientOptInput.getConfig();
+        config.processOpts();
+
+        Map<String, Object> props = config.additionalProperties();
+
+        want(props, "reactive", true);
+        want(props, "interfaceOnly", false);
+        want(props, "java8", true);
+        want(props, "apiFirst", false);
+        want(props, "anotherOne", "true");
+    }
+
 }
