@@ -426,6 +426,11 @@ namespace Org.OpenAPITools.Client
 
             client.Timeout = configuration.Timeout;
 
+            if (configuration.Proxy != null)
+            {
+                client.Proxy = configuration.Proxy;
+            }
+
             if (configuration.UserAgent != null)
             {
                 client.UserAgent = configuration.UserAgent;
@@ -531,6 +536,11 @@ namespace Org.OpenAPITools.Client
             client.AddHandler("*", () => xmlDeserializer);
 
             client.Timeout = configuration.Timeout;
+
+            if (configuration.Proxy != null)
+            {
+                client.Proxy = configuration.Proxy;
+            }
 
             if (configuration.UserAgent != null)
             {
