@@ -8,6 +8,11 @@
 Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
     Context 'Pet' {
         It 'CRUD tests' {
+            # proxy test - use system default proxy setting
+            $proxy = [System.Net.WebRequest]::GetSystemWebProxy()
+            $proxy.Credentials = [System.Net.CredentialCache]::DefaultCredentials
+            Set-PSConfiguration -Proxy $proxy
+
             $Id = 38369
 
             # Add pet
