@@ -55,6 +55,10 @@ function Get-PSConfiguration {
         $Configuration["SkipCertificateCheck"] = $false
     }
 
+    if (!$Configuration.containsKey("Proxy")) {
+        $Configuration["Proxy"] = $null
+    }
+
     Return $Configuration
 
 }
@@ -119,6 +123,7 @@ function Set-PSConfiguration {
         [string]$AccessToken,
         [switch]$SkipCertificateCheck,
         [hashtable]$DefaultHeaders,
+        [System.Object]$Proxy,
         [switch]$PassThru
     )
 
@@ -165,6 +170,15 @@ function Set-PSConfiguration {
 
         If ($DefaultHeaders) {
             $Script:Configuration['DefaultHeaders'] = $DefaultHeaders
+        }
+
+        If ($Proxy -ne $null) {
+            If ($Proxy.GetType().FullName -ne "System.Net.SystemWebProxy") {
+                throw "Incorrect Proxy type '$($Proxy.GetType().FullName)'. Must be System.Net.SystemWebProxy."
+            }
+            $Script:Configuration['Proxy'] = $Proxy
+        } else {
+            $Script:Configuration['Proxy'] = $null
         }
 
         If ($PassThru.IsPresent) {

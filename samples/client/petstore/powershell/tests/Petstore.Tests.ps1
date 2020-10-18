@@ -167,6 +167,15 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Conf = Set-PSConfiguration -PassThru -SkipCertificateCheck
             $Conf["SkipCertificateCheck"] | Should -Be $true
             $Conf = Set-PSConfiguration -PassThru # reset SkipCertificateCheck
+
+            # proxy test
+            $proxy = [System.Net.WebRequest]::GetSystemWebProxy()
+            $proxy.Credentials = [System.Net.CredentialCache]::DefaultCredentials
+            Set-PSConfiguration -Proxy $proxy
+
+            Set-PSConfiguration -Proxy $null
+            $Conf2 = Get-PSConfiguration
+            $Conf2["Proxy"] | Should -BeNullOrEmpty
         }
 
         It "Base URL tests" {
