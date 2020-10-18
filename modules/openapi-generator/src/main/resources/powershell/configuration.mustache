@@ -93,6 +93,12 @@ Skip certificate verification
 .PARAMETER DefaultHeaders
 Default HTTP headers to be included in the HTTP request
 
+.PARAMETER Proxy
+Proxy setting in the HTTP request, e.g.
+
+$proxy = [System.Net.WebRequest]::GetSystemWebProxy()
+$proxy.Credentials = [System.Net.CredentialCache]::DefaultCredentials
+
 .PARAMETER PassThru
 Return an object of the Configuration
 
