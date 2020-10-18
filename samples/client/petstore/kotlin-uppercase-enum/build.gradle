@@ -2,18 +2,19 @@ group 'org.openapitools'
 version '1.0.0'
 
 wrapper {
-    gradleVersion = '4.9'
+    gradleVersion = '6.7'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 buildscript {
-    ext.kotlin_version = '1.3.61'
+    ext.kotlin_version = '1.4.10'
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
     }
 }
 
@@ -33,6 +34,5 @@ dependencies {
     compile "com.squareup.moshi:moshi-kotlin:1.9.2"
     compile "com.squareup.moshi:moshi-adapters:1.9.2"
     compile "com.squareup.okhttp3:okhttp:4.2.2"
-    compile "com.squareup.okhttp3:logging-interceptor:4.4.0"
     testCompile "io.kotlintest:kotlintest-runner-junit5:3.1.0"
 }
