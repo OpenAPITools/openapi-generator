@@ -110,4 +110,39 @@ components:
         - type: integer
           format: int64
           maximum: 7
+  AddPropsUnset:
+    type: object
+    properties:
+      map_with_additional_properties_unset:
+        type: object
+      map_with_additional_properties_true:
+        type: object
+        additionalProperties: true
+      map_with_additional_properties_false:
+        type: object
+        additionalProperties: false
+      map_with_additional_properties_schema:
+        type: object
+        additionalProperties:
+          type: string
+  AddPropsTrue:
+    type: object
+    properties:
+      string_prop:
+        type: string
+    additionalProperties: true
+  AddPropsFalse:
+    type: object
+    properties:
+      string_prop:
+        type: string
+    additionalProperties: false
+  AddPropsSchema:
+    type: object
+    properties:
+      string_prop:
+        type: string
+        additionalProperties: false
+    additionalProperties:
+      type: string
   securitySchemes: {}
