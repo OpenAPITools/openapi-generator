@@ -15,11 +15,11 @@ class PetApiServiceImpl : PetApiService {
         TODO("Implement me")
     }
 
-    override suspend fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>):  {
+    override fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): Flow<Pet> {
         TODO("Implement me")
     }
 
-    override suspend fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>):  {
+    override fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): Flow<Pet> {
         TODO("Implement me")
     }
 

@@ -6,9 +6,9 @@ interface UserApiService {
 
 	suspend fun createUser(body: User): Unit
 
-	suspend fun createUsersWithArrayInput(body: kotlin.collections.List<User>): Unit
+	suspend fun createUsersWithArrayInput(body: Flow<User>): Unit
 
-	suspend fun createUsersWithListInput(body: kotlin.collections.List<User>): Unit
+	suspend fun createUsersWithListInput(body: Flow<User>): Unit
 
 	suspend fun deleteUser(username: kotlin.String): Unit
 
