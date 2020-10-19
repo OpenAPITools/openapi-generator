@@ -76,4 +76,8 @@ public interface IJsonSchemaValidationProperties {
     boolean getIsArray();
 
     void setIsArray(boolean isArray);
+
+    CodegenProperty getAdditionalProperties();
+
+    void setAdditionalProperties(CodegenProperty additionalProperties);
 }
