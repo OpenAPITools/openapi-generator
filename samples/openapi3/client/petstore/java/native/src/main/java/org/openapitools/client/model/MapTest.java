@@ -95,6 +95,14 @@ public class MapTest {
     return this;
   }
 
+  public MapTest putMapMapOfStringItem(String key, Map<String, String> mapMapOfStringItem) {
+    if (this.mapMapOfString == null) {
+      this.mapMapOfString = new HashMap<>();
+    }
+    this.mapMapOfString.put(key, mapMapOfStringItem);
+    return this;
+  }
+
    /**
    * Get mapMapOfString
    * @return mapMapOfString
@@ -116,6 +124,14 @@ public class MapTest {
 
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
+    return this;
+  }
+
+  public MapTest putMapOfEnumStringItem(String key, InnerEnum mapOfEnumStringItem) {
+    if (this.mapOfEnumString == null) {
+      this.mapOfEnumString = new HashMap<>();
+    }
+    this.mapOfEnumString.put(key, mapOfEnumStringItem);
     return this;
   }
 
@@ -143,6 +159,14 @@ public class MapTest {
     return this;
   }
 
+  public MapTest putDirectMapItem(String key, Boolean directMapItem) {
+    if (this.directMap == null) {
+      this.directMap = new HashMap<>();
+    }
+    this.directMap.put(key, directMapItem);
+    return this;
+  }
+
    /**
    * Get directMap
    * @return directMap
@@ -164,6 +188,14 @@ public class MapTest {
 
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
+    return this;
+  }
+
+  public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
+    if (this.indirectMap == null) {
+      this.indirectMap = new HashMap<>();
+    }
+    this.indirectMap.put(key, indirectMapItem);
     return this;
   }
 
