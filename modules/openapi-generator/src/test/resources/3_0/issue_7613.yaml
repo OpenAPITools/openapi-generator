@@ -72,6 +72,130 @@ paths:
                   type: integer
                   format: int64
                   maximum: 7
+  /ref_additional_properties/:
+    post:
+      tags:
+        - additional_properties
+      operationId: arrayWithValidationsInItems
+      parameters:
+        - name: additionalPropertiesUnset
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/AdditionalPropertiesUnset'
+        - name: additionalPropertiesTrue
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/AdditionalPropertiesTrue'
+        - name: additionalPropertiesFalse
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/AdditionalPropertiesFalse'
+        - name: additionalPropertiesSchema
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/AdditionalPropertiesSchema'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdditionalPropertiesUnset'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/AdditionalPropertiesTrue'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AdditionalPropertiesFalse'
+          application/*:
+            schema:
+              $ref: '#/components/schemas/AdditionalPropertiesSchema'
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdditionalPropertiesUnset'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AdditionalPropertiesTrue'
+            application/x-www-form-urlencoded:
+              schema:
+                $ref: '#/components/schemas/AdditionalPropertiesFalse'
+            application/*:
+              schema:
+                $ref: '#/components/schemas/AdditionalPropertiesSchema'
+  /additional_properties/:
+    post:
+      tags:
+        - additional_properties
+      operationId: arrayWithValidationsInItems
+      parameters:
+        - name: additionalPropertiesUnset
+          in: query
+          required: true
+          schema:
+            type: object
+        - name: additionalPropertiesTrue
+          in: query
+          required: true
+          schema:
+            type: object
+            additionalProperties: true
+        - name: additionalPropertiesFalse
+          in: query
+          required: true
+          schema:
+            type: object
+            additionalProperties: false
+        - name: additionalPropertiesSchema
+          in: query
+          required: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+          application/xml:
+            schema:
+              type: object
+              additionalProperties: true
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: false
+          application/*:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+            application/xml:
+              schema:
+                type: object
+                additionalProperties: true
+            application/x-www-form-urlencoded:
+              schema:
+                type: object
+                additionalProperties: false
+            application/*:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
 components:
   schemas:
     ArrayWithValidationsInItems:
@@ -110,39 +234,27 @@ components:
         - type: integer
           format: int64
           maximum: 7
-  AddPropsUnset:
+  AdditionalPropertiesUnset:
+    type: object
+  AdditionalPropertiesTrue:
+    type: object
+    additionalProperties: true
+  AdditionalPropertiesFalse:
+    type: object
+    additionalProperties: false
+  AdditionalPropertiesSchema:
+    type: object
+    additionalProperties:
+      type: string
+  ObjectModelWithRefAddPropsInProps:
     type: object
     properties:
       map_with_additional_properties_unset:
-        type: object
+        $ref: '#/components/schemas/AdditionalPropertiesUnset'
       map_with_additional_properties_true:
-        type: object
-        additionalProperties: true
+        $ref: '#/components/schemas/AdditionalPropertiesTrue'
       map_with_additional_properties_false:
-        type: object
-        additionalProperties: false
+        $ref: '#/components/schemas/AdditionalPropertiesFalse'
       map_with_additional_properties_schema:
-        type: object
-        additionalProperties:
-          type: string
-  AddPropsTrue:
-    type: object
-    properties:
-      string_prop:
-        type: string
-    additionalProperties: true
-  AddPropsFalse:
-    type: object
-    properties:
-      string_prop:
-        type: string
-    additionalProperties: false
-  AddPropsSchema:
-    type: object
-    properties:
-      string_prop:
-        type: string
-        additionalProperties: false
-    additionalProperties:
-      type: string
+        $ref: '#/components/schemas/AdditionalPropertiesSchema'
   securitySchemes: {}
