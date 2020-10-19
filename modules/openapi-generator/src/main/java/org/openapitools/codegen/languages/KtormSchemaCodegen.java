@@ -665,8 +665,11 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String dataType = property.getDataType();
         if (!property.isListContainer && !isRelation(dataType)) return false;
 
+
         String modelName = model.getName();
-        String propName = property.isListContainer ? property.items.dataType : property.dataType;
+        String tryPropName = property.isListContainer ? property.items.dataType : property.dataType;
+        Boolean isPrimitive = (tryPropName.startsWith("kotlin.") || tryPropName.startsWith("java."));
+        String propName = isPrimitive ? property.getName() : tryPropName;
 
         String pkName = titleCase(toModelName(modelName));
         String pkColName = toColumnName(pkName);
