@@ -171,7 +171,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         sqlTypeMapping.put("kotlin.Byte", SqlType.Int);
         sqlTypeMapping.put("kotlin.Short", SqlType.Int);
         sqlTypeMapping.put("kotlin.Int", SqlType.Int);
-        sqlTypeMapping.put("kotlin.Long", SqlType.Int);
+        sqlTypeMapping.put("kotlin.Long", SqlType.Long);
         sqlTypeMapping.put("kotlin.Float", SqlType.Float);
         sqlTypeMapping.put("kotlin.Double", SqlType.Double);
         sqlTypeMapping.put("kotlin.ByteArray", SqlType.Blob);
@@ -361,8 +361,10 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
                 processUnknownTypeProperty(model, property, description, ktormSchema);
         }
         
-        ktormSchema.put("relationDefinition", relationDefinition);
-        processForeignKey(model, property, relationDefinition);
+        if (processForeignKey(model, property, relationDefinition)) {
+            ktormSchema.put("relationDefinition", relationDefinition);
+            ktormSchema.put("relation", true);
+        }
     }
 
     /**
@@ -659,11 +661,12 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @param property    model's property
      * @param relationDefinition resulting relation definition dictionary
      */
-    public void processForeignKey(CodegenModel model, CodegenProperty property, Map<String, Object> relationDefinition) {
-        if (!property.isListContainer) return;
+    public boolean processForeignKey(CodegenModel model, CodegenProperty property, Map<String, Object> relationDefinition) {
+        String dataType = property.getDataType();
+        if (!property.isListContainer && !isRelation(dataType)) return false;
 
         String modelName = model.getName();
-        String propName = property.items.dataType;
+        String propName = property.isListContainer ? property.items.dataType : property.dataType;
 
         String pkName = titleCase(toModelName(modelName));
         String pkColName = toColumnName(pkName);
@@ -678,6 +681,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         relationDefinition.put("fkColName", fkColName);
         relationDefinition.put("relName", relName);
         relationDefinition.put("relTblName", relTblName);
+
+        return true;
     }
 
     private String titleCase(final String input) {
@@ -685,8 +690,10 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     private class SqlTypeArgs {
+        // type classes
 		public boolean isPrimitive;
-		public boolean isNumeric;
+        public boolean isNumeric;
+        // specific types
         public boolean isBoolean;
         public boolean isInteger;
         public boolean isFloat;
@@ -695,9 +702,41 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         public boolean isDate;
         public boolean isBlob;
         public boolean isJson;
+        // special args
         public boolean isNull;
     }
 
+    /**
+     * Checks if the model type should be a relationship instead.
+     *
+     * @param dataType   type name
+     * @return is a relation
+     */
+    private Boolean isRelation(String dataType) {
+        String sqlType = sqlTypeMapping.getOrDefault(dataType, "").toLowerCase(Locale.ROOT);
+        switch (sqlType) {
+            case SqlType.Boolean:
+            case SqlType.Int:
+            case SqlType.Long:
+            case SqlType.Float:
+            case SqlType.Double:
+            case SqlType.Decimal:
+            case SqlType.Text:
+            case SqlType.Varchar:
+            case SqlType.Date:
+            case SqlType.Blob:
+            case SqlType.Json:
+                return false;
+            default:
+                // If its explicitly configured kotlin.* and java.* types.
+                if (sqlType.startsWith("kotlin.") || sqlType.startsWith("java.")) {
+                    // We just have to serialize it.
+                    return false;
+                }
+                // Otherwise we assume this is a legitimate model name and it becomes a foreign key.
+                return true;
+        }
+    }
     /**
      * Generates codegen type mapping between ktor and sqlite
      * Ref: http://www.sqlite.org/draft/datatype3.html
@@ -722,13 +761,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
             case SqlType.Json:
                 return sqlType;
             default:
-                // If its explicitly configured kotlin.* and java.* types.
-                if (sqlType.startsWith("kotlin.") || sqlType.startsWith("java.")) {
-                    // We just have to serialize it.
-                    return SqlType.Blob;
-                }
-                // Otherwise we assume this is a legitimate model name and it becomes a foreign key.
-                return SqlType.Int;
+                return isRelation(dataType) ? SqlType.Long : SqlType.Blob;
         }
     }
 
