@@ -159,6 +159,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     // If 'additionalProperties' is set to a type or refers to a type, 'items' provides the type information for
     // the undeclared properties. 
     public CodegenProperty items;
+    public CodegenProperty additionalProperties;
     public CodegenProperty mostInnerItems;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     public boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
@@ -462,6 +463,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     }
 
     @Override
+    public CodegenProperty getAdditionalProperties() { return additionalProperties; }
+
+    @Override
+    public void setAdditionalProperties(CodegenProperty additionalProperties)  {
+        this.additionalProperties = additionalProperties;
+    }
+
+    @Override
     public boolean getIsModel() { return isModel; }
 
     @Override
@@ -594,6 +603,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
             if (this.items != null) {
                 cp.items = this.items;
             }
+            if (this.additionalProperties != null) {
+                cp.additionalProperties = this.additionalProperties;
+            }
             if (this.mostInnerItems != null) {
                 cp.mostInnerItems = this.mostInnerItems;
             }
@@ -712,6 +724,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", _enum=").append(_enum);
         sb.append(", allowableValues=").append(allowableValues);
         sb.append(", items=").append(items);
+        sb.append(", additionalProperties=").append(additionalProperties);
         sb.append(", mostInnerItems=").append(mostInnerItems);
         sb.append(", vendorExtensions=").append(vendorExtensions);
         sb.append(", hasValidation=").append(hasValidation);
@@ -808,6 +821,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(_enum, that._enum) &&
                 Objects.equals(allowableValues, that.allowableValues) &&
                 Objects.equals(items, that.items) &&
+                Objects.equals(additionalProperties, that.additionalProperties) &&
                 Objects.equals(mostInnerItems, that.mostInnerItems) &&
                 Objects.equals(vendorExtensions, that.vendorExtensions) &&
                 Objects.equals(discriminatorValue, that.discriminatorValue) &&
@@ -834,7 +848,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
                 isArray, isMap, isEnum, isReadOnly, isWriteOnly, isNullable,
-                isSelfReference, isCircularReference, isDiscriminator, _enum, allowableValues, items, mostInnerItems,
+                isSelfReference, isCircularReference, isDiscriminator, _enum, allowableValues,
+                items, mostInnerItems, additionalProperties,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
                 xmlNamespace, isXmlWrapped);
