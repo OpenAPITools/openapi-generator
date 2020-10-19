@@ -1071,7 +1071,7 @@ public class ApiClient {
   }
 
   /**
-   * Get the client config.
+   * Get the default client config.
    * @return Client config
    */
   public ClientConfig getDefaultClientConfig() {
