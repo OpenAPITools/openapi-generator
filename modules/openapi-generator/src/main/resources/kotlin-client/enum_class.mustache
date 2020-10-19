@@ -57,7 +57,6 @@ import kotlinx.serialization.internal.CommonEnumSerializer
     {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}}{{#useSafeEnum}},
     UNKNOWN(UNKNOWN_VALUE){{/useSafeEnum}};{{/-last}}
     {{/isArray}}
-
 {{/enumVars}}{{/allowableValues}}
 
     /**
@@ -65,7 +64,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
     In cases the var name and value are different, the client would send incorrect enums to the server.
     **/
     override fun toString(): String {
-        return value{{^isString}}.toString(){{/isString}}
+        return serialName{{^isString}}.toString(){{/isString}}
     }
 
 {{#kotlinx_serialization}}
