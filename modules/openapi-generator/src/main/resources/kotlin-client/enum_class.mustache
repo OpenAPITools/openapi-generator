@@ -69,6 +69,6 @@ import kotlinx.serialization.internal.CommonEnumSerializer
     }
 
 {{#kotlinx_serialization}}
-    {{#useSafeEnum}}{{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : SafeEnumAdapter<{{nameInCamelCase}}>({{nameInCamelCase}}::class){{/useSafeEnum}}
+    {{#useSafeEnum}}{{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : SafeEnumAdapter<{{classname}}>({{classname}}::class){{/useSafeEnum}}
 {{/kotlinx_serialization}}
 }
