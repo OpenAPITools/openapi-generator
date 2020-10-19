@@ -7,3 +7,4 @@ additionalProperties:
   serializationLibrary: kotlinx_serialization
   useSafeEnum: "true"
   artifactId: kotlin-petstore-retrofit2-kotlinx_serialization
+  enumPropertyNaming: UPPERCASE
