@@ -2342,6 +2342,82 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testAdditionalPropertiesPresentInModels() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        String modelName;
+        Schema sc;
+        CodegenModel cm;
+        CodegenProperty anyTypeSchema = codegen.fromProperty("", new Schema());
+
+        modelName = "AdditionalPropertiesUnset";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.getAdditionalProperties(), anyTypeSchema);
+
+        modelName = "AdditionalPropertiesTrue";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.getAdditionalProperties(), anyTypeSchema);
+
+        modelName = "AdditionalPropertiesFalse";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.getAdditionalProperties(), null);
+
+        modelName = "AdditionalPropertiesSchema";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        CodegenProperty stringCp = codegen.fromProperty("", new Schema().type("string"));
+        assertEquals(cm.getAdditionalProperties(), stringCp);
+    }
+
+    @Test
+    public void testAdditionalPropertiesPresentInModelProperties() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        String modelName;
+        Schema sc;
+        CodegenModel cm;
+        CodegenProperty anyTypeSchema = codegen.fromProperty("", new Schema());
+        CodegenProperty stringCp = codegen.fromProperty("", new Schema().type("string"));
+        CodegenProperty mapWithAddPropsUnset;
+        CodegenProperty mapWithAddPropsTrue;
+        CodegenProperty mapWithAddPropsFalse;
+        CodegenProperty mapWithAddPropsSchema;
+
+        modelName = "ObjectModelWithRefAddPropsInProps";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        mapWithAddPropsUnset = cm.getVars().get(0);
+        assertEquals(mapWithAddPropsUnset.getAdditionalProperties(), anyTypeSchema);
+        mapWithAddPropsTrue = cm.getVars().get(1);
+        assertEquals(mapWithAddPropsTrue.getAdditionalProperties(), anyTypeSchema);
+        mapWithAddPropsFalse = cm.getVars().get(2);
+        assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
+        mapWithAddPropsSchema = cm.getVars().get(3);
+        assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+
+        modelName = "ObjectModelWithAddPropsInProps";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        mapWithAddPropsUnset = cm.getVars().get(0);
+        assertEquals(mapWithAddPropsUnset.getAdditionalProperties(), anyTypeSchema);
+        mapWithAddPropsTrue = cm.getVars().get(1);
+        assertEquals(mapWithAddPropsTrue.getAdditionalProperties(), anyTypeSchema);
+        mapWithAddPropsFalse = cm.getVars().get(2);
+        assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
+        mapWithAddPropsSchema = cm.getVars().get(3);
+        assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+    }
+
+    @Test
     public void testIsXPresence() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7651.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();

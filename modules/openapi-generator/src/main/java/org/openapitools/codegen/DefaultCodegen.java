@@ -2598,15 +2598,21 @@ public class DefaultCodegen implements CodegenConfig {
                 m.isAdditionalPropertiesTrue = false;
             } else {
                 m.isAdditionalPropertiesTrue = true;
+                CodegenProperty cp = fromProperty("",  new Schema());
+                m.setAdditionalProperties(cp);
             }
         } else if (schema.getAdditionalProperties() instanceof Boolean) {
             if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
                 m.isAdditionalPropertiesTrue = true;
+                CodegenProperty cp = fromProperty("", new Schema());
+                m.setAdditionalProperties(cp);
             } else {
                 m.isAdditionalPropertiesTrue = false;
             }
         } else {
             m.isAdditionalPropertiesTrue = false;
+            CodegenProperty cp = fromProperty("", (Schema) schema.getAdditionalProperties());
+            m.setAdditionalProperties(cp);
         }
 
         // post process model properties
@@ -3364,6 +3370,24 @@ public class DefaultCodegen implements CodegenConfig {
             setNonArrayMapProperty(property, type);
             Schema refOrCurrent = ModelUtils.getReferencedSchema(this.openAPI, p);
             property.isModel = (ModelUtils.isComposedSchema(refOrCurrent) || ModelUtils.isObjectSchema(refOrCurrent)) && ModelUtils.isModel(refOrCurrent);
+        }
+
+        // process 'additionalProperties'
+        if ("object".equals(p.getType())) {
+            if (p.getAdditionalProperties() == null) {
+                if (!disallowAdditionalPropertiesIfNotPresent) {
+                    CodegenProperty cp = fromProperty("",  new Schema());
+                    property.setAdditionalProperties(cp);
+                }
+            } else if (p.getAdditionalProperties() instanceof Boolean) {
+                if (Boolean.TRUE.equals(p.getAdditionalProperties())) {
+                    CodegenProperty cp = fromProperty("", new Schema());
+                    property.setAdditionalProperties(cp);
+                }
+            } else {
+                CodegenProperty cp = fromProperty("", (Schema) p.getAdditionalProperties());
+                property.setAdditionalProperties(cp);
+            }
         }
 
         LOGGER.debug("debugging from property return: " + property);

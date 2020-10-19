@@ -234,27 +234,42 @@ components:
         - type: integer
           format: int64
           maximum: 7
-  AdditionalPropertiesUnset:
-    type: object
-  AdditionalPropertiesTrue:
-    type: object
-    additionalProperties: true
-  AdditionalPropertiesFalse:
-    type: object
-    additionalProperties: false
-  AdditionalPropertiesSchema:
-    type: object
-    additionalProperties:
-      type: string
-  ObjectModelWithRefAddPropsInProps:
-    type: object
-    properties:
-      map_with_additional_properties_unset:
-        $ref: '#/components/schemas/AdditionalPropertiesUnset'
-      map_with_additional_properties_true:
-        $ref: '#/components/schemas/AdditionalPropertiesTrue'
-      map_with_additional_properties_false:
-        $ref: '#/components/schemas/AdditionalPropertiesFalse'
-      map_with_additional_properties_schema:
-        $ref: '#/components/schemas/AdditionalPropertiesSchema'
+    AdditionalPropertiesUnset:
+      type: object
+    AdditionalPropertiesTrue:
+      type: object
+      additionalProperties: true
+    AdditionalPropertiesFalse:
+      type: object
+      additionalProperties: false
+    AdditionalPropertiesSchema:
+      type: object
+      additionalProperties:
+        type: string
+    ObjectModelWithRefAddPropsInProps:
+      type: object
+      properties:
+        map_with_additional_properties_unset:
+          $ref: '#/components/schemas/AdditionalPropertiesUnset'
+        map_with_additional_properties_true:
+          $ref: '#/components/schemas/AdditionalPropertiesTrue'
+        map_with_additional_properties_false:
+          $ref: '#/components/schemas/AdditionalPropertiesFalse'
+        map_with_additional_properties_schema:
+          $ref: '#/components/schemas/AdditionalPropertiesSchema'
+    ObjectModelWithAddPropsInProps:
+      type: object
+      properties:
+        map_with_additional_properties_unset:
+          type: object
+        map_with_additional_properties_true:
+          type: object
+          additionalProperties: true
+        map_with_additional_properties_false:
+          type: object
+          additionalProperties: false
+        map_with_additional_properties_schema:
+          type: object
+          additionalProperties:
+            type: string
   securitySchemes: {}
