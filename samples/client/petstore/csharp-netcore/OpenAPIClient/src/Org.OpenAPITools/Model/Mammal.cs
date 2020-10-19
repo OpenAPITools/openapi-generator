@@ -34,15 +34,6 @@ namespace Org.OpenAPITools.Model
     public partial class Mammal : AbstractOpenAPISchema, IEquatable<Mammal>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Mammal" /> class.
-        /// </summary>
-        public Mammal()
-        {
-            this.IsNullable = true;
-            this.SchemaType= "oneOf";
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Mammal" /> class
         /// with the <see cref="Pig" /> class
         /// </summary>
@@ -170,19 +161,19 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of Mammal</returns>
         public static Mammal FromJson(string jsonString)
         {
-            Mammal newMammal = new Mammal();
+            Mammal newMammal = null;
 
             string discriminatorValue = JObject.Parse(jsonString)["className"].ToString();
             switch (discriminatorValue)
             {
                 case "Pig":
-                    newMammal.ActualInstance = JsonConvert.DeserializeObject<Pig>(jsonString, newMammal._serializerSettings);
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, newMammal._serializerSettings));
                     return newMammal;
                 case "whale":
-                    newMammal.ActualInstance = JsonConvert.DeserializeObject<Whale>(jsonString, newMammal._serializerSettings);
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, newMammal._serializerSettings));
                     return newMammal;
                 case "zebra":
-                    newMammal.ActualInstance = JsonConvert.DeserializeObject<Zebra>(jsonString, newMammal._serializerSettings);
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, newMammal._serializerSettings));
                     return newMammal;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for Mammal. Possible values: Pig whale zebra", discriminatorValue));
@@ -194,7 +185,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newMammal.ActualInstance = JsonConvert.DeserializeObject<Pig>(jsonString, newMammal._serializerSettings);
+                newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, newMammal._serializerSettings));
                 matchedTypes.Add("Pig");
                 match++;
             }
@@ -206,7 +197,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newMammal.ActualInstance = JsonConvert.DeserializeObject<Whale>(jsonString, newMammal._serializerSettings);
+                newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, newMammal._serializerSettings));
                 matchedTypes.Add("Whale");
                 match++;
             }
@@ -218,7 +209,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newMammal.ActualInstance = JsonConvert.DeserializeObject<Zebra>(jsonString, newMammal._serializerSettings);
+                newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, newMammal._serializerSettings));
                 matchedTypes.Add("Zebra");
                 match++;
             }

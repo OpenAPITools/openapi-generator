@@ -143,13 +143,13 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of FruitReq</returns>
         public static FruitReq FromJson(string jsonString)
         {
-            FruitReq newFruitReq = new FruitReq();
+            FruitReq newFruitReq = null;
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                newFruitReq.ActualInstance = JsonConvert.DeserializeObject<AppleReq>(jsonString, newFruitReq._serializerSettings);
+                newFruitReq = new FruitReq(JsonConvert.DeserializeObject<AppleReq>(jsonString, newFruitReq._serializerSettings));
                 matchedTypes.Add("AppleReq");
                 match++;
             }
@@ -161,7 +161,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newFruitReq.ActualInstance = JsonConvert.DeserializeObject<BananaReq>(jsonString, newFruitReq._serializerSettings);
+                newFruitReq = new FruitReq(JsonConvert.DeserializeObject<BananaReq>(jsonString, newFruitReq._serializerSettings));
                 matchedTypes.Add("BananaReq");
                 match++;
             }

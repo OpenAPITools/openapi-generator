@@ -144,13 +144,13 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of NullableShape</returns>
         public static NullableShape FromJson(string jsonString)
         {
-            NullableShape newNullableShape = new NullableShape();
+            NullableShape newNullableShape = null;
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                newNullableShape.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, newNullableShape._serializerSettings);
+                newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, newNullableShape._serializerSettings));
                 matchedTypes.Add("Quadrilateral");
                 match++;
             }
@@ -162,7 +162,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newNullableShape.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, newNullableShape._serializerSettings);
+                newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, newNullableShape._serializerSettings));
                 matchedTypes.Add("Triangle");
                 match++;
             }

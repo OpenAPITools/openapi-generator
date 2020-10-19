@@ -144,13 +144,13 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of ShapeOrNull</returns>
         public static ShapeOrNull FromJson(string jsonString)
         {
-            ShapeOrNull newShapeOrNull = new ShapeOrNull();
+            ShapeOrNull newShapeOrNull = null;
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                newShapeOrNull.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, newShapeOrNull._serializerSettings);
+                newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, newShapeOrNull._serializerSettings));
                 matchedTypes.Add("Quadrilateral");
                 match++;
             }
@@ -162,7 +162,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newShapeOrNull.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, newShapeOrNull._serializerSettings);
+                newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, newShapeOrNull._serializerSettings));
                 matchedTypes.Add("Triangle");
                 match++;
             }

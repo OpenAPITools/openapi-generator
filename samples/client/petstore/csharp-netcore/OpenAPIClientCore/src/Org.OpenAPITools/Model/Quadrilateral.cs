@@ -34,15 +34,6 @@ namespace Org.OpenAPITools.Model
     public partial class Quadrilateral : AbstractOpenAPISchema, IEquatable<Quadrilateral>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
-        /// </summary>
-        public Quadrilateral()
-        {
-            this.IsNullable = true;
-            this.SchemaType= "oneOf";
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Quadrilateral" /> class
         /// with the <see cref="ComplexQuadrilateral" /> class
         /// </summary>
@@ -144,13 +135,13 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of Quadrilateral</returns>
         public static Quadrilateral FromJson(string jsonString)
         {
-            Quadrilateral newQuadrilateral = new Quadrilateral();
+            Quadrilateral newQuadrilateral = null;
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                newQuadrilateral.ActualInstance = JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, newQuadrilateral._serializerSettings);
+                newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, newQuadrilateral._serializerSettings));
                 matchedTypes.Add("ComplexQuadrilateral");
                 match++;
             }
@@ -162,7 +153,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newQuadrilateral.ActualInstance = JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, newQuadrilateral._serializerSettings);
+                newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, newQuadrilateral._serializerSettings));
                 matchedTypes.Add("SimpleQuadrilateral");
                 match++;
             }

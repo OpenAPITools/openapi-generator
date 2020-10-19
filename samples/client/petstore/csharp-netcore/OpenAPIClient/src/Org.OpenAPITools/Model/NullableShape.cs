@@ -144,16 +144,16 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of NullableShape</returns>
         public static NullableShape FromJson(string jsonString)
         {
-            NullableShape newNullableShape = new NullableShape();
+            NullableShape newNullableShape = null;
 
             string discriminatorValue = JObject.Parse(jsonString)["shapeType"].ToString();
             switch (discriminatorValue)
             {
                 case "Quadrilateral":
-                    newNullableShape.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, newNullableShape._serializerSettings);
+                    newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, newNullableShape._serializerSettings));
                     return newNullableShape;
                 case "Triangle":
-                    newNullableShape.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, newNullableShape._serializerSettings);
+                    newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, newNullableShape._serializerSettings));
                     return newNullableShape;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for NullableShape. Possible values: Quadrilateral Triangle", discriminatorValue));
@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newNullableShape.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, newNullableShape._serializerSettings);
+                newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, newNullableShape._serializerSettings));
                 matchedTypes.Add("Quadrilateral");
                 match++;
             }
@@ -177,7 +177,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newNullableShape.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, newNullableShape._serializerSettings);
+                newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, newNullableShape._serializerSettings));
                 matchedTypes.Add("Triangle");
                 match++;
             }

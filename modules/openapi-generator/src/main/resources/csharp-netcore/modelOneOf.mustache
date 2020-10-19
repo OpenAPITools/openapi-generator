@@ -4,6 +4,7 @@
     [DataContract(Name = "{{{name}}}")]
     {{>visibility}} partial class {{classname}} : AbstractOpenAPISchema, {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
     {
+        {{#isNullable}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
@@ -13,6 +14,7 @@
             this.SchemaType= "oneOf";
         }
 
+        {{/isNullable}}
         {{#oneOf}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class
@@ -95,7 +97,7 @@
         /// <returns>An instance of {{classname}}</returns>
         public static {{classname}} FromJson(string jsonString)
         {
-            {{classname}} new{{classname}} = new {{classname}}();
+            {{classname}} new{{classname}} = null;
             {{#useOneOfDiscriminatorLookup}}
             {{#discriminator}}
 
@@ -104,7 +106,7 @@
             {
                 {{#mappedModels}}
                 case "{{{mappingName}}}":
-                    new{{classname}}.ActualInstance = JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, new{{classname}}._serializerSettings);
+                    new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, new{{classname}}._serializerSettings));
                     return new{{classname}};
                 {{/mappedModels}}
                 default:
@@ -120,7 +122,7 @@
 
             try
             {
-                new{{classname}}.ActualInstance = JsonConvert.DeserializeObject<{{{.}}}>(jsonString, new{{classname}}._serializerSettings);
+                new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{.}}}>(jsonString, new{{classname}}._serializerSettings));
                 matchedTypes.Add("{{{.}}}");
                 match++;
             }
