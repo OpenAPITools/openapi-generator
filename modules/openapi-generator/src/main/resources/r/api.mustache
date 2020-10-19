@@ -20,7 +20,7 @@
 {{/isEnum}}
 {{^isEnum}}
 {{#isContainer}}
-{{#isListContainer}}
+{{#isArray}}
 {{#items}}
 {{#isPrimitiveType}}
 #' \item \emph{ @param } {{paramName}} list( {{dataType}} )
@@ -29,7 +29,7 @@
 #' \item \emph{ @param } {{paramName}} list( \link{{=<% %>=}}{<%dataType%>}<%={{ }}=%> )
 {{/isPrimitiveType}}
 {{/items}}
-{{/isListContainer}}
+{{/isArray}}
 {{#isMap}}
 {{#isPrimitiveType}}
 #' \item \emph{ @param } {{paramName}} named list( {{dataType}} )
@@ -51,7 +51,7 @@
 {{/allParams}}
 {{#returnType}}
 {{^returnTypeIsPrimitive}}
-#' \item \emph{ @returnType } {{#returnContainer}}{{#isListContainer}}list( {{/isListContainer}}{{#isMap}}named list( {{/isMap}}{{/returnContainer}}\link{{=<% %>=}}{<%#returnContainer%><%={{ }}=%>{{returnBaseType}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{=<% %>=}}<%/returnContainer%>}<%={{ }}=%>{{#returnContainer}}{{#isListContainer}} ){{/isListContainer}}{{#isMap}} ){{/isMap}}{{/returnContainer}} \cr
+#' \item \emph{ @returnType } {{#returnContainer}}{{#isArray}}list( {{/isArray}}{{#isMap}}named list( {{/isMap}}{{/returnContainer}}\link{{=<% %>=}}{<%#returnContainer%><%={{ }}=%>{{returnBaseType}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{=<% %>=}}<%/returnContainer%>}<%={{ }}=%>{{#returnContainer}}{{#isArray}} ){{/isArray}}{{#isMap}} ){{/isMap}}{{/returnContainer}} \cr
 {{/returnTypeIsPrimitive}}
 {{/returnType}}
 #'
@@ -213,13 +213,13 @@
       {{#hasBodyParam}}
       {{#bodyParams}}
       if (!missing(`{{paramName}}`)) {
-        {{#isListContainer}}
+        {{#isArray}}
         body.items = paste(unlist(lapply({{paramName}}, function(param){param$toJSONString()})), collapse = ",")
         body <- paste0('[', body.items, ']')
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         body <- `{{paramName}}`$toJSONString()
-        {{/isListContainer}}
+        {{/isArray}}
       } else {
         body <- NULL
       }

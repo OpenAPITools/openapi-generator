@@ -442,7 +442,7 @@ class Marshaller {
     }
 
     public Marshaller(CodegenParameter parameter) {
-        if (parameter.isListContainer) {
+        if (parameter.isArray) {
             this.varName = parameter.baseType + "List";
         } else if (parameter.isMap) {
             this.varName = parameter.baseType + "Map";

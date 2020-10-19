@@ -38,7 +38,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     this.{{name}} = {{name}};
     return this;
   }
-  {{#isListContainer}}
+  {{#isArray}}
 
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{^required}}
@@ -49,7 +49,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     {{name}}.add({{name}}Item);
     return this;
   }
-  {{/isListContainer}}
+  {{/isArray}}
   {{#isMap}}
 
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {

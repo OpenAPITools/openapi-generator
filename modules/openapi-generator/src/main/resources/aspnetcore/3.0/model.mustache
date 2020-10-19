@@ -73,7 +73,7 @@ namespace {{modelPackage}}
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public {{#parent}}{{^isMap}}{{^isArrayModel}}new {{/isArrayModel}}{{/isMap}}{{/parent}}string ToJson()
+        public {{#parent}}{{^isMap}}{{^isArray}}new {{/isArray}}{{/isMap}}{{/parent}}string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }

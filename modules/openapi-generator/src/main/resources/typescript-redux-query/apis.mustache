@@ -53,7 +53,7 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
 
     {{#queryParams}}
 
-    {{#isListContainer}}
+    {{#isArray}}
     if (requestParameters.{{paramName}}) {
         {{#isCollectionFormatMulti}}
         queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
@@ -63,8 +63,8 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
         {{/isCollectionFormatMulti}}
     }
 
-    {{/isListContainer}}
-    {{^isListContainer}}
+    {{/isArray}}
+    {{^isArray}}
     if (requestParameters.{{paramName}} !== undefined) {
         {{#isDateTime}}
         queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString();
@@ -79,7 +79,7 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
         {{/isDateTime}}
     }
 
-    {{/isListContainer}}
+    {{/isArray}}
     {{/queryParams}}
     const headerParameters : runtime.HttpHeaders = {};
 
@@ -94,18 +94,18 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
     {{/consumes.0}}
     {{/bodyParam}}
     {{#headerParams}}
-    {{#isListContainer}}
+    {{#isArray}}
     if (requestParameters.{{paramName}}) {
         headerParameters['{{baseName}}'] = requestParameters.{{paramName}}?.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
     }
 
-    {{/isListContainer}}
-    {{^isListContainer}}
+    {{/isArray}}
+    {{^isArray}}
     if (requestParameters.{{paramName}} !== undefined && requestParameters.{{paramName}} !== null) {
         headerParameters['{{baseName}}'] = String(requestParameters.{{paramName}});
     }
 
-    {{/isListContainer}}
+    {{/isArray}}
     {{/headerParams}}
 
     const { meta = {} } = requestConfig;
@@ -135,7 +135,7 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
     const formData = new FormData();
     {{/hasFormParams}}
     {{#formParams}}
-    {{#isListContainer}}
+    {{#isArray}}
     if (requestParameters.{{paramName}}) {
         {{#isCollectionFormatMulti}}
         requestParameters.{{paramName}}.forEach((element) => {
@@ -147,13 +147,13 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
         {{/isCollectionFormatMulti}}
     }
 
-    {{/isListContainer}}
-    {{^isListContainer}}
+    {{/isArray}}
+    {{^isArray}}
     if (requestParameters.{{paramName}} !== undefined) {
         formData.append('{{baseName}}', requestParameters.{{paramName}} as any);
     }
 
-    {{/isListContainer}}
+    {{/isArray}}
     {{/formParams}}
     const config: QueryConfig<T> = {
         url: `${runtime.Configuration.basePath}{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
@@ -170,7 +170,7 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
         {{#hasBodyParam}}
         {{#bodyParam}}
         {{#isContainer}}
-        body: queryParameters || requestParameters.{{paramName}}{{#isListContainer}}{{#items}}{{^isPrimitiveType}}?.map({{datatype}}ToJSON){{/isPrimitiveType}}{{/items}}{{/isListContainer}},
+        body: queryParameters || requestParameters.{{paramName}}{{#isArray}}{{#items}}{{^isPrimitiveType}}?.map({{datatype}}ToJSON){{/isPrimitiveType}}{{/items}}{{/isArray}},
         {{/isContainer}}
         {{^isContainer}}
         {{^isPrimitiveType}}
@@ -201,12 +201,12 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
         {{/returnSimpleType}}
         {{/returnTypeIsPrimitive}}
         {{^returnTypeIsPrimitive}}
-        {{#isListContainer}}
+        {{#isArray}}
         config.transform = (body: ResponseBody, text: ResponseBody) => requestTransform(body.map({{returnBaseType}}FromJSON), text);
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         config.transform = (body: ResponseBody, text: ResponseBody) => requestTransform({{returnBaseType}}FromJSON(body), text);
-        {{/isListContainer}}
+        {{/isArray}}
         {{/returnTypeIsPrimitive}}
         {{/returnType}}
     }

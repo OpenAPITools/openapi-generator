@@ -1011,7 +1011,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, ExampleCodeGenerationContext context) {
-        if (codegenParameter.isListContainer) { // array
+        if (codegenParameter.isArray) { // array
             return "[" + constructExampleCode(codegenParameter.items, modelMaps, context) + "]";
         } else if (codegenParameter.isMap) { // TODO: map, file type
             return "\"TODO\"";
@@ -1051,7 +1051,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, ExampleCodeGenerationContext context) {
-        if (codegenProperty.isListContainer) { // array
+        if (codegenProperty.isArray) { // array
             return "[" + constructExampleCode(codegenProperty.items, modelMaps, context) + "]";
         } else if (codegenProperty.isMap) { // TODO: map, file type
             return "\"TODO\"";

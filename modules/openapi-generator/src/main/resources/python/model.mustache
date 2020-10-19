@@ -118,7 +118,7 @@ class {{classname}}(object):
 {{#isEnum}}
 {{#isContainer}}
         allowed_values = [{{#isNullable}}None,{{/isNullable}}{{#allowableValues}}{{#values}}{{#items.isString}}"{{/items.isString}}{{{this}}}{{#items.isString}}"{{/items.isString}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]  # noqa: E501
-{{#isListContainer}}
+{{#isArray}}
         if (self.local_vars_configuration.client_side_validation and
                 not set({{{name}}}).issubset(set(allowed_values))):  # noqa: E501
             raise ValueError(
@@ -126,7 +126,7 @@ class {{classname}}(object):
                 .format(", ".join(map(str, set({{{name}}}) - set(allowed_values))),  # noqa: E501
                         ", ".join(map(str, allowed_values)))
             )
-{{/isListContainer}}
+{{/isArray}}
 {{#isMap}}
         if (self.local_vars_configuration.client_side_validation and
                 not set({{{name}}}.keys()).issubset(set(allowed_values))):  # noqa: E501

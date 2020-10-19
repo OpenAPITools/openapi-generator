@@ -811,12 +811,12 @@ public abstract class AbstractPythonConnexionServerCodegen extends DefaultCodege
             example = p.items.defaultValue;
         }
         if (example == null) {
-            if (Boolean.TRUE.equals(p.isListContainer)) {
+            if (Boolean.TRUE.equals(p.isArray)) {
                 example = "[]";
             } else {
                 example = "None";
             }
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (Boolean.TRUE.equals(p.isArray)) {
             if (Boolean.TRUE.equals(p.isBodyParam)) {
                 example = "[" + example + "]";
             }

@@ -10,7 +10,7 @@
 input {{operationId}}Input {
     {{#allParams}}
     {{#description}}# {{description}}{{/description}}
-    {{paramName}}: {{#isContainer}}[{{/isContainer}}{{dataType}}{{#isListContainer}}Input{{/isListContainer}}{{#isModel}}Input{{/isModel}}{{#isContainer}}]{{/isContainer}}{{#hasMore}}, {{/hasMore}}
+    {{paramName}}: {{#isContainer}}[{{/isContainer}}{{dataType}}{{#isArray}}Input{{/isArray}}{{#isModel}}Input{{/isModel}}{{#isContainer}}]{{/isContainer}}{{#hasMore}}, {{/hasMore}}
     {{/allParams}}
 }{{/hasParams}}{{/vendorExtensions.x-is-mutation}}{{/operation}}
 

@@ -117,7 +117,7 @@ mk{{classname}}
   -> {{/required}}{{/vars}}{{classname}}
 mk{{classname}} {{#vars}}{{#required}}{{name}} {{/required}}{{/vars}}=
   {{classname}}
-  { {{#vars}}{{#required}}{{name}}{{/required}}{{^required}}{{name}} = {{#isListContainer}}Nothing{{/isListContainer}}{{#isMap}}Nothing{{/isMap}}{{^isContainer}}Nothing{{/isContainer}}{{/required}}{{#hasMore}}
+  { {{#vars}}{{#required}}{{name}}{{/required}}{{^required}}{{name}} = {{#isArray}}Nothing{{/isArray}}{{#isMap}}Nothing{{/isMap}}{{^isContainer}}Nothing{{/isContainer}}{{/required}}{{#hasMore}}
   , {{/hasMore}}{{/vars}}
   }
 {{/generateModelConstructors}}{{/isAlias}}{{/isEnum}}{{/model}}{{/models}}

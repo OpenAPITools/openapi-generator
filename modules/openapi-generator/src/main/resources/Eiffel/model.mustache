@@ -71,7 +71,7 @@ feature -- Change Element
         Result.append("%Nclass {{classname}}%N")
         {{#vars}} 
         {{^isInherited}}
-        {{#isListContainer}}
+        {{#isArray}}
         if attached {{name}} as l_{{name}} then
           across l_{{name}} as ic loop
             Result.append ("%N {{name}}:")
@@ -79,7 +79,7 @@ feature -- Change Element
             Result.append ("%N")
           end
         end 
-        {{/isListContainer}}
+        {{/isArray}}
         {{#isMap}}
         if attached {{name}} as l_{{name}} then
           Result.append ("%N{{name}}:")

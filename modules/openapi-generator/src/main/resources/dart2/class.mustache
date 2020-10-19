@@ -38,8 +38,8 @@ class {{{classname}}} {
   {{^isDateTime}}
   {{^isDate}}
     {{#complexType}}
-      {{#isListContainer}}
-        {{#items.isListContainer}}
+      {{#isArray}}
+        {{#items.isArray}}
       {{{name}}} = json['{{{baseName}}}'] == null
         ? null
         : (json['{{{baseName}}}'] as List).map(
@@ -50,14 +50,14 @@ class {{{classname}}} {
             (e) => e == null ? null : (e as List).cast<{{items.items.dataType}}>()
       {{/items.complexType}}
           ).toList(growable: false);
-        {{/items.isListContainer}}
-        {{^items.isListContainer}}
+        {{/items.isArray}}
+        {{^items.isArray}}
       {{{name}}} = {{{complexType}}}.listFromJson(json['{{{baseName}}}']);
-        {{/items.isListContainer}}
-      {{/isListContainer}}
-      {{^isListContainer}}
+        {{/items.isArray}}
+      {{/isArray}}
+      {{^isArray}}
         {{#isMap}}
-          {{#items.isListContainer}}
+          {{#items.isArray}}
       {{{name}}} = json['{{{baseName}}}'] == null
         ? null
             {{#items.complexType}}
@@ -66,20 +66,20 @@ class {{{classname}}} {
             {{^items.complexType}}
         : (json['{{{baseName}}}'] as Map).cast<String, List>();
 	        {{/items.complexType}}
-          {{/items.isListContainer}}
-          {{^items.isListContainer}}
+          {{/items.isArray}}
+          {{^items.isArray}}
       {{{name}}} = json['{{{baseName}}}'] == null
         ? null
         : {{{complexType}}}.mapFromJson(json['{{{baseName}}}']);
-          {{/items.isListContainer}}
+          {{/items.isArray}}
         {{/isMap}}
         {{^isMap}}
       {{{name}}} = {{{complexType}}}.fromJson(json['{{{baseName}}}']);
         {{/isMap}}
-      {{/isListContainer}}
+      {{/isArray}}
     {{/complexType}}
     {{^complexType}}
-      {{#isListContainer}}
+      {{#isArray}}
         {{#isEnum}}
       {{{name}}} = {{{classname}}}{{{items.datatypeWithEnum}}}.listFromJson(json['{{{baseName}}}']);
         {{/isEnum}}
@@ -88,8 +88,8 @@ class {{{classname}}} {
         ? null
         : (json['{{{baseName}}}'] as List).cast<{{{items.datatype}}}>();
         {{/isEnum}}
-      {{/isListContainer}}
-      {{^isListContainer}}
+      {{/isArray}}
+      {{^isArray}}
         {{#isMap}}
       {{{name}}} = json['{{{baseName}}}'] == null ?
         null :
@@ -110,7 +110,7 @@ class {{{classname}}} {
     {{/isEnum}}
           {{/isNumber}}
         {{/isMap}}
-      {{/isListContainer}}
+      {{/isArray}}
     {{/complexType}}
   {{/isDate}}
   {{/isDateTime}}
@@ -125,9 +125,9 @@ class {{{classname}}} {
   {{/isEnum}}
   {{#isEnum}}
     {{#isContainer}}
-      {{#isListContainer}}
+      {{#isArray}}
   List<{{{classname}}}{{{enumName}}}> {{{name}}};
-      {{/isListContainer}}
+      {{/isArray}}
       {{#isMap}}
   Map<String, dynamic> {{{name}}};
       {{/isMap}}

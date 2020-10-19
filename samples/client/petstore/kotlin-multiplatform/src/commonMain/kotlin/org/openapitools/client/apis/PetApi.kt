@@ -134,19 +134,9 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
-        ).wrap<FindPetsByStatusResponse>().map { value }
+        ).wrap()
     }
 
-    @Serializable
-    private class FindPetsByStatusResponse(val value: List<Pet>) {
-        @Serializer(FindPetsByStatusResponse::class)
-        companion object : KSerializer<FindPetsByStatusResponse> {
-            private val serializer: KSerializer<List<Pet>> = Pet.serializer().list
-                override val descriptor = StringDescriptor.withName("FindPetsByStatusResponse")
-                override fun serialize(encoder: Encoder, obj: FindPetsByStatusResponse) = serializer.serialize(encoder, obj.value)
-                override fun deserialize(decoder: Decoder) = FindPetsByStatusResponse(serializer.deserialize(decoder))
-        }
-    }
 
     /**
      * Finds Pets by tags
@@ -178,19 +168,9 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
-        ).wrap<FindPetsByTagsResponse>().map { value }
+        ).wrap()
     }
 
-    @Serializable
-    private class FindPetsByTagsResponse(val value: List<Pet>) {
-        @Serializer(FindPetsByTagsResponse::class)
-        companion object : KSerializer<FindPetsByTagsResponse> {
-            private val serializer: KSerializer<List<Pet>> = Pet.serializer().list
-                override val descriptor = StringDescriptor.withName("FindPetsByTagsResponse")
-                override fun serialize(encoder: Encoder, obj: FindPetsByTagsResponse) = serializer.serialize(encoder, obj.value)
-                override fun deserialize(decoder: Decoder) = FindPetsByTagsResponse(serializer.deserialize(decoder))
-        }
-    }
 
     /**
      * Find pet by ID
@@ -336,8 +316,6 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
     companion object {
         internal fun setMappers(serializer: KotlinxSerializer) {
             
-            serializer.setMapper(FindPetsByStatusResponse::class, FindPetsByStatusResponse.serializer())
-            serializer.setMapper(FindPetsByTagsResponse::class, FindPetsByTagsResponse.serializer())
             
         }
     }

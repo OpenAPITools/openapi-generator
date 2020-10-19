@@ -392,7 +392,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
                 for (CodegenProperty param : model.vars) {
                     param.vendorExtensions.put("x-go-base-type", param.dataType);
-                    if (!param.isNullable || param.isMap || param.isListContainer ||
+                    if (!param.isNullable || param.isMap || param.isArray ||
                             param.isFreeFormObject || param.isAnyType) {
                         continue;
                     }
@@ -461,7 +461,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     }
 
     private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
-        if (codegenParameter.isListContainer) { // array
+        if (codegenParameter.isArray) { // array
             return codegenParameter.dataType + "{" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
         } else if (codegenParameter.isMap) {
             return codegenParameter.dataType + "{ \"key\": " + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
@@ -501,8 +501,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
     }
 
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
-        if (codegenProperty.isListContainer) { // array
-            return codegenProperty.dataType + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
+        if (codegenProperty.isArray) { // array
+            return codegenProperty.dataType + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + ")";
         } else if (codegenProperty.isMap) { // map
             return codegenProperty.dataType + "{ \"key\": " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
         } else if (codegenProperty.isPrimitiveType) { // primitive type

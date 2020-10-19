@@ -45,18 +45,18 @@ import kotlinx.serialization.internal.CommonEnumSerializer
     @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
     {{/kotlinx_serialization}}
     {{/multiplatform}}
-    {{#isListContainer}}
+    {{#isArray}}
     {{#isList}}
     {{&name}}(listOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
     {{/isList}}
     {{^isList}}
     {{&name}}(arrayOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
     {{/isList}}
-    {{/isListContainer}}
-    {{^isListContainer}}
+    {{/isArray}}
+    {{^isArray}}
     {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}}{{#useSafeEnum}},
     UNKNOWN(UNKNOWN_VALUE){{/useSafeEnum}};{{/-last}}
-    {{/isListContainer}}
+    {{/isArray}}
 
 {{/enumVars}}{{/allowableValues}}
 

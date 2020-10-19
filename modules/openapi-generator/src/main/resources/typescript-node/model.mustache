@@ -29,7 +29,7 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
     static discriminator: string | undefined = undefined;
     {{/discriminator}}
 
-    {{^isArrayModel}}
+    {{^isArray}}
     static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
         {{#vars}}
         {
@@ -49,7 +49,7 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
         return {{classname}}.attributeTypeMap;
         {{/parent}}
     }
-    {{/isArrayModel}}
+    {{/isArray}}
 }
 
 {{#hasEnums}}

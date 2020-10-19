@@ -203,7 +203,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         String r = "";
         CodegenParameter q = (CodegenParameter) o;
         if (q.required) {
-            if (q.isListContainer) {
+            if (q.isArray) {
                 r += "[{<<\"" + q.baseName + "\">>, X} || X <- " + q.paramName + "]";
             } else {
                 r += "{<<\"" + q.baseName + "\">>, " + q.paramName + "}";
@@ -317,7 +317,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             // force http method to lower case
             o.httpMethod = o.httpMethod.toLowerCase(Locale.ROOT);
 
-            if (o.isListContainer) {
+            if (o.isArray) {
                 o.returnType = "[" + o.returnBaseType + "]";
             }
 
@@ -404,7 +404,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
             this.isMap = o.isMap;
-            this.isListContainer = o.isListContainer;
+            this.isArray = o.isArray;
             this.isMultipart = o.isMultipart;
             this.hasMore = o.hasMore;
             this.isResponseBinary = o.isResponseBinary;

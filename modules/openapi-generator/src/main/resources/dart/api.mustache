@@ -91,12 +91,12 @@ class {{classname}} {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
-      {{#isListContainer}}
+      {{#isArray}}
         {{#returnType}}
       return (apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as List).map((item) => item as {{returnBaseType}}).toList();
         {{/returnType}}
-      {{/isListContainer}}
-      {{^isListContainer}}
+      {{/isArray}}
+      {{^isArray}}
         {{#isMap}}
           {{#returnType}}
       return new {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
@@ -107,7 +107,7 @@ class {{classname}} {
       return apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}};
           {{/returnType}}
         {{/isMap}}
-      {{/isListContainer}}
+      {{/isArray}}
     } else {
       return{{#returnType}} null{{/returnType}};
     }

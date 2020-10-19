@@ -62,12 +62,12 @@ export class {{classname}} extends BaseAPI {
             {{/consumes.0}}
             {{/bodyParam}}
             {{#headerParams}}
-            {{#isListContainer}}
+            {{#isArray}}
             ...({{> paramNamePartial}} != null ? { '{{baseName}}': {{> paramNamePartial}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])) } : undefined),
-            {{/isListContainer}}
-            {{^isListContainer}}
+            {{/isArray}}
+            {{^isArray}}
             ...({{> paramNamePartial}} != null ? { '{{baseName}}': String({{> paramNamePartial}}) } : undefined),
-            {{/isListContainer}}
+            {{/isArray}}
             {{/headerParams}}
             {{#authMethods}}
             {{#isBasic}}
@@ -99,15 +99,15 @@ export class {{classname}} extends BaseAPI {
         const query: HttpQuery = { // required parameters are used directly since they are already checked by throwIfNullOrUndefined
             {{#queryParams}}
             {{#required}}
-            {{#isListContainer}}
+            {{#isArray}}
             {{#isCollectionFormatMulti}}
             '{{baseName}}': {{> paramNamePartial}},
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
             '{{baseName}}': {{> paramNamePartial}}.join(COLLECTION_FORMATS['{{collectionFormat}}']),
             {{/isCollectionFormatMulti}}
-            {{/isListContainer}}
-            {{^isListContainer}}
+            {{/isArray}}
+            {{^isArray}}
             {{#isDateTime}}
             '{{baseName}}': ({{> paramNamePartial}} as any).toISOString(),
             {{/isDateTime}}
@@ -119,7 +119,7 @@ export class {{classname}} extends BaseAPI {
             '{{baseName}}': {{> paramNamePartial}},
             {{/isDate}}
             {{/isDateTime}}
-            {{/isListContainer}}
+            {{/isArray}}
             {{/required}}
             {{/queryParams}}
         };
@@ -128,15 +128,15 @@ export class {{classname}} extends BaseAPI {
 
         {{#queryParams}}
         {{^required}}
-        {{#isListContainer}}
+        {{#isArray}}
         {{#isCollectionFormatMulti}}
         if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = {{> paramNamePartial}}; }
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
         if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = {{> paramNamePartial}}.join(COLLECTION_FORMATS['{{collectionFormat}}']); }
         {{/isCollectionFormatMulti}}
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         {{#isDateTime}}
         if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = ({{> paramNamePartial}} as any).toISOString(); }
         {{/isDateTime}}
@@ -148,7 +148,7 @@ export class {{classname}} extends BaseAPI {
         if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = {{> paramNamePartial}}; }
         {{/isDate}}
         {{/isDateTime}}
-        {{/isListContainer}}
+        {{/isArray}}
         {{/required}}
         {{/queryParams}}
         {{/hasOptionalQueryParams}}
@@ -164,7 +164,7 @@ export class {{classname}} extends BaseAPI {
         {{#hasFormParams}}
         const formData = new FormData();
         {{#formParams}}
-        {{#isListContainer}}
+        {{#isArray}}
         if ({{> paramNamePartial}} !== undefined) {
             {{#isCollectionFormatMulti}}
             {{> paramNamePartial}}.forEach((element) => formData.append('{{baseName}}', element as any))
@@ -174,10 +174,10 @@ export class {{classname}} extends BaseAPI {
             {{/isCollectionFormatMulti}}
         }
 
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         if ({{> paramNamePartial}} !== undefined) { formData.append('{{baseName}}', {{> paramNamePartial}} as any); }
-        {{/isListContainer}}
+        {{/isArray}}
         {{/formParams}}
 
         {{/hasFormParams}}

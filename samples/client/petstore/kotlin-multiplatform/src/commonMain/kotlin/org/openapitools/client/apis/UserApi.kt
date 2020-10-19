@@ -79,7 +79,7 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
 
         val localVariableAuthNames = listOf<String>()
 
-        val localVariableBody = CreateUsersWithArrayInputRequest(body)
+        val localVariableBody = body
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
 
@@ -99,16 +99,7 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
         ).wrap()
     }
 
-    @Serializable
-    private class CreateUsersWithArrayInputRequest(val value: List<User>) {
-        @Serializer(CreateUsersWithArrayInputRequest::class)
-        companion object : KSerializer<CreateUsersWithArrayInputRequest> {
-            private val serializer: KSerializer<List<User>> = User.serializer().list
-                override val descriptor = StringDescriptor.withName("CreateUsersWithArrayInputRequest")
-                override fun serialize(encoder: Encoder, obj: CreateUsersWithArrayInputRequest) = serializer.serialize(encoder, obj.value)
-                override fun deserialize(decoder: Decoder) = CreateUsersWithArrayInputRequest(serializer.deserialize(decoder))
-        }
-    }
+
 
     /**
      * Creates list of users with given input array
@@ -120,7 +111,7 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
 
         val localVariableAuthNames = listOf<String>()
 
-        val localVariableBody = CreateUsersWithListInputRequest(body)
+        val localVariableBody = body
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
 
@@ -140,16 +131,7 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
         ).wrap()
     }
 
-    @Serializable
-    private class CreateUsersWithListInputRequest(val value: List<User>) {
-        @Serializer(CreateUsersWithListInputRequest::class)
-        companion object : KSerializer<CreateUsersWithListInputRequest> {
-            private val serializer: KSerializer<List<User>> = User.serializer().list
-                override val descriptor = StringDescriptor.withName("CreateUsersWithListInputRequest")
-                override fun serialize(encoder: Encoder, obj: CreateUsersWithListInputRequest) = serializer.serialize(encoder, obj.value)
-                override fun deserialize(decoder: Decoder) = CreateUsersWithListInputRequest(serializer.deserialize(decoder))
-        }
-    }
+
 
     /**
      * Delete user
@@ -320,8 +302,8 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
     companion object {
         internal fun setMappers(serializer: KotlinxSerializer) {
             
-            serializer.setMapper(CreateUsersWithArrayInputRequest::class, CreateUsersWithArrayInputRequest.serializer())
-            serializer.setMapper(CreateUsersWithListInputRequest::class, CreateUsersWithListInputRequest.serializer())
+            
+            
             
         }
     }
