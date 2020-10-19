@@ -98,8 +98,8 @@ end:
 // {{{notes}}}
 //
 {{/notes}}
-{{#returnType}}{{#returnTypeIsPrimitive}}{{#returnSimpleType}}{{{.}}}*{{/returnSimpleType}}{{^returnSimpleType}}{{#isListContainer}}{{{.}}}_t*{{/isListContainer}}{{#isMap}}{{{.}}}{{/isMap}}{{/returnSimpleType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{{.}}}_t*{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void{{/returnType}}
-{{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}}, {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}{{{dataType}}}{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}{{dataType}}{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}}{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{#isFreeFormObject}}{{dataType}}_t *{{/isFreeFormObject}}{{/isPrimitiveType}}{{^isListContainer}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}}{{/isListContainer}}{{#isContainer}}{{#isListContainer}}{{dataType}}_t *{{/isListContainer}}{{#isMap}}{{dataType}}{{/isMap}}{{/isContainer}} {{{paramName}}} {{/allParams}})
+{{#returnType}}{{#returnTypeIsPrimitive}}{{#returnSimpleType}}{{{.}}}*{{/returnSimpleType}}{{^returnSimpleType}}{{#isArray}}{{{.}}}_t*{{/isArray}}{{#isMap}}{{{.}}}{{/isMap}}{{/returnSimpleType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{{.}}}_t*{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}}, {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}{{{dataType}}}{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}{{dataType}}{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}}{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{#isFreeFormObject}}{{dataType}}_t *{{/isFreeFormObject}}{{/isPrimitiveType}}{{^isArray}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}}{{/isArray}}{{#isContainer}}{{#isArray}}{{dataType}}_t *{{/isArray}}{{#isMap}}{{dataType}}{{/isMap}}{{/isContainer}} {{{paramName}}} {{/allParams}})
 {
     list_t    *localVarQueryParameters = {{#hasQueryParams}}list_create();{{/hasQueryParams}}{{^hasQueryParams}}NULL;{{/hasQueryParams}}
     list_t    *localVarHeaderParameters = {{#hasHeaderParams}}list_create();{{/hasHeaderParams}}{{^hasHeaderParams}}NULL;{{/hasHeaderParams}}
@@ -207,17 +207,17 @@ end:
     {{#queryParams}}
 
     // query parameters
-    {{^isListContainer}}
+    {{^isArray}}
     char *keyQuery_{{{paramName}}} = NULL;
     {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}char *{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}char *{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}}{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueQuery_{{{paramName}}} {{#isString}}{{^isEnum}}= NULL{{/isEnum}}{{/isString}}{{#isInteger}}= NULL{{/isInteger}};
     keyValuePair_t *keyPairQuery_{{paramName}} = 0;
-    {{/isListContainer}}
+    {{/isArray}}
     if ({{paramName}})
     {
-        {{#isListContainer}}
+        {{#isArray}}
         list_addElement(localVarQueryParameters,{{paramName}});
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         keyQuery_{{{paramName}}} = strdup("{{{baseName}}}");
         {{#isInteger}}
         valueQuery_{{{paramName}}} = calloc(1,MAX_NUMBER_LENGTH);
@@ -235,7 +235,7 @@ end:
         keyPairQuery_{{paramName}} = keyValuePair_create(keyQuery_{{{paramName}}}, {{#isEnum}}(void *)strdup({{{operationId}}}_{{enumName}}_ToString(
 		{{/isEnum}}{{^isString}}{{^isInteger}}{{^isBoolean}}&{{/isBoolean}}{{/isInteger}}{{/isString}}valueQuery_{{{paramName}}}{{#isEnum}})){{/isEnum}});
         list_addElement(localVarQueryParameters,keyPairQuery_{{paramName}});
-        {{/isListContainer}}
+        {{/isArray}}
     }
     {{/queryParams}}
     {{#formParams}}
@@ -270,7 +270,7 @@ end:
     {{#bodyParam}}
 
     // Body Param
-    {{#isListContainer}}
+    {{#isArray}}
     //notstring
     cJSON *localVar_{{paramName}} = NULL;
     cJSON *localVarItemJSON_{{paramName}} = NULL;
@@ -298,8 +298,8 @@ end:
         cJSON_AddItemToArray(localVarSingleItemJSON_{{paramName}}, localVar_{{paramName}});
         localVarBodyParameters = cJSON_Print(localVarItemJSON_{{paramName}});
     }
-    {{/isListContainer}}
-    {{^isListContainer}}
+    {{/isArray}}
+    {{^isArray}}
     cJSON *localVarSingleItemJSON_{{paramName}} = NULL;
     if ({{paramName}} != NULL)
     {
@@ -307,7 +307,7 @@ end:
         localVarSingleItemJSON_{{paramName}} = {{dataType}}_convertToJSON({{paramName}});
         localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_{{paramName}});
     }
-    {{/isListContainer}}
+    {{/isArray}}
     {{/bodyParam}}
     {{#produces}}
     list_addElement(localVarHeaderType,"{{{mediaType}}}"); //produces
@@ -417,7 +417,7 @@ end:
     free(keyPairHeader_{{paramName}});
     {{/headerParams}}
     {{#bodyParams}}
-    {{#isListContainer}}
+    {{#isArray}}
     if (localVarItemJSON_{{paramName}}) {
         cJSON_Delete(localVarItemJSON_{{paramName}});
         localVarItemJSON_{{paramName}} = NULL;
@@ -431,17 +431,17 @@ end:
         localVar_{{paramName}} = NULL;
     }
     free(localVarBodyParameters);
-    {{/isListContainer}}
-    {{^isListContainer}}
+    {{/isArray}}
+    {{^isArray}}
     if (localVarSingleItemJSON_{{paramName}}) {
         cJSON_Delete(localVarSingleItemJSON_{{paramName}});
         localVarSingleItemJSON_{{paramName}} = NULL;
     }
     free(localVarBodyParameters);
-    {{/isListContainer}}
+    {{/isArray}}
     {{/bodyParams}}
     {{#queryParams}}
-    {{^isListContainer}}
+    {{^isArray}}
     {{#isString}}
     if(keyQuery_{{{paramName}}}){
         free(keyQuery_{{{paramName}}});
@@ -468,7 +468,7 @@ end:
         keyPairQuery_{{{paramName}}} = NULL;
     }
     {{/isString}}
-    {{/isListContainer}}
+    {{/isArray}}
     {{/queryParams}}
     {{#formParams}}
     {{#isFile}}
@@ -543,7 +543,7 @@ end:
     free(keyPairHeader_{{paramName}});
     {{/headerParams}}
     {{#bodyParams}}
-    {{#isListContainer}}
+    {{#isArray}}
     if (localVarItemJSON_{{paramName}}) {
         cJSON_Delete(localVarItemJSON_{{paramName}});
         localVarItemJSON_{{paramName}} = NULL;
@@ -557,17 +557,17 @@ end:
         localVar_{{paramName}} = NULL;
     }
     free(localVarBodyParameters);
-    {{/isListContainer}}
-    {{^isListContainer}}
+    {{/isArray}}
+    {{^isArray}}
     if (localVarSingleItemJSON_{{paramName}}) {
         cJSON_Delete(localVarSingleItemJSON_{{paramName}});
         localVarSingleItemJSON_{{paramName}} = NULL;
     }
     free(localVarBodyParameters);
-    {{/isListContainer}}
+    {{/isArray}}
     {{/bodyParams}}
     {{#queryParams}}
-    {{^isListContainer}}
+    {{^isArray}}
     {{#isString}}
     if(keyQuery_{{{paramName}}}){
         free(keyQuery_{{{paramName}}});
@@ -592,7 +592,7 @@ end:
         keyPairQuery_{{{paramName}}} = NULL;
     }
     {{/isString}}
-    {{/isListContainer}}
+    {{/isArray}}
     {{/queryParams}}
     {{#formParams}}
     {{#isFile}}

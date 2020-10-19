@@ -23,7 +23,7 @@ defimpl Poison.Decoder, for: {{moduleName}}.Model.{{classname}} do
     value
     {{#vars}}
     {{^isPrimitiveType}}
-    {{#datatype}}|> deserialize(:"{{baseName}}", {{#isListContainer}}:list, {{moduleName}}.Model.{{items.datatype}}{{/isListContainer}}{{#isMap}}:map, {{moduleName}}.Model.{{items.datatype}}{{/isMap}}{{#isDate}}:date, nil{{/isDate}}{{#isDateTime}}:date, nil{{/isDateTime}}{{^isDate}}{{^isDateTime}}{{^isMap}}{{^isListContainer}}:struct, {{moduleName}}.Model.{{dataType}}{{/isListContainer}}{{/isMap}}{{/isDateTime}}{{/isDate}}, options)
+    {{#datatype}}|> deserialize(:"{{baseName}}", {{#isArray}}:list, {{moduleName}}.Model.{{items.datatype}}{{/isArray}}{{#isMap}}:map, {{moduleName}}.Model.{{items.datatype}}{{/isMap}}{{#isDate}}:date, nil{{/isDate}}{{#isDateTime}}:date, nil{{/isDateTime}}{{^isDate}}{{^isDateTime}}{{^isMap}}{{^isArray}}:struct, {{moduleName}}.Model.{{dataType}}{{/isArray}}{{/isMap}}{{/isDateTime}}{{/isDate}}, options)
     {{/datatype}}
     {{/isPrimitiveType}}
     {{/vars}}

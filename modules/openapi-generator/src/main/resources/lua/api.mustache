@@ -127,19 +127,19 @@ function {{classname}}:{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, 
 		return result, headers
 		{{/returnTypeIsPrimitive}}
 		{{^returnTypeIsPrimitive}}
-		{{#isListContainer}}
+		{{#isArray}}
 		for _, ob in ipairs(result) do
 			{{packageName}}_{{returnType}}.cast(ob)
 		end
 		return result, headers
-		{{/isListContainer}}
+		{{/isArray}}
 		{{#isMap}}
 		return result, headers
 		{{/isMap}}
 		{{^isMap}}
-		{{^isListContainer}}
+		{{^isArray}}
 		return {{packageName}}_{{returnType}}.cast(result), headers
-		{{/isListContainer}}
+		{{/isArray}}
 		{{/isMap}}
 		{{/returnTypeIsPrimitive}}
 		{{/returnType}}

@@ -327,15 +327,15 @@ public class ObjcModelTest {
         Assert.assertEquals(prope.baseType, "NSDictionary");
     }
 
-    @Test(description = "test isArrayModel")
-    public void isArrayModelModelTest() {
+    @Test(description = "test isArray")
+    public void isArrayModelTest() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final Schema definition = openAPI.getComponents().getSchemas().get("AnimalFarm");
         codegen.setOpenAPI(openAPI);
         final CodegenModel codegenModel = codegen.fromModel("AnimalFarm", definition);
 
-        Assert.assertEquals(codegenModel.isArrayModel, true);
+        Assert.assertEquals(codegenModel.isArray, true);
         Assert.assertEquals(codegenModel.arrayModelType,"OAIAnimal");
     }
 

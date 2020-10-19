@@ -280,14 +280,14 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
                 setParamNameAlternative(p, p.paramName, paramNameAlternative);
 
                 for (CodegenParameter param : op.headerParams) {
-                    if (param.isListContainer) {
+                    if (param.isArray) {
                         hasListContainers = true;
                     }
                     setParamNameAlternative(param, p.paramName, paramNameAlternative);
                 }
 
                 for (CodegenParameter param : op.queryParams) {
-                    if (param.isListContainer && !param.isCollectionFormatMulti) {
+                    if (param.isArray && !param.isCollectionFormatMulti) {
                         hasListContainers = true;
                     }
                     if (param.required) {
@@ -299,7 +299,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
                 }
 
                 for (CodegenParameter param : op.formParams) {
-                    if (param.isListContainer && !param.isCollectionFormatMulti) {
+                    if (param.isArray && !param.isCollectionFormatMulti) {
                         hasListContainers = true;
                     }
                     setParamNameAlternative(param, p.paramName, paramNameAlternative);
@@ -366,7 +366,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
             this.isMap = o.isMap;
-            this.isListContainer = o.isListContainer;
+            this.isArray = o.isArray;
             this.isMultipart = o.isMultipart;
             this.hasMore = o.hasMore;
             this.isResponseBinary = o.isResponseBinary;

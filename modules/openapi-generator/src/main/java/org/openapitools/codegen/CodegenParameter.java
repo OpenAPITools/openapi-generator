@@ -36,7 +36,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public String jsonSchema;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary,
             isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isAnyType;
-    public boolean isListContainer, isMap;
+    public boolean isArray, isMap;
     public boolean isFile;
     public boolean isEnum;
     public List<String> _enum;
@@ -180,7 +180,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.isEmail = this.isEmail;
         output.isFreeFormObject = this.isFreeFormObject;
         output.isAnyType = this.isAnyType;
-        output.isListContainer = this.isListContainer;
+        output.isArray = this.isArray;
         output.isMap = this.isMap;
         output.isExplode = this.isExplode;
         output.style = this.style;
@@ -191,7 +191,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
 
     @Override
     public int hashCode() {
-        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, hasMore, isContainer, secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isAnyType, isListContainer, isMap, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf);
+        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, hasMore, isContainer, secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isAnyType, isArray, isMap, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf);
     }
 
     @Override
@@ -229,7 +229,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 isEmail == that.isEmail &&
                 isFreeFormObject == that.isFreeFormObject &&
                 isAnyType == that.isAnyType &&
-                isListContainer == that.isListContainer &&
+                isArray == that.isArray &&
                 isMap == that.isMap &&
                 isFile == that.isFile &&
                 isEnum == that.isEnum &&
@@ -318,7 +318,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", isEmail=").append(isEmail);
         sb.append(", isFreeFormObject=").append(isFreeFormObject);
         sb.append(", isAnyType=").append(isAnyType);
-        sb.append(", isListContainer=").append(isListContainer);
+        sb.append(", isArray=").append(isArray);
         sb.append(", isMap=").append(isMap);
         sb.append(", isFile=").append(isFile);
         sb.append(", isEnum=").append(isEnum);
@@ -518,6 +518,14 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     @Override
     public void setIsMap(boolean isMap)  {
         this.isMap = isMap;
+    }
+
+    @Override
+    public boolean getIsArray() { return isArray; }
+
+    @Override
+    public void setIsArray(boolean isArray)  {
+        this.isArray = isArray;
     }
 }
 

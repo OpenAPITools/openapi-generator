@@ -841,7 +841,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp7.required);
         Assert.assertTrue(cp7.isPrimitiveType);
         Assert.assertTrue(cp7.isContainer);
-        Assert.assertTrue(cp7.isListContainer);
+        Assert.assertTrue(cp7.isArray);
         Assert.assertFalse(cp7.isFreeFormObject);
         Assert.assertFalse(cp7.isAnyType);
 
@@ -852,7 +852,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp8.required);
         Assert.assertTrue(cp8.isPrimitiveType);
         Assert.assertTrue(cp8.isContainer);
-        Assert.assertTrue(cp8.isListContainer);
+        Assert.assertTrue(cp8.isArray);
         Assert.assertFalse(cp8.isFreeFormObject);
         Assert.assertFalse(cp8.isAnyType);
 
@@ -863,7 +863,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp9.required);
         Assert.assertTrue(cp9.isPrimitiveType);
         Assert.assertTrue(cp9.isContainer);
-        Assert.assertTrue(cp9.isListContainer);
+        Assert.assertTrue(cp9.isArray);
         Assert.assertFalse(cp9.isFreeFormObject);
         Assert.assertFalse(cp9.isAnyType);
     }

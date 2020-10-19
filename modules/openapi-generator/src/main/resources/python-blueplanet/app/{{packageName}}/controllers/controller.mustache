@@ -33,7 +33,7 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
                 {{/isFile}}
             {{/isPrimitiveType}}
         {{/isContainer}}
-        {{#isListContainer}}
+        {{#isArray}}
             {{#items}}
                 {{#isPrimitiveType}}
     :type {{paramName}}: List[{{#isString}}str{{/isString}}{{#isInteger}}int{{/isInteger}}{{#isLong}}int{{/isLong}}{{#isFloat}}float{{/isFloat}}{{#isDouble}}float{{/isDouble}}{{#isByteArray}}str{{/isByteArray}}{{#isBinary}}str{{/isBinary}}{{#isBoolean}}bool{{/isBoolean}}{{#isDate}}str{{/isDate}}{{#isDateTime}}str{{/isDateTime}}]
@@ -42,7 +42,7 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
     :type {{paramName}}: list | bytes
                 {{/isPrimitiveType}}
             {{/items}}
-        {{/isListContainer}}
+        {{/isArray}}
         {{#isMap}}
             {{#items}}
                 {{#isPrimitiveType}}
@@ -74,7 +74,7 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
                 {{/isFile}}
             {{/isPrimitiveType}}
         {{/isContainer}}
-        {{#isListContainer}}
+        {{#isArray}}
             {{#items}}
                 {{#isDate}}
     if connexion.request.is_json:
@@ -89,7 +89,7 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
         {{paramName}} = [{{complexType}}.from_dict(d) for d in connexion.request.get_json()]  # noqa: E501
                 {{/complexType}}
             {{/items}}
-        {{/isListContainer}}
+        {{/isArray}}
         {{#isMap}}
             {{#items}}
                 {{#isDate}}

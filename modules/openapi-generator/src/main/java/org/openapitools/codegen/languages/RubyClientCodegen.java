@@ -582,7 +582,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         if (example == null) {
             example = "nil";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (Boolean.TRUE.equals(p.isArray)) {
             example = "[" + example + "]";
         } else if (Boolean.TRUE.equals(p.isMap)) {
             example = "{'key' => " + example + "}";

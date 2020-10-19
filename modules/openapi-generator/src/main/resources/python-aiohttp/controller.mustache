@@ -33,7 +33,7 @@ async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^re
                 {{/isFile}}
             {{/isPrimitiveType}}
         {{/isContainer}}
-        {{#isListContainer}}
+        {{#isArray}}
             {{#items}}
                 {{#isPrimitiveType}}
     :type {{paramName}}: List[{{>param_type}}]
@@ -42,7 +42,7 @@ async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^re
     :type {{paramName}}: list | bytes
                 {{/isPrimitiveType}}
             {{/items}}
-        {{/isListContainer}}
+        {{/isArray}}
         {{#isMap}}
             {{#items}}
                 {{#isPrimitiveType}}
@@ -72,7 +72,7 @@ async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^re
                 {{/isFile}}
             {{/isPrimitiveType}}
         {{/isContainer}}
-        {{#isListContainer}}
+        {{#isArray}}
             {{#items}}
                 {{#isDate}}
     {{paramName}} = [util.deserialize_date(s) for s in {{paramName}}]
@@ -84,7 +84,7 @@ async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^re
     {{paramName}} = [{{complexType}}.from_dict(d) for d in {{paramName}}]
                 {{/complexType}}
             {{/items}}
-        {{/isListContainer}}
+        {{/isArray}}
         {{#isMap}}
             {{#items}}
                 {{#isDate}}

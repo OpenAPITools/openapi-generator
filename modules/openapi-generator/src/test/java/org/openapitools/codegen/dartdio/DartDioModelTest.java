@@ -334,7 +334,7 @@ public class DartDioModelTest {
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
-        Assert.assertTrue(cm.isArrayModel);
+        Assert.assertTrue(cm.isArray);
         Assert.assertEquals(cm.description, "an array model");
         Assert.assertEquals(cm.vars.size(), 0);
         // skip import test as import is not used by PHP codegen

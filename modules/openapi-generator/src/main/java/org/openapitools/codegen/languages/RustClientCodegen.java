@@ -552,7 +552,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
 
             for (CodegenParameter p : operation.allParams) {
-                if (p.isListContainer && !languageSpecificPrimitives.contains(p.dataType)) {
+                if (p.isArray && !languageSpecificPrimitives.contains(p.dataType)) {
                     // array of model
                     String rt = p.dataType;
                     int end = rt.lastIndexOf(">");

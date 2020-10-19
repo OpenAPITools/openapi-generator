@@ -128,14 +128,14 @@ typedef struct {{classname}}_t {
     {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}
-    {{#isListContainer}}
+    {{#isArray}}
     {{#isPrimitiveType}}
     {{datatype}}_t *{{name}}; //primitive container
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
     {{datatype}}_t *{{name}}; //nonprimitive container
     {{/isPrimitiveType}}
-    {{/isListContainer}}
+    {{/isArray}}
     {{#isMap}}
     {{datatype}} {{name}}; //map
     {{/isMap}}
@@ -198,14 +198,14 @@ typedef struct {{classname}}_t {
     {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}
-    {{#isListContainer}}
+    {{#isArray}}
     {{#isPrimitiveType}}
     {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
     {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isPrimitiveType}}
-    {{/isListContainer}}
+    {{/isArray}}
     {{#isMap}}
     {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
     {{/isMap}}

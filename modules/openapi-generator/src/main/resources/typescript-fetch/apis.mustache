@@ -101,7 +101,7 @@ export class {{classname}} extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         {{#queryParams}}
-        {{#isListContainer}}
+        {{#isArray}}
         if (requestParameters.{{paramName}}) {
             {{#isCollectionFormatMulti}}
             queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
@@ -111,8 +111,8 @@ export class {{classname}} extends runtime.BaseAPI {
             {{/isCollectionFormatMulti}}
         }
 
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         if (requestParameters.{{paramName}} !== undefined) {
             {{#isDateTime}}
             queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString();
@@ -127,7 +127,7 @@ export class {{classname}} extends runtime.BaseAPI {
             {{/isDateTime}}
         }
 
-        {{/isListContainer}}
+        {{/isArray}}
         {{/queryParams}}
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -142,18 +142,18 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/consumes.0}}
         {{/bodyParam}}
         {{#headerParams}}
-        {{#isListContainer}}
+        {{#isArray}}
         if (requestParameters.{{paramName}}) {
             headerParameters['{{baseName}}'] = requestParameters.{{paramName}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
         }
 
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         if (requestParameters.{{paramName}} !== undefined && requestParameters.{{paramName}} !== null) {
             headerParameters['{{baseName}}'] = String(requestParameters.{{paramName}});
         }
 
-        {{/isListContainer}}
+        {{/isArray}}
         {{/headerParams}}
         {{#authMethods}}
         {{#isBasic}}
@@ -223,7 +223,7 @@ export class {{classname}} extends runtime.BaseAPI {
         }
 
         {{#formParams}}
-        {{#isListContainer}}
+        {{#isArray}}
         if (requestParameters.{{paramName}}) {
             {{#isCollectionFormatMulti}}
             requestParameters.{{paramName}}.forEach((element) => {
@@ -235,13 +235,13 @@ export class {{classname}} extends runtime.BaseAPI {
             {{/isCollectionFormatMulti}}
         }
 
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         if (requestParameters.{{paramName}} !== undefined) {
             formParams.append('{{baseName}}', requestParameters.{{paramName}} as any);
         }
 
-        {{/isListContainer}}
+        {{/isArray}}
         {{/formParams}}
         {{/hasFormParams}}
         const response = await this.request({
@@ -252,7 +252,7 @@ export class {{classname}} extends runtime.BaseAPI {
             {{#hasBodyParam}}
             {{#bodyParam}}
             {{#isContainer}}
-            body: requestParameters.{{paramName}}{{#isListContainer}}{{#items}}{{^isPrimitiveType}}.map({{datatype}}ToJSON){{/isPrimitiveType}}{{/items}}{{/isListContainer}},
+            body: requestParameters.{{paramName}}{{#isArray}}{{#items}}{{^isPrimitiveType}}.map({{datatype}}ToJSON){{/isPrimitiveType}}{{/items}}{{/isArray}},
             {{/isContainer}}
             {{^isContainer}}
             {{^isPrimitiveType}}
@@ -278,25 +278,25 @@ export class {{classname}} extends runtime.BaseAPI {
         {{#isMap}}
         return new runtime.JSONApiResponse<any>(response);
         {{/isMap}}
-        {{#isListContainer}}
+        {{#isArray}}
         return new runtime.JSONApiResponse<any>(response);
-        {{/isListContainer}}
+        {{/isArray}}
         {{#returnSimpleType}}
         return new runtime.TextApiResponse(response) as any;
         {{/returnSimpleType}}
         {{/returnTypeIsPrimitive}}
         {{^returnTypeIsPrimitive}}
-        {{#isListContainer}}
+        {{#isArray}}
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map({{returnBaseType}}FromJSON));
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         {{#isMap}}
         return new runtime.JSONApiResponse(response, (jsonValue) => runtime.mapValues(jsonValue, {{returnBaseType}}FromJSON));
         {{/isMap}}
         {{^isMap}}
         return new runtime.JSONApiResponse(response, (jsonValue) => {{returnBaseType}}FromJSON(jsonValue));
         {{/isMap}}
-        {{/isListContainer}}
+        {{/isArray}}
         {{/returnTypeIsPrimitive}}
         {{/isResponseFile}}
         {{/returnType}}

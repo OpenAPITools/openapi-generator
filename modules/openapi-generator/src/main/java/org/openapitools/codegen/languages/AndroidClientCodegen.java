@@ -365,7 +365,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
         if (example == null) {
             example = "null";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (Boolean.TRUE.equals(p.isArray)) {
             example = "Arrays.asList(" + example + ")";
         } else if (Boolean.TRUE.equals(p.isMap)) {
             example = "new HashMap()";
