@@ -150,6 +150,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private String pattern;
     private Number multipleOf;
     private CodegenProperty items;
+    private CodegenProperty additionalProperties;
     private boolean isModel;
 
     public String getAdditionalPropertiesType() {
@@ -602,6 +603,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.isArray = isArray;
     }
 
+    @Override
+    public CodegenProperty getAdditionalProperties() { return additionalProperties; }
+
+    @Override
+    public void setAdditionalProperties(CodegenProperty additionalProperties)  {
+        this.additionalProperties = additionalProperties;
+    }
+
     // indicates if the model component has validation on the root level schema
     // this will be true when minItems or minProperties is set
     public boolean hasValidation() {
@@ -769,6 +778,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(getMaximum(), that.getMaximum()) &&
                 Objects.equals(getPattern(), that.getPattern()) &&
                 Objects.equals(getItems(), that.getItems()) &&
+                Objects.equals(getAdditionalProperties(), that.getAdditionalProperties()) &&
                 Objects.equals(getIsModel(), that.getIsModel()) &&
                 Objects.equals(getMultipleOf(), that.getMultipleOf());
     }
@@ -787,7 +797,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 hasChildren, isMap, isDeprecated, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
                 getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
-                getMaximum(), getPattern(), getMultipleOf(), getItems(), getIsModel());
+                getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel());
     }
 
     @Override
@@ -869,6 +879,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", pattern='").append(pattern).append('\'');
         sb.append(", multipleOf='").append(multipleOf).append('\'');
         sb.append(", items='").append(items).append('\'');
+        sb.append(", additionalProperties='").append(additionalProperties).append('\'');
         sb.append(", isModel='").append(isModel).append('\'');
         sb.append('}');
         return sb.toString();
