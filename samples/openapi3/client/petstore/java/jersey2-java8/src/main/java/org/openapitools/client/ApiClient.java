@@ -1238,7 +1238,7 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
-   * Get the client config.
+   * Get the default client config.
    * @return Client config
    */
   public ClientConfig getDefaultClientConfig() {
