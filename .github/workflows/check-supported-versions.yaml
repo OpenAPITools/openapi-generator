@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Build on JDK ${{ matrix.java }} and ${{ matrix.os }}
+    name: 'Build: JDK ${{ matrix.java }} (${{ matrix.os }})'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -48,10 +48,6 @@ jobs:
         shell: bash
         run: mvn -nsu -B --quiet -Djacoco.skip=true -Dorg.slf4j.simpleLogger.defaultLogLevel=error --no-transfer-progress clean install --file pom.xml ${{ matrix.flags }}
 
-      - name: Test gradle
-        shell: bash
-        run: gradle -b modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle buildGoSdk --stacktrace
-
       - name: Upload Maven build artifact
         uses: actions/upload-artifact@v1
         if: matrix.java == '8' && matrix.os == 'ubuntu-latest'
@@ -59,8 +55,18 @@ jobs:
           name: artifact
           path: modules/openapi-generator-cli/target/openapi-generator-cli.jar
 
+      - name: Test Gradle plugin usage
+        shell: bash
+        run: gradle -b modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle buildGoSdk --stacktrace
+
+      - name: Test Maven plugin integration
+        shell: bash
+        run: |
+          cd modules/openapi-generator-maven-plugin
+          mvn verify -Pintegration
+
   verify:
-    name: Verifies integrity of the commit on ${{ matrix.os }}
+    name: Verify outputs on ${{ matrix.os }}
     needs: build
     runs-on: ${{ matrix.os }}
     strategy:
