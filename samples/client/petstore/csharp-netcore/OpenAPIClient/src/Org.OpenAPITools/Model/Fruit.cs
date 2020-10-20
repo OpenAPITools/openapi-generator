@@ -124,7 +124,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
+            return JsonConvert.SerializeObject(this.ActualInstance, Fruit.SerializerSettings);
         }
 
         /// <summary>
@@ -140,26 +140,26 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newFruit = new Fruit(JsonConvert.DeserializeObject<Apple>(jsonString, newFruit._serializerSettings));
+                newFruit = new Fruit(JsonConvert.DeserializeObject<Apple>(jsonString, Fruit.SerializerSettings));
                 matchedTypes.Add("Apple");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into Apple: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Apple: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newFruit = new Fruit(JsonConvert.DeserializeObject<Banana>(jsonString, newFruit._serializerSettings));
+                newFruit = new Fruit(JsonConvert.DeserializeObject<Banana>(jsonString, Fruit.SerializerSettings));
                 matchedTypes.Add("Banana");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into Banana: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Banana: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)

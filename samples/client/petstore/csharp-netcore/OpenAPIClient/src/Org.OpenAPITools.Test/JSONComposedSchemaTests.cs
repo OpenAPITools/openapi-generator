@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Test
             t.Name = "Something";
 
             Fruit f1 = new Fruit(a);
-            Fruit f2 = new Fruit(a);
+            Fruit f2 = new Fruit(b);
 
             f1.ActualInstance = b;
             f2.ActualInstance = a;
