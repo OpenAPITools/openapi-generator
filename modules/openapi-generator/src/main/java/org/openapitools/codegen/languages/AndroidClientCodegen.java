@@ -59,6 +59,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
     public AndroidClientCodegen() {
         super();
+        super.loadJVMSpecificImportMappers();
 
         // TODO: Android client maintainer review.
         modifyFeatureSet(features -> features
