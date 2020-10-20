@@ -42,6 +42,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
+    public CodegenProperty additionalProperties;
     public CodegenProperty mostInnerItems;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     public boolean hasValidation;
@@ -145,6 +146,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.maximum = this.maximum;
         output.minimum = this.minimum;
         output.pattern = this.pattern;
+        output.additionalProperties = this.additionalProperties;
 
         if (this._enum != null) {
             output._enum = new ArrayList<String>(this._enum);
@@ -191,7 +193,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
 
     @Override
     public int hashCode() {
-        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, hasMore, isContainer, secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isAnyType, isArray, isMap, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf);
+        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, hasMore, isContainer, secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isAnyType, isArray, isMap, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, additionalProperties, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf);
     }
 
     @Override
@@ -256,6 +258,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 Objects.equals(_enum, that._enum) &&
                 Objects.equals(allowableValues, that.allowableValues) &&
                 Objects.equals(items, that.items) &&
+                Objects.equals(additionalProperties, that.additionalProperties) &&
                 Objects.equals(mostInnerItems, that.mostInnerItems) &&
                 Objects.equals(vendorExtensions, that.vendorExtensions) &&
                 Objects.equals(getMaxProperties(), that.getMaxProperties()) &&
@@ -326,6 +329,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", allowableValues=").append(allowableValues);
         sb.append(", items=").append(items);
         sb.append(", mostInnerItems=").append(mostInnerItems);
+        sb.append(", additionalProperties=").append(additionalProperties);
         sb.append(", vendorExtensions=").append(vendorExtensions);
         sb.append(", hasValidation=").append(hasValidation);
         sb.append(", maxProperties=").append(maxProperties);
@@ -526,6 +530,14 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     @Override
     public void setIsArray(boolean isArray)  {
         this.isArray = isArray;
+    }
+
+    @Override
+    public CodegenProperty getAdditionalProperties() { return additionalProperties; }
+
+    @Override
+    public void setAdditionalProperties(CodegenProperty additionalProperties)  {
+        this.additionalProperties = additionalProperties;
     }
 }
 
