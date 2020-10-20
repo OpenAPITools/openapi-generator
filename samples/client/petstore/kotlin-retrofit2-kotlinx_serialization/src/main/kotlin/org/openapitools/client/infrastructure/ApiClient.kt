@@ -71,10 +71,10 @@ class ApiClient(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         
-        authName: String, 
-        clientId: String, 
-        secret: String, 
-        username: String, 
+        authName: String,
+        clientId: String,
+        secret: String,
+        username: String,
         password: String
     ) : this(baseUrl, okHttpClientBuilder, arrayOf(authName)) {
         getTokenEndPoint()
@@ -173,8 +173,7 @@ class ApiClient(
     }
 
     fun <S> createService(serviceClass: Class<S>): S {
-        var usedClient: OkHttpClient? = null
-        this.okHttpClient?.let { usedClient = it } ?: run {usedClient = clientBuilder.build()}
+        val usedClient = this.okHttpClient ?: clientBuilder.build()
         return retrofitBuilder.client(usedClient).build().create(serviceClass)
     }
 
@@ -193,7 +192,7 @@ class ApiClient(
         }
     }
 
-    companion object {        
+    companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
             System.getProperties().getProperty("org.openapitools.client.baseUrl", "http://petstore.swagger.io/v2")
