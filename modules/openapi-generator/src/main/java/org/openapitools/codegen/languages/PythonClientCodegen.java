@@ -954,9 +954,9 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (example == null) {
             example = "None";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (Boolean.TRUE.equals(p.isArray)) {
             example = "[" + example + "]";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(p.isMap)) {
             example = "{'key': " + example + "}";
         }
 

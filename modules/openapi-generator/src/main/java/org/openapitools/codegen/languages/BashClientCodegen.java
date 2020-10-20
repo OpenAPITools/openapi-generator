@@ -783,9 +783,9 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (example == null) {
             example = "NULL";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (Boolean.TRUE.equals(p.isArray)) {
             example = "[" + example + "]";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(p.isMap)) {
             example = "{'key': " + example + "}";
         }
 

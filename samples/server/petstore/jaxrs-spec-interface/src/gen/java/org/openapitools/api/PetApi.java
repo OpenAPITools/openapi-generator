@@ -25,9 +25,8 @@ import javax.validation.Valid;
     @ApiOperation(value = "Add a new pet to the store", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-            @AuthorizationScope(scope = "read:pets", description = "read your pets")
-        })
-    }, tags={ "pet",  })
+            @AuthorizationScope(scope = "read:pets", description = "read your pets") })
+         }, tags={ "pet",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
@@ -38,9 +37,8 @@ import javax.validation.Valid;
     @ApiOperation(value = "Deletes a pet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-            @AuthorizationScope(scope = "read:pets", description = "read your pets")
-        })
-    }, tags={ "pet",  })
+            @AuthorizationScope(scope = "read:pets", description = "read your pets") })
+         }, tags={ "pet",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
@@ -52,9 +50,8 @@ import javax.validation.Valid;
     @ApiOperation(value = "Finds Pets by status", notes = "Multiple status values can be provided with comma separated strings", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-            @AuthorizationScope(scope = "read:pets", description = "read your pets")
-        })
-    }, tags={ "pet",  })
+            @AuthorizationScope(scope = "read:pets", description = "read your pets") })
+         }, tags={ "pet",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid status value", response = Void.class, responseContainer = "List") })
@@ -66,9 +63,8 @@ import javax.validation.Valid;
     @ApiOperation(value = "Finds Pets by tags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-            @AuthorizationScope(scope = "read:pets", description = "read your pets")
-        })
-    }, tags={ "pet",  })
+            @AuthorizationScope(scope = "read:pets", description = "read your pets") })
+         }, tags={ "pet",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "Set"),
         @ApiResponse(code = 400, message = "Invalid tag value", response = Void.class, responseContainer = "Set") })
@@ -78,8 +74,9 @@ import javax.validation.Valid;
     @Path("/{petId}")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Find pet by ID", notes = "Returns a single pet", authorizations = {
+        
         @Authorization(value = "api_key")
-    }, tags={ "pet",  })
+         }, tags={ "pet",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
@@ -91,9 +88,8 @@ import javax.validation.Valid;
     @ApiOperation(value = "Update an existing pet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-            @AuthorizationScope(scope = "read:pets", description = "read your pets")
-        })
-    }, tags={ "pet",  })
+            @AuthorizationScope(scope = "read:pets", description = "read your pets") })
+         }, tags={ "pet",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
@@ -107,9 +103,8 @@ import javax.validation.Valid;
     @ApiOperation(value = "Updates a pet in the store with form data", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-            @AuthorizationScope(scope = "read:pets", description = "read your pets")
-        })
-    }, tags={ "pet",  })
+            @AuthorizationScope(scope = "read:pets", description = "read your pets") })
+         }, tags={ "pet",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
     void updatePetWithForm(@PathParam("petId") @ApiParam("ID of pet that needs to be updated") Long petId,@FormParam(value = "name")  String name,@FormParam(value = "status")  String status);
@@ -121,9 +116,8 @@ import javax.validation.Valid;
     @ApiOperation(value = "uploads an image", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-            @AuthorizationScope(scope = "read:pets", description = "read your pets")
-        })
-    }, tags={ "pet" })
+            @AuthorizationScope(scope = "read:pets", description = "read your pets") })
+         }, tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
     ModelApiResponse uploadFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId,@FormParam(value = "additionalMetadata")  String additionalMetadata, @FormParam(value = "file") InputStream fileInputStream);

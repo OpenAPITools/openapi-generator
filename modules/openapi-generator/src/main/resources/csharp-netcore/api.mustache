@@ -370,9 +370,9 @@ namespace {{packageName}}.{{apiPackage}}
             }
             {{/isOAuth}}
             {{#isHttpSignature}}
-            if (this.Configuration.HTTPSigningConfiguration != null)
+            if (this.Configuration.HttpSigningConfiguration != null)
             {
-                var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "{{{httpMethod}}}", "{{{path}}}", localVarRequestOptions);
+                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "{{{httpMethod}}}", "{{{path}}}", localVarRequestOptions);
                 foreach (var headerItem in HttpSigningHeaders)
                 {
                     if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
@@ -565,9 +565,9 @@ namespace {{packageName}}.{{apiPackage}}
             }
             {{/isOAuth}}
             {{#isHttpSignature}}
-            if (this.Configuration.HTTPSigningConfiguration != null)
+            if (this.Configuration.HttpSigningConfiguration != null)
             {
-                var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "{{{httpMethod}}}", "{{{path}}}", localVarRequestOptions);
+                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "{{{httpMethod}}}", "{{{path}}}", localVarRequestOptions);
                 foreach (var headerItem in HttpSigningHeaders)
                 {
                     if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))

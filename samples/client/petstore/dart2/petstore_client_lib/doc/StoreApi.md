@@ -26,13 +26,13 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = StoreApi();
-var orderId = orderId_example; // String | ID of the order that needs to be deleted
+final api_instance = StoreApi();
+final orderId = orderId_example; // String | ID of the order that needs to be deleted
 
 try { 
     api_instance.deleteOrder(orderId);
 } catch (e) {
-    print("Exception when calling StoreApi->deleteOrder: $e\n");
+    print('Exception when calling StoreApi->deleteOrder: $e\n');
 }
 ```
 
@@ -72,13 +72,13 @@ import 'package:openapi/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKeyPrefix = 'Bearer';
 
-var api_instance = StoreApi();
+final api_instance = StoreApi();
 
 try { 
-    var result = api_instance.getInventory();
+    final result = api_instance.getInventory();
     print(result);
 } catch (e) {
-    print("Exception when calling StoreApi->getInventory: $e\n");
+    print('Exception when calling StoreApi->getInventory: $e\n');
 }
 ```
 
@@ -111,14 +111,14 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = StoreApi();
-var orderId = 789; // int | ID of pet that needs to be fetched
+final api_instance = StoreApi();
+final orderId = 789; // int | ID of pet that needs to be fetched
 
 try { 
-    var result = api_instance.getOrderById(orderId);
+    final result = api_instance.getOrderById(orderId);
     print(result);
 } catch (e) {
-    print("Exception when calling StoreApi->getOrderById: $e\n");
+    print('Exception when calling StoreApi->getOrderById: $e\n');
 }
 ```
 
@@ -152,14 +152,14 @@ Place an order for a pet
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = StoreApi();
-var body = Order(); // Order | order placed for purchasing the pet
+final api_instance = StoreApi();
+final body = Order(); // Order | order placed for purchasing the pet
 
 try { 
-    var result = api_instance.placeOrder(body);
+    final result = api_instance.placeOrder(body);
     print(result);
 } catch (e) {
-    print("Exception when calling StoreApi->placeOrder: $e\n");
+    print('Exception when calling StoreApi->placeOrder: $e\n');
 }
 ```
 

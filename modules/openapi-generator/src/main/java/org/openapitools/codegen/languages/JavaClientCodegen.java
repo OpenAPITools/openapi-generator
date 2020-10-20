@@ -418,6 +418,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             setJava8Mode(true);
             additionalProperties.put("java8", "true");
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
+            supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
+            supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", (sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar), "AbstractOpenApiSchema.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (RESTEASY.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
@@ -536,8 +538,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
             additionalProperties.put(SERIALIZATION_LIBRARY_JACKSON, "true");
             additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
+            supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
             if (!NATIVE.equals(getLibrary())) {
-                supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
                 if ("threetenbp".equals(dateLibrary) && !usePlayWS) {
                     supportingFiles.add(new SupportingFile("CustomInstantDeserializer.mustache", invokerFolder, "CustomInstantDeserializer.java"));
                 }
@@ -822,7 +824,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     imports2Classnames.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
                     imports2Classnames.put("NoSuchElementException", "java.util.NoSuchElementException");
                     imports2Classnames.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
-
                     for (Map.Entry<String, String> entry : imports2Classnames.entrySet()) {
                         cm.imports.add(entry.getKey());
                         Map<String, String> importsItem = new HashMap<String, String>();
@@ -838,7 +839,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 CodegenModel cm = (CodegenModel) mo.get("model");
 
                 cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
-                if (JERSEY2.equals(getLibrary())) {
+                if (JERSEY2.equals(getLibrary()) || NATIVE.equals(getLibrary())) {
                     cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
 
                     if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
@@ -978,7 +979,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
             Map<String, String> oneImport = new HashMap<>();
             oneImport.put("import", importMapping.get(i));
-
             if (!imports.contains(oneImport)) {
                 imports.add(oneImport);
             }

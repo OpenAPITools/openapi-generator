@@ -13,7 +13,7 @@
 
 @interface {{classname}}ManagedObjectBuilder : NSObject
 
-{{#isArrayModel}}@property (nonatomic, strong) {{arrayModelType}}ManagedObjectBuilder * entriesBuilder;{{/isArrayModel}}{{#vars}}{{#complexType}}@property (nonatomic, strong) {{complexType}}ManagedObjectBuilder * {{name}}Builder;
+{{#isArray}}@property (nonatomic, strong) {{arrayModelType}}ManagedObjectBuilder * entriesBuilder;{{/isArray}}{{#vars}}{{#complexType}}@property (nonatomic, strong) {{complexType}}ManagedObjectBuilder * {{name}}Builder;
 {{/complexType}}{{/vars}}
 
 -({{classname}}ManagedObject*)createNew{{classname}}ManagedObjectInContext:(NSManagedObjectContext*)context;

@@ -99,7 +99,7 @@ ext {
     jackson_databind_version = "2.10.4"
     jackson_databind_nullable_version = "0.2.1"
     jersey_version = "2.27"
-    junit_version = "4.13"
+    junit_version = "4.13.1"
     scribejava_apis_version = "6.9.0"
     tomitribe_http_signatures_version = "1.5"
 }

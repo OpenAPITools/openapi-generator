@@ -26,11 +26,16 @@ defmodule {{moduleName}}.Api.{{classname}} do
 {{/requiredParams}}
   - opts (KeywordList): [optional] Optional parameters
 {{#optionalParams}}
+{{#isBodyParam}}
+    - :body ({{dataType}}): {{&description}}
+{{/isBodyParam}}
+{{^isBodyParam}}
     - {{#underscored}}:{{paramName}}{{/underscored}} ({{dataType}}): {{&description}}
+{{/isBodyParam}}
 {{/optionalParams}}
   ## Returns
 
-  {:ok, {{#isListContainer}}[%{{returnBaseType}}{}, ...]{{/isListContainer}}{{#isMapContainer}}%{}{{/isMapContainer}}{{^returnType}}%{}{{/returnType}}{{#returnSimpleType}}%{{#returnType}}{{#isMapContainer}}{{/isMapContainer}}{{{moduleName}}}.Model.{{{returnType}}}{{/returnType}}{}{{/returnSimpleType}}} on success
+  {:ok, {{#isArray}}[%{{returnBaseType}}{}, ...]{{/isArray}}{{#isMap}}%{}{{/isMap}}{{^returnType}}%{}{{/returnType}}{{#returnSimpleType}}%{{#returnType}}{{#isMap}}{{/isMap}}{{{moduleName}}}.Model.{{{returnType}}}{{/returnType}}{}{{/returnSimpleType}}} on success
   {:error, info} on failure
   """
   {{{typespec}}}
@@ -39,7 +44,12 @@ defmodule {{moduleName}}.Api.{{classname}} do
 {{#-first}}
     optional_params = %{
 {{/-first}}
-      :"{{baseName}}" => {{#isBodyParam}}:body{{/isBodyParam}}{{#isFormParam}}:form{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}{{#hasMore}},{{/hasMore}}
+{{#isBodyParam}}
+      :body => :body
+{{/isBodyParam}}
+{{^isBodyParam}}
+      :"{{baseName}}" => {{#isFormParam}}:form{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}{{#hasMore}},{{/hasMore}}
+{{/isBodyParam}}
 {{#-last}}
     }
 {{/-last}}

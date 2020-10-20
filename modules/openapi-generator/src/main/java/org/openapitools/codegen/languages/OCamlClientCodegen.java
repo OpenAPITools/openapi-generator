@@ -237,8 +237,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     protected void updateDataTypeWithEnumForMap(CodegenProperty property) {
         CodegenProperty baseItem = property.items;
-        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMapContainer)
-                || Boolean.TRUE.equals(baseItem.isListContainer))) {
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap)
+                || Boolean.TRUE.equals(baseItem.isArray))) {
             baseItem = baseItem.items;
         }
 
@@ -255,8 +255,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     protected void updateDataTypeWithEnumForArray(CodegenProperty property) {
         CodegenProperty baseItem = property.items;
-        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMapContainer)
-                || Boolean.TRUE.equals(baseItem.isListContainer))) {
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap)
+                || Boolean.TRUE.equals(baseItem.isArray))) {
             baseItem = baseItem.items;
         }
         if (baseItem != null) {

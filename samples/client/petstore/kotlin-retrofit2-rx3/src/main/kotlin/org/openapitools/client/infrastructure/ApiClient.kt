@@ -175,7 +175,7 @@ class ApiClient(
     }
 
     fun <S> createService(serviceClass: Class<S>): S {
-        val usedClient: OkHttpClient = this.okHttpClient ?: clientBuilder.build()
+        val usedClient = this.okHttpClient ?: clientBuilder.build()
         return retrofitBuilder.client(usedClient).build().create(serviceClass)
     }
 

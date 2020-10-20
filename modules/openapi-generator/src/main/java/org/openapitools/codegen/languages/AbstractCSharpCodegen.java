@@ -195,6 +195,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("object", "Object");
         typeMapping.put("UUID", "Guid?");
         typeMapping.put("URI", "string");
+        typeMapping.put("AnyType", "Object");
 
         // nullable type
         nullableType = new HashSet<String>(
@@ -640,7 +641,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         }
 
                         if (this.collectionTypes.contains(typeMapping)) {
-                            operation.isListContainer = true;
+                            operation.isArray = true;
                             operation.returnContainer = operation.returnType;
                             if (this.returnICollection && (
                                     typeMapping.startsWith("List") ||
@@ -653,7 +654,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                             }
                         } else {
                             operation.returnContainer = operation.returnType;
-                            operation.isMapContainer = this.mapTypes.contains(typeMapping);
+                            operation.isMap = this.mapTypes.contains(typeMapping);
                         }
                     }
 
