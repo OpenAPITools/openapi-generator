@@ -34,15 +34,6 @@ namespace Org.OpenAPITools.Model
     public partial class Quadrilateral : AbstractOpenAPISchema, IEquatable<Quadrilateral>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
-        /// </summary>
-        public Quadrilateral()
-        {
-            this.IsNullable = true;
-            this.SchemaType= "oneOf";
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Quadrilateral" /> class
         /// with the <see cref="ComplexQuadrilateral" /> class
         /// </summary>
@@ -134,7 +125,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
+            return JsonConvert.SerializeObject(this.ActualInstance, Quadrilateral.SerializerSettings);
         }
 
         /// <summary>
@@ -144,32 +135,32 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of Quadrilateral</returns>
         public static Quadrilateral FromJson(string jsonString)
         {
-            Quadrilateral newQuadrilateral = new Quadrilateral();
+            Quadrilateral newQuadrilateral = null;
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                newQuadrilateral.ActualInstance = JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, newQuadrilateral._serializerSettings);
+                newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, Quadrilateral.SerializerSettings));
                 matchedTypes.Add("ComplexQuadrilateral");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into ComplexQuadrilateral: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into ComplexQuadrilateral: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newQuadrilateral.ActualInstance = JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, newQuadrilateral._serializerSettings);
+                newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, Quadrilateral.SerializerSettings));
                 matchedTypes.Add("SimpleQuadrilateral");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into SimpleQuadrilateral: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into SimpleQuadrilateral: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)

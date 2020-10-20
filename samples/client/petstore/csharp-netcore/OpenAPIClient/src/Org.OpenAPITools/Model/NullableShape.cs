@@ -134,7 +134,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
+            return JsonConvert.SerializeObject(this.ActualInstance, NullableShape.SerializerSettings);
         }
 
         /// <summary>
@@ -144,19 +144,19 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of NullableShape</returns>
         public static NullableShape FromJson(string jsonString)
         {
-            NullableShape newNullableShape = new NullableShape();
+            NullableShape newNullableShape = null;
 
             string discriminatorValue = JObject.Parse(jsonString)["shapeType"].ToString();
             switch (discriminatorValue)
             {
                 case "Quadrilateral":
-                    newNullableShape.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, newNullableShape._serializerSettings);
+                    newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, NullableShape.SerializerSettings));
                     return newNullableShape;
                 case "Triangle":
-                    newNullableShape.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, newNullableShape._serializerSettings);
+                    newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, NullableShape.SerializerSettings));
                     return newNullableShape;
                 default:
-                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for NullableShape. Possible values: Quadrilateral Triangle", discriminatorValue));
+                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for NullableShape. Possible values: Quadrilateral Triangle", discriminatorValue));
                     break;
             }
 
@@ -165,26 +165,26 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newNullableShape.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, newNullableShape._serializerSettings);
+                newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, NullableShape.SerializerSettings));
                 matchedTypes.Add("Quadrilateral");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into Quadrilateral: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Quadrilateral: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newNullableShape.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, newNullableShape._serializerSettings);
+                newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, NullableShape.SerializerSettings));
                 matchedTypes.Add("Triangle");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into Triangle: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Triangle: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)

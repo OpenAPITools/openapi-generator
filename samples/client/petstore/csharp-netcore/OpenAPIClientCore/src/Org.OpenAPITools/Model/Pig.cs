@@ -34,15 +34,6 @@ namespace Org.OpenAPITools.Model
     public partial class Pig : AbstractOpenAPISchema, IEquatable<Pig>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Pig" /> class.
-        /// </summary>
-        public Pig()
-        {
-            this.IsNullable = true;
-            this.SchemaType= "oneOf";
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Pig" /> class
         /// with the <see cref="BasquePig" /> class
         /// </summary>
@@ -134,7 +125,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
+            return JsonConvert.SerializeObject(this.ActualInstance, Pig.SerializerSettings);
         }
 
         /// <summary>
@@ -144,32 +135,32 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of Pig</returns>
         public static Pig FromJson(string jsonString)
         {
-            Pig newPig = new Pig();
+            Pig newPig = null;
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                newPig.ActualInstance = JsonConvert.DeserializeObject<BasquePig>(jsonString, newPig._serializerSettings);
+                newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.SerializerSettings));
                 matchedTypes.Add("BasquePig");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into BasquePig: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into BasquePig: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newPig.ActualInstance = JsonConvert.DeserializeObject<DanishPig>(jsonString, newPig._serializerSettings);
+                newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.SerializerSettings));
                 matchedTypes.Add("DanishPig");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into DanishPig: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into DanishPig: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)

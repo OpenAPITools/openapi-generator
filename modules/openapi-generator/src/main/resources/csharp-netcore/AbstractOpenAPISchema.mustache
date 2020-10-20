@@ -14,7 +14,7 @@ namespace {{packageName}}.{{modelPackage}}
         /// <summary>
         ///  Custom JSON serializer
         /// </summary>
-        protected readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
+        static public readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
         {
             // OpenAPI generated types generally hide default constructors.
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,

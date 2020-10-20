@@ -33,15 +33,6 @@ namespace Org.OpenAPITools.Model
     public partial class Fruit : AbstractOpenAPISchema, IEquatable<Fruit>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Fruit" /> class.
-        /// </summary>
-        public Fruit()
-        {
-            this.IsNullable = true;
-            this.SchemaType= "oneOf";
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Fruit" /> class
         /// with the <see cref="Apple" /> class
         /// </summary>
@@ -133,7 +124,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
+            return JsonConvert.SerializeObject(this.ActualInstance, Fruit.SerializerSettings);
         }
 
         /// <summary>
@@ -143,32 +134,32 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of Fruit</returns>
         public static Fruit FromJson(string jsonString)
         {
-            Fruit newFruit = new Fruit();
+            Fruit newFruit = null;
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                newFruit.ActualInstance = JsonConvert.DeserializeObject<Apple>(jsonString, newFruit._serializerSettings);
+                newFruit = new Fruit(JsonConvert.DeserializeObject<Apple>(jsonString, Fruit.SerializerSettings));
                 matchedTypes.Add("Apple");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into Apple: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Apple: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newFruit.ActualInstance = JsonConvert.DeserializeObject<Banana>(jsonString, newFruit._serializerSettings);
+                newFruit = new Fruit(JsonConvert.DeserializeObject<Banana>(jsonString, Fruit.SerializerSettings));
                 matchedTypes.Add("Banana");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into Banana: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Banana: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)

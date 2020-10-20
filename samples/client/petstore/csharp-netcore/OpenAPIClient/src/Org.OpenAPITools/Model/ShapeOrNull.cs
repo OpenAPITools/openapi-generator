@@ -134,7 +134,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
+            return JsonConvert.SerializeObject(this.ActualInstance, ShapeOrNull.SerializerSettings);
         }
 
         /// <summary>
@@ -144,19 +144,19 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of ShapeOrNull</returns>
         public static ShapeOrNull FromJson(string jsonString)
         {
-            ShapeOrNull newShapeOrNull = new ShapeOrNull();
+            ShapeOrNull newShapeOrNull = null;
 
             string discriminatorValue = JObject.Parse(jsonString)["shapeType"].ToString();
             switch (discriminatorValue)
             {
                 case "Quadrilateral":
-                    newShapeOrNull.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, newShapeOrNull._serializerSettings);
+                    newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, ShapeOrNull.SerializerSettings));
                     return newShapeOrNull;
                 case "Triangle":
-                    newShapeOrNull.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, newShapeOrNull._serializerSettings);
+                    newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, ShapeOrNull.SerializerSettings));
                     return newShapeOrNull;
                 default:
-                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for ShapeOrNull. Possible values: Quadrilateral Triangle", discriminatorValue));
+                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for ShapeOrNull. Possible values: Quadrilateral Triangle", discriminatorValue));
                     break;
             }
 
@@ -165,26 +165,26 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newShapeOrNull.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, newShapeOrNull._serializerSettings);
+                newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, ShapeOrNull.SerializerSettings));
                 matchedTypes.Add("Quadrilateral");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into Quadrilateral: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Quadrilateral: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newShapeOrNull.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, newShapeOrNull._serializerSettings);
+                newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, ShapeOrNull.SerializerSettings));
                 matchedTypes.Add("Triangle");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into Triangle: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Triangle: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)

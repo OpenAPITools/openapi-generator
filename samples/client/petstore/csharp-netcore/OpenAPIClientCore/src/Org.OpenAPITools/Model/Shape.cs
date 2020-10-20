@@ -34,15 +34,6 @@ namespace Org.OpenAPITools.Model
     public partial class Shape : AbstractOpenAPISchema, IEquatable<Shape>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Shape" /> class.
-        /// </summary>
-        public Shape()
-        {
-            this.IsNullable = true;
-            this.SchemaType= "oneOf";
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Shape" /> class
         /// with the <see cref="Quadrilateral" /> class
         /// </summary>
@@ -134,7 +125,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
+            return JsonConvert.SerializeObject(this.ActualInstance, Shape.SerializerSettings);
         }
 
         /// <summary>
@@ -144,32 +135,32 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of Shape</returns>
         public static Shape FromJson(string jsonString)
         {
-            Shape newShape = new Shape();
+            Shape newShape = null;
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                newShape.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, newShape._serializerSettings);
+                newShape = new Shape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, Shape.SerializerSettings));
                 matchedTypes.Add("Quadrilateral");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into Quadrilateral: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Quadrilateral: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newShape.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, newShape._serializerSettings);
+                newShape = new Shape(JsonConvert.DeserializeObject<Triangle>(jsonString, Shape.SerializerSettings));
                 matchedTypes.Add("Triangle");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into Triangle: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Triangle: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)

@@ -4,6 +4,7 @@
     [DataContract(Name = "{{{name}}}")]
     {{>visibility}} partial class {{classname}} : AbstractOpenAPISchema, {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
     {
+        {{#isNullable}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
@@ -13,6 +14,7 @@
             this.SchemaType= "oneOf";
         }
 
+        {{/isNullable}}
         {{#oneOf}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class
@@ -85,7 +87,7 @@
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
+            return JsonConvert.SerializeObject(this.ActualInstance, {{classname}}.SerializerSettings);
         }
 
         /// <summary>
@@ -95,7 +97,7 @@
         /// <returns>An instance of {{classname}}</returns>
         public static {{classname}} FromJson(string jsonString)
         {
-            {{classname}} new{{classname}} = new {{classname}}();
+            {{classname}} new{{classname}} = null;
             {{#useOneOfDiscriminatorLookup}}
             {{#discriminator}}
 
@@ -104,11 +106,11 @@
             {
                 {{#mappedModels}}
                 case "{{{mappingName}}}":
-                    new{{classname}}.ActualInstance = JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, new{{classname}}._serializerSettings);
+                    new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, {{classname}}.SerializerSettings));
                     return new{{classname}};
                 {{/mappedModels}}
                 default:
-                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
+                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
                     break;
             }
 
@@ -120,14 +122,14 @@
 
             try
             {
-                new{{classname}}.ActualInstance = JsonConvert.DeserializeObject<{{{.}}}>(jsonString, new{{classname}}._serializerSettings);
+                new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{.}}}>(jsonString, {{classname}}.SerializerSettings));
                 matchedTypes.Add("{{{.}}}");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into {{{.}}}: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into {{{.}}}: {1}", jsonString, exception.ToString()));
             }
             {{/oneOf}}
 
