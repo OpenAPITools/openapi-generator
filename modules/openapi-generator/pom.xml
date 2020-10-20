@@ -433,6 +433,11 @@
             <artifactId>caffeine</artifactId>
             <version>2.8.1</version>
         </dependency>
+        <dependency>
+            <groupId>nl.jworks.markdown_to_asciidoc</groupId>
+            <artifactId>markdown_to_asciidoc</artifactId>
+            <version>1.1</version>
+        </dependency>
     </dependencies>
     <repositories>
         <repository>
@@ -442,5 +447,10 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+	    <repository>
+	        <id>jcenter</id>
+	        <name>jcenter</name>
+	        <url>https://jcenter.bintray.com</url>
+	    </repository>
     </repositories>
 </project>

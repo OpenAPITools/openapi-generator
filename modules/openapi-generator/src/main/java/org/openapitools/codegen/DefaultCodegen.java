@@ -3803,6 +3803,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 bodyParam = fromRequestBody(requestBody, imports, bodyParameterName);
                 bodyParam.description = escapeText(requestBody.getDescription());
+                bodyParam.unescapedDescription = requestBody.getDescription();
                 postProcessParameter(bodyParam);
 
                 bodyParams.add(bodyParam);
@@ -5798,6 +5799,7 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.isContainer = true;
                     codegenParameter.isArray = true;
                     codegenParameter.description = escapeText(s.getDescription());
+                    codegenParameter.unescapedDescription = s.getDescription();
                     codegenParameter.dataType = getTypeDeclaration(arraySchema);
                     if (codegenParameter.baseType != null && codegenParameter.enumName != null) {
                         codegenParameter.datatypeWithEnum = codegenParameter.dataType.replace(codegenParameter.baseType, codegenParameter.enumName);
