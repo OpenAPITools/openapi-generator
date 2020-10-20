@@ -126,8 +126,8 @@ import okhttp3.MediaType.Companion.toMediaType
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         {{^kotlinx_serialization}}serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,{{/kotlinx_serialization}}
-        authName: String, 
-        username: String, 
+        authName: String,
+        username: String,
         password: String
     ) : this(baseUrl, okHttpClientBuilder, {{^kotlinx_serialization}}serializerBuilder, {{/kotlinx_serialization}}arrayOf(authName)) {
         setCredentials(username, password)
@@ -139,7 +139,7 @@ import okhttp3.MediaType.Companion.toMediaType
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         {{^kotlinx_serialization}}serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,{{/kotlinx_serialization}}
-        authName: String, 
+        authName: String,
         bearerToken: String
     ) : this(baseUrl, okHttpClientBuilder, {{^kotlinx_serialization}}serializerBuilder, {{/kotlinx_serialization}}arrayOf(authName)) {
         setBearerToken(bearerToken)
@@ -153,10 +153,10 @@ import okhttp3.MediaType.Companion.toMediaType
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         {{^kotlinx_serialization}}serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,{{/kotlinx_serialization}}
-        authName: String, 
-        clientId: String, 
-        secret: String, 
-        username: String, 
+        authName: String,
+        clientId: String,
+        secret: String,
+        username: String,
         password: String
     ) : this(baseUrl, okHttpClientBuilder, {{^kotlinx_serialization}}serializerBuilder, {{/kotlinx_serialization}}arrayOf(authName)) {
         getTokenEndPoint()
@@ -178,7 +178,7 @@ import okhttp3.MediaType.Companion.toMediaType
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
             tokenRequestBuilder.setUsername(username).setPassword(password)
         }
-        {{/hasOAuthMethods}}    
+        {{/hasOAuthMethods}}
         return this
     }
 
@@ -191,7 +191,7 @@ import okhttp3.MediaType.Companion.toMediaType
         }
         return this
     }
-    {{/hasOAuthMethods}}    
+    {{/hasOAuthMethods}}
     {{/isBasicBasic}}
     {{#isBasicBearer}}
     fun setBearerToken(bearerToken: String): ApiClient {
@@ -296,8 +296,7 @@ import okhttp3.MediaType.Companion.toMediaType
     }
 
     fun <S> createService(serviceClass: Class<S>): S {
-        var usedClient: OkHttpClient? = null
-        this.okHttpClient?.let { usedClient = it } ?: run {usedClient = clientBuilder.build()}
+        val usedClient = this.okHttpClient ?: clientBuilder.build()
         return retrofitBuilder.client(usedClient).build().create(serviceClass)
     }
 
@@ -316,7 +315,7 @@ import okhttp3.MediaType.Companion.toMediaType
         }
     }
 
-    companion object {        
+    companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
             System.getProperties().getProperty("{{packageName}}.baseUrl", "{{{basePath}}}")

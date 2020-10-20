@@ -23,12 +23,14 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Reflection;
 
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
     /// FruitReq
     /// </summary>
+    [JsonConverter(typeof(FruitReqJsonConverter))]
     [DataContract(Name = "fruitReq")]
     public partial class FruitReq : AbstractOpenAPISchema, IEquatable<FruitReq>, IValidatableObject
     {
@@ -133,7 +135,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
+            return JsonConvert.SerializeObject(this.ActualInstance, FruitReq.SerializerSettings);
         }
 
         /// <summary>
@@ -143,32 +145,32 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of FruitReq</returns>
         public static FruitReq FromJson(string jsonString)
         {
-            FruitReq newFruitReq = new FruitReq();
+            FruitReq newFruitReq = null;
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                newFruitReq.ActualInstance = JsonConvert.DeserializeObject<AppleReq>(jsonString, newFruitReq._serializerSettings);
+                newFruitReq = new FruitReq(JsonConvert.DeserializeObject<AppleReq>(jsonString, FruitReq.SerializerSettings));
                 matchedTypes.Add("AppleReq");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into AppleReq: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into AppleReq: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newFruitReq.ActualInstance = JsonConvert.DeserializeObject<BananaReq>(jsonString, newFruitReq._serializerSettings);
+                newFruitReq = new FruitReq(JsonConvert.DeserializeObject<BananaReq>(jsonString, FruitReq.SerializerSettings));
                 matchedTypes.Add("BananaReq");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into BananaReq: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into BananaReq: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)
@@ -227,6 +229,46 @@ namespace Org.OpenAPITools.Model
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
+        }
+    }
+
+    /// <summary>
+    /// Custom JSON converter for FruitReq
+    /// </summary>
+    public class FruitReqJsonConverter : JsonConverter
+    {
+        /// <summary>
+        /// To write the JSON string
+        /// </summary>
+        /// <param name="writer">JSON writer</param>
+        /// <param name="value">Object to be converted into a JSON string</param>
+        /// <param name="serializer">JSON Serializer</param>
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            writer.WriteRaw((String)(typeof(FruitReq).GetMethod("ToJson").Invoke(value, null)));
+        }
+
+        /// <summary>
+        /// To convert a JSON string into an object
+        /// </summary>
+        /// <param name="reader">JSON reader</param>
+        /// <param name="objectType">Object type</param>
+        /// <param name="existingValue">Existing value</param>
+        /// <param name="serializer">JSON Serializer</param>
+        /// <returns>The object converted from the JSON string</returns>
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            return FruitReq.FromJson(JObject.Load(reader).ToString(Formatting.None));
+        }
+
+        /// <summary>
+        /// Check if the object can be converted
+        /// </summary>
+        /// <param name="objectType">Object type</param>
+        /// <returns>True if the object can be converted</returns>
+        public override bool CanConvert(Type objectType)
+        {
+            return false;
         }
     }
 

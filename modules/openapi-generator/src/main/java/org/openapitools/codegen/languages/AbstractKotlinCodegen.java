@@ -72,6 +72,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public AbstractKotlinCodegen() {
         super();
+        super.loadJVMSpecificImportMappers();
+
         supportsInheritance = true;
         setSortModelPropertiesByRequiredFlag(true);
 

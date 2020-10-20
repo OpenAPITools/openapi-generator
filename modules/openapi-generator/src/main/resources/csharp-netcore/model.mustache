@@ -28,6 +28,11 @@ using OpenAPIClientUtils = {{packageName}}.Client.ClientUtils;
 {{/useCompareNetObjects}}
 {{#models}}
 {{#model}}
+{{#oneOf}}
+{{#-first}}
+using System.Reflection;
+{{/-first}}
+{{/oneOf}}
 
 namespace {{packageName}}.{{modelPackage}}
 {
