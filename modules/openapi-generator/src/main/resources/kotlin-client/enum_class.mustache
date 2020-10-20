@@ -55,6 +55,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
     {{/isArray}}
     {{^isArray}}
     {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}}{{#useSafeEnum}},
+
     UNKNOWN(UNKNOWN_VALUE){{/useSafeEnum}};{{/-last}}
     {{/isArray}}
 {{/enumVars}}{{/allowableValues}}
