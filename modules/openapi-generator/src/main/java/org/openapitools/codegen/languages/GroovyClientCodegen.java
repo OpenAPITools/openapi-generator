@@ -41,7 +41,6 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
 
     public GroovyClientCodegen() {
         super();
-        super.loadJVMSpecificImportMappers();
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)

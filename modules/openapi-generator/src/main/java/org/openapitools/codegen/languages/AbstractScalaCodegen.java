@@ -58,7 +58,6 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     public AbstractScalaCodegen() {
         super();
-        super.loadJVMSpecificImportMappers();
 
         languageSpecificPrimitives.addAll(Arrays.asList(
                 "String",
