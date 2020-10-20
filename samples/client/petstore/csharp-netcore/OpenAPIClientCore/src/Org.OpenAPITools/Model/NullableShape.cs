@@ -24,12 +24,14 @@ using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Reflection;
 
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
     /// The value may be a shape or the &#39;null&#39; value. The &#39;nullable&#39; attribute was introduced in OAS schema &gt;&#x3D; 3.0 and has been deprecated in OAS schema &gt;&#x3D; 3.1.
     /// </summary>
+    [JsonConverter(typeof(NullableShapeJsonConverter))]
     [DataContract(Name = "NullableShape")]
     public partial class NullableShape : AbstractOpenAPISchema, IEquatable<NullableShape>, IValidatableObject
     {
@@ -228,6 +230,46 @@ namespace Org.OpenAPITools.Model
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
+        }
+    }
+
+    /// <summary>
+    /// Custom JSON converter for NullableShape
+    /// </summary>
+    public class NullableShapeJsonConverter : JsonConverter
+    {
+        /// <summary>
+        /// To write the JSON string
+        /// </summary>
+        /// <param name="writer">JSON writer</param>
+        /// <param name="value">Object to be converted into a JSON string</param>
+        /// <param name="serializer">JSON Serializer</param>
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            writer.WriteRaw((String)(typeof(NullableShape).GetMethod("ToJson").Invoke(value, null)));
+        }
+
+        /// <summary>
+        /// To convert a JSON string into an object
+        /// </summary>
+        /// <param name="reader">JSON reader</param>
+        /// <param name="objectType">Object type</param>
+        /// <param name="existingValue">Existing value</param>
+        /// <param name="serializer">JSON Serializer</param>
+        /// <returns>The object converted from the JSON string</returns>
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            return NullableShape.FromJson(JObject.Load(reader).ToString(Formatting.None));
+        }
+
+        /// <summary>
+        /// Check if the object can be converted
+        /// </summary>
+        /// <param name="objectType">Object type</param>
+        /// <returns>True if the object can be converted</returns>
+        public override bool CanConvert(Type objectType)
+        {
+            return false;
         }
     }
 

@@ -10,6 +10,7 @@ using Xunit;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
+using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Test
 {
@@ -86,6 +87,13 @@ namespace Org.OpenAPITools.Test
 
             Fruit f4 = Fruit.FromJson("{\"origin\":\"Japan\"}");
             Assert.IsType<Apple>(f4.ActualInstance);
+
+            // test custom deserializer
+            Fruit f5 = JsonConvert.DeserializeObject<Fruit>("{\"lengthCm\":98}");
+            Assert.IsType<Banana>(f5.ActualInstance);
+
+            // test custom serializer
+            Assert.Equal("{\"lengthCm\":98.0}", JsonConvert.SerializeObject(f5));
         }
     }
 }
