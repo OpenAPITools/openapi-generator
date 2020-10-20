@@ -117,8 +117,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
-        authName: String, 
-        username: String, 
+        authName: String,
+        username: String,
         password: String
     ) : this(baseUrl, okHttpClientBuilder, serializerBuilder, arrayOf(authName)) {
         setCredentials(username, password)
@@ -130,7 +130,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
-        authName: String, 
+        authName: String,
         bearerToken: String
     ) : this(baseUrl, okHttpClientBuilder, serializerBuilder, arrayOf(authName)) {
         setBearerToken(bearerToken)
@@ -144,10 +144,10 @@ import retrofit2.converter.moshi.MoshiConverterFactory
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
-        authName: String, 
-        clientId: String, 
-        secret: String, 
-        username: String, 
+        authName: String,
+        clientId: String,
+        secret: String,
+        username: String,
         password: String
     ) : this(baseUrl, okHttpClientBuilder, serializerBuilder, arrayOf(authName)) {
         getTokenEndPoint()
@@ -169,7 +169,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
             tokenRequestBuilder.setUsername(username).setPassword(password)
         }
-        {{/hasOAuthMethods}}    
+        {{/hasOAuthMethods}}
         return this
     }
 
@@ -182,7 +182,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
         }
         return this
     }
-    {{/hasOAuthMethods}}    
+    {{/hasOAuthMethods}}
     {{/isBasicBasic}}
     {{#isBasicBearer}}
     fun setBearerToken(bearerToken: String): ApiClient {
@@ -306,7 +306,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
         }
     }
 
-    companion object {        
+    companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
             System.getProperties().getProperty("{{packageName}}.baseUrl", "{{{basePath}}}")

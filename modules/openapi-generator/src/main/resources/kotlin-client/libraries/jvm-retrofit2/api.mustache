@@ -55,10 +55,10 @@ interface {{classname}} {
      * Responses:{{#responses}}
      *  - {{code}}: {{{message}}}{{/responses}}
      * 
-    {{#allParams}} 
+    {{#allParams}}
      * @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-    {{/allParams}} 
-    * @return {{^useCoroutines}}[Call]<{{/useCoroutines}}{{#isResponseFile}}[ResponseBody]{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}[{{{returnType}}}]{{/returnType}}{{^returnType}}[Unit]{{/returnType}}{{/isResponseFile}}{{^useCoroutines}}>{{/useCoroutines}}
+    {{/allParams}}
+     * @return {{^useCoroutines}}[Call]<{{/useCoroutines}}{{#isResponseFile}}[ResponseBody]{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}[{{{returnType}}}]{{/returnType}}{{^returnType}}[Unit]{{/returnType}}{{/isResponseFile}}{{^useCoroutines}}>{{/useCoroutines}}
      */
     {{#isDeprecated}}
     @Deprecated("This api was deprecated")
