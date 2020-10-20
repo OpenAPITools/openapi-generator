@@ -4114,6 +4114,24 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             r.primitiveType = (r.baseType == null || languageSpecificPrimitives().contains(r.baseType));
+
+            // process 'additionalProperties'
+            if ("object".equals(responseSchema.getType())) {
+                if (responseSchema.getAdditionalProperties() == null) {
+                    if (!disallowAdditionalPropertiesIfNotPresent) {
+                        CodegenProperty addPropProp = fromProperty("",  new Schema());
+                        r.setAdditionalProperties(addPropProp);
+                    }
+                } else if (responseSchema.getAdditionalProperties() instanceof Boolean) {
+                    if (Boolean.TRUE.equals(responseSchema.getAdditionalProperties())) {
+                        CodegenProperty addPropProp = fromProperty("", new Schema());
+                        r.setAdditionalProperties(addPropProp);
+                    }
+                } else {
+                    CodegenProperty addPropProp = fromProperty("", (Schema) responseSchema.getAdditionalProperties());
+                    r.setAdditionalProperties(addPropProp);
+                }
+            }
         }
 
         if (r.baseType == null) {
@@ -4401,6 +4419,24 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.maxItems != null || codegenParameter.minItems != null ||
                     codegenParameter.pattern != null || codegenParameter.multipleOf != null) {
                 codegenParameter.hasValidation = true;
+            }
+
+            // process 'additionalProperties'
+            if ("object".equals(parameterSchema.getType())) {
+                if (parameterSchema.getAdditionalProperties() == null) {
+                    if (!disallowAdditionalPropertiesIfNotPresent) {
+                        CodegenProperty cp = fromProperty("",  new Schema());
+                        codegenParameter.setAdditionalProperties(cp);
+                    }
+                } else if (parameterSchema.getAdditionalProperties() instanceof Boolean) {
+                    if (Boolean.TRUE.equals(parameterSchema.getAdditionalProperties())) {
+                        CodegenProperty cp = fromProperty("", new Schema());
+                        codegenParameter.setAdditionalProperties(cp);
+                    }
+                } else {
+                    CodegenProperty cp = fromProperty("", (Schema) parameterSchema.getAdditionalProperties());
+                    codegenParameter.setAdditionalProperties(cp);
+                }
             }
 
         } else {

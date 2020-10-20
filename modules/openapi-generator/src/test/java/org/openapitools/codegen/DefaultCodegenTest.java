@@ -2418,6 +2418,92 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testAdditionalPropertiesPresentInParameters() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        String path;
+        Operation operation;
+        CodegenOperation co;
+
+        CodegenProperty anyTypeSchema = codegen.fromProperty("", new Schema());
+        CodegenProperty stringCp = codegen.fromProperty("", new Schema().type("string"));
+        CodegenParameter mapWithAddPropsUnset;
+        CodegenParameter mapWithAddPropsTrue;
+        CodegenParameter mapWithAddPropsFalse;
+        CodegenParameter mapWithAddPropsSchema;
+
+        path = "/ref_additional_properties/";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        mapWithAddPropsUnset = co.queryParams.get(0);
+        assertEquals(mapWithAddPropsUnset.getAdditionalProperties(), anyTypeSchema);
+        mapWithAddPropsTrue = co.queryParams.get(1);
+        assertEquals(mapWithAddPropsTrue.getAdditionalProperties(), anyTypeSchema);
+        mapWithAddPropsFalse = co.queryParams.get(2);
+        assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
+        mapWithAddPropsSchema = co.queryParams.get(3);
+        assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+
+        path = "/additional_properties/";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        mapWithAddPropsUnset = co.queryParams.get(0);
+        assertEquals(mapWithAddPropsUnset.getAdditionalProperties(), anyTypeSchema);
+        mapWithAddPropsTrue = co.queryParams.get(1);
+        assertEquals(mapWithAddPropsTrue.getAdditionalProperties(), anyTypeSchema);
+        mapWithAddPropsFalse = co.queryParams.get(2);
+        assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
+        mapWithAddPropsSchema = co.queryParams.get(3);
+        assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+    }
+
+    @Test
+    public void testAdditionalPropertiesPresentInResponses() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        String path;
+        Operation operation;
+        CodegenOperation co;
+
+        CodegenProperty anyTypeSchema = codegen.fromProperty("", new Schema());
+        CodegenProperty stringCp = codegen.fromProperty("", new Schema().type("string"));
+        CodegenResponse mapWithAddPropsUnset;
+        CodegenResponse mapWithAddPropsTrue;
+        CodegenResponse mapWithAddPropsFalse;
+        CodegenResponse mapWithAddPropsSchema;
+
+        path = "/ref_additional_properties/";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        mapWithAddPropsUnset = co.responses.get(0);
+        assertEquals(mapWithAddPropsUnset.getAdditionalProperties(), anyTypeSchema);
+        mapWithAddPropsTrue = co.responses.get(1);
+        assertEquals(mapWithAddPropsTrue.getAdditionalProperties(), anyTypeSchema);
+        mapWithAddPropsFalse = co.responses.get(2);
+        assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
+        mapWithAddPropsSchema = co.responses.get(3);
+        assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+
+        path = "/additional_properties/";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        mapWithAddPropsUnset = co.responses.get(0);
+        assertEquals(mapWithAddPropsUnset.getAdditionalProperties(), anyTypeSchema);
+        mapWithAddPropsTrue = co.responses.get(1);
+        assertEquals(mapWithAddPropsTrue.getAdditionalProperties(), anyTypeSchema);
+        mapWithAddPropsFalse = co.responses.get(2);
+        assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
+        mapWithAddPropsSchema = co.responses.get(3);
+        assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+    }
+
+    @Test
     public void testIsXPresence() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7651.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();

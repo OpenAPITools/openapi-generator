@@ -98,33 +98,28 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/AdditionalPropertiesSchema'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AdditionalPropertiesUnset'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/AdditionalPropertiesTrue'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/AdditionalPropertiesFalse'
-          application/*:
-            schema:
-              $ref: '#/components/schemas/AdditionalPropertiesSchema'
       responses:
-        200:
-          description: success
+        "200":
+          description: "200"
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AdditionalPropertiesUnset'
+        "201":
+          description: "201"
+          content:
             application/xml:
               schema:
                 $ref: '#/components/schemas/AdditionalPropertiesTrue'
+        "202":
+          description: "202"
+          content:
             application/x-www-form-urlencoded:
               schema:
                 $ref: '#/components/schemas/AdditionalPropertiesFalse'
+        "203":
+          description: "203"
+          content:
             application/*:
               schema:
                 $ref: '#/components/schemas/AdditionalPropertiesSchema'
@@ -158,40 +153,31 @@ paths:
             type: object
             additionalProperties:
               type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-          application/xml:
-            schema:
-              type: object
-              additionalProperties: true
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              additionalProperties: false
-          application/*:
-            schema:
-              type: object
-              additionalProperties:
-                type: string
       responses:
-        200:
-          description: success
+        "200":
+          description: "200"
           content:
             application/json:
               schema:
                 type: object
-            application/xml:
+        "201":
+          description: "201"
+          content:
+            application/json:
               schema:
                 type: object
                 additionalProperties: true
-            application/x-www-form-urlencoded:
+        "202":
+          description: "202"
+          content:
+            application/json:
               schema:
                 type: object
                 additionalProperties: false
-            application/*:
+        "203":
+          description: "203"
+          content:
+            application/json:
               schema:
                 type: object
                 additionalProperties:
