@@ -6,6 +6,7 @@ using Sharpility.Base;
 using Org.OpenAPITools._v2.Models;
 using Org.OpenAPITools._v2.Utils;
 using NodaTime;
+using System.Threading.Tasks;
 using ;
 
 namespace Org.OpenAPITools._v2.Modules
@@ -22,35 +23,35 @@ namespace Org.OpenAPITools._v2.Modules
         /// <param name="service">Service handling requests</param>
         public StoreModule(StoreService service) : base("/v2")
         { 
-            Delete["/store/order/{orderId}"] = parameters =>
+            Delete["/store/order/{orderId}", true] = async (parameters, ct) =>
             {
                 var orderId = Parameters.ValueOf<string>(parameters, Context.Request, "orderId", ParameterType.Path);
                 Preconditions.IsNotNull(orderId, "Required parameter: 'orderId' is missing at 'DeleteOrder'");
                 
-                service.DeleteOrder(Context, orderId);
+                await service.DeleteOrder(Context, orderId);
                 return new Response { ContentType = ""};
             };
 
-            Get["/store/inventory"] = parameters =>
+            Get["/store/inventory", true] = async (parameters, ct) =>
             {
                 
-                return service.GetInventory(Context);
+                return await service.GetInventory(Context);
             };
 
-            Get["/store/order/{orderId}"] = parameters =>
+            Get["/store/order/{orderId}", true] = async (parameters, ct) =>
             {
                 var orderId = Parameters.ValueOf<long?>(parameters, Context.Request, "orderId", ParameterType.Path);
                 Preconditions.IsNotNull(orderId, "Required parameter: 'orderId' is missing at 'GetOrderById'");
                 
-                return service.GetOrderById(Context, orderId);
+                return await service.GetOrderById(Context, orderId);
             };
 
-            Post["/store/order"] = parameters =>
+            Post["/store/order", true] = async (parameters, ct) =>
             {
                 var body = this.Bind<Order>();
                 Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'PlaceOrder'");
                 
-                return service.PlaceOrder(Context, body);
+                return await service.PlaceOrder(Context, body);
             };
         }
     }
@@ -66,14 +67,14 @@ namespace Org.OpenAPITools._v2.Modules
         /// <param name="context">Context of request</param>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns></returns>
-        void DeleteOrder(NancyContext context, string orderId);
+        Task DeleteOrder(NancyContext context, string orderId);
 
         /// <summary>
         /// Returns a map of status codes to quantities
         /// </summary>
         /// <param name="context">Context of request</param>
         /// <returns>Dictionary&lt;string, int?&gt;</returns>
-        Dictionary<string, int?> GetInventory(NancyContext context);
+        Task<Dictionary<string, int?>> GetInventory(NancyContext context);
 
         /// <summary>
         /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
@@ -81,7 +82,7 @@ namespace Org.OpenAPITools._v2.Modules
         /// <param name="context">Context of request</param>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Order</returns>
-        Order GetOrderById(NancyContext context, long? orderId);
+        Task<Order> GetOrderById(NancyContext context, long? orderId);
 
         /// <summary>
         /// 
@@ -89,7 +90,7 @@ namespace Org.OpenAPITools._v2.Modules
         /// <param name="context">Context of request</param>
         /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
-        Order PlaceOrder(NancyContext context, Order body);
+        Task<Order> PlaceOrder(NancyContext context, Order body);
     }
 
     /// <summary>
@@ -97,33 +98,33 @@ namespace Org.OpenAPITools._v2.Modules
     /// </summary>
     public abstract class AbstractStoreService: StoreService
     {
-        public virtual void DeleteOrder(NancyContext context, string orderId)
+        public virtual Task DeleteOrder(NancyContext context, string orderId)
         {
-            DeleteOrder(orderId);
+            return DeleteOrder(orderId);
         }
 
-        public virtual Dictionary<string, int?> GetInventory(NancyContext context)
+        public virtual Task<Dictionary<string, int?>> GetInventory(NancyContext context)
         {
             return GetInventory();
         }
 
-        public virtual Order GetOrderById(NancyContext context, long? orderId)
+        public virtual Task<Order> GetOrderById(NancyContext context, long? orderId)
         {
             return GetOrderById(orderId);
         }
 
-        public virtual Order PlaceOrder(NancyContext context, Order body)
+        public virtual Task<Order> PlaceOrder(NancyContext context, Order body)
         {
             return PlaceOrder(body);
         }
 
-        protected abstract void DeleteOrder(string orderId);
+        protected abstract Task DeleteOrder(string orderId);
 
-        protected abstract Dictionary<string, int?> GetInventory();
+        protected abstract Task<Dictionary<string, int?>> GetInventory();
 
-        protected abstract Order GetOrderById(long? orderId);
+        protected abstract Task<Order> GetOrderById(long? orderId);
 
-        protected abstract Order PlaceOrder(Order body);
+        protected abstract Task<Order> PlaceOrder(Order body);
     }
 
 }
