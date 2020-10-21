@@ -14,6 +14,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageUrl|python package URL.| |null|
 |packageVersion|python package version.| |1.0.0|
 |projectName|python project name in setup.py (e.g. petstore-api).| |null|
+|pythonAttrNoneIfUnset|when accessing unset attribute, return `None` instead of raising `ApiAttributeError`| |false|
 |recursionLimit|Set the recursion limit. If not set, use the system default value.| |null|
 |useNose|use the nose test framework| |false|
 
