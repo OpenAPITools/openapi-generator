@@ -489,6 +489,7 @@ class ModelComposed(OpenApiModel):
                         values.append(v)
         len_values = len(values)
         if len_values == 0:
+
             raise ApiAttributeError(
                 "{0} has no attribute '{1}'".format(
                     type(self).__name__, name),
