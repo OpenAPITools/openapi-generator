@@ -1,8 +1,8 @@
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 
-group = 'org.openapitools'
-version = '1.0.0'
+group = '{{groupId}}'
+version = '{{artifactVersion}}'
 
 buildscript {
     repositories {
@@ -34,8 +34,20 @@ if(hasProperty('target') && target == 'android') {
         }
 
         compileOptions {
+            {{#supportJava6}}
+            sourceCompatibility JavaVersion.VERSION_1_6
+            targetCompatibility JavaVersion.VERSION_1_6
+            {{/supportJava6}}
+            {{^supportJava6}}
+            {{#java8}}
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
+            {{/java8}}
+            {{^java8}}
+            sourceCompatibility JavaVersion.VERSION_1_7
+            targetCompatibility JavaVersion.VERSION_1_7
+            {{/java8}}
+            {{/supportJava6}}
         }
 
         // Rename the aar correctly
@@ -80,12 +92,24 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven'
 
+    {{#supportJava6}}
+    sourceCompatibility = JavaVersion.VERSION_1_6
+    targetCompatibility = JavaVersion.VERSION_1_6
+    {{/supportJava6}}
+    {{^supportJava6}}
+    {{#java8}}
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+    {{/java8}}
+    {{^java8}}
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+    {{/java8}}
+    {{/supportJava6}}
 
     install {
         repositories.mavenInstaller {
-            pom.artifactId = 'petstore-webclient'
+            pom.artifactId = '{{artifactId}}'
         }
     }
 
@@ -115,7 +139,9 @@ ext {
     spring_web_version = "5.0.16.RELEASE"
     jackson_version = "2.11.3"
     jackson_databind_version = "2.11.3"
+    {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.1"
+    {{/openApiNullable}}
     javax_annotation_version = "1.3.2"
     reactor_version = "3.3.10.RELEASE"
     reactor_netty_version = "0.7.15.RELEASE"
@@ -133,8 +159,18 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
+    {{#openApiNullable}}
     compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
+    {{/openApiNullable}}
+    {{#joda}}
+    compile "joda-time:joda-time:$jodatime_version"
+    {{/joda}}
+    {{#java8}}
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
+    {{/java8}}
+    {{^java8}}
+    compile "com.brsanthu:migbase64:2.2"
+    {{/java8}}
     compile "javax.annotation:javax.annotation-api:$javax_annotation_version"
     testCompile "junit:junit:$junit_version"
 }
