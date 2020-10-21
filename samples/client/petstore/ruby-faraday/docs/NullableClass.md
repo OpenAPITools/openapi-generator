@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **boolean_prop** | **Boolean** |  | [optional] 
 **string_prop** | **String** |  | [optional] 
 **date_prop** | **Date** |  | [optional] 
-**datetime_prop** | **DateTime** |  | [optional] 
+**datetime_prop** | **Time** |  | [optional] 
 **array_nullable_prop** | **Array&lt;Object&gt;** |  | [optional] 
 **array_and_items_nullable_prop** | **Array&lt;Object&gt;** |  | [optional] 
 **array_items_nullable** | **Array&lt;Object&gt;** |  | [optional] 
