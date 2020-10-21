@@ -55,11 +55,15 @@
                         values.append(v)
         len_values = len(values)
         if len_values == 0:
+{{#attrNoneIfUnset}}
+            return None
+{{/attrNoneIfUnset}}{{^attrNoneIfUnset}}
             raise ApiAttributeError(
                 "{0} has no attribute '{1}'".format(
                     type(self).__name__, name),
                 path_to_item
             )
+{{/attrNoneIfUnset}}
         elif len_values == 1:
             return values[0]
         elif len_values > 1:

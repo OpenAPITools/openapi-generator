@@ -10,7 +10,9 @@
         """this allows us to get a value with val = instance.field_name"""
         if name in self.required_properties:
             return self.__dict__[name]
-
+{{#attrNoneIfUnset}}
+        return self.__dict__['_data_store'].get(name)
+{{/attrNoneIfUnset}}{{^attrNoneIfUnset}}
         if name in self.__dict__['_data_store']:
             return self.__dict__['_data_store'][name]
 
@@ -23,6 +25,7 @@
                 type(self).__name__, name),
             [name]
         )
+{{/attrNoneIfUnset}}
 
     def __contains__(self, name):
         """this allows us to use `in` operator: `'attr' in instance`"""
