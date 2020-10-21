@@ -50,7 +50,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public CodegenType getTag() {
-        return CodegenType.CONFIG;
+        return CodegenType.SCHEMA;
     }
 
     public String getName() {
