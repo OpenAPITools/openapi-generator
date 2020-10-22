@@ -30,3 +30,6 @@
             return name in self.__dict__
 
         return name in self.__dict__['_data_store']
+
+    __setattr__ = __setitem__
+    __getattr__ = {{#attrNoneIfUnset}}get{{/attrNoneIfUnset}}{{^attrNoneIfUnset}}__getitem__{{/attrNoneIfUnset}}

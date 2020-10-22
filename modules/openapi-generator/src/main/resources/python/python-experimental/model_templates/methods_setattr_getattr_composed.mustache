@@ -85,3 +85,6 @@
                     return True
 
         return False
+
+    __setattr__ = __setitem__
+    __getattr__ = {{#attrNoneIfUnset}}get{{/attrNoneIfUnset}}{{^attrNoneIfUnset}}__getitem__{{/attrNoneIfUnset}}
