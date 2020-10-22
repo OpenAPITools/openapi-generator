@@ -29,7 +29,7 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
     static readonly discriminator: string | undefined = undefined;
     {{/discriminator}}
 
-    {{^isArrayModel}}
+    {{^isArray}}
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {{#vars}}
         {
@@ -50,7 +50,7 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
         return {{classname}}.attributeTypeMap;
         {{/parent}}
     }
-    {{/isArrayModel}}    
+    {{/isArray}}
     
     public constructor() {
         {{#parent}}

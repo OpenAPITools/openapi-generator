@@ -730,7 +730,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         // container
-        if (Boolean.TRUE.equals(p.isListContainer)) {
+        if (Boolean.TRUE.equals(p.isArray)) {
             example = setPropertyExampleValue(p.items);
             example = "[" + example + "]";
         } else if (Boolean.TRUE.equals(p.isMap)) {
@@ -943,7 +943,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         String dataType = trimBrackets(cp.dataType);
         if (isModelledType(cp))
             dataType = getModelledType(dataType);
-        if (Boolean.TRUE.equals(cp.isListContainer)) {
+        if (Boolean.TRUE.equals(cp.isArray)) {
             return "Array.<" + dataType + ">";
         } else if (Boolean.TRUE.equals(cp.isMap)) {
             return "Object.<String, " + dataType + ">";
@@ -961,7 +961,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (returnType != null) {
             if (isModelledType(co))
                 returnType = getModelledType(returnType);
-            if (Boolean.TRUE.equals(co.isListContainer)) {
+            if (Boolean.TRUE.equals(co.isArray)) {
                 return "Array.<" + returnType + ">";
             } else if (Boolean.TRUE.equals(co.isMap)) {
                 return "Object.<String, " + returnType + ">";

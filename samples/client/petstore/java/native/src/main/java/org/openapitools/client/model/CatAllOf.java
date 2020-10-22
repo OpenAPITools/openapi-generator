@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -23,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * CatAllOf
@@ -30,7 +34,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   CatAllOf.JSON_PROPERTY_DECLAWED
 })
-@JsonTypeName("Cat_allOf")
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class CatAllOf {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
@@ -38,7 +41,6 @@ public class CatAllOf {
 
 
   public CatAllOf declawed(Boolean declawed) {
-    
     this.declawed = declawed;
     return this;
   }
@@ -62,6 +64,9 @@ public class CatAllOf {
   }
 
 
+  /**
+   * Return true if this Cat_allOf object is equal to o.
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -78,7 +83,6 @@ public class CatAllOf {
   public int hashCode() {
     return Objects.hash(declawed);
   }
-
 
   @Override
   public String toString() {

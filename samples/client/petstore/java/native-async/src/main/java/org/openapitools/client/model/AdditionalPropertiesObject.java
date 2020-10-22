@@ -13,8 +13,14 @@
 
 package org.openapitools.client.model;
 
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -25,6 +31,8 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * AdditionalPropertiesObject
@@ -32,7 +40,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   AdditionalPropertiesObject.JSON_PROPERTY_NAME
 })
-@JsonTypeName("AdditionalPropertiesObject")
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesObject extends HashMap<String, Map> {
   public static final String JSON_PROPERTY_NAME = "name";
@@ -40,7 +47,6 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
 
 
   public AdditionalPropertiesObject name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -63,7 +69,47 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
     this.name = name;
   }
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, Map> additionalProperties;
 
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   */
+  @JsonAnySetter
+  public AdditionalPropertiesObject putAdditionalProperty(String key, Map value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Map>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   */
+  @JsonAnyGetter
+  public Map<String, Map> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   */
+  public Map getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
+
+  /**
+   * Return true if this AdditionalPropertiesObject object is equal to o.
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -73,15 +119,15 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
       return false;
     }
     AdditionalPropertiesObject additionalPropertiesObject = (AdditionalPropertiesObject) o;
-    return Objects.equals(this.name, additionalPropertiesObject.name) &&
+    return Objects.equals(this.name, additionalPropertiesObject.name)&&
+        Objects.equals(this.additionalProperties, additionalPropertiesObject.additionalProperties) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode());
+    return Objects.hash(name, super.hashCode(), additionalProperties);
   }
-
 
   @Override
   public String toString() {
@@ -89,6 +135,7 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
     sb.append("class AdditionalPropertiesObject {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }

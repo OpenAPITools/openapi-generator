@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow;
 interface {{classname}}Service {
 {{#operation}}
 
-	{{#reactive}}{{^isListContainer}}suspend {{/isListContainer}}{{/reactive}}fun {{operationId}}({{#allParams}}{{paramName}}: {{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isListContainer}}{{>optionalDataType}}{{/isListContainer}}{{#isListContainer}}Flow<{{{baseType}}}>{{/isListContainer}}{{/reactive}}{{/isBodyParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): {{>returnTypes}}
+	{{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{paramName}}: {{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}{{>optionalDataType}}{{/isArray}}{{#isArray}}Flow<{{{baseType}}}>{{/isArray}}{{/reactive}}{{/isBodyParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): {{>returnTypes}}
 {{/operation}}
 }
 {{/operations}}

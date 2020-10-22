@@ -15,4 +15,4 @@
     {{#deprecated}}
     @Deprecated(message = "This property is deprecated.")
     {{/deprecated}}
-    {{#multiplatform}}@SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}") @Required {{/multiplatform}}{{#isInherited}}override {{/isInherited}}{{>modelMutable}} {{{name}}}: {{#isEnum}}{{#isListContainer}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{classname}}.{{{nameInCamelCase}}}>{{/isListContainer}}{{^isListContainer}}{{classname}}.{{{nameInCamelCase}}}{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}?{{/isNullable}}
+    {{#multiplatform}}@SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}") @Required {{/multiplatform}}{{#isInherited}}override {{/isInherited}}{{>modelMutable}} {{{name}}}: {{#isEnum}}{{#isArray}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{classname}}.{{{nameInCamelCase}}}>{{/isArray}}{{^isArray}}{{classname}}.{{{nameInCamelCase}}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}?{{/isNullable}}

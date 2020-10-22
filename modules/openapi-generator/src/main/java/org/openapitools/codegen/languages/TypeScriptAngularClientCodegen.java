@@ -52,6 +52,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String PROVIDED_IN_ROOT = "providedInRoot";
     public static final String ENFORCE_GENERIC_MODULE_WITH_PROVIDERS = "enforceGenericModuleWithProviders";
     public static final String API_MODULE_PREFIX = "apiModulePrefix";
+    public static final String CONFIGURATION_PREFIX = "configurationPrefix";
     public static final String SERVICE_SUFFIX = "serviceSuffix";
     public static final String SERVICE_FILE_SUFFIX = "serviceFileSuffix";
     public static final String MODEL_SUFFIX = "modelSuffix";
@@ -107,6 +108,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 false));
         this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. (At least 6.0.0)").defaultValue(this.ngVersion));
         this.cliOptions.add(new CliOption(API_MODULE_PREFIX, "The prefix of the generated ApiModule."));
+        this.cliOptions.add(new CliOption(CONFIGURATION_PREFIX, "The prefix of the generated Configuration."));
         this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service.").defaultValue(this.serviceSuffix));
         this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts).").defaultValue(this.serviceFileSuffix));
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model."));
@@ -209,6 +211,16 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             additionalProperties.put("apiModuleClassName", apiModulePrefix + "ApiModule");
         } else {
             additionalProperties.put("apiModuleClassName", "ApiModule");
+        }
+        if (additionalProperties.containsKey(CONFIGURATION_PREFIX)) {
+            String configurationPrefix = additionalProperties.get(CONFIGURATION_PREFIX).toString();
+            validateClassPrefixArgument("Configuration", configurationPrefix);
+
+            additionalProperties.put("configurationClassName", configurationPrefix + "Configuration");
+            additionalProperties.put("configurationParametersInterfaceName", configurationPrefix + "ConfigurationParameters");
+        } else {
+            additionalProperties.put("configurationClassName", "Configuration");
+            additionalProperties.put("configurationParametersInterfaceName", "ConfigurationParameters");
         }
         if (additionalProperties.containsKey(SERVICE_SUFFIX)) {
             serviceSuffix = additionalProperties.get(SERVICE_SUFFIX).toString();

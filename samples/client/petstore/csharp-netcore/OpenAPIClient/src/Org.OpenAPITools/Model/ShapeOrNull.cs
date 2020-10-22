@@ -24,12 +24,14 @@ using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Reflection;
 
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
     /// The value may be a shape or the &#39;null&#39; value. This is introduced in OAS schema &gt;&#x3D; 3.1.
     /// </summary>
+    [JsonConverter(typeof(ShapeOrNullJsonConverter))]
     [DataContract(Name = "ShapeOrNull")]
     public partial class ShapeOrNull : AbstractOpenAPISchema, IEquatable<ShapeOrNull>, IValidatableObject
     {
@@ -134,7 +136,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
+            return JsonConvert.SerializeObject(this.ActualInstance, ShapeOrNull.SerializerSettings);
         }
 
         /// <summary>
@@ -144,19 +146,19 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of ShapeOrNull</returns>
         public static ShapeOrNull FromJson(string jsonString)
         {
-            ShapeOrNull newShapeOrNull = new ShapeOrNull();
+            ShapeOrNull newShapeOrNull = null;
 
             string discriminatorValue = JObject.Parse(jsonString)["shapeType"].ToString();
             switch (discriminatorValue)
             {
                 case "Quadrilateral":
-                    newShapeOrNull.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, newShapeOrNull._serializerSettings);
+                    newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, ShapeOrNull.SerializerSettings));
                     return newShapeOrNull;
                 case "Triangle":
-                    newShapeOrNull.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, newShapeOrNull._serializerSettings);
+                    newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, ShapeOrNull.SerializerSettings));
                     return newShapeOrNull;
                 default:
-                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for ShapeOrNull. Possible values: Quadrilateral Triangle", discriminatorValue));
+                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for ShapeOrNull. Possible values: Quadrilateral Triangle", discriminatorValue));
                     break;
             }
 
@@ -165,26 +167,26 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newShapeOrNull.ActualInstance = JsonConvert.DeserializeObject<Quadrilateral>(jsonString, newShapeOrNull._serializerSettings);
+                newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, ShapeOrNull.SerializerSettings));
                 matchedTypes.Add("Quadrilateral");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into Quadrilateral: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Quadrilateral: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newShapeOrNull.ActualInstance = JsonConvert.DeserializeObject<Triangle>(jsonString, newShapeOrNull._serializerSettings);
+                newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, ShapeOrNull.SerializerSettings));
                 matchedTypes.Add("Triangle");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into Triangle: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Triangle: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)
@@ -243,6 +245,46 @@ namespace Org.OpenAPITools.Model
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
+        }
+    }
+
+    /// <summary>
+    /// Custom JSON converter for ShapeOrNull
+    /// </summary>
+    public class ShapeOrNullJsonConverter : JsonConverter
+    {
+        /// <summary>
+        /// To write the JSON string
+        /// </summary>
+        /// <param name="writer">JSON writer</param>
+        /// <param name="value">Object to be converted into a JSON string</param>
+        /// <param name="serializer">JSON Serializer</param>
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            writer.WriteRaw((String)(typeof(ShapeOrNull).GetMethod("ToJson").Invoke(value, null)));
+        }
+
+        /// <summary>
+        /// To convert a JSON string into an object
+        /// </summary>
+        /// <param name="reader">JSON reader</param>
+        /// <param name="objectType">Object type</param>
+        /// <param name="existingValue">Existing value</param>
+        /// <param name="serializer">JSON Serializer</param>
+        /// <returns>The object converted from the JSON string</returns>
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            return ShapeOrNull.FromJson(JObject.Load(reader).ToString(Formatting.None));
+        }
+
+        /// <summary>
+        /// Check if the object can be converted
+        /// </summary>
+        /// <param name="objectType">Object type</param>
+        /// <returns>True if the object can be converted</returns>
+        public override bool CanConvert(Type objectType)
+        {
+            return false;
         }
     }
 

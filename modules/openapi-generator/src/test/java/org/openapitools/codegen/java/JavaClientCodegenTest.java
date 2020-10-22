@@ -435,7 +435,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 28);
+        Assert.assertEquals(files.size(), 31);
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
@@ -471,7 +471,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 31);
+        Assert.assertEquals(files.size(), 34);
         validateJavaSourceFiles(files);
 
         Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/PingApi.java");
@@ -511,8 +511,8 @@ public class JavaClientCodegenTest {
         final DefaultGenerator defaultGenerator = new DefaultGenerator();
 
         final ClientOptInput clientOptInput = new ClientOptInput();
-        clientOptInput.setOpenAPI(openAPI);
-        clientOptInput.setConfig(new JavaClientCodegen());
+        clientOptInput.openAPI(openAPI);
+        clientOptInput.config(new JavaClientCodegen());
 
         defaultGenerator.opts(clientOptInput);
         final List<CodegenOperation> codegenOperations = defaultGenerator.processPaths(openAPI.getPaths()).get("Pet");
@@ -567,8 +567,8 @@ public class JavaClientCodegenTest {
         final DefaultGenerator defaultGenerator = new DefaultGenerator();
 
         final ClientOptInput clientOptInput = new ClientOptInput();
-        clientOptInput.setOpenAPI(openAPI);
-        clientOptInput.setConfig(new JavaClientCodegen());
+        clientOptInput.openAPI(openAPI);
+        clientOptInput.config(new JavaClientCodegen());
 
         defaultGenerator.opts(clientOptInput);
         final List<CodegenOperation> codegenOperations = defaultGenerator.processPaths(openAPI.getPaths()).get("Pet");
@@ -841,7 +841,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp7.required);
         Assert.assertTrue(cp7.isPrimitiveType);
         Assert.assertTrue(cp7.isContainer);
-        Assert.assertTrue(cp7.isListContainer);
+        Assert.assertTrue(cp7.isArray);
         Assert.assertFalse(cp7.isFreeFormObject);
         Assert.assertFalse(cp7.isAnyType);
 
@@ -852,7 +852,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp8.required);
         Assert.assertTrue(cp8.isPrimitiveType);
         Assert.assertTrue(cp8.isContainer);
-        Assert.assertTrue(cp8.isListContainer);
+        Assert.assertTrue(cp8.isArray);
         Assert.assertFalse(cp8.isFreeFormObject);
         Assert.assertFalse(cp8.isAnyType);
 
@@ -863,7 +863,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp9.required);
         Assert.assertTrue(cp9.isPrimitiveType);
         Assert.assertTrue(cp9.isContainer);
-        Assert.assertTrue(cp9.isListContainer);
+        Assert.assertTrue(cp9.isArray);
         Assert.assertFalse(cp9.isFreeFormObject);
         Assert.assertFalse(cp9.isAnyType);
     }

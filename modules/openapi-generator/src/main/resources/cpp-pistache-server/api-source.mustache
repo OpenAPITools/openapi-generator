@@ -43,7 +43,7 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
     // Getting the body param
     {{#bodyParam}}
     {{^isPrimitiveType}}{{^isContainer}}
-    {{baseType}} {{paramName}};{{/isContainer}}{{#isListContainer}}std::vector<{{items.baseType}}> {{paramName}};{{/isListContainer}}{{#isMap}}std::map<std::string, {{items.baseType}}> {{paramName}};{{/isMap}}{{/isPrimitiveType}}
+    {{baseType}} {{paramName}};{{/isContainer}}{{#isArray}}std::vector<{{items.baseType}}> {{paramName}};{{/isArray}}{{#isMap}}std::map<std::string, {{items.baseType}}> {{paramName}};{{/isMap}}{{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{dataType}} {{paramName}};
     {{/isPrimitiveType}}
@@ -52,9 +52,9 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
     // Getting the query params
     {{#queryParams}}
     auto {{paramName}}Query = request.query().get("{{baseName}}");
-    Pistache::Optional<{{^isContainer}}{{dataType}}{{/isContainer}}{{#isListContainer}}std::vector<{{items.baseType}}>{{/isListContainer}}> {{paramName}};
+    Pistache::Optional<{{^isContainer}}{{dataType}}{{/isContainer}}{{#isArray}}std::vector<{{items.baseType}}>{{/isArray}}> {{paramName}};
     if(!{{paramName}}Query.isEmpty()){
-        {{^isContainer}}{{dataType}}{{/isContainer}}{{#isListContainer}}std::vector<{{items.baseType}}>{{/isListContainer}} valueQuery_instance;
+        {{^isContainer}}{{dataType}}{{/isContainer}}{{#isArray}}std::vector<{{items.baseType}}>{{/isArray}} valueQuery_instance;
         if(fromStringValue({{paramName}}Query.get(), valueQuery_instance)){
             {{paramName}} = Pistache::Some(valueQuery_instance);
         }

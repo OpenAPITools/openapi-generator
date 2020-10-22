@@ -1142,7 +1142,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp1.name, "pets");
         Assert.assertEquals(cp1.baseType, "List");
         Assert.assertTrue(cp1.isContainer);
-        Assert.assertTrue(cp1.isListContainer);
+        Assert.assertTrue(cp1.isArray);
         Assert.assertFalse(cp1.isMap);
         Assert.assertEquals(cp1.getter, "getPets");
         Assert.assertEquals(cp1.items.baseType, "Pet");
@@ -1172,7 +1172,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp1.baseType, "Pet");
         Assert.assertEquals(cp1.dataType, "List<Pet>");
         Assert.assertTrue(cp1.isContainer);
-        Assert.assertTrue(cp1.isListContainer);
+        Assert.assertTrue(cp1.isArray);
         Assert.assertFalse(cp1.isMap);
         Assert.assertEquals(cp1.items.baseType, "Pet");
         Assert.assertEquals(cp1.items.complexType, "Pet");
@@ -1252,7 +1252,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp1.baseType, "List");
         Assert.assertEquals(cp1.dataType, "List<List<Pet>>");
         Assert.assertTrue(cp1.isContainer);
-        Assert.assertTrue(cp1.isListContainer);
+        Assert.assertTrue(cp1.isArray);
         Assert.assertFalse(cp1.isMap);
         Assert.assertEquals(cp1.items.baseType, "List");
         Assert.assertEquals(cp1.items.complexType, "Pet");
@@ -1331,8 +1331,8 @@ public class JavaModelTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec(inputSpec);
 
         final ClientOptInput opts = new ClientOptInput();
-        opts.setConfig(config);
-        opts.setOpenAPI(openAPI);
+        opts.config(config);
+        opts.openAPI(openAPI);
         new DefaultGenerator().opts(opts).generate();
 
         File orderFile = new File(output, "src/main/java/org/openapitools/client/api/DefaultApi.java");

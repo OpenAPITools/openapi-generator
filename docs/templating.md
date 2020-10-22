@@ -247,7 +247,7 @@ Now we're ready to generate the client with our simple changes. When we pass the
 openapi-generator generate -g java --library resteasy \
     -t ~/.openapi-generator/templates/Java \
     -o ~/.openapi-generator/example \
-    -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+    -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 ```
 
 Make sure your custom template compiles:
@@ -634,7 +634,7 @@ A `Pet` model with three properties will provide a _lot_ of information about th
       "isUuid" : false,
       "isEmail" : false,
       "isFreeFormObject" : false,
-      "isListContainer" : false,
+      "isArray" : false,
       "isMap" : false,
       "isEnum" : false,
       "isReadOnly" : false,
@@ -686,7 +686,7 @@ A `Pet` model with three properties will provide a _lot_ of information about th
       "isUuid" : false,
       "isEmail" : false,
       "isFreeFormObject" : false,
-      "isListContainer" : false,
+      "isArray" : false,
       "isMap" : false,
       "isEnum" : false,
       "isReadOnly" : false,
@@ -738,7 +738,7 @@ A `Pet` model with three properties will provide a _lot_ of information about th
       "isUuid" : false,
       "isEmail" : false,
       "isFreeFormObject" : false,
-      "isListContainer" : false,
+      "isArray" : false,
       "isMap" : false,
       "isEnum" : false,
       "isReadOnly" : false,
@@ -770,7 +770,7 @@ A `Pet` model with three properties will provide a _lot_ of information about th
     "isEnum" : false,
     "hasRequired" : true,
     "hasOptional" : true,
-    "isArrayModel" : false,
+    "isArray" : false,
     "hasChildren" : false,
     "isMap" : false,
     "hasOnlyReadOnly" : false,

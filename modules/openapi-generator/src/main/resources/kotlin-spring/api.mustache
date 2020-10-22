@@ -70,7 +70,7 @@ class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) v
         produces = [{{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}]{{/hasProduces}}{{#hasConsumes}},
         consumes = [{{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}]{{/hasConsumes}}{{/singleContentTypes}}
     )
-    {{#reactive}}{{^isListContainer}}suspend {{/isListContainer}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}): ResponseEntity<{{>returnTypes}}> {
+    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}): ResponseEntity<{{>returnTypes}}> {
         return {{>returnValue}}
     }
 {{/operation}}

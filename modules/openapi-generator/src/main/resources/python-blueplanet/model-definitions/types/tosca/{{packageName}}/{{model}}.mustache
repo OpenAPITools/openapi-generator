@@ -30,7 +30,7 @@ resourceTypes {
           type = {{datatype}}
           {{/isPrimitiveType}}
           {{/isContainer}}
-          {{#isListContainer}}
+          {{#isArray}}
           type = array
             {{#items}}
               {{#isPrimitiveType}}
@@ -40,7 +40,7 @@ resourceTypes {
           items.type = {{datatype}}
               {{/isPrimitiveType}}
             {{/items}}
-          {{/isListContainer}}
+          {{/isArray}}
           {{#isMap}}
           # TODO
           {{/isMap}}

@@ -48,7 +48,7 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
     {{#queryParams}}{{queryParam}}
     {{{dataType}}} {{paramName}};
     if(socket->queryString().keys().contains("{{paramName}}")){
-        fromStringValue(socket->queryString().value{{#isListContainer}}s{{/isListContainer}}("{{paramName}}"), {{paramName}});
+        fromStringValue(socket->queryString().value{{#isArray}}s{{/isArray}}("{{paramName}}"), {{paramName}});
     }
     {{queryParam}}{{/queryParams}}
     {{#pathParams}}
@@ -61,7 +61,7 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
     }
     {{/headerParams}}{{#formParams}}
     {{{dataType}}} {{paramName}};{{/formParams}}{{#bodyParams}} {{#bodyParam}}
-    {{#isListContainer}}
+    {{#isArray}}
     QJsonDocument doc;
     {{{dataType}}} {{paramName}};
     if(socket->readJson(doc)){
@@ -72,8 +72,8 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
             {{paramName}}.append(o);
         }
     }
-    {{/isListContainer}}
-    {{^isListContainer}}
+    {{/isArray}}
+    {{^isArray}}
     {{^isMap}}
     {{#isPrimitiveType}}{{^isFreeFormObject}}
     {{{dataType}}} {{paramName}};
@@ -105,7 +105,7 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
     ::{{cppNamespace}}::fromJsonValue({{paramName}}, obj);
     {{/isPrimitiveType}}
     {{/isMap}}
-    {{/isListContainer}}
+    {{/isArray}}
     {{/bodyParam}}{{/bodyParams}}
 
     emit {{nickname}}({{#allParams}}{{#isBodyParam}}{{/isBodyParam}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
@@ -117,10 +117,10 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
     setSocketResponseHeaders();{{#returnType}}{{#isMap}}
     QJsonDocument resDoc(::{{cppNamespace}}::toJsonValue(res).toObject());
     socket->writeJson(resDoc);{{/isMap}}{{^isMap}}{{^returnTypeIsPrimitive}}{{^vendorExtensions.x-returns-enum}}
-    QJsonDocument resDoc(::{{cppNamespace}}::toJsonValue(res).to{{^isListContainer}}Object{{/isListContainer}}{{#isListContainer}}Array{{/isListContainer}}());
+    QJsonDocument resDoc(::{{cppNamespace}}::toJsonValue(res).to{{^isArray}}Object{{/isArray}}{{#isArray}}Array{{/isArray}}());
     socket->writeJson(resDoc);{{/vendorExtensions.x-returns-enum}}{{#vendorExtensions.x-returns-enum}}
     socket->write(::{{cppNamespace}}::toStringValue(res).toUtf8());{{/vendorExtensions.x-returns-enum}}{{/returnTypeIsPrimitive}}{{#returnTypeIsPrimitive}}
-    socket->write({{#isListContainer}}QString("["+{{/isListContainer}}::{{cppNamespace}}::toStringValue(res){{#isListContainer}}+"]"){{/isListContainer}}.toUtf8());{{/returnTypeIsPrimitive}}{{/isMap}}{{/returnType}}{{^returnType}}
+    socket->write({{#isArray}}QString("["+{{/isArray}}::{{cppNamespace}}::toStringValue(res){{#isArray}}+"]"){{/isArray}}.toUtf8());{{/returnTypeIsPrimitive}}{{/isMap}}{{/returnType}}{{^returnType}}
     socket->setStatusCode(QHttpEngine::Socket::OK);
     socket->writeHeaders();{{/returnType}}
     if(socket->isOpen()){
@@ -135,10 +135,10 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
     Q_UNUSED(error_str);  // response will be used instead of error string{{#isMap}}
     QJsonDocument resDoc(::{{cppNamespace}}::toJsonValue(res).toObject());
     socket->writeJson(resDoc);{{/isMap}}{{^isMap}}{{^returnTypeIsPrimitive}}{{^vendorExtensions.x-returns-enum}}
-    QJsonDocument resDoc(::{{cppNamespace}}::toJsonValue(res).to{{^isListContainer}}Object{{/isListContainer}}{{#isListContainer}}Array{{/isListContainer}}());
+    QJsonDocument resDoc(::{{cppNamespace}}::toJsonValue(res).to{{^isArray}}Object{{/isArray}}{{#isArray}}Array{{/isArray}}());
     socket->writeJson(resDoc);{{/vendorExtensions.x-returns-enum}}{{#vendorExtensions.x-returns-enum}}
     socket->write(::{{cppNamespace}}::toStringValue(res).toUtf8());{{/vendorExtensions.x-returns-enum}}{{/returnTypeIsPrimitive}}{{#returnTypeIsPrimitive}}
-    socket->write({{#isListContainer}}QString("["+{{/isListContainer}}::{{cppNamespace}}::toStringValue(res){{#isListContainer}}+"]"){{/isListContainer}}.toUtf8());{{/returnTypeIsPrimitive}}{{/isMap}}{{/returnType}}{{^returnType}}
+    socket->write({{#isArray}}QString("["+{{/isArray}}::{{cppNamespace}}::toStringValue(res){{#isArray}}+"]"){{/isArray}}.toUtf8());{{/returnTypeIsPrimitive}}{{/isMap}}{{/returnType}}{{^returnType}}
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     socket->write(error_str.toUtf8());{{/returnType}}
     if(socket->isOpen()){

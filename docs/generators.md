@@ -140,13 +140,13 @@ The following generators are available:
 
 ## SCHEMA generators
 * [avro-schema (beta)](generators/avro-schema.md)  
+* [graphql-schema](generators/graphql-schema.md)  
 * [mysql-schema](generators/mysql-schema.md)  
+* [protobuf-schema (beta)](generators/protobuf-schema.md)  
 
 
 ## CONFIG generators
 * [apache2](generators/apache2.md)  
-* [graphql-schema](generators/graphql-schema.md)  
-* [protobuf-schema (beta)](generators/protobuf-schema.md)  
 
 
 

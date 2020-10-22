@@ -148,8 +148,8 @@ script:
   - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
-  - mvn --no-snapshot-updates --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  - mvn --no-snapshot-updates --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - mvn -e --no-snapshot-updates --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - mvn -e --no-snapshot-updates --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 after_success:
   # push to maven repo
   - if [ $SONATYPE_USERNAME ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
