@@ -65,7 +65,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		return
 	}
 	{{/isInteger}}{{^isLong}}{{^isInteger}}
-	{{paramName}} := {{#isListContainer}}strings.Split({{/isListContainer}}query.Get("{{paramName}}"){{#isListContainer}}, ","){{/isListContainer}}{{/isInteger}}{{/isLong}}{{/isQueryParam}}{{#isFormParam}}{{#isFile}}
+	{{paramName}} := {{#isArray}}strings.Split({{/isArray}}query.Get("{{paramName}}"){{#isArray}}, ","){{/isArray}}{{/isInteger}}{{/isLong}}{{/isQueryParam}}{{#isFormParam}}{{#isFile}}
 	{{paramName}}, err := ReadFormFileToTempFile(r, "{{paramName}}")
 	if err != nil {
 		w.WriteHeader(500)

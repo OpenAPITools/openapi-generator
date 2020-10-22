@@ -1,1 +1,1 @@
-{{#returnType}}{{#returnContainer}}{{#isMap}}Map<String, {{{returnType}}}>{{/isMap}}{{#isListContainer}}{{{returnContainer}}}<{{{returnType}}}>{{/isListContainer}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{#returnType}}{{#returnContainer}}{{#isMap}}Map<String, {{{returnType}}}>{{/isMap}}{{#isArray}}{{{returnContainer}}}<{{{returnType}}}>{{/isArray}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}{{/returnType}}{{^returnType}}void{{/returnType}}

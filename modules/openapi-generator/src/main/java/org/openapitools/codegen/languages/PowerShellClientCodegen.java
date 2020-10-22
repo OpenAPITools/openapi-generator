@@ -996,7 +996,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
-        if (codegenParameter.isListContainer) { // array
+        if (codegenParameter.isArray) { // array
             return "@(" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + ")";
         } else if (codegenParameter.isMap) { // TODO: map, file type
             return "@{ \"Key\" = \"Value\" }";
@@ -1038,7 +1038,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
-        if (codegenProperty.isListContainer) { // array
+        if (codegenProperty.isArray) { // array
             return "@(" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + ")";
         } else if (codegenProperty.isMap) { // map
             return "\"TODO\"";
@@ -1116,7 +1116,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 dataType = "System.Nullable[" + dataType + "]";
             }
             return dataType;
-        } else if (cp.isListContainer) { // array
+        } else if (cp.isArray) { // array
             return getPSDataType(cp.items) + "[]";
         } else if (cp.isMap) { // map
             return "System.Collections.Hashtable";
@@ -1134,7 +1134,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 dataType = "System.Nullable[" + dataType + "]";
             }
             return dataType;
-        } else if (cp.isListContainer) { // array
+        } else if (cp.isArray) { // array
             return getPSDataType(cp.items) + "[]";
         } else if (cp.isMap) { // map
             return "System.Collections.Hashtable";

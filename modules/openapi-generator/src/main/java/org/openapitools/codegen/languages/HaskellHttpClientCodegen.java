@@ -718,7 +718,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             param.vendorExtensions.put(VENDOR_EXTENSION_X_IS_BODY_OR_FORM_PARAM, param.isBodyParam || param.isFormParam);
             if (!StringUtils.isBlank(param.collectionFormat)) {
                 param.vendorExtensions.put(VENDOR_EXTENSION_X_COLLECTION_FORMAT, mapCollectionFormat(param.collectionFormat));
-            } else if (!param.isBodyParam && (param.isListContainer || param.dataType.startsWith("["))) { // param.isListContainer is sometimes false for list types
+            } else if (!param.isBodyParam && (param.isArray || param.dataType.startsWith("["))) { // param.isArray is sometimes false for list types
                 // defaulting due to https://github.com/wing328/openapi-generator/issues/72
                 param.collectionFormat = "csv";
                 param.vendorExtensions.put(VENDOR_EXTENSION_X_COLLECTION_FORMAT, mapCollectionFormat(param.collectionFormat));
@@ -728,7 +728,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             }
 
             if (typeMapping.containsKey(param.dataType)
-                    || param.isMap || param.isListContainer
+                    || param.isMap || param.isArray
                     || param.isPrimitiveType || param.isFile || (param.isEnum || param.allowableValues != null) || !param.isBodyParam) {
 
                 String dataType = genEnums && param.isEnum ? param.datatypeWithEnum : param.dataType;
@@ -1064,7 +1064,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             unknownMimeTypes.add(m);
         }
         for (CodegenParameter param : op.allParams) {
-            if (param.isBodyParam || param.isFormParam && (!param.isPrimitiveType && !param.isListContainer && !param.isMap)) {
+            if (param.isBodyParam || param.isFormParam && (!param.isPrimitiveType && !param.isArray && !param.isMap)) {
                 Set<String> mimeTypes = modelMimeTypes.containsKey(param.dataType) ? modelMimeTypes.get(param.dataType) : new HashSet();
                 mimeTypes.add(mimeType);
                 modelMimeTypes.put(param.dataType, mimeTypes);
@@ -1271,7 +1271,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             cm.isEnum = genEnums && cm.isEnum;
             if (cm.isAlias) {
                 String dataType = cm.dataType;
-                if (dataType == null && cm.isArrayModel) { // isAlias + arrayModelType missing "datatype"
+                if (dataType == null && cm.isArray) { // isAlias + arrayModelType missing "datatype"
                     dataType = "[" + cm.arrayModelType + "]";
                 }
                 if (dataType != null) {
@@ -1314,7 +1314,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     protected void updateDataTypeWithEnumForMap(CodegenProperty property) {
         CodegenProperty baseItem = property.items;
-        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap) || Boolean.TRUE.equals(baseItem.isListContainer))) {
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap) || Boolean.TRUE.equals(baseItem.isArray))) {
             baseItem = baseItem.items;
         }
         if (baseItem != null) {

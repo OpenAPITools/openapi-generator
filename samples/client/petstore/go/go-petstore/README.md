@@ -25,6 +25,12 @@ Put the package under your project folder and add the following in import:
 import sw "./petstore"
 ```
 
+To use a proxy, set the environment variable `HTTP_PROXY`:
+
+```golang
+os.Setenv("HTTP_PROXY", "http://proxy_name:proxy_port")
+```
+
 ## Configuration of Server URL
 
 Default configuration comes with `Servers` field that contains server objects as defined in the OpenAPI specification.

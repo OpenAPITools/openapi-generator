@@ -146,7 +146,6 @@ namespace {{packageName}}.Client
             if (requestOptions.Data != null)
             {
                 var serializerSettings = new JsonSerializerSettings();
-                serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 requestBody = JsonConvert.SerializeObject(requestOptions.Data, serializerSettings);
             }
 

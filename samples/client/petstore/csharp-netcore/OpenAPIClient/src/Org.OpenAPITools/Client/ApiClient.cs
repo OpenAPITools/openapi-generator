@@ -426,6 +426,11 @@ namespace Org.OpenAPITools.Client
 
             client.Timeout = configuration.Timeout;
 
+            if (configuration.Proxy != null)
+            {
+                client.Proxy = configuration.Proxy;
+            }
+
             if (configuration.UserAgent != null)
             {
                 client.UserAgent = configuration.UserAgent;
@@ -452,15 +457,6 @@ namespace Org.OpenAPITools.Client
             else
             {
                 response = client.Execute<T>(req);
-            }
-
-            // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
-            if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
-            {
-                T instance = (T)Activator.CreateInstance(typeof(T));
-                MethodInfo method = typeof(T).GetMethod("FromJson");
-                method.Invoke(instance, new object[] { response.Content });
-                response.Data = instance;
             }
 
             InterceptResponse(req, response);
@@ -531,6 +527,11 @@ namespace Org.OpenAPITools.Client
             client.AddHandler("*", () => xmlDeserializer);
 
             client.Timeout = configuration.Timeout;
+
+            if (configuration.Proxy != null)
+            {
+                client.Proxy = configuration.Proxy;
+            }
 
             if (configuration.UserAgent != null)
             {

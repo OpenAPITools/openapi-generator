@@ -1008,7 +1008,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
-        if (codegenParameter.isListContainer) { // array
+        if (codegenParameter.isArray) { // array
             return "[" + constructExampleCode(codegenParameter.items, modelMaps) + "]";
         } else if (codegenParameter.isMap) { // TODO: map, file type
             return "\"TODO\"";
@@ -1048,7 +1048,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps) {
-        if (codegenProperty.isListContainer) { // array
+        if (codegenProperty.isArray) { // array
             return "[" + constructExampleCode(codegenProperty.items, modelMaps) + "]";
         } else if (codegenProperty.isMap) { // TODO: map, file type
             return "\"TODO\"";

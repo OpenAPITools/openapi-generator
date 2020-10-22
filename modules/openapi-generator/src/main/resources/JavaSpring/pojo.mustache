@@ -61,7 +61,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
     {{/openApiNullable}}
     return this;
   }
-  {{#isListContainer}}
+  {{#isArray}}
 
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#openApiNullable}}
@@ -80,7 +80,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
     {{/openApiNullable}}
     return this;
   }
-  {{/isListContainer}}
+  {{/isArray}}
   {{#isMap}}
 
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {

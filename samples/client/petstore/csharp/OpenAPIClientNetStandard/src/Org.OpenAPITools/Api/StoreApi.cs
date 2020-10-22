@@ -131,7 +131,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> DeleteOrderAsyncWithHttpInfo (string orderId, CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> DeleteOrderWithHttpInfoAsync (string orderId, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Returns pet inventories by status
         /// </summary>
@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse (Dictionary&lt;string, int&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int>>> GetInventoryAsyncWithHttpInfo (CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int>>> GetInventoryWithHttpInfoAsync (CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Find purchase order by ID
         /// </summary>
@@ -175,7 +175,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse (Order)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdAsyncWithHttpInfo (long orderId, CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdWithHttpInfoAsync (long orderId, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Place an order for a pet
         /// </summary>
@@ -198,7 +198,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse (Order)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order body, CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderWithHttpInfoAsync (Order body, CancellationToken cancellationToken = default(CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -383,7 +383,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task DeleteOrderAsync (string orderId, CancellationToken cancellationToken = default(CancellationToken))
         {
-             await DeleteOrderAsyncWithHttpInfo(orderId, cancellationToken);
+             await DeleteOrderWithHttpInfoAsync(orderId, cancellationToken);
 
         }
 
@@ -394,7 +394,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> DeleteOrderAsyncWithHttpInfo (string orderId, CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> DeleteOrderWithHttpInfoAsync (string orderId, CancellationToken cancellationToken = default(CancellationToken))
         {
             // verify the required parameter 'orderId' is set
             if (orderId == null)
@@ -514,7 +514,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of Dictionary&lt;string, int&gt;</returns>
         public async System.Threading.Tasks.Task<Dictionary<string, int>> GetInventoryAsync (CancellationToken cancellationToken = default(CancellationToken))
         {
-             ApiResponse<Dictionary<string, int>> localVarResponse = await GetInventoryAsyncWithHttpInfo(cancellationToken);
+             ApiResponse<Dictionary<string, int>> localVarResponse = await GetInventoryWithHttpInfoAsync(cancellationToken);
              return localVarResponse.Data;
 
         }
@@ -525,7 +525,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse (Dictionary&lt;string, int&gt;)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int>>> GetInventoryAsyncWithHttpInfo (CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int>>> GetInventoryWithHttpInfoAsync (CancellationToken cancellationToken = default(CancellationToken))
         {
 
             var localVarPath = "./store/inventory";
@@ -650,7 +650,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of Order</returns>
         public async System.Threading.Tasks.Task<Order> GetOrderByIdAsync (long orderId, CancellationToken cancellationToken = default(CancellationToken))
         {
-             ApiResponse<Order> localVarResponse = await GetOrderByIdAsyncWithHttpInfo(orderId, cancellationToken);
+             ApiResponse<Order> localVarResponse = await GetOrderByIdWithHttpInfoAsync(orderId, cancellationToken);
              return localVarResponse.Data;
 
         }
@@ -662,7 +662,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse (Order)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdAsyncWithHttpInfo (long orderId, CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdWithHttpInfoAsync (long orderId, CancellationToken cancellationToken = default(CancellationToken))
         {
             // verify the required parameter 'orderId' is set
             if (orderId == null)
@@ -794,7 +794,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of Order</returns>
         public async System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body, CancellationToken cancellationToken = default(CancellationToken))
         {
-             ApiResponse<Order> localVarResponse = await PlaceOrderAsyncWithHttpInfo(body, cancellationToken);
+             ApiResponse<Order> localVarResponse = await PlaceOrderWithHttpInfoAsync(body, cancellationToken);
              return localVarResponse.Data;
 
         }
@@ -806,7 +806,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse (Order)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order body, CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderWithHttpInfoAsync (Order body, CancellationToken cancellationToken = default(CancellationToken))
         {
             // verify the required parameter 'body' is set
             if (body == null)

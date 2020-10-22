@@ -72,4 +72,12 @@ public interface IJsonSchemaValidationProperties {
     boolean getIsMap();
 
     void setIsMap(boolean isMap);
+
+    boolean getIsArray();
+
+    void setIsArray(boolean isArray);
+
+    CodegenProperty getAdditionalProperties();
+
+    void setAdditionalProperties(CodegenProperty additionalProperties);
 }

@@ -284,7 +284,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             p.example = "Date.newInstance(1960, 2, 17)";
         } else if (Boolean.TRUE.equals(p.isDateTime)) {
             p.example = "Datetime.newInstanceGmt(2013, 11, 12, 3, 3, 3)";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (Boolean.TRUE.equals(p.isArray)) {
             if (p.items != null && p.items.example != null) {
                 p.example = "new " + p.dataType + "{" + p.items.example + "}";
             }
@@ -468,7 +468,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
-        if (parameter.isBodyParam && parameter.isListContainer) {
+        if (parameter.isBodyParam && parameter.isArray) {
             // items of array bodyParams are being nested an extra level too deep for some reason
             parameter.items = parameter.items.items;
             setParameterExampleValue(parameter);

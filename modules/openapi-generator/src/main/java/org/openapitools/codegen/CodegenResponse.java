@@ -54,7 +54,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean simpleType;
     public boolean primitiveType;
     public boolean isMap;
-    public boolean isListContainer;
+    public boolean isArray;
     public boolean isBinary = false;
     public boolean isFile = false;
     public Object schema;
@@ -74,13 +74,14 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public String pattern;
     public Number multipleOf;
     public CodegenProperty items;
+    public CodegenProperty additionalProperties;
 
     @Override
     public int hashCode() {
         return Objects.hash(headers, code, message, hasMore, examples, dataType, baseType, containerType, hasHeaders,
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
-                isMap, isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions, items,
+                isMap, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern());
     }
@@ -112,10 +113,11 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 simpleType == that.simpleType &&
                 primitiveType == that.primitiveType &&
                 isMap == that.isMap &&
-                isListContainer == that.isListContainer &&
+                isArray == that.isArray &&
                 isBinary == that.isBinary &&
                 isFile == that.isFile &&
                 items == that.items &&
+                additionalProperties == that.additionalProperties &&
                 Objects.equals(headers, that.headers) &&
                 Objects.equals(code, that.code) &&
                 Objects.equals(message, that.message) &&
@@ -286,6 +288,14 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean getIsModel() { return isModel; }
 
     @Override
+    public boolean getIsArray() { return isArray; }
+
+    @Override
+    public void setIsArray(boolean isArray)  {
+        this.isArray = isArray;
+    }
+
+    @Override
     public void setIsModel(boolean isModel)  {
         this.isModel = isModel;
     }
@@ -312,6 +322,14 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     @Override
     public void setIsMap(boolean isMap)  {
         this.isMap = isMap;
+    }
+
+    @Override
+    public CodegenProperty getAdditionalProperties() { return additionalProperties; }
+
+    @Override
+    public void setAdditionalProperties(CodegenProperty additionalProperties)  {
+        this.additionalProperties = additionalProperties;
     }
 
     @Override
@@ -346,7 +364,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", simpleType=").append(simpleType);
         sb.append(", primitiveType=").append(primitiveType);
         sb.append(", isMap=").append(isMap);
-        sb.append(", isListContainer=").append(isListContainer);
+        sb.append(", isArray=").append(isArray);
         sb.append(", isBinary=").append(isBinary);
         sb.append(", isFile=").append(isFile);
         sb.append(", schema=").append(schema);
@@ -366,6 +384,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", pattern='").append(pattern).append('\'');
         sb.append(", multipleOf='").append(multipleOf).append('\'');
         sb.append(", items='").append(items).append('\'');
+        sb.append(", additionalProperties='").append(additionalProperties).append('\'');
         sb.append('}');
         return sb.toString();
     }

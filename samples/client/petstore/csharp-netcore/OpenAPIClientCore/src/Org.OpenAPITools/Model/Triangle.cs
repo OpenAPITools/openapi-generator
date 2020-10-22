@@ -24,24 +24,17 @@ using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Reflection;
 
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
     /// Triangle
     /// </summary>
+    [JsonConverter(typeof(TriangleJsonConverter))]
     [DataContract(Name = "Triangle")]
     public partial class Triangle : AbstractOpenAPISchema, IEquatable<Triangle>, IValidatableObject
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Triangle" /> class.
-        /// </summary>
-        public Triangle()
-        {
-            this.IsNullable = true;
-            this.SchemaType= "oneOf";
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class
         /// with the <see cref="EquilateralTriangle" /> class
@@ -160,7 +153,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
+            return JsonConvert.SerializeObject(this.ActualInstance, Triangle.SerializerSettings);
         }
 
         /// <summary>
@@ -170,44 +163,44 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of Triangle</returns>
         public static Triangle FromJson(string jsonString)
         {
-            Triangle newTriangle = new Triangle();
+            Triangle newTriangle = null;
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                newTriangle.ActualInstance = JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, newTriangle._serializerSettings);
+                newTriangle = new Triangle(JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, Triangle.SerializerSettings));
                 matchedTypes.Add("EquilateralTriangle");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into EquilateralTriangle: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into EquilateralTriangle: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newTriangle.ActualInstance = JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, newTriangle._serializerSettings);
+                newTriangle = new Triangle(JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, Triangle.SerializerSettings));
                 matchedTypes.Add("IsoscelesTriangle");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into IsoscelesTriangle: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into IsoscelesTriangle: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newTriangle.ActualInstance = JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, newTriangle._serializerSettings);
+                newTriangle = new Triangle(JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, Triangle.SerializerSettings));
                 matchedTypes.Add("ScaleneTriangle");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into ScaleneTriangle: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into ScaleneTriangle: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)
@@ -266,6 +259,46 @@ namespace Org.OpenAPITools.Model
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
+        }
+    }
+
+    /// <summary>
+    /// Custom JSON converter for Triangle
+    /// </summary>
+    public class TriangleJsonConverter : JsonConverter
+    {
+        /// <summary>
+        /// To write the JSON string
+        /// </summary>
+        /// <param name="writer">JSON writer</param>
+        /// <param name="value">Object to be converted into a JSON string</param>
+        /// <param name="serializer">JSON Serializer</param>
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            writer.WriteRaw((String)(typeof(Triangle).GetMethod("ToJson").Invoke(value, null)));
+        }
+
+        /// <summary>
+        /// To convert a JSON string into an object
+        /// </summary>
+        /// <param name="reader">JSON reader</param>
+        /// <param name="objectType">Object type</param>
+        /// <param name="existingValue">Existing value</param>
+        /// <param name="serializer">JSON Serializer</param>
+        /// <returns>The object converted from the JSON string</returns>
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            return Triangle.FromJson(JObject.Load(reader).ToString(Formatting.None));
+        }
+
+        /// <summary>
+        /// Check if the object can be converted
+        /// </summary>
+        /// <param name="objectType">Object type</param>
+        /// <returns>True if the object can be converted</returns>
+        public override bool CanConvert(Type objectType)
+        {
+            return false;
         }
     }
 

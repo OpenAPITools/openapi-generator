@@ -90,14 +90,14 @@ class {{classname}}(Model):
 {{#isEnum}}
         allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]  # noqa: E501
 {{#isContainer}}
-{{#isListContainer}}
+{{#isArray}}
         if not set({{{name}}}).issubset(set(allowed_values)):
             raise ValueError(
                 "Invalid values for `{{{name}}}` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set({{{name}}}) - set(allowed_values))),  # noqa: E501
                         ", ".join(map(str, allowed_values)))
             )
-{{/isListContainer}}
+{{/isArray}}
 {{#isMap}}
         if not set({{{name}}}.keys()).issubset(set(allowed_values)):
             raise ValueError(
