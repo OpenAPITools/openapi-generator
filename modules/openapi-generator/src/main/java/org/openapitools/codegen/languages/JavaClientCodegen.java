@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
@@ -623,8 +624,18 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (FEIGN.equals(getLibrary())) {
             Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
             List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+            Pattern methodPattern = Pattern.compile("^(.*):([^:]*)$");
             for (CodegenOperation op : operationList) {
                 String path = op.path;
+                String method = "";
+
+                // if a custom method is found at the end of the path, cut it off for later
+                Matcher m = methodPattern.matcher(path);
+                if (m.find()) {
+                    path = m.group(1);
+                    method = m.group(2);
+                }
+
                 String[] items = path.split("/", -1);
 
                 for (int i = 0; i < items.length; ++i) {
@@ -634,6 +645,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     }
                 }
                 op.path = StringUtils.join(items, "/");
+                // Replace the custom method on the path if one was found earlier
+                if (!method.isEmpty()) {
+                    op.path += ":" + method;
+                }
             }
         }
 

@@ -1079,4 +1079,31 @@ public class JavaClientCodegenTest {
                 .filter(filter)
                 .findFirst();
     }
+
+    @Test
+    public void testCustomMethodParamsAreCamelizedWhenUsingFeign() throws IOException {
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.FEIGN)
+                .setInputSpec("src/test/resources/3_0/issue_7791.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/api/DefaultApi.java");
+
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/api/DefaultApi.java"),
+                "@RequestLine(\"POST /events/{eventId}:undelete\")");
+        TestUtils.assertFileNotContains(Paths.get(output + "/src/main/java/org/openapitools/client/api/DefaultApi.java"),
+                "event_id");
+
+        output.deleteOnExit();
+    }
 }
