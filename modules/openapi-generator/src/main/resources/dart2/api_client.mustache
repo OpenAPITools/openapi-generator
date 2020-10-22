@@ -95,40 +95,40 @@ class ApiClient {
       headerParams['Content-Type'] = nullableContentType;
     }
 
-    // Special case for uploading a single file which isn’t a 'multipart/form-data'.
-    if (
-      body is MultipartFile && (nullableContentType == null ||
-      !nullableContentType.toLowerCase().startsWith('multipart/form-data'))
-    ) {
-      final request = StreamedRequest(method, Uri.parse(url));
-      request.headers.addAll(headerParams);
-      request.contentLength = body.length;
-      body.finalize().listen(
-        request.sink.add,
-        onDone: request.sink.close,
-        onError: (error, trace) => request.sink.close(),
-        cancelOnError: true,
-      );
-      final response = await _client.send(request);
-      return Response.fromStream(response);
-    }
-
-    if (body is MultipartRequest) {
-      final request = MultipartRequest(method, Uri.parse(url));
-      request.fields.addAll(body.fields);
-      request.files.addAll(body.files);
-      request.headers.addAll(body.headers);
-      request.headers.addAll(headerParams);
-      final response = await _client.send(request);
-      return Response.fromStream(response);
-    }
-
-    final msgBody = nullableContentType == 'application/x-www-form-urlencoded'
-      ? formParams
-      : serialize(body);
-    final nullableHeaderParams = headerParams.isEmpty ? null : headerParams;
-
     try {
+      // Special case for uploading a single file which isn’t a 'multipart/form-data'.
+      if (
+        body is MultipartFile && (nullableContentType == null ||
+        !nullableContentType.toLowerCase().startsWith('multipart/form-data'))
+      ) {
+        final request = StreamedRequest(method, Uri.parse(url));
+        request.headers.addAll(headerParams);
+        request.contentLength = body.length;
+        body.finalize().listen(
+          request.sink.add,
+          onDone: request.sink.close,
+          onError: (error, trace) => request.sink.close(),
+          cancelOnError: true,
+        );
+        final response = await _client.send(request);
+        return Response.fromStream(response);
+      }
+
+      if (body is MultipartRequest) {
+        final request = MultipartRequest(method, Uri.parse(url));
+        request.fields.addAll(body.fields);
+        request.files.addAll(body.files);
+        request.headers.addAll(body.headers);
+        request.headers.addAll(headerParams);
+        final response = await _client.send(request);
+        return Response.fromStream(response);
+      }
+
+      final msgBody = nullableContentType == 'application/x-www-form-urlencoded'
+        ? formParams
+        : serialize(body);
+      final nullableHeaderParams = headerParams.isEmpty ? null : headerParams;
+
       switch(method) {
         case 'POST': return await _client.post(url, headers: nullableHeaderParams, body: msgBody,);
         case 'PUT': return await _client.put(url, headers: nullableHeaderParams, body: msgBody,);
@@ -143,6 +143,8 @@ class ApiClient {
       throw ApiException.withInner(HttpStatus.badRequest, 'TLS/SSL communication failed: $method $path', e, trace,);
     } on IOException catch (e, trace) {
       throw ApiException.withInner(HttpStatus.badRequest, 'I/O operation failed: $method $path', e, trace,);
+    } on ClientException catch (e, trace) {
+      throw ApiException.withInner(HttpStatus.badRequest, 'HTTP connection failed: $method $path', e, trace,);
     } on Exception catch (e, trace) {
       throw ApiException.withInner(HttpStatus.badRequest, 'Exception occurred: $method $path', e, trace,);
     }
