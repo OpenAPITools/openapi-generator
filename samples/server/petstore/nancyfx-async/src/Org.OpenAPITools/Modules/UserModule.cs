@@ -6,6 +6,7 @@ using Sharpility.Base;
 using Org.OpenAPITools._v2.Models;
 using Org.OpenAPITools._v2.Utils;
 using NodaTime;
+using System.Threading.Tasks;
 using ;
 
 namespace Org.OpenAPITools._v2.Modules
@@ -22,51 +23,51 @@ namespace Org.OpenAPITools._v2.Modules
         /// <param name="service">Service handling requests</param>
         public UserModule(UserService service) : base("/v2")
         { 
-            Post["/user"] = parameters =>
+            Post["/user", true] = async (parameters, ct) =>
             {
                 var body = this.Bind<User>();
                 Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'CreateUser'");
                 
-                service.CreateUser(Context, body);
+                await service.CreateUser(Context, body);
                 return new Response { ContentType = ""};
             };
 
-            Post["/user/createWithArray"] = parameters =>
+            Post["/user/createWithArray", true] = async (parameters, ct) =>
             {
                 var body = this.Bind<List<User>>();
                 Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'CreateUsersWithArrayInput'");
                 
-                service.CreateUsersWithArrayInput(Context, body);
+                await service.CreateUsersWithArrayInput(Context, body);
                 return new Response { ContentType = ""};
             };
 
-            Post["/user/createWithList"] = parameters =>
+            Post["/user/createWithList", true] = async (parameters, ct) =>
             {
                 var body = this.Bind<List<User>>();
                 Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'CreateUsersWithListInput'");
                 
-                service.CreateUsersWithListInput(Context, body);
+                await service.CreateUsersWithListInput(Context, body);
                 return new Response { ContentType = ""};
             };
 
-            Delete["/user/{username}"] = parameters =>
+            Delete["/user/{username}", true] = async (parameters, ct) =>
             {
                 var username = Parameters.ValueOf<string>(parameters, Context.Request, "username", ParameterType.Path);
                 Preconditions.IsNotNull(username, "Required parameter: 'username' is missing at 'DeleteUser'");
                 
-                service.DeleteUser(Context, username);
+                await service.DeleteUser(Context, username);
                 return new Response { ContentType = ""};
             };
 
-            Get["/user/{username}"] = parameters =>
+            Get["/user/{username}", true] = async (parameters, ct) =>
             {
                 var username = Parameters.ValueOf<string>(parameters, Context.Request, "username", ParameterType.Path);
                 Preconditions.IsNotNull(username, "Required parameter: 'username' is missing at 'GetUserByName'");
                 
-                return service.GetUserByName(Context, username);
+                return await service.GetUserByName(Context, username);
             };
 
-            Get["/user/login"] = parameters =>
+            Get["/user/login", true] = async (parameters, ct) =>
             {
                 var username = Parameters.ValueOf<string>(parameters, Context.Request, "username", ParameterType.Query);
                 var password = Parameters.ValueOf<string>(parameters, Context.Request, "password", ParameterType.Query);
@@ -74,17 +75,17 @@ namespace Org.OpenAPITools._v2.Modules
                 
                 Preconditions.IsNotNull(password, "Required parameter: 'password' is missing at 'LoginUser'");
                 
-                return service.LoginUser(Context, username, password);
+                return await service.LoginUser(Context, username, password);
             };
 
-            Get["/user/logout"] = parameters =>
+            Get["/user/logout", true] = async (parameters, ct) =>
             {
                 
-                service.LogoutUser(Context);
+                await service.LogoutUser(Context);
                 return new Response { ContentType = ""};
             };
 
-            Put["/user/{username}"] = parameters =>
+            Put["/user/{username}", true] = async (parameters, ct) =>
             {
                 var username = Parameters.ValueOf<string>(parameters, Context.Request, "username", ParameterType.Path);
                 var body = this.Bind<User>();
@@ -92,7 +93,7 @@ namespace Org.OpenAPITools._v2.Modules
                 
                 Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'UpdateUser'");
                 
-                service.UpdateUser(Context, username, body);
+                await service.UpdateUser(Context, username, body);
                 return new Response { ContentType = ""};
             };
         }
@@ -109,7 +110,7 @@ namespace Org.OpenAPITools._v2.Modules
         /// <param name="context">Context of request</param>
         /// <param name="body">Created user object</param>
         /// <returns></returns>
-        void CreateUser(NancyContext context, User body);
+        Task CreateUser(NancyContext context, User body);
 
         /// <summary>
         /// 
@@ -117,7 +118,7 @@ namespace Org.OpenAPITools._v2.Modules
         /// <param name="context">Context of request</param>
         /// <param name="body">List of user object</param>
         /// <returns></returns>
-        void CreateUsersWithArrayInput(NancyContext context, List<User> body);
+        Task CreateUsersWithArrayInput(NancyContext context, List<User> body);
 
         /// <summary>
         /// 
@@ -125,7 +126,7 @@ namespace Org.OpenAPITools._v2.Modules
         /// <param name="context">Context of request</param>
         /// <param name="body">List of user object</param>
         /// <returns></returns>
-        void CreateUsersWithListInput(NancyContext context, List<User> body);
+        Task CreateUsersWithListInput(NancyContext context, List<User> body);
 
         /// <summary>
         /// This can only be done by the logged in user.
@@ -133,7 +134,7 @@ namespace Org.OpenAPITools._v2.Modules
         /// <param name="context">Context of request</param>
         /// <param name="username">The name that needs to be deleted</param>
         /// <returns></returns>
-        void DeleteUser(NancyContext context, string username);
+        Task DeleteUser(NancyContext context, string username);
 
         /// <summary>
         /// 
@@ -141,7 +142,7 @@ namespace Org.OpenAPITools._v2.Modules
         /// <param name="context">Context of request</param>
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <returns>User</returns>
-        User GetUserByName(NancyContext context, string username);
+        Task<User> GetUserByName(NancyContext context, string username);
 
         /// <summary>
         /// 
@@ -150,14 +151,14 @@ namespace Org.OpenAPITools._v2.Modules
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
         /// <returns>string</returns>
-        string LoginUser(NancyContext context, string username, string password);
+        Task<string> LoginUser(NancyContext context, string username, string password);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="context">Context of request</param>
         /// <returns></returns>
-        void LogoutUser(NancyContext context);
+        Task LogoutUser(NancyContext context);
 
         /// <summary>
         /// This can only be done by the logged in user.
@@ -166,7 +167,7 @@ namespace Org.OpenAPITools._v2.Modules
         /// <param name="username">name that need to be deleted</param>
         /// <param name="body">Updated user object</param>
         /// <returns></returns>
-        void UpdateUser(NancyContext context, string username, User body);
+        Task UpdateUser(NancyContext context, string username, User body);
     }
 
     /// <summary>
@@ -174,61 +175,61 @@ namespace Org.OpenAPITools._v2.Modules
     /// </summary>
     public abstract class AbstractUserService: UserService
     {
-        public virtual void CreateUser(NancyContext context, User body)
+        public virtual Task CreateUser(NancyContext context, User body)
         {
-            CreateUser(body);
+            return CreateUser(body);
         }
 
-        public virtual void CreateUsersWithArrayInput(NancyContext context, List<User> body)
+        public virtual Task CreateUsersWithArrayInput(NancyContext context, List<User> body)
         {
-            CreateUsersWithArrayInput(body);
+            return CreateUsersWithArrayInput(body);
         }
 
-        public virtual void CreateUsersWithListInput(NancyContext context, List<User> body)
+        public virtual Task CreateUsersWithListInput(NancyContext context, List<User> body)
         {
-            CreateUsersWithListInput(body);
+            return CreateUsersWithListInput(body);
         }
 
-        public virtual void DeleteUser(NancyContext context, string username)
+        public virtual Task DeleteUser(NancyContext context, string username)
         {
-            DeleteUser(username);
+            return DeleteUser(username);
         }
 
-        public virtual User GetUserByName(NancyContext context, string username)
+        public virtual Task<User> GetUserByName(NancyContext context, string username)
         {
             return GetUserByName(username);
         }
 
-        public virtual string LoginUser(NancyContext context, string username, string password)
+        public virtual Task<string> LoginUser(NancyContext context, string username, string password)
         {
             return LoginUser(username, password);
         }
 
-        public virtual void LogoutUser(NancyContext context)
+        public virtual Task LogoutUser(NancyContext context)
         {
-            LogoutUser();
+            return LogoutUser();
         }
 
-        public virtual void UpdateUser(NancyContext context, string username, User body)
+        public virtual Task UpdateUser(NancyContext context, string username, User body)
         {
-            UpdateUser(username, body);
+            return UpdateUser(username, body);
         }
 
-        protected abstract void CreateUser(User body);
+        protected abstract Task CreateUser(User body);
 
-        protected abstract void CreateUsersWithArrayInput(List<User> body);
+        protected abstract Task CreateUsersWithArrayInput(List<User> body);
 
-        protected abstract void CreateUsersWithListInput(List<User> body);
+        protected abstract Task CreateUsersWithListInput(List<User> body);
 
-        protected abstract void DeleteUser(string username);
+        protected abstract Task DeleteUser(string username);
 
-        protected abstract User GetUserByName(string username);
+        protected abstract Task<User> GetUserByName(string username);
 
-        protected abstract string LoginUser(string username, string password);
+        protected abstract Task<string> LoginUser(string username, string password);
 
-        protected abstract void LogoutUser();
+        protected abstract Task LogoutUser();
 
-        protected abstract void UpdateUser(string username, User body);
+        protected abstract Task UpdateUser(string username, User body);
     }
 
 }
