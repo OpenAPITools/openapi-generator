@@ -100,8 +100,15 @@ class ApiClient {
       body is MultipartFile && (nullableContentType == null ||
       !nullableContentType.toLowerCase().startsWith('multipart/form-data'))
     ) {
-      final request = MultipartFileRequest(method, Uri.parse(url), file: body);
+      final request = StreamedRequest(method, Uri.parse(url));
       request.headers.addAll(headerParams);
+      request.contentLength = body.length;
+      body.finalize().listen(
+        request.sink.add,
+        onDone: request.sink.close,
+        onError: (error, trace) => request.sink.close(),
+        cancelOnError: true,
+      );
       final response = await _client.send(request);
       return Response.fromStream(response);
     }
