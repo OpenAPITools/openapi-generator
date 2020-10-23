@@ -1,5 +1,5 @@
     def __setitem__(self, name, value):
-        """this allows us to set a value with instance.field_name = val"""
+        """set the value of an attribute using square-bracket notation: `instance[attr] = val`"""
         if name in self.required_properties:
             self.__dict__[name] = value
             return
@@ -29,7 +29,7 @@
     __unset_attribute_value__ = object()
 
     def get(self, name, default=None):
-        """this allows us to get a value with val = instance.field_name"""
+        """returns the value of an attribute or some default value if the attribute was not set"""
         if name in self.required_properties:
             return self.__dict__[name]
 
@@ -61,8 +61,9 @@
             )
 
     def __getitem__(self, name):
-        value = self.get(name, self.__unset_attribute_value__)
-        if value is self.__unset_attribute_value__:
+        """get the value of an attribute using square-bracket notation: `instance[attr]`"""
+        value = self.get(name, self.__dict__['__unset_attribute_value__'])
+        if value is self.__dict__['__unset_attribute_value__']:
             raise ApiAttributeError(
                 "{0} has no attribute '{1}'".format(
                     type(self).__name__, name),
@@ -71,7 +72,7 @@
         return value
 
     def __contains__(self, name):
-        """this allows us to use `in` operator: `'attr' in instance`"""
+        """used by `in` operator to check if an attrbute value was set in an instance: `'attr' in instance`"""
 
         if name in self.required_properties:
             return name in self.__dict__
@@ -85,6 +86,3 @@
                     return True
 
         return False
-
-    __setattr__ = __setitem__
-    __getattr__ = {{#attrNoneIfUnset}}get{{/attrNoneIfUnset}}{{^attrNoneIfUnset}}__getitem__{{/attrNoneIfUnset}}
