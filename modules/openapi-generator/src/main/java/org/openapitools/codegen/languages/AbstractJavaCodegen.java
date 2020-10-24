@@ -160,7 +160,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         "native", "super", "while", "null")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "String",
                         "boolean",
@@ -237,6 +237,86 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         snapShotVersion.setEnum(snapShotVersionOptions);
         cliOptions.add(snapShotVersion);
 
+        cliOptions.add(CliOption.newBoolean(SUPPORT_ASYNC, "", (boolean) defaultValue(SUPPORT_ASYNC)));
+    }
+
+    protected Object defaultValue(String key) {
+        switch (key) {
+            case CodegenConstants.MODEL_PACKAGE:
+                return modelPackage;
+            case CodegenConstants.API_PACKAGE:
+                return apiPackage;
+            case CodegenConstants.INVOKER_PACKAGE:
+                return this.getInvokerPackage();
+            case CodegenConstants.GROUP_ID:
+                return this.getGroupId();
+            case CodegenConstants.ARTIFACT_ID:
+                return this.getArtifactId();
+            case CodegenConstants.ARTIFACT_VERSION:
+                return ARTIFACT_VERSION_DEFAULT_VALUE;
+            case CodegenConstants.ARTIFACT_URL:
+                return this.getArtifactUrl();
+            case CodegenConstants.ARTIFACT_DESCRIPTION:
+                return this.getArtifactDescription();
+            case CodegenConstants.SCM_CONNECTION:
+                return this.getScmConnection();
+            case CodegenConstants.SCM_DEVELOPER_CONNECTION:
+                return this.getScmDeveloperConnection();
+            case CodegenConstants.SCM_URL:
+                return this.getScmUrl();
+            case CodegenConstants.DEVELOPER_NAME:
+                return this.getDeveloperName();
+            case CodegenConstants.DEVELOPER_EMAIL:
+                return this.getDeveloperEmail();
+            case CodegenConstants.DEVELOPER_ORGANIZATION:
+                return this.getDeveloperOrganization();
+            case CodegenConstants.DEVELOPER_ORGANIZATION_URL:
+                return this.getDeveloperOrganizationUrl();
+            case CodegenConstants.LICENSE_NAME:
+                return this.getLicenseName();
+            case CodegenConstants.LICENSE_URL:
+                return this.getLicenseUrl();
+            case CodegenConstants.SOURCE_FOLDER:
+                return this.getSourceFolder();
+            case CodegenConstants.SERIALIZABLE_MODEL:
+                return this.getSerializableModel();
+            case CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING:
+                return serializeBigDecimalAsString;
+            case FULL_JAVA_UTIL:
+                return fullJavaUtil;
+            case DISCRIMINATOR_CASE_SENSITIVE:
+                return discriminatorCaseSensitive;
+            case CodegenConstants.HIDE_GENERATION_TIMESTAMP:
+                return this.isHideGenerationTimestamp();
+            case WITH_XML:
+                return withXml;
+            case DATE_LIBRARY:
+                return this.getDateLibrary();
+            case JAVA8_MODE:
+                return this.java8Mode;
+            case DISABLE_HTML_ESCAPING:
+                return disableHtmlEscaping;
+            case BOOLEAN_GETTER_PREFIX:
+                return this.getBooleanGetterPrefix();
+            case IGNORE_ANYOF_IN_ENUM:
+                return ignoreAnyOfInEnum;
+            case ADDITIONAL_MODEL_TYPE_ANNOTATIONS:
+                return additionalModelTypeAnnotations;
+            case OPENAPI_NULLABLE:
+                return this.openApiNullable;
+
+            case CodegenConstants.PARENT_GROUP_ID:
+                return parentGroupId;
+            case CodegenConstants.PARENT_ARTIFACT_ID:
+                return parentArtifactId;
+            case CodegenConstants.PARENT_VERSION:
+                return parentVersion;
+            case CodegenConstants.SNAPSHOT_VERSION:
+                return false;
+            case SUPPORT_ASYNC:
+                return supportAsync;
+        }
+        return null;
     }
 
     @Override
@@ -1157,7 +1237,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
         if (additionalProperties.containsKey(CodegenConstants.SNAPSHOT_VERSION)) {
-            if ((boolean) additionalProperties.get(CodegenConstants.SNAPSHOT_VERSION)) {
+            if (convertPropertyToBoolean(CodegenConstants.SNAPSHOT_VERSION)) {
                 this.setArtifactVersion(this.buildSnapshotVersion(this.getArtifactVersion()));
             }
         }
@@ -1731,25 +1811,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 DISABLE_HTML_ESCAPING,
                 IGNORE_ANYOF_IN_ENUM,
                 OPENAPI_NULLABLE,
-                CodegenConstants.SNAPSHOT_VERSION
+                CodegenConstants.SNAPSHOT_VERSION,
+                SUPPORT_ASYNC
         ));
     }
 
     protected void coerceBooleanAdditionalProperties() {
         booleanAdditionalProperties().forEach(prop -> {
-            Boolean defaultValue = cliOptions.stream()
-                    .filter(it -> it.getOpt().equals(prop))
-                    .findFirst()
-                    .map(it -> Boolean.parseBoolean(it.getDefault()))
-                    .orElse(null);
+            boolean defaultValue = (boolean) defaultValue(prop);
             Object value = additionalProperties.getOrDefault(prop, defaultValue);
             if (value != null) {
-                if (value instanceof String) {
-                    additionalProperties.put(prop, Boolean.valueOf((String) value));
-                }
-                if (value instanceof Boolean) {
-                    additionalProperties.put(prop, value);
-                }
+                additionalProperties.put(prop, toBoolean(value));
             }
         });
     }

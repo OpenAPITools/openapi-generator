@@ -137,7 +137,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-spring";
 
-        // clioOptions default redefinition need to be updated
+        // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
@@ -188,6 +188,76 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .orElseThrow(() -> new RuntimeException("Missing java8 option"));
         Map<String, String> java8ModeOptions = option.getEnum();
         java8ModeOptions.put("true", "Use Java 8 classes such as Base64. Use java8 default interface when a responseWrapper is used. IMPORTANT: This option has been deprecated as Java 8 is the default.");
+    }
+
+    @Override
+    protected Object defaultValue(String key) {
+        switch (key) {
+
+            // cliOptions default redefinition need to be updated
+            case CodegenConstants.INVOKER_PACKAGE:
+                return this.getInvokerPackage();
+            case CodegenConstants.ARTIFACT_ID:
+                return this.getArtifactId();
+            case CodegenConstants.API_PACKAGE:
+                return apiPackage;
+            case CodegenConstants.MODEL_PACKAGE:
+                return modelPackage;
+
+            case "jackson":
+                return true;
+            case "openbrace":
+                return OPEN_BRACE;
+            case "closebrace":
+                return CLOSE_BRACE;
+            case TITLE:
+                return title;
+            case CONFIG_PACKAGE:
+                return this.getConfigPackage();
+            case BASE_PACKAGE:
+                return this.getBasePackage();
+            case INTERFACE_ONLY:
+                return interfaceOnly;
+            case DELEGATE_PATTERN:
+                return delegatePattern;
+            case SINGLE_CONTENT_TYPES:
+                return singleContentTypes;
+            case JAVA_8:
+                return java8;
+            case SKIP_DEFAULT_INTERFACE:
+                return skipDefaultInterface;
+            case ASYNC:
+                return async;
+            case REACTIVE:
+                return reactive;
+            case RESPONSE_WRAPPER:
+                return responseWrapper;
+            case VIRTUAL_SERVICE:
+                return virtualService;
+            case USE_TAGS:
+                return useTags;
+            case USE_BEANVALIDATION:
+                return useBeanValidation;
+            case PERFORM_BEANVALIDATION:
+                return performBeanValidation;
+            case IMPLICIT_HEADERS:
+                return implicitHeaders;
+            case OPENAPI_DOCKET_CONFIG:
+                return openapiDocketConfig;
+            case API_FIRST:
+                return apiFirst;
+            case USE_OPTIONAL:
+                return useOptional;
+            case HATEOAS:
+                return hateoas;
+            case RETURN_SUCCESS_CODE:
+                return returnSuccessCode;
+            case UNHANDLED_EXCEPTION_HANDLING:
+                return unhandledException;
+            case CodegenConstants.LIBRARY:
+                return library;
+        }
+        return super.defaultValue(key);
     }
 
     @Override
@@ -281,7 +351,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (additionalProperties.containsKey(REACTIVE)) {
-            if (!SPRING_BOOT.equals(library)) {
+            boolean isReactive = (boolean) additionalProperties.get(REACTIVE);
+            if (!SPRING_BOOT.equals(library) && isReactive) {
                 throw new IllegalArgumentException("Currently, reactive option is only supported with Spring-boot");
             }
             this.setReactive((boolean) additionalProperties.get(REACTIVE));

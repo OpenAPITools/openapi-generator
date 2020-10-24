@@ -5550,8 +5550,12 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     public boolean convertPropertyToBoolean(String propertyKey) {
-        final Object booleanValue = additionalProperties.get(propertyKey);
-        Boolean result = Boolean.FALSE;
+        final Object value = additionalProperties.get(propertyKey);
+        return toBoolean(value);
+    }
+
+    protected boolean toBoolean(Object booleanValue) {
+        boolean result = false;
         if (booleanValue instanceof Boolean) {
             result = (Boolean) booleanValue;
         } else if (booleanValue instanceof String) {

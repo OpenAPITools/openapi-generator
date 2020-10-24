@@ -503,16 +503,16 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
                 "scm:git:git@github.com:openapitools/openapi-generator.git");
         assertEquals(additionalProperties.get(CodegenConstants.SCM_URL),
                 "https://github.com/openapitools/openapi-generator");
-        assertNull(additionalProperties.get(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING));
-        assertEquals(additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL), Boolean.FALSE);
+        assertEquals(additionalProperties.get(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING), false);
+        assertEquals(additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL), false);
         assertEquals(additionalProperties.get(CodegenConstants.SOURCE_FOLDER), "src/gen/java");
         assertEquals(additionalProperties.get(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX), "get");
         assertNull(additionalProperties.get(AbstractJavaCodegen.DATE_LIBRARY));
-        assertEquals(additionalProperties.get(AbstractJavaCodegen.DISABLE_HTML_ESCAPING), Boolean.FALSE);
-        assertEquals(additionalProperties.get(AbstractJavaCodegen.FULL_JAVA_UTIL), Boolean.FALSE);
-        assertNull(additionalProperties.get(AbstractJavaCodegen.JAVA8_MODE));
-        assertNull(additionalProperties.get(AbstractJavaCodegen.SUPPORT_ASYNC));
-        assertEquals(additionalProperties.get(AbstractJavaCodegen.SUPPORT_JAVA6), Boolean.FALSE);
+        assertEquals(additionalProperties.get(AbstractJavaCodegen.DISABLE_HTML_ESCAPING), false);
+        assertEquals(additionalProperties.get(AbstractJavaCodegen.FULL_JAVA_UTIL), false);
+        assertEquals(additionalProperties.get(AbstractJavaCodegen.JAVA8_MODE), true);
+        assertEquals(additionalProperties.get(AbstractJavaCodegen.SUPPORT_ASYNC), false);
+        assertEquals(additionalProperties.get(AbstractJavaCodegen.SUPPORT_JAVA6), false);
         assertEquals(additionalProperties.get(AbstractJavaCodegen.WITH_XML), false);
         assertEquals(additionalProperties.get(AbstractJavaCodegen.OPENAPI_NULLABLE), true);
         // Options processed by AbstractJavaJAXRSServerCodegen
