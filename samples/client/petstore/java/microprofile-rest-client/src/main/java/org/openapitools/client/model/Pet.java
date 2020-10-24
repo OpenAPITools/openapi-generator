@@ -40,7 +40,7 @@ public class Pet  {
 
   private String name;
 
-  private List<String> photoUrls = new ArrayList<String>();
+  private List<String> photoUrls = new ArrayList<>();
 
   private List<Tag> tags = null;
 

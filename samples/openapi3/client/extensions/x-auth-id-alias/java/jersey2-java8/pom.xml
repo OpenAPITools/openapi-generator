@@ -138,8 +138,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
+                        <source>1.8</source>
+                        <target>1.8</target>
                     <fork>true</fork>
                     <meminitial>128m</meminitial>
                     <maxmem>512m</maxmem>
@@ -163,7 +163,7 @@
                 </executions>
                 <configuration>
                     <doclint>none</doclint>
-                        <source>1.7</source>
+                        <source>1.8</source>
                     <tags>
                         <tag>
                             <name>http.response.details</name>
@@ -271,15 +271,14 @@
             <version>${jackson-databind-nullable-version}</version>
         </dependency>
         <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.github.joschi.jackson</groupId>
             <artifactId>jackson-datatype-threetenbp</artifactId>
             <version>${threetenbp-version}</version>
-        </dependency>
-        <!-- Base64 encoding that works in both JVM and Android -->
-        <dependency>
-            <groupId>com.brsanthu</groupId>
-            <artifactId>migbase64</artifactId>
-            <version>2.2</version>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
