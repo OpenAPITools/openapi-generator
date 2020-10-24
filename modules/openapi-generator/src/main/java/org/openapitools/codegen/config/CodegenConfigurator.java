@@ -42,14 +42,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import static io.swagger.v3.parser.util.SchemaTypeUtil.BOOLEAN_TYPE;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
  * A class which manages the contextual configuration for code generation.
  * This includes configuring the generator, templating, and the workflow which orchestrates these.
- * <p>
+ *
  * This helper also enables the deserialization of {@link GeneratorSettings} via application-specific Jackson JSON usage
  * (see {@link DynamicSettings}.
  */
@@ -100,25 +99,25 @@ public class CodegenConfigurator {
             if (workflowSettings.getGlobalProperties() != null) {
                 configurator.globalProperties.putAll(workflowSettings.getGlobalProperties());
             }
-            if (generatorSettings.getInstantiationTypes() != null) {
+            if(generatorSettings.getInstantiationTypes() != null) {
                 configurator.instantiationTypes.putAll(generatorSettings.getInstantiationTypes());
             }
-            if (generatorSettings.getTypeMappings() != null) {
+            if(generatorSettings.getTypeMappings() != null) {
                 configurator.typeMappings.putAll(generatorSettings.getTypeMappings());
             }
-            if (generatorSettings.getAdditionalProperties() != null) {
+            if(generatorSettings.getAdditionalProperties() != null) {
                 configurator.additionalProperties.putAll(generatorSettings.getAdditionalProperties());
             }
-            if (generatorSettings.getImportMappings() != null) {
+            if(generatorSettings.getImportMappings() != null) {
                 configurator.importMappings.putAll(generatorSettings.getImportMappings());
             }
-            if (generatorSettings.getLanguageSpecificPrimitives() != null) {
+            if(generatorSettings.getLanguageSpecificPrimitives() != null) {
                 configurator.languageSpecificPrimitives.addAll(generatorSettings.getLanguageSpecificPrimitives());
             }
-            if (generatorSettings.getReservedWordMappings() != null) {
+            if(generatorSettings.getReservedWordMappings() != null) {
                 configurator.reservedWordMappings.putAll(generatorSettings.getReservedWordMappings());
             }
-            if (generatorSettings.getServerVariables() != null) {
+            if(generatorSettings.getServerVariables() != null) {
                 configurator.serverVariables.putAll(generatorSettings.getServerVariables());
             }
 
@@ -597,11 +596,7 @@ public class CodegenConfigurator {
         config.importMapping().putAll(generatorSettings.getImportMappings());
         config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
         config.reservedWordsMappings().putAll(generatorSettings.getReservedWordMappings());
-        generatorSettings.getAdditionalProperties().forEach((k, v) -> {
-            Object value = sanitizeAdditionalPropertyValue(config, k, v);
-            config.additionalProperties().put(k, value);
-        });
-
+        config.additionalProperties().putAll(generatorSettings.getAdditionalProperties());
 
         Map<String, String> serverVariables = generatorSettings.getServerVariables();
         if (!serverVariables.isEmpty()) {
@@ -620,26 +615,6 @@ public class CodegenConfigurator {
                 .config(config)
                 .userDefinedTemplates(userDefinedTemplates);
 
-        return input.openAPI((OpenAPI) context.getSpecDocument());
-    }
-
-    private Object sanitizeAdditionalPropertyValue(CodegenConfig config, String opt, Object value) {
-        return findCliOptionsByOpt(config, opt)
-                .map(it -> parseByType(value, it))
-                .orElse(value);
-    }
-
-    private Object parseByType(Object v, CliOption it) {
-        if (BOOLEAN_TYPE.equals(it.getType())) {
-            return Boolean.parseBoolean(v.toString());
-        } else {
-            return v;
-        }
-    }
-
-    private Optional<CliOption> findCliOptionsByOpt(CodegenConfig config, String k) {
-        return config.cliOptions().stream()
-                .filter(it -> it.getOpt().equals(k))
-                .findFirst();
+        return input.openAPI((OpenAPI)context.getSpecDocument());
     }
 }

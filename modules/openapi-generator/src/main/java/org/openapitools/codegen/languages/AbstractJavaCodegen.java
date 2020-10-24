@@ -43,6 +43,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import static java.util.Arrays.asList;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig {
@@ -229,7 +230,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_VERSION, CodegenConstants.PARENT_VERSION_DESC));
-        CliOption snapShotVersion = CliOption.newString(CodegenConstants.SNAPSHOT_VERSION, CodegenConstants.SNAPSHOT_VERSION_DESC);
+        CliOption snapShotVersion = CliOption.newBoolean(CodegenConstants.SNAPSHOT_VERSION, CodegenConstants.SNAPSHOT_VERSION_DESC);
         Map<String, String> snapShotVersionOptions = new HashMap<>();
         snapShotVersionOptions.put("true", "Use a SnapShot Version");
         snapShotVersionOptions.put("false", "Use a Release Version");
@@ -240,6 +241,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public void processOpts() {
+        coerceBooleanAdditionalProperties();
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("JAVA_POST_PROCESS_FILE"))) {
@@ -504,26 +506,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
 
         if (additionalProperties.containsKey(JAVA8_MODE)) {
-            setJava8Mode(Boolean.parseBoolean(additionalProperties.get(JAVA8_MODE).toString()));
-            if (java8Mode) {
-                additionalProperties.put("java8", true);
-            } else {
-                additionalProperties.put("java8", false);
-            }
+            setJava8Mode((boolean) additionalProperties.get(JAVA8_MODE));
         }
 
         if (additionalProperties.containsKey(SUPPORT_ASYNC)) {
-            setSupportAsync(Boolean.parseBoolean(additionalProperties.get(SUPPORT_ASYNC).toString()));
-            if (supportAsync) {
-                additionalProperties.put(SUPPORT_ASYNC, "true");
-            }
+            setSupportAsync((boolean) additionalProperties.get(SUPPORT_ASYNC));
         }
 
         if (additionalProperties.containsKey(WITH_XML)) {
-            setWithXml(Boolean.parseBoolean(additionalProperties.get(WITH_XML).toString()));
-            if (withXml) {
-                additionalProperties.put(WITH_XML, "true");
-            }
+            setWithXml((boolean) additionalProperties.get(WITH_XML));
         }
 
         if (additionalProperties.containsKey(DATE_LIBRARY)) {
@@ -888,7 +879,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     return String.format(Locale.ROOT, localDate.toString(), "");
                 } else if (schema.getDefault() instanceof java.time.OffsetDateTime) {
-                    return "OffsetDateTime.parse(\"" +  String.format(Locale.ROOT, ((java.time.OffsetDateTime) schema.getDefault()).atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))";
+                    return "OffsetDateTime.parse(\"" + String.format(Locale.ROOT, ((java.time.OffsetDateTime) schema.getDefault()).atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))";
                 } else {
                     _default = (String) schema.getDefault();
                 }
@@ -1166,7 +1157,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
         if (additionalProperties.containsKey(CodegenConstants.SNAPSHOT_VERSION)) {
-            if (convertPropertyToBooleanAndWriteBack(CodegenConstants.SNAPSHOT_VERSION)) {
+            if ((boolean) additionalProperties.get(CodegenConstants.SNAPSHOT_VERSION)) {
                 this.setArtifactVersion(this.buildSnapshotVersion(this.getArtifactVersion()));
             }
         }
@@ -1726,5 +1717,40 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             codegenModel.additionalPropertiesType = getSchemaType(s);
             addImport(codegenModel, codegenModel.additionalPropertiesType);
         }
+    }
+
+    protected Set<String> booleanAdditionalProperties() {
+        return new HashSet<>(asList(
+                CodegenConstants.SERIALIZABLE_MODEL,
+                CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING,
+                FULL_JAVA_UTIL,
+                DISCRIMINATOR_CASE_SENSITIVE,
+                CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+                WITH_XML,
+                JAVA8_MODE,
+                DISABLE_HTML_ESCAPING,
+                IGNORE_ANYOF_IN_ENUM,
+                OPENAPI_NULLABLE,
+                CodegenConstants.SNAPSHOT_VERSION
+        ));
+    }
+
+    protected void coerceBooleanAdditionalProperties() {
+        booleanAdditionalProperties().forEach(prop -> {
+            Boolean defaultValue = cliOptions.stream()
+                    .filter(it -> it.getOpt().equals(prop))
+                    .findFirst()
+                    .map(it -> Boolean.parseBoolean(it.getDefault()))
+                    .orElse(null);
+            Object value = additionalProperties.getOrDefault(prop, defaultValue);
+            if (value != null) {
+                if (value instanceof String) {
+                    additionalProperties.put(prop, Boolean.valueOf((String) value));
+                }
+                if (value instanceof Boolean) {
+                    additionalProperties.put(prop, value);
+                }
+            }
+        });
     }
 }
