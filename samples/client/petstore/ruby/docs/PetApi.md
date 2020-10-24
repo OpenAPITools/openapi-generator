@@ -9,7 +9,6 @@ Method | HTTP request | Description
 [**find_pets_by_status**](PetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status
 [**find_pets_by_tags**](PetApi.md#find_pets_by_tags) | **GET** /pet/findByTags | Finds Pets by tags
 [**get_pet_by_id**](PetApi.md#get_pet_by_id) | **GET** /pet/{petId} | Find pet by ID
-[**get_pet_by_id_download**](PetApi.md#get_pet_by_id_download) | **GET** /pet/{petId}?download | Find pet by ID
 [**update_pet**](PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
 [**update_pet_with_form**](PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**upload_file**](PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
@@ -266,60 +265,6 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Pet**](Pet.md)
-
-### Authorization
-
-[api_key](../README.md#api_key)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/xml, application/json
-
-
-## get_pet_by_id_download
-
-> File get_pet_by_id_download(pet_id)
-
-Find pet by ID
-
-Returns a single pet
-
-### Example
-
-```ruby
-# load the gem
-require 'petstore'
-# setup authorization
-Petstore.configure do |config|
-  # Configure API key authorization: api_key
-  config.api_key['api_key'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  #config.api_key_prefix['api_key'] = 'Bearer'
-end
-
-api_instance = Petstore::PetApi.new
-pet_id = 56 # Integer | ID of pet to return
-
-begin
-  #Find pet by ID
-  result = api_instance.get_pet_by_id_download(pet_id)
-  p result
-rescue Petstore::ApiError => e
-  puts "Exception when calling PetApi->get_pet_by_id_download: #{e}"
-end
-```
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet_id** | **Integer**| ID of pet to return | 
-
-### Return type
-
-**File**
 
 ### Authorization
 
