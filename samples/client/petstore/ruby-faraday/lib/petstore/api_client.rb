@@ -66,25 +66,24 @@ module Petstore
       begin
         response = connection.public_send(http_method.to_sym.downcase) do |req|
           build_request(http_method, path, req, opts)
-          download_file(req) if opts[:return_type] == 'File'
         end
 
         if @config.debugging
           @config.logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
         end
 
-        #unless response.success?
-        #  if response.status == 0
-        #    # Errors from libcurl will be made visible here
-        #    fail ApiError.new(:code => 0,
-        #                      :message => response.return_message)
-        #  else
-        #    fail ApiError.new(:code => response.status,
-        #                      :response_headers => response.headers,
-        #                      :response_body => response.body),
-        #         response.reason_phrase
-        #  end
-        #end
+        unless response.success?
+          if response.status == 0
+            # Errors from libcurl will be made visible here
+            fail ApiError.new(:code => 0,
+                              :message => response.return_message)
+          else
+            fail ApiError.new(:code => response.status,
+                              :response_headers => response.headers,
+                              :response_body => response.body),
+                 response.reason_phrase
+          end
+        end
       rescue Faraday::TimeoutError
         fail ApiError.new('Connection timed out')
       end
@@ -136,6 +135,7 @@ module Petstore
       request.body = req_body
       request.url url
       request.params = query_params
+      download_file(request) if opts[:return_type] == 'File'
       request
     end
 
@@ -204,18 +204,9 @@ module Petstore
 
       # handle streaming Responses
       request.options.on_data = Proc.new do |chunk, overall_received_bytes|
-        # puts "Received #{overall_received_bytes} characters"
         @stream << chunk
-        #tempfile.write(chunk)
       end
 
-      #if tempfile
-      #  tempfile.close
-      #  @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
-      #                      "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
-      #                      "will be deleted automatically with GC. It's also recommended to delete the temp file "\
-      #                      "explicitly with `tempfile.delete`"
-      #end
     end
 
     # Check if the given MIME is a JSON MIME.
