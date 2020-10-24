@@ -693,10 +693,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         }
                         // Form datatype for this field: use ClassNameFieldName syntax
                         param.dataType = cm.classname + param.nameInCamelCase;
-                        if (Boolean.TRUE.equals(param.isListContainer)) {
+                        if (Boolean.TRUE.equals(param.isArray)) {
                             // Special case: slice of enums, use []ClassNameFieldName
                             param.datatypeWithEnum = "[]" + param.dataType;
-                        } else if (Boolean.TRUE.equals(param.isMapContainer)) {
+                        } else if (Boolean.TRUE.equals(param.isMap)) {
                             // Special case: map of enums, use map[string]ClassNameFieldName
                             param.datatypeWithEnum = "map[string]" + param.dataType;
                         } else {
