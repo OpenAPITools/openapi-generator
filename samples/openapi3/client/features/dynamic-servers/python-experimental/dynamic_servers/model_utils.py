@@ -292,7 +292,7 @@ class ModelSimple(OpenApiModel):
 
     def __setitem__(self, name, value):
         """set the value of an attribute using square-bracket notation: `instance[attr] = val`"""
-        if name in self.__dict__['required_properties']:
+        if name in self.required_properties:
             self.__dict__[name] = value
             return
 
@@ -300,7 +300,7 @@ class ModelSimple(OpenApiModel):
 
     def get(self, name, default=None):
         """returns the value of an attribute or some default value if the attribute was not set"""
-        if name in self.__dict__['required_properties']:
+        if name in self.required_properties:
             return self.__dict__[name]
 
         return self.__dict__['_data_store'].get(name, default)
@@ -318,7 +318,7 @@ class ModelSimple(OpenApiModel):
 
     def __contains__(self, name):
         """used by `in` operator to check if an attrbute value was set in an instance: `'attr' in instance`"""
-        if name in self.__dict__['required_properties']:
+        if name in self.required_properties:
             return name in self.__dict__
 
         return name in self.__dict__['_data_store']
@@ -347,7 +347,7 @@ class ModelNormal(OpenApiModel):
 
     def __setitem__(self, name, value):
         """set the value of an attribute using square-bracket notation: `instance[attr] = val`"""
-        if name in self.__dict__['required_properties']:
+        if name in self.required_properties:
             self.__dict__[name] = value
             return
 
@@ -355,7 +355,7 @@ class ModelNormal(OpenApiModel):
 
     def get(self, name, default=None):
         """returns the value of an attribute or some default value if the attribute was not set"""
-        if name in self.__dict__['required_properties']:
+        if name in self.required_properties:
             return self.__dict__[name]
 
         return self.__dict__['_data_store'].get(name, default)
@@ -373,7 +373,7 @@ class ModelNormal(OpenApiModel):
 
     def __contains__(self, name):
         """used by `in` operator to check if an attrbute value was set in an instance: `'attr' in instance`"""
-        if name in self.__dict__['required_properties']:
+        if name in self.required_properties:
             return name in self.__dict__
 
         return name in self.__dict__['_data_store']
@@ -494,8 +494,8 @@ class ModelComposed(OpenApiModel):
 
     def __getitem__(self, name):
         """get the value of an attribute using square-bracket notation: `instance[attr]`"""
-        value = self.get(name, self.__dict__['__unset_attribute_value__'])
-        if value is self.__dict__['__unset_attribute_value__']:
+        value = self.get(name, self.__unset_attribute_value__)
+        if value is self.__unset_attribute_value__:
             raise ApiAttributeError(
                 "{0} has no attribute '{1}'".format(
                     type(self).__name__, name),

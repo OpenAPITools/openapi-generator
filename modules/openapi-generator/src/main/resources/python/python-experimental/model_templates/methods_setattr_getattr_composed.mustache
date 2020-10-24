@@ -62,8 +62,8 @@
 
     def __getitem__(self, name):
         """get the value of an attribute using square-bracket notation: `instance[attr]`"""
-        value = self.get(name, self.__dict__['__unset_attribute_value__'])
-        if value is self.__dict__['__unset_attribute_value__']:
+        value = self.get(name, self.__unset_attribute_value__)
+        if value is self.__unset_attribute_value__:
             raise ApiAttributeError(
                 "{0} has no attribute '{1}'".format(
                     type(self).__name__, name),
