@@ -296,4 +296,6 @@ public interface CodegenConfig {
     boolean isRemoveEnumValuePrefix();
 
     void setRemoveEnumValuePrefix(boolean removeEnumValuePrefix);
+
+    Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings);
 }

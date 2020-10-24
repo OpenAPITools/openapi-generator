@@ -309,6 +309,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -326,17 +327,17 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            const needsSerialization = (typeof body !== "string") && configuration.isJsonMime(localVarRequestOptions.headers['Content-Type']);
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
@@ -365,6 +366,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -384,14 +386,14 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
 
     
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -419,6 +421,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -438,14 +441,14 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
 
     
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -473,6 +476,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -492,14 +496,14 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
 
     
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -528,6 +532,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -542,14 +547,14 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
 
     
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -577,6 +582,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -594,17 +600,17 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            const needsSerialization = (typeof body !== "string") && configuration.isJsonMime(localVarRequestOptions.headers['Content-Type']);
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
@@ -634,6 +640,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -660,14 +667,14 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
     
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
     
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = localVarFormParams.toString();
@@ -699,10 +706,11 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-            const localVarFormParams = new FormData();
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
 
             // authentication petstore_auth required
             // oauth required
@@ -725,14 +733,14 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
     
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
     
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = localVarFormParams;
@@ -1243,20 +1251,21 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -1279,6 +1288,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1293,14 +1303,14 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
 
 
     
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -1329,20 +1339,21 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -1366,6 +1377,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1374,17 +1386,17 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            const needsSerialization = (typeof body !== "string") && configuration.isJsonMime(localVarRequestOptions.headers['Content-Type']);
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
@@ -1630,6 +1642,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1638,17 +1651,17 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            const needsSerialization = (typeof body !== "string") && configuration.isJsonMime(localVarRequestOptions.headers['Content-Type']);
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
@@ -1675,6 +1688,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1683,17 +1697,17 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            const needsSerialization = (typeof body !== "string") && configuration.isJsonMime(localVarRequestOptions.headers['Content-Type']);
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
@@ -1720,6 +1734,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1728,17 +1743,17 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            const needsSerialization = (typeof body !== "string") && configuration.isJsonMime(localVarRequestOptions.headers['Content-Type']);
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
@@ -1766,20 +1781,21 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -1808,20 +1824,21 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -1854,6 +1871,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1868,14 +1886,14 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
 
 
     
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -1898,20 +1916,21 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -1945,6 +1964,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1953,17 +1973,17 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            const needsSerialization = (typeof body !== "string") && configuration.isJsonMime(localVarRequestOptions.headers['Content-Type']);
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {

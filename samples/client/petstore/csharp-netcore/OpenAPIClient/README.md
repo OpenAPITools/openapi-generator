@@ -44,6 +44,17 @@ using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 ```
+<a name="usage"></a>
+## Usage
+
+To use the API client with a HTTP proxy, setup a `System.Net.WebProxy`
+```csharp
+Configuration c = new Configuration();
+System.Net.WebProxy webProxy = new System.Net.WebProxy("http://myProxyUrl:80/");
+webProxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+c.Proxy = webProxy;
+```
+
 <a name="getting-started"></a>
 ## Getting Started
 
@@ -94,11 +105,11 @@ Class | Method | HTTP request | Description
 *AnotherFakeApi* | [**Call123TestSpecialTags**](docs/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**FooGet**](docs/DefaultApi.md#fooget) | **GET** /foo | 
 *FakeApi* | [**FakeHealthGet**](docs/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
-*FakeApi* | [**FakeHttpSignatureTest**](docs/FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**FakeOuterStringSerialize**](docs/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**GetArrayOfEnums**](docs/FakeApi.md#getarrayofenums) | **GET** /fake/array-of-enums | Array of Enums
 *FakeApi* | [**TestBodyWithFileSchema**](docs/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**TestBodyWithQueryParams**](docs/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**TestClientModel**](docs/FakeApi.md#testclientmodel) | **PATCH** /fake | To test \"client\" model
@@ -138,33 +149,57 @@ Class | Method | HTTP request | Description
  - [Model.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [Model.Animal](docs/Animal.md)
  - [Model.ApiResponse](docs/ApiResponse.md)
+ - [Model.Apple](docs/Apple.md)
+ - [Model.AppleReq](docs/AppleReq.md)
  - [Model.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [Model.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [Model.ArrayTest](docs/ArrayTest.md)
+ - [Model.Banana](docs/Banana.md)
+ - [Model.BananaReq](docs/BananaReq.md)
+ - [Model.BasquePig](docs/BasquePig.md)
  - [Model.Capitalization](docs/Capitalization.md)
  - [Model.Cat](docs/Cat.md)
  - [Model.CatAllOf](docs/CatAllOf.md)
  - [Model.Category](docs/Category.md)
+ - [Model.ChildCat](docs/ChildCat.md)
+ - [Model.ChildCatAllOf](docs/ChildCatAllOf.md)
  - [Model.ClassModel](docs/ClassModel.md)
+ - [Model.ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
+ - [Model.DanishPig](docs/DanishPig.md)
  - [Model.Dog](docs/Dog.md)
  - [Model.DogAllOf](docs/DogAllOf.md)
+ - [Model.Drawing](docs/Drawing.md)
  - [Model.EnumArrays](docs/EnumArrays.md)
  - [Model.EnumClass](docs/EnumClass.md)
  - [Model.EnumTest](docs/EnumTest.md)
+ - [Model.EquilateralTriangle](docs/EquilateralTriangle.md)
  - [Model.File](docs/File.md)
  - [Model.FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Model.Foo](docs/Foo.md)
  - [Model.FormatTest](docs/FormatTest.md)
+ - [Model.Fruit](docs/Fruit.md)
+ - [Model.FruitReq](docs/FruitReq.md)
+ - [Model.GmFruit](docs/GmFruit.md)
+ - [Model.GrandparentAnimal](docs/GrandparentAnimal.md)
  - [Model.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [Model.HealthCheckResult](docs/HealthCheckResult.md)
+ - [Model.InlineObject](docs/InlineObject.md)
+ - [Model.InlineObject1](docs/InlineObject1.md)
+ - [Model.InlineObject2](docs/InlineObject2.md)
+ - [Model.InlineObject3](docs/InlineObject3.md)
+ - [Model.InlineObject4](docs/InlineObject4.md)
+ - [Model.InlineObject5](docs/InlineObject5.md)
  - [Model.InlineResponseDefault](docs/InlineResponseDefault.md)
+ - [Model.IsoscelesTriangle](docs/IsoscelesTriangle.md)
  - [Model.List](docs/List.md)
+ - [Model.Mammal](docs/Mammal.md)
  - [Model.MapTest](docs/MapTest.md)
  - [Model.MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model.Model200Response](docs/Model200Response.md)
  - [Model.ModelClient](docs/ModelClient.md)
  - [Model.Name](docs/Name.md)
  - [Model.NullableClass](docs/NullableClass.md)
+ - [Model.NullableShape](docs/NullableShape.md)
  - [Model.NumberOnly](docs/NumberOnly.md)
  - [Model.Order](docs/Order.md)
  - [Model.OuterComposite](docs/OuterComposite.md)
@@ -172,18 +207,25 @@ Class | Method | HTTP request | Description
  - [Model.OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
  - [Model.OuterEnumInteger](docs/OuterEnumInteger.md)
  - [Model.OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
+ - [Model.ParentPet](docs/ParentPet.md)
  - [Model.Pet](docs/Pet.md)
+ - [Model.Pig](docs/Pig.md)
+ - [Model.Quadrilateral](docs/Quadrilateral.md)
+ - [Model.QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [Model.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Model.Return](docs/Return.md)
+ - [Model.ScaleneTriangle](docs/ScaleneTriangle.md)
+ - [Model.Shape](docs/Shape.md)
+ - [Model.ShapeInterface](docs/ShapeInterface.md)
+ - [Model.ShapeOrNull](docs/ShapeOrNull.md)
+ - [Model.SimpleQuadrilateral](docs/SimpleQuadrilateral.md)
  - [Model.SpecialModelName](docs/SpecialModelName.md)
  - [Model.Tag](docs/Tag.md)
- - [Model.TestEndpointParametersBody](docs/TestEndpointParametersBody.md)
- - [Model.TestEnumParametersBody](docs/TestEnumParametersBody.md)
- - [Model.TestJsonFormDataBody](docs/TestJsonFormDataBody.md)
- - [Model.UpdatePetWithFormBody](docs/UpdatePetWithFormBody.md)
- - [Model.UploadFileBody](docs/UploadFileBody.md)
- - [Model.UploadFileWithRequiredFileBody](docs/UploadFileWithRequiredFileBody.md)
+ - [Model.Triangle](docs/Triangle.md)
+ - [Model.TriangleInterface](docs/TriangleInterface.md)
  - [Model.User](docs/User.md)
+ - [Model.Whale](docs/Whale.md)
+ - [Model.Zebra](docs/Zebra.md)
 
 
 <a name="documentation-for-authorization"></a>

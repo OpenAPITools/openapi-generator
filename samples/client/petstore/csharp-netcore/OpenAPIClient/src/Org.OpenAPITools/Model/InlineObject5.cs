@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -63,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// file to upload
         /// </summary>
         /// <value>file to upload</value>
-        [DataMember(Name = "requiredFile", EmitDefaultValue = false)]
+        [DataMember(Name = "requiredFile", IsRequired = true, EmitDefaultValue = false)]
         public System.IO.Stream RequiredFile { get; set; }
 
         /// <summary>

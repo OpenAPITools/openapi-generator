@@ -58,7 +58,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             new String[]{"git_push.sh.mustache", "git_push.sh"},
             new String[]{"README.mustache", "README.md"},
             new String[]{"mocha.opts", "mocha.opts"},
-            new String[]{"travis.yml", ".travis.yml"}
+            new String[]{"travis.yml", ".travis.yml"},
+            new String[]{"gitignore.mustache", ".gitignore"}
     };
 
     final String[][] JAVASCRIPT_ES6_SUPPORTING_FILES = new String[][]{
@@ -69,7 +70,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             new String[]{"README.mustache", "README.md"},
             new String[]{"mocha.opts", "mocha.opts"},
             new String[]{"travis.yml", ".travis.yml"},
-            new String[]{".babelrc.mustache", ".babelrc"}
+            new String[]{".babelrc.mustache", ".babelrc"},
+            new String[]{"gitignore.mustache", ".gitignore"}
     };
 
     protected String projectName;
@@ -166,6 +168,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("file", "File");
         typeMapping.put("UUID", "String");
         typeMapping.put("URI", "String");
+        typeMapping.put("AnyType", "Object");
 
         importMapping.clear();
 
@@ -727,10 +730,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         // container
-        if (Boolean.TRUE.equals(p.isListContainer)) {
+        if (Boolean.TRUE.equals(p.isArray)) {
             example = setPropertyExampleValue(p.items);
             example = "[" + example + "]";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(p.isMap)) {
             example = setPropertyExampleValue(p.items);
             example = "{key: " + example + "}";
         } else if (example == null) {
@@ -940,9 +943,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         String dataType = trimBrackets(cp.dataType);
         if (isModelledType(cp))
             dataType = getModelledType(dataType);
-        if (Boolean.TRUE.equals(cp.isListContainer)) {
+        if (Boolean.TRUE.equals(cp.isArray)) {
             return "Array.<" + dataType + ">";
-        } else if (Boolean.TRUE.equals(cp.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(cp.isMap)) {
             return "Object.<String, " + dataType + ">";
         }
         return dataType;
@@ -958,9 +961,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (returnType != null) {
             if (isModelledType(co))
                 returnType = getModelledType(returnType);
-            if (Boolean.TRUE.equals(co.isListContainer)) {
+            if (Boolean.TRUE.equals(co.isArray)) {
                 return "Array.<" + returnType + ">";
-            } else if (Boolean.TRUE.equals(co.isMapContainer)) {
+            } else if (Boolean.TRUE.equals(co.isMap)) {
                 return "Object.<String, " + returnType + ">";
             }
         }

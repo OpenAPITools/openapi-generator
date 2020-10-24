@@ -223,7 +223,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     }
 
     @Override
-    protected Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings) {
+    public Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings) {
         Map<String, Schema> allSchemas = ModelUtils.getSchemas(openAPI);
         if (allSchemas == null || allSchemas.isEmpty()) {
             // skip the warning as the spec can have no model defined
@@ -238,19 +238,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 return schema;
             }
             Schema ref = allSchemas.get(simpleRef);
-            Boolean hasValidation = (
-                    ref.getMaxItems() != null ||
-                    ref.getMinLength() != null ||
-                    ref.getMinItems() != null ||
-                    ref.getMultipleOf() != null ||
-                    ref.getPattern() != null ||
-                    ref.getMaxLength() != null ||
-                    ref.getMinimum() != null ||
-                    ref.getMaximum() != null ||
-                    ref.getExclusiveMaximum() != null ||
-                    ref.getExclusiveMinimum() != null ||
-                    ref.getUniqueItems() != null
-            );
             if (ref == null) {
                 once(LOGGER).warn("{} is not defined", schema.get$ref());
                 return schema;
@@ -281,11 +268,17 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             } else if (ModelUtils.isObjectSchema(ref)) { // model
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property
                     return schema;
-                } else { // free form object (type: object)
+                } else {
+                    // free form object (type: object)
+                    if (ModelUtils.hasValidation(ref)) {
+                        return schema;
+                    } else if (getAllOfDescendants(simpleRef, openAPI).size() > 0) {
+                        return schema;
+                    }
                     return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
                             usedImportMappings);
                 }
-            } else if (hasValidation) {
+            } else if (ModelUtils.hasValidation(ref)) {
                 // non object non array non map schemas that have validations
                 // are returned so we can generate those schemas as models
                 // we do this to:
@@ -469,7 +462,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (cp.isPrimitiveType && p.get$ref() != null) {
             cp.complexType = cp.dataType;
         }
-        if (cp.isListContainer && cp.complexType == null && cp.mostInnerItems.complexType != null) {
+        if (cp.isArray && cp.complexType == null && cp.mostInnerItems.complexType != null) {
             cp.complexType = cp.mostInnerItems.complexType;
         }
         return cp;
@@ -500,19 +493,16 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
 
         String varDataType = var.mostInnerItems != null ? var.mostInnerItems.dataType : var.dataType;
-        Optional<Schema> referencedSchema = ModelUtils.getSchemas(openAPI).entrySet().stream()
-                .filter(entry -> Objects.equals(varDataType, toModelName(entry.getKey())))
-                .map(Map.Entry::getValue)
-                .findFirst();
-        String dataType = (referencedSchema.isPresent()) ? getTypeDeclaration(referencedSchema.get()) : varDataType;
+        Schema referencedSchema = getModelNameToSchemaCache().get(varDataType);
+        String dataType = (referencedSchema != null) ? getTypeDeclaration(referencedSchema) : varDataType;
 
         // put "enumVars" map into `allowableValues", including `name` and `value`
         List<Map<String, Object>> enumVars = buildEnumVars(values, dataType);
 
         // if "x-enum-varnames" or "x-enum-descriptions" defined, update varnames
         Map<String, Object> extensions = var.mostInnerItems != null ? var.mostInnerItems.getVendorExtensions() : var.getVendorExtensions();
-        if (referencedSchema.isPresent()) {
-            extensions = referencedSchema.get().getExtensions();
+        if (referencedSchema != null) {
+            extensions = referencedSchema.getExtensions();
         }
         updateEnumVarsWithExtensions(enumVars, extensions);
         allowableValues.put("enumVars", enumVars);
@@ -612,7 +602,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty p) {
         postProcessPattern(p.pattern, p.vendorExtensions);
         // set property.complexType so the model docs will link to the ClassName.md
-        if (p.complexType == null && p.isListContainer && p.mostInnerItems.complexType != null && !languageSpecificPrimitives.contains(p.mostInnerItems.complexType)) {
+        if (p.complexType == null && p.isArray && p.mostInnerItems.complexType != null && !languageSpecificPrimitives.contains(p.mostInnerItems.complexType)) {
             // fix ListContainers
             p.complexType = p.mostInnerItems.complexType;
         }
@@ -723,11 +713,11 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // 1. no default exists
         //      schema does not contain default
         //      cm.defaultValue unset, cm.hasRequired = true
-        // 2. server has a default
+        // 2. spec has a default
         //      schema contains default
-        //      cm.defaultValue set, cm.hasRequired = true
+        //      cm.defaultValue set, cm.hasRequired = false
         //      different value here to differentiate between use case 3 below
-        //      This defaultValue is used in the client docs only and is not sent to the server
+        //      This defaultValue is used when a consumer (client or server) lacks the input argument, defaultValue will be used
         // 3. only one value is allowed in an enum
         //      schema does not contain default
         //      cm.defaultValue set, cm.hasRequired = false
@@ -738,7 +728,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             cm.hasRequired = true;
         } else if (sc.getDefault() != null) {
             cm.defaultValue = defaultValue;
-            cm.hasRequired = true;
+            cm.hasRequired = false;
         } else if (defaultValue != null && cm.defaultValue == null) {
             cm.defaultValue = defaultValue;
             cm.hasRequired = false;

@@ -208,30 +208,30 @@ class {{classname}}(object):
         path_params = {}
 {{#pathParams}}
         if '{{paramName}}' in local_var_params:
-            path_params['{{baseName}}'] = local_var_params['{{paramName}}']{{#isListContainer}}  # noqa: E501
-            collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}  # noqa: E501
+            path_params['{{baseName}}'] = local_var_params['{{paramName}}']{{#isArray}}  # noqa: E501
+            collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isArray}}  # noqa: E501
 {{/pathParams}}
 
         query_params = []
 {{#queryParams}}
         if '{{paramName}}' in local_var_params and local_var_params['{{paramName}}'] is not None:  # noqa: E501
-            query_params.append(('{{baseName}}', local_var_params['{{paramName}}'])){{#isListContainer}}  # noqa: E501
-            collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}  # noqa: E501
+            query_params.append(('{{baseName}}', local_var_params['{{paramName}}'])){{#isArray}}  # noqa: E501
+            collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isArray}}  # noqa: E501
 {{/queryParams}}
 
         header_params = {}
 {{#headerParams}}
         if '{{paramName}}' in local_var_params:
-            header_params['{{baseName}}'] = local_var_params['{{paramName}}']{{#isListContainer}}  # noqa: E501
-            collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}  # noqa: E501
+            header_params['{{baseName}}'] = local_var_params['{{paramName}}']{{#isArray}}  # noqa: E501
+            collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isArray}}  # noqa: E501
 {{/headerParams}}
 
         form_params = []
         local_var_files = {}
 {{#formParams}}
         if '{{paramName}}' in local_var_params:
-            {{^isFile}}form_params.append(('{{baseName}}', local_var_params['{{paramName}}'])){{/isFile}}{{#isFile}}local_var_files['{{baseName}}'] = local_var_params['{{paramName}}']{{/isFile}}{{#isListContainer}}  # noqa: E501
-            collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}  # noqa: E501
+            {{^isFile}}form_params.append(('{{baseName}}', local_var_params['{{paramName}}'])){{/isFile}}{{#isFile}}local_var_files['{{baseName}}'] = local_var_params['{{paramName}}']{{/isFile}}{{#isArray}}  # noqa: E501
+            collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isArray}}  # noqa: E501
 {{/formParams}}
 
         body_params = None
@@ -253,6 +253,23 @@ class {{classname}}(object):
         {{/hasConsumes}}
         # Authentication setting
         auth_settings = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]  # noqa: E501
+        
+        {{#returnType}}
+        {{#responses}}
+        {{#-first}}
+        response_types_map = {
+        {{/-first}}
+            {{^isWildcard}}
+            {{code}}: {{#dataType}}"{{dataType}}"{{/dataType}}{{^dataType}}None{{/dataType}},
+            {{/isWildcard}}
+        {{#-last}}
+        }
+        {{/-last}}
+        {{/responses}}
+        {{/returnType}}
+        {{^returnType}}
+        response_types_map = {}
+        {{/returnType}}
 
         return self.api_client.call_api(
             '{{{path}}}', '{{httpMethod}}',
@@ -262,7 +279,7 @@ class {{classname}}(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type={{#returnType}}'{{returnType}}'{{/returnType}}{{^returnType}}None{{/returnType}},  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501

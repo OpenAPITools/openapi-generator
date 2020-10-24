@@ -3,6 +3,8 @@ title: Config Options for jaxrs-jersey
 sidebar_label: jaxrs-jersey
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations)| |null|
@@ -26,6 +28,7 @@ sidebar_label: jaxrs-jersey
 |fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
+|ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|
 |implFolder|folder for generated implementation code| |src/main/java|
 |invokerPackage|root package for generated code| |org.openapitools.api|
 |java8|Use Java8 classes instead of third party equivalents. Starting in 5.x, JDK8 is the default and the support for JDK7, JDK6 has been dropped|<dl><dt>**true**</dt><dd>Use Java 8 classes such as Base64</dd><dt>**false**</dt><dd>Various third party libraries as needed</dd></dl>|true|

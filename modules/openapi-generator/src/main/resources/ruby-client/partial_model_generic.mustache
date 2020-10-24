@@ -132,16 +132,16 @@
       {{#vars}}
 
       if attributes.key?(:'{{{name}}}')
-        {{#isListContainer}}
+        {{#isArray}}
         if (value = attributes[:'{{{name}}}']).is_a?(Array)
           self.{{{name}}} = value
         end
-        {{/isListContainer}}
-        {{#isMapContainer}}
+        {{/isArray}}
+        {{#isMap}}
         if (value = attributes[:'{{{name}}}']).is_a?(Hash)
           self.{{{name}}} = value
         end
-        {{/isMapContainer}}
+        {{/isMap}}
         {{^isContainer}}
         self.{{{name}}} = attributes[:'{{{name}}}']
         {{/isContainer}}

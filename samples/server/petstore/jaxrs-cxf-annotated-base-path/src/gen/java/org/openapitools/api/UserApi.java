@@ -26,7 +26,7 @@ import javax.validation.Valid;
  * <p>This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  */
-@Path("/v2")
+@Path("/v2/user")
 @Api(value = "/", description = "")
 public interface UserApi  {
 
@@ -37,7 +37,7 @@ public interface UserApi  {
      *
      */
     @POST
-    @Path("/user")
+    
     @ApiOperation(value = "Create user", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
@@ -48,7 +48,7 @@ public interface UserApi  {
      *
      */
     @POST
-    @Path("/user/createWithArray")
+    @Path("/createWithArray")
     @ApiOperation(value = "Creates list of users with given input array", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
@@ -59,7 +59,7 @@ public interface UserApi  {
      *
      */
     @POST
-    @Path("/user/createWithList")
+    @Path("/createWithList")
     @ApiOperation(value = "Creates list of users with given input array", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
@@ -72,7 +72,7 @@ public interface UserApi  {
      *
      */
     @DELETE
-    @Path("/user/{username}")
+    @Path("/{username}")
     @ApiOperation(value = "Delete user", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied"),
@@ -84,7 +84,7 @@ public interface UserApi  {
      *
      */
     @GET
-    @Path("/user/{username}")
+    @Path("/{username}")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Get user by user name", tags={ "user",  })
     @ApiResponses(value = { 
@@ -98,7 +98,7 @@ public interface UserApi  {
      *
      */
     @GET
-    @Path("/user/login")
+    @Path("/login")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Logs user into the system", tags={ "user",  })
     @ApiResponses(value = { 
@@ -111,7 +111,7 @@ public interface UserApi  {
      *
      */
     @GET
-    @Path("/user/logout")
+    @Path("/logout")
     @ApiOperation(value = "Logs out current logged in user session", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
@@ -124,7 +124,7 @@ public interface UserApi  {
      *
      */
     @PUT
-    @Path("/user/{username}")
+    @Path("/{username}")
     @ApiOperation(value = "Updated user", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied"),

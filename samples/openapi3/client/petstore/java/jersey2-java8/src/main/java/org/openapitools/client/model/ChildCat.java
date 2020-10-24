@@ -95,10 +95,9 @@ public class ChildCat extends ParentPet {
    * Get petType
    * @return petType
   **/
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public PetTypeEnum getPetType() {
     return petType;

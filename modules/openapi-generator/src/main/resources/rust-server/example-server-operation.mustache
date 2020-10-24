@@ -9,7 +9,7 @@
   {{/x-callback-params}}
 {{/vendorExtensions}}
 {{#allParams}}
-        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
         context: &C) -> Result<{{{operationId}}}Response, ApiError>
     {

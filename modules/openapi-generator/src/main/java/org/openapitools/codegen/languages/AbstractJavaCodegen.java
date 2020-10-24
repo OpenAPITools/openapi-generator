@@ -38,11 +38,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -60,6 +59,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String SUPPORT_JAVA6 = "supportJava6";
     public static final String DISABLE_HTML_ESCAPING = "disableHtmlEscaping";
     public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
+    public static final String IGNORE_ANYOF_IN_ENUM = "ignoreAnyOfInEnum";
     public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
     public static final String DISCRIMINATOR_CASE_SENSITIVE = "discriminatorCaseSensitive";
     public static final String OPENAPI_NULLABLE = "openApiNullable";
@@ -85,7 +85,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String licenseUrl = "http://unlicense.org";
     protected String projectFolder = "src/main";
     protected String projectTestFolder = "src/test";
-    protected String sourceFolder = projectFolder + File.separator + "java";
+    // this must not be OS-specific
+    protected String sourceFolder = projectFolder + "/java";
     protected String testFolder = projectTestFolder + "/java";
     protected boolean fullJavaUtil;
     protected boolean discriminatorCaseSensitive = true; // True if the discriminator value lookup should be case-sensitive.
@@ -97,6 +98,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean supportJava6 = false;
     protected boolean disableHtmlEscaping = false;
     protected String booleanGetterPrefix = "get";
+    protected boolean ignoreAnyOfInEnum = false;
     protected String parentGroupId = "";
     protected String parentArtifactId = "";
     protected String parentVersion = "";
@@ -176,6 +178,24 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         typeMapping.put("file", "File");
         typeMapping.put("AnyType", "Object");
 
+        importMapping.put("BigDecimal", "java.math.BigDecimal");
+        importMapping.put("UUID", "java.util.UUID");
+        importMapping.put("URI", "java.net.URI");
+        importMapping.put("File", "java.io.File");
+        importMapping.put("Date", "java.util.Date");
+        importMapping.put("Timestamp", "java.sql.Timestamp");
+        importMapping.put("Map", "java.util.Map");
+        importMapping.put("HashMap", "java.util.HashMap");
+        importMapping.put("Array", "java.util.List");
+        importMapping.put("ArrayList", "java.util.ArrayList");
+        importMapping.put("List", "java.util.*");
+        importMapping.put("Set", "java.util.*");
+        importMapping.put("LinkedHashSet", "java.util.LinkedHashSet");
+        importMapping.put("DateTime", "org.joda.time.*");
+        importMapping.put("LocalDateTime", "org.joda.time.*");
+        importMapping.put("LocalDate", "org.joda.time.*");
+        importMapping.put("LocalTime", "org.joda.time.*");
+
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC).defaultValue(this.getInvokerPackage()));
@@ -220,6 +240,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         cliOptions.add(CliOption.newBoolean(DISABLE_HTML_ESCAPING, "Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)", disableHtmlEscaping));
         cliOptions.add(CliOption.newString(BOOLEAN_GETTER_PREFIX, "Set booleanGetterPrefix").defaultValue(this.getBooleanGetterPrefix()));
+        cliOptions.add(CliOption.newBoolean(IGNORE_ANYOF_IN_ENUM, "Ignore anyOf keyword in enum", ignoreAnyOfInEnum));
         cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "Additional annotations for model type(class level annotations)"));
         cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE, "Enable OpenAPI Jackson Nullable library", this.openApiNullable));
 
@@ -258,6 +279,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setBooleanGetterPrefix(additionalProperties.get(BOOLEAN_GETTER_PREFIX).toString());
         }
         additionalProperties.put(BOOLEAN_GETTER_PREFIX, booleanGetterPrefix);
+
+        if (additionalProperties.containsKey(IGNORE_ANYOF_IN_ENUM)) {
+            this.setIgnoreAnyOfInEnum(Boolean.valueOf(additionalProperties.get(IGNORE_ANYOF_IN_ENUM).toString()));
+        }
+        additionalProperties.put(IGNORE_ANYOF_IN_ENUM, ignoreAnyOfInEnum);
 
         if (additionalProperties.containsKey(ADDITIONAL_MODEL_TYPE_ANNOTATIONS)) {
             String additionalAnnotationsList = additionalProperties.get(ADDITIONAL_MODEL_TYPE_ANNOTATIONS).toString();
@@ -766,7 +792,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p);
+        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
@@ -799,17 +825,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (ModelUtils.isArraySchema(schema)) {
             final String pattern;
             if (ModelUtils.isSet(schema)) {
-                if (fullJavaUtil) {
-                    pattern = "new java.util.LinkedHashSet<%s>()";
-                } else {
-                    pattern = "new LinkedHashSet<%s>()";
-                }
+                String mapInstantiationType = instantiationTypes().getOrDefault("set", "LinkedHashSet");
+                pattern = "new " + mapInstantiationType + "<%s>()";
             } else {
-                if (fullJavaUtil) {
-                    pattern = "new java.util.ArrayList<%s>()";
-                } else {
-                    pattern = "new ArrayList<%s>()";
-                }
+                String arrInstantiationType = instantiationTypes().getOrDefault("array", "ArrayList");
+                pattern = "new " + arrInstantiationType + "<%s>()";
             }
 
             Schema<?> items = getSchemaItems((ArraySchema) schema);
@@ -832,12 +852,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
                 return null;
             }
-            final String pattern;
-            if (fullJavaUtil) {
-                pattern = "new java.util.HashMap<%s>()";
-            } else {
-                pattern = "new HashMap<%s>()";
-            }
+
+            String mapInstantiationType = instantiationTypes().getOrDefault("map", "HashMap");
+            final String pattern = "new " + mapInstantiationType + "<%s>()";
+
             if (getAdditionalProperties(schema) == null) {
                 return null;
             }
@@ -966,7 +984,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (example == null) {
             example = "null";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (Boolean.TRUE.equals(p.isArray)) {
 
             if (p.items.defaultValue != null) {
                 String innerExample;
@@ -979,7 +997,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             } else {
                 example = "Arrays.asList()";
             }
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(p.isMap)) {
             example = "new HashMap()";
         }
 
@@ -1172,6 +1190,28 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
+        if (ignoreAnyOfInEnum) {
+            // Alter OpenAPI schemas ignore anyOf keyword if it consist of an enum. Example:
+            //     anyOf:
+            //     - type: string
+            //       enum:
+            //       - ENUM_A
+            //       - ENUM_B
+            Stream.concat(
+                    Stream.of(openAPI.getComponents().getSchemas()),
+                    openAPI.getComponents().getSchemas().values().stream()
+                            .filter(schema -> schema.getProperties() != null)
+                            .map(Schema::getProperties))
+                    .forEach(schemas -> schemas.replaceAll(
+                            (name, s) -> Stream.of(s)
+                                    .filter(schema -> schema instanceof ComposedSchema)
+                                    .map(schema -> (ComposedSchema) schema)
+                                    .filter(schema -> Objects.nonNull(schema.getAnyOf()))
+                                    .flatMap(schema -> schema.getAnyOf().stream())
+                                    .filter(schema -> Objects.nonNull(schema.getEnum()))
+                                    .findFirst()
+                                    .orElse((Schema) s)));
+        }
     }
 
     private static String getAccept(OpenAPI openAPI, Operation operation) {
@@ -1521,6 +1561,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setBooleanGetterPrefix(String booleanGetterPrefix) {
         this.booleanGetterPrefix = booleanGetterPrefix;
+    }
+
+    public void setIgnoreAnyOfInEnum(boolean ignoreAnyOfInEnum) {
+        this.ignoreAnyOfInEnum = ignoreAnyOfInEnum;
     }
 
     public boolean isOpenApiNullable() {

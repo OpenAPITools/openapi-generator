@@ -20,11 +20,6 @@ package org.openapitools.codegen.java;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenType;
@@ -35,6 +30,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 public class AbstractJavaCodegenTest {
 
@@ -42,27 +40,27 @@ public class AbstractJavaCodegenTest {
 
     @Test
     public void toEnumVarNameShouldNotShortenUnderScore() throws Exception {
-        Assert.assertEquals("UNDERSCORE", fakeJavaCodegen.toEnumVarName("_", "String"));
-        Assert.assertEquals("__", fakeJavaCodegen.toEnumVarName("__", "String"));
-        Assert.assertEquals("__", fakeJavaCodegen.toEnumVarName("_,.", "String"));
+        Assert.assertEquals(fakeJavaCodegen.toEnumVarName("_", "String"), "UNDERSCORE");
+        Assert.assertEquals(fakeJavaCodegen.toEnumVarName("__", "String"), "__");
+        Assert.assertEquals(fakeJavaCodegen.toEnumVarName("_,.", "String"), "__");
     }
 
     @Test
     public void toVarNameShouldAvoidOverloadingGetClassMethod() throws Exception {
-        Assert.assertEquals("propertyClass", fakeJavaCodegen.toVarName("class"));
-        Assert.assertEquals("propertyClass", fakeJavaCodegen.toVarName("_class"));
-        Assert.assertEquals("propertyClass", fakeJavaCodegen.toVarName("__class"));
+        Assert.assertEquals(fakeJavaCodegen.toVarName("class"), "propertyClass");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("_class"), "propertyClass");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("__class"), "propertyClass");
     }
 
     @Test
     public void toModelNameShouldUseProvidedMapping() throws Exception {
         fakeJavaCodegen.importMapping().put("json_myclass", "com.test.MyClass");
-        Assert.assertEquals("com.test.MyClass", fakeJavaCodegen.toModelName("json_myclass"));
+        Assert.assertEquals(fakeJavaCodegen.toModelName("json_myclass"), "com.test.MyClass");
     }
 
     @Test
     public void toModelNameUsesPascalCase() throws Exception {
-        Assert.assertEquals("JsonAnotherclass", fakeJavaCodegen.toModelName("json_anotherclass"));
+        Assert.assertEquals(fakeJavaCodegen.toModelName("json_anotherclass"), "JsonAnotherclass");
     }
 
     @Test
@@ -453,6 +451,16 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
+    public void getTypeDeclarationGivenImportMappingTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.importMapping().put("MyStringType", "com.example.foo");
+        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("MyStringType", new StringSchema())));
+        Schema<?> schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/MyStringType"));
+        String defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<com.example.foo>");
+    }
+
+    @Test
     public void getTypeDeclarationTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
@@ -600,6 +608,20 @@ public class AbstractJavaCodegenTest {
 
         String defaultValue = codegen.toDefaultValue(schema);
         Assert.assertEquals(defaultValue, "new HashMap<String, ComplexModel>()", "Expected string-ref map aliased model to default to new HashMap<String, ComplexModel>()");
+    }
+
+    @Test
+    public void srcMainFolderShouldNotBeOperatingSystemSpecificPaths() {
+        // it's not responsibility of the generator to fix OS-specific paths. This is left to template manager.
+        // This path must be non-OS-specific for expectations in source outputs (e.g. gradle build files)
+        Assert.assertEquals(fakeJavaCodegen.getSourceFolder(), "src/main/java");
+    }
+
+    @Test
+    public void srcTestFolderShouldNotBeOperatingSystemSpecificPaths() {
+        // it's not responsibility of the generator to fix OS-specific paths. This is left to template manager.
+        // This path must be non-OS-specific for expectations in source outputs (e.g. gradle build files)
+        Assert.assertEquals(fakeJavaCodegen.getTestFolder(), "src/test/java");
     }
 
     private static Schema<?> createObjectSchemaWithMinItems() {

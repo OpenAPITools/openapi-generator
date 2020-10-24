@@ -144,8 +144,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
      * If the nullable attribute is set to true, the 'null' value is valid.
      */
     public boolean isAnyType;
-    public boolean isListContainer;
-    public boolean isMapContainer;
+    public boolean isArray;
+    public boolean isMap;
     public boolean isEnum;
     public boolean isReadOnly;
     public boolean isWriteOnly;
@@ -159,6 +159,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     // If 'additionalProperties' is set to a type or refers to a type, 'items' provides the type information for
     // the undeclared properties. 
     public CodegenProperty items;
+    public CodegenProperty additionalProperties;
     public CodegenProperty mostInnerItems;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     public boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
@@ -451,12 +452,62 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.allowableValues = allowableValues;
     }
 
+    @Override
     public CodegenProperty getItems() {
         return items;
     }
 
+    @Override
     public void setItems(CodegenProperty items) {
         this.items = items;
+    }
+
+    @Override
+    public CodegenProperty getAdditionalProperties() { return additionalProperties; }
+
+    @Override
+    public void setAdditionalProperties(CodegenProperty additionalProperties)  {
+        this.additionalProperties = additionalProperties;
+    }
+
+    @Override
+    public boolean getIsModel() { return isModel; }
+
+    @Override
+    public void setIsModel(boolean isModel)  {
+        this.isModel = isModel;
+    }
+
+    @Override
+    public boolean getIsDate() { return isDate; }
+
+    @Override
+    public void setIsDate(boolean isDate)   {
+        this.isDate = isDate;
+    }
+
+    @Override
+    public boolean getIsDateTime() { return isDateTime; }
+
+    @Override
+    public void setIsDateTime(boolean isDateTime)   {
+        this.isDateTime = isDateTime;
+    }
+
+    @Override
+    public boolean getIsMap() { return isMap; }
+
+    @Override
+    public void setIsMap(boolean isMap)  {
+        this.isMap = isMap;
+    }
+
+    @Override
+    public boolean getIsArray() { return isArray; }
+
+    @Override
+    public void setIsArray(boolean isArray)  {
+        this.isArray = isArray;
     }
 
     public Map<String, Object> getVendorExtensions() {
@@ -551,6 +602,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
             }
             if (this.items != null) {
                 cp.items = this.items;
+            }
+            if (this.additionalProperties != null) {
+                cp.additionalProperties = this.additionalProperties;
             }
             if (this.mostInnerItems != null) {
                 cp.mostInnerItems = this.mostInnerItems;
@@ -658,8 +712,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isUri=").append(isUri);
         sb.append(", isEmail=").append(isEmail);
         sb.append(", isFreeFormObject=").append(isFreeFormObject);
-        sb.append(", isListContainer=").append(isListContainer);
-        sb.append(", isMapContainer=").append(isMapContainer);
+        sb.append(", isArray=").append(isArray);
+        sb.append(", isMap=").append(isMap);
         sb.append(", isEnum=").append(isEnum);
         sb.append(", isReadOnly=").append(isReadOnly);
         sb.append(", isWriteOnly=").append(isWriteOnly);
@@ -670,6 +724,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", _enum=").append(_enum);
         sb.append(", allowableValues=").append(allowableValues);
         sb.append(", items=").append(items);
+        sb.append(", additionalProperties=").append(additionalProperties);
         sb.append(", mostInnerItems=").append(mostInnerItems);
         sb.append(", vendorExtensions=").append(vendorExtensions);
         sb.append(", hasValidation=").append(hasValidation);
@@ -725,8 +780,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isUri == that.isUri &&
                 isEmail == that.isEmail &&
                 isFreeFormObject == that.isFreeFormObject &&
-                isListContainer == that.isListContainer &&
-                isMapContainer == that.isMapContainer &&
+                isArray == that.isArray &&
+                isMap == that.isMap &&
                 isEnum == that.isEnum &&
                 isReadOnly == that.isReadOnly &&
                 isWriteOnly == that.isWriteOnly &&
@@ -766,6 +821,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(_enum, that._enum) &&
                 Objects.equals(allowableValues, that.allowableValues) &&
                 Objects.equals(items, that.items) &&
+                Objects.equals(additionalProperties, that.additionalProperties) &&
                 Objects.equals(mostInnerItems, that.mostInnerItems) &&
                 Objects.equals(vendorExtensions, that.vendorExtensions) &&
                 Objects.equals(discriminatorValue, that.discriminatorValue) &&
@@ -791,8 +847,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
-                isListContainer, isMapContainer, isEnum, isReadOnly, isWriteOnly, isNullable,
-                isSelfReference, isCircularReference, isDiscriminator, _enum, allowableValues, items, mostInnerItems,
+                isArray, isMap, isEnum, isReadOnly, isWriteOnly, isNullable,
+                isSelfReference, isCircularReference, isDiscriminator, _enum, allowableValues,
+                items, mostInnerItems, additionalProperties,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
                 xmlNamespace, isXmlWrapped);

@@ -176,7 +176,6 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
-        boolean isLibrary = false;
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_GUID)) {
             setPackageGuid((String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
@@ -190,10 +189,6 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
         }
 
         additionalProperties.put(PROJECT_SDK, projectSdk);
-
-        // TODO - should we be supporting a Giraffe class library?
-        if (isLibrary)
-            LOGGER.warn("Library flag not currently supported.");
 
         String authFolder = sourceFolder + File.separator + "auth";
         String implFolder = sourceFolder + File.separator + "impl";

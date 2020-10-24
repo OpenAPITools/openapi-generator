@@ -59,7 +59,7 @@ public class PetApi  {
    }
 
     @POST
-    
+    @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
     
     @io.swagger.annotations.ApiOperation(value = "Add a new pet to the store", notes = "", response = Void.class, authorizations = {
@@ -154,7 +154,7 @@ public class PetApi  {
         return delegate.getPetById(petId, securityContext);
     }
     @PUT
-    
+    @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
     
     @io.swagger.annotations.ApiOperation(value = "Update an existing pet", notes = "", response = Void.class, authorizations = {

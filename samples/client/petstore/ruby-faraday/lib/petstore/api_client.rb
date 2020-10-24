@@ -14,6 +14,7 @@ require 'date'
 require 'json'
 require 'logger'
 require 'tempfile'
+require 'time'
 require 'faraday'
 
 module Petstore
@@ -106,7 +107,7 @@ module Petstore
     # @option opts [Object] :body HTTP body (JSON/XML)
     # @return [Typhoeus::Request] A Typhoeus Request
     def build_request(http_method, path, request, opts = {})
-      url = build_request_url(path)
+      url = build_request_url(path, opts)
       http_method = http_method.to_sym.downcase
 
       header_params = @default_headers.merge(opts[:header_params] || {})
@@ -207,7 +208,7 @@ module Petstore
       begin
         data = JSON.parse("[#{body}]", :symbolize_names => true)[0]
       rescue JSON::ParserError => e
-        if %w(String Date DateTime).include?(return_type)
+        if %w(String Date Time).include?(return_type)
           data = body
         else
           raise e
@@ -232,9 +233,9 @@ module Petstore
         data.to_f
       when 'Boolean'
         data == true
-      when 'DateTime'
+      when 'Time'
         # parse date time (expecting ISO 8601 format)
-        DateTime.parse data
+        Time.parse data
       when 'Date'
         # parse date time (expecting ISO 8601 format)
         Date.parse data
@@ -304,10 +305,10 @@ module Petstore
       filename.gsub(/.*[\/\\]/, '')
     end
 
-    def build_request_url(path)
+    def build_request_url(path, opts = {})
       # Add leading and trailing slashes to path
       path = "/#{path}".gsub(/\/+/, '/')
-      @config.base_url + path
+      @config.base_url(opts[:operation]) + path
     end
 
     # Update hearder and query params based on authentication settings.

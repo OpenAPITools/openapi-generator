@@ -3,6 +3,8 @@ title: Config Options for spring
 sidebar_label: spring
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations)| |null|
@@ -32,6 +34,7 @@ sidebar_label: spring
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hateoas|Use Spring HATEOAS library to allow adding HATEOAS links| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
+|ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|
 |implicitHeaders|Skip header parameters in the generated API methods using @ApiImplicitParams annotation.| |false|
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |invokerPackage|root package for generated code| |org.openapitools.api|

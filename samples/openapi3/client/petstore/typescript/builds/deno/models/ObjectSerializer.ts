@@ -35,8 +35,8 @@ const supportedMediaTypes: { [mediaType: string]: number } = {
 
                  
 let enumsMap: Set<string> = new Set<string>([
-					"OrderStatusEnum",
-					"PetStatusEnum",
+    "OrderStatusEnum",
+    "PetStatusEnum",
 ]);
 
 let typeMap: {[index: string]: any} = {

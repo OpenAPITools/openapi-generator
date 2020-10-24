@@ -28,14 +28,14 @@ import (
     "context"
     "fmt"
     "os"
-     "./openapi"
+    openapiclient "./openapi"
 )
 
 func main() {
-    orderId :=  // string | ID of the order that needs to be deleted
+    orderId := "orderId_example" // string | ID of the order that needs to be deleted
 
-    configuration := .NewConfiguration()
-    api_client := .NewAPIClient(configuration)
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.StoreApi.DeleteOrder(context.Background(), orderId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.DeleteOrder``: %v\n", err)
@@ -96,14 +96,14 @@ import (
     "context"
     "fmt"
     "os"
-     "./openapi"
+    openapiclient "./openapi"
 )
 
 func main() {
 
-    configuration := .NewConfiguration()
-    api_client := .NewAPIClient(configuration)
-    resp, r, err := api_client.StoreApi.GetInventory(context.Background(), ).Execute()
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.StoreApi.GetInventory(context.Background()).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.GetInventory``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -157,14 +157,14 @@ import (
     "context"
     "fmt"
     "os"
-     "./openapi"
+    openapiclient "./openapi"
 )
 
 func main() {
-    orderId :=  // int64 | ID of pet that needs to be fetched
+    orderId := 987 // int64 | ID of pet that needs to be fetched
 
-    configuration := .NewConfiguration()
-    api_client := .NewAPIClient(configuration)
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.StoreApi.GetOrderById(context.Background(), orderId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.GetOrderById``: %v\n", err)
@@ -225,15 +225,15 @@ import (
     "context"
     "fmt"
     "os"
-     "./openapi"
+    openapiclient "./openapi"
 )
 
 func main() {
-    body :=  // Order | order placed for purchasing the pet
+    body := *openapiclient.NewOrder() // Order | order placed for purchasing the pet
 
-    configuration := .NewConfiguration()
-    api_client := .NewAPIClient(configuration)
-    resp, r, err := api_client.StoreApi.PlaceOrder(context.Background(), body).Execute()
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.StoreApi.PlaceOrder(context.Background()).Body(body).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.PlaceOrder``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

@@ -32,15 +32,15 @@ import (
     "context"
     "fmt"
     "os"
-     "./openapi"
+    openapiclient "./openapi"
 )
 
 func main() {
-    body :=  // User | Created user object
+    body := *openapiclient.NewUser() // User | Created user object
 
-    configuration := .NewConfiguration()
-    api_client := .NewAPIClient(configuration)
-    resp, r, err := api_client.UserApi.CreateUser(context.Background(), body).Execute()
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.UserApi.CreateUser(context.Background()).Body(body).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.CreateUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -94,15 +94,15 @@ import (
     "context"
     "fmt"
     "os"
-     "./openapi"
+    openapiclient "./openapi"
 )
 
 func main() {
-    body :=  // []User | List of user object
+    body := []User{*openapiclient.NewUser()} // []User | List of user object
 
-    configuration := .NewConfiguration()
-    api_client := .NewAPIClient(configuration)
-    resp, r, err := api_client.UserApi.CreateUsersWithArrayInput(context.Background(), body).Execute()
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.UserApi.CreateUsersWithArrayInput(context.Background()).Body(body).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.CreateUsersWithArrayInput``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -156,15 +156,15 @@ import (
     "context"
     "fmt"
     "os"
-     "./openapi"
+    openapiclient "./openapi"
 )
 
 func main() {
-    body :=  // []User | List of user object
+    body := []User{} // []User | List of user object
 
-    configuration := .NewConfiguration()
-    api_client := .NewAPIClient(configuration)
-    resp, r, err := api_client.UserApi.CreateUsersWithListInput(context.Background(), body).Execute()
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.UserApi.CreateUsersWithListInput(context.Background()).Body(body).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.CreateUsersWithListInput``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -220,14 +220,14 @@ import (
     "context"
     "fmt"
     "os"
-     "./openapi"
+    openapiclient "./openapi"
 )
 
 func main() {
-    username :=  // string | The name that needs to be deleted
+    username := "username_example" // string | The name that needs to be deleted
 
-    configuration := .NewConfiguration()
-    api_client := .NewAPIClient(configuration)
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.UserApi.DeleteUser(context.Background(), username).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.DeleteUser``: %v\n", err)
@@ -286,14 +286,14 @@ import (
     "context"
     "fmt"
     "os"
-     "./openapi"
+    openapiclient "./openapi"
 )
 
 func main() {
-    username :=  // string | The name that needs to be fetched. Use user1 for testing.
+    username := "username_example" // string | The name that needs to be fetched. Use user1 for testing.
 
-    configuration := .NewConfiguration()
-    api_client := .NewAPIClient(configuration)
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.UserApi.GetUserByName(context.Background(), username).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.GetUserByName``: %v\n", err)
@@ -354,16 +354,16 @@ import (
     "context"
     "fmt"
     "os"
-     "./openapi"
+    openapiclient "./openapi"
 )
 
 func main() {
-    username :=  // string | The user name for login
-    password :=  // string | The password for login in clear text
+    username := "username_example" // string | The user name for login
+    password := "password_example" // string | The password for login in clear text
 
-    configuration := .NewConfiguration()
-    api_client := .NewAPIClient(configuration)
-    resp, r, err := api_client.UserApi.LoginUser(context.Background(), username, password).Execute()
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.UserApi.LoginUser(context.Background()).Username(username).Password(password).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.LoginUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -420,14 +420,14 @@ import (
     "context"
     "fmt"
     "os"
-     "./openapi"
+    openapiclient "./openapi"
 )
 
 func main() {
 
-    configuration := .NewConfiguration()
-    api_client := .NewAPIClient(configuration)
-    resp, r, err := api_client.UserApi.LogoutUser(context.Background(), ).Execute()
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.UserApi.LogoutUser(context.Background()).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.LogoutUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -479,16 +479,16 @@ import (
     "context"
     "fmt"
     "os"
-     "./openapi"
+    openapiclient "./openapi"
 )
 
 func main() {
-    username :=  // string | name that need to be deleted
+    username := "username_example" // string | name that need to be deleted
     body :=  // User | Updated user object
 
-    configuration := .NewConfiguration()
-    api_client := .NewAPIClient(configuration)
-    resp, r, err := api_client.UserApi.UpdateUser(context.Background(), username, body).Execute()
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.UserApi.UpdateUser(context.Background(), username).Body(body).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.UpdateUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

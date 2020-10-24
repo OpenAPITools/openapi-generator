@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.regex.Pattern;
 
 /**
  * Represents those settings applied to a generation workflow.
@@ -442,12 +443,22 @@ public class WorkflowSettings {
                 // check to see if the folder exists
                 if (f.exists() && f.isDirectory()) {
                     uri = f.toURI();
-                    this.templateDir =  Paths.get(uri).toAbsolutePath().toString();
+                    this.templateDir =  Paths.get(uri).toAbsolutePath().normalize().toString();
                 } else {
-                    URL url = this.getClass().getClassLoader().getResource(templateDir);
+                    String cpDir;
+                    // HACK: this duplicates TemplateManager.getCPResourcePath a bit. We should probably move that function to core.
+                    if (!"/".equals(File.separator)) {
+                        // Windows users may pass path specific to OS, but classpath must be "/" separators
+                        cpDir = templateDir.replaceAll(Pattern.quote(File.separator), "/");
+                    } else {
+                        cpDir = templateDir;
+                    }
+
+                    URL url = this.getClass().getClassLoader().getResource(cpDir);
                     if (url != null) {
                         try {
                             uri = url.toURI();
+                            // we can freely set to templateDir here and allow templating to manage template lookups
                             this.templateDir = templateDir;
                         } catch (URISyntaxException e) {
                             LOGGER.warn("The requested template was found on the classpath, but resulted in a syntax error.");

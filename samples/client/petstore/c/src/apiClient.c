@@ -13,6 +13,7 @@ apiClient_t *apiClient_create() {
     apiClient->sslConfig = NULL;
     apiClient->dataReceived = NULL;
     apiClient->dataReceivedLen = 0;
+    apiClient->data_callback_func = NULL;
     apiClient->response_code = 0;
     apiClient->apiKeys_api_key = NULL;
     apiClient->accessToken = NULL;
@@ -40,6 +41,7 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
 
     apiClient->dataReceived = NULL;
     apiClient->dataReceivedLen = 0;
+    apiClient->data_callback_func = NULL;
     apiClient->response_code = 0;
     if(apiKeys_api_key!= NULL) {
         apiClient->apiKeys_api_key = list_create();
@@ -61,6 +63,7 @@ void apiClient_free(apiClient_t *apiClient) {
     if(apiClient->basePath) {
         free(apiClient->basePath);
     }
+    apiClient->data_callback_func = NULL;
     if(apiClient->apiKeys_api_key) {
         listEntry_t *listEntry = NULL;
         list_ForEach(listEntry, apiClient->apiKeys_api_key) {
@@ -464,6 +467,10 @@ size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp) {
     apiClient->dataReceived = (char *)realloc( apiClient->dataReceived, apiClient->dataReceivedLen + size_this_time + 1);
     memcpy(apiClient->dataReceived + apiClient->dataReceivedLen, buffer, size_this_time);
     apiClient->dataReceivedLen += size_this_time;
+    ((char*)apiClient->dataReceived)[apiClient->dataReceivedLen] = '\0'; // the space size of (apiClient->dataReceived) = dataReceivedLen + 1
+    if (apiClient->data_callback_func) {
+        apiClient->data_callback_func(&apiClient->dataReceived, &apiClient->dataReceivedLen);
+    }
     return size_this_time;
 }
 

@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -53,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="_byte">None (required).</param>
         /// <param name="binary">None.</param>
         /// <param name="date">None.</param>
-        /// <param name="dateTime">None.</param>
+        /// <param name="dateTime">None (default to &quot;2010-02-01T10:20:10.111110+01:00&quot;).</param>
         /// <param name="password">None.</param>
         /// <param name="callback">None.</param>
         public InlineObject3(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), string _string = default(string), string patternWithoutDelimiter = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), string password = default(string), string callback = default(string))
@@ -102,7 +103,7 @@ namespace Org.OpenAPITools.Model
         /// None
         /// </summary>
         /// <value>None</value>
-        [DataMember(Name = "number", EmitDefaultValue = false)]
+        [DataMember(Name = "number", IsRequired = true, EmitDefaultValue = false)]
         public decimal Number { get; set; }
 
         /// <summary>
@@ -116,7 +117,7 @@ namespace Org.OpenAPITools.Model
         /// None
         /// </summary>
         /// <value>None</value>
-        [DataMember(Name = "double", EmitDefaultValue = false)]
+        [DataMember(Name = "double", IsRequired = true, EmitDefaultValue = false)]
         public double Double { get; set; }
 
         /// <summary>
@@ -130,14 +131,14 @@ namespace Org.OpenAPITools.Model
         /// None
         /// </summary>
         /// <value>None</value>
-        [DataMember(Name = "pattern_without_delimiter", EmitDefaultValue = false)]
+        [DataMember(Name = "pattern_without_delimiter", IsRequired = true, EmitDefaultValue = false)]
         public string PatternWithoutDelimiter { get; set; }
 
         /// <summary>
         /// None
         /// </summary>
         /// <value>None</value>
-        [DataMember(Name = "byte", EmitDefaultValue = false)]
+        [DataMember(Name = "byte", IsRequired = true, EmitDefaultValue = false)]
         public byte[] Byte { get; set; }
 
         /// <summary>

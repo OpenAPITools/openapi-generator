@@ -19,50 +19,103 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Reflection;
 
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
     /// The value may be a shape or the &#39;null&#39; value. The &#39;nullable&#39; attribute was introduced in OAS schema &gt;&#x3D; 3.0 and has been deprecated in OAS schema &gt;&#x3D; 3.1.
     /// </summary>
+    [JsonConverter(typeof(NullableShapeJsonConverter))]
     [DataContract(Name = "NullableShape")]
-    [JsonConverter(typeof(JsonSubtypes), "ShapeType")]
-    public partial class NullableShape : IEquatable<NullableShape>, IValidatableObject
+    public partial class NullableShape : AbstractOpenAPISchema, IEquatable<NullableShape>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NullableShape" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        protected NullableShape() { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NullableShape" /> class.
-        /// </summary>
-        /// <param name="shapeType">shapeType (required).</param>
-        /// <param name="quadrilateralType">quadrilateralType (required).</param>
-        /// <param name="triangleType">triangleType (required).</param>
-        public NullableShape(string shapeType = default(string), string quadrilateralType = default(string), string triangleType = default(string))
+        public NullableShape()
         {
-            // to ensure "shapeType" is required (not null)
-            this.ShapeType = shapeType ?? throw new ArgumentNullException("shapeType is a required property for NullableShape and cannot be null");
-            // to ensure "quadrilateralType" is required (not null)
-            this.QuadrilateralType = quadrilateralType ?? throw new ArgumentNullException("quadrilateralType is a required property for NullableShape and cannot be null");
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
         }
 
         /// <summary>
-        /// Gets or Sets ShapeType
+        /// Initializes a new instance of the <see cref="NullableShape" /> class
+        /// with the <see cref="Quadrilateral" /> class
         /// </summary>
-        [DataMember(Name = "shapeType", EmitDefaultValue = false)]
-        public string ShapeType { get; set; }
+        /// <param name="actualInstance">An instance of Quadrilateral.</param>
+        public NullableShape(Quadrilateral actualInstance)
+        {
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance;
+        }
 
         /// <summary>
-        /// Gets or Sets QuadrilateralType
+        /// Initializes a new instance of the <see cref="NullableShape" /> class
+        /// with the <see cref="Triangle" /> class
         /// </summary>
-        [DataMember(Name = "quadrilateralType", EmitDefaultValue = false)]
-        public string QuadrilateralType { get; set; }
+        /// <param name="actualInstance">An instance of Triangle.</param>
+        public NullableShape(Triangle actualInstance)
+        {
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance;
+        }
+
+
+        private Object _actualInstance;
+
+        /// <summary>
+        /// Gets or Sets ActualInstance
+        /// </summary>
+        public override Object ActualInstance
+        {
+            get
+            {
+                return _actualInstance;
+            }
+            set
+            {
+                if (value.GetType() == typeof(Quadrilateral))
+                {
+                    this._actualInstance = value;
+                }
+                else if (value.GetType() == typeof(Triangle))
+                {
+                    this._actualInstance = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid instance found. Must be the following types: Quadrilateral, Triangle");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the actual instance of `Quadrilateral`. If the actual instanct is not `Quadrilateral`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of Quadrilateral</returns>
+        public Quadrilateral GetQuadrilateral()
+        {
+            return (Quadrilateral)this.ActualInstance;
+        }
+
+        /// <summary>
+        /// Get the actual instance of `Triangle`. If the actual instanct is not `Triangle`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of Triangle</returns>
+        public Triangle GetTriangle()
+        {
+            return (Triangle)this.ActualInstance;
+        }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -72,8 +125,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class NullableShape {\n");
-            sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
-            sb.Append("  QuadrilateralType: ").Append(QuadrilateralType).Append("\n");
+            sb.Append("  ActualInstance: ").Append(this.ActualInstance).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -82,9 +134,57 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return JsonConvert.SerializeObject(this.ActualInstance, NullableShape.SerializerSettings);
+        }
+
+        /// <summary>
+        /// Converts the JSON string into an instance of NullableShape
+        /// </summary>
+        /// <param name="jsonString">JSON string</param>
+        /// <returns>An instance of NullableShape</returns>
+        public static NullableShape FromJson(string jsonString)
+        {
+            NullableShape newNullableShape = null;
+            int match = 0;
+            List<string> matchedTypes = new List<string>();
+
+            try
+            {
+                newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, NullableShape.SerializerSettings));
+                matchedTypes.Add("Quadrilateral");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Quadrilateral: {1}", jsonString, exception.ToString()));
+            }
+
+            try
+            {
+                newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, NullableShape.SerializerSettings));
+                matchedTypes.Add("Triangle");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Triangle: {1}", jsonString, exception.ToString()));
+            }
+
+            if (match == 0)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` cannot be deserialized into any schema defined.");
+            }
+            else if (match > 1)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
+            }
+            
+            // deserialization is considered successful at this point if no exception has been thrown.
+            return newNullableShape;
         }
 
         /// <summary>
@@ -116,10 +216,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ShapeType != null)
-                    hashCode = hashCode * 59 + this.ShapeType.GetHashCode();
-                if (this.QuadrilateralType != null)
-                    hashCode = hashCode * 59 + this.QuadrilateralType.GetHashCode();
+                if (this.ActualInstance != null)
+                    hashCode = hashCode * 59 + this.ActualInstance.GetHashCode();
                 return hashCode;
             }
         }
@@ -131,17 +229,47 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            return this.BaseValidate(validationContext);
+            yield break;
+        }
+    }
+
+    /// <summary>
+    /// Custom JSON converter for NullableShape
+    /// </summary>
+    public class NullableShapeJsonConverter : JsonConverter
+    {
+        /// <summary>
+        /// To write the JSON string
+        /// </summary>
+        /// <param name="writer">JSON writer</param>
+        /// <param name="value">Object to be converted into a JSON string</param>
+        /// <param name="serializer">JSON Serializer</param>
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            writer.WriteRaw((String)(typeof(NullableShape).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>
-        /// To validate all properties of the instance
+        /// To convert a JSON string into an object
         /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        /// <param name="reader">JSON reader</param>
+        /// <param name="objectType">Object type</param>
+        /// <param name="existingValue">Existing value</param>
+        /// <param name="serializer">JSON Serializer</param>
+        /// <returns>The object converted from the JSON string</returns>
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            yield break;
+            return NullableShape.FromJson(JObject.Load(reader).ToString(Formatting.None));
+        }
+
+        /// <summary>
+        /// Check if the object can be converted
+        /// </summary>
+        /// <param name="objectType">Object type</param>
+        /// <returns>True if the object can be converted</returns>
+        public override bool CanConvert(Type objectType)
+        {
+            return false;
         }
     }
 

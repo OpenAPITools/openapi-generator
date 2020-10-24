@@ -62,7 +62,7 @@ public class {{classname}} {
     * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
      */
-    public {{#returnType}}{{#isListContainer}}Flux<{{{returnBaseType}}}>{{/isListContainer}}{{^isListContainer}}Mono<{{{returnType}}}>{{/isListContainer}} {{/returnType}}{{^returnType}}Mono<Void> {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws WebClientResponseException {
+    public {{#returnType}}{{#isArray}}Flux<{{{returnBaseType}}}>{{/isArray}}{{^isArray}}Mono<{{{returnType}}}>{{/isArray}} {{/returnType}}{{^returnType}}Mono<Void> {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws WebClientResponseException {
         Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
         {{#allParams}}
         {{#required}}
@@ -124,8 +124,8 @@ public class {{classname}} {
 
         String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
 
-        {{#returnType}}ParameterizedTypeReference<{{#isListContainer}}{{{returnBaseType}}}{{/isListContainer}}{{^isListContainer}}{{{returnType}}}{{/isListContainer}}> localVarReturnType = new ParameterizedTypeReference<{{#isListContainer}}{{{returnBaseType}}}{{/isListContainer}}{{^isListContainer}}{{{returnType}}}{{/isListContainer}}>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};{{/returnType}}
-        return apiClient.{{#isListContainer}}invokeFluxAPI{{/isListContainer}}{{^isListContainer}}invokeAPI{{/isListContainer}}("{{{path}}}", HttpMethod.{{httpMethod}}, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        {{#returnType}}ParameterizedTypeReference<{{#isArray}}{{{returnBaseType}}}{{/isArray}}{{^isArray}}{{{returnType}}}{{/isArray}}> localVarReturnType = new ParameterizedTypeReference<{{#isArray}}{{{returnBaseType}}}{{/isArray}}{{^isArray}}{{{returnType}}}{{/isArray}}>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};{{/returnType}}
+        return apiClient.{{#isArray}}invokeFluxAPI{{/isArray}}{{^isArray}}invokeAPI{{/isArray}}("{{{path}}}", HttpMethod.{{httpMethod}}, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
     {{/operation}}
 }

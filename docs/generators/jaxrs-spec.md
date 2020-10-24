@@ -3,6 +3,8 @@ title: Config Options for jaxrs-spec
 sidebar_label: jaxrs-spec
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations)| |null|
@@ -28,6 +30,7 @@ sidebar_label: jaxrs-spec
 |generatePom|Whether to generate pom.xml if the file does not already exist.| |true|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
+|ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|
 |implFolder|folder for generated implementation code| |src/main/java|
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |invokerPackage|root package for generated code| |org.openapitools.api|
@@ -56,6 +59,7 @@ sidebar_label: jaxrs-spec
 |title|a title describing the application| |OpenAPI Server|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useSwaggerAnnotations|Whether to generate Swagger annotations.| |true|
+|useTags|use tags for creating interface and controller classnames| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 
 ## IMPORT MAPPING

@@ -65,7 +65,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		return
 	}
 	{{/isInteger}}{{^isLong}}{{^isInteger}}
-	{{paramName}} := {{#isListContainer}}strings.Split({{/isListContainer}}query.Get("{{paramName}}"){{#isListContainer}}, ","){{/isListContainer}}{{/isInteger}}{{/isLong}}{{/isQueryParam}}{{#isFormParam}}{{#isFile}}
+	{{paramName}} := {{#isArray}}strings.Split({{/isArray}}query.Get("{{paramName}}"){{#isArray}}, ","){{/isArray}}{{/isInteger}}{{/isLong}}{{/isQueryParam}}{{#isFormParam}}{{#isFile}}
 	{{paramName}}, err := ReadFormFileToTempFile(r, "{{paramName}}")
 	if err != nil {
 		w.WriteHeader(500)
@@ -93,10 +93,12 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	}
 	{{/isBodyParam}}{{/allParams}}
 	result, err := c.service.{{nickname}}(r.Context(){{#allParams}}, {{#isBodyParam}}*{{/isBodyParam}}{{paramName}}{{/allParams}})
+	//If an error occured, encode the error with the status code
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
 	}
+	//If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
 	
-	EncodeJSONResponse(result, nil, w)
 }{{/operation}}{{/operations}}

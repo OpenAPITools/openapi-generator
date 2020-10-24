@@ -27,8 +27,8 @@ h3. {{nickname}}
 h4. Parameters
     {{#hasPathParams}}
 h5. Path Parameters
-        ||Name||Description||Type||Required||Default||Pattern||Enum||{{#pathParams}}
-        {{>param}}{{/pathParams}}
+        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        {{#pathParams}}{{>param}}{{/pathParams}}
     {{/hasPathParams}}
 
     {{#hasBodyParam}}
