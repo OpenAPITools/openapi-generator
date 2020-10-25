@@ -1,23 +1,36 @@
 package org.openapitools.codegen.java.jaxrs;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.parser.core.models.ParseOptions;
+
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.JavaJerseyServerCodegen;
+import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
+import org.openapitools.codegen.DefaultGenerator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
 
@@ -85,6 +98,48 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.iiii.invoker");
         Assert.assertEquals(codegen.additionalProperties().get(JavaJerseyServerCodegen.SERVER_PORT), "8088");
+    }
+
+    // Helper function, intended to reduce boilerplate @ copied from ../spring/SpringCodegenTest.java
+    private Map<String, File> generateFiles(DefaultCodegen codegen, String filePath) throws IOException {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        final ClientOptInput input = new ClientOptInput();
+        final OpenAPI openAPI = new OpenAPIParser().readLocation(filePath, null, new ParseOptions()).getOpenAPI();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(input).generate();
+
+        return files.stream().collect(Collectors.toMap(e -> e.getName().replace(outputPath, ""), i -> i));
+    }
+
+    // almost same test as issue #3139 on Spring
+    @Test
+    public void testMultipartJerseyServer() throws Exception {
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
+
+        // Check files for Single, Mixed
+        String[] fileS = new String[] {
+                               "MultipartSingleApi.java", "MultipartSingleApiService.java", "MultipartSingleApiServiceImpl.java",
+                               "MultipartMixedApi.java",  "MultipartMixedApiService.java",  "MultipartMixedApiServiceImpl.java"    };
+        for (String f : fileS){
+           assertFileContains( files.get(f).toPath(), "FormDataBodyPart file" );
+        }
+
+        // Check files for Array
+        final String[] fileA = new String[] { "MultipartArrayApiService.java", "MultipartArrayApi.java", "MultipartArrayApiServiceImpl.java"};
+        for (String f : fileA) {
+           assertFileContains( files.get(f).toPath(), "List<FormDataBodyPart> files");
+        }
+
     }
 
 }
