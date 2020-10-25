@@ -297,7 +297,7 @@ class FakeClassnameTags123Api
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testClassnameRequest($client)
+    public function testClassnameRequest($client)
     {
         // verify the required parameter 'client' is set
         if ($client === null || (is_array($client) && count($client) === 0)) {
