@@ -20,9 +20,9 @@ defmodule {{moduleName}}.Api.{{classname}} do
 
   ## Parameters
 
-  - connection ({{moduleName}}.Connection): Connection to server
+  - connection ({{&moduleName}}.Connection): Connection to server
 {{#requiredParams}}
-  - {{#underscored}}{{paramName}}{{/underscored}} ({{dataType}}): {{&description}}
+  - {{#underscored}}{{&paramName}}{{/underscored}} ({{&dataType}}): {{&description}}
 {{/requiredParams}}
   - opts (KeywordList): [optional] Optional parameters
 {{#optionalParams}}
@@ -30,12 +30,12 @@ defmodule {{moduleName}}.Api.{{classname}} do
     - :body ({{dataType}}): {{&description}}
 {{/isBodyParam}}
 {{^isBodyParam}}
-    - {{#underscored}}:{{paramName}}{{/underscored}} ({{dataType}}): {{&description}}
+    - {{#underscored}}:{{&paramName}}{{/underscored}} ({{&dataType}}): {{&description}}
 {{/isBodyParam}}
 {{/optionalParams}}
   ## Returns
 
-  {:ok, {{#isArray}}[%{{returnBaseType}}{}, ...]{{/isArray}}{{#isMap}}%{}{{/isMap}}{{^returnType}}%{}{{/returnType}}{{#returnSimpleType}}%{{#returnType}}{{#isMap}}{{/isMap}}{{{moduleName}}}.Model.{{{returnType}}}{{/returnType}}{}{{/returnSimpleType}}} on success
+  {:ok, {{#isArray}}[%{{&returnBaseType}}{}, ...]{{/isArray}}{{#isMap}}%{}{{/isMap}}{{^returnType}}%{}{{/returnType}}{{#returnSimpleType}}%{{#returnType}}{{#isMap}}{{/isMap}}{{{moduleName}}}.Model.{{{returnType}}}{{/returnType}}{}{{/returnSimpleType}}} on success
   {:error, info} on failure
   """
   {{{typespec}}}
