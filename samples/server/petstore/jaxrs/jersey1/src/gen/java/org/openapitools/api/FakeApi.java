@@ -7,13 +7,13 @@ import org.openapitools.api.factories.FakeApiServiceFactory;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
+import org.openapitools.model.Number;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
@@ -85,11 +85,11 @@ public class FakeApi  {
     @Path("/outer/number")
     
     @Produces({ "*/*" })
-    @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake",  })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer number types", response = Number.class, tags={ "fake",  })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "Output number", response = BigDecimal.class) })
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Output number", response = Number.class) })
     public Response fakeOuterNumberSerialize(
-        @ApiParam(value = "Input number as post body")  BigDecimal body,
+        @ApiParam(value = "Input number as post body")  Number body,
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterNumberSerialize(body,securityContext);
@@ -158,7 +158,7 @@ public class FakeApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 404, message = "User not found", response = Void.class) })
     public Response testEndpointParameters(
-        @ApiParam(value = "None", required=true)  @FormParam("number")  BigDecimal number,
+        @ApiParam(value = "None", required=true)  @FormParam("number")  Number number,
         @ApiParam(value = "None", required=true)  @FormParam("double")  Double _double,
         @ApiParam(value = "None", required=true)  @FormParam("pattern_without_delimiter")  String patternWithoutDelimiter,
         @ApiParam(value = "None", required=true)  @FormParam("byte")  byte[] _byte,

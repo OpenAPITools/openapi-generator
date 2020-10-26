@@ -1,6 +1,6 @@
 package apimodels;
 
-import java.math.BigDecimal;
+import apimodels.Number;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
@@ -18,7 +18,7 @@ public class TypeHolderExample   {
   private String stringItem;
 
   @JsonProperty("number_item")
-  private BigDecimal numberItem;
+  private Number numberItem;
 
   @JsonProperty("float_item")
   private Float floatItem;
@@ -50,7 +50,7 @@ public class TypeHolderExample   {
     this.stringItem = stringItem;
   }
 
-  public TypeHolderExample numberItem(BigDecimal numberItem) {
+  public TypeHolderExample numberItem(Number numberItem) {
     this.numberItem = numberItem;
     return this;
   }
@@ -61,11 +61,11 @@ public class TypeHolderExample   {
   **/
   @NotNull
 @Valid
-  public BigDecimal getNumberItem() {
+  public Number getNumberItem() {
     return numberItem;
   }
 
-  public void setNumberItem(BigDecimal numberItem) {
+  public void setNumberItem(Number numberItem) {
     this.numberItem = numberItem;
   }
 

@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.openapitools.model.Number;
 
 /**
  * AdditionalPropertiesClass
@@ -19,7 +19,7 @@ public class AdditionalPropertiesClass   {
   private Map<String, String> mapString = null;
 
   @JsonProperty("map_number")
-  private Map<String, BigDecimal> mapNumber = null;
+  private Map<String, Number> mapNumber = null;
 
   @JsonProperty("map_integer")
   private Map<String, Integer> mapInteger = null;
@@ -74,14 +74,14 @@ public class AdditionalPropertiesClass   {
     this.mapString = mapString;
   }
 
-  public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
+  public AdditionalPropertiesClass mapNumber(Map<String, Number> mapNumber) {
     this.mapNumber = mapNumber;
     return this;
   }
 
-  public AdditionalPropertiesClass putMapNumberItem(String key, BigDecimal mapNumberItem) {
+  public AdditionalPropertiesClass putMapNumberItem(String key, Number mapNumberItem) {
     if (this.mapNumber == null) {
-      this.mapNumber = new HashMap<String, BigDecimal>();
+      this.mapNumber = new HashMap<String, Number>();
     }
     this.mapNumber.put(key, mapNumberItem);
     return this;
@@ -92,11 +92,11 @@ public class AdditionalPropertiesClass   {
    * @return mapNumber
   **/
   @ApiModelProperty(value = "")
-  public Map<String, BigDecimal> getMapNumber() {
+  public Map<String, Number> getMapNumber() {
     return mapNumber;
   }
 
-  public void setMapNumber(Map<String, BigDecimal> mapNumber) {
+  public void setMapNumber(Map<String, Number> mapNumber) {
     this.mapNumber = mapNumber;
   }
 

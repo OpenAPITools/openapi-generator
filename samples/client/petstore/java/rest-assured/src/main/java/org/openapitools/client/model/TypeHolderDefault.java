@@ -23,9 +23,9 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.client.model.Number;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
@@ -41,7 +41,7 @@ public class TypeHolderDefault {
 
   public static final String SERIALIZED_NAME_NUMBER_ITEM = "number_item";
   @SerializedName(SERIALIZED_NAME_NUMBER_ITEM)
-  private BigDecimal numberItem;
+  private Number numberItem;
 
   public static final String SERIALIZED_NAME_INTEGER_ITEM = "integer_item";
   @SerializedName(SERIALIZED_NAME_INTEGER_ITEM)
@@ -79,7 +79,7 @@ public class TypeHolderDefault {
   }
 
 
-  public TypeHolderDefault numberItem(BigDecimal numberItem) {
+  public TypeHolderDefault numberItem(Number numberItem) {
     
     this.numberItem = numberItem;
     return this;
@@ -93,12 +93,12 @@ public class TypeHolderDefault {
   @Valid
   @ApiModelProperty(required = true, value = "")
 
-  public BigDecimal getNumberItem() {
+  public Number getNumberItem() {
     return numberItem;
   }
 
 
-  public void setNumberItem(BigDecimal numberItem) {
+  public void setNumberItem(Number numberItem) {
     this.numberItem = numberItem;
   }
 

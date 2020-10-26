@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import org.openapitools.model.Number;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
-public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
+public class AdditionalPropertiesNumber extends HashMap<String, Number>  {
   @JsonProperty("name")
   private String name;
 

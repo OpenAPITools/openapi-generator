@@ -1,6 +1,6 @@
 package apimodels;
 
-import java.math.BigDecimal;
+import apimodels.Number;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
-public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
+public class AdditionalPropertiesNumber extends HashMap<String, Number>  {
   @JsonProperty("name")
   private String name;
 

@@ -373,7 +373,7 @@ genFormatTest n =
     <*> arbitraryReducedMaybe n -- formatTestDateTime :: Maybe DateTime
     <*> arbitraryReducedMaybe n -- formatTestUuid :: Maybe Text
     <*> arbitrary -- formatTestPassword :: Text
-    <*> arbitraryReducedMaybe n -- formatTestBigDecimal :: Maybe Double
+    <*> arbitraryReducedMaybe n -- formatTestBigDecimal :: Maybe Decimal
   
 instance Arbitrary HasOnlyReadOnly where
   arbitrary = sized genHasOnlyReadOnly

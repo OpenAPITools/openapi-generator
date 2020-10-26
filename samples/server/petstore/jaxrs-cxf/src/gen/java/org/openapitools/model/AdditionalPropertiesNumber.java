@@ -1,8 +1,8 @@
 package org.openapitools.model;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import org.openapitools.model.Number;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
+public class AdditionalPropertiesNumber extends HashMap<String, Number> {
   
   @ApiModelProperty(value = "")
   private String name;

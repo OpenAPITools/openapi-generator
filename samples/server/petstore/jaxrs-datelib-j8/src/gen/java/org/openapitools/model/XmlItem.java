@@ -18,9 +18,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.model.Number;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
@@ -68,7 +68,7 @@ public class XmlItem  implements Serializable {
 
   public static final String JSON_PROPERTY_ATTRIBUTE_NUMBER = "attribute_number";
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_NUMBER)
-  private BigDecimal attributeNumber;
+  private Number attributeNumber;
 
   public static final String JSON_PROPERTY_ATTRIBUTE_INTEGER = "attribute_integer";
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_INTEGER)
@@ -88,7 +88,7 @@ public class XmlItem  implements Serializable {
 
   public static final String JSON_PROPERTY_NAME_NUMBER = "name_number";
   @JsonProperty(JSON_PROPERTY_NAME_NUMBER)
-  private BigDecimal nameNumber;
+  private Number nameNumber;
 
   public static final String JSON_PROPERTY_NAME_INTEGER = "name_integer";
   @JsonProperty(JSON_PROPERTY_NAME_INTEGER)
@@ -112,7 +112,7 @@ public class XmlItem  implements Serializable {
 
   public static final String JSON_PROPERTY_PREFIX_NUMBER = "prefix_number";
   @JsonProperty(JSON_PROPERTY_PREFIX_NUMBER)
-  private BigDecimal prefixNumber;
+  private Number prefixNumber;
 
   public static final String JSON_PROPERTY_PREFIX_INTEGER = "prefix_integer";
   @JsonProperty(JSON_PROPERTY_PREFIX_INTEGER)
@@ -136,7 +136,7 @@ public class XmlItem  implements Serializable {
 
   public static final String JSON_PROPERTY_NAMESPACE_NUMBER = "namespace_number";
   @JsonProperty(JSON_PROPERTY_NAMESPACE_NUMBER)
-  private BigDecimal namespaceNumber;
+  private Number namespaceNumber;
 
   public static final String JSON_PROPERTY_NAMESPACE_INTEGER = "namespace_integer";
   @JsonProperty(JSON_PROPERTY_NAMESPACE_INTEGER)
@@ -160,7 +160,7 @@ public class XmlItem  implements Serializable {
 
   public static final String JSON_PROPERTY_PREFIX_NS_NUMBER = "prefix_ns_number";
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_NUMBER)
-  private BigDecimal prefixNsNumber;
+  private Number prefixNsNumber;
 
   public static final String JSON_PROPERTY_PREFIX_NS_INTEGER = "prefix_ns_integer";
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_INTEGER)
@@ -198,7 +198,7 @@ public class XmlItem  implements Serializable {
     this.attributeString = attributeString;
   }
 
-  public XmlItem attributeNumber(BigDecimal attributeNumber) {
+  public XmlItem attributeNumber(Number attributeNumber) {
     this.attributeNumber = attributeNumber;
     return this;
   }
@@ -210,11 +210,11 @@ public class XmlItem  implements Serializable {
   @JsonProperty("attribute_number")
   @ApiModelProperty(example = "1.234", value = "")
   @Valid 
-  public BigDecimal getAttributeNumber() {
+  public Number getAttributeNumber() {
     return attributeNumber;
   }
 
-  public void setAttributeNumber(BigDecimal attributeNumber) {
+  public void setAttributeNumber(Number attributeNumber) {
     this.attributeNumber = attributeNumber;
   }
 
@@ -306,7 +306,7 @@ public class XmlItem  implements Serializable {
     this.nameString = nameString;
   }
 
-  public XmlItem nameNumber(BigDecimal nameNumber) {
+  public XmlItem nameNumber(Number nameNumber) {
     this.nameNumber = nameNumber;
     return this;
   }
@@ -318,11 +318,11 @@ public class XmlItem  implements Serializable {
   @JsonProperty("name_number")
   @ApiModelProperty(example = "1.234", value = "")
   @Valid 
-  public BigDecimal getNameNumber() {
+  public Number getNameNumber() {
     return nameNumber;
   }
 
-  public void setNameNumber(BigDecimal nameNumber) {
+  public void setNameNumber(Number nameNumber) {
     this.nameNumber = nameNumber;
   }
 
@@ -442,7 +442,7 @@ public class XmlItem  implements Serializable {
     this.prefixString = prefixString;
   }
 
-  public XmlItem prefixNumber(BigDecimal prefixNumber) {
+  public XmlItem prefixNumber(Number prefixNumber) {
     this.prefixNumber = prefixNumber;
     return this;
   }
@@ -454,11 +454,11 @@ public class XmlItem  implements Serializable {
   @JsonProperty("prefix_number")
   @ApiModelProperty(example = "1.234", value = "")
   @Valid 
-  public BigDecimal getPrefixNumber() {
+  public Number getPrefixNumber() {
     return prefixNumber;
   }
 
-  public void setPrefixNumber(BigDecimal prefixNumber) {
+  public void setPrefixNumber(Number prefixNumber) {
     this.prefixNumber = prefixNumber;
   }
 
@@ -578,7 +578,7 @@ public class XmlItem  implements Serializable {
     this.namespaceString = namespaceString;
   }
 
-  public XmlItem namespaceNumber(BigDecimal namespaceNumber) {
+  public XmlItem namespaceNumber(Number namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
     return this;
   }
@@ -590,11 +590,11 @@ public class XmlItem  implements Serializable {
   @JsonProperty("namespace_number")
   @ApiModelProperty(example = "1.234", value = "")
   @Valid 
-  public BigDecimal getNamespaceNumber() {
+  public Number getNamespaceNumber() {
     return namespaceNumber;
   }
 
-  public void setNamespaceNumber(BigDecimal namespaceNumber) {
+  public void setNamespaceNumber(Number namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
   }
 
@@ -714,7 +714,7 @@ public class XmlItem  implements Serializable {
     this.prefixNsString = prefixNsString;
   }
 
-  public XmlItem prefixNsNumber(BigDecimal prefixNsNumber) {
+  public XmlItem prefixNsNumber(Number prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
     return this;
   }
@@ -726,11 +726,11 @@ public class XmlItem  implements Serializable {
   @JsonProperty("prefix_ns_number")
   @ApiModelProperty(example = "1.234", value = "")
   @Valid 
-  public BigDecimal getPrefixNsNumber() {
+  public Number getPrefixNsNumber() {
     return prefixNsNumber;
   }
 
-  public void setPrefixNsNumber(BigDecimal prefixNsNumber) {
+  public void setPrefixNsNumber(Number prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
   }
 

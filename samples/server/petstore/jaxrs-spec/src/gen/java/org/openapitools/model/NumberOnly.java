@@ -2,7 +2,7 @@ package org.openapitools.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
+import org.openapitools.model.Number;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -17,11 +17,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class NumberOnly  implements Serializable {
   
-  private @Valid BigDecimal justNumber;
+  private @Valid Number justNumber;
 
   /**
    **/
-  public NumberOnly justNumber(BigDecimal justNumber) {
+  public NumberOnly justNumber(Number justNumber) {
     this.justNumber = justNumber;
     return this;
   }
@@ -31,11 +31,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("JustNumber")
-  public BigDecimal getJustNumber() {
+  public Number getJustNumber() {
     return justNumber;
   }
 
-  public void setJustNumber(BigDecimal justNumber) {
+  public void setJustNumber(Number justNumber) {
     this.justNumber = justNumber;
   }
 

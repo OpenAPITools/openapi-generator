@@ -1,6 +1,6 @@
 package org.openapitools.model;
 
-import java.math.BigDecimal;
+import org.openapitools.model.Number;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -18,21 +18,21 @@ public class NumberOnly  {
   
   @ApiModelProperty(value = "")
   @Valid
-  private BigDecimal justNumber;
+  private Number justNumber;
  /**
    * Get justNumber
    * @return justNumber
   **/
   @JsonProperty("JustNumber")
-  public BigDecimal getJustNumber() {
+  public Number getJustNumber() {
     return justNumber;
   }
 
-  public void setJustNumber(BigDecimal justNumber) {
+  public void setJustNumber(Number justNumber) {
     this.justNumber = justNumber;
   }
 
-  public NumberOnly justNumber(BigDecimal justNumber) {
+  public NumberOnly justNumber(Number justNumber) {
     this.justNumber = justNumber;
     return this;
   }

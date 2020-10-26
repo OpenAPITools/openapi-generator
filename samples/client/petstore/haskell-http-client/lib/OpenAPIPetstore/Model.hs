@@ -1144,7 +1144,7 @@ data FormatTest = FormatTest
   , formatTestDateTime :: !(Maybe DateTime) -- ^ "dateTime"
   , formatTestUuid :: !(Maybe Text) -- ^ "uuid"
   , formatTestPassword :: !(Text) -- ^ /Required/ "password"
-  , formatTestBigDecimal :: !(Maybe Double) -- ^ "BigDecimal"
+  , formatTestBigDecimal :: !(Maybe Decimal) -- ^ "BigDecimal"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON FormatTest

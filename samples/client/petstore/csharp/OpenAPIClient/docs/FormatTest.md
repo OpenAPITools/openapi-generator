@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **Number** | **decimal** |  | 
 **Float** | **float** |  | [optional] 
 **Double** | **double** |  | [optional] 
+**Decimal** | [**ModelDecimal**](ModelDecimal.md) |  | [optional] 
 **String** | **string** |  | [optional] 
 **Byte** | **byte[]** |  | 
 **Binary** | **System.IO.Stream** |  | [optional] 

@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
+import org.openapitools.model.Number;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
@@ -63,7 +64,7 @@ public class FormatTest  implements Serializable {
 
   public static final String JSON_PROPERTY_NUMBER = "number";
   @JsonProperty(JSON_PROPERTY_NUMBER)
-  private BigDecimal number;
+  private Number number;
 
   public static final String JSON_PROPERTY_FLOAT = "float";
   @JsonProperty(JSON_PROPERTY_FLOAT)
@@ -169,7 +170,7 @@ public class FormatTest  implements Serializable {
     this.int64 = int64;
   }
 
-  public FormatTest number(BigDecimal number) {
+  public FormatTest number(Number number) {
     this.number = number;
     return this;
   }
@@ -183,11 +184,11 @@ public class FormatTest  implements Serializable {
   @JsonProperty("number")
   @ApiModelProperty(required = true, value = "")
   @NotNull @Valid  @DecimalMin("32.1") @DecimalMax("543.2")
-  public BigDecimal getNumber() {
+  public Number getNumber() {
     return number;
   }
 
-  public void setNumber(BigDecimal number) {
+  public void setNumber(Number number) {
     this.number = number;
   }
 

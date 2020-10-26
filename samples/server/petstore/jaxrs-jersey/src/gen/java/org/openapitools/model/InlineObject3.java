@@ -19,8 +19,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
-import java.math.BigDecimal;
 import java.util.Date;
+import org.openapitools.model.Number;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -60,7 +60,7 @@ public class InlineObject3   {
 
   public static final String JSON_PROPERTY_NUMBER = "number";
   @JsonProperty(JSON_PROPERTY_NUMBER)
-  private BigDecimal number;
+  private Number number;
 
   public static final String JSON_PROPERTY_FLOAT = "float";
   @JsonProperty(JSON_PROPERTY_FLOAT)
@@ -166,7 +166,7 @@ public class InlineObject3   {
     this.int64 = int64;
   }
 
-  public InlineObject3 number(BigDecimal number) {
+  public InlineObject3 number(Number number) {
     this.number = number;
     return this;
   }
@@ -180,11 +180,11 @@ public class InlineObject3   {
   @JsonProperty("number")
   @ApiModelProperty(required = true, value = "None")
   @NotNull @Valid  @DecimalMin("32.1") @DecimalMax("543.2")
-  public BigDecimal getNumber() {
+  public Number getNumber() {
     return number;
   }
 
-  public void setNumber(BigDecimal number) {
+  public void setNumber(Number number) {
     this.number = number;
   }
 

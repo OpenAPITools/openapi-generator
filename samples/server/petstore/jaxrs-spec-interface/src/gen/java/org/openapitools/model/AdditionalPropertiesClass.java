@@ -2,10 +2,10 @@ package org.openapitools.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.openapitools.model.Number;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class AdditionalPropertiesClass  implements Serializable {
   
   private @Valid Map<String, String> mapString = new HashMap<String, String>();
-  private @Valid Map<String, BigDecimal> mapNumber = new HashMap<String, BigDecimal>();
+  private @Valid Map<String, Number> mapNumber = new HashMap<String, Number>();
   private @Valid Map<String, Integer> mapInteger = new HashMap<String, Integer>();
   private @Valid Map<String, Boolean> mapBoolean = new HashMap<String, Boolean>();
   private @Valid Map<String, List<Integer>> mapArrayInteger = new HashMap<String, List<Integer>>();
@@ -52,7 +52,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.mapString = mapString;
   }/**
    **/
-  public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
+  public AdditionalPropertiesClass mapNumber(Map<String, Number> mapNumber) {
     this.mapNumber = mapNumber;
     return this;
   }
@@ -62,11 +62,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_number")
-  public Map<String, BigDecimal> getMapNumber() {
+  public Map<String, Number> getMapNumber() {
     return mapNumber;
   }
 
-  public void setMapNumber(Map<String, BigDecimal> mapNumber) {
+  public void setMapNumber(Map<String, Number> mapNumber) {
     this.mapNumber = mapNumber;
   }/**
    **/

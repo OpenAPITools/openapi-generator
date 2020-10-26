@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **integer** | **Integer** | None |  [optional]
 **int32** | **Integer** | None |  [optional]
 **int64** | **Long** | None |  [optional]
-**number** | [**BigDecimal**](BigDecimal.md) | None | 
+**number** | [**Number**](Number.md) | None | 
 **_float** | **Float** | None |  [optional]
 **_double** | **Double** | None | 
 **string** | **String** | None |  [optional]

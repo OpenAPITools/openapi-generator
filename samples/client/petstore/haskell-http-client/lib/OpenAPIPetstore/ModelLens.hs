@@ -521,7 +521,7 @@ formatTestPasswordL f FormatTest{..} = (\formatTestPassword -> FormatTest { form
 {-# INLINE formatTestPasswordL #-}
 
 -- | 'formatTestBigDecimal' Lens
-formatTestBigDecimalL :: Lens_' FormatTest (Maybe Double)
+formatTestBigDecimalL :: Lens_' FormatTest (Maybe Decimal)
 formatTestBigDecimalL f FormatTest{..} = (\formatTestBigDecimal -> FormatTest { formatTestBigDecimal, ..} ) <$> f formatTestBigDecimal
 {-# INLINE formatTestBigDecimalL #-}
 

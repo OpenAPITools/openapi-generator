@@ -437,7 +437,7 @@ No authorization required
 
 ## fakeOuterNumberSerialize
 
-> BigDecimal fakeOuterNumberSerialize(body)
+> Number fakeOuterNumberSerialize(body)
 
 
 
@@ -459,9 +459,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        BigDecimal body = new BigDecimal(); // BigDecimal | Input number as post body
+        Number body = new Number(); // Number | Input number as post body
         try {
-            BigDecimal result = apiInstance.fakeOuterNumberSerialize(body);
+            Number result = apiInstance.fakeOuterNumberSerialize(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterNumberSerialize");
@@ -479,11 +479,11 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **BigDecimal**| Input number as post body | [optional]
+ **body** | **Number**| Input number as post body | [optional]
 
 ### Return type
 
-[**BigDecimal**](BigDecimal.md)
+[**Number**](Number.md)
 
 
 ### Authorization
@@ -502,7 +502,7 @@ No authorization required
 
 ## fakeOuterNumberSerializeWithHttpInfo
 
-> ApiResponse<BigDecimal> fakeOuterNumberSerialize fakeOuterNumberSerializeWithHttpInfo(body)
+> ApiResponse<Number> fakeOuterNumberSerialize fakeOuterNumberSerializeWithHttpInfo(body)
 
 
 
@@ -525,9 +525,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        BigDecimal body = new BigDecimal(); // BigDecimal | Input number as post body
+        Number body = new Number(); // Number | Input number as post body
         try {
-            ApiResponse<BigDecimal> response = apiInstance.fakeOuterNumberSerializeWithHttpInfo(body);
+            ApiResponse<Number> response = apiInstance.fakeOuterNumberSerializeWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -547,11 +547,11 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **BigDecimal**| Input number as post body | [optional]
+ **body** | **Number**| Input number as post body | [optional]
 
 ### Return type
 
-ApiResponse<[**BigDecimal**](BigDecimal.md)>
+ApiResponse<[**Number**](Number.md)>
 
 
 ### Authorization
@@ -1131,7 +1131,7 @@ public class Example {
         http_basic_test.setPassword("YOUR PASSWORD");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        BigDecimal number = new BigDecimal(); // BigDecimal | None
+        Number number = new Number(); // Number | None
         Double _double = 3.4D; // Double | None
         String patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
         byte[] _byte = null; // byte[] | None
@@ -1163,7 +1163,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **BigDecimal**| None |
+ **number** | **Number**| None |
  **_double** | **Double**| None |
  **patternWithoutDelimiter** | **String**| None |
  **_byte** | **byte[]**| None |
@@ -1229,7 +1229,7 @@ public class Example {
         http_basic_test.setPassword("YOUR PASSWORD");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        BigDecimal number = new BigDecimal(); // BigDecimal | None
+        Number number = new Number(); // Number | None
         Double _double = 3.4D; // Double | None
         String patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
         byte[] _byte = null; // byte[] | None
@@ -1263,7 +1263,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **BigDecimal**| None |
+ **number** | **Number**| None |
  **_double** | **Double**| None |
  **patternWithoutDelimiter** | **String**| None |
  **_byte** | **byte[]**| None |

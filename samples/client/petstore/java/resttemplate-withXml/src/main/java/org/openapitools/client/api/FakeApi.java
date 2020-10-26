@@ -2,11 +2,11 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 
-import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
+import org.openapitools.client.model.Number;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -190,10 +190,10 @@ public class FakeApi {
      * Test serialization of outer number types
      * <p><b>200</b> - Output number
      * @param body Input number as post body (optional)
-     * @return BigDecimal
+     * @return Number
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws RestClientException {
+    public Number fakeOuterNumberSerialize(Number body) throws RestClientException {
         return fakeOuterNumberSerializeWithHttpInfo(body).getBody();
     }
 
@@ -202,10 +202,10 @@ public class FakeApi {
      * Test serialization of outer number types
      * <p><b>200</b> - Output number
      * @param body Input number as post body (optional)
-     * @return ResponseEntity&lt;BigDecimal&gt;
+     * @return ResponseEntity&lt;Number&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body) throws RestClientException {
+    public ResponseEntity<Number> fakeOuterNumberSerializeWithHttpInfo(Number body) throws RestClientException {
         Object postBody = body;
         
         String path = apiClient.expandPath("/fake/outer/number", Collections.<String, Object>emptyMap());
@@ -224,7 +224,7 @@ public class FakeApi {
 
         String[] authNames = new String[] {  };
 
-        ParameterizedTypeReference<BigDecimal> returnType = new ParameterizedTypeReference<BigDecimal>() {};
+        ParameterizedTypeReference<Number> returnType = new ParameterizedTypeReference<Number>() {};
         return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, contentType, authNames, returnType);
     }
     /**
@@ -440,7 +440,7 @@ public class FakeApi {
      * @param paramCallback None (optional)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientException {
+    public void testEndpointParameters(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientException {
         testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     }
 
@@ -466,7 +466,7 @@ public class FakeApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientException {
+    public ResponseEntity<Void> testEndpointParametersWithHttpInfo(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientException {
         Object postBody = null;
         
         // verify the required parameter 'number' is set

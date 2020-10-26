@@ -23,9 +23,9 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.client.model.Number;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -36,20 +36,20 @@ import android.os.Parcel;
 public class ArrayOfArrayOfNumberOnly {
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_NUMBER)
-  private List<List<BigDecimal>> arrayArrayNumber = null;
+  private List<List<Number>> arrayArrayNumber = null;
 
   public ArrayOfArrayOfNumberOnly() {
   }
 
-  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<Number>> arrayArrayNumber) {
     
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }
 
-  public ArrayOfArrayOfNumberOnly addArrayArrayNumberItem(List<BigDecimal> arrayArrayNumberItem) {
+  public ArrayOfArrayOfNumberOnly addArrayArrayNumberItem(List<Number> arrayArrayNumberItem) {
     if (this.arrayArrayNumber == null) {
-      this.arrayArrayNumber = new ArrayList<List<BigDecimal>>();
+      this.arrayArrayNumber = new ArrayList<List<Number>>();
     }
     this.arrayArrayNumber.add(arrayArrayNumberItem);
     return this;
@@ -62,12 +62,12 @@ public class ArrayOfArrayOfNumberOnly {
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
 
-  public List<List<BigDecimal>> getArrayArrayNumber() {
+  public List<List<Number>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
 
 
-  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public void setArrayArrayNumber(List<List<Number>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 
@@ -116,7 +116,7 @@ public class ArrayOfArrayOfNumberOnly {
   }
 
   ArrayOfArrayOfNumberOnly(Parcel in) {
-    arrayArrayNumber = (List<List<BigDecimal>>)in.readValue(List.class.getClassLoader());
+    arrayArrayNumber = (List<List<Number>>)in.readValue(List.class.getClassLoader());
   }
 
   public int describeContents() {

@@ -2,11 +2,11 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 
-import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
+import org.openapitools.client.model.Number;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -299,12 +299,12 @@ public class FakeApi {
     * Test serialization of outer number types
     * <p><b>200</b> - Output number
     * @param body Input number as post body
-    * @return BigDecimal
+    * @return Number
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws IOException {
+    public Number fakeOuterNumberSerialize(Number body) throws IOException {
         HttpResponse response = fakeOuterNumberSerializeForHttpResponse(body);
-        TypeReference<BigDecimal> typeRef = new TypeReference<BigDecimal>() {};
+        TypeReference<Number> typeRef = new TypeReference<Number>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -312,16 +312,16 @@ public class FakeApi {
     * Test serialization of outer number types
     * <p><b>200</b> - Output number
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
-    * @return BigDecimal
+    * @return Number
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public BigDecimal fakeOuterNumberSerialize(BigDecimal body, Map<String, Object> params) throws IOException {
+    public Number fakeOuterNumberSerialize(Number body, Map<String, Object> params) throws IOException {
         HttpResponse response = fakeOuterNumberSerializeForHttpResponse(body, params);
-        TypeReference<BigDecimal> typeRef = new TypeReference<BigDecimal>() {};
+        TypeReference<Number> typeRef = new TypeReference<Number>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse fakeOuterNumberSerializeForHttpResponse(BigDecimal body) throws IOException {
+    public HttpResponse fakeOuterNumberSerializeForHttpResponse(Number body) throws IOException {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/number");
 
@@ -345,7 +345,7 @@ public class FakeApi {
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
       }
 
-    public HttpResponse fakeOuterNumberSerializeForHttpResponse(BigDecimal body, Map<String, Object> params) throws IOException {
+    public HttpResponse fakeOuterNumberSerializeForHttpResponse(Number body, Map<String, Object> params) throws IOException {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/number");
 
@@ -769,7 +769,7 @@ public class FakeApi {
     * @param paramCallback None
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws IOException {
+    public void testEndpointParameters(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws IOException {
         testEndpointParametersForHttpResponse(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     }
 
@@ -785,11 +785,11 @@ public class FakeApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Map<String, Object> params) throws IOException {
+    public void testEndpointParameters(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Map<String, Object> params) throws IOException {
         testEndpointParametersForHttpResponse(number, _double, patternWithoutDelimiter, _byte, params);
     }
 
-    public HttpResponse testEndpointParametersForHttpResponse(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws IOException {
+    public HttpResponse testEndpointParametersForHttpResponse(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws IOException {
         // verify the required parameter 'number' is set
         if (number == null) {
             throw new IllegalArgumentException("Missing the required parameter 'number' when calling testEndpointParameters");
@@ -812,7 +812,7 @@ public class FakeApi {
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
-    public HttpResponse testEndpointParametersForHttpResponse(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Map<String, Object> params) throws IOException {
+    public HttpResponse testEndpointParametersForHttpResponse(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Map<String, Object> params) throws IOException {
         // verify the required parameter 'number' is set
         if (number == null) {
             throw new IllegalArgumentException("Missing the required parameter 'number' when calling testEndpointParameters");

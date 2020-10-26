@@ -22,9 +22,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.client.model.Number;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
@@ -52,7 +52,7 @@ public class TypeHolderExample {
 
   public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
   @XmlElement(name = "number_item")
-  private BigDecimal numberItem;
+  private Number numberItem;
 
   public static final String JSON_PROPERTY_FLOAT_ITEM = "float_item";
   @XmlElement(name = "float_item")
@@ -99,7 +99,7 @@ public class TypeHolderExample {
   }
 
 
-  public TypeHolderExample numberItem(BigDecimal numberItem) {
+  public TypeHolderExample numberItem(Number numberItem) {
     
     this.numberItem = numberItem;
     return this;
@@ -114,12 +114,12 @@ public class TypeHolderExample {
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "number_item")
 
-  public BigDecimal getNumberItem() {
+  public Number getNumberItem() {
     return numberItem;
   }
 
 
-  public void setNumberItem(BigDecimal numberItem) {
+  public void setNumberItem(Number numberItem) {
     this.numberItem = numberItem;
   }
 

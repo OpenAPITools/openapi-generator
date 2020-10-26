@@ -2,9 +2,9 @@ package org.openapitools.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.model.Number;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -20,30 +20,30 @@ import com.fasterxml.jackson.annotation.JsonValue;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class XmlItem  implements Serializable {
   
   private @Valid String attributeString;
-  private @Valid BigDecimal attributeNumber;
+  private @Valid Number attributeNumber;
   private @Valid Integer attributeInteger;
   private @Valid Boolean attributeBoolean;
   private @Valid List<Integer> wrappedArray = new ArrayList<Integer>();
   private @Valid String nameString;
-  private @Valid BigDecimal nameNumber;
+  private @Valid Number nameNumber;
   private @Valid Integer nameInteger;
   private @Valid Boolean nameBoolean;
   private @Valid List<Integer> nameArray = new ArrayList<Integer>();
   private @Valid List<Integer> nameWrappedArray = new ArrayList<Integer>();
   private @Valid String prefixString;
-  private @Valid BigDecimal prefixNumber;
+  private @Valid Number prefixNumber;
   private @Valid Integer prefixInteger;
   private @Valid Boolean prefixBoolean;
   private @Valid List<Integer> prefixArray = new ArrayList<Integer>();
   private @Valid List<Integer> prefixWrappedArray = new ArrayList<Integer>();
   private @Valid String namespaceString;
-  private @Valid BigDecimal namespaceNumber;
+  private @Valid Number namespaceNumber;
   private @Valid Integer namespaceInteger;
   private @Valid Boolean namespaceBoolean;
   private @Valid List<Integer> namespaceArray = new ArrayList<Integer>();
   private @Valid List<Integer> namespaceWrappedArray = new ArrayList<Integer>();
   private @Valid String prefixNsString;
-  private @Valid BigDecimal prefixNsNumber;
+  private @Valid Number prefixNsNumber;
   private @Valid Integer prefixNsInteger;
   private @Valid Boolean prefixNsBoolean;
   private @Valid List<Integer> prefixNsArray = new ArrayList<Integer>();
@@ -69,7 +69,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.attributeString = attributeString;
   }/**
    **/
-  public XmlItem attributeNumber(BigDecimal attributeNumber) {
+  public XmlItem attributeNumber(Number attributeNumber) {
     this.attributeNumber = attributeNumber;
     return this;
   }
@@ -79,11 +79,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("attribute_number")
-  public BigDecimal getAttributeNumber() {
+  public Number getAttributeNumber() {
     return attributeNumber;
   }
 
-  public void setAttributeNumber(BigDecimal attributeNumber) {
+  public void setAttributeNumber(Number attributeNumber) {
     this.attributeNumber = attributeNumber;
   }/**
    **/
@@ -159,7 +159,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.nameString = nameString;
   }/**
    **/
-  public XmlItem nameNumber(BigDecimal nameNumber) {
+  public XmlItem nameNumber(Number nameNumber) {
     this.nameNumber = nameNumber;
     return this;
   }
@@ -169,11 +169,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("name_number")
-  public BigDecimal getNameNumber() {
+  public Number getNameNumber() {
     return nameNumber;
   }
 
-  public void setNameNumber(BigDecimal nameNumber) {
+  public void setNameNumber(Number nameNumber) {
     this.nameNumber = nameNumber;
   }/**
    **/
@@ -267,7 +267,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.prefixString = prefixString;
   }/**
    **/
-  public XmlItem prefixNumber(BigDecimal prefixNumber) {
+  public XmlItem prefixNumber(Number prefixNumber) {
     this.prefixNumber = prefixNumber;
     return this;
   }
@@ -277,11 +277,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("prefix_number")
-  public BigDecimal getPrefixNumber() {
+  public Number getPrefixNumber() {
     return prefixNumber;
   }
 
-  public void setPrefixNumber(BigDecimal prefixNumber) {
+  public void setPrefixNumber(Number prefixNumber) {
     this.prefixNumber = prefixNumber;
   }/**
    **/
@@ -375,7 +375,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.namespaceString = namespaceString;
   }/**
    **/
-  public XmlItem namespaceNumber(BigDecimal namespaceNumber) {
+  public XmlItem namespaceNumber(Number namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
     return this;
   }
@@ -385,11 +385,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("namespace_number")
-  public BigDecimal getNamespaceNumber() {
+  public Number getNamespaceNumber() {
     return namespaceNumber;
   }
 
-  public void setNamespaceNumber(BigDecimal namespaceNumber) {
+  public void setNamespaceNumber(Number namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
   }/**
    **/
@@ -483,7 +483,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.prefixNsString = prefixNsString;
   }/**
    **/
-  public XmlItem prefixNsNumber(BigDecimal prefixNsNumber) {
+  public XmlItem prefixNsNumber(Number prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
     return this;
   }
@@ -493,11 +493,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("prefix_ns_number")
-  public BigDecimal getPrefixNsNumber() {
+  public Number getPrefixNsNumber() {
     return prefixNsNumber;
   }
 
-  public void setPrefixNsNumber(BigDecimal prefixNsNumber) {
+  public void setPrefixNsNumber(Number prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
   }/**
    **/

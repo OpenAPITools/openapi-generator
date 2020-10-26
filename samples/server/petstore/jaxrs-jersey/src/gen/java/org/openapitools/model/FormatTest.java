@@ -22,6 +22,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
+import org.openapitools.model.Number;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -36,6 +37,7 @@ import javax.validation.Valid;
   FormatTest.JSON_PROPERTY_NUMBER,
   FormatTest.JSON_PROPERTY_FLOAT,
   FormatTest.JSON_PROPERTY_DOUBLE,
+  FormatTest.JSON_PROPERTY_DECIMAL,
   FormatTest.JSON_PROPERTY_STRING,
   FormatTest.JSON_PROPERTY_BYTE,
   FormatTest.JSON_PROPERTY_BINARY,
@@ -62,7 +64,7 @@ public class FormatTest   {
 
   public static final String JSON_PROPERTY_NUMBER = "number";
   @JsonProperty(JSON_PROPERTY_NUMBER)
-  private BigDecimal number;
+  private Number number;
 
   public static final String JSON_PROPERTY_FLOAT = "float";
   @JsonProperty(JSON_PROPERTY_FLOAT)
@@ -71,6 +73,10 @@ public class FormatTest   {
   public static final String JSON_PROPERTY_DOUBLE = "double";
   @JsonProperty(JSON_PROPERTY_DOUBLE)
   private Double _double;
+
+  public static final String JSON_PROPERTY_DECIMAL = "decimal";
+  @JsonProperty(JSON_PROPERTY_DECIMAL)
+  private BigDecimal decimal;
 
   public static final String JSON_PROPERTY_STRING = "string";
   @JsonProperty(JSON_PROPERTY_STRING)
@@ -172,7 +178,7 @@ public class FormatTest   {
     this.int64 = int64;
   }
 
-  public FormatTest number(BigDecimal number) {
+  public FormatTest number(Number number) {
     this.number = number;
     return this;
   }
@@ -186,11 +192,11 @@ public class FormatTest   {
   @JsonProperty("number")
   @ApiModelProperty(required = true, value = "")
   @NotNull @Valid  @DecimalMin("32.1") @DecimalMax("543.2")
-  public BigDecimal getNumber() {
+  public Number getNumber() {
     return number;
   }
 
-  public void setNumber(BigDecimal number) {
+  public void setNumber(Number number) {
     this.number = number;
   }
 
@@ -236,6 +242,26 @@ public class FormatTest   {
 
   public void setDouble(Double _double) {
     this._double = _double;
+  }
+
+  public FormatTest decimal(BigDecimal decimal) {
+    this.decimal = decimal;
+    return this;
+  }
+
+  /**
+   * Get decimal
+   * @return decimal
+   **/
+  @JsonProperty("decimal")
+  @ApiModelProperty(value = "")
+  
+  public BigDecimal getDecimal() {
+    return decimal;
+  }
+
+  public void setDecimal(BigDecimal decimal) {
+    this.decimal = decimal;
   }
 
   public FormatTest string(String string) {
@@ -434,6 +460,7 @@ public class FormatTest   {
         Objects.equals(this.number, formatTest.number) &&
         Objects.equals(this._float, formatTest._float) &&
         Objects.equals(this._double, formatTest._double) &&
+        Objects.equals(this.decimal, formatTest.decimal) &&
         Objects.equals(this.string, formatTest.string) &&
         Objects.equals(this._byte, formatTest._byte) &&
         Objects.equals(this.binary, formatTest.binary) &&
@@ -447,7 +474,7 @@ public class FormatTest   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
+    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, _byte, binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
   }
 
 
@@ -462,6 +489,7 @@ public class FormatTest   {
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
     sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
     sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
+    sb.append("    decimal: ").append(toIndentedString(decimal)).append("\n");
     sb.append("    string: ").append(toIndentedString(string)).append("\n");
     sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");

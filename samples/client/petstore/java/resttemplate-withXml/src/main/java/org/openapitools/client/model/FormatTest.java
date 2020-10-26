@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.UUID;
+import org.openapitools.client.model.Number;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -70,7 +71,7 @@ public class FormatTest {
 
   public static final String JSON_PROPERTY_NUMBER = "number";
   @XmlElement(name = "number")
-  private BigDecimal number;
+  private Number number;
 
   public static final String JSON_PROPERTY_FLOAT = "float";
   @XmlElement(name = "float")
@@ -195,7 +196,7 @@ public class FormatTest {
   }
 
 
-  public FormatTest number(BigDecimal number) {
+  public FormatTest number(Number number) {
     
     this.number = number;
     return this;
@@ -212,12 +213,12 @@ public class FormatTest {
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "number")
 
-  public BigDecimal getNumber() {
+  public Number getNumber() {
     return number;
   }
 
 
-  public void setNumber(BigDecimal number) {
+  public void setNumber(Number number) {
     this.number = number;
   }
 

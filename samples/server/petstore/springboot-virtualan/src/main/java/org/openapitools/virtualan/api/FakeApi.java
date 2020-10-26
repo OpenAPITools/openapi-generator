@@ -5,12 +5,12 @@
  */
 package org.openapitools.virtualan.api;
 
-import java.math.BigDecimal;
 import org.openapitools.virtualan.model.Client;
 import org.openapitools.virtualan.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.util.Map;
 import org.openapitools.virtualan.model.ModelApiResponse;
+import org.openapitools.virtualan.model.Number;
 import java.time.OffsetDateTime;
 import org.openapitools.virtualan.model.OuterComposite;
 import org.springframework.core.io.Resource;
@@ -124,14 +124,14 @@ public interface FakeApi {
      * @return Output number (status code 200)
      */
     @ApiVirtual
-    @ApiOperation(value = "", nickname = "fakeOuterNumberSerialize", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake", })
+    @ApiOperation(value = "", nickname = "fakeOuterNumberSerialize", notes = "Test serialization of outer number types", response = Number.class, tags={ "fake", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class) })
+        @ApiResponse(code = 200, message = "Output number", response = Number.class) })
     @PostMapping(
         value = "/fake/outer/number",
         produces = { "*/*" }
     )
-    default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body"  )  @Valid @RequestBody(required = false) BigDecimal body) {
+    default ResponseEntity<Number> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body"  )  @Valid @RequestBody(required = false) Number body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -264,7 +264,7 @@ public interface FakeApi {
         value = "/fake",
         consumes = { "application/x-www-form-urlencoded" }
     )
-    default ResponseEntity<Void> testEndpointParameters(@ApiParam(value = "None", required=true) @Valid @RequestPart(value = "number", required = true)  BigDecimal number,@ApiParam(value = "None", required=true) @Valid @RequestPart(value = "double", required = true)  Double _double,@ApiParam(value = "None", required=true) @Valid @RequestPart(value = "pattern_without_delimiter", required = true)  String patternWithoutDelimiter,@ApiParam(value = "None", required=true) @Valid @RequestPart(value = "byte", required = true)  byte[] _byte,@ApiParam(value = "None") @Valid @RequestPart(value = "integer", required = false)  Integer integer,@ApiParam(value = "None") @Valid @RequestPart(value = "int32", required = false)  Integer int32,@ApiParam(value = "None") @Valid @RequestPart(value = "int64", required = false)  Long int64,@ApiParam(value = "None") @Valid @RequestPart(value = "float", required = false)  Float _float,@ApiParam(value = "None") @Valid @RequestPart(value = "string", required = false)  String string,@ApiParam(value = "None") @Valid @RequestPart(value = "binary", required = false) MultipartFile binary,@ApiParam(value = "None") @Valid @RequestPart(value = "date", required = false)  LocalDate date,@ApiParam(value = "None") @Valid @RequestPart(value = "dateTime", required = false)  OffsetDateTime dateTime,@ApiParam(value = "None") @Valid @RequestPart(value = "password", required = false)  String password,@ApiParam(value = "None") @Valid @RequestPart(value = "callback", required = false)  String paramCallback) {
+    default ResponseEntity<Void> testEndpointParameters(@ApiParam(value = "None", required=true) @Valid @RequestPart(value = "number", required = true)  Number number,@ApiParam(value = "None", required=true) @Valid @RequestPart(value = "double", required = true)  Double _double,@ApiParam(value = "None", required=true) @Valid @RequestPart(value = "pattern_without_delimiter", required = true)  String patternWithoutDelimiter,@ApiParam(value = "None", required=true) @Valid @RequestPart(value = "byte", required = true)  byte[] _byte,@ApiParam(value = "None") @Valid @RequestPart(value = "integer", required = false)  Integer integer,@ApiParam(value = "None") @Valid @RequestPart(value = "int32", required = false)  Integer int32,@ApiParam(value = "None") @Valid @RequestPart(value = "int64", required = false)  Long int64,@ApiParam(value = "None") @Valid @RequestPart(value = "float", required = false)  Float _float,@ApiParam(value = "None") @Valid @RequestPart(value = "string", required = false)  String string,@ApiParam(value = "None") @Valid @RequestPart(value = "binary", required = false) MultipartFile binary,@ApiParam(value = "None") @Valid @RequestPart(value = "date", required = false)  LocalDate date,@ApiParam(value = "None") @Valid @RequestPart(value = "dateTime", required = false)  OffsetDateTime dateTime,@ApiParam(value = "None") @Valid @RequestPart(value = "password", required = false)  String password,@ApiParam(value = "None") @Valid @RequestPart(value = "callback", required = false)  String paramCallback) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

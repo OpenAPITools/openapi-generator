@@ -23,9 +23,9 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.client.model.Number;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -40,7 +40,7 @@ public class TypeHolderDefault {
 
   public static final String SERIALIZED_NAME_NUMBER_ITEM = "number_item";
   @SerializedName(SERIALIZED_NAME_NUMBER_ITEM)
-  private BigDecimal numberItem;
+  private Number numberItem;
 
   public static final String SERIALIZED_NAME_INTEGER_ITEM = "integer_item";
   @SerializedName(SERIALIZED_NAME_INTEGER_ITEM)
@@ -79,7 +79,7 @@ public class TypeHolderDefault {
   }
 
 
-  public TypeHolderDefault numberItem(BigDecimal numberItem) {
+  public TypeHolderDefault numberItem(Number numberItem) {
     
     this.numberItem = numberItem;
     return this;
@@ -91,12 +91,12 @@ public class TypeHolderDefault {
   **/
   @ApiModelProperty(required = true, value = "")
 
-  public BigDecimal getNumberItem() {
+  public Number getNumberItem() {
     return numberItem;
   }
 
 
-  public void setNumberItem(BigDecimal numberItem) {
+  public void setNumberItem(Number numberItem) {
     this.numberItem = numberItem;
   }
 
@@ -229,7 +229,7 @@ public class TypeHolderDefault {
 
   TypeHolderDefault(Parcel in) {
     stringItem = (String)in.readValue(null);
-    numberItem = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
+    numberItem = (Number)in.readValue(Number.class.getClassLoader());
     integerItem = (Integer)in.readValue(null);
     boolItem = (Boolean)in.readValue(null);
     arrayItem = (List<Integer>)in.readValue(null);

@@ -23,10 +23,10 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.openapitools.client.model.Number;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
@@ -42,7 +42,7 @@ public class AdditionalPropertiesClass {
 
   public static final String SERIALIZED_NAME_MAP_NUMBER = "map_number";
   @SerializedName(SERIALIZED_NAME_MAP_NUMBER)
-  private Map<String, BigDecimal> mapNumber = null;
+  private Map<String, Number> mapNumber = null;
 
   public static final String SERIALIZED_NAME_MAP_INTEGER = "map_integer";
   @SerializedName(SERIALIZED_NAME_MAP_INTEGER)
@@ -112,15 +112,15 @@ public class AdditionalPropertiesClass {
   }
 
 
-  public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
+  public AdditionalPropertiesClass mapNumber(Map<String, Number> mapNumber) {
     
     this.mapNumber = mapNumber;
     return this;
   }
 
-  public AdditionalPropertiesClass putMapNumberItem(String key, BigDecimal mapNumberItem) {
+  public AdditionalPropertiesClass putMapNumberItem(String key, Number mapNumberItem) {
     if (this.mapNumber == null) {
-      this.mapNumber = new HashMap<String, BigDecimal>();
+      this.mapNumber = new HashMap<String, Number>();
     }
     this.mapNumber.put(key, mapNumberItem);
     return this;
@@ -134,12 +134,12 @@ public class AdditionalPropertiesClass {
   @Valid
   @ApiModelProperty(value = "")
 
-  public Map<String, BigDecimal> getMapNumber() {
+  public Map<String, Number> getMapNumber() {
     return mapNumber;
   }
 
 
-  public void setMapNumber(Map<String, BigDecimal> mapNumber) {
+  public void setMapNumber(Map<String, Number> mapNumber) {
     this.mapNumber = mapNumber;
   }
 

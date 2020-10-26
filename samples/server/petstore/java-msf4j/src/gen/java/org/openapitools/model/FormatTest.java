@@ -9,6 +9,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
+import org.openapitools.model.Number;
 
 /**
  * FormatTest
@@ -25,7 +26,7 @@ public class FormatTest   {
   private Long int64;
 
   @JsonProperty("number")
-  private BigDecimal number;
+  private Number number;
 
   @JsonProperty("float")
   private Float _float;
@@ -115,7 +116,7 @@ public class FormatTest   {
     this.int64 = int64;
   }
 
-  public FormatTest number(BigDecimal number) {
+  public FormatTest number(Number number) {
     this.number = number;
     return this;
   }
@@ -127,11 +128,11 @@ public class FormatTest   {
    * @return number
   **/
   @ApiModelProperty(required = true, value = "")
-  public BigDecimal getNumber() {
+  public Number getNumber() {
     return number;
   }
 
-  public void setNumber(BigDecimal number) {
+  public void setNumber(Number number) {
     this.number = number;
   }
 

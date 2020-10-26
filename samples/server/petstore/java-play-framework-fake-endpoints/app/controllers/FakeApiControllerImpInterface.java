@@ -1,11 +1,11 @@
 package controllers;
 
-import java.math.BigDecimal;
 import apimodels.Client;
 import apimodels.FileSchemaTestClass;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Map;
+import apimodels.Number;
 import java.time.OffsetDateTime;
 import apimodels.OuterComposite;
 import apimodels.User;
@@ -26,7 +26,7 @@ public interface FakeApiControllerImpInterface {
 
     OuterComposite fakeOuterCompositeSerialize(Http.Request request, OuterComposite body) throws Exception;
 
-    BigDecimal fakeOuterNumberSerialize(Http.Request request, BigDecimal body) throws Exception;
+    Number fakeOuterNumberSerialize(Http.Request request, Number body) throws Exception;
 
     String fakeOuterStringSerialize(Http.Request request, String body) throws Exception;
 
@@ -36,7 +36,7 @@ public interface FakeApiControllerImpInterface {
 
     Client testClientModel(Http.Request request, Client body) throws Exception;
 
-    void testEndpointParameters(Http.Request request, BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, Http.MultipartFormData.FilePart binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws Exception;
+    void testEndpointParameters(Http.Request request, Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, Http.MultipartFormData.FilePart binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws Exception;
 
     void testEnumParameters(Http.Request request, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws Exception;
 

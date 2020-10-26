@@ -46,7 +46,7 @@ class FormatTest(object):
         'date_time': 'datetime',
         'uuid': 'str',
         'password': 'str',
-        'big_decimal': 'BigDecimal'
+        'big_decimal': 'Decimal'
     }
 
     attribute_map = {
@@ -442,7 +442,7 @@ class FormatTest(object):
 
 
         :return: The big_decimal of this FormatTest.  # noqa: E501
-        :rtype: BigDecimal
+        :rtype: Decimal
         """
         return self._big_decimal
 
@@ -452,7 +452,7 @@ class FormatTest(object):
 
 
         :param big_decimal: The big_decimal of this FormatTest.  # noqa: E501
-        :type big_decimal: BigDecimal
+        :type big_decimal: Decimal
         """
 
         self._big_decimal = big_decimal

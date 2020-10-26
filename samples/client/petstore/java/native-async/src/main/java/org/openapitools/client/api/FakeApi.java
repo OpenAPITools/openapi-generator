@@ -17,11 +17,11 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Pair;
 
-import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
+import org.openapitools.client.model.Number;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -336,10 +336,10 @@ public class FakeApi {
    * 
    * Test serialization of outer number types
    * @param body Input number as post body (optional)
-   * @return CompletableFuture&lt;BigDecimal&gt;
+   * @return CompletableFuture&lt;Number&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<BigDecimal> fakeOuterNumberSerialize(BigDecimal body) throws ApiException {
+  public CompletableFuture<Number> fakeOuterNumberSerialize(Number body) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = fakeOuterNumberSerializeRequestBuilder(body);
       return memberVarHttpClient.sendAsync(
@@ -350,7 +350,7 @@ public class FakeApi {
             }
             try {
               return CompletableFuture.completedFuture(
-                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<BigDecimal>() {})
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Number>() {})
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -366,10 +366,10 @@ public class FakeApi {
    * 
    * Test serialization of outer number types
    * @param body Input number as post body (optional)
-   * @return CompletableFuture&lt;ApiResponse&lt;BigDecimal&gt;&gt;
+   * @return CompletableFuture&lt;ApiResponse&lt;Number&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<BigDecimal>> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body) throws ApiException {
+  public CompletableFuture<ApiResponse<Number>> fakeOuterNumberSerializeWithHttpInfo(Number body) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = fakeOuterNumberSerializeRequestBuilder(body);
       return memberVarHttpClient.sendAsync(
@@ -380,10 +380,10 @@ public class FakeApi {
             }
             try {
               return CompletableFuture.completedFuture(
-                  new ApiResponse<BigDecimal>(
+                  new ApiResponse<Number>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<BigDecimal>() {}))
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Number>() {}))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -396,7 +396,7 @@ public class FakeApi {
     }
   }
 
-  private HttpRequest.Builder fakeOuterNumberSerializeRequestBuilder(BigDecimal body) throws ApiException {
+  private HttpRequest.Builder fakeOuterNumberSerializeRequestBuilder(Number body) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -795,7 +795,7 @@ public class FakeApi {
    * @param paramCallback None (optional)
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+  public CompletableFuture<Void> testEndpointParameters(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = testEndpointParametersRequestBuilder(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
       return memberVarHttpClient.sendAsync(
@@ -832,7 +832,7 @@ public class FakeApi {
    * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Void>> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+  public CompletableFuture<ApiResponse<Void>> testEndpointParametersWithHttpInfo(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = testEndpointParametersRequestBuilder(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
       return memberVarHttpClient.sendAsync(
@@ -852,7 +852,7 @@ public class FakeApi {
     }
   }
 
-  private HttpRequest.Builder testEndpointParametersRequestBuilder(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+  private HttpRequest.Builder testEndpointParametersRequestBuilder(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
     // verify the required parameter 'number' is set
     if (number == null) {
       throw new ApiException(400, "Missing the required parameter 'number' when calling testEndpointParameters");

@@ -2,7 +2,7 @@ package org.openapitools.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
+import org.openapitools.model.Number;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -17,13 +17,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class OuterComposite  implements Serializable {
   
-  private @Valid BigDecimal myNumber;
+  private @Valid Number myNumber;
   private @Valid String myString;
   private @Valid Boolean myBoolean;
 
   /**
    **/
-  public OuterComposite myNumber(BigDecimal myNumber) {
+  public OuterComposite myNumber(Number myNumber) {
     this.myNumber = myNumber;
     return this;
   }
@@ -33,11 +33,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("my_number")
-  public BigDecimal getMyNumber() {
+  public Number getMyNumber() {
     return myNumber;
   }
 
-  public void setMyNumber(BigDecimal myNumber) {
+  public void setMyNumber(Number myNumber) {
     this.myNumber = myNumber;
   }/**
    **/

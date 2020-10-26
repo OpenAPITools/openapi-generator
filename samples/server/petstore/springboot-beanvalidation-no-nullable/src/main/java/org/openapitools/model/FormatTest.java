@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.UUID;
+import org.openapitools.model.Number;
 import org.springframework.core.io.Resource;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
@@ -28,7 +29,7 @@ public class FormatTest   {
   private Long int64;
 
   @JsonProperty("number")
-  private BigDecimal number;
+  private Number number;
 
   @JsonProperty("float")
   private Float _float;
@@ -126,7 +127,7 @@ public class FormatTest   {
     this.int64 = int64;
   }
 
-  public FormatTest number(BigDecimal number) {
+  public FormatTest number(Number number) {
     this.number = number;
     return this;
   }
@@ -142,11 +143,11 @@ public class FormatTest   {
 
   @Valid
 @DecimalMin("32.1") @DecimalMax("543.2") 
-  public BigDecimal getNumber() {
+  public Number getNumber() {
     return number;
   }
 
-  public void setNumber(BigDecimal number) {
+  public void setNumber(Number number) {
     this.number = number;
   }
 

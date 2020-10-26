@@ -25,9 +25,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import org.openapitools.client.model.Number;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
@@ -63,7 +63,7 @@ public class InlineObject3 {
   private Long int64;
 
   public static final String JSON_PROPERTY_NUMBER = "number";
-  private BigDecimal number;
+  private Number number;
 
   public static final String JSON_PROPERTY_FLOAT = "float";
   private Float _float;
@@ -172,7 +172,7 @@ public class InlineObject3 {
   }
 
 
-  public InlineObject3 number(BigDecimal number) {
+  public InlineObject3 number(Number number) {
     this.number = number;
     return this;
   }
@@ -187,12 +187,12 @@ public class InlineObject3 {
   @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
-  public BigDecimal getNumber() {
+  public Number getNumber() {
     return number;
   }
 
 
-  public void setNumber(BigDecimal number) {
+  public void setNumber(Number number) {
     this.number = number;
   }
 

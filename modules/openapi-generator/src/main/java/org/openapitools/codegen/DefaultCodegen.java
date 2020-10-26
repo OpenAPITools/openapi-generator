@@ -1451,7 +1451,7 @@ public class DefaultCodegen implements CodegenConfig {
         typeMapping.put("string", "String");
         typeMapping.put("int", "Integer");
         typeMapping.put("float", "Float");
-        typeMapping.put("number", "BigDecimal");
+        typeMapping.put("decimal", "BigDecimal");
         typeMapping.put("DateTime", "Date");
         typeMapping.put("long", "Long");
         typeMapping.put("short", "Short");
@@ -1464,7 +1464,6 @@ public class DefaultCodegen implements CodegenConfig {
         typeMapping.put("file", "File");
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "URI");
-        typeMapping.put("BigDecimal", "BigDecimal");
         typeMapping.put("AnyType", "oas_any_type_not_mapped");
 
         instantiationTypes = new HashMap<String, String>();
@@ -2016,9 +2015,9 @@ public class DefaultCodegen implements CodegenConfig {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
             return "null";
-        } else if (ModelUtils.isStringSchema(schema) && "number".equals(schema.getFormat())) {
+        } else if (ModelUtils.isDecimalSchema(schema)) {
             // special handle of type: string, format: number
-            return "BigDecimal";
+            return "decimal";
         } else if (ModelUtils.isByteArraySchema(schema)) {
             return "ByteArray";
         } else if (ModelUtils.isFileSchema(schema)) {

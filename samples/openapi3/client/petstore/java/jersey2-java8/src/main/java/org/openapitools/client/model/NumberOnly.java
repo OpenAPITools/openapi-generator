@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
+import org.openapitools.client.model.Number;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
@@ -38,10 +38,10 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class NumberOnly {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
-  private BigDecimal justNumber;
+  private Number justNumber;
 
 
-  public NumberOnly justNumber(BigDecimal justNumber) {
+  public NumberOnly justNumber(Number justNumber) {
     this.justNumber = justNumber;
     return this;
   }
@@ -55,12 +55,12 @@ public class NumberOnly {
   @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public BigDecimal getJustNumber() {
+  public Number getJustNumber() {
     return justNumber;
   }
 
 
-  public void setJustNumber(BigDecimal justNumber) {
+  public void setJustNumber(Number justNumber) {
     this.justNumber = justNumber;
   }
 

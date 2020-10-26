@@ -2,9 +2,9 @@ package org.openapitools.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.model.Number;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -19,11 +19,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ArrayOfNumberOnly  implements Serializable {
   
-  private @Valid List<BigDecimal> arrayNumber = new ArrayList<BigDecimal>();
+  private @Valid List<Number> arrayNumber = new ArrayList<Number>();
 
   /**
    **/
-  public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
+  public ArrayOfNumberOnly arrayNumber(List<Number> arrayNumber) {
     this.arrayNumber = arrayNumber;
     return this;
   }
@@ -33,11 +33,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("ArrayNumber")
-  public List<BigDecimal> getArrayNumber() {
+  public List<Number> getArrayNumber() {
     return arrayNumber;
   }
 
-  public void setArrayNumber(List<BigDecimal> arrayNumber) {
+  public void setArrayNumber(List<Number> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
 

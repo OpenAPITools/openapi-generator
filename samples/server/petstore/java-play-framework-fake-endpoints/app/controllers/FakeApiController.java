@@ -1,11 +1,11 @@
 package controllers;
 
-import java.math.BigDecimal;
 import apimodels.Client;
 import apimodels.FileSchemaTestClass;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Map;
+import apimodels.Number;
 import java.time.OffsetDateTime;
 import apimodels.OuterComposite;
 import apimodels.User;
@@ -102,16 +102,16 @@ public class FakeApiController extends Controller {
     @ApiAction
     public Result fakeOuterNumberSerialize(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
-        BigDecimal body;
+        Number body;
         if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), BigDecimal.class);
+            body = mapper.readValue(nodebody.toString(), Number.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
                 OpenAPIUtils.validate(body);
             }
         } else {
             body = null;
         }
-        BigDecimal obj = imp.fakeOuterNumberSerialize(request, body);
+        Number obj = imp.fakeOuterNumberSerialize(request, body);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }
@@ -219,7 +219,7 @@ public class FakeApiController extends Controller {
             int64 = null;
         }
         String valuenumber = (request.body().asMultipartFormData().asFormUrlEncoded().get("number"))[0];
-        BigDecimal number;
+        Number number;
         if (valuenumber != null) {
             number = new BigDecimal(valuenumber);
         } else {

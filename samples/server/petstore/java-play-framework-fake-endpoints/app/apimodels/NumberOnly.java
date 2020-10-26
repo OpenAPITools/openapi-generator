@@ -1,6 +1,6 @@
 package apimodels;
 
-import java.math.BigDecimal;
+import apimodels.Number;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
@@ -13,9 +13,9 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class NumberOnly   {
   @JsonProperty("JustNumber")
-  private BigDecimal justNumber;
+  private Number justNumber;
 
-  public NumberOnly justNumber(BigDecimal justNumber) {
+  public NumberOnly justNumber(Number justNumber) {
     this.justNumber = justNumber;
     return this;
   }
@@ -25,11 +25,11 @@ public class NumberOnly   {
    * @return justNumber
   **/
   @Valid
-  public BigDecimal getJustNumber() {
+  public Number getJustNumber() {
     return justNumber;
   }
 
-  public void setJustNumber(BigDecimal justNumber) {
+  public void setJustNumber(Number justNumber) {
     this.justNumber = justNumber;
   }
 

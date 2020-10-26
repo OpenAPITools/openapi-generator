@@ -6,13 +6,13 @@ import org.openapitools.model.*;
 import org.wso2.msf4j.formparam.FormDataParam;
 import org.wso2.msf4j.formparam.FileInfo;
 
-import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
+import org.openapitools.model.Number;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
@@ -33,7 +33,7 @@ public abstract class FakeApiService {
  ) throws NotFoundException;
     public abstract Response fakeOuterCompositeSerialize(OuterComposite body
  ) throws NotFoundException;
-    public abstract Response fakeOuterNumberSerialize(BigDecimal body
+    public abstract Response fakeOuterNumberSerialize(Number body
  ) throws NotFoundException;
     public abstract Response fakeOuterStringSerialize(String body
  ) throws NotFoundException;
@@ -44,7 +44,7 @@ public abstract class FakeApiService {
  ) throws NotFoundException;
     public abstract Response testClientModel(Client body
  ) throws NotFoundException;
-    public abstract Response testEndpointParameters(BigDecimal number
+    public abstract Response testEndpointParameters(Number number
  ,Double _double
  ,String patternWithoutDelimiter
  ,byte[] _byte

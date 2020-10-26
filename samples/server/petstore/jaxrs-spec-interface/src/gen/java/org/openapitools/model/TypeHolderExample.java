@@ -2,9 +2,9 @@ package org.openapitools.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.model.Number;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class TypeHolderExample  implements Serializable {
   
   private @Valid String stringItem;
-  private @Valid BigDecimal numberItem;
+  private @Valid Number numberItem;
   private @Valid Float floatItem;
   private @Valid Integer integerItem;
   private @Valid Boolean boolItem;
@@ -47,7 +47,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.stringItem = stringItem;
   }/**
    **/
-  public TypeHolderExample numberItem(BigDecimal numberItem) {
+  public TypeHolderExample numberItem(Number numberItem) {
     this.numberItem = numberItem;
     return this;
   }
@@ -58,11 +58,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
   @ApiModelProperty(example = "1.234", required = true, value = "")
   @JsonProperty("number_item")
   @NotNull
-  public BigDecimal getNumberItem() {
+  public Number getNumberItem() {
     return numberItem;
   }
 
-  public void setNumberItem(BigDecimal numberItem) {
+  public void setNumberItem(Number numberItem) {
     this.numberItem = numberItem;
   }/**
    **/

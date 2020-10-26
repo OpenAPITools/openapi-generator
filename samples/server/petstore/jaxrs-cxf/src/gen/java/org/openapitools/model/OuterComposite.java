@@ -1,6 +1,6 @@
 package org.openapitools.model;
 
-import java.math.BigDecimal;
+import org.openapitools.model.Number;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -18,7 +18,7 @@ public class OuterComposite  {
   
   @ApiModelProperty(value = "")
   @Valid
-  private BigDecimal myNumber;
+  private Number myNumber;
 
   @ApiModelProperty(value = "")
   private String myString;
@@ -30,15 +30,15 @@ public class OuterComposite  {
    * @return myNumber
   **/
   @JsonProperty("my_number")
-  public BigDecimal getMyNumber() {
+  public Number getMyNumber() {
     return myNumber;
   }
 
-  public void setMyNumber(BigDecimal myNumber) {
+  public void setMyNumber(Number myNumber) {
     this.myNumber = myNumber;
   }
 
-  public OuterComposite myNumber(BigDecimal myNumber) {
+  public OuterComposite myNumber(Number myNumber) {
     this.myNumber = myNumber;
     return this;
   }

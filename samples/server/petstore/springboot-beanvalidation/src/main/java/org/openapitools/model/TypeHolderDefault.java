@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.model.Number;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -21,7 +21,7 @@ public class TypeHolderDefault   {
   private String stringItem = "what";
 
   @JsonProperty("number_item")
-  private BigDecimal numberItem;
+  private Number numberItem;
 
   @JsonProperty("integer_item")
   private Integer integerItem;
@@ -54,7 +54,7 @@ public class TypeHolderDefault   {
     this.stringItem = stringItem;
   }
 
-  public TypeHolderDefault numberItem(BigDecimal numberItem) {
+  public TypeHolderDefault numberItem(Number numberItem) {
     this.numberItem = numberItem;
     return this;
   }
@@ -68,11 +68,11 @@ public class TypeHolderDefault   {
 
   @Valid
 
-  public BigDecimal getNumberItem() {
+  public Number getNumberItem() {
     return numberItem;
   }
 
-  public void setNumberItem(BigDecimal numberItem) {
+  public void setNumberItem(Number numberItem) {
     this.numberItem = numberItem;
   }
 

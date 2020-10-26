@@ -24,9 +24,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.client.model.Number;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
@@ -47,7 +47,7 @@ public class TypeHolderDefault {
   private String stringItem = "what";
 
   public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
-  private BigDecimal numberItem;
+  private Number numberItem;
 
   public static final String JSON_PROPERTY_INTEGER_ITEM = "integer_item";
   private Integer integerItem;
@@ -82,7 +82,7 @@ public class TypeHolderDefault {
   }
 
 
-  public TypeHolderDefault numberItem(BigDecimal numberItem) {
+  public TypeHolderDefault numberItem(Number numberItem) {
     this.numberItem = numberItem;
     return this;
   }
@@ -95,12 +95,12 @@ public class TypeHolderDefault {
   @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
-  public BigDecimal getNumberItem() {
+  public Number getNumberItem() {
     return numberItem;
   }
 
 
-  public void setNumberItem(BigDecimal numberItem) {
+  public void setNumberItem(Number numberItem) {
     this.numberItem = numberItem;
   }
 

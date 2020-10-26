@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.UUID;
+import org.openapitools.client.model.Number;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import android.os.Parcelable;
@@ -50,7 +51,7 @@ public class FormatTest {
 
   public static final String SERIALIZED_NAME_NUMBER = "number";
   @SerializedName(SERIALIZED_NAME_NUMBER)
-  private BigDecimal number;
+  private Number number;
 
   public static final String SERIALIZED_NAME_FLOAT = "float";
   @SerializedName(SERIALIZED_NAME_FLOAT)
@@ -168,7 +169,7 @@ public class FormatTest {
   }
 
 
-  public FormatTest number(BigDecimal number) {
+  public FormatTest number(Number number) {
     
     this.number = number;
     return this;
@@ -182,12 +183,12 @@ public class FormatTest {
   **/
   @ApiModelProperty(required = true, value = "")
 
-  public BigDecimal getNumber() {
+  public Number getNumber() {
     return number;
   }
 
 
-  public void setNumber(BigDecimal number) {
+  public void setNumber(Number number) {
     this.number = number;
   }
 
@@ -509,7 +510,7 @@ public class FormatTest {
     integer = (Integer)in.readValue(null);
     int32 = (Integer)in.readValue(null);
     int64 = (Long)in.readValue(null);
-    number = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
+    number = (Number)in.readValue(Number.class.getClassLoader());
     _float = (Float)in.readValue(null);
     _double = (Double)in.readValue(null);
     string = (String)in.readValue(null);

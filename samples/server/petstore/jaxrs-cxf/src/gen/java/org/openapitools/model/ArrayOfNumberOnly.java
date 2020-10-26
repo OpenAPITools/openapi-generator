@@ -1,8 +1,8 @@
 package org.openapitools.model;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.model.Number;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -20,26 +20,26 @@ public class ArrayOfNumberOnly  {
   
   @ApiModelProperty(value = "")
   @Valid
-  private List<BigDecimal> arrayNumber = null;
+  private List<Number> arrayNumber = null;
  /**
    * Get arrayNumber
    * @return arrayNumber
   **/
   @JsonProperty("ArrayNumber")
-  public List<BigDecimal> getArrayNumber() {
+  public List<Number> getArrayNumber() {
     return arrayNumber;
   }
 
-  public void setArrayNumber(List<BigDecimal> arrayNumber) {
+  public void setArrayNumber(List<Number> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
 
-  public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
+  public ArrayOfNumberOnly arrayNumber(List<Number> arrayNumber) {
     this.arrayNumber = arrayNumber;
     return this;
   }
 
-  public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
+  public ArrayOfNumberOnly addArrayNumberItem(Number arrayNumberItem) {
     this.arrayNumber.add(arrayNumberItem);
     return this;
   }

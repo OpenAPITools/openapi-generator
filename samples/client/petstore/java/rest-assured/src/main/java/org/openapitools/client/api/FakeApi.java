@@ -14,11 +14,11 @@
 package org.openapitools.client.api;
 
 import com.google.gson.reflect.TypeToken;
-import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
+import org.openapitools.client.model.Number;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -446,7 +446,7 @@ public class FakeApi {
      * Test serialization of outer number types
      *
      * @see #body Input number as post body (optional)
-     * return BigDecimal
+     * return Number
      */
     public static class FakeOuterNumberSerializeOper implements Oper {
 
@@ -477,18 +477,18 @@ public class FakeApi {
         /**
          * POST /fake/outer/number
          * @param handler handler
-         * @return BigDecimal
+         * @return Number
          */
-        public BigDecimal executeAs(Function<Response, Response> handler) {
-            Type type = new TypeToken<BigDecimal>(){}.getType();
+        public Number executeAs(Function<Response, Response> handler) {
+            Type type = new TypeToken<Number>(){}.getType();
             return execute(handler).as(type);
         }
 
          /**
-         * @param body (BigDecimal) Input number as post body (optional)
+         * @param body (Number) Input number as post body (optional)
          * @return operation
          */
-        public FakeOuterNumberSerializeOper body(BigDecimal body) {
+        public FakeOuterNumberSerializeOper body(Number body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -872,7 +872,7 @@ public class FakeApi {
          public static final String NUMBER_FORM = "number";
 
          /**
-         * @param number (BigDecimal) None (required)
+         * @param number (Number) None (required)
          * @return operation
          */
          public TestEndpointParametersOper numberForm(Object... number) {

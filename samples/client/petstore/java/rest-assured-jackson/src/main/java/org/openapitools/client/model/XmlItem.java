@@ -22,9 +22,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.client.model.Number;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -71,7 +71,7 @@ public class XmlItem {
   private String attributeString;
 
   public static final String JSON_PROPERTY_ATTRIBUTE_NUMBER = "attribute_number";
-  private BigDecimal attributeNumber;
+  private Number attributeNumber;
 
   public static final String JSON_PROPERTY_ATTRIBUTE_INTEGER = "attribute_integer";
   private Integer attributeInteger;
@@ -86,7 +86,7 @@ public class XmlItem {
   private String nameString;
 
   public static final String JSON_PROPERTY_NAME_NUMBER = "name_number";
-  private BigDecimal nameNumber;
+  private Number nameNumber;
 
   public static final String JSON_PROPERTY_NAME_INTEGER = "name_integer";
   private Integer nameInteger;
@@ -104,7 +104,7 @@ public class XmlItem {
   private String prefixString;
 
   public static final String JSON_PROPERTY_PREFIX_NUMBER = "prefix_number";
-  private BigDecimal prefixNumber;
+  private Number prefixNumber;
 
   public static final String JSON_PROPERTY_PREFIX_INTEGER = "prefix_integer";
   private Integer prefixInteger;
@@ -122,7 +122,7 @@ public class XmlItem {
   private String namespaceString;
 
   public static final String JSON_PROPERTY_NAMESPACE_NUMBER = "namespace_number";
-  private BigDecimal namespaceNumber;
+  private Number namespaceNumber;
 
   public static final String JSON_PROPERTY_NAMESPACE_INTEGER = "namespace_integer";
   private Integer namespaceInteger;
@@ -140,7 +140,7 @@ public class XmlItem {
   private String prefixNsString;
 
   public static final String JSON_PROPERTY_PREFIX_NS_NUMBER = "prefix_ns_number";
-  private BigDecimal prefixNsNumber;
+  private Number prefixNsNumber;
 
   public static final String JSON_PROPERTY_PREFIX_NS_INTEGER = "prefix_ns_integer";
   private Integer prefixNsInteger;
@@ -180,7 +180,7 @@ public class XmlItem {
   }
 
 
-  public XmlItem attributeNumber(BigDecimal attributeNumber) {
+  public XmlItem attributeNumber(Number attributeNumber) {
     
     this.attributeNumber = attributeNumber;
     return this;
@@ -196,12 +196,12 @@ public class XmlItem {
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public BigDecimal getAttributeNumber() {
+  public Number getAttributeNumber() {
     return attributeNumber;
   }
 
 
-  public void setAttributeNumber(BigDecimal attributeNumber) {
+  public void setAttributeNumber(Number attributeNumber) {
     this.attributeNumber = attributeNumber;
   }
 
@@ -314,7 +314,7 @@ public class XmlItem {
   }
 
 
-  public XmlItem nameNumber(BigDecimal nameNumber) {
+  public XmlItem nameNumber(Number nameNumber) {
     
     this.nameNumber = nameNumber;
     return this;
@@ -330,12 +330,12 @@ public class XmlItem {
   @JsonProperty(JSON_PROPERTY_NAME_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public BigDecimal getNameNumber() {
+  public Number getNameNumber() {
     return nameNumber;
   }
 
 
-  public void setNameNumber(BigDecimal nameNumber) {
+  public void setNameNumber(Number nameNumber) {
     this.nameNumber = nameNumber;
   }
 
@@ -481,7 +481,7 @@ public class XmlItem {
   }
 
 
-  public XmlItem prefixNumber(BigDecimal prefixNumber) {
+  public XmlItem prefixNumber(Number prefixNumber) {
     
     this.prefixNumber = prefixNumber;
     return this;
@@ -497,12 +497,12 @@ public class XmlItem {
   @JsonProperty(JSON_PROPERTY_PREFIX_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public BigDecimal getPrefixNumber() {
+  public Number getPrefixNumber() {
     return prefixNumber;
   }
 
 
-  public void setPrefixNumber(BigDecimal prefixNumber) {
+  public void setPrefixNumber(Number prefixNumber) {
     this.prefixNumber = prefixNumber;
   }
 
@@ -648,7 +648,7 @@ public class XmlItem {
   }
 
 
-  public XmlItem namespaceNumber(BigDecimal namespaceNumber) {
+  public XmlItem namespaceNumber(Number namespaceNumber) {
     
     this.namespaceNumber = namespaceNumber;
     return this;
@@ -664,12 +664,12 @@ public class XmlItem {
   @JsonProperty(JSON_PROPERTY_NAMESPACE_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public BigDecimal getNamespaceNumber() {
+  public Number getNamespaceNumber() {
     return namespaceNumber;
   }
 
 
-  public void setNamespaceNumber(BigDecimal namespaceNumber) {
+  public void setNamespaceNumber(Number namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
   }
 
@@ -815,7 +815,7 @@ public class XmlItem {
   }
 
 
-  public XmlItem prefixNsNumber(BigDecimal prefixNsNumber) {
+  public XmlItem prefixNsNumber(Number prefixNsNumber) {
     
     this.prefixNsNumber = prefixNsNumber;
     return this;
@@ -831,12 +831,12 @@ public class XmlItem {
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public BigDecimal getPrefixNsNumber() {
+  public Number getPrefixNsNumber() {
     return prefixNsNumber;
   }
 
 
-  public void setPrefixNsNumber(BigDecimal prefixNsNumber) {
+  public void setPrefixNsNumber(Number prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
   }
 

@@ -23,9 +23,9 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.client.model.Number;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -36,20 +36,20 @@ import android.os.Parcel;
 public class ArrayOfNumberOnly {
   public static final String SERIALIZED_NAME_ARRAY_NUMBER = "ArrayNumber";
   @SerializedName(SERIALIZED_NAME_ARRAY_NUMBER)
-  private List<BigDecimal> arrayNumber = null;
+  private List<Number> arrayNumber = null;
 
   public ArrayOfNumberOnly() {
   }
 
-  public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
+  public ArrayOfNumberOnly arrayNumber(List<Number> arrayNumber) {
     
     this.arrayNumber = arrayNumber;
     return this;
   }
 
-  public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
+  public ArrayOfNumberOnly addArrayNumberItem(Number arrayNumberItem) {
     if (this.arrayNumber == null) {
-      this.arrayNumber = new ArrayList<BigDecimal>();
+      this.arrayNumber = new ArrayList<Number>();
     }
     this.arrayNumber.add(arrayNumberItem);
     return this;
@@ -62,12 +62,12 @@ public class ArrayOfNumberOnly {
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
 
-  public List<BigDecimal> getArrayNumber() {
+  public List<Number> getArrayNumber() {
     return arrayNumber;
   }
 
 
-  public void setArrayNumber(List<BigDecimal> arrayNumber) {
+  public void setArrayNumber(List<Number> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
 
@@ -116,7 +116,7 @@ public class ArrayOfNumberOnly {
   }
 
   ArrayOfNumberOnly(Parcel in) {
-    arrayNumber = (List<BigDecimal>)in.readValue(BigDecimal.class.getClassLoader());
+    arrayNumber = (List<Number>)in.readValue(Number.class.getClassLoader());
   }
 
   public int describeContents() {

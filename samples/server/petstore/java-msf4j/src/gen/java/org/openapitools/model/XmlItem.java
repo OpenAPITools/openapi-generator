@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.model.Number;
 
 /**
  * XmlItem
@@ -18,7 +18,7 @@ public class XmlItem   {
   private String attributeString;
 
   @JsonProperty("attribute_number")
-  private BigDecimal attributeNumber;
+  private Number attributeNumber;
 
   @JsonProperty("attribute_integer")
   private Integer attributeInteger;
@@ -33,7 +33,7 @@ public class XmlItem   {
   private String nameString;
 
   @JsonProperty("name_number")
-  private BigDecimal nameNumber;
+  private Number nameNumber;
 
   @JsonProperty("name_integer")
   private Integer nameInteger;
@@ -51,7 +51,7 @@ public class XmlItem   {
   private String prefixString;
 
   @JsonProperty("prefix_number")
-  private BigDecimal prefixNumber;
+  private Number prefixNumber;
 
   @JsonProperty("prefix_integer")
   private Integer prefixInteger;
@@ -69,7 +69,7 @@ public class XmlItem   {
   private String namespaceString;
 
   @JsonProperty("namespace_number")
-  private BigDecimal namespaceNumber;
+  private Number namespaceNumber;
 
   @JsonProperty("namespace_integer")
   private Integer namespaceInteger;
@@ -87,7 +87,7 @@ public class XmlItem   {
   private String prefixNsString;
 
   @JsonProperty("prefix_ns_number")
-  private BigDecimal prefixNsNumber;
+  private Number prefixNsNumber;
 
   @JsonProperty("prefix_ns_integer")
   private Integer prefixNsInteger;
@@ -119,7 +119,7 @@ public class XmlItem   {
     this.attributeString = attributeString;
   }
 
-  public XmlItem attributeNumber(BigDecimal attributeNumber) {
+  public XmlItem attributeNumber(Number attributeNumber) {
     this.attributeNumber = attributeNumber;
     return this;
   }
@@ -129,11 +129,11 @@ public class XmlItem   {
    * @return attributeNumber
   **/
   @ApiModelProperty(example = "1.234", value = "")
-  public BigDecimal getAttributeNumber() {
+  public Number getAttributeNumber() {
     return attributeNumber;
   }
 
-  public void setAttributeNumber(BigDecimal attributeNumber) {
+  public void setAttributeNumber(Number attributeNumber) {
     this.attributeNumber = attributeNumber;
   }
 
@@ -217,7 +217,7 @@ public class XmlItem   {
     this.nameString = nameString;
   }
 
-  public XmlItem nameNumber(BigDecimal nameNumber) {
+  public XmlItem nameNumber(Number nameNumber) {
     this.nameNumber = nameNumber;
     return this;
   }
@@ -227,11 +227,11 @@ public class XmlItem   {
    * @return nameNumber
   **/
   @ApiModelProperty(example = "1.234", value = "")
-  public BigDecimal getNameNumber() {
+  public Number getNameNumber() {
     return nameNumber;
   }
 
-  public void setNameNumber(BigDecimal nameNumber) {
+  public void setNameNumber(Number nameNumber) {
     this.nameNumber = nameNumber;
   }
 
@@ -341,7 +341,7 @@ public class XmlItem   {
     this.prefixString = prefixString;
   }
 
-  public XmlItem prefixNumber(BigDecimal prefixNumber) {
+  public XmlItem prefixNumber(Number prefixNumber) {
     this.prefixNumber = prefixNumber;
     return this;
   }
@@ -351,11 +351,11 @@ public class XmlItem   {
    * @return prefixNumber
   **/
   @ApiModelProperty(example = "1.234", value = "")
-  public BigDecimal getPrefixNumber() {
+  public Number getPrefixNumber() {
     return prefixNumber;
   }
 
-  public void setPrefixNumber(BigDecimal prefixNumber) {
+  public void setPrefixNumber(Number prefixNumber) {
     this.prefixNumber = prefixNumber;
   }
 
@@ -465,7 +465,7 @@ public class XmlItem   {
     this.namespaceString = namespaceString;
   }
 
-  public XmlItem namespaceNumber(BigDecimal namespaceNumber) {
+  public XmlItem namespaceNumber(Number namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
     return this;
   }
@@ -475,11 +475,11 @@ public class XmlItem   {
    * @return namespaceNumber
   **/
   @ApiModelProperty(example = "1.234", value = "")
-  public BigDecimal getNamespaceNumber() {
+  public Number getNamespaceNumber() {
     return namespaceNumber;
   }
 
-  public void setNamespaceNumber(BigDecimal namespaceNumber) {
+  public void setNamespaceNumber(Number namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
   }
 
@@ -589,7 +589,7 @@ public class XmlItem   {
     this.prefixNsString = prefixNsString;
   }
 
-  public XmlItem prefixNsNumber(BigDecimal prefixNsNumber) {
+  public XmlItem prefixNsNumber(Number prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
     return this;
   }
@@ -599,11 +599,11 @@ public class XmlItem   {
    * @return prefixNsNumber
   **/
   @ApiModelProperty(example = "1.234", value = "")
-  public BigDecimal getPrefixNsNumber() {
+  public Number getPrefixNsNumber() {
     return prefixNsNumber;
   }
 
-  public void setPrefixNsNumber(BigDecimal prefixNsNumber) {
+  public void setPrefixNsNumber(Number prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
   }
 

@@ -6,7 +6,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**myNumber** | [**BigDecimal**](BigDecimal.md) |  |  [optional]
+**myNumber** | [**Number**](Number.md) |  |  [optional]
 **myString** | **String** |  |  [optional]
 **myBoolean** | **Boolean** |  |  [optional]
 

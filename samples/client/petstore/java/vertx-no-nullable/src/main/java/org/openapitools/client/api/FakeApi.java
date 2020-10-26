@@ -2,10 +2,10 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 import io.vertx.core.file.AsyncFile;
-import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
+import org.openapitools.client.model.Number;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -30,9 +30,9 @@ public interface FakeApi {
 
     void fakeOuterCompositeSerialize(OuterComposite body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<OuterComposite>> handler);
 
-    void fakeOuterNumberSerialize(BigDecimal body, Handler<AsyncResult<BigDecimal>> handler);
+    void fakeOuterNumberSerialize(Number body, Handler<AsyncResult<Number>> handler);
 
-    void fakeOuterNumberSerialize(BigDecimal body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<BigDecimal>> handler);
+    void fakeOuterNumberSerialize(Number body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Number>> handler);
 
     void fakeOuterStringSerialize(String body, Handler<AsyncResult<String>> handler);
 
@@ -50,9 +50,9 @@ public interface FakeApi {
 
     void testClientModel(Client body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Client>> handler);
 
-    void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Handler<AsyncResult<Void>> handler);
+    void testEndpointParameters(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Handler<AsyncResult<Void>> handler);
 
-    void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
+    void testEndpointParameters(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
 
     void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, Handler<AsyncResult<Void>> handler);
 

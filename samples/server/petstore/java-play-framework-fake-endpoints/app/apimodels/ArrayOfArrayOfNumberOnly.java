@@ -1,6 +1,6 @@
 package apimodels;
 
-import java.math.BigDecimal;
+import apimodels.Number;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
@@ -15,14 +15,14 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ArrayOfArrayOfNumberOnly   {
   @JsonProperty("ArrayArrayNumber")
-  private List<List<BigDecimal>> arrayArrayNumber = null;
+  private List<List<Number>> arrayArrayNumber = null;
 
-  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<Number>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }
 
-  public ArrayOfArrayOfNumberOnly addArrayArrayNumberItem(List<BigDecimal> arrayArrayNumberItem) {
+  public ArrayOfArrayOfNumberOnly addArrayArrayNumberItem(List<Number> arrayArrayNumberItem) {
     if (arrayArrayNumber == null) {
       arrayArrayNumber = new ArrayList<>();
     }
@@ -35,11 +35,11 @@ public class ArrayOfArrayOfNumberOnly   {
    * @return arrayArrayNumber
   **/
   @Valid
-  public List<List<BigDecimal>> getArrayArrayNumber() {
+  public List<List<Number>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
 
-  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public void setArrayArrayNumber(List<List<Number>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 

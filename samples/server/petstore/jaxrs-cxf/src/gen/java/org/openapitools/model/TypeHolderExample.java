@@ -1,8 +1,8 @@
 package org.openapitools.model;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.model.Number;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -23,7 +23,7 @@ public class TypeHolderExample  {
 
   @ApiModelProperty(example = "1.234", required = true, value = "")
   @Valid
-  private BigDecimal numberItem;
+  private Number numberItem;
 
   @ApiModelProperty(example = "1.234", required = true, value = "")
   private Float floatItem;
@@ -61,15 +61,15 @@ public class TypeHolderExample  {
   **/
   @JsonProperty("number_item")
   @NotNull
-  public BigDecimal getNumberItem() {
+  public Number getNumberItem() {
     return numberItem;
   }
 
-  public void setNumberItem(BigDecimal numberItem) {
+  public void setNumberItem(Number numberItem) {
     this.numberItem = numberItem;
   }
 
-  public TypeHolderExample numberItem(BigDecimal numberItem) {
+  public TypeHolderExample numberItem(Number numberItem) {
     this.numberItem = numberItem;
     return this;
   }
