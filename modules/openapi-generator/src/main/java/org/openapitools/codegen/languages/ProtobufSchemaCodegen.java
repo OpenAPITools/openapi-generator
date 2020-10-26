@@ -19,10 +19,8 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.exceptions.ProtoBufIndexComputationException;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -37,12 +35,17 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConfig {
+  
+    private static final String IMPORT = "import";
+
+  private static final String IMPORTS = "imports";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
@@ -220,7 +223,6 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
-            int index = 1;
             for (CodegenProperty var : cm.vars) {
                 // add x-protobuf-type: repeated if it's an array
                 if (Boolean.TRUE.equals(var.isArray)) {
@@ -247,12 +249,69 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 }
 
                 // Add x-protobuf-index, unless already specified
-                var.vendorExtensions.putIfAbsent("x-protobuf-index", index);
-                index++;
+                try {
+                    var.vendorExtensions.putIfAbsent("x-protobuf-index", generateFieldNumberFromString(var.getName()));
+                } catch (ProtoBufIndexComputationException e) {
+                    LOGGER.error("Exception when assigning a index to a protobuf field", e);
+                    var.vendorExtensions.putIfAbsent("x-protobuf-index", "Generated field number is in reserved range (19000, 19999)");
+                }
             }
         }
         return objs;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+      super.postProcessAllModels(objs);
+      
+      Map<String, CodegenModel> allModels = this.getAllModels(objs);      
+      
+      for (CodegenModel cm : allModels.values()) {
+        // Replicate all attributes from children to parents in case of allof, as there is no inheritance
+        if (!cm.allOf.isEmpty() && cm.getParentModel() != null) {
+          CodegenModel parentCM = cm.getParentModel();
+          for (CodegenProperty var : cm.getVars()) {
+                if (!parentVarsContainsVar(parentCM.vars, var)) {
+                  parentCM.vars.add(var);
+                }
+          }
+          // add all imports from child
+          cm.getImports().stream()
+            // Filter self import && child import
+            .filter(importFromList -> !parentCM.getClassname().equalsIgnoreCase(importFromList) && !cm.getClassname().equalsIgnoreCase(importFromList))
+            .forEach(importFromList -> this.addImport(objs, parentCM, importFromList));
+        }
+      }
+      return objs;
+    }
+    
+    public void addImport(Map<String, Object> objs, CodegenModel cm, String importValue) {
+      String modelFileName = this.toModelFilename(importValue);
+      boolean skipImport = isImportAlreadyPresentInModel(objs, cm, modelFileName);
+      if (!skipImport) {
+          this.addImport(cm, importValue);
+          Map<String, Object> importItem = new HashMap<>();
+          importItem.put(IMPORT, modelFileName);
+        ((List<Map<String, Object>>)((Map<String, Object>)objs.get(cm.getName())).get(IMPORTS)).add(importItem);
+      }
+    }
+
+  private boolean isImportAlreadyPresentInModel(Map<String, Object> objs, CodegenModel cm, String importValue) {
+    boolean skipImport = false;
+      List<Map<String, Object>> cmImports = ((List<Map<String, Object>>)((Map<String, Object>)objs.get(cm.getName())).get(IMPORTS));
+      for (Map<String, Object> cmImportItem: cmImports) {
+        for (Entry<String, Object> cmImportItemEntry : cmImportItem.entrySet()) {
+          if (importValue.equals(cmImportItemEntry.getValue())) {
+            skipImport = true;
+            break;
+          }
+        }
+      }
+    return skipImport;
+  }
 
     @Override
     public String escapeUnsafeCharacters(String input) {
@@ -466,4 +525,32 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
         return super.getTypeDeclaration(p);
     }
+    
+    private int generateFieldNumberFromString(String name) throws ProtoBufIndexComputationException {
+        // Max value from developers.google.com/protocol-buffers/docs/proto3#assigning_field_numbers
+        int fieldNumber = Math.abs(name.hashCode()%536870911);
+        if (19000 <= fieldNumber && fieldNumber <= 19999 ) {
+            LOGGER.error("Generated field number is in reserved range (19000, 19999) for %s, %d", name, fieldNumber);
+            throw new ProtoBufIndexComputationException("Generated field number is in reserved range (19000, 19999).");
+        }
+        return fieldNumber;
+    }
+    
+    /**
+     * Checks if the var provided is already in the list of the parent's vars, matching the type and the name
+     * @param parentVars list of parent's vars
+     * @param var var to compare
+     * @return true if the var is already in the parent's list, false otherwise
+     */
+    private boolean parentVarsContainsVar(List<CodegenProperty> parentVars, CodegenProperty var) {
+    boolean containsVar = false;
+    for (CodegenProperty parentVar : parentVars) {
+      if (var.getDataType().equals(parentVar.getDataType()) 
+          && var.getName().equals(parentVar.getName())) {
+        containsVar = true;
+        break;
+      }
+    }
+    return containsVar;
+  }
 }
