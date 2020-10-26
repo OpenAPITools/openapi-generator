@@ -726,10 +726,13 @@ public class JavaModelTest {
 
     @Test(description = "types used by inner properties should be imported")
     public void mapWithAnListOfBigDecimalTest() {
+        Schema decimal = new StringSchema();
+        decimal.setFormat("number");
+
         Schema schema1 = new Schema()
                 .description("model with Map<String, List<BigDecimal>>")
                 .addProperties("map", new MapSchema()
-                        .additionalProperties(new ArraySchema().items(new NumberSchema())));
+                        .additionalProperties(new ArraySchema().items(decimal)));
         OpenAPI openAPI1 = TestUtils.createOpenAPIWithOneSchema("sample", schema1);
         JavaClientCodegen codegen1 = new JavaClientCodegen();
         codegen1.setOpenAPI(openAPI1);
@@ -741,7 +744,7 @@ public class JavaModelTest {
                 .description("model with Map<String, Map<String, List<BigDecimal>>>")
                 .addProperties("map", new MapSchema()
                         .additionalProperties(new MapSchema()
-                                .additionalProperties(new ArraySchema().items(new NumberSchema()))));
+                                .additionalProperties(new ArraySchema().items(decimal))));
         OpenAPI openAPI2 = TestUtils.createOpenAPIWithOneSchema("sample", schema2);
         JavaClientCodegen codegen2 = new JavaClientCodegen();
         codegen2.setOpenAPI(openAPI2);
