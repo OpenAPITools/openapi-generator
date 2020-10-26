@@ -129,6 +129,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>queryParameters</li>
 <li>requestOptions</li>
 <li>return</li>
+<li>servers</li>
 <li>short</li>
 <li>static</li>
 <li>super</li>
