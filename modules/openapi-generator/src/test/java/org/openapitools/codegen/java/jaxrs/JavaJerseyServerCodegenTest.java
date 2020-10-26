@@ -137,8 +137,7 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         // Check files for Array
         final String[] fileA = new String[] { "MultipartArrayApiService.java", "MultipartArrayApi.java", "MultipartArrayApiServiceImpl.java"};
         for (String f : fileA) {
-            // comment out below as it's causing build failure
-            //assertFileContains( files.get(f).toPath(), "List<FormDataBodyPart> files");
+            assertFileContains( files.get(f).toPath(), "List<FormDataBodyPart> files");
         }
 
     }
