@@ -6,7 +6,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**lengthCm** | [**Number**](Number.md) |  | 
+**lengthCm** | [**BigDecimal**](BigDecimal.md) |  | 
 **sweet** | **Boolean** |  |  [optional]
 
 

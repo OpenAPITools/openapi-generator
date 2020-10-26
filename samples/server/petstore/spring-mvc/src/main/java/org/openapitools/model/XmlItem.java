@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.model.Number;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -23,7 +23,7 @@ public class XmlItem   {
   private String attributeString;
 
   @JsonProperty("attribute_number")
-  private Number attributeNumber;
+  private BigDecimal attributeNumber;
 
   @JsonProperty("attribute_integer")
   private Integer attributeInteger;
@@ -39,7 +39,7 @@ public class XmlItem   {
   private String nameString;
 
   @JsonProperty("name_number")
-  private Number nameNumber;
+  private BigDecimal nameNumber;
 
   @JsonProperty("name_integer")
   private Integer nameInteger;
@@ -59,7 +59,7 @@ public class XmlItem   {
   private String prefixString;
 
   @JsonProperty("prefix_number")
-  private Number prefixNumber;
+  private BigDecimal prefixNumber;
 
   @JsonProperty("prefix_integer")
   private Integer prefixInteger;
@@ -79,7 +79,7 @@ public class XmlItem   {
   private String namespaceString;
 
   @JsonProperty("namespace_number")
-  private Number namespaceNumber;
+  private BigDecimal namespaceNumber;
 
   @JsonProperty("namespace_integer")
   private Integer namespaceInteger;
@@ -99,7 +99,7 @@ public class XmlItem   {
   private String prefixNsString;
 
   @JsonProperty("prefix_ns_number")
-  private Number prefixNsNumber;
+  private BigDecimal prefixNsNumber;
 
   @JsonProperty("prefix_ns_integer")
   private Integer prefixNsInteger;
@@ -135,7 +135,7 @@ public class XmlItem   {
     this.attributeString = attributeString;
   }
 
-  public XmlItem attributeNumber(Number attributeNumber) {
+  public XmlItem attributeNumber(BigDecimal attributeNumber) {
     this.attributeNumber = attributeNumber;
     return this;
   }
@@ -148,11 +148,11 @@ public class XmlItem   {
 
   @Valid
 
-  public Number getAttributeNumber() {
+  public BigDecimal getAttributeNumber() {
     return attributeNumber;
   }
 
-  public void setAttributeNumber(Number attributeNumber) {
+  public void setAttributeNumber(BigDecimal attributeNumber) {
     this.attributeNumber = attributeNumber;
   }
 
@@ -244,7 +244,7 @@ public class XmlItem   {
     this.nameString = nameString;
   }
 
-  public XmlItem nameNumber(Number nameNumber) {
+  public XmlItem nameNumber(BigDecimal nameNumber) {
     this.nameNumber = nameNumber;
     return this;
   }
@@ -257,11 +257,11 @@ public class XmlItem   {
 
   @Valid
 
-  public Number getNameNumber() {
+  public BigDecimal getNameNumber() {
     return nameNumber;
   }
 
-  public void setNameNumber(Number nameNumber) {
+  public void setNameNumber(BigDecimal nameNumber) {
     this.nameNumber = nameNumber;
   }
 
@@ -381,7 +381,7 @@ public class XmlItem   {
     this.prefixString = prefixString;
   }
 
-  public XmlItem prefixNumber(Number prefixNumber) {
+  public XmlItem prefixNumber(BigDecimal prefixNumber) {
     this.prefixNumber = prefixNumber;
     return this;
   }
@@ -394,11 +394,11 @@ public class XmlItem   {
 
   @Valid
 
-  public Number getPrefixNumber() {
+  public BigDecimal getPrefixNumber() {
     return prefixNumber;
   }
 
-  public void setPrefixNumber(Number prefixNumber) {
+  public void setPrefixNumber(BigDecimal prefixNumber) {
     this.prefixNumber = prefixNumber;
   }
 
@@ -518,7 +518,7 @@ public class XmlItem   {
     this.namespaceString = namespaceString;
   }
 
-  public XmlItem namespaceNumber(Number namespaceNumber) {
+  public XmlItem namespaceNumber(BigDecimal namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
     return this;
   }
@@ -531,11 +531,11 @@ public class XmlItem   {
 
   @Valid
 
-  public Number getNamespaceNumber() {
+  public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
   }
 
-  public void setNamespaceNumber(Number namespaceNumber) {
+  public void setNamespaceNumber(BigDecimal namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
   }
 
@@ -655,7 +655,7 @@ public class XmlItem   {
     this.prefixNsString = prefixNsString;
   }
 
-  public XmlItem prefixNsNumber(Number prefixNsNumber) {
+  public XmlItem prefixNsNumber(BigDecimal prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
     return this;
   }
@@ -668,11 +668,11 @@ public class XmlItem   {
 
   @Valid
 
-  public Number getPrefixNsNumber() {
+  public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
   }
 
-  public void setPrefixNsNumber(Number prefixNsNumber) {
+  public void setPrefixNsNumber(BigDecimal prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
   }
 

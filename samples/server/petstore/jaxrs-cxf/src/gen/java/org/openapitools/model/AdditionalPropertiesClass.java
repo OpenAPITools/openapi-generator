@@ -1,9 +1,9 @@
 package org.openapitools.model;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.model.Number;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -24,7 +24,7 @@ public class AdditionalPropertiesClass  {
 
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, Number> mapNumber = null;
+  private Map<String, BigDecimal> mapNumber = null;
 
   @ApiModelProperty(value = "")
   private Map<String, Integer> mapInteger = null;
@@ -84,20 +84,20 @@ public class AdditionalPropertiesClass  {
    * @return mapNumber
   **/
   @JsonProperty("map_number")
-  public Map<String, Number> getMapNumber() {
+  public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }
 
-  public void setMapNumber(Map<String, Number> mapNumber) {
+  public void setMapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
   }
 
-  public AdditionalPropertiesClass mapNumber(Map<String, Number> mapNumber) {
+  public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
     return this;
   }
 
-  public AdditionalPropertiesClass putMapNumberItem(String key, Number mapNumberItem) {
+  public AdditionalPropertiesClass putMapNumberItem(String key, BigDecimal mapNumberItem) {
     this.mapNumber.put(key, mapNumberItem);
     return this;
   }

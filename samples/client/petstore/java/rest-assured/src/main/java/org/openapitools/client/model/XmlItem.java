@@ -23,9 +23,9 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.client.model.Number;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
@@ -41,7 +41,7 @@ public class XmlItem {
 
   public static final String SERIALIZED_NAME_ATTRIBUTE_NUMBER = "attribute_number";
   @SerializedName(SERIALIZED_NAME_ATTRIBUTE_NUMBER)
-  private Number attributeNumber;
+  private BigDecimal attributeNumber;
 
   public static final String SERIALIZED_NAME_ATTRIBUTE_INTEGER = "attribute_integer";
   @SerializedName(SERIALIZED_NAME_ATTRIBUTE_INTEGER)
@@ -61,7 +61,7 @@ public class XmlItem {
 
   public static final String SERIALIZED_NAME_NAME_NUMBER = "name_number";
   @SerializedName(SERIALIZED_NAME_NAME_NUMBER)
-  private Number nameNumber;
+  private BigDecimal nameNumber;
 
   public static final String SERIALIZED_NAME_NAME_INTEGER = "name_integer";
   @SerializedName(SERIALIZED_NAME_NAME_INTEGER)
@@ -85,7 +85,7 @@ public class XmlItem {
 
   public static final String SERIALIZED_NAME_PREFIX_NUMBER = "prefix_number";
   @SerializedName(SERIALIZED_NAME_PREFIX_NUMBER)
-  private Number prefixNumber;
+  private BigDecimal prefixNumber;
 
   public static final String SERIALIZED_NAME_PREFIX_INTEGER = "prefix_integer";
   @SerializedName(SERIALIZED_NAME_PREFIX_INTEGER)
@@ -109,7 +109,7 @@ public class XmlItem {
 
   public static final String SERIALIZED_NAME_NAMESPACE_NUMBER = "namespace_number";
   @SerializedName(SERIALIZED_NAME_NAMESPACE_NUMBER)
-  private Number namespaceNumber;
+  private BigDecimal namespaceNumber;
 
   public static final String SERIALIZED_NAME_NAMESPACE_INTEGER = "namespace_integer";
   @SerializedName(SERIALIZED_NAME_NAMESPACE_INTEGER)
@@ -133,7 +133,7 @@ public class XmlItem {
 
   public static final String SERIALIZED_NAME_PREFIX_NS_NUMBER = "prefix_ns_number";
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_NUMBER)
-  private Number prefixNsNumber;
+  private BigDecimal prefixNsNumber;
 
   public static final String SERIALIZED_NAME_PREFIX_NS_INTEGER = "prefix_ns_integer";
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_INTEGER)
@@ -175,7 +175,7 @@ public class XmlItem {
   }
 
 
-  public XmlItem attributeNumber(Number attributeNumber) {
+  public XmlItem attributeNumber(BigDecimal attributeNumber) {
     
     this.attributeNumber = attributeNumber;
     return this;
@@ -189,12 +189,12 @@ public class XmlItem {
   @Valid
   @ApiModelProperty(example = "1.234", value = "")
 
-  public Number getAttributeNumber() {
+  public BigDecimal getAttributeNumber() {
     return attributeNumber;
   }
 
 
-  public void setAttributeNumber(Number attributeNumber) {
+  public void setAttributeNumber(BigDecimal attributeNumber) {
     this.attributeNumber = attributeNumber;
   }
 
@@ -299,7 +299,7 @@ public class XmlItem {
   }
 
 
-  public XmlItem nameNumber(Number nameNumber) {
+  public XmlItem nameNumber(BigDecimal nameNumber) {
     
     this.nameNumber = nameNumber;
     return this;
@@ -313,12 +313,12 @@ public class XmlItem {
   @Valid
   @ApiModelProperty(example = "1.234", value = "")
 
-  public Number getNameNumber() {
+  public BigDecimal getNameNumber() {
     return nameNumber;
   }
 
 
-  public void setNameNumber(Number nameNumber) {
+  public void setNameNumber(BigDecimal nameNumber) {
     this.nameNumber = nameNumber;
   }
 
@@ -454,7 +454,7 @@ public class XmlItem {
   }
 
 
-  public XmlItem prefixNumber(Number prefixNumber) {
+  public XmlItem prefixNumber(BigDecimal prefixNumber) {
     
     this.prefixNumber = prefixNumber;
     return this;
@@ -468,12 +468,12 @@ public class XmlItem {
   @Valid
   @ApiModelProperty(example = "1.234", value = "")
 
-  public Number getPrefixNumber() {
+  public BigDecimal getPrefixNumber() {
     return prefixNumber;
   }
 
 
-  public void setPrefixNumber(Number prefixNumber) {
+  public void setPrefixNumber(BigDecimal prefixNumber) {
     this.prefixNumber = prefixNumber;
   }
 
@@ -609,7 +609,7 @@ public class XmlItem {
   }
 
 
-  public XmlItem namespaceNumber(Number namespaceNumber) {
+  public XmlItem namespaceNumber(BigDecimal namespaceNumber) {
     
     this.namespaceNumber = namespaceNumber;
     return this;
@@ -623,12 +623,12 @@ public class XmlItem {
   @Valid
   @ApiModelProperty(example = "1.234", value = "")
 
-  public Number getNamespaceNumber() {
+  public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
   }
 
 
-  public void setNamespaceNumber(Number namespaceNumber) {
+  public void setNamespaceNumber(BigDecimal namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
   }
 
@@ -764,7 +764,7 @@ public class XmlItem {
   }
 
 
-  public XmlItem prefixNsNumber(Number prefixNsNumber) {
+  public XmlItem prefixNsNumber(BigDecimal prefixNsNumber) {
     
     this.prefixNsNumber = prefixNsNumber;
     return this;
@@ -778,12 +778,12 @@ public class XmlItem {
   @Valid
   @ApiModelProperty(example = "1.234", value = "")
 
-  public Number getPrefixNsNumber() {
+  public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
   }
 
 
-  public void setPrefixNsNumber(Number prefixNsNumber) {
+  public void setPrefixNsNumber(BigDecimal prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
   }
 

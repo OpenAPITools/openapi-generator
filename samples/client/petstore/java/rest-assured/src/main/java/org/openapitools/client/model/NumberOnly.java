@@ -23,7 +23,7 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import org.openapitools.client.model.Number;
+import java.math.BigDecimal;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
@@ -35,10 +35,10 @@ import org.hibernate.validator.constraints.*;
 public class NumberOnly {
   public static final String SERIALIZED_NAME_JUST_NUMBER = "JustNumber";
   @SerializedName(SERIALIZED_NAME_JUST_NUMBER)
-  private Number justNumber;
+  private BigDecimal justNumber;
 
 
-  public NumberOnly justNumber(Number justNumber) {
+  public NumberOnly justNumber(BigDecimal justNumber) {
     
     this.justNumber = justNumber;
     return this;
@@ -52,12 +52,12 @@ public class NumberOnly {
   @Valid
   @ApiModelProperty(value = "")
 
-  public Number getJustNumber() {
+  public BigDecimal getJustNumber() {
     return justNumber;
   }
 
 
-  public void setJustNumber(Number justNumber) {
+  public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
 

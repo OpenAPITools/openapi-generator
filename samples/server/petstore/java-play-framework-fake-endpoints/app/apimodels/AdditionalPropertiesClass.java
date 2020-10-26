@@ -1,6 +1,6 @@
 package apimodels;
 
-import apimodels.Number;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +19,7 @@ public class AdditionalPropertiesClass   {
   private Map<String, String> mapString = null;
 
   @JsonProperty("map_number")
-  private Map<String, Number> mapNumber = null;
+  private Map<String, BigDecimal> mapNumber = null;
 
   @JsonProperty("map_integer")
   private Map<String, Integer> mapInteger = null;
@@ -73,12 +73,12 @@ public class AdditionalPropertiesClass   {
     this.mapString = mapString;
   }
 
-  public AdditionalPropertiesClass mapNumber(Map<String, Number> mapNumber) {
+  public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
     return this;
   }
 
-  public AdditionalPropertiesClass putMapNumberItem(String key, Number mapNumberItem) {
+  public AdditionalPropertiesClass putMapNumberItem(String key, BigDecimal mapNumberItem) {
     if (this.mapNumber == null) {
       this.mapNumber = new HashMap<>();
     }
@@ -91,11 +91,11 @@ public class AdditionalPropertiesClass   {
    * @return mapNumber
   **/
   @Valid
-  public Map<String, Number> getMapNumber() {
+  public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }
 
-  public void setMapNumber(Map<String, Number> mapNumber) {
+  public void setMapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
   }
 

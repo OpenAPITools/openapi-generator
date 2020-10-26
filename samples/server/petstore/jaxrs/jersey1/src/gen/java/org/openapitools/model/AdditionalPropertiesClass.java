@@ -18,10 +18,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.model.Number;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -50,7 +50,7 @@ public class AdditionalPropertiesClass   {
 
   public static final String JSON_PROPERTY_MAP_NUMBER = "map_number";
   @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
-  private Map<String, Number> mapNumber = null;
+  private Map<String, BigDecimal> mapNumber = null;
 
   public static final String JSON_PROPERTY_MAP_INTEGER = "map_integer";
   @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
@@ -116,14 +116,14 @@ public class AdditionalPropertiesClass   {
     this.mapString = mapString;
   }
 
-  public AdditionalPropertiesClass mapNumber(Map<String, Number> mapNumber) {
+  public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
     return this;
   }
 
-  public AdditionalPropertiesClass putMapNumberItem(String key, Number mapNumberItem) {
+  public AdditionalPropertiesClass putMapNumberItem(String key, BigDecimal mapNumberItem) {
     if (this.mapNumber == null) {
-      this.mapNumber = new HashMap<String, Number>();
+      this.mapNumber = new HashMap<String, BigDecimal>();
     }
     this.mapNumber.put(key, mapNumberItem);
     return this;
@@ -136,11 +136,11 @@ public class AdditionalPropertiesClass   {
   @JsonProperty("map_number")
   @ApiModelProperty(value = "")
   @Valid 
-  public Map<String, Number> getMapNumber() {
+  public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }
 
-  public void setMapNumber(Map<String, Number> mapNumber) {
+  public void setMapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
   }
 

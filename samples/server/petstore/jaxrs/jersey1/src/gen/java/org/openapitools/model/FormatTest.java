@@ -22,7 +22,6 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
-import org.openapitools.model.Number;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -62,7 +61,7 @@ public class FormatTest   {
 
   public static final String JSON_PROPERTY_NUMBER = "number";
   @JsonProperty(JSON_PROPERTY_NUMBER)
-  private Number number;
+  private BigDecimal number;
 
   public static final String JSON_PROPERTY_FLOAT = "float";
   @JsonProperty(JSON_PROPERTY_FLOAT)
@@ -168,7 +167,7 @@ public class FormatTest   {
     this.int64 = int64;
   }
 
-  public FormatTest number(Number number) {
+  public FormatTest number(BigDecimal number) {
     this.number = number;
     return this;
   }
@@ -182,11 +181,11 @@ public class FormatTest   {
   @JsonProperty("number")
   @ApiModelProperty(required = true, value = "")
   @NotNull @Valid  @DecimalMin("32.1") @DecimalMax("543.2")
-  public Number getNumber() {
+  public BigDecimal getNumber() {
     return number;
   }
 
-  public void setNumber(Number number) {
+  public void setNumber(BigDecimal number) {
     this.number = number;
   }
 

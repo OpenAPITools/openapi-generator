@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 import org.joda.time.LocalDate;
-import org.openapitools.model.Number;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -25,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   private @Valid Integer integer;
   private @Valid Integer int32;
   private @Valid Long int64;
-  private @Valid Number number;
+  private @Valid BigDecimal number;
   private @Valid Float _float;
   private @Valid Double _double;
   private @Valid String string;
@@ -99,7 +98,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
    * minimum: 32.1
    * maximum: 543.2
    **/
-  public FormatTest number(Number number) {
+  public FormatTest number(BigDecimal number) {
     this.number = number;
     return this;
   }
@@ -110,11 +109,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("number")
   @NotNull
- @DecimalMin("32.1") @DecimalMax("543.2")  public Number getNumber() {
+ @DecimalMin("32.1") @DecimalMax("543.2")  public BigDecimal getNumber() {
     return number;
   }
 
-  public void setNumber(Number number) {
+  public void setNumber(BigDecimal number) {
     this.number = number;
   }/**
    * minimum: 54.3

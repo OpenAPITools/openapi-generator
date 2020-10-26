@@ -2,11 +2,11 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 
+import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
-import org.openapitools.client.model.Number;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -151,10 +151,10 @@ public class FakeApi {
      * Test serialization of outer number types
      * <p><b>200</b> - Output number
      * @param body Input number as post body
-     * @return Number
+     * @return BigDecimal
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Number> fakeOuterNumberSerialize(Number body) throws WebClientResponseException {
+    public Mono<BigDecimal> fakeOuterNumberSerialize(BigDecimal body) throws WebClientResponseException {
         Object postBody = body;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -173,7 +173,7 @@ public class FakeApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Number> localVarReturnType = new ParameterizedTypeReference<Number>() {};
+        ParameterizedTypeReference<BigDecimal> localVarReturnType = new ParameterizedTypeReference<BigDecimal>() {};
         return apiClient.invokeAPI("/fake/outer/number", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
     /**
@@ -336,7 +336,7 @@ public class FakeApi {
      * @param paramCallback None
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testEndpointParameters(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws WebClientResponseException {
+    public Mono<Void> testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'number' is set
         if (number == null) {

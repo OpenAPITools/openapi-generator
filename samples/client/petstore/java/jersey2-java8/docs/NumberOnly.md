@@ -6,7 +6,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**justNumber** | [**Number**](Number.md) |  |  [optional]
+**justNumber** | [**BigDecimal**](BigDecimal.md) |  |  [optional]
 
 
 

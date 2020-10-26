@@ -22,9 +22,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.client.model.Number;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
@@ -44,20 +44,20 @@ public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
   // Is a container wrapped=false
   // items.name=arrayNumber items.baseName=arrayNumber items.xmlName= items.xmlNamespace=
-  // items.example= items.type=Number
+  // items.example= items.type=BigDecimal
   @XmlElement(name = "arrayNumber")
-  private List<Number> arrayNumber = null;
+  private List<BigDecimal> arrayNumber = null;
 
 
-  public ArrayOfNumberOnly arrayNumber(List<Number> arrayNumber) {
+  public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     
     this.arrayNumber = arrayNumber;
     return this;
   }
 
-  public ArrayOfNumberOnly addArrayNumberItem(Number arrayNumberItem) {
+  public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
     if (this.arrayNumber == null) {
-      this.arrayNumber = new ArrayList<Number>();
+      this.arrayNumber = new ArrayList<BigDecimal>();
     }
     this.arrayNumber.add(arrayNumberItem);
     return this;
@@ -72,12 +72,12 @@ public class ArrayOfNumberOnly {
   @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<Number> getArrayNumber() {
+  public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }
 
 
-  public void setArrayNumber(List<Number> arrayNumber) {
+  public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
 

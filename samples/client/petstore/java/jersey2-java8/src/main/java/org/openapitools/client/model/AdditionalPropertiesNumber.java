@@ -28,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.client.model.Number;
+import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
@@ -73,16 +73,16 @@ public class AdditionalPropertiesNumber {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Number> additionalProperties;
+  private Map<String, BigDecimal> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
    */
   @JsonAnySetter
-  public AdditionalPropertiesNumber putAdditionalProperty(String key, Number value) {
+  public AdditionalPropertiesNumber putAdditionalProperty(String key, BigDecimal value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Number>();
+        this.additionalProperties = new HashMap<String, BigDecimal>();
     }
     this.additionalProperties.put(key, value);
     return this;
@@ -92,14 +92,14 @@ public class AdditionalPropertiesNumber {
    * Return the additional (undeclared) property.
    */
   @JsonAnyGetter
-  public Map<String, Number> getAdditionalProperties() {
+  public Map<String, BigDecimal> getAdditionalProperties() {
     return additionalProperties;
   }
 
   /**
    * Return the additional (undeclared) property with the specified name.
    */
-  public Number getAdditionalProperty(String key) {
+  public BigDecimal getAdditionalProperty(String key) {
     if (this.additionalProperties == null) {
         return null;
     }

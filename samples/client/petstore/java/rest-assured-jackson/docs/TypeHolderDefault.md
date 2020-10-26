@@ -7,7 +7,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **stringItem** | **String** |  | 
-**numberItem** | [**Number**](Number.md) |  | 
+**numberItem** | [**BigDecimal**](BigDecimal.md) |  | 
 **integerItem** | **Integer** |  | 
 **boolItem** | **Boolean** |  | 
 **arrayItem** | **List&lt;Integer&gt;** |  | 

@@ -3,6 +3,7 @@ package org.openapitools.api.impl;
 import org.openapitools.api.*;
 import org.openapitools.model.*;
 
+import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
@@ -10,7 +11,6 @@ import org.openapitools.model.FileSchemaTestClass;
 import org.openapitools.model.HealthCheckResult;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
-import org.openapitools.model.Number;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.Pet;
 import org.openapitools.model.User;
@@ -48,7 +48,7 @@ public class FakeApiServiceImpl extends FakeApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response fakeOuterNumberSerialize(Number body, SecurityContext securityContext) throws NotFoundException {
+    public Response fakeOuterNumberSerialize(BigDecimal body, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -73,7 +73,7 @@ public class FakeApiServiceImpl extends FakeApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response testEndpointParameters(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, FormDataBodyPart binaryBodypart, Date date, Date dateTime, String password, String paramCallback, SecurityContext securityContext) throws NotFoundException {
+    public Response testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, FormDataBodyPart binaryBodypart, Date date, Date dateTime, String password, String paramCallback, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

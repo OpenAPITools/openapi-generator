@@ -7,7 +7,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **mapString** | **Map&lt;String, String&gt;** |  |  [optional]
-**mapNumber** | [**Map&lt;String, Number&gt;**](Number.md) |  |  [optional]
+**mapNumber** | [**Map&lt;String, BigDecimal&gt;**](BigDecimal.md) |  |  [optional]
 **mapInteger** | **Map&lt;String, Integer&gt;** |  |  [optional]
 **mapBoolean** | **Map&lt;String, Boolean&gt;** |  |  [optional]
 **mapArrayInteger** | [**Map&lt;String, List&lt;Integer&gt;&gt;**](List.md) |  |  [optional]

@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
-import org.openapitools.model.Number;
 import org.springframework.core.io.Resource;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
@@ -32,7 +31,7 @@ public class FormatTest   {
   private Long int64;
 
   @JsonProperty("number")
-  private Number number;
+  private BigDecimal number;
 
   @JsonProperty("float")
   private Float _float;
@@ -130,7 +129,7 @@ public class FormatTest   {
     this.int64 = int64;
   }
 
-  public FormatTest number(Number number) {
+  public FormatTest number(BigDecimal number) {
     this.number = number;
     return this;
   }
@@ -146,11 +145,11 @@ public class FormatTest   {
 
   @Valid
 @DecimalMin("32.1") @DecimalMax("543.2") 
-  public Number getNumber() {
+  public BigDecimal getNumber() {
     return number;
   }
 
-  public void setNumber(Number number) {
+  public void setNumber(BigDecimal number) {
     this.number = number;
   }
 

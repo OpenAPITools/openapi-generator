@@ -1,6 +1,5 @@
 package apimodels;
 
-import apimodels.Number;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -27,7 +26,7 @@ public class FormatTest   {
   private Long int64;
 
   @JsonProperty("number")
-  private Number number;
+  private BigDecimal number;
 
   @JsonProperty("float")
   private Float _float;
@@ -118,7 +117,7 @@ public class FormatTest   {
     this.int64 = int64;
   }
 
-  public FormatTest number(Number number) {
+  public FormatTest number(BigDecimal number) {
     this.number = number;
     return this;
   }
@@ -133,11 +132,11 @@ public class FormatTest   {
 @DecimalMin("32.1")
 @DecimalMax("543.2")
 @Valid
-  public Number getNumber() {
+  public BigDecimal getNumber() {
     return number;
   }
 
-  public void setNumber(Number number) {
+  public void setNumber(BigDecimal number) {
     this.number = number;
   }
 

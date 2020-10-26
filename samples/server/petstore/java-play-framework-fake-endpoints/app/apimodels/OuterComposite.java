@@ -1,6 +1,6 @@
 package apimodels;
 
-import apimodels.Number;
+import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class OuterComposite   {
   @JsonProperty("my_number")
-  private Number myNumber;
+  private BigDecimal myNumber;
 
   @JsonProperty("my_string")
   private String myString;
@@ -21,7 +21,7 @@ public class OuterComposite   {
   @JsonProperty("my_boolean")
   private Boolean myBoolean;
 
-  public OuterComposite myNumber(Number myNumber) {
+  public OuterComposite myNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
     return this;
   }
@@ -31,11 +31,11 @@ public class OuterComposite   {
    * @return myNumber
   **/
   @Valid
-  public Number getMyNumber() {
+  public BigDecimal getMyNumber() {
     return myNumber;
   }
 
-  public void setMyNumber(Number myNumber) {
+  public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
 

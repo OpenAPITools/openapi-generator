@@ -18,9 +18,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.model.Number;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
@@ -45,7 +45,7 @@ public class TypeHolderExample  implements Serializable {
 
   public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
   @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
-  private Number numberItem;
+  private BigDecimal numberItem;
 
   public static final String JSON_PROPERTY_FLOAT_ITEM = "float_item";
   @JsonProperty(JSON_PROPERTY_FLOAT_ITEM)
@@ -83,7 +83,7 @@ public class TypeHolderExample  implements Serializable {
     this.stringItem = stringItem;
   }
 
-  public TypeHolderExample numberItem(Number numberItem) {
+  public TypeHolderExample numberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
     return this;
   }
@@ -95,11 +95,11 @@ public class TypeHolderExample  implements Serializable {
   @JsonProperty("number_item")
   @ApiModelProperty(example = "1.234", required = true, value = "")
   @NotNull @Valid 
-  public Number getNumberItem() {
+  public BigDecimal getNumberItem() {
     return numberItem;
   }
 
-  public void setNumberItem(Number numberItem) {
+  public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
 

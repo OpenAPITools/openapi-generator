@@ -146,7 +146,7 @@ No authorization required
 
 <a name="fakeOuterNumberSerialize"></a>
 # **fakeOuterNumberSerialize**
-> Number fakeOuterNumberSerialize(body)
+> BigDecimal fakeOuterNumberSerialize(body)
 
 
 
@@ -170,11 +170,11 @@ api.fakeOuterNumberSerialize().execute(r -> r.prettyPeek());
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **Number**| Input number as post body | [optional]
+ **body** | **BigDecimal**| Input number as post body | [optional]
 
 ### Return type
 
-[**Number**](Number.md)
+[**BigDecimal**](BigDecimal.md)
 
 ### Authorization
 
@@ -382,7 +382,7 @@ api.testEndpointParameters()
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **Number**| None |
+ **number** | **BigDecimal**| None |
  **_double** | **Double**| None |
  **patternWithoutDelimiter** | **String**| None |
  **_byte** | **byte[]**| None |

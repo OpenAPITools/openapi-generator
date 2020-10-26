@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 import org.joda.time.LocalDate;
-import org.openapitools.model.Number;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -32,7 +31,7 @@ public class FormatTest  {
 
   @ApiModelProperty(required = true, value = "")
   @Valid
-  private Number number;
+  private BigDecimal number;
 
   @ApiModelProperty(value = "")
   private Float _float;
@@ -130,15 +129,15 @@ public class FormatTest  {
   **/
   @JsonProperty("number")
   @NotNull
- @DecimalMin("32.1") @DecimalMax("543.2")  public Number getNumber() {
+ @DecimalMin("32.1") @DecimalMax("543.2")  public BigDecimal getNumber() {
     return number;
   }
 
-  public void setNumber(Number number) {
+  public void setNumber(BigDecimal number) {
     this.number = number;
   }
 
-  public FormatTest number(Number number) {
+  public FormatTest number(BigDecimal number) {
     this.number = number;
     return this;
   }

@@ -464,7 +464,7 @@ No authorization required
 
 ## fakeOuterNumberSerialize
 
-> CompletableFuture<Number> fakeOuterNumberSerialize(body)
+> CompletableFuture<BigDecimal> fakeOuterNumberSerialize(body)
 
 
 
@@ -487,9 +487,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        Number body = new Number(); // Number | Input number as post body
+        BigDecimal body = new BigDecimal(); // BigDecimal | Input number as post body
         try {
-            CompletableFuture<Number> result = apiInstance.fakeOuterNumberSerialize(body);
+            CompletableFuture<BigDecimal> result = apiInstance.fakeOuterNumberSerialize(body);
             System.out.println(result.get());
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterNumberSerialize");
@@ -507,11 +507,11 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **Number**| Input number as post body | [optional]
+ **body** | **BigDecimal**| Input number as post body | [optional]
 
 ### Return type
 
-CompletableFuture<[**Number**](Number.md)>
+CompletableFuture<[**BigDecimal**](BigDecimal.md)>
 
 
 ### Authorization
@@ -530,7 +530,7 @@ No authorization required
 
 ## fakeOuterNumberSerializeWithHttpInfo
 
-> CompletableFuture<ApiResponse<Number>> fakeOuterNumberSerialize fakeOuterNumberSerializeWithHttpInfo(body)
+> CompletableFuture<ApiResponse<BigDecimal>> fakeOuterNumberSerialize fakeOuterNumberSerializeWithHttpInfo(body)
 
 
 
@@ -554,9 +554,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        Number body = new Number(); // Number | Input number as post body
+        BigDecimal body = new BigDecimal(); // BigDecimal | Input number as post body
         try {
-            CompletableFuture<ApiResponse<Number>> response = apiInstance.fakeOuterNumberSerializeWithHttpInfo(body);
+            CompletableFuture<ApiResponse<BigDecimal>> response = apiInstance.fakeOuterNumberSerializeWithHttpInfo(body);
             System.out.println("Status code: " + response.get().getStatusCode());
             System.out.println("Response headers: " + response.get().getHeaders());
             System.out.println("Response body: " + response.get().getData());
@@ -583,11 +583,11 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **Number**| Input number as post body | [optional]
+ **body** | **BigDecimal**| Input number as post body | [optional]
 
 ### Return type
 
-CompletableFuture<ApiResponse<[**Number**](Number.md)>>
+CompletableFuture<ApiResponse<[**BigDecimal**](BigDecimal.md)>>
 
 
 ### Authorization
@@ -1204,7 +1204,7 @@ public class Example {
         http_basic_test.setPassword("YOUR PASSWORD");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        Number number = new Number(); // Number | None
+        BigDecimal number = new BigDecimal(); // BigDecimal | None
         Double _double = 3.4D; // Double | None
         String patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
         byte[] _byte = null; // byte[] | None
@@ -1236,7 +1236,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **Number**| None |
+ **number** | **BigDecimal**| None |
  **_double** | **Double**| None |
  **patternWithoutDelimiter** | **String**| None |
  **_byte** | **byte[]**| None |
@@ -1303,7 +1303,7 @@ public class Example {
         http_basic_test.setPassword("YOUR PASSWORD");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        Number number = new Number(); // Number | None
+        BigDecimal number = new BigDecimal(); // BigDecimal | None
         Double _double = 3.4D; // Double | None
         String patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
         byte[] _byte = null; // byte[] | None
@@ -1344,7 +1344,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **Number**| None |
+ **number** | **BigDecimal**| None |
  **_double** | **Double**| None |
  **patternWithoutDelimiter** | **String**| None |
  **_byte** | **byte[]**| None |

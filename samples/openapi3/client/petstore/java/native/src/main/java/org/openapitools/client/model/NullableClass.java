@@ -28,13 +28,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.client.model.Number;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
@@ -65,7 +65,7 @@ public class NullableClass extends HashMap<String, Object> {
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();
 
   public static final String JSON_PROPERTY_NUMBER_PROP = "number_prop";
-  private JsonNullable<Number> numberProp = JsonNullable.<Number>undefined();
+  private JsonNullable<BigDecimal> numberProp = JsonNullable.<BigDecimal>undefined();
 
   public static final String JSON_PROPERTY_BOOLEAN_PROP = "boolean_prop";
   private JsonNullable<Boolean> booleanProp = JsonNullable.<Boolean>undefined();
@@ -132,8 +132,8 @@ public class NullableClass extends HashMap<String, Object> {
   }
 
 
-  public NullableClass numberProp(Number numberProp) {
-    this.numberProp = JsonNullable.<Number>of(numberProp);
+  public NullableClass numberProp(BigDecimal numberProp) {
+    this.numberProp = JsonNullable.<BigDecimal>of(numberProp);
     return this;
   }
 
@@ -145,24 +145,24 @@ public class NullableClass extends HashMap<String, Object> {
   @ApiModelProperty(value = "")
   @JsonIgnore
 
-  public Number getNumberProp() {
+  public BigDecimal getNumberProp() {
         return numberProp.orElse(null);
   }
 
   @JsonProperty(JSON_PROPERTY_NUMBER_PROP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public JsonNullable<Number> getNumberProp_JsonNullable() {
+  public JsonNullable<BigDecimal> getNumberProp_JsonNullable() {
     return numberProp;
   }
   
   @JsonProperty(JSON_PROPERTY_NUMBER_PROP)
-  public void setNumberProp_JsonNullable(JsonNullable<Number> numberProp) {
+  public void setNumberProp_JsonNullable(JsonNullable<BigDecimal> numberProp) {
     this.numberProp = numberProp;
   }
 
-  public void setNumberProp(Number numberProp) {
-    this.numberProp = JsonNullable.<Number>of(numberProp);
+  public void setNumberProp(BigDecimal numberProp) {
+    this.numberProp = JsonNullable.<BigDecimal>of(numberProp);
   }
 
 

@@ -1,11 +1,11 @@
 package controllers;
 
+import java.math.BigDecimal;
 import apimodels.Client;
 import apimodels.FileSchemaTestClass;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Map;
-import apimodels.Number;
 import java.time.OffsetDateTime;
 import apimodels.OuterComposite;
 import apimodels.User;
@@ -38,9 +38,9 @@ public class FakeApiControllerImp implements FakeApiControllerImpInterface {
     }
 
     @Override
-    public Number fakeOuterNumberSerialize(Http.Request request, Number body) throws Exception {
+    public BigDecimal fakeOuterNumberSerialize(Http.Request request, BigDecimal body) throws Exception {
         //Do your magic!!!
-        return new Number();
+        return new BigDecimal(1.0);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class FakeApiControllerImp implements FakeApiControllerImpInterface {
     }
 
     @Override
-    public void testEndpointParameters(Http.Request request, Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, Http.MultipartFormData.FilePart binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws Exception {
+    public void testEndpointParameters(Http.Request request, BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, Http.MultipartFormData.FilePart binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws Exception {
         //Do your magic!!!
     }
 

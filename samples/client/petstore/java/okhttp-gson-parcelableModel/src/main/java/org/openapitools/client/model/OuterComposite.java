@@ -23,7 +23,7 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import org.openapitools.client.model.Number;
+import java.math.BigDecimal;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -34,7 +34,7 @@ import android.os.Parcel;
 public class OuterComposite {
   public static final String SERIALIZED_NAME_MY_NUMBER = "my_number";
   @SerializedName(SERIALIZED_NAME_MY_NUMBER)
-  private Number myNumber;
+  private BigDecimal myNumber;
 
   public static final String SERIALIZED_NAME_MY_STRING = "my_string";
   @SerializedName(SERIALIZED_NAME_MY_STRING)
@@ -47,7 +47,7 @@ public class OuterComposite {
   public OuterComposite() {
   }
 
-  public OuterComposite myNumber(Number myNumber) {
+  public OuterComposite myNumber(BigDecimal myNumber) {
     
     this.myNumber = myNumber;
     return this;
@@ -60,12 +60,12 @@ public class OuterComposite {
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
 
-  public Number getMyNumber() {
+  public BigDecimal getMyNumber() {
     return myNumber;
   }
 
 
-  public void setMyNumber(Number myNumber) {
+  public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
 
@@ -166,7 +166,7 @@ public class OuterComposite {
   }
 
   OuterComposite(Parcel in) {
-    myNumber = (Number)in.readValue(Number.class.getClassLoader());
+    myNumber = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
     myString = (String)in.readValue(null);
     myBoolean = (Boolean)in.readValue(null);
   }

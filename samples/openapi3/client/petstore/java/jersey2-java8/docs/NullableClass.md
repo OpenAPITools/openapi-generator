@@ -7,7 +7,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **integerProp** | **Integer** |  |  [optional]
-**numberProp** | [**Number**](Number.md) |  |  [optional]
+**numberProp** | [**BigDecimal**](BigDecimal.md) |  |  [optional]
 **booleanProp** | **Boolean** |  |  [optional]
 **stringProp** | **String** |  |  [optional]
 **dateProp** | [**LocalDate**](LocalDate.md) |  |  [optional]

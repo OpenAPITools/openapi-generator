@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.client.model.Number;
+import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
@@ -37,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class OuterComposite {
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
-  private Number myNumber;
+  private BigDecimal myNumber;
 
   public static final String JSON_PROPERTY_MY_STRING = "my_string";
   private String myString;
@@ -46,7 +46,7 @@ public class OuterComposite {
   private Boolean myBoolean;
 
 
-  public OuterComposite myNumber(Number myNumber) {
+  public OuterComposite myNumber(BigDecimal myNumber) {
     
     this.myNumber = myNumber;
     return this;
@@ -61,12 +61,12 @@ public class OuterComposite {
   @JsonProperty(JSON_PROPERTY_MY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public Number getMyNumber() {
+  public BigDecimal getMyNumber() {
     return myNumber;
   }
 
 
-  public void setMyNumber(Number myNumber) {
+  public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
 

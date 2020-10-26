@@ -18,12 +18,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.model.Number;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -53,7 +53,7 @@ public class NullableClass extends HashMap<String, Object>  {
 
   public static final String JSON_PROPERTY_NUMBER_PROP = "number_prop";
   @JsonProperty(JSON_PROPERTY_NUMBER_PROP)
-  private Number numberProp;
+  private BigDecimal numberProp;
 
   public static final String JSON_PROPERTY_BOOLEAN_PROP = "boolean_prop";
   @JsonProperty(JSON_PROPERTY_BOOLEAN_PROP)
@@ -115,7 +115,7 @@ public class NullableClass extends HashMap<String, Object>  {
     this.integerProp = integerProp;
   }
 
-  public NullableClass numberProp(Number numberProp) {
+  public NullableClass numberProp(BigDecimal numberProp) {
     this.numberProp = numberProp;
     return this;
   }
@@ -127,11 +127,11 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty("number_prop")
   @ApiModelProperty(value = "")
   @Valid 
-  public Number getNumberProp() {
+  public BigDecimal getNumberProp() {
     return numberProp;
   }
 
-  public void setNumberProp(Number numberProp) {
+  public void setNumberProp(BigDecimal numberProp) {
     this.numberProp = numberProp;
   }
 

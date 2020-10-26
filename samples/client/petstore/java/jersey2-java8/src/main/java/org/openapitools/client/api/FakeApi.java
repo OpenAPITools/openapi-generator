@@ -8,11 +8,11 @@ import org.openapitools.client.Pair;
 
 import javax.ws.rs.core.GenericType;
 
+import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
-import org.openapitools.client.model.Number;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -245,7 +245,7 @@ public class FakeApi {
    * 
    * Test serialization of outer number types
    * @param body Input number as post body (optional)
-   * @return Number
+   * @return BigDecimal
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
@@ -253,7 +253,7 @@ public class FakeApi {
        <tr><td> 200 </td><td> Output number </td><td>  -  </td></tr>
      </table>
    */
-  public Number fakeOuterNumberSerialize(Number body) throws ApiException {
+  public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws ApiException {
     return fakeOuterNumberSerializeWithHttpInfo(body).getData();
   }
 
@@ -261,7 +261,7 @@ public class FakeApi {
    * 
    * Test serialization of outer number types
    * @param body Input number as post body (optional)
-   * @return ApiResponse&lt;Number&gt;
+   * @return ApiResponse&lt;BigDecimal&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
@@ -269,7 +269,7 @@ public class FakeApi {
        <tr><td> 200 </td><td> Output number </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Number> fakeOuterNumberSerializeWithHttpInfo(Number body) throws ApiException {
+  public ApiResponse<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body) throws ApiException {
     Object localVarPostBody = body;
     
     // create path and map variables
@@ -297,7 +297,7 @@ public class FakeApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-    GenericType<Number> localVarReturnType = new GenericType<Number>() {};
+    GenericType<BigDecimal> localVarReturnType = new GenericType<BigDecimal>() {};
 
     return apiClient.invokeAPI("FakeApi.fakeOuterNumberSerialize", localVarPath, "POST", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
@@ -593,7 +593,7 @@ public class FakeApi {
        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
-  public void testEndpointParameters(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+  public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
     testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
   }
 
@@ -623,7 +623,7 @@ public class FakeApi {
        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> testEndpointParametersWithHttpInfo(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+  public ApiResponse<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'number' is set

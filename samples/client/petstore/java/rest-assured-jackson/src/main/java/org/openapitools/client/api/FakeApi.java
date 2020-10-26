@@ -13,11 +13,11 @@
 
 package org.openapitools.client.api;
 
+import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
-import org.openapitools.client.model.Number;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -445,7 +445,7 @@ public class FakeApi {
      * Test serialization of outer number types
      *
      * @see #body Input number as post body (optional)
-     * return Number
+     * return BigDecimal
      */
     public static class FakeOuterNumberSerializeOper implements Oper {
 
@@ -476,18 +476,18 @@ public class FakeApi {
         /**
          * POST /fake/outer/number
          * @param handler handler
-         * @return Number
+         * @return BigDecimal
          */
-        public Number executeAs(Function<Response, Response> handler) {
-            TypeRef<Number> type = new TypeRef<Number>(){};
+        public BigDecimal executeAs(Function<Response, Response> handler) {
+            TypeRef<BigDecimal> type = new TypeRef<BigDecimal>(){};
             return execute(handler).as(type);
         }
 
          /**
-         * @param body (Number) Input number as post body (optional)
+         * @param body (BigDecimal) Input number as post body (optional)
          * @return operation
          */
-        public FakeOuterNumberSerializeOper body(Number body) {
+        public FakeOuterNumberSerializeOper body(BigDecimal body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -871,7 +871,7 @@ public class FakeApi {
          public static final String NUMBER_FORM = "number";
 
          /**
-         * @param number (Number) None (required)
+         * @param number (BigDecimal) None (required)
          * @return operation
          */
          public TestEndpointParametersOper numberForm(Object... number) {

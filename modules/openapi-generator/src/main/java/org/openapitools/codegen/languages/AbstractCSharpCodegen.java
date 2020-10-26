@@ -160,6 +160,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "DateTimeOffset",
                         "Boolean",
                         "Double",
+                        "Decimal",
                         "Int32",
                         "Int64",
                         "Float",

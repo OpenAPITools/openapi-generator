@@ -1,10 +1,10 @@
 package org.openapitools.client.api;
 
 import io.vertx.core.file.AsyncFile;
+import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
-import org.openapitools.client.model.Number;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -186,7 +186,7 @@ public class FakeApiImpl implements FakeApi {
         * @param body Input number as post body (optional)
     * @param resultHandler Asynchronous result handler
     */
-    public void fakeOuterNumberSerialize(Number body, Handler<AsyncResult<Number>> resultHandler) {
+    public void fakeOuterNumberSerialize(BigDecimal body, Handler<AsyncResult<BigDecimal>> resultHandler) {
         fakeOuterNumberSerialize(body, null, resultHandler);
     }
 
@@ -197,7 +197,7 @@ public class FakeApiImpl implements FakeApi {
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void fakeOuterNumberSerialize(Number body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Number>> resultHandler) {
+    public void fakeOuterNumberSerialize(BigDecimal body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<BigDecimal>> resultHandler) {
         Object localVarBody = body;
         
         // create path and map variables
@@ -219,7 +219,7 @@ public class FakeApiImpl implements FakeApi {
         String[] localVarAccepts = { "*/*" };
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
-        TypeReference<Number> localVarReturnType = new TypeReference<Number>() {};
+        TypeReference<BigDecimal> localVarReturnType = new TypeReference<BigDecimal>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
     /**
@@ -436,7 +436,7 @@ public class FakeApiImpl implements FakeApi {
         * @param paramCallback None (optional)
     * @param resultHandler Asynchronous result handler
     */
-    public void testEndpointParameters(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Handler<AsyncResult<Void>> resultHandler) {
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Handler<AsyncResult<Void>> resultHandler) {
         testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, null, resultHandler);
     }
 
@@ -460,7 +460,7 @@ public class FakeApiImpl implements FakeApi {
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void testEndpointParameters(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'number' is set

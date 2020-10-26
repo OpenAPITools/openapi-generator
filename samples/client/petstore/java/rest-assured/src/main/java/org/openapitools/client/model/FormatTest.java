@@ -26,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.UUID;
-import org.openapitools.client.model.Number;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import javax.validation.constraints.*;
@@ -52,7 +51,7 @@ public class FormatTest {
 
   public static final String SERIALIZED_NAME_NUMBER = "number";
   @SerializedName(SERIALIZED_NAME_NUMBER)
-  private Number number;
+  private BigDecimal number;
 
   public static final String SERIALIZED_NAME_FLOAT = "float";
   @SerializedName(SERIALIZED_NAME_FLOAT)
@@ -168,7 +167,7 @@ public class FormatTest {
   }
 
 
-  public FormatTest number(Number number) {
+  public FormatTest number(BigDecimal number) {
     
     this.number = number;
     return this;
@@ -184,12 +183,12 @@ public class FormatTest {
   @Valid
  @DecimalMin("32.1") @DecimalMax("543.2")  @ApiModelProperty(required = true, value = "")
 
-  public Number getNumber() {
+  public BigDecimal getNumber() {
     return number;
   }
 
 
-  public void setNumber(Number number) {
+  public void setNumber(BigDecimal number) {
     this.number = number;
   }
 

@@ -27,11 +27,11 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
+import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
-import org.openapitools.client.model.Number;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -390,7 +390,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> Output number </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call fakeOuterNumberSerializeCall(Number body, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call fakeOuterNumberSerializeCall(BigDecimal body, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = body;
 
         // create path and map variables
@@ -420,7 +420,7 @@ public class FakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call fakeOuterNumberSerializeValidateBeforeCall(Number body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call fakeOuterNumberSerializeValidateBeforeCall(BigDecimal body, final ApiCallback _callback) throws ApiException {
         
 
         okhttp3.Call localVarCall = fakeOuterNumberSerializeCall(body, _callback);
@@ -432,7 +432,7 @@ public class FakeApi {
      * 
      * Test serialization of outer number types
      * @param body Input number as post body (optional)
-     * @return Number
+     * @return BigDecimal
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table summary="Response Details" border="1">
@@ -440,8 +440,8 @@ public class FakeApi {
         <tr><td> 200 </td><td> Output number </td><td>  -  </td></tr>
      </table>
      */
-    public Number fakeOuterNumberSerialize(Number body) throws ApiException {
-        ApiResponse<Number> localVarResp = fakeOuterNumberSerializeWithHttpInfo(body);
+    public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws ApiException {
+        ApiResponse<BigDecimal> localVarResp = fakeOuterNumberSerializeWithHttpInfo(body);
         return localVarResp.getData();
     }
 
@@ -449,7 +449,7 @@ public class FakeApi {
      * 
      * Test serialization of outer number types
      * @param body Input number as post body (optional)
-     * @return ApiResponse&lt;Number&gt;
+     * @return ApiResponse&lt;BigDecimal&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table summary="Response Details" border="1">
@@ -457,9 +457,9 @@ public class FakeApi {
         <tr><td> 200 </td><td> Output number </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Number> fakeOuterNumberSerializeWithHttpInfo(Number body) throws ApiException {
+    public ApiResponse<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body) throws ApiException {
         okhttp3.Call localVarCall = fakeOuterNumberSerializeValidateBeforeCall(body, null);
-        Type localVarReturnType = new TypeToken<Number>(){}.getType();
+        Type localVarReturnType = new TypeToken<BigDecimal>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
@@ -476,10 +476,10 @@ public class FakeApi {
         <tr><td> 200 </td><td> Output number </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call fakeOuterNumberSerializeAsync(Number body, final ApiCallback<Number> _callback) throws ApiException {
+    public okhttp3.Call fakeOuterNumberSerializeAsync(BigDecimal body, final ApiCallback<BigDecimal> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = fakeOuterNumberSerializeValidateBeforeCall(body, _callback);
-        Type localVarReturnType = new TypeToken<Number>(){}.getType();
+        Type localVarReturnType = new TypeToken<BigDecimal>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
@@ -949,7 +949,7 @@ public class FakeApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEndpointParametersCall(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testEndpointParametersCall(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -1035,7 +1035,7 @@ public class FakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testEndpointParametersValidateBeforeCall(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testEndpointParametersValidateBeforeCall(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'number' is set
         if (number == null) {
@@ -1088,7 +1088,7 @@ public class FakeApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public void testEndpointParameters(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
         testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     }
 
@@ -1118,7 +1118,7 @@ public class FakeApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> testEndpointParametersWithHttpInfo(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+    public ApiResponse<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
         okhttp3.Call localVarCall = testEndpointParametersValidateBeforeCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -1150,7 +1150,7 @@ public class FakeApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEndpointParametersAsync(Number number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call testEndpointParametersAsync(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testEndpointParametersValidateBeforeCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);

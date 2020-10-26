@@ -1,11 +1,11 @@
 package org.openapitools.api;
 
+import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
-import org.openapitools.model.Number;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.springframework.core.io.Resource;
@@ -90,7 +90,7 @@ public interface FakeApiDelegate {
      * @return Output number (status code 200)
      * @see FakeApi#fakeOuterNumberSerialize
      */
-    default ResponseEntity<Number> fakeOuterNumberSerialize(Number body) {
+    default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(BigDecimal body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -179,7 +179,7 @@ public interface FakeApiDelegate {
      *         or User not found (status code 404)
      * @see FakeApi#testEndpointParameters
      */
-    default ResponseEntity<Void> testEndpointParameters(Number number,
+    default ResponseEntity<Void> testEndpointParameters(BigDecimal number,
         Double _double,
         String patternWithoutDelimiter,
         byte[] _byte,

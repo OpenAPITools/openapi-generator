@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.model.Number;
+import java.math.BigDecimal;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
 
 public class OuterComposite   {
   @JsonProperty("my_number")
-  private Number myNumber;
+  private BigDecimal myNumber;
 
   @JsonProperty("my_string")
   private String myString;
@@ -26,7 +26,7 @@ public class OuterComposite   {
   @JsonProperty("my_boolean")
   private Boolean myBoolean;
 
-  public OuterComposite myNumber(Number myNumber) {
+  public OuterComposite myNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
     return this;
   }
@@ -39,11 +39,11 @@ public class OuterComposite   {
 
   @Valid
 
-  public Number getMyNumber() {
+  public BigDecimal getMyNumber() {
     return myNumber;
   }
 
-  public void setMyNumber(Number myNumber) {
+  public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
 

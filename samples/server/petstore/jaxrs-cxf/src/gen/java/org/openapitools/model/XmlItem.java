@@ -1,8 +1,8 @@
 package org.openapitools.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.model.Number;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -23,7 +23,7 @@ public class XmlItem  {
 
   @ApiModelProperty(example = "1.234", value = "")
   @Valid
-  private Number attributeNumber;
+  private BigDecimal attributeNumber;
 
   @ApiModelProperty(example = "-2", value = "")
   private Integer attributeInteger;
@@ -39,7 +39,7 @@ public class XmlItem  {
 
   @ApiModelProperty(example = "1.234", value = "")
   @Valid
-  private Number nameNumber;
+  private BigDecimal nameNumber;
 
   @ApiModelProperty(example = "-2", value = "")
   private Integer nameInteger;
@@ -58,7 +58,7 @@ public class XmlItem  {
 
   @ApiModelProperty(example = "1.234", value = "")
   @Valid
-  private Number prefixNumber;
+  private BigDecimal prefixNumber;
 
   @ApiModelProperty(example = "-2", value = "")
   private Integer prefixInteger;
@@ -77,7 +77,7 @@ public class XmlItem  {
 
   @ApiModelProperty(example = "1.234", value = "")
   @Valid
-  private Number namespaceNumber;
+  private BigDecimal namespaceNumber;
 
   @ApiModelProperty(example = "-2", value = "")
   private Integer namespaceInteger;
@@ -96,7 +96,7 @@ public class XmlItem  {
 
   @ApiModelProperty(example = "1.234", value = "")
   @Valid
-  private Number prefixNsNumber;
+  private BigDecimal prefixNsNumber;
 
   @ApiModelProperty(example = "-2", value = "")
   private Integer prefixNsInteger;
@@ -132,15 +132,15 @@ public class XmlItem  {
    * @return attributeNumber
   **/
   @JsonProperty("attribute_number")
-  public Number getAttributeNumber() {
+  public BigDecimal getAttributeNumber() {
     return attributeNumber;
   }
 
-  public void setAttributeNumber(Number attributeNumber) {
+  public void setAttributeNumber(BigDecimal attributeNumber) {
     this.attributeNumber = attributeNumber;
   }
 
-  public XmlItem attributeNumber(Number attributeNumber) {
+  public XmlItem attributeNumber(BigDecimal attributeNumber) {
     this.attributeNumber = attributeNumber;
     return this;
   }
@@ -227,15 +227,15 @@ public class XmlItem  {
    * @return nameNumber
   **/
   @JsonProperty("name_number")
-  public Number getNameNumber() {
+  public BigDecimal getNameNumber() {
     return nameNumber;
   }
 
-  public void setNameNumber(Number nameNumber) {
+  public void setNameNumber(BigDecimal nameNumber) {
     this.nameNumber = nameNumber;
   }
 
-  public XmlItem nameNumber(Number nameNumber) {
+  public XmlItem nameNumber(BigDecimal nameNumber) {
     this.nameNumber = nameNumber;
     return this;
   }
@@ -345,15 +345,15 @@ public class XmlItem  {
    * @return prefixNumber
   **/
   @JsonProperty("prefix_number")
-  public Number getPrefixNumber() {
+  public BigDecimal getPrefixNumber() {
     return prefixNumber;
   }
 
-  public void setPrefixNumber(Number prefixNumber) {
+  public void setPrefixNumber(BigDecimal prefixNumber) {
     this.prefixNumber = prefixNumber;
   }
 
-  public XmlItem prefixNumber(Number prefixNumber) {
+  public XmlItem prefixNumber(BigDecimal prefixNumber) {
     this.prefixNumber = prefixNumber;
     return this;
   }
@@ -463,15 +463,15 @@ public class XmlItem  {
    * @return namespaceNumber
   **/
   @JsonProperty("namespace_number")
-  public Number getNamespaceNumber() {
+  public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
   }
 
-  public void setNamespaceNumber(Number namespaceNumber) {
+  public void setNamespaceNumber(BigDecimal namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
   }
 
-  public XmlItem namespaceNumber(Number namespaceNumber) {
+  public XmlItem namespaceNumber(BigDecimal namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
     return this;
   }
@@ -581,15 +581,15 @@ public class XmlItem  {
    * @return prefixNsNumber
   **/
   @JsonProperty("prefix_ns_number")
-  public Number getPrefixNsNumber() {
+  public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
   }
 
-  public void setPrefixNsNumber(Number prefixNsNumber) {
+  public void setPrefixNsNumber(BigDecimal prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
   }
 
-  public XmlItem prefixNsNumber(Number prefixNsNumber) {
+  public XmlItem prefixNsNumber(BigDecimal prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
     return this;
   }
