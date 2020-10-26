@@ -1192,6 +1192,7 @@
                 <!-- clients -->
                 <!--<module>samples/client/petstore/perl</module>
                 <module>samples/client/petstore/bash</module>-->
+                <module>samples/client/petstore/ruby-faraday</module>
                 <module>samples/client/petstore/ruby</module>
                 <module>samples/client/petstore/c</module>
                 <module>samples/client/petstore/cpp-qt5</module>
