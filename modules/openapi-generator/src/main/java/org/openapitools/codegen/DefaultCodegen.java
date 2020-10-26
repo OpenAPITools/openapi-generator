@@ -3155,7 +3155,29 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isDateTimeSchema(p)) { // date-time format
             property.isString = false; // for backward compatibility with 2.x
             property.isDateTime = true;
+        } else if (ModelUtils.isDecimalSchema(p)) { // type: string, format: number
+            property.isDecimal = true;
+            if (p.getMinimum() != null) {
+                property.minimum = String.valueOf(p.getMinimum());
+            }
+            if (p.getMaximum() != null) {
+                property.maximum = String.valueOf(p.getMaximum());
+            }
+            if (p.getExclusiveMinimum() != null) {
+                property.exclusiveMinimum = p.getExclusiveMinimum();
+            }
+            if (p.getExclusiveMaximum() != null) {
+                property.exclusiveMaximum = p.getExclusiveMaximum();
+            }
+            if (p.getMultipleOf() != null) {
+                property.multipleOf = p.getMultipleOf();
+            }
 
+            // check if any validation rule defined
+            // exclusive* are noop without corresponding min/max
+            if (property.minimum != null || property.maximum != null || p.getMultipleOf() != null) {
+                property.hasValidation = true;
+            }
         } else if (ModelUtils.isStringSchema(p)) {
             if (ModelUtils.isByteArraySchema(p)) {
                 property.isByteArray = true;
@@ -4063,6 +4085,9 @@ public class DefaultCodegen implements CodegenConfig {
                 r.isNumeric = true;
             } else if (Boolean.TRUE.equals(cp.isFloat)) {
                 r.isFloat = true;
+                r.isNumeric = true;
+            } else if (Boolean.TRUE.equals(cp.isDecimal)) {
+                r.isDecimal = true;
                 r.isNumeric = true;
             } else if (Boolean.TRUE.equals(cp.isBinary)) {
                 r.isFile = true; // file = binary in OAS3
@@ -5404,6 +5429,9 @@ public class DefaultCodegen implements CodegenConfig {
             parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isFloat)) {
             parameter.isFloat = true;
+            parameter.isPrimitiveType = true;
+        } else if (Boolean.TRUE.equals(property.isDecimal)) {
+            parameter.isDecimal = true;
             parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isNumber)) {
             parameter.isNumber = true;

@@ -387,7 +387,7 @@ public class FormatTest  implements Serializable {
    **/
   @JsonProperty("BigDecimal")
   @ApiModelProperty(value = "")
-  
+  @Valid 
   public BigDecimal getBigDecimal() {
     return bigDecimal;
   }

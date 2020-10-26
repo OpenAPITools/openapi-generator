@@ -41,6 +41,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean isNumber;
     public boolean isFloat;
     public boolean isDouble;
+    public boolean isDecimal;
     public boolean isByteArray;
     public boolean isBoolean;
     public boolean isDate;
@@ -79,7 +80,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     @Override
     public int hashCode() {
         return Objects.hash(headers, code, message, hasMore, examples, dataType, baseType, containerType, hasHeaders,
-                isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate,
+                isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
                 isMap, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
@@ -100,6 +101,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isNumber == that.isNumber &&
                 isFloat == that.isFloat &&
                 isDouble == that.isDouble &&
+                isDecimal == that.isDecimal &&
                 isByteArray == that.isByteArray &&
                 isBoolean == that.isBoolean &&
                 isDate == that.isDate &&
@@ -351,6 +353,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", isNumber=").append(isNumber);
         sb.append(", isFloat=").append(isFloat);
         sb.append(", isDouble=").append(isDouble);
+        sb.append(", isDecimal=").append(isDecimal);
         sb.append(", isByteArray=").append(isByteArray);
         sb.append(", isBoolean=").append(isBoolean);
         sb.append(", isDate=").append(isDate);

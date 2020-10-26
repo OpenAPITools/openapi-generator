@@ -34,7 +34,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public String nameInLowerCase; // property name in lower case
     public String example; // example value (x-example)
     public String jsonSchema;
-    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary,
+    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary,
             isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isAnyType;
     public boolean isArray, isMap;
     public boolean isFile;
@@ -172,6 +172,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.isInteger = this.isInteger;
         output.isLong = this.isLong;
         output.isDouble = this.isDouble;
+        output.isDecimal = this.isDecimal;
         output.isFloat = this.isFloat;
         output.isNumber = this.isNumber;
         output.isBoolean = this.isBoolean;
@@ -193,7 +194,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
 
     @Override
     public int hashCode() {
-        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, hasMore, isContainer, secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isAnyType, isArray, isMap, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, additionalProperties, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf);
+        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, hasMore, isContainer, secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isAnyType, isArray, isMap, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, additionalProperties, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf);
     }
 
     @Override
@@ -221,6 +222,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 isNumber == that.isNumber &&
                 isFloat == that.isFloat &&
                 isDouble == that.isDouble &&
+                isDecimal == that.isDecimal &&
                 isByteArray == that.isByteArray &&
                 isBinary == that.isBinary &&
                 isBoolean == that.isBoolean &&
@@ -311,6 +313,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", isNumber=").append(isNumber);
         sb.append(", isFloat=").append(isFloat);
         sb.append(", isDouble=").append(isDouble);
+        sb.append(", isDecimal=").append(isDecimal);
         sb.append(", isByteArray=").append(isByteArray);
         sb.append(", isBinary=").append(isBinary);
         sb.append(", isBoolean=").append(isBoolean);

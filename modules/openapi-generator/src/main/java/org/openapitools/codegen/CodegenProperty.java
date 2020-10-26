@@ -124,6 +124,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isNumber;
     public boolean isFloat;
     public boolean isDouble;
+    public boolean isDecimal;
     public boolean isByteArray;
     public boolean isBinary;
     public boolean isFile;
@@ -702,6 +703,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isNumber=").append(isNumber);
         sb.append(", isFloat=").append(isFloat);
         sb.append(", isDouble=").append(isDouble);
+        sb.append(", isDecimal=").append(isDecimal);
         sb.append(", isByteArray=").append(isByteArray);
         sb.append(", isBinary=").append(isBinary);
         sb.append(", isFile=").append(isFile);
@@ -770,6 +772,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isNumber == that.isNumber &&
                 isFloat == that.isFloat &&
                 isDouble == that.isDouble &&
+                isDecimal == that.isDecimal &&
                 isByteArray == that.isByteArray &&
                 isBinary == that.isBinary &&
                 isFile == that.isFile &&
@@ -845,7 +848,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
                 exclusiveMinimum, exclusiveMaximum, hasMore, required, deprecated, secondaryParam,
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
-                isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
+                isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
                 isArray, isMap, isEnum, isReadOnly, isWriteOnly, isNullable,
                 isSelfReference, isCircularReference, isDiscriminator, _enum, allowableValues,
