@@ -10,9 +10,9 @@
 """
 
 
+import inspect
 import pprint
 import re  # noqa: F401
-
 import six
 
 from petstore_api.configuration import Configuration
@@ -211,61 +211,37 @@ class Order(object):
 
         self._complete = complete
 
-    def to_dict(self):
+    def to_dict(self, serialize=False):
         """Returns the model properties as a dict"""
         result = {}
 
+        def convert(x):
+            if hasattr(x, "to_dict"):
+                args = inspect.getargspec(x.to_dict).args
+                if len(args) == 1:
+                    return x.to_dict()
+                elif len(args) == 2:
+                    return x.to_dict(serialize)
+                else:
+                    raise ValueError("Invalid argument size of to_dict")
+            else:
+                return x
+
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+            attr = self.attribute_map.get(attr, attr) if serialize else attr
             if isinstance(value, list):
                 result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
+                    lambda x: convert(x),
                     value
                 ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
+                    lambda item: (item[0], convert(item[1])),
                     value.items()
                 ))
             else:
-                result[attr] = value
-
-        return result
-
-    def to_json_dict(self):
-        """Returns the model properties as a dict"""
-        result = {}
-
-        def get_value(val):
-            if hasattr(val, "to_json_dict"):
-                return val.to_json_dict()
-            elif hasattr(val, "to_dict"):
-                return val.to_dict()
-            else:
-                return val
-
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
-            key = self.attribute_map.get(attr, attr)
-            if isinstance(value, list):
-                result[key] = list(map(
-                    lambda x: get_value(x),
-                    value
-                ))
-            elif hasattr(value, "to_json_dict"):
-                result[key] = value.to_json_dict()
-            elif hasattr(value, "to_dict"):
-                result[key] = value.to_dict()
-            elif isinstance(value, dict):
-                result[key] = dict(map(
-                    lambda item: (item[0], get_value(item[1])),
-                    value.items()
-                ))
-            else:
-                result[key] = value
+                result[attr] = convert(value)
 
         return result
 
