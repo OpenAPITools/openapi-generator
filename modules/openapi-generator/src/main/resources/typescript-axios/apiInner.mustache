@@ -161,18 +161,17 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             if ({{paramName}}) {
             {{#isCollectionFormatMulti}}
                 {{paramName}}.forEach((element) => {
-                    localVarFormParams.append('{{baseName}}', element as any);
+                    localVarFormParams.{{#multipartFormData}}append{{/multipartFormData}}{{^multipartFormData}}set{{/multipartFormData}}('{{baseName}}', element as any);
                 })
             {{/isCollectionFormatMulti}}
-            {{^isCollectionFormatMulti}}{{^multipartFormData}}
-                localVarFormParams.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));{{/multipartFormData}}{{#multipartFormData}}
-                localVarFormParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));{{/multipartFormData}}
+            {{^isCollectionFormatMulti}}
+                localVarFormParams.{{#multipartFormData}}append{{/multipartFormData}}{{^multipartFormData}}set{{/multipartFormData}}({{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}});
             {{/isCollectionFormatMulti}}
-            }{{/isArray}}
+            }
+            {{/isArray}}
             {{^isArray}}
-            if ({{paramName}} !== undefined) { {{^multipartFormData}}
-                localVarFormParams.set('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}{{#multipartFormData}}
-                localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}
+            if ({{paramName}} !== undefined) {
+                localVarFormParams.{{#multipartFormData}}append{{/multipartFormData}}{{^multipartFormData}}set{{/multipartFormData}}('{{baseName}}', {{paramName}} as any);
             }
             {{/isArray}}
     {{/formParams}}{{/vendorExtensions}}
