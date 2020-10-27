@@ -122,6 +122,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // optional params/props with **kwargs in python
         cliOptions.remove(4);
 
+        cliOptions.add(new CliOption(CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET, CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET_DESC)
+                .defaultValue(Boolean.FALSE.toString()));
+
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.EXPERIMENTAL)
                 .build();
@@ -209,6 +212,12 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // default this to true so the python ModelSimple models will be generated
         ModelUtils.setGenerateAliasAsModel(true);
         LOGGER.info(CodegenConstants.GENERATE_ALIAS_AS_MODEL + " is hard coded to true in this generator. Alias models will only be generated if they contain validations or enums");
+
+        Boolean attrNoneIfUnset = false;
+        if (additionalProperties.containsKey(CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET)) {
+            attrNoneIfUnset = Boolean.valueOf(additionalProperties.get(CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET).toString());
+        }
+        additionalProperties.put("attrNoneIfUnset", attrNoneIfUnset);
     }
 
     /**

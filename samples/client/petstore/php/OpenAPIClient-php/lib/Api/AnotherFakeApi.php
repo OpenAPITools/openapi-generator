@@ -297,7 +297,7 @@ class AnotherFakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function call123TestSpecialTagsRequest($client)
+    public function call123TestSpecialTagsRequest($client)
     {
         // verify the required parameter 'client' is set
         if ($client === null || (is_array($client) && count($client) === 0)) {
