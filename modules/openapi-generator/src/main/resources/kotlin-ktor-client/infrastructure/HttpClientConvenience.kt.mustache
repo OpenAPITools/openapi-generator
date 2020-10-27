@@ -33,8 +33,8 @@ internal fun List<Pair<String, String?>>.whereSecondNotNull(): List<Pair<String,
 }
 
 //Until kotlinx serialization supports stripping nulls, we have to work around it
-internal fun <T>Json.stringify(serializer: SerializationStrategy<T>, value: T, stripNull: Boolean): String {
-    val nonStrippedJsonString = stringify(serializer, value)
+internal fun <T>Json.encodeToString(serializer: SerializationStrategy<T>, value: T, stripNull: Boolean): String {
+    val nonStrippedJsonString = encodeToString(serializer, value)
     if (!stripNull) {
         return nonStrippedJsonString
     }
@@ -57,7 +57,7 @@ internal suspend inline fun <reified T, B> request(
     bodySerializer: SerializationStrategy<B>
 ): T {
     val serializedBody = TextContent(
-        text = Json {}.stringify(serializer = bodySerializer, value = bodyObject, stripNull = true),
+        text = Json {}.encodeToString(serializer = bodySerializer, value = bodyObject, stripNull = true),
         contentType = ContentType.parse("application/json")
     )
     return request(
