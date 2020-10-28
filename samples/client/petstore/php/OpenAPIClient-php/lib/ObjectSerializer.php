@@ -274,8 +274,7 @@ class ObjectSerializer
         }
 
         if (strcasecmp(substr($class, -2), '[]') === 0) {
-            $data = is_string($data) ? json_decode($data) : $data;
-            
+            $data = is_string($data) ? json_decode($data, true) : $data;
             if (!is_array($data)) {
                 throw new \InvalidArgumentException("Invalid array '$class'");
             }
@@ -289,8 +288,11 @@ class ObjectSerializer
         }
 
         if (substr($class, 0, 4) === 'map[') { // for associative array e.g. map[string,int]
-            $data = is_string($data) ? json_decode($data) : $data;
-            settype($data, 'array');
+            $data = is_string($data) ? json_decode($data, true) : $data;
+            if (!is_array($data)) {
+                throw new \InvalidArgumentException("Invalid array '$class'");
+            }
+            
             $inner = substr($class, 4, -1);
             $deserialized = [];
             if (strrpos($inner, ",") !== false) {
