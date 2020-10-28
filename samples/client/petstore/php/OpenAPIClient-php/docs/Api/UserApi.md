@@ -1,23 +1,24 @@
 # OpenAPI\Client\UserApi
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to http://petstore.swagger.io:80/v2.
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createUser**](UserApi.md#createUser) | **POST** /user | Create user
-[**createUsersWithArrayInput**](UserApi.md#createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
-[**createUsersWithListInput**](UserApi.md#createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
-[**deleteUser**](UserApi.md#deleteUser) | **DELETE** /user/{username} | Delete user
-[**getUserByName**](UserApi.md#getUserByName) | **GET** /user/{username} | Get user by user name
-[**loginUser**](UserApi.md#loginUser) | **GET** /user/login | Logs user into the system
-[**logoutUser**](UserApi.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session
-[**updateUser**](UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
+[**createUser()**](UserApi.md#createUser) | **POST** /user | Create user
+[**createUsersWithArrayInput()**](UserApi.md#createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
+[**createUsersWithListInput()**](UserApi.md#createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
+[**deleteUser()**](UserApi.md#deleteUser) | **DELETE** /user/{username} | Delete user
+[**getUserByName()**](UserApi.md#getUserByName) | **GET** /user/{username} | Get user by user name
+[**loginUser()**](UserApi.md#loginUser) | **GET** /user/login | Logs user into the system
+[**logoutUser()**](UserApi.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session
+[**updateUser()**](UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
 
 
+## `createUser()`
 
-## createUser
-
-> createUser($user)
+```php
+createUser($user)
+```
 
 Create user
 
@@ -28,6 +29,7 @@ This can only be done by the logged in user.
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 
 $apiInstance = new OpenAPI\Client\Api\UserApi(
@@ -42,11 +44,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->createUser: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -62,17 +62,18 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: `application/json`
 - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `createUsersWithArrayInput()`
 
-## createUsersWithArrayInput
-
-> createUsersWithArrayInput($user)
+```php
+createUsersWithArrayInput($user)
+```
 
 Creates list of users with given input array
 
@@ -81,6 +82,7 @@ Creates list of users with given input array
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 
 $apiInstance = new OpenAPI\Client\Api\UserApi(
@@ -95,11 +97,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->createUsersWithArrayInput: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -115,17 +115,18 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: `application/json`
 - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `createUsersWithListInput()`
 
-## createUsersWithListInput
-
-> createUsersWithListInput($user)
+```php
+createUsersWithListInput($user)
+```
 
 Creates list of users with given input array
 
@@ -134,6 +135,7 @@ Creates list of users with given input array
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 
 $apiInstance = new OpenAPI\Client\Api\UserApi(
@@ -148,11 +150,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->createUsersWithListInput: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -168,17 +168,18 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: `application/json`
 - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `deleteUser()`
 
-## deleteUser
-
-> deleteUser($username)
+```php
+deleteUser($username)
+```
 
 Delete user
 
@@ -189,6 +190,7 @@ This can only be done by the logged in user.
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 
 $apiInstance = new OpenAPI\Client\Api\UserApi(
@@ -203,11 +205,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->deleteUser: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -226,14 +226,15 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `getUserByName()`
 
-## getUserByName
-
-> \OpenAPI\Client\Model\User getUserByName($username)
+```php
+getUserByName($username): \OpenAPI\Client\Model\User
+```
 
 Get user by user name
 
@@ -242,6 +243,7 @@ Get user by user name
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 
 $apiInstance = new OpenAPI\Client\Api\UserApi(
@@ -257,11 +259,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->getUserByName: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -278,16 +278,17 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/xml, application/json
+- **Accept**: `application/xml`, `application/json`
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `loginUser()`
 
-## loginUser
-
-> string loginUser($username, $password)
+```php
+loginUser($username, $password): string
+```
 
 Logs user into the system
 
@@ -296,6 +297,7 @@ Logs user into the system
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 
 $apiInstance = new OpenAPI\Client\Api\UserApi(
@@ -312,11 +314,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->loginUser: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -334,16 +334,17 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/xml, application/json
+- **Accept**: `application/xml`, `application/json`
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `logoutUser()`
 
-## logoutUser
-
-> logoutUser()
+```php
+logoutUser()
+```
 
 Logs out current logged in user session
 
@@ -352,6 +353,7 @@ Logs out current logged in user session
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 
 $apiInstance = new OpenAPI\Client\Api\UserApi(
@@ -365,7 +367,6 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->logoutUser: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
@@ -385,14 +386,15 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `updateUser()`
 
-## updateUser
-
-> updateUser($username, $user)
+```php
+updateUser($username, $user)
+```
 
 Updated user
 
@@ -403,6 +405,7 @@ This can only be done by the logged in user.
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 
 $apiInstance = new OpenAPI\Client\Api\UserApi(
@@ -418,11 +421,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->updateUser: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -439,10 +440,9 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: `application/json`
 - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
-
