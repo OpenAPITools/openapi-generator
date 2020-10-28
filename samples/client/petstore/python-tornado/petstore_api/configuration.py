@@ -230,6 +230,10 @@ conf = petstore_api.Configuration(
         # Enable client side validation
         self.client_side_validation = True
 
+        self.socket_options = None
+        """Options to pass down to the underlying urllib3 socket
+        """
+
     def __deepcopy__(self, memo):
         cls = self.__class__
         result = cls.__new__(cls)
