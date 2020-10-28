@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
@@ -163,7 +164,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("Date", "java.time.LocalDate");
         typeMapping.put("DateTime", "java.time.LocalDateTime");
 
-        instantiationTypes.put("array", "kotlin.Array");
+        instantiationTypes.put("array", "kotlin.collections.ArrayList");
         instantiationTypes.put("list", "kotlin.collections.ArrayList");
         instantiationTypes.put("map", "kotlin.collections.HashMap");
 
@@ -308,15 +309,23 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            return getArrayTypeDeclaration((ArraySchema) p);
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
-
-            // Maps will be keyed only by primitive Kotlin string
-            return getSchemaType(p) + "<kotlin.String, " + getTypeDeclaration(inner) + ">";
+        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
+        Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
+        if (ModelUtils.isArraySchema(target)) {
+            Schema<?> items = getSchemaItems((ArraySchema) schema);
+            return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
+        } else if (ModelUtils.isMapSchema(target)) {
+            // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
+            // additionalproperties: true
+            Schema<?> inner = getAdditionalProperties(target);
+            if (inner == null) {
+                LOGGER.error("`{}` (map property) does not have a proper inner type defined. Default to type:string", p.getName());
+                inner = new StringSchema().description("TODO default missing map inner type to string");
+                p.setAdditionalProperties(inner);
+            }
+            return getSchemaType(target) + "<kotlin.String, " + getTypeDeclaration(inner) + ">";
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(target);
     }
 
     @Override
@@ -549,14 +558,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public String toInstantiationType(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            return getArrayTypeDeclaration((ArraySchema) p);
-        }
-        return super.toInstantiationType(p);
-    }
-
-    @Override
     public String toApiName(String name) {
         if (name.length() == 0) {
             return "DefaultApi";
@@ -669,30 +670,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public String toModelFilename(String name) {
         // Should be the same as the model name
         return toModelName(name);
-    }
-
-    /**
-     * Provides a strongly typed declaration for simple arrays of some type and arrays of arrays of some type.
-     *
-     * @param arr Array schema
-     * @return type declaration of array
-     */
-    private String getArrayTypeDeclaration(ArraySchema arr) {
-        // TODO: collection type here should be fully qualified namespace to avoid model conflicts
-        // This supports arrays of arrays.
-        String arrayType;
-        if (ModelUtils.isSet(arr)) {
-            arrayType = typeMapping.get("set");
-        } else {
-            arrayType = typeMapping.get("array");
-        }
-        StringBuilder instantiationType = new StringBuilder(arrayType);
-        Schema items = arr.getItems();
-        String nestedType = getTypeDeclaration(items);
-        additionalProperties.put("nestedType", nestedType);
-        // TODO: We may want to differentiate here between generics and primitive arrays.
-        instantiationType.append("<").append(nestedType).append(">");
-        return instantiationType.toString();
     }
 
     /**
