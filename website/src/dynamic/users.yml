@@ -184,6 +184,11 @@
   infoLink: "https://www.getyourguide.com/"
   pinned: false
 -
+  caption: Giant Monkey GmbH
+  image: "img/companies/gm.png"
+  infoLink: "https://www.giantmonkey.de/"
+  pinned: true
+-
   caption: "GMO Pepabo"
   image: "img/companies/pepabo.png"
   infoLink: "https://pepabo.com/en/"
