@@ -134,10 +134,8 @@ class OuterComposite(object):
                 args = inspect.getargspec(x.to_dict).args
                 if len(args) == 1:
                     return x.to_dict()
-                elif len(args) == 2:
-                    return x.to_dict(serialize)
                 else:
-                    raise ValueError("Invalid argument size of to_dict")
+                    return x.to_dict(serialize)
             else:
                 return x
 
