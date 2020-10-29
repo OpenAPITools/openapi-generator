@@ -129,13 +129,20 @@ Example
 	{{! TODO: Add API Key example }}
 ```
 {{/isApiKey}}
-{{#isBasic}}- **Type**: HTTP basic authentication
+{{#isBasicBasic}}- **Type**: HTTP basic authentication
 
 Example
 ```
 	{{! TODO: Add HTTP basic authentication }}
 ```
-{{/isBasic}}
+{{/isBasicBasic}}
+{{#isBasicBearer}}- **Type**: Bearer token authentication
+
+Example
+```
+	{{! TODO: Add Bearer token authentication }}
+```
+{{/isBasicBearer}}
 {{#isOAuth}}- **Type**: OAuth
 - **Flow**: {{{flow}}}
 - **Authorization URL**: {{{authorizationUrl}}}

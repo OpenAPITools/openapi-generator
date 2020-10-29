@@ -105,7 +105,7 @@ Method | HTTP request | Description
 ## Documentation For Authorization
 
 ## bearerAuth
-- **Type**: HTTP basic authentication
+- **Type**: Bearer token authentication
 
 Example
 ```
