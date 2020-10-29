@@ -2,18 +2,17 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**add_pet**](PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
-[**delete_pet**](PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
-[**find_pets_by_status**](PetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status
-[**find_pets_by_tags**](PetApi.md#find_pets_by_tags) | **GET** /pet/findByTags | Finds Pets by tags
-[**get_pet_by_id**](PetApi.md#get_pet_by_id) | **GET** /pet/{petId} | Find pet by ID
-[**update_pet**](PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
-[**update_pet_with_form**](PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**upload_file**](PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
-[**upload_file_with_required_file**](PetApi.md#upload_file_with_required_file) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
-
+| Method | HTTP request | Description |
+| ------ | ------------ | ----------- |
+| [**add_pet**](PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store |
+| [**delete_pet**](PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet |
+| [**find_pets_by_status**](PetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status |
+| [**find_pets_by_tags**](PetApi.md#find_pets_by_tags) | **GET** /pet/findByTags | Finds Pets by tags |
+| [**get_pet_by_id**](PetApi.md#get_pet_by_id) | **GET** /pet/{petId} | Find pet by ID |
+| [**update_pet**](PetApi.md#update_pet) | **PUT** /pet | Update an existing pet |
+| [**update_pet_with_form**](PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data |
+| [**upload_file**](PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image |
+| [**upload_file_with_required_file**](PetApi.md#upload_file_with_required_file) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required) |
 
 
 ## add_pet
@@ -46,10 +45,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |  |
 
 ### Return type
 
@@ -98,11 +96,10 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet_id** | **Integer**| Pet id to delete | 
- **api_key** | **String**|  | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **pet_id** | **Integer** | Pet id to delete |  |
+| **api_key** | **String** |  | [optional] |
 
 ### Return type
 
@@ -151,10 +148,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **status** | [**Array&lt;String&gt;**](String.md)| Status values that need to be considered for filter | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **status** | [**Array&lt;String&gt;**](String.md) | Status values that need to be considered for filter |  |
 
 ### Return type
 
@@ -203,10 +199,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **tags** | [**Array&lt;String&gt;**](String.md)| Tags to filter by | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **tags** | [**Array&lt;String&gt;**](String.md) | Tags to filter by |  |
 
 ### Return type
 
@@ -257,10 +252,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet_id** | **Integer**| ID of pet to return | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **pet_id** | **Integer** | ID of pet to return |  |
 
 ### Return type
 
@@ -306,10 +300,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |  |
 
 ### Return type
 
@@ -359,12 +352,11 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet_id** | **Integer**| ID of pet that needs to be updated | 
- **name** | **String**| Updated name of the pet | [optional] 
- **status** | **String**| Updated status of the pet | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **pet_id** | **Integer** | ID of pet that needs to be updated |  |
+| **name** | **String** | Updated name of the pet | [optional] |
+| **status** | **String** | Updated status of the pet | [optional] |
 
 ### Return type
 
@@ -415,12 +407,11 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet_id** | **Integer**| ID of pet to update | 
- **additional_metadata** | **String**| Additional data to pass to server | [optional] 
- **file** | **File**| file to upload | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **pet_id** | **Integer** | ID of pet to update |  |
+| **additional_metadata** | **String** | Additional data to pass to server | [optional] |
+| **file** | **File** | file to upload | [optional] |
 
 ### Return type
 
@@ -471,12 +462,11 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet_id** | **Integer**| ID of pet to update | 
- **required_file** | **File**| file to upload | 
- **additional_metadata** | **String**| Additional data to pass to server | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **pet_id** | **Integer** | ID of pet to update |  |
+| **required_file** | **File** | file to upload |  |
+| **additional_metadata** | **String** | Additional data to pass to server | [optional] |
 
 ### Return type
 
