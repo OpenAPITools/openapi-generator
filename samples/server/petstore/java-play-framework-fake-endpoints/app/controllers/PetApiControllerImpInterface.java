@@ -98,7 +98,7 @@ return ok();
 
     public abstract void updatePetWithForm(Http.Request request, Long petId, String name, String status) throws Exception;
 
-    public Result uploadFileHttp(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> file) throws Exception {
+    public Result uploadFileHttp(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file) throws Exception {
         ModelApiResponse obj = uploadFile(request, petId, additionalMetadata, file);
     if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
@@ -108,9 +108,9 @@ return ok(result);
 
     }
 
-    public abstract ModelApiResponse uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> file) throws Exception;
+    public abstract ModelApiResponse uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file) throws Exception;
 
-    public Result uploadFileWithRequiredFileHttp(Http.Request request, Long petId, Http.MultipartFormData.FilePart<TemporaryFile> requiredFile, String additionalMetadata) throws Exception {
+    public Result uploadFileWithRequiredFileHttp(Http.Request request, Long petId, Http.MultipartFormData.FilePart requiredFile, String additionalMetadata) throws Exception {
         ModelApiResponse obj = uploadFileWithRequiredFile(request, petId, requiredFile, additionalMetadata);
     if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
@@ -120,6 +120,6 @@ return ok(result);
 
     }
 
-    public abstract ModelApiResponse uploadFileWithRequiredFile(Http.Request request, Long petId, Http.MultipartFormData.FilePart<TemporaryFile> requiredFile, String additionalMetadata) throws Exception;
+    public abstract ModelApiResponse uploadFileWithRequiredFile(Http.Request request, Long petId, Http.MultipartFormData.FilePart requiredFile, String additionalMetadata) throws Exception;
 
 }

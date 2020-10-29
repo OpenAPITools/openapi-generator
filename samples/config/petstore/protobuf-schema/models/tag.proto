@@ -15,8 +15,8 @@ package petstore;
 
 message Tag {
 
-  int64 id = 3355;
+  int64 id = 1;
 
-  string name = 3373707;
+  string name = 2;
 
 }

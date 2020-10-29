@@ -15,6 +15,8 @@ import sys  # noqa: F401
 
 import nulltype  # noqa: F401
 
+from typing import Dict, Tuple, Optional
+
 from petstore_api.model_utils import (  # noqa: F401
     ApiTypeError,
     ModelComposed,
@@ -63,7 +65,7 @@ class Mammal(ModelComposed):
           as additional properties values.
     """
 
-    allowed_values = {
+    allowed_values: Dict[Tuple, Dict] = {
         ('type',): {
             'PLAINS': "plains",
             'MOUNTAIN': "mountain",
@@ -71,11 +73,11 @@ class Mammal(ModelComposed):
         },
     }
 
-    validations = {
+    validations: Dict[Tuple[str], Dict] = {
     }
 
     @cached_property
-    def additional_properties_type():
+    def additional_properties_type(self):
         """
         This must be a method because a model may have properties that are
         of type self, this must run after the class is loaded
@@ -86,7 +88,7 @@ class Mammal(ModelComposed):
     _nullable = False
 
     @cached_property
-    def openapi_types():
+    def openapi_types(self):
         """
         This must be a method because a model may have properties that are
         of type self, this must run after the class is loaded
@@ -104,7 +106,7 @@ class Mammal(ModelComposed):
         }
 
     @cached_property
-    def discriminator():
+    def discriminator(self):
         lazy_import()
         val = {
             'Pig': Pig,
@@ -115,7 +117,7 @@ class Mammal(ModelComposed):
             return None
         return {'class_name': val}
 
-    attribute_map = {
+    attribute_map: Dict = {
         'class_name': 'className',  # noqa: E501
         'has_baleen': 'hasBaleen',  # noqa: E501
         'has_teeth': 'hasTeeth',  # noqa: E501
@@ -237,7 +239,7 @@ class Mammal(ModelComposed):
             setattr(self, var_name, var_value)
 
     @cached_property
-    def _composed_schemas():
+    def _composed_schemas(self):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
         # when we invoke this method. If we kept this at the class

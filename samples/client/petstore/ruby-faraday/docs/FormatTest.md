@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **number** | **Float** |  | 
 **float** | **Float** |  | [optional] 
 **double** | **Float** |  | [optional] 
-**decimal** | [**Decimal**](Decimal.md) |  | [optional] 
+**decimal** | [**BigDecimal**](BigDecimal.md) |  | [optional] 
 **string** | **String** |  | [optional] 
 **byte** | **String** |  | 
 **binary** | **File** |  | [optional] 

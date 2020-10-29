@@ -39,7 +39,7 @@ class FormatTest(object):
         'number': 'float',
         'float': 'float',
         'double': 'float',
-        'decimal': 'Decimal',
+        'decimal': 'BigDecimal',
         'string': 'str',
         'byte': 'str',
         'binary': 'file',
@@ -287,7 +287,7 @@ class FormatTest(object):
 
 
         :return: The decimal of this FormatTest.  # noqa: E501
-        :rtype: Decimal
+        :rtype: BigDecimal
         """
         return self._decimal
 
@@ -297,7 +297,7 @@ class FormatTest(object):
 
 
         :param decimal: The decimal of this FormatTest.  # noqa: E501
-        :type decimal: Decimal
+        :type decimal: BigDecimal
         """
 
         self._decimal = decimal

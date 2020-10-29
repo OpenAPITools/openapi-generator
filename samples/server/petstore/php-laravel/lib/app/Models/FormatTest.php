@@ -27,7 +27,7 @@ class FormatTest {
     /** @var double $double */
     private $double;
 
-    /** @var Decimal $decimal */
+    /** @var BigDecimal $decimal */
     private $decimal;
 
     /** @var string $string */

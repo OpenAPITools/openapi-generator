@@ -149,7 +149,7 @@ public class PetApiController extends Controller {
             additionalMetadata = null;
         }
         Http.MultipartFormData<TemporaryFile> bodyfile = request.body().asMultipartFormData();
-        Http.MultipartFormData.FilePart<TemporaryFile> file = bodyfile.getFile("file");
+        Http.MultipartFormData.FilePart file = bodyfile.getFile("file");
         return imp.uploadFileHttp(request, petId, additionalMetadata, file);
     }
 

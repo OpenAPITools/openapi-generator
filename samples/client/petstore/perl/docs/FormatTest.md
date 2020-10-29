@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **number** | **double** |  | 
 **float** | **double** |  | [optional] 
 **double** | **double** |  | [optional] 
-**decimal** | [**Decimal**](Decimal.md) |  | [optional] 
+**decimal** | [**BigDecimal**](BigDecimal.md) |  | [optional] 
 **string** | **string** |  | [optional] 
 **byte** | **string** |  | 
 **binary** | **string** |  | [optional] 

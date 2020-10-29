@@ -7,3 +7,4 @@ deps=-r{toxinidir}/requirements.txt
 
 commands=
    {{^useNose}}pytest --cov={{{packageName}}}{{/useNose}}{{#useNose}}nosetests{{/useNose}}
+   mypy petstore_api

@@ -15,6 +15,8 @@ import sys  # noqa: F401
 
 import nulltype  # noqa: F401
 
+from typing import Dict, Tuple, Optional
+
 from petstore_api.model_utils import (  # noqa: F401
     ApiTypeError,
     ModelComposed,
@@ -55,10 +57,10 @@ class Capitalization(ModelNormal):
           as additional properties values.
     """
 
-    allowed_values = {
+    allowed_values: Dict[Tuple, Dict] = {
     }
 
-    validations = {
+    validations: Dict[Tuple[str], Dict] = {
     }
 
     additional_properties_type = None
@@ -66,7 +68,7 @@ class Capitalization(ModelNormal):
     _nullable = False
 
     @cached_property
-    def openapi_types():
+    def openapi_types(self):
         """
         This must be a method because a model may have properties that are
         of type self, this must run after the class is loaded
@@ -85,11 +87,11 @@ class Capitalization(ModelNormal):
         }
 
     @cached_property
-    def discriminator():
+    def discriminator(self):
         return None
 
 
-    attribute_map = {
+    attribute_map: Dict = {
         'small_camel': 'smallCamel',  # noqa: E501
         'capital_camel': 'CapitalCamel',  # noqa: E501
         'small_snake': 'small_Snake',  # noqa: E501
@@ -98,7 +100,7 @@ class Capitalization(ModelNormal):
         'att_name': 'ATT_NAME',  # noqa: E501
     }
 
-    _composed_schemas = {}
+    _composed_schemas: Optional[Dict] = {}
 
     required_properties = set([
         '_data_store',

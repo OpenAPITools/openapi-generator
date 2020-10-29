@@ -66,7 +66,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
         'number' => 'float',
         'float' => 'float',
         'double' => 'double',
-        'decimal' => 'Decimal',
+        'decimal' => 'BigDecimal',
         'string' => 'string',
         'byte' => 'string',
         'binary' => '\SplFileObject',
@@ -558,7 +558,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets decimal
      *
-     * @return Decimal|null
+     * @return BigDecimal|null
      */
     public function getDecimal()
     {
@@ -568,7 +568,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets decimal
      *
-     * @param Decimal|null $decimal decimal
+     * @param BigDecimal|null $decimal decimal
      *
      * @return self
      */

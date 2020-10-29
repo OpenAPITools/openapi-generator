@@ -15,6 +15,8 @@ import sys  # noqa: F401
 
 import nulltype  # noqa: F401
 
+from typing import Dict, Tuple, Optional
+
 from petstore_api.model_utils import (  # noqa: F401
     ApiTypeError,
     ModelComposed,
@@ -55,10 +57,10 @@ class FormatTest(ModelNormal):
           as additional properties values.
     """
 
-    allowed_values = {
+    allowed_values: Dict[Tuple, Dict] = {
     }
 
-    validations = {
+    validations: Dict[Tuple[str], Dict] = {
         ('number',): {
             'inclusive_maximum': 543.2,
             'inclusive_minimum': 32.1,
@@ -101,7 +103,7 @@ class FormatTest(ModelNormal):
     _nullable = False
 
     @cached_property
-    def openapi_types():
+    def openapi_types(self):
         """
         This must be a method because a model may have properties that are
         of type self, this must run after the class is loaded
@@ -127,11 +129,11 @@ class FormatTest(ModelNormal):
         }
 
     @cached_property
-    def discriminator():
+    def discriminator(self):
         return None
 
 
-    attribute_map = {
+    attribute_map: Dict = {
         'number': 'number',  # noqa: E501
         'byte': 'byte',  # noqa: E501
         'date': 'date',  # noqa: E501
@@ -147,7 +149,7 @@ class FormatTest(ModelNormal):
         'uuid': 'uuid',  # noqa: E501
     }
 
-    _composed_schemas = {}
+    _composed_schemas: Optional[Dict] = {}
 
     required_properties = set([
         '_data_store',

@@ -54,13 +54,13 @@ public class PetApiControllerImp extends PetApiControllerImpInterface {
     }
 
     @Override
-    public ModelApiResponse uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> file) throws Exception {
+    public ModelApiResponse uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file) throws Exception {
         //Do your magic!!!
         return new ModelApiResponse();
     }
 
     @Override
-    public ModelApiResponse uploadFileWithRequiredFile(Http.Request request, Long petId, Http.MultipartFormData.FilePart<TemporaryFile> requiredFile, String additionalMetadata) throws Exception {
+    public ModelApiResponse uploadFileWithRequiredFile(Http.Request request, Long petId, Http.MultipartFormData.FilePart requiredFile, String additionalMetadata) throws Exception {
         //Do your magic!!!
         return new ModelApiResponse();
     }

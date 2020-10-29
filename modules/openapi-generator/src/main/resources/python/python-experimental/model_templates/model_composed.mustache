@@ -15,7 +15,7 @@ class {{classname}}(ModelComposed):
 
 {{> python-experimental/model_templates/classvars }}
 
-    attribute_map = {
+    attribute_map: Dict = {
 {{#requiredVars}}
         '{{name}}': '{{baseName}}',  # noqa: E501
 {{/requiredVars}}
@@ -27,7 +27,7 @@ class {{classname}}(ModelComposed):
 {{> python-experimental/model_templates/method_init_composed }}
 
     @cached_property
-    def _composed_schemas():
+    def _composed_schemas(self):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
         # when we invoke this method. If we kept this at the class

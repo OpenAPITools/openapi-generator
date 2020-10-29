@@ -123,7 +123,7 @@ class ApiClient(object):
         header_params: typing.Optional[typing.Dict[str, typing.Any]] = None,
         body: typing.Optional[typing.Any] = None,
         post_params: typing.Optional[typing.List[typing.Tuple[str, typing.Any]]] = None,
-        files: typing.Optional[typing.Dict[str, typing.List[io.IOBase]]] = None,
+        files: typing.Optional[typing.Dict[str, typing.List[io.BytesIO]]] = None,
         response_type: typing.Optional[typing.Tuple[typing.Any]] = None,
         auth_settings: typing.Optional[typing.List[str]] = None,
         _return_http_data_only: typing.Optional[bool] = None,
@@ -148,10 +148,9 @@ class ApiClient(object):
 
         # path parameters
         if path_params:
-            path_params = self.sanitize_for_serialization(path_params)
-            path_params = self.parameters_to_tuples(path_params,
-                                                    collection_formats)
-            for k, v in path_params:
+            sanatized_path_params = self.sanitize_for_serialization(path_params)
+            path_param_tuples = self.parameters_to_tuples(sanatized_path_params, collection_formats)
+            for k, v in path_param_tuples:
                 # specified safe chars, encode everything
                 resource_path = resource_path.replace(
                     '{%s}' % k,
@@ -165,12 +164,11 @@ class ApiClient(object):
                                                      collection_formats)
 
         # post parameters
+        post_param_tuples = []
         if post_params or files:
-            post_params = post_params if post_params else []
-            post_params = self.sanitize_for_serialization(post_params)
-            post_params = self.parameters_to_tuples(post_params,
-                                                    collection_formats)
-            post_params.extend(self.files_parameters(files))
+            sanatized_post_params = self.sanitize_for_serialization(post_params if post_params else [])
+            post_param_tuples = self.parameters_to_tuples(sanatized_post_params, collection_formats)
+            post_param_tuples.extend(self.files_parameters(files))
 
         # body
         if body:
@@ -191,7 +189,7 @@ class ApiClient(object):
             # perform request and return response
             response_data = self.request(
                 method, url, query_params=query_params, headers=header_params,
-                post_params=post_params, body=body,
+                post_params=post_param_tuples, body=body,
                 _preload_content=_preload_content,
                 _request_timeout=_request_timeout)
         except ApiException as e:
@@ -248,7 +246,9 @@ class ApiClient(object):
             return {
                 key: cls.sanitize_for_serialization(val) for key, val in model_to_dict(obj, serialize=True).items()
             }
-        elif isinstance(obj, (str, int, float, none_type, bool)):
+        elif obj is None:
+            return obj
+        elif isinstance(obj, (str, int, float, bool)):
             return obj
         elif isinstance(obj, (datetime, date)):
             return obj.isoformat()
@@ -314,7 +314,7 @@ class ApiClient(object):
         header_params: typing.Optional[typing.Dict[str, typing.Any]] = None,
         body: typing.Optional[typing.Any] = None,
         post_params: typing.Optional[typing.List[typing.Tuple[str, typing.Any]]] = None,
-        files: typing.Optional[typing.Dict[str, typing.List[io.IOBase]]] = None,
+        files: typing.Optional[typing.Dict[str, typing.List[io.BytesIO]]] = None,
         response_type: typing.Optional[typing.Tuple[typing.Any]] = None,
         auth_settings: typing.Optional[typing.List[str]] = None,
         async_req: typing.Optional[bool] = None,
@@ -491,7 +491,7 @@ class ApiClient(object):
                 new_params.append((k, v))
         return new_params
 
-    def files_parameters(self, files: typing.Optional[typing.Dict[str, typing.List[io.IOBase]]] = None):
+    def files_parameters(self, files: typing.Optional[typing.Dict[str, typing.List[io.BytesIO]]] = None):
         """Builds form parameters.
 
         :param files: None or a dict with key=param_name and

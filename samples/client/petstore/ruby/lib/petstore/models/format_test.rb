@@ -80,7 +80,7 @@ module Petstore
         :'number' => :'Float',
         :'float' => :'Float',
         :'double' => :'Float',
-        :'decimal' => :'Decimal',
+        :'decimal' => :'BigDecimal',
         :'string' => :'String',
         :'byte' => :'String',
         :'binary' => :'File',

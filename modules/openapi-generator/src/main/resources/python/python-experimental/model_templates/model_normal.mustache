@@ -15,7 +15,7 @@ class {{classname}}(ModelNormal):
 
 {{> python-experimental/model_templates/classvars }}
 
-    attribute_map = {
+    attribute_map: Dict = {
 {{#requiredVars}}
         '{{name}}': '{{baseName}}',  # noqa: E501
 {{/requiredVars}}
@@ -24,6 +24,6 @@ class {{classname}}(ModelNormal):
 {{/optionalVars}}
     }
 
-    _composed_schemas = {}
+    _composed_schemas: Optional[Dict] = {}
 
 {{> python-experimental/model_templates/method_init_normal}}

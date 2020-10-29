@@ -15,6 +15,8 @@ import sys  # noqa: F401
 
 import nulltype  # noqa: F401
 
+from typing import Dict, Tuple, Optional
+
 from petstore_api.model_utils import (  # noqa: F401
     ApiTypeError,
     ModelComposed,
@@ -55,7 +57,7 @@ class InlineObject2(ModelNormal):
           as additional properties values.
     """
 
-    allowed_values = {
+    allowed_values: Dict[Tuple, Dict] = {
         ('enum_form_string_array',): {
             '&gt;': ">",
             '$': "$",
@@ -67,7 +69,7 @@ class InlineObject2(ModelNormal):
         },
     }
 
-    validations = {
+    validations: Dict[Tuple[str], Dict] = {
     }
 
     additional_properties_type = None
@@ -75,7 +77,7 @@ class InlineObject2(ModelNormal):
     _nullable = False
 
     @cached_property
-    def openapi_types():
+    def openapi_types(self):
         """
         This must be a method because a model may have properties that are
         of type self, this must run after the class is loaded
@@ -90,16 +92,16 @@ class InlineObject2(ModelNormal):
         }
 
     @cached_property
-    def discriminator():
+    def discriminator(self):
         return None
 
 
-    attribute_map = {
+    attribute_map: Dict = {
         'enum_form_string_array': 'enum_form_string_array',  # noqa: E501
         'enum_form_string': 'enum_form_string',  # noqa: E501
     }
 
-    _composed_schemas = {}
+    _composed_schemas: Optional[Dict] = {}
 
     required_properties = set([
         '_data_store',

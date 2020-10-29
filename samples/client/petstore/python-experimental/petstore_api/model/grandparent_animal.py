@@ -15,6 +15,8 @@ import sys  # noqa: F401
 
 import nulltype  # noqa: F401
 
+from typing import Dict, Tuple, Optional
+
 from petstore_api.model_utils import (  # noqa: F401
     ApiTypeError,
     ModelComposed,
@@ -65,10 +67,10 @@ class GrandparentAnimal(ModelNormal):
           as additional properties values.
     """
 
-    allowed_values = {
+    allowed_values: Dict[Tuple, Dict] = {
     }
 
-    validations = {
+    validations: Dict[Tuple[str], Dict] = {
     }
 
     additional_properties_type = None
@@ -76,7 +78,7 @@ class GrandparentAnimal(ModelNormal):
     _nullable = False
 
     @cached_property
-    def openapi_types():
+    def openapi_types(self):
         """
         This must be a method because a model may have properties that are
         of type self, this must run after the class is loaded
@@ -91,7 +93,7 @@ class GrandparentAnimal(ModelNormal):
         }
 
     @cached_property
-    def discriminator():
+    def discriminator(self):
         lazy_import()
         val = {
             'ChildCat': ChildCat,
@@ -103,11 +105,11 @@ class GrandparentAnimal(ModelNormal):
             return None
         return {'pet_type': val}
 
-    attribute_map = {
+    attribute_map: Dict = {
         'pet_type': 'pet_type',  # noqa: E501
     }
 
-    _composed_schemas = {}
+    _composed_schemas: Optional[Dict] = {}
 
     required_properties = set([
         '_data_store',

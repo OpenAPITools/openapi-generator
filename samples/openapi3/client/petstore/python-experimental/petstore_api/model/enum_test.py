@@ -15,6 +15,8 @@ import sys  # noqa: F401
 
 import nulltype  # noqa: F401
 
+from typing import Dict, Tuple, Optional
+
 from petstore_api.model_utils import (  # noqa: F401
     ApiTypeError,
     ModelComposed,
@@ -67,7 +69,7 @@ class EnumTest(ModelNormal):
           as additional properties values.
     """
 
-    allowed_values = {
+    allowed_values: Dict[Tuple, Dict] = {
         ('enum_string_required',): {
             'UPPER': "UPPER",
             'LOWER': "lower",
@@ -88,7 +90,7 @@ class EnumTest(ModelNormal):
         },
     }
 
-    validations = {
+    validations: Dict[Tuple[str], Dict] = {
     }
 
     additional_properties_type = None
@@ -96,7 +98,7 @@ class EnumTest(ModelNormal):
     _nullable = False
 
     @cached_property
-    def openapi_types():
+    def openapi_types(self):
         """
         This must be a method because a model may have properties that are
         of type self, this must run after the class is loaded
@@ -119,11 +121,11 @@ class EnumTest(ModelNormal):
         }
 
     @cached_property
-    def discriminator():
+    def discriminator(self):
         return None
 
 
-    attribute_map = {
+    attribute_map: Dict = {
         'enum_string_required': 'enum_string_required',  # noqa: E501
         'enum_string': 'enum_string',  # noqa: E501
         'enum_integer': 'enum_integer',  # noqa: E501
@@ -135,7 +137,7 @@ class EnumTest(ModelNormal):
         'integer_enum_one_value': 'IntegerEnumOneValue',  # noqa: E501
     }
 
-    _composed_schemas = {}
+    _composed_schemas: Optional[Dict] = {}
 
     required_properties = set([
         '_data_store',
