@@ -42,7 +42,6 @@ build_script:
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net47\Org.OpenAPITools.sln
   # build C# API client
   - nuget restore samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln
-  - nuget restore samples\client\petstore\csharp\OpenAPIClient-net47\Org.OpenAPITools.sln
   - msbuild samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   # build C# API client (with PropertyChanged)
   - nuget restore samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\Org.OpenAPITools.sln
