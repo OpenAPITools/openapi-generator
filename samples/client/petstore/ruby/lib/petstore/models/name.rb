@@ -189,7 +189,9 @@ module Petstore
           end
         end
       else # model
-        Petstore.const_get(type).build_from_hash(value)
+        # models (e.g. Pet) or oneOf
+        klass = Petstore.const_get(type)
+        klass.respond_to?(:openapi_one_of) ? klass.build(value) : klass.build_from_hash(value)
       end
     end
 
