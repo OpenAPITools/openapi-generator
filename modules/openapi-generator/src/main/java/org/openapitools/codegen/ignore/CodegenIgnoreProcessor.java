@@ -142,7 +142,7 @@ public class CodegenIgnoreProcessor {
     public boolean allowsFile(final File targetFile) {
         if(this.ignoreFile == null) return true;
 
-        File file = new File(this.ignoreFile.getParentFile().toURI().relativize(targetFile.toURI()).getPath());
+        File file = new File(this.ignoreFile.getAbsoluteFile().getParentFile().toURI().relativize(targetFile.toURI()).getPath());
         Boolean directoryExcluded = false;
         Boolean exclude = false;
         if(exclusionRules.size() == 0 && inclusionRules.size() == 0) {
