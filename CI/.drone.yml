@@ -4,13 +4,15 @@ name: default
 steps:
 # test protobuf schema generator
 - name: protobuf-schema-test
-  image: circleci/openjdk:11.0.8-jdk-browsers
+  image: golang/1.15.3-alpine3.12
   commands:
   - sudo apt-get install protobuf-compiler
   - protoc --version
-  - protoc --plugin=protoc-gen-grpc-java --grpc-java_out="grpc-java" --proto_path="samples/config/petstore/protobuf-schema/services/" samples/config/petstore/protobuf-schema/services/*
-  - protoc --plugin=protoc-gen-grpc-java --grpc-java_out="grpc-java" --proto_path="samples/config/petstore/protobuf-schema/models/" samples/config/petstore/protobuf-schema/models/*
-  - ./mvnw clean install -f grpc-java/pom.xml
+  - go get -u github.com/golang/protobuf/protoc-gen-go
+  - mkdir /var/tmp/go/
+  - cd samples/config/petstore/protobuf-schema
+  - protoc --go_out=/var/tmp/go/ services/*
+  - protoc --go_out=/var/tmp/go/ models/*
 # test aspnetcore 3.x
 - name: aspnetcore-test
   image: mcr.microsoft.com/dotnet/core/sdk:3.1
