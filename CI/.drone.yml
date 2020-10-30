@@ -8,8 +8,8 @@ steps:
   commands:
   - sudo apt-get install protobuf-compiler
   - protoc --version
-  - protoc --plugin=protoc-gen-grpc-java --grpc-java_out="grpc-java" --proto_path="samples/config/petstore/protobuf-schema/services/"
-  - protoc --plugin=protoc-gen-grpc-java --grpc-java_out="grpc-java" --proto_path="samples/config/petstore/protobuf-schema/models/"
+  - protoc --plugin=protoc-gen-grpc-java --grpc-java_out="grpc-java" --proto_path="samples/config/petstore/protobuf-schema/services/" samples/config/petstore/protobuf-schema/services/*
+  - protoc --plugin=protoc-gen-grpc-java --grpc-java_out="grpc-java" --proto_path="samples/config/petstore/protobuf-schema/models/" samples/config/petstore/protobuf-schema/models/*
   - ./mvnw clean install -f grpc-java/pom.xml
 # test aspnetcore 3.x
 - name: aspnetcore-test
