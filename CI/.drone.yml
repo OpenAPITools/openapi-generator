@@ -8,7 +8,6 @@ steps:
   commands:
   #- sudo apt-get install protobuf-compiler
   - protoc --version
-  - go get -u github.com/golang/protobuf/protoc-gen-go
   - mkdir /var/tmp/go/
   - cd samples/config/petstore/protobuf-schema
   - protoc --go_out=/var/tmp/go/ services/*
