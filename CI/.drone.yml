@@ -4,7 +4,7 @@ name: default
 steps:
 # test protobuf schema generator
 - name: protobuf-schema-test
-  image: golang/1.15.3-alpine3.12
+  image: golang:alpine3.12
   commands:
   - sudo apt-get install protobuf-compiler
   - protoc --version
