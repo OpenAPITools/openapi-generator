@@ -6,7 +6,7 @@ steps:
 - name: protobuf-schema-test
   image: openjdk:11.0
   commands:
-  - sudo apt install -y protobuf-compiler
+  - apt install -y protobuf-compiler
   - protoc --version
   - protoc --plugin=protoc-gen-grpc-java --grpc-java_out="grpc-java" --proto_path="samples/config/petstore/protobuf-schema/services/"
   - protoc --plugin=protoc-gen-grpc-java --grpc-java_out="grpc-java" --proto_path="samples/config/petstore/protobuf-schema/models/"
