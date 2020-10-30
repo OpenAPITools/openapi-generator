@@ -2,6 +2,15 @@ kind: pipeline
 name: default
 
 steps:
+# test protobuf schema generator
+- name: protobuf-schema-test
+  image: openjdk:11.0
+  commands:
+  - sudo apt install -y protobuf-compiler
+  - protoc --version
+  - protoc --plugin=protoc-gen-grpc-java --grpc-java_out="grpc-java" --proto_path="samples/config/petstore/protobuf-schema/services/"
+  - protoc --plugin=protoc-gen-grpc-java --grpc-java_out="grpc-java" --proto_path="samples/config/petstore/protobuf-schema/models/"
+  - ./mvnw clean install -f grpc-java/pom.xml
 # test aspnetcore 3.x
 - name: aspnetcore-test
   image: mcr.microsoft.com/dotnet/core/sdk:3.1
