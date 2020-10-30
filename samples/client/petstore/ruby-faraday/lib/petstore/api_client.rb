@@ -203,8 +203,17 @@ module Petstore
       # handle file downloading - return the File instance processed in request callbacks
       # note that response body is empty when the file is written in chunks in request on_body callback
       if return_type == 'File'
-        @tempfile = Tempfile.open('download-', @config.temp_folder_path, encoding: body.encoding)
-        @tempfile.write(@stream.join.force_encoding(body.encoding))
+        content_disposition = response.headers['Content-Disposition']
+        if content_disposition && content_disposition =~ /filename=/i
+          filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
+          prefix = sanitize_filename(filename)
+        else
+          prefix = 'download-'
+        end
+        prefix = prefix + '-' unless prefix.end_with?('-')
+        encoding = body.encoding
+        @tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
+        @tempfile.write(@stream.join.force_encoding(encoding))
         @tempfile.close
         @config.logger.info "Temp file written to #{@tempfile.path}, please copy the file to a proper folder "\
                             "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
