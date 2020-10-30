@@ -4,9 +4,9 @@ name: default
 steps:
 # test protobuf schema generator
 - name: protobuf-schema-test
-  image: golang:alpine3.12
+  image: nanoservice/protobuf-go
   commands:
-  - sudo apt-get install protobuf-compiler
+  #- sudo apt-get install protobuf-compiler
   - protoc --version
   - go get -u github.com/golang/protobuf/protoc-gen-go
   - mkdir /var/tmp/go/
