@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
+import play.api.libs.Files.TemporaryFile;
 import java.io.IOException;
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -147,7 +148,8 @@ public class PetApiController extends Controller {
         } else {
             additionalMetadata = null;
         }
-        Http.MultipartFormData.FilePart file = request.body().asMultipartFormData().getFile("file");
+        Http.MultipartFormData<TemporaryFile> body = request.body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<TemporaryFile> file = body.getFile("file");
         return imp.uploadFileHttp(request, petId, additionalMetadata, file);
     }
 

@@ -53,7 +53,7 @@ return CompletableFuture.supplyAsync(() -> {
 {{/returnType}}
 {{#returnType}}
 {{#supportAsync}}
-    stage.thenApply(obj -> {
+stage.thenApply(obj -> {
 {{/supportAsync}}
 {{^isResponseFile}}
 {{#supportAsync}}    {{/supportAsync}}JsonNode result = mapper.valueToTree(obj);

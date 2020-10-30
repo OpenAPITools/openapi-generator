@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
+import play.api.libs.Files.TemporaryFile;
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -147,7 +148,8 @@ public class PetApiController extends Controller {
         } else {
             additionalMetadata = null;
         }
-        Http.MultipartFormData.FilePart file = request.body().asMultipartFormData().getFile("file");
+        Http.MultipartFormData<TemporaryFile> body = request.body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<TemporaryFile> file = body.getFile("file");
         return imp.uploadFileHttp(request, petId, additionalMetadata, file);
     }
 
@@ -160,8 +162,9 @@ public class PetApiController extends Controller {
         } else {
             additionalMetadata = null;
         }
-        Http.MultipartFormData.FilePart requiredFile = request.body().asMultipartFormData().getFile("requiredFile");
-        if ((requiredFile == null || ((File) requiredFile.getFile()).length() == 0)) {
+        Http.MultipartFormData<TemporaryFile> body = request.body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<TemporaryFile> requiredFile = body.getFile("requiredFile");
+        if ((requiredFile == null || requiredFile.getFileSize() == 0)) {
             throw new IllegalArgumentException("'requiredFile' file cannot be empty");
         }
         return imp.uploadFileWithRequiredFileHttp(request, petId, requiredFile, additionalMetadata);

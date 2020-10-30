@@ -5,7 +5,6 @@ import apimodels.ModelApiResponse;
 import apimodels.Pet;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -17,32 +16,32 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import openapitools.OpenAPIUtils;
 import static play.mvc.Results.ok;
+import play.api.libs.Files.TemporaryFile;
 
 import javax.validation.constraints.*;
 
-@Singleton
 @SuppressWarnings("RedundantThrows")
 public abstract class PetApiControllerImpInterface {
     @Inject private Config configuration;
     private ObjectMapper mapper = new ObjectMapper();
 
-    Result addPetHttp(Http.Request request, Pet body)  {
+    public Result addPetHttp(Http.Request request, Pet body)  {
         addPet(request, body);
 return ok();
 
     }
 
-    abstract void addPet(Http.Request request, Pet body) ;
+    public abstract void addPet(Http.Request request, Pet body) ;
 
-    Result deletePetHttp(Http.Request request, Long petId, String apiKey)  {
+    public Result deletePetHttp(Http.Request request, Long petId, String apiKey)  {
         deletePet(request, petId, apiKey);
 return ok();
 
     }
 
-    abstract void deletePet(Http.Request request, Long petId, String apiKey) ;
+    public abstract void deletePet(Http.Request request, Long petId, String apiKey) ;
 
-    Result findPetsByStatusHttp(Http.Request request, @NotNull List<String> status)  {
+    public Result findPetsByStatusHttp(Http.Request request, @NotNull List<String> status)  {
         List<Pet> obj = findPetsByStatus(request, status);
     if (configuration.getBoolean("useOutputBeanValidation")) {
         for (Pet curItem : obj) {
@@ -54,9 +53,9 @@ return ok(result);
 
     }
 
-    abstract List<Pet> findPetsByStatus(Http.Request request, @NotNull List<String> status) ;
+    public abstract List<Pet> findPetsByStatus(Http.Request request, @NotNull List<String> status) ;
 
-    Result findPetsByTagsHttp(Http.Request request, @NotNull List<String> tags)  {
+    public Result findPetsByTagsHttp(Http.Request request, @NotNull List<String> tags)  {
         List<Pet> obj = findPetsByTags(request, tags);
     if (configuration.getBoolean("useOutputBeanValidation")) {
         for (Pet curItem : obj) {
@@ -68,9 +67,9 @@ return ok(result);
 
     }
 
-    abstract List<Pet> findPetsByTags(Http.Request request, @NotNull List<String> tags) ;
+    public abstract List<Pet> findPetsByTags(Http.Request request, @NotNull List<String> tags) ;
 
-    Result getPetByIdHttp(Http.Request request, Long petId)  {
+    public Result getPetByIdHttp(Http.Request request, Long petId)  {
         Pet obj = getPetById(request, petId);
     if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
@@ -80,25 +79,25 @@ return ok(result);
 
     }
 
-    abstract Pet getPetById(Http.Request request, Long petId) ;
+    public abstract Pet getPetById(Http.Request request, Long petId) ;
 
-    Result updatePetHttp(Http.Request request, Pet body)  {
+    public Result updatePetHttp(Http.Request request, Pet body)  {
         updatePet(request, body);
 return ok();
 
     }
 
-    abstract void updatePet(Http.Request request, Pet body) ;
+    public abstract void updatePet(Http.Request request, Pet body) ;
 
-    Result updatePetWithFormHttp(Http.Request request, Long petId, String name, String status)  {
+    public Result updatePetWithFormHttp(Http.Request request, Long petId, String name, String status)  {
         updatePetWithForm(request, petId, name, status);
 return ok();
 
     }
 
-    abstract void updatePetWithForm(Http.Request request, Long petId, String name, String status) ;
+    public abstract void updatePetWithForm(Http.Request request, Long petId, String name, String status) ;
 
-    Result uploadFileHttp(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file)  {
+    public Result uploadFileHttp(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> file)  {
         ModelApiResponse obj = uploadFile(request, petId, additionalMetadata, file);
     if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
@@ -108,6 +107,6 @@ return ok(result);
 
     }
 
-    abstract ModelApiResponse uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file) ;
+    public abstract ModelApiResponse uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> file) ;
 
 }

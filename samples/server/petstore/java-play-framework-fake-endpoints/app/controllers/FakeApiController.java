@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
+import play.api.libs.Files.TemporaryFile;
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -236,7 +237,8 @@ public class FakeApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'byte' parameter is required");
         }
-        Http.MultipartFormData.FilePart binary = request.body().asMultipartFormData().getFile("binary");
+        Http.MultipartFormData<TemporaryFile> body = request.body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<TemporaryFile> binary = body.getFile("binary");
         String valuedate = (request.body().asMultipartFormData().asFormUrlEncoded().get("date"))[0];
         LocalDate date;
         if (valuedate != null) {

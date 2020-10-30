@@ -4,7 +4,6 @@ import java.util.Map;
 import apimodels.Order;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -16,33 +15,33 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import openapitools.OpenAPIUtils;
 import static play.mvc.Results.ok;
+import play.api.libs.Files.TemporaryFile;
 
 import javax.validation.constraints.*;
 
-@Singleton
 @SuppressWarnings("RedundantThrows")
 public abstract class StoreApiControllerImpInterface {
     @Inject private Config configuration;
     private ObjectMapper mapper = new ObjectMapper();
 
-    Result deleteOrderHttp(Http.Request request, String orderId) throws Exception {
+    public Result deleteOrderHttp(Http.Request request, String orderId) throws Exception {
         deleteOrder(request, orderId);
 return ok();
 
     }
 
-    abstract void deleteOrder(Http.Request request, String orderId) throws Exception;
+    public abstract void deleteOrder(Http.Request request, String orderId) throws Exception;
 
-    Result getInventoryHttp(Http.Request request) throws Exception {
+    public Result getInventoryHttp(Http.Request request) throws Exception {
         Map<String, Integer> obj = getInventory(request);
 JsonNode result = mapper.valueToTree(obj);
 return ok(result);
 
     }
 
-    abstract Map<String, Integer> getInventory(Http.Request request) throws Exception;
+    public abstract Map<String, Integer> getInventory(Http.Request request) throws Exception;
 
-    Result getOrderByIdHttp(Http.Request request,  @Min(1) @Max(5)Long orderId) throws Exception {
+    public Result getOrderByIdHttp(Http.Request request,  @Min(1) @Max(5)Long orderId) throws Exception {
         Order obj = getOrderById(request, orderId);
     if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
@@ -52,9 +51,9 @@ return ok(result);
 
     }
 
-    abstract Order getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId) throws Exception;
+    public abstract Order getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId) throws Exception;
 
-    Result placeOrderHttp(Http.Request request, Order body) throws Exception {
+    public Result placeOrderHttp(Http.Request request, Order body) throws Exception {
         Order obj = placeOrder(request, body);
     if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
@@ -64,6 +63,6 @@ return ok(result);
 
     }
 
-    abstract Order placeOrder(Http.Request request, Order body) throws Exception;
+    public abstract Order placeOrder(Http.Request request, Order body) throws Exception;
 
 }

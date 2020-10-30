@@ -3,7 +3,6 @@ package controllers;
 import apimodels.Client;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -15,16 +14,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import openapitools.OpenAPIUtils;
 import static play.mvc.Results.ok;
+import play.api.libs.Files.TemporaryFile;
 
 import javax.validation.constraints.*;
 
-@Singleton
 @SuppressWarnings("RedundantThrows")
 public abstract class FakeClassnameTags123ApiControllerImpInterface {
     @Inject private Config configuration;
     private ObjectMapper mapper = new ObjectMapper();
 
-    Result testClassnameHttp(Http.Request request, Client body) throws Exception {
+    public Result testClassnameHttp(Http.Request request, Client body) throws Exception {
         Client obj = testClassname(request, body);
     if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
@@ -34,6 +33,6 @@ return ok(result);
 
     }
 
-    abstract Client testClassname(Http.Request request, Client body) throws Exception;
+    public abstract Client testClassname(Http.Request request, Client body) throws Exception;
 
 }

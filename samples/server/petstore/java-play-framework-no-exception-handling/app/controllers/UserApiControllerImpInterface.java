@@ -4,7 +4,6 @@ import java.util.List;
 import apimodels.User;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -16,48 +15,48 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import openapitools.OpenAPIUtils;
 import static play.mvc.Results.ok;
+import play.api.libs.Files.TemporaryFile;
 
 import javax.validation.constraints.*;
 
-@Singleton
 @SuppressWarnings("RedundantThrows")
 public abstract class UserApiControllerImpInterface {
     @Inject private Config configuration;
     private ObjectMapper mapper = new ObjectMapper();
 
-    Result createUserHttp(Http.Request request, User body)  {
+    public Result createUserHttp(Http.Request request, User body)  {
         createUser(request, body);
 return ok();
 
     }
 
-    abstract void createUser(Http.Request request, User body) ;
+    public abstract void createUser(Http.Request request, User body) ;
 
-    Result createUsersWithArrayInputHttp(Http.Request request, List<User> body)  {
+    public Result createUsersWithArrayInputHttp(Http.Request request, List<User> body)  {
         createUsersWithArrayInput(request, body);
 return ok();
 
     }
 
-    abstract void createUsersWithArrayInput(Http.Request request, List<User> body) ;
+    public abstract void createUsersWithArrayInput(Http.Request request, List<User> body) ;
 
-    Result createUsersWithListInputHttp(Http.Request request, List<User> body)  {
+    public Result createUsersWithListInputHttp(Http.Request request, List<User> body)  {
         createUsersWithListInput(request, body);
 return ok();
 
     }
 
-    abstract void createUsersWithListInput(Http.Request request, List<User> body) ;
+    public abstract void createUsersWithListInput(Http.Request request, List<User> body) ;
 
-    Result deleteUserHttp(Http.Request request, String username)  {
+    public Result deleteUserHttp(Http.Request request, String username)  {
         deleteUser(request, username);
 return ok();
 
     }
 
-    abstract void deleteUser(Http.Request request, String username) ;
+    public abstract void deleteUser(Http.Request request, String username) ;
 
-    Result getUserByNameHttp(Http.Request request, String username)  {
+    public Result getUserByNameHttp(Http.Request request, String username)  {
         User obj = getUserByName(request, username);
     if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
@@ -67,31 +66,31 @@ return ok(result);
 
     }
 
-    abstract User getUserByName(Http.Request request, String username) ;
+    public abstract User getUserByName(Http.Request request, String username) ;
 
-    Result loginUserHttp(Http.Request request, @NotNull String username, @NotNull String password)  {
+    public Result loginUserHttp(Http.Request request, @NotNull String username, @NotNull String password)  {
         String obj = loginUser(request, username, password);
 JsonNode result = mapper.valueToTree(obj);
 return ok(result);
 
     }
 
-    abstract String loginUser(Http.Request request, @NotNull String username, @NotNull String password) ;
+    public abstract String loginUser(Http.Request request, @NotNull String username, @NotNull String password) ;
 
-    Result logoutUserHttp(Http.Request request)  {
+    public Result logoutUserHttp(Http.Request request)  {
         logoutUser(request);
 return ok();
 
     }
 
-    abstract void logoutUser(Http.Request request) ;
+    public abstract void logoutUser(Http.Request request) ;
 
-    Result updateUserHttp(Http.Request request, String username, User body)  {
+    public Result updateUserHttp(Http.Request request, String username, User body)  {
         updateUser(request, username, body);
 return ok();
 
     }
 
-    abstract void updateUser(Http.Request request, String username, User body) ;
+    public abstract void updateUser(Http.Request request, String username, User body) ;
 
 }

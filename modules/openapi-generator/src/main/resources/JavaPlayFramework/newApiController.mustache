@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
+import play.api.libs.Files.TemporaryFile;
 {{^handleExceptions}}
 import java.io.IOException;
 {{/handleExceptions}}
@@ -127,9 +128,10 @@ public class {{classname}}Controller extends Controller {
         {{/queryParams}}
         {{#formParams}}
         {{#isFile}}
-        {{{dataType}}} {{paramName}} = request.body().asMultipartFormData().getFile("{{baseName}}");
+        Http.MultipartFormData<TemporaryFile> body = request.body().asMultipartFormData();
+        {{{dataType}}} {{paramName}} = body.getFile("{{baseName}}");
         {{#required}}
-        if (({{paramName}} == null || ((File) {{paramName}}.getFile()).length() == 0)) {
+        if (({{paramName}} == null || {{paramName}}.getFileSize() == 0)) {
             throw new IllegalArgumentException("'{{baseName}}' file cannot be empty");
         }
         {{/required}}
