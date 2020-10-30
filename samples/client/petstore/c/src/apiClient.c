@@ -7,7 +7,6 @@
 size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp);
 
 apiClient_t *apiClient_create() {
-    curl_global_init(CURL_GLOBAL_ALL);
     apiClient_t *apiClient = malloc(sizeof(apiClient_t));
     apiClient->basePath = strdup("http://petstore.swagger.io/v2");
     apiClient->sslConfig = NULL;
@@ -25,7 +24,6 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
 , sslConfig_t *sslConfig
 , list_t *apiKeys_api_key
 ) {
-    curl_global_init(CURL_GLOBAL_ALL);
     apiClient_t *apiClient = malloc(sizeof(apiClient_t));
     if(basePath){
         apiClient->basePath = strdup(basePath);
@@ -82,7 +80,6 @@ void apiClient_free(apiClient_t *apiClient) {
         free(apiClient->accessToken);
     }
     free(apiClient);
-    curl_global_cleanup();
 }
 
 sslConfig_t *sslConfig_create(const char *clientCertFile, const char *clientKeyFile, const char *CACertFile, int insecureSkipTlsVerify) {
@@ -526,3 +523,10 @@ char *strReplace(char *orig, char *rep, char *with) {
     return result;
 }
 
+void apiClient_setupGlobalEnv() {
+    curl_global_init(CURL_GLOBAL_ALL);
+}
+
+void apiClient_unsetupGlobalEnv() {
+    curl_global_cleanup();
+}
