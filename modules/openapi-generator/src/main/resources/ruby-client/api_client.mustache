@@ -71,7 +71,8 @@ module {{moduleName}}
       {{/isFaraday}}
       {{#isFaraday}}
       if return_type == 'File'
-        @tempfile.write(@stream)
+        @tempfile = Tempfile.open('download-', @config.temp_folder_path, encoding: body.encoding)
+        @tempfile.write(@stream.join.force_encoding(body.encoding))
         @tempfile.close
         @config.logger.info "Temp file written to #{@tempfile.path}, please copy the file to a proper folder "\
                             "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
