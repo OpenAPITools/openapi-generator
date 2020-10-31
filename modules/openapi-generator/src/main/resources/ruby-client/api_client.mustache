@@ -71,7 +71,17 @@ module {{moduleName}}
       {{/isFaraday}}
       {{#isFaraday}}
       if return_type == 'File'
-        @tempfile.write(@stream)
+        content_disposition = response.headers['Content-Disposition']
+        if content_disposition && content_disposition =~ /filename=/i
+          filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
+          prefix = sanitize_filename(filename)
+        else
+          prefix = 'download-'
+        end
+        prefix = prefix + '-' unless prefix.end_with?('-')
+        encoding = body.encoding
+        @tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
+        @tempfile.write(@stream.join.force_encoding(encoding))
         @tempfile.close
         @config.logger.info "Temp file written to #{@tempfile.path}, please copy the file to a proper folder "\
                             "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\

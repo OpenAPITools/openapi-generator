@@ -4,6 +4,11 @@
   infoLink: "https://www.adaptant.io/"
   pinned: false
 -
+  caption: "adesso SE"
+  image: "img/companies/adesso.png"
+  infoLink: "https://www.adesso.de/"
+  pinned: false
+-
   caption: "Agoda"
   image: "img/companies/agoda.png"
   infoLink: "https://www.agoda.com/"
@@ -178,6 +183,11 @@
   image: "img/companies/getyourguide.png"
   infoLink: "https://www.getyourguide.com/"
   pinned: false
+-
+  caption: Giant Monkey GmbH
+  image: "img/companies/gm.png"
+  infoLink: "https://www.giantmonkey.de/"
+  pinned: true
 -
   caption: "GMO Pepabo"
   image: "img/companies/pepabo.png"

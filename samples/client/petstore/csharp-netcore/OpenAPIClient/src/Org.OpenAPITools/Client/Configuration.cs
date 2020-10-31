@@ -514,7 +514,8 @@ namespace Org.OpenAPITools.Client
         public static String ToDebugReport()
         {
             String report = "C# SDK (Org.OpenAPITools) Debug Report:\n";
-            report += "    OS: " + System.Runtime.InteropServices.RuntimeInformation.OSDescription + "\n";
+            report += "    OS: " + System.Environment.OSVersion + "\n";
+            report += "    .NET Framework Version: " + System.Environment.Version  + "\n";
             report += "    Version of the API: 1.0.0\n";
             report += "    SDK Package Version: 1.0.0\n";
 

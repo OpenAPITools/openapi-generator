@@ -61,7 +61,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETCOREAPP_2_0,
             FrameworkStrategy.NETCOREAPP_2_1,
             FrameworkStrategy.NETCOREAPP_3_0,
-            FrameworkStrategy.NETCOREAPP_3_1
+            FrameworkStrategy.NETCOREAPP_3_1,
+            FrameworkStrategy.NETFRAMEWORK_4_7
     );
     private static FrameworkStrategy defaultFramework = FrameworkStrategy.NETSTANDARD_2_0;
     protected final Map<String, String> frameworks;
@@ -904,6 +905,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         static FrameworkStrategy NETCOREAPP_3_0 = new FrameworkStrategy("netcoreapp3.0", ".NET Core 3.0 compatible", "netcoreapp3.0", Boolean.FALSE) {
         };
         static FrameworkStrategy NETCOREAPP_3_1 = new FrameworkStrategy("netcoreapp3.1", ".NET Core 3.1 compatible", "netcoreapp3.1", Boolean.FALSE) {
+        };
+        static FrameworkStrategy NETFRAMEWORK_4_7 = new FrameworkStrategy("net47", ".NET Framework 4.7 compatible", "net47", Boolean.FALSE) {
         };
         protected String name;
         protected String description;

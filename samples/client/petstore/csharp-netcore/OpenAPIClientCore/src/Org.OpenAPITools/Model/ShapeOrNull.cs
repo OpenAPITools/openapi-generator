@@ -246,7 +246,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRaw((String)(typeof(ShapeOrNull).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((String)(typeof(ShapeOrNull).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>
