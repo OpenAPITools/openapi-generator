@@ -60,6 +60,7 @@ jobs:
         run: gradle -b modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle buildGoSdk --stacktrace
 
       - name: Test Maven plugin integration
+        if: matrix.java == '8'
         shell: bash
         run: |
           cd modules/openapi-generator-maven-plugin

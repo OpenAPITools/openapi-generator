@@ -499,13 +499,8 @@ namespace {{packageName}}.Client
         public static String ToDebugReport()
         {
             String report = "C# SDK ({{{packageName}}}) Debug Report:\n";
-            {{^netStandard}}
             report += "    OS: " + System.Environment.OSVersion + "\n";
             report += "    .NET Framework Version: " + System.Environment.Version  + "\n";
-            {{/netStandard}}
-            {{#netStandard}}
-            report += "    OS: " + System.Runtime.InteropServices.RuntimeInformation.OSDescription + "\n";
-            {{/netStandard}}
             report += "    Version of the API: {{{version}}}\n";
             report += "    SDK Package Version: {{{packageVersion}}}\n";
 

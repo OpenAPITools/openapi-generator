@@ -156,14 +156,6 @@ class OpenApiModel(object):
             )
         self.__dict__['_data_store'][name] = value
 
-    def __setitem__(self, name, value):
-        """this allows us to set values with instance[field_name] = val"""
-        self.__setattr__(name, value)
-
-    def __getitem__(self, name):
-        """this allows us to get a value with val = instance[field_name]"""
-        return self.__getattr__(name)
-
     def __repr__(self):
         """For `print` and `pprint`"""
         return self.to_str()
@@ -171,6 +163,14 @@ class OpenApiModel(object):
     def __ne__(self, other):
         """Returns true if both objects are not equal"""
         return not self == other
+
+    def __setattr__(self, attr, value):
+        """set the value of an attribute using dot notation: `instance.attr = val`"""
+        self[attr] = value
+
+    def __getattr__(self, attr):
+        """get the value of an attribute using dot notation: `instance.attr`"""
+        return self.__getitem__(attr)
 
     def __new__(cls, *args, **kwargs):
         # this function uses the discriminator to
@@ -290,39 +290,38 @@ class ModelSimple(OpenApiModel):
     """the parent class of models whose type != object in their
     swagger/openapi"""
 
-    def __setattr__(self, name, value):
-        """this allows us to set a value with instance.field_name = val"""
+    def __setitem__(self, name, value):
+        """set the value of an attribute using square-bracket notation: `instance[attr] = val`"""
         if name in self.required_properties:
             self.__dict__[name] = value
             return
 
         self.set_attribute(name, value)
 
-    def __getattr__(self, name):
-        """this allows us to get a value with val = instance.field_name"""
+    def get(self, name, default=None):
+        """returns the value of an attribute or some default value if the attribute was not set"""
         if name in self.required_properties:
             return self.__dict__[name]
 
-        if name in self.__dict__['_data_store']:
-            return self.__dict__['_data_store'][name]
+        return self.__dict__['_data_store'].get(name, default)
 
-        path_to_item = []
-        if self._path_to_item:
-            path_to_item.extend(self._path_to_item)
-        path_to_item.append(name)
+    def __getitem__(self, name):
+        """get the value of an attribute using square-bracket notation: `instance[attr]`"""
+        if name in self:
+            return self.get(name)
+
         raise ApiAttributeError(
             "{0} has no attribute '{1}'".format(
                 type(self).__name__, name),
-            [name]
+            [e for e in [self._path_to_item, name] if e]
         )
 
     def __contains__(self, name):
-        """this allows us to use `in` operator: `'attr' in instance`"""
+        """used by `in` operator to check if an attrbute value was set in an instance: `'attr' in instance`"""
         if name in self.required_properties:
             return name in self.__dict__
 
         return name in self.__dict__['_data_store']
-
 
     def to_str(self):
         """Returns the string representation of the model"""
@@ -346,39 +345,38 @@ class ModelNormal(OpenApiModel):
     """the parent class of models whose type == object in their
     swagger/openapi"""
 
-    def __setattr__(self, name, value):
-        """this allows us to set a value with instance.field_name = val"""
+    def __setitem__(self, name, value):
+        """set the value of an attribute using square-bracket notation: `instance[attr] = val`"""
         if name in self.required_properties:
             self.__dict__[name] = value
             return
 
         self.set_attribute(name, value)
 
-    def __getattr__(self, name):
-        """this allows us to get a value with val = instance.field_name"""
+    def get(self, name, default=None):
+        """returns the value of an attribute or some default value if the attribute was not set"""
         if name in self.required_properties:
             return self.__dict__[name]
 
-        if name in self.__dict__['_data_store']:
-            return self.__dict__['_data_store'][name]
+        return self.__dict__['_data_store'].get(name, default)
 
-        path_to_item = []
-        if self._path_to_item:
-            path_to_item.extend(self._path_to_item)
-        path_to_item.append(name)
+    def __getitem__(self, name):
+        """get the value of an attribute using square-bracket notation: `instance[attr]`"""
+        if name in self:
+            return self.get(name)
+
         raise ApiAttributeError(
             "{0} has no attribute '{1}'".format(
                 type(self).__name__, name),
-            [name]
+            [e for e in [self._path_to_item, name] if e]
         )
 
     def __contains__(self, name):
-        """this allows us to use `in` operator: `'attr' in instance`"""
+        """used by `in` operator to check if an attrbute value was set in an instance: `'attr' in instance`"""
         if name in self.required_properties:
             return name in self.__dict__
 
         return name in self.__dict__['_data_store']
-
 
     def to_dict(self):
         """Returns the model properties as a dict"""
@@ -432,8 +430,8 @@ class ModelComposed(OpenApiModel):
     which contain the value that the key is referring to.
     """
 
-    def __setattr__(self, name, value):
-        """this allows us to set a value with instance.field_name = val"""
+    def __setitem__(self, name, value):
+        """set the value of an attribute using square-bracket notation: `instance[attr] = val`"""
         if name in self.required_properties:
             self.__dict__[name] = value
             return
@@ -454,28 +452,22 @@ class ModelComposed(OpenApiModel):
                     )
             return None
 
-        path_to_item = []
-        if self._path_to_item:
-            path_to_item.extend(self._path_to_item)
-        path_to_item.append(name)
         raise ApiAttributeError(
             "{0} has no attribute '{1}'".format(
                 type(self).__name__, name),
-            path_to_item
+            [e for e in [self._path_to_item, name] if e]
         )
 
-    def __getattr__(self, name):
-        """this allows us to get a value with val = instance.field_name"""
+    __unset_attribute_value__ = object()
+
+    def get(self, name, default=None):
+        """returns the value of an attribute or some default value if the attribute was not set"""
         if name in self.required_properties:
             return self.__dict__[name]
 
         # get the attribute from the correct instance
         model_instances = self._var_name_to_model_instances.get(
             name, self._additional_properties_model_instances)
-        path_to_item = []
-        if self._path_to_item:
-            path_to_item.extend(self._path_to_item)
-        path_to_item.append(name)
         values = []
         # A composed model stores child (oneof/anyOf/allOf) models under
         # self._var_name_to_model_instances. A named property can exist in
@@ -489,11 +481,7 @@ class ModelComposed(OpenApiModel):
                         values.append(v)
         len_values = len(values)
         if len_values == 0:
-            raise ApiAttributeError(
-                "{0} has no attribute '{1}'".format(
-                    type(self).__name__, name),
-                path_to_item
-            )
+            return default
         elif len_values == 1:
             return values[0]
         elif len_values > 1:
@@ -501,11 +489,22 @@ class ModelComposed(OpenApiModel):
                 "Values stored for property {0} in {1} differ when looking "
                 "at self and self's composed instances. All values must be "
                 "the same".format(name, type(self).__name__),
-                path_to_item
+                [e for e in [self._path_to_item, name] if e]
             )
 
+    def __getitem__(self, name):
+        """get the value of an attribute using square-bracket notation: `instance[attr]`"""
+        value = self.get(name, self.__unset_attribute_value__)
+        if value is self.__unset_attribute_value__:
+            raise ApiAttributeError(
+                "{0} has no attribute '{1}'".format(
+                    type(self).__name__, name),
+                    [e for e in [self._path_to_item, name] if e]
+            )
+        return value
+
     def __contains__(self, name):
-        """this allows us to use `in` operator: `'attr' in instance`"""
+        """used by `in` operator to check if an attrbute value was set in an instance: `'attr' in instance`"""
 
         if name in self.required_properties:
             return name in self.__dict__
@@ -519,7 +518,6 @@ class ModelComposed(OpenApiModel):
                     return True
 
         return False
-
 
     def to_dict(self):
         """Returns the model properties as a dict"""

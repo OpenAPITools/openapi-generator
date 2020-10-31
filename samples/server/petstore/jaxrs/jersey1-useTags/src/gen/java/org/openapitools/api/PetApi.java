@@ -18,8 +18,8 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
-import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
+import com.sun.jersey.multipart.FormDataBodyPart;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -186,11 +186,10 @@ public class PetApi  {
     public Response uploadFile(
         @ApiParam(value = "ID of pet to update", required = true) @PathParam("petId") @NotNull  Long petId,
         @FormDataParam("additionalMetadata")  String additionalMetadata,
-        @FormDataParam("file") InputStream inputStream,
-        @FormDataParam("file") FormDataContentDisposition fileDetail,
+        @FormDataParam("file") FormDataBodyPart fileBodypart,
         @Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.uploadFile(petId,additionalMetadata,inputStream, fileDetail,securityContext);
+        return delegate.uploadFile(petId,additionalMetadata,fileBodypart,securityContext);
     }
     @POST
     @Path("/fake/{petId}/uploadImageWithRequiredFile")
@@ -206,11 +205,10 @@ public class PetApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
     public Response uploadFileWithRequiredFile(
         @ApiParam(value = "ID of pet to update", required = true) @PathParam("petId") @NotNull  Long petId,
-        @FormDataParam("requiredFile") InputStream inputStream,
-        @FormDataParam("requiredFile") FormDataContentDisposition fileDetail,
+        @FormDataParam("requiredFile") FormDataBodyPart requiredFileBodypart,
         @FormDataParam("additionalMetadata")  String additionalMetadata,
         @Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.uploadFileWithRequiredFile(petId,inputStream, fileDetail,additionalMetadata,securityContext);
+        return delegate.uploadFileWithRequiredFile(petId,requiredFileBodypart,additionalMetadata,securityContext);
     }
 }

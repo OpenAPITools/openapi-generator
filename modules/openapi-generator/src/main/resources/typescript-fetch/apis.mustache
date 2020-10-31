@@ -238,7 +238,12 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/isArray}}
         {{^isArray}}
         if (requestParameters.{{paramName}} !== undefined) {
+            {{#isPrimitiveType}}
             formParams.append('{{baseName}}', requestParameters.{{paramName}} as any);
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
+            formParams.append('{{baseName}}', new Blob([JSON.stringify({{{dataType}}}ToJSON(requestParameters.{{paramName}}))], { type: "application/json", }));
+            {{/isPrimitiveType}}
         }
 
         {{/isArray}}

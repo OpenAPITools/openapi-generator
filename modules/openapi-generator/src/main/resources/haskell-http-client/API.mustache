@@ -69,8 +69,8 @@ import qualified Prelude as P
 {{operationId}} {{^vendorExtensions.x-inline-content-type}}_ {{/vendorExtensions.x-inline-content-type}}{{^vendorExtensions.x-inline-accept}} _ {{/vendorExtensions.x-inline-accept}}{{#allParams}}{{#required}}{{#isBodyParam}}{{{paramName}}}{{/isBodyParam}}{{^isBodyParam}}({{#vendorExtensions.x-param-name-type}}{{{.}}}{{/vendorExtensions.x-param-name-type}}{{^vendorExtensions.x-param-name-type}}{{{dataType}}}{{/vendorExtensions.x-param-name-type}} {{{paramName}}}){{/isBodyParam}} {{/required}}{{/allParams}}=
   _mkRequest "{{httpMethod}}" {{{vendorExtensions.x-path}}}{{#authMethods}}
     `_hasAuthType` (P.Proxy :: P.Proxy {{name}}){{/authMethods}}{{#allParams}}{{#required}}{{#isHeaderParam}}
-    `setHeader` {{>_headerColl}} ("{{{baseName}}}", {{{paramName}}}){{/isHeaderParam}}{{#isQueryParam}}
-    `setQuery` {{>_queryColl}} ("{{{baseName}}}", Just {{{paramName}}}){{/isQueryParam}}{{#isFormParam}}{{#isFile}}
+    `addHeader` {{>_headerColl}} ("{{{baseName}}}", {{{paramName}}}){{/isHeaderParam}}{{#isQueryParam}}
+    `addQuery` {{>_queryColl}} ("{{{baseName}}}", Just {{{paramName}}}){{/isQueryParam}}{{#isFormParam}}{{#isFile}}
     `_addMultiFormPart` NH.partFileSource "{{{baseName}}}" {{{paramName}}}{{/isFile}}{{^isFile}}{{#isMultipart}}
     `_addMultiFormPart` NH.partLBS "{{{baseName}}}" (mimeRender' MimeMultipartFormData {{{paramName}}}){{/isMultipart}}{{^isMultipart}}
     `addForm` {{>_formColl}} ("{{{baseName}}}", {{{paramName}}}){{/isMultipart}}{{/isFile}}{{/isFormParam}}{{#isBodyParam}}
@@ -86,7 +86,7 @@ instance HasBodyParam {{{vendorExtensions.x-operation-type}}} {{#vendorExtension
 -- | /Optional Param/ "{{{baseName}}}" - {{{description}}}{{/description}}
 instance HasOptionalParam {{{vendorExtensions.x-operation-type}}} {{#vendorExtensions.x-param-name-type}}{{{.}}}{{/vendorExtensions.x-param-name-type}}{{^vendorExtensions.x-param-name-type}}{{{dataType}}}{{/vendorExtensions.x-param-name-type}} where
   applyOptionalParam req ({{#vendorExtensions.x-param-name-type}}{{{.}}}{{/vendorExtensions.x-param-name-type}}{{^vendorExtensions.x-param-name-type}}{{{dataType}}}{{/vendorExtensions.x-param-name-type}} xs) =
-    {{#isHeaderParam}}req `setHeader` {{>_headerColl}} ("{{{baseName}}}", xs){{/isHeaderParam}}{{#isQueryParam}}req `setQuery` {{>_queryColl}} ("{{{baseName}}}", Just xs){{/isQueryParam}}{{#isFormParam}}{{#isFile}}req `_addMultiFormPart` NH.partFileSource "{{{baseName}}}" xs{{/isFile}}{{^isFile}}{{#isMultipart}}req `_addMultiFormPart` NH.partLBS "{{{baseName}}}" (mimeRender' MimeMultipartFormData xs){{/isMultipart}}{{^isMultipart}}req `addForm` {{>_formColl}} ("{{{baseName}}}", xs){{/isMultipart}}{{/isFile}}{{/isFormParam}}{{/required}}{{/isBodyParam}}{{/allParams}}{{/vendorExtensions.x-has-optional-params}}{{#hasConsumes}}
+    {{#isHeaderParam}}req `addHeader` {{>_headerColl}} ("{{{baseName}}}", xs){{/isHeaderParam}}{{#isQueryParam}}req `addQuery` {{>_queryColl}} ("{{{baseName}}}", Just xs){{/isQueryParam}}{{#isFormParam}}{{#isFile}}req `_addMultiFormPart` NH.partFileSource "{{{baseName}}}" xs{{/isFile}}{{^isFile}}{{#isMultipart}}req `_addMultiFormPart` NH.partLBS "{{{baseName}}}" (mimeRender' MimeMultipartFormData xs){{/isMultipart}}{{^isMultipart}}req `addForm` {{>_formColl}} ("{{{baseName}}}", xs){{/isMultipart}}{{/isFile}}{{/isFormParam}}{{/required}}{{/isBodyParam}}{{/allParams}}{{/vendorExtensions.x-has-optional-params}}{{#hasConsumes}}
 
 {{#consumes}}-- | @{{{mediaType}}}@{{^x-mediaIsWildcard}}
 instance Consumes {{{vendorExtensions.x-operation-type}}} {{{x-mediaDataType}}}{{/x-mediaIsWildcard}}{{#x-mediaIsWildcard}}
