@@ -1,29 +1,29 @@
 {{>licenseInfo}}
 {{#models}}{{#model}}defmodule {{moduleName}}.Model.{{classname}} do
   @moduledoc """
-  {{description}}
+  {{&description}}
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    {{#vars}}:"{{baseName}}"{{#hasMore}},
+    {{#vars}}:"{{&baseName}}"{{#hasMore}},
     {{/hasMore}}{{/vars}}
   ]
 
   @type t :: %__MODULE__{
-    {{#vars}}:"{{baseName}}" => {{{datatype}}}{{#isNullable}} | nil{{/isNullable}}{{^isNullable}}{{^required}} | nil{{/required}}{{/isNullable}}{{#hasMore}},
+    {{#vars}}:"{{&baseName}}" => {{{datatype}}}{{#isNullable}} | nil{{/isNullable}}{{^isNullable}}{{^required}} | nil{{/required}}{{/isNullable}}{{#hasMore}},
     {{/hasMore}}{{/vars}}
   }
 end
 
-defimpl Poison.Decoder, for: {{moduleName}}.Model.{{classname}} do
+defimpl Poison.Decoder, for: {{&moduleName}}.Model.{{&classname}} do
 {{#hasComplexVars}}
-  import {{moduleName}}.Deserializer
+  import {{&moduleName}}.Deserializer
   def decode(value, options) do
     value
     {{#vars}}
     {{^isPrimitiveType}}
-    {{#datatype}}|> deserialize(:"{{baseName}}", {{#isArray}}:list, {{moduleName}}.Model.{{items.datatype}}{{/isArray}}{{#isMap}}:map, {{moduleName}}.Model.{{items.datatype}}{{/isMap}}{{#isDate}}:date, nil{{/isDate}}{{#isDateTime}}:date, nil{{/isDateTime}}{{^isDate}}{{^isDateTime}}{{^isMap}}{{^isArray}}:struct, {{moduleName}}.Model.{{dataType}}{{/isArray}}{{/isMap}}{{/isDateTime}}{{/isDate}}, options)
+    {{#datatype}}|> deserialize(:"{{&baseName}}", {{#isArray}}:list, {{&moduleName}}.Model.{{{items.datatype}}}{{/isArray}}{{#isMap}}:map, {{&moduleName}}.Model.{{{items.datatype}}}{{/isMap}}{{#isDate}}:date, nil{{/isDate}}{{#isDateTime}}:date, nil{{/isDateTime}}{{^isDate}}{{^isDateTime}}{{^isMap}}{{^isArray}}:struct, {{moduleName}}.Model.{{dataType}}{{/isArray}}{{/isMap}}{{/isDateTime}}{{/isDate}}, options)
     {{/datatype}}
     {{/isPrimitiveType}}
     {{/vars}}

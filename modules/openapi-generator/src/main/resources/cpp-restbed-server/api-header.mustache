@@ -25,16 +25,6 @@ namespace {{this}} {
 
 using namespace {{modelNamespace}};
 
-class {{declspec}} {{classname}}: public restbed::Service
-{
-public:
-	{{classname}}();
-	~{{classname}}();
-	void startService(int const& port);
-	void stopService();
-};
-
-
 {{#operation}}
 /// <summary>
 /// {{summary}}
@@ -83,6 +73,24 @@ private:
 };
 
 {{/operation}}
+
+//
+// The restbed service to actually implement the REST server
+//
+class {{declspec}} {{classname}}: public restbed::Service
+{
+public:
+	{{classname}}();
+	~{{classname}}();
+	void startService(int const& port);
+	void stopService();
+	
+protected:
+	{{#operation}}
+	std::shared_ptr<{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource> m_sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource;
+	{{/operation}}	
+};
+
 
 {{#apiNamespaceDeclarations}}
 }

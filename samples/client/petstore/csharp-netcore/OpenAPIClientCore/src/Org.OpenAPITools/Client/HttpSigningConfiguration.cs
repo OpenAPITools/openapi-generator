@@ -78,9 +78,10 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Gets the Headers for HttpSigning
         /// </summary>
-        /// <param name="method"></param>
-        /// <param name="path"></param>
-        /// <param name="requestOptions"></param>
+        /// <param name="basePath">Base path</param>
+        /// <param name="method">HTTP method</param>
+        /// <param name="path">Path</param>
+        /// <param name="requestOptions">Request options</param>
         /// <returns></returns>
         internal Dictionary<string, string> GetHttpSignedHeader(string basePath,string method, string path, RequestOptions requestOptions)
         {

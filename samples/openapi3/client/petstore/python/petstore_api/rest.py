@@ -76,6 +76,9 @@ class RESTClientObject(object):
         if configuration.retries is not None:
             addition_pool_args['retries'] = configuration.retries
 
+        if configuration.socket_options is not None:
+            addition_pool_args['socket_options'] = configuration.socket_options
+
         if maxsize is None:
             if configuration.connection_pool_maxsize is not None:
                 maxsize = configuration.connection_pool_maxsize
