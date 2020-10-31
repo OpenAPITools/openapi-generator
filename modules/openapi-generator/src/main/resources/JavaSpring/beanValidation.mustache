@@ -1,5 +1,7 @@
 {{#required}}
-  @NotNull
+    {{^vendorExtensions.x-validation-message-not-blank}} {{^vendorExtensions.x-validation-message-not-empty}} @NotNull {{#vendorExtensions.x-validation-message-not-null}}(message = "{{{vendorExtensions.x-validation-message-not-null}}}"){{/vendorExtensions.x-validation-message-not-null}}       {{/vendorExtensions.x-validation-message-not-empty}} {{/vendorExtensions.x-validation-message-not-blank}}
+    {{#vendorExtensions.x-validation-message-not-blank}} {{^vendorExtensions.x-validation-message-not-empty}} @NotBlank(message = "{{{vendorExtensions.x-validation-message-not-blank}}}")    {{/vendorExtensions.x-validation-message-not-empty}} {{/vendorExtensions.x-validation-message-not-blank}}
+    {{#vendorExtensions.x-validation-message-not-empty}} {{^vendorExtensions.x-validation-message-not-blank}} @NotEmpty(message = "{{{vendorExtensions.x-validation-message-not-empty}}}") {{/vendorExtensions.x-validation-message-not-blank}} {{/vendorExtensions.x-validation-message-not-empty}}
 {{/required}}{{#isContainer}}{{^isPrimitiveType}}{{^isEnum}}
   @Valid{{/isEnum}}{{/isPrimitiveType}}{{/isContainer}}{{^isContainer}}{{^isPrimitiveType}}
   @Valid{{/isPrimitiveType}}{{/isContainer}}

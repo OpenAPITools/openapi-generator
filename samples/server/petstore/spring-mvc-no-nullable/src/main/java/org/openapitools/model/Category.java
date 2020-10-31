@@ -49,7 +49,9 @@ public class Category   {
    * @return name
   */
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull         
+    
+    
 
 
   public String getName() {
