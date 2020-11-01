@@ -513,7 +513,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // Let parent know about all its children
-        for (String name : allModels.keySet()) {
+        Map<String, CodegenModel> orderedAllModels = new LinkedHashMap<String, CodegenModel>(allModels);
+        for (String name : orderedAllModels.keySet()) {
             CodegenModel cm = allModels.get(name);
             CodegenModel parent = allModels.get(cm.getParent());
             // if a discriminator exists on the parent, don't add this child to the inheritance hierarchy

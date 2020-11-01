@@ -703,7 +703,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
      */
     private String sanitizeKotlinSpecificNames(final String name) {
         String word = name;
-        for (Map.Entry<String, String> specialCharacters : specialCharReplacements.entrySet()) {
+        Map<String, String> orderedSpecialCharReplacements = new LinkedHashMap<String, String>(specialCharReplacements);
+        for (Map.Entry<String, String> specialCharacters : orderedSpecialCharReplacements.entrySet()) {
             word = replaceSpecialCharacters(word, specialCharacters);
         }
 
