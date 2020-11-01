@@ -44,10 +44,10 @@ final api_instance = AnotherFakeApi();
 final client = Client(); // Client | client model
 
 try {
-    final result = api_instance.123test@$%SpecialTags(client);
+    final result = api_instance.n123testSpecialTags(client);
     print(result);
 } catch (e) {
-    print('Exception when calling AnotherFakeApi->123test@$%SpecialTags: $e\n');
+    print('Exception when calling AnotherFakeApi->n123testSpecialTags: $e\n');
 }
 
 ```
@@ -58,7 +58,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AnotherFakeApi* | [**123test@$%SpecialTags**](doc//AnotherFakeApi.md#123test@$%specialtags) | **PATCH** /another-fake/dummy | To test special tags
+*AnotherFakeApi* | [**n123testSpecialTags**](doc//AnotherFakeApi.md#n123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**fooGet**](doc//DefaultApi.md#fooget) | **GET** /foo | 
 *FakeApi* | [**fakeHealthGet**](doc//FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeHttpSignatureTest**](doc//FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
@@ -131,7 +131,6 @@ Class | Method | HTTP request | Description
  - [InlineObject4](doc//InlineObject4.md)
  - [InlineObject5](doc//InlineObject5.md)
  - [InlineResponseDefault](doc//InlineResponseDefault.md)
- - [List](doc//List.md)
  - [MapTest](doc//MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](doc//MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](doc//Model200Response.md)

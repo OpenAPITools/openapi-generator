@@ -37,7 +37,7 @@ class StoreApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -95,7 +95,7 @@ class StoreApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -166,7 +166,7 @@ class StoreApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -239,7 +239,7 @@ class StoreApi {
     Object postBody = order;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 

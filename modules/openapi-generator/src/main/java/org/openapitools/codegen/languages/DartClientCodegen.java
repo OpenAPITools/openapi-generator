@@ -109,8 +109,8 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                 )
         );
 
-        // clear import mapping (from default generator) as dart does not use it at the moment
-        importMapping.clear();
+        importMapping.put("List", "dart.core.*");
+        importMapping.put("Map", "dart.core.*");
 
         outputFolder = "generated-code/dart";
         modelTemplateFiles.put("model.mustache", ".dart");
@@ -344,6 +344,11 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
             return name;
         }
 
+        // numbers are not allowed at the beginning
+        if (name.matches("^\\d.*")) {
+            name = "_" + name;
+        }
+
         // camelize (lower first character) the variable name
         // pet_id => petId
         name = camelize(name, true);
@@ -556,7 +561,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
             return newOperationId;
         }
 
-        return camelize(operationId, true);
+        return camelize(toVarName(sanitizeName(operationId)), true);
     }
 
     public void setPubLibrary(String pubLibrary) {

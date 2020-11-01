@@ -24,7 +24,7 @@ class FakeApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -96,7 +96,7 @@ class FakeApi {
     Object postBody = pet;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
     if (query1 != null) {
@@ -167,7 +167,7 @@ class FakeApi {
     Object postBody = body;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -235,7 +235,7 @@ class FakeApi {
     Object postBody = outerComposite;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -303,7 +303,7 @@ class FakeApi {
     Object postBody = body;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -371,7 +371,7 @@ class FakeApi {
     Object postBody = body;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -441,7 +441,7 @@ class FakeApi {
     Object postBody = fileSchemaTestClass;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -505,7 +505,7 @@ class FakeApi {
     Object postBody = user;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
       queryParams.addAll(_convertParametersForCollectionFormat('', 'query', query));
@@ -571,7 +571,7 @@ class FakeApi {
     Object postBody = client;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -694,7 +694,7 @@ class FakeApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -915,7 +915,7 @@ class FakeApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
     if (enumQueryStringArray != null) {
@@ -1053,7 +1053,7 @@ class FakeApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
       queryParams.addAll(_convertParametersForCollectionFormat('', 'required_string_group', requiredStringGroup));
@@ -1144,7 +1144,7 @@ class FakeApi {
     Object postBody = requestBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -1214,7 +1214,7 @@ class FakeApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -1314,7 +1314,7 @@ class FakeApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
       queryParams.addAll(_convertParametersForCollectionFormat('multi', 'pipe', pipe));

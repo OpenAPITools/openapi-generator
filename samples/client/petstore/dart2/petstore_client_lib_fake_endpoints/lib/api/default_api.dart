@@ -22,7 +22,7 @@ class DefaultApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 

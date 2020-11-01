@@ -36,7 +36,7 @@ class UserApi {
     Object postBody = user;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -102,7 +102,7 @@ class UserApi {
     Object postBody = user;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -166,7 +166,7 @@ class UserApi {
     Object postBody = user;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -233,7 +233,7 @@ class UserApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -300,7 +300,7 @@ class UserApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -377,7 +377,7 @@ class UserApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
       queryParams.addAll(_convertParametersForCollectionFormat('', 'username', username));
@@ -443,7 +443,7 @@ class UserApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -511,7 +511,7 @@ class UserApi {
     Object postBody = user;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 

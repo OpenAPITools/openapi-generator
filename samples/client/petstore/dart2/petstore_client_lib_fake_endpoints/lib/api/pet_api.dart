@@ -34,7 +34,7 @@ class PetApi {
     Object postBody = pet;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -101,7 +101,7 @@ class PetApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
     headerParams['api_key'] = apiKey;
@@ -170,7 +170,7 @@ class PetApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
       queryParams.addAll(_convertParametersForCollectionFormat('csv', 'status', status));
@@ -248,7 +248,7 @@ class PetApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
       queryParams.addAll(_convertParametersForCollectionFormat('csv', 'tags', tags));
@@ -327,7 +327,7 @@ class PetApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -400,7 +400,7 @@ class PetApi {
     Object postBody = pet;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -471,7 +471,7 @@ class PetApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -562,7 +562,7 @@ class PetApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
@@ -661,7 +661,7 @@ class PetApi {
     Object postBody;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 

@@ -1,3 +1,4 @@
+            import 'dart.core.*';
             import 'package:openapi/model/tag.dart';
             import 'package:built_collection/built_collection.dart';
             import 'package:openapi/model/category.dart';

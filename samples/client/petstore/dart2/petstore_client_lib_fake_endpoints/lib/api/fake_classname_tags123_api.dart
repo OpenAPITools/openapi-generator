@@ -36,7 +36,7 @@ class FakeClassnameTags123Api {
     Object postBody = client;
 
     final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
+    final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
 
