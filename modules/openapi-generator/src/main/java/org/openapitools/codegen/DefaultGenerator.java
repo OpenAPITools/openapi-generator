@@ -224,6 +224,9 @@ public class DefaultGenerator implements Generator {
         generateApiTests = GlobalSettings.getProperty(CodegenConstants.API_TESTS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.API_TESTS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_TESTS, true);
         generateApiDocumentation = GlobalSettings.getProperty(CodegenConstants.API_DOCS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.API_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_DOCS, true);
 
+        // allows disabling the default generation of OpenAPI Generator metadata files.
+        generateMetadata = config.additionalProperties().containsKey(CodegenConstants.GENERATE_METADATA_FILES) ? Boolean.valueOf(config.additionalProperties().get(CodegenConstants.GENERATE_METADATA_FILES).toString()) : getGeneratorPropertyDefaultSwitch(CodegenConstants.GENERATE_METADATA_FILES, true);
+
         // Additional properties added for tests to exclude references in project related files
         config.additionalProperties().put(CodegenConstants.GENERATE_API_TESTS, generateApiTests);
         config.additionalProperties().put(CodegenConstants.GENERATE_MODEL_TESTS, generateModelTests);

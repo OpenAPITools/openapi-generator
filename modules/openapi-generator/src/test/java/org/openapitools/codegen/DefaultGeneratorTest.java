@@ -636,5 +636,37 @@ public class DefaultGeneratorTest {
             templates.toFile().delete();
         }
     }
+
+    @Test
+    public void dryRunWithGenerateMetadataOff() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/pingSomeObj.yaml")
+                    .addAdditionalProperty(CodegenConstants.GENERATE_METADATA_FILES, "false")
+                    .setOutputDir(target.toAbsolutePath().toString());
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(true);
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            // Assert that metadata files are no longer created.
+            TestUtils.ensureDoesNotContainsFile(files, output, ".openapi-generator-ignore");
+            TestUtils.ensureDoesNotContainsFile(files, output, ".openapi-generator/VERSION");
+
+            // Sanity check that other files are still created.
+            TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/api/PingApi.java");
+            TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/SomeObj.java");
+            TestUtils.ensureContainsFile(files, output, "pom.xml");
+            TestUtils.ensureContainsFile(files, output, ".travis.yml");
+            TestUtils.ensureContainsFile(files, output, ".gitignore");
+            TestUtils.ensureContainsFile(files, output, "git_push.sh");
+        } finally {
+            output.delete();
+        }
+    }
 }
 

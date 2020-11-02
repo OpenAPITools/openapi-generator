@@ -381,4 +381,8 @@ public class CodegenConstants {
 
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP = "useOneOfDiscriminatorLookup";
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC = "Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and onlye one match in oneOf's schemas) will be skipped.";
+
+    public static final String GENERATE_METADATA_FILES = "generateMetadataFiles";
+    public static final String GENERATE_METADATA_FILES_DESC = "Generate metadata files used by OpenAPI Generator. " +
+        "This includes .openapi-generator-ignore and any files within .openapi-generator";
 }
