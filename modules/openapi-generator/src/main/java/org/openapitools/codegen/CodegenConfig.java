@@ -294,4 +294,8 @@ public interface CodegenConfig {
     void setRemoveEnumValuePrefix(boolean removeEnumValuePrefix);
 
     Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings);
+
+    boolean getGenerateMetadataFiles();
+
+    void setGenerateMetadataFiles(boolean generateMetadata);
 }

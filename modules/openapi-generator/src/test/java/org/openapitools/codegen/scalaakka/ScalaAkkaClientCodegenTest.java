@@ -358,8 +358,6 @@ public class ScalaAkkaClientCodegenTest {
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
 
-        generator.setGenerateMetadata(false);
-
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
@@ -400,8 +398,6 @@ public class ScalaAkkaClientCodegenTest {
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
-
-        generator.setGenerateMetadata(false);
 
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");

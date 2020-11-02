@@ -84,7 +84,6 @@ public class DefaultGenerator implements Generator {
     private Boolean generateApiDocumentation = null;
     private Boolean generateModelTests = null;
     private Boolean generateModelDocumentation = null;
-    private Boolean generateMetadata = true;
     private String basePath;
     private String basePathWithoutHost;
     private String contextPath;
@@ -167,10 +166,13 @@ public class DefaultGenerator implements Generator {
      * or other metadata files used by OpenAPI Generator.
      *
      * @param generateMetadata true: enable outputs, false: disable outputs
+     * @deprecated use {@link CodegenConfig#setGenerateMetadataFiles(boolean)} instead
+     * @throws NullPointerException if the config is not already instantiated
      */
     @SuppressWarnings("WeakerAccess")
+    @Deprecated
     public void setGenerateMetadata(Boolean generateMetadata) {
-        this.generateMetadata = generateMetadata;
+        this.config.setGenerateMetadataFiles(generateMetadata);
     }
 
     /**
@@ -223,9 +225,6 @@ public class DefaultGenerator implements Generator {
         generateModelDocumentation = GlobalSettings.getProperty(CodegenConstants.MODEL_DOCS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.MODEL_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODEL_DOCS, true);
         generateApiTests = GlobalSettings.getProperty(CodegenConstants.API_TESTS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.API_TESTS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_TESTS, true);
         generateApiDocumentation = GlobalSettings.getProperty(CodegenConstants.API_DOCS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.API_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_DOCS, true);
-
-        // allows disabling the default generation of OpenAPI Generator metadata files.
-        generateMetadata = config.additionalProperties().containsKey(CodegenConstants.GENERATE_METADATA_FILES) ? Boolean.valueOf(config.additionalProperties().get(CodegenConstants.GENERATE_METADATA_FILES).toString()) : getGeneratorPropertyDefaultSwitch(CodegenConstants.GENERATE_METADATA_FILES, true);
 
         // Additional properties added for tests to exclude references in project related files
         config.additionalProperties().put(CodegenConstants.GENERATE_API_TESTS, generateApiTests);
@@ -739,7 +738,7 @@ public class DefaultGenerator implements Generator {
         final String openapiGeneratorIgnore = ".openapi-generator-ignore";
         String ignoreFileNameTarget = config.outputFolder() + File.separator + openapiGeneratorIgnore;
         File ignoreFile = new File(ignoreFileNameTarget);
-        if (generateMetadata) {
+        if (config.getGenerateMetadataFiles()) {
             try {
                 boolean shouldGenerate = !ignoreFile.exists();
                 if (shouldGenerate && supportingFilesToGenerate != null && !supportingFilesToGenerate.isEmpty()) {
@@ -1417,7 +1416,7 @@ public class DefaultGenerator implements Generator {
      */
     private void generateVersionMetadata(List<File> files) {
         String versionMetadata = config.outputFolder() + File.separator + METADATA_DIR + File.separator + "VERSION";
-        if (generateMetadata) {
+        if (config.getGenerateMetadataFiles()) {
             File versionMetadataFile = new File(versionMetadata);
             try {
                 File written = this.templateProcessor.writeToFile(versionMetadata, ImplementationVersion.read().getBytes(StandardCharsets.UTF_8));
@@ -1448,7 +1447,7 @@ public class DefaultGenerator implements Generator {
      * @param files The list tracking generated files
      */
     private void generateFilesMetadata(List<File> files) {
-        if (generateMetadata) {
+        if (config.getGenerateMetadataFiles()) {
             try {
                 StringBuilder sb = new StringBuilder();
                 Path outDir = absPath(new File(this.config.getOutputDir()));

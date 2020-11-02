@@ -553,7 +553,6 @@ public class JavaClientCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
         // tests if NPE will crash generation when path in yaml arent provided
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
-        generator.setGenerateMetadata(false);
         List<File> files = generator.opts(clientOptInput).generate();
 
         Assert.assertEquals(files.size(), 1);
@@ -647,7 +646,6 @@ public class JavaClientCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
-        generator.setGenerateMetadata(false);
         List<File> files = generator.opts(clientOptInput).generate();
         files.forEach(File::deleteOnExit);
 

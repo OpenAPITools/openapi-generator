@@ -243,6 +243,11 @@ public class DefaultCodegen implements CodegenConfig {
     // See CodegenConstants.java for more details.
     protected boolean disallowAdditionalPropertiesIfNotPresent = true;
 
+    // Boolean value indicating whether or not to generate OpenAPI Generator metadata files.
+    // These files include .openapi-generator/VERSION, .openapi-generator-ignore,
+    // or other metadata files used by OpenAPI Generator.
+    protected boolean generateMetadataFiles = true;
+
     // make openapi available to all methods
     protected OpenAPI openAPI;
 
@@ -345,6 +350,12 @@ public class DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
             this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.GENERATE_METADATA_FILES)) {
+            this.setGenerateMetadataFiles(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.GENERATE_METADATA_FILES).toString()
+            ));
         }
     }
 
@@ -6478,6 +6489,28 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public void setRemoveEnumValuePrefix(final boolean removeEnumValuePrefix) {
         this.removeEnumValuePrefix = removeEnumValuePrefix;
+    }
+
+    /**
+     * Get the boolean value indicating whether to generate OpenAPI Generator metadata files.
+     *
+     * These files include .openapi-generator/VERSION, .openapi-generator-ignore,
+     * or other metadata files used by OpenAPI Generator.
+     */
+    @Override
+    public boolean getGenerateMetadataFiles() {
+        return this.generateMetadataFiles;
+    }
+
+    /**
+     * Set the boolean value indicating whether to generate OpenAPI Generator metadata files.
+     *
+     * These files include .openapi-generator/VERSION, .openapi-generator-ignore,
+     * or other metadata files used by OpenAPI Generator.
+     */
+    @Override
+    public void setGenerateMetadataFiles(final boolean generateMetadataFiles) {
+        this.generateMetadataFiles = generateMetadataFiles;
     }
 
     //// Following methods are related to the "useOneOfInterfaces" feature

@@ -58,7 +58,6 @@ public class HaskellServantCodegenTest {
 
         // when
         DefaultGenerator generator = new DefaultGenerator();
-        generator.setGenerateMetadata(false);
         generator.opts(input).generate();
 
         // then

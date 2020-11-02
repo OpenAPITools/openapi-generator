@@ -49,7 +49,6 @@ public class AsciidocGeneratorTest {
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
-        generator.setGenerateMetadata(false);
         List<File> generatedFiles = generator.opts(clientOptInput).generate();
         TestUtils.ensureContainsFile(generatedFiles, output, "index.adoc");
     }

@@ -44,7 +44,6 @@ public abstract class AbstractIntegrationTest {
     @Test(enabled = false)
     public void generatesCorrectDirectoryStructure() throws IOException {
         DefaultGenerator codeGen = new DefaultGenerator();
-        codeGen.setGenerateMetadata(generateMetadata);
         for (Map.Entry<String, String> propertyOverride : globalPropertyOverrides.entrySet()) {
             codeGen.setGeneratorPropertyDefault(propertyOverride.getKey(), propertyOverride.getValue());
         }
