@@ -11,16 +11,16 @@ return CompletableFuture.supplyAsync(() -> {
 {{#useBeanValidation}}
 {{^supportAsync}}
     if (configuration.getBoolean("useOutputBeanValidation")) {
-        {{#isListContainer}}
+        {{#isArray}}
         for ({{{returnType}}} curItem : obj) {
             OpenAPIUtils.validate(curItem);
         }
-        {{/isListContainer}}
-        {{#isMapContainer}}
+        {{/isArray}}
+        {{#isMap}}
         for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
             OpenAPIUtils.validate(entry.getValue());
         }
-        {{/isMapContainer}}
+        {{/isMap}}
         {{^returnContainer}}
             OpenAPIUtils.validate(obj);
         {{/returnContainer}}
@@ -28,16 +28,16 @@ return CompletableFuture.supplyAsync(() -> {
 {{/supportAsync}}
 {{#supportAsync}}
     if (configuration.getBoolean("useOutputBeanValidation")) {
-        {{#isListContainer}}
+        {{#isArray}}
         for ({{{returnType}}} curItem : obj) {
             OpenAPIUtils.validate(curItem);
         }
-        {{/isListContainer}}
-        {{#isMapContainer}}
+        {{/isArray}}
+        {{#isMap}}
         for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
             OpenAPIUtils.validate(entry.getValue());
         }
-        {{/isMapContainer}}
+        {{/isMap}}
         {{^returnContainer}}
         OpenAPIUtils.validate(obj);
         {{/returnContainer}}
