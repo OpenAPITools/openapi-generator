@@ -127,3 +127,12 @@
       end
       data
     end
+
+    def download_file(request)
+      @stream = []
+
+      # handle streaming Responses
+      request.options.on_data = Proc.new do |chunk, overall_received_bytes|
+        @stream << chunk
+      end
+    end

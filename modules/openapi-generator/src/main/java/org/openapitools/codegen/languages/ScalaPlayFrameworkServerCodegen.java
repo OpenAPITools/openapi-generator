@@ -440,7 +440,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
             }
         }
 
-        if (cm.isMapModel) {
+        if (cm.isMap) {
             defaultValue.append(", Map.empty");
         }
 

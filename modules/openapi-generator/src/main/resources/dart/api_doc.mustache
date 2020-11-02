@@ -47,7 +47,7 @@ import 'package:{{pubName}}/api.dart';
 
 var api_instance = new {{classname}}();
 {{#allParams}}
-var {{paramName}} = {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}new {{dataType}}(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}}; // {{{dataType}}} | {{{description}}}
+var {{paramName}} = {{#isArray}}[{{/isArray}}{{#isBodyParam}}new {{dataType}}(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isArray}}]{{/isArray}}; // {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
 try { 

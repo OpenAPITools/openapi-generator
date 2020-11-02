@@ -39,8 +39,9 @@ public interface FakeClassnameTestApi {
      * @return successful operation (status code 200)
      */
     @ApiOperation(value = "To test class name in snake case", nickname = "testClassname", notes = "To test class name in snake case", response = Client.class, authorizations = {
+        
         @Authorization(value = "api_key_query")
-    }, tags={ "fake_classname_tags 123#$%^", })
+         }, tags={ "fake_classname_tags 123#$%^", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     @PatchMapping(

@@ -167,7 +167,7 @@ import (
 )
 
 func main() {
-    outerComposite := openapiclient.OuterComposite{MyNumber: 123, MyString: "MyString_example", MyBoolean: false} // OuterComposite | Input composite as post body (optional)
+    outerComposite := *openapiclient.NewOuterComposite() // OuterComposite | Input composite as post body (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -365,7 +365,7 @@ import (
 )
 
 func main() {
-    fileSchemaTestClass := openapiclient.FileSchemaTestClass{File: openapiclient.File{SourceURI: "SourceURI_example"}, Files: []File{openapiclient.File{SourceURI: "SourceURI_example"})} // FileSchemaTestClass | 
+    fileSchemaTestClass := *openapiclient.NewFileSchemaTestClass() // FileSchemaTestClass | 
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -428,7 +428,7 @@ import (
 
 func main() {
     query := "query_example" // string | 
-    user := openapiclient.User{Id: int64(123), Username: "Username_example", FirstName: "FirstName_example", LastName: "LastName_example", Email: "Email_example", Password: "Password_example", Phone: "Phone_example", UserStatus: 123, ArbitraryObject: 123, ArbitraryNullableObject: 123, ArbitraryTypeValue: 123, ArbitraryNullableTypeValue: 123} // User | 
+    user := *openapiclient.NewUser() // User | 
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -493,7 +493,7 @@ import (
 )
 
 func main() {
-    client := openapiclient.Client{Client: "Client_example"} // Client | client model
+    client := *openapiclient.NewClient() // Client | client model
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -569,8 +569,8 @@ func main() {
     float := 987 // float32 | None (optional)
     string_ := "string__example" // string | None (optional)
     binary := 987 // *os.File | None (optional)
-    date := Get-Date // string | None (optional)
-    dateTime := Get-Date // time.Time | None (optional)
+    date := time.Now() // string | None (optional)
+    dateTime := time.Now() // time.Time | None (optional)
     password := "password_example" // string | None (optional)
     callback := "callback_example" // string | None (optional)
 
@@ -799,7 +799,7 @@ import (
 )
 
 func main() {
-    requestBody := map[string]string{ "Key" = "Value" } // map[string]string | request body
+    requestBody := map[string]string{ "key": "Inner_example"} // map[string]string | request body
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)

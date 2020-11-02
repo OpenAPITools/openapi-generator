@@ -19,89 +19,120 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Reflection;
 
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
     /// Mammal
     /// </summary>
+    [JsonConverter(typeof(MammalJsonConverter))]
     [DataContract(Name = "mammal")]
-    [JsonConverter(typeof(JsonSubtypes), "ClassName")]
-    public partial class Mammal : IEquatable<Mammal>, IValidatableObject
+    public partial class Mammal : AbstractOpenAPISchema, IEquatable<Mammal>, IValidatableObject
     {
         /// <summary>
-        /// Defines Type
+        /// Initializes a new instance of the <see cref="Mammal" /> class
+        /// with the <see cref="Pig" /> class
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
-        public enum TypeEnum
+        /// <param name="actualInstance">An instance of Pig.</param>
+        public Mammal(Pig actualInstance)
         {
-            /// <summary>
-            /// Enum Plains for value: plains
-            /// </summary>
-            [EnumMember(Value = "plains")]
-            Plains = 1,
-
-            /// <summary>
-            /// Enum Mountain for value: mountain
-            /// </summary>
-            [EnumMember(Value = "mountain")]
-            Mountain = 2,
-
-            /// <summary>
-            /// Enum Grevys for value: grevys
-            /// </summary>
-            [EnumMember(Value = "grevys")]
-            Grevys = 3
-
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
         /// <summary>
-        /// Gets or Sets Type
+        /// Initializes a new instance of the <see cref="Mammal" /> class
+        /// with the <see cref="Whale" /> class
         /// </summary>
-        [DataMember(Name = "type", EmitDefaultValue = false)]
-        public TypeEnum? Type { get; set; }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Mammal" /> class.
-        /// </summary>
-        [JsonConstructorAttribute]
-        protected Mammal() { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Mammal" /> class.
-        /// </summary>
-        /// <param name="hasBaleen">hasBaleen.</param>
-        /// <param name="hasTeeth">hasTeeth.</param>
-        /// <param name="className">className (required).</param>
-        /// <param name="type">type.</param>
-        public Mammal(bool hasBaleen = default(bool), bool hasTeeth = default(bool), string className = default(string), TypeEnum? type = default(TypeEnum?))
+        /// <param name="actualInstance">An instance of Whale.</param>
+        public Mammal(Whale actualInstance)
         {
-            // to ensure "className" is required (not null)
-            this.ClassName = className ?? throw new ArgumentNullException("className is a required property for Mammal and cannot be null");
-            this.HasBaleen = hasBaleen;
-            this.HasTeeth = hasTeeth;
-            this.Type = type;
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
         /// <summary>
-        /// Gets or Sets HasBaleen
+        /// Initializes a new instance of the <see cref="Mammal" /> class
+        /// with the <see cref="Zebra" /> class
         /// </summary>
-        [DataMember(Name = "hasBaleen", EmitDefaultValue = false)]
-        public bool HasBaleen { get; set; }
+        /// <param name="actualInstance">An instance of Zebra.</param>
+        public Mammal(Zebra actualInstance)
+        {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+        }
+
+
+        private Object _actualInstance;
 
         /// <summary>
-        /// Gets or Sets HasTeeth
+        /// Gets or Sets ActualInstance
         /// </summary>
-        [DataMember(Name = "hasTeeth", EmitDefaultValue = false)]
-        public bool HasTeeth { get; set; }
+        public override Object ActualInstance
+        {
+            get
+            {
+                return _actualInstance;
+            }
+            set
+            {
+                if (value.GetType() == typeof(Pig))
+                {
+                    this._actualInstance = value;
+                }
+                else if (value.GetType() == typeof(Whale))
+                {
+                    this._actualInstance = value;
+                }
+                else if (value.GetType() == typeof(Zebra))
+                {
+                    this._actualInstance = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid instance found. Must be the following types: Pig, Whale, Zebra");
+                }
+            }
+        }
 
         /// <summary>
-        /// Gets or Sets ClassName
+        /// Get the actual instance of `Pig`. If the actual instanct is not `Pig`,
+        /// the InvalidClassException will be thrown
         /// </summary>
-        [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
-        public string ClassName { get; set; }
+        /// <returns>An instance of Pig</returns>
+        public Pig GetPig()
+        {
+            return (Pig)this.ActualInstance;
+        }
+
+        /// <summary>
+        /// Get the actual instance of `Whale`. If the actual instanct is not `Whale`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of Whale</returns>
+        public Whale GetWhale()
+        {
+            return (Whale)this.ActualInstance;
+        }
+
+        /// <summary>
+        /// Get the actual instance of `Zebra`. If the actual instanct is not `Zebra`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of Zebra</returns>
+        public Zebra GetZebra()
+        {
+            return (Zebra)this.ActualInstance;
+        }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -111,10 +142,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Mammal {\n");
-            sb.Append("  HasBaleen: ").Append(HasBaleen).Append("\n");
-            sb.Append("  HasTeeth: ").Append(HasTeeth).Append("\n");
-            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
+            sb.Append("  ActualInstance: ").Append(this.ActualInstance).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -123,9 +151,69 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return JsonConvert.SerializeObject(this.ActualInstance, Mammal.SerializerSettings);
+        }
+
+        /// <summary>
+        /// Converts the JSON string into an instance of Mammal
+        /// </summary>
+        /// <param name="jsonString">JSON string</param>
+        /// <returns>An instance of Mammal</returns>
+        public static Mammal FromJson(string jsonString)
+        {
+            Mammal newMammal = null;
+            int match = 0;
+            List<string> matchedTypes = new List<string>();
+
+            try
+            {
+                newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.SerializerSettings));
+                matchedTypes.Add("Pig");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Pig: {1}", jsonString, exception.ToString()));
+            }
+
+            try
+            {
+                newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.SerializerSettings));
+                matchedTypes.Add("Whale");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Whale: {1}", jsonString, exception.ToString()));
+            }
+
+            try
+            {
+                newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.SerializerSettings));
+                matchedTypes.Add("Zebra");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Zebra: {1}", jsonString, exception.ToString()));
+            }
+
+            if (match == 0)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` cannot be deserialized into any schema defined.");
+            }
+            else if (match > 1)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
+            }
+            
+            // deserialization is considered successful at this point if no exception has been thrown.
+            return newMammal;
         }
 
         /// <summary>
@@ -157,11 +245,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.HasBaleen.GetHashCode();
-                hashCode = hashCode * 59 + this.HasTeeth.GetHashCode();
-                if (this.ClassName != null)
-                    hashCode = hashCode * 59 + this.ClassName.GetHashCode();
-                hashCode = hashCode * 59 + this.Type.GetHashCode();
+                if (this.ActualInstance != null)
+                    hashCode = hashCode * 59 + this.ActualInstance.GetHashCode();
                 return hashCode;
             }
         }
@@ -173,17 +258,47 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            return this.BaseValidate(validationContext);
+            yield break;
+        }
+    }
+
+    /// <summary>
+    /// Custom JSON converter for Mammal
+    /// </summary>
+    public class MammalJsonConverter : JsonConverter
+    {
+        /// <summary>
+        /// To write the JSON string
+        /// </summary>
+        /// <param name="writer">JSON writer</param>
+        /// <param name="value">Object to be converted into a JSON string</param>
+        /// <param name="serializer">JSON Serializer</param>
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            writer.WriteRawValue((String)(typeof(Mammal).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>
-        /// To validate all properties of the instance
+        /// To convert a JSON string into an object
         /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        /// <param name="reader">JSON reader</param>
+        /// <param name="objectType">Object type</param>
+        /// <param name="existingValue">Existing value</param>
+        /// <param name="serializer">JSON Serializer</param>
+        /// <returns>The object converted from the JSON string</returns>
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            yield break;
+            return Mammal.FromJson(JObject.Load(reader).ToString(Formatting.None));
+        }
+
+        /// <summary>
+        /// Check if the object can be converted
+        /// </summary>
+        /// <param name="objectType">Object type</param>
+        /// <returns>True if the object can be converted</returns>
+        public override bool CanConvert(Type objectType)
+        {
+            return false;
         }
     }
 

@@ -61,7 +61,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfCollection", "java:S106"})
-@Command(name = "batch", description = "Generate code in batch via external configs.", hidden = true)
+@Command(name = "batch", description = "Generate code in batch via external configs.")
 public class GenerateBatch extends OpenApiGeneratorCommand {
     private static AtomicInteger failures = new AtomicInteger(0);
     private static AtomicInteger successes = new AtomicInteger(0);

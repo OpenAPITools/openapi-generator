@@ -42,7 +42,7 @@ import (
 )
 
 func main() {
-    xmlItem := openapiclient.XmlItem{AttributeString: "AttributeString_example", AttributeNumber: 123, AttributeInteger: 123, AttributeBoolean: true, WrappedArray: []int32{123), NameString: "NameString_example", NameNumber: 123, NameInteger: 123, NameBoolean: true, NameArray: []int32{123), NameWrappedArray: []int32{123), PrefixString: "PrefixString_example", PrefixNumber: 123, PrefixInteger: 123, PrefixBoolean: true, PrefixArray: []int32{123), PrefixWrappedArray: []int32{123), NamespaceString: "NamespaceString_example", NamespaceNumber: 123, NamespaceInteger: 123, NamespaceBoolean: true, NamespaceArray: []int32{123), NamespaceWrappedArray: []int32{123), PrefixNsString: "PrefixNsString_example", PrefixNsNumber: 123, PrefixNsInteger: 123, PrefixNsBoolean: true, PrefixNsArray: []int32{123), PrefixNsWrappedArray: []int32{123)} // XmlItem | XmlItem Body
+    xmlItem := *openapiclient.NewXmlItem() // XmlItem | XmlItem Body
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -172,7 +172,7 @@ import (
 )
 
 func main() {
-    body := openapiclient.OuterComposite{MyNumber: 123, MyString: "MyString_example", MyBoolean: false} // OuterComposite | Input composite as post body (optional)
+    body := *openapiclient.NewOuterComposite() // OuterComposite | Input composite as post body (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -370,7 +370,7 @@ import (
 )
 
 func main() {
-    body := openapiclient.FileSchemaTestClass{File: openapiclient.File{SourceURI: "SourceURI_example"}, Files: []File{openapiclient.File{SourceURI: "SourceURI_example"})} // FileSchemaTestClass | 
+    body := *openapiclient.NewFileSchemaTestClass() // FileSchemaTestClass | 
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -433,7 +433,7 @@ import (
 
 func main() {
     query := "query_example" // string | 
-    body := openapiclient.User{Id: int64(123), Username: "Username_example", FirstName: "FirstName_example", LastName: "LastName_example", Email: "Email_example", Password: "Password_example", Phone: "Phone_example", UserStatus: 123} // User | 
+    body := *openapiclient.NewUser() // User | 
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -498,7 +498,7 @@ import (
 )
 
 func main() {
-    body := openapiclient.Client{Client: "Client_example"} // Client | client model
+    body := *openapiclient.NewClient() // Client | client model
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -574,8 +574,8 @@ func main() {
     float := 987 // float32 | None (optional)
     string_ := "string__example" // string | None (optional)
     binary := 987 // *os.File | None (optional)
-    date := Get-Date // string | None (optional)
-    dateTime := Get-Date // time.Time | None (optional)
+    date := time.Now() // string | None (optional)
+    dateTime := time.Now() // time.Time | None (optional)
     password := "password_example" // string | None (optional)
     callback := "callback_example" // string | None (optional)
 
@@ -804,7 +804,7 @@ import (
 )
 
 func main() {
-    param := map[string]string{ "Key" = "Value" } // map[string]string | request body
+    param := map[string]string{ "key": "Inner_example"} // map[string]string | request body
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)

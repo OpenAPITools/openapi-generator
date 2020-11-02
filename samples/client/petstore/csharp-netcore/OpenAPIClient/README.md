@@ -44,6 +44,17 @@ using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 ```
+<a name="usage"></a>
+## Usage
+
+To use the API client with a HTTP proxy, setup a `System.Net.WebProxy`
+```csharp
+Configuration c = new Configuration();
+System.Net.WebProxy webProxy = new System.Net.WebProxy("http://myProxyUrl:80/");
+webProxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+c.Proxy = webProxy;
+```
+
 <a name="getting-started"></a>
 ## Getting Started
 

@@ -432,7 +432,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
             if (p.isBodyParam) {
                 p.vendorExtensions.put("x-codegen-normalized-path-type", "jsonBody[" + p.dataType + "]");
                 p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType);
-            } else if (p.isContainer || p.isListContainer) {
+            } else if (p.isContainer || p.isArray) {
                 p.vendorExtensions.put("x-codegen-normalized-path-type", toPathParameter(p, "params", false));
                 p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType.replaceAll("^[^\\[]+", "Seq"));
             } else if (p.isQueryParam) {

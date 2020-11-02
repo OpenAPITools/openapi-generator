@@ -249,7 +249,7 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
         List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
         for (CodegenOperation op : operationList) {
             if("object".equals(op.returnType)) {
-                op.isMapContainer = true;
+                op.isMap = true;
                 op.returnSimpleType = false;
             }
         }

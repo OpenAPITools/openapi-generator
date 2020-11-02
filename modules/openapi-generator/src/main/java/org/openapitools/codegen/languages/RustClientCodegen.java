@@ -552,14 +552,14 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
 
             for (CodegenParameter p : operation.allParams) {
-                if (p.isListContainer && !languageSpecificPrimitives.contains(p.dataType)) {
+                if (p.isArray && !languageSpecificPrimitives.contains(p.dataType)) {
                     // array of model
                     String rt = p.dataType;
                     int end = rt.lastIndexOf(">");
                     if ( end > 0 ) {
                         p.dataType = "Vec<" + rt.substring("Vec<".length(), end).trim() + ">";
                     }
-                } else if (p.isMapContainer && !languageSpecificPrimitives.contains(p.dataType)) {
+                } else if (p.isMap && !languageSpecificPrimitives.contains(p.dataType)) {
                     // map of model
                     String rt = p.dataType;
                     int end = rt.lastIndexOf(">");

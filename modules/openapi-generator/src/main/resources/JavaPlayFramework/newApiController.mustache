@@ -69,16 +69,16 @@ public class {{classname}}Controller extends Controller {
             {{paramName}} = mapper.readValue(node{{paramName}}.toString(), {{#isContainer}}new TypeReference<{{{dataType}}}>(){}{{/isContainer}}{{^isContainer}}{{{dataType}}}.class{{/isContainer}});
             {{#useBeanValidation}}
             if (configuration.getBoolean("useInputBeanValidation")) {
-                {{#isListContainer}}
+                {{#isArray}}
                 for ({{{items.baseType}}} curItem : {{paramName}}) {
                     OpenAPIUtils.validate(curItem);
                 }
-                {{/isListContainer}}
-                {{#isMapContainer}}
+                {{/isArray}}
+                {{#isMap}}
                 for (Map.Entry<String, {{{items.baseType}}}> entry : {{paramName}}.entrySet()) {
                     OpenAPIUtils.validate(entry.getValue());
                 }
-                {{/isMapContainer}}
+                {{/isMap}}
                 {{^isContainer}}
                 OpenAPIUtils.validate({{paramName}});
                 {{/isContainer}}

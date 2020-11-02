@@ -10,10 +10,12 @@ using Xunit;
 
 using {{packageName}}.Client;
 using {{packageName}}.{{apiPackage}};
-{{#hasImport}}using {{packageName}}.{{modelPackage}};
+{{#hasImport}}
+// uncomment below to import models
+//using {{packageName}}.{{modelPackage}};
 {{/hasImport}}
 
-namespace {{packageName}}.Test
+namespace {{packageName}}.Test.Api
 {
     /// <summary>
     ///  Class for testing {{classname}}
@@ -42,11 +44,12 @@ namespace {{packageName}}.Test
         [Fact]
         public void {{operationId}}InstanceTest()
         {
-            // TODO uncomment below to test 'IsInstanceOfType' {{classname}}
-            //Assert.IsType(typeof({{classname}}), instance, "instance is a {{classname}}");
+            // TODO uncomment below to test 'IsType' {{classname}}
+            //Assert.IsType<{{classname}}>(instance);
         }
+        {{#operations}}
+        {{#operation}}
 
-        {{#operations}}{{#operation}}
         /// <summary>
         /// Test {{operationId}}
         /// </summary>
@@ -58,9 +61,11 @@ namespace {{packageName}}.Test
             //{{{dataType}}} {{paramName}} = null;
             {{/allParams}}
             //{{#returnType}}var response = {{/returnType}}instance.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
-            {{#returnType}}//Assert.IsType<{{{returnType}}}> (response, "response is {{{returnType}}}");{{/returnType}}
+            {{#returnType}}
+            //Assert.IsType<{{{returnType}}}>(response);
+            {{/returnType}}
         }
-        {{/operation}}{{/operations}}
+        {{/operation}}
+        {{/operations}}
     }
-
 }
