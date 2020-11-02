@@ -110,7 +110,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("array", "list()");
         typeMapping.put("map", "maps:map()");
         typeMapping.put("number", "integer()");
-        typeMapping.put("bigdecimal", "float()");
+        typeMapping.put("decimal", "float()");
         typeMapping.put("List", "list()");
         typeMapping.put("object", "maps:map()");
         typeMapping.put("file", "binary()");

@@ -27,6 +27,8 @@ module Petstore
 
     attr_accessor :double
 
+    attr_accessor :decimal
+
     attr_accessor :string
 
     attr_accessor :byte
@@ -56,6 +58,7 @@ module Petstore
         :'number' => :'number',
         :'float' => :'float',
         :'double' => :'double',
+        :'decimal' => :'decimal',
         :'string' => :'string',
         :'byte' => :'byte',
         :'binary' => :'binary',
@@ -77,6 +80,7 @@ module Petstore
         :'number' => :'Float',
         :'float' => :'Float',
         :'double' => :'Float',
+        :'decimal' => :'Decimal',
         :'string' => :'String',
         :'byte' => :'String',
         :'binary' => :'File',
@@ -132,6 +136,10 @@ module Petstore
 
       if attributes.key?(:'double')
         self.double = attributes[:'double']
+      end
+
+      if attributes.key?(:'decimal')
+        self.decimal = attributes[:'decimal']
       end
 
       if attributes.key?(:'string')
@@ -418,6 +426,7 @@ module Petstore
           number == o.number &&
           float == o.float &&
           double == o.double &&
+          decimal == o.decimal &&
           string == o.string &&
           byte == o.byte &&
           binary == o.binary &&
@@ -438,7 +447,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [integer, int32, int64, number, float, double, string, byte, binary, date, date_time, uuid, password, pattern_with_digits, pattern_with_digits_and_delimiter].hash
+      [integer, int32, int64, number, float, double, decimal, string, byte, binary, date, date_time, uuid, password, pattern_with_digits, pattern_with_digits_and_delimiter].hash
     end
 
     # Builds the object from hash
