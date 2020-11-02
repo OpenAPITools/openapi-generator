@@ -83,7 +83,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
                 isMap, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
-                getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern());
+                getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(),
+                is1xx, is2xx, is3xx, is4xx, is5xx);
     }
 
     @Override
@@ -118,6 +119,11 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isFile == that.isFile &&
                 items == that.items &&
                 additionalProperties == that.additionalProperties &&
+                is1xx == that.is1xx &&
+                is2xx == that.is2xx &&
+                is3xx == that.is3xx &&
+                is4xx == that.is4xx &&
+                is5xx == that.is5xx &&
                 Objects.equals(headers, that.headers) &&
                 Objects.equals(code, that.code) &&
                 Objects.equals(message, that.message) &&
@@ -337,6 +343,11 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         final StringBuilder sb = new StringBuilder("CodegenResponse{");
         sb.append("headers=").append(headers);
         sb.append(", code='").append(code).append('\'');
+        sb.append(", is1xx='").append(is1xx).append('\'');
+        sb.append(", is2xx='").append(is2xx).append('\'');
+        sb.append(", is3xx='").append(is3xx).append('\'');
+        sb.append(", is4xx='").append(is4xx).append('\'');
+        sb.append(", is5xx='").append(is5xx).append('\'');
         sb.append(", message='").append(message).append('\'');
         sb.append(", hasMore=").append(hasMore);
         sb.append(", examples=").append(examples);
@@ -393,5 +404,16 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     @SuppressWarnings("unused")
     public boolean isWildcard() {
         return "0".equals(code) || "default".equals(code);
+    }
+
+    /*
+     * Boolean value indicating whether the status code is a range
+     *
+     * @return True if the status code is a range (e.g. 2XX)
+     */
+    public boolean isRange() {
+        if (code != null && code.length() == 3 && "XX".equalsIgnoreCase(code.substring(1)))
+            return true;
+        return false;
     }
 }

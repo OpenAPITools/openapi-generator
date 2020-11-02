@@ -58,6 +58,8 @@ paths:
                 $ref: '#/components/schemas/Pet'
         '405':
           description: Invalid input
+        '5xx':
+          description: Server side error
       security:
         - petstore_auth:
             - 'write:pets'
