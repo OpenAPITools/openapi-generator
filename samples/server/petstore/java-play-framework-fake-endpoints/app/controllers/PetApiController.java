@@ -148,8 +148,8 @@ public class PetApiController extends Controller {
         } else {
             additionalMetadata = null;
         }
-        Http.MultipartFormData<TemporaryFile> body = request.body().asMultipartFormData();
-        Http.MultipartFormData.FilePart<TemporaryFile> file = body.getFile("file");
+        Http.MultipartFormData<TemporaryFile> bodyfile = request.body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<TemporaryFile> file = bodyfile.getFile("file");
         return imp.uploadFileHttp(request, petId, additionalMetadata, file);
     }
 
@@ -162,8 +162,8 @@ public class PetApiController extends Controller {
         } else {
             additionalMetadata = null;
         }
-        Http.MultipartFormData<TemporaryFile> body = request.body().asMultipartFormData();
-        Http.MultipartFormData.FilePart<TemporaryFile> requiredFile = body.getFile("requiredFile");
+        Http.MultipartFormData<TemporaryFile> bodyrequiredFile = request.body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<TemporaryFile> requiredFile = bodyrequiredFile.getFile("requiredFile");
         if ((requiredFile == null || requiredFile.getFileSize() == 0)) {
             throw new IllegalArgumentException("'requiredFile' file cannot be empty");
         }

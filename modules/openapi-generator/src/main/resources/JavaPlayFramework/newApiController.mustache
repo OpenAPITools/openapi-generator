@@ -128,8 +128,8 @@ public class {{classname}}Controller extends Controller {
         {{/queryParams}}
         {{#formParams}}
         {{#isFile}}
-        Http.MultipartFormData<TemporaryFile> body = request.body().asMultipartFormData();
-        {{{dataType}}} {{paramName}} = body.getFile("{{baseName}}");
+        Http.MultipartFormData<TemporaryFile> body{{paramName}} = request.body().asMultipartFormData();
+        {{{dataType}}} {{paramName}} = body{{paramName}}.getFile("{{baseName}}");
         {{#required}}
         if (({{paramName}} == null || {{paramName}}.getFileSize() == 0)) {
             throw new IllegalArgumentException("'{{baseName}}' file cannot be empty");

@@ -237,8 +237,8 @@ public class FakeApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'byte' parameter is required");
         }
-        Http.MultipartFormData<TemporaryFile> body = request.body().asMultipartFormData();
-        Http.MultipartFormData.FilePart<TemporaryFile> binary = body.getFile("binary");
+        Http.MultipartFormData<TemporaryFile> bodybinary = request.body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<TemporaryFile> binary = bodybinary.getFile("binary");
         String valuedate = (request.body().asMultipartFormData().asFormUrlEncoded().get("date"))[0];
         LocalDate date;
         if (valuedate != null) {
