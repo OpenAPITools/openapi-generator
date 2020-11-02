@@ -46,10 +46,10 @@ public class ProtobufSchemaCodegenTest {
         Assert.assertTrue(featureSet.getWireFormatFeatures().contains(WireFormatFeature.PROTOBUF));
         Assert.assertEquals(featureSet.getWireFormatFeatures().size(), 1);
     }
-    
+
     @Test
-    public void testCodeGenWithAllOf() throws IOException {      
-      File output = Files.createTempDirectory("test").toFile();
+    public void testCodeGenWithAllOf() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("protobuf-schema")
@@ -68,10 +68,10 @@ public class ProtobufSchemaCodegenTest {
         output.delete();
     }
 
-  private void assertFileEquals(Path generatedFilePath, Path expectedFilePath) throws IOException {
-    String generatedFile = new String(Files.readAllBytes(generatedFilePath), StandardCharsets.UTF_8);
-    String expectedFile = new String(Files.readAllBytes(expectedFilePath), StandardCharsets.UTF_8);   
-        
-    assertEquals(generatedFile, expectedFile);    
-  }
+    private void assertFileEquals(Path generatedFilePath, Path expectedFilePath) throws IOException {
+        String generatedFile = new String(Files.readAllBytes(generatedFilePath), StandardCharsets.UTF_8);
+        String expectedFile = new String(Files.readAllBytes(expectedFilePath), StandardCharsets.UTF_8);
+
+        assertEquals(generatedFile, expectedFile);
+    }
 }

@@ -42,10 +42,10 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConfig {
-  
+
     private static final String IMPORT = "import";
 
-  private static final String IMPORTS = "imports";
+    private static final String IMPORTS = "imports";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
@@ -86,20 +86,6 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         modelPackage = "messages";
         apiPackage = "services";
 
-        /*setReservedWordsLowerCase(
-                Arrays.asList(
-                        // data type
-                        "nil", "string", "boolean", "number", "userdata", "thread",
-                        "table",
-
-                        // reserved words: http://www.lua.org/manual/5.1/manual.html#2.1
-                        "and", "break", "do", "else", "elseif",
-                        "end", "false", "for", "function", "if",
-                        "in", "local", "nil", "not", "or",
-                        "repeat", "return", "then", "true", "until", "while"
-                )
-        );*/
-
         defaultIncludes = new HashSet<String>(
                 Arrays.asList(
                         "map",
@@ -129,7 +115,6 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         instantiationTypes.clear();
         instantiationTypes.put("array", "repeat");
-        //instantiationTypes.put("map", "map");
 
         // ref: https://developers.google.com/protocol-buffers/docs/proto
         typeMapping.clear();
@@ -153,24 +138,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("ByteArray", "bytes");
         typeMapping.put("object", "TODO_OBJECT_MAPPING");
 
-        importMapping.clear(); 
-        /* 
-        importMapping = new HashMap<String, String>();
-        importMapping.put("time.Time", "time");
-        importMapping.put("*os.File", "os");
-        importMapping.put("os", "io/ioutil");
-        */
+        importMapping.clear();
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         cliOptions.clear();
-        /*cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "GraphQL package name (convention: lowercase).")
-                .defaultValue("openapi2graphql"));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "GraphQL package version.")
-                .defaultValue("1.0.0"));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
-                .defaultValue(Boolean.TRUE.toString()));*/
 
     }
 
@@ -192,10 +165,6 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        //supportingFiles.add(new SupportingFile("root.mustache", "", packageName + ".proto"));
-        //supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        //supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"))
-        //supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
     }
 
     @Override
@@ -259,59 +228,59 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
         return objs;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-      super.postProcessAllModels(objs);
-      
-      Map<String, CodegenModel> allModels = this.getAllModels(objs);      
-      
-      for (CodegenModel cm : allModels.values()) {
-        // Replicate all attributes from children to parents in case of allof, as there is no inheritance
-        if (!cm.allOf.isEmpty() && cm.getParentModel() != null) {
-          CodegenModel parentCM = cm.getParentModel();
-          for (CodegenProperty var : cm.getVars()) {
-                if (!parentVarsContainsVar(parentCM.vars, var)) {
-                  parentCM.vars.add(var);
+        super.postProcessAllModels(objs);
+
+        Map<String, CodegenModel> allModels = this.getAllModels(objs);
+
+        for (CodegenModel cm : allModels.values()) {
+            // Replicate all attributes from children to parents in case of allof, as there is no inheritance
+            if (!cm.allOf.isEmpty() && cm.getParentModel() != null) {
+                CodegenModel parentCM = cm.getParentModel();
+                for (CodegenProperty var : cm.getVars()) {
+                    if (!parentVarsContainsVar(parentCM.vars, var)) {
+                        parentCM.vars.add(var);
+                    }
                 }
-          }
-          // add all imports from child
-          cm.getImports().stream()
-            // Filter self import && child import
-            .filter(importFromList -> !parentCM.getClassname().equalsIgnoreCase(importFromList) && !cm.getClassname().equalsIgnoreCase(importFromList))
-            .forEach(importFromList -> this.addImport(objs, parentCM, importFromList));
+                // add all imports from child
+                cm.getImports().stream()
+                        // Filter self import && child import
+                        .filter(importFromList -> !parentCM.getClassname().equalsIgnoreCase(importFromList) && !cm.getClassname().equalsIgnoreCase(importFromList))
+                        .forEach(importFromList -> this.addImport(objs, parentCM, importFromList));
+            }
         }
-      }
-      return objs;
-    }
-    
-    public void addImport(Map<String, Object> objs, CodegenModel cm, String importValue) {
-      String modelFileName = this.toModelFilename(importValue);
-      boolean skipImport = isImportAlreadyPresentInModel(objs, cm, modelFileName);
-      if (!skipImport) {
-          this.addImport(cm, importValue);
-          Map<String, Object> importItem = new HashMap<>();
-          importItem.put(IMPORT, modelFileName);
-        ((List<Map<String, Object>>)((Map<String, Object>)objs.get(cm.getName())).get(IMPORTS)).add(importItem);
-      }
+        return objs;
     }
 
-  private boolean isImportAlreadyPresentInModel(Map<String, Object> objs, CodegenModel cm, String importValue) {
-    boolean skipImport = false;
-      List<Map<String, Object>> cmImports = ((List<Map<String, Object>>)((Map<String, Object>)objs.get(cm.getName())).get(IMPORTS));
-      for (Map<String, Object> cmImportItem: cmImports) {
-        for (Entry<String, Object> cmImportItemEntry : cmImportItem.entrySet()) {
-          if (importValue.equals(cmImportItemEntry.getValue())) {
-            skipImport = true;
-            break;
-          }
+    public void addImport(Map<String, Object> objs, CodegenModel cm, String importValue) {
+        String modelFileName = this.toModelFilename(importValue);
+        boolean skipImport = isImportAlreadyPresentInModel(objs, cm, modelFileName);
+        if (!skipImport) {
+            this.addImport(cm, importValue);
+            Map<String, Object> importItem = new HashMap<>();
+            importItem.put(IMPORT, modelFileName);
+            ((List<Map<String, Object>>) ((Map<String, Object>) objs.get(cm.getName())).get(IMPORTS)).add(importItem);
         }
-      }
-    return skipImport;
-  }
+    }
+
+    private boolean isImportAlreadyPresentInModel(Map<String, Object> objs, CodegenModel cm, String importValue) {
+        boolean skipImport = false;
+        List<Map<String, Object>> cmImports = ((List<Map<String, Object>>) ((Map<String, Object>) objs.get(cm.getName())).get(IMPORTS));
+        for (Map<String, Object> cmImportItem : cmImports) {
+            for (Entry<String, Object> cmImportItemEntry : cmImportItem.entrySet()) {
+                if (importValue.equals(cmImportItemEntry.getValue())) {
+                    skipImport = true;
+                    break;
+                }
+            }
+        }
+        return skipImport;
+    }
 
     @Override
     public String escapeUnsafeCharacters(String input) {
@@ -525,32 +494,33 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
         return super.getTypeDeclaration(p);
     }
-    
+
     private int generateFieldNumberFromString(String name) throws ProtoBufIndexComputationException {
         // Max value from developers.google.com/protocol-buffers/docs/proto3#assigning_field_numbers
-        int fieldNumber = Math.abs(name.hashCode()%536870911);
-        if (19000 <= fieldNumber && fieldNumber <= 19999 ) {
+        int fieldNumber = Math.abs(name.hashCode() % 536870911);
+        if (19000 <= fieldNumber && fieldNumber <= 19999) {
             LOGGER.error("Generated field number is in reserved range (19000, 19999) for %s, %d", name, fieldNumber);
             throw new ProtoBufIndexComputationException("Generated field number is in reserved range (19000, 19999).");
         }
         return fieldNumber;
     }
-    
+
     /**
      * Checks if the var provided is already in the list of the parent's vars, matching the type and the name
+     *
      * @param parentVars list of parent's vars
-     * @param var var to compare
+     * @param var        var to compare
      * @return true if the var is already in the parent's list, false otherwise
      */
     private boolean parentVarsContainsVar(List<CodegenProperty> parentVars, CodegenProperty var) {
-    boolean containsVar = false;
-    for (CodegenProperty parentVar : parentVars) {
-      if (var.getDataType().equals(parentVar.getDataType()) 
-          && var.getName().equals(parentVar.getName())) {
-        containsVar = true;
-        break;
-      }
+        boolean containsVar = false;
+        for (CodegenProperty parentVar : parentVars) {
+            if (var.getDataType().equals(parentVar.getDataType())
+                    && var.getName().equals(parentVar.getName())) {
+                containsVar = true;
+                break;
+            }
+        }
+        return containsVar;
     }
-    return containsVar;
-  }
 }
