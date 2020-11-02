@@ -478,7 +478,7 @@ opts = {
   string: 'string_example', # String | None
   binary: File.new('/path/to/file'), # File | None
   date: Date.parse('2013-10-20'), # Date | None
-  date_time: DateTime.parse('2013-10-20T19:20:30+01:00'), # DateTime | None
+  date_time: Time.parse('2013-10-20T19:20:30+01:00'), # Time | None
   password: 'password_example', # String | None
   callback: 'callback_example' # String | None
 }
@@ -507,7 +507,7 @@ Name | Type | Description  | Notes
  **string** | **String**| None | [optional] 
  **binary** | **File**| None | [optional] 
  **date** | **Date**| None | [optional] 
- **date_time** | **DateTime**| None | [optional] 
+ **date_time** | **Time**| None | [optional] 
  **password** | **String**| None | [optional] 
  **callback** | **String**| None | [optional] 
 

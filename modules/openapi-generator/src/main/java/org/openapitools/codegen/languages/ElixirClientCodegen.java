@@ -583,8 +583,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.isDefault = o.isDefault;
             this.simpleType = o.simpleType;
             this.primitiveType = o.primitiveType;
-            this.isMapContainer = o.isMapContainer;
-            this.isListContainer = o.isListContainer;
+            this.isMap = o.isMap;
+            this.isArray = o.isArray;
             this.isBinary = o.isBinary;
             this.isFile = o.isFile;
             this.schema = o.schema;
@@ -609,17 +609,17 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
         public String decodedStruct() {
             // Let Poison decode the entire response into a generic blob
-            if (isMapContainer) {
+            if (isMap) {
                 return "%{}";
             }
             // Primitive return type, don't even try to decode
             if (baseType == null || (simpleType && primitiveType)) {
                 return "false";
-            } else if (isListContainer && languageSpecificPrimitives().contains(baseType)) {
+            } else if (isArray && languageSpecificPrimitives().contains(baseType)) {
                 return "[]";
             }
             StringBuilder sb = new StringBuilder();
-            if (isListContainer) {
+            if (isArray) {
                 sb.append("[");
             }
             sb.append("%");
@@ -627,7 +627,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             sb.append(".Model.");
             sb.append(baseType);
             sb.append("{}");
-            if (isListContainer) {
+            if (isArray) {
                 sb.append("]");
             }
             return sb.toString();
@@ -652,8 +652,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
-            this.isMapContainer = o.isMapContainer;
-            this.isListContainer = o.isListContainer;
+            this.isMap = o.isMap;
+            this.isArray = o.isArray;
             this.isMultipart = o.isMultipart;
             this.hasMore = o.hasMore;
             this.isResponseBinary = o.isResponseBinary;
@@ -727,46 +727,57 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 }
             }
 
-            sb.append("keyword()) :: {:ok, ");
-            if (returnBaseType == null) {
-                sb.append("nil");
-            } else if (returnSimpleType) {
-                if (!returnTypeIsPrimitive) {
-                    sb.append(moduleName);
-                    sb.append(".Model.");
-                }
-                sb.append(returnBaseType);
-                sb.append(".t");
-            } else if (returnContainer == null) {
-                sb.append(returnBaseType);
-                sb.append(".t");
-            } else {
-                if (returnContainer.equals("array") ||
-                    returnContainer.equals("set")) {
-                    sb.append("list(");
-                    if (!returnTypeIsPrimitive) {
-                        sb.append(moduleName);
-                        sb.append(".Model.");
+            sb.append("keyword()) :: ");
+            HashSet<String> uniqueResponseTypes = new HashSet<String>();
+            for (CodegenResponse response : this.responses) {
+                ExtendedCodegenResponse exResponse = (ExtendedCodegenResponse) response;
+                StringBuilder returnEntry = new StringBuilder("");
+                if (exResponse.baseType == null) {
+                    returnEntry.append("nil");
+                } else if (exResponse.simpleType) {
+                    if (!exResponse.primitiveType) {
+                        returnEntry.append(moduleName);
+                        returnEntry.append(".Model.");
                     }
-                    sb.append(returnBaseType);
-                    sb.append(".t)");
-                } else if (returnContainer.equals("map")) {
-                    sb.append("map()");
+                    returnEntry.append(exResponse.baseType);
+                    returnEntry.append(".t");
+                } else if (exResponse.containerType == null) {
+                    returnEntry.append(returnBaseType);
+                    returnEntry.append(".t");
+                } else {
+                    if (exResponse.containerType.equals("array") ||
+                            exResponse.containerType.equals("set")) {
+                        returnEntry.append("list(");
+                        if (!exResponse.primitiveType) {
+                            returnEntry.append(moduleName);
+                            returnEntry.append(".Model.");
+                        }
+                        returnEntry.append(exResponse.baseType);
+                        returnEntry.append(".t)");
+                    } else if (exResponse.containerType.equals("map")) {
+                        returnEntry.append("map()");
+                    }
                 }
+                uniqueResponseTypes.add(returnEntry.toString());
             }
-            sb.append("} | {:error, Tesla.Env.t}");
+
+            for (String returnType : uniqueResponseTypes) {
+                sb.append("{:ok, ").append(returnType).append("} | ");
+            }
+
+            sb.append("{:error, Tesla.Env.t}");
             return sb.toString();
         }
 
         private void buildTypespec(CodegenParameter param, StringBuilder sb) {
             if (param.dataType == null) {
                 sb.append("nil");
-            } else if (param.isListContainer) {
+            } else if (param.isArray) {
                 // list(<subtype>)
                 sb.append("list(");
                 buildTypespec(param.items, sb);
                 sb.append(")");
-            } else if (param.isMapContainer) {
+            } else if (param.isMap) {
                 // %{optional(String.t) => <subtype>}
                 sb.append("%{optional(String.t) => ");
                 buildTypespec(param.items, sb);
@@ -791,11 +802,11 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         private void buildTypespec(CodegenProperty property, StringBuilder sb) {
             if (property == null) {
                 LOGGER.error("CodegenProperty cannot be null. Please report the issue to https://github.com/openapitools/openapi-generator with the spec");
-            } else if (property.isListContainer) {
+            } else if (property.isArray) {
                 sb.append("list(");
                 buildTypespec(property.items, sb);
                 sb.append(")");
-            } else if (property.isMapContainer) {
+            } else if (property.isMap) {
                 sb.append("%{optional(String.t) => ");
                 buildTypespec(property.items, sb);
                 sb.append("}");
@@ -857,7 +868,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.isEnum = cm.isEnum;
             this.hasRequired = cm.hasRequired;
             this.hasOptional = cm.hasOptional;
-            this.isArrayModel = cm.isArrayModel;
+            this.isArray = cm.isArray;
             this.hasChildren = cm.hasChildren;
             this.hasOnlyReadOnly = cm.hasOnlyReadOnly;
             this.externalDocumentation = cm.externalDocumentation;

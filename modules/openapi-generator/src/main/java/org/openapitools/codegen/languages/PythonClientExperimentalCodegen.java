@@ -122,6 +122,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // optional params/props with **kwargs in python
         cliOptions.remove(4);
 
+        cliOptions.add(new CliOption(CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET, CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET_DESC)
+                .defaultValue(Boolean.FALSE.toString()));
+
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.EXPERIMENTAL)
                 .build();
@@ -209,6 +212,12 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // default this to true so the python ModelSimple models will be generated
         ModelUtils.setGenerateAliasAsModel(true);
         LOGGER.info(CodegenConstants.GENERATE_ALIAS_AS_MODEL + " is hard coded to true in this generator. Alias models will only be generated if they contain validations or enums");
+
+        Boolean attrNoneIfUnset = false;
+        if (additionalProperties.containsKey(CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET)) {
+            attrNoneIfUnset = Boolean.valueOf(additionalProperties.get(CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET).toString());
+        }
+        additionalProperties.put("attrNoneIfUnset", attrNoneIfUnset);
     }
 
     /**
@@ -462,7 +471,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (cp.isPrimitiveType && p.get$ref() != null) {
             cp.complexType = cp.dataType;
         }
-        if (cp.isListContainer && cp.complexType == null && cp.mostInnerItems.complexType != null) {
+        if (cp.isArray && cp.complexType == null && cp.mostInnerItems.complexType != null) {
             cp.complexType = cp.mostInnerItems.complexType;
         }
         return cp;
@@ -602,7 +611,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty p) {
         postProcessPattern(p.pattern, p.vendorExtensions);
         // set property.complexType so the model docs will link to the ClassName.md
-        if (p.complexType == null && p.isListContainer && p.mostInnerItems.complexType != null && !languageSpecificPrimitives.contains(p.mostInnerItems.complexType)) {
+        if (p.complexType == null && p.isArray && p.mostInnerItems.complexType != null && !languageSpecificPrimitives.contains(p.mostInnerItems.complexType)) {
             // fix ListContainers
             p.complexType = p.mostInnerItems.complexType;
         }
@@ -713,11 +722,11 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // 1. no default exists
         //      schema does not contain default
         //      cm.defaultValue unset, cm.hasRequired = true
-        // 2. server has a default
+        // 2. spec has a default
         //      schema contains default
-        //      cm.defaultValue set, cm.hasRequired = true
+        //      cm.defaultValue set, cm.hasRequired = false
         //      different value here to differentiate between use case 3 below
-        //      This defaultValue is used in the client docs only and is not sent to the server
+        //      This defaultValue is used when a consumer (client or server) lacks the input argument, defaultValue will be used
         // 3. only one value is allowed in an enum
         //      schema does not contain default
         //      cm.defaultValue set, cm.hasRequired = false
@@ -728,7 +737,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             cm.hasRequired = true;
         } else if (sc.getDefault() != null) {
             cm.defaultValue = defaultValue;
-            cm.hasRequired = true;
+            cm.hasRequired = false;
         } else if (defaultValue != null && cm.defaultValue == null) {
             cm.defaultValue = defaultValue;
             cm.hasRequired = false;

@@ -112,7 +112,7 @@ Note the `my-codegen` is an option for `-g` now, and you can use the usual argum
 ```sh
 java -cp out/codegens/customCodegen/target/my-codegen-openapi-generator-1.0.0.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar \
   org.openapitools.codegen.OpenAPIGenerator generate -g my-codegen \
-  -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
+  -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
   -o ./out/myClient
 ```
 
@@ -120,7 +120,7 @@ For Windows users:
 ```
 java -cp "out/codegens/customCodegen/target/my-codegen-openapi-generator-1.0.0.jar;modules/openapi-generator-cli/target/openapi-generator-cli.jar" \
   org.openapitools.codegen.OpenAPIGenerator generate -g my-codegen \
-  -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
+  -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
   -o ./out/myClient
 ```
 
@@ -283,7 +283,7 @@ Each of these files creates reasonable defaults so you can get running quickly. 
 
 ```sh
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
-  -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
+  -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
   -g java \
   -o samples/client/petstore/java \
   -c path/to/config.json

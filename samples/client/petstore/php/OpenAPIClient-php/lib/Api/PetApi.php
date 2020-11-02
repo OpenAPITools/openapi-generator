@@ -73,34 +73,34 @@ class PetApi
      * @param ClientInterface $client
      * @param Configuration   $config
      * @param HeaderSelector  $selector
-     * @param int             $host_index (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+     * @param int             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
         Configuration $config = null,
         HeaderSelector $selector = null,
-        $host_index = 0
+        $hostIndex = 0
     ) {
         $this->client = $client ?: new Client();
         $this->config = $config ?: new Configuration();
         $this->headerSelector = $selector ?: new HeaderSelector();
-        $this->hostIndex = $host_index;
+        $this->hostIndex = $hostIndex;
     }
 
     /**
      * Set the host index
      *
-     * @param  int Host index (required)
+     * @param int $hostIndex Host index (required)
      */
-    public function setHostIndex($host_index)
+    public function setHostIndex($hostIndex)
     {
-        $this->hostIndex = $host_index;
+        $this->hostIndex = $hostIndex;
     }
 
     /**
      * Get the host index
      *
-     * @return Host index
+     * @return int Host index
      */
     public function getHostIndex()
     {
@@ -269,7 +269,7 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function addPetRequest($pet)
+    public function addPetRequest($pet)
     {
         // verify the required parameter 'pet' is set
         if ($pet === null || (is_array($pet) && count($pet) === 0)) {
@@ -288,11 +288,6 @@ class PetApi
 
 
 
-        // body params
-        $_tempBody = null;
-        if (isset($pet)) {
-            $_tempBody = $pet;
-        }
 
         if ($multipart) {
             $headers = $this->headerSelector->selectHeadersForMultipart(
@@ -306,12 +301,11 @@ class PetApi
         }
 
         // for model (json/xml)
-        if (isset($_tempBody)) {
-            // $_tempBody is the method argument, if present
+        if (isset($pet)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($pet));
             } else {
-                $httpBody = $_tempBody;
+                $httpBody = $pet;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -507,7 +501,7 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function deletePetRequest($pet_id, $api_key = null)
+    public function deletePetRequest($pet_id, $api_key = null)
     {
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
@@ -538,8 +532,6 @@ class PetApi
             );
         }
 
-        // body params
-        $_tempBody = null;
 
         if ($multipart) {
             $headers = $this->headerSelector->selectHeadersForMultipart(
@@ -553,14 +545,7 @@ class PetApi
         }
 
         // for model (json/xml)
-        if (isset($_tempBody)) {
-            // $_tempBody is the method argument, if present
-            if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
-            } else {
-                $httpBody = $_tempBody;
-            }
-        } elseif (count($formParams) > 0) {
+        if (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -791,7 +776,7 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function findPetsByStatusRequest($status)
+    public function findPetsByStatusRequest($status)
     {
         // verify the required parameter 'status' is set
         if ($status === null || (is_array($status) && count($status) === 0)) {
@@ -817,8 +802,6 @@ class PetApi
 
 
 
-        // body params
-        $_tempBody = null;
 
         if ($multipart) {
             $headers = $this->headerSelector->selectHeadersForMultipart(
@@ -832,14 +815,7 @@ class PetApi
         }
 
         // for model (json/xml)
-        if (isset($_tempBody)) {
-            // $_tempBody is the method argument, if present
-            if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
-            } else {
-                $httpBody = $_tempBody;
-            }
-        } elseif (count($formParams) > 0) {
+        if (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1070,7 +1046,7 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function findPetsByTagsRequest($tags)
+    public function findPetsByTagsRequest($tags)
     {
         // verify the required parameter 'tags' is set
         if ($tags === null || (is_array($tags) && count($tags) === 0)) {
@@ -1096,8 +1072,6 @@ class PetApi
 
 
 
-        // body params
-        $_tempBody = null;
 
         if ($multipart) {
             $headers = $this->headerSelector->selectHeadersForMultipart(
@@ -1111,14 +1085,7 @@ class PetApi
         }
 
         // for model (json/xml)
-        if (isset($_tempBody)) {
-            // $_tempBody is the method argument, if present
-            if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
-            } else {
-                $httpBody = $_tempBody;
-            }
-        } elseif (count($formParams) > 0) {
+        if (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1349,7 +1316,7 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getPetByIdRequest($pet_id)
+    public function getPetByIdRequest($pet_id)
     {
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
@@ -1376,8 +1343,6 @@ class PetApi
             );
         }
 
-        // body params
-        $_tempBody = null;
 
         if ($multipart) {
             $headers = $this->headerSelector->selectHeadersForMultipart(
@@ -1391,14 +1356,7 @@ class PetApi
         }
 
         // for model (json/xml)
-        if (isset($_tempBody)) {
-            // $_tempBody is the method argument, if present
-            if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
-            } else {
-                $httpBody = $_tempBody;
-            }
-        } elseif (count($formParams) > 0) {
+        if (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1602,7 +1560,7 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function updatePetRequest($pet)
+    public function updatePetRequest($pet)
     {
         // verify the required parameter 'pet' is set
         if ($pet === null || (is_array($pet) && count($pet) === 0)) {
@@ -1621,11 +1579,6 @@ class PetApi
 
 
 
-        // body params
-        $_tempBody = null;
-        if (isset($pet)) {
-            $_tempBody = $pet;
-        }
 
         if ($multipart) {
             $headers = $this->headerSelector->selectHeadersForMultipart(
@@ -1639,12 +1592,11 @@ class PetApi
         }
 
         // for model (json/xml)
-        if (isset($_tempBody)) {
-            // $_tempBody is the method argument, if present
+        if (isset($pet)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($pet));
             } else {
-                $httpBody = $_tempBody;
+                $httpBody = $pet;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -1845,7 +1797,7 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function updatePetWithFormRequest($pet_id, $name = null, $status = null)
+    public function updatePetWithFormRequest($pet_id, $name = null, $status = null)
     {
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
@@ -1880,8 +1832,6 @@ class PetApi
         if ($status !== null) {
             $formParams['status'] = ObjectSerializer::toFormValue($status);
         }
-        // body params
-        $_tempBody = null;
 
         if ($multipart) {
             $headers = $this->headerSelector->selectHeadersForMultipart(
@@ -1895,14 +1845,7 @@ class PetApi
         }
 
         // for model (json/xml)
-        if (isset($_tempBody)) {
-            // $_tempBody is the method argument, if present
-            if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
-            } else {
-                $httpBody = $_tempBody;
-            }
-        } elseif (count($formParams) > 0) {
+        if (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -2143,7 +2086,7 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function uploadFileRequest($pet_id, $additional_metadata = null, $file = null)
+    public function uploadFileRequest($pet_id, $additional_metadata = null, $file = null)
     {
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
@@ -2186,8 +2129,6 @@ class PetApi
                 );
             }
         }
-        // body params
-        $_tempBody = null;
 
         if ($multipart) {
             $headers = $this->headerSelector->selectHeadersForMultipart(
@@ -2201,14 +2142,7 @@ class PetApi
         }
 
         // for model (json/xml)
-        if (isset($_tempBody)) {
-            // $_tempBody is the method argument, if present
-            if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
-            } else {
-                $httpBody = $_tempBody;
-            }
-        } elseif (count($formParams) > 0) {
+        if (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -2449,7 +2383,7 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function uploadFileWithRequiredFileRequest($pet_id, $required_file, $additional_metadata = null)
+    public function uploadFileWithRequiredFileRequest($pet_id, $required_file, $additional_metadata = null)
     {
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
@@ -2498,8 +2432,6 @@ class PetApi
                 );
             }
         }
-        // body params
-        $_tempBody = null;
 
         if ($multipart) {
             $headers = $this->headerSelector->selectHeadersForMultipart(
@@ -2513,14 +2445,7 @@ class PetApi
         }
 
         // for model (json/xml)
-        if (isset($_tempBody)) {
-            // $_tempBody is the method argument, if present
-            if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
-            } else {
-                $httpBody = $_tempBody;
-            }
-        } elseif (count($formParams) > 0) {
+        if (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {

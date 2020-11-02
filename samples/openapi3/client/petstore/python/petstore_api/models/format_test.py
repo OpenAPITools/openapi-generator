@@ -39,6 +39,7 @@ class FormatTest(object):
         'number': 'float',
         'float': 'float',
         'double': 'float',
+        'decimal': 'Decimal',
         'string': 'str',
         'byte': 'str',
         'binary': 'file',
@@ -57,6 +58,7 @@ class FormatTest(object):
         'number': 'number',
         'float': 'float',
         'double': 'double',
+        'decimal': 'decimal',
         'string': 'string',
         'byte': 'byte',
         'binary': 'binary',
@@ -68,7 +70,7 @@ class FormatTest(object):
         'pattern_with_digits_and_delimiter': 'pattern_with_digits_and_delimiter'
     }
 
-    def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, string=None, byte=None, binary=None, date=None, date_time=None, uuid=None, password=None, pattern_with_digits=None, pattern_with_digits_and_delimiter=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, decimal=None, string=None, byte=None, binary=None, date=None, date_time=None, uuid=None, password=None, pattern_with_digits=None, pattern_with_digits_and_delimiter=None, local_vars_configuration=None):  # noqa: E501
         """FormatTest - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration()
@@ -80,6 +82,7 @@ class FormatTest(object):
         self._number = None
         self._float = None
         self._double = None
+        self._decimal = None
         self._string = None
         self._byte = None
         self._binary = None
@@ -102,6 +105,8 @@ class FormatTest(object):
             self.float = float
         if double is not None:
             self.double = double
+        if decimal is not None:
+            self.decimal = decimal
         if string is not None:
             self.string = string
         self.byte = byte
@@ -275,6 +280,27 @@ class FormatTest(object):
             raise ValueError("Invalid value for `double`, must be a value greater than or equal to `67.8`")  # noqa: E501
 
         self._double = double
+
+    @property
+    def decimal(self):
+        """Gets the decimal of this FormatTest.  # noqa: E501
+
+
+        :return: The decimal of this FormatTest.  # noqa: E501
+        :rtype: Decimal
+        """
+        return self._decimal
+
+    @decimal.setter
+    def decimal(self, decimal):
+        """Sets the decimal of this FormatTest.
+
+
+        :param decimal: The decimal of this FormatTest.  # noqa: E501
+        :type decimal: Decimal
+        """
+
+        self._decimal = decimal
 
     @property
     def string(self):

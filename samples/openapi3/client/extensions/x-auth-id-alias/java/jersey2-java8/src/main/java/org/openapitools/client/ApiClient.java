@@ -121,6 +121,7 @@ public class ApiClient {
   protected Map<String, Integer> operationServerIndex = new HashMap<String, Integer>();
   protected Map<String, Map<String, String>> operationServerVariables = new HashMap<String, Map<String, String>>();
   protected boolean debugging = false;
+  protected ClientConfig clientConfig;
   protected int connectionTimeout = 0;
   private int readTimeout = 0;
 
@@ -147,7 +148,7 @@ public class ApiClient {
    */
   public ApiClient(Map<String, Authentication> authMap) {
     json = new JSON();
-    httpClient = buildHttpClient(debugging);
+    httpClient = buildHttpClient();
 
     this.dateFormat = new RFC3339DateFormat();
 
@@ -413,6 +414,27 @@ public class ApiClient {
   }
 
   /**
+   * Gets the client config.
+   * @return Client config
+   */
+  public ClientConfig getClientConfig() {
+    return clientConfig;
+  }
+
+  /**
+   * Set the client config.
+   *
+   * @param clientConfig Set the client config
+   * @return API client
+   */
+  public ApiClient setClientConfig(ClientConfig clientConfig) {
+    this.clientConfig = clientConfig;
+    // Rebuild HTTP Client according to the new "clientConfig" value.
+    this.httpClient = buildHttpClient();
+    return this;
+  }
+
+  /**
    * Check that whether debugging is enabled for this API client.
    * @return True if debugging is switched on
    */
@@ -429,7 +451,7 @@ public class ApiClient {
   public ApiClient setDebugging(boolean debugging) {
     this.debugging = debugging;
     // Rebuild HTTP Client according to the new "debugging" value.
-    this.httpClient = buildHttpClient(debugging);
+    this.httpClient = buildHttpClient();
     return this;
   }
 
@@ -1034,11 +1056,26 @@ public class ApiClient {
 
   /**
    * Build the Client used to make HTTP requests.
-   * @param debugging Debug setting
    * @return Client
    */
-  protected Client buildHttpClient(boolean debugging) {
-    final ClientConfig clientConfig = new ClientConfig();
+  protected Client buildHttpClient() {
+    // use the default client config if not yet initialized
+    if (clientConfig == null) {
+        clientConfig = getDefaultClientConfig();
+    }
+
+    ClientBuilder clientBuilder = ClientBuilder.newBuilder();
+    customizeClientBuilder(clientBuilder);
+    clientBuilder = clientBuilder.withConfig(clientConfig);
+    return clientBuilder.build();
+  }
+
+  /**
+   * Get the default client config.
+   * @return Client config
+   */
+  public ClientConfig getDefaultClientConfig() {
+    ClientConfig clientConfig = new ClientConfig();
     clientConfig.register(MultiPartFeature.class);
     clientConfig.register(json);
     clientConfig.register(JacksonFeature.class);
@@ -1054,19 +1091,8 @@ public class ApiClient {
       // suppress warnings for payloads with DELETE calls:
       java.util.logging.Logger.getLogger("org.glassfish.jersey.client").setLevel(java.util.logging.Level.SEVERE);
     }
-    performAdditionalClientConfiguration(clientConfig);
-    ClientBuilder clientBuilder = ClientBuilder.newBuilder();
-    customizeClientBuilder(clientBuilder);
-    clientBuilder = clientBuilder.withConfig(clientConfig);
-    return clientBuilder.build();
-  }
 
-  /**
-   * Perform additional configuration of the API client.
-   * This method can be overriden to customize the API client.
-   */
-  protected void performAdditionalClientConfiguration(ClientConfig clientConfig) {
-    // No-op extension point
+    return clientConfig;
   }
 
   /**

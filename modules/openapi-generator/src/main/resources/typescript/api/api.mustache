@@ -78,7 +78,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
 		{{/hasFormParams}}	
 
 		{{#formParams}}
-        {{#isListContainer}}
+        {{#isArray}}
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element) => {
@@ -90,8 +90,8 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
                 localVarFormParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
         {{/isCollectionFormatMulti}}
         }
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         if ({{paramName}} !== undefined) {
         // TODO: replace .append with .set
              {{^isFile}}
@@ -108,7 +108,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
              {{/platforms}}
              {{/isFile}}
         }
-        {{/isListContainer}}
+        {{/isArray}}
 		{{/formParams}}		
 	    {{#hasFormParams}}
 		requestContext.setBody(localVarFormParams);

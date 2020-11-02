@@ -45,7 +45,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     public static final String AKKA_HTTP_VERSION_DESC = "The version of akka-http";
     public static final String DEFAULT_AKKA_HTTP_VERSION = "10.1.10";
 
-    static Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaHttpServerCodegen.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaHttpServerCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.SERVER;
@@ -442,9 +442,9 @@ class Marshaller {
     }
 
     public Marshaller(CodegenParameter parameter) {
-        if (parameter.isListContainer) {
+        if (parameter.isArray) {
             this.varName = parameter.baseType + "List";
-        } else if (parameter.isMapContainer) {
+        } else if (parameter.isMap) {
             this.varName = parameter.baseType + "Map";
         } else if (parameter.isContainer) {
             this.varName = parameter.baseType + "Container";

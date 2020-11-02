@@ -726,10 +726,13 @@ public class JavaModelTest {
 
     @Test(description = "types used by inner properties should be imported")
     public void mapWithAnListOfBigDecimalTest() {
+        Schema decimal = new StringSchema();
+        decimal.setFormat("number");
+
         Schema schema1 = new Schema()
                 .description("model with Map<String, List<BigDecimal>>")
                 .addProperties("map", new MapSchema()
-                        .additionalProperties(new ArraySchema().items(new NumberSchema())));
+                        .additionalProperties(new ArraySchema().items(decimal)));
         OpenAPI openAPI1 = TestUtils.createOpenAPIWithOneSchema("sample", schema1);
         JavaClientCodegen codegen1 = new JavaClientCodegen();
         codegen1.setOpenAPI(openAPI1);
@@ -741,7 +744,7 @@ public class JavaModelTest {
                 .description("model with Map<String, Map<String, List<BigDecimal>>>")
                 .addProperties("map", new MapSchema()
                         .additionalProperties(new MapSchema()
-                                .additionalProperties(new ArraySchema().items(new NumberSchema()))));
+                                .additionalProperties(new ArraySchema().items(decimal))));
         OpenAPI openAPI2 = TestUtils.createOpenAPIWithOneSchema("sample", schema2);
         JavaClientCodegen codegen2 = new JavaClientCodegen();
         codegen2.setOpenAPI(openAPI2);
@@ -1142,8 +1145,8 @@ public class JavaModelTest {
         Assert.assertEquals(cp1.name, "pets");
         Assert.assertEquals(cp1.baseType, "List");
         Assert.assertTrue(cp1.isContainer);
-        Assert.assertTrue(cp1.isListContainer);
-        Assert.assertFalse(cp1.isMapContainer);
+        Assert.assertTrue(cp1.isArray);
+        Assert.assertFalse(cp1.isMap);
         Assert.assertEquals(cp1.getter, "getPets");
         Assert.assertEquals(cp1.items.baseType, "Pet");
 
@@ -1172,8 +1175,8 @@ public class JavaModelTest {
         Assert.assertEquals(cp1.baseType, "Pet");
         Assert.assertEquals(cp1.dataType, "List<Pet>");
         Assert.assertTrue(cp1.isContainer);
-        Assert.assertTrue(cp1.isListContainer);
-        Assert.assertFalse(cp1.isMapContainer);
+        Assert.assertTrue(cp1.isArray);
+        Assert.assertFalse(cp1.isMap);
         Assert.assertEquals(cp1.items.baseType, "Pet");
         Assert.assertEquals(cp1.items.complexType, "Pet");
         Assert.assertEquals(cp1.items.dataType, "Pet");
@@ -1252,8 +1255,8 @@ public class JavaModelTest {
         Assert.assertEquals(cp1.baseType, "List");
         Assert.assertEquals(cp1.dataType, "List<List<Pet>>");
         Assert.assertTrue(cp1.isContainer);
-        Assert.assertTrue(cp1.isListContainer);
-        Assert.assertFalse(cp1.isMapContainer);
+        Assert.assertTrue(cp1.isArray);
+        Assert.assertFalse(cp1.isMap);
         Assert.assertEquals(cp1.items.baseType, "List");
         Assert.assertEquals(cp1.items.complexType, "Pet");
         Assert.assertEquals(cp1.items.dataType, "List<Pet>");
@@ -1331,8 +1334,8 @@ public class JavaModelTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec(inputSpec);
 
         final ClientOptInput opts = new ClientOptInput();
-        opts.setConfig(config);
-        opts.setOpenAPI(openAPI);
+        opts.config(config);
+        opts.openAPI(openAPI);
         new DefaultGenerator().opts(opts).generate();
 
         File orderFile = new File(output, "src/main/java/org/openapitools/client/api/DefaultApi.java");
