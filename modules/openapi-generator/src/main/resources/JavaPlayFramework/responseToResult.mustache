@@ -1,7 +1,8 @@
 {{^controllerOnly}}
 {{^returnType}}
 {{#supportAsync}}
-return CompletableFuture.supplyAsync(() -> {
+CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        try {
 {{/supportAsync}}
 {{/returnType}}
 {{#returnType}}{{#supportAsync}}CompletionStage<{{>returnTypesNoVoid}}> stage = {{/supportAsync}}{{^supportAsync}}{{>returnTypesNoVoid}} obj = {{/supportAsync}}{{/returnType}}{{^returnType}}{{#supportAsync}}    {{/supportAsync}}{{/returnType}}{{^useInterfaces}}imp.{{/useInterfaces}}{{operationId}}(request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}{{#supportAsync}}.thenApply(obj -> { {{/supportAsync}}{{/returnType}}{{^supportAsync}};{{/supportAsync}}{{#supportAsync}}{{^returnType}};{{/returnType}}{{/supportAsync}}
@@ -64,11 +65,26 @@ stage.thenApply(obj -> {
 {{/isResponseFile}}
 {{/returnType}}
 {{^returnType}}
-{{#supportAsync}}    {{/supportAsync}}return ok();
+{{#supportAsync}}
+        } catch (Exception e) {
+            throw new CompletionException(e);
+        }
+        return ok();
+    });
+    return result;
+{{/supportAsync}}
+{{^supportAsync}}
+return ok();
+{{/supportAsync}}
 {{/returnType}}
+{{#returnType}}
 {{#supportAsync}}
 });
+
+// TODO revise below as returning null may be incorrect
+    return null;
 {{/supportAsync}}
+{{/returnType}}
 {{/controllerOnly}}
 {{#controllerOnly}}
 return ok();

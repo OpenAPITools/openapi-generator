@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import openapitools.OpenAPIUtils;
 import static play.mvc.Results.ok;
 import play.api.libs.Files.TemporaryFile;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 
@@ -28,20 +29,30 @@ public abstract class PetApiControllerImpInterface {
     private ObjectMapper mapper = new ObjectMapper();
 
     public CompletionStage<Result> addPetHttp(Http.Request request, Pet body) throws Exception {
-        return CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        try {
     addPet(request, body);
-    return ok();
-});
+        } catch (Exception e) {
+            throw new CompletionException(e);
+        }
+        return ok();
+    });
+    return result;
 
     }
 
     public abstract void addPet(Http.Request request, Pet body) throws Exception;
 
     public CompletionStage<Result> deletePetHttp(Http.Request request, Long petId, String apiKey) throws Exception {
-        return CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        try {
     deletePet(request, petId, apiKey);
-    return ok();
-});
+        } catch (Exception e) {
+            throw new CompletionException(e);
+        }
+        return ok();
+    });
+    return result;
 
     }
 
@@ -61,6 +72,9 @@ stage.thenApply(obj -> {
     return ok(result);
 });
 
+// TODO revise below as returning null may be incorrect
+    return null;
+
     }
 
     public abstract CompletionStage<List<Pet>> findPetsByStatus(Http.Request request, @NotNull List<String> status) throws Exception;
@@ -79,6 +93,9 @@ stage.thenApply(obj -> {
     return ok(result);
 });
 
+// TODO revise below as returning null may be incorrect
+    return null;
+
     }
 
     public abstract CompletionStage<List<Pet>> findPetsByTags(Http.Request request, @NotNull List<String> tags) throws Exception;
@@ -95,25 +112,38 @@ stage.thenApply(obj -> {
     return ok(result);
 });
 
+// TODO revise below as returning null may be incorrect
+    return null;
+
     }
 
     public abstract CompletionStage<Pet> getPetById(Http.Request request, Long petId) throws Exception;
 
     public CompletionStage<Result> updatePetHttp(Http.Request request, Pet body) throws Exception {
-        return CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        try {
     updatePet(request, body);
-    return ok();
-});
+        } catch (Exception e) {
+            throw new CompletionException(e);
+        }
+        return ok();
+    });
+    return result;
 
     }
 
     public abstract void updatePet(Http.Request request, Pet body) throws Exception;
 
     public CompletionStage<Result> updatePetWithFormHttp(Http.Request request, Long petId, String name, String status) throws Exception {
-        return CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        try {
     updatePetWithForm(request, petId, name, status);
-    return ok();
-});
+        } catch (Exception e) {
+            throw new CompletionException(e);
+        }
+        return ok();
+    });
+    return result;
 
     }
 
@@ -130,6 +160,9 @@ stage.thenApply(obj -> {
     JsonNode result = mapper.valueToTree(obj);
     return ok(result);
 });
+
+// TODO revise below as returning null may be incorrect
+    return null;
 
     }
 
