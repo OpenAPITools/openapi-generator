@@ -617,10 +617,12 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
-            if (name !== undefined) {
+
+            if (name !== undefined) { 
                 localVarFormParams.set('name', name as any);
             }
-                if (status !== undefined) {
+    
+            if (status !== undefined) { 
                 localVarFormParams.set('status', status as any);
             }
     
@@ -681,10 +683,12 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
-            if (additionalMetadata !== undefined) {
+
+            if (additionalMetadata !== undefined) { 
                 localVarFormParams.append('additionalMetadata', additionalMetadata as any);
             }
-                if (file !== undefined) {
+    
+            if (file !== undefined) { 
                 localVarFormParams.append('file', file as any);
             }
     
