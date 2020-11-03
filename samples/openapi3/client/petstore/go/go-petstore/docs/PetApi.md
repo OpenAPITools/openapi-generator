@@ -97,7 +97,7 @@ import (
 )
 
 func main() {
-    petId := 987 // int64 | Pet id to delete
+    petId := int64(987) // int64 | Pet id to delete
     apiKey := "apiKey_example" // string |  (optional)
 
     configuration := openapiclient.NewConfiguration()
@@ -299,7 +299,7 @@ import (
 )
 
 func main() {
-    petId := 987 // int64 | ID of pet to return
+    petId := int64(987) // int64 | ID of pet to return
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -429,7 +429,7 @@ import (
 )
 
 func main() {
-    petId := 987 // int64 | ID of pet that needs to be updated
+    petId := int64(987) // int64 | ID of pet that needs to be updated
     name := "name_example" // string | Updated name of the pet (optional)
     status := "status_example" // string | Updated status of the pet (optional)
 
@@ -499,9 +499,9 @@ import (
 )
 
 func main() {
-    petId := 987 // int64 | ID of pet to update
+    petId := int64(987) // int64 | ID of pet to update
     additionalMetadata := "additionalMetadata_example" // string | Additional data to pass to server (optional)
-    file := 987 // *os.File | file to upload (optional)
+    file := *os.File(987) // *os.File | file to upload (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -571,8 +571,8 @@ import (
 )
 
 func main() {
-    petId := 987 // int64 | ID of pet to update
-    requiredFile := 987 // *os.File | file to upload
+    petId := int64(987) // int64 | ID of pet to update
+    requiredFile := *os.File(987) // *os.File | file to upload
     additionalMetadata := "additionalMetadata_example" // string | Additional data to pass to server (optional)
 
     configuration := openapiclient.NewConfiguration()

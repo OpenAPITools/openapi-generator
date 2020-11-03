@@ -452,8 +452,15 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
         processedModelMaps.clear();
         for (CodegenOperation operation : operationList) {
+            boolean needTimeImport = false;
             for (CodegenParameter cp : operation.allParams) {
                 cp.vendorExtensions.put("x-go-example", constructExampleCode(cp, modelMaps, processedModelMaps));
+                if (cp.isDateTime || cp.isDate) { // datetime or date
+                        needTimeImport = true;
+                }
+            }
+            if (needTimeImport) {
+                operation.vendorExtensions.put("x-go-import", "    \"time\"");
             }
         }
 
@@ -486,7 +493,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 if (StringUtils.isEmpty(codegenParameter.example)) {
                     return codegenParameter.example;
                 } else {
-                    return "987";
+                    return codegenParameter.dataType + "(987)";
                 }
             }
         } else { // model
@@ -548,8 +555,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
     }
 
     private String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
-        String example;
-
         // break infinite recursion. Return, in case a model is already processed in the current context.
         String model = codegenModel.name;
         if (processedModelMap.containsKey(model)) {
@@ -561,6 +566,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
             } else {
                 throw new RuntimeException("Invalid count when constructing example: " + count);
             }
+        } else if (codegenModel.isEnum) {
+                Map<String, Object> allowableValues = codegenModel.allowableValues;
+                List<Object> values = (List<Object>) allowableValues.get("values");
+                return "\"" + String.valueOf(values.get(0)) + "\"";
         } else {
             processedModelMap.put(model, 1);
         }
