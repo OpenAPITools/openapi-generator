@@ -13,10 +13,10 @@ public class ApiCall extends Action<OpenAPIUtils.ApiAction> {
     @Inject
     private ApiCall() {}
 
-    public CompletionStage<Result> call(Http.Context ctx) {
+    public CompletionStage<Result> call(Http.Request request) {
         try {
             //TODO: Do stuff you want to handle with each API call (metrics, logging, etc..)
-            return delegate.call(ctx);
+            return delegate.call(request);
         } catch (Throwable t) {
             //TODO: log the error in your metric
 
