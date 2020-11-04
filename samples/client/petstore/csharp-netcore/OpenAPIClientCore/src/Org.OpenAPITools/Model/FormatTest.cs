@@ -46,6 +46,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="number">number (required).</param>
         /// <param name="_float">_float.</param>
         /// <param name="_double">_double.</param>
+        /// <param name="_decimal">_decimal.</param>
         /// <param name="_string">_string.</param>
         /// <param name="_byte">_byte (required).</param>
         /// <param name="binary">binary.</param>
@@ -55,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="password">password (required).</param>
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
+        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
         {
             this.Number = number;
             // to ensure "_byte" is required (not null)
@@ -68,6 +69,7 @@ namespace Org.OpenAPITools.Model
             this.Int64 = int64;
             this.Float = _float;
             this.Double = _double;
+            this.Decimal = _decimal;
             this.String = _string;
             this.Binary = binary;
             this.DateTime = dateTime;
@@ -111,6 +113,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "double", EmitDefaultValue = false)]
         public double Double { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Decimal
+        /// </summary>
+        [DataMember(Name = "decimal", EmitDefaultValue = false)]
+        public decimal Decimal { get; set; }
 
         /// <summary>
         /// Gets or Sets String
@@ -183,6 +191,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Number: ").Append(Number).Append("\n");
             sb.Append("  Float: ").Append(Float).Append("\n");
             sb.Append("  Double: ").Append(Double).Append("\n");
+            sb.Append("  Decimal: ").Append(Decimal).Append("\n");
             sb.Append("  String: ").Append(String).Append("\n");
             sb.Append("  Byte: ").Append(Byte).Append("\n");
             sb.Append("  Binary: ").Append(Binary).Append("\n");
@@ -240,6 +249,7 @@ namespace Org.OpenAPITools.Model
                 hashCode = hashCode * 59 + this.Number.GetHashCode();
                 hashCode = hashCode * 59 + this.Float.GetHashCode();
                 hashCode = hashCode * 59 + this.Double.GetHashCode();
+                hashCode = hashCode * 59 + this.Decimal.GetHashCode();
                 if (this.String != null)
                     hashCode = hashCode * 59 + this.String.GetHashCode();
                 if (this.Byte != null)

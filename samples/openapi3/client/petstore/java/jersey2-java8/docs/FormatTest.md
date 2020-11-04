@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **number** | [**BigDecimal**](BigDecimal.md) |  | 
 **_float** | **Float** |  |  [optional]
 **_double** | **Double** |  |  [optional]
+**decimal** | [**BigDecimal**](BigDecimal.md) |  |  [optional]
 **string** | **String** |  |  [optional]
 **_byte** | **byte[]** |  | 
 **binary** | [**File**](File.md) |  |  [optional]

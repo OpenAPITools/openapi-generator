@@ -344,7 +344,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         }
 
         if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
-        // Enum case:
+            // Enum case:
             example = schema.getEnum().get(0).toString();
 /*            if (ModelUtils.isStringSchema(schema)) {
                 example = "'" + escapeText(example) + "'";
@@ -354,7 +354,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
             return example;
         } else if (null != schema.get$ref()) {
-        // $ref case:
+            // $ref case:
             Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
             String ref = ModelUtils.getSimpleRef(schema.get$ref());
             if (allDefinitions != null) {
@@ -384,14 +384,20 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         } else if (ModelUtils.isByteArraySchema(schema)) {
             example = "YQ==";
         } else if (ModelUtils.isStringSchema(schema)) {
-            // a BigDecimal:
-            if ("Number".equalsIgnoreCase(schema.getFormat())) {return "1";}
-            if (StringUtils.isNotBlank(schema.getPattern())) return "\"a\""; // I cheat here, since it would be too complicated to generate a string from a regexp
+            // decimal (type: string, format: decimal)
+            if ("number".equalsIgnoreCase(schema.getFormat())) {
+                return "1";
+            }
+            if (StringUtils.isNotBlank(schema.getPattern()))
+                return "\"a\""; // I cheat here, since it would be too complicated to generate a string from a regexp
             int len = 0;
-            if (null != schema.getMinLength()) len = schema.getMinLength().intValue();
-            if (len < 1) len = 1;
+            if (null != schema.getMinLength())
+                len = schema.getMinLength().intValue();
+            if (len < 1)
+                len = 1;
             example = "";
-            for (int i=0;i<len;i++) example += i;
+            for (int i = 0; i < len; i++)
+                example += i;
         } else if (ModelUtils.isIntegerSchema(schema)) {
             if (schema.getMinimum() != null)
                 example = schema.getMinimum().toString();
@@ -466,7 +472,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
-        name = name.replaceAll("-","_");
+        name = name.replaceAll("-", "_");
         return name;
     }
 
@@ -545,7 +551,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        value = value.replaceAll("-","_");
+        value = value.replaceAll("-", "_");
         if (isReservedWord(value)) {
             value = escapeReservedWord(value);
         }
@@ -640,9 +646,9 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toModelImport(String name) {
         if (importMapping.containsKey(name)) {
-            return "#include \"" +"../model/" + importMapping.get(name) + ".h\"";
+            return "#include \"" + "../model/" + importMapping.get(name) + ".h\"";
         } else
-            return "#include \"" +"../model/" + name + ".h\"";
+            return "#include \"" + "../model/" + name + ".h\"";
     }
 
     @Override
@@ -737,12 +743,12 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public CodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty cm = super.fromProperty(name,p);
+        CodegenProperty cm = super.fromProperty(name, p);
         Schema ref = ModelUtils.getReferencedSchema(openAPI, p);
         if (ref != null) {
-           if (ref.getEnum() != null) {
-               cm.isEnum = true;
-           }
+            if (ref.getEnum() != null) {
+                cm.isEnum = true;
+            }
         }
         return cm;
     }

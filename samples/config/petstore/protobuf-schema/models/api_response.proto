@@ -15,10 +15,10 @@ package petstore;
 
 message ApiResponse {
 
-  int32 code = 1;
+  int32 code = 3059181;
 
-  string type = 2;
+  string type = 3575610;
 
-  string message = 3;
+  string message = 418054152;
 
 }

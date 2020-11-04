@@ -689,6 +689,14 @@ public class ModelUtils {
         return false;
     }
 
+    public static boolean isDecimalSchema(Schema schema) {
+        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType()) // type: string
+                && "number".equals(schema.getFormat())) { // format: number
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Check to see if the schema is a model
      *

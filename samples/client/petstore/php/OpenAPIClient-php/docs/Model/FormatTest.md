@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **number** | **float** |  |
 **float** | **float** |  | [optional]
 **double** | **double** |  | [optional]
+**decimal** | [**Decimal**](Decimal.md) |  | [optional]
 **string** | **string** |  | [optional]
 **byte** | **string** |  |
 **binary** | [**\SplFileObject**](\SplFileObject.md) |  | [optional]

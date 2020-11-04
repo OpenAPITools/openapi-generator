@@ -127,12 +127,12 @@ namespace Org.OpenAPITools.Client
                 { // array
                     foreach (var value in parameter.Value)
                     {
-                        httpValues.Add(parameter.Key + "[]", value);
+                        httpValues.Add(HttpUtility.UrlEncode(parameter.Key) + "[]", value);
                     }
                 }
                 else
                 {
-                    httpValues.Add(parameter.Key, parameter.Value[0]);
+                    httpValues.Add(HttpUtility.UrlEncode(parameter.Key), parameter.Value[0]);
 
                 }
             }

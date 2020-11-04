@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **number** | **Float** |  | 
 **float** | **Float** |  | [optional] 
 **double** | **Float** |  | [optional] 
+**decimal** | [**Decimal**](Decimal.md) |  | [optional] 
 **string** | **String** |  | [optional] 
 **byte** | **String** |  | 
 **binary** | **File** |  | [optional] 
@@ -31,6 +32,7 @@ instance = Petstore::FormatTest.new(integer: null,
                                  number: null,
                                  float: null,
                                  double: null,
+                                 decimal: null,
                                  string: null,
                                  byte: null,
                                  binary: null,
