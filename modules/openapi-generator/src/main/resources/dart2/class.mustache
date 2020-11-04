@@ -9,6 +9,12 @@ class {{{classname}}} {
   {{#vars}}
   {{#description}}/// {{{description}}}{{/description}}
   {{^isEnum}}
+    {{#minimum}}
+  // minimum: {{{minimum}}}
+    {{/minimum}}
+    {{#maximum}}
+  // maximum: {{{maximum}}}
+    {{/maximum}}
   {{{dataType}}} {{{name}}};
   {{/isEnum}}
   {{#isEnum}}
@@ -22,7 +28,7 @@ class {{{classname}}} {
     {{/isContainer}}
     {{^isContainer}}
       {{#allowableValues}}
-  {{#min}} // range from {{{min}}} to {{{max}}}{{/min}}{{{classname}}}{{{enumName}}} {{{name}}}{{#required}} = {{{classname}}}{{{enumName}}}._({{{defaultValue}}}){{/required}}{{^required}}{{/required}};
+  {{{classname}}}{{{enumName}}} {{{name}}}{{#required}}{{#defaultValue}} = {{{classname}}}{{{enumName}}}._({{{defaultValue}}}){{/defaultValue}}{{/required}};
       {{/allowableValues}}
     {{/isContainer}}
   {{/isEnum}}
