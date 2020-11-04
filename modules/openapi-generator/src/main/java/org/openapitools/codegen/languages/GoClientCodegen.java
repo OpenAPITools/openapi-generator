@@ -474,7 +474,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             return codegenParameter.dataType + "{ \"key\": " + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
         } else if (codegenParameter.isPrimitiveType) { // primitive type
             if (codegenParameter.isString) {
-                if (StringUtils.isEmpty(codegenParameter.example)) {
+                if (!StringUtils.isEmpty(codegenParameter.example) && codegenParameter.example != "null") {
                     return "\"" + codegenParameter.example + "\"";
                 } else {
                     return "\"" + codegenParameter.paramName + "_example\"";
@@ -490,8 +490,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
             } else if (codegenParameter.isDateTime || codegenParameter.isDate) { // datetime or date
                 return "time.Now()";
             } else { // numeric
-                if (StringUtils.isEmpty(codegenParameter.example)) {
-                    return codegenParameter.example;
+                if (!StringUtils.isEmpty(codegenParameter.example) && codegenParameter.example != "null") {
+                    return codegenParameter.dataType + "(" + codegenParameter.example + ")";
                 } else {
                     return codegenParameter.dataType + "(987)";
                 }
@@ -514,7 +514,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             return codegenProperty.dataType + "{ \"key\": " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
         } else if (codegenProperty.isPrimitiveType) { // primitive type
             if (codegenProperty.isString) {
-                if (StringUtils.isEmpty(codegenProperty.example)) {
+                if (!StringUtils.isEmpty(codegenProperty.example) && codegenProperty.example != "null") {
                     return "\"" + codegenProperty.example + "\"";
                 } else {
                     return "\"" + codegenProperty.name + "_example\"";
@@ -531,17 +531,13 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 return "time.Now()";
             } else { // numeric
                 String example;
-                if (StringUtils.isEmpty(codegenProperty.example)) {
+                if (!StringUtils.isEmpty(codegenProperty.example) && codegenProperty.example != "null") {
                     example = codegenProperty.example;
                 } else {
                     example = "123";
                 }
 
-                if (codegenProperty.isLong) {
-                    return "int64(" + example + ")";
-                } else {
-                    return example;
-                }
+                return codegenProperty.dataType +  "(" + example + ")";
             }
         } else {
             // look up the model

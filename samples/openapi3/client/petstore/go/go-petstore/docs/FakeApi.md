@@ -233,7 +233,7 @@ import (
 )
 
 func main() {
-    body := float32(987) // float32 | Input number as post body (optional)
+    body := float32(8.14) // float32 | Input number as post body (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -560,16 +560,16 @@ import (
 )
 
 func main() {
-    number := float32(987) // float32 | None
-    double := float64(987) // float64 | None
+    number := float32(8.14) // float32 | None
+    double := float64(1.2) // float64 | None
     patternWithoutDelimiter := "patternWithoutDelimiter_example" // string | None
-    byte_ := string(987) // string | None
-    integer := int32(987) // int32 | None (optional)
-    int32_ := int32(987) // int32 | None (optional)
-    int64_ := int64(987) // int64 | None (optional)
-    float := float32(987) // float32 | None (optional)
+    byte_ := string(BYTE_ARRAY_DATA_HERE) // string | None
+    integer := int32(56) // int32 | None (optional)
+    int32_ := int32(56) // int32 | None (optional)
+    int64_ := int64(789) // int64 | None (optional)
+    float := float32(3.4) // float32 | None (optional)
     string_ := "string__example" // string | None (optional)
-    binary := *os.File(987) // *os.File | None (optional)
+    binary := *os.File(BINARY_DATA_HERE) // *os.File | None (optional)
     date := time.Now() // string | None (optional)
     dateTime := time.Now() // time.Time | None (optional)
     password := "password_example" // string | None (optional)
@@ -654,8 +654,8 @@ func main() {
     enumHeaderString := "enumHeaderString_example" // string | Header parameter enum test (string) (optional) (default to "-efg")
     enumQueryStringArray := []string{"EnumQueryStringArray_example"} // []string | Query parameter enum test (string array) (optional)
     enumQueryString := "enumQueryString_example" // string | Query parameter enum test (string) (optional) (default to "-efg")
-    enumQueryInteger := int32(987) // int32 | Query parameter enum test (double) (optional)
-    enumQueryDouble := float64(987) // float64 | Query parameter enum test (double) (optional)
+    enumQueryInteger := int32(56) // int32 | Query parameter enum test (double) (optional)
+    enumQueryDouble := float64(1.2) // float64 | Query parameter enum test (double) (optional)
     enumFormStringArray := []string{"Inner_example"} // []string | Form parameter enum test (string array) (optional) (default to "$")
     enumFormString := "enumFormString_example" // string | Form parameter enum test (string) (optional) (default to "-efg")
 
@@ -728,12 +728,12 @@ import (
 )
 
 func main() {
-    requiredStringGroup := int32(987) // int32 | Required String in group parameters
+    requiredStringGroup := int32(56) // int32 | Required String in group parameters
     requiredBooleanGroup := true // bool | Required Boolean in group parameters
-    requiredInt64Group := int64(987) // int64 | Required Integer in group parameters
-    stringGroup := int32(987) // int32 | String in group parameters (optional)
+    requiredInt64Group := int64(789) // int64 | Required Integer in group parameters
+    stringGroup := int32(56) // int32 | String in group parameters (optional)
     booleanGroup := true // bool | Boolean in group parameters (optional)
-    int64Group := int64(987) // int64 | Integer in group parameters (optional)
+    int64Group := int64(789) // int64 | Integer in group parameters (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
