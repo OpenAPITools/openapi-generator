@@ -165,6 +165,11 @@ namespace Org.OpenAPITools.Model
         {
             Mammal newMammal = null;
 
+            if (jsonString == null)
+            {
+                return newMammal;
+            }
+
             string discriminatorValue = JObject.Parse(jsonString)["className"].ToString();
             switch (discriminatorValue)
             {

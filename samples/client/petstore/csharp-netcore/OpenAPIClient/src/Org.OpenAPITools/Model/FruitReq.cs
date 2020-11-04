@@ -146,6 +146,11 @@ namespace Org.OpenAPITools.Model
         public static FruitReq FromJson(string jsonString)
         {
             FruitReq newFruitReq = null;
+
+            if (jsonString == null)
+            {
+                return newFruitReq;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 

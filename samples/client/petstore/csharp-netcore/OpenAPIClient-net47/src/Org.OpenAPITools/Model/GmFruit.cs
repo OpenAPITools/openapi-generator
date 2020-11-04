@@ -137,6 +137,11 @@ namespace Org.OpenAPITools.Model
         {
             GmFruit newGmFruit = null;
 
+            if (jsonString == null)
+            {
+                return newGmFruit;
+            }
+
             try
             {
                 newGmFruit = new GmFruit(JsonConvert.DeserializeObject<Apple>(jsonString, GmFruit.SerializerSettings));

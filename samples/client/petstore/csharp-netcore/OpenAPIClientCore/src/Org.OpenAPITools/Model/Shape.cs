@@ -138,6 +138,11 @@ namespace Org.OpenAPITools.Model
         public static Shape FromJson(string jsonString)
         {
             Shape newShape = null;
+
+            if (jsonString == null)
+            {
+                return newShape;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 

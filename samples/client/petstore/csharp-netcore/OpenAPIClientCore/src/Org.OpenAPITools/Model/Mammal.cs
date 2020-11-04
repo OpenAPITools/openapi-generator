@@ -164,6 +164,11 @@ namespace Org.OpenAPITools.Model
         public static Mammal FromJson(string jsonString)
         {
             Mammal newMammal = null;
+
+            if (jsonString == null)
+            {
+                return newMammal;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 

@@ -165,6 +165,11 @@ namespace Org.OpenAPITools.Model
         {
             Triangle newTriangle = null;
 
+            if (jsonString == null)
+            {
+                return newTriangle;
+            }
+
             string discriminatorValue = JObject.Parse(jsonString)["triangleType"].ToString();
             switch (discriminatorValue)
             {

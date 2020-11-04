@@ -138,6 +138,11 @@ namespace Org.OpenAPITools.Model
         public static Quadrilateral FromJson(string jsonString)
         {
             Quadrilateral newQuadrilateral = null;
+
+            if (jsonString == null)
+            {
+                return newQuadrilateral;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 

@@ -139,6 +139,11 @@ namespace Org.OpenAPITools.Model
         {
             Quadrilateral newQuadrilateral = null;
 
+            if (jsonString == null)
+            {
+                return newQuadrilateral;
+            }
+
             string discriminatorValue = JObject.Parse(jsonString)["quadrilateralType"].ToString();
             switch (discriminatorValue)
             {

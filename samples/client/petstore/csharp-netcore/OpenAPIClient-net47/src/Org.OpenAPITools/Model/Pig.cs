@@ -139,6 +139,11 @@ namespace Org.OpenAPITools.Model
         {
             Pig newPig = null;
 
+            if (jsonString == null)
+            {
+                return newPig;
+            }
+
             string discriminatorValue = JObject.Parse(jsonString)["className"].ToString();
             switch (discriminatorValue)
             {
