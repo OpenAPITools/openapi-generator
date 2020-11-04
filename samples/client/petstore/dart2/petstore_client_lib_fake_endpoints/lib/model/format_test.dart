@@ -18,6 +18,7 @@ class FormatTest {
     @required this.number,
     this.float,
     this.double,
+    this.decimal,
     this.string,
     @required this.byte,
     this.binary,
@@ -41,6 +42,7 @@ class FormatTest {
         json['number'].toDouble();
       float = json['float'];
       double = json['double'];
+      decimal = Decimal.fromJson(json['decimal']);
       string = json['string'];
       byte = json['byte'];
       binary = File.fromJson(json['binary']);
@@ -74,6 +76,9 @@ class FormatTest {
 
   
   double double;
+
+  
+  Decimal decimal;
 
   
   String string;
@@ -110,6 +115,7 @@ class FormatTest {
      other.number == number &&
      other.float == float &&
      other.double == double &&
+     other.decimal == decimal &&
      other.string == string &&
      other.byte == byte &&
      other.binary == binary &&
@@ -128,6 +134,7 @@ class FormatTest {
     number.hashCode +
     float.hashCode +
     double.hashCode +
+    decimal.hashCode +
     string.hashCode +
     byte.hashCode +
     binary.hashCode +
@@ -139,7 +146,7 @@ class FormatTest {
     patternWithDigitsAndDelimiter.hashCode;
 
   @override
-  String toString() => 'FormatTest[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double=$double, string=$string, byte=$byte, binary=$binary, date=$date, dateTime=$dateTime, uuid=$uuid, password=$password, patternWithDigits=$patternWithDigits, patternWithDigitsAndDelimiter=$patternWithDigitsAndDelimiter]';
+  String toString() => 'FormatTest[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double=$double, decimal=$decimal, string=$string, byte=$byte, binary=$binary, date=$date, dateTime=$dateTime, uuid=$uuid, password=$password, patternWithDigits=$patternWithDigits, patternWithDigitsAndDelimiter=$patternWithDigitsAndDelimiter]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -160,6 +167,9 @@ class FormatTest {
     }
     if (double != null) {
       json['double'] = double;
+    }
+    if (decimal != null) {
+      json['decimal'] = decimal;
     }
     if (string != null) {
       json['string'] = string;

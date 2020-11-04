@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **number** | **num** |  | 
 **float** | **double** |  | [optional] 
 **double** | **double** |  | [optional] 
+**decimal** | [**Decimal**](Decimal.md) |  | [optional] 
 **string** | **String** |  | [optional] 
 **byte** | **String** |  | 
 **binary** | [**MultipartFile**](File.md) |  | [optional] 
