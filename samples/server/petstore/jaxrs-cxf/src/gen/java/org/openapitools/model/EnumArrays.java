@@ -1,5 +1,7 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.*;
@@ -35,10 +37,12 @@ public enum JustSymbolEnum {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return String.valueOf(value);
     }
 
+    @JsonCreator
     public static JustSymbolEnum fromValue(String value) {
         for (JustSymbolEnum b : JustSymbolEnum.values()) {
             if (b.value.equals(value)) {
@@ -70,10 +74,12 @@ public enum ArrayEnumEnum {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return String.valueOf(value);
     }
 
+    @JsonCreator
     public static ArrayEnumEnum fromValue(String value) {
         for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
             if (b.value.equals(value)) {
