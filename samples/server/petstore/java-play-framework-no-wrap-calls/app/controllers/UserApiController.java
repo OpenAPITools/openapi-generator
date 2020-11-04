@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
+import play.api.libs.Files.TemporaryFile;
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -24,7 +25,6 @@ import com.typesafe.config.Config;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class UserApiController extends Controller {
-
     private final UserApiControllerImpInterface imp;
     private final ObjectMapper mapper;
     private final Config configuration;
@@ -35,7 +35,6 @@ public class UserApiController extends Controller {
         mapper = new ObjectMapper();
         this.configuration = configuration;
     }
-
 
     
     public Result createUser(Http.Request request) throws Exception {
@@ -49,8 +48,7 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.createUser(request, body);
-        return ok();
+        return imp.createUserHttp(request, body);
     }
 
     
@@ -67,8 +65,7 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.createUsersWithArrayInput(request, body);
-        return ok();
+        return imp.createUsersWithArrayInputHttp(request, body);
     }
 
     
@@ -85,24 +82,17 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.createUsersWithListInput(request, body);
-        return ok();
+        return imp.createUsersWithListInputHttp(request, body);
     }
 
     
     public Result deleteUser(Http.Request request, String username) throws Exception {
-        imp.deleteUser(request, username);
-        return ok();
+        return imp.deleteUserHttp(request, username);
     }
 
     
     public Result getUserByName(Http.Request request, String username) throws Exception {
-        User obj = imp.getUserByName(request, username);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.getUserByNameHttp(request, username);
     }
 
     
@@ -121,15 +111,12 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'password' parameter is required");
         }
-        String obj = imp.loginUser(request, username, password);
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.loginUserHttp(request, username, password);
     }
 
     
     public Result logoutUser(Http.Request request) throws Exception {
-        imp.logoutUser(request);
-        return ok();
+        return imp.logoutUserHttp(request);
     }
 
     
@@ -144,7 +131,7 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.updateUser(request, username, body);
-        return ok();
+        return imp.updateUserHttp(request, username, body);
     }
+
 }
