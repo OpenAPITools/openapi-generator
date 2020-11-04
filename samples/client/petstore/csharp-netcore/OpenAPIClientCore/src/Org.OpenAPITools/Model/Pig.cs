@@ -138,6 +138,11 @@ namespace Org.OpenAPITools.Model
         public static Pig FromJson(string jsonString)
         {
             Pig newPig = null;
+
+            if (jsonString == null)
+            {
+                return newPig;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 

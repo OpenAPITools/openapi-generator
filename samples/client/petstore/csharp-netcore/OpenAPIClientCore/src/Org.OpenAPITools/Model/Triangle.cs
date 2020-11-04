@@ -164,6 +164,11 @@ namespace Org.OpenAPITools.Model
         public static Triangle FromJson(string jsonString)
         {
             Triangle newTriangle = null;
+
+            if (jsonString == null)
+            {
+                return newTriangle;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 

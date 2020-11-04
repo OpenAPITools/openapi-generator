@@ -148,6 +148,11 @@ namespace Org.OpenAPITools.Model
         {
             ShapeOrNull newShapeOrNull = null;
 
+            if (jsonString == null)
+            {
+                return newShapeOrNull;
+            }
+
             string discriminatorValue = JObject.Parse(jsonString)["shapeType"].ToString();
             switch (discriminatorValue)
             {

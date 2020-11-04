@@ -99,6 +99,11 @@
         public static {{classname}} FromJson(string jsonString)
         {
             {{classname}} new{{classname}} = null;
+
+            if (jsonString == null)
+            {
+                return new{{classname}};
+            }
             {{#useOneOfDiscriminatorLookup}}
             {{#discriminator}}
 

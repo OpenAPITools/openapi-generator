@@ -137,6 +137,11 @@ namespace Org.OpenAPITools.Model
         public static Fruit FromJson(string jsonString)
         {
             Fruit newFruit = null;
+
+            if (jsonString == null)
+            {
+                return newFruit;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 

@@ -147,6 +147,11 @@ namespace Org.OpenAPITools.Model
         public static NullableShape FromJson(string jsonString)
         {
             NullableShape newNullableShape = null;
+
+            if (jsonString == null)
+            {
+                return newNullableShape;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 

@@ -147,6 +147,11 @@ namespace Org.OpenAPITools.Model
         public static ShapeOrNull FromJson(string jsonString)
         {
             ShapeOrNull newShapeOrNull = null;
+
+            if (jsonString == null)
+            {
+                return newShapeOrNull;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
