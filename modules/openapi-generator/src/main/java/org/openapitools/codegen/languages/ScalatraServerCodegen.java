@@ -93,6 +93,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         typeMapping.put("file", "File");
         typeMapping.put("binary", "File");
         typeMapping.put("number", "Double");
+        typeMapping.put("decimal", "BigDecimal");
 
         additionalProperties.put("appName", "OpenAPI Sample");
         additionalProperties.put("appDescription", "A sample openapi server");

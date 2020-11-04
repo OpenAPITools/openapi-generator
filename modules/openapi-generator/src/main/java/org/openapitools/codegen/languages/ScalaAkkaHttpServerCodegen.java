@@ -119,6 +119,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         importMapping.remove("List");
         importMapping.remove("Set");
         importMapping.remove("Map");
+        importMapping.put("BigDecimal", "java.math.BigDecimal");
 
         typeMapping = new HashMap<>();
         typeMapping.put("array", "Seq");
@@ -137,6 +138,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         typeMapping.put("file", "File");
         typeMapping.put("binary", "File");
         typeMapping.put("number", "Double");
+        typeMapping.put("decimal", "BigDecimal");
 
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "Map");

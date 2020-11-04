@@ -116,6 +116,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("long", "Long");
         typeMapping.put("float", "Float");
         typeMapping.put("double", "Double");
+        typeMapping.put("number", "BigDecimal");
         typeMapping.put("decimal", "BigDecimal");
         typeMapping.put("date-time", "ZonedDateTime");
         typeMapping.put("date", "LocalDateTime");

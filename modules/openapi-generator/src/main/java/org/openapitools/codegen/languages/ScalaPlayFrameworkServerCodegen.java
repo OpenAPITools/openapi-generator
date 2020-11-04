@@ -97,10 +97,11 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         typeMapping.put("ByteArray", "Array[Byte]");
         typeMapping.put("object", "JsObject");
         typeMapping.put("file", "TemporaryFile");
+        typeMapping.put("number", "BigDecimal");
+        typeMapping.put("decimal", "BigDecimal");
 
         importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
         importMapping.put("LocalDate", "java.time.LocalDate");
-        importMapping.remove("BigDecimal");
         importMapping.put("TemporaryFile", "play.api.libs.Files.TemporaryFile");
 
         cliOptions.removeIf(opt -> DATE_LIBRARY.equals(opt.getOpt()));
