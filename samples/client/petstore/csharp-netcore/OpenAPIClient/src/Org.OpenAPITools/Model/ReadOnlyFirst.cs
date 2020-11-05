@@ -49,6 +49,15 @@ namespace Org.OpenAPITools.Model
         public string Bar { get; private set; }
 
         /// <summary>
+        /// Return false as Bar should not be serialized given that it's read only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeBar()
+        {
+            return false;
+        }
+
+        /// <summary>
         /// Gets or Sets Baz
         /// </summary>
         [DataMember(Name = "baz", EmitDefaultValue = false)]
