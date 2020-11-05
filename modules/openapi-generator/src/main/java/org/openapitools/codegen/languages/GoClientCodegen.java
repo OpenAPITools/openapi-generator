@@ -456,7 +456,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             for (CodegenParameter cp : operation.allParams) {
                 cp.vendorExtensions.put("x-go-example", constructExampleCode(cp, modelMaps, processedModelMaps));
                 if (cp.isDateTime || cp.isDate) { // datetime or date
-                        needTimeImport = true;
+                    needTimeImport = true;
                 }
             }
             if (needTimeImport) {
@@ -473,11 +473,16 @@ public class GoClientCodegen extends AbstractGoCodegen {
             String prefix = codegenParameter.dataType;
             String dataType = codegenParameter.dataType.substring(2);
             if (modelMaps.containsKey(dataType)) {
-                    prefix = "[]" + goImportAlias + "." + dataType;
+                prefix = "[]" + goImportAlias + "." + dataType;
             }
             return prefix + "{" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
         } else if (codegenParameter.isMap) {
-            return codegenParameter.dataType + "{ \"key\": " + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
+            String prefix = codegenParameter.dataType;
+            String dataType = codegenParameter.dataType.substring(12); // map[string][]
+            if (modelMaps.containsKey(dataType)) {
+                prefix = "map[string][]" + goImportAlias + "." + dataType;
+            }
+            return prefix + "{\"key\": " + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
         } else if (codegenParameter.isPrimitiveType) { // primitive type
             if (codegenParameter.isString) {
                 if (!StringUtils.isEmpty(codegenParameter.example) && codegenParameter.example != "null") {
@@ -520,11 +525,16 @@ public class GoClientCodegen extends AbstractGoCodegen {
             String prefix = codegenProperty.dataType;
             String dataType = codegenProperty.dataType.substring(2);
             if (modelMaps.containsKey(dataType)) {
-                    prefix = "[]" + goImportAlias + "." + dataType;
+                prefix = "[]" + goImportAlias + "." + dataType;
             }
             return prefix + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
         } else if (codegenProperty.isMap) { // map
-            return codegenProperty.dataType + "{ \"key\": " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
+            String prefix = codegenProperty.dataType;
+            String dataType = codegenProperty.dataType.substring(12); // map[string][]
+            if (modelMaps.containsKey(dataType)) {
+                prefix = "map[string][]" + goImportAlias + "." + dataType;
+            }
+            return prefix + "{\"key\": " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
         } else if (codegenProperty.isPrimitiveType) { // primitive type
             if (codegenProperty.isString) {
                 if (!StringUtils.isEmpty(codegenProperty.example) && codegenProperty.example != "null") {
@@ -576,9 +586,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 throw new RuntimeException("Invalid count when constructing example: " + count);
             }
         } else if (codegenModel.isEnum) {
-                Map<String, Object> allowableValues = codegenModel.allowableValues;
-                List<Object> values = (List<Object>) allowableValues.get("values");
-                return goImportAlias + "." + model + "(\"" + String.valueOf(values.get(0)) + "\")";
+            Map<String, Object> allowableValues = codegenModel.allowableValues;
+            List<Object> values = (List<Object>) allowableValues.get("values");
+            return goImportAlias + "." + model + "(\"" + String.valueOf(values.get(0)) + "\")";
         } else {
             processedModelMap.put(model, 1);
         }

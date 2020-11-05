@@ -805,7 +805,7 @@ import (
 )
 
 func main() {
-    param := map[string]string{ "key": "Inner_example"} // map[string]string | request body
+    param := map[string]string{"key": "Inner_example"} // map[string]string | request body
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
