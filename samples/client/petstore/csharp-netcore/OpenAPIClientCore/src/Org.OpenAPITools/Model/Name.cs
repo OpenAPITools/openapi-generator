@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         public int SnakeCase { get; private set; }
 
         /// <summary>
-        /// Return false as SnakeCase should not be serialized given that it's read only.
+        /// Returns false as SnakeCase should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
         public bool ShouldSerializeSnakeCase()
@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Model
         public int _123Number { get; private set; }
 
         /// <summary>
-        /// Return false as _123Number should not be serialized given that it's read only.
+        /// Returns false as _123Number should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
         public bool ShouldSerialize_123Number()

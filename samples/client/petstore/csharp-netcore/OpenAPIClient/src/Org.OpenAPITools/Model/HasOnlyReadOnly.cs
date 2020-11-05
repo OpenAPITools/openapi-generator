@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         public string Bar { get; private set; }
 
         /// <summary>
-        /// Return false as Bar should not be serialized given that it's read only.
+        /// Returns false as Bar should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
         public bool ShouldSerializeBar()
@@ -63,7 +63,7 @@ namespace Org.OpenAPITools.Model
         public string Foo { get; private set; }
 
         /// <summary>
-        /// Return false as Foo should not be serialized given that it's read only.
+        /// Returns false as Foo should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
         public bool ShouldSerializeFoo()
