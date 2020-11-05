@@ -510,7 +510,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         if (codegenProperty.isArray) { // array
-            return codegenProperty.dataType + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + ")";
+            return codegenProperty.dataType + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
         } else if (codegenProperty.isMap) { // map
             return codegenProperty.dataType + "{ \"key\": " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
         } else if (codegenProperty.isPrimitiveType) { // primitive type
