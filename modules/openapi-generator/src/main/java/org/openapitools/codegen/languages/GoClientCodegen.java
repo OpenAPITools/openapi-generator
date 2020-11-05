@@ -478,7 +478,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             return prefix + "{" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
         } else if (codegenParameter.isMap) {
             String prefix = codegenParameter.dataType;
-            String dataType = codegenParameter.dataType.substring(12); // map[string][]
+            String dataType = codegenParameter.dataType.substring(13); // map[string][]
             if (modelMaps.containsKey(dataType)) {
                 prefix = "map[string][]" + goImportAlias + "." + dataType;
             }
@@ -530,7 +530,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             return prefix + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
         } else if (codegenProperty.isMap) { // map
             String prefix = codegenProperty.dataType;
-            String dataType = codegenProperty.dataType.substring(12); // map[string][]
+            String dataType = codegenProperty.dataType.substring(13); // map[string][]
             if (modelMaps.containsKey(dataType)) {
                 prefix = "map[string][]" + goImportAlias + "." + dataType;
             }
