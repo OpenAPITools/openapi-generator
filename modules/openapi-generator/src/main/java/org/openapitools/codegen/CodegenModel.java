@@ -909,7 +909,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     /**
-     * Remove duplicated properties in all variable list and update "hasMore"
+     * Remove duplicated properties in all variable list
      */
     public void removeAllDuplicatedProperty() {
         // remove duplicated properties
@@ -920,15 +920,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         allVars = removeDuplicatedProperty(allVars);
         readOnlyVars = removeDuplicatedProperty(readOnlyVars);
         readWriteVars = removeDuplicatedProperty(readWriteVars);
-
-        // update property list's "hasMore"
-        updatePropertyListHasMore(vars);
-        updatePropertyListHasMore(optionalVars);
-        updatePropertyListHasMore(requiredVars);
-        updatePropertyListHasMore(parentVars);
-        updatePropertyListHasMore(allVars);
-        updatePropertyListHasMore(readOnlyVars);
-        updatePropertyListHasMore(readWriteVars);
     }
 
     private List<CodegenProperty> removeDuplicatedProperty(List<CodegenProperty> vars) {
@@ -954,21 +945,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         }
 
         return newList;
-    }
-
-    /**
-     * Clone the element and update "hasMore" in the list of codegen properties
-     */
-    private void updatePropertyListHasMore(List<CodegenProperty> vars) {
-        if (vars != null) {
-            for (int i = 0; i < vars.size(); i++) {
-                if (i < vars.size() - 1) {
-                    vars.get(i).hasMore = true;
-                } else { // last element
-                    vars.get(i).hasMore = false;
-                }
-            }
-        }
     }
 
     /**

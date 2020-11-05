@@ -37,7 +37,7 @@ public:
  * \param userData The user data to be passed to the callback function.
  */
 bool {{nickname}}Sync(char * accessToken,
-	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
+	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
 	{{#returnType}}void(* handler)({{#returnContainer}}{{#isArray}}{{returnType}}<{{returnBaseType}}>{{/isArray}}{{#isMap}}{{returnType}}<std::string,std::string>{{/isMap}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* ){{/returnType}}
 	{{^returnType}}void(* handler)(Error, void* ) {{/returnType}}, void* userData);
 
@@ -50,7 +50,7 @@ bool {{nickname}}Sync(char * accessToken,
  * \param userData The user data to be passed to the callback function.
  */
 bool {{nickname}}Async(char * accessToken,
-	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
+	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
 	{{#returnType}}void(* handler)({{#returnContainer}}{{#isArray}}{{returnType}}<{{returnBaseType}}>{{/isArray}}{{#isMap}}{{returnType}}<std::string,std::string>{{/isMap}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* ){{/returnType}}
 	{{^returnType}}void(* handler)(Error, void* ) {{/returnType}}, void* userData);
 

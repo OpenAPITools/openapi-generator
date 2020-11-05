@@ -164,9 +164,7 @@ public class DefaultCodegenTest {
         Assert.assertTrue(coIssue443.hasProduces);
         Assert.assertEquals(coIssue443.produces.size(), 2);
         Assert.assertEquals(coIssue443.produces.get(0).get("mediaType"), "application/json");
-        Assert.assertEquals(coIssue443.produces.get(0).get("hasMore"), "true");
         Assert.assertEquals(coIssue443.produces.get(1).get("mediaType"), "application/text");
-        Assert.assertEquals(coIssue443.produces.get(1).get("hasMore"), null);
     }
 
     @Test
@@ -1432,23 +1430,19 @@ public class DefaultCodegenTest {
 
         CodegenCallback cbB = op.callbacks.get(1);
         Assert.assertEquals(cbB.name, "dummy");
-        Assert.assertFalse(cbB.hasMore);
         Assert.assertEquals(cbB.urls.size(), 0);
 
         CodegenCallback cbA = op.callbacks.get(0);
         Assert.assertEquals(cbA.name, "onData");
-        Assert.assertTrue(cbA.hasMore);
 
         Assert.assertEquals(cbA.urls.size(), 2);
 
         CodegenCallback.Url urlB = cbA.urls.get(1);
         Assert.assertEquals(urlB.expression, "{$request.query.callbackUrl}/test");
-        Assert.assertFalse(urlB.hasMore);
         Assert.assertEquals(urlB.requests.size(), 0);
 
         CodegenCallback.Url urlA = cbA.urls.get(0);
         Assert.assertEquals(urlA.expression, "{$request.query.callbackUrl}/data");
-        Assert.assertTrue(urlA.hasMore);
         Assert.assertEquals(urlA.requests.size(), 2);
 
         urlA.requests.forEach(req -> {

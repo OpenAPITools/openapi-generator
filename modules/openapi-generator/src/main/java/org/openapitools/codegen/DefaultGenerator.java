@@ -627,12 +627,6 @@ public class DefaultGenerator implements Generator {
                 */
 
                 allOperations.add(new HashMap<>(operation));
-                for (int i = 0; i < allOperations.size(); i++) {
-                    Map<String, Object> oo = (Map<String, Object>) allOperations.get(i);
-                    if (i < (allOperations.size() - 1)) {
-                        oo.put("hasMore", "true");
-                    }
-                }
 
                 for (String templateName : config.apiTemplateFiles().keySet()) {
                     String filename = config.apiFilename(templateName, tag);
@@ -1193,14 +1187,6 @@ public class DefaultGenerator implements Generator {
         }
 
         config.postProcessOperationsWithModels(operations, allModels);
-        if (objs.size() > 0) {
-            List<CodegenOperation> os = (List<CodegenOperation>) objs.get("operation");
-
-            if (os != null && os.size() > 0) {
-                CodegenOperation op = os.get(os.size() - 1);
-                op.hasMore = false;
-            }
-        }
         return operations;
     }
 
@@ -1390,7 +1376,6 @@ public class DefaultGenerator implements Generator {
                         // We have to create a new auth method instance because the original object must
                         // not be modified.
                         CodegenSecurity opSecurity = security.filterByScopeNames(opScopes);
-                        opSecurity.hasMore = security.hasMore;
                         result.add(opSecurity);
                         filtered = true;
                         break;

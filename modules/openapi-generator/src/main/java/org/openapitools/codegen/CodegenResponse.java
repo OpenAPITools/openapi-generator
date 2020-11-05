@@ -28,7 +28,6 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean is4xx;
     public boolean is5xx;
     public String message;
-    public boolean hasMore;
     public List<Map<String, Object>> examples;
     public String dataType;
     public String baseType;
@@ -81,7 +80,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
 
     @Override
     public int hashCode() {
-        return Objects.hash(headers, code, message, hasMore, examples, dataType, baseType, containerType, hasHeaders,
+        return Objects.hash(headers, code, message, examples, dataType, baseType, containerType, hasHeaders,
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
                 isMap, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
@@ -95,8 +94,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         if (this == o) return true;
         if (!(o instanceof CodegenResponse)) return false;
         CodegenResponse that = (CodegenResponse) o;
-        return hasMore == that.hasMore &&
-                hasHeaders == that.hasHeaders &&
+        return hasHeaders == that.hasHeaders &&
                 isString == that.isString &&
                 isNumeric == that.isNumeric &&
                 isInteger == that.isInteger &&
@@ -365,7 +363,6 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append("headers=").append(headers);
         sb.append(", code='").append(code).append('\'');
         sb.append(", message='").append(message).append('\'');
-        sb.append(", hasMore=").append(hasMore);
         sb.append(", examples=").append(examples);
         sb.append(", dataType='").append(dataType).append('\'');
         sb.append(", baseType='").append(baseType).append('\'');

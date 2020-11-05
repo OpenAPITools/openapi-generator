@@ -295,7 +295,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
 
         LinkedList<TextOrMatcher> pathMatchers = new LinkedList<>();
         for (String path : allPaths) {
-            TextOrMatcher textOrMatcher = new TextOrMatcher("", true, true);
+            TextOrMatcher textOrMatcher = new TextOrMatcher("", true);
             if (path.startsWith("{") && path.endsWith("}")) {
                 String parameterName = path.substring(1, path.length() - 1);
                 for (CodegenParameter pathParam : codegenOperation.pathParams) {
@@ -322,8 +322,6 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                 pathMatchers.add(textOrMatcher);
             }
         }
-        pathMatchers.getLast().hasMore = false;
-
         codegenOperation.vendorExtensions.put("x-paths", pathMatchers);
     }
 
@@ -395,13 +393,6 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                         }
                     }
                 }
-                for (int i = 0, size = fileParams.size(); i < size; ++i) {
-                    fileParams.get(i).hasMore = i < size - 1;
-                }
-                for (int i = 0, size = nonFileParams.size(); i < size; ++i) {
-                    nonFileParams.get(i).hasMore = i < size - 1;
-                }
-
                 HashSet<Marshaller> operationSpecificMarshallers = new HashSet<>();
                 for (CodegenResponse response : op.responses) {
                     if (!response.primitiveType) {
@@ -482,12 +473,10 @@ class PathMatcherPattern {
 class TextOrMatcher {
     String value;
     boolean isText;
-    boolean hasMore;
 
-    public TextOrMatcher(String value, boolean isText, boolean hasMore) {
+    public TextOrMatcher(String value, boolean isText) {
         this.value = value;
         this.isText = isText;
-        this.hasMore = hasMore;
     }
 
     @Override
@@ -496,12 +485,11 @@ class TextOrMatcher {
         if (o == null || getClass() != o.getClass()) return false;
         TextOrMatcher that = (TextOrMatcher) o;
         return isText == that.isText &&
-                hasMore == that.hasMore &&
                 value.equals(that.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value, isText, hasMore);
+        return Objects.hash(value, isText);
     }
 }

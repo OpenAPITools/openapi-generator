@@ -40,13 +40,13 @@ class {{classname}}(object):
     """
     openapi_types = {
 {{#vars}}
-        '{{name}}': '{{{dataType}}}'{{#hasMore}},{{/hasMore}}
+        '{{name}}': '{{{dataType}}}'{{^-last}},{{/-last}}
 {{/vars}}
     }
 
     attribute_map = {
 {{#vars}}
-        '{{name}}': '{{baseName}}'{{#hasMore}},{{/hasMore}}
+        '{{name}}': '{{baseName}}'{{^-last}},{{/-last}}
 {{/vars}}
     }
 {{#discriminator}}

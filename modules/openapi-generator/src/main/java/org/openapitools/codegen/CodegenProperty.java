@@ -103,10 +103,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
      * The value of "exclusiveMaximum" MUST be number, representing an exclusive upper limit for a numeric instance.
      */
     public boolean exclusiveMaximum;
-    public boolean hasMore;
     public boolean required;
     public boolean deprecated;
-    public boolean secondaryParam;
     public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
     public boolean isPrimitiveType;
     public boolean isModel;
@@ -431,14 +429,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.required = required;
     }
 
-    public boolean getSecondaryParam() {
-        return secondaryParam;
-    }
-
-    public void setSecondaryParam(boolean secondaryParam) {
-        this.secondaryParam = secondaryParam;
-    }
-
     public List<String> get_enum() {
         return _enum;
     }
@@ -716,10 +706,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", maximum='").append(maximum).append('\'');
         sb.append(", exclusiveMinimum=").append(exclusiveMinimum);
         sb.append(", exclusiveMaximum=").append(exclusiveMaximum);
-        sb.append(", hasMore=").append(hasMore);
         sb.append(", required=").append(required);
         sb.append(", deprecated=").append(deprecated);
-        sb.append(", secondaryParam=").append(secondaryParam);
         sb.append(", hasMoreNonReadOnly=").append(hasMoreNonReadOnly);
         sb.append(", isPrimitiveType=").append(isPrimitiveType);
         sb.append(", isModel=").append(isModel);
@@ -787,10 +775,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         CodegenProperty that = (CodegenProperty) o;
         return exclusiveMinimum == that.exclusiveMinimum &&
                 exclusiveMaximum == that.exclusiveMaximum &&
-                hasMore == that.hasMore &&
                 required == that.required &&
                 deprecated == that.deprecated &&
-                secondaryParam == that.secondaryParam &&
                 hasMoreNonReadOnly == that.hasMoreNonReadOnly &&
                 isPrimitiveType == that.isPrimitiveType &&
                 isModel == that.isModel &&
@@ -878,7 +864,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 dataType, datatypeWithEnum, dataFormat, name, min, max, defaultValue,
                 defaultValueWithParam, baseType, containerType, title, unescapedDescription,
                 maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
-                exclusiveMinimum, exclusiveMaximum, hasMore, required, deprecated, secondaryParam,
+                exclusiveMinimum, exclusiveMaximum, required, deprecated,
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,

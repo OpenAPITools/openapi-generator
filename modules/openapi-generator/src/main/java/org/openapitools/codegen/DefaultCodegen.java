@@ -3728,7 +3728,6 @@ public class DefaultCodegen implements CodegenConfig {
                 ApiResponse response = operation.getResponses().get(key);
                 addProducesInfo(response, op);
                 CodegenResponse r = fromResponse(key, response);
-                r.hasMore = true;
                 if (r.baseType != null &&
                         !defaultIncludes.contains(r.baseType) &&
                         !languageSpecificPrimitives.contains(r.baseType)) {
@@ -3752,7 +3751,6 @@ public class DefaultCodegen implements CodegenConfig {
                 int bDefault = "0".equals(b.code) ? 1 : 0;
                 return aDefault - bDefault;
             });
-            op.responses.get(op.responses.size() - 1).hasMore = false;
 
             if (methodResponse != null) {
                 handleMethodResponse(operation, schemas, op, methodResponse, importMapping);
@@ -3762,10 +3760,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (operation.getCallbacks() != null && !operation.getCallbacks().isEmpty()) {
             operation.getCallbacks().forEach((name, callback) -> {
                 CodegenCallback c = fromCallback(name, callback, servers);
-                c.hasMore = true;
                 op.callbacks.add(c);
             });
-            op.callbacks.get(op.callbacks.size() - 1).hasMore = false;
         }
 
         List<Parameter> parameters = operation.getParameters();
@@ -3903,15 +3899,15 @@ public class DefaultCodegen implements CodegenConfig {
             });
         }
 
-        op.allParams = addHasMore(allParams);
-        op.bodyParams = addHasMore(bodyParams);
-        op.pathParams = addHasMore(pathParams);
-        op.queryParams = addHasMore(queryParams);
-        op.headerParams = addHasMore(headerParams);
-        op.cookieParams = addHasMore(cookieParams);
-        op.formParams = addHasMore(formParams);
-        op.requiredParams = addHasMore(requiredParams);
-        op.optionalParams = addHasMore(optionalParams);
+        op.allParams = allParams;
+        op.bodyParams = bodyParams;
+        op.pathParams = pathParams;
+        op.queryParams = queryParams;
+        op.headerParams = headerParams;
+        op.cookieParams = cookieParams;
+        op.formParams = formParams;
+        op.requiredParams = requiredParams;
+        op.optionalParams = optionalParams;
         op.externalDocs = operation.getExternalDocs();
         // legacy support
         op.nickname = op.operationId;
@@ -4135,7 +4131,6 @@ public class DefaultCodegen implements CodegenConfig {
         callback.forEach((expression, pi) -> {
             CodegenCallback.Url u = new CodegenCallback.Url();
             u.expression = expression;
-            u.hasMore = true;
 
             if (pi.getExtensions() != null && !pi.getExtensions().isEmpty()) {
                 u.vendorExtensions.putAll(pi.getExtensions());
@@ -4175,15 +4170,8 @@ public class DefaultCodegen implements CodegenConfig {
                         u.requests.add(co);
                     });
 
-            if (!u.requests.isEmpty()) {
-                u.requests.get(u.requests.size() - 1).hasMore = false;
-            }
             c.urls.add(u);
         });
-
-        if (!c.urls.isEmpty()) {
-            c.urls.get(c.urls.size() - 1).hasMore = false;
-        }
 
         return c;
     }
@@ -4546,12 +4534,6 @@ public class DefaultCodegen implements CodegenConfig {
                 return ObjectUtils.compare(one.name, another.name);
             }
         });
-        // set 'hasMore'
-        Iterator<CodegenSecurity> it = codegenSecurities.iterator();
-        while (it.hasNext()) {
-            final CodegenSecurity security = it.next();
-            security.hasMore = it.hasNext();
-        }
 
         return codegenSecurities;
     }
@@ -4682,20 +4664,6 @@ public class DefaultCodegen implements CodegenConfig {
                 properties.add(cp);
             }
         }
-    }
-
-    private static List<CodegenParameter> addHasMore(List<CodegenParameter> objs) {
-        if (objs != null) {
-            for (int i = 0; i < objs.size(); i++) {
-                if (i > 0) {
-                    objs.get(i).secondaryParam = true;
-                }
-                if (i < objs.size() - 1) {
-                    objs.get(i).hasMore = true;
-                }
-            }
-        }
-        return objs;
     }
 
     /**
@@ -5614,14 +5582,6 @@ public class DefaultCodegen implements CodegenConfig {
                 Map<String, Object> scope = new HashMap<>();
                 scope.put("scope", scopeEntry.getKey());
                 scope.put("description", escapeText(scopeEntry.getValue()));
-
-                count += 1;
-                if (count < numScopes) {
-                    scope.put("hasMore", "true");
-                } else {
-                    scope.put("hasMore", null);
-                }
-
                 scopes.add(scope);
             }
             codegenSecurity.scopes = scopes;
@@ -5645,14 +5605,6 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 mediaType.put("mediaType", escapeText(escapeQuotationMark(key)));
             }
-
-            count += 1;
-            if (count < consumes.size()) {
-                mediaType.put("hasMore", "true");
-            } else {
-                mediaType.put("hasMore", null);
-            }
-
             mediaTypeList.add(mediaType);
         }
 
@@ -5723,19 +5675,6 @@ public class DefaultCodegen implements CodegenConfig {
             if (!existingMediaTypes.contains(encodedKey)) {
                 Map<String, String> mediaType = new HashMap<String, String>();
                 mediaType.put("mediaType", encodedKey);
-
-                count += 1;
-                if (count < produces.size()) {
-                    mediaType.put("hasMore", "true");
-                } else {
-                    mediaType.put("hasMore", null);
-                }
-
-                if (!codegenOperation.produces.isEmpty()) {
-                    final Map<String, String> lastMediaType = codegenOperation.produces.get(codegenOperation.produces.size() - 1);
-                    lastMediaType.put("hasMore", "true");
-                }
-
                 codegenOperation.produces.add(mediaType);
                 codegenOperation.hasProduces = Boolean.TRUE;
             }

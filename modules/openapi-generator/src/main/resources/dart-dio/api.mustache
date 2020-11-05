@@ -38,7 +38,7 @@ class {{classname}} {
         queryParams.removeWhere((key, value) => value == null);
         headerParams.removeWhere((key, value) => value == null);
 
-        List<String> contentTypes = [{{#consumes}}"{{{mediaType}}}"{{#hasMore}},{{/hasMore}}{{/consumes}}];
+        List<String> contentTypes = [{{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}}];
 
         {{#hasFormParams}}
         Map<String, dynamic> formData = {};
@@ -85,7 +85,7 @@ class {{classname}} {
             {{/isResponseFile}}
             headers: headerParams,
             extra: {
-                'secure': [{{#authMethods}} {"type": "{{type}}", "name": "{{name}}"{{#isApiKey}}, "keyName": "{{keyParamName}}", "where": "{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}"{{/isApiKey}} }{{#hasMore}}, {{/hasMore}}{{/authMethods}}],
+                'secure': [{{#authMethods}} {"type": "{{type}}", "name": "{{name}}"{{#isApiKey}}, "keyName": "{{keyParamName}}", "where": "{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}"{{/isApiKey}} }{{^-last}}, {{/-last}}{{/authMethods}}],
             },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
