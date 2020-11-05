@@ -470,7 +470,12 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
     private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         if (codegenParameter.isArray) { // array
-            return codegenParameter.dataType + "{" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
+            String prefix = codegenParameter.dataType;
+            String dataType = codegenParameter.dataType.substring(2);
+            if (modelMaps.containsKey(dataType)) {
+                    prefix = "[]" + goImportAlias + "." + dataType;
+            }
+            return prefix + "{" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
         } else if (codegenParameter.isMap) {
             return codegenParameter.dataType + "{ \"key\": " + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
         } else if (codegenParameter.isPrimitiveType) { // primitive type
@@ -510,7 +515,12 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         if (codegenProperty.isArray) { // array
-            return codegenProperty.dataType + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
+            String prefix = codegenProperty.dataType;
+            String dataType = codegenProperty.dataType.substring(2);
+            if (modelMaps.containsKey(dataType)) {
+                    prefix = "[]" + goImportAlias + "." + dataType;
+            }
+            return prefix + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
         } else if (codegenProperty.isMap) { // map
             return codegenProperty.dataType + "{ \"key\": " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
         } else if (codegenProperty.isPrimitiveType) { // primitive type
@@ -575,6 +585,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
         for (CodegenProperty codegenProperty : codegenModel.requiredVars) {
             propertyExamples.add(constructExampleCode(codegenProperty, modelMaps, processedModelMap));
         }
-        return "*" + goImportAlias + ".New" + codegenModel.name + "(" + StringUtils.join(propertyExamples, ", ") + ")";
+        return "*" + goImportAlias + ".New" + model + "(" + StringUtils.join(propertyExamples, ", ") + ")";
     }
 }
