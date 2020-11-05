@@ -448,9 +448,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
             for (CodegenParameter p : op.allParams) {
                 p.vendorExtensions.put("x-go-example", constructExampleCode(p, modelMaps, processedModelMaps));
             }
+            processedModelMaps.clear();
         }
 
-        processedModelMaps.clear();
         for (CodegenOperation operation : operationList) {
             boolean needTimeImport = false;
             for (CodegenParameter cp : operation.allParams) {
@@ -462,6 +462,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             if (needTimeImport) {
                 operation.vendorExtensions.put("x-go-import", "    \"time\"");
             }
+            processedModelMaps.clear();
         }
 
         return objs;
