@@ -574,7 +574,7 @@ func main() {
     int64_ := int64(789) // int64 | None (optional)
     float := float32(3.4) // float32 | None (optional)
     string_ := "string__example" // string | None (optional)
-    binary := *os.File(BINARY_DATA_HERE) // *os.File | None (optional)
+    binary := os.NewFile(1234, "some_file") // *os.File | None (optional)
     date := time.Now() // string | None (optional)
     dateTime := time.Now() // time.Time | None (optional)
     password := "password_example" // string | None (optional)
