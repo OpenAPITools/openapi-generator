@@ -495,6 +495,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 return "\"https://example.com\"";
             } else if (codegenParameter.isDateTime || codegenParameter.isDate) { // datetime or date
                 return "time.Now()";
+            } else if (codegenParameter.isFile) {
+                return "os.NewFile(1234, \"some_file\")";
             } else { // numeric
                 if (!StringUtils.isEmpty(codegenParameter.example) && codegenParameter.example != "null") {
                     return codegenParameter.dataType + "(" + codegenParameter.example + ")";
@@ -576,7 +578,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         } else if (codegenModel.isEnum) {
                 Map<String, Object> allowableValues = codegenModel.allowableValues;
                 List<Object> values = (List<Object>) allowableValues.get("values");
-                return "\"" + String.valueOf(values.get(0)) + "\"";
+                return goImportAlias + "." + model + "(\"" + String.valueOf(values.get(0)) + "\")";
         } else {
             processedModelMap.put(model, 1);
         }

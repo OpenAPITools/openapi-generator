@@ -501,7 +501,7 @@ import (
 func main() {
     petId := int64(789) // int64 | ID of pet to update
     additionalMetadata := "additionalMetadata_example" // string | Additional data to pass to server (optional)
-    file := *os.File(BINARY_DATA_HERE) // *os.File | file to upload (optional)
+    file := os.NewFile(1234, "some_file") // *os.File | file to upload (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -572,7 +572,7 @@ import (
 
 func main() {
     petId := int64(789) // int64 | ID of pet to update
-    requiredFile := *os.File(BINARY_DATA_HERE) // *os.File | file to upload
+    requiredFile := os.NewFile(1234, "some_file") // *os.File | file to upload
     additionalMetadata := "additionalMetadata_example" // string | Additional data to pass to server (optional)
 
     configuration := openapiclient.NewConfiguration()
