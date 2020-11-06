@@ -609,6 +609,12 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
             if (this.additionalProperties != null) {
                 cp.additionalProperties = this.additionalProperties;
             }
+            if (this.vars != null) {
+                cp.vars = this.vars;
+            }
+            if (this.requiredVars != null) {
+                cp.requiredVars = this.requiredVars;
+            }
             if (this.mostInnerItems != null) {
                 cp.mostInnerItems = this.mostInnerItems;
             }
