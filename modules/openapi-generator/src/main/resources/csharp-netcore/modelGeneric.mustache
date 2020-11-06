@@ -35,6 +35,17 @@
         {{/description}}
         [DataMember(Name = "{{baseName}}"{{#required}}, IsRequired = true{{/required}}, EmitDefaultValue = {{#vendorExtensions.x-emit-default-value}}true{{/vendorExtensions.x-emit-default-value}}{{^vendorExtensions.x-emit-default-value}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/vendorExtensions.x-emit-default-value}})]
         public {{#complexType}}{{{complexType}}}{{/complexType}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} {{name}} { get; set; }
+        {{#isReadOnly}}
+
+        /// <summary>
+        /// Returns false as {{name}} should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerialize{{name}}()
+        {
+            return false;
+        }
+        {{/isReadOnly}}
         {{/isEnum}}
         {{/vars}}
     {{#hasRequired}}
@@ -118,6 +129,17 @@
         {{/isDate}}
         public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
 
+        {{#isReadOnly}}
+        /// <summary>
+        /// Returns false as {{name}} should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerialize{{name}}()
+        {
+            return false;
+        }
+
+        {{/isReadOnly}}
         {{/isEnum}}
         {{/isInherited}}
         {{/vars}}
