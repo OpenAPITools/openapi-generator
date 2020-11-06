@@ -4121,22 +4121,7 @@ public class DefaultCodegen implements CodegenConfig {
             r.primitiveType = (r.baseType == null || languageSpecificPrimitives().contains(r.baseType));
 
             // process 'additionalProperties'
-            if ("object".equals(responseSchema.getType())) {
-                if (responseSchema.getAdditionalProperties() == null) {
-                    if (!disallowAdditionalPropertiesIfNotPresent) {
-                        CodegenProperty addPropProp = fromProperty("",  new Schema());
-                        r.setAdditionalProperties(addPropProp);
-                    }
-                } else if (responseSchema.getAdditionalProperties() instanceof Boolean) {
-                    if (Boolean.TRUE.equals(responseSchema.getAdditionalProperties())) {
-                        CodegenProperty addPropProp = fromProperty("", new Schema());
-                        r.setAdditionalProperties(addPropProp);
-                    }
-                } else {
-                    CodegenProperty addPropProp = fromProperty("", (Schema) responseSchema.getAdditionalProperties());
-                    r.setAdditionalProperties(addPropProp);
-                }
-            }
+            addVarsRequiredVarsAdditionaProps(responseSchema, r);
         }
 
         if (r.baseType == null) {
@@ -6262,6 +6247,7 @@ public class DefaultCodegen implements CodegenConfig {
             setParameterNullable(codegenParameter, codegenProperty);
         }
 
+        addVarsRequiredVarsAdditionaProps(schema, codegenParameter);
         addJsonSchemaForBodyRequestInCaseItsNotPresent(codegenParameter, body);
 
         // set the parameter's example value
@@ -6269,6 +6255,35 @@ public class DefaultCodegen implements CodegenConfig {
         setParameterExampleValue(codegenParameter, body);
 
         return codegenParameter;
+    }
+
+    private void addVarsRequiredVarsAdditionaProps(Schema schema, IJsonSchemaValidationProperties property){
+        if (!"object".equals(schema.getType())) {
+            return;
+        }
+        if (schema instanceof ObjectSchema) {
+            ObjectSchema objSchema = (ObjectSchema) schema;
+            HashSet<String> requiredVars = new HashSet<>();
+            if (objSchema.getRequired() != null) {
+                requiredVars.addAll(objSchema.getRequired());
+            }
+            addVars(property, property.getVars(), objSchema.getProperties(), requiredVars);
+        }
+        if (schema.getAdditionalProperties() == null) {
+            if (!disallowAdditionalPropertiesIfNotPresent) {
+                CodegenProperty cp = fromProperty("",  new Schema());
+                property.setAdditionalProperties(cp);
+            }
+        } else if (schema.getAdditionalProperties() instanceof Boolean) {
+            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
+                CodegenProperty cp = fromProperty("", new Schema());
+                property.setAdditionalProperties(cp);
+            }
+        } else {
+            CodegenProperty cp = fromProperty("", (Schema) schema.getAdditionalProperties());
+            property.setAdditionalProperties(cp);
+        }
+        return;
     }
 
     private void addJsonSchemaForBodyRequestInCaseItsNotPresent(CodegenParameter codegenParameter, RequestBody body) {

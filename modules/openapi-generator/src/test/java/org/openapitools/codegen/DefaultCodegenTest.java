@@ -2620,9 +2620,14 @@ public class DefaultCodegenTest {
         path = "/object_with_optional_and_required_props/{objectData}";
         operation = openAPI.getPaths().get(path).getPost();
         co = codegen.fromOperation(path, "POST", operation, null);
-        // TODO fix hasMore for pathParams vars
-        // assertEquals(co.pathParams.get(0).vars, vars);
-        // assertEquals(co.bodyParams.get(0).vars, vars);
-        // assertEquals(co.responses.get(0).vars, vars);
+        assertEquals(co.pathParams.get(0).vars.size(), vars.size());
+        assertEquals(co.bodyParams.get(0).vars.size(), vars.size());
+        assertEquals(co.responses.get(0).isModel, true);
+        assertEquals(co.responses.get(0).baseType, "objectData");
+        modelName = "objectData";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.vars, vars);
+        assertEquals(cm.requiredVars, requiredVars);
     }
 }
