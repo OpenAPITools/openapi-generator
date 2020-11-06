@@ -86,4 +86,8 @@ public interface IJsonSchemaValidationProperties {
     List<CodegenProperty> getVars();
 
     void setVars(List<CodegenProperty> vars);
+
+    List<CodegenProperty> getRequiredVars();
+
+    void setRequiredVars(List<CodegenProperty> requiredVars);
 }

@@ -2620,8 +2620,11 @@ public class DefaultCodegenTest {
         path = "/object_with_optional_and_required_props/{objectData}";
         operation = openAPI.getPaths().get(path).getPost();
         co = codegen.fromOperation(path, "POST", operation, null);
+        // keep size() checks until https://github.com/OpenAPITools/openapi-generator/pull/7882 lands
         assertEquals(co.pathParams.get(0).vars.size(), vars.size());
+        assertEquals(co.pathParams.get(0).requiredVars.size(), requiredVars.size());
         assertEquals(co.bodyParams.get(0).vars.size(), vars.size());
+        assertEquals(co.bodyParams.get(0).requiredVars.size(), requiredVars.size());
 
         // CodegenOperation puts the inline schema into schemas and refs it
         assertEquals(co.responses.get(0).isModel, true);

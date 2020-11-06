@@ -77,6 +77,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public CodegenProperty items;
     public CodegenProperty additionalProperties;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
+    public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>();
 
     @Override
     public int hashCode() {
@@ -84,7 +85,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
                 isMap, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
-                vars,
+                vars, requiredVars,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern());
     }
@@ -123,6 +124,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 items == that.items &&
                 additionalProperties == that.additionalProperties &&
                 Objects.equals(vars, that.vars) &&
+                Objects.equals(requiredVars, that.requiredVars) &&
                 Objects.equals(headers, that.headers) &&
                 Objects.equals(code, that.code) &&
                 Objects.equals(message, that.message) &&
@@ -348,6 +350,16 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public List<CodegenProperty> getRequiredVars() {
+        return requiredVars;
+    }
+
+    @Override
+    public void setRequiredVars(List<CodegenProperty> requiredVars) {
+        this.requiredVars = requiredVars;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenResponse{");
         sb.append("headers=").append(headers);
@@ -402,6 +414,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", items='").append(items).append('\'');
         sb.append(", additionalProperties='").append(additionalProperties).append('\'');
         sb.append(", vars='").append(vars).append('\'');
+        sb.append(", requiredVars='").append(requiredVars).append('\'');
         sb.append('}');
         return sb.toString();
     }
