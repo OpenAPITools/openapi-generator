@@ -3374,24 +3374,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.isModel = (ModelUtils.isComposedSchema(refOrCurrent) || ModelUtils.isObjectSchema(refOrCurrent)) && ModelUtils.isModel(refOrCurrent);
         }
 
-        // process 'additionalProperties'
-        if ("object".equals(p.getType())) {
-            if (p.getAdditionalProperties() == null) {
-                if (!disallowAdditionalPropertiesIfNotPresent) {
-                    CodegenProperty cp = fromProperty("",  new Schema());
-                    property.setAdditionalProperties(cp);
-                }
-            } else if (p.getAdditionalProperties() instanceof Boolean) {
-                if (Boolean.TRUE.equals(p.getAdditionalProperties())) {
-                    CodegenProperty cp = fromProperty("", new Schema());
-                    property.setAdditionalProperties(cp);
-                }
-            } else {
-                CodegenProperty cp = fromProperty("", (Schema) p.getAdditionalProperties());
-                property.setAdditionalProperties(cp);
-            }
-        }
-
+        addVarsRequiredVarsAdditionaProps(p, property);
         LOGGER.debug("debugging from property return: " + property);
         schemaCodegenPropertyCache.put(ns, property);
         return property;
@@ -4120,23 +4103,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             r.primitiveType = (r.baseType == null || languageSpecificPrimitives().contains(r.baseType));
 
-            // process 'additionalProperties'
-            if ("object".equals(responseSchema.getType())) {
-                if (responseSchema.getAdditionalProperties() == null) {
-                    if (!disallowAdditionalPropertiesIfNotPresent) {
-                        CodegenProperty addPropProp = fromProperty("",  new Schema());
-                        r.setAdditionalProperties(addPropProp);
-                    }
-                } else if (responseSchema.getAdditionalProperties() instanceof Boolean) {
-                    if (Boolean.TRUE.equals(responseSchema.getAdditionalProperties())) {
-                        CodegenProperty addPropProp = fromProperty("", new Schema());
-                        r.setAdditionalProperties(addPropProp);
-                    }
-                } else {
-                    CodegenProperty addPropProp = fromProperty("", (Schema) responseSchema.getAdditionalProperties());
-                    r.setAdditionalProperties(addPropProp);
-                }
-            }
+            addVarsRequiredVarsAdditionaProps(responseSchema, r);
         }
 
         if (r.baseType == null) {
@@ -4425,24 +4392,7 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.pattern != null || codegenParameter.multipleOf != null) {
                 codegenParameter.hasValidation = true;
             }
-
-            // process 'additionalProperties'
-            if ("object".equals(parameterSchema.getType())) {
-                if (parameterSchema.getAdditionalProperties() == null) {
-                    if (!disallowAdditionalPropertiesIfNotPresent) {
-                        CodegenProperty cp = fromProperty("",  new Schema());
-                        codegenParameter.setAdditionalProperties(cp);
-                    }
-                } else if (parameterSchema.getAdditionalProperties() instanceof Boolean) {
-                    if (Boolean.TRUE.equals(parameterSchema.getAdditionalProperties())) {
-                        CodegenProperty cp = fromProperty("", new Schema());
-                        codegenParameter.setAdditionalProperties(cp);
-                    }
-                } else {
-                    CodegenProperty cp = fromProperty("", (Schema) parameterSchema.getAdditionalProperties());
-                    codegenParameter.setAdditionalProperties(cp);
-                }
-            }
+            addVarsRequiredVarsAdditionaProps(parameterSchema, codegenParameter);
 
         } else {
             LOGGER.error("ERROR! Not handling  " + parameter + " as Body Parameter at the moment");
@@ -4912,12 +4862,19 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Add variables (properties) to codegen model (list of properties, various flags, etc)
      *
-     * @param m          Codegen model
+     * @param m          Must be an instance of IJsonSchemaValidationProperties, may be model or property...
      * @param vars       list of codegen properties (e.g. vars, allVars) to be updated with the new properties
      * @param properties a map of properties (schema)
      * @param mandatory  a set of required properties' name
      */
-    private void addVars(CodegenModel m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory) {
+    private void addVars(IJsonSchemaValidationProperties m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory) {
+        if (properties == null) {
+            return;
+        }
+        CodegenModel cm = null;
+        if (m instanceof CodegenModel) {
+            cm = (CodegenModel) m;
+        }
         for (Map.Entry<String, Schema> entry : properties.entrySet()) {
 
             final String key = entry.getKey();
@@ -4927,48 +4884,52 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 final CodegenProperty cp = fromProperty(key, prop);
                 cp.required = mandatory.contains(key);
-                m.hasRequired = m.hasRequired || cp.required;
-                m.hasOptional = m.hasOptional || !cp.required;
+                vars.add(cp);
+                if (cm == null) {
+                    continue;
+                }
+                cm.hasRequired = cm.hasRequired || cp.required;
+                cm.hasOptional = cm.hasOptional || !cp.required;
                 if (cp.isEnum) {
                     // FIXME: if supporting inheritance, when called a second time for allProperties it is possible for
                     // m.hasEnums to be set incorrectly if allProperties has enumerations but properties does not.
-                    m.hasEnums = true;
+                    cm.hasEnums = true;
                 }
 
                 // set model's hasOnlyReadOnly to false if the property is read-only
                 if (!Boolean.TRUE.equals(cp.isReadOnly)) {
-                    m.hasOnlyReadOnly = false;
+                    cm.hasOnlyReadOnly = false;
                 }
 
                 // TODO revise the logic to include map
                 if (cp.isContainer) {
-                    addImport(m, typeMapping.get("array"));
+                    addImport(cm, typeMapping.get("array"));
                 }
 
-                addImport(m, cp.baseType);
+                addImport(cm, cp.baseType);
                 CodegenProperty innerCp = cp;
                 while (innerCp != null) {
-                    addImport(m, innerCp.complexType);
+                    addImport(cm, innerCp.complexType);
                     innerCp = innerCp.items;
                 }
-                vars.add(cp);
 
                 // if required, add to the list "requiredVars"
                 if (Boolean.TRUE.equals(cp.required)) {
-                    m.requiredVars.add(cp);
+                    cm.requiredVars.add(cp);
                 } else { // else add to the list "optionalVars" for optional property
-                    m.optionalVars.add(cp);
+                    cm.optionalVars.add(cp);
                 }
 
                 // if readonly, add to readOnlyVars (list of properties)
                 if (Boolean.TRUE.equals(cp.isReadOnly)) {
-                    m.readOnlyVars.add(cp);
+                    cm.readOnlyVars.add(cp);
                 } else { // else add to readWriteVars (list of properties)
                     // duplicated properties will be removed by removeAllDuplicatedProperty later
-                    m.readWriteVars.add(cp);
+                    cm.readWriteVars.add(cp);
                 }
             }
         }
+        return;
     }
 
     /**
@@ -6242,6 +6203,7 @@ public class DefaultCodegen implements CodegenConfig {
             setParameterNullable(codegenParameter, codegenProperty);
         }
 
+        addVarsRequiredVarsAdditionaProps(schema, codegenParameter);
         addJsonSchemaForBodyRequestInCaseItsNotPresent(codegenParameter, body);
 
         // set the parameter's example value
@@ -6249,6 +6211,39 @@ public class DefaultCodegen implements CodegenConfig {
         setParameterExampleValue(codegenParameter, body);
 
         return codegenParameter;
+    }
+
+    private void addVarsRequiredVarsAdditionaProps(Schema schema, IJsonSchemaValidationProperties property){
+        if (!"object".equals(schema.getType())) {
+            return;
+        }
+        if (schema instanceof ObjectSchema) {
+            ObjectSchema objSchema = (ObjectSchema) schema;
+            HashSet<String> requiredVars = new HashSet<>();
+            if (objSchema.getRequired() != null) {
+                requiredVars.addAll(objSchema.getRequired());
+            }
+            addVars(property, property.getVars(), objSchema.getProperties(), requiredVars);
+            List<CodegenProperty> requireCpVars = property.getVars()
+                    .stream()
+                    .filter(p -> Boolean.TRUE.equals(p.required)).collect(Collectors.toList());
+            property.setRequiredVars(requireCpVars);
+        }
+        if (schema.getAdditionalProperties() == null) {
+            if (!disallowAdditionalPropertiesIfNotPresent) {
+                CodegenProperty cp = fromProperty("",  new Schema());
+                property.setAdditionalProperties(cp);
+            }
+        } else if (schema.getAdditionalProperties() instanceof Boolean) {
+            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
+                CodegenProperty cp = fromProperty("", new Schema());
+                property.setAdditionalProperties(cp);
+            }
+        } else {
+            CodegenProperty cp = fromProperty("", (Schema) schema.getAdditionalProperties());
+            property.setAdditionalProperties(cp);
+        }
+        return;
     }
 
     private void addJsonSchemaForBodyRequestInCaseItsNotPresent(CodegenParameter codegenParameter, RequestBody body) {

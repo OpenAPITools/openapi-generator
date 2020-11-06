@@ -634,10 +634,12 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.readWriteVars = readWriteVars;
     }
 
+    @Override
     public List<CodegenProperty> getRequiredVars() {
         return requiredVars;
     }
 
+    @Override
     public void setRequiredVars(List<CodegenProperty> requiredVars) {
         this.requiredVars = requiredVars;
     }
@@ -658,10 +660,12 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.unescapedDescription = unescapedDescription;
     }
 
+    @Override
     public List<CodegenProperty> getVars() {
         return vars;
     }
 
+    @Override
     public void setVars(List<CodegenProperty> vars) {
         this.vars = vars;
     }
