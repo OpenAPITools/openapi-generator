@@ -26,7 +26,7 @@ class TestApiResponse(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testApiResponse(self):
+    def test_ApiResponse(self):
         """Test ApiResponse"""
         # FIXME: construct object with mandatory attributes with example values
         # model = ApiResponse()  # noqa: E501

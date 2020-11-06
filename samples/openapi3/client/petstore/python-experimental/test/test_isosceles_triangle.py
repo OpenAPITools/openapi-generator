@@ -14,10 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.shape_interface import ShapeInterface
-from petstore_api.model.triangle_interface import TriangleInterface
-globals()['ShapeInterface'] = ShapeInterface
-globals()['TriangleInterface'] = TriangleInterface
 from petstore_api.model.isosceles_triangle import IsoscelesTriangle
 
 
@@ -30,7 +26,7 @@ class TestIsoscelesTriangle(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testIsoscelesTriangle(self):
+    def test_IsoscelesTriangle(self):
         """Test IsoscelesTriangle"""
         # FIXME: construct object with mandatory attributes with example values
         # model = IsoscelesTriangle()  # noqa: E501

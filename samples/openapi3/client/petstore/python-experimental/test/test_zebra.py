@@ -26,7 +26,7 @@ class TestZebra(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testZebra(self):
+    def test_Zebra(self):
         """Test Zebra"""
         # FIXME: construct object with mandatory attributes with example values
         # model = Zebra()  # noqa: E501

@@ -14,8 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.animal import Animal
-globals()['Animal'] = Animal
 from petstore_api.model.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
 
 
@@ -28,7 +26,7 @@ class TestMixedPropertiesAndAdditionalPropertiesClass(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testMixedPropertiesAndAdditionalPropertiesClass(self):
+    def test_MixedPropertiesAndAdditionalPropertiesClass(self):
         """Test MixedPropertiesAndAdditionalPropertiesClass"""
         # FIXME: construct object with mandatory attributes with example values
         # model = MixedPropertiesAndAdditionalPropertiesClass()  # noqa: E501

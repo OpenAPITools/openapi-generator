@@ -14,8 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.number_with_validations import NumberWithValidations
-globals()['NumberWithValidations'] = NumberWithValidations
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
 
 
@@ -28,7 +26,7 @@ class TestObjectModelWithRefProps(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testObjectModelWithRefProps(self):
+    def test_ObjectModelWithRefProps(self):
         """Test ObjectModelWithRefProps"""
         # FIXME: construct object with mandatory attributes with example values
         # model = ObjectModelWithRefProps()  # noqa: E501

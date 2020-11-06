@@ -26,7 +26,7 @@ class TestHasOnlyReadOnly(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testHasOnlyReadOnly(self):
+    def test_HasOnlyReadOnly(self):
         """Test HasOnlyReadOnly"""
         # FIXME: construct object with mandatory attributes with example values
         # model = HasOnlyReadOnly()  # noqa: E501

@@ -26,7 +26,7 @@ class TestFormatTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testFormatTest(self):
+    def test_FormatTest(self):
         """Test FormatTest"""
         # FIXME: construct object with mandatory attributes with example values
         # model = FormatTest()  # noqa: E501

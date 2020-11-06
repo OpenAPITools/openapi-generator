@@ -26,7 +26,7 @@ class TestStringBooleanMap(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testStringBooleanMap(self):
+    def test_StringBooleanMap(self):
         """Test StringBooleanMap"""
         # FIXME: construct object with mandatory attributes with example values
         # model = StringBooleanMap()  # noqa: E501

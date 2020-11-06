@@ -14,10 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.quadrilateral import Quadrilateral
-from petstore_api.model.triangle import Triangle
-globals()['Quadrilateral'] = Quadrilateral
-globals()['Triangle'] = Triangle
 from petstore_api.model.nullable_shape import NullableShape
 
 
@@ -30,7 +26,7 @@ class TestNullableShape(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testNullableShape(self):
+    def test_NullableShape(self):
         """Test NullableShape"""
         # FIXME: construct object with mandatory attributes with example values
         # model = NullableShape()  # noqa: E501

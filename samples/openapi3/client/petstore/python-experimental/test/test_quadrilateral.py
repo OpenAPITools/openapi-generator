@@ -14,10 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.complex_quadrilateral import ComplexQuadrilateral
-from petstore_api.model.simple_quadrilateral import SimpleQuadrilateral
-globals()['ComplexQuadrilateral'] = ComplexQuadrilateral
-globals()['SimpleQuadrilateral'] = SimpleQuadrilateral
 from petstore_api.model.quadrilateral import Quadrilateral
 
 
@@ -30,7 +26,7 @@ class TestQuadrilateral(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testQuadrilateral(self):
+    def test_Quadrilateral(self):
         """Test Quadrilateral"""
         # FIXME: construct object with mandatory attributes with example values
         # model = Quadrilateral()  # noqa: E501

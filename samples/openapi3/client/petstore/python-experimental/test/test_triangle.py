@@ -14,12 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.equilateral_triangle import EquilateralTriangle
-from petstore_api.model.isosceles_triangle import IsoscelesTriangle
-from petstore_api.model.scalene_triangle import ScaleneTriangle
-globals()['EquilateralTriangle'] = EquilateralTriangle
-globals()['IsoscelesTriangle'] = IsoscelesTriangle
-globals()['ScaleneTriangle'] = ScaleneTriangle
 from petstore_api.model.triangle import Triangle
 
 
@@ -32,7 +26,7 @@ class TestTriangle(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testTriangle(self):
+    def test_Triangle(self):
         """Test Triangle"""
         # FIXME: construct object with mandatory attributes with example values
         # model = Triangle()  # noqa: E501

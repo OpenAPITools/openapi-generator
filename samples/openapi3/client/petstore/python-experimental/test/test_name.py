@@ -26,7 +26,7 @@ class TestName(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testName(self):
+    def test_Name(self):
         """Test Name"""
         # FIXME: construct object with mandatory attributes with example values
         # model = Name()  # noqa: E501

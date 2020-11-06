@@ -88,6 +88,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
      * The value of "maximum" MUST be a number, representing an inclusive upper limit for a numeric instance.
      */
     public String maximum;
+    public String indent;
     /**
      * The value of the 'multipleOf' attribute in the OpenAPI schema.
      * The value of "multipleOf" MUST be a number, strictly greater than 0.
@@ -513,6 +514,16 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.isArray = isArray;
     }
 
+    @Override
+    public String getIndent() {
+        return indent;
+    }
+
+    @Override
+    public void setIndent(String indent) {
+        this.indent = indent;
+    }
+
     public Map<String, Object> getVendorExtensions() {
         return vendorExtensions;
     }
@@ -604,10 +615,10 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 cp.allowableValues = new HashMap<String, Object>(this.allowableValues);
             }
             if (this.items != null) {
-                cp.items = this.items;
+                cp.items = this.items.clone();
             }
             if (this.additionalProperties != null) {
-                cp.additionalProperties = this.additionalProperties;
+                cp.additionalProperties = this.additionalProperties.clone();
             }
             if (this.vars != null) {
                 cp.vars = this.vars;
@@ -685,6 +696,22 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public void setRequiredVars(List<CodegenProperty> requiredVars) {
         this.requiredVars = requiredVars;
     }
+
+    @Override
+    public boolean getHasVars() {
+        if (this.vars != null && this.vars.size() > 0) {
+            return true;
+        }
+        return false;
+    };
+
+    @Override
+    public boolean getHasRequiredVars() {
+        if (this.requiredVars != null && this.requiredVars.size() > 0) {
+            return true;
+        }
+        return false;
+    };
 
     @Override
     public String toString() {
@@ -776,6 +803,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", xmlName='").append(xmlName).append('\'');
         sb.append(", xmlNamespace='").append(xmlNamespace).append('\'');
         sb.append(", isXmlWrapped=").append(isXmlWrapped);
+        sb.append(", indent=").append(indent);
         sb.append('}');
         return sb.toString();
     }
@@ -826,6 +854,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isInherited == that.isInherited &&
                 isXmlAttribute == that.isXmlAttribute &&
                 isXmlWrapped == that.isXmlWrapped &&
+                Objects.equals(indent, that.indent) &&
                 Objects.equals(openApiType, that.openApiType) &&
                 Objects.equals(baseName, that.baseName) &&
                 Objects.equals(complexType, that.complexType) &&
@@ -887,6 +916,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 items, mostInnerItems, additionalProperties, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
-                xmlNamespace, isXmlWrapped);
+                xmlNamespace, isXmlWrapped, indent);
     }
 }

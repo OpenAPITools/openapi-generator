@@ -930,13 +930,13 @@ paths:
       tags:
         - fake
       description: Test serialization of object with $refed properties
-      operationId: ComposedOneOfNumberWithValidations
+      operationId: ComposedOneOfDifferentTypes
       requestBody:
         description: Input model
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ComposedOneOfNumberWithValidations'
+              $ref: '#/components/schemas/ComposedOneOfDifferentTypes'
         required: false
       responses:
         '200':
@@ -944,7 +944,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ComposedOneOfNumberWithValidations'
+                $ref: '#/components/schemas/ComposedOneOfDifferentTypes'
   /fake/refs/object_model_with_ref_props:
     post:
       tags:
@@ -1526,7 +1526,6 @@ components:
     Cat:
       allOf:
         - $ref: '#/components/schemas/Animal'
-        - $ref: '#/components/schemas/Address'
         - type: object
           properties:
             declawed:
@@ -1854,6 +1853,12 @@ components:
         - 0
         - 1
         - 2
+    IntegerEnumBig:
+      type: integer
+      enum:
+        - 10
+        - 11
+        - 12
     StringEnumWithDefaultValue:
       type: string
       enum:
@@ -1872,21 +1877,24 @@ components:
       type: integer
       enum:
         - 0
+    NullableString:
+      nullable: true
+      type: string
     ObjectModelWithRefProps:
       description: a model that includes properties which should stay primitive (String + Boolean) and one which is defined as a class, NumberWithValidations
       type: object
       properties:
-        my_number:
+        myNumber:
           $ref: '#/definitions/NumberWithValidations'
-        my_string:
+        myString:
           $ref: '#/definitions/String'
-        my_boolean:
+        myBoolean:
           $ref: '#/definitions/Boolean'
     NumberWithValidations:
       type: number
       minimum: 10
       maximum: 20
-    ComposedOneOfNumberWithValidations:
+    ComposedOneOfDifferentTypes:
       description: this is a model that allows payloads of type object or number
       oneOf:
         - $ref: '#/components/schemas/NumberWithValidations'
@@ -2157,17 +2165,16 @@ components:
       discriminator:
         propertyName: shapeType
       nullable: true
-    ShapeInterface:
+    TriangleInterface:
       properties:
         shapeType:
           type: string
-      required:
-        - shapeType
-    TriangleInterface:
-      properties:
+          enum:
+            - 'Triangle'
         triangleType:
           type: string
       required:
+        - shapeType
         - triangleType
     Triangle:
       oneOf:
@@ -2180,22 +2187,42 @@ components:
       # equivalent to allowing undeclared properties of any type.
     EquilateralTriangle:
       allOf:
-        - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/TriangleInterface'
+        - type: object
+          properties:
+            triangleType:
+              type: string
+              enum:
+                - 'EquilateralTriangle'
     IsoscelesTriangle:
       allOf:
-        - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/TriangleInterface'
+        - type: object
+          properties:
+            triangleType:
+              type: string
+              enum:
+                - 'IsoscelesTriangle'
       additionalProperties: false
     ScaleneTriangle:
       allOf:
-        - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/TriangleInterface'
+        - type: object
+          properties:
+            triangleType:
+              type: string
+              enum:
+                - 'ScaleneTriangle'
     QuadrilateralInterface:
       properties:
+        shapeType:
+          type: string
+          enum:
+            - 'Quadrilateral'
         quadrilateralType:
           type: string
       required:
+        - shapeType
         - quadrilateralType
     Quadrilateral:
       oneOf:
@@ -2205,12 +2232,22 @@ components:
         propertyName: quadrilateralType
     SimpleQuadrilateral:
       allOf:
-        - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/QuadrilateralInterface'
+        - type: object
+          properties:
+            quadrilateralType:
+              type: string
+              enum:
+                - 'SimpleQuadrilateral'
     ComplexQuadrilateral:
       allOf:
-        - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/QuadrilateralInterface'
+        - type: object
+          properties:
+            quadrilateralType:
+              type: string
+              enum:
+                - 'ComplexQuadrilateral'
     GrandparentAnimal:
       type: object
       required:
@@ -2254,3 +2291,57 @@ components:
     SomeObject:
       allOf:
         - $ref: '#/components/schemas/ObjectInterface'
+    AnyType:
+      description: this should allow any type because type was not specified
+    ArrayWithValidationsInItems:
+      type: array
+      maxItems: 2
+      items:
+        type: integer
+        format: int64
+        maximum: 7
+    ArrayHoldingAnyType:
+      type: array
+      items:
+        description: any type can be stored here
+    DateWithValidations:
+      type: string
+      format: date
+      pattern: '^2020.*'
+    DateTimeWithValidations:
+      type: string
+      format: date-time
+      pattern: '^2020.*'
+    NoAdditionalProperties:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        petId:
+          type: integer
+          format: int64
+      required:
+        - id
+      additionalProperties: false
+    IntegerMax10:
+      type: integer
+      format: int64
+      maximum: 10
+    IntegerMin15:
+      type: integer
+      format: int64
+      minimum: 15
+    StringWithValidation:
+      type: string
+      minLength: 7
+    Player:
+      type: object
+      description: a model that includes a self reference this forces properties and additionalProperties
+                   to be lazy loaded in python models because the Player class has not fully loaded when defining
+                   properties
+      properties:
+        name:
+          type: string
+        enemyPlayer:
+          $ref: '#/components/schemas/Player'

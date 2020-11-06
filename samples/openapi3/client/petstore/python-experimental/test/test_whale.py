@@ -26,7 +26,7 @@ class TestWhale(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testWhale(self):
+    def test_Whale(self):
         """Test Whale"""
         # FIXME: construct object with mandatory attributes with example values
         # model = Whale()  # noqa: E501

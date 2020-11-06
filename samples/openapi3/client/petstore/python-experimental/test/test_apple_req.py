@@ -26,7 +26,7 @@ class TestAppleReq(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testAppleReq(self):
+    def test_AppleReq(self):
         """Test AppleReq"""
         # FIXME: construct object with mandatory attributes with example values
         # model = AppleReq()  # noqa: E501

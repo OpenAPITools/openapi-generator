@@ -14,10 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.quadrilateral_interface import QuadrilateralInterface
-from petstore_api.model.shape_interface import ShapeInterface
-globals()['QuadrilateralInterface'] = QuadrilateralInterface
-globals()['ShapeInterface'] = ShapeInterface
 from petstore_api.model.simple_quadrilateral import SimpleQuadrilateral
 
 
@@ -30,7 +26,7 @@ class TestSimpleQuadrilateral(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testSimpleQuadrilateral(self):
+    def test_SimpleQuadrilateral(self):
         """Test SimpleQuadrilateral"""
         # FIXME: construct object with mandatory attributes with example values
         # model = SimpleQuadrilateral()  # noqa: E501

@@ -26,7 +26,7 @@ class TestInlineObject5(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testInlineObject5(self):
+    def test_InlineObject5(self):
         """Test InlineObject5"""
         # FIXME: construct object with mandatory attributes with example values
         # model = InlineObject5()  # noqa: E501

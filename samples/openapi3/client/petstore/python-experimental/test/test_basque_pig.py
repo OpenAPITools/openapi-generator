@@ -26,7 +26,7 @@ class TestBasquePig(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testBasquePig(self):
+    def test_BasquePig(self):
         """Test BasquePig"""
         # FIXME: construct object with mandatory attributes with example values
         # model = BasquePig()  # noqa: E501

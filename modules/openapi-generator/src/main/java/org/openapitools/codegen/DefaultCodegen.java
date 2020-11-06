@@ -564,7 +564,7 @@ public class DefaultCodegen implements CodegenConfig {
     private List<CodegenProperty> getModelDependencies(CodegenModel model) {
         return model.getAllVars().stream()
                 .map(prop -> {
-                    if (prop.isContainer) {
+                    if (prop.isContainer && prop.items != null) {
                         return prop.items.dataType == null ? null : prop;
                     }
                     return prop.dataType == null ? null : prop;
@@ -578,7 +578,7 @@ public class DefaultCodegen implements CodegenConfig {
         dependencyMap.getOrDefault(root, new ArrayList<>()).stream()
                 .forEach(prop -> {
                     final List<String> unvisited =
-                            Collections.singletonList(prop.isContainer ? prop.items.dataType : prop.dataType);
+                            Collections.singletonList(prop.isContainer && prop.items != null ? prop.items.dataType : prop.dataType);
                     prop.isCircularReference = isCircularReference(root,
                             new HashSet<>(),
                             new ArrayList<>(unvisited),
@@ -2573,27 +2573,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // process 'additionalProperties'
-        if (schema.getAdditionalProperties() == null) {
-            if (disallowAdditionalPropertiesIfNotPresent) {
-                m.isAdditionalPropertiesTrue = false;
-            } else {
-                m.isAdditionalPropertiesTrue = true;
-                CodegenProperty cp = fromProperty("",  new Schema());
-                m.setAdditionalProperties(cp);
-            }
-        } else if (schema.getAdditionalProperties() instanceof Boolean) {
-            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
-                m.isAdditionalPropertiesTrue = true;
-                CodegenProperty cp = fromProperty("", new Schema());
-                m.setAdditionalProperties(cp);
-            } else {
-                m.isAdditionalPropertiesTrue = false;
-            }
-        } else {
-            m.isAdditionalPropertiesTrue = false;
-            CodegenProperty cp = fromProperty("", (Schema) schema.getAdditionalProperties());
-            m.setAdditionalProperties(cp);
-        }
+        setAddProps(schema, m);
 
         // post process model properties
         if (m.vars != null) {
@@ -6213,6 +6193,35 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenParameter;
     }
 
+    private void setAddProps(Schema schema, IJsonSchemaValidationProperties property){
+        // pass in the hashCode as the name to ensure that the returned property is not from the cache
+        // if we need to set indent on every one, then they need to be different
+        if (schema.getAdditionalProperties() == null) {
+            if (!disallowAdditionalPropertiesIfNotPresent) {
+                CodegenProperty cp = fromProperty(String.valueOf(property.hashCode()),  new Schema());
+                cp.name = "";
+                cp.baseName = "";
+                cp.nameInSnakeCase = null;
+                property.setAdditionalProperties(cp);
+            }
+        } else if (schema.getAdditionalProperties() instanceof Boolean) {
+            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
+                CodegenProperty cp = fromProperty(String.valueOf(property.hashCode()),  new Schema());
+                cp.name = "";
+                cp.baseName = "";
+                cp.nameInSnakeCase = null;
+                property.setAdditionalProperties(cp);
+            }
+        } else {
+            CodegenProperty cp = fromProperty(String.valueOf(property.hashCode()), (Schema) schema.getAdditionalProperties());
+            cp.name = "";
+            cp.baseName = "";
+            cp.nameInSnakeCase = null;
+            property.setAdditionalProperties(cp);
+        }
+    }
+
+
     private void addVarsRequiredVarsAdditionaProps(Schema schema, IJsonSchemaValidationProperties property){
         if (!"object".equals(schema.getType())) {
             return;
@@ -6229,20 +6238,7 @@ public class DefaultCodegen implements CodegenConfig {
                     .filter(p -> Boolean.TRUE.equals(p.required)).collect(Collectors.toList());
             property.setRequiredVars(requireCpVars);
         }
-        if (schema.getAdditionalProperties() == null) {
-            if (!disallowAdditionalPropertiesIfNotPresent) {
-                CodegenProperty cp = fromProperty("",  new Schema());
-                property.setAdditionalProperties(cp);
-            }
-        } else if (schema.getAdditionalProperties() instanceof Boolean) {
-            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
-                CodegenProperty cp = fromProperty("", new Schema());
-                property.setAdditionalProperties(cp);
-            }
-        } else {
-            CodegenProperty cp = fromProperty("", (Schema) schema.getAdditionalProperties());
-            property.setAdditionalProperties(cp);
-        }
+        setAddProps(schema, property);
         return;
     }
 

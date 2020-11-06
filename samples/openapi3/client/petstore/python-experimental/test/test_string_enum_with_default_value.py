@@ -26,7 +26,7 @@ class TestStringEnumWithDefaultValue(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testStringEnumWithDefaultValue(self):
+    def test_StringEnumWithDefaultValue(self):
         """Test StringEnumWithDefaultValue"""
         # FIXME: construct object with mandatory attributes with example values
         # model = StringEnumWithDefaultValue()  # noqa: E501

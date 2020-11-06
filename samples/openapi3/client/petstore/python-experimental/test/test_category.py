@@ -26,7 +26,7 @@ class TestCategory(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testCategory(self):
+    def test_Category(self):
         """Test Category"""
         # FIXME: construct object with mandatory attributes with example values
         # model = Category()  # noqa: E501

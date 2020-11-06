@@ -14,10 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.child_cat import ChildCat
-from petstore_api.model.parent_pet import ParentPet
-globals()['ChildCat'] = ChildCat
-globals()['ParentPet'] = ParentPet
 from petstore_api.model.grandparent_animal import GrandparentAnimal
 
 
@@ -30,7 +26,7 @@ class TestGrandparentAnimal(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testGrandparentAnimal(self):
+    def test_GrandparentAnimal(self):
         """Test GrandparentAnimal"""
         # FIXME: construct object with mandatory attributes with example values
         # model = GrandparentAnimal()  # noqa: E501

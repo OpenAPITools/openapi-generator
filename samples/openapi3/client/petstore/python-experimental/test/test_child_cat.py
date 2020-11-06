@@ -14,10 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.child_cat_all_of import ChildCatAllOf
-from petstore_api.model.parent_pet import ParentPet
-globals()['ChildCatAllOf'] = ChildCatAllOf
-globals()['ParentPet'] = ParentPet
 from petstore_api.model.child_cat import ChildCat
 
 
@@ -30,7 +26,7 @@ class TestChildCat(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testChildCat(self):
+    def test_ChildCat(self):
         """Test ChildCat"""
         # FIXME: construct object with mandatory attributes with example values
         # model = ChildCat()  # noqa: E501

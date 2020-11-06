@@ -19,8 +19,7 @@ from {{packageName}} import rest
 from {{packageName}}.configuration import Configuration
 from {{packageName}}.exceptions import ApiTypeError, ApiValueError, ApiException
 from {{packageName}}.model_utils import (
-    ModelNormal,
-    ModelSimple,
+    Enum,
     ModelComposed,
     check_allowed_values,
     check_validations,
@@ -256,7 +255,7 @@ class ApiClient(object):
         :param obj: The data to serialize.
         :return: The serialized form of data.
         """
-        if isinstance(obj, (ModelNormal, ModelComposed)):
+        if isinstance(obj, (ModelComposed)):
             return {
                 key: cls.sanitize_for_serialization(val) for key, val in model_to_dict(obj, serialize=True).items()
             }
@@ -264,37 +263,31 @@ class ApiClient(object):
             return obj
         elif isinstance(obj, (datetime, date)):
             return obj.isoformat()
-        elif isinstance(obj, ModelSimple):
-            return cls.sanitize_for_serialization(obj.value)
         elif isinstance(obj, (list, tuple)):
             return [cls.sanitize_for_serialization(item) for item in obj]
+        elif isinstance(obj, Enum):
+            return cls.sanitize_for_serialization(obj.value)
         if isinstance(obj, dict):
             return {key: cls.sanitize_for_serialization(val) for key, val in obj.items()}
         raise ApiValueError('Unable to prepare type {} for serialization'.format(obj.__class__.__name__))
 
-    def deserialize(self, response, response_type, _check_type):
+    def deserialize(self, response, response_cls, _check_type):
         """Deserializes response into an object.
 
         :param response: RESTResponse object to be deserialized.
-        :param response_type: For the response, a tuple containing:
-            valid classes
-            a list containing valid classes (for list schemas)
-            a dict containing a tuple of valid classes as the value
-            Example values:
-            (str,)
-            (Pet,)
-            (float, none_type)
-            ([int, none_type],)
-            ({str: (bool, str, int, float, date, datetime, str, none_type)},)
+        :param response_cls: tuple the response Schema class that we are deserializing to
         :param _check_type: boolean, whether to check the types of the data
             received from the server
         :type _check_type: bool
 
         :return: deserialized object.
         """
+        # TODO remove this when I switch to passing in a class
+        response_cls = response_cls[0]
+
         # handle file downloading
         # save response body into a tmp file and return the instance
-        if response_type == (file_type,):
+        if response_cls == file_type:
             content_disposition = response.getheader("Content-Disposition")
             return deserialize_file(response.data, self.configuration,
                                     content_disposition=content_disposition)
@@ -305,16 +298,7 @@ class ApiClient(object):
         except ValueError:
             received_data = response.data
 
-        # store our data under the key of 'received_data' so users have some
-        # context if they are deserializing a string and the data type is wrong
-        deserialized_data = validate_and_convert_types(
-            received_data,
-            response_type,
-            ['received_data'],
-            True,
-            _check_type,
-            configuration=self.configuration
-        )
+        deserialized_data = response_cls(received_data, _spec_property_naming=True, _configuration=self.configuration)
         return deserialized_data
 
     def call_api(
@@ -678,36 +662,14 @@ class Endpoint(object):
         self.callable = callable
 
     def __validate_inputs(self, kwargs):
-        for param in self.params_map['enum']:
-            if param in kwargs:
-                check_allowed_values(
-                    self.allowed_values,
-                    (param,),
-                    kwargs[param]
-                )
-
-        for param in self.params_map['validation']:
-            if param in kwargs:
-                check_validations(
-                    self.validations,
-                    (param,),
-                    kwargs[param],
-                    configuration=self.api_client.configuration
-                )
-
         if kwargs['_check_input_type'] is False:
             return
 
         for key, value in kwargs.items():
-            fixed_val = validate_and_convert_types(
-                value,
-                self.openapi_types[key],
-                [key],
-                False,
-                kwargs['_check_input_type'],
-                configuration=self.api_client.configuration
-            )
-            kwargs[key] = fixed_val
+            # TODO update this when we pass in one schema only
+            item_cls = self.openapi_types[key][0]
+            if not isinstance(value, item_cls):
+                kwargs[key] = item_cls(value, _configuration=self.api_client.configuration, _spec_property_naming=True)
 
     def __gather_params(self, kwargs):
         params = {

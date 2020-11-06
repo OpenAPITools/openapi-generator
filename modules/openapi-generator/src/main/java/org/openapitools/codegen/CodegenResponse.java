@@ -33,6 +33,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public String dataType;
     public String baseType;
     public String containerType;
+    public String indent;
     public boolean hasHeaders;
     public boolean isString;
     public boolean isNumeric;
@@ -85,7 +86,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
                 isMap, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
-                vars, requiredVars,
+                vars, requiredVars, indent,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern());
     }
@@ -123,6 +124,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isFile == that.isFile &&
                 items == that.items &&
                 additionalProperties == that.additionalProperties &&
+                Objects.equals(indent, that.indent) &&
                 Objects.equals(vars, that.vars) &&
                 Objects.equals(requiredVars, that.requiredVars) &&
                 Objects.equals(headers, that.headers) &&
@@ -360,6 +362,32 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public String getIndent() {
+        return indent;
+    }
+
+    @Override
+    public void setIndent(String indent) {
+        this.indent = indent;
+    }
+
+    @Override
+    public boolean getHasVars() {
+        if (this.vars != null && this.vars.size() > 0) {
+            return true;
+        }
+        return false;
+    };
+
+    @Override
+    public boolean getHasRequiredVars() {
+        if (this.requiredVars != null && this.requiredVars.size() > 0) {
+            return true;
+        }
+        return false;
+    };
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenResponse{");
         sb.append("headers=").append(headers);
@@ -415,6 +443,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", additionalProperties='").append(additionalProperties).append('\'');
         sb.append(", vars='").append(vars).append('\'');
         sb.append(", requiredVars='").append(requiredVars).append('\'');
+        sb.append(", indent='").append(indent);
         sb.append('}');
         return sb.toString();
     }

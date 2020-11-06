@@ -337,7 +337,7 @@ public class PythonClientExperimentalTest {
 
         Schema modelSchema = ModelUtils.getSchema(openAPI, "DateTimeTest");
         String defaultValue = codegen.toDefaultValue(modelSchema);
-        Assert.assertEquals(defaultValue, "dateutil_parser('2010-01-01T10:10:10.000111+01:00')");
+        Assert.assertEquals(defaultValue, "isoparse('2010-01-01T10:10:10.000111+01:00')");
     }
 
     @Test(description = "format imports of models containing special characters")

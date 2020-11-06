@@ -26,7 +26,7 @@ class TestAdditionalPropertiesClass(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testAdditionalPropertiesClass(self):
+    def test_AdditionalPropertiesClass(self):
         """Test AdditionalPropertiesClass"""
         # FIXME: construct object with mandatory attributes with example values
         # model = AdditionalPropertiesClass()  # noqa: E501

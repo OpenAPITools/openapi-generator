@@ -26,7 +26,7 @@ class TestCapitalization(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testCapitalization(self):
+    def test_Capitalization(self):
         """Test Capitalization"""
         # FIXME: construct object with mandatory attributes with example values
         # model = Capitalization()  # noqa: E501

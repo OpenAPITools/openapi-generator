@@ -14,10 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.category import Category
-from petstore_api.model.tag import Tag
-globals()['Category'] = Category
-globals()['Tag'] = Tag
 from petstore_api.model.pet import Pet
 
 
@@ -30,7 +26,7 @@ class TestPet(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testPet(self):
+    def test_Pet(self):
         """Test Pet"""
         # FIXME: construct object with mandatory attributes with example values
         # model = Pet()  # noqa: E501

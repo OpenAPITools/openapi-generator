@@ -252,10 +252,10 @@ class ApiClient(object):
             return obj
         elif isinstance(obj, (datetime, date)):
             return obj.isoformat()
-        elif isinstance(obj, ModelSimple):
-            return cls.sanitize_for_serialization(obj.value)
         elif isinstance(obj, (list, tuple)):
             return [cls.sanitize_for_serialization(item) for item in obj]
+        elif isinstance(obj, ModelSimple):
+            return cls.sanitize_for_serialization(obj)
         if isinstance(obj, dict):
             return {key: cls.sanitize_for_serialization(val) for key, val in obj.items()}
         raise ApiValueError('Unable to prepare type {} for serialization'.format(obj.__class__.__name__))

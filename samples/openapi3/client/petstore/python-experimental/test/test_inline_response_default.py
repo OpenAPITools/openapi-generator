@@ -14,8 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.foo import Foo
-globals()['Foo'] = Foo
 from petstore_api.model.inline_response_default import InlineResponseDefault
 
 
@@ -28,7 +26,7 @@ class TestInlineResponseDefault(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testInlineResponseDefault(self):
+    def test_InlineResponseDefault(self):
         """Test InlineResponseDefault"""
         # FIXME: construct object with mandatory attributes with example values
         # model = InlineResponseDefault()  # noqa: E501

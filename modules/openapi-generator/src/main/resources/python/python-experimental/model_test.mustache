@@ -8,9 +8,6 @@ import unittest
 import {{packageName}}
 {{#models}}
 {{#model}}
-{{#imports}}
-{{{.}}}
-{{/imports}}
 from {{modelPackage}}.{{classFilename}} import {{classname}}
 
 
@@ -23,7 +20,7 @@ class Test{{classname}}(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test{{classname}}(self):
+    def test_{{classname}}(self):
         """Test {{classname}}"""
         # FIXME: construct object with mandatory attributes with example values
         # model = {{classname}}()  # noqa: E501

@@ -14,8 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.enum_class import EnumClass
-globals()['EnumClass'] = EnumClass
 from petstore_api.model.additional_properties_with_array_of_enums import AdditionalPropertiesWithArrayOfEnums
 
 
@@ -28,7 +26,7 @@ class TestAdditionalPropertiesWithArrayOfEnums(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testAdditionalPropertiesWithArrayOfEnums(self):
+    def test_AdditionalPropertiesWithArrayOfEnums(self):
         """Test AdditionalPropertiesWithArrayOfEnums"""
         # FIXME: construct object with mandatory attributes with example values
         # model = AdditionalPropertiesWithArrayOfEnums()  # noqa: E501

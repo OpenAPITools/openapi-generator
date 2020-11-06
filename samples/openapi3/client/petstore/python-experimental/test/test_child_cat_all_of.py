@@ -26,7 +26,7 @@ class TestChildCatAllOf(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testChildCatAllOf(self):
+    def test_ChildCatAllOf(self):
         """Test ChildCatAllOf"""
         # FIXME: construct object with mandatory attributes with example values
         # model = ChildCatAllOf()  # noqa: E501

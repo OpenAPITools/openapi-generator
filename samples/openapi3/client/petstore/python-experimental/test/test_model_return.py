@@ -26,7 +26,7 @@ class TestModelReturn(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testModelReturn(self):
+    def test_ModelReturn(self):
         """Test ModelReturn"""
         # FIXME: construct object with mandatory attributes with example values
         # model = ModelReturn()  # noqa: E501

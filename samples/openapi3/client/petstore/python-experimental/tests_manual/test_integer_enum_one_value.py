@@ -29,14 +29,14 @@ class TestIntegerEnumOneValue(unittest.TestCase):
     def testIntegerEnumOneValue(self):
         """Test IntegerEnumOneValue"""
         model = IntegerEnumOneValue()
-        assert model.value == 0, "With only one option, the value is assigned automatically"
+        assert model == 0, "With only one option, the value is assigned automatically"
 
         model = IntegerEnumOneValue(0)
-        assert model.value == 0, "We can also pass in the value as a positional arg"
+        assert model == 0, "We can also pass in the value as a positional arg"
 
+        # one can pass the value with the value keyword, this is standard Enum behavior
         model = IntegerEnumOneValue(value=0)
-        assert model.value == 0, "We can also pass in the value as a named argument"
-
+        assert model == 0, "We can also pass in the value as a keyword arg"
 
 if __name__ == '__main__':
     unittest.main()

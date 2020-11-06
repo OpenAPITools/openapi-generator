@@ -26,7 +26,7 @@ class TestFile(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testFile(self):
+    def test_File(self):
         """Test File"""
         # FIXME: construct object with mandatory attributes with example values
         # model = File()  # noqa: E501

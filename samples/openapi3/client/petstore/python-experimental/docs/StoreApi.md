@@ -234,7 +234,7 @@ with petstore_api.ApiClient() as api_client:
         id=1,
         pet_id=1,
         quantity=1,
-        ship_date=dateutil_parser('2020-02-02T20:20:20.000222Z'),
+        ship_date=isoparse('2020-02-02T20:20:20.000222Z'),
         status="placed",
         complete=False,
     ) # Order | order placed for purchasing the pet

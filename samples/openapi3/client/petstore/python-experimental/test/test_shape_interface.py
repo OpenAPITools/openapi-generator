@@ -26,7 +26,7 @@ class TestShapeInterface(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testShapeInterface(self):
+    def test_ShapeInterface(self):
         """Test ShapeInterface"""
         # FIXME: construct object with mandatory attributes with example values
         # model = ShapeInterface()  # noqa: E501

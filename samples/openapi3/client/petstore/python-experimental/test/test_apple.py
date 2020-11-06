@@ -26,7 +26,7 @@ class TestApple(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testApple(self):
+    def test_Apple(self):
         """Test Apple"""
         # FIXME: construct object with mandatory attributes with example values
         # model = Apple()  # noqa: E501

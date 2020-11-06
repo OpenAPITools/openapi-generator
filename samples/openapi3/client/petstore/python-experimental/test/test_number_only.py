@@ -26,7 +26,7 @@ class TestNumberOnly(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testNumberOnly(self):
+    def test_NumberOnly(self):
         """Test NumberOnly"""
         # FIXME: construct object with mandatory attributes with example values
         # model = NumberOnly()  # noqa: E501

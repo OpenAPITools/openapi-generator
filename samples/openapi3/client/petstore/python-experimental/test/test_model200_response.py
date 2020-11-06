@@ -26,7 +26,7 @@ class TestModel200Response(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testModel200Response(self):
+    def test_Model200Response(self):
         """Test Model200Response"""
         # FIXME: construct object with mandatory attributes with example values
         # model = Model200Response()  # noqa: E501

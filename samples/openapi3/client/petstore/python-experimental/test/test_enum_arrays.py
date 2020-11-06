@@ -26,7 +26,7 @@ class TestEnumArrays(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testEnumArrays(self):
+    def test_EnumArrays(self):
         """Test EnumArrays"""
         # FIXME: construct object with mandatory attributes with example values
         # model = EnumArrays()  # noqa: E501

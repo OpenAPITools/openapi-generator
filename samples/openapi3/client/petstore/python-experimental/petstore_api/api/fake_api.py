@@ -27,7 +27,7 @@ from petstore_api.model.additional_properties_with_array_of_enums import Additio
 from petstore_api.model.animal_farm import AnimalFarm
 from petstore_api.model.array_of_enums import ArrayOfEnums
 from petstore_api.model.client import Client
-from petstore_api.model.composed_one_of_number_with_validations import ComposedOneOfNumberWithValidations
+from petstore_api.model.composed_one_of_different_types import ComposedOneOfDifferentTypes
 from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 from petstore_api.model.health_check_result import HealthCheckResult
 from petstore_api.model.mammal import Mammal
@@ -495,22 +495,22 @@ class FakeApi(object):
             callable=__boolean
         )
 
-        def __composed_one_of_number_with_validations(
+        def __composed_one_of_different_types(
             self,
             **kwargs
         ):
-            """composed_one_of_number_with_validations  # noqa: E501
+            """composed_one_of_different_types  # noqa: E501
 
             Test serialization of object with $refed properties  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
 
-            >>> thread = api.composed_one_of_number_with_validations(async_req=True)
+            >>> thread = api.composed_one_of_different_types(async_req=True)
             >>> result = thread.get()
 
 
             Keyword Args:
-                composed_one_of_number_with_validations (ComposedOneOfNumberWithValidations): Input model. [optional]
+                composed_one_of_different_types (ComposedOneOfDifferentTypes): Input model. [optional]
                 _return_http_data_only (bool): response data without head status
                     code and headers. Default is True.
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
@@ -532,7 +532,7 @@ class FakeApi(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                ComposedOneOfNumberWithValidations
+                ComposedOneOfDifferentTypes
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -557,18 +557,18 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.composed_one_of_number_with_validations = Endpoint(
+        self.composed_one_of_different_types = Endpoint(
             settings={
-                'response_type': (ComposedOneOfNumberWithValidations,),
+                'response_type': (ComposedOneOfDifferentTypes,),
                 'auth': [],
                 'endpoint_path': '/fake/refs/composed_one_of_number_with_validations',
-                'operation_id': 'composed_one_of_number_with_validations',
+                'operation_id': 'composed_one_of_different_types',
                 'http_method': 'POST',
                 'servers': None,
             },
             params_map={
                 'all': [
-                    'composed_one_of_number_with_validations',
+                    'composed_one_of_different_types',
                 ],
                 'required': [],
                 'nullable': [
@@ -584,13 +584,13 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'composed_one_of_number_with_validations':
-                        (ComposedOneOfNumberWithValidations,),
+                    'composed_one_of_different_types':
+                        (ComposedOneOfDifferentTypes,),
                 },
                 'attribute_map': {
                 },
                 'location_map': {
-                    'composed_one_of_number_with_validations': 'body',
+                    'composed_one_of_different_types': 'body',
                 },
                 'collection_format_map': {
                 }
@@ -604,7 +604,7 @@ class FakeApi(object):
                 ]
             },
             api_client=api_client,
-            callable=__composed_one_of_number_with_validations
+            callable=__composed_one_of_different_types
         )
 
         def __fake_health_get(
@@ -1664,11 +1664,11 @@ class FakeApi(object):
                 integer (int): None. [optional]
                 int32 (int): None. [optional]
                 int64 (int): None. [optional]
-                float (float): None. [optional]
+                _float (float): None. [optional]
                 string (str): None. [optional]
                 binary (file_type): None. [optional]
-                date (date): None. [optional]
-                date_time (datetime): None. [optional] if omitted the server will use the default value of dateutil_parser('2010-02-01T10:20:10.11111+01:00')
+                _date (date): None. [optional]
+                _date_time (datetime): None. [optional] if omitted the server will use the default value of isoparse('2010-02-01T10:20:10.11111+01:00')
                 password (str): None. [optional]
                 param_callback (str): None. [optional]
                 _return_http_data_only (bool): response data without head status
@@ -1745,11 +1745,11 @@ class FakeApi(object):
                     'integer',
                     'int32',
                     'int64',
-                    'float',
+                    '_float',
                     'string',
                     'binary',
-                    'date',
-                    'date_time',
+                    '_date',
+                    '_date_time',
                     'password',
                     'param_callback',
                 ],
@@ -1769,7 +1769,7 @@ class FakeApi(object):
                     'pattern_without_delimiter',
                     'integer',
                     'int32',
-                    'float',
+                    '_float',
                     'string',
                     'password',
                 ]
@@ -1802,7 +1802,7 @@ class FakeApi(object):
                         'inclusive_maximum': 200,
                         'inclusive_minimum': 20,
                     },
-                    ('float',): {
+                    ('_float',): {
 
                         'inclusive_maximum': 987.6,
                     },
@@ -1835,15 +1835,15 @@ class FakeApi(object):
                         (int,),
                     'int64':
                         (int,),
-                    'float':
+                    '_float':
                         (float,),
                     'string':
                         (str,),
                     'binary':
                         (file_type,),
-                    'date':
+                    '_date':
                         (date,),
-                    'date_time':
+                    '_date_time':
                         (datetime,),
                     'password':
                         (str,),
@@ -1858,11 +1858,11 @@ class FakeApi(object):
                     'integer': 'integer',
                     'int32': 'int32',
                     'int64': 'int64',
-                    'float': 'float',
+                    '_float': 'float',
                     'string': 'string',
                     'binary': 'binary',
-                    'date': 'date',
-                    'date_time': 'dateTime',
+                    '_date': 'date',
+                    '_date_time': 'dateTime',
                     'password': 'password',
                     'param_callback': 'callback',
                 },
@@ -1874,11 +1874,11 @@ class FakeApi(object):
                     'integer': 'form',
                     'int32': 'form',
                     'int64': 'form',
-                    'float': 'form',
+                    '_float': 'form',
                     'string': 'form',
                     'binary': 'form',
-                    'date': 'form',
-                    'date_time': 'form',
+                    '_date': 'form',
+                    '_date_time': 'form',
                     'password': 'form',
                     'param_callback': 'form',
                 },
@@ -1916,7 +1916,7 @@ class FakeApi(object):
                 enum_query_string (str): Query parameter enum test (string). [optional] if omitted the server will use the default value of "-efg"
                 enum_query_integer (int): Query parameter enum test (double). [optional]
                 enum_query_double (float): Query parameter enum test (double). [optional]
-                enum_form_string_array ([str]): Form parameter enum test (string array). [optional] if omitted the server will use the default value of "$"
+                items ([str]): Form parameter enum test (string array). [optional] if omitted the server will use the default value of "$"
                 enum_form_string (str): Form parameter enum test (string). [optional] if omitted the server will use the default value of "-efg"
                 _return_http_data_only (bool): response data without head status
                     code and headers. Default is True.
@@ -1981,7 +1981,7 @@ class FakeApi(object):
                     'enum_query_string',
                     'enum_query_integer',
                     'enum_query_double',
-                    'enum_form_string_array',
+                    'items',
                     'enum_form_string',
                 ],
                 'required': [],
@@ -1994,7 +1994,7 @@ class FakeApi(object):
                     'enum_query_string',
                     'enum_query_integer',
                     'enum_query_double',
-                    'enum_form_string_array',
+                    'items',
                     'enum_form_string',
                 ],
                 'validation': [
@@ -2006,46 +2006,46 @@ class FakeApi(object):
                 'allowed_values': {
                     ('enum_header_string_array',): {
 
-                        "&gt;": ">",
-                        "$": "$"
+                        "GREATER_THAN": ">",
+                        "DOLLAR": "$"
                     },
                     ('enum_header_string',): {
 
                         "_ABC": "_abc",
-                        "-EFG": "-efg",
-                        "(XYZ)": "(xyz)"
+                        "EFG": "-efg",
+                        "XYZ": "(xyz)"
                     },
                     ('enum_query_string_array',): {
 
-                        "&gt;": ">",
-                        "$": "$"
+                        "GREATER_THAN": ">",
+                        "DOLLAR": "$"
                     },
                     ('enum_query_string',): {
 
                         "_ABC": "_abc",
-                        "-EFG": "-efg",
-                        "(XYZ)": "(xyz)"
+                        "EFG": "-efg",
+                        "XYZ": "(xyz)"
                     },
                     ('enum_query_integer',): {
 
-                        "1": 1,
-                        "-2": -2
+                        "POSITIVE_1": 1,
+                        "NEGATIVE_2": -2
                     },
                     ('enum_query_double',): {
 
-                        "1.1": 1.1,
-                        "-1.2": -1.2
+                        "POSITIVE_1_PT_1": 1.1,
+                        "NEGATIVE_1_PT_2": -1.2
                     },
-                    ('enum_form_string_array',): {
+                    ('items',): {
 
-                        "&gt;": ">",
-                        "$": "$"
+                        "GREATER_THAN": ">",
+                        "DOLLAR": "$"
                     },
                     ('enum_form_string',): {
 
                         "_ABC": "_abc",
-                        "-EFG": "-efg",
-                        "(XYZ)": "(xyz)"
+                        "EFG": "-efg",
+                        "XYZ": "(xyz)"
                     },
                 },
                 'openapi_types': {
@@ -2061,7 +2061,7 @@ class FakeApi(object):
                         (int,),
                     'enum_query_double':
                         (float,),
-                    'enum_form_string_array':
+                    'items':
                         ([str],),
                     'enum_form_string':
                         (str,),
@@ -2073,7 +2073,7 @@ class FakeApi(object):
                     'enum_query_string': 'enum_query_string',
                     'enum_query_integer': 'enum_query_integer',
                     'enum_query_double': 'enum_query_double',
-                    'enum_form_string_array': 'enum_form_string_array',
+                    'items': '_items',
                     'enum_form_string': 'enum_form_string',
                 },
                 'location_map': {
@@ -2083,13 +2083,13 @@ class FakeApi(object):
                     'enum_query_string': 'query',
                     'enum_query_integer': 'query',
                     'enum_query_double': 'query',
-                    'enum_form_string_array': 'form',
+                    'items': 'form',
                     'enum_form_string': 'form',
                 },
                 'collection_format_map': {
                     'enum_header_string_array': 'csv',
                     'enum_query_string_array': 'multi',
-                    'enum_form_string_array': 'csv',
+                    'items': 'csv',
                 }
             },
             headers_map={

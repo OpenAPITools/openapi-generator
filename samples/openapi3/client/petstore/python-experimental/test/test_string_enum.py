@@ -26,7 +26,7 @@ class TestStringEnum(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testStringEnum(self):
+    def test_StringEnum(self):
         """Test StringEnum"""
         # FIXME: construct object with mandatory attributes with example values
         # model = StringEnum()  # noqa: E501

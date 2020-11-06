@@ -5,16 +5,16 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **number** | **float** |  | 
 **byte** | **str** |  | 
-**date** | **date** |  | 
+**_date** | **date** |  | 
 **password** | **str** |  | 
 **integer** | **int** |  | [optional] 
 **int32** | **int** |  | [optional] 
 **int64** | **int** |  | [optional] 
-**float** | **float** |  | [optional] 
+**_float** | **float** |  | [optional] 
 **double** | **float** |  | [optional] 
 **string** | **str** |  | [optional] 
 **binary** | **file_type** |  | [optional] 
-**date_time** | **datetime** |  | [optional] 
+**_date_time** | **datetime** |  | [optional] 
 **uuid** | **str** |  | [optional] 
 **uuid_no_example** | **str** |  | [optional] 
 **pattern_with_digits** | **str** | A string that is a 10 digit number. Can have leading zeros. | [optional] 

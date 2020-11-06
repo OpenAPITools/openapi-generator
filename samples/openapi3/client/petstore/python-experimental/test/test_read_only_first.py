@@ -26,7 +26,7 @@ class TestReadOnlyFirst(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testReadOnlyFirst(self):
+    def test_ReadOnlyFirst(self):
         """Test ReadOnlyFirst"""
         # FIXME: construct object with mandatory attributes with example values
         # model = ReadOnlyFirst()  # noqa: E501

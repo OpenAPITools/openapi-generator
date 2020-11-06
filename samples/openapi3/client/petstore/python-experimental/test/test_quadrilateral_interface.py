@@ -26,7 +26,7 @@ class TestQuadrilateralInterface(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testQuadrilateralInterface(self):
+    def test_QuadrilateralInterface(self):
         """Test QuadrilateralInterface"""
         # FIXME: construct object with mandatory attributes with example values
         # model = QuadrilateralInterface()  # noqa: E501

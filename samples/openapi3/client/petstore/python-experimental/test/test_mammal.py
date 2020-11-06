@@ -14,12 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.pig import Pig
-from petstore_api.model.whale import Whale
-from petstore_api.model.zebra import Zebra
-globals()['Pig'] = Pig
-globals()['Whale'] = Whale
-globals()['Zebra'] = Zebra
 from petstore_api.model.mammal import Mammal
 
 
@@ -32,7 +26,7 @@ class TestMammal(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testMammal(self):
+    def test_Mammal(self):
         """Test Mammal"""
         # FIXME: construct object with mandatory attributes with example values
         # model = Mammal()  # noqa: E501

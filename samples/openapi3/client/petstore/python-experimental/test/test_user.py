@@ -26,7 +26,7 @@ class TestUser(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testUser(self):
+    def test_User(self):
         """Test User"""
         # FIXME: construct object with mandatory attributes with example values
         # model = User()  # noqa: E501

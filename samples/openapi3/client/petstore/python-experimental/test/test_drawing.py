@@ -14,14 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.fruit import Fruit
-from petstore_api.model.nullable_shape import NullableShape
-from petstore_api.model.shape import Shape
-from petstore_api.model.shape_or_null import ShapeOrNull
-globals()['Fruit'] = Fruit
-globals()['NullableShape'] = NullableShape
-globals()['Shape'] = Shape
-globals()['ShapeOrNull'] = ShapeOrNull
 from petstore_api.model.drawing import Drawing
 
 
@@ -34,7 +26,7 @@ class TestDrawing(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testDrawing(self):
+    def test_Drawing(self):
         """Test Drawing"""
         # FIXME: construct object with mandatory attributes with example values
         # model = Drawing()  # noqa: E501

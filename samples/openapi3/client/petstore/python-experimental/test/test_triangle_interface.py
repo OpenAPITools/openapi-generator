@@ -26,7 +26,7 @@ class TestTriangleInterface(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testTriangleInterface(self):
+    def test_TriangleInterface(self):
         """Test TriangleInterface"""
         # FIXME: construct object with mandatory attributes with example values
         # model = TriangleInterface()  # noqa: E501

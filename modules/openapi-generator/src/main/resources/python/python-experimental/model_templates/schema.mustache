@@ -1,0 +1,11 @@
+{{#isMap}}
+
+
+{{indent}}class {{#indent}}{{#nameInSnakeCase}}{{name}}{{/nameInSnakeCase}}{{^nameInSnakeCase}}{{baseName}}{{/nameInSnakeCase}}{{/indent}}{{^indent}}{{classname}}{{/indent}}(DictSchema):
+{{> python-experimental/model_templates/schema_dict }}{{/isMap}}{{#isArray}}
+
+
+{{indent}}class {{#indent}}{{#nameInSnakeCase}}{{name}}{{/nameInSnakeCase}}{{^nameInSnakeCase}}{{baseName}}{{/nameInSnakeCase}}{{/indent}}{{^indent}}{{classname}}{{/indent}}(ListSchema):
+{{> python-experimental/model_templates/schema_list }}{{/isArray}}{{^isMap}}{{^isArray}}{{^isEnum}}{{^hasValidation}}{{^defaultValue}}{{^isNullable}}{{#indent}}{{indent}}{{#nameInSnakeCase}}{{name}}{{/nameInSnakeCase}}{{^nameInSnakeCase}}{{baseName}}{{/nameInSnakeCase}}{{/indent}}{{^indent}}{{classname}}{{/indent}} = {{#isString}}Str{{/isString}}{{#isByteArray}}Str{{/isByteArray}}{{#isInteger}}Int{{/isInteger}}{{#isLong}}Int{{/isLong}}{{#isFloat}}Float{{/isFloat}}{{#isDouble}}Float{{/isDouble}}{{#isNumber}}Float{{/isNumber}}{{#isDate}}Date{{/isDate}}{{#isDateTime}}DateTime{{/isDateTime}}{{#isBoolean}}Bool{{/isBoolean}}{{#isBinary}}File{{/isBinary}}Schema{{/isNullable}}{{/defaultValue}}{{/hasValidation}}{{/isEnum}}{{> python-experimental/model_templates/class_simple_cases }}{{/isArray}}{{/isMap}}{{#nameInSnakeCase}}
+{{indent}}locals()['{{baseName}}'] = {{name}}
+{{indent}}del locals()['{{name}}']{{/nameInSnakeCase}}

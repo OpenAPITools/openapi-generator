@@ -26,7 +26,7 @@ class TestBanana(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testBanana(self):
+    def test_Banana(self):
         """Test Banana"""
         # FIXME: construct object with mandatory attributes with example values
         # model = Banana()  # noqa: E501

@@ -26,7 +26,7 @@ class TestIntegerEnum(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testIntegerEnum(self):
+    def test_IntegerEnum(self):
         """Test IntegerEnum"""
         # FIXME: construct object with mandatory attributes with example values
         # model = IntegerEnum()  # noqa: E501

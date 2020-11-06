@@ -64,6 +64,12 @@ class TestFakeApi(unittest.TestCase):
         """
         pass
 
+    def test_mammal(self):
+        """Test case for mammal
+
+        """
+        pass
+
     def test_number_with_validations(self):
         """Test case for number_with_validations
 

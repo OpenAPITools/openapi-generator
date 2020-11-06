@@ -26,7 +26,7 @@ class TestDogAllOf(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testDogAllOf(self):
+    def test_DogAllOf(self):
         """Test DogAllOf"""
         # FIXME: construct object with mandatory attributes with example values
         # model = DogAllOf()  # noqa: E501

@@ -27,6 +27,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
+import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
@@ -55,6 +56,24 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
     public PythonClientExperimentalCodegen() {
         super();
+
+        // from https://docs.python.org/3/reference/lexical_analysis.html#keywords
+        setReservedWordsLowerCase(
+                Arrays.asList(
+                        // local variable name used in API methods (endpoints)
+                        "all_params", "resource_path", "path_params", "query_params",
+                        "header_params", "form_params", "local_var_files", "body_params", "auth_settings",
+                        // @property
+                        "property",
+                        // python reserved words
+                        "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
+                        "assert", "else", "if", "pass", "yield", "break", "except", "import",
+                        "print", "class", "exec", "in", "raise", "continue", "finally", "is",
+                        "return", "def", "for", "lambda", "try", "self", "nonlocal", "None", "True",
+                        "False", "async", "await",
+                        // types
+                        "float", "int", "str", "date", "date_time", "bool", "none_type", "dict", "list", "file_type"));
+
 
         // Composed schemas can have the 'additionalProperties' keyword, as specified in JSON schema.
         // In principle, this should be enabled by default for all code generators. However due to limitations
@@ -161,6 +180,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
         supportingFiles.remove(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
         supportingFiles.add(new SupportingFile("python-experimental/__init__package.mustache", packagePath(), "__init__.py"));
+        supportingFiles.add(new SupportingFile("python-experimental/enums.mustache", packagePath(), "enums.py"));
 
         // add the models and apis folders
         supportingFiles.add(new SupportingFile("python-experimental/__init__models.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
@@ -211,6 +231,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
         // default this to true so the python ModelSimple models will be generated
         ModelUtils.setGenerateAliasAsModel(true);
+
+        TemplatingEngineAdapter templatingEngine = TemplatingEngineLoader.byIdentifier("handlebars");
+        setTemplatingEngine(templatingEngine);
+
         LOGGER.info(CodegenConstants.GENERATE_ALIAS_AS_MODEL + " is hard coded to true in this generator. Alias models will only be generated if they contain validations or enums");
 
         Boolean attrNoneIfUnset = false;
@@ -294,6 +318,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 // - preserve the validations in that model class in python
                 // - use those validations when we use this schema in composed oneOf schemas
                 return schema;
+            } else if (Boolean.TRUE.equals(ref.getNullable()) && ref.getEnum() == null) {
+                // non enum primitive with nullable True
+                // we make these models so instances of this will be subclasses of this model
+                return schema;
             } else {
                 return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())), usedImportMappings);
             }
@@ -315,7 +343,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         } else {
             strValue = dateValue.toString();
         }
-        return "dateutil_parser('" + strValue + "').date()";
+        return "isoparse('" + strValue + "').date()";
     }
 
     public String pythonDateTime(Object dateTimeValue) {
@@ -332,7 +360,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         } else {
             strValue = dateTimeValue.toString();
         }
-        return "dateutil_parser('" + strValue + "')";
+        return "isoparse('" + strValue + "')";
     }
 
     /**
@@ -465,16 +493,44 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     @Override
     public CodegenProperty fromProperty(String name, Schema p) {
         CodegenProperty cp = super.fromProperty(name, p);
+        if (!cp.isArray && cp.getItems() != null) {
+            // TODO remove items setting from our default code path and switch it to use additionalProperties
+            cp.setItems(null);
+        }
+        // if we have a property that has a difficult name, either:
+        // 1. name is reserved, like class int float
+        // 2. name is invalid in python like 3rd
+        // set cp.nameInSnakeCase to a value so we can tell that we are in this use case
+        // we handle this in schema.mustache
+        if ((isReservedWord(name) || name.matches("^[^a-zA-Z_].*")) && !name.equals(cp.name)) {
+            // need the !equals check because _class -> _class and should not reach here
+            cp.nameInSnakeCase = cp.name;
+        } else {
+            cp.nameInSnakeCase = null;
+        }
         if (cp.isEnum) {
             updateCodegenPropertyEnum(cp);
+        }
+        if (p.getType() != null && "object".equals(p.getType())) {
+            cp.setIsMap(true);
         }
         if (cp.isPrimitiveType && p.get$ref() != null) {
             cp.complexType = cp.dataType;
         }
-        if (cp.isArray && cp.complexType == null && cp.mostInnerItems.complexType != null) {
+        if (cp.isArray && cp.complexType == null && cp.mostInnerItems != null && cp.mostInnerItems.complexType != null) {
             cp.complexType = cp.mostInnerItems.complexType;
         }
+        setAdditionalPropsAndItemsVarNames(cp);
         return cp;
+    }
+
+    private void setAdditionalPropsAndItemsVarNames(IJsonSchemaValidationProperties item) {
+        if (item.getAdditionalProperties() != null) {
+            item.getAdditionalProperties().setBaseName("_additional_properties");
+        }
+        if (item.getItems() != null) {
+            item.getItems().setBaseName("_items");
+        }
     }
 
     /**
@@ -586,9 +642,54 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (value.length() == 0) {
             return "EMPTY";
         }
+        String intPattern = "^[-\\+]?\\d+$";
+        String floatPattern = "^[-\\+]?\\d+\\.\\d+$";
+        Boolean intMatch = Pattern.matches(intPattern, value);
+        Boolean floatMatch = Pattern.matches(floatPattern, value);
+        if (intMatch || floatMatch) {
+            String plusSign = "^\\+.+";
+            String negSign = "^-.+";
+            if (Pattern.matches(plusSign, value)) {
+                value = value.replace("+", "POSITIVE_");
+            } else if (Pattern.matches(negSign, value)) {
+                value = value.replace("-", "NEGATIVE_");
+            } else {
+                value = "POSITIVE_" + value;
+            }
+            if (floatMatch) {
+                value = value.replace(".", "_PT_");
+            }
+            return value;
+        }
+        // Replace " " with _
+        String usedValue = value.replaceAll("\\s+", "_").toUpperCase(Locale.ROOT);
+        // strip first character if it is invalid
+        usedValue = usedValue.replaceAll("^[^_a-zA-Z]", "");
+        usedValue = usedValue.replaceAll("[^_a-zA-Z0-9]*", "");
+        if (usedValue.length() == 0) {
+            for (int i = 0; i < value.length(); i++){
+                Character c = value.charAt(i);
+                String charName = Character.getName(c.hashCode());
+                usedValue += charNameToVarName(charName);
+            }
+            // remove trailing _
+            usedValue = usedValue.replaceAll("[_]$", "");
+        }
+        return usedValue;
+    }
 
-        String var = value.replaceAll("\\s+", "_").toUpperCase(Locale.ROOT);
-        return var;
+    /**
+     * Replace - and " " with _
+     * Remove SIGN
+     *
+     * @param varName
+     * @return
+     */
+    private String charNameToVarName(String charName) {
+        String varName = charName.replaceAll("[\\-\\s]", "_");
+        varName = varName.replaceAll("SIGN", "");
+        return varName;
+
     }
 
     /**
@@ -611,7 +712,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty p) {
         postProcessPattern(p.pattern, p.vendorExtensions);
         // set property.complexType so the model docs will link to the ClassName.md
-        if (p.complexType == null && p.isArray && p.mostInnerItems.complexType != null && !languageSpecificPrimitives.contains(p.mostInnerItems.complexType)) {
+        if (p.complexType == null && p.isArray && p.mostInnerItems != null && p.mostInnerItems.complexType != null && !languageSpecificPrimitives.contains(p.mostInnerItems.complexType)) {
             // fix ListContainers
             p.complexType = p.mostInnerItems.complexType;
         }
@@ -715,6 +816,45 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             }
         }
         Boolean isNotPythonModelSimpleModel = (ModelUtils.isComposedSchema(sc) || ModelUtils.isObjectSchema(sc) || ModelUtils.isMapSchema(sc));
+        if (sc.getType() != null && "object".equals(sc.getType())) {
+            cm.setIsMap(true);
+        } else if (sc.getType() == null && !ModelUtils.isComposedSchema(sc) && cm.getVars().size() > 0) {
+            cm.setIsMap(true);
+        }
+        setAdditionalPropsAndItemsVarNames(cm);
+        // indent is used to set the indent to the left of `class X` lines
+        // this is used by _items and _additional_properties
+        final String oneIndentationLevel = "    ";
+        cm.setIndent("");
+        ArrayList<IJsonSchemaValidationProperties> queue = new ArrayList<>(Arrays.asList(cm));
+        while (queue.size() > 0) {
+            IJsonSchemaValidationProperties schema = queue.remove(0);
+            String currentIndent = schema.getIndent() + oneIndentationLevel;
+            if (schema.getItems() != null) {
+                IJsonSchemaValidationProperties itemsSchema = schema.getItems();
+                itemsSchema.setIndent(currentIndent);
+                queue.add(itemsSchema);
+            }
+            if (schema.getAdditionalProperties() != null) {
+                IJsonSchemaValidationProperties additionalPropsSchema = schema.getAdditionalProperties();
+                additionalPropsSchema.setIndent(currentIndent);
+                queue.add(additionalPropsSchema);
+            }
+            if (schema.getVars() != null && schema.getVars().size() > 0) {
+                for (IJsonSchemaValidationProperties prop: schema.getVars()) {
+                    prop.setIndent(currentIndent);
+                    queue.add(prop);
+                }
+            }
+            String biggerIndent = currentIndent + oneIndentationLevel;
+            if (schema.getRequiredVars() != null && schema.getRequiredVars().size() > 0) {
+                for (IJsonSchemaValidationProperties requiredProp: schema.getRequiredVars()) {
+                    requiredProp.setIndent(biggerIndent);
+                    queue.add(requiredProp);
+                }
+            }
+        }
+        cm.setIndent(null);
         if (isNotPythonModelSimpleModel) {
             return cm;
         }
@@ -742,6 +882,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             cm.defaultValue = defaultValue;
             cm.hasRequired = false;
         }
+
         return cm;
     }
 

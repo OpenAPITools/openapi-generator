@@ -26,7 +26,7 @@ class TestNullableClass(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testNullableClass(self):
+    def test_NullableClass(self):
         """Test NullableClass"""
         # FIXME: construct object with mandatory attributes with example values
         # model = NullableClass()  # noqa: E501

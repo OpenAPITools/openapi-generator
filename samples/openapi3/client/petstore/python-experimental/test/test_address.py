@@ -26,7 +26,7 @@ class TestAddress(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testAddress(self):
+    def test_Address(self):
         """Test Address"""
         # FIXME: construct object with mandatory attributes with example values
         # model = Address()  # noqa: E501

@@ -26,7 +26,7 @@ class TestTag(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testTag(self):
+    def test_Tag(self):
         """Test Tag"""
         # FIXME: construct object with mandatory attributes with example values
         # model = Tag()  # noqa: E501

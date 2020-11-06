@@ -26,7 +26,7 @@ class TestArrayOfArrayOfNumberOnly(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testArrayOfArrayOfNumberOnly(self):
+    def test_ArrayOfArrayOfNumberOnly(self):
         """Test ArrayOfArrayOfNumberOnly"""
         # FIXME: construct object with mandatory attributes with example values
         # model = ArrayOfArrayOfNumberOnly()  # noqa: E501

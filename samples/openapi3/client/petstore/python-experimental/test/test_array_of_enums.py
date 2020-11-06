@@ -14,8 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.string_enum import StringEnum
-globals()['StringEnum'] = StringEnum
 from petstore_api.model.array_of_enums import ArrayOfEnums
 
 
@@ -28,7 +26,7 @@ class TestArrayOfEnums(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testArrayOfEnums(self):
+    def test_ArrayOfEnums(self):
         """Test ArrayOfEnums"""
         # FIXME: construct object with mandatory attributes with example values
         # model = ArrayOfEnums()  # noqa: E501

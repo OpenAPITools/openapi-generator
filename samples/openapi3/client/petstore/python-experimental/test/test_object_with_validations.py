@@ -26,7 +26,7 @@ class TestObjectWithValidations(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testObjectWithValidations(self):
+    def test_ObjectWithValidations(self):
         """Test ObjectWithValidations"""
         # FIXME: construct object with mandatory attributes with example values
         # model = ObjectWithValidations()  # noqa: E501

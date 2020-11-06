@@ -14,10 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.apple import Apple
-from petstore_api.model.banana import Banana
-globals()['Apple'] = Apple
-globals()['Banana'] = Banana
 from petstore_api.model.fruit import Fruit
 
 
@@ -30,7 +26,7 @@ class TestFruit(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testFruit(self):
+    def test_Fruit(self):
         """Test Fruit"""
         # FIXME: construct object with mandatory attributes with example values
         # model = Fruit()  # noqa: E501

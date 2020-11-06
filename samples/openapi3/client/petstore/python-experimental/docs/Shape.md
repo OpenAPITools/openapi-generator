@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**shape_type** | **str** |  | 
+**shape_type** | **str** |  | defaults to "Quadrilateral"
 **quadrilateral_type** | **str** |  | defaults to nulltype.Null
 **triangle_type** | **str** |  | defaults to nulltype.Null
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]

@@ -14,8 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.string_boolean_map import StringBooleanMap
-globals()['StringBooleanMap'] = StringBooleanMap
 from petstore_api.model.map_test import MapTest
 
 
@@ -28,7 +26,7 @@ class TestMapTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testMapTest(self):
+    def test_MapTest(self):
         """Test MapTest"""
         # FIXME: construct object with mandatory attributes with example values
         # model = MapTest()  # noqa: E501

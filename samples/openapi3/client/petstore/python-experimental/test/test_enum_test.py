@@ -14,16 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.integer_enum import IntegerEnum
-from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue
-from petstore_api.model.integer_enum_with_default_value import IntegerEnumWithDefaultValue
-from petstore_api.model.string_enum import StringEnum
-from petstore_api.model.string_enum_with_default_value import StringEnumWithDefaultValue
-globals()['IntegerEnum'] = IntegerEnum
-globals()['IntegerEnumOneValue'] = IntegerEnumOneValue
-globals()['IntegerEnumWithDefaultValue'] = IntegerEnumWithDefaultValue
-globals()['StringEnum'] = StringEnum
-globals()['StringEnumWithDefaultValue'] = StringEnumWithDefaultValue
 from petstore_api.model.enum_test import EnumTest
 
 
@@ -36,7 +26,7 @@ class TestEnumTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testEnumTest(self):
+    def test_EnumTest(self):
         """Test EnumTest"""
         # FIXME: construct object with mandatory attributes with example values
         # model = EnumTest()  # noqa: E501

@@ -14,10 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.shape_interface import ShapeInterface
-from petstore_api.model.triangle_interface import TriangleInterface
-globals()['ShapeInterface'] = ShapeInterface
-globals()['TriangleInterface'] = TriangleInterface
 from petstore_api.model.equilateral_triangle import EquilateralTriangle
 
 
@@ -30,7 +26,7 @@ class TestEquilateralTriangle(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testEquilateralTriangle(self):
+    def test_EquilateralTriangle(self):
         """Test EquilateralTriangle"""
         # FIXME: construct object with mandatory attributes with example values
         # model = EquilateralTriangle()  # noqa: E501

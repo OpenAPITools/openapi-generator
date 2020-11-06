@@ -26,7 +26,7 @@ class TestObjectInterface(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testObjectInterface(self):
+    def test_ObjectInterface(self):
         """Test ObjectInterface"""
         # FIXME: construct object with mandatory attributes with example values
         # model = ObjectInterface()  # noqa: E501

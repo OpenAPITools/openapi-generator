@@ -14,12 +14,9 @@ import sys
 import unittest
 
 import petstore_api
-try:
-    from petstore_api.model import number_with_validations
-except ImportError:
-    number_with_validations = sys.modules[
-        'petstore_api.model.number_with_validations']
+from petstore_api.enums import Enum
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
+from petstore_api.model.number_with_validations import NumberWithValidations
 
 
 class TestObjectModelWithRefProps(unittest.TestCase):
@@ -33,15 +30,22 @@ class TestObjectModelWithRefProps(unittest.TestCase):
 
     def testObjectModelWithRefProps(self):
         """Test ObjectModelWithRefProps"""
-        from petstore_api.model.number_with_validations import NumberWithValidations
-        self.assertEqual(
-            ObjectModelWithRefProps.openapi_types,
-            {
-                'my_number': (NumberWithValidations,),
-                'my_string': (str,),
-                'my_boolean': (bool,),
-            }
-        )
+        self.assertEqual(ObjectModelWithRefProps.myNumber, NumberWithValidations)
+        self.assertEqual(ObjectModelWithRefProps.myString._types, (str,))
+        self.assertEqual(ObjectModelWithRefProps.myBoolean._types, (bool,))
+
+        inst = ObjectModelWithRefProps(myNumber=15.0, myString="a", myBoolean=True)
+        assert isinstance(inst, ObjectModelWithRefProps)
+        assert isinstance(inst, dict)
+        assert set(inst.keys()) == {"myNumber", "myString", "myBoolean"}
+        assert inst.myNumber == 15.0
+        assert isinstance(inst.myNumber, NumberWithValidations)
+        assert inst.myString == "a"
+        assert isinstance(inst.myString, ObjectModelWithRefProps.myString)
+        assert inst.myBoolean.value == True
+        assert inst.myBoolean.name == "TRUE"
+        assert isinstance(inst.myBoolean, ObjectModelWithRefProps.myBoolean)
+        assert isinstance(inst.myBoolean, Enum)
 
 
 if __name__ == '__main__':

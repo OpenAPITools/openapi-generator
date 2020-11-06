@@ -14,8 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.read_only_first import ReadOnlyFirst
-globals()['ReadOnlyFirst'] = ReadOnlyFirst
 from petstore_api.model.array_test import ArrayTest
 
 
@@ -28,7 +26,7 @@ class TestArrayTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testArrayTest(self):
+    def test_ArrayTest(self):
         """Test ArrayTest"""
         # FIXME: construct object with mandatory attributes with example values
         # model = ArrayTest()  # noqa: E501

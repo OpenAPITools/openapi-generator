@@ -1,0 +1,5 @@
+
+
+{{indent}}class {{#nameInSnakeCase}}{{name}}{{/nameInSnakeCase}}{{^nameInSnakeCase}}{{baseName}}{{/nameInSnakeCase}}({{#isString}}Str{{/isString}}{{#isByteArray}}Str{{/isByteArray}}{{#isInteger}}Int{{/isInteger}}{{#isLong}}Int{{/isLong}}{{#isFloat}}Float{{/isFloat}}{{#isDouble}}Float{{/isDouble}}{{#isNumber}}Float{{/isNumber}}{{#isDate}}Date{{/isDate}}{{#isDateTime}}DateTime{{/isDateTime}}{{#isBoolean}}Bool{{/isBoolean}}{{#isBinary}}File{{/isBinary}}Schema):{{#required}}
+{{indent}}    _required = True{{/required}}
+{{> python-experimental/model_templates/schema_simple }}

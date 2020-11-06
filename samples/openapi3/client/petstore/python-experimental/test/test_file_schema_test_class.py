@@ -14,8 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.file import File
-globals()['File'] = File
 from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 
 
@@ -28,7 +26,7 @@ class TestFileSchemaTestClass(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testFileSchemaTestClass(self):
+    def test_FileSchemaTestClass(self):
         """Test FileSchemaTestClass"""
         # FIXME: construct object with mandatory attributes with example values
         # model = FileSchemaTestClass()  # noqa: E501

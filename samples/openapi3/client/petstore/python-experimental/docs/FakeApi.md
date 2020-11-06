@@ -8,7 +8,7 @@ Method | HTTP request | Description
 [**array_model**](FakeApi.md#array_model) | **POST** /fake/refs/arraymodel | 
 [**array_of_enums**](FakeApi.md#array_of_enums) | **POST** /fake/refs/array-of-enums | Array of Enums
 [**boolean**](FakeApi.md#boolean) | **POST** /fake/refs/boolean | 
-[**composed_one_of_number_with_validations**](FakeApi.md#composed_one_of_number_with_validations) | **POST** /fake/refs/composed_one_of_number_with_validations | 
+[**composed_one_of_different_types**](FakeApi.md#composed_one_of_different_types) | **POST** /fake/refs/composed_one_of_number_with_validations | 
 [**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 [**mammal**](FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
 [**number_with_validations**](FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
@@ -283,8 +283,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **composed_one_of_number_with_validations**
-> ComposedOneOfNumberWithValidations composed_one_of_number_with_validations()
+# **composed_one_of_different_types**
+> ComposedOneOfDifferentTypes composed_one_of_different_types()
 
 
 
@@ -296,7 +296,7 @@ Test serialization of object with $refed properties
 import time
 import petstore_api
 from petstore_api.api import fake_api
-from petstore_api.model.composed_one_of_number_with_validations import ComposedOneOfNumberWithValidations
+from petstore_api.model.composed_one_of_different_types import ComposedOneOfDifferentTypes
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -309,26 +309,26 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    composed_one_of_number_with_validations = ComposedOneOfNumberWithValidations() # ComposedOneOfNumberWithValidations | Input model (optional)
+    composed_one_of_different_types = ComposedOneOfDifferentTypes() # ComposedOneOfDifferentTypes | Input model (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
     try:
-        api_response = api_instance.composed_one_of_number_with_validations(composed_one_of_number_with_validations=composed_one_of_number_with_validations)
+        api_response = api_instance.composed_one_of_different_types(composed_one_of_different_types=composed_one_of_different_types)
         pprint(api_response)
     except petstore_api.ApiException as e:
-        print("Exception when calling FakeApi->composed_one_of_number_with_validations: %s\n" % e)
+        print("Exception when calling FakeApi->composed_one_of_different_types: %s\n" % e)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **composed_one_of_number_with_validations** | [**ComposedOneOfNumberWithValidations**](ComposedOneOfNumberWithValidations.md)| Input model | [optional]
+ **composed_one_of_different_types** | [**ComposedOneOfDifferentTypes**](ComposedOneOfDifferentTypes.md)| Input model | [optional]
 
 ### Return type
 
-[**ComposedOneOfNumberWithValidations**](ComposedOneOfNumberWithValidations.md)
+[**ComposedOneOfDifferentTypes**](ComposedOneOfDifferentTypes.md)
 
 ### Authorization
 
@@ -976,11 +976,11 @@ with petstore_api.ApiClient(configuration) as api_client:
     integer = 10 # int | None (optional)
     int32 = 20 # int | None (optional)
     int64 = 1 # int | None (optional)
-    float = 3.14 # float | None (optional)
+    _float = 3.14 # float | None (optional)
     string = "a" # str | None (optional)
     binary = open('/path/to/file', 'rb') # file_type | None (optional)
-    date = dateutil_parser('1970-01-01').date() # date | None (optional)
-    date_time = dateutil_parser('2020-02-02T20:20:20.22222Z') # datetime | None (optional) if omitted the server will use the default value of dateutil_parser('2010-02-01T10:20:10.11111+01:00')
+    _date = isoparse('1970-01-01').date() # date | None (optional)
+    _date_time = isoparse('2020-02-02T20:20:20.22222Z') # datetime | None (optional) if omitted the server will use the default value of isoparse('2010-02-01T10:20:10.11111+01:00')
     password = "password_example" # str | None (optional)
     param_callback = "param_callback_example" # str | None (optional)
 
@@ -995,7 +995,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     # and optional values
     try:
         # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-        api_instance.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, float=float, string=string, binary=binary, date=date, date_time=date_time, password=password, param_callback=param_callback)
+        api_instance.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, _float=_float, string=string, binary=binary, _date=_date, _date_time=_date_time, password=password, param_callback=param_callback)
     except petstore_api.ApiException as e:
         print("Exception when calling FakeApi->test_endpoint_parameters: %s\n" % e)
 ```
@@ -1011,11 +1011,11 @@ Name | Type | Description  | Notes
  **integer** | **int**| None | [optional]
  **int32** | **int**| None | [optional]
  **int64** | **int**| None | [optional]
- **float** | **float**| None | [optional]
+ **_float** | **float**| None | [optional]
  **string** | **str**| None | [optional]
  **binary** | **file_type**| None | [optional]
- **date** | **date**| None | [optional]
- **date_time** | **datetime**| None | [optional] if omitted the server will use the default value of dateutil_parser('2010-02-01T10:20:10.11111+01:00')
+ **_date** | **date**| None | [optional]
+ **_date_time** | **datetime**| None | [optional] if omitted the server will use the default value of isoparse('2010-02-01T10:20:10.11111+01:00')
  **password** | **str**| None | [optional]
  **param_callback** | **str**| None | [optional]
 
@@ -1075,14 +1075,14 @@ with petstore_api.ApiClient() as api_client:
     enum_query_string = "-efg" # str | Query parameter enum test (string) (optional) if omitted the server will use the default value of "-efg"
     enum_query_integer = 1 # int | Query parameter enum test (double) (optional)
     enum_query_double = 1.1 # float | Query parameter enum test (double) (optional)
-    enum_form_string_array = "$" # [str] | Form parameter enum test (string array) (optional) if omitted the server will use the default value of "$"
+    items = "$" # [str] | Form parameter enum test (string array) (optional) if omitted the server will use the default value of "$"
     enum_form_string = "-efg" # str | Form parameter enum test (string) (optional) if omitted the server will use the default value of "-efg"
 
     # example passing only required values which don't have defaults set
     # and optional values
     try:
         # To test enum parameters
-        api_instance.test_enum_parameters(enum_header_string_array=enum_header_string_array, enum_header_string=enum_header_string, enum_query_string_array=enum_query_string_array, enum_query_string=enum_query_string, enum_query_integer=enum_query_integer, enum_query_double=enum_query_double, enum_form_string_array=enum_form_string_array, enum_form_string=enum_form_string)
+        api_instance.test_enum_parameters(enum_header_string_array=enum_header_string_array, enum_header_string=enum_header_string, enum_query_string_array=enum_query_string_array, enum_query_string=enum_query_string, enum_query_integer=enum_query_integer, enum_query_double=enum_query_double, items=items, enum_form_string=enum_form_string)
     except petstore_api.ApiException as e:
         print("Exception when calling FakeApi->test_enum_parameters: %s\n" % e)
 ```
@@ -1097,7 +1097,7 @@ Name | Type | Description  | Notes
  **enum_query_string** | **str**| Query parameter enum test (string) | [optional] if omitted the server will use the default value of "-efg"
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional]
  **enum_query_double** | **float**| Query parameter enum test (double) | [optional]
- **enum_form_string_array** | **[str]**| Form parameter enum test (string array) | [optional] if omitted the server will use the default value of "$"
+ **items** | **[str]**| Form parameter enum test (string array) | [optional] if omitted the server will use the default value of "$"
  **enum_form_string** | **str**| Form parameter enum test (string) | [optional] if omitted the server will use the default value of "-efg"
 
 ### Return type

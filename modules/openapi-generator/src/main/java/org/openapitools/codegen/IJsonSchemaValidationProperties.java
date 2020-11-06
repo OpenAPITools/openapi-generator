@@ -90,4 +90,12 @@ public interface IJsonSchemaValidationProperties {
     List<CodegenProperty> getRequiredVars();
 
     void setRequiredVars(List<CodegenProperty> requiredVars);
+
+    String getIndent();
+
+    void setIndent(String indent);
+
+    boolean getHasVars();
+
+    boolean getHasRequiredVars();
 }

@@ -26,7 +26,7 @@ class TestOrder(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testOrder(self):
+    def test_Order(self):
         """Test Order"""
         # FIXME: construct object with mandatory attributes with example values
         # model = Order()  # noqa: E501

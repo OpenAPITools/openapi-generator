@@ -14,8 +14,6 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.object_interface import ObjectInterface
-globals()['ObjectInterface'] = ObjectInterface
 from petstore_api.model.some_object import SomeObject
 
 
@@ -28,7 +26,7 @@ class TestSomeObject(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testSomeObject(self):
+    def test_SomeObject(self):
         """Test SomeObject"""
         # FIXME: construct object with mandatory attributes with example values
         # model = SomeObject()  # noqa: E501

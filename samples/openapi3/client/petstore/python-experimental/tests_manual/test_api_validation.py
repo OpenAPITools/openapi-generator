@@ -57,7 +57,7 @@ class ApiClientTests(unittest.TestCase):
 
         api_client.request = functools.partial(request, 'http://path-server-test.petstore.local/v2/pet')
         try:
-            api.add_pet({'name': 'pet', 'photo_urls': []})
+            api.add_pet({'name': 'pet', 'photoUrls': []})
         except RuntimeError as e:
             assert "pass" == str(e)
 
@@ -94,15 +94,18 @@ class ApiClientTests(unittest.TestCase):
         )
         assert isinstance(inst, format_test.FormatTest)
 
-        with self.checkRaiseRegex(petstore_api.exceptions.ApiValueError, "Invalid value for `integer`, value must be a multiple of `2`"):
-          inst = format_test.FormatTest(
-              byte='3',
-              date=datetime.date(2000, 1, 1),
-              password="abcdefghijkl",
-              integer=31,  # Value is supposed to be multiple of '2'. An error must be raised
-              number=65.0,
-              float=62.4
-          )
+        with self.checkRaiseRegex(
+            petstore_api.exceptions.ApiValueError,
+            r"Invalid value `31`, value must be a multiple of `2` at \('dict', 'integer'\)"
+        ):
+            inst = format_test.FormatTest(
+                byte='3',
+                date=datetime.date(2000, 1, 1),
+                password="abcdefghijkl",
+                integer=31,  # Value is supposed to be multiple of '2'. An error must be raised
+                number=65.0,
+                float=62.4
+            )
 
     def test_multiple_of_deserialization(self):
         data = {
@@ -117,17 +120,20 @@ class ApiClientTests(unittest.TestCase):
         deserialized = self.api_client.deserialize(response, (format_test.FormatTest,), True)
         self.assertTrue(isinstance(deserialized, format_test.FormatTest))
 
-        with self.checkRaiseRegex(petstore_api.exceptions.ApiValueError, "Invalid value for `integer`, value must be a multiple of `2`"):
-          data = {
-              'byte': '3',
-              'date': '1970-01-01',
-              'password': "abcdefghijkl",
-              'integer': 31,  # Value is supposed to be multiple of '2'. An error must be raised
-              'number': 65.0,
-              'float': 62.4,
-          }
-          response = MockResponse(data=json.dumps(data))
-          deserialized = self.api_client.deserialize(response, (format_test.FormatTest,), True)
+        with self.checkRaiseRegex(
+            petstore_api.exceptions.ApiValueError,
+            r"Invalid value `31`, value must be a multiple of `2` at \('dict', 'integer'\)"
+        ):
+            data = {
+                'byte': '3',
+                'date': '1970-01-01',
+                'password': "abcdefghijkl",
+                'integer': 31,  # Value is supposed to be multiple of '2'. An error must be raised
+                'number': 65.0,
+                'float': 62.4,
+            }
+            response = MockResponse(data=json.dumps(data))
+            deserialized = self.api_client.deserialize(response, (format_test.FormatTest,), True)
 
         # Disable JSON schema validation. No error should be raised during deserialization.
         config = petstore_api.Configuration()
@@ -152,7 +158,10 @@ class ApiClientTests(unittest.TestCase):
         config.disabled_client_side_validations = "maxItems"
         api_client = petstore_api.ApiClient(configuration=config)
 
-        with self.checkRaiseRegex(petstore_api.exceptions.ApiValueError, "Invalid value for `integer`, value must be a multiple of `2`"):
+        with self.checkRaiseRegex(
+            petstore_api.exceptions.ApiValueError,
+            r"Invalid value `31`, value must be a multiple of `2` at \('dict', 'integer'\)"
+        ):
             data = {
                 'byte': '3',
                 'date': '1970-01-01',

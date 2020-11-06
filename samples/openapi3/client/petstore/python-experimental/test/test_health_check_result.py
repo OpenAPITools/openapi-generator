@@ -26,7 +26,7 @@ class TestHealthCheckResult(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testHealthCheckResult(self):
+    def test_HealthCheckResult(self):
         """Test HealthCheckResult"""
         # FIXME: construct object with mandatory attributes with example values
         # model = HealthCheckResult()  # noqa: E501
