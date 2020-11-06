@@ -246,7 +246,7 @@ namespace Org.OpenAPITools.Model
             {
                 return GmFruit.FromJson(JObject.Load(reader).ToString(Formatting.None));
             }
-            retrun null;
+            return null;
         }
 
         /// <summary>
