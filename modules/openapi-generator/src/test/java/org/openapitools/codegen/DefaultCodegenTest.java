@@ -2622,6 +2622,8 @@ public class DefaultCodegenTest {
         co = codegen.fromOperation(path, "POST", operation, null);
         assertEquals(co.pathParams.get(0).vars.size(), vars.size());
         assertEquals(co.bodyParams.get(0).vars.size(), vars.size());
+
+        // CodegenOperation puts the inline schema into schemas and refs it
         assertEquals(co.responses.get(0).isModel, true);
         assertEquals(co.responses.get(0).baseType, "objectData");
         modelName = "objectData";
@@ -2629,5 +2631,13 @@ public class DefaultCodegenTest {
         cm = codegen.fromModel(modelName, sc);
         assertEquals(cm.vars, vars);
         assertEquals(cm.requiredVars, requiredVars);
+
+        // CodegenProperty puts the inline schema into schemas and refs it
+        modelName = "ObjectPropContainsProps";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        CodegenProperty cp = cm.getVars().get(0);
+        assertEquals(cp.isModel, true);
+        assertEquals(cp.complexType, "objectData");
     }
 }

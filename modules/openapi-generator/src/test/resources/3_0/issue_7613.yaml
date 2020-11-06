@@ -336,4 +336,22 @@ components:
       required:
         - a
         - b
+    ObjectPropContainsProps:
+      type: object
+      properties:
+        a:
+          type: object
+          properties:
+            a:
+              type: string
+              minLength: 1
+            b:
+              type: string
+              minLength: 1
+            c:
+              type: string
+              minLength: 1
+          required:
+            - a
+            - b
   securitySchemes: {}
