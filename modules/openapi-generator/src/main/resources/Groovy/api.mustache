@@ -48,21 +48,8 @@ class {{classname}} {
         {{#consumes.0}}
         contentType = '{{{mediaType}}}';
         {{/consumes.0}}
-        {{/bodyParam}}
-        {{#bodyParams}}
-        {{#-first}}
-        {{^-last}}
-        bodyParams = [:]
-        bodyParams.put("{{baseName}}", {{paramName}})
-        {{/-last}}
-        {{#-last}}
         bodyParams = {{paramName}}
-        {{/-last}}
-        {{/-first}}
-        {{^-first}}
-        bodyParams.put("{{baseName}}", {{paramName}})
-        {{/-first}}
-        {{/bodyParams}}
+        {{/bodyParam}}
 
         {{#hasFormParams}}
         {{#consumes.0}}
