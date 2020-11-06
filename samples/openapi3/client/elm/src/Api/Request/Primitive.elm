@@ -12,7 +12,6 @@
    For more info on generating Elm code, see https://eriktim.github.io/openapi-elm/
 -}
 
-
 module Api.Request.Primitive exposing
     ( update
     )
@@ -36,4 +35,3 @@ update primitive_body =
         []
         (Just (Api.Data.encodePrimitive primitive_body))
         Api.Data.primitiveDecoder
-

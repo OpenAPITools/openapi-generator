@@ -12,7 +12,6 @@
    For more info on generating Elm code, see https://eriktim.github.io/openapi-elm/
 -}
 
-
 module Api.Data exposing
     ( Absent
     , Array
@@ -21,8 +20,8 @@ module Api.Data exposing
     , Discriminated(..)
     , DiscriminatedA
     , DiscriminatedB
-    , Enum(..), enumVariants
-    , Enumeric(..), enumericVariants
+    , Enum(..), stringFromEnum, enumVariants
+    , Enumeric(..), stringFromEnumeric, enumericVariants
     , Maybe_
     , OneOf(..)
     , OneOfA

@@ -1,5 +1,5 @@
 module Api exposing
-    ( Request
+    ( Request(..)
     , request
     , send
     , sendWithCustomError
