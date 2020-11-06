@@ -15,23 +15,18 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
      */
     {{#isReadOnly}}readonly {{/isReadOnly}}{{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
 {{/vars}}
-}
+}{{#hasEnums}}
 
-{{#hasEnums}}
-    {{#vars}}
-        {{#isEnum}}
-            /**
-            * @export
-            * @enum {string}
-            */
-            export enum {{classname}}{{enumName}} {
-            {{#allowableValues}}
-                {{#enumVars}}
-                    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
-                {{/enumVars}}
-            {{/allowableValues}}
-            }
-        {{/isEnum}}
-    {{/vars}}
-
-{{/hasEnums}}
+{{#vars}}
+{{#isEnum}}
+/**
+* @export
+* @enum {string}
+*/
+export enum {{classname}}{{enumName}} {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+{{/allowableValues}}
+}{{/isEnum}}{{/vars}}{{/hasEnums}}

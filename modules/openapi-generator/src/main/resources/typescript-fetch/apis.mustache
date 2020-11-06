@@ -265,7 +265,8 @@ export class {{classname}} extends runtime.BaseAPI {
             {{#isContainer}}
             {{^withoutRuntimeChecks}}
             body: requestParameters.{{paramName}}{{#isArray}}{{#items}}{{^isPrimitiveType}}.map({{datatype}}ToJSON){{/isPrimitiveType}}{{/items}}{{/isArray}},
-            {{/withoutRuntimeChecks}}{{#withoutRuntimeChecks}}
+            {{/withoutRuntimeChecks}}
+            {{#withoutRuntimeChecks}}
             body: requestParameters.{{paramName}}{{#isArray}}{{#items}}{{^isPrimitiveType}}{{/isPrimitiveType}}{{/items}}{{/isArray}},
             {{/withoutRuntimeChecks}}
             {{/isContainer}}
@@ -273,7 +274,8 @@ export class {{classname}} extends runtime.BaseAPI {
             {{^isPrimitiveType}}
             {{^withoutRuntimeChecks}}
             body: {{dataType}}ToJSON(requestParameters.{{paramName}}),
-            {{/withoutRuntimeChecks}}{{#withoutRuntimeChecks}}
+            {{/withoutRuntimeChecks}}
+            {{#withoutRuntimeChecks}}
             body: requestParameters.{{paramName}},
             {{/withoutRuntimeChecks}}
             {{/isPrimitiveType}}
