@@ -1,3 +1,4 @@
+.openapi-generator-ignore
 README.md
 build.gradle
 docs/ApiResponse.md
@@ -13,6 +14,7 @@ gradle/wrapper/gradle-wrapper.jar
 gradle/wrapper/gradle-wrapper.properties
 gradlew
 gradlew.bat
+pom.xml
 settings.gradle
 src/main/kotlin/org/openapitools/client/apis/PetApi.kt
 src/main/kotlin/org/openapitools/client/apis/StoreApi.kt

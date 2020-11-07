@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>KotlinPetstoreStringTests</artifactId>
+    <artifactId>kotlin-petstore-string</artifactId>
+    <version>1.0.0</version>
+    <name>OpenAPI Petstore</name>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>kotlin-string</name>
     <build>
         <plugins>
             <plugin>
@@ -33,8 +33,9 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>gradle</executable>
+                            <executable>/bin/bash</executable>
                             <arguments>
+                                <argument>gradlew</argument>
                                 <argument>test</argument>
                             </arguments>
                         </configuration>
