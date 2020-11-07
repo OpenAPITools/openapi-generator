@@ -1,6 +1,6 @@
 ```python
 from __future__ import print_function
-{{#apiInfo}}{{#apis}}{{^hasMore}}{{#hasHttpSignatureMethods}}import datetime{{/hasHttpSignatureMethods}}{{/hasMore}}{{/apis}}{{/apiInfo}}
+{{#apiInfo}}{{#apis}}{{#-last}}{{#hasHttpSignatureMethods}}import datetime{{/hasHttpSignatureMethods}}{{/-last}}{{/apis}}{{/apiInfo}}
 import time
 import {{{packageName}}}
 from {{{packageName}}}.rest import ApiException
@@ -17,7 +17,7 @@ with {{{packageName}}}.ApiClient(configuration) as api_client:
 
     try:
     {{#summary}}    # {{{.}}}
-    {{/summary}}    {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}={{paramName}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}
+    {{/summary}}    {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}={{paramName}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}
         pprint(api_response){{/returnType}}
     except ApiException as e:
         print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
@@ -73,5 +73,5 @@ Class | Method | HTTP request | Description
 
 ## Author
 
-{{#apiInfo}}{{#apis}}{{^hasMore}}{{infoEmail}}
-{{/hasMore}}{{/apis}}{{/apiInfo}}
+{{#apiInfo}}{{#apis}}{{#-last}}{{infoEmail}}
+{{/-last}}{{/apis}}{{/apiInfo}}

@@ -139,7 +139,7 @@ export class {{classname}} {
         headers['Accept'] = 'application/json';
         {{/produces}}
         {{#produces.0}}
-        headers['Accept'] = '{{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}';
+        headers['Accept'] = '{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}';
         {{/produces.0}}
 {{#bodyParam}}
         {{^consumes}}

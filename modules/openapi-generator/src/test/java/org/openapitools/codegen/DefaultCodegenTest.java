@@ -164,9 +164,7 @@ public class DefaultCodegenTest {
         Assert.assertTrue(coIssue443.hasProduces);
         Assert.assertEquals(coIssue443.produces.size(), 2);
         Assert.assertEquals(coIssue443.produces.get(0).get("mediaType"), "application/json");
-        Assert.assertEquals(coIssue443.produces.get(0).get("hasMore"), "true");
         Assert.assertEquals(coIssue443.produces.get(1).get("mediaType"), "application/text");
-        Assert.assertEquals(coIssue443.produces.get(1).get("hasMore"), null);
     }
 
     @Test
@@ -1432,23 +1430,19 @@ public class DefaultCodegenTest {
 
         CodegenCallback cbB = op.callbacks.get(1);
         Assert.assertEquals(cbB.name, "dummy");
-        Assert.assertFalse(cbB.hasMore);
         Assert.assertEquals(cbB.urls.size(), 0);
 
         CodegenCallback cbA = op.callbacks.get(0);
         Assert.assertEquals(cbA.name, "onData");
-        Assert.assertTrue(cbA.hasMore);
 
         Assert.assertEquals(cbA.urls.size(), 2);
 
         CodegenCallback.Url urlB = cbA.urls.get(1);
         Assert.assertEquals(urlB.expression, "{$request.query.callbackUrl}/test");
-        Assert.assertFalse(urlB.hasMore);
         Assert.assertEquals(urlB.requests.size(), 0);
 
         CodegenCallback.Url urlA = cbA.urls.get(0);
         Assert.assertEquals(urlA.expression, "{$request.query.callbackUrl}/data");
-        Assert.assertTrue(urlA.hasMore);
         Assert.assertEquals(urlA.requests.size(), 2);
 
         urlA.requests.forEach(req -> {
@@ -2593,19 +2587,14 @@ public class DefaultCodegenTest {
         Schema sc;
         CodegenModel cm;
         CodegenProperty propA = codegen.fromProperty("a", new Schema().type("string").minLength(1));
-        propA.hasMore = true;
         propA.setRequired(true);
         CodegenProperty propB = codegen.fromProperty("b", new Schema().type("string").minLength(1));
-        propB.hasMore = true;
         propB.setRequired(true);
         CodegenProperty propC = codegen.fromProperty("c", new Schema().type("string").minLength(1));
-        propC.hasMore = false;
         propC.setRequired(false);
-        CodegenProperty propBRequired = propB.clone();
-        propBRequired.hasMore = false;
 
         List<CodegenProperty> vars = new ArrayList<>(Arrays.asList(propA, propB, propC));
-        List<CodegenProperty> requiredVars = new ArrayList<>(Arrays.asList(propA, propBRequired));
+        List<CodegenProperty> requiredVars = new ArrayList<>(Arrays.asList(propA, propB));
 
         modelName = "ObjectWithOptionalAndRequiredProps";
         sc = openAPI.getComponents().getSchemas().get(modelName);
@@ -2620,11 +2609,10 @@ public class DefaultCodegenTest {
         path = "/object_with_optional_and_required_props/{objectData}";
         operation = openAPI.getPaths().get(path).getPost();
         co = codegen.fromOperation(path, "POST", operation, null);
-        // keep size() checks until https://github.com/OpenAPITools/openapi-generator/pull/7882 lands
-        assertEquals(co.pathParams.get(0).vars.size(), vars.size());
-        assertEquals(co.pathParams.get(0).requiredVars.size(), requiredVars.size());
-        assertEquals(co.bodyParams.get(0).vars.size(), vars.size());
-        assertEquals(co.bodyParams.get(0).requiredVars.size(), requiredVars.size());
+        assertEquals(co.pathParams.get(0).vars, vars);
+        assertEquals(co.pathParams.get(0).requiredVars, requiredVars);
+        assertEquals(co.bodyParams.get(0).vars, vars);
+        assertEquals(co.bodyParams.get(0).requiredVars, requiredVars);
 
         // CodegenOperation puts the inline schema into schemas and refs it
         assertEquals(co.responses.get(0).isModel, true);

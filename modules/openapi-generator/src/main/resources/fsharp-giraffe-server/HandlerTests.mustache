@@ -37,7 +37,7 @@ module {{classname}}HandlerTests =
 
       // add your setup code here
 
-      let path = "{{contextPath}}{{path}}"{{#pathParams}}.Replace("{{paramName}}", "ADDME"){{/pathParams}}{{#hasQueryParams}} + "?{{#queryParams}}{{paramName}}=ADDME{{#hasMore}}&{{/hasMore}}{{#-last}}"{{/-last}}{{/queryParams}}{{/hasQueryParams}}
+      let path = "{{contextPath}}{{path}}"{{#pathParams}}.Replace("{{paramName}}", "ADDME"){{/pathParams}}{{#hasQueryParams}} + "?{{#queryParams}}{{paramName}}=ADDME{{^-last}}&{{/-last}}{{#-last}}"{{/-last}}{{/queryParams}}{{/hasQueryParams}}
 
       {{#hasConsumes}}
       // use an example requestBody provided by the spec

@@ -18,7 +18,7 @@
 {{#operations}}
 {{#operation}}
 {{#vendorExtensions.x-has-path-params}}
-{{httpMethod}} {{{contextPath}}}{{{vendorExtensions.x-padded-path}}}    {{apiPackage}}.{{classname}}Controller.{{operationId}}({{#pathParams}}{{paramName}}: {{#isUuid}}java.util.UUID{{/isUuid}}{{^isUuid}}{{{dataType}}}{{/isUuid}}{{#hasMore}}, {{/hasMore}}{{/pathParams}})
+{{httpMethod}} {{{contextPath}}}{{{vendorExtensions.x-padded-path}}}    {{apiPackage}}.{{classname}}Controller.{{operationId}}({{#pathParams}}{{paramName}}: {{#isUuid}}java.util.UUID{{/isUuid}}{{^isUuid}}{{{dataType}}}{{/isUuid}}{{^-last}}, {{/-last}}{{/pathParams}})
 {{/vendorExtensions.x-has-path-params}}
 {{/operation}}
 {{/operations}}

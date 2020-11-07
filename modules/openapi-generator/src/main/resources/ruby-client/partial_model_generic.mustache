@@ -37,7 +37,7 @@
     def self.attribute_map
       {
         {{#vars}}
-        :'{{{name}}}' => :'{{{baseName}}}'{{#hasMore}},{{/hasMore}}
+        :'{{{name}}}' => :'{{{baseName}}}'{{^-last}},{{/-last}}
         {{/vars}}
       }
     end
@@ -46,7 +46,7 @@
     def self.openapi_types
       {
         {{#vars}}
-        :'{{{name}}}' => :'{{{dataType}}}'{{#hasMore}},{{/hasMore}}
+        :'{{{name}}}' => :'{{{dataType}}}'{{^-last}},{{/-last}}
         {{/vars}}
       }
     end
@@ -56,7 +56,7 @@
       Set.new([
         {{#vars}}
         {{#isNullable}}
-        :'{{{name}}}'{{#hasMore}},{{/hasMore}}
+        :'{{{name}}}'{{^-last}},{{/-last}}
         {{/isNullable}}
         {{/vars}}
       ])
@@ -387,7 +387,7 @@
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [{{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}].hash
+      [{{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}].hash
     end
 
 {{> base_object}}

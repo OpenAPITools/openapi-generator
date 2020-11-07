@@ -609,11 +609,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                                 return 0;
                             }
                         });
-                        Iterator<CodegenParameter> iterator = operation.allParams.iterator();
-                        while (iterator.hasNext()) {
-                            CodegenParameter param = iterator.next();
-                            param.hasMore = iterator.hasNext();
-                        }
                     }
                 }
             }
@@ -697,15 +692,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 jsonMimeTypes.add(consume);
             } else
                 prioritizedContentTypes.add(consume);
-
-            consume.put("hasMore", "true");
         }
 
         prioritizedContentTypes.addAll(0, jsonMimeTypes);
         prioritizedContentTypes.addAll(0, jsonVendorMimeTypes);
-
-        prioritizedContentTypes.get(prioritizedContentTypes.size() - 1).put("hasMore", null);
-
         return prioritizedContentTypes;
     }
 

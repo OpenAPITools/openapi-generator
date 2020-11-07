@@ -31,7 +31,7 @@ class Test{{classname}}(unittest.TestCase):
         if include_optional :
             return {{classname}}(
 {{#vars}}
-                {{name}} = {{#example}}{{{.}}}{{/example}}{{^example}}None{{/example}}{{#hasMore}}, {{/hasMore}}
+                {{name}} = {{#example}}{{{.}}}{{/example}}{{^example}}None{{/example}}{{^-last}}, {{/-last}}
 {{/vars}}
             )
         else :

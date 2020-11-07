@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
  * {{httpMethod}} {{operationId}}
  * Summary: {{summary}}
  * Notes: {{notes}}
-{{#hasProduces}} * Output-Formats: [{{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}]{{/hasProduces}}
+{{#hasProduces}} * Output-Formats: [{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}]{{/hasProduces}}
  */
 Route::{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', '{{classname}}@{{operationId}}');
 {{/operation}}

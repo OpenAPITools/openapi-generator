@@ -30,10 +30,10 @@ class {{classname}}(baseUrl: String) {
       .header("{{keyParamName}}", apiKey){{/isKeyInHeader}}{{#isKeyInCookie}}
       .cookie("{{keyParamName}}", apiKey){{/isKeyInCookie}}{{/isApiKey}}{{/authMethods}}{{#formParams.0}}{{^isMultipart}}
       .body(Map({{#formParams}}
-        {{>paramFormCreation}}{{#hasMore}}, {{/hasMore}}{{/formParams}}
+        {{>paramFormCreation}}{{^-last}}, {{/-last}}{{/formParams}}
       )){{/isMultipart}}{{#isMultipart}}
       .multipartBody(Seq({{#formParams}}
-        {{>paramMultipartCreation}}{{#hasMore}}, {{/hasMore}}{{/formParams}}
+        {{>paramMultipartCreation}}{{^-last}}, {{/-last}}{{/formParams}}
       ).flatten){{/isMultipart}}{{/formParams.0}}{{#bodyParam}}
       .body({{paramName}}){{/bodyParam}}
       .response({{#separateErrorChannel}}asJson{{/separateErrorChannel}}{{^separateErrorChannel}}asJsonAlwaysUnsafe{{/separateErrorChannel}}[{{>operationReturnType}}])

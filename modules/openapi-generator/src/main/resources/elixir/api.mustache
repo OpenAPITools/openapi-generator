@@ -48,7 +48,7 @@ defmodule {{moduleName}}.Api.{{classname}} do
       :body => :body
 {{/isBodyParam}}
 {{^isBodyParam}}
-      :"{{baseName}}" => {{#isFormParam}}:form{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}{{#hasMore}},{{/hasMore}}
+      :"{{baseName}}" => {{#isFormParam}}:form{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}{{^-last}},{{/-last}}
 {{/isBodyParam}}
 {{#-last}}
     }
@@ -71,7 +71,7 @@ defmodule {{moduleName}}.Api.{{classname}} do
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response({{#responses}}{{#-first}}[
 {{/-first}}
-      { {{& codeMappingKey}}, {{decodedStruct}}}{{#hasMore}},{{/hasMore}}
+      { {{& codeMappingKey}}, {{decodedStruct}}}{{^-last}},{{/-last}}
 {{#-last}}    ]{{/-last}}{{/responses}})
   end
   {{/operation}}
