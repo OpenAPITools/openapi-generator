@@ -1,7 +1,7 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>kotlin-petstore-nonpublic</artifactId>
+    <artifactId>kotlin-petstore-okhttp4-coroutines-client</artifactId>
     <version>1.0.0</version>
     <name>OpenAPI Petstore</name>
     <packaging>pom</packaging>
