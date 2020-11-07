@@ -34,7 +34,6 @@ src/main/kotlin/org/openapitools/client/infrastructure/LocalDateAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/LocalDateTimeAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/OffsetDateTimeAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ResponseExt.kt
-src/main/kotlin/org/openapitools/client/infrastructure/SafeEnumSerializer.kt
 src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt
 src/main/kotlin/org/openapitools/client/infrastructure/StringBuilderAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/URIAdapter.kt
