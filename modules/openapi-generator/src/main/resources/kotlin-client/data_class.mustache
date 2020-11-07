@@ -20,11 +20,6 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
 {{#hasEnums}}
-{{#useSafeEnum}}
-import org.openapitools.client.infrastructure.SafeEnum
-import org.openapitools.client.infrastructure.SafeEnum.Companion.UNKNOWN_VALUE
-import org.openapitools.client.infrastructure.SafeEnumAdapter
-{{/useSafeEnum}}
 {{/hasEnums}}
 {{/kotlinx_serialization}}
 {{#parcelizeModels}}
@@ -73,10 +68,9 @@ import java.io.Serializable
 {{#isEnum}}
     /**
      * {{{description}}}
-     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{#-last}}{{#kotlinx_serialization}}{{#useSafeEnum}},unknown_value{{/useSafeEnum}}{{/kotlinx_serialization}}{{/-last}}{{/enumVars}}{{/allowableValues}}
+     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
      */
-    {{#kotlinx_serialization}}{{#useSafeEnum}}@Serializable(with = {{nameInCamelCase}}.Serializer::class){{/useSafeEnum}}{{/kotlinx_serialization}}
-    {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{{nameInCamelCase}}}({{#kotlinx_serialization}}{{#useSafeEnum}}override {{/useSafeEnum}}{{/kotlinx_serialization}}val serialName: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}){{#kotlinx_serialization}}{{#useSafeEnum}} : SafeEnum{{/useSafeEnum}}{{/kotlinx_serialization}} {
+    {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{{nameInCamelCase}}}(val serialName: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}) {
     {{#allowableValues}}
     {{#enumVars}}
         {{^multiplatform}}
@@ -90,9 +84,7 @@ import java.io.Serializable
         @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/jackson}}
         {{#kotlinx_serialization}}
-        @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{^useSafeEnum}};{{/useSafeEnum}}{{#useSafeEnum}}{{#-last}},
-        UNKNOWN(UNKNOWN_VALUE);{{/-last}}
-        {{/useSafeEnum}}
+        @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/kotlinx_serialization}}
         {{/multiplatform}}
         {{#multiplatform}}
@@ -100,7 +92,6 @@ import java.io.Serializable
         {{/multiplatform}}
     {{/enumVars}}
     {{/allowableValues}}
-        {{#kotlinx_serialization}}{{#useSafeEnum}}{{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : SafeEnumAdapter<{{nameInCamelCase}}>({{nameInCamelCase}}::class){{/useSafeEnum}}{{/kotlinx_serialization}}
     }
 {{/isEnum}}
 {{/vars}}

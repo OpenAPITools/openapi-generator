@@ -11,11 +11,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 {{#kotlinx_serialization}}
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-{{#useSafeEnum}}
-import org.openapitools.client.infrastructure.SafeEnum
-import org.openapitools.client.infrastructure.SafeEnum.Companion.UNKNOWN_VALUE
-import org.openapitools.client.infrastructure.SafeEnumAdapter
-{{/useSafeEnum}}
 {{/kotlinx_serialization}}
 {{/multiplatform}}
 {{#multiplatform}}
@@ -25,10 +20,10 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 
 /**
 * {{{description}}}
-* Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{#-last}}{{#kotlinx_serialization}}{{#useSafeEnum}},unknown_value{{/useSafeEnum}}{{/kotlinx_serialization}}{{/-last}}{{/enumVars}}{{/allowableValues}}
+* Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
 */
 {{#multiplatform}}@Serializable(with = {{classname}}.Serializer::class){{/multiplatform}}{{#kotlinx_serialization}}@Serializable(with = {{classname}}.Serializer::class){{/kotlinx_serialization}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{classname}}({{#kotlinx_serialization}}{{#useSafeEnum}}override {{/useSafeEnum}}{{/kotlinx_serialization}}val serialName: {{{dataType}}}){{#kotlinx_serialization}}{{#useSafeEnum}} : SafeEnum{{/useSafeEnum}}{{/kotlinx_serialization}} {
+{{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{classname}}(val serialName: {{{dataType}}}) {
 
 {{#allowableValues}}{{#enumVars}}
     {{^multiplatform}}
@@ -54,9 +49,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
     {{/isList}}
     {{/isArray}}
     {{^isArray}}
-    {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}}{{#useSafeEnum}},
-
-    UNKNOWN(UNKNOWN_VALUE){{/useSafeEnum}};{{/-last}}
+    {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
     {{/isArray}}
 {{/enumVars}}{{/allowableValues}}
 
@@ -67,8 +60,4 @@ import kotlinx.serialization.internal.CommonEnumSerializer
     override fun toString(): String {
         return serialName{{^isString}}.toString(){{/isString}}
     }
-
-{{#kotlinx_serialization}}
-    {{#useSafeEnum}}{{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : SafeEnumAdapter<{{classname}}>({{classname}}::class){{/useSafeEnum}}
-{{/kotlinx_serialization}}
 }
