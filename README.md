@@ -860,7 +860,7 @@ Here is a list of template creators:
    * PHP (Guzzle): @baartosz
    * PowerShell: @beatcracker
    * PowerShell (refactored in 5.0.0): @wing328
-   * Python-experimental: @spacether
+   * Python: @spacether
    * R: @ramnov
    * Ruby (Faraday): @meganemura @dkliban
    * Rust: @farcaller
