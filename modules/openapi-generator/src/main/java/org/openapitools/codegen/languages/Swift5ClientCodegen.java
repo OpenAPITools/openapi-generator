@@ -217,7 +217,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("ByteArray", "Data");
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "String");
-        typeMapping.put("BigDecimal", "Decimal");
+        typeMapping.put("decimal", "Decimal");
         typeMapping.put("object", "Any");
         typeMapping.put("AnyType", "Any");
 
