@@ -133,7 +133,7 @@ class {{classname}}(object):
 
         all_params = [
 {{#allParams}}
-            '{{paramName}}'{{#hasMore}},{{/hasMore}}
+            '{{paramName}}'{{^-last}},{{/-last}}
 {{/allParams}}
         ]
         all_params.extend(
@@ -242,17 +242,17 @@ class {{classname}}(object):
         {{#hasProduces}}
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
-            [{{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}}])  # noqa: E501
+            [{{#produces}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}])  # noqa: E501
 
         {{/hasProduces}}
         {{#hasConsumes}}
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            [{{#consumes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}])  # noqa: E501
+            [{{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}}])  # noqa: E501
 
         {{/hasConsumes}}
         # Authentication setting
-        auth_settings = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]  # noqa: E501
+        auth_settings = [{{#authMethods}}'{{name}}'{{^-last}}, {{/-last}}{{/authMethods}}]  # noqa: E501
         
         {{#returnType}}
         {{#responses}}

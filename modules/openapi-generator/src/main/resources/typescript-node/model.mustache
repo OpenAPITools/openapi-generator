@@ -36,8 +36,8 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
             "name": "{{name}}",
             "baseName": "{{baseName}}",
             "type": "{{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}"
-        }{{#hasMore}},
-        {{/hasMore}}
+        }{{^-last}},
+        {{/-last}}
         {{/vars}}
     ];
 

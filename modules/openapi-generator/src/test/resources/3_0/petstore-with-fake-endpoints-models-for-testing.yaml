@@ -1437,6 +1437,9 @@ components:
           format: double
           maximum: 123.4
           minimum: 67.8
+        decimal:
+          type: string
+          format: number
         string:
           type: string
           pattern: '/[a-z]/i'

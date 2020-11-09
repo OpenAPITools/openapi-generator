@@ -104,14 +104,14 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
 
 export type AuthMethods = {
     {{#authMethods}}
-    "{{name}}"?: SecurityAuthentication{{#hasMore}},{{/hasMore}}
+    "{{name}}"?: SecurityAuthentication{{^-last}},{{/-last}}
     {{/authMethods}}
 }
 {{#useInversify}}
 
 export const authMethodServices = {
     {{#authMethods}}
-    "{{name}}": {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication{{#hasMore}},{{/hasMore}}
+    "{{name}}": {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication{{^-last}},{{/-last}}
     {{/authMethods}}
 }
 {{/useInversify}}
@@ -123,7 +123,7 @@ export type OAuth2Configuration = string;
 
 export type AuthMethodsConfiguration = {
     {{#authMethods}}
-    "{{name}}"?: {{#isApiKey}}ApiKeyConfiguration{{/isApiKey}}{{#isBasicBasic}}HttpBasicConfiguration{{/isBasicBasic}}{{#isBasicBearer}}HttpBearerConfiguration{{/isBasicBearer}}{{#isOAuth}}OAuth2Configuration{{/isOAuth}}{{#hasMore}},{{/hasMore}}
+    "{{name}}"?: {{#isApiKey}}ApiKeyConfiguration{{/isApiKey}}{{#isBasicBasic}}HttpBasicConfiguration{{/isBasicBasic}}{{#isBasicBearer}}HttpBearerConfiguration{{/isBasicBearer}}{{#isOAuth}}OAuth2Configuration{{/isOAuth}}{{^-last}},{{/-last}}
     {{/authMethods}}
 }
 
