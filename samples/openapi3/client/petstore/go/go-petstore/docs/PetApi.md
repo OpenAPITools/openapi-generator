@@ -192,7 +192,7 @@ Other parameters are passed through a pointer to a apiFindPetsByStatusRequest st
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**[]string**](string.md) | Status values that need to be considered for filter | 
+ **status** | **[]string** | Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -258,7 +258,7 @@ Other parameters are passed through a pointer to a apiFindPetsByTagsRequest stru
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**[]string**](string.md) | Tags to filter by | 
+ **tags** | **[]string** | Tags to filter by | 
 
 ### Return type
 

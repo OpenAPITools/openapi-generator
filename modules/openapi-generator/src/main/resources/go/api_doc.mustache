@@ -67,7 +67,7 @@ Other parameters are passed through a pointer to a api{{{nickname}}}Request stru
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}{{#allParams}}
-{{^isPathParam}} **{{paramName}}** | {{^isPrimitiveType}}{{^isFile}}[{{/isFile}}{{/isPrimitiveType}}**{{dataType}}**{{^isPrimitiveType}}{{^isFile}}]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}} | {{description}} | {{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}{{/isPathParam}}{{/allParams}}
+{{^isPathParam}} **{{paramName}}** | {{#isArray}}{{#items}}{{^isPrimitiveType}}{{^isFile}}[{{/isFile}}{{/isPrimitiveType}}**[]{{dataType}}**{{^isPrimitiveType}}{{^isFile}}]({{#isEnum}}{{dataType}}{{/isEnum}}{{^isEnum}}{{baseType}}{{/isEnum}}.md){{/isFile}}{{/isPrimitiveType}}{{/items}}{{/isArray}}{{^isArray}}{{^isPrimitiveType}}{{^isFile}}[{{/isFile}}{{/isPrimitiveType}}**{{dataType}}**{{^isPrimitiveType}}{{^isFile}}]({{#isEnum}}{{dataType}}{{/isEnum}}{{^isEnum}}{{baseType}}{{/isEnum}}.md){{/isFile}}{{/isPrimitiveType}}{{/isArray}} | {{description}} | {{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}{{/isPathParam}}{{/allParams}}
 
 ### Return type
 

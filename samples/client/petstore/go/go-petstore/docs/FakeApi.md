@@ -685,13 +685,13 @@ Other parameters are passed through a pointer to a apiTestEnumParametersRequest 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**[]string**](string.md) | Header parameter enum test (string array) | 
+ **enumHeaderStringArray** | **[]string** | Header parameter enum test (string array) | 
  **enumHeaderString** | **string** | Header parameter enum test (string) | [default to &quot;-efg&quot;]
- **enumQueryStringArray** | [**[]string**](string.md) | Query parameter enum test (string array) | 
+ **enumQueryStringArray** | **[]string** | Query parameter enum test (string array) | 
  **enumQueryString** | **string** | Query parameter enum test (string) | [default to &quot;-efg&quot;]
  **enumQueryInteger** | **int32** | Query parameter enum test (double) | 
  **enumQueryDouble** | **float64** | Query parameter enum test (double) | 
- **enumFormStringArray** | [**[]string**](string.md) | Form parameter enum test (string array) | [default to &quot;$&quot;]
+ **enumFormStringArray** | **[]string** | Form parameter enum test (string array) | [default to &quot;$&quot;]
  **enumFormString** | **string** | Form parameter enum test (string) | [default to &quot;-efg&quot;]
 
 ### Return type
@@ -960,11 +960,11 @@ Other parameters are passed through a pointer to a apiTestQueryParameterCollecti
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pipe** | [**[]string**](string.md) |  | 
- **ioutil** | [**[]string**](string.md) |  | 
- **http** | [**[]string**](string.md) |  | 
- **url** | [**[]string**](string.md) |  | 
- **context** | [**[]string**](string.md) |  | 
+ **pipe** | **[]string** |  | 
+ **ioutil** | **[]string** |  | 
+ **http** | **[]string** |  | 
+ **url** | **[]string** |  | 
+ **context** | **[]string** |  | 
 
 ### Return type
 
