@@ -823,7 +823,7 @@ Other parameters are passed through a pointer to a apiTestInlineAdditionalProper
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**map[string]string**](string.md) | request body | 
+ **requestBody** | **map[string]string** | request body | 
 
 ### Return type
 
