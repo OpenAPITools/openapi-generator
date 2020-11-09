@@ -11,6 +11,7 @@ OpenAPI Generator version: 5.0.0-SNAPSHOT
 =end
 
 require 'date'
+require 'time'
 
 module Petstore
   class FormatTest
@@ -25,6 +26,8 @@ module Petstore
     attr_accessor :float
 
     attr_accessor :double
+
+    attr_accessor :decimal
 
     attr_accessor :string
 
@@ -55,6 +58,7 @@ module Petstore
         :'number' => :'number',
         :'float' => :'float',
         :'double' => :'double',
+        :'decimal' => :'decimal',
         :'string' => :'string',
         :'byte' => :'byte',
         :'binary' => :'binary',
@@ -76,11 +80,12 @@ module Petstore
         :'number' => :'Float',
         :'float' => :'Float',
         :'double' => :'Float',
+        :'decimal' => :'Decimal',
         :'string' => :'String',
         :'byte' => :'String',
         :'binary' => :'File',
         :'date' => :'Date',
-        :'date_time' => :'DateTime',
+        :'date_time' => :'Time',
         :'uuid' => :'String',
         :'password' => :'String',
         :'pattern_with_digits' => :'String',
@@ -131,6 +136,10 @@ module Petstore
 
       if attributes.key?(:'double')
         self.double = attributes[:'double']
+      end
+
+      if attributes.key?(:'decimal')
+        self.decimal = attributes[:'decimal']
       end
 
       if attributes.key?(:'string')
@@ -417,6 +426,7 @@ module Petstore
           number == o.number &&
           float == o.float &&
           double == o.double &&
+          decimal == o.decimal &&
           string == o.string &&
           byte == o.byte &&
           binary == o.binary &&
@@ -437,7 +447,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [integer, int32, int64, number, float, double, string, byte, binary, date, date_time, uuid, password, pattern_with_digits, pattern_with_digits_and_delimiter].hash
+      [integer, int32, int64, number, float, double, decimal, string, byte, binary, date, date_time, uuid, password, pattern_with_digits, pattern_with_digits_and_delimiter].hash
     end
 
     # Builds the object from hash
@@ -453,7 +463,9 @@ module Petstore
     def build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
       self.class.openapi_types.each_pair do |key, type|
-        if type =~ /\AArray<(.*)>/i
+        if attributes[self.class.attribute_map[key]].nil? && self.class.openapi_nullable.include?(key)
+          self.send("#{key}=", nil)
+        elsif type =~ /\AArray<(.*)>/i
           # check to ensure the input is an array given that the attribute
           # is documented as an array but the input is not
           if attributes[self.class.attribute_map[key]].is_a?(Array)
@@ -461,7 +473,7 @@ module Petstore
           end
         elsif !attributes[self.class.attribute_map[key]].nil?
           self.send("#{key}=", _deserialize(type, attributes[self.class.attribute_map[key]]))
-        end # or else data not found in attributes(hash), not an issue as the data can be optional
+        end
       end
 
       self
@@ -473,8 +485,8 @@ module Petstore
     # @return [Object] Deserialized data
     def _deserialize(type, value)
       case type.to_sym
-      when :DateTime
-        DateTime.parse(value)
+      when :Time
+        Time.parse(value)
       when :Date
         Date.parse(value)
       when :String
@@ -553,5 +565,6 @@ module Petstore
         value
       end
     end
+
   end
 end

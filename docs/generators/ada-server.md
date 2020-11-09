@@ -3,6 +3,8 @@ title: Config Options for ada-server
 sidebar_label: ada-server
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
@@ -29,14 +31,17 @@ sidebar_label: ada-server
 ## LANGUAGE PRIMITIVES
 
 <ul class="column-ul">
-<li>Boolean</li>
-<li>Character</li>
-<li>Integer</li>
+<li>DateTime</li>
+<li>binary</li>
 <li>boolean</li>
+<li>date</li>
 <li>double</li>
 <li>float</li>
 <li>integer</li>
 <li>long</li>
+<li>number</li>
+<li>object</li>
+<li>string</li>
 </ul>
 
 ## RESERVED WORDS
@@ -125,6 +130,7 @@ sidebar_label: ada-server
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |
@@ -207,8 +213,8 @@ sidebar_label: ada-server
 ### Security Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|BasicAuth|✓|OAS2,OAS3
-|ApiKey|✓|OAS2,OAS3
+|BasicAuth|✗|OAS2,OAS3
+|ApiKey|✗|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
 |BearerToken|✗|OAS3
 |OAuth2_Implicit|✗|OAS2,OAS3

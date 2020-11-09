@@ -8,8 +8,7 @@
 import Foundation
 
 /** Model for testing model name same as property name */
-
-@objc public class Name: NSObject, Codable { 
+@objc public class Name: NSObject, Codable {
 
     public var name: Int
     public var snakeCase: Int?
@@ -26,14 +25,14 @@ import Foundation
         }
     }
 
-    public init(name: Int, snakeCase: Int?, property: String?, _123number: Int?) {
+    public init(name: Int, snakeCase: Int? = nil, property: String? = nil, _123number: Int? = nil) {
         self.name = name
         self.snakeCase = snakeCase
         self.property = property
         self._123number = _123number
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable { 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case snakeCase = "snake_case"
         case property

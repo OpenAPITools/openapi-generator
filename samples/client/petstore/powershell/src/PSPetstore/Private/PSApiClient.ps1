@@ -32,7 +32,9 @@ function Invoke-PSApiClient {
         [string]$Method,
         [Parameter(Mandatory)]
         [AllowEmptyString()]
-        [string]$ReturnType
+        [string]$ReturnType,
+        [Parameter(Mandatory)]
+        [bool]$IsBodyNullable
     )
 
     'Calling method: Invoke-PSApiClient' | Write-Debug
@@ -91,26 +93,55 @@ function Invoke-PSApiClient {
         $RequestBody = $FormParameters
     }
 
-    if ($Body) {
+    if ($Body -or $IsBodyNullable) {
         $RequestBody = $Body
+        if ([string]::IsNullOrEmpty($RequestBody) -and $IsBodyNullable -eq $true) {
+            $RequestBody = "null"
+        }
     }
 
     if ($SkipCertificateCheck -eq $true) {
-        $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
-                                  -Method $Method `
-                                  -Headers $HeaderParameters `
-                                  -Body $RequestBody `
-                                  -ErrorAction Stop `
-                                  -UseBasicParsing `
-                                  -SkipCertificateCheck
-
+        if ($Configuration["Proxy"] -eq $null) {
+            # skip certification check, no proxy
+            $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
+                                      -Method $Method `
+                                      -Headers $HeaderParameters `
+                                      -Body $RequestBody `
+                                      -ErrorAction Stop `
+                                      -UseBasicParsing `
+                                      -SkipCertificateCheck
+        } else {
+            # skip certification check, use proxy
+            $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
+                                      -Method $Method `
+                                      -Headers $HeaderParameters `
+                                      -Body $RequestBody `
+                                      -ErrorAction Stop `
+                                      -UseBasicParsing `
+                                      -SkipCertificateCheck `
+                                      -Proxy $Configuration["Proxy"].GetProxy($UriBuilder.Uri) `
+                                      -ProxyUseDefaultCredentials
+        }
     } else {
-        $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
-                                  -Method $Method `
-                                  -Headers $HeaderParameters `
-                                  -Body $RequestBody `
-                                  -ErrorAction Stop `
-                                  -UseBasicParsing
+        if ($Configuration["Proxy"] -eq $null) {
+            # perform certification check, no proxy
+            $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
+                                      -Method $Method `
+                                      -Headers $HeaderParameters `
+                                      -Body $RequestBody `
+                                      -ErrorAction Stop `
+                                      -UseBasicParsing
+        } else {
+            # perform certification check, use proxy
+            $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
+                                      -Method $Method `
+                                      -Headers $HeaderParameters `
+                                      -Body $RequestBody `
+                                      -ErrorAction Stop `
+                                      -UseBasicParsing `
+                                      -Proxy $Configuration["Proxy"].GetProxy($UriBuilder.Uri) `
+                                      -ProxyUseDefaultCredentials
+        }
     }
 
     return @{
@@ -167,7 +198,7 @@ function DeserializeResponse {
         [string[]]$ContentTypes
     )
 
-    If ([string]::IsNullOrEmpty($ReturnType)) { # void response
+    If ([string]::IsNullOrEmpty($ReturnType) -and $ContentTypes.Count -eq 0) { # void response
         return $Response
     } Elseif ($ReturnType -match '\[\]$') { # array
         return ConvertFrom-Json $Response

@@ -185,7 +185,7 @@ public class {{classname}}Test {
         {{#loadTestDataFromFile}}
 
         {{/loadTestDataFromFile}}
-        {{^loadTestDataFromFile}}// {{/loadTestDataFromFile}}{{^vendorExtensions.x-java-is-response-void}}{{>returnTypes}} response = {{/vendorExtensions.x-java-is-response-void}}api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{^loadTestDataFromFile}}// {{/loadTestDataFromFile}}{{^vendorExtensions.x-java-is-response-void}}{{>returnTypes}} response = {{/vendorExtensions.x-java-is-response-void}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
         {{^vendorExtensions.x-java-is-response-void}}
         // TODO: complete test assertions
             {{#generateOperationBody}}

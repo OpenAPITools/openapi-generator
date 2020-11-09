@@ -10,8 +10,8 @@ Name | Type | Description | Notes
 **enum_number** | **Float** |  | [optional] 
 **outer_enum** | [**OuterEnum**](OuterEnum.md) |  | [optional] 
 **outer_enum_integer** | [**OuterEnumInteger**](OuterEnumInteger.md) |  | [optional] 
-**outer_enum_default_value** | [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] 
-**outer_enum_integer_default_value** | [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] 
+**outer_enum_default_value** | [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] [default to &#39;placed&#39;]
+**outer_enum_integer_default_value** | [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] [default to OuterEnumIntegerDefaultValue::N0]
 
 ## Code Sample
 

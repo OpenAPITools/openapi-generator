@@ -11,6 +11,7 @@ OpenAPI Generator version: 5.0.0-SNAPSHOT
 =end
 
 require 'date'
+require 'time'
 
 module Petstore
   class NullableClass
@@ -64,7 +65,7 @@ module Petstore
         :'boolean_prop' => :'Boolean',
         :'string_prop' => :'String',
         :'date_prop' => :'Date',
-        :'datetime_prop' => :'DateTime',
+        :'datetime_prop' => :'Time',
         :'array_nullable_prop' => :'Array<Object>',
         :'array_and_items_nullable_prop' => :'Array<Object>',
         :'array_items_nullable' => :'Array<Object>',
@@ -223,7 +224,9 @@ module Petstore
     def build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
       self.class.openapi_types.each_pair do |key, type|
-        if type =~ /\AArray<(.*)>/i
+        if attributes[self.class.attribute_map[key]].nil? && self.class.openapi_nullable.include?(key)
+          self.send("#{key}=", nil)
+        elsif type =~ /\AArray<(.*)>/i
           # check to ensure the input is an array given that the attribute
           # is documented as an array but the input is not
           if attributes[self.class.attribute_map[key]].is_a?(Array)
@@ -231,7 +234,7 @@ module Petstore
           end
         elsif !attributes[self.class.attribute_map[key]].nil?
           self.send("#{key}=", _deserialize(type, attributes[self.class.attribute_map[key]]))
-        end # or else data not found in attributes(hash), not an issue as the data can be optional
+        end
       end
 
       self
@@ -243,8 +246,8 @@ module Petstore
     # @return [Object] Deserialized data
     def _deserialize(type, value)
       case type.to_sym
-      when :DateTime
-        DateTime.parse(value)
+      when :Time
+        Time.parse(value)
       when :Date
         Date.parse(value)
       when :String
@@ -323,5 +326,6 @@ module Petstore
         value
       end
     end
+
   end
 end

@@ -1,4 +1,4 @@
-# type_holder_example.TypeHolderExample
+# TypeHolderExample
 
 a model to test required properties with an example and length one enum
 ## Properties
@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **bool_item** | **bool** |  | 
 **array_item** | **[int]** |  | 
-**string_item** | **str** |  | defaults to 'what'
+**string_item** | **str** |  | defaults to "what"
 **number_item** | **float** |  | defaults to 1.234
 **integer_item** | **int** |  | defaults to -2
 

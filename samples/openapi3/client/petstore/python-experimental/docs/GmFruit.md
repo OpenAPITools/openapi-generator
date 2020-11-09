@@ -1,4 +1,4 @@
-# gm_fruit.GmFruit
+# GmFruit
 
 ## Properties
 Name | Type | Description | Notes

@@ -15,7 +15,9 @@ import org.threeten.bp.*;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+{{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
+{{/openApiNullable}}
 {{#joda}}
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
@@ -79,7 +81,7 @@ public class ApiClient {
         auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}");
       {{/isApiKey}}
       {{#isOAuth}}
-        auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{#hasMore}}, {{/hasMore}}{{/scopes}}");
+        auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}");
       {{/isOAuth}}
       } else {{/authMethods}}{
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
@@ -187,8 +189,10 @@ public class ApiClient {
     module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
     objectMapper.registerModule(module);
     {{/threetenbp}}
+    {{#openApiNullable}}
     JsonNullableModule jnm = new JsonNullableModule();
     objectMapper.registerModule(jnm);
+    {{/openApiNullable}}
     return objectMapper;
   }
 

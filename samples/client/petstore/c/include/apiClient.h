@@ -23,6 +23,7 @@ typedef struct apiClient_t {
     sslConfig_t *sslConfig;
     void *dataReceived;
     long dataReceivedLen;
+    void (*data_callback_func)(void **, long *);
     long response_code;
     list_t *apiKeys_api_key;
     char *accessToken;
@@ -44,5 +45,17 @@ sslConfig_t *sslConfig_create(const char *clientCertFile, const char *clientKeyF
 void sslConfig_free(sslConfig_t *sslConfig);
 
 char *strReplace(char *orig, char *rep, char *with);
+
+/*
+ * In single thread program, the function apiClient_setupGlobalEnv is not needed.
+ * But in multi-thread program, apiClient_setupGlobalEnv must be called before any worker thread is created
+ */
+void apiClient_setupGlobalEnv();
+
+/*
+ * This function apiClient_unsetupGlobalEnv must be called whether single or multiple program.
+ * In multi-thread program, it is must be called after all worker threads end.
+ */
+void apiClient_unsetupGlobalEnv();
 
 #endif // INCLUDE_API_CLIENT_H

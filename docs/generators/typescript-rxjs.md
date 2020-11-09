@@ -3,6 +3,8 @@ title: Config Options for typescript-rxjs
 sidebar_label: typescript-rxjs
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
@@ -21,7 +23,7 @@ sidebar_label: typescript-rxjs
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |supportsES6|Generate code that conforms to ES6.| |false|
-|withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
+|withProgressSubscriber|Setting this property to true will generate API controller methods with support for subscribing to request progress.| |false|
 
 ## IMPORT MAPPING
 
@@ -52,6 +54,7 @@ sidebar_label: typescript-rxjs
 <li>Map</li>
 <li>Object</li>
 <li>ReadonlyArray</li>
+<li>Set</li>
 <li>String</li>
 <li>any</li>
 <li>boolean</li>
@@ -126,6 +129,7 @@ sidebar_label: typescript-rxjs
 <li>queryParameters</li>
 <li>requestOptions</li>
 <li>return</li>
+<li>servers</li>
 <li>short</li>
 <li>static</li>
 <li>super</li>
@@ -157,6 +161,7 @@ sidebar_label: typescript-rxjs
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

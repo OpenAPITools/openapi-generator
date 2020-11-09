@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
+import java.time.OffsetDateTime;
 
 import java.net.URLEncoder;
 
@@ -65,10 +66,11 @@ import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class ApiClient {
+public class ApiClient extends JavaTimeFormatter {
   protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
   protected String basePath = "http://petstore.swagger.io:80/v2";
+  protected String userAgent;
   private static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
   protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
@@ -114,6 +116,11 @@ public class ApiClient {
           )
         ));
       }}
+    ),
+    new ServerConfiguration(
+      "https://127.0.0.1/no_variable",
+      "The local server without variables",
+      new HashMap<String, ServerVariable>()
     )
   ));
   protected Integer serverIndex = 0;
@@ -149,6 +156,7 @@ public class ApiClient {
   protected Map<String, Integer> operationServerIndex = new HashMap<String, Integer>();
   protected Map<String, Map<String, String>> operationServerVariables = new HashMap<String, Map<String, String>>();
   protected boolean debugging = false;
+  protected ClientConfig clientConfig;
   protected int connectionTimeout = 0;
   private int readTimeout = 0;
 
@@ -175,7 +183,7 @@ public class ApiClient {
    */
   public ApiClient(Map<String, Authentication> authMap) {
     json = new JSON();
-    httpClient = buildHttpClient(debugging);
+    httpClient = buildHttpClient();
 
     this.dateFormat = new RFC3339DateFormat();
 
@@ -458,7 +466,7 @@ public class ApiClient {
   public ApiClient setOauthCredentials(String clientId, String clientSecret) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof OAuth) {
-        ((OAuth) auth).setCredentials(clientId, clientSecret);
+        ((OAuth) auth).setCredentials(clientId, clientSecret, isDebugging());
         return this;
       }
     }
@@ -517,8 +525,17 @@ public class ApiClient {
    * @return API client
    */
   public ApiClient setUserAgent(String userAgent) {
+    userAgent = userAgent;
     addDefaultHeader("User-Agent", userAgent);
     return this;
+  }
+
+  /**
+   * Get the User-Agent header's value.
+   * @return User-Agent string
+   */
+  public String getUserAgent(){
+    return userAgent;
   }
 
   /**
@@ -546,6 +563,27 @@ public class ApiClient {
   }
 
   /**
+   * Gets the client config.
+   * @return Client config
+   */
+  public ClientConfig getClientConfig() {
+    return clientConfig;
+  }
+
+  /**
+   * Set the client config.
+   *
+   * @param clientConfig Set the client config
+   * @return API client
+   */
+  public ApiClient setClientConfig(ClientConfig clientConfig) {
+    this.clientConfig = clientConfig;
+    // Rebuild HTTP Client according to the new "clientConfig" value.
+    this.httpClient = buildHttpClient();
+    return this;
+  }
+
+  /**
    * Check that whether debugging is enabled for this API client.
    * @return True if debugging is switched on
    */
@@ -562,7 +600,7 @@ public class ApiClient {
   public ApiClient setDebugging(boolean debugging) {
     this.debugging = debugging;
     // Rebuild HTTP Client according to the new "debugging" value.
-    this.httpClient = buildHttpClient(debugging);
+    this.httpClient = buildHttpClient();
     return this;
   }
 
@@ -681,6 +719,8 @@ public class ApiClient {
       return "";
     } else if (param instanceof Date) {
       return formatDate((Date) param);
+    } else if (param instanceof OffsetDateTime) {
+      return formatOffsetDateTime((OffsetDateTime) param);
     } else if (param instanceof Collection) {
       StringBuilder b = new StringBuilder();
       for(Object o : (Collection)param) {
@@ -835,7 +875,7 @@ public class ApiClient {
    * @return Entity
    * @throws ApiException API exception
    */
-  public Entity<?> serialize(Object obj, Map<String, Object> formParams, String contentType) throws ApiException {
+  public Entity<?> serialize(Object obj, Map<String, Object> formParams, String contentType, boolean isBodyNullable) throws ApiException {
     Entity<?> entity;
     if (contentType.startsWith("multipart/form-data")) {
       MultiPart multiPart = new MultiPart();
@@ -859,7 +899,19 @@ public class ApiClient {
       entity = Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE);
     } else {
       // We let jersey handle the serialization
-      entity = Entity.entity(obj == null ? Entity.text("") : obj, contentType);
+      if (isBodyNullable) { // payload is nullable
+        if (obj instanceof String) {
+          entity = Entity.entity(obj == null ? "null" : "\"" + ((String)obj).replaceAll("\"", Matcher.quoteReplacement("\\\"")) + "\"", contentType);
+        } else {
+          entity = Entity.entity(obj == null ? "null" : obj, contentType);
+        }
+      } else {
+        if (obj instanceof String) {
+          entity = Entity.entity(obj == null ? "" : "\"" + ((String)obj).replaceAll("\"", Matcher.quoteReplacement("\\\"")) + "\"", contentType);
+        } else {
+          entity = Entity.entity(obj == null ? "" : obj, contentType);
+        }
+      }
     }
     return entity;
   }
@@ -870,10 +922,11 @@ public class ApiClient {
    * @param obj Object
    * @param formParams Form parameters
    * @param contentType Context type
+   * @param isBodyNullable True if the body is nullable
    * @return String
    * @throws ApiException API exception
    */
-  public String serializeToString(Object obj, Map<String, Object> formParams, String contentType) throws ApiException {
+  public String serializeToString(Object obj, Map<String, Object> formParams, String contentType, boolean isBodyNullable) throws ApiException {
     try {
       if (contentType.startsWith("multipart/form-data")) {
         throw new ApiException("multipart/form-data not yet supported for serializeToString (http signature authentication)");
@@ -889,7 +942,11 @@ public class ApiClient {
           return formString.substring(0, formString.length() - 1);
         }
       } else {
-        return json.getMapper().writeValueAsString(obj);
+        if (isBodyNullable) {
+          return obj == null ? "null" : json.getMapper().writeValueAsString(obj);
+        } else {
+          return obj == null ? "" : json.getMapper().writeValueAsString(obj);
+        }
       }
     } catch (Exception ex) {
       throw new ApiException("Failed to perform serializeToString: " + ex.toString());
@@ -997,6 +1054,7 @@ public class ApiClient {
    * @param contentType The request's Content-Type header
    * @param authNames The authentications to apply
    * @param returnType The return type into which to deserialize the response
+   * @param isBodyNullable True if the body is nullable
    * @return The response body in type of string
    * @throws ApiException API exception
    */
@@ -1012,7 +1070,8 @@ public class ApiClient {
       String accept,
       String contentType,
       String[] authNames,
-      GenericType<T> returnType)
+      GenericType<T> returnType,
+      boolean isBodyNullable)
       throws ApiException {
 
     // Not using `.target(targetURL).path(path)` below,
@@ -1059,7 +1118,7 @@ public class ApiClient {
       }
     }
 
-    Entity<?> entity = serialize(body, formParams, contentType);
+    Entity<?> entity = serialize(body, formParams, contentType, isBodyNullable);
 
     // put all headers in one place
     Map<String, String> allHeaderParams = new HashMap<>(defaultHeaderMap);
@@ -1071,7 +1130,7 @@ public class ApiClient {
         queryParams,
         allHeaderParams,
         cookieParams,
-        serializeToString(body, formParams, contentType),
+        serializeToString(body, formParams, contentType, isBodyNullable),
         method,
         target.getUri());
 
@@ -1158,17 +1217,32 @@ public class ApiClient {
    * @deprecated Add qualified name of the operation as a first parameter.
    */
   @Deprecated
-  public <T> ApiResponse<T> invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
-    return invokeAPI(null, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+  public <T> ApiResponse<T> invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType, boolean isBodyNullable) throws ApiException {
+    return invokeAPI(null, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType, isBodyNullable);
   }
 
   /**
    * Build the Client used to make HTTP requests.
-   * @param debugging Debug setting
    * @return Client
    */
-  protected Client buildHttpClient(boolean debugging) {
-    final ClientConfig clientConfig = new ClientConfig();
+  protected Client buildHttpClient() {
+    // use the default client config if not yet initialized
+    if (clientConfig == null) {
+        clientConfig = getDefaultClientConfig();
+    }
+
+    ClientBuilder clientBuilder = ClientBuilder.newBuilder();
+    customizeClientBuilder(clientBuilder);
+    clientBuilder = clientBuilder.withConfig(clientConfig);
+    return clientBuilder.build();
+  }
+
+  /**
+   * Get the default client config.
+   * @return Client config
+   */
+  public ClientConfig getDefaultClientConfig() {
+    ClientConfig clientConfig = new ClientConfig();
     clientConfig.register(MultiPartFeature.class);
     clientConfig.register(json);
     clientConfig.register(JacksonFeature.class);
@@ -1184,19 +1258,8 @@ public class ApiClient {
       // suppress warnings for payloads with DELETE calls:
       java.util.logging.Logger.getLogger("org.glassfish.jersey.client").setLevel(java.util.logging.Level.SEVERE);
     }
-    performAdditionalClientConfiguration(clientConfig);
-    ClientBuilder clientBuilder = ClientBuilder.newBuilder();
-    customizeClientBuilder(clientBuilder);
-    clientBuilder = clientBuilder.withConfig(clientConfig);
-    return clientBuilder.build();
-  }
 
-  /**
-   * Perform additional configuration of the API client.
-   * This method can be overriden to customize the API client.
-   */
-  protected void performAdditionalClientConfiguration(ClientConfig clientConfig) {
-    // No-op extension point
+    return clientConfig;
   }
 
   /**

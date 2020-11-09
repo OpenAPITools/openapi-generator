@@ -1,4 +1,4 @@
-# scalene_triangle.ScaleneTriangle
+# ScaleneTriangle
 
 ## Properties
 Name | Type | Description | Notes

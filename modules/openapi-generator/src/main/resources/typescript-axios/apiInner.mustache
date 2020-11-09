@@ -3,7 +3,6 @@
 /* eslint-disable */
 {{>licenseInfo}}
 
-import * as globalImportUrl from 'url';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 import { Configuration } from '{{apiRelativeToRoot}}configuration';
 // Some imports not used depending on template conditions
@@ -47,15 +46,17 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
     {{/allParams}}
             const localVarPath = `{{{path}}}`{{#pathParams}}
                 .replace(`{${"{{baseName}}"}}`, encodeURIComponent(String({{paramName}}))){{/pathParams}};
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: '{{httpMethod}}', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;{{#vendorExtensions}}{{#hasFormParams}}
-            const localVarFormParams = new {{^multipartFormData}}URLSearchParams(){{/multipartFormData}}{{#multipartFormData}}FormData(){{/multipartFormData}};{{/hasFormParams}}{{/vendorExtensions}}
+            const localVarFormParams = new {{^multipartFormData}}URLSearchParams(){{/multipartFormData}}{{#multipartFormData}}((configuration && configuration.formDataCtor) || FormData)(){{/multipartFormData}};{{/hasFormParams}}{{/vendorExtensions}}
 
     {{#authMethods}}
             // authentication {{name}} required
@@ -87,8 +88,8 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             // http bearer authentication required
             if (configuration && configuration.accessToken) {
                 const accessToken = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken()
-                    : configuration.accessToken;
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
             }
             {{/isBasicBearer}}
@@ -96,15 +97,15 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             // oauth required
             if (configuration && configuration.accessToken) {
                 const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken("{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}])
-                    : configuration.accessToken;
+                    ? await configuration.accessToken("{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}])
+                    : await configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
             {{/isOAuth}}
 
     {{/authMethods}}
     {{#queryParams}}
-            {{#isListContainer}}
+            {{#isArray}}
             if ({{paramName}}) {
             {{#isCollectionFormatMulti}}
                 localVarQueryParameter['{{baseName}}'] = {{paramName}};
@@ -113,8 +114,8 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                 localVarQueryParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}});
             {{/isCollectionFormatMulti}}
             }
-            {{/isListContainer}}
-            {{^isListContainer}}
+            {{/isArray}}
+            {{^isArray}}
             if ({{paramName}} !== undefined) {
                 {{#isDateTime}}
                 localVarQueryParameter['{{baseName}}'] = ({{paramName}} as any instanceof Date) ?
@@ -132,17 +133,17 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                 {{/isDate}}
                 {{/isDateTime}}
             }
-            {{/isListContainer}}
+            {{/isArray}}
 
     {{/queryParams}}
     {{#headerParams}}
-            {{#isListContainer}}
+            {{#isArray}}
             if ({{paramName}}) {
                 let mapped = {{paramName}}.map(value => (<any>"{{{dataType}}}" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
                 localVarHeaderParameter['{{baseName}}'] = mapped.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
             }
-            {{/isListContainer}}
-            {{^isListContainer}}
+            {{/isArray}}
+            {{^isArray}}
             if ({{paramName}} !== undefined && {{paramName}} !== null) {
                 {{#isString}}
                 localVarHeaderParameter['{{baseName}}'] = String({{paramName}});
@@ -151,29 +152,28 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                 localVarHeaderParameter['{{baseName}}'] = String(JSON.stringify({{paramName}}));
                 {{/isString}}
             }
-            {{/isListContainer}}
+            {{/isArray}}
 
     {{/headerParams}}
     {{#vendorExtensions}}
     {{#formParams}}
-            {{#isListContainer}}
+            {{#isArray}}
             if ({{paramName}}) {
             {{#isCollectionFormatMulti}}
                 {{paramName}}.forEach((element) => {
-                    localVarFormParams.append('{{baseName}}', element as any);
+                    localVarFormParams.{{#multipartFormData}}append{{/multipartFormData}}{{^multipartFormData}}set{{/multipartFormData}}('{{baseName}}', element as any);
                 })
             {{/isCollectionFormatMulti}}
-            {{^isCollectionFormatMulti}}{{^multipartFormData}}
-                localVarFormParams.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));{{/multipartFormData}}{{#multipartFormData}}
-                localVarFormParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));{{/multipartFormData}}
+            {{^isCollectionFormatMulti}}
+                localVarFormParams.{{#multipartFormData}}append{{/multipartFormData}}{{^multipartFormData}}set{{/multipartFormData}}({{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}});
             {{/isCollectionFormatMulti}}
-            }{{/isListContainer}}
-            {{^isListContainer}}
+            }{{/isArray}}
+            {{^isArray}}
             if ({{paramName}} !== undefined) { {{^multipartFormData}}
-                localVarFormParams.set('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}{{#multipartFormData}}
-                localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}
-            }
-            {{/isListContainer}}
+                localVarFormParams.set('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}{{#multipartFormData}}{{#isPrimitiveType}}
+                localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/isPrimitiveType}}{{^isPrimitiveType}}
+                localVarFormParams.append('{{baseName}}', new Blob([JSON.stringify({{paramName}})], { type: "application/json", }));{{/isPrimitiveType}}{{/multipartFormData}}
+            }{{/isArray}}
     {{/formParams}}{{/vendorExtensions}}
     {{#vendorExtensions}}{{#hasFormParams}}{{^multipartFormData}}
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';{{/multipartFormData}}{{#multipartFormData}}
@@ -188,21 +188,26 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             {{/consumes.0}}
 
     {{/bodyParam}}
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                queryParameters.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                queryParameters.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
     {{#hasFormParams}}
             localVarRequestOptions.data = localVarFormParams{{#vendorExtensions}}{{^multipartFormData}}.toString(){{/multipartFormData}}{{/vendorExtensions}};
     {{/hasFormParams}}
     {{#bodyParam}}
-            const needsSerialization = (typeof {{paramName}} !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            const needsSerialization = (typeof {{paramName}} !== "string") && configuration.isJsonMime(localVarRequestOptions.headers['Content-Type']);
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify({{paramName}} !== undefined ? {{paramName}} : {}) : ({{paramName}} || "");
     {{/bodyParam}}
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
                 options: localVarRequestOptions,
             };
         },

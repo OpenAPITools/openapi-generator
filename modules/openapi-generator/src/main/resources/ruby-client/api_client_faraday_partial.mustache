@@ -63,7 +63,7 @@
     # @option opts [Object] :body HTTP body (JSON/XML)
     # @return [Typhoeus::Request] A Typhoeus Request
     def build_request(http_method, path, request, opts = {})
-      url = build_request_url(path)
+      url = build_request_url(path, opts)
       http_method = http_method.to_sym.downcase
 
       header_params = @default_headers.merge(opts[:header_params] || {})
@@ -126,4 +126,13 @@
         data = nil
       end
       data
+    end
+
+    def download_file(request)
+      @stream = []
+
+      # handle streaming Responses
+      request.options.on_data = Proc.new do |chunk, overall_received_bytes|
+        @stream << chunk
+      end
     end

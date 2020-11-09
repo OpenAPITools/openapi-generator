@@ -12,13 +12,13 @@
 
 from datetime import date, datetime  # noqa: F401
 import inspect
+import io
 import os
 import pprint
 import re
 import tempfile
 
 from dateutil.parser import parse
-import six
 
 from x_auth_id_alias.exceptions import (
     ApiKeyError,
@@ -28,20 +28,7 @@ from x_auth_id_alias.exceptions import (
 )
 
 none_type = type(None)
-if six.PY3:
-    import io
-    file_type = io.IOBase
-    # these are needed for when other modules import str and int from here
-    str = str
-    int = int
-else:
-    file_type = file  # noqa: F821
-    str_py2 = str
-    unicode_py2 = unicode  # noqa: F821
-    long_py2 = long  # noqa: F821
-    int_py2 = int
-    # this requires that the future library is installed
-    from builtins import int, str
+file_type = io.IOBase
 
 
 class cached_property(object):
@@ -54,12 +41,64 @@ class cached_property(object):
         self._fn = fn
 
     def __get__(self, instance, cls=None):
-        try:
+        if self.result_key in vars(self):
             return vars(self)[self.result_key]
-        except KeyError:
+        else:
             result = self._fn()
             setattr(self, self.result_key, result)
             return result
+
+
+PRIMITIVE_TYPES = (list, float, int, bool, datetime, date, str, file_type)
+
+def allows_single_value_input(cls):
+    """
+    This function returns True if the input composed schema model or any
+    descendant model allows a value only input
+    This is true for cases where oneOf contains items like:
+    oneOf:
+      - float
+      - NumberWithValidation
+      - StringEnum
+      - ArrayModel
+      - null
+    TODO: lru_cache this
+    """
+    if (
+        issubclass(cls, ModelSimple) or
+        cls in PRIMITIVE_TYPES
+    ):
+        return True
+    elif issubclass(cls, ModelComposed):
+        if not cls._composed_schemas['oneOf']:
+            return False
+        return any(allows_single_value_input(c) for c in cls._composed_schemas['oneOf'])
+    return False
+
+def composed_model_input_classes(cls):
+    """
+    This function returns a list of the possible models that can be accepted as
+    inputs.
+    TODO: lru_cache this
+    """
+    if issubclass(cls, ModelSimple) or cls in PRIMITIVE_TYPES:
+        return [cls]
+    elif issubclass(cls, ModelNormal):
+        if cls.discriminator is None:
+            return [cls]
+        else:
+            return get_discriminated_classes(cls)
+    elif issubclass(cls, ModelComposed):
+        if not cls._composed_schemas['oneOf']:
+            return []
+        if cls.discriminator is None:
+            input_classes = []
+            for c in cls._composed_schemas['oneOf']:
+                input_classes.extend(composed_model_input_classes(c))
+            return input_classes
+        else:
+            return get_discriminated_classes(cls)
+    return []
 
 
 class OpenApiModel(object):
@@ -117,14 +156,6 @@ class OpenApiModel(object):
             )
         self.__dict__['_data_store'][name] = value
 
-    def __setitem__(self, name, value):
-        """this allows us to set values with instance[field_name] = val"""
-        self.__setattr__(name, value)
-
-    def __getitem__(self, name):
-        """this allows us to get a value with val = instance[field_name]"""
-        return self.__getattr__(name)
-
     def __repr__(self):
         """For `print` and `pprint`"""
         return self.to_str()
@@ -133,14 +164,30 @@ class OpenApiModel(object):
         """Returns true if both objects are not equal"""
         return not self == other
 
+    def __setattr__(self, attr, value):
+        """set the value of an attribute using dot notation: `instance.attr = val`"""
+        self[attr] = value
+
+    def __getattr__(self, attr):
+        """get the value of an attribute using dot notation: `instance.attr`"""
+        return self.__getitem__(attr)
+
     def __new__(cls, *args, **kwargs):
         # this function uses the discriminator to
         # pick a new schema/class to instantiate because a discriminator
         # propertyName value was passed in
 
-        if len(args) == 1 and args[0] is None and is_type_nullable(cls):
-            # The input data is the 'null' value and the type is nullable.
-            return None
+        if len(args) == 1:
+            arg = args[0]
+            if arg is None and is_type_nullable(cls):
+                # The input data is the 'null' value and the type is nullable.
+                return None
+
+            if issubclass(cls, ModelComposed) and allows_single_value_input(cls):
+                model_kwargs = {}
+                oneof_instance = get_oneof_instance(cls, model_kwargs, kwargs, model_arg=arg)
+                return oneof_instance
+
 
         visited_composed_classes = kwargs.get('_visited_composed_classes', ())
         if (
@@ -243,31 +290,38 @@ class ModelSimple(OpenApiModel):
     """the parent class of models whose type != object in their
     swagger/openapi"""
 
-    def __setattr__(self, name, value):
-        """this allows us to set a value with instance.field_name = val"""
+    def __setitem__(self, name, value):
+        """set the value of an attribute using square-bracket notation: `instance[attr] = val`"""
         if name in self.required_properties:
             self.__dict__[name] = value
             return
 
         self.set_attribute(name, value)
 
-    def __getattr__(self, name):
-        """this allows us to get a value with val = instance.field_name"""
+    def get(self, name, default=None):
+        """returns the value of an attribute or some default value if the attribute was not set"""
         if name in self.required_properties:
             return self.__dict__[name]
 
-        if name in self.__dict__['_data_store']:
-            return self.__dict__['_data_store'][name]
+        return self.__dict__['_data_store'].get(name, default)
 
-        path_to_item = []
-        if self._path_to_item:
-            path_to_item.extend(self._path_to_item)
-        path_to_item.append(name)
+    def __getitem__(self, name):
+        """get the value of an attribute using square-bracket notation: `instance[attr]`"""
+        if name in self:
+            return self.get(name)
+
         raise ApiAttributeError(
             "{0} has no attribute '{1}'".format(
                 type(self).__name__, name),
-            [name]
+            [e for e in [self._path_to_item, name] if e]
         )
+
+    def __contains__(self, name):
+        """used by `in` operator to check if an attrbute value was set in an instance: `'attr' in instance`"""
+        if name in self.required_properties:
+            return name in self.__dict__
+
+        return name in self.__dict__['_data_store']
 
     def to_str(self):
         """Returns the string representation of the model"""
@@ -284,44 +338,45 @@ class ModelSimple(OpenApiModel):
         types.add(this_val.__class__)
         types.add(that_val.__class__)
         vals_equal = this_val == that_val
-        if not six.PY3 and len(types) == 2 and unicode in types:  # noqa: F821
-            vals_equal = (
-                this_val.encode('utf-8') == that_val.encode('utf-8')
-            )
-        if not vals_equal:
-            return False
-        return True
+        return vals_equal
 
 
 class ModelNormal(OpenApiModel):
     """the parent class of models whose type == object in their
     swagger/openapi"""
 
-    def __setattr__(self, name, value):
-        """this allows us to set a value with instance.field_name = val"""
+    def __setitem__(self, name, value):
+        """set the value of an attribute using square-bracket notation: `instance[attr] = val`"""
         if name in self.required_properties:
             self.__dict__[name] = value
             return
 
         self.set_attribute(name, value)
 
-    def __getattr__(self, name):
-        """this allows us to get a value with val = instance.field_name"""
+    def get(self, name, default=None):
+        """returns the value of an attribute or some default value if the attribute was not set"""
         if name in self.required_properties:
             return self.__dict__[name]
 
-        if name in self.__dict__['_data_store']:
-            return self.__dict__['_data_store'][name]
+        return self.__dict__['_data_store'].get(name, default)
 
-        path_to_item = []
-        if self._path_to_item:
-            path_to_item.extend(self._path_to_item)
-        path_to_item.append(name)
+    def __getitem__(self, name):
+        """get the value of an attribute using square-bracket notation: `instance[attr]`"""
+        if name in self:
+            return self.get(name)
+
         raise ApiAttributeError(
             "{0} has no attribute '{1}'".format(
                 type(self).__name__, name),
-            [name]
+            [e for e in [self._path_to_item, name] if e]
         )
+
+    def __contains__(self, name):
+        """used by `in` operator to check if an attrbute value was set in an instance: `'attr' in instance`"""
+        if name in self.required_properties:
+            return name in self.__dict__
+
+        return name in self.__dict__['_data_store']
 
     def to_dict(self):
         """Returns the model properties as a dict"""
@@ -338,17 +393,12 @@ class ModelNormal(OpenApiModel):
 
         if not set(self._data_store.keys()) == set(other._data_store.keys()):
             return False
-        for _var_name, this_val in six.iteritems(self._data_store):
+        for _var_name, this_val in self._data_store.items():
             that_val = other._data_store[_var_name]
             types = set()
             types.add(this_val.__class__)
             types.add(that_val.__class__)
             vals_equal = this_val == that_val
-            if (not six.PY3 and
-                    len(types) == 2 and unicode in types):  # noqa: F821
-                vals_equal = (
-                    this_val.encode('utf-8') == that_val.encode('utf-8')
-                )
             if not vals_equal:
                 return False
         return True
@@ -380,8 +430,8 @@ class ModelComposed(OpenApiModel):
     which contain the value that the key is referring to.
     """
 
-    def __setattr__(self, name, value):
-        """this allows us to set a value with instance.field_name = val"""
+    def __setitem__(self, name, value):
+        """set the value of an attribute using square-bracket notation: `instance[attr] = val`"""
         if name in self.required_properties:
             self.__dict__[name] = value
             return
@@ -402,28 +452,22 @@ class ModelComposed(OpenApiModel):
                     )
             return None
 
-        path_to_item = []
-        if self._path_to_item:
-            path_to_item.extend(self._path_to_item)
-        path_to_item.append(name)
         raise ApiAttributeError(
             "{0} has no attribute '{1}'".format(
                 type(self).__name__, name),
-            path_to_item
+            [e for e in [self._path_to_item, name] if e]
         )
 
-    def __getattr__(self, name):
-        """this allows us to get a value with val = instance.field_name"""
+    __unset_attribute_value__ = object()
+
+    def get(self, name, default=None):
+        """returns the value of an attribute or some default value if the attribute was not set"""
         if name in self.required_properties:
             return self.__dict__[name]
 
         # get the attribute from the correct instance
         model_instances = self._var_name_to_model_instances.get(
             name, self._additional_properties_model_instances)
-        path_to_item = []
-        if self._path_to_item:
-            path_to_item.extend(self._path_to_item)
-        path_to_item.append(name)
         values = []
         # A composed model stores child (oneof/anyOf/allOf) models under
         # self._var_name_to_model_instances. A named property can exist in
@@ -437,11 +481,7 @@ class ModelComposed(OpenApiModel):
                         values.append(v)
         len_values = len(values)
         if len_values == 0:
-            raise ApiAttributeError(
-                "{0} has no attribute '{1}'".format(
-                    type(self).__name__, name),
-                path_to_item
-            )
+            return default
         elif len_values == 1:
             return values[0]
         elif len_values > 1:
@@ -449,8 +489,35 @@ class ModelComposed(OpenApiModel):
                 "Values stored for property {0} in {1} differ when looking "
                 "at self and self's composed instances. All values must be "
                 "the same".format(name, type(self).__name__),
-                path_to_item
+                [e for e in [self._path_to_item, name] if e]
             )
+
+    def __getitem__(self, name):
+        """get the value of an attribute using square-bracket notation: `instance[attr]`"""
+        value = self.get(name, self.__unset_attribute_value__)
+        if value is self.__unset_attribute_value__:
+            raise ApiAttributeError(
+                "{0} has no attribute '{1}'".format(
+                    type(self).__name__, name),
+                    [e for e in [self._path_to_item, name] if e]
+            )
+        return value
+
+    def __contains__(self, name):
+        """used by `in` operator to check if an attrbute value was set in an instance: `'attr' in instance`"""
+
+        if name in self.required_properties:
+            return name in self.__dict__
+
+        model_instances = self._var_name_to_model_instances.get(
+            name, self._additional_properties_model_instances)
+
+        if model_instances:
+            for model_instance in model_instances:
+                if name in model_instance._data_store:
+                    return True
+
+        return False
 
     def to_dict(self):
         """Returns the model properties as a dict"""
@@ -467,17 +534,12 @@ class ModelComposed(OpenApiModel):
 
         if not set(self._data_store.keys()) == set(other._data_store.keys()):
             return False
-        for _var_name, this_val in six.iteritems(self._data_store):
+        for _var_name, this_val in self._data_store.items():
             that_val = other._data_store[_var_name]
             types = set()
             types.add(this_val.__class__)
             types.add(that_val.__class__)
             vals_equal = this_val == that_val
-            if (not six.PY3 and
-                    len(types) == 2 and unicode in types):  # noqa: F821
-                vals_equal = (
-                    this_val.encode('utf-8') == that_val.encode('utf-8')
-                )
             if not vals_equal:
                 return False
         return True
@@ -508,6 +570,10 @@ UPCONVERSION_TYPE_PAIRS = (
     (int, float),             # A float may be serialized as an integer, e.g. '3' is a valid serialized float.
     (list, ModelComposed),
     (dict, ModelComposed),
+    (str, ModelComposed),
+    (int, ModelComposed),
+    (float, ModelComposed),
+    (list, ModelComposed),
     (list, ModelNormal),
     (dict, ModelNormal),
     (str, ModelSimple),
@@ -583,8 +649,6 @@ def get_simple_class(input_value):
         # isinstance(True, int) == True
         return bool
     elif isinstance(input_value, int):
-        # for python2 input_value==long_instance -> return int
-        # where int is the python3 int backport
         return int
     elif isinstance(input_value, datetime):
         # this must be higher than the date check because
@@ -592,8 +656,7 @@ def get_simple_class(input_value):
         return datetime
     elif isinstance(input_value, date):
         return date
-    elif (six.PY2 and isinstance(input_value, (str_py2, unicode_py2, str)) or
-            isinstance(input_value, str)):
+    elif isinstance(input_value, str):
         return str
     return type(input_value)
 
@@ -673,6 +736,9 @@ def check_validations(
             are checking.
         configuration (Configuration): the configuration class.
     """
+
+    if input_values is None:
+        return
 
     current_validations = validations[input_variable_path]
     if (is_json_validation_enabled('multipleOf', configuration) and
@@ -886,20 +952,53 @@ def remove_uncoercible(required_types_classes, current_item, spec_property_namin
             results_classes.append(required_type_class)
     return results_classes
 
+def get_discriminated_classes(cls):
+    """
+    Returns all the classes that a discriminator converts to
+    TODO: lru_cache this
+    """
+    possible_classes = []
+    key = list(cls.discriminator.keys())[0]
+    if is_type_nullable(cls):
+        possible_classes.append(cls)
+    for discr_cls in cls.discriminator[key].values():
+        if hasattr(discr_cls, 'discriminator') and discr_cls.discriminator is not None:
+            possible_classes.extend(get_discriminated_classes(discr_cls))
+        else:
+            possible_classes.append(discr_cls)
+    return possible_classes
 
-def get_required_type_classes(required_types_mixed):
+
+def get_possible_classes(cls, from_server_context):
+    # TODO: lru_cache this
+    possible_classes = [cls]
+    if from_server_context:
+        return possible_classes
+    if hasattr(cls, 'discriminator') and cls.discriminator is not None:
+        possible_classes = []
+        possible_classes.extend(get_discriminated_classes(cls))
+    elif issubclass(cls, ModelComposed):
+        possible_classes.extend(composed_model_input_classes(cls))
+    return possible_classes
+
+
+def get_required_type_classes(required_types_mixed, spec_property_naming):
     """Converts the tuple required_types into a tuple and a dict described
     below
 
     Args:
         required_types_mixed (tuple/list): will contain either classes or
             instance of list or dict
+        spec_property_naming (bool): if True these values came from the
+            server, and we use the data types in our endpoints.
+            If False, we are client side and we need to include
+            oneOf and discriminator classes inside the data types in our endpoints
 
     Returns:
         (valid_classes, dict_valid_class_to_child_types_mixed):
             valid_classes (tuple): the valid classes that the current item
                                    should be
-            dict_valid_class_to_child_types_mixed (doct):
+            dict_valid_class_to_child_types_mixed (dict):
                 valid_class (class): this is the key
                 child_types_mixed (list/dict/tuple): describes the valid child
                     types
@@ -917,7 +1016,7 @@ def get_required_type_classes(required_types_mixed):
             valid_classes.append(dict)
             child_req_types_by_current_type[dict] = required_type[str]
         else:
-            valid_classes.append(required_type)
+            valid_classes.extend(get_possible_classes(required_type, spec_property_naming))
     return tuple(valid_classes), child_req_types_by_current_type
 
 
@@ -1005,12 +1104,12 @@ def deserialize_primitive(data, klass, path_to_item):
             return converted_value
     except (OverflowError, ValueError) as ex:
         # parse can raise OverflowError
-        six.raise_from(ApiValueError(
+        raise ApiValueError(
             "{0}Failed to parse {1} as {2}".format(
-                additional_message, repr(data), get_py3_class_name(klass)
+                additional_message, repr(data), klass.__name__
             ),
             path_to_item=path_to_item
-        ), ex)
+        ) from ex
 
 
 def get_discriminator_class(model_class,
@@ -1070,7 +1169,7 @@ def deserialize_model(model_data, model_class, path_to_item, check_type,
     """Deserializes model_data to model instance.
 
     Args:
-        model_data (list/dict): data to instantiate the model
+        model_data (int/str/float/bool/none_type/list/dict): data to instantiate the model
         model_class (OpenApiModel): the model class
         path_to_item (list): path to the model in the received data
         check_type (bool): whether to check the data tupe for the values in
@@ -1096,14 +1195,14 @@ def deserialize_model(model_data, model_class, path_to_item, check_type,
                    _spec_property_naming=spec_property_naming)
 
     if issubclass(model_class, ModelSimple):
-        instance = model_class(value=model_data, **kw_args)
-        return instance
-    if isinstance(model_data, list):
-        instance = model_class(*model_data, **kw_args)
+        return model_class(model_data, **kw_args)
+    elif isinstance(model_data, list):
+        return model_class(*model_data, **kw_args)
     if isinstance(model_data, dict):
         kw_args.update(model_data)
-        instance = model_class(**kw_args)
-    return instance
+        return model_class(**kw_args)
+    elif isinstance(model_data, PRIMITIVE_TYPES):
+        return model_class(model_data, **kw_args)
 
 
 def deserialize_file(response_data, configuration, content_disposition=None):
@@ -1134,8 +1233,8 @@ def deserialize_file(response_data, configuration, content_disposition=None):
         path = os.path.join(os.path.dirname(path), filename)
 
     with open(path, "wb") as f:
-        if six.PY3 and isinstance(response_data, str):
-            # in python3 change str to bytes so we can write it
+        if isinstance(response_data, str):
+            # change str to bytes so we can write it
             response_data = response_data.encode('utf-8')
         f.write(response_data)
 
@@ -1286,7 +1385,7 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
     Raises:
         ApiTypeError
     """
-    results = get_required_type_classes(required_types_mixed)
+    results = get_required_type_classes(required_types_mixed, spec_property_naming)
     valid_classes, child_req_types_by_current_type = results
 
     input_class_simple = get_simple_class(input_value)
@@ -1354,7 +1453,7 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
         if input_value == {}:
             # allow an empty dict
             return input_value
-        for inner_key, inner_val in six.iteritems(input_value):
+        for inner_key, inner_val in input_value.items():
             inner_path = list(path_to_item)
             inner_path.append(inner_key)
             if get_simple_class(inner_key) != str:
@@ -1388,7 +1487,7 @@ def model_to_dict(model_instance, serialize=True):
     if model_instance._composed_schemas:
         model_instances.extend(model_instance._composed_instances)
     for model_instance in model_instances:
-        for attr, value in six.iteritems(model_instance._data_store):
+        for attr, value in model_instance._data_store.items():
             if serialize:
                 # we use get here because additional property key names do not
                 # exist in attribute_map
@@ -1445,27 +1544,13 @@ def type_error_message(var_value=None, var_name=None, valid_classes=None,
 
 def get_valid_classes_phrase(input_classes):
     """Returns a string phrase describing what types are allowed
-    Note: Adds the extra valid classes in python2
     """
     all_classes = list(input_classes)
-    if six.PY2 and str in input_classes:
-        all_classes.extend([str_py2, unicode_py2])
-    if six.PY2 and int in input_classes:
-        all_classes.extend([int_py2, long_py2])
     all_classes = sorted(all_classes, key=lambda cls: cls.__name__)
     all_class_names = [cls.__name__ for cls in all_classes]
     if len(all_class_names) == 1:
         return 'is {0}'.format(all_class_names[0])
     return "is one of [{0}]".format(", ".join(all_class_names))
-
-
-def get_py3_class_name(input_class):
-    if six.PY2:
-        if input_class == str:
-            return 'str'
-        elif input_class == int:
-            return 'int'
-    return input_class.__name__
 
 
 def convert_js_args_to_python_args(fn):
@@ -1510,7 +1595,7 @@ def get_allof_instances(self, model_args, constant_args):
             allof_instance = allof_class(**kwargs)
             composed_instances.append(allof_instance)
         except Exception as ex:
-            six.raise_from(ApiValueError(
+            raise ApiValueError(
                 "Invalid inputs given to generate an instance of '%s'. The "
                 "input data was invalid for the allOf schema '%s' in the composed "
                 "schema '%s'. Error=%s" % (
@@ -1519,11 +1604,11 @@ def get_allof_instances(self, model_args, constant_args):
                     self.__class__.__name__,
                     str(ex)
                 )
-            ), ex)
+            ) from ex
     return composed_instances
 
 
-def get_oneof_instance(self, model_args, constant_args):
+def get_oneof_instance(cls, model_kwargs, constant_kwargs, model_arg=None):
     """
     Find the oneOf schema that matches the input data (e.g. payload).
     If exactly one schema matches the input data, an instance of that schema
@@ -1531,25 +1616,33 @@ def get_oneof_instance(self, model_args, constant_args):
     If zero or more than one schema match the input data, an exception is raised.
     In OAS 3.x, the payload MUST, by validation, match exactly one of the
     schemas described by oneOf.
+
     Args:
-        self: the class we are handling
-        model_args (dict): var_name to var_value
+        cls: the class we are handling
+        model_kwargs (dict): var_name to var_value
             The input data, e.g. the payload that must match a oneOf schema
             in the OpenAPI document.
-        constant_args (dict): var_name to var_value
+        constant_kwargs (dict): var_name to var_value
             args that every model requires, including configuration, server
             and path to item.
+
+    Kwargs:
+        model_arg: (int, float, bool, str, date, datetime, ModelSimple, None):
+            the value to assign to a primitive class or ModelSimple class
+            Notes:
+            - this is only passed in when oneOf includes types which are not object
+            - None is used to suppress handling of model_arg, nullable models are handled in __new__
 
     Returns
         oneof_instance (instance)
     """
-    if len(self._composed_schemas['oneOf']) == 0:
+    if len(cls._composed_schemas['oneOf']) == 0:
         return None
 
     oneof_instances = []
     # Iterate over each oneOf schema and determine if the input data
     # matches the oneOf schemas.
-    for oneof_class in self._composed_schemas['oneOf']:
+    for oneof_class in cls._composed_schemas['oneOf']:
         # The composed oneOf schema allows the 'null' type and the input data
         # is the null value. This is a OAS >= 3.1 feature.
         if oneof_class is none_type:
@@ -1557,28 +1650,45 @@ def get_oneof_instance(self, model_args, constant_args):
             # none_type deserialization is handled in the __new__ method
             continue
 
-        # transform js keys from input data to python keys in fixed_model_args
-        fixed_model_args = change_keys_js_to_python(
-            model_args, oneof_class)
+        single_value_input = allows_single_value_input(oneof_class)
 
-        # Extract a dict with the properties that are declared in the oneOf schema.
-        # Undeclared properties (e.g. properties that are allowed because of the
-        # additionalProperties attribute in the OAS document) are not added to
-        # the dict.
-        kwargs = {}
-        var_names = set(oneof_class.openapi_types.keys())
-        for var_name in var_names:
-            if var_name in fixed_model_args:
-                kwargs[var_name] = fixed_model_args[var_name]
+        if not single_value_input:
+            # transform js keys from input data to python keys in fixed_model_args
+            fixed_model_args = change_keys_js_to_python(
+                model_kwargs, oneof_class)
 
-        # do not try to make a model with no input args
-        if len(kwargs) == 0:
-            continue
+            # Extract a dict with the properties that are declared in the oneOf schema.
+            # Undeclared properties (e.g. properties that are allowed because of the
+            # additionalProperties attribute in the OAS document) are not added to
+            # the dict.
+            kwargs = {}
+            var_names = set(oneof_class.openapi_types.keys())
+            for var_name in var_names:
+                if var_name in fixed_model_args:
+                    kwargs[var_name] = fixed_model_args[var_name]
 
-        # and use it to make the instance
-        kwargs.update(constant_args)
+            # do not try to make a model with no input args
+            if len(kwargs) == 0:
+                continue
+
+            # and use it to make the instance
+            kwargs.update(constant_kwargs)
+
         try:
-            oneof_instance = oneof_class(**kwargs)
+            if not single_value_input:
+                oneof_instance = oneof_class(**kwargs)
+            else:
+                if issubclass(oneof_class, ModelSimple):
+                    oneof_instance = oneof_class(model_arg, **constant_kwargs)
+                elif oneof_class in PRIMITIVE_TYPES:
+                    oneof_instance = validate_and_convert_types(
+                        model_arg,
+                        (oneof_class,),
+                        constant_kwargs['_path_to_item'],
+                        constant_kwargs['_spec_property_naming'],
+                        constant_kwargs['_check_type'],
+                        configuration=constant_kwargs['_configuration']
+                    )
             oneof_instances.append(oneof_instance)
         except Exception:
             pass
@@ -1586,13 +1696,13 @@ def get_oneof_instance(self, model_args, constant_args):
         raise ApiValueError(
             "Invalid inputs given to generate an instance of %s. None "
             "of the oneOf schemas matched the input data." %
-            self.__class__.__name__
+            cls.__name__
         )
     elif len(oneof_instances) > 1:
         raise ApiValueError(
             "Invalid inputs given to generate an instance of %s. Multiple "
             "oneOf schemas matched the inputs, but a max of one is allowed." %
-            self.__class__.__name__
+            cls.__name__
         )
     return oneof_instances[0]
 
@@ -1732,7 +1842,7 @@ def validate_get_composed_info(constant_args, model_args, self):
     composed_instances = []
     allof_instances = get_allof_instances(self, model_args, constant_args)
     composed_instances.extend(allof_instances)
-    oneof_instance = get_oneof_instance(self, model_args, constant_args)
+    oneof_instance = get_oneof_instance(self.__class__, model_args, constant_args)
     if oneof_instance is not None:
         composed_instances.append(oneof_instance)
     anyof_instances = get_anyof_instances(self, model_args, constant_args)

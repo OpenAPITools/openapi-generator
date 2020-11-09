@@ -7,16 +7,14 @@
 
 import Foundation
 
-
-public struct InlineObject: Codable { 
-
+public struct InlineObject: Codable {
 
     /** Updated name of the pet */
     public var name: String?
     /** Updated status of the pet */
     public var status: String?
 
-    public init(name: String?, status: String?) {
+    public init(name: String? = nil, status: String? = nil) {
         self.name = name
         self.status = status
     }

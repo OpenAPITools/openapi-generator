@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * API tests for FakeClassnameTags123Api
  */
@@ -43,8 +44,9 @@ public class FakeClassnameTags123ApiTest {
     @Test
     public void testClassnameTest() throws ApiException {
         Client body = null;
-        Client response = api.testClassname(body);
-
+        Client response = 
+        api.testClassname(body);
+        
         // TODO: test validations
     }
     

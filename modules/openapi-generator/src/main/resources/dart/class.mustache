@@ -1,7 +1,7 @@
 class {{classname}} {
   {{#vars}}
   {{#description}}/* {{{description}}} */{{/description}}
-  {{{dataType}}} {{name}} = {{{defaultValue}}};
+  {{^defaultValue}}{{{dataType}}} {{name}} = null;{{/defaultValue}}{{#defaultValue}}{{{dataType}}} {{name}} = {{defaultValue}};{{/defaultValue}}
   {{#allowableValues}}
   {{#min}} // range from {{min}} to {{max}}{{/min}}//{{^min}}enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}{
   {{/allowableValues}}
@@ -28,25 +28,25 @@ class {{classname}} {
   {{^isDateTime}}
   {{^isDate}}
     {{#complexType}}
-      {{#isListContainer}}
+      {{#isArray}}
       {{name}} = {{complexType}}.listFromJson(json['{{baseName}}']);
-      {{/isListContainer}}
-      {{^isListContainer}}
-      {{#isMapContainer}}
+      {{/isArray}}
+      {{^isArray}}
+      {{#isMap}}
       {{name}} = {{complexType}}.mapFromJson(json['{{baseName}}']);
-      {{/isMapContainer}}
-      {{^isMapContainer}}
+      {{/isMap}}
+      {{^isMap}}
       {{name}} = new {{complexType}}.fromJson(json['{{baseName}}']);
-      {{/isMapContainer}}
-      {{/isListContainer}}
+      {{/isMap}}
+      {{/isArray}}
     {{/complexType}}
     {{^complexType}}
-      {{#isListContainer}}
+      {{#isArray}}
       {{name}} = (json['{{baseName}}'] as List).map((item) => item as {{items.datatype}}).toList();
-      {{/isListContainer}}
-      {{^isListContainer}}
+      {{/isArray}}
+      {{^isArray}}
       {{name}} = json['{{baseName}}'];
-      {{/isListContainer}}
+      {{/isArray}}
     {{/complexType}}
   {{/isDate}}
   {{/isDateTime}}
@@ -58,14 +58,24 @@ class {{classname}} {
     return {
     {{#vars}}
       {{#isDateTime}}
-      '{{baseName}}': {{name}} == null ? '' : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}
+        '{{baseName}}': {{name}} == null ? '' : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}
       {{/isDateTime}}
       {{#isDate}}
-      '{{baseName}}': {{name}} == null ? '' : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}
+        '{{baseName}}': {{name}} == null ? '' : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}
       {{/isDate}}
       {{^isDateTime}}
       {{^isDate}}
-      '{{baseName}}': {{name}}{{^-last}},{{/-last}}
+        {{#complexType}}
+          {{#isArray}}
+            '{{baseName}}': {{name}} == null ? null : {{name}}.map((item) => item.toJson()).toList(){{^-last}},{{/-last}}
+          {{/isArray}}
+          {{^isArray}}
+            '{{baseName}}': {{name}} == null ? null : {{name}}.toJson(){{^-last}},{{/-last}}
+          {{/isArray}}
+        {{/complexType}}
+        {{^complexType}}
+          '{{baseName}}': {{name}}{{^-last}},{{/-last}}
+        {{/complexType}}
       {{/isDate}}
       {{/isDateTime}}
     {{/vars}}

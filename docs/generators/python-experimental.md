@@ -3,6 +3,8 @@ title: Config Options for python-experimental
 sidebar_label: python-experimental
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |generateSourceCodeOnly|Specifies that only a library source code is to be generated.| |false|
@@ -12,6 +14,8 @@ sidebar_label: python-experimental
 |packageUrl|python package URL.| |null|
 |packageVersion|python package version.| |1.0.0|
 |projectName|python project name in setup.py (e.g. petstore-api).| |null|
+|pythonAttrNoneIfUnset|when accessing unset attribute, return `None` instead of raising `ApiAttributeError`| |false|
+|recursionLimit|Set the recursion limit. If not set, use the system default value.| |null|
 |useNose|use the nose test framework| |false|
 
 ## IMPORT MAPPING
@@ -107,6 +111,7 @@ sidebar_label: python-experimental
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |
@@ -162,7 +167,7 @@ sidebar_label: python-experimental
 |Examples|✓|OAS2,OAS3
 |XMLStructureDefinitions|✗|OAS2,OAS3
 |MultiServer|✗|OAS3
-|ParameterizedServer|✗|OAS3
+|ParameterizedServer|✓|OAS3
 |ParameterStyling|✗|OAS3
 |Callbacks|✗|OAS3
 |LinkObjects|✗|OAS3

@@ -162,6 +162,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("binary", "crate::models::File");
         typeMapping.put("ByteArray", "String");
         typeMapping.put("object", "serde_json::Value");
+        typeMapping.put("AnyType", "serde_json::Value");
 
         // no need for rust
         //importMapping = new HashMap<String, String>();
@@ -300,8 +301,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile(getLibrary() + "/configuration.mustache", apiFolder, "configuration.rs"));
         if (HYPER_LIBRARY.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("request.rs", apiFolder, "request.rs"));
-        }
-        if (!getSupportAsync()) { // for sync only
             supportingFiles.add(new SupportingFile(getLibrary() + "/client.mustache", apiFolder, "client.rs"));
         }
     }
@@ -553,14 +552,14 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
 
             for (CodegenParameter p : operation.allParams) {
-                if (p.isListContainer && !languageSpecificPrimitives.contains(p.dataType)) {
+                if (p.isArray && !languageSpecificPrimitives.contains(p.dataType)) {
                     // array of model
                     String rt = p.dataType;
                     int end = rt.lastIndexOf(">");
                     if ( end > 0 ) {
                         p.dataType = "Vec<" + rt.substring("Vec<".length(), end).trim() + ">";
                     }
-                } else if (p.isMapContainer && !languageSpecificPrimitives.contains(p.dataType)) {
+                } else if (p.isMap && !languageSpecificPrimitives.contains(p.dataType)) {
                     // map of model
                     String rt = p.dataType;
                     int end = rt.lastIndexOf(">");

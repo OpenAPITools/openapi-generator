@@ -37,7 +37,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTypeScriptClientCodegen.class);
 
     public static final String NPM_REPOSITORY = "npmRepository";
-    public static final String WITH_INTERFACES = "withInterfaces";
+    public static final String WITH_PROGRESS_SUBSCRIBER = "withProgressSubscriber";
 
     protected String npmRepository = null;
     protected Set<String> reservedParamNames = new HashSet<>();
@@ -60,7 +60,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         typeMapping.put("file", "Blob");
 
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(WITH_PROGRESS_SUBSCRIBER, "Setting this property to true will generate API controller methods with support for subscribing to request progress.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
 
         // these are used in the api template for more efficient destructuring
         this.reservedParamNames.add("headers");
@@ -91,6 +91,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         super.processOpts();
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
         supportingFiles.add(new SupportingFile("runtime.mustache", "", "runtime.ts"));
+        supportingFiles.add(new SupportingFile("servers.mustache", "", "servers.ts"));
         supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
         supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
@@ -280,14 +281,14 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
                 setParamNameAlternative(p, p.paramName, paramNameAlternative);
 
                 for (CodegenParameter param : op.headerParams) {
-                    if (param.isListContainer) {
+                    if (param.isArray) {
                         hasListContainers = true;
                     }
                     setParamNameAlternative(param, p.paramName, paramNameAlternative);
                 }
 
                 for (CodegenParameter param : op.queryParams) {
-                    if (param.isListContainer && !param.isCollectionFormatMulti) {
+                    if (param.isArray && !param.isCollectionFormatMulti) {
                         hasListContainers = true;
                     }
                     if (param.required) {
@@ -299,7 +300,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
                 }
 
                 for (CodegenParameter param : op.formParams) {
-                    if (param.isListContainer && !param.isCollectionFormatMulti) {
+                    if (param.isArray && !param.isCollectionFormatMulti) {
                         hasListContainers = true;
                     }
                     setParamNameAlternative(param, p.paramName, paramNameAlternative);
@@ -344,6 +345,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         this.reservedWords.add("Middleware");
         this.reservedWords.add("AjaxRequest");
         this.reservedWords.add("AjaxResponse");
+        this.reservedWords.add("servers");
     }
 
     class ExtendedCodegenOperation extends CodegenOperation {
@@ -365,10 +367,9 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
-            this.isMapContainer = o.isMapContainer;
-            this.isListContainer = o.isListContainer;
+            this.isMap = o.isMap;
+            this.isArray = o.isArray;
             this.isMultipart = o.isMultipart;
-            this.hasMore = o.hasMore;
             this.isResponseBinary = o.isResponseBinary;
             this.isResponseFile = o.isResponseFile;
             this.hasReference = o.hasReference;

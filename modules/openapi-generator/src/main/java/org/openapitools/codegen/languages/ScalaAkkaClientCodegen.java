@@ -248,13 +248,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
                 it.remove();
             }
         }
-        // Adapt 'hasMore'
-        it = codegenSecurities.iterator();
-        while (it.hasNext()) {
-            final CodegenSecurity security = it.next();
-            security.hasMore = it.hasNext();
-        }
-
         if (codegenSecurities.isEmpty()) {
             return null;
         }

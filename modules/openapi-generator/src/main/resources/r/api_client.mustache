@@ -24,6 +24,8 @@
 #' @field apiKeys
 #' @field accessToken
 #' @field timeout Default timeout in seconds
+#' @field retryStatusCodes vector of status codes to retry
+#' @field maxRetryAttempts maximum number of retries for the status codes
 #' @importFrom httr add_headers accept timeout content
 {{#useRlangExceptionHandling}}
 #' @importFrom rlang abort
@@ -48,8 +50,12 @@ ApiClient  <- R6::R6Class(
     accessToken = NULL,
     # Time Out (seconds)
     timeout = NULL,
+    # Vector of status codes to retry
+    retryStatusCodes=NULL,
+    # Maximum number of retry attempts for the retry status codes
+    maxRetryAttempts = NULL,
     # constructor
-    initialize = function(basePath=NULL, userAgent=NULL, defaultHeaders=NULL, username=NULL, password=NULL, apiKeys=NULL, accessToken=NULL, timeout=NULL){
+    initialize = function(basePath=NULL, userAgent=NULL, defaultHeaders=NULL, username=NULL, password=NULL, apiKeys=NULL, accessToken=NULL, timeout=NULL,  retryStatusCodes=NULL, maxRetryAttempts=NULL){
       if (!is.null(basePath)) {
         self$basePath <- basePath
       }
@@ -83,8 +89,42 @@ ApiClient  <- R6::R6Class(
       if (!is.null(timeout)) {
         self$timeout <- timeout
       }
+
+      if (!is.null(retryStatusCodes)) {
+        self$retryStatusCodes <- retryStatusCodes
+      }
+
+      if (!is.null(maxRetryAttempts)) {
+        self$maxRetryAttempts <- maxRetryAttempts
+      }
     },
+
     CallApi = function(url, method, queryParams, headerParams, body, ...){
+
+      resp <- self$Execute(url, method, queryParams, headerParams, body, ...)
+      statusCode <- httr::status_code(resp)
+
+      if (is.null(self$maxRetryAttempts)) {
+        self$maxRetryAttempts = 3
+      }
+      
+      if (!is.null(self$retryStatusCodes)) {
+
+        for (i in 1 : self$maxRetryAttempts) {
+          if (statusCode %in% self$retryStatusCodes) {
+            Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
+            resp <- self$Execute(url, method, queryParams, headerParams, body, ...)
+            statusCode <- httr::status_code(resp)
+          } else {
+            break;
+          }
+        }  
+      }
+
+      resp
+    },
+
+    Execute = function(url, method, queryParams, headerParams, body, ...){
       headers <- httr::add_headers(c(headerParams, self$defaultHeaders))
 
       {{! Adding timeout that can be set at the apiClient object level}}
@@ -166,7 +206,9 @@ ApiClient  <- R6::R6Class(
       else if (exists(returnType, pkgEnv) && !(c(returnType) %in% primitiveTypes)) {
         returnType <- get(returnType, envir = as.environment(pkgEnv))
         returnObj <- returnType$new()
-        returnObj$fromJSON(jsonlite::toJSON(obj, digits = NA))
+        returnObj$fromJSON(
+          jsonlite::toJSON(obj, digits = NA, auto_unbox = TRUE)
+        )
       } 
 
       # To handle primitive type

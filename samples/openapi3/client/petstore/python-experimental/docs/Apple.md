@@ -1,4 +1,4 @@
-# apple.Apple
+# Apple
 
 ## Properties
 Name | Type | Description | Notes

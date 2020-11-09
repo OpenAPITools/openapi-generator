@@ -15,13 +15,20 @@
  */
 
 package org.openapitools.codegen.python;
+import org.openapitools.codegen.config.CodegenConfigurator;
 
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import java.time.OffsetDateTime;
+
+import java.io.File;
+import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.List;
+
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonClientExperimentalCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -40,19 +47,19 @@ public class PythonClientExperimentalTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel simpleName = codegen.fromModel("v1beta3.Binding", openAPI.getComponents().getSchemas().get("v1beta3.Binding"));
         Assert.assertEquals(simpleName.name, "v1beta3.Binding");
-        Assert.assertEquals(simpleName.classname, "v1beta3_binding.V1beta3Binding");
+        Assert.assertEquals(simpleName.classname, "V1beta3Binding");
         Assert.assertEquals(simpleName.classVarName, "v1beta3_binding");
 
         codegen.setOpenAPI(openAPI);
         final CodegenModel compoundName = codegen.fromModel("v1beta3.ComponentStatus", openAPI.getComponents().getSchemas().get("v1beta3.ComponentStatus"));
         Assert.assertEquals(compoundName.name, "v1beta3.ComponentStatus");
-        Assert.assertEquals(compoundName.classname, "v1beta3_component_status.V1beta3ComponentStatus");
+        Assert.assertEquals(compoundName.classname, "V1beta3ComponentStatus");
         Assert.assertEquals(compoundName.classVarName, "v1beta3_component_status");
 
         final String path = "/api/v1beta3/namespaces/{namespaces}/bindings";
         final Operation operation = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation codegenOperation = codegen.fromOperation(path, "get", operation, null);
-        Assert.assertEquals(codegenOperation.returnType, "v1beta3_binding.V1beta3Binding");
+        final CodegenOperation codegenOperation = codegen.fromOperation(path, "post", operation, null);
+        Assert.assertEquals(codegenOperation.returnType, "V1beta3Binding");
         Assert.assertEquals(codegenOperation.returnBaseType, "V1beta3Binding");
     }
 
@@ -71,7 +78,7 @@ public class PythonClientExperimentalTest {
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "sample.Sample");
+        Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 3);
 
@@ -81,7 +88,6 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
 
@@ -91,7 +97,6 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(property2.name, "name");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "str");
-        Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
 
@@ -101,7 +106,6 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(property3.name, "created_at");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "datetime");
-        Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
     }
 
@@ -119,7 +123,7 @@ public class PythonClientExperimentalTest {
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "sample.Sample");
+        Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 2);
 
@@ -129,7 +133,6 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
 
@@ -139,7 +142,6 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(property2.name, "urls");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "list");
-        Assert.assertFalse(property2.hasMore);
         Assert.assertEquals(property2.containerType, "array");
         Assert.assertFalse(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
@@ -159,7 +161,7 @@ public class PythonClientExperimentalTest {
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "sample.Sample");
+        Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
 
@@ -176,48 +178,60 @@ public class PythonClientExperimentalTest {
 
     @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
+        final DefaultCodegen codegen = new PythonClientExperimentalCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("children", new Schema().$ref("#/definitions/Children"));
-        final DefaultCodegen codegen = new PythonClientExperimentalCodegen();
-        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+                .addProperties("children", new Schema().$ref("#/components/schemas/Children"));
+        final Schema children = new Schema()
+                .type("object")
+                .addProperties("number", new Schema().type("integer"));
+        openAPI.getComponents().addSchemas("sample", model);
+        openAPI.getComponents().addSchemas("Children", children);
         codegen.setOpenAPI(openAPI);
+
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "sample.Sample");
+        Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.dataType, "children.Children");
+        Assert.assertEquals(property1.dataType, "Children");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.baseType, "children.Children");
+        Assert.assertEquals(property1.baseType, "Children");
         Assert.assertFalse(property1.required);
         Assert.assertFalse(property1.isContainer);
     }
 
     @Test(description = "convert a model with complex list property")
     public void complexListPropertyTest() {
+        final DefaultCodegen codegen = new PythonClientExperimentalCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema model = new Schema()
                 .description("a sample model")
                 .addProperties("children", new ArraySchema()
-                        .items(new Schema().$ref("#/definitions/Children")));
-        final DefaultCodegen codegen = new PythonClientExperimentalCodegen();
-        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+                        .items(new Schema().$ref("#/components/schemas/Children")));
+        final Schema children = new Schema()
+                .type("object")
+                .addProperties("number", new Schema().type("integer"));
+        openAPI.getComponents().addSchemas("sample", model);
+        openAPI.getComponents().addSchemas("Children", children);
         codegen.setOpenAPI(openAPI);
+
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "sample.Sample");
+        Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.dataType, "[children.Children]");
+        Assert.assertEquals(property1.dataType, "[Children]");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "list");
         Assert.assertEquals(property1.containerType, "array");
@@ -227,25 +241,31 @@ public class PythonClientExperimentalTest {
 
     @Test(description = "convert a model with complex map property")
     public void complexMapPropertyTest() {
+        final DefaultCodegen codegen = new PythonClientExperimentalCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema model = new Schema()
                 .description("a sample model")
                 .addProperties("children", new MapSchema()
-                        .additionalProperties(new Schema().$ref("#/definitions/Children")));
-        final DefaultCodegen codegen = new PythonClientExperimentalCodegen();
-        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+                        .additionalProperties(new Schema().$ref("#/components/schemas/Children")));
+        final Schema children = new Schema()
+                .type("object")
+                .addProperties("number", new Schema().type("integer"));
+        openAPI.getComponents().addSchemas("sample", model);
+        openAPI.getComponents().addSchemas("Children", children);
         codegen.setOpenAPI(openAPI);
+
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "sample.Sample");
+        Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("children.Children")).size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.dataType, "{str: (children.Children,)}");
+        Assert.assertEquals(property1.dataType, "{str: (Children,)}");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "dict");
         Assert.assertEquals(property1.containerType, "map");
@@ -257,42 +277,52 @@ public class PythonClientExperimentalTest {
     // should not start with 'null'. need help from the community to investigate further
     @Test(description = "convert an array model")
     public void arrayModelTest() {
-        final Schema model = new ArraySchema()
-                //.description()
-                .items(new Schema().$ref("#/definitions/Children"))
-                .description("an array model");
         final DefaultCodegen codegen = new PythonClientExperimentalCodegen();
-        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        final Schema model = new ArraySchema()
+                .items(new Schema().$ref("#/components/schemas/Children"))
+                .description("an array model");
+        final Schema children = new Schema()
+                .type("object")
+                .addProperties("number", new Schema().type("integer"));
+        openAPI.getComponents().addSchemas("sample", model);
+        openAPI.getComponents().addSchemas("Children", children);
         codegen.setOpenAPI(openAPI);
+
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "sample.Sample");
+        Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.classVarName, "sample");
         Assert.assertEquals(cm.description, "an array model");
-        Assert.assertEquals(cm.vars.size(), 1);  // there is one value for Childer definition
+        Assert.assertEquals(cm.vars.size(), 0);  // the array model has no vars
         Assert.assertEquals(cm.parent, "list");
         Assert.assertEquals(cm.imports.size(), 1);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("children.Children")).size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
 
     // should not start with 'null'. need help from the community to investigate further
     @Test(description = "convert a map model")
     public void mapModelTest() {
-        final Schema model = new Schema()
-                .description("a map model")
-                .additionalProperties(new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new PythonClientExperimentalCodegen();
-        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        final Schema sample = new Schema()
+                .description("a map model")
+                .additionalProperties(new Schema().$ref("#/components/schemas/Children"));
+        final Schema children = new Schema()
+                .type("object")
+                .addProperties("number", new Schema().type("integer"));
+        openAPI.getComponents().addSchemas("sample", sample);
+        openAPI.getComponents().addSchemas("Children", children);
         codegen.setOpenAPI(openAPI);
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", sample);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "sample.Sample");
+        Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.parent, null);
-        Assert.assertEquals(cm.imports.size(), 0);
+        Assert.assertEquals(cm.imports.size(), 1);
     }
 
     @Test(description = "parse date and date-time example value")
@@ -305,4 +335,94 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(defaultValue, "dateutil_parser('2010-01-01T10:10:10.000111+01:00')");
     }
 
+    @Test(description = "format imports of models containing special characters")
+    public void importSpecialModelNameTest() {
+        final PythonClientExperimentalCodegen codegen = new PythonClientExperimentalCodegen();
+
+        String importValue = codegen.toModelImport("special.ModelName");
+        Assert.assertEquals(importValue, "from models.special_model_name import SpecialModelName");
+    }
+
+    @Test(description = "format imports of models containing special characters")
+    public void defaultSettingInPrimitiveModelWithValidations() {
+        final PythonClientExperimentalCodegen codegen = new PythonClientExperimentalCodegen();
+
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        final Schema noDefault = new ArraySchema()
+                .type("number")
+                .minimum(new BigDecimal("10"));
+        final Schema hasDefault = new Schema()
+                .type("number")
+                .minimum(new BigDecimal("10"));
+        hasDefault.setDefault("15.0");
+        final Schema noDefaultEumLengthOne = new Schema()
+                .type("number")
+                .minimum(new BigDecimal("10"));
+        noDefaultEumLengthOne.setEnum(Arrays.asList("15.0"));
+        openAPI.getComponents().addSchemas("noDefaultModel", noDefault);
+        openAPI.getComponents().addSchemas("hasDefaultModel", hasDefault);
+        openAPI.getComponents().addSchemas("noDefaultEumLengthOneModel", noDefaultEumLengthOne);
+        codegen.setOpenAPI(openAPI);
+
+        final CodegenModel noDefaultModel = codegen.fromModel("noDefaultModel", noDefault);
+        Assert.assertEquals(noDefaultModel.defaultValue, null);
+        Assert.assertEquals(noDefaultModel.hasRequired, true);
+
+        final CodegenModel hasDefaultModel = codegen.fromModel("hasDefaultModel", hasDefault);
+        Assert.assertEquals(hasDefaultModel.defaultValue, "15.0");
+        Assert.assertEquals(hasDefaultModel.hasRequired, false);
+
+        final CodegenModel noDefaultEumLengthOneModel = codegen.fromModel("noDefaultEumLengthOneModel", noDefaultEumLengthOne);
+        Assert.assertEquals(noDefaultEumLengthOneModel.defaultValue, "15.0");
+        Assert.assertEquals(noDefaultEumLengthOneModel.hasRequired, false);
+    }
+
+    @Test
+    public void testObjectModelWithRefedAdditionalPropertiesIsGenerated() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python-experimental")
+                .setInputSpec("src/test/resources/3_0/issue_7372.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.ensureContainsFile(files, output, "openapi_client/model/a.py");
+        TestUtils.ensureContainsFile(files, output, "openapi_client/model/b.py");
+        output.deleteOnExit();
+    }
+
+    @Test
+    public void testFreeFormSchemas() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python-experimental")
+                .setInputSpec("src/test/resources/3_0/issue_7361.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.ensureContainsFile(files, output, "openapi_client/model/free_form_with_validation.py");
+        TestUtils.ensureContainsFile(files, output, "openapi_client/model/free_form_interface.py");
+        TestUtils.ensureDoesNotContainsFile(files, output, "openapi_client/model/free_form.py");
+        output.deleteOnExit();
+    }
+
+    @Test(description = "tests ObjectWithValidations")
+    public void testObjectWithValidations() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7361.yaml");
+        final DefaultCodegen codegen = new PythonClientExperimentalCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "FreeFormWithValidation";
+        Schema modelSchema = ModelUtils.getSchema(openAPI, modelName);
+        final CodegenModel model = codegen.fromModel(modelName, modelSchema);
+        Assert.assertEquals((int) model.getMinProperties(), 1);
+    }
 }

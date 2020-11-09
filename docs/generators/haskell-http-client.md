@@ -3,6 +3,8 @@ title: Config Options for haskell-http-client
 sidebar_label: haskell-http-client
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |allowFromJsonNulls|allow JSON Null during model decoding from JSON| |true|
@@ -109,6 +111,7 @@ sidebar_label: haskell-http-client
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✓|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

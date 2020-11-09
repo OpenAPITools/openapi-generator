@@ -10,18 +10,14 @@ import org.openapitools.model.Order;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import org.springframework.http.codec.multipart.Part;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -48,8 +44,9 @@ public interface StoreApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Order not found") })
-    @RequestMapping(value = "/store/order/{order_id}",
-        method = RequestMethod.DELETE)
+    @DeleteMapping(
+        value = "/store/order/{order_id}"
+    )
     default Mono<ResponseEntity<Void>> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId, ServerWebExchange exchange) {
         return getDelegate().deleteOrder(orderId, exchange);
     }
@@ -62,13 +59,15 @@ public interface StoreApi {
      * @return successful operation (status code 200)
      */
     @ApiOperation(value = "Returns pet inventories by status", nickname = "getInventory", notes = "Returns a map of status codes to quantities", response = Integer.class, responseContainer = "Map", authorizations = {
+        
         @Authorization(value = "api_key")
-    }, tags={ "store", })
+         }, tags={ "store", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map") })
-    @RequestMapping(value = "/store/inventory",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
+    @GetMapping(
+        value = "/store/inventory",
+        produces = { "application/json" }
+    )
     default Mono<ResponseEntity<Map<String, Integer>>> getInventory(ServerWebExchange exchange) {
         return getDelegate().getInventory(exchange);
     }
@@ -88,9 +87,10 @@ public interface StoreApi {
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Order not found") })
-    @RequestMapping(value = "/store/order/{order_id}",
-        produces = { "application/xml", "application/json" }, 
-        method = RequestMethod.GET)
+    @GetMapping(
+        value = "/store/order/{order_id}",
+        produces = { "application/xml", "application/json" }
+    )
     default Mono<ResponseEntity<Order>> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId, ServerWebExchange exchange) {
         return getDelegate().getOrderById(orderId, exchange);
     }
@@ -107,9 +107,10 @@ public interface StoreApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order") })
-    @RequestMapping(value = "/store/order",
-        produces = { "application/xml", "application/json" }, 
-        method = RequestMethod.POST)
+    @PostMapping(
+        value = "/store/order",
+        produces = { "application/xml", "application/json" }
+    )
     default Mono<ResponseEntity<Order>> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Mono<Order> body, ServerWebExchange exchange) {
         return getDelegate().placeOrder(body, exchange);
     }

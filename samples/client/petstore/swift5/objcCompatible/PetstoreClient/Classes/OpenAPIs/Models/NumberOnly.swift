@@ -7,17 +7,15 @@
 
 import Foundation
 
-
-
-@objc public class NumberOnly: NSObject, Codable { 
+@objc public class NumberOnly: NSObject, Codable {
 
     public var justNumber: Double?
 
-    public init(justNumber: Double?) {
+    public init(justNumber: Double? = nil) {
         self.justNumber = justNumber
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable { 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case justNumber = "JustNumber"
     }
 

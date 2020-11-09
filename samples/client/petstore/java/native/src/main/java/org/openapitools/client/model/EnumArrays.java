@@ -15,15 +15,20 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * EnumArrays
@@ -112,7 +117,6 @@ public class EnumArrays {
 
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
-    
     this.justSymbol = justSymbol;
     return this;
   }
@@ -137,7 +141,6 @@ public class EnumArrays {
 
 
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
-    
     this.arrayEnum = arrayEnum;
     return this;
   }
@@ -169,8 +172,11 @@ public class EnumArrays {
   }
 
 
+  /**
+   * Return true if this EnumArrays object is equal to o.
+   */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -187,7 +193,6 @@ public class EnumArrays {
     return Objects.hash(justSymbol, arrayEnum);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -202,7 +207,7 @@ public class EnumArrays {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

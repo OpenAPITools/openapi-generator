@@ -3,6 +3,8 @@ title: Config Options for scala-akka-http-server
 sidebar_label: scala-akka-http-server
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |akkaHttpVersion|The version of akka-http| |10.1.10|
@@ -123,6 +125,7 @@ sidebar_label: scala-akka-http-server
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

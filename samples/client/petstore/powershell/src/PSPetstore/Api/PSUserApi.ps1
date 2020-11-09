@@ -58,7 +58,7 @@ function New-PSUser {
             throw "Error! The required parameter `User` missing when calling createUser."
         }
 
-        $LocalVarBodyParameter = $User | ConvertTo-Json
+        $LocalVarBodyParameter = $User | ConvertTo-Json -Depth 100
 
         if ($Configuration["Cookie"]) {
             $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
@@ -74,7 +74,8 @@ function New-PSUser {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType ""
+                                -ReturnType "" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -137,7 +138,7 @@ function New-PSUsersWithArrayInput {
             throw "Error! The required parameter `User` missing when calling createUsersWithArrayInput."
         }
 
-        $LocalVarBodyParameter = $User | ConvertTo-Json
+        $LocalVarBodyParameter = $User | ConvertTo-Json -Depth 100
 
         if ($Configuration["Cookie"]) {
             $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
@@ -153,7 +154,8 @@ function New-PSUsersWithArrayInput {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType ""
+                                -ReturnType "" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -216,7 +218,7 @@ function New-PSUsersWithListInput {
             throw "Error! The required parameter `User` missing when calling createUsersWithListInput."
         }
 
-        $LocalVarBodyParameter = $User | ConvertTo-Json
+        $LocalVarBodyParameter = $User | ConvertTo-Json -Depth 100
 
         if ($Configuration["Cookie"]) {
             $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
@@ -232,7 +234,8 @@ function New-PSUsersWithListInput {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType ""
+                                -ReturnType "" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -306,7 +309,8 @@ function Remove-PSUser {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType ""
+                                -ReturnType "" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -390,7 +394,8 @@ function Get-PSUserByName {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "User"
+                                -ReturnType "User" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -486,7 +491,8 @@ function Invoke-PSLoginUser {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "String"
+                                -ReturnType "String" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -550,7 +556,8 @@ function Invoke-PSLogoutUser {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType ""
+                                -ReturnType "" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -623,7 +630,7 @@ function Update-PSUser {
             throw "Error! The required parameter `User` missing when calling updateUser."
         }
 
-        $LocalVarBodyParameter = $User | ConvertTo-Json
+        $LocalVarBodyParameter = $User | ConvertTo-Json -Depth 100
 
         if ($Configuration["Cookie"]) {
             $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
@@ -639,7 +646,8 @@ function Update-PSUser {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType ""
+                                -ReturnType "" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult

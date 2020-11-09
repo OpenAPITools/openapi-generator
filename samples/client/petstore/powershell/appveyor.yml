@@ -7,9 +7,10 @@
 
 version: 1.0.{build}
 image:
-  - Visual Studio 2017 # PS 5.x
-  - Ubuntu # PS 6.x
-  - macOS # PS 6.x
+  - Visual Studio 2019 # PS 6.x
+  #- Visual Studio 2017 # PS 5.x
+  #- Ubuntu # PS 6.x
+  # ref: https://www.appveyor.com/docs/build-environment/#build-worker-images
 install:
   - ps: $PSVersionTable.PSVersion
   - ps: Install-Module Pester -Force -Scope CurrentUser
@@ -20,4 +21,18 @@ test_script:
       if ($Result.FailedCount -gt 0) {
           $host.SetShouldExit($Result.FailedCount)
           exit $Result.FailedCount
+      }
+deploy_script:
+  - ps: |
+      if ($env:APPVEYOR_REPO_TAG -eq $true -and $env:NuGetApiKey -ne $null -and $env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2019") {
+          .\Build.ps1
+          try {
+              Publish-Module -NuGetApiKey $env:NuGetApiKey -Path .\src\PSPetstore\ -Confirm:$False -Verbose
+              Write-Host "Successfully published the PowerShell module."
+          } catch {
+              $host.SetShouldExit($LastExitCode)
+              Write-Host "Error when running Publish-Module:"
+              Write-Host $_
+              exit
+          }
       }

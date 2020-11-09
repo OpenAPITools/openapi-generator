@@ -37,8 +37,8 @@ import Data.Function ((&))
 {{^vendorExtensions.x-custom-newtype}}
 {{^parent}}
 {{vendorExtensions.x-data}} {{classname}} = {{classname}}
-  { {{#vars}}{{& name}} :: {{^required}}Maybe {{/required}}{{dataType}} -- ^ {{& description}}{{#hasMore}}
-  , {{/hasMore}}{{/vars}}
+  { {{#vars}}{{& name}} :: {{^required}}Maybe {{/required}}{{dataType}} -- ^ {{& description}}{{^-last}}
+  , {{/-last}}{{/vars}}
   } deriving (Show, Eq, Generic, Data)
 
 instance FromJSON {{classname}} where
@@ -83,8 +83,8 @@ removeFieldLabelPrefix forParsing prefix =
   where
     replaceSpecialChars field = foldl (&) field (map mkCharReplacement specialChars)
     specialChars =
-      [ {{#specialCharReplacements}}("{{&char}}", "{{&replacement}}"){{#hasMore}}
-      , {{/hasMore}}{{/specialCharReplacements}}
+      [ {{#specialCharReplacements}}("{{&char}}", "{{&replacement}}"){{^-last}}
+      , {{/-last}}{{/specialCharReplacements}}
       ]
     mkCharReplacement (replaceStr, searchStr) = T.unpack . replacer (T.pack searchStr) (T.pack replaceStr) . T.pack
     replacer =

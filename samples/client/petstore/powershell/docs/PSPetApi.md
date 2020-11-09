@@ -29,11 +29,12 @@ $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
+
 $Pet = (Initialize-Pet-Id 123 -Category (Initialize-Category-Id 123 -Name "Name_example") -Name "Name_example" -PhotoUrls @("PhotoUrls_example") -Tags @((Initialize-Tag-Id 123 -Name "Name_example")) -Status "Status_example") # Pet | Pet object that needs to be added to the store
 
 # Add a new pet to the store
 try {
-    Pet $Result = Add-PSPet -Pet $Pet
+     $Result = Add-PSPet -Pet $Pet
 } catch {
     Write-Host ("Exception occured when calling Add-PSPet: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -47,7 +48,7 @@ Name | Type | Description  | Notes
  **Pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 [**Pet**](Pet.md)
 
 ### Authorization
@@ -77,12 +78,13 @@ $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-$PetId = 987 # Int64 | Pet id to delete (default to null)
-$ApiKey = "ApiKey_example" # String |  (optional) (default to null)
+
+$PetId = 987 # Int64 | Pet id to delete
+$ApiKey = "ApiKey_example" # String |  (optional)
 
 # Deletes a pet
 try {
-    Remove-Pet -PetId $PetId -ApiKey $ApiKey
+     $Result = Remove-Pet -PetId $PetId -ApiKey $ApiKey
 } catch {
     Write-Host ("Exception occured when calling Remove-Pet: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -93,11 +95,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **PetId** | **Int64**| Pet id to delete | [default to null]
- **ApiKey** | **String**|  | [optional] [default to null]
+ **PetId** | **Int64**| Pet id to delete | 
+ **ApiKey** | **String**|  | [optional] 
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 void (empty response body)
 
 ### Authorization
@@ -128,11 +130,12 @@ $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-$Status = @("Status_example") # String[] | Status values that need to be considered for filter (default to null)
+
+$Status = @("Status_example") # String[] | Status values that need to be considered for filter
 
 # Finds Pets by status
 try {
-    Pet[] $Result = Find-PSPetsByStatus -Status $Status
+     $Result = Find-PSPetsByStatus -Status $Status
 } catch {
     Write-Host ("Exception occured when calling Find-PSPetsByStatus: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -143,10 +146,10 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Status** | [**String[]**](String.md)| Status values that need to be considered for filter | [default to null]
+ **Status** | [**String[]**](String.md)| Status values that need to be considered for filter | 
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 [**Pet[]**](Pet.md)
 
 ### Authorization
@@ -177,11 +180,12 @@ $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-$Tags = @("Inner_example") # String[] | Tags to filter by (default to null)
+
+$Tags = @("Inner_example") # String[] | Tags to filter by
 
 # Finds Pets by tags
 try {
-    Pet[] $Result = Find-PSPetsByTags -Tags $Tags
+     $Result = Find-PSPetsByTags -Tags $Tags
 } catch {
     Write-Host ("Exception occured when calling Find-PSPetsByTags: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -192,10 +196,10 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Tags** | [**String[]**](String.md)| Tags to filter by | [default to null]
+ **Tags** | [**String[]**](String.md)| Tags to filter by | 
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 [**Pet[]**](Pet.md)
 
 ### Authorization
@@ -228,11 +232,12 @@ $Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$Configuration["ApiKeyPrefix"]["api_key"] = "Bearer"
 
-$PetId = 987 # Int64 | ID of pet to return (default to null)
+
+$PetId = 987 # Int64 | ID of pet to return
 
 # Find pet by ID
 try {
-    Pet $Result = Get-PSPetById -PetId $PetId
+     $Result = Get-PSPetById -PetId $PetId
 } catch {
     Write-Host ("Exception occured when calling Get-PSPetById: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -243,10 +248,10 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **PetId** | **Int64**| ID of pet to return | [default to null]
+ **PetId** | **Int64**| ID of pet to return | 
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 [**Pet**](Pet.md)
 
 ### Authorization
@@ -275,11 +280,12 @@ $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
+
 $Pet = (Initialize-Pet-Id 123 -Category (Initialize-Category-Id 123 -Name "Name_example") -Name "Name_example" -PhotoUrls @("PhotoUrls_example") -Tags @((Initialize-Tag-Id 123 -Name "Name_example")) -Status "Status_example") # Pet | Pet object that needs to be added to the store
 
 # Update an existing pet
 try {
-    Pet $Result = Update-PSPet -Pet $Pet
+     $Result = Update-PSPet -Pet $Pet
 } catch {
     Write-Host ("Exception occured when calling Update-PSPet: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -293,7 +299,7 @@ Name | Type | Description  | Notes
  **Pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 [**Pet**](Pet.md)
 
 ### Authorization
@@ -324,13 +330,14 @@ $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-$PetId = 987 # Int64 | ID of pet that needs to be updated (default to null)
-$Name = "Name_example" # String | Updated name of the pet (optional) (default to null)
-$Status = "Status_example" # String | Updated status of the pet (optional) (default to null)
+
+$PetId = 987 # Int64 | ID of pet that needs to be updated
+$Name = "Name_example" # String | Updated name of the pet (optional)
+$Status = "Status_example" # String | Updated status of the pet (optional)
 
 # Updates a pet in the store with form data
 try {
-    Update-PSPetWithForm -PetId $PetId -Name $Name -Status $Status
+     $Result = Update-PSPetWithForm -PetId $PetId -Name $Name -Status $Status
 } catch {
     Write-Host ("Exception occured when calling Update-PSPetWithForm: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -341,12 +348,12 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **PetId** | **Int64**| ID of pet that needs to be updated | [default to null]
- **Name** | **String**| Updated name of the pet | [optional] [default to null]
- **Status** | **String**| Updated status of the pet | [optional] [default to null]
+ **PetId** | **Int64**| ID of pet that needs to be updated | 
+ **Name** | **String**| Updated name of the pet | [optional] 
+ **Status** | **String**| Updated status of the pet | [optional] 
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 void (empty response body)
 
 ### Authorization
@@ -377,13 +384,14 @@ $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-$PetId = 987 # Int64 | ID of pet to update (default to null)
-$AdditionalMetadata = "AdditionalMetadata_example" # String | Additional data to pass to server (optional) (default to null)
-$File = 987 # System.IO.FileInfo | file to upload (optional) (default to null)
+
+$PetId = 987 # Int64 | ID of pet to update
+$AdditionalMetadata = "AdditionalMetadata_example" # String | Additional data to pass to server (optional)
+$File = 987 # System.IO.FileInfo | file to upload (optional)
 
 # uploads an image
 try {
-    ApiResponse $Result = Invoke-PSUploadFile -PetId $PetId -AdditionalMetadata $AdditionalMetadata -File $File
+     $Result = Invoke-PSUploadFile -PetId $PetId -AdditionalMetadata $AdditionalMetadata -File $File
 } catch {
     Write-Host ("Exception occured when calling Invoke-PSUploadFile: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -394,12 +402,12 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **PetId** | **Int64**| ID of pet to update | [default to null]
- **AdditionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
- **File** | **System.IO.FileInfo****System.IO.FileInfo**| file to upload | [optional] [default to null]
+ **PetId** | **Int64**| ID of pet to update | 
+ **AdditionalMetadata** | **String**| Additional data to pass to server | [optional] 
+ **File** | **System.IO.FileInfo****System.IO.FileInfo**| file to upload | [optional] 
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 [**ApiResponse**](ApiResponse.md)
 
 ### Authorization

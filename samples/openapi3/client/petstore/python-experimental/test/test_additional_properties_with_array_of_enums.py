@@ -10,11 +10,12 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.enum_class import EnumClass
+globals()['EnumClass'] = EnumClass
 from petstore_api.model.additional_properties_with_array_of_enums import AdditionalPropertiesWithArrayOfEnums
 
 

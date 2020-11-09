@@ -4,6 +4,11 @@
   infoLink: "https://www.adaptant.io/"
   pinned: false
 -
+  caption: "adesso SE"
+  image: "img/companies/adesso.png"
+  infoLink: "https://www.adesso.de/"
+  pinned: false
+-
   caption: "Agoda"
   image: "img/companies/agoda.png"
   infoLink: "https://www.agoda.com/"
@@ -87,6 +92,11 @@
   caption: "codecentric AG"
   image: "img/companies/codecentric.png"
   infoLink: "https://www.codecentric.de/"
+  pinned: false
+-
+  caption: "CoinAPI"
+  image: "img/companies/coinapi.png"
+  infoLink: "https://www.coinapi.io/"
   pinned: false
 -
   caption: Commencis
@@ -173,6 +183,11 @@
   image: "img/companies/getyourguide.png"
   infoLink: "https://www.getyourguide.com/"
   pinned: false
+-
+  caption: Giant Monkey GmbH
+  image: "img/companies/gm.png"
+  infoLink: "https://www.giantmonkey.de/"
+  pinned: true
 -
   caption: "GMO Pepabo"
   image: "img/companies/pepabo.png"
@@ -264,6 +279,21 @@
   infoLink: "https://www.namsor.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
   pinned: false
 -
+  caption: Nokia 
+  image: "img/companies/nokia.png"
+  infoLink: "https://www.nokia.com/"
+  pinned: false
+-
+  caption: "PLAID, Inc."
+  image: "img/companies/plaidcojp.jpg"
+  infoLink: "https://plaid.co.jp/"
+  pinned: false
+-
+  caption: Options Clearing Corporation (OCC)
+  image: "img/companies/occ.jpg"
+  infoLink: "https://www.theocc.com/"
+  pinned: false
+-
   caption: Openet
   image: "img/companies/openet.jpg"
   infoLink: "https://www.openet.com/"
@@ -304,6 +334,11 @@
   infoLink: "https://www.qulix.com"
   pinned: false
 -
+  caption: Raksul
+  image: "img/companies/raksul-corporate.svg"
+  infoLink: "https://corp.raksul.com"
+  pinned: false
+-
   caption: "Raiffeisen Schweiz Genossenschaft"
   image: "img/companies/raiffeisen.png"
   infoLink: "https://www.raiffeisen.ch/"
@@ -324,9 +359,19 @@
   infoLink: "https://restunited.com/"
   pinned: false
 -
+  caption: "SmartHR"
+  image: "img/companies/smarthr.png"
+  infoLink: "https://smarthr.co.jp/"
+  pinned: false
+-
   caption: "Sony Interactive Entertainment"
   image: "img/companies/sie.jpeg"
   infoLink: "https://www.sie.com/en/index.html"
+  pinned: false
+-
+  caption: "Splitit"
+  image: "img/companies/splitit.png"
+  infoLink: "https://www.splitit.com/"
   pinned: false
 -
   caption: Stingray
@@ -349,6 +394,11 @@
   infoLink: "https://www.traveltimeplatform.com/"
   pinned: false
 -
+  caption: "TribalScale"
+  image: "img/companies/tribalscale.png"
+  infoLink: "https://www.tribalscale.com"
+  pinned: false
+-
   caption: "TUI InfoTec GmbH"
   image: "img/companies/infotec.png"
   infoLink: "http://www.tui-infotec.com/"
@@ -364,6 +414,21 @@
   infoLink: "https://www.veamly.com/"
   pinned: false
 -
+  caption: Vonage
+  image: "img/companies/vonage.png"
+  infoLink: "https://vonage.com"
+  pinned: false
+-
+  caption: Vouchery.io
+  image: "img/companies/voucheryio.png"
+  infoLink: "https://vouchery.io"
+  pinned: false
+-
+  caption: wbt-solutions
+  image: "img/companies/wbt_solutions.png"
+  infoLink: "https://www.wbt-solutions.de/"
+  pinned: false
+-
   caption: Woleet
   image: "img/companies/woleet.png"
   infoLink: "https://woleet.io"
@@ -374,11 +439,6 @@
   infoLink: "https://wso2.com/"
   pinned: true
 -
-  caption: Vouchery.io
-  image: "img/companies/voucheryio.png"
-  infoLink: "https://vouchery.io"
-  pinned: false
--
   caption: Xero
   image: "img/companies/xero.png"
   infoLink: "https://www.xero.com/"
@@ -387,11 +447,6 @@
   caption: Yahoo! Japan
   image: "img/companies/yahoo_japan.png"
   infoLink: "https://www.yahoo.co.jp"
-  pinned: false
--
-  caption: Vonage
-  image: "img/companies/vonage.jpg"
-  infoLink: "https://vonage.com"
   pinned: false
 -
   caption: YITU Technology

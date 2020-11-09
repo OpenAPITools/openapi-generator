@@ -52,7 +52,7 @@ export class RequestContext {
 	 * @param httpMethod http method
 	 */
     public constructor(url: string, private httpMethod: HttpMethod) {
-        this.url = URLParse(url, true);
+        this.url = new URLParse(url, true);
     }
     
     /*
@@ -68,7 +68,7 @@ export class RequestContext {
      *
      */
     public setUrl(url: string) {
-    	this.url = URLParse(url, true);
+        this.url = new URLParse(url, true);
     }
 
     /**

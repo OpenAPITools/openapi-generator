@@ -360,7 +360,7 @@ DateTime :: UTCTime -> DateTime
 -- | <pre>
 --   _parseISO8601
 --   </pre>
-_readDateTime :: (ParseTime t, Monad m, Alternative m) => String -> m t
+_readDateTime :: (MonadFail m, Alternative m) => String -> m DateTime
 
 -- | <pre>
 --   TI.formatISO8601Millis
@@ -368,7 +368,7 @@ _readDateTime :: (ParseTime t, Monad m, Alternative m) => String -> m t
 _showDateTime :: (t ~ UTCTime, FormatTime t) => t -> String
 
 -- | parse an ISO8601 date-time string
-_parseISO8601 :: (ParseTime t, Monad m, Alternative m) => String -> m t
+_parseISO8601 :: (ParseTime t, MonadFail m, Alternative m) => String -> m t
 newtype Date
 Date :: Day -> Date
 [unDate] :: Date -> Day
@@ -376,7 +376,7 @@ Date :: Day -> Date
 -- | <pre>
 --   TI.parseTimeM True TI.defaultTimeLocale "%Y-%m-%d"
 --   </pre>
-_readDate :: (ParseTime t, Monad m) => String -> m t
+_readDate :: MonadFail m => String -> m Date
 
 -- | <pre>
 --   TI.formatTime TI.defaultTimeLocale "%Y-%m-%d"
@@ -389,7 +389,7 @@ ByteArray :: ByteString -> ByteArray
 [unByteArray] :: ByteArray -> ByteString
 
 -- | read base64 encoded characters
-_readByteArray :: Monad m => Text -> m ByteArray
+_readByteArray :: MonadFail m => Text -> m ByteArray
 
 -- | show base64 encoded characters
 _showByteArray :: ByteArray -> Text
@@ -398,7 +398,7 @@ _showByteArray :: ByteArray -> Text
 newtype Binary
 Binary :: ByteString -> Binary
 [unBinary] :: Binary -> ByteString
-_readBinaryBase64 :: Monad m => Text -> m Binary
+_readBinaryBase64 :: MonadFail m => Text -> m Binary
 _showBinaryBase64 :: Binary -> Text
 type Lens_' s a = Lens_ s s a a
 type Lens_ s t a b = forall (f :: * -> *). Functor f => (a -> f b) -> s -> f t
@@ -410,16 +410,12 @@ instance Control.DeepSeq.NFData OpenAPIPetstore.Core.ByteArray
 instance GHC.Classes.Ord OpenAPIPetstore.Core.ByteArray
 instance Data.Data.Data OpenAPIPetstore.Core.ByteArray
 instance GHC.Classes.Eq OpenAPIPetstore.Core.ByteArray
-instance Data.Time.Format.FormatTime OpenAPIPetstore.Core.Date
-instance Data.Time.Format.Parse.ParseTime OpenAPIPetstore.Core.Date
 instance Control.DeepSeq.NFData OpenAPIPetstore.Core.Date
 instance GHC.Arr.Ix OpenAPIPetstore.Core.Date
 instance GHC.Classes.Ord OpenAPIPetstore.Core.Date
 instance Data.Data.Data OpenAPIPetstore.Core.Date
 instance GHC.Classes.Eq OpenAPIPetstore.Core.Date
 instance GHC.Enum.Enum OpenAPIPetstore.Core.Date
-instance Data.Time.Format.FormatTime OpenAPIPetstore.Core.DateTime
-instance Data.Time.Format.Parse.ParseTime OpenAPIPetstore.Core.DateTime
 instance Control.DeepSeq.NFData OpenAPIPetstore.Core.DateTime
 instance GHC.Classes.Ord OpenAPIPetstore.Core.DateTime
 instance Data.Data.Data OpenAPIPetstore.Core.DateTime

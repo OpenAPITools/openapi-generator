@@ -247,21 +247,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.addOperationObjectResponseInformation(operations);
         this.addOperationPrefixParameterInterfacesInformation(operations);
         this.escapeOperationIds(operations);
-        this.addDeepObjectVendorExtension(operations);
         return operations;
-    }
-
-    private void addDeepObjectVendorExtension(Map<String, Object> operations) {
-        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
-
-        for (CodegenOperation op : operationList) {
-            for (CodegenParameter param : op.queryParams) {
-                if (param.style != null && param.style.equals("deepObject")) {
-                    param.vendorExtensions.put("x-codegen-isDeepObject", true);
-                }
-            }
-        }
     }
 
     private void escapeOperationIds(Map<String, Object> operations) {
@@ -315,7 +301,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
         for (CodegenOperation op : operationList) {
             if("object".equals(op.returnType)) {
-                op.isMapContainer = true;
+                op.isMap = true;
                 op.returnSimpleType = false;
             }
         }

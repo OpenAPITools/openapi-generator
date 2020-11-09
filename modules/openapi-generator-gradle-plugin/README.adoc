@@ -61,6 +61,35 @@ task validateBadSpec(type: org.openapitools.generator.gradle.plugin.tasks.Valida
 task validateSpecs(dependsOn: ['validateGoodSpec', 'validateBadSpec'])
 ----
 
+[NOTE]
+====
+The tasks support Gradle Up-To-Date checking and Gradle Cache. Enable caching globally by setting `org.gradle.caching=true` in the `gradle.settings`
+file or by passing the command line property `--build-cache` when executing on the command line.
+
+Disable up-to-date checks and caching by setting the following property when using the extension:
+
+.Disable caching for extension
+[source,groovy]
+----
+tasks.withType(org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    outputs.upToDateWhen { false }
+    outputs.cacheIf { false }
+}
+----
+Disable up-to-date checks and caching for a custom task:
+
+.Disable caching for custom task
+[source,groovy]
+----
+task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+    outputs.upToDateWhen { false }
+    outputs.cacheIf { false }
+
+    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+}
+----
+====
+
 == Plugin Setup
 
 //# RELEASE_VERSION
@@ -308,7 +337,7 @@ apply plugin: 'org.openapi.generator'
 |configOptions
 |Map(String,String)
 |None
-|A map of options specific to a generator. To see the full list of generator-specified parameters, please refer to [generators docs](https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators.md)
+|A map of options specific to a generator. To see the full list of generator-specified parameters, please refer to [generators docs](https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators.md). Note that any config options from a generator specific document may go here, and some generators may duplicate other options which are siblings to `configOptions`.
 
 |logToStderr
 |Boolean

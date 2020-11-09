@@ -171,8 +171,8 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
         ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        input.openAPI(openAPI);
+        input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
 
@@ -255,8 +255,8 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
         ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        input.openAPI(openAPI);
+        input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
 
@@ -287,8 +287,8 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
         ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        input.openAPI(openAPI);
+        input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
 
@@ -426,8 +426,8 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
         ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        input.openAPI(openAPI);
+        input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
 

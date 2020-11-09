@@ -1,4 +1,4 @@
-# additional_properties_string.AdditionalPropertiesString
+# AdditionalPropertiesString
 
 ## Properties
 Name | Type | Description | Notes

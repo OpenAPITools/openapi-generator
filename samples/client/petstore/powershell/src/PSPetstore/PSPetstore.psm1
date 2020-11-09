@@ -7,10 +7,18 @@
 
 #region Import functions
 
+# define the following classes in PowerShell
+try {
+    Add-Type -AssemblyName System.Web -ErrorAction Ignore | Out-Null
+    Add-Type -AssemblyName System.Net -ErrorAction Ignore | Out-Null
+} catch {
+    Write-Verbose $_
+}
+
 # set $ErrorActionPreference to 'Stop' globally
 $ErrorActionPreference = 'Stop'
 
-# store the API client's configuration 
+# store the API client's configuration
 $Script:Configuration = [System.Collections.HashTable]@{}
 
 $Script:CmdletBindingParameters = @('Verbose','Debug','ErrorAction','WarningAction','InformationAction','ErrorVariable','WarningVariable','InformationVariable','OutVariable','OutBuffer','PipelineVariable')

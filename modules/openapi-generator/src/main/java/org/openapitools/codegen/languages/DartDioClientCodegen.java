@@ -40,7 +40,6 @@ import java.util.Set;
 
 import io.swagger.v3.oas.models.media.Schema;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -48,10 +47,10 @@ public class DartDioClientCodegen extends DartClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartDioClientCodegen.class);
 
     public static final String NULLABLE_FIELDS = "nullableFields";
-    private static final String IS_FORMAT_JSON = "jsonFormat";
-    private static final String CLIENT_NAME = "clientName";
     public static final String DATE_LIBRARY = "dateLibrary";
 
+    private static final String IS_FORMAT_JSON = "jsonFormat";
+    private static final String CLIENT_NAME = "clientName";
     private static Set<String> modelToIgnore = new HashSet<>();
 
     static {
@@ -63,14 +62,11 @@ public class DartDioClientCodegen extends DartClientCodegen {
         modelToIgnore.add("uint8list");
     }
 
-    private static final String SERIALIZATION_JSON = "json";
-
     private boolean nullableFields = true;
     private String dateLibrary = "core";
 
     public DartDioClientCodegen() {
         super();
-        browserClient = false;
         outputFolder = "generated-code/dart-dio";
         embeddedTemplateDir = "dart-dio";
         this.setTemplateDir(embeddedTemplateDir);
@@ -125,18 +121,21 @@ public class DartDioClientCodegen extends DartClientCodegen {
     }
 
     @Override
-    public void setBrowserClient(boolean browserClient) {
-        super.browserClient = browserClient;
-    }
-
-    @Override
-    public String toDefaultValue(Schema p) {
-        if (ModelUtils.isMapSchema(p)) {
+    public String toDefaultValue(Schema schema) {
+        if (ModelUtils.isMapSchema(schema)) {
             return "const {}";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (ModelUtils.isArraySchema(schema)) {
             return "const []";
         }
-        return super.toDefaultValue(p);
+
+        if (schema.getDefault() != null) {
+            if (ModelUtils.isStringSchema(schema)) {
+                return "'" + schema.getDefault().toString().replaceAll("'", "\\'") + "'";
+            }
+            return schema.getDefault().toString();
+        } else {
+            return "null";
+        }
     }
 
     @Override
@@ -171,13 +170,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
-        if (additionalProperties.containsKey(BROWSER_CLIENT)) {
-            this.setBrowserClient(convertPropertyToBooleanAndWriteBack(BROWSER_CLIENT));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(BROWSER_CLIENT, browserClient);
-        }
-
         if (additionalProperties.containsKey(NULLABLE_FIELDS)) {
             this.setNullableFields(convertPropertyToBooleanAndWriteBack(NULLABLE_FIELDS));
         } else {
@@ -186,6 +178,13 @@ public class DartDioClientCodegen extends DartClientCodegen {
         }
 
         additionalProperties.put(IS_FORMAT_JSON, true);
+
+        if (additionalProperties.containsKey(PUB_LIBRARY)) {
+            this.setPubLibrary((String) additionalProperties.get(PUB_LIBRARY));
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(PUB_LIBRARY, pubLibrary);
+        }
 
         if (additionalProperties.containsKey(PUB_NAME)) {
             this.setPubName((String) additionalProperties.get(PUB_NAME));

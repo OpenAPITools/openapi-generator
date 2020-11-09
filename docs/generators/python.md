@@ -3,6 +3,8 @@ title: Config Options for python
 sidebar_label: python
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |generateSourceCodeOnly|Specifies that only a library source code is to be generated.| |false|
@@ -12,6 +14,7 @@ sidebar_label: python
 |packageUrl|python package URL.| |null|
 |packageVersion|python package version.| |1.0.0|
 |projectName|python project name in setup.py (e.g. petstore-api).| |null|
+|recursionLimit|Set the recursion limit. If not set, use the system default value.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |useNose|use the nose test framework| |false|
 
@@ -105,6 +108,7 @@ sidebar_label: python
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

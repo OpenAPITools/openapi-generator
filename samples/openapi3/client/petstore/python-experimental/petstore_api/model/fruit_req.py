@@ -10,11 +10,9 @@
 """
 
 
-from __future__ import absolute_import
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
@@ -28,21 +26,15 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_get_composed_info,
 )
-try:
-    from petstore_api.model import apple_req
-except ImportError:
-    apple_req = sys.modules[
-        'petstore_api.model.apple_req']
-try:
-    from petstore_api.model import banana_req
-except ImportError:
-    banana_req = sys.modules[
-        'petstore_api.model.banana_req']
+
+def lazy_import():
+    from petstore_api.model.apple_req import AppleReq
+    from petstore_api.model.banana_req import BananaReq
+    globals()['AppleReq'] = AppleReq
+    globals()['BananaReq'] = BananaReq
 
 
 class FruitReq(ModelComposed):
@@ -82,13 +74,14 @@ class FruitReq(ModelComposed):
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+        lazy_import()
         return {
             'cultivar': (str,),  # noqa: E501
             'length_cm': (float,),  # noqa: E501
@@ -99,6 +92,7 @@ class FruitReq(ModelComposed):
     @cached_property
     def discriminator():
         return None
+
 
     attribute_map = {
         'cultivar': 'cultivar',  # noqa: E501
@@ -121,7 +115,7 @@ class FruitReq(ModelComposed):
 
     @convert_js_args_to_python_args
     def __init__(self, *args, **kwargs):  # noqa: E501
-        """fruit_req.FruitReq - a model defined in OpenAPI
+        """FruitReq - a model defined in OpenAPI
 
         Args:
 
@@ -215,7 +209,7 @@ class FruitReq(ModelComposed):
 
         for var_name, var_value in required_args.items():
             setattr(self, var_name, var_value)
-        for var_name, var_value in six.iteritems(kwargs):
+        for var_name, var_value in kwargs.items():
             if var_name in unused_args and \
                         self._configuration is not None and \
                         self._configuration.discard_unknown_keys and \
@@ -233,14 +227,15 @@ class FruitReq(ModelComposed):
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
+        lazy_import()
         return {
           'anyOf': [
           ],
           'allOf': [
           ],
           'oneOf': [
-              apple_req.AppleReq,
-              banana_req.BananaReq,
+              AppleReq,
+              BananaReq,
               none_type,
           ],
         }

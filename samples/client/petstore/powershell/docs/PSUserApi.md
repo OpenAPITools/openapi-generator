@@ -33,11 +33,12 @@ $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
 
+
 $User = (Initialize-User-Id 123 -Username "Username_example" -FirstName "FirstName_example" -LastName "LastName_example" -Email "Email_example" -Password "Password_example" -Phone "Phone_example" -UserStatus 123) # User | Created user object
 
 # Create user
 try {
-    New-PSUser -User $User
+     $Result = New-PSUser -User $User
 } catch {
     Write-Host ("Exception occured when calling New-PSUser: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -51,7 +52,7 @@ Name | Type | Description  | Notes
  **User** | [**User**](User.md)| Created user object | 
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 void (empty response body)
 
 ### Authorization
@@ -82,11 +83,12 @@ $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
 
+
 $User = @((Initialize-User-Id 123 -Username "Username_example" -FirstName "FirstName_example" -LastName "LastName_example" -Email "Email_example" -Password "Password_example" -Phone "Phone_example" -UserStatus 123)) # User[] | List of user object
 
 # Creates list of users with given input array
 try {
-    New-PSUsersWithArrayInput -User $User
+     $Result = New-PSUsersWithArrayInput -User $User
 } catch {
     Write-Host ("Exception occured when calling New-PSUsersWithArrayInput: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -100,7 +102,7 @@ Name | Type | Description  | Notes
  **User** | [**User[]**](User.md)| List of user object | 
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 void (empty response body)
 
 ### Authorization
@@ -131,11 +133,12 @@ $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
 
+
 $User = @() # User[] | List of user object
 
 # Creates list of users with given input array
 try {
-    New-PSUsersWithListInput -User $User
+     $Result = New-PSUsersWithListInput -User $User
 } catch {
     Write-Host ("Exception occured when calling New-PSUsersWithListInput: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -149,7 +152,7 @@ Name | Type | Description  | Notes
  **User** | [**User[]**](User.md)| List of user object | 
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 void (empty response body)
 
 ### Authorization
@@ -182,11 +185,12 @@ $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
 
-$Username = "Username_example" # String | The name that needs to be deleted (default to null)
+
+$Username = "Username_example" # String | The name that needs to be deleted
 
 # Delete user
 try {
-    Remove-PSUser -Username $Username
+     $Result = Remove-PSUser -Username $Username
 } catch {
     Write-Host ("Exception occured when calling Remove-PSUser: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -197,10 +201,10 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Username** | **String**| The name that needs to be deleted | [default to null]
+ **Username** | **String**| The name that needs to be deleted | 
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 void (empty response body)
 
 ### Authorization
@@ -225,11 +229,11 @@ Get user by user name
 ```powershell
 Import-Module -Name PSPetstore
 
-$Username = "Username_example" # String | The name that needs to be fetched. Use user1 for testing. (default to null)
+$Username = "Username_example" # String | The name that needs to be fetched. Use user1 for testing.
 
 # Get user by user name
 try {
-    User $Result = Get-PSUserByName -Username $Username
+     $Result = Get-PSUserByName -Username $Username
 } catch {
     Write-Host ("Exception occured when calling Get-PSUserByName: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -240,10 +244,10 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Username** | **String**| The name that needs to be fetched. Use user1 for testing. | [default to null]
+ **Username** | **String**| The name that needs to be fetched. Use user1 for testing. | 
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 [**User**](User.md)
 
 ### Authorization
@@ -269,12 +273,12 @@ Logs user into the system
 ```powershell
 Import-Module -Name PSPetstore
 
-$Username = "Username_example" # String | The user name for login (default to null)
-$Password = "Password_example" # String | The password for login in clear text (default to null)
+$Username = "Username_example" # String | The user name for login
+$Password = "Password_example" # String | The password for login in clear text
 
 # Logs user into the system
 try {
-    String $Result = Invoke-PSLoginUser -Username $Username -Password $Password
+     $Result = Invoke-PSLoginUser -Username $Username -Password $Password
 } catch {
     Write-Host ("Exception occured when calling Invoke-PSLoginUser: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -285,11 +289,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Username** | **String**| The user name for login | [default to null]
- **Password** | **String**| The password for login in clear text | [default to null]
+ **Username** | **String**| The user name for login | 
+ **Password** | **String**| The password for login in clear text | 
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 **String**
 
 ### Authorization
@@ -320,9 +324,10 @@ $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 #$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
 
 
+
 # Logs out current logged in user session
 try {
-    Invoke-PSLogoutUser
+     $Result = Invoke-PSLogoutUser
 } catch {
     Write-Host ("Exception occured when calling Invoke-PSLogoutUser: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -333,7 +338,7 @@ try {
 This endpoint does not need any parameter.
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 void (empty response body)
 
 ### Authorization
@@ -367,12 +372,13 @@ $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
 
-$Username = "Username_example" # String | name that need to be deleted (default to null)
+
+$Username = "Username_example" # String | name that need to be deleted
 $User =  # User | Updated user object
 
 # Updated user
 try {
-    Update-PSUser -Username $Username -User $User
+     $Result = Update-PSUser -Username $Username -User $User
 } catch {
     Write-Host ("Exception occured when calling Update-PSUser: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -383,11 +389,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Username** | **String**| name that need to be deleted | [default to null]
+ **Username** | **String**| name that need to be deleted | 
  **User** | [**User**](User.md)| Updated user object | 
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 void (empty response body)
 
 ### Authorization

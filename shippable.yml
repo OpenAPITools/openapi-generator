@@ -21,9 +21,9 @@ build:
     # prepare environment for tests
     #- sudo apt-get update -qq
     # install stack
-    - curl -sSL https://get.haskellstack.org/ | sh
-    - stack upgrade
-    - stack --version
+    #- curl -sSL https://get.haskellstack.org/ | sh
+    #- stack upgrade
+    #- stack --version
     # install elixir
     #- sudo apt-get install erlang
     - wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb && sudo dpkg -i erlang-solutions_1.0_all.deb
@@ -43,3 +43,12 @@ build:
     - mix --version
     # test samples defined in pom.xml
     - mvn --no-snapshot-updates --quiet verify -P samples.shippable -Dmaven.javadoc.skip=true
+    # test maven plugin
+    - mvn --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/java-client.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+    - mvn --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/multi-module/pom.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+    - mvn --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/kotlin.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+    - mvn --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/spring.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+    # test gradle plugin
+    - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew buildGoSdk)
+    - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew openApiGenerate)
+

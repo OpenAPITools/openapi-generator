@@ -55,16 +55,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
 {{/vendorExtensions.x-extra-annotation}}
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isListContainer}}{{^isMapContainer}}public {{dataType}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isArray}}{{^isMap}}public {{dataType}} {{getter}}() {
     if ({{name}} == null) {
       return null;
     }
     return {{name}}.value();
-  }{{/isMapContainer}}{{/isListContainer}}{{/isEnum}}{{#isEnum}}{{#isListContainer}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isMap}}{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isArray}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
-  }{{/isListContainer}}{{/isEnum}}{{#isEnum}}{{#isMapContainer}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isMap}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
-  }{{/isMapContainer}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isMap}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }{{/isEnum}}
 
@@ -77,20 +77,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
     this.{{name}} = {{name}};
     return this;
   }
-  {{#isListContainer}}
+  {{#isArray}}
 
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     this.{{name}}.add({{name}}Item);
     return this;
   }
-  {{/isListContainer}}
-  {{#isMapContainer}}
+  {{/isArray}}
+  {{#isMap}}
 
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     this.{{name}}.put(key, {{name}}Item);
     return this;
   }
-  {{/isMapContainer}}
+  {{/isMap}}
   {{/isReadOnly}}
 
   {{/vars}}
@@ -109,7 +109,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

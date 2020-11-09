@@ -8,7 +8,7 @@
 Describe -tag 'PSPetstore' -name 'PSPSUserApi' {
     Context 'New-PSUser' {
         It 'Test New-PSUser' {
-            #$TestResult = Invoke-PetApiGetPetById -User "TEST_VALUE"
+            #$TestResult = New-PSUser -User "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }
@@ -16,7 +16,7 @@ Describe -tag 'PSPetstore' -name 'PSPSUserApi' {
 
     Context 'New-PSUsersWithArrayInput' {
         It 'Test New-PSUsersWithArrayInput' {
-            #$TestResult = Invoke-PetApiGetPetById -User "TEST_VALUE"
+            #$TestResult = New-PSUsersWithArrayInput -User "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }
@@ -24,7 +24,7 @@ Describe -tag 'PSPetstore' -name 'PSPSUserApi' {
 
     Context 'New-PSUsersWithListInput' {
         It 'Test New-PSUsersWithListInput' {
-            #$TestResult = Invoke-PetApiGetPetById -User "TEST_VALUE"
+            #$TestResult = New-PSUsersWithListInput -User "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }
@@ -32,7 +32,7 @@ Describe -tag 'PSPetstore' -name 'PSPSUserApi' {
 
     Context 'Remove-PSUser' {
         It 'Test Remove-PSUser' {
-            #$TestResult = Invoke-PetApiGetPetById -Username "TEST_VALUE"
+            #$TestResult = Remove-PSUser -Username "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }
@@ -40,7 +40,7 @@ Describe -tag 'PSPetstore' -name 'PSPSUserApi' {
 
     Context 'Get-PSUserByName' {
         It 'Test Get-PSUserByName' {
-            #$TestResult = Invoke-PetApiGetPetById -Username "TEST_VALUE"
+            #$TestResult = Get-PSUserByName -Username "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }
@@ -48,7 +48,7 @@ Describe -tag 'PSPetstore' -name 'PSPSUserApi' {
 
     Context 'Invoke-PSLoginUser' {
         It 'Test Invoke-PSLoginUser' {
-            #$TestResult = Invoke-PetApiGetPetById -Username "TEST_VALUE" -Password "TEST_VALUE"
+            #$TestResult = Invoke-PSLoginUser -Username "TEST_VALUE" -Password "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }
@@ -56,7 +56,7 @@ Describe -tag 'PSPetstore' -name 'PSPSUserApi' {
 
     Context 'Invoke-PSLogoutUser' {
         It 'Test Invoke-PSLogoutUser' {
-            #$TestResult = Invoke-PetApiGetPetById
+            #$TestResult = Invoke-PSLogoutUser
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }
@@ -64,7 +64,7 @@ Describe -tag 'PSPetstore' -name 'PSPSUserApi' {
 
     Context 'Update-PSUser' {
         It 'Test Update-PSUser' {
-            #$TestResult = Invoke-PetApiGetPetById -Username "TEST_VALUE" -User "TEST_VALUE"
+            #$TestResult = Update-PSUser -Username "TEST_VALUE" -User "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }

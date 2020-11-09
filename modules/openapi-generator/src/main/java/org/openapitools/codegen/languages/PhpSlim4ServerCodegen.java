@@ -21,6 +21,7 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +38,10 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
 
     public PhpSlim4ServerCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeClientModificationFeatures(ClientModificationFeature.MockServer)
+        );
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.STABLE)
@@ -70,7 +75,7 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a PHP Slim 4 Framework server library.";
+        return "Generates a PHP Slim 4 Framework server library(with Mock server).";
     }
 
     @Override
@@ -118,6 +123,9 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
 
         // Slim 4 doesn't parse JSON body anymore we need to add suggested middleware
         // ref: https://www.slimframework.com/docs/v4/objects/request.html#the-request-body
+        supportingFiles.add(new SupportingFile("htaccess_deny_all", "config", ".htaccess"));
+        supportingFiles.add(new SupportingFile("config_example.mustache", "config" + File.separator + "dev", "example.inc.php"));
+        supportingFiles.add(new SupportingFile("config_example.mustache", "config" + File.separator + "prod", "example.inc.php"));
         supportingFiles.add(new SupportingFile("json_body_parser_middleware.mustache", toSrcPath(invokerPackage + "\\Middleware", srcBasePath), "JsonBodyParserMiddleware.php"));
         supportingFiles.add(new SupportingFile("base_model.mustache", toSrcPath(invokerPackage, srcBasePath), "BaseModel.php"));
         supportingFiles.add(new SupportingFile("base_model_test.mustache", toSrcPath(invokerPackage, testBasePath), "BaseModelTest.php"));
