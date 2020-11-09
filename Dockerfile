@@ -20,7 +20,7 @@ COPY ./modules/openapi-generator ${GEN_DIR}/modules/openapi-generator
 COPY ./pom.xml ${GEN_DIR}
 
 # Pre-compile openapi-generator-cli
-RUN mvn -am -pl "modules/openapi-generator-cli" package
+RUN mvn -DskipTests -am -pl "modules/openapi-generator-cli" package
 
 # This exists at the end of the file to benefit from cached layers when modifying docker-entrypoint.sh.
 COPY docker-entrypoint.sh /usr/local/bin/
