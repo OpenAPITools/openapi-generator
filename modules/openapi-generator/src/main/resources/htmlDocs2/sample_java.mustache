@@ -7,15 +7,16 @@ import java.io.File;
 import java.util.*;
 
 public class {{{classname}}}Example {
-
     public static void main(String[] args) {
-        {{#hasAuthMethods}}ApiClient defaultClient = Configuration.getDefaultApiClient();
-        {{#authMethods}}{{#isBasic}}
+        {{#hasAuthMethods}}
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        {{#authMethods}}
+        {{^isBasicBearer}}{{#isBasic}}
         // Configure HTTP basic authorization: {{{name}}}
         HttpBasicAuth {{{name}}} = (HttpBasicAuth) defaultClient.getAuthentication("{{{name}}}");
         {{{name}}}.setUsername("YOUR USERNAME");
-        {{{name}}}.setPassword("YOUR PASSWORD");{{/isBasic}}{{#isBasicBearer}}
-        // Configure HTTP bearer authorization: {{{name}}}
+        {{{name}}}.setPassword("YOUR PASSWORD");{{/isBasic}}{{/isBasicBearer}}{{#isBasicBearer}}
+        // Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
         HttpBearerAuth {{{name}}} = (HttpBearerAuth) defaultClient.getAuthentication("{{{name}}}");
         {{{name}}}.setBearerToken("BEARER TOKEN");{{/isBasicBearer}}{{#isApiKey}}
         // Configure API key authorization: {{{name}}}
@@ -28,11 +29,13 @@ public class {{{classname}}}Example {
         {{{name}}}.setAccessToken("YOUR ACCESS TOKEN");{{/isOAuth}}
         {{/authMethods}}
         {{/hasAuthMethods}}
-
+        
+        // Create an instance of the API class
         {{{classname}}} apiInstance = new {{{classname}}}();
         {{#allParams}}
         {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{unescapedDescription}}}
         {{/allParams}}
+        
         try {
             {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
             System.out.println(result);{{/returnType}}

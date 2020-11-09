@@ -1,0 +1,7 @@
+generatorName: asciidoc
+outputDir: samples/documentation/asciidoc
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/asciidoc-documentation
+additionalProperties:
+  specDir: modules/openapi-generator/src/main/resources/asciidoc-documentation
+  snippetDir: "."

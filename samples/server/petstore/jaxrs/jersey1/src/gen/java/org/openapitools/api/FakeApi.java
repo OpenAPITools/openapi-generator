@@ -38,7 +38,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the fake API")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class FakeApi  {
    private final FakeApiService delegate = FakeApiServiceFactory.getFakeApi();
 

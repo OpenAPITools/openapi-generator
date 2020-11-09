@@ -82,12 +82,28 @@ void OAICategory::setId(const qint64 &id) {
     this->m_id_isSet = true;
 }
 
+bool OAICategory::is_id_Set() const{
+    return m_id_isSet;
+}
+
+bool OAICategory::is_id_Valid() const{
+    return m_id_isValid;
+}
+
 QString OAICategory::getName() const {
     return name;
 }
 void OAICategory::setName(const QString &name) {
     this->name = name;
     this->m_name_isSet = true;
+}
+
+bool OAICategory::is_name_Set() const{
+    return m_name_isSet;
+}
+
+bool OAICategory::is_name_Valid() const{
+    return m_name_isValid;
 }
 
 bool OAICategory::isSet() const {

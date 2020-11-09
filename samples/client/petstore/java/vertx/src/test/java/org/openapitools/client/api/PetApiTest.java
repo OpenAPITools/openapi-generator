@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * API tests for PetApi
@@ -117,7 +118,7 @@ public class PetApiTest {
     @Test
     public void findPetsByTagsTest(TestContext context) {
         Async async = context.async();
-        List<String> tags = null;
+        Set<String> tags = null;
         api.findPetsByTags(tags, result -> {
             // TODO: test validations
             async.complete();

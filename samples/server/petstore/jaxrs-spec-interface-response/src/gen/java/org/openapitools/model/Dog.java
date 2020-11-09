@@ -3,6 +3,7 @@ package org.openapitools.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
+import org.openapitools.model.DogAllOf;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -15,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class Dog extends Animal implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Dog extends Animal implements Serializable {
   
   private @Valid String breed;
 
@@ -27,15 +28,17 @@ public class Dog extends Animal implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("breed")
   public String getBreed() {
     return breed;
   }
+
   public void setBreed(String breed) {
     this.breed = breed;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -46,12 +49,13 @@ public class Dog extends Animal implements Serializable {
       return false;
     }
     Dog dog = (Dog) o;
-    return Objects.equals(breed, dog.breed);
+    return Objects.equals(this.breed, dog.breed) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(breed);
+    return Objects.hash(breed, super.hashCode());
   }
 
   @Override
@@ -74,5 +78,7 @@ public class Dog extends Animal implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

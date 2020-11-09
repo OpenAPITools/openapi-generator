@@ -73,7 +73,7 @@ class FileSchemaTestClass(object):
 
 
         :param file: The file of this FileSchemaTestClass.  # noqa: E501
-        :type: File
+        :type file: File
         """
 
         self._file = file
@@ -94,7 +94,7 @@ class FileSchemaTestClass(object):
 
 
         :param files: The files of this FileSchemaTestClass.  # noqa: E501
-        :type: list[File]
+        :type files: list[File]
         """
 
         self._files = files

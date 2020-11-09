@@ -12,10 +12,10 @@ import java.util.List;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class FileSchemaTestClass   {
   @JsonProperty("file")
-  private java.io.File file = null;
+  private java.io.File file;
 
   @JsonProperty("files")
   private List<java.io.File> files = null;

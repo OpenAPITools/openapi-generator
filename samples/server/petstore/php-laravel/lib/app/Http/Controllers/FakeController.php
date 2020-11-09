@@ -3,6 +3,7 @@
 /**
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * PHP version 7.1.3
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -57,7 +58,7 @@ class FakeController extends Controller
     /**
      * Operation testEndpointParameters
      *
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트.
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트.
      *
      *
      * @return Http response
@@ -440,5 +441,49 @@ class FakeController extends Controller
 
 
         return response('How about implementing fakeOuterStringSerialize as a post method ?');
+    }
+    /**
+     * Operation testQueryParameterCollectionFormat
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function testQueryParameterCollectionFormat()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['pipe'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $pipe when calling testQueryParameterCollectionFormat');
+        }
+        $pipe = $input['pipe'];
+
+        if (!isset($input['ioutil'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $ioutil when calling testQueryParameterCollectionFormat');
+        }
+        $ioutil = $input['ioutil'];
+
+        if (!isset($input['http'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $http when calling testQueryParameterCollectionFormat');
+        }
+        $http = $input['http'];
+
+        if (!isset($input['url'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $url when calling testQueryParameterCollectionFormat');
+        }
+        $url = $input['url'];
+
+        if (!isset($input['context'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $context when calling testQueryParameterCollectionFormat');
+        }
+        $context = $input['context'];
+
+
+        return response('How about implementing testQueryParameterCollectionFormat as a put method ?');
     }
 }

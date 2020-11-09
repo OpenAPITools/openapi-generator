@@ -1919,13 +1919,13 @@ components:
       properties:
         color:
           type: string
-      x-oneOf-name: Fruit
     apple:
       properties:
         cultivar:
           type: string
       type: object
     banana:
+      additionalProperties: true
       properties:
         lengthCm:
           type: number
@@ -1939,7 +1939,6 @@ components:
       oneOf:
       - $ref: '#/components/schemas/whale'
       - $ref: '#/components/schemas/zebra'
-      x-oneOf-name: Mammal
     whale:
       properties:
         hasBaleen:
@@ -1975,7 +1974,6 @@ components:
       oneOf:
       - $ref: '#/components/schemas/appleReq'
       - $ref: '#/components/schemas/bananaReq'
-      x-oneOf-name: FruitReq
     appleReq:
       properties:
         cultivar:

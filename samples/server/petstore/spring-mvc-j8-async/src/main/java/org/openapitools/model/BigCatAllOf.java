@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
 /**
  * BigCatAllOf
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class BigCatAllOf   {
   /**
    * Gets or Sets kind

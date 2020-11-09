@@ -16,8 +16,10 @@ import (
 // Banana struct for Banana
 type Banana struct {
 	LengthCm *float32 `json:"lengthCm,omitempty"`
-	Color *string `json:"color,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Banana Banana
 
 // NewBanana instantiates a new Banana object
 // This constructor will assign default values to properties that have it defined,
@@ -68,53 +70,36 @@ func (o *Banana) SetLengthCm(v float32) {
 	o.LengthCm = &v
 }
 
-// GetColor returns the Color field value if set, zero value otherwise.
-func (o *Banana) GetColor() string {
-	if o == nil || o.Color == nil {
-		var ret string
-		return ret
-	}
-	return *o.Color
-}
-
-// GetColorOk returns a tuple with the Color field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Banana) GetColorOk() (*string, bool) {
-	if o == nil || o.Color == nil {
-		return nil, false
-	}
-	return o.Color, true
-}
-
-// HasColor returns a boolean if a field has been set.
-func (o *Banana) HasColor() bool {
-	if o != nil && o.Color != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetColor gets a reference to the given string and assigns it to the Color field.
-func (o *Banana) SetColor(v string) {
-	o.Color = &v
-}
-
 func (o Banana) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.LengthCm != nil {
 		toSerialize["lengthCm"] = o.LengthCm
 	}
-	if o.Color != nil {
-		toSerialize["color"] = o.Color
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
 	}
+
 	return json.Marshal(toSerialize)
 }
 
-// AsFruit wraps this instance of Banana in Fruit
-func (s *Banana) AsFruit() Fruit {
-	return Fruit{ FruitInterface: s }
+func (o *Banana) UnmarshalJSON(bytes []byte) (err error) {
+	varBanana := _Banana{}
+
+	if err = json.Unmarshal(bytes, &varBanana); err == nil {
+		*o = Banana(varBanana)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "lengthCm")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
+
 type NullableBanana struct {
 	value *Banana
 	isSet bool
@@ -150,3 +135,5 @@ func (v *NullableBanana) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

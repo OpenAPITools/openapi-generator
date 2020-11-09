@@ -1,0 +1,16 @@
+package {{invokerPackage}}
+
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.server.Route
+{{#apiInfo}}{{#apis}}{{#operations}}import {{package}}.{{classname}}
+{{/operations}}{{/apis}}{{/apiInfo}}
+import akka.http.scaladsl.server.Directives._
+import akka.actor.ActorSystem
+import akka.stream.ActorMaterializer
+
+class Controller({{#apiInfo}}{{#apis}}{{#operations}}{{classVarName}}: {{classname}}{{#hasMore}}, {{/hasMore}}{{/operations}}{{/apis}}{{/apiInfo}})(implicit system: ActorSystem, materializer: ActorMaterializer) {
+
+    lazy val routes: Route = {{#apiInfo}}{{#apis}}{{#operations}}{{classVarName}}.route {{#hasMore}}~ {{/hasMore}}{{/operations}}{{/apis}}{{/apiInfo}}
+
+    Http().bindAndHandle(routes, "0.0.0.0", 9000)
+}

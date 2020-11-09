@@ -14,9 +14,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
+  @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
+  @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
+})
 
 
-public class Animal  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Animal  implements Serializable {
   
   private @Valid String className;
   private @Valid String color = "red";
@@ -29,17 +35,18 @@ public class Animal  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("className")
   @NotNull
   public String getClassName() {
     return className;
   }
+
   public void setClassName(String className) {
     this.className = className;
-  }
-
-  /**
+  }/**
    **/
   public Animal color(String color) {
     this.color = color;
@@ -47,15 +54,17 @@ public class Animal  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("color")
   public String getColor() {
     return color;
   }
+
   public void setColor(String color) {
     this.color = color;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -66,8 +75,8 @@ public class Animal  implements Serializable {
       return false;
     }
     Animal animal = (Animal) o;
-    return Objects.equals(className, animal.className) &&
-        Objects.equals(color, animal.color);
+    return Objects.equals(this.className, animal.className) &&
+        Objects.equals(this.color, animal.color);
   }
 
   @Override
@@ -96,5 +105,7 @@ public class Animal  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

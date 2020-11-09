@@ -11,10 +11,16 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+try:
+    from petstore_api.model import read_only_first
+except ImportError:
+    read_only_first = sys.modules[
+        'petstore_api.model.read_only_first']
+from petstore_api.model.array_test import ArrayTest
 
 
 class TestArrayTest(unittest.TestCase):
@@ -29,7 +35,7 @@ class TestArrayTest(unittest.TestCase):
     def testArrayTest(self):
         """Test ArrayTest"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.ArrayTest()  # noqa: E501
+        # model = ArrayTest()  # noqa: E501
         pass
 
 

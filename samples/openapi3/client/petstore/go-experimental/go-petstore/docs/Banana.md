@@ -5,7 +5,6 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **LengthCm** | Pointer to **float32** |  | [optional] 
-**Color** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -51,37 +50,6 @@ SetLengthCm sets LengthCm field to given value.
 
 HasLengthCm returns a boolean if a field has been set.
 
-### GetColor
-
-`func (o *Banana) GetColor() string`
-
-GetColor returns the Color field if non-nil, zero value otherwise.
-
-### GetColorOk
-
-`func (o *Banana) GetColorOk() (*string, bool)`
-
-GetColorOk returns a tuple with the Color field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetColor
-
-`func (o *Banana) SetColor(v string)`
-
-SetColor sets Color field to given value.
-
-### HasColor
-
-`func (o *Banana) HasColor() bool`
-
-HasColor returns a boolean if a field has been set.
-
-
-### AsFruit
-
-`func (s *Banana) AsFruit() Fruit`
-
-Convenience method to wrap this instance of Banana in Fruit
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

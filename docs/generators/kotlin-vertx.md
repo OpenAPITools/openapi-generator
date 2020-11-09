@@ -39,9 +39,9 @@ sidebar_label: kotlin-vertx
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
-|array|kotlin.arrayOf|
-|list|kotlin.arrayOf|
-|map|kotlin.mapOf|
+|array|kotlin.Array|
+|list|kotlin.collections.ArrayList|
+|map|kotlin.collections.HashMap|
 
 
 ## LANGUAGE PRIMITIVES

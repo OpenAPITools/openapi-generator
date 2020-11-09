@@ -35,8 +35,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -51,10 +49,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public static final String NPM_NAME = "npmName";
     public static final String NPM_VERSION = "npmVersion";
     public static final String SNAPSHOT = "snapshot";
-
-    public static final String ENUM_NAME_SUFFIX_V4_COMPAT = "v4-compat";
-    public static final String ENUM_NAME_SUFFIX_DESC_CUSTOMIZED = CodegenConstants.ENUM_NAME_SUFFIX_DESC
-            + " A special '" + ENUM_NAME_SUFFIX_V4_COMPAT + "' value enables the backward-compatible behavior (as pre v4.2.3)";
 
     public static final String MODEL_PROPERTY_NAMING_DESC_WITH_WARNING = CodegenConstants.MODEL_PROPERTY_NAMING_DESC
             + ". Only change it if you provide your own run-time code for (de-)serialization of models";
@@ -74,8 +68,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
 
-    protected String enumSuffix = ENUM_NAME_SUFFIX_V4_COMPAT;
-    protected Boolean isEnumSuffixV4Compat = false;
+    protected String enumSuffix = "Enum";
 
     protected String classEnumSeparator = ".";
 
@@ -171,8 +164,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping.put("UUID", "string");
         typeMapping.put("URI", "string");
         typeMapping.put("Error", "Error");
+        typeMapping.put("AnyType", "any");
 
-        cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, ENUM_NAME_SUFFIX_DESC_CUSTOMIZED).defaultValue(this.enumSuffix));
+        cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, CodegenConstants.ENUM_NAME_SUFFIX_DESC).defaultValue(this.enumSuffix));
         cliOptions.add(new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC).defaultValue(this.enumPropertyNaming.name()));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_DESC_WITH_WARNING).defaultValue(this.modelPropertyNaming.name()));
         cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue(String.valueOf(this.getSupportsES6())));
@@ -224,11 +218,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         if (additionalProperties.containsKey(NPM_NAME)) {
             this.setNpmName(additionalProperties.get(NPM_NAME).toString());
-        }
-
-        if (enumSuffix.equals(ENUM_NAME_SUFFIX_V4_COMPAT)) {
-            isEnumSuffixV4Compat = true;
-            enumSuffix = modelNameSuffix + "Enum";
         }
     }
 
@@ -401,7 +390,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             inner = mp1.getItems();
             return this.getSchemaType(p) + "<" + this.getParameterDataType(parameter, inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            inner = ModelUtils.getAdditionalProperties(p);
+            inner = getAdditionalProperties(p);
             return "{ [key: string]: " + this.getParameterDataType(parameter, inner) + "; }";
         } else if (ModelUtils.isStringSchema(p)) {
             // Handle string enums
@@ -820,35 +809,38 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
-        List<String> types = composedSchema.getAnyOf().stream().map(schema -> {
-            String schemaType = getSchemaType(schema);
-            if (ModelUtils.isArraySchema(schema)) {
-                ArraySchema ap = (ArraySchema) schema;
-                Schema inner = ap.getItems();
-                schemaType = schemaType + "<" + getSchemaType(inner) + ">";
-            }
-            return schemaType;
-        }).distinct().collect(Collectors.toList());
+        List<String> types = getTypesFromSchemas(composedSchema.getAnyOf());
+
         return String.join(" | ", types);
     }
 
     @Override
     public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
-        List<String> types = composedSchema.getOneOf().stream().map(schema -> {
-            String schemaType = getSchemaType(schema);
-            if (ModelUtils.isArraySchema(schema)) {
-                ArraySchema ap = (ArraySchema) schema;
-                Schema inner = ap.getItems();
-                schemaType = schemaType + "<" + getSchemaType(inner) + ">";
-            }
-            return schemaType;
-        }).distinct().collect(Collectors.toList());
+        List<String> types = getTypesFromSchemas(composedSchema.getOneOf());
+
         return String.join(" | ", types);
     }
 
     @Override
     public String toAllOfName(List<String> names, ComposedSchema composedSchema) {
-        List<String> types = composedSchema.getAllOf().stream().map(schema -> {
+        List<String> types = getTypesFromSchemas(composedSchema.getAllOf());
+
+        return String.join(" & ", types);
+    }
+
+    /**
+     * Extracts the list of type names from a list of schemas.
+     * Excludes `AnyType` if there are other valid types extracted.
+     *
+     * @param schemas list of schemas
+     * @return list of types
+     */
+    protected List<String> getTypesFromSchemas(List<Schema> schemas) {
+        List<Schema> filteredSchemas = schemas.size() > 1
+            ? schemas.stream().filter(schema -> super.getSchemaType(schema) != "AnyType").collect(Collectors.toList())
+            : schemas;
+
+        return filteredSchemas.stream().map(schema -> {
             String schemaType = getSchemaType(schema);
             if (ModelUtils.isArraySchema(schema)) {
                 ArraySchema ap = (ArraySchema) schema;
@@ -857,6 +849,5 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             }
             return schemaType;
         }).distinct().collect(Collectors.toList());
-        return String.join(" & ", types);
     }
 }

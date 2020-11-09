@@ -115,6 +115,7 @@
                    },
 {{/isApiKey}}
 {{#isBasic}}
+  {{#isBasicBasic}}
                @"{{name}}":
                    @{
                        @"type": @"basic",
@@ -122,6 +123,16 @@
                        @"key": @"Authorization",
                        @"value": [self getBasicAuthToken]
                    },
+   {{/isBasicBasic}}
+   {{#isBasicBearer}}
+               @"{{name}}":
+                   @{
+                       @"type": @"bearer",
+                       @"in": @"header",
+                       @"key": @"Authorization",
+                       @"value": [self getAccessToken]
+                   },
+   {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}
                @"{{name}}":

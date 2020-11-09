@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   DogAllOf.JSON_PROPERTY_BREED
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DogAllOf {
   public static final String JSON_PROPERTY_BREED = "breed";
   private String breed;

@@ -16,13 +16,13 @@ import org.openapitools.model.Animal;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
-  private UUID uuid = null;
+  private UUID uuid;
 
   @JsonProperty("dateTime")
-  private Date dateTime = null;
+  private Date dateTime;
 
   @JsonProperty("map")
   private Map<String, Animal> map = null;

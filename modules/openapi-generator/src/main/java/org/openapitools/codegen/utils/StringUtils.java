@@ -5,6 +5,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Ticker;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.openapitools.codegen.config.GlobalSettings;
 
 import java.util.List;
 import java.util.Locale;
@@ -16,6 +17,15 @@ import java.util.regex.Pattern;
 
 public class StringUtils {
 
+    /**
+     * Set the cache size (entry count) of the sanitizedNameCache, camelizedWordsCache and underscoreWords.
+     */
+    public static final String NAME_CACHE_SIZE_PROPERTY = "org.openapitools.codegen.utils.namecache.cachesize";
+    /**
+     * Set the cache expiry (in seconds) of the sanitizedNameCache, camelizedWordsCache and underscoreWords.
+     */
+    public static final String NAME_CACHE_EXPIRY_PROPERTY = "org.openapitools.codegen.utils.namecache.expireafter.seconds";
+
     // A cache of camelized words. The camelize() method is invoked many times with the same
     // arguments, this cache is used to optimized performance.
     private static Cache<Pair<String, Boolean>, String> camelizedWordsCache;
@@ -23,15 +33,17 @@ public class StringUtils {
     // A cache of underscored words, used to optimize the performance of the underscore() method.
     private static Cache<String, String> underscoreWords;
     static {
+        int cacheSize = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_SIZE_PROPERTY, "200"));
+        int cacheExpiry = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_EXPIRY_PROPERTY, "5"));
         camelizedWordsCache = Caffeine.newBuilder()
-                .maximumSize(200)
-                .expireAfterAccess(5, TimeUnit.SECONDS)
+                .maximumSize(cacheSize)
+                .expireAfterAccess(cacheExpiry, TimeUnit.SECONDS)
                 .ticker(Ticker.systemTicker())
                 .build();
 
         underscoreWords = Caffeine.newBuilder()
-                .maximumSize(200)
-                .expireAfterAccess(5, TimeUnit.SECONDS)
+                .maximumSize(cacheSize)
+                .expireAfterAccess(cacheExpiry, TimeUnit.SECONDS)
                 .ticker(Ticker.systemTicker())
                 .build();
     }

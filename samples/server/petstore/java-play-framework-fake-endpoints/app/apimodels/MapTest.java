@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 /**
  * MapTest
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class MapTest   {
   @JsonProperty("map_map_of_string")

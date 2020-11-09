@@ -29,7 +29,7 @@ import javax.validation.Valid;
   InlineObject4.JSON_PROPERTY_PARAM,
   InlineObject4.JSON_PROPERTY_PARAM2
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class InlineObject4   {
   public static final String JSON_PROPERTY_PARAM = "param";
   @JsonProperty(JSON_PROPERTY_PARAM)
