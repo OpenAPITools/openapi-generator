@@ -1,5 +1,6 @@
 {{#models}}{{#model}}# {{classname}}
 
+{{^isEnum}}
 ## Properties
 
 Name | Type | Description | Notes
@@ -12,7 +13,6 @@ Name | Type | Description | Notes
 {{/vars}}
 {{/vendorExtensions.x-is-one-of-interface}}
 
-{{^isEnum}}
 ## Methods
 
 {{^vendorExtensions.x-is-one-of-interface}}
@@ -83,6 +83,13 @@ Unset{{name}} ensures that no value is present for {{name}}, not even an explici
 Convenience method to wrap this instance of {{classname}} in {{{.}}}
 {{/vendorExtensions.x-implements}}
 {{/vendorExtensions.x-is-one-of-interface}}
+{{/isEnum}}
+{{#isEnum}}
+## Enum
+
+{{#allowableValues}}{{#enumVars}}
+* `{{name}}` (value: `{{{value}}}`)
+{{/enumVars}}{{/allowableValues}}
 {{/isEnum}}
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
