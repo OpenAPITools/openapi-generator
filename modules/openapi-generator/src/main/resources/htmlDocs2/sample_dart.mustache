@@ -1,0 +1,15 @@
+import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+
+{{#allParams}}
+final {{{dataType}}} {{{paramName}}} = new {{{dataType}}}(); // {{{dataType}}} | {{{unescapedDescription}}}
+{{/allParams}}
+
+try {
+    final result = await api_instance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
+    print(result);
+} catch (e) {
+    print('Exception when calling DefaultApi->{{{operationId}}}: $e\n');
+}
+
