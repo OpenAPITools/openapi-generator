@@ -119,7 +119,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
         typeMapping.putAll(nodaTimeTypesMappings());
         languageSpecificPrimitives.addAll(nodaTimePrimitiveTypes());
 
-        importMapping.clear();
+        //importMapping.clear();
     }
 
     @Override
