@@ -1,0 +1,55 @@
+{{>licenseInfo}}
+
+{{#operations}}/*
+* {{classname}}Impl.h
+*
+* {{description}}
+*/
+
+#ifndef {{classnameSnakeUpperCase}}_IMPL_H_
+#define {{classnameSnakeUpperCase}}_IMPL_H_
+
+{{{defaultInclude}}}
+#include <pistache/endpoint.h>
+#include <pistache/http.h>
+#include <pistache/router.h>
+#include <memory>
+
+#include <{{classname}}.h>
+
+#include <pistache/optional.h>
+
+{{#imports}}{{{import}}}
+{{/imports}}
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+{{#hasModelImport}}
+using namespace {{modelNamespace}};{{/hasModelImport}}
+
+class {{classname}}Impl : public {{apiNamespace}}::{{classname}} {
+public:
+    {{classname}}Impl(std::shared_ptr<Pistache::Rest::Router>);
+    ~{{classname}}Impl() {}
+
+    {{#operation}}
+    {{#vendorExtensions.x-codegen-oatpp-is-parsing-supported}}
+    void {{operationIdSnakeCase}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response);
+    {{/vendorExtensions.x-codegen-oatpp-is-parsing-supported}}
+    {{^vendorExtensions.x-codegen-oatpp-is-parsing-supported}}
+    void {{operationIdSnakeCase}}(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response);
+    {{/vendorExtensions.x-codegen-oatpp-is-parsing-supported}}
+    {{/operation}}
+
+};
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+{{/operations}}
+
+
+#endif
