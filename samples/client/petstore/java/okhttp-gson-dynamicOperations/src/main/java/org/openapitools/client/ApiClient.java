@@ -201,7 +201,7 @@ public class ApiClient {
 
         authentications = new HashMap<String, Authentication>();
 
-        OpenAPI openAPI = new OpenAPIV3Parser().read("openapi/openapi.json");
+        OpenAPI openAPI = new OpenAPIV3Parser().read("openapi/openapi.yaml");
         createOperationLookupMap(openAPI);
     }
 
