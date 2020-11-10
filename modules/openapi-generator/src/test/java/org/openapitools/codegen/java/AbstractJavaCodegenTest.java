@@ -20,11 +20,6 @@ package org.openapitools.codegen.java;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenType;
@@ -35,6 +30,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 public class AbstractJavaCodegenTest {
 
@@ -450,6 +448,16 @@ public class AbstractJavaCodegenTest {
         dateSchema.setDefault(date);
         defaultValue = codegen.toDefaultValue(dateSchema);
         Assert.assertEquals(defaultLocalDate, LocalDate.parse(defaultValue));
+    }
+
+    @Test
+    public void getTypeDeclarationGivenImportMappingTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.importMapping().put("MyStringType", "com.example.foo");
+        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("MyStringType", new StringSchema())));
+        Schema<?> schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/MyStringType"));
+        String defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<com.example.foo>");
     }
 
     @Test

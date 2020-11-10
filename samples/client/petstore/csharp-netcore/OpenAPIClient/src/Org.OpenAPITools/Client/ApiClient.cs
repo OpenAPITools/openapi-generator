@@ -15,6 +15,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
 using System.Text;
@@ -62,10 +63,22 @@ namespace Org.OpenAPITools.Client
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Serialize the object into a JSON string.
+        /// </summary>
+        /// <param name="obj">Object to be serialized.</param>
+        /// <returns>A JSON string.</returns>
         public string Serialize(object obj)
         {
-            var result = JsonConvert.SerializeObject(obj, _serializerSettings);
-            return result;
+            if (obj != null && obj is Org.OpenAPITools.Model.AbstractOpenAPISchema)
+            {
+                // the object to be serialized is an oneOf/anyOf schema
+                return ((Org.OpenAPITools.Model.AbstractOpenAPISchema)obj).ToJson();
+            }
+            else
+            {
+                return JsonConvert.SerializeObject(obj, _serializerSettings);
+            }
         }
 
         public T Deserialize<T>(IRestResponse response)
@@ -413,6 +426,11 @@ namespace Org.OpenAPITools.Client
 
             client.Timeout = configuration.Timeout;
 
+            if (configuration.Proxy != null)
+            {
+                client.Proxy = configuration.Proxy;
+            }
+
             if (configuration.UserAgent != null)
             {
                 client.UserAgent = configuration.UserAgent;
@@ -426,7 +444,7 @@ namespace Org.OpenAPITools.Client
             InterceptRequest(req);
 
             IRestResponse<T> response;
-            if (RetryConfiguration.RetryPolicy != null)	
+            if (RetryConfiguration.RetryPolicy != null)
             {
                 var policy = RetryConfiguration.RetryPolicy;
                 var policyResult = policy.ExecuteAndCapture(() => client.Execute(req));
@@ -510,6 +528,11 @@ namespace Org.OpenAPITools.Client
 
             client.Timeout = configuration.Timeout;
 
+            if (configuration.Proxy != null)
+            {
+                client.Proxy = configuration.Proxy;
+            }
+
             if (configuration.UserAgent != null)
             {
                 client.UserAgent = configuration.UserAgent;
@@ -535,7 +558,16 @@ namespace Org.OpenAPITools.Client
             }
             else
             {
-                 response = await client.ExecuteAsync<T>(req, cancellationToken).ConfigureAwait(false);
+                response = await client.ExecuteAsync<T>(req, cancellationToken).ConfigureAwait(false);
+            }
+
+            // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
+            if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
+            {
+                T instance = (T)Activator.CreateInstance(typeof(T));
+                MethodInfo method = typeof(T).GetMethod("FromJson");
+                method.Invoke(instance, new object[] { response.Content });
+                response.Data = instance;
             }
 
             InterceptResponse(req, response);

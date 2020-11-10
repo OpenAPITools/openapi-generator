@@ -19,62 +19,102 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Reflection;
 
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
     /// FruitReq
     /// </summary>
+    [JsonConverter(typeof(FruitReqJsonConverter))]
     [DataContract(Name = "fruitReq")]
-    public partial class FruitReq : IEquatable<FruitReq>, IValidatableObject
+    public partial class FruitReq : AbstractOpenAPISchema, IEquatable<FruitReq>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        protected FruitReq() { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FruitReq" /> class.
-        /// </summary>
-        /// <param name="cultivar">cultivar (required).</param>
-        /// <param name="mealy">mealy.</param>
-        /// <param name="lengthCm">lengthCm (required).</param>
-        /// <param name="sweet">sweet.</param>
-        public FruitReq(string cultivar = default(string), bool mealy = default(bool), decimal lengthCm = default(decimal), bool sweet = default(bool))
+        public FruitReq()
         {
-            // to ensure "cultivar" is required (not null)
-            this.Cultivar = cultivar ?? throw new ArgumentNullException("cultivar is a required property for FruitReq and cannot be null");
-            this.LengthCm = lengthCm;
-            this.Mealy = mealy;
-            this.Sweet = sweet;
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
         }
 
         /// <summary>
-        /// Gets or Sets Cultivar
+        /// Initializes a new instance of the <see cref="FruitReq" /> class
+        /// with the <see cref="AppleReq" /> class
         /// </summary>
-        [DataMember(Name = "cultivar", IsRequired = true, EmitDefaultValue = false)]
-        public string Cultivar { get; set; }
+        /// <param name="actualInstance">An instance of AppleReq.</param>
+        public FruitReq(AppleReq actualInstance)
+        {
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance;
+        }
 
         /// <summary>
-        /// Gets or Sets Mealy
+        /// Initializes a new instance of the <see cref="FruitReq" /> class
+        /// with the <see cref="BananaReq" /> class
         /// </summary>
-        [DataMember(Name = "mealy", EmitDefaultValue = false)]
-        public bool Mealy { get; set; }
+        /// <param name="actualInstance">An instance of BananaReq.</param>
+        public FruitReq(BananaReq actualInstance)
+        {
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance;
+        }
+
+
+        private Object _actualInstance;
 
         /// <summary>
-        /// Gets or Sets LengthCm
+        /// Gets or Sets ActualInstance
         /// </summary>
-        [DataMember(Name = "lengthCm", IsRequired = true, EmitDefaultValue = false)]
-        public decimal LengthCm { get; set; }
+        public override Object ActualInstance
+        {
+            get
+            {
+                return _actualInstance;
+            }
+            set
+            {
+                if (value.GetType() == typeof(AppleReq))
+                {
+                    this._actualInstance = value;
+                }
+                else if (value.GetType() == typeof(BananaReq))
+                {
+                    this._actualInstance = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid instance found. Must be the following types: AppleReq, BananaReq");
+                }
+            }
+        }
 
         /// <summary>
-        /// Gets or Sets Sweet
+        /// Get the actual instance of `AppleReq`. If the actual instanct is not `AppleReq`,
+        /// the InvalidClassException will be thrown
         /// </summary>
-        [DataMember(Name = "sweet", EmitDefaultValue = false)]
-        public bool Sweet { get; set; }
+        /// <returns>An instance of AppleReq</returns>
+        public AppleReq GetAppleReq()
+        {
+            return (AppleReq)this.ActualInstance;
+        }
+
+        /// <summary>
+        /// Get the actual instance of `BananaReq`. If the actual instanct is not `BananaReq`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of BananaReq</returns>
+        public BananaReq GetBananaReq()
+        {
+            return (BananaReq)this.ActualInstance;
+        }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -84,10 +124,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class FruitReq {\n");
-            sb.Append("  Cultivar: ").Append(Cultivar).Append("\n");
-            sb.Append("  Mealy: ").Append(Mealy).Append("\n");
-            sb.Append("  LengthCm: ").Append(LengthCm).Append("\n");
-            sb.Append("  Sweet: ").Append(Sweet).Append("\n");
+            sb.Append("  ActualInstance: ").Append(this.ActualInstance).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -96,9 +133,62 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return JsonConvert.SerializeObject(this.ActualInstance, FruitReq.SerializerSettings);
+        }
+
+        /// <summary>
+        /// Converts the JSON string into an instance of FruitReq
+        /// </summary>
+        /// <param name="jsonString">JSON string</param>
+        /// <returns>An instance of FruitReq</returns>
+        public static FruitReq FromJson(string jsonString)
+        {
+            FruitReq newFruitReq = null;
+
+            if (jsonString == null)
+            {
+                return newFruitReq;
+            }
+            int match = 0;
+            List<string> matchedTypes = new List<string>();
+
+            try
+            {
+                newFruitReq = new FruitReq(JsonConvert.DeserializeObject<AppleReq>(jsonString, FruitReq.SerializerSettings));
+                matchedTypes.Add("AppleReq");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into AppleReq: {1}", jsonString, exception.ToString()));
+            }
+
+            try
+            {
+                newFruitReq = new FruitReq(JsonConvert.DeserializeObject<BananaReq>(jsonString, FruitReq.SerializerSettings));
+                matchedTypes.Add("BananaReq");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into BananaReq: {1}", jsonString, exception.ToString()));
+            }
+
+            if (match == 0)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` cannot be deserialized into any schema defined.");
+            }
+            else if (match > 1)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
+            }
+            
+            // deserialization is considered successful at this point if no exception has been thrown.
+            return newFruitReq;
         }
 
         /// <summary>
@@ -130,11 +220,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Cultivar != null)
-                    hashCode = hashCode * 59 + this.Cultivar.GetHashCode();
-                hashCode = hashCode * 59 + this.Mealy.GetHashCode();
-                hashCode = hashCode * 59 + this.LengthCm.GetHashCode();
-                hashCode = hashCode * 59 + this.Sweet.GetHashCode();
+                if (this.ActualInstance != null)
+                    hashCode = hashCode * 59 + this.ActualInstance.GetHashCode();
                 return hashCode;
             }
         }
@@ -147,6 +234,50 @@ namespace Org.OpenAPITools.Model
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
+        }
+    }
+
+    /// <summary>
+    /// Custom JSON converter for FruitReq
+    /// </summary>
+    public class FruitReqJsonConverter : JsonConverter
+    {
+        /// <summary>
+        /// To write the JSON string
+        /// </summary>
+        /// <param name="writer">JSON writer</param>
+        /// <param name="value">Object to be converted into a JSON string</param>
+        /// <param name="serializer">JSON Serializer</param>
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            writer.WriteRawValue((String)(typeof(FruitReq).GetMethod("ToJson").Invoke(value, null)));
+        }
+
+        /// <summary>
+        /// To convert a JSON string into an object
+        /// </summary>
+        /// <param name="reader">JSON reader</param>
+        /// <param name="objectType">Object type</param>
+        /// <param name="existingValue">Existing value</param>
+        /// <param name="serializer">JSON Serializer</param>
+        /// <returns>The object converted from the JSON string</returns>
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return FruitReq.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Check if the object can be converted
+        /// </summary>
+        /// <param name="objectType">Object type</param>
+        /// <returns>True if the object can be converted</returns>
+        public override bool CanConvert(Type objectType)
+        {
+            return false;
         }
     }
 

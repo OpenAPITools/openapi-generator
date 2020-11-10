@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Security.Cryptography.X509Certificates;
 
 namespace {{packageName}}.Client
@@ -67,6 +68,12 @@ namespace {{packageName}}.Client
         int Timeout { get; }
 
         /// <summary>
+        /// Gets the proxy.
+        /// </summary>
+        /// <value>Proxy.</value>
+        WebProxy Proxy { get; }
+
+        /// <summary>
         /// Gets the user agent.
         /// </summary>
         /// <value>User agent.</value>
@@ -99,9 +106,9 @@ namespace {{packageName}}.Client
         {{#hasHttpSignatureMethods}}
 
         /// <summary>
-        /// Gets the HTTPSigning configuration
+        /// Gets the HttpSigning configuration
         /// </summary>
-        HTTPSigningConfiguration HTTPSigningConfiguration { get; }
+        HttpSigningConfiguration HttpSigningConfiguration { get; }
         {{/hasHttpSignatureMethods}}
     }
 }

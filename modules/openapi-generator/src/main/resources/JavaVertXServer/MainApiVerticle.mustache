@@ -59,9 +59,9 @@ public class MainApiVerticle extends AbstractVerticle {
                         }
                     });
             } else {
-            	startFuture.fail(readFile.cause());
+                startFuture.fail(readFile.cause());
             }
-        });        		        
+        });                
     }
       
     public void deployVerticles(Future<Void> startFuture) {

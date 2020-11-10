@@ -3,11 +3,11 @@ using Nancy;
 using Nancy.ModelBinding;
 using System.Collections.Generic;
 using Sharpility.Base;
-using Org.OpenAPITools.v2.Models;
-using Org.OpenAPITools.v2.Utils;
+using Org.OpenAPITools._v2.Models;
+using Org.OpenAPITools._v2.Utils;
 using NodaTime;
 
-namespace Org.OpenAPITools.v2.Modules
+namespace Org.OpenAPITools._v2.Modules
 { 
 
     /// <summary>
@@ -23,28 +23,28 @@ namespace Org.OpenAPITools.v2.Modules
         { 
             Post["/user"] = parameters =>
             {
-                var user = this.Bind<User>();
-                Preconditions.IsNotNull(user, "Required parameter: 'user' is missing at 'CreateUser'");
+                var body = this.Bind<User>();
+                Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'CreateUser'");
                 
-                service.CreateUser(Context, user);
+                service.CreateUser(Context, body);
                 return new Response { ContentType = ""};
             };
 
             Post["/user/createWithArray"] = parameters =>
             {
-                var user = this.Bind<List<User>>();
-                Preconditions.IsNotNull(user, "Required parameter: 'user' is missing at 'CreateUsersWithArrayInput'");
+                var body = this.Bind<List<User>>();
+                Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'CreateUsersWithArrayInput'");
                 
-                service.CreateUsersWithArrayInput(Context, user);
+                service.CreateUsersWithArrayInput(Context, body);
                 return new Response { ContentType = ""};
             };
 
             Post["/user/createWithList"] = parameters =>
             {
-                var user = this.Bind<List<User>>();
-                Preconditions.IsNotNull(user, "Required parameter: 'user' is missing at 'CreateUsersWithListInput'");
+                var body = this.Bind<List<User>>();
+                Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'CreateUsersWithListInput'");
                 
-                service.CreateUsersWithListInput(Context, user);
+                service.CreateUsersWithListInput(Context, body);
                 return new Response { ContentType = ""};
             };
 
@@ -86,12 +86,12 @@ namespace Org.OpenAPITools.v2.Modules
             Put["/user/{username}"] = parameters =>
             {
                 var username = Parameters.ValueOf<string>(parameters, Context.Request, "username", ParameterType.Path);
-                var user = this.Bind<User>();
+                var body = this.Bind<User>();
                 Preconditions.IsNotNull(username, "Required parameter: 'username' is missing at 'UpdateUser'");
                 
-                Preconditions.IsNotNull(user, "Required parameter: 'user' is missing at 'UpdateUser'");
+                Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'UpdateUser'");
                 
-                service.UpdateUser(Context, username, user);
+                service.UpdateUser(Context, username, body);
                 return new Response { ContentType = ""};
             };
         }
@@ -106,25 +106,25 @@ namespace Org.OpenAPITools.v2.Modules
         /// This can only be done by the logged in user.
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="user">Created user object</param>
+        /// <param name="body">Created user object</param>
         /// <returns></returns>
-        void CreateUser(NancyContext context, User user);
+        void CreateUser(NancyContext context, User body);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <returns></returns>
-        void CreateUsersWithArrayInput(NancyContext context, List<User> user);
+        void CreateUsersWithArrayInput(NancyContext context, List<User> body);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <returns></returns>
-        void CreateUsersWithListInput(NancyContext context, List<User> user);
+        void CreateUsersWithListInput(NancyContext context, List<User> body);
 
         /// <summary>
         /// This can only be done by the logged in user.
@@ -163,9 +163,9 @@ namespace Org.OpenAPITools.v2.Modules
         /// </summary>
         /// <param name="context">Context of request</param>
         /// <param name="username">name that need to be deleted</param>
-        /// <param name="user">Updated user object</param>
+        /// <param name="body">Updated user object</param>
         /// <returns></returns>
-        void UpdateUser(NancyContext context, string username, User user);
+        void UpdateUser(NancyContext context, string username, User body);
     }
 
     /// <summary>
@@ -173,19 +173,19 @@ namespace Org.OpenAPITools.v2.Modules
     /// </summary>
     public abstract class AbstractUserService: UserService
     {
-        public virtual void CreateUser(NancyContext context, User user)
+        public virtual void CreateUser(NancyContext context, User body)
         {
-            CreateUser(user);
+            CreateUser(body);
         }
 
-        public virtual void CreateUsersWithArrayInput(NancyContext context, List<User> user)
+        public virtual void CreateUsersWithArrayInput(NancyContext context, List<User> body)
         {
-            CreateUsersWithArrayInput(user);
+            CreateUsersWithArrayInput(body);
         }
 
-        public virtual void CreateUsersWithListInput(NancyContext context, List<User> user)
+        public virtual void CreateUsersWithListInput(NancyContext context, List<User> body)
         {
-            CreateUsersWithListInput(user);
+            CreateUsersWithListInput(body);
         }
 
         public virtual void DeleteUser(NancyContext context, string username)
@@ -208,16 +208,16 @@ namespace Org.OpenAPITools.v2.Modules
             LogoutUser();
         }
 
-        public virtual void UpdateUser(NancyContext context, string username, User user)
+        public virtual void UpdateUser(NancyContext context, string username, User body)
         {
-            UpdateUser(username, user);
+            UpdateUser(username, body);
         }
 
-        protected abstract void CreateUser(User user);
+        protected abstract void CreateUser(User body);
 
-        protected abstract void CreateUsersWithArrayInput(List<User> user);
+        protected abstract void CreateUsersWithArrayInput(List<User> body);
 
-        protected abstract void CreateUsersWithListInput(List<User> user);
+        protected abstract void CreateUsersWithListInput(List<User> body);
 
         protected abstract void DeleteUser(string username);
 
@@ -227,7 +227,7 @@ namespace Org.OpenAPITools.v2.Modules
 
         protected abstract void LogoutUser();
 
-        protected abstract void UpdateUser(string username, User user);
+        protected abstract void UpdateUser(string username, User body);
     }
 
 }

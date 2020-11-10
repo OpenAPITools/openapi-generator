@@ -17,6 +17,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |pubAuthorEmail|Email address of the author in generated pubspec| |null|
 |pubDescription|Description in generated pubspec| |null|
 |pubHomepage|Homepage in generated pubspec| |null|
+|pubLibrary|Library name in generated code| |null|
 |pubName|Name in generated pubspec| |null|
 |pubVersion|Version in generated pubspec| |null|
 |serialization|Choose serialization format JSON or PROTO is supported| |null|

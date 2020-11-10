@@ -28,6 +28,7 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
     public static final String SORT_PARAMS_VALUE = "true";
     public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
+    public static final String PUB_LIBRARY_VALUE = "openapi.api";
     public static final String PUB_NAME_VALUE = "openapi";
     public static final String PUB_VERSION_VALUE = "1.0.0-SNAPSHOT";
     public static final String PUB_DESCRIPTION_VALUE = "OpenAPI API client dart";
@@ -52,6 +53,7 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
         return builder.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
                 .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
+                .put(DartDioClientCodegen.PUB_LIBRARY, PUB_LIBRARY_VALUE)
                 .put(DartDioClientCodegen.PUB_NAME, PUB_NAME_VALUE)
                 .put(DartDioClientCodegen.PUB_VERSION, PUB_VERSION_VALUE)
                 .put(DartDioClientCodegen.PUB_DESCRIPTION, PUB_DESCRIPTION_VALUE)

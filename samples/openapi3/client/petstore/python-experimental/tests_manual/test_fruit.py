@@ -47,6 +47,7 @@ class TestFruit(unittest.TestCase):
         # check its properties
         self.assertEqual(fruit.length_cm, length_cm)
         self.assertEqual(fruit['length_cm'], length_cm)
+        self.assertEqual(fruit.get('length_cm'), length_cm)
         self.assertEqual(getattr(fruit, 'length_cm'), length_cm)
         self.assertEqual(fruit.color, color)
         self.assertEqual(fruit['color'], color)
@@ -85,6 +86,8 @@ class TestFruit(unittest.TestCase):
         # Per Python doc, if the named attribute does not exist,
         # default is returned if provided.
         self.assertEqual(getattr(fruit, 'cultivar', 'some value'), 'some value')
+        self.assertEqual(fruit.get('cultivar'), None)
+        self.assertEqual(fruit.get('cultivar', 'some value'), 'some value')
 
         # Per Python doc, if the named attribute does not exist,
         # default is returned if provided, otherwise AttributeError is raised.

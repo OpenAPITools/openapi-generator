@@ -48,39 +48,26 @@ class {{classname}} {
         {{#consumes.0}}
         contentType = '{{{mediaType}}}';
         {{/consumes.0}}
-        {{/bodyParam}}
-        {{#bodyParams.0}}
-        {{^hasMore}}
         bodyParams = {{paramName}}
-        {{/hasMore}}
-        {{#hasMore}}
-        bodyParams = [:]
-        bodyParams.put("{{baseName}}", {{paramName}})
-        {{/hasMore}}
-        {{/bodyParams.0}}
-        {{#bodyParams}}
-        {{#secondaryParam}}
-        bodyParams.put("{{baseName}}", {{paramName}})
-        {{/secondaryParam}}
-        {{/bodyParams}}
+        {{/bodyParam}}
 
         {{#hasFormParams}}
         {{#consumes.0}}
         contentType = '{{{mediaType}}}';
         {{/consumes.0}}
-        {{#formParams.0}}
-        {{^hasMore}}
-        bodyParams = {{paramName}}
-        {{/hasMore}}
-        {{#hasMore}}
+        {{#formParams}}
+        {{#-first}}
+        {{^-last}}
         bodyParams = [:]
         bodyParams.put("{{baseName}}", {{paramName}})
-        {{/hasMore}}
-        {{/formParams.0}}
-        {{#formParams}}
-        {{#secondaryParam}}
+        {{/-last}}
+        {{#-last}}
+        bodyParams = {{paramName}}
+        {{/-last}}
+        {{/-first}}
+        {{^-first}}
         bodyParams.put("{{baseName}}", {{paramName}})
-        {{/secondaryParam}}
+        {{/-first}}
         {{/formParams}}
         {{/hasFormParams}}
 

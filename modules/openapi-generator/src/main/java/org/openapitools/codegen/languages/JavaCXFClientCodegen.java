@@ -88,33 +88,30 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_GENERIC_RESPONSE, "Use generic response"));
     }
 
-
     @Override
     public void processOpts() {
         super.processOpts();
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            boolean useBeanValidationProp = convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION);
-            this.setUseBeanValidation(useBeanValidationProp);
+            this.setUseBeanValidation(convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION));
         }
 
         if (additionalProperties.containsKey(USE_GENERIC_RESPONSE)) {
-            this.setUseGenericResponse(convertPropertyToBoolean(USE_GENERIC_RESPONSE));
+            this.setUseGenericResponse(convertPropertyToBooleanAndWriteBack(USE_GENERIC_RESPONSE));
         }
 
-        if (useGenericResponse) {
-            writePropertyBack(USE_GENERIC_RESPONSE, useGenericResponse);
+        if (additionalProperties.containsKey(USE_GZIP_FEATURE_FOR_TESTS)) {
+            this.setUseGzipFeatureForTests(convertPropertyToBooleanAndWriteBack(USE_GZIP_FEATURE_FOR_TESTS));
         }
 
-        this.setUseGzipFeatureForTests(convertPropertyToBooleanAndWriteBack(USE_GZIP_FEATURE_FOR_TESTS));
-        this.setUseLoggingFeatureForTests(convertPropertyToBooleanAndWriteBack(USE_LOGGING_FEATURE_FOR_TESTS));
-
+        if (additionalProperties.containsKey(USE_LOGGING_FEATURE_FOR_TESTS)) {
+            this.setUseLoggingFeatureForTests(convertPropertyToBooleanAndWriteBack(USE_LOGGING_FEATURE_FOR_TESTS));
+        }
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
             .doNotOverwrite());
-
     }
 
     @Override
@@ -154,20 +151,40 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         return "Generates a Java JAXRS Client based on Apache CXF framework.";
     }
 
+    @Override
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
     }
 
+    public boolean isUseBeanValidation() {
+        return useBeanValidation;
+    }
+
+    @Override
     public void setUseGzipFeatureForTests(boolean useGzipFeatureForTests) {
         this.useGzipFeatureForTests = useGzipFeatureForTests;
     }
 
+    public boolean isUseGzipFeatureForTests() {
+        return useGzipFeatureForTests;
+    }
+
+    @Override
     public void setUseLoggingFeatureForTests(boolean useLoggingFeatureForTests) {
         this.useLoggingFeatureForTests = useLoggingFeatureForTests;
     }
 
+    public boolean isUseLoggingFeatureForTests() {
+        return useLoggingFeatureForTests;
+    }
+
+    @Override
     public void setUseGenericResponse(boolean useGenericResponse) {
         this.useGenericResponse = useGenericResponse;
+    }
+
+    public boolean isUseGenericResponse() {
+        return useGenericResponse;
     }
 
 }

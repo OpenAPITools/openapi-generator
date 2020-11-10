@@ -288,7 +288,10 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
     @Override
     public String toVarName(String name) {
         String paramName = name.replaceAll("[^a-zA-Z0-9_]", "");
-        paramName = Character.toLowerCase(paramName.charAt(0)) + paramName.substring(1);
+        if (name.length() > 0 ) {
+            // additionalProperties name is "" so name.length() == 0
+            paramName = Character.toLowerCase(paramName.charAt(0)) + paramName.substring(1);
+        }
         if (isReservedWord(paramName)) {
             return escapeReservedWord(paramName);
         }

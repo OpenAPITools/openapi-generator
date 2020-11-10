@@ -44,13 +44,13 @@ abstract class Pet implements Built<Pet, PetBuilder> {
 class PetStatus extends EnumClass {
 
   /// pet status in the store
-  @BuiltValueEnumConst(wireName: "available")
+  @BuiltValueEnumConst(wireName: 'available')
   static const PetStatus available = _$available;
   /// pet status in the store
-  @BuiltValueEnumConst(wireName: "pending")
+  @BuiltValueEnumConst(wireName: 'pending')
   static const PetStatus pending = _$pending;
   /// pet status in the store
-  @BuiltValueEnumConst(wireName: "sold")
+  @BuiltValueEnumConst(wireName: 'sold')
   static const PetStatus sold = _$sold;
 
   static Serializer<PetStatus> get serializer => _$petStatusSerializer;
