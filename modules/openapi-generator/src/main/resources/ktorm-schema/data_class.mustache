@@ -1,11 +1,15 @@
 {{#vendorExtensions}}{{#x-ktorm-schema}}{{^discriminator}}
 /**
  * {{{description}}}
+{{#allVars}}
+ * @param {{{name}}} {{{description}}}
+{{/allVars}}
  */
 {{#isDeprecated}}
 @Deprecated(message = "This schema is deprecated.")
 {{/isDeprecated}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}object {{{classname}}}s : BaseTable<{{{classname}}}>("{{#tableDefinition}}{{{tblName}}}{{/tableDefinition}}") {
+    val id = long("id") /*primary key autoincrement*/
 {{#allVars}}
 {{^isListContainer}}
 {{#isEnum}}
@@ -19,9 +23,6 @@
 
     /**
      * Create an entity of type {{{classname}}} from the model
-    {{#allVars}}
-     * @param {{{name}}} {{{description}}}
-    {{/allVars}}
      */
     override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean) = {{{classname}}}(
 {{#allVars}}
@@ -42,7 +43,32 @@
 {{/vendorExtensions}}
 {{/allVars}}
     )
+
+    /**
+    * Assign all the columns from the entity of type {{{classname}}} to the DML expression.
+    *
+    * Usage:
+    *
+    * ```kotlin
+    * let entity = {{{classname}}}()
+    * database.update({{{classname}}}s, {
+    *     assignFrom(entity)
+    * })
+    * ```
+    * @return the builder with the columns for the update or insert.
+    */
+    fun AssignmentsBuilder.assignFrom(entity: {{{classname}}}) {
+        this.apply {
+{{#allVars}}
+{{^isListContainer}}
+{{>data_class_set}}
+{{/isListContainer}}
+{{/allVars}}
+        }
+    }
+
 }
+
 {{#allVars}}
 {{#isListContainer}}
 {{#vendorExtensions}}
@@ -52,12 +78,19 @@
 {{/isDeprecated}}
 {{#relationDefinition}}
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}object {{{relName}}} : BaseTable<Pair<Int, Int>>("{{{relTblName}}}") {
-    val {{{pkName}}} = int("{{{pkColName}}}")
-    val {{{fkName}}} = int("{{{fkColName}}}")
+{{#nonPublicApi}}internal {{/nonPublicApi}}object {{{relName}}} : BaseTable<Pair<Long, Long>>("{{{relTblName}}}") {
+    val {{{pkName}}} = long("{{{pkColName}}}")
+    val {{{fkName}}} = long("{{{fkColName}}}")
 
-    override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean): Pair<Int, Int> =
+    override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean): Pair<Long, Long> =
         Pair(row[{{{pkName}}}] ?: 0, row[{{{fkName}}}] ?: 0)
+
+    fun AssignmentsBuilder.assignFrom(entity: Pair<Long, Long>) {
+        this.apply {
+            set({{{relName}}}.{{{pkName}}}, entity.first)
+            set({{{relName}}}.{{{fkName}}}, entity.second)
+        }
+    }
 
 }
 {{/relationDefinition}}

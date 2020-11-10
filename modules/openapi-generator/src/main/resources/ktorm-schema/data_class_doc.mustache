@@ -1,15 +1,20 @@
-# {{classname}}
+# Table {{#vendorExtensions}}{{#x-ktorm-schema}}{{#tableDefinition}}`{{tblName}}`{{/tableDefinition}}{{/x-ktorm-schema}}{{/vendorExtensions}} 
+(mapped from: {{classname}})
 
 ## Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-{{#vars}}**{{name}}** | {{#isEnum}}[**inline**](#{{datatypeWithEnum}}){{/isEnum}}{{^isEnum}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}}{{/isEnum}} | {{description}} | {{^required}} [optional]{{/required}}{{#isReadOnly}} [readonly]{{/isReadOnly}}
-{{/vars}}
-{{#vars}}{{#isEnum}}
+Name | Mapping | SQL Type | Default | Type | Description | Notes
+---- | ------- | -------- | ------- | ---- | ----------- | -----
+{{#allVars}}**{{name}}** | {{^isListContainer}}{{#vendorExtensions}}{{#x-ktorm-schema}}{{#columnDefinition}}{{colName}} | {{colType}}{{#colTypeArguments}}{{#-first}}({{/-first}}{{#isString}}'{{/isString}}{{argumentValue}}{{#isString}}'{{/isString}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/colTypeArguments}}{{#colUnsigned}} UNSIGNED{{/colUnsigned}}{{#colNotNull}} NOT NULL{{/colNotNull}} | {{#colDefault}}{{#isString}}'{{defaultValue}}'{{/isString}}{{^isString}}{{defaultValue}}{{/isString}}{{/colDefault}}{{/columnDefinition}}{{/x-ktorm-schema}}{{/vendorExtensions}}{{/isListContainer}}{{#isListContainer}}`One-To-Many` | `----` | `----` {{/isListContainer}} | {{#isEnum}}[**{{baseName}}**](#{{datatypeWithEnum}}){{/isEnum}}{{^isEnum}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}}{{/isEnum}} | {{description}} | {{^required}} [optional]{{/required}}{{#isReadOnly}} [readonly]{{/isReadOnly}}{{#vendorExtensions}}{{#x-ktorm-schema}}{{^isListContainer}}{{#relation}} [foreignkey]{{/relation}}{{/isListContainer}}{{/x-ktorm-schema}}{{/vendorExtensions}}
+{{/allVars}}
+{{#allVars}}{{#isListContainer}}{{#vendorExtensions}}{{#x-ktorm-schema}}{{#relationDefinition}}
 
-<a name="{{{datatypeWithEnum}}}"></a>{{!NOTE: see java's resources "pojo_doc.mustache" once enums are fully implemented}}
-## Enum: {{baseName}}
-Name | Value
----- | -----{{#allowableValues}}
-{{name}} | {{#values}}{{.}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}
-{{/isEnum}}{{/vars}}
+# **Table `{{{relTblName}}}`**
+(mapped from: {{relName}})
+
+## Properties
+Name | Mapping | SQL Type | Default | Type | Description | Notes
+---- | ------- | -------- | ------- | ---- | ----------- | -----
+{{{pkName}}} | {{{pkColName}}} | long | | long | Primary Key | *one*
+{{{fkName}}} | {{{fkColName}}} | long | | long | Foreign Key | *many*
+{{/relationDefinition}}{{/x-ktorm-schema}}{{/vendorExtensions}}{{/isListContainer}}
+{{/allVars}}
