@@ -1,5 +1,7 @@
 package org.openapitools.client;
 
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.Parameter.StyleEnum;
 import okhttp3.OkHttpClient;
 import org.openapitools.client.auth.*;
 
@@ -239,13 +241,14 @@ public class ApiClientTest {
         assertEquals(0, pairs.size());
     }
 
-    /*@Test
+    @Test
     public void testParameterToPairsWhenNameIsInvalid() throws Exception {
         List<Integer> objects = new ArrayList<Integer>();
         objects.add(new Integer(1));
 
-        List<Pair> pairs_a = apiClient.parameterToPairs("csv", null, objects);
-        List<Pair> pairs_b = apiClient.parameterToPairs("csv", "", objects);
+        Parameter param = new Parameter().style(Parameter.StyleEnum.SIMPLE);
+        List<Pair> pairs_a = apiClient.parameterToPairs(param, objects);
+        List<Pair> pairs_b = apiClient.parameterToPairs(param.name(""), objects);
 
         assertTrue(pairs_a.isEmpty());
         assertTrue(pairs_b.isEmpty());
@@ -253,7 +256,7 @@ public class ApiClientTest {
 
     @Test
     public void testParameterToPairsWhenValueIsNull() throws Exception {
-        List<Pair> pairs = apiClient.parameterToPairs("csv", "param-a", null);
+        List<Pair> pairs = apiClient.parameterToPairs(new Parameter().style(Parameter.StyleEnum.SIMPLE).name("param-a"), null);
 
         assertTrue(pairs.isEmpty());
     }
@@ -266,7 +269,7 @@ public class ApiClientTest {
         strs.add(" ");
         strs.add(" ");
 
-        List<Pair> concatStrings = apiClient.parameterToPairs("csv", "param-a", strs);
+        List<Pair> concatStrings = apiClient.parameterToPairs(new Parameter().style(Parameter.StyleEnum.SIMPLE).name("param-a"), strs);
 
         assertEquals(1, concatStrings.size());
         assertFalse(concatStrings.get(0).getValue().isEmpty()); // should contain some delimiters
@@ -274,15 +277,14 @@ public class ApiClientTest {
 
     @Test
     public void testParameterToPairsWhenValueIsCollection() throws Exception {
-        Map<String, String> collectionFormatMap = new HashMap<String, String>();
-        collectionFormatMap.put("csv", ",");
-        collectionFormatMap.put("tsv", "\t");
-        collectionFormatMap.put("ssv", " ");
-        collectionFormatMap.put("pipes", "|");
-        collectionFormatMap.put("", ","); // no format, must default to csv
-        collectionFormatMap.put("unknown", ","); // all other formats, must default to csv
-
         String name = "param-a";
+
+        Map<StyleEnum, String> parameterStyleMap = new HashMap<StyleEnum, String>();
+        parameterStyleMap.put(StyleEnum.FORM, ",");
+        parameterStyleMap.put(StyleEnum.SIMPLE, ",");
+        parameterStyleMap.put(StyleEnum.SPACEDELIMITED, " ");
+        parameterStyleMap.put(StyleEnum.PIPEDELIMITED, "|");
+
 
         List<Object> values = new ArrayList<Object>();
         values.add("value-a");
@@ -290,19 +292,21 @@ public class ApiClientTest {
         values.add(new Date());
 
         // check for multi separately
-        List<Pair> multiPairs = apiClient.parameterToPairs("multi", name, values);
+        Parameter param = new Parameter().style(Parameter.StyleEnum.FORM).explode(true).name(name);
+        List<Pair> multiPairs = apiClient.parameterToPairs(param, values);
         assertEquals(values.size(), multiPairs.size());
         for (int i = 0; i < values.size(); i++) {
             assertEquals(apiClient.escapeString(apiClient.parameterToString(values.get(i))), multiPairs.get(i).getValue());
         }
 
         // all other formats
-        for (String collectionFormat : collectionFormatMap.keySet()) {
-            List<Pair> pairs = apiClient.parameterToPairs(collectionFormat, name, values);
+        for (StyleEnum style : parameterStyleMap.keySet()) {
+            param = new Parameter().style(style).name(name);
+            List<Pair> pairs = apiClient.parameterToPairs(param, values);
 
             assertEquals(1, pairs.size());
 
-            String delimiter = collectionFormatMap.get(collectionFormat);
+            String delimiter = parameterStyleMap.get(style);
             if (!delimiter.equals(",")) {
                 // commas are not escaped because they are reserved characters in URIs
                 delimiter = apiClient.escapeString(delimiter);
@@ -315,7 +319,7 @@ public class ApiClientTest {
                 assertEquals(apiClient.escapeString(apiClient.parameterToString(values.get(i))), pairValueSplit[i]);
             }
         }
-    }*/
+    }
 
     @Test
     public void testSanitizeFilename() {

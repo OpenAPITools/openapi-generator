@@ -674,12 +674,12 @@ public class ApiClient {
         List<Pair> params = new ArrayList<Pair>();
 
         // preconditions
-        if (param == null || value == null) {
+        if (param == null || param.getName() == null || param.getName().isEmpty() || value == null) {
             return params;
         }
 
         // create the params based on the collection format
-        if (StyleEnum.FORM.equals(param.getStyle()) && param.getExplode()) {
+        if (StyleEnum.FORM.equals(param.getStyle()) && Boolean.TRUE.equals(param.getExplode())) {
             for (Object item : value) {
                 params.add(new Pair(param.getName(), escapeString(parameterToString(item))));
             }
