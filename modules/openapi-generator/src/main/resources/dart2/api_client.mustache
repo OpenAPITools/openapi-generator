@@ -1,12 +1,5 @@
 {{>header}}
 {{>part_of}}
-class QueryParam {
-  QueryParam(this.name, this.value);
-
-  String name;
-  String value;
-}
-
 class ApiClient {
   ApiClient({this.basePath = '{{{basePath}}}'}) {
   {{#hasAuthMethods}}
@@ -88,11 +81,13 @@ class ApiClient {
 
     headerParams.addAll(_defaultHeaderMap);
 
-    final ps = queryParams
-      .where((p) => p.value != null)
-      .map((p) => '${p.name}=${Uri.encodeQueryComponent(p.value)}');
+    final urlEncodedQueryParams = queryParams
+      .where((param) => param.value != null)
+      .map((param) => '$param');
 
-    final queryString = ps.isNotEmpty ? '?' + ps.join('&') : '';
+    final queryString = urlEncodedQueryParams.isNotEmpty
+      ? '?${urlEncodedQueryParams.join('&')}'
+      : '';
 
     final url = '$basePath$path$queryString';
 
@@ -100,41 +95,61 @@ class ApiClient {
       headerParams['Content-Type'] = nullableContentType;
     }
 
-    if (body is MultipartRequest) {
-      final request = MultipartRequest(method, Uri.parse(url));
-      request.fields.addAll(body.fields);
-      request.files.addAll(body.files);
-      request.headers.addAll(body.headers);
-      request.headers.addAll(headerParams);
-      final response = await _client.send(request);
-      return Response.fromStream(response);
-    }
-
-    final msgBody = nullableContentType == 'application/x-www-form-urlencoded'
-      ? formParams
-      : serialize(body);
-    final nullableHeaderParams = headerParams.isEmpty ? null : headerParams;
-
     try {
+      // Special case for uploading a single file which isn’t a 'multipart/form-data'.
+      if (
+        body is MultipartFile && (nullableContentType == null ||
+        !nullableContentType.toLowerCase().startsWith('multipart/form-data'))
+      ) {
+        final request = StreamedRequest(method, Uri.parse(url));
+        request.headers.addAll(headerParams);
+        request.contentLength = body.length;
+        body.finalize().listen(
+          request.sink.add,
+          onDone: request.sink.close,
+          onError: (error, trace) => request.sink.close(),
+          cancelOnError: true,
+        );
+        final response = await _client.send(request);
+        return Response.fromStream(response);
+      }
+
+      if (body is MultipartRequest) {
+        final request = MultipartRequest(method, Uri.parse(url));
+        request.fields.addAll(body.fields);
+        request.files.addAll(body.files);
+        request.headers.addAll(body.headers);
+        request.headers.addAll(headerParams);
+        final response = await _client.send(request);
+        return Response.fromStream(response);
+      }
+
+      final msgBody = nullableContentType == 'application/x-www-form-urlencoded'
+        ? formParams
+        : serialize(body);
+      final nullableHeaderParams = headerParams.isEmpty ? null : headerParams;
+
       switch(method) {
-        case 'POST': return await _client.post(url, headers: nullableHeaderParams, body: msgBody);
-        case 'PUT': return await _client.put(url, headers: nullableHeaderParams, body: msgBody);
-        case 'DELETE': return await _client.delete(url, headers: nullableHeaderParams);
-        case 'PATCH': return await _client.patch(url, headers: nullableHeaderParams, body: msgBody);
-        case 'HEAD': return await _client.head(url, headers: nullableHeaderParams);
-        case 'GET': return await _client.get(url, headers: nullableHeaderParams);
+        case 'POST': return await _client.post(url, headers: nullableHeaderParams, body: msgBody,);
+        case 'PUT': return await _client.put(url, headers: nullableHeaderParams, body: msgBody,);
+        case 'DELETE': return await _client.delete(url, headers: nullableHeaderParams,);
+        case 'PATCH': return await _client.patch(url, headers: nullableHeaderParams, body: msgBody,);
+        case 'HEAD': return await _client.head(url, headers: nullableHeaderParams,);
+        case 'GET': return await _client.get(url, headers: nullableHeaderParams,);
       }
     } on SocketException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'Socket operation failed: $method $path', e, trace);
+      throw ApiException.withInner(HttpStatus.badRequest, 'Socket operation failed: $method $path', e, trace,);
     } on TlsException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'TLS/SSL communication failed: $method $path', e, trace);
+      throw ApiException.withInner(HttpStatus.badRequest, 'TLS/SSL communication failed: $method $path', e, trace,);
     } on IOException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'I/O operation failed: $method $path', e, trace);
+      throw ApiException.withInner(HttpStatus.badRequest, 'I/O operation failed: $method $path', e, trace,);
+    } on ClientException catch (e, trace) {
+      throw ApiException.withInner(HttpStatus.badRequest, 'HTTP connection failed: $method $path', e, trace,);
     } on Exception catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'Exception occurred: $method $path', e, trace);
+      throw ApiException.withInner(HttpStatus.badRequest, 'Exception occurred: $method $path', e, trace,);
     }
 
-    throw ApiException(HttpStatus.badRequest, 'Invalid HTTP operation: $method $path');
+    throw ApiException(HttpStatus.badRequest, 'Invalid HTTP operation: $method $path',);
   }
 
   dynamic _deserialize(dynamic value, String targetType, {bool growable}) {
@@ -182,9 +197,9 @@ class ApiClient {
           break;
       }
     } on Exception catch (e, stack) {
-      throw ApiException.withInner(HttpStatus.internalServerError, 'Exception during deserialization.', e, stack);
+      throw ApiException.withInner(HttpStatus.internalServerError, 'Exception during deserialization.', e, stack,);
     }
-    throw ApiException(HttpStatus.internalServerError, 'Could not find a suitable class for deserialization');
+    throw ApiException(HttpStatus.internalServerError, 'Could not find a suitable class for deserialization',);
   }
 
   /// Update query and header parameters based on authentication settings.

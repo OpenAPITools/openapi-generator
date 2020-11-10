@@ -244,12 +244,12 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
     }
 
     open func buildHeaders() -> [String: String] {
-        var httpHeaders: [String : String] = [:]
+        var httpHeaders: [String: String] = [:]
         for (key, value) in self.headers {
             httpHeaders[key] = value
         }
         for (key, value) in PetstoreClientAPI.customHeaders {
-            httpHeaders[key] = value    
+            httpHeaders[key] = value
         }
         return httpHeaders
     }

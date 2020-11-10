@@ -913,7 +913,6 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 mediaType = "text/plain";
             Map<String, String> contentType = new HashMap<>();
             contentType.put("mediaType", mediaType);
-            contentType.put("hasMore", null);
             if (op.consumes == null)
                 op.consumes = new ArrayList<>();
             op.consumes.add(contentType);
@@ -927,7 +926,6 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 mediaType = "text/plain";
             Map<String, String> contentType = new HashMap<>();
             contentType.put("mediaType", mediaType);
-            contentType.put("hasMore", null);
             if (op.produces == null)
                 op.produces = new ArrayList<>();
             op.produces.add(contentType);

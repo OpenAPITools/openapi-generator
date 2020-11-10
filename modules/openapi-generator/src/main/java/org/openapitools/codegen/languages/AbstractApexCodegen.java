@@ -619,12 +619,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         }
 
         if (removedChildEnum) {
-            // If we removed an entry from this model's vars, we need to ensure hasMore is updated
-            int count = 0, numVars = codegenProperties.size();
-            for (CodegenProperty codegenProperty : codegenProperties) {
-                count += 1;
-                codegenProperty.hasMore = (count < numVars) ? true : false;
-            }
             codegenModel.vars = codegenProperties;
         }
         return codegenModel;

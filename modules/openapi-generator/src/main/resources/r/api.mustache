@@ -201,10 +201,10 @@
       body <- list(
         {{#formParams}}
         {{^isFile}}
-        "{{baseName}}" = {{paramName}}{{#hasMore}},{{/hasMore}}
+        "{{baseName}}" = {{paramName}}{{^-last}},{{/-last}}
         {{/isFile}}
         {{#isFile}}
-        "{{baseName}}" = httr::upload_file({{paramName}}){{#hasMore}},{{/hasMore}}
+        "{{baseName}}" = httr::upload_file({{paramName}}){{^-last}},{{/-last}}
         {{/isFile}}
         {{/formParams}}
       )
@@ -344,7 +344,7 @@
         ApiResponse$new("API server error", resp)
       {{/returnExceptionOnFailure}}
       }
-    }{{#hasMore}},{{/hasMore}}
+    }{{^-last}},{{/-last}}
     {{/operation}}
   )
 )

@@ -26,7 +26,7 @@ public class CodegenOperation {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
     public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
             returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
-            isArray, isMultipart, hasMore = true,
+            isArray, isMultipart,
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
             isRestful, isDeprecated, isCallbackRequest, uniqueItems;
@@ -258,7 +258,6 @@ public class CodegenOperation {
         sb.append(", isMap=").append(isMap);
         sb.append(", isArray=").append(isArray);
         sb.append(", isMultipart=").append(isMultipart);
-        sb.append(", hasMore=").append(hasMore);
         sb.append(", isResponseBinary=").append(isResponseBinary);
         sb.append(", isResponseFile=").append(isResponseFile);
         sb.append(", hasReference=").append(hasReference);
@@ -332,7 +331,6 @@ public class CodegenOperation {
                 isMap == that.isMap &&
                 isArray == that.isArray &&
                 isMultipart == that.isMultipart &&
-                hasMore == that.hasMore &&
                 isResponseBinary == that.isResponseBinary &&
                 isResponseFile == that.isResponseFile &&
                 hasReference == that.hasReference &&
@@ -393,7 +391,7 @@ public class CodegenOperation {
 
         return Objects.hash(responseHeaders, hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams,
                 hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
-                isArray, isMultipart, hasMore, isResponseBinary, isResponseFile, hasReference, isRestfulIndex,
+                isArray, isMultipart, isResponseBinary, isResponseFile, hasReference, isRestfulIndex,
                 isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy, isRestful, isDeprecated,
                 isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod, returnBaseType,
                 returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, consumes,

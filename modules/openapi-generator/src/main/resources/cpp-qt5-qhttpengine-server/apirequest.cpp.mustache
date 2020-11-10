@@ -41,7 +41,7 @@ QHttpEngine::Socket* {{classname}}Request::getRawSocket(){
 }
 
 {{#operations}}{{#operation}}
-void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}const QString& {{{paramName}}}str{{#hasMore}}, {{/hasMore}}{{/pathParams}}{{/hasPathParams}}){
+void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}const QString& {{{paramName}}}str{{^-last}}, {{/-last}}{{/pathParams}}{{/hasPathParams}}){
     qDebug() << "{{{basePathWithoutHost}}}{{{path}}}";
     connect(this, &{{classname}}Request::{{nickname}}, handler.data(), &{{classname}}Handler::{{nickname}});
 
@@ -108,7 +108,7 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
     {{/isArray}}
     {{/bodyParam}}{{/bodyParams}}
 
-    emit {{nickname}}({{#allParams}}{{#isBodyParam}}{{/isBodyParam}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    emit {{nickname}}({{#allParams}}{{#isBodyParam}}{{/isBodyParam}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 }
 
 {{/operation}}{{/operations}}
