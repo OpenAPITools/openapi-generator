@@ -7,8 +7,6 @@ using {{packageName}}.{{packageContext}}.Models;
 using {{packageName}}.{{packageContext}}.Utils;
 using NodaTime;{{#asyncServer}}
 using System.Threading.Tasks;{{/asyncServer}}
-{{#imports}}using {{import}};
-{{/imports}}
 
 namespace {{packageName}}.{{packageContext}}.Modules
 { {{#operations}}{{#operation}}{{#allParams}}{{#isEnum}}

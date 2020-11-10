@@ -118,8 +118,6 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
         addSwitch(ASYNC_SERVER, "Set to true to enable the generation of async routes/endpoints.", this.asyncServer);
         typeMapping.putAll(nodaTimeTypesMappings());
         languageSpecificPrimitives.addAll(nodaTimePrimitiveTypes());
-
-        importMapping.clear();
     }
 
     @Override
