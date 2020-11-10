@@ -610,8 +610,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         HashMap<String, Object> a = new HashMap<String, Object>();
         SqlTypeArgs args = new SqlTypeArgs();
         toColumnTypeArgs(dataType, dataFormat, min, max, args);
-		a.put("isPrimitive", args.isPrimitive);
-		a.put("isNumeric", args.isNumeric);
+        a.put("isPrimitive", args.isPrimitive);
+        a.put("isNumeric", args.isNumeric);
         a.put("isBoolean", args.isBoolean);
         a.put("isInteger", args.isInteger);
         a.put("isFloat", args.isFloat);
@@ -694,7 +694,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
 
     private class SqlTypeArgs {
         // type classes
-		public boolean isPrimitive;
+        public boolean isPrimitive;
         public boolean isNumeric;
         // specific types
         public boolean isBoolean;
