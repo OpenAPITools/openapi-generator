@@ -471,14 +471,14 @@ public class GoClientCodegen extends AbstractGoCodegen {
     private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         if (codegenParameter.isArray) { // array
             String prefix = codegenParameter.dataType;
-            String dataType = codegenParameter.dataType.substring(2);
+            String dataType = StringUtils.removeStart(codegenParameter.dataType, "[]");
             if (modelMaps.containsKey(dataType)) {
                 prefix = "[]" + goImportAlias + "." + dataType;
             }
             return prefix + "{" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
         } else if (codegenParameter.isMap) {
             String prefix = codegenParameter.dataType;
-            String dataType = codegenParameter.dataType.substring(13); // map[string][]
+            String dataType = StringUtils.removeStart(codegenParameter.dataType, "map[string][]");
             if (modelMaps.containsKey(dataType)) {
                 prefix = "map[string][]" + goImportAlias + "." + dataType;
             }
@@ -523,14 +523,14 @@ public class GoClientCodegen extends AbstractGoCodegen {
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         if (codegenProperty.isArray) { // array
             String prefix = codegenProperty.dataType;
-            String dataType = codegenProperty.dataType.substring(2);
+            String dataType = StringUtils.removeStart(codegenProperty.dataType, "[]");
             if (modelMaps.containsKey(dataType)) {
                 prefix = "[]" + goImportAlias + "." + dataType;
             }
             return prefix + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
         } else if (codegenProperty.isMap) { // map
             String prefix = codegenProperty.dataType;
-            String dataType = codegenProperty.dataType.substring(13); // map[string][]
+            String dataType = StringUtils.removeStart(codegenProperty.dataType, "map[string][]");
             if (modelMaps.containsKey(dataType)) {
                 prefix = "map[string][]" + goImportAlias + "." + dataType;
             }
