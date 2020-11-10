@@ -141,6 +141,7 @@ The following generators are available:
 ## SCHEMA generators
 * [avro-schema (beta)](generators/avro-schema.md)  
 * [graphql-schema](generators/graphql-schema.md)  
+* [ktorm-schema (beta)](generators/ktorm-schema.md)  
 * [mysql-schema](generators/mysql-schema.md)  
 * [protobuf-schema (beta)](generators/protobuf-schema.md)  
 

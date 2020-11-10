@@ -223,7 +223,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     public String getName() {
-        return "ktorm";
+        return "ktorm-schema";
     }
 
     public String getHelp() {
@@ -663,11 +663,11 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      */
     public boolean processForeignKey(CodegenModel model, CodegenProperty property, Map<String, Object> relationDefinition) {
         String dataType = property.getDataType();
-        if (!property.isListContainer && !isRelation(dataType)) return false;
+        if (!property.isArray && !isRelation(dataType)) return false;
 
 
         String modelName = model.getName();
-        String tryPropName = property.isListContainer ? property.items.dataType : property.dataType;
+        String tryPropName = property.isArray ? property.items.dataType : property.dataType;
         Boolean isPrimitive = (tryPropName.startsWith("kotlin.") || tryPropName.startsWith("java."));
         String propName = isPrimitive ? property.getName() : tryPropName;
 
