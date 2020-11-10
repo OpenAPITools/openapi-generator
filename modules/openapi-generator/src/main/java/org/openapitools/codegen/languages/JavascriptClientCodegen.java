@@ -1220,4 +1220,16 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             }
         }
     }
+
+    @Override
+    protected String getCollectionFormat(CodegenParameter codegenParameter) {
+        // This method will return `passthrough` when the parameter data format is binary and an array.
+        // `passthrough` is not part of the OAS spec. However, this will act like a flag that we should
+        // not do any processing on the collection type (i.e. convert to tsv, csv, etc..). This is
+        // critical to support multi file uploads correctly.
+        if (codegenParameter.isArray && Objects.equals(codegenParameter.dataFormat, "binary")) {
+            return "passthrough";
+        }
+        return super.getCollectionFormat(codegenParameter);
+    }
 }
