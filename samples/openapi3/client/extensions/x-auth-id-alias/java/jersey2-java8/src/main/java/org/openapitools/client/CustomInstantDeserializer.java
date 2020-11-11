@@ -229,4 +229,9 @@ public class CustomInstantDeserializer<T extends Temporal>
       this.zoneId = zoneId;
     }
   }
+
+  protected abstract ThreeTenDateTimeDeserializerBase<T> withLeniency(Boolean leniency){
+     return this;
+  }
+
 }
