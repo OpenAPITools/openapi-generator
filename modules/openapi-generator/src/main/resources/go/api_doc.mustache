@@ -29,6 +29,9 @@ import (
     "context"
     "fmt"
     "os"
+{{#vendorExtensions.x-go-import}}
+{{{vendorExtensions.x-go-import}}}
+{{/vendorExtensions.x-go-import}}
     {{goImportAlias}} "./openapi"
 )
 
@@ -66,7 +69,7 @@ Other parameters are passed through a pointer to a api{{{nickname}}}Request stru
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}{{#allParams}}
-{{^isPathParam}} **{{paramName}}** | {{^isPrimitiveType}}{{^isFile}}[{{/isFile}}{{/isPrimitiveType}}**{{dataType}}**{{^isPrimitiveType}}{{^isFile}}]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}} | {{description}} | {{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}{{/isPathParam}}{{/allParams}}
+{{^isPathParam}} **{{paramName}}** | {{#isContainer}}{{#isArray}}{{#items}}{{^isPrimitiveType}}{{^isFile}}[{{/isFile}}{{/isPrimitiveType}}**[]{{dataType}}**{{^isPrimitiveType}}{{^isFile}}]({{^baseType}}{{dataType}}{{/baseType}}{{#baseType}}{{baseType}}{{/baseType}}.md){{/isFile}}{{/isPrimitiveType}}{{/items}}{{/isArray}}{{#isMap}}{{#items}}{{^isPrimitiveType}}{{^isFile}}[{{/isFile}}{{/isPrimitiveType}}**map[string]{{dataType}}**{{^isPrimitiveType}}{{^isFile}}]({{^baseType}}{{dataType}}{{/baseType}}{{#baseType}}{{baseType}}{{/baseType}}.md){{/isFile}}{{/isPrimitiveType}}{{/items}}{{/isMap}}{{/isContainer}}{{^isContainer}}{{^isPrimitiveType}}{{^isFile}}[{{/isFile}}{{/isPrimitiveType}}**{{dataType}}**{{^isPrimitiveType}}{{^isFile}}]({{^baseType}}{{dataType}}{{/baseType}}{{#baseType}}{{baseType}}{{/baseType}}.md){{/isFile}}{{/isPrimitiveType}}{{/isContainer}} | {{description}} | {{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}{{/isPathParam}}{{/allParams}}
 
 ### Return type
 

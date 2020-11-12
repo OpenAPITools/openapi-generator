@@ -161,7 +161,7 @@ import (
 )
 
 func main() {
-    orderId := 987 // int64 | ID of pet that needs to be fetched
+    orderId := int64(789) // int64 | ID of pet that needs to be fetched
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
