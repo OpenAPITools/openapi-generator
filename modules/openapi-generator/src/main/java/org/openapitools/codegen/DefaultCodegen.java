@@ -2936,7 +2936,7 @@ public class DefaultCodegen implements CodegenConfig {
             // for schemas that allOf inherit from this schema, add those descendants to this discriminator map
             List<MappedModel> otherDescendants = getAllOfDescendants(schemaName, openAPI);
             for (MappedModel otherDescendant : otherDescendants) {
-                // add only if the model names are not the same
+                // add only if the mapping names are not the same
                 boolean matched = false;
                 for (MappedModel uniqueDescendant: uniqueDescendants) {
                     if (uniqueDescendant.getMappingName().equals(otherDescendant.getMappingName())) {
