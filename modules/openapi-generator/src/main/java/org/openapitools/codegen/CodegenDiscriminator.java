@@ -114,14 +114,14 @@ public class CodegenDiscriminator {
 
         @Override
         public int compareTo(MappedModel other) {
-            if (getModelName() == null && other.getModelName() == null) {
+            if (getMappingName() == null && other.getMappingName() == null) {
                 return 0;
-            } else if (getModelName() == null) {
+            } else if (getMappingName() == null) {
                 return 1;
-            } else if (other.getModelName() == null) {
+            } else if (other.getMappingName() == null) {
                 return -1;
             }
-            return getModelName().compareTo(other.getModelName());
+            return getMappingName().compareTo(other.getMappingName());
         }
 
         public String getMappingName() {

@@ -2939,7 +2939,7 @@ public class DefaultCodegen implements CodegenConfig {
                 // add only if the model names are not the same
                 boolean matched = false;
                 for (MappedModel uniqueDescendant: uniqueDescendants) {
-                    if (uniqueDescendant.getModelName().equals(otherDescendant.getModelName())) {
+                    if (uniqueDescendant.getMappingName().equals(otherDescendant.getMappingName())) {
                         matched = true;
                         break;
                     }
