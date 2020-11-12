@@ -594,19 +594,23 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 cp.allowableValues = new HashMap<String, Object>(this.allowableValues);
             }
             if (this.items != null) {
-                cp.items = this.items;
+                cp.items = this.items.clone();
             }
             if (this.additionalProperties != null) {
-                cp.additionalProperties = this.additionalProperties;
+                cp.additionalProperties = this.additionalProperties.clone();
             }
             if (this.vars != null) {
-                cp.vars = this.vars;
+                for (CodegenProperty var: this.vars) {
+                    cp.vars.add(var.clone());
+                }
             }
             if (this.requiredVars != null) {
-                cp.requiredVars = this.requiredVars;
+                for (CodegenProperty var: this.requiredVars) {
+                    cp.requiredVars.add(var.clone());
+                }
             }
             if (this.mostInnerItems != null) {
-                cp.mostInnerItems = this.mostInnerItems;
+                cp.mostInnerItems = this.mostInnerItems.clone();
             }
             if (this.vendorExtensions != null) {
                 cp.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
