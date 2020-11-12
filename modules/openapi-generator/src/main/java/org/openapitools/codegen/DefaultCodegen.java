@@ -2936,7 +2936,16 @@ public class DefaultCodegen implements CodegenConfig {
             // for schemas that allOf inherit from this schema, add those descendants to this discriminator map
             List<MappedModel> otherDescendants = getAllOfDescendants(schemaName, openAPI);
             for (MappedModel otherDescendant : otherDescendants) {
-                if (!uniqueDescendants.contains(otherDescendant)) {
+                // add only if the model names are not the same
+                boolean matched = false;
+                for (MappedModel uniqueDescendant: uniqueDescendants) {
+                    if (uniqueDescendant.getModelName().equals(otherDescendant.getModelName())) {
+                        matched = true;
+                        break;
+                    }
+                }
+
+                if (matched == false) {
                     uniqueDescendants.add(otherDescendant);
                 }
             }
@@ -2954,6 +2963,7 @@ public class DefaultCodegen implements CodegenConfig {
             Collections.sort(uniqueDescendants);
         }
         discriminator.getMappedModels().addAll(uniqueDescendants);
+
         return discriminator;
     }
 

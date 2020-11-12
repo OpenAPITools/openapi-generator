@@ -2,7 +2,7 @@ package org.openapitools.codegen;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.LinkedHashSet;
+import java.util.TreeSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -40,7 +40,7 @@ public class CodegenDiscriminator {
     //
     // see the method createDiscriminator in DefaultCodegen.java
 
-    private Set<MappedModel> mappedModels = new LinkedHashSet<>();
+    private Set<MappedModel> mappedModels = new TreeSet<>();
 
     public String getPropertyName() {
         return propertyName;
@@ -114,14 +114,14 @@ public class CodegenDiscriminator {
 
         @Override
         public int compareTo(MappedModel other) {
-            if (getMappingName() == null && other.getMappingName() == null) {
+            if (getModelName() == null && other.getModelName() == null) {
                 return 0;
-            } else if (getMappingName() == null) {
+            } else if (getModelName() == null) {
                 return 1;
-            } else if (other.getMappingName() == null) {
+            } else if (other.getModelName() == null) {
                 return -1;
             }
-            return getMappingName().compareTo(other.getMappingName());
+            return getModelName().compareTo(other.getModelName());
         }
 
         public String getMappingName() {
