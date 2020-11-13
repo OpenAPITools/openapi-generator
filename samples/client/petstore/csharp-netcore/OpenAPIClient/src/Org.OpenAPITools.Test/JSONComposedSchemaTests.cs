@@ -100,11 +100,22 @@ namespace Org.OpenAPITools.Test
         /// ReadOnly property tests
         /// </summary>
         [Fact]
-        public void ReadOnlyFruit()
+        public void TestReadOnlyFruit()
         {
             ReadOnlyFirst r = JsonConvert.DeserializeObject<ReadOnlyFirst>("{\"baz\":\"from json gaz\",\"bar\":\"from json bar\"}");
             Assert.Equal("from json bar", r.Bar);
             Assert.Equal("{\"baz\":\"from json gaz\"}", JsonConvert.SerializeObject(r));
+        }
+
+        /// <summary>
+        /// Cat property tests
+        /// </summary>
+        [Fact]
+        public void TestCat()
+        {
+            // test to ensure both Cat and Animal (parent) can have "AdditionalProperties", which result in warnings
+            Cat c = JsonConvert.DeserializeObject<Cat>("{\"className\":\"cat\",\"bar\":\"from json bar\"}");
+            Assert.Equal("from json bar", c.AdditionalProperties["bar"]);
         }
     }
 }
