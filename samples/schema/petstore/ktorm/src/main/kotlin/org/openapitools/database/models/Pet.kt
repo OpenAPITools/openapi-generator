@@ -14,7 +14,7 @@ package org.openapitools.database.models
 import org.ktorm.dsl.*
 import org.ktorm.schema.*
 import org.ktorm.database.Database
-import .*
+import org.openapitools.client.models.*
 
 
 /**
@@ -27,12 +27,9 @@ import .*
  * @param status pet status in the store
  */
 object Pets : BaseTable<Pet>("Pet") {
-    val id = long("id") /*primary key autoincrement*/
     val name = text("name")
-    val photoUrls = long("photoUrls")
     val id = long("id") /* null */
     val category = long("category") /* null */
-    val tags = long("tags") /* null */
     val status = text("status").transform({ Pet.Status.valueOf(it ?: "available") }, { it.value }) /* null */ /* pet status in the store */
 
 
@@ -41,10 +38,10 @@ object Pets : BaseTable<Pet>("Pet") {
      */
     override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean) = Pet(
         name = row[name] ?: "" /* kotlin.String */,
-        photoUrls = kotlin.Array<kotlin.String>s.createEntity(row, withReferences) /* kotlin.Array<kotlin.String> */,
+        photoUrls = emptyList() /* kotlin.Array<kotlin.String> */,
         id = row[id]  /* kotlin.Long? */,
         category = Categorys.createEntity(row, withReferences) /* Category? */,
-        tags = kotlin.Array<Tag>s.createEntity(row, withReferences) /* kotlin.Array<Tag>? */,
+        tags = emptyList() /* kotlin.Array<Tag>? */,
         status = row[status]  /* kotlin.String? */ /* pet status in the store */
     )
 
@@ -64,14 +61,44 @@ object Pets : BaseTable<Pet>("Pet") {
     fun AssignmentsBuilder.assignFrom(entity: Pet) {
         this.apply {
             set(Pets.name, entity.name)
-            set(Pets.photoUrls, entity.photoUrls)
             set(Pets.id, entity.id)
             set(Pets.category, entity.category)
-            set(Pets.tags, entity.tags)
             set(Pets.status, entity.status)
         }
     }
 
 }
 
+
+object PetPhotoUrls : BaseTable<Pair<Long, Long>>("PetPhotoUrls") {
+    val pet = long("pet")
+    val photoUrls = long("photoUrls")
+
+    override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean): Pair<Long, Long> =
+        Pair(row[pet] ?: 0, row[photoUrls] ?: 0)
+
+    fun AssignmentsBuilder.assignFrom(entity: Pair<Long, Long>) {
+        this.apply {
+            set(PetPhotoUrls.pet, entity.first)
+            set(PetPhotoUrls.photoUrls, entity.second)
+        }
+    }
+
+}
+
+object PetTag : BaseTable<Pair<Long, Long>>("PetTag") {
+    val pet = long("pet")
+    val tag = long("tag")
+
+    override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean): Pair<Long, Long> =
+        Pair(row[pet] ?: 0, row[tag] ?: 0)
+
+    fun AssignmentsBuilder.assignFrom(entity: Pair<Long, Long>) {
+        this.apply {
+            set(PetTag.pet, entity.first)
+            set(PetTag.tag, entity.second)
+        }
+    }
+
+}
 

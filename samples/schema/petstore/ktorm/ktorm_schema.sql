@@ -7,7 +7,6 @@
 --
 
 CREATE TABLE IF NOT EXISTS `ApiResponse` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `code` int,
   `type` text,
   `message` text
@@ -19,8 +18,7 @@ CREATE TABLE IF NOT EXISTS `ApiResponse` (
 --
 
 CREATE TABLE IF NOT EXISTS `Category` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `id` long,
+  `id` long PRIMARY KEY AUTOINCREMENT,
   `name` text
 )  /*A category for a pet*/;
 
@@ -30,11 +28,10 @@ CREATE TABLE IF NOT EXISTS `Category` (
 --
 
 CREATE TABLE IF NOT EXISTS `Order` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `id` long,
+  `id` long PRIMARY KEY AUTOINCREMENT,
   `petId` long,
   `quantity` int,
-  `shipDate` date,
+  `shipDate` datetime,
   `status` text /*Order Status*/,
   `complete` boolean
 )  /*An order for a pets from the pet store*/;
@@ -45,12 +42,11 @@ CREATE TABLE IF NOT EXISTS `Order` (
 --
 
 CREATE TABLE IF NOT EXISTS `Pet` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `name` text NOT NULL,
-  `photoUrls` long NOT NULL,
-  `id` long,
+  `photoUrls` blob NOT NULL,
+  `id` long PRIMARY KEY AUTOINCREMENT,
   `category` long,
-  `tags` long,
+  `tags` blob,
   `status` text /*pet status in the store*/
 )  /*A pet for sale in the pet store*/;
 
@@ -60,8 +56,7 @@ CREATE TABLE IF NOT EXISTS `Pet` (
 --
 
 CREATE TABLE IF NOT EXISTS `Tag` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `id` long,
+  `id` long PRIMARY KEY AUTOINCREMENT,
   `name` text
 )  /*A tag for a pet*/;
 
@@ -71,8 +66,7 @@ CREATE TABLE IF NOT EXISTS `Tag` (
 --
 
 CREATE TABLE IF NOT EXISTS `User` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `id` long,
+  `id` long PRIMARY KEY AUTOINCREMENT,
   `username` text,
   `firstName` text,
   `lastName` text,

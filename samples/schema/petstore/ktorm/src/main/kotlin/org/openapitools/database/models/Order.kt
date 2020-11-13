@@ -14,7 +14,7 @@ package org.openapitools.database.models
 import org.ktorm.dsl.*
 import org.ktorm.schema.*
 import org.ktorm.database.Database
-import .*
+import org.openapitools.client.models.*
 
 
 /**
@@ -27,11 +27,10 @@ import .*
  * @param complete 
  */
 object Orders : BaseTable<Order>("Order") {
-    val id = long("id") /*primary key autoincrement*/
     val id = long("id") /* null */
     val petId = long("petId") /* null */
     val quantity = int("quantity") /* null */
-    val shipDate = date("shipDate") /* null */
+    val shipDate = datetime("shipDate") /* null */
     val status = text("status").transform({ Order.Status.valueOf(it ?: "placed") }, { it.value }) /* null */ /* Order Status */
 
     val complete = boolean("complete") /* null */

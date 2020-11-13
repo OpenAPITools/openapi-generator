@@ -14,7 +14,7 @@ package org.openapitools.database.models
 import org.ktorm.dsl.*
 import org.ktorm.schema.*
 import org.ktorm.database.Database
-import .*
+import org.openapitools.client.models.*
 
 
 /**
@@ -23,7 +23,6 @@ import .*
  * @param name 
  */
 object Tags : BaseTable<Tag>("Tag") {
-    val id = long("id") /*primary key autoincrement*/
     val id = long("id") /* null */
     val name = text("name") /* null */
 

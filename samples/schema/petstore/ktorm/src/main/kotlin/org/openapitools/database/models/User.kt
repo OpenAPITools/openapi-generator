@@ -14,7 +14,7 @@ package org.openapitools.database.models
 import org.ktorm.dsl.*
 import org.ktorm.schema.*
 import org.ktorm.database.Database
-import .*
+import org.openapitools.client.models.*
 
 
 /**
@@ -29,7 +29,6 @@ import .*
  * @param userStatus User Status
  */
 object Users : BaseTable<User>("User") {
-    val id = long("id") /*primary key autoincrement*/
     val id = long("id") /* null */
     val username = text("username") /* null */
     val firstName = text("firstName") /* null */

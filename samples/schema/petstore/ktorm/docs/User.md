@@ -5,7 +5,7 @@
 ## Properties
 Name | Mapping | SQL Type | Default | Type | Description | Notes
 ---- | ------- | -------- | ------- | ---- | ----------- | -----
-**id** | id | long |  | **kotlin.Long** |  |  [optional]
+**id** | id | long PRIMARY KEY AUTOINCREMENT |  | **kotlin.Long** |  |  [optional]
 **username** | username | text |  | **kotlin.String** |  |  [optional]
 **firstName** | firstName | text |  | **kotlin.String** |  |  [optional]
 **lastName** | lastName | text |  | **kotlin.String** |  |  [optional]

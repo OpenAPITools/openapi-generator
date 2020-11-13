@@ -7,7 +7,7 @@ Name | Mapping | SQL Type | Default | Type | Description | Notes
 ---- | ------- | -------- | ------- | ---- | ----------- | -----
 **name** | name | text NOT NULL |  | **kotlin.String** |  | 
 **photoUrls** | `One-To-Many` | `----` | `----`  | **kotlin.Array&lt;kotlin.String&gt;** |  | 
-**id** | id | long |  | **kotlin.Long** |  |  [optional]
+**id** | id | long PRIMARY KEY AUTOINCREMENT |  | **kotlin.Long** |  |  [optional]
 **category** | category | long |  | [**Category**](Category.md) |  |  [optional] [foreignkey]
 **tags** | `One-To-Many` | `----` | `----`  | [**kotlin.Array&lt;Tag&gt;**](Tag.md) |  |  [optional]
 **status** | status | text |  | [**status**](#StatusEnum) | pet status in the store |  [optional]

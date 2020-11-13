@@ -14,7 +14,7 @@ package org.openapitools.database.models
 import org.ktorm.dsl.*
 import org.ktorm.schema.*
 import org.ktorm.database.Database
-import .*
+import org.openapitools.client.models.*
 
 
 /**
@@ -24,7 +24,6 @@ import .*
  * @param message 
  */
 object ApiResponses : BaseTable<ApiResponse>("ApiResponse") {
-    val id = long("id") /*primary key autoincrement*/
     val code = int("code") /* null */
     val type = text("type") /* null */
     val message = text("message") /* null */

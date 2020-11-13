@@ -5,7 +5,7 @@
 ## Properties
 Name | Mapping | SQL Type | Default | Type | Description | Notes
 ---- | ------- | -------- | ------- | ---- | ----------- | -----
-**id** | id | long |  | **kotlin.Long** |  |  [optional]
+**id** | id | long PRIMARY KEY AUTOINCREMENT |  | **kotlin.Long** |  |  [optional]
 **petId** | petId | long |  | **kotlin.Long** |  |  [optional]
 **quantity** | quantity | int |  | **kotlin.Int** |  |  [optional]
 **shipDate** | shipDate | datetime |  | [**java.time.LocalDateTime**](java.time.LocalDateTime.md) |  |  [optional]

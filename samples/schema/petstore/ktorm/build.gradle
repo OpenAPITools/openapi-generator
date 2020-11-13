@@ -7,8 +7,8 @@ wrapper {
 }
 
 buildscript {
-    ext.kotlin_version = '1.3.61'
-    ext.ktorm_version = '3.1.0'
+    ext.kotlin_version = '1.3.72'
+    ext.ktorm_version = '3.2.0'
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -30,6 +30,6 @@ test {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "me.liuwj.ktorm:ktorm-core:$ktorm_version"
+    implementation "org.ktorm:ktorm-core:$ktorm_version"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.1.0"
 }
