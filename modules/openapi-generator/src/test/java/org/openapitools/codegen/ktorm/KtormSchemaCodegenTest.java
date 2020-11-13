@@ -137,7 +137,7 @@ public class KtormSchemaCodegenTest {
         Assert.assertEquals(getMatchedColType(new BinarySchema()), "blob");
         Assert.assertEquals(getMatchedColType(new FileSchema()), "blob");
         Assert.assertEquals(getMatchedColType(new DateSchema()), "date");
-        Assert.assertEquals(getMatchedColType(new DateTimeSchema()), "date");
+        Assert.assertEquals(getMatchedColType(new DateTimeSchema()), "datetime");
         Assert.assertEquals(getMatchedColType(new UUIDSchema()), "text");
         Assert.assertEquals(getMatchedColType(new ObjectSchema().type("UUID")), "text");
         Assert.assertEquals(getMatchedColType(new StringSchema().format("URI")), "text");

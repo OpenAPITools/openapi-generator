@@ -66,6 +66,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         protected static final String Boolean = "boolean";
         protected static final String Bytes = "bytes";
         protected static final String Date = "date";
+        protected static final String DateTime = "datetime";
         protected static final String Decimal = "decimal";
         protected static final String Double = "double";
         protected static final String Float = "float";
@@ -185,7 +186,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         sqlTypeMapping.put("kotlin.Any", SqlType.Blob);
         sqlTypeMapping.put("java.io.File", SqlType.Blob);
         sqlTypeMapping.put("java.math.BigDecimal", SqlType.Decimal);
-        sqlTypeMapping.put("java.time.LocalDateTime", SqlType.Date);
+        sqlTypeMapping.put("java.time.LocalDateTime", SqlType.DateTime);
         sqlTypeMapping.put("java.time.LocalDate", SqlType.Date);
         sqlTypeMapping.put("java.util.UUID", SqlType.Text);
         sqlTypeMapping.put("java.net.URI", SqlType.Text);
@@ -390,6 +391,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
                 processStringTypeProperty(model, property, description, ktormSchema);
                 break;
             case SqlType.Date:
+            case SqlType.DateTime:
                 processDateTypeProperty(model, property, description, ktormSchema);
                 break;
             case SqlType.Json:
@@ -656,6 +658,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         a.put("isDecimal", args.isDecimal);
         a.put("isString", args.isString);
         a.put("isDate", args.isDate);
+        a.put("isDateTime", args.isDateTime);
         a.put("isBlob", args.isBlob);
         a.put("isJson", args.isJson);
         a.put("isNull", args.isNull);
@@ -742,6 +745,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         public boolean isDecimal;
         public boolean isString;
         public boolean isDate;
+        public boolean isDateTime;
         public boolean isBlob;
         public boolean isJson;
         // special args
@@ -777,6 +781,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
             case SqlType.Text:
             case SqlType.Varchar:
             case SqlType.Date:
+            case SqlType.DateTime:
             case SqlType.Blob:
             case SqlType.Json:
                 return false;
@@ -811,6 +816,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
             case SqlType.Text:
             case SqlType.Varchar:
             case SqlType.Date:
+            case SqlType.DateTime:
             case SqlType.Blob:
             case SqlType.Json:
                 return sqlType;
@@ -839,6 +845,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
             case SqlType.Text:
             case SqlType.Varchar:
             case SqlType.Date:
+            case SqlType.DateTime:
                 args.isPrimitive = true;
                 break;
             case SqlType.Blob:
@@ -857,6 +864,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
             case SqlType.Text:
             case SqlType.Varchar:
             case SqlType.Date:
+            case SqlType.DateTime:
             case SqlType.Blob:
             case SqlType.Json:
             default:
@@ -882,6 +890,9 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
                 break;
             case SqlType.Date:
                 args.isDate = true;
+                break;
+            case SqlType.DateTime:
+                args.isDateTime = true;
                 break;
             case SqlType.Blob:
                 args.isBlob = true;
@@ -921,6 +932,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
             case SqlType.Text:
             case SqlType.Varchar:
             case SqlType.Date:
+            case SqlType.DateTime:
                 sqlDefault = defaultValue;
             case SqlType.Blob:
             case SqlType.Json:
