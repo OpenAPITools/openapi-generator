@@ -1,6 +1,0 @@
-/Users/williamcheng/Code/tmp/ktorm-support/samples/schema/petstore/ktorm/src/main/kotlin/org/openapitools/database/models/Category.kt
-/Users/williamcheng/Code/tmp/ktorm-support/samples/schema/petstore/ktorm/src/main/kotlin/org/openapitools/database/models/Tag.kt
-/Users/williamcheng/Code/tmp/ktorm-support/samples/schema/petstore/ktorm/src/main/kotlin/org/openapitools/database/models/Pet.kt
-/Users/williamcheng/Code/tmp/ktorm-support/samples/schema/petstore/ktorm/src/main/kotlin/org/openapitools/database/models/User.kt
-/Users/williamcheng/Code/tmp/ktorm-support/samples/schema/petstore/ktorm/src/main/kotlin/org/openapitools/database/models/ApiResponse.kt
-/Users/williamcheng/Code/tmp/ktorm-support/samples/schema/petstore/ktorm/src/main/kotlin/org/openapitools/database/models/Order.kt
