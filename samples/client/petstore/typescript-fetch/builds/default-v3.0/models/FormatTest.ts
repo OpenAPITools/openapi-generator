@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    Decimal,
+    DecimalFromJSON,
+    DecimalFromJSONTyped,
+    DecimalToJSON,
+} from './';
+
 /**
  * 
  * @export
@@ -55,6 +62,12 @@ export interface FormatTest {
      * @memberof FormatTest
      */
     _double?: number;
+    /**
+     * 
+     * @type {Decimal}
+     * @memberof FormatTest
+     */
+    decimal?: Decimal;
     /**
      * 
      * @type {string}
@@ -127,6 +140,7 @@ export function FormatTestFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'number': json['number'],
         '_float': !exists(json, 'float') ? undefined : json['float'],
         '_double': !exists(json, 'double') ? undefined : json['double'],
+        'decimal': !exists(json, 'decimal') ? undefined : DecimalFromJSON(json['decimal']),
         'string': !exists(json, 'string') ? undefined : json['string'],
         '_byte': json['byte'],
         'binary': !exists(json, 'binary') ? undefined : json['binary'],
@@ -154,6 +168,7 @@ export function FormatTestToJSON(value?: FormatTest | null): any {
         'number': value.number,
         'float': value._float,
         'double': value._double,
+        'decimal': DecimalToJSON(value.decimal),
         'string': value.string,
         'byte': value._byte,
         'binary': value.binary,
