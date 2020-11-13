@@ -662,7 +662,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         a.put("isBlob", args.isBlob);
         a.put("isJson", args.isJson);
         a.put("isNull", args.isNull);
-        columnDefinition.put("colTypeArgs", a);
+        //as we are using sqlite, it is not implemented for now
+        //columnDefinition.put("colTypeArgs", a); 
         columnDefinition.put("colPrimaryKey", isPrimaryKey(columnDefinition));
     }
 
@@ -915,7 +916,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @param dataFormat    type format
      * @return generated codegen default
      */
-    private HashMap<String, Object> toColumnTypeDefault(String defaultValue, String dataType, String dataFormat) {
+    private Map<String, Object> toColumnTypeDefault(String defaultValue, String dataType, String dataFormat) {
         String sqlType = toColumnType(dataType, dataFormat);
         String sqlDefault = "";
         if (defaultValue == null || defaultValue.toUpperCase(Locale.ROOT).equals("NULL")) {
@@ -940,10 +941,9 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
             default:
                 sqlDefault = "NULL";
         }
-        Map<String, Object> outp = new HashMap<String, Object>();
-        processTypeArgs(sqlType, null, null, null, outp);
-        HashMap<String, Object> args = (HashMap<String, Object>) outp.get("colTypeArgs");
-        args.put("value", sqlDefault);
+        Map<String, Object> args = new HashMap<String, Object>();
+        processTypeArgs(sqlType, null, null, null, args);
+        args.put("defaultValue", sqlDefault);
         return args;
     }
 
