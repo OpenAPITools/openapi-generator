@@ -18,14 +18,10 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.Schema;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -33,6 +29,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.io.File;
+
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -46,6 +45,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     public static final String DEFAULT_DATABASE_NAME = "defaultDatabaseName";
     public static final String IMPORT_MODEL_PACKAGE_NAME = "importModelPackageName";
     public static final String IDENTIFIER_NAMING_CONVENTION = "identifierNamingConvention";
+    public static final String PRIMARY_KEY_CONVENTION = "primaryKeyConvention";
+    public static final String ADD_SURROGATE_KEY = "addSurrogateKey";
     public static final Integer IDENTIFIER_MAX_LENGTH = 255;
 
     protected String importModelPackageName = "";
@@ -54,6 +55,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     protected String tableNamePrefix = "_", tableNameSuffix = "";
     protected String columnNamePrefix = "_", columnNameSuffix = "";
     protected String identifierNamingConvention = "original";
+    protected String primaryKeyConvention = "id";
+    protected boolean addSurrogateKey = false;
 
     protected Map<String, String> sqlTypeMapping = new HashMap<String, String>();
 
@@ -203,8 +206,13 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         updateOption(CodegenConstants.ARTIFACT_ID, artifactId);
         updateOption(CodegenConstants.PACKAGE_NAME, packageName);
         removeOption(CodegenConstants.API_SUFFIX);
+        removeOption(CodegenConstants.PARCELIZE_MODELS);
+        removeOption(CodegenConstants.SERIALIZABLE_MODEL);
+        removeOption(CodegenConstants.SERIALIZATION_LIBRARY);
         addOption(DEFAULT_DATABASE_NAME, "Default database name for all queries", defaultDatabaseName);
         addOption(IMPORT_MODEL_PACKAGE_NAME, "Package name of the imported models", importModelPackageName);
+        addOption(PRIMARY_KEY_CONVENTION, "Primary key naming convention", primaryKeyConvention);
+        addSwitch(ADD_SURROGATE_KEY, "Adds the surrogate key for all models that don't already have a primary key (named by the above convention)", addSurrogateKey);
 
         // we used to snake_case table/column names, let's add this option
         CliOption identifierNamingOpt = new CliOption(IDENTIFIER_NAMING_CONVENTION,
@@ -252,6 +260,14 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
             setImportModelPackageName((String) additionalProperties.get(IMPORT_MODEL_PACKAGE_NAME));
         }
 
+        if (additionalProperties.containsKey(PRIMARY_KEY_CONVENTION)) {
+            setPrimaryKeyConvention((String) additionalProperties.get(PRIMARY_KEY_CONVENTION));
+        }
+
+        if (additionalProperties.containsKey(ADD_SURROGATE_KEY)) {
+            setAddSurrogateKey(convertPropertyToBooleanAndWriteBack(ADD_SURROGATE_KEY));
+        }
+
         // make model src path available in mustache template
         additionalProperties.put("modelSrcPath", "./" + toSrcPath(modelPackage));
 
@@ -290,6 +306,28 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
                 ktormSchema.put("tableDefinition", tableDefinition);
                 tableDefinition.put("tblName", tableName);
                 tableDefinition.put("tblComment", modelDescription);
+            }
+
+            // check if we need to add the surrogate key
+            if (addSurrogateKey) {
+                boolean hasPrimaryKey = false;
+                for (CodegenProperty var : model.vars) {
+                    if (var.getBaseName().equals(primaryKeyConvention)) {
+                        hasPrimaryKey = true;
+                        break;
+                    }
+                }
+                if (!hasPrimaryKey) {
+                    final IntegerSchema schema = new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT);
+                    CodegenProperty cp = super.fromProperty(primaryKeyConvention, schema);
+                    cp.setRequired(true);
+                    model.vars.add(0, cp);
+                    model.allVars.add(0, cp);
+                    model.requiredVars.add(0, cp);
+                    model.readWriteVars.add(0, cp);
+                    postProcessModelProperty(model, cp);
+                    objs = super.postProcessModels(objs);
+                }
             }
         }
 
@@ -622,6 +660,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         a.put("isJson", args.isJson);
         a.put("isNull", args.isNull);
         columnDefinition.put("colTypeArgs", a);
+        columnDefinition.put("colPrimaryKey", isPrimaryKey(columnDefinition));
     }
 
     /**
@@ -660,11 +699,11 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @param model       model's name
      * @param property    model's property
      * @param relationDefinition resulting relation definition dictionary
+     * @return did we create the foreign key section.
      */
     public boolean processForeignKey(CodegenModel model, CodegenProperty property, Map<String, Object> relationDefinition) {
         String dataType = property.getDataType();
         if (!property.isArray && !isRelation(dataType)) return false;
-
 
         String modelName = model.getName();
         String tryPropName = property.isArray ? property.items.dataType : property.dataType;
@@ -712,10 +751,21 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     /**
      * Checks if the model type should be a relationship instead.
      *
+     * @param columnDefinition resulting column definition dictionary
+     * @return is a relation
+     */
+    private boolean isPrimaryKey(Map<String, Object> columnDefinition) {
+        String colName = (String) columnDefinition.get("colName");
+        return colName.equals(primaryKeyConvention);
+    }
+
+    /**
+     * Checks if the model type should be a relationship instead.
+     *
      * @param dataType   type name
      * @return is a relation
      */
-    private Boolean isRelation(String dataType) {
+    private boolean isRelation(String dataType) {
         String sqlType = sqlTypeMapping.getOrDefault(dataType, "").toLowerCase(Locale.ROOT);
         switch (sqlType) {
             case SqlType.Boolean:
@@ -732,7 +782,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
                 return false;
             default:
                 // If its explicitly configured kotlin.* and java.* types.
-                if (sqlType.startsWith("kotlin.") || sqlType.startsWith("java.")) {
+                if (dataType.startsWith("kotlin.") || dataType.startsWith("java.")) {
                     // We just have to serialize it.
                     return false;
                 }
@@ -740,6 +790,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
                 return true;
         }
     }
+
     /**
      * Generates codegen type mapping between ktor and sqlite
      * Ref: http://www.sqlite.org/draft/datatype3.html
@@ -853,7 +904,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @param dataFormat    type format
      * @return generated codegen default
      */
-    public HashMap<String, Object> toColumnTypeDefault(String defaultValue, String dataType, String dataFormat) {
+    private HashMap<String, Object> toColumnTypeDefault(String defaultValue, String dataType, String dataFormat) {
         String sqlType = toColumnType(dataType, dataFormat);
         String sqlDefault = "";
         if (defaultValue == null || defaultValue.toUpperCase(Locale.ROOT).equals("NULL")) {
@@ -879,9 +930,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         }
         Map<String, Object> outp = new HashMap<String, Object>();
         processTypeArgs(sqlType, null, null, null, outp);
-        HashMap<String, Object> args = (HashMap<String, Object>) outp.get("colSqlTypeArgs");
-        args.put("argumentValue", sqlDefault);
-        args.put("hasMore", false);
+        HashMap<String, Object> args = (HashMap<String, Object>) outp.get("colTypeArgs");
+        args.put("value", sqlDefault);
         return args;
     }
 
@@ -992,7 +1042,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
 
     @Override
     public String escapeReservedWord(String name) {
-        LOGGER.warn("'" + name + "' is reserved word. Do not use that word or properly escape it with backticks in mustache template");
+        //LOGGER.warn("'" + name + "' is reserved word. Do not use that word or properly escape it with backticks in mustache template");
         return name;
     }
 
@@ -1073,6 +1123,42 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      */
     public String getIdentifierNamingConvention() {
         return this.identifierNamingConvention;
+    }
+
+    /**
+     * Sets primary key naming convenion
+     *
+     * @param name name
+     */
+    public void setPrimaryKeyConvention(String name) {
+        this.primaryKeyConvention = name;
+    }
+
+    /**
+     * Returns primary key naming convenion
+     *
+     * @return name
+     */
+    public String getPrimaryKeyConvention() {
+        return this.primaryKeyConvention;
+    }
+
+    /**
+     * Sets primary key naming convenion
+     *
+     * @param enable enable this option
+     */
+    public void setAddSurrogateKey(boolean enable) {
+        this.addSurrogateKey = enable;
+    }
+
+    /**
+     * Returns primary key naming convenion
+     *
+     * @return is enabled
+     */
+    public boolean getAddSurrogateKey() {
+        return this.addSurrogateKey;
     }
 
     /**

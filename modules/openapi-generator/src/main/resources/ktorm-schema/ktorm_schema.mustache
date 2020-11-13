@@ -18,7 +18,6 @@ CREATE DATABASE IF NOT EXISTS `{{{defaultDatabaseName}}}` DEFAULT CHARACTER SET 
 {{#x-ktorm-schema}}
 {{#tableDefinition}}
 CREATE TABLE IF NOT EXISTS {{#defaultDatabaseName}}`{{{defaultDatabaseName}}}`.{{/defaultDatabaseName}}`{{tblName}}` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
 {{/tableDefinition}}
 {{/x-ktorm-schema}}
 {{/vendorExtensions}}
