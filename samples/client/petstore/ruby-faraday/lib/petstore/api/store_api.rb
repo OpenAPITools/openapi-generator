@@ -55,15 +55,16 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] 
+      post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:return_type] 
+      return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"StoreApi.delete_order",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -111,15 +112,16 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] 
+      post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:return_type] || 'Hash<String, Integer>' 
+      return_type = opts[:debug_return_type] || 'Hash<String, Integer>'
 
       # auth_names
-      auth_names = opts[:auth_names] || ['api_key']
+      auth_names = opts[:debug_auth_names] || ['api_key']
 
       new_options = opts.merge(
+        :operation => :"StoreApi.get_inventory",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -181,15 +183,16 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] 
+      post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:return_type] || 'Order' 
+      return_type = opts[:debug_return_type] || 'Order'
 
       # auth_names
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"StoreApi.get_order_by_id",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -243,15 +246,16 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(order) 
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(order)
 
       # return_type
-      return_type = opts[:return_type] || 'Order' 
+      return_type = opts[:debug_return_type] || 'Order'
 
       # auth_names
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"StoreApi.place_order",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,

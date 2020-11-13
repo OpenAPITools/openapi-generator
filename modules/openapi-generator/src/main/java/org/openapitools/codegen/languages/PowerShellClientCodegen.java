@@ -701,7 +701,6 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                         StringEscapeUtils.escapeJava(input)
                                 .replace("\\/", "/"))
                         .replaceAll("[\\t\\n\\r]", " ")
-                        .replace("\\", "\\\\")
                         .replace("\"", "\"\""));
 
     }
@@ -997,9 +996,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
-        if (codegenParameter.isListContainer) { // array
+        if (codegenParameter.isArray) { // array
             return "@(" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + ")";
-        } else if (codegenParameter.isMapContainer) { // TODO: map, file type
+        } else if (codegenParameter.isMap) { // TODO: map, file type
             return "@{ \"Key\" = \"Value\" }";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType) ||
                 nullablePrimitives.contains(codegenParameter.dataType)) { // primitive type
@@ -1039,9 +1038,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
-        if (codegenProperty.isListContainer) { // array
+        if (codegenProperty.isArray) { // array
             return "@(" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + ")";
-        } else if (codegenProperty.isMapContainer) { // map
+        } else if (codegenProperty.isMap) { // map
             return "\"TODO\"";
         } else if (languageSpecificPrimitives.contains(codegenProperty.dataType) || // primitive type
                 nullablePrimitives.contains(codegenProperty.dataType)) { // nullable primitive type
@@ -1117,9 +1116,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 dataType = "System.Nullable[" + dataType + "]";
             }
             return dataType;
-        } else if (cp.isListContainer) { // array
+        } else if (cp.isArray) { // array
             return getPSDataType(cp.items) + "[]";
-        } else if (cp.isMapContainer) { // map
+        } else if (cp.isMap) { // map
             return "System.Collections.Hashtable";
         } else { // model
             return "PSCustomObject";
@@ -1135,9 +1134,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 dataType = "System.Nullable[" + dataType + "]";
             }
             return dataType;
-        } else if (cp.isListContainer) { // array
+        } else if (cp.isArray) { // array
             return getPSDataType(cp.items) + "[]";
-        } else if (cp.isMapContainer) { // map
+        } else if (cp.isMap) { // map
             return "System.Collections.Hashtable";
         } else { // model
             return "PSCustomObject";

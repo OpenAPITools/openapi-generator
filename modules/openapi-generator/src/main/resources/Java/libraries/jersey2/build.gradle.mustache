@@ -121,7 +121,9 @@ ext {
     swagger_annotations_version = "1.5.22"
     jackson_version = "2.10.3"
     jackson_databind_version = "2.10.4"
+    {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.1"
+    {{/openApiNullable}}
     {{#supportJava6}}
     jersey_version = "2.6"
     commons_io_version=2.5
@@ -130,7 +132,7 @@ ext {
     {{^supportJava6}}
     jersey_version = "2.27"
     {{/supportJava6}}
-    junit_version = "4.13"
+    junit_version = "4.13.1"
     {{#threetenbp}}
     threetenbp_version = "2.9.10"
     {{/threetenbp}}
@@ -149,10 +151,13 @@ dependencies {
     compile "org.glassfish.jersey.inject:jersey-hk2:$jersey_version"
     compile "org.glassfish.jersey.media:jersey-media-multipart:$jersey_version"
     compile "org.glassfish.jersey.media:jersey-media-json-jackson:$jersey_version"
+    compile "org.glassfish.jersey.connectors:jersey-apache-connector:$jersey_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    {{#openApiNullable}}
     compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
+    {{/openApiNullable}}
     {{#joda}}
     compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     {{/joda}}

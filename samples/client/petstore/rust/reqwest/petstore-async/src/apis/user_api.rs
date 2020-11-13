@@ -200,30 +200,30 @@ pub async fn create_user(configuration: &configuration::Configuration, params: C
     let body = params.body;
 
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/user", configuration.base_path);
-    let mut req_builder = client.post(uri_str.as_str());
+    let local_var_uri_str = format!("{}/user", configuration.base_path);
+    let mut local_var_req_builder = local_var_client.post(local_var_uri_str.as_str());
 
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    req_builder = req_builder.json(&body);
+    local_var_req_builder = local_var_req_builder.json(&body);
 
-    let req = req_builder.build()?;
-    let resp = client.execute(req).await?;
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let status = resp.status();
-    let content = resp.text().await?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
 
-    if status.is_success() {
-        let entity: Option<CreateUserSuccess> = serde_json::from_str(&content).ok();
-        let result = ResponseContent { status, content, entity };
-        Ok(result)
+    if local_var_status.is_success() {
+        let local_var_entity: Option<CreateUserSuccess> = serde_json::from_str(&local_var_content).ok();
+        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Ok(local_var_result)
     } else {
-        let entity: Option<CreateUserError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<CreateUserError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 
@@ -232,30 +232,30 @@ pub async fn create_users_with_array_input(configuration: &configuration::Config
     let body = params.body;
 
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/user/createWithArray", configuration.base_path);
-    let mut req_builder = client.post(uri_str.as_str());
+    let local_var_uri_str = format!("{}/user/createWithArray", configuration.base_path);
+    let mut local_var_req_builder = local_var_client.post(local_var_uri_str.as_str());
 
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    req_builder = req_builder.json(&body);
+    local_var_req_builder = local_var_req_builder.json(&body);
 
-    let req = req_builder.build()?;
-    let resp = client.execute(req).await?;
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let status = resp.status();
-    let content = resp.text().await?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
 
-    if status.is_success() {
-        let entity: Option<CreateUsersWithArrayInputSuccess> = serde_json::from_str(&content).ok();
-        let result = ResponseContent { status, content, entity };
-        Ok(result)
+    if local_var_status.is_success() {
+        let local_var_entity: Option<CreateUsersWithArrayInputSuccess> = serde_json::from_str(&local_var_content).ok();
+        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Ok(local_var_result)
     } else {
-        let entity: Option<CreateUsersWithArrayInputError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<CreateUsersWithArrayInputError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 
@@ -264,30 +264,30 @@ pub async fn create_users_with_list_input(configuration: &configuration::Configu
     let body = params.body;
 
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/user/createWithList", configuration.base_path);
-    let mut req_builder = client.post(uri_str.as_str());
+    let local_var_uri_str = format!("{}/user/createWithList", configuration.base_path);
+    let mut local_var_req_builder = local_var_client.post(local_var_uri_str.as_str());
 
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    req_builder = req_builder.json(&body);
+    local_var_req_builder = local_var_req_builder.json(&body);
 
-    let req = req_builder.build()?;
-    let resp = client.execute(req).await?;
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let status = resp.status();
-    let content = resp.text().await?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
 
-    if status.is_success() {
-        let entity: Option<CreateUsersWithListInputSuccess> = serde_json::from_str(&content).ok();
-        let result = ResponseContent { status, content, entity };
-        Ok(result)
+    if local_var_status.is_success() {
+        let local_var_entity: Option<CreateUsersWithListInputSuccess> = serde_json::from_str(&local_var_content).ok();
+        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Ok(local_var_result)
     } else {
-        let entity: Option<CreateUsersWithListInputError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<CreateUsersWithListInputError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 
@@ -297,29 +297,29 @@ pub async fn delete_user(configuration: &configuration::Configuration, params: D
     let username = params.username;
 
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
-    let mut req_builder = client.delete(uri_str.as_str());
+    let local_var_uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
+    let mut local_var_req_builder = local_var_client.delete(local_var_uri_str.as_str());
 
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
 
-    let req = req_builder.build()?;
-    let resp = client.execute(req).await?;
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let status = resp.status();
-    let content = resp.text().await?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
 
-    if status.is_success() {
-        let entity: Option<DeleteUserSuccess> = serde_json::from_str(&content).ok();
-        let result = ResponseContent { status, content, entity };
-        Ok(result)
+    if local_var_status.is_success() {
+        let local_var_entity: Option<DeleteUserSuccess> = serde_json::from_str(&local_var_content).ok();
+        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Ok(local_var_result)
     } else {
-        let entity: Option<DeleteUserError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<DeleteUserError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 
@@ -328,29 +328,29 @@ pub async fn get_user_by_name(configuration: &configuration::Configuration, para
     let username = params.username;
 
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
-    let mut req_builder = client.get(uri_str.as_str());
+    let local_var_uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
+    let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
 
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
 
-    let req = req_builder.build()?;
-    let resp = client.execute(req).await?;
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let status = resp.status();
-    let content = resp.text().await?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
 
-    if status.is_success() {
-        let entity: Option<GetUserByNameSuccess> = serde_json::from_str(&content).ok();
-        let result = ResponseContent { status, content, entity };
-        Ok(result)
+    if local_var_status.is_success() {
+        let local_var_entity: Option<GetUserByNameSuccess> = serde_json::from_str(&local_var_content).ok();
+        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Ok(local_var_result)
     } else {
-        let entity: Option<GetUserByNameError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<GetUserByNameError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 
@@ -360,31 +360,31 @@ pub async fn login_user(configuration: &configuration::Configuration, params: Lo
     let password = params.password;
 
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/user/login", configuration.base_path);
-    let mut req_builder = client.get(uri_str.as_str());
+    let local_var_uri_str = format!("{}/user/login", configuration.base_path);
+    let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
 
-    req_builder = req_builder.query(&[("username", &username.to_string())]);
-    req_builder = req_builder.query(&[("password", &password.to_string())]);
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    local_var_req_builder = local_var_req_builder.query(&[("username", &username.to_string())]);
+    local_var_req_builder = local_var_req_builder.query(&[("password", &password.to_string())]);
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
 
-    let req = req_builder.build()?;
-    let resp = client.execute(req).await?;
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let status = resp.status();
-    let content = resp.text().await?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
 
-    if status.is_success() {
-        let entity: Option<LoginUserSuccess> = serde_json::from_str(&content).ok();
-        let result = ResponseContent { status, content, entity };
-        Ok(result)
+    if local_var_status.is_success() {
+        let local_var_entity: Option<LoginUserSuccess> = serde_json::from_str(&local_var_content).ok();
+        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Ok(local_var_result)
     } else {
-        let entity: Option<LoginUserError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<LoginUserError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 
@@ -392,29 +392,29 @@ pub async fn logout_user(configuration: &configuration::Configuration) -> Result
     // unbox the parameters
 
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/user/logout", configuration.base_path);
-    let mut req_builder = client.get(uri_str.as_str());
+    let local_var_uri_str = format!("{}/user/logout", configuration.base_path);
+    let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
 
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
 
-    let req = req_builder.build()?;
-    let resp = client.execute(req).await?;
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let status = resp.status();
-    let content = resp.text().await?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
 
-    if status.is_success() {
-        let entity: Option<LogoutUserSuccess> = serde_json::from_str(&content).ok();
-        let result = ResponseContent { status, content, entity };
-        Ok(result)
+    if local_var_status.is_success() {
+        let local_var_entity: Option<LogoutUserSuccess> = serde_json::from_str(&local_var_content).ok();
+        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Ok(local_var_result)
     } else {
-        let entity: Option<LogoutUserError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<LogoutUserError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 
@@ -425,30 +425,30 @@ pub async fn update_user(configuration: &configuration::Configuration, params: U
     let body = params.body;
 
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
-    let mut req_builder = client.put(uri_str.as_str());
+    let local_var_uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
+    let mut local_var_req_builder = local_var_client.put(local_var_uri_str.as_str());
 
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    req_builder = req_builder.json(&body);
+    local_var_req_builder = local_var_req_builder.json(&body);
 
-    let req = req_builder.build()?;
-    let resp = client.execute(req).await?;
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let status = resp.status();
-    let content = resp.text().await?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
 
-    if status.is_success() {
-        let entity: Option<UpdateUserSuccess> = serde_json::from_str(&content).ok();
-        let result = ResponseContent { status, content, entity };
-        Ok(result)
+    if local_var_status.is_success() {
+        let local_var_entity: Option<UpdateUserSuccess> = serde_json::from_str(&local_var_content).ok();
+        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Ok(local_var_result)
     } else {
-        let entity: Option<UpdateUserError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<UpdateUserError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 

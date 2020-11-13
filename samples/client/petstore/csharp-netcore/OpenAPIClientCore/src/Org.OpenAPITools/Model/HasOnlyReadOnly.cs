@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -46,10 +47,28 @@ namespace Org.OpenAPITools.Model
         public string Bar { get; private set; }
 
         /// <summary>
+        /// Returns false as Bar should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeBar()
+        {
+            return false;
+        }
+
+        /// <summary>
         /// Gets or Sets Foo
         /// </summary>
         [DataMember(Name = "foo", EmitDefaultValue = false)]
         public string Foo { get; private set; }
+
+        /// <summary>
+        /// Returns false as Foo should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeFoo()
+        {
+            return false;
+        }
 
         /// <summary>
         /// Returns the string presentation of the object

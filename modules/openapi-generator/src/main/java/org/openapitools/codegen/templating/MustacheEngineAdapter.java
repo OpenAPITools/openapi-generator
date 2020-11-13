@@ -39,7 +39,7 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
         return "mustache";
     }
 
-    public String[] extensions = new String[]{"mustache"};
+    private final String[] extensions = new String[]{"mustache"};
     Mustache.Compiler compiler = Mustache.compiler();
 
     /**
@@ -61,18 +61,13 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
         return tmpl.execute(bundle);
     }
 
+    @SuppressWarnings({"java:S108"}) // catch-all is expected, and is later thrown
     public Reader findTemplate(TemplatingExecutor generator, String name) {
         for (String extension : extensions) {
             try {
                 return new StringReader(generator.getFullTemplateContents(name + "." + extension));
             } catch (Exception ignored) {
             }
-        }
-
-        // support files without targeted extension (e.g. .gitignore, README.md), etc.
-        try {
-            return new StringReader(generator.getFullTemplateContents(name));
-        } catch (Exception ignored) {
         }
 
         throw new TemplateNotFoundException(name);

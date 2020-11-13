@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -53,14 +54,14 @@ namespace Org.OpenAPITools.Model
         /// field1
         /// </summary>
         /// <value>field1</value>
-        [DataMember(Name = "param", EmitDefaultValue = false)]
+        [DataMember(Name = "param", IsRequired = true, EmitDefaultValue = false)]
         public string Param { get; set; }
 
         /// <summary>
         /// field2
         /// </summary>
         /// <value>field2</value>
-        [DataMember(Name = "param2", EmitDefaultValue = false)]
+        [DataMember(Name = "param2", IsRequired = true, EmitDefaultValue = false)]
         public string Param2 { get; set; }
 
         /// <summary>

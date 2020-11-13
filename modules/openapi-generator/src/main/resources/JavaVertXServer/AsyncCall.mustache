@@ -1,12 +1,12 @@
-                service.{{operationId}}({{#hasParams}}{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}, {{/hasMore}}{{/allParams}}{{/hasParams}}result -> {
+                service.{{operationId}}({{#hasParams}}{{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{#-last}}, {{/-last}}{{/allParams}}{{/hasParams}}result -> {
                     if (result.succeeded())
                 {{#returnType}}
-                    {{#isListContainer}}
+                    {{#isArray}}
                         message.reply(new JsonArray(Json.encode(result.result())).encodePrettily());
-                    {{/isListContainer}}
-                    {{^isListContainer}}
+                    {{/isArray}}
+                    {{^isArray}}
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
-                    {{/isListContainer}}
+                    {{/isArray}}
                 {{/returnType}}
                 {{^returnType}}
                         message.reply(null);

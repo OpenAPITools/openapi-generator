@@ -10,19 +10,19 @@ import {{import}}
 /**
   * {{#description}}{{&.}}{{/description}}{{^description}}Represents the Swagger definition for {{name}}.{{/description}}{{#vars}}{{#description}}
   * @param {{&name}} {{&description}}{{/description}}{{/vars}}
-  {{#isArrayModel}}
+  {{#isArray}}
   * @param items The items of this array-like object.
-  {{/isArrayModel}}
-  {{#isMapModel}}
+  {{/isArray}}
+  {{#isMap}}
   * @param additionalProperties Any additional properties this model may have.
-  {{/isMapModel}}
+  {{/isMap}}
   */
 {{>generatedAnnotation}}
-{{^isArrayModel}}
+{{^isArray}}
 {{>caseClass}}
-{{/isArrayModel}}
-{{#isArrayModel}}
+{{/isArray}}
+{{#isArray}}
 {{>arrayCaseClass}}
-{{/isArrayModel}}
+{{/isArray}}
 {{/model}}
 {{/models}}

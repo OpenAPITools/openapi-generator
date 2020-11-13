@@ -3,6 +3,8 @@ title: Config Options for jaxrs-cxf
 sidebar_label: jaxrs-cxf
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |addConsumesProducesJson|Add @Consumes/@Produces Json to API interface| |false|
@@ -31,6 +33,7 @@ sidebar_label: jaxrs-cxf
 |generateSpringBootApplication|Generate Spring Boot application| |false|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
+|ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|
 |implFolder|folder for generated implementation code| |src/main/java|
 |invokerPackage|root package for generated code| |org.openapitools.api|
 |java8|Use Java8 classes instead of third party equivalents. Starting in 5.x, JDK8 is the default and the support for JDK7, JDK6 has been dropped|<dl><dt>**true**</dt><dd>Use Java 8 classes such as Base64</dd><dt>**false**</dt><dd>Various third party libraries as needed</dd></dl>|true|
@@ -38,6 +41,7 @@ sidebar_label: jaxrs-cxf
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
 |modelPackage|package for generated models| |org.openapitools.model|
+|openApiNullable|Enable OpenAPI Jackson Nullable library| |true|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
@@ -64,6 +68,7 @@ sidebar_label: jaxrs-cxf
 |useSpringAnnotationConfig|Use Spring Annotation Config| |false|
 |useSwaggerFeature|Use Swagger Feature| |false|
 |useSwaggerUI|Use Swagger UI| |false|
+|useTags|use tags for creating interface and controller classnames| |true|
 |useWadlFeature|Use WADL Feature| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 

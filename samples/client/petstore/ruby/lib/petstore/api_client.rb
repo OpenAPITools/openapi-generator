@@ -14,6 +14,7 @@ require 'date'
 require 'json'
 require 'logger'
 require 'tempfile'
+require 'time'
 require 'typhoeus'
 
 module Petstore
@@ -86,7 +87,7 @@ module Petstore
     # @option opts [Object] :body HTTP body (JSON/XML)
     # @return [Typhoeus::Request] A Typhoeus Request
     def build_request(http_method, path, opts = {})
-      url = build_request_url(path)
+      url = build_request_url(path, opts)
       http_method = http_method.to_sym.downcase
 
       header_params = @default_headers.merge(opts[:header_params] || {})
@@ -155,92 +156,6 @@ module Petstore
       data
     end
 
-    # Check if the given MIME is a JSON MIME.
-    # JSON MIME examples:
-    #   application/json
-    #   application/json; charset=UTF8
-    #   APPLICATION/JSON
-    #   */*
-    # @param [String] mime MIME
-    # @return [Boolean] True if the MIME is application/json
-    def json_mime?(mime)
-      (mime == '*/*') || !(mime =~ /Application\/.*json(?!p)(;.*)?/i).nil?
-    end
-
-    # Deserialize the response to the given return type.
-    #
-    # @param [Response] response HTTP response
-    # @param [String] return_type some examples: "User", "Array<User>", "Hash<String, Integer>"
-    def deserialize(response, return_type)
-      body = response.body
-
-      # handle file downloading - return the File instance processed in request callbacks
-      # note that response body is empty when the file is written in chunks in request on_body callback
-      return @tempfile if return_type == 'File'
-
-      return nil if body.nil? || body.empty?
-
-      # return response body directly for String return type
-      return body if return_type == 'String'
-
-      # ensuring a default content type
-      content_type = response.headers['Content-Type'] || 'application/json'
-
-      fail "Content-Type is not supported: #{content_type}" unless json_mime?(content_type)
-
-      begin
-        data = JSON.parse("[#{body}]", :symbolize_names => true)[0]
-      rescue JSON::ParserError => e
-        if %w(String Date DateTime).include?(return_type)
-          data = body
-        else
-          raise e
-        end
-      end
-
-      convert_to_type data, return_type
-    end
-
-    # Convert data to the given return type.
-    # @param [Object] data Data to be converted
-    # @param [String] return_type Return type
-    # @return [Mixed] Data in a particular type
-    def convert_to_type(data, return_type)
-      return nil if data.nil?
-      case return_type
-      when 'String'
-        data.to_s
-      when 'Integer'
-        data.to_i
-      when 'Float'
-        data.to_f
-      when 'Boolean'
-        data == true
-      when 'DateTime'
-        # parse date time (expecting ISO 8601 format)
-        DateTime.parse data
-      when 'Date'
-        # parse date time (expecting ISO 8601 format)
-        Date.parse data
-      when 'Object'
-        # generic object (usually a Hash), return directly
-        data
-      when /\AArray<(.+)>\z/
-        # e.g. Array<Pet>
-        sub_type = $1
-        data.map { |item| convert_to_type(item, sub_type) }
-      when /\AHash\<String, (.+)\>\z/
-        # e.g. Hash<String, Integer>
-        sub_type = $1
-        {}.tap do |hash|
-          data.each { |k, v| hash[k] = convert_to_type(v, sub_type) }
-        end
-      else
-        # models, e.g. Pet
-        Petstore.const_get(return_type).build_from_hash(data)
-      end
-    end
-
     # Save response body into a file in (the defined) temporary folder, using the filename
     # from the "Content-Disposition" header if provided, otherwise a random filename.
     # The response body is written to the file in chunks in order to handle files which
@@ -279,6 +194,92 @@ module Petstore
       end
     end
 
+    # Check if the given MIME is a JSON MIME.
+    # JSON MIME examples:
+    #   application/json
+    #   application/json; charset=UTF8
+    #   APPLICATION/JSON
+    #   */*
+    # @param [String] mime MIME
+    # @return [Boolean] True if the MIME is application/json
+    def json_mime?(mime)
+      (mime == '*/*') || !(mime =~ /Application\/.*json(?!p)(;.*)?/i).nil?
+    end
+
+    # Deserialize the response to the given return type.
+    #
+    # @param [Response] response HTTP response
+    # @param [String] return_type some examples: "User", "Array<User>", "Hash<String, Integer>"
+    def deserialize(response, return_type)
+      body = response.body
+
+      # handle file downloading - return the File instance processed in request callbacks
+      # note that response body is empty when the file is written in chunks in request on_body callback
+      return @tempfile if return_type == 'File'
+
+      return nil if body.nil? || body.empty?
+
+      # return response body directly for String return type
+      return body if return_type == 'String'
+
+      # ensuring a default content type
+      content_type = response.headers['Content-Type'] || 'application/json'
+
+      fail "Content-Type is not supported: #{content_type}" unless json_mime?(content_type)
+
+      begin
+        data = JSON.parse("[#{body}]", :symbolize_names => true)[0]
+      rescue JSON::ParserError => e
+        if %w(String Date Time).include?(return_type)
+          data = body
+        else
+          raise e
+        end
+      end
+
+      convert_to_type data, return_type
+    end
+
+    # Convert data to the given return type.
+    # @param [Object] data Data to be converted
+    # @param [String] return_type Return type
+    # @return [Mixed] Data in a particular type
+    def convert_to_type(data, return_type)
+      return nil if data.nil?
+      case return_type
+      when 'String'
+        data.to_s
+      when 'Integer'
+        data.to_i
+      when 'Float'
+        data.to_f
+      when 'Boolean'
+        data == true
+      when 'Time'
+        # parse date time (expecting ISO 8601 format)
+        Time.parse data
+      when 'Date'
+        # parse date time (expecting ISO 8601 format)
+        Date.parse data
+      when 'Object'
+        # generic object (usually a Hash), return directly
+        data
+      when /\AArray<(.+)>\z/
+        # e.g. Array<Pet>
+        sub_type = $1
+        data.map { |item| convert_to_type(item, sub_type) }
+      when /\AHash\<String, (.+)\>\z/
+        # e.g. Hash<String, Integer>
+        sub_type = $1
+        {}.tap do |hash|
+          data.each { |k, v| hash[k] = convert_to_type(v, sub_type) }
+        end
+      else
+        # models, e.g. Pet
+        Petstore.const_get(return_type).build_from_hash(data)
+      end
+    end
+
     # Sanitize filename by removing path.
     # e.g. ../../sun.gif becomes sun.gif
     #
@@ -288,10 +289,10 @@ module Petstore
       filename.gsub(/.*[\/\\]/, '')
     end
 
-    def build_request_url(path)
+    def build_request_url(path, opts = {})
       # Add leading and trailing slashes to path
       path = "/#{path}".gsub(/\/+/, '/')
-      @config.base_url + path
+      @config.base_url(opts[:operation]) + path
     end
 
     # Update hearder and query params based on authentication settings.

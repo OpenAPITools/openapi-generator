@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -26,6 +28,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * TypeHolderDefault
@@ -37,7 +41,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   TypeHolderDefault.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
 })
-@JsonTypeName("TypeHolderDefault")
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TypeHolderDefault {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
@@ -57,7 +60,6 @@ public class TypeHolderDefault {
 
 
   public TypeHolderDefault stringItem(String stringItem) {
-    
     this.stringItem = stringItem;
     return this;
   }
@@ -81,7 +83,6 @@ public class TypeHolderDefault {
 
 
   public TypeHolderDefault numberItem(BigDecimal numberItem) {
-    
     this.numberItem = numberItem;
     return this;
   }
@@ -105,7 +106,6 @@ public class TypeHolderDefault {
 
 
   public TypeHolderDefault integerItem(Integer integerItem) {
-    
     this.integerItem = integerItem;
     return this;
   }
@@ -129,7 +129,6 @@ public class TypeHolderDefault {
 
 
   public TypeHolderDefault boolItem(Boolean boolItem) {
-    
     this.boolItem = boolItem;
     return this;
   }
@@ -153,7 +152,6 @@ public class TypeHolderDefault {
 
 
   public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
-    
     this.arrayItem = arrayItem;
     return this;
   }
@@ -181,8 +179,11 @@ public class TypeHolderDefault {
   }
 
 
+  /**
+   * Return true if this TypeHolderDefault object is equal to o.
+   */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -202,7 +203,6 @@ public class TypeHolderDefault {
     return Objects.hash(stringItem, numberItem, integerItem, boolItem, arrayItem);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -220,7 +220,7 @@ public class TypeHolderDefault {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

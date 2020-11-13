@@ -10,9 +10,9 @@
 """
 
 
+import inspect
 import pprint
 import re  # noqa: F401
-
 import six
 
 from petstore_api.configuration import Configuration
@@ -46,7 +46,7 @@ class FormatTest(object):
         'date_time': 'datetime',
         'uuid': 'str',
         'password': 'str',
-        'big_decimal': 'BigDecimal'
+        'big_decimal': 'Decimal'
     }
 
     attribute_map = {
@@ -442,7 +442,7 @@ class FormatTest(object):
 
 
         :return: The big_decimal of this FormatTest.  # noqa: E501
-        :rtype: BigDecimal
+        :rtype: Decimal
         """
         return self._big_decimal
 
@@ -452,32 +452,40 @@ class FormatTest(object):
 
 
         :param big_decimal: The big_decimal of this FormatTest.  # noqa: E501
-        :type big_decimal: BigDecimal
+        :type big_decimal: Decimal
         """
 
         self._big_decimal = big_decimal
 
-    def to_dict(self):
+    def to_dict(self, serialize=False):
         """Returns the model properties as a dict"""
         result = {}
 
+        def convert(x):
+            if hasattr(x, "to_dict"):
+                args = inspect.getargspec(x.to_dict).args
+                if len(args) == 1:
+                    return x.to_dict()
+                else:
+                    return x.to_dict(serialize)
+            else:
+                return x
+
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+            attr = self.attribute_map.get(attr, attr) if serialize else attr
             if isinstance(value, list):
                 result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
+                    lambda x: convert(x),
                     value
                 ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
+                    lambda item: (item[0], convert(item[1])),
                     value.items()
                 ))
             else:
-                result[attr] = value
+                result[attr] = convert(value)
 
         return result
 

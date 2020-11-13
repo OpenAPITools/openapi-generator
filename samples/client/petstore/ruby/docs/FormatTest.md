@@ -10,11 +10,12 @@ Name | Type | Description | Notes
 **number** | **Float** |  | 
 **float** | **Float** |  | [optional] 
 **double** | **Float** |  | [optional] 
+**decimal** | [**Decimal**](Decimal.md) |  | [optional] 
 **string** | **String** |  | [optional] 
 **byte** | **String** |  | 
 **binary** | **File** |  | [optional] 
 **date** | **Date** |  | 
-**date_time** | **DateTime** |  | [optional] 
+**date_time** | **Time** |  | [optional] 
 **uuid** | **String** |  | [optional] 
 **password** | **String** |  | 
 **pattern_with_digits** | **String** | A string that is a 10 digit number. Can have leading zeros. | [optional] 
@@ -31,6 +32,7 @@ instance = Petstore::FormatTest.new(integer: null,
                                  number: null,
                                  float: null,
                                  double: null,
+                                 decimal: null,
                                  string: null,
                                  byte: null,
                                  binary: null,

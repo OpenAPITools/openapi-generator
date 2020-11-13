@@ -15,13 +15,20 @@
  */
 
 package org.openapitools.codegen.python;
+import org.openapitools.codegen.config.CodegenConfigurator;
 
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import java.time.OffsetDateTime;
+
+import java.io.File;
+import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.List;
+
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonClientExperimentalCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -81,7 +88,6 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
 
@@ -91,7 +97,6 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(property2.name, "name");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "str");
-        Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
 
@@ -101,7 +106,6 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(property3.name, "created_at");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "datetime");
-        Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
     }
 
@@ -129,7 +133,6 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
 
@@ -139,7 +142,6 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(property2.name, "urls");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "list");
-        Assert.assertFalse(property2.hasMore);
         Assert.assertEquals(property2.containerType, "array");
         Assert.assertFalse(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
@@ -341,4 +343,86 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(importValue, "from models.special_model_name import SpecialModelName");
     }
 
+    @Test(description = "format imports of models containing special characters")
+    public void defaultSettingInPrimitiveModelWithValidations() {
+        final PythonClientExperimentalCodegen codegen = new PythonClientExperimentalCodegen();
+
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        final Schema noDefault = new ArraySchema()
+                .type("number")
+                .minimum(new BigDecimal("10"));
+        final Schema hasDefault = new Schema()
+                .type("number")
+                .minimum(new BigDecimal("10"));
+        hasDefault.setDefault("15.0");
+        final Schema noDefaultEumLengthOne = new Schema()
+                .type("number")
+                .minimum(new BigDecimal("10"));
+        noDefaultEumLengthOne.setEnum(Arrays.asList("15.0"));
+        openAPI.getComponents().addSchemas("noDefaultModel", noDefault);
+        openAPI.getComponents().addSchemas("hasDefaultModel", hasDefault);
+        openAPI.getComponents().addSchemas("noDefaultEumLengthOneModel", noDefaultEumLengthOne);
+        codegen.setOpenAPI(openAPI);
+
+        final CodegenModel noDefaultModel = codegen.fromModel("noDefaultModel", noDefault);
+        Assert.assertEquals(noDefaultModel.defaultValue, null);
+        Assert.assertEquals(noDefaultModel.hasRequired, true);
+
+        final CodegenModel hasDefaultModel = codegen.fromModel("hasDefaultModel", hasDefault);
+        Assert.assertEquals(hasDefaultModel.defaultValue, "15.0");
+        Assert.assertEquals(hasDefaultModel.hasRequired, false);
+
+        final CodegenModel noDefaultEumLengthOneModel = codegen.fromModel("noDefaultEumLengthOneModel", noDefaultEumLengthOne);
+        Assert.assertEquals(noDefaultEumLengthOneModel.defaultValue, "15.0");
+        Assert.assertEquals(noDefaultEumLengthOneModel.hasRequired, false);
+    }
+
+    @Test
+    public void testObjectModelWithRefedAdditionalPropertiesIsGenerated() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python-experimental")
+                .setInputSpec("src/test/resources/3_0/issue_7372.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.ensureContainsFile(files, output, "openapi_client/model/a.py");
+        TestUtils.ensureContainsFile(files, output, "openapi_client/model/b.py");
+        output.deleteOnExit();
+    }
+
+    @Test
+    public void testFreeFormSchemas() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python-experimental")
+                .setInputSpec("src/test/resources/3_0/issue_7361.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.ensureContainsFile(files, output, "openapi_client/model/free_form_with_validation.py");
+        TestUtils.ensureContainsFile(files, output, "openapi_client/model/free_form_interface.py");
+        TestUtils.ensureDoesNotContainsFile(files, output, "openapi_client/model/free_form.py");
+        output.deleteOnExit();
+    }
+
+    @Test(description = "tests ObjectWithValidations")
+    public void testObjectWithValidations() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7361.yaml");
+        final DefaultCodegen codegen = new PythonClientExperimentalCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "FreeFormWithValidation";
+        Schema modelSchema = ModelUtils.getSchema(openAPI, modelName);
+        final CodegenModel model = codegen.fromModel(modelName, modelSchema);
+        Assert.assertEquals((int) model.getMinProperties(), 1);
+    }
 }

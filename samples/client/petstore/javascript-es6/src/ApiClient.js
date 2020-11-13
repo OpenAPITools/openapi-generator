@@ -302,7 +302,10 @@ class ApiClient {
                     break;
                 case 'bearer':
                     if (auth.accessToken) {
-                        request.set({'Authorization': 'Bearer ' + auth.accessToken});
+                        var localVarBearerToken = typeof auth.accessToken === 'function'
+                          ? auth.accessToken()
+                          : auth.accessToken
+                        request.set({'Authorization': 'Bearer ' + localVarBearerToken});
                     }
 
                     break;
@@ -615,6 +618,10 @@ class ApiClient {
                     ]
                   }
                 }
+            },
+            {
+              'url': "https://127.0.0.1/no_varaible",
+              'description': "The local server without variables",
             }
       ];
     }

@@ -277,6 +277,10 @@ conf = petstore_api.Configuration(
         # Enable client side validation
         self.client_side_validation = True
 
+        self.socket_options = None
+        """Options to pass down to the underlying urllib3 socket
+        """
+
     def __deepcopy__(self, memo):
         cls = self.__class__
         result = cls.__new__(cls)
@@ -556,6 +560,10 @@ conf = petstore_api.Configuration(
                         ]
                         }
                     }
+            },
+            {
+                'url': "https://127.0.0.1/no_varaible",
+                'description': "The local server without variables",
             }
         ]
 

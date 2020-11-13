@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package>
+    <metadata>
+        <id>Org.OpenAPITools</id>
+        <title>Org.OpenAPITools</title>
+        <version>1.0.0</version>
+        <authors>openapi-generator</authors>
+        <owners>openapi-generator</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>NancyFx Org.OpenAPITools API</description>
+        <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
+    </metadata>
+</package>

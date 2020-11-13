@@ -46,6 +46,16 @@ public interface TemplatingEngineAdapter {
     String[] getFileExtensions();
 
     /**
+     * Determine if the adapter handles compilation of the file
+     * @param filename The template filename
+     *
+     * @return True if the file should be compiled by this adapter, else false.
+     */
+    default boolean handlesFile(String filename) {
+        return filename != null && filename.length() > 0 && Arrays.stream(getFileExtensions()).anyMatch(i -> filename.endsWith("." + i));
+    }
+
+    /**
      * Compiles a template into a string
      *
      * @param executor    From where we can fetch the templates content (e.g. an instance of DefaultGenerator)
@@ -65,9 +75,10 @@ public interface TemplatingEngineAdapter {
      * @param templateFile The original target filename
      * @return True if the template is available in the template search path, false if it can not be found
      */
+    @SuppressWarnings({"java:S2093"}) // ignore java:S2093 because we have double-assignment to the closeable
     default boolean templateExists(TemplatingExecutor generator, String templateFile) {
         return Arrays.stream(getFileExtensions()).anyMatch(ext -> {
-            int idx = templateFile.lastIndexOf(".");
+            int idx = templateFile.lastIndexOf('.');
             String baseName;
             if (idx > 0 && idx < templateFile.length() - 1) {
                 baseName = templateFile.substring(0, idx);

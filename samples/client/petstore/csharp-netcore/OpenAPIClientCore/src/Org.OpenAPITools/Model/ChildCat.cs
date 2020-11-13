@@ -19,6 +19,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
+using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -29,8 +31,28 @@ namespace Org.OpenAPITools.Model
     /// ChildCat
     /// </summary>
     [DataContract(Name = "ChildCat")]
+    [JsonConverter(typeof(JsonSubtypes), "PetType")]
     public partial class ChildCat : ParentPet, IEquatable<ChildCat>, IValidatableObject
     {
+        /// <summary>
+        /// Defines PetType
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum PetTypeEnum
+        {
+            /// <summary>
+            /// Enum ChildCat for value: ChildCat
+            /// </summary>
+            [EnumMember(Value = "ChildCat")]
+            ChildCat = 1
+
+        }
+
+        /// <summary>
+        /// Gets or Sets PetType
+        /// </summary>
+        [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = false)]
+        public PetTypeEnum PetType { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
@@ -40,9 +62,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
         /// <param name="name">name.</param>
-        /// <param name="petType">petType (required).</param>
-        public ChildCat(string name = default(string), string petType = default(string)) : base()
+        /// <param name="petType">petType (required) (default to PetTypeEnum.ChildCat).</param>
+        public ChildCat(string name = default(string), PetTypeEnum petType = PetTypeEnum.ChildCat) : base()
         {
+            this.PetType = petType;
             this.Name = name;
         }
 
@@ -62,6 +85,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class ChildCat {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  PetType: ").Append(PetType).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -106,6 +130,7 @@ namespace Org.OpenAPITools.Model
                 int hashCode = base.GetHashCode();
                 if (this.Name != null)
                     hashCode = hashCode * 59 + this.Name.GetHashCode();
+                hashCode = hashCode * 59 + this.PetType.GetHashCode();
                 return hashCode;
             }
         }
@@ -116,6 +141,16 @@ namespace Org.OpenAPITools.Model
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+            return this.BaseValidate(validationContext);
+        }
+
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             foreach(var x in BaseValidate(validationContext)) yield return x;
             yield break;

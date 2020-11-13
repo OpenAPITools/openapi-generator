@@ -54,6 +54,11 @@
             <name>Sunn</name>
             <email>sunn.ssb@live.com</email>
         </developer>
+        <developer>
+            <id>spacether</id>
+            <name>Justin Black</name>
+            <email>justin.a.black@gmail.com</email>
+        </developer>
     </developers>
     <issueManagement>
         <system>github</system>
@@ -1187,6 +1192,7 @@
                 <!-- clients -->
                 <!--<module>samples/client/petstore/perl</module>
                 <module>samples/client/petstore/bash</module>-->
+                <module>samples/client/petstore/ruby-faraday</module>
                 <module>samples/client/petstore/ruby</module>
                 <module>samples/client/petstore/c</module>
                 <module>samples/client/petstore/cpp-qt5</module>
@@ -1286,7 +1292,7 @@
                 <module>samples/server/petstore/scala-play-server</module>
                 <module>samples/server/petstore/scala-akka-http-server</module>
                 <module>samples/server/petstore/scalatra</module>
-                <module>samples/server/petstore/java-vertx-web/rx</module>
+                <module>samples/server/petstore/java-vertx-web</module>
                 <module>samples/server/petstore/scala-finch</module>
                 <!--<module>samples/server/petstore/kotlin/vertx</module>-->
                 <module>samples/server/petstore/kotlin-springboot</module>
@@ -1331,8 +1337,6 @@
                 <module>samples/client/petstore/groovy</module>
                 <!-- test non-java projects -->
                 <module>samples/client/petstore/go</module>
-                <module>samples/client/petstore/go-experimental</module>
-                <module>samples/openapi3/client/petstore/go-experimental</module>
                 <module>samples/openapi3/client/petstore/go</module>
                 <module>samples/client/petstore/javascript-es6</module>
                 <module>samples/client/petstore/javascript-promise-es6</module>

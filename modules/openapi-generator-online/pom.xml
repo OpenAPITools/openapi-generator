@@ -19,6 +19,7 @@
         <springfox-version>3.0.0</springfox-version>
         <junit-version>4.13</junit-version>
         <jackson-version>2.10.2</jackson-version>
+        <sonar.exclusions>**/org/openapitools/codegen/online/**/*</sonar.exclusions>
     </properties>
     <dependencyManagement>
         <dependencies>

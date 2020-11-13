@@ -136,6 +136,10 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
+        
+        response_types_map = {
+            200: "HealthCheckResult",
+        }
 
         return self.api_client.call_api(
             '/fake/health', 'GET',
@@ -145,7 +149,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='HealthCheckResult',  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -279,6 +283,8 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = ['http_signature_test']  # noqa: E501
+        
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/fake/http-signature-test', 'GET',
@@ -288,7 +294,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -410,6 +416,10 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
+        
+        response_types_map = {
+            200: "bool",
+        }
 
         return self.api_client.call_api(
             '/fake/outer/boolean', 'POST',
@@ -419,7 +429,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='bool',  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -541,6 +551,10 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
+        
+        response_types_map = {
+            200: "OuterComposite",
+        }
 
         return self.api_client.call_api(
             '/fake/outer/composite', 'POST',
@@ -550,7 +564,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='OuterComposite',  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -672,6 +686,10 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
+        
+        response_types_map = {
+            200: "float",
+        }
 
         return self.api_client.call_api(
             '/fake/outer/number', 'POST',
@@ -681,7 +699,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='float',  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -803,6 +821,10 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
+        
+        response_types_map = {
+            200: "str",
+        }
 
         return self.api_client.call_api(
             '/fake/outer/string', 'POST',
@@ -812,7 +834,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='str',  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -934,6 +956,8 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
+        
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/fake/body-with-file-schema', 'PUT',
@@ -943,7 +967,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -1074,6 +1098,8 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
+        
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/fake/body-with-query-params', 'PUT',
@@ -1083,7 +1109,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -1209,6 +1235,10 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
+        
+        response_types_map = {
+            200: "Client",
+        }
 
         return self.api_client.call_api(
             '/fake', 'PATCH',
@@ -1218,7 +1248,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='Client',  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -1471,6 +1501,8 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = ['http_basic_test']  # noqa: E501
+        
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/fake', 'POST',
@@ -1480,7 +1512,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -1650,6 +1682,8 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
+        
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/fake', 'GET',
@@ -1659,7 +1693,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -1820,6 +1854,8 @@ class FakeApi(object):
         body_params = None
         # Authentication setting
         auth_settings = ['bearer_test']  # noqa: E501
+        
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/fake', 'DELETE',
@@ -1829,7 +1865,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -1949,6 +1985,8 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
+        
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/fake/inline-additionalProperties', 'POST',
@@ -1958,7 +1996,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -2089,6 +2127,8 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
+        
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/fake/jsonFormData', 'GET',
@@ -2098,7 +2138,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -2265,6 +2305,8 @@ class FakeApi(object):
         body_params = None
         # Authentication setting
         auth_settings = []  # noqa: E501
+        
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/fake/test-query-paramters', 'PUT',
@@ -2274,7 +2316,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501

@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct Pet: Codable {
+internal struct Pet: Codable, Hashable {
 
     internal enum Status: String, Codable, CaseIterable {
         case available = "available"

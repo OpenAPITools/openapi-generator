@@ -7,7 +7,7 @@
 # raise a `RecursionError`.
 # In order to avoid this, import only the API that you directly need like:
 #
-#   from .api.pet_api import PetApi
+#   from .api.another_fake_api import AnotherFakeApi
 #
 # or import this package, but before doing it, use:
 #

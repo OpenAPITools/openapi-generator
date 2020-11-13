@@ -33,7 +33,7 @@ public:
     void enableResponseCompression();
     void abortRequests();
 {{#operations}}{{#operation}}
-    void {{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/operation}}{{/operations}}
+    void {{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{/operation}}{{/operations}}
 
 private:
     QString _scheme, _host;

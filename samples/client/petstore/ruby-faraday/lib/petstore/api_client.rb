@@ -14,6 +14,7 @@ require 'date'
 require 'json'
 require 'logger'
 require 'tempfile'
+require 'time'
 require 'faraday'
 
 module Petstore
@@ -106,7 +107,7 @@ module Petstore
     # @option opts [Object] :body HTTP body (JSON/XML)
     # @return [Typhoeus::Request] A Typhoeus Request
     def build_request(http_method, path, request, opts = {})
-      url = build_request_url(path)
+      url = build_request_url(path, opts)
       http_method = http_method.to_sym.downcase
 
       header_params = @default_headers.merge(opts[:header_params] || {})
@@ -171,6 +172,15 @@ module Petstore
       data
     end
 
+    def download_file(request)
+      @stream = []
+
+      # handle streaming Responses
+      request.options.on_data = Proc.new do |chunk, overall_received_bytes|
+        @stream << chunk
+      end
+    end
+
     # Check if the given MIME is a JSON MIME.
     # JSON MIME examples:
     #   application/json
@@ -192,7 +202,25 @@ module Petstore
 
       # handle file downloading - return the File instance processed in request callbacks
       # note that response body is empty when the file is written in chunks in request on_body callback
-      return @tempfile if return_type == 'File'
+      if return_type == 'File'
+        content_disposition = response.headers['Content-Disposition']
+        if content_disposition && content_disposition =~ /filename=/i
+          filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
+          prefix = sanitize_filename(filename)
+        else
+          prefix = 'download-'
+        end
+        prefix = prefix + '-' unless prefix.end_with?('-')
+        encoding = body.encoding
+        @tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
+        @tempfile.write(@stream.join.force_encoding(encoding))
+        @tempfile.close
+        @config.logger.info "Temp file written to #{@tempfile.path}, please copy the file to a proper folder "\
+                            "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
+                            "will be deleted automatically with GC. It's also recommended to delete the temp file "\
+                            "explicitly with `tempfile.delete`"
+        return @tempfile
+      end
 
       return nil if body.nil? || body.empty?
 
@@ -207,7 +235,7 @@ module Petstore
       begin
         data = JSON.parse("[#{body}]", :symbolize_names => true)[0]
       rescue JSON::ParserError => e
-        if %w(String Date DateTime).include?(return_type)
+        if %w(String Date Time).include?(return_type)
           data = body
         else
           raise e
@@ -232,9 +260,9 @@ module Petstore
         data.to_f
       when 'Boolean'
         data == true
-      when 'DateTime'
+      when 'Time'
         # parse date time (expecting ISO 8601 format)
-        DateTime.parse data
+        Time.parse data
       when 'Date'
         # parse date time (expecting ISO 8601 format)
         Date.parse data
@@ -257,44 +285,6 @@ module Petstore
       end
     end
 
-    # Save response body into a file in (the defined) temporary folder, using the filename
-    # from the "Content-Disposition" header if provided, otherwise a random filename.
-    # The response body is written to the file in chunks in order to handle files which
-    # size is larger than maximum Ruby String or even larger than the maximum memory a Ruby
-    # process can use.
-    #
-    # @see Configuration#temp_folder_path
-    def download_file(request)
-      tempfile = nil
-      encoding = nil
-      request.on_headers do |response|
-        content_disposition = response.headers['Content-Disposition']
-        if content_disposition && content_disposition =~ /filename=/i
-          filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
-          prefix = sanitize_filename(filename)
-        else
-          prefix = 'download-'
-        end
-        prefix = prefix + '-' unless prefix.end_with?('-')
-        encoding = response.body.encoding
-        tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
-        @tempfile = tempfile
-      end
-      request.on_body do |chunk|
-        chunk.force_encoding(encoding)
-        tempfile.write(chunk)
-      end
-      request.on_complete do |response|
-        if tempfile
-          tempfile.close
-          @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
-                              "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
-                              "will be deleted automatically with GC. It's also recommended to delete the temp file "\
-                              "explicitly with `tempfile.delete`"
-        end
-      end
-    end
-
     # Sanitize filename by removing path.
     # e.g. ../../sun.gif becomes sun.gif
     #
@@ -304,10 +294,10 @@ module Petstore
       filename.gsub(/.*[\/\\]/, '')
     end
 
-    def build_request_url(path)
+    def build_request_url(path, opts = {})
       # Add leading and trailing slashes to path
       path = "/#{path}".gsub(/\/+/, '/')
-      @config.base_url + path
+      @config.base_url(opts[:operation]) + path
     end
 
     # Update hearder and query params based on authentication settings.

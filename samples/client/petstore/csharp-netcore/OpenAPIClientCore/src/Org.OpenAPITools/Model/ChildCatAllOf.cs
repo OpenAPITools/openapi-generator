@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -32,12 +33,33 @@ namespace Org.OpenAPITools.Model
     public partial class ChildCatAllOf : IEquatable<ChildCatAllOf>, IValidatableObject
     {
         /// <summary>
+        /// Defines PetType
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum PetTypeEnum
+        {
+            /// <summary>
+            /// Enum ChildCat for value: ChildCat
+            /// </summary>
+            [EnumMember(Value = "ChildCat")]
+            ChildCat = 1
+
+        }
+
+        /// <summary>
+        /// Gets or Sets PetType
+        /// </summary>
+        [DataMember(Name = "pet_type", EmitDefaultValue = false)]
+        public PetTypeEnum? PetType { get; set; }
+        /// <summary>
         /// Initializes a new instance of the <see cref="ChildCatAllOf" /> class.
         /// </summary>
         /// <param name="name">name.</param>
-        public ChildCatAllOf(string name = default(string))
+        /// <param name="petType">petType (default to PetTypeEnum.ChildCat).</param>
+        public ChildCatAllOf(string name = default(string), PetTypeEnum? petType = PetTypeEnum.ChildCat)
         {
             this.Name = name;
+            this.PetType = petType;
         }
 
         /// <summary>
@@ -55,6 +77,7 @@ namespace Org.OpenAPITools.Model
             var sb = new StringBuilder();
             sb.Append("class ChildCatAllOf {\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  PetType: ").Append(PetType).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -99,6 +122,7 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 if (this.Name != null)
                     hashCode = hashCode * 59 + this.Name.GetHashCode();
+                hashCode = hashCode * 59 + this.PetType.GetHashCode();
                 return hashCode;
             }
         }
