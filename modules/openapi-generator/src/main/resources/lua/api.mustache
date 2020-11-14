@@ -39,7 +39,7 @@ local function new_{{classname}}(authority, basePath, schemes)
 end
 
 {{#operation}}
-function {{classname}}:{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+function {{classname}}:{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
@@ -52,13 +52,13 @@ function {{classname}}:{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, 
 	req.headers:upsert(":method", "{{httpMethod}}")
 	{{#hasConsumes}}
 	-- TODO: create a function to select proper accept
-	--local var_content_type = { {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }
+	--local var_content_type = { {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }
 	req.headers:upsert("accept", {{#consumes}}{{#-first}}"{{{mediaType}}}"{{/-first}}{{/consumes}})
 
 	{{/hasConsumes}}
 	{{#hasProduces}}
 	-- TODO: create a function to select proper content-type
-	--local var_accept = { {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }
+	--local var_accept = { {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }
 	req.headers:upsert("content-type", {{#produces}}{{#-first}}"{{{mediaType}}}"{{/-first}}{{/produces}})
 
 	{{/hasProduces}}

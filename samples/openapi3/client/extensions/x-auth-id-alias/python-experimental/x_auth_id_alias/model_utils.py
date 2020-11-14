@@ -737,6 +737,9 @@ def check_validations(
         configuration (Configuration): the configuration class.
     """
 
+    if input_values is None:
+        return
+
     current_validations = validations[input_variable_path]
     if (is_json_validation_enabled('multipleOf', configuration) and
             'multiple_of' in current_validations and

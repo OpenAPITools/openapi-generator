@@ -224,7 +224,7 @@
         jsonlite::toJSON(self$`{{baseName}}`$toJSON(), auto_unbox=TRUE, digits = NA)
         {{/isPrimitiveType}}
         {{/isContainer}}
-        )}{{#hasMore}},{{/hasMore}}
+        )}{{^-last}},{{/-last}}
       {{/vars}}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")

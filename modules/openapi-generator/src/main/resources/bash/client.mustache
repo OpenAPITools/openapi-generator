@@ -707,7 +707,7 @@ print_{{operationId}}_help() {
 {{/allParams}}
 {{#allParams}}
 {{#isBodyParam}}
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[{{#consumes}}{{{mediaType}}}{{#hasMore}},{{/hasMore}}{{/consumes}}]${OFF}{{#required}} ${RED}(required)${OFF}{{/required}}${OFF} - {{{description}}}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[{{#consumes}}{{{mediaType}}}{{^-last}},{{/-last}}{{/consumes}}]${OFF}{{#required}} ${RED}(required)${OFF}{{/required}}${OFF} - {{{description}}}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
 {{#vendorExtensions}}
 {{#x-codegen-body-example}}
@@ -758,10 +758,10 @@ print_{{operationId}}_help() {
 call_{{operationId}}() {
     # ignore error about 'path_parameter_names' being unused; passed by reference
     # shellcheck disable=SC2034
-    local path_parameter_names=({{#pathParams}}{{baseName}}{{#hasMore}} {{/hasMore}}{{/pathParams}})
+    local path_parameter_names=({{#pathParams}}{{baseName}}{{^-last}} {{/-last}}{{/pathParams}})
     # ignore error about 'query_parameter_names' being unused; passed by reference
     # shellcheck disable=SC2034
-    local query_parameter_names=({{#queryParams}}{{baseName}}{{#hasMore}} {{/hasMore}}{{/queryParams}}{{#authMethods}} {{#isApiKey}}{{#isKeyInQuery}}{{keyParamName}}{{/isKeyInQuery}}{{/isApiKey}} {{/authMethods}})
+    local query_parameter_names=({{#queryParams}}{{baseName}}{{^-last}} {{/-last}}{{/queryParams}}{{#authMethods}} {{#isApiKey}}{{#isKeyInQuery}}{{keyParamName}}{{/isKeyInQuery}}{{/isApiKey}} {{/authMethods}})
     local path
 
     if ! path=$(build_request_path "{{basePathWithoutHost}}{{{path}}}" path_parameter_names query_parameter_names); then
@@ -790,11 +790,11 @@ call_{{operationId}}() {
 {{#hasConsumes}}
 {{#consumes}}
 {{#-first}}
-{{^hasMore}}
+{{#-last}}
     if [[ -z $header_content_type ]]; then
         header_content_type="{{{mediaType}}}"
     fi
-{{/hasMore}}
+{{/-last}}
 {{/-first}}
 {{/consumes}}
 {{/hasConsumes}}

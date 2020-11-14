@@ -370,7 +370,6 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             this.isMap = o.isMap;
             this.isArray = o.isArray;
             this.isMultipart = o.isMultipart;
-            this.hasMore = o.hasMore;
             this.isResponseBinary = o.isResponseBinary;
             this.isResponseFile = o.isResponseFile;
             this.hasReference = o.hasReference;

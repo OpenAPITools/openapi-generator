@@ -167,10 +167,45 @@ class TestFakeApi(unittest.TestCase):
         """Test case for object_model_with_ref_props
 
         """
-        from petstore_api.model import object_model_with_ref_props
+        from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
+        from petstore_api.model.number_with_validations import NumberWithValidations
         endpoint = self.api.object_model_with_ref_props
-        assert endpoint.openapi_types['body'] == (object_model_with_ref_props.ObjectModelWithRefProps,)
-        assert endpoint.settings['response_type'] == (object_model_with_ref_props.ObjectModelWithRefProps,)
+        assert endpoint.openapi_types['body'] == (ObjectModelWithRefProps,)
+        assert endpoint.settings['response_type'] == (ObjectModelWithRefProps,)
+
+        json_payloads = [
+            {},  # only required + no optional properties works
+            {  # optional properties works
+                "my_number": 11.0,
+                "my_string": 'a',
+                "my_boolean": True,
+            }
+        ]
+        # instantiation works
+        expected_models = [
+            ObjectModelWithRefProps(),
+            ObjectModelWithRefProps(
+                my_number=NumberWithValidations(11.0),
+                my_string='a',
+                my_boolean=True
+            )
+        ]
+
+        pairs = zip(json_payloads, expected_models)
+        # serialization + deserialization works
+        for (json_payload, expected_model) in pairs:
+            with patch.object(RESTClientObject, 'request') as mock_method:
+                mock_method.return_value = self.mock_response(json_payload)
+
+                response = endpoint(body=expected_model)
+                self.assert_request_called_with(
+                    mock_method,
+                    'http://petstore.swagger.io:80/v2/fake/refs/object_model_with_ref_props',
+                    json_payload
+                )
+
+                assert isinstance(response, expected_model.__class__)
+                assert response == expected_model
 
     def test_composed_one_of_number_with_validations(self):
         """Test case for composed_one_of_number_with_validations

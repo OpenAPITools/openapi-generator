@@ -48,7 +48,7 @@ public class {{classname}}Handler {
         logger.debug("Parameter {{paramName}} is {}", {{paramName}});
 {{/allParams}}
 
-        apiImpl.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        apiImpl.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
