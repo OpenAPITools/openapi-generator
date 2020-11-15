@@ -334,7 +334,7 @@ export class {{classname}} {
         }
 
     {{/isResponseFile}}
-        return this.httpClient.request{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}("{{httpMethod}}",
+        return this.httpClient.request{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}('{{httpMethod}}',
             `${this.configuration.basePath}{{{path}}}`,
             {
     {{#hasBodyParam}}

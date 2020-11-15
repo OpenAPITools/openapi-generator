@@ -148,7 +148,7 @@ export class PetService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<any>("post",
+        return this.httpClient.request<any>('post',
             `${this.configuration.basePath}/pet`,
             {
                 body: body,
@@ -205,7 +205,7 @@ export class PetService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<any>("delete",
+        return this.httpClient.request<any>('delete',
             `${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
             {
                 responseType: <any>responseType,
@@ -266,7 +266,7 @@ export class PetService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<Array<Pet>>("get",
+        return this.httpClient.request<Array<Pet>>('get',
             `${this.configuration.basePath}/pet/findByStatus`,
             {
                 params: queryParameters,
@@ -329,7 +329,7 @@ export class PetService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<Array<Pet>>("get",
+        return this.httpClient.request<Array<Pet>>('get',
             `${this.configuration.basePath}/pet/findByTags`,
             {
                 params: queryParameters,
@@ -385,7 +385,7 @@ export class PetService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<Pet>("get",
+        return this.httpClient.request<Pet>('get',
             `${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
             {
                 responseType: <any>responseType,
@@ -447,7 +447,7 @@ export class PetService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<any>("put",
+        return this.httpClient.request<any>('put',
             `${this.configuration.basePath}/pet`,
             {
                 body: body,
@@ -524,7 +524,7 @@ export class PetService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<any>("post",
+        return this.httpClient.request<any>('post',
             `${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
             {
                 body: convertFormParamsToString ? formParams.toString() : formParams,
@@ -605,7 +605,7 @@ export class PetService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<ApiResponse>("post",
+        return this.httpClient.request<ApiResponse>('post',
             `${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`,
             {
                 body: convertFormParamsToString ? formParams.toString() : formParams,

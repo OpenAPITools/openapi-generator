@@ -134,7 +134,7 @@ export class StoreService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<any>("delete",
+        return this.httpClient.request<any>('delete',
             `${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
             {
                 responseType: <any>responseType,
@@ -184,7 +184,7 @@ export class StoreService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<{ [key: string]: number; }>("get",
+        return this.httpClient.request<{ [key: string]: number; }>('get',
             `${this.configuration.basePath}/store/inventory`,
             {
                 responseType: <any>responseType,
@@ -233,7 +233,7 @@ export class StoreService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<Order>("get",
+        return this.httpClient.request<Order>('get',
             `${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
             {
                 responseType: <any>responseType,
@@ -289,7 +289,7 @@ export class StoreService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<Order>("post",
+        return this.httpClient.request<Order>('post',
             `${this.configuration.basePath}/store/order`,
             {
                 body: body,

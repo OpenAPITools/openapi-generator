@@ -124,7 +124,7 @@ export class UserService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<any>("post",
+        return this.httpClient.request<any>('post',
             `${this.configuration.basePath}/user`,
             {
                 body: body,
@@ -178,7 +178,7 @@ export class UserService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<any>("post",
+        return this.httpClient.request<any>('post',
             `${this.configuration.basePath}/user/createWithArray`,
             {
                 body: body,
@@ -232,7 +232,7 @@ export class UserService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<any>("post",
+        return this.httpClient.request<any>('post',
             `${this.configuration.basePath}/user/createWithList`,
             {
                 body: body,
@@ -279,7 +279,7 @@ export class UserService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<any>("delete",
+        return this.httpClient.request<any>('delete',
             `${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
             {
                 responseType: <any>responseType,
@@ -326,7 +326,7 @@ export class UserService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<User>("get",
+        return this.httpClient.request<User>('get',
             `${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
             {
                 responseType: <any>responseType,
@@ -387,7 +387,7 @@ export class UserService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<string>("get",
+        return this.httpClient.request<string>('get',
             `${this.configuration.basePath}/user/login`,
             {
                 params: queryParameters,
@@ -429,7 +429,7 @@ export class UserService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<any>("get",
+        return this.httpClient.request<any>('get',
             `${this.configuration.basePath}/user/logout`,
             {
                 responseType: <any>responseType,
@@ -487,7 +487,7 @@ export class UserService {
             responseType = 'text';
         }
 
-        return this.httpClient.request<any>("put",
+        return this.httpClient.request<any>('put',
             `${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
             {
                 body: body,
