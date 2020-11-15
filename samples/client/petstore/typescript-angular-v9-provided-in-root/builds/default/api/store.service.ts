@@ -121,7 +121,6 @@ export class StoreService {
         return this.httpClient.request<any>("delete",
             `${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
             {
-                body: null,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -172,7 +171,6 @@ export class StoreService {
         return this.httpClient.request<{ [key: string]: number; }>("get",
             `${this.configuration.basePath}/store/inventory`,
             {
-                body: null,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -221,7 +219,6 @@ export class StoreService {
         return this.httpClient.request<Order>("get",
             `${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
             {
-                body: null,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

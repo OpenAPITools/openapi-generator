@@ -327,7 +327,6 @@ export class UserService {
         return this.httpClient.request<any>("delete",
             `${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
             {
-                body: null,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -376,7 +375,6 @@ export class UserService {
         return this.httpClient.request<User>("get",
             `${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
             {
-                body: null,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -439,7 +437,6 @@ export class UserService {
         return this.httpClient.request<string>("get",
             `${this.configuration.basePath}/user/login`,
             {
-                body: null,
                 params: queryParameters,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -482,7 +479,6 @@ export class UserService {
         return this.httpClient.request<any>("get",
             `${this.configuration.basePath}/user/logout`,
             {
-                body: null,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

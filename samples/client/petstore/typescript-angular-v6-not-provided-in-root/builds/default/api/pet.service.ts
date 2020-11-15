@@ -206,7 +206,6 @@ export class PetService {
         return this.httpClient.request<any>("delete",
             `${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
             {
-                body: null,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -268,7 +267,6 @@ export class PetService {
         return this.httpClient.request<Array<Pet>>("get",
             `${this.configuration.basePath}/pet/findByStatus`,
             {
-                body: null,
                 params: queryParameters,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -332,7 +330,6 @@ export class PetService {
         return this.httpClient.request<Array<Pet>>("get",
             `${this.configuration.basePath}/pet/findByTags`,
             {
-                body: null,
                 params: queryParameters,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -389,7 +386,6 @@ export class PetService {
         return this.httpClient.request<Pet>("get",
             `${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
             {
-                body: null,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

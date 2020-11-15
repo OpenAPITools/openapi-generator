@@ -337,7 +337,14 @@ export class {{classname}} {
         return this.httpClient.request{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}("{{httpMethod}}",
             `${this.configuration.basePath}{{{path}}}`,
             {
-                body: {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},
+    {{#hasBodyParam}}
+                body: {{#bodyParam}}{{paramName}}{{/bodyParam}},
+    {{/hasBodyParam}}
+    {{^hasBodyParam}}
+      {{#hasFormParams}}
+                body: convertFormParamsToString ? formParams.toString() : formParams,
+      {{/hasFormParams}}
+    {{/hasBodyParam}}
     {{#hasQueryParams}}
                 params: queryParameters,
     {{/hasQueryParams}}
