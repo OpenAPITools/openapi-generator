@@ -212,7 +212,7 @@ public class DefaultCodegen implements CodegenConfig {
     // How to encode special characters like $
     // They are translated to words like "Dollar" and prefixed with '
     // Then translated back during JSON encoding and decoding
-    protected Map<String, String> specialCharReplacements = new HashMap<String, String>();
+    protected Map<String, String> specialCharReplacements = new LinkedHashMap<String, String>();
     // When a model is an alias for a simple type
     protected Map<String, String> typeAliases = null;
     protected Boolean prependFormOrBodyParameters = false;
