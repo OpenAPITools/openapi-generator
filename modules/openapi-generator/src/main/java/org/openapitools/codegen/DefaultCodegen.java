@@ -3039,13 +3039,13 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.error("Undefined property/schema for `{}`. Default to type:string.", name);
             return null;
         }
-        LOGGER.debug("debugging fromProperty for " + name + " : " + p);
+        LOGGER.warn("debugging fromProperty for " + name + " : " + p);
         boolean nullName = (name == null);
         NamedSchema ns = new NamedSchema(name, p);
         if (!nullName) {
             CodegenProperty cpc = schemaCodegenPropertyCache.get(ns);
             if (cpc != null) {
-                LOGGER.debug("Cached fromProperty for " + name + " : " + p.getName());
+                LOGGER.warn("Cached fromProperty for " + name + " : " + p.getName());
                 return cpc;
             }
         } else {
