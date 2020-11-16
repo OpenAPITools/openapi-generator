@@ -5,7 +5,7 @@
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
             <param-name>javax.ws.rs.Application</param-name>
-            <param-value>io.swagger.inflector.SwaggerInflector</param-value>
+            <param-value>io.swagger.oas.inflector.OpenAPIInflector</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -15,7 +15,7 @@
     </servlet-mapping>
     <filter>
         <filter-name>CORSFilter</filter-name>
-        <filter-class>io.swagger.inflector.utils.CORSFilter</filter-class>
+        <filter-class>io.swagger.oas.inflector.utils.CORSFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>CORSFilter</filter-name>
