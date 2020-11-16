@@ -474,7 +474,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return map of all models indexed by names
      */
     public Map<String, CodegenModel> getAllModels(Map<String, Object> objs) {
-        Map<String, CodegenModel> allModels = new HashMap<String, CodegenModel>();
+        Map<String, CodegenModel> allModels = new LinkedHashMap<String, CodegenModel>();
         for (Entry<String, Object> entry : objs.entrySet()) {
             String modelName = toModelName(entry.getKey());
             Map<String, Object> inner = (Map<String, Object>) entry.getValue();
@@ -513,8 +513,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // Let parent know about all its children
-        Map<String, CodegenModel> orderedAllModels = new LinkedHashMap<String, CodegenModel>(allModels);
-        for (String name : orderedAllModels.keySet()) {
+        for (String name : allModels.keySet()) {
             CodegenModel cm = allModels.get(name);
             CodegenModel parent = allModels.get(cm.getParent());
             // if a discriminator exists on the parent, don't add this child to the inheritance hierarchy
