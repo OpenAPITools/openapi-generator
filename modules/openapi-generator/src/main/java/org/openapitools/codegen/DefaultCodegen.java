@@ -3856,10 +3856,20 @@ public class DefaultCodegen implements CodegenConfig {
         // add form/body parameter (if any) to the end of all parameter list
         if (!prependFormOrBodyParameters) {
             for (CodegenParameter cp : formParams) {
+                if (ensureUniqueParams) {
+                    if (!isParameterNameUnique(cp, allParams)) {
+                        cp.paramName = generateNextName(cp.paramName);
+                    }
+                }
                 allParams.add(cp.copy());
             }
 
             for (CodegenParameter cp : bodyParams) {
+                if (ensureUniqueParams) {
+                    if (!isParameterNameUnique(cp, allParams)) {
+                        cp.paramName = generateNextName(cp.paramName);
+                    }
+                }
                 allParams.add(cp.copy());
             }
         }

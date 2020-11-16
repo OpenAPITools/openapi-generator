@@ -410,6 +410,20 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testUniquenessRenameOfFormParameters() throws Exception {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/form-duplicated-parameter.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        Operation operation = openAPI.getPaths().get("/form-param-poc/{id}").getPut();
+        CodegenOperation co = codegen.fromOperation("/form-param-poc/{id}", "put", operation, null);
+        Assert.assertEquals(co.path, "/form-param-poc/{id}");
+        Assert.assertEquals(co.allParams.size(), 2);
+        List<String> allParamsNames = co.allParams.stream().map(p -> p.paramName).collect(Collectors.toList());
+        Assert.assertTrue(allParamsNames.contains("id"));
+        Assert.assertTrue(allParamsNames.contains("id2"));
+    }
+
+    @Test
     public void testGetSchemaTypeWithComposedSchemaWithOneOf() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/composed-oneof.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
