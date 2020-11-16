@@ -2573,26 +2573,17 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // process 'additionalProperties'
-        if (schema.getAdditionalProperties() == null) {
-            if (disallowAdditionalPropertiesIfNotPresent) {
-                m.isAdditionalPropertiesTrue = false;
-            } else {
-                m.isAdditionalPropertiesTrue = true;
-                CodegenProperty cp = fromProperty("",  new Schema());
-                m.setAdditionalProperties(cp);
-            }
-        } else if (schema.getAdditionalProperties() instanceof Boolean) {
-            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
-                m.isAdditionalPropertiesTrue = true;
-                CodegenProperty cp = fromProperty("", new Schema());
-                m.setAdditionalProperties(cp);
-            } else {
-                m.isAdditionalPropertiesTrue = false;
-            }
+        setAddProps(schema, m);
+        // additionalProperties == True means that empty object will be used
+        // per the openapi spec, if additionalProperties is omitted it is defaulted to empty object
+        // so if we do that, set isAdditionalPropertiesTrue to True
+        // if an explicit schema is passed in to additionalProperties, set isAdditionalPropertiesTrue to False
+        if (schema.getAdditionalProperties() == null && !disallowAdditionalPropertiesIfNotPresent) {
+            m.isAdditionalPropertiesTrue = true;
+        } else if (schema.getAdditionalProperties() instanceof Boolean && Boolean.TRUE.equals(schema.getAdditionalProperties())) {
+            m.isAdditionalPropertiesTrue = true;
         } else {
             m.isAdditionalPropertiesTrue = false;
-            CodegenProperty cp = fromProperty("", (Schema) schema.getAdditionalProperties());
-            m.setAdditionalProperties(cp);
         }
 
         // post process model properties
@@ -3037,6 +3028,7 @@ public class DefaultCodegen implements CodegenConfig {
      * the (String name, Schema p) arguments.
      * Any subsequent processing of the CodegenModel return value must be idempotent
      * for a given (String name, Schema schema).
+     * Pass in null for the name to not use the schemaCodegenPropertyCache
      *
      * @param name name of the property
      * @param p    OAS property schema
@@ -3048,11 +3040,16 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
         LOGGER.debug("debugging fromProperty for " + name + " : " + p);
+        boolean nullName = (name == null);
         NamedSchema ns = new NamedSchema(name, p);
-        CodegenProperty cpc = schemaCodegenPropertyCache.get(ns);
-        if (cpc != null) {
-            LOGGER.debug("Cached fromProperty for " + name + " : " + p.getName());
-            return cpc;
+        if (!nullName) {
+            CodegenProperty cpc = schemaCodegenPropertyCache.get(ns);
+            if (cpc != null) {
+                LOGGER.debug("Cached fromProperty for " + name + " : " + p.getName());
+                return cpc;
+            }
+        } else {
+            name = "";
         }
         // unalias schema
         p = unaliasSchema(p, importMapping);
@@ -3376,7 +3373,9 @@ public class DefaultCodegen implements CodegenConfig {
 
         addVarsRequiredVarsAdditionaProps(p, property);
         LOGGER.debug("debugging from property return: " + property);
-        schemaCodegenPropertyCache.put(ns, property);
+        if (!nullName) {
+            schemaCodegenPropertyCache.put(ns, property);
+        }
         return property;
     }
 
@@ -6162,6 +6161,25 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenParameter;
     }
 
+    private void setAddProps(Schema schema, IJsonSchemaValidationProperties property){
+        Schema usedSchema = new Schema();
+        if (schema.getAdditionalProperties() == null) {
+            if (!disallowAdditionalPropertiesIfNotPresent) {
+                CodegenProperty cp = fromProperty(null,  usedSchema);
+                property.setAdditionalProperties(cp);
+            }
+        } else if (schema.getAdditionalProperties() instanceof Boolean) {
+            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
+                CodegenProperty cp = fromProperty(null,  usedSchema);
+                property.setAdditionalProperties(cp);
+            }
+        } else {
+            usedSchema = (Schema) schema.getAdditionalProperties();
+            CodegenProperty cp = fromProperty(null,  usedSchema);
+            property.setAdditionalProperties(cp);
+        }
+    }
+
     private void addVarsRequiredVarsAdditionaProps(Schema schema, IJsonSchemaValidationProperties property){
         if (!"object".equals(schema.getType())) {
             return;
@@ -6178,20 +6196,7 @@ public class DefaultCodegen implements CodegenConfig {
                     .filter(p -> Boolean.TRUE.equals(p.required)).collect(Collectors.toList());
             property.setRequiredVars(requireCpVars);
         }
-        if (schema.getAdditionalProperties() == null) {
-            if (!disallowAdditionalPropertiesIfNotPresent) {
-                CodegenProperty cp = fromProperty("",  new Schema());
-                property.setAdditionalProperties(cp);
-            }
-        } else if (schema.getAdditionalProperties() instanceof Boolean) {
-            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
-                CodegenProperty cp = fromProperty("", new Schema());
-                property.setAdditionalProperties(cp);
-            }
-        } else {
-            CodegenProperty cp = fromProperty("", (Schema) schema.getAdditionalProperties());
-            property.setAdditionalProperties(cp);
-        }
+        setAddProps(schema, property);
         return;
     }
 
