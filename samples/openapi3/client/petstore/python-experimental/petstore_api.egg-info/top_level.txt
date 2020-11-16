@@ -1,2 +1,0 @@
-petstore_api
-tests_manual
