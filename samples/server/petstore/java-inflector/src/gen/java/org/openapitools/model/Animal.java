@@ -15,7 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class Animal   {
   @JsonProperty("className")
-  private String className = null;
+  private String className;
 
   @JsonProperty("color")
   private String color = "red";
@@ -64,8 +64,8 @@ public class Animal   {
       return false;
     }
     Animal animal = (Animal) o;
-    return Objects.equals(className, animal.className) &&
-        Objects.equals(color, animal.color);
+    return Objects.equals(this.className, animal.className) &&
+        Objects.equals(this.color, animal.color);
   }
 
   @Override

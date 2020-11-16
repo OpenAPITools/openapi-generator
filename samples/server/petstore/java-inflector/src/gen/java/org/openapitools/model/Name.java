@@ -16,16 +16,16 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class Name   {
   @JsonProperty("name")
-  private Integer name = null;
+  private Integer name;
 
   @JsonProperty("snake_case")
-  private Integer snakeCase = null;
+  private Integer snakeCase;
 
   @JsonProperty("property")
-  private String property = null;
+  private String property;
 
   @JsonProperty("123Number")
-  private Integer _123number = null;
+  private Integer _123number;
 
   /**
    **/
@@ -105,10 +105,10 @@ public class Name   {
       return false;
     }
     Name name = (Name) o;
-    return Objects.equals(name, name.name) &&
-        Objects.equals(snakeCase, name.snakeCase) &&
-        Objects.equals(property, name.property) &&
-        Objects.equals(_123number, name._123number);
+    return Objects.equals(this.name, name.name) &&
+        Objects.equals(this.snakeCase, name.snakeCase) &&
+        Objects.equals(this.property, name.property) &&
+        Objects.equals(this._123number, name._123number);
   }
 
   @Override

@@ -42,12 +42,12 @@ public class EnumArrays   {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
   @JsonProperty("just_symbol")
-  private JustSymbolEnum justSymbol = null;
+  private JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum
@@ -76,7 +76,7 @@ public class EnumArrays   {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
@@ -127,8 +127,8 @@ public class EnumArrays   {
       return false;
     }
     EnumArrays enumArrays = (EnumArrays) o;
-    return Objects.equals(justSymbol, enumArrays.justSymbol) &&
-        Objects.equals(arrayEnum, enumArrays.arrayEnum);
+    return Objects.equals(this.justSymbol, enumArrays.justSymbol) &&
+        Objects.equals(this.arrayEnum, enumArrays.arrayEnum);
   }
 
   @Override

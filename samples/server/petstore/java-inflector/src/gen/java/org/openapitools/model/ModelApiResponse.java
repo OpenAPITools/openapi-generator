@@ -13,13 +13,13 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class ModelApiResponse   {
   @JsonProperty("code")
-  private Integer code = null;
+  private Integer code;
 
   @JsonProperty("type")
-  private String type = null;
+  private String type;
 
   @JsonProperty("message")
-  private String message = null;
+  private String message;
 
   /**
    **/
@@ -82,9 +82,9 @@ public class ModelApiResponse   {
       return false;
     }
     ModelApiResponse _apiResponse = (ModelApiResponse) o;
-    return Objects.equals(code, _apiResponse.code) &&
-        Objects.equals(type, _apiResponse.type) &&
-        Objects.equals(message, _apiResponse.message);
+    return Objects.equals(this.code, _apiResponse.code) &&
+        Objects.equals(this.type, _apiResponse.type) &&
+        Objects.equals(this.message, _apiResponse.message);
   }
 
   @Override

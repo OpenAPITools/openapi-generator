@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
+import org.openapitools.model.DogAllOf;
 
 
 
@@ -14,7 +15,7 @@ import org.openapitools.model.Animal;
 
 public class Dog extends Animal  {
   @JsonProperty("breed")
-  private String breed = null;
+  private String breed;
 
   /**
    **/
@@ -43,12 +44,13 @@ public class Dog extends Animal  {
       return false;
     }
     Dog dog = (Dog) o;
-    return Objects.equals(breed, dog.breed);
+    return Objects.equals(this.breed, dog.breed) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(breed);
+    return Objects.hash(breed, super.hashCode());
   }
 
   @Override

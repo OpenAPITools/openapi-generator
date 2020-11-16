@@ -15,7 +15,7 @@ import java.util.List;
 
 public class FileSchemaTestClass   {
   @JsonProperty("file")
-  private java.io.File file = null;
+  private java.io.File file;
 
   @JsonProperty("files")
   private List<java.io.File> files = null;
@@ -64,8 +64,8 @@ public class FileSchemaTestClass   {
       return false;
     }
     FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
-    return Objects.equals(file, fileSchemaTestClass.file) &&
-        Objects.equals(files, fileSchemaTestClass.files);
+    return Objects.equals(this.file, fileSchemaTestClass.file) &&
+        Objects.equals(this.files, fileSchemaTestClass.files);
   }
 
   @Override

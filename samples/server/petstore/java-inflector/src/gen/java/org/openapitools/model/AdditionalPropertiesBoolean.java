@@ -5,31 +5,33 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.HashMap;
+import java.util.Map;
 
 
 
 
 
 
-public class Client   {
-  @JsonProperty("client")
-  private String client;
+public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
+  @JsonProperty("name")
+  private String name;
 
   /**
    **/
-  public Client client(String client) {
-    this.client = client;
+  public AdditionalPropertiesBoolean name(String name) {
+    this.name = name;
     return this;
   }
 
   
   @ApiModelProperty(value = "")
-  @JsonProperty("client")
-  public String getClient() {
-    return client;
+  @JsonProperty("name")
+  public String getName() {
+    return name;
   }
-  public void setClient(String client) {
-    this.client = client;
+  public void setName(String name) {
+    this.name = name;
   }
 
 
@@ -41,21 +43,22 @@ public class Client   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Client client = (Client) o;
-    return Objects.equals(this.client, client.client);
+    AdditionalPropertiesBoolean additionalPropertiesBoolean = (AdditionalPropertiesBoolean) o;
+    return Objects.equals(this.name, additionalPropertiesBoolean.name) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(client);
+    return Objects.hash(name, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Client {\n");
-    
-    sb.append("    client: ").append(toIndentedString(client)).append("\n");
+    sb.append("class AdditionalPropertiesBoolean {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");
     return sb.toString();
   }

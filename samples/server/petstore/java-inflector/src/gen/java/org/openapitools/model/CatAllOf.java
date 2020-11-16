@@ -11,25 +11,25 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-public class Client   {
-  @JsonProperty("client")
-  private String client;
+public class CatAllOf   {
+  @JsonProperty("declawed")
+  private Boolean declawed;
 
   /**
    **/
-  public Client client(String client) {
-    this.client = client;
+  public CatAllOf declawed(Boolean declawed) {
+    this.declawed = declawed;
     return this;
   }
 
   
   @ApiModelProperty(value = "")
-  @JsonProperty("client")
-  public String getClient() {
-    return client;
+  @JsonProperty("declawed")
+  public Boolean getDeclawed() {
+    return declawed;
   }
-  public void setClient(String client) {
-    this.client = client;
+  public void setDeclawed(Boolean declawed) {
+    this.declawed = declawed;
   }
 
 
@@ -41,21 +41,21 @@ public class Client   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Client client = (Client) o;
-    return Objects.equals(this.client, client.client);
+    CatAllOf catAllOf = (CatAllOf) o;
+    return Objects.equals(this.declawed, catAllOf.declawed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(client);
+    return Objects.hash(declawed);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Client {\n");
+    sb.append("class CatAllOf {\n");
     
-    sb.append("    client: ").append(toIndentedString(client)).append("\n");
+    sb.append("    declawed: ").append(toIndentedString(declawed)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -15,16 +15,16 @@ import java.util.Date;
 
 public class Order   {
   @JsonProperty("id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("petId")
-  private Long petId = null;
+  private Long petId;
 
   @JsonProperty("quantity")
-  private Integer quantity = null;
+  private Integer quantity;
 
   @JsonProperty("shipDate")
-  private Date shipDate = null;
+  private Date shipDate;
 
   /**
    * Order Status
@@ -55,12 +55,12 @@ public class Order   {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
   @JsonProperty("status")
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   @JsonProperty("complete")
   private Boolean complete = false;
@@ -178,12 +178,12 @@ public class Order   {
       return false;
     }
     Order order = (Order) o;
-    return Objects.equals(id, order.id) &&
-        Objects.equals(petId, order.petId) &&
-        Objects.equals(quantity, order.quantity) &&
-        Objects.equals(shipDate, order.shipDate) &&
-        Objects.equals(status, order.status) &&
-        Objects.equals(complete, order.complete);
+    return Objects.equals(this.id, order.id) &&
+        Objects.equals(this.petId, order.petId) &&
+        Objects.equals(this.quantity, order.quantity) &&
+        Objects.equals(this.shipDate, order.shipDate) &&
+        Objects.equals(this.status, order.status) &&
+        Objects.equals(this.complete, order.complete);
   }
 
   @Override

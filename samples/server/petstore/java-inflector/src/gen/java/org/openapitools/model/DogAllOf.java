@@ -11,25 +11,25 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-public class Client   {
-  @JsonProperty("client")
-  private String client;
+public class DogAllOf   {
+  @JsonProperty("breed")
+  private String breed;
 
   /**
    **/
-  public Client client(String client) {
-    this.client = client;
+  public DogAllOf breed(String breed) {
+    this.breed = breed;
     return this;
   }
 
   
   @ApiModelProperty(value = "")
-  @JsonProperty("client")
-  public String getClient() {
-    return client;
+  @JsonProperty("breed")
+  public String getBreed() {
+    return breed;
   }
-  public void setClient(String client) {
-    this.client = client;
+  public void setBreed(String breed) {
+    this.breed = breed;
   }
 
 
@@ -41,21 +41,21 @@ public class Client   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Client client = (Client) o;
-    return Objects.equals(this.client, client.client);
+    DogAllOf dogAllOf = (DogAllOf) o;
+    return Objects.equals(this.breed, dogAllOf.breed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(client);
+    return Objects.hash(breed);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Client {\n");
+    sb.append("class DogAllOf {\n");
     
-    sb.append("    client: ").append(toIndentedString(client)).append("\n");
+    sb.append("    breed: ").append(toIndentedString(breed)).append("\n");
     sb.append("}");
     return sb.toString();
   }

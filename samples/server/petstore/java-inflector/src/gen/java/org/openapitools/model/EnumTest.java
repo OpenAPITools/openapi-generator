@@ -43,12 +43,12 @@ public class EnumTest   {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
   @JsonProperty("enum_string")
-  private EnumStringEnum enumString = null;
+  private EnumStringEnum enumString;
 
   /**
    * Gets or Sets enumStringRequired
@@ -79,12 +79,12 @@ public class EnumTest   {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
   @JsonProperty("enum_string_required")
-  private EnumStringRequiredEnum enumStringRequired = null;
+  private EnumStringRequiredEnum enumStringRequired;
 
   /**
    * Gets or Sets enumInteger
@@ -113,12 +113,12 @@ public class EnumTest   {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
   @JsonProperty("enum_integer")
-  private EnumIntegerEnum enumInteger = null;
+  private EnumIntegerEnum enumInteger;
 
   /**
    * Gets or Sets enumNumber
@@ -147,15 +147,15 @@ public class EnumTest   {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
   @JsonProperty("enum_number")
-  private EnumNumberEnum enumNumber = null;
+  private EnumNumberEnum enumNumber;
 
   @JsonProperty("outerEnum")
-  private OuterEnum outerEnum = null;
+  private OuterEnum outerEnum;
 
   /**
    **/
@@ -252,11 +252,11 @@ public class EnumTest   {
       return false;
     }
     EnumTest enumTest = (EnumTest) o;
-    return Objects.equals(enumString, enumTest.enumString) &&
-        Objects.equals(enumStringRequired, enumTest.enumStringRequired) &&
-        Objects.equals(enumInteger, enumTest.enumInteger) &&
-        Objects.equals(enumNumber, enumTest.enumNumber) &&
-        Objects.equals(outerEnum, enumTest.outerEnum);
+    return Objects.equals(this.enumString, enumTest.enumString) &&
+        Objects.equals(this.enumStringRequired, enumTest.enumStringRequired) &&
+        Objects.equals(this.enumInteger, enumTest.enumInteger) &&
+        Objects.equals(this.enumNumber, enumTest.enumNumber) &&
+        Objects.equals(this.outerEnum, enumTest.outerEnum);
   }
 
   @Override

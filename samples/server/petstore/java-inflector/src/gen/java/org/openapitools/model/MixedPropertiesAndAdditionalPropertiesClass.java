@@ -19,10 +19,10 @@ import org.openapitools.model.Animal;
 
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
-  private UUID uuid = null;
+  private UUID uuid;
 
   @JsonProperty("dateTime")
-  private Date dateTime = null;
+  private Date dateTime;
 
   @JsonProperty("map")
   private Map<String, Animal> map = null;
@@ -88,9 +88,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
       return false;
     }
     MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass = (MixedPropertiesAndAdditionalPropertiesClass) o;
-    return Objects.equals(uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
-        Objects.equals(dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
-        Objects.equals(map, mixedPropertiesAndAdditionalPropertiesClass.map);
+    return Objects.equals(this.uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
+        Objects.equals(this.dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
+        Objects.equals(this.map, mixedPropertiesAndAdditionalPropertiesClass.map);
   }
 
   @Override

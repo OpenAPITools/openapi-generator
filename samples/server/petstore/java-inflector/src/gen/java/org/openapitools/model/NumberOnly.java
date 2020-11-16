@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 
 public class NumberOnly   {
   @JsonProperty("JustNumber")
-  private BigDecimal justNumber = null;
+  private BigDecimal justNumber;
 
   /**
    **/
@@ -43,7 +43,7 @@ public class NumberOnly   {
       return false;
     }
     NumberOnly numberOnly = (NumberOnly) o;
-    return Objects.equals(justNumber, numberOnly.justNumber);
+    return Objects.equals(this.justNumber, numberOnly.justNumber);
   }
 
   @Override
