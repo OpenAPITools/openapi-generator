@@ -400,7 +400,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
             default:
                 processUnknownTypeProperty(model, property, description, ktormSchema);
         }
-        
+
         if (processForeignKey(model, property, relationDefinition)) {
             ktormSchema.put("relationDefinition", relationDefinition);
             ktormSchema.put("relation", true);
@@ -663,7 +663,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         a.put("isJson", args.isJson);
         a.put("isNull", args.isNull);
         //as we are using sqlite, it is not implemented for now
-        //columnDefinition.put("colTypeArgs", a); 
+        //columnDefinition.put("colTypeArgs", a);
         columnDefinition.put("colPrimaryKey", isPrimaryKey(columnDefinition));
     }
 
@@ -710,9 +710,10 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         if (!property.isArray && !isRelation(dataType)) return false;
 
         String modelName = model.getName();
-        String tryPropName = property.isArray ? property.items.dataType : property.dataType;
-        Boolean isPrimitive = (tryPropName.startsWith("kotlin.") || tryPropName.startsWith("java."));
-        String propName = isPrimitive ? property.getName() : tryPropName;
+        String tryDataType = property.isArray ? property.items.dataType : property.dataType;
+        String tryDataFormat = property.isArray ? property.items.dataFormat : property.dataFormat;
+        Boolean isPrimitive = (tryDataType.startsWith("kotlin.") || tryDataType.startsWith("java."));
+        String propName = isPrimitive ? property.getName() : tryDataType;
 
         String pkName = titleCase(toModelName(modelName));
         String pkColName = toColumnName(pkName);
@@ -721,10 +722,37 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String relName = toModelName(camelize(modelName) + camelize(propName));
         String relTblName = toTableName(relName);
 
+        final IntegerSchema pkSchema = new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT);
+        String pkDataType = getSchemaType(pkSchema);
+        String pkDataFormat = pkSchema.getFormat();
+        String pkColType = toColumnType(pkDataType, pkDataFormat);
+        String fkDataType = isPrimitive ? tryDataType : pkDataType;
+        String fkDataFormat = isPrimitive ? tryDataFormat : pkDataFormat;
+        String fkColType = toColumnType(fkDataType, fkDataFormat);
+
+        SqlTypeArgs pkArgs = new SqlTypeArgs();
+        toColumnTypeArgs(pkDataType, pkDataFormat, null, null, pkArgs);
+        SqlTypeArgs fkArgs = new SqlTypeArgs();
+        toColumnTypeArgs(fkDataType, fkDataFormat, null, null, fkArgs);
+
         relationDefinition.put("pkName", pkName);
         relationDefinition.put("pkColName", pkColName);
+        relationDefinition.put("pkColType", pkColType);
+        relationDefinition.put("pkColKotlinType", pkDataType);
+        relationDefinition.put("pkIsNumeric", pkArgs.isNumeric);
+        relationDefinition.put("pkIsInteger", pkArgs.isInteger);
+        relationDefinition.put("pkIsString", pkArgs.isString);
+        relationDefinition.put("pkIsPrimitive", pkArgs.isPrimitive);
+
         relationDefinition.put("fkName", fkName);
         relationDefinition.put("fkColName", fkColName);
+        relationDefinition.put("fkColType", fkColType);
+        relationDefinition.put("fkColKotlinType", fkDataType);
+        relationDefinition.put("fkIsNumeric", fkArgs.isNumeric);
+        relationDefinition.put("fkIsInteger", fkArgs.isInteger);
+        relationDefinition.put("fkIsString", fkArgs.isString);
+        relationDefinition.put("fkIsPrimitive", fkArgs.isPrimitive);
+
         relationDefinition.put("relName", relName);
         relationDefinition.put("relTblName", relTblName);
 

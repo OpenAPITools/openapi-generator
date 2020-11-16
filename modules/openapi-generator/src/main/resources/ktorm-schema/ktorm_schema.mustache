@@ -5,9 +5,8 @@
 CREATE DATABASE IF NOT EXISTS `{{{defaultDatabaseName}}}` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 {{/defaultDatabaseName}}
 
--- --------------------------------------------------------
-
-{{#models}}{{#model}}{{#hasVars}}{{^isArrayModel}}--
+{{#models}}{{#model}}{{#hasVars}}{{^isArrayModel}}
+-- --------------------------------------------------------------------------
 -- Table structure{{#vendorExtensions}}{{#x-ktorm-schema}}{{#tableDefinition}} for table `{{tblName}}`{{/tableDefinition}}{{/x-ktorm-schema}}{{/vendorExtensions}} generated from model '{{classVarName}}'
 {{#description}}
 -- {{description}}
@@ -21,23 +20,46 @@ CREATE TABLE IF NOT EXISTS {{#defaultDatabaseName}}`{{{defaultDatabaseName}}}`.{
 {{/tableDefinition}}
 {{/x-ktorm-schema}}
 {{/vendorExtensions}}
-  {{#vars}}
-  {{#vendorExtensions}}
-  {{#x-ktorm-schema}}
-  {{#columnDefinition}}
+{{#allVars}}
+{{#vendorExtensions}}
+{{#x-ktorm-schema}}
+{{#columnDefinition}}
+{{^isArray}}
   `{{colName}}` {{colType}}{{#colTypeArgs}}{{#-first}}({{/-first}}{{#isString}}'{{/isString}}{{argVal}}{{#isString}}'{{/isString}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/colTypeArgs}}{{#colUnsigned}} UNSIGNED{{/colUnsigned}}{{#colNotNull}} NOT NULL{{/colNotNull}}{{#colPrimaryKey}} PRIMARY KEY{{#isNumeric}} AUTOINCREMENT{{/isNumeric}}{{/colPrimaryKey}}{{#colDefault}} DEFAULT {{#isString}}'{{defaultValue}}'{{/isString}}{{^isString}}{{defaultValue}}{{/isString}}{{/colDefault}}{{#colComment}} /*{{colComment}}*/{{/colComment}}{{^-last}},{{/-last}}
-  {{/columnDefinition}}
-  {{/x-ktorm-schema}}
-  {{/vendorExtensions}}
-  {{/vars}}
+{{/isArray}}
+{{/columnDefinition}}
+{{/x-ktorm-schema}}
+{{/vendorExtensions}}
+{{/allVars}}
 {{#vendorExtensions}}
 {{#x-ktorm-schema}}
 {{#tableDefinition}}
-) {{#tblComment}} /*{{tblComment}}*/{{/tblComment}};
+); {{#tblComment}} /*{{tblComment}}*/{{/tblComment}}
+
 {{/tableDefinition}}
 {{/x-ktorm-schema}}
 {{/vendorExtensions}}
+{{#allVars}}
+{{#isArray}}
+{{#vendorExtensions}}
+{{#x-ktorm-schema}}
+{{#relationDefinition}}
+-- --------------------------------------------------------------------------
+-- Table structure for table `{{relTblName}}` generated from model '{{relName}}'
+{{#colComment}}
+-- {{colComment}}
+{{/colComment}}
 
+CREATE TABLE IF NOT EXISTS {{#defaultDatabaseName}}`{{{defaultDatabaseName}}}`.{{/defaultDatabaseName}}`{{relTblName}}` (
+  `{{{pkColName}}}` {{{pkColType}}} NOT NULL
+  `{{{fkColName}}}` {{{fkColType}}} NOT NULL
+);
+
+{{/relationDefinition}}
+{{/x-ktorm-schema}}
+{{/vendorExtensions}}
+{{/isArray}}
+{{/allVars}}
 {{/isArrayModel}}{{/hasVars}}{{/model}}{{/models}}
 {{#hasOAuthMethods}}
 --

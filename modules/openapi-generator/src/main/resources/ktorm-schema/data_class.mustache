@@ -77,14 +77,14 @@
 {{/isDeprecated}}
 {{#relationDefinition}}
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}object {{{relName}}} : BaseTable<Pair<Long, Long>>("{{{relTblName}}}") {
-    val {{{pkName}}} = long("{{{pkColName}}}")
-    val {{{fkName}}} = long("{{{fkColName}}}")
+{{#nonPublicApi}}internal {{/nonPublicApi}}object {{{relName}}} : BaseTable<Pair<{{{pkColKotlinType}}}, {{{fkColKotlinType}}}>>("{{{relTblName}}}") {
+    val {{{pkName}}} = {{{pkColType}}}("{{{pkColName}}}")
+    val {{{fkName}}} = {{{fkColType}}}("{{{fkColName}}}")
 
-    override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean): Pair<Long, Long> =
-        Pair(row[{{{pkName}}}] ?: 0, row[{{{fkName}}}] ?: 0)
+    override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean): Pair<{{{pkColKotlinType}}}, {{{fkColKotlinType}}}> =
+        Pair(row[{{{pkName}}}] ?: {{#pkIsString}}""{{/pkIsString}}{{#pkIsNumeric}}0{{/pkIsNumeric}}, row[{{{fkName}}}] ?: {{#fkIsString}}""{{/fkIsString}}{{#fkIsNumeric}}0{{/fkIsNumeric}})
 
-    fun AssignmentsBuilder.assignFrom(entity: Pair<Long, Long>) {
+    fun AssignmentsBuilder.assignFrom(entity: Pair<{{{pkColKotlinType}}}, {{{fkColKotlinType}}}>) {
         this.apply {
             set({{{relName}}}.{{{pkName}}}, entity.first)
             set({{{relName}}}.{{{fkName}}}, entity.second)
