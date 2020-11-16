@@ -639,6 +639,29 @@ public class DefaultGenerator implements Generator {
                     }
                 }
 
+                for (String templateName : config.apiServiceTemplateFiles().keySet()) {
+                    // The actual Service
+                    String filename = config.apiServiceFilename(templateName, tag);
+                    File written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS);
+                    if (written != null) {
+                        files.add(written);
+                        if (config.isEnablePostProcessFile() && !dryRun) {
+                            config.postProcessFile(written, "api");
+                        }
+                    }
+                }
+                for (String templateName : config.apiServiceInfTemplateFiles().keySet()) {
+                    // The Service Interface
+                    String filename = config.apiServiceInfFilename(templateName, tag);
+                    File written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS);
+                    if (written != null) {
+                        files.add(written);
+                        if (config.isEnablePostProcessFile() && !dryRun) {
+                            config.postProcessFile(written, "api");
+                        }
+                    }
+                }
+                
                 // to generate api test files
                 for (String templateName : config.apiTestTemplateFiles().keySet()) {
                     String filename = config.apiTestFilename(templateName, tag);

@@ -123,6 +123,9 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("controller.mustache", ".cs");
 
+        apiServiceTemplateFiles.put("service.mustache", ".cs");
+        apiServiceInfTemplateFiles.put("serviceInf.mustache", ".cs");
+
         embeddedTemplateDir = templateDir = "aspnetcore/2.1";
 
         // contextually reserved words
@@ -408,6 +411,15 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
+    public String apiServiceFileFolder() {
+        return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + "Services";
+    }
+    @Override
+    public String apiServiceInfFileFolder() {
+        return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + "Services" + File.separator + "Interface";
+    }
+
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + "Models";
     }
@@ -432,7 +444,14 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         }
 
         // Converts, for example, PUT to HttpPut for controller attributes
-        operation.httpMethod = "Http" + operation.httpMethod.substring(0, 1) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
+        // operation.httpMethod = "Http" + operation.httpMethod.substring(0, 1) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
+
+        operation.isHttpPost = operation.isHttpPost();
+        operation.isHttpGet = operation.isHttpGet();
+        operation.isHttpPut = operation.isHttpPut();
+        operation.isHttpPatch = operation.isHttpPatch();
+        operation.isHttpDelete = operation.isHttpDelete();
+
     }
 
     @Override

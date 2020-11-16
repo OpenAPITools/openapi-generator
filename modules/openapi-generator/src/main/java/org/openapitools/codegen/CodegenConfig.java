@@ -53,6 +53,9 @@ public interface CodegenConfig {
     String apiPackage();
 
     String apiFileFolder();
+ 
+    String apiServiceFileFolder();
+    String apiServiceInfFileFolder();
 
     String apiTestFileFolder();
 
@@ -136,6 +139,9 @@ public interface CodegenConfig {
 
     Map<String, String> apiTemplateFiles();
 
+    Map<String, String> apiServiceTemplateFiles();
+    Map<String, String> apiServiceInfTemplateFiles();
+
     Map<String, String> modelTemplateFiles();
 
     Map<String, String> apiTestTemplateFiles();
@@ -197,6 +203,9 @@ public interface CodegenConfig {
     String modelFilename(String templateName, String modelName);
 
     String apiFilename(String templateName, String tag);
+
+    String apiServiceFilename(String templateName, String tag);
+    String apiServiceInfFilename(String templateName, String tag);
 
     String apiTestFilename(String templateName, String tag);
 

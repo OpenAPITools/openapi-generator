@@ -28,6 +28,7 @@ public class CodegenOperation {
             returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
             isArray, isMultipart,
             isResponseBinary = false, isResponseFile = false, hasReference = false,
+            isHttpPost, isHttpGet, isHttpPut, isHttpPatch, isHttpDelete,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
             isRestful, isDeprecated, isCallbackRequest, uniqueItems;
     public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
@@ -159,6 +160,47 @@ public class CodegenOperation {
         return nonempty(examples);
     }
 
+    /**
+     * Check if HTTP POST operation
+     *
+     * @return true if httpMethod = POST
+     */
+    public boolean isHttpPost() {
+        return "POST".equalsIgnoreCase(httpMethod);
+    }
+    /**
+     * Check if HTTP GET operation
+     *
+     * @return true if httpMethod = GET
+     */
+    public boolean isHttpGet() {
+        return "GET".equalsIgnoreCase(httpMethod);
+    }
+    /**
+     * Check if HTTP PUT operation
+     *
+     * @return true if httpMethod = PUT
+     */
+    public boolean isHttpPut() {
+        return "PUT".equalsIgnoreCase(httpMethod);
+    }
+    /**
+     * Check if HTTP PATCH operation
+     *
+     * @return true if httpMethod = PATCH
+     */
+    public boolean isHttpPatch() {
+        return "PATCH".equalsIgnoreCase(httpMethod);
+    }
+    /**
+     * Check if HTTP DELETE operation
+     *
+     * @return true if httpMethod = DELETE
+     */
+    public boolean isHttpDelete() {
+        return "DELETE".equalsIgnoreCase(httpMethod);
+    }
+    
     /**
      * Check if act as Restful index method
      *

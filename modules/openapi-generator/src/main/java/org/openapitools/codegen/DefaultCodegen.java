@@ -157,6 +157,8 @@ public class DefaultCodegen implements CodegenConfig {
     API templates may be written multiple times; APIs are grouped by tag and the file is written once per tag group.
     */
     protected Map<String, String> apiTemplateFiles = new HashMap<String, String>();
+    protected Map<String, String> apiServiceTemplateFiles = new HashMap<String, String>();
+    protected Map<String, String> apiServiceInfTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> modelTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> apiTestTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> modelTestTemplateFiles = new HashMap<String, String>();
@@ -1025,11 +1027,25 @@ public class DefaultCodegen implements CodegenConfig {
         return apiTemplateFiles;
     }
 
+    public Map<String, String> apiServiceTemplateFiles() {
+        return apiServiceTemplateFiles;
+    }
+    public Map<String, String> apiServiceInfTemplateFiles() {
+        return apiServiceInfTemplateFiles;
+    }
+
     public Map<String, String> modelTemplateFiles() {
         return modelTemplateFiles;
     }
 
     public String apiFileFolder() {
+        return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
+    }
+
+    public String apiServiceFileFolder() {
+        return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
+    }
+    public String apiServiceInfFileFolder() {
         return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
@@ -1216,7 +1232,32 @@ public class DefaultCodegen implements CodegenConfig {
     public String toApiFilename(String name) {
         return toApiName(name);
     }
-
+    
+    /**
+    * Return the file name of the Api Service
+    *
+    * @param name the file name of the Api
+    * @return the file name of the Api
+    */
+    public String toApiServiceFilename(String name) {
+        if (name.length() == 0) {
+            return "DefaultService";
+        }
+        return camelize(name + "_" + "Service") + ".cs";
+       }
+    /**
+    * Return the file name of the Api Service Interface
+    *
+    * @param name the file name of the Api
+    * @return the file name of the Api
+    */
+    public String toApiServiceInfFilename(String name) {
+        if (name.length() == 0) {
+            return "IDefaultService";
+        }
+        return camelize("I" + "_" + name + "Service") + ".cs";
+       }
+        
     /**
      * Return the file name of the Api Documentation
      *
@@ -4965,6 +5006,13 @@ public class DefaultCodegen implements CodegenConfig {
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
         return apiFileFolder() + File.separator + toApiFilename(tag) + suffix;
+    }
+
+    public String apiServiceFilename(String templateName, String tag) {
+        return apiServiceFileFolder() + File.separator + toApiServiceFilename(tag);
+    }
+    public String apiServiceInfFilename(String templateName, String tag) {
+        return apiServiceInfFileFolder() + File.separator + toApiServiceInfFilename(tag);
     }
 
     public String modelFilename(String templateName, String modelName) {
