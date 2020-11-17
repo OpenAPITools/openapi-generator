@@ -3052,7 +3052,9 @@ public class DefaultCodegen implements CodegenConfig {
             name = "";
         }
         // unalias schema
+        LOGGER.warn("importMapping " + importMapping);
         p = unaliasSchema(p, importMapping);
+        LOGGER.warn("unaliased " + name +" schema " + p);
 
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
 
