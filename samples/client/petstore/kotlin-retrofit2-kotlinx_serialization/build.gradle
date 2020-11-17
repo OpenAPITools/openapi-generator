@@ -37,7 +37,7 @@ dependencies {
     compile "com.squareup.okhttp3:logging-interceptor:4.4.0"
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
     compile "com.squareup.okhttp3:logging-interceptor:4.4.0"
-    compile "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.7.0"
+    compile "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
     compile "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
     testCompile "io.kotlintest:kotlintest-runner-junit5:3.1.0"
 }
