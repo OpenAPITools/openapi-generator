@@ -154,7 +154,7 @@ class OrderStatusEnum {
     delivered_,
   ];
 
-  static OrderStatusEnum fromJson(String value) =>
+  static OrderStatusEnum fromJson(dynamic value) =>
     OrderStatusEnumTypeTransformer().decode(value);
 
   static List<OrderStatusEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

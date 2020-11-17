@@ -154,7 +154,7 @@ class PetStatusEnum {
     sold_,
   ];
 
-  static PetStatusEnum fromJson(String value) =>
+  static PetStatusEnum fromJson(dynamic value) =>
     PetStatusEnumTypeTransformer().decode(value);
 
   static List<PetStatusEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

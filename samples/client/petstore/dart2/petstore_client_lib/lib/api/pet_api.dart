@@ -104,7 +104,10 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    headerParams['api_key'] = apiKey;
+
+    if (apiKey != null) {
+      headerParams['api_key'] = parameterToString(apiKey);
+    }
 
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
