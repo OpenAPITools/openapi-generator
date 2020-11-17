@@ -1296,6 +1296,7 @@
                 <module>samples/server/petstore/scala-finch</module>
                 <!--<module>samples/server/petstore/kotlin/vertx</module>-->
                 <module>samples/server/petstore/kotlin-springboot</module>
+                <module>samples/client/petstore/kotlin-threetenbp/</module>
             </modules>
         </profile>
         <!-- other tests in CircleCI -->
@@ -1371,7 +1372,6 @@
                 <module>samples/client/petstore/kotlin-nonpublic/</module>
                 <module>samples/client/petstore/kotlin-nullable/</module>
                 <module>samples/client/petstore/kotlin-okhttp3/</module>
-                <module>samples/client/petstore/kotlin-threetenbp/</module>
                 <module>samples/client/petstore/kotlin-string/</module>
                 <module>samples/client/petstore/kotlin-moshi-codegen/</module>
                 <module>samples/client/petstore/kotlin-json-request-string/</module>
