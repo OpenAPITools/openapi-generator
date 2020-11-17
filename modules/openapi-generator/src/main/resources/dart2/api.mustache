@@ -69,16 +69,18 @@ class {{{classname}}} {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
+    {{#hasQueryParams}}
 
-    {{#queryParams}}
-      {{^required}}
+      {{#queryParams}}
+        {{^required}}
     if ({{{paramName}}} != null) {
-      {{/required}}
+          {{/required}}
       queryParams.addAll(_convertParametersForCollectionFormat('{{{collectionFormat}}}', '{{{baseName}}}', {{{paramName}}}));
-      {{^required}}
+          {{^required}}
     }
-      {{/required}}
-    {{/queryParams}}
+        {{/required}}
+      {{/queryParams}}
+    {{/hasQueryParams}}
     {{#hasHeaderParams}}
 
       {{#headerParams}}
