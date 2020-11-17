@@ -1232,6 +1232,8 @@
                 <module>samples/client/petstore/typescript-angular-v4.3/npm</module>-->
                 <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
+                <module>samples/client/petstore/kotlin-threetenbp/</module>
+                <module>samples/client/petstore/kotlin-string/</module>
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
@@ -1245,6 +1247,12 @@
             </activation>
             <modules>
                 <!-- servers -->
+                <module>samples/server/petstore/kotlin-springboot</module>
+                <module>samples/server/petstore/jaxrs/jersey2</module>
+                <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
+                <module>samples/server/petstore/spring-mvc</module>
+                <module>samples/server/petstore/spring-mvc-j8-async</module>
+                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
                 <module>samples/server/petstore/jaxrs-spec-interface</module>
@@ -1265,20 +1273,12 @@
                 <module>samples/server/petstore/java-undertow</module>
                 <module>samples/server/petstore/jaxrs/jersey1</module>
                 <module>samples/server/petstore/jaxrs/jersey1-useTags</module>
-                <!-- move to other CI as the following fails often in CircleCI
-                <module>samples/server/petstore/jaxrs/jersey2</module>
-                <module>samples/server/petstore/jaxrs/jersey2-useTags</module> -->
                 <module>samples/server/petstore/jaxrs-datelib-j8</module>
                 <module>samples/server/petstore/jaxrs-resteasy/default</module>
                 <module>samples/server/petstore/jaxrs-resteasy/eap</module>
                 <module>samples/server/petstore/jaxrs-resteasy/eap-joda</module>
                 <module>samples/server/petstore/jaxrs-resteasy/eap-java8</module>
                 <module>samples/server/petstore/jaxrs-resteasy/joda</module>
-                <!--<module>samples/server/petstore/kotlin-server/ktor</module>-->
-                <!-- move to other CI as the following fails often in CircleCI
-                <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/server/petstore/spring-mvc-j8-async</module>
-                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>-->
                 <module>samples/client/petstore/spring-cloud</module>
                 <module>samples/server/petstore/springboot</module>
                 <module>samples/server/petstore/springboot-beanvalidation</module>
@@ -1295,7 +1295,6 @@
                 <module>samples/server/petstore/java-vertx-web</module>
                 <module>samples/server/petstore/scala-finch</module>
                 <!--<module>samples/server/petstore/kotlin/vertx</module>-->
-                <module>samples/server/petstore/kotlin-springboot</module>
             </modules>
         </profile>
         <!-- other tests in CircleCI -->
@@ -1371,17 +1370,10 @@
                 <module>samples/client/petstore/kotlin-nonpublic/</module>
                 <module>samples/client/petstore/kotlin-nullable/</module>
                 <module>samples/client/petstore/kotlin-okhttp3/</module>
-                <module>samples/client/petstore/kotlin-threetenbp/</module>
-                <module>samples/client/petstore/kotlin-string/</module>
                 <module>samples/client/petstore/kotlin-moshi-codegen/</module>
                 <module>samples/client/petstore/kotlin-json-request-string/</module>
                 <!-- servers -->
                 <!--<module>samples/server/petstore/erlang-server</module>-->
-                <module>samples/server/petstore/jaxrs/jersey2</module>
-                <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
-                <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/server/petstore/spring-mvc-j8-async</module>
-                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
             </modules>
         </profile>
         <!-- test with JDK11 in drone.io -->
