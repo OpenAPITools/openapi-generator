@@ -12,9 +12,10 @@
 package org.openapitools.client.models
 
 
-import kotlinx.serialization.Serializable
+import kotlinx.serialization.Serializable as KSerializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
+import java.io.Serializable
 
 /**
  * A User who is purchasing from the pet store
@@ -27,7 +28,7 @@ import kotlinx.serialization.Contextual
  * @param phone 
  * @param userStatus User Status
  */
-@Serializable
+@KSerializable
 data class User (
     @SerialName(value = "id")
     val id: kotlin.Long? = null,
@@ -46,5 +47,10 @@ data class User (
     /* User Status */
     @SerialName(value = "userStatus")
     val userStatus: kotlin.Int? = null
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

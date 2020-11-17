@@ -12,9 +12,10 @@
 package org.openapitools.client.models
 
 
-import kotlinx.serialization.Serializable
+import kotlinx.serialization.Serializable as KSerializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
+import java.io.Serializable
 
 /**
  * Describes the result of uploading an image resource
@@ -22,7 +23,7 @@ import kotlinx.serialization.Contextual
  * @param type 
  * @param message 
  */
-@Serializable
+@KSerializable
 data class ApiResponse (
     @SerialName(value = "code")
     val code: kotlin.Int? = null,
@@ -30,5 +31,10 @@ data class ApiResponse (
     val type: kotlin.String? = null,
     @SerialName(value = "message")
     val message: kotlin.String? = null
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

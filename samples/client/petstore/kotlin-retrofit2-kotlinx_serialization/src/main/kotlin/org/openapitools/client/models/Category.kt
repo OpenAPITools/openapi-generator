@@ -12,20 +12,26 @@
 package org.openapitools.client.models
 
 
-import kotlinx.serialization.Serializable
+import kotlinx.serialization.Serializable as KSerializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
+import java.io.Serializable
 
 /**
  * A category for a pet
  * @param id 
  * @param name 
  */
-@Serializable
+@KSerializable
 data class Category (
     @SerialName(value = "id")
     val id: kotlin.Long? = null,
     @SerialName(value = "name")
     val name: kotlin.String? = null
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

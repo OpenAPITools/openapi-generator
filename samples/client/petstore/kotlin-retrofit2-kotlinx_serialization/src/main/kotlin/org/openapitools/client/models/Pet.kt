@@ -14,9 +14,10 @@ package org.openapitools.client.models
 import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
-import kotlinx.serialization.Serializable
+import kotlinx.serialization.Serializable as KSerializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
+import java.io.Serializable
 
 /**
  * A pet for sale in the pet store
@@ -27,7 +28,7 @@ import kotlinx.serialization.Contextual
  * @param tags 
  * @param status pet status in the store
  */
-@Serializable
+@KSerializable
 data class Pet (
     @SerialName(value = "name")
     val name: kotlin.String,
@@ -42,7 +43,10 @@ data class Pet (
     /* pet status in the store */
     @SerialName(value = "status")
     val status: Pet.Status? = null
-) {
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
     /**
      * pet status in the store
