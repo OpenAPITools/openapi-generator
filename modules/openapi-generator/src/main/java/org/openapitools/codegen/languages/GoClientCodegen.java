@@ -495,7 +495,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             } else if (codegenParameter.isUri) { // URL
                 return "\"https://example.com\"";
             } else if (codegenParameter.isDateTime || codegenParameter.isDate) { // datetime or date
-            processedModelMap.put("time.Time", 1);
+                processedModelMap.put("time.Time", 1);
                 return "time.Now()";
             } else if (codegenParameter.isFile) {
                 return "os.NewFile(1234, \"some_file\")";
@@ -511,7 +511,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             if (modelMaps.containsKey(codegenParameter.dataType)) {
                 return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, processedModelMap);
             } else if (codegenParameter.isDateTime || codegenParameter.isDate) { // datetime or date
-            processedModelMap.put("time.Time", 1);
+                processedModelMap.put("time.Time", 1);
                 return "time.Now()";
             } else {
                 //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
