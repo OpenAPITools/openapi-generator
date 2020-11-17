@@ -31,6 +31,7 @@ import java.io.File;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -61,7 +62,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETCOREAPP_2_0,
             FrameworkStrategy.NETCOREAPP_2_1,
             FrameworkStrategy.NETCOREAPP_3_0,
-            FrameworkStrategy.NETCOREAPP_3_1
+            FrameworkStrategy.NETCOREAPP_3_1,
+            FrameworkStrategy.NETFRAMEWORK_4_7
     );
     private static FrameworkStrategy defaultFramework = FrameworkStrategy.NETSTANDARD_2_0;
     protected final Map<String, String> frameworks;
@@ -130,7 +132,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         typeMapping.put("long", "long");
         typeMapping.put("double", "double");
         typeMapping.put("number", "decimal");
-        typeMapping.put("BigDecimal", "decimal");
+        typeMapping.put("decimal", "decimal");
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("date", "DateTime");
         typeMapping.put("file", "System.IO.Stream");
@@ -331,15 +333,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                     if (!propertyHash.containsKey(property.name)) {
                         final CodegenProperty parentVar = property.clone();
                         parentVar.isInherited = true;
-                        parentVar.hasMore = true;
                         last = parentVar;
                         LOGGER.debug("adding parent variable {}", property.name);
                         codegenModel.parentVars.add(parentVar);
                     }
-                }
-
-                if (last != null) {
-                    last.hasMore = false;
                 }
             }
         }
@@ -551,7 +548,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             additionalProperties.put(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES, optionalEmitDefaultValuesFlag);
         }
 
-
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
@@ -565,11 +561,22 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         clientPackage = "Client";
 
         String framework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
+        boolean strategyMatched = false;
         FrameworkStrategy strategy = defaultFramework;
         for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
             if (framework.equals(frameworkStrategy.name)) {
                 strategy = frameworkStrategy;
+                strategyMatched = true;
             }
+        }
+
+        // throws exception if the input targetFramework is invalid
+        if (strategyMatched == false) {
+            throw new IllegalArgumentException("Invalid .NET framework version: " +
+                    framework + ". List of supported versions: " +
+                    frameworkStrategies.stream()
+                    .map(p -> p.name)
+                    .collect(Collectors.joining(", ")));
         }
 
         strategy.configureAdditionalProperties(additionalProperties);
@@ -714,7 +721,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     public void setTargetFramework(String dotnetFramework) {
         if (!frameworks.containsKey(dotnetFramework)) {
-            LOGGER.warn("Invalid .NET framework version, defaulting to " + this.targetFramework);
+            throw new IllegalArgumentException("Invalid .NET framework version: " +
+                    dotnetFramework + ". List of supported versions: " +
+                    frameworkStrategies.stream()
+                    .map(p -> p.name)
+                    .collect(Collectors.joining(", ")));
         } else {
             this.targetFramework = dotnetFramework;
         }
@@ -851,12 +862,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             }
 
             if (removedChildEnum) {
-                // If we removed an entry from this model's vars, we need to ensure hasMore is updated
-                int count = 0, numVars = codegenProperties.size();
-                for (CodegenProperty codegenProperty : codegenProperties) {
-                    count += 1;
-                    codegenProperty.hasMore = count < numVars;
-                }
                 codegenModel.vars = codegenProperties;
             }
         }
@@ -904,6 +909,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         static FrameworkStrategy NETCOREAPP_3_0 = new FrameworkStrategy("netcoreapp3.0", ".NET Core 3.0 compatible", "netcoreapp3.0", Boolean.FALSE) {
         };
         static FrameworkStrategy NETCOREAPP_3_1 = new FrameworkStrategy("netcoreapp3.1", ".NET Core 3.1 compatible", "netcoreapp3.1", Boolean.FALSE) {
+        };
+        static FrameworkStrategy NETFRAMEWORK_4_7 = new FrameworkStrategy("net47", ".NET Framework 4.7 compatible", "net47", Boolean.FALSE) {
         };
         protected String name;
         protected String description;

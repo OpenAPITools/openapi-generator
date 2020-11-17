@@ -138,6 +138,11 @@ namespace Org.OpenAPITools.Model
         public static Pig FromJson(string jsonString)
         {
             Pig newPig = null;
+
+            if (jsonString == null)
+            {
+                return newPig;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
@@ -237,7 +242,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRaw((String)(typeof(Pig).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((String)(typeof(Pig).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>
@@ -250,7 +255,11 @@ namespace Org.OpenAPITools.Model
         /// <returns>The object converted from the JSON string</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return Pig.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return Pig.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
         }
 
         /// <summary>

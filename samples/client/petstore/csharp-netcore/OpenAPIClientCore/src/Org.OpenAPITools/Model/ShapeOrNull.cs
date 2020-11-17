@@ -147,6 +147,11 @@ namespace Org.OpenAPITools.Model
         public static ShapeOrNull FromJson(string jsonString)
         {
             ShapeOrNull newShapeOrNull = null;
+
+            if (jsonString == null)
+            {
+                return newShapeOrNull;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
@@ -246,7 +251,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRaw((String)(typeof(ShapeOrNull).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((String)(typeof(ShapeOrNull).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>
@@ -259,7 +264,11 @@ namespace Org.OpenAPITools.Model
         /// <returns>The object converted from the JSON string</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return ShapeOrNull.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return ShapeOrNull.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
         }
 
         /// <summary>

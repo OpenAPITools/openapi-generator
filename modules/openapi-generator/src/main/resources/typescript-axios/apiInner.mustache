@@ -161,20 +161,19 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             if ({{paramName}}) {
             {{#isCollectionFormatMulti}}
                 {{paramName}}.forEach((element) => {
-                    localVarFormParams.append('{{baseName}}', element as any);
+                    localVarFormParams.{{#multipartFormData}}append{{/multipartFormData}}{{^multipartFormData}}set{{/multipartFormData}}('{{baseName}}', element as any);
                 })
             {{/isCollectionFormatMulti}}
-            {{^isCollectionFormatMulti}}{{^multipartFormData}}
-                localVarFormParams.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));{{/multipartFormData}}{{#multipartFormData}}
-                localVarFormParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));{{/multipartFormData}}
+            {{^isCollectionFormatMulti}}
+                localVarFormParams.{{#multipartFormData}}append{{/multipartFormData}}{{^multipartFormData}}set{{/multipartFormData}}({{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));
             {{/isCollectionFormatMulti}}
             }{{/isArray}}
             {{^isArray}}
             if ({{paramName}} !== undefined) { {{^multipartFormData}}
-                localVarFormParams.set('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}{{#multipartFormData}}
-                localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}
-            }
-            {{/isArray}}
+                localVarFormParams.set('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}{{#multipartFormData}}{{#isPrimitiveType}}
+                localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/isPrimitiveType}}{{^isPrimitiveType}}
+                localVarFormParams.append('{{baseName}}', new Blob([JSON.stringify({{paramName}})], { type: "application/json", }));{{/isPrimitiveType}}{{/multipartFormData}}
+            }{{/isArray}}
     {{/formParams}}{{/vendorExtensions}}
     {{#vendorExtensions}}{{#hasFormParams}}{{^multipartFormData}}
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';{{/multipartFormData}}{{#multipartFormData}}
@@ -203,8 +202,13 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             localVarRequestOptions.data = localVarFormParams{{#vendorExtensions}}{{^multipartFormData}}.toString(){{/multipartFormData}}{{/vendorExtensions}};
     {{/hasFormParams}}
     {{#bodyParam}}
-            const needsSerialization = (typeof {{paramName}} !== "string") && configuration.isJsonMime(localVarRequestOptions.headers['Content-Type']);
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify({{paramName}} !== undefined ? {{paramName}} : {}) : ({{paramName}} || "");
+            const nonString = typeof {{paramName}} !== 'string';
+            const needsSerialization = nonString && configuration && configuration.isJsonMime
+                ? configuration.isJsonMime(localVarRequestOptions.headers['Content-Type'])
+                : nonString;
+            localVarRequestOptions.data =  needsSerialization
+                ? JSON.stringify({{paramName}} !== undefined ? {{paramName}} : {})
+                : ({{paramName}} || "");
     {{/bodyParam}}
 
             return {

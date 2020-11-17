@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
+import play.api.libs.Files.TemporaryFile;
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -24,7 +25,6 @@ import openapitools.OpenAPIUtils.ApiAction;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class FakeClassnameTags123ApiController extends Controller {
-
     private final FakeClassnameTags123ApiControllerImpInterface imp;
     private final ObjectMapper mapper;
     private final Config configuration;
@@ -35,7 +35,6 @@ public class FakeClassnameTags123ApiController extends Controller {
         mapper = new ObjectMapper();
         this.configuration = configuration;
     }
-
 
     @ApiAction
     public Result testClassname(Http.Request request) throws Exception {
@@ -49,11 +48,7 @@ public class FakeClassnameTags123ApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        Client obj = imp.testClassname(request, body);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.testClassnameHttp(request, body);
     }
+
 }

@@ -563,6 +563,7 @@ Here is a list of community-conitributed IDE plug-ins that integrate with OpenAP
 Here are some companies/projects (alphabetical order) using OpenAPI Generator in production. To add your company/project to the list, please visit [README.md](README.md) and click on the icon to edit the page.
 
 - [Adaptant Solutions AG](https://www.adaptant.io/)
+- [adesso SE](https://www.adesso.de/)
 - [Agoda](https://www.agoda.com/)
 - [Allianz](https://www.allianz.com)
 - [Angular.Schule](https://angular.schule/)
@@ -611,6 +612,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Kubernetes](https://kubernetes.io)
 - [Linode](https://www.linode.com/)
 - [Logicdrop](https://www.logicdrop.com)
+- [LVM Versicherungen](https://www.lvm.de)
 - [MailSlurp](https://www.mailslurp.com)
 - [Médiavision](https://www.mediavision.fr/)
 - [Metaswitch](https://www.metaswitch.com/)
@@ -782,6 +784,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-09-17 - [Generate PowerShellSDK using openapi-generator](https://medium.com/@ghufz.learn/generate-powershellsdk-using-openapi-generator-33b700891e33) by [Ghufran Zahidi](https://medium.com/@ghufz.learn)
 - 2020-09-24 - [How to automate API code generation (OpenAPI/Swagger) and boost productivity - Tutorial with React Native featuring TypeScript](https://medium.com/@sceleski/how-to-automate-api-code-generation-openapi-swagger-and-boost-productivity-1176a0056d8a) by [Sanjin Celeski](https://medium.com/@sceleski)
 - 2020-09-25 - [Generate OpenAPI Angular Client](https://medium.com/@pguso/generate-openapi-angular-client-8c9288e8bbd4) by [Patric](https://medium.com/@pguso)
+- 2020-10-24 - [Working with Microsoft Identity - React Native Client](https://www.josephguadagno.net/2020/10/24/working-with-microsoft-identity-react-native-client) by [Joseph Guadagno](https://www.josephguadagno.net/)
+- 2020-10-31 - [[B2] OpenAPI Specification으로 타입-세이프하게 API 개발하기: 희망편 VS 절망편](https://www.youtube.com/watch?v=J4JHLESAiFk) by 최태건 at [FEConf 2020](https://2020.feconf.kr/)
 
 ## [6 - About Us](#table-of-contents)
 

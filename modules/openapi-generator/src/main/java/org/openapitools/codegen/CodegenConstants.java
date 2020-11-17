@@ -67,6 +67,9 @@ public class CodegenConstants {
     public static final String PYTHON_PACKAGE_NAME = "pythonPackageName";
     public static final String PYTHON_PACKAGE_NAME_DESC = "package name for generated python code";
 
+    public static final String PYTHON_ATTR_NONE_IF_UNSET = "pythonAttrNoneIfUnset";
+    public static final String PYTHON_ATTR_NONE_IF_UNSET_DESC = "when accessing unset attribute, return `None` instead of raising `ApiAttributeError`";
+
     public static final String WITH_GO_CODEGEN_COMMENT = "withGoCodegenComment";
     public static final String WITH_GO_CODEGEN_COMMENT_DESC = "whether to include Go codegen comment to disable Go Lint and collapse by default in GitHub PRs and diffs";
 

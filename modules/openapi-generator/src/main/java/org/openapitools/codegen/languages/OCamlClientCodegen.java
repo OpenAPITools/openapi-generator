@@ -361,7 +361,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     private String sanitizeOCamlTypeName(String name) {
-        String typeName = name.replace("-", "_").replace(" ", "_").trim();
+        String typeName = name.replace("-", "_").replace(" ", "_").replace('.', '_').trim();
         int i = 0;
         char c;
         while (i < typeName.length() && (Character.isDigit(c = typeName.charAt(i)) || c == '_')) {

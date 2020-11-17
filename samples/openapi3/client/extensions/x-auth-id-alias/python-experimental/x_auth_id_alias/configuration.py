@@ -208,6 +208,9 @@ conf = x_auth_id_alias.Configuration(
         # Enable client side validation
         self.client_side_validation = True
 
+        # Options to pass down to the underlying urllib3 socket
+        self.socket_options = None
+
     def __deepcopy__(self, memo):
         cls = self.__class__
         result = cls.__new__(cls)

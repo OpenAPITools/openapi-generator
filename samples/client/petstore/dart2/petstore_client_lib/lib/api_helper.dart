@@ -9,6 +9,16 @@
 
 part of openapi.api;
 
+class QueryParam {
+  const QueryParam(this.name, this.value);
+
+  final String name;
+  final String value;
+
+  @override
+  String toString() => '${Uri.encodeQueryComponent(name)}=${Uri.encodeQueryComponent(value)}';
+}
+
 // Ported from the Java version.
 Iterable<QueryParam> _convertParametersForCollectionFormat(
   String collectionFormat,

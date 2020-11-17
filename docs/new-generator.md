@@ -264,7 +264,7 @@ Method | HTTP request | Description
 {{#operation}}
 <a name="{{operationId}}"></a>
 # **{{operationId}}**
-> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
 
 {{summary}}{{#notes}}
 
@@ -287,8 +287,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
- - **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
+ - **Content-Type**: {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+ - **Accept**: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
 
 {{/operation}}
 {{/operations}}

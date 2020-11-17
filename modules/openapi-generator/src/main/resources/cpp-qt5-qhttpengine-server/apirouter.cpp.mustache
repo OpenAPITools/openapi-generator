@@ -72,7 +72,7 @@ bool {{prefix}}ApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *
                 QString {{baseName}} = match.captured(QString("{{baseName}}").toLower());
                 {{/pathParams}}
                 auto reqObj = new {{classname}}Request(socket, m{{classname}}Handler);
-                reqObj->{{nickname}}Request({{#pathParams}}{{baseName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}});
+                reqObj->{{nickname}}Request({{#pathParams}}{{baseName}}{{^-last}}, {{/-last}}{{/pathParams}});
                 return true;
             }
         }

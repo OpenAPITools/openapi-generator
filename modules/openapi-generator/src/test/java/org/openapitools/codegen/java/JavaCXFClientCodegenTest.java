@@ -27,6 +27,10 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.JavaCXFClientCodegen;
+import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.languages.features.GzipTestFeatures;
+import org.openapitools.codegen.languages.features.LoggingTestFeatures;
+import org.openapitools.codegen.languages.features.UseGenericResponseFeatures;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -118,4 +122,61 @@ public class JavaCXFClientCodegenTest {
         Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools.client.xyz.invoker");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools.client.xyz.invoker");
     }
+
+    @Test
+    public void testUseBeanValidationAdditionalProperty() throws Exception {
+        final JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
+
+        codegen.processOpts();
+        Assert.assertNull(codegen.additionalProperties().get(BeanValidationFeatures.USE_BEANVALIDATION));
+        Assert.assertFalse(codegen.isUseBeanValidation());
+
+        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEANVALIDATION, true);
+        codegen.processOpts();
+        Assert.assertEquals(codegen.additionalProperties().get(BeanValidationFeatures.USE_BEANVALIDATION), Boolean.TRUE);
+        Assert.assertTrue(codegen.isUseBeanValidation());
+    }
+
+    @Test
+    public void testUseGenericResponseAdditionalProperty() throws Exception {
+        final JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
+
+        codegen.processOpts();
+        Assert.assertNull(codegen.additionalProperties().get(UseGenericResponseFeatures.USE_GENERIC_RESPONSE));
+        Assert.assertFalse(codegen.isUseGenericResponse());
+
+        codegen.additionalProperties().put(UseGenericResponseFeatures.USE_GENERIC_RESPONSE, true);
+        codegen.processOpts();
+        Assert.assertEquals(codegen.additionalProperties().get(UseGenericResponseFeatures.USE_GENERIC_RESPONSE), Boolean.TRUE);
+        Assert.assertTrue(codegen.isUseGenericResponse());
+    }
+
+    @Test
+    public void testUseLoggingFeatureForTestsAdditionalProperty() throws Exception {
+        final JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
+
+        codegen.processOpts();
+        Assert.assertNull(codegen.additionalProperties().get(LoggingTestFeatures.USE_LOGGING_FEATURE_FOR_TESTS));
+        Assert.assertFalse(codegen.isUseLoggingFeatureForTests());
+
+        codegen.additionalProperties().put(LoggingTestFeatures.USE_LOGGING_FEATURE_FOR_TESTS, true);
+        codegen.processOpts();
+        Assert.assertEquals(codegen.additionalProperties().get(LoggingTestFeatures.USE_LOGGING_FEATURE_FOR_TESTS), Boolean.TRUE);
+        Assert.assertTrue(codegen.isUseLoggingFeatureForTests());
+    }
+
+    @Test
+    public void testUseGzipFeatureForTestsAdditionalProperty() throws Exception {
+        final JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
+
+        codegen.processOpts();
+        Assert.assertNull(codegen.additionalProperties().get(GzipTestFeatures.USE_GZIP_FEATURE_FOR_TESTS));
+        Assert.assertFalse(codegen.isUseLoggingFeatureForTests());
+
+        codegen.additionalProperties().put(GzipTestFeatures.USE_GZIP_FEATURE_FOR_TESTS, true);
+        codegen.processOpts();
+        Assert.assertEquals(codegen.additionalProperties().get(GzipTestFeatures.USE_GZIP_FEATURE_FOR_TESTS), Boolean.TRUE);
+        Assert.assertTrue(codegen.isUseGzipFeatureForTests());
+    }
+
 }

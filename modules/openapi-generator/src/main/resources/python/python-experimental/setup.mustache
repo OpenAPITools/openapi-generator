@@ -8,7 +8,7 @@ NAME = "{{{projectName}}}"
 VERSION = "{{packageVersion}}"
 {{#apiInfo}}
 {{#apis}}
-{{^hasMore}}
+{{#-last}}
 # To install the library, run the following
 #
 # python setup.py install
@@ -50,6 +50,6 @@ setup(
     {{appDescription}}  # noqa: E501
     """
 )
-{{/hasMore}}
+{{/-last}}
 {{/apis}}
 {{/apiInfo}}

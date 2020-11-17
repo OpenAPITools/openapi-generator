@@ -297,13 +297,13 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
                 for (CodegenParameter param : operation.allParams) {
                     if (param.isFormParam && param.isFile) {
-                        param.dataType = "Http.MultipartFormData.FilePart";
+                        param.dataType = "Http.MultipartFormData.FilePart<TemporaryFile>";
                     }
                 }
 
                 for (CodegenParameter param : operation.formParams) {
                     if (param.isFile) {
-                        param.dataType = "Http.MultipartFormData.FilePart";
+                        param.dataType = "Http.MultipartFormData.FilePart<TemporaryFile>";
                     }
                 }
 

@@ -108,7 +108,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public AbstractJavaCodegen() {
         super();
-        super.loadJVMSpecificImportMappers();
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -178,6 +177,24 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         typeMapping.put("date", "Date");
         typeMapping.put("file", "File");
         typeMapping.put("AnyType", "Object");
+
+        importMapping.put("BigDecimal", "java.math.BigDecimal");
+        importMapping.put("UUID", "java.util.UUID");
+        importMapping.put("URI", "java.net.URI");
+        importMapping.put("File", "java.io.File");
+        importMapping.put("Date", "java.util.Date");
+        importMapping.put("Timestamp", "java.sql.Timestamp");
+        importMapping.put("Map", "java.util.Map");
+        importMapping.put("HashMap", "java.util.HashMap");
+        importMapping.put("Array", "java.util.List");
+        importMapping.put("ArrayList", "java.util.ArrayList");
+        importMapping.put("List", "java.util.*");
+        importMapping.put("Set", "java.util.*");
+        importMapping.put("LinkedHashSet", "java.util.LinkedHashSet");
+        importMapping.put("DateTime", "org.joda.time.*");
+        importMapping.put("LocalDateTime", "org.joda.time.*");
+        importMapping.put("LocalDate", "org.joda.time.*");
+        importMapping.put("LocalTime", "org.joda.time.*");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
@@ -1061,7 +1078,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         if (serializeBigDecimalAsString) {
-            if (property.baseType.equals("BigDecimal")) {
+            if ("decimal".equals(property.baseType)) {
                 // we serialize BigDecimal as `string` to avoid precision loss
                 property.vendorExtensions.put("x-extra-annotation", "@JsonSerialize(using = ToStringSerializer.class)");
 
@@ -1327,13 +1344,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (removedChildEnum) {
-            // If we removed an entry from this model's vars, we need to ensure hasMore is updated
-            int count = 0;
-            int numVars = codegenProperties.size();
-            for (CodegenProperty codegenProperty : codegenProperties) {
-                count += 1;
-                codegenProperty.hasMore = count < numVars;
-            }
             codegenModel.vars = codegenProperties;
         }
         return codegenModel;

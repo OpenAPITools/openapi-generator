@@ -30,6 +30,7 @@ use Log::Any qw($log);
 use Date::Parse;
 use DateTime;
 
+use WWW::OpenAPIClient::Object::Decimal;
 
 use base ("Class::Accessor", "Class::Data::Inheritable");
 
@@ -203,6 +204,13 @@ __PACKAGE__->method_documentation({
         format => '',
         read_only => '',
             },
+    'decimal' => {
+        datatype => 'Decimal',
+        base_name => 'decimal',
+        description => '',
+        format => '',
+        read_only => '',
+            },
     'string' => {
         datatype => 'string',
         base_name => 'string',
@@ -275,6 +283,7 @@ __PACKAGE__->openapi_types( {
     'number' => 'double',
     'float' => 'double',
     'double' => 'double',
+    'decimal' => 'Decimal',
     'string' => 'string',
     'byte' => 'string',
     'binary' => 'string',
@@ -293,6 +302,7 @@ __PACKAGE__->attribute_map( {
     'number' => 'number',
     'float' => 'float',
     'double' => 'double',
+    'decimal' => 'decimal',
     'string' => 'string',
     'byte' => 'byte',
     'binary' => 'binary',

@@ -23,7 +23,7 @@ private class {{classname}}Test {
 
         Map<String, Object> params = new Map<String, Object>{
           {{#allParams}}
-            '{{paramName}}' => {{{example}}}{{#hasMore}},{{/hasMore}}
+            '{{paramName}}' => {{{example}}}{{^-last}},{{/-last}}
           {{/allParams}}
         };
       {{/hasParams}}
@@ -73,9 +73,9 @@ private class {{classname}}Test {
       {{/examples}}
     {{/authMethods}}
     }
-    {{#hasMore}}
+    {{^-last}}
 
-    {{/hasMore}}
+    {{/-last}}
   {{/operation}}
 {{/operations}}
 }
