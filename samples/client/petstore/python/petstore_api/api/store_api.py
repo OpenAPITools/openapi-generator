@@ -10,18 +10,20 @@
 """
 
 
-from __future__ import absolute_import
-
 import re  # noqa: F401
+import sys  # noqa: F401
 
-# python 2 and python 3 compatibility library
-import six
-
-from petstore_api.api_client import ApiClient
-from petstore_api.exceptions import (  # noqa: F401
-    ApiTypeError,
-    ApiValueError
+from petstore_api.api_client import ApiClient, Endpoint
+from petstore_api.model_utils import (  # noqa: F401
+    check_allowed_values,
+    check_validations,
+    date,
+    datetime,
+    file_type,
+    none_type,
+    validate_and_convert_types
 )
+from petstore_api.model.order import Order
 
 
 class StoreApi(object):
@@ -36,530 +38,464 @@ class StoreApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def delete_order(self, order_id, **kwargs):  # noqa: E501
-        """Delete purchase order by ID  # noqa: E501
+        def __delete_order(
+            self,
+            order_id,
+            **kwargs
+        ):
+            """Delete purchase order by ID  # noqa: E501
 
-        For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
+            For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.delete_order(order_id, async_req=True)
-        >>> result = thread.get()
+            >>> thread = api.delete_order(order_id, async_req=True)
+            >>> result = thread.get()
 
-        :param order_id: ID of the order that needs to be deleted (required)
-        :type order_id: str
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: None
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.delete_order_with_http_info(order_id, **kwargs)  # noqa: E501
+            Args:
+                order_id (str): ID of the order that needs to be deleted
 
-    def delete_order_with_http_info(self, order_id, **kwargs):  # noqa: E501
-        """Delete purchase order by ID  # noqa: E501
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['order_id'] = \
+                order_id
+            return self.call_with_http_info(**kwargs)
 
-        >>> thread = api.delete_order_with_http_info(order_id, async_req=True)
-        >>> result = thread.get()
-
-        :param order_id: ID of the order that needs to be deleted (required)
-        :type order_id: str
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: None
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'order_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout',
-                '_request_auth'
-            ]
+        self.delete_order = Endpoint(
+            settings={
+                'response_type': None,
+                'auth': [],
+                'endpoint_path': '/store/order/{order_id}',
+                'operation_id': 'delete_order',
+                'http_method': 'DELETE',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'order_id',
+                ],
+                'required': [
+                    'order_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'order_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'order_id': 'order_id',
+                },
+                'location_map': {
+                    'order_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__delete_order
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method delete_order" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'order_id' is set
-        if self.api_client.client_side_validation and ('order_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['order_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `order_id` when calling `delete_order`")  # noqa: E501
+        def __get_inventory(
+            self,
+            **kwargs
+        ):
+            """Returns pet inventories by status  # noqa: E501
 
-        collection_formats = {}
+            Returns a map of status codes to quantities  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'order_id' in local_var_params:
-            path_params['order_id'] = local_var_params['order_id']  # noqa: E501
+            >>> thread = api.get_inventory(async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                {str: (int,)}
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-        
-        response_types_map = {}
-
-        return self.api_client.call_api(
-            '/store/order/{order_id}', 'DELETE',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
-
-    def get_inventory(self, **kwargs):  # noqa: E501
-        """Returns pet inventories by status  # noqa: E501
-
-        Returns a map of status codes to quantities  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.get_inventory(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: dict(str, int)
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_inventory_with_http_info(**kwargs)  # noqa: E501
-
-    def get_inventory_with_http_info(self, **kwargs):  # noqa: E501
-        """Returns pet inventories by status  # noqa: E501
-
-        Returns a map of status codes to quantities  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.get_inventory_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: tuple(dict(str, int), status_code(int), headers(HTTPHeaderDict))
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout',
-                '_request_auth'
-            ]
+        self.get_inventory = Endpoint(
+            settings={
+                'response_type': ({str: (int,)},),
+                'auth': [
+                    'api_key'
+                ],
+                'endpoint_path': '/store/inventory',
+                'operation_id': 'get_inventory',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_inventory
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_inventory" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+        def __get_order_by_id(
+            self,
+            order_id,
+            **kwargs
+        ):
+            """Find purchase order by ID  # noqa: E501
 
-        collection_formats = {}
+            For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
+            >>> thread = api.get_order_by_id(order_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                order_id (int): ID of pet that needs to be fetched
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                Order
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['order_id'] = \
+                order_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        self.get_order_by_id = Endpoint(
+            settings={
+                'response_type': (Order,),
+                'auth': [],
+                'endpoint_path': '/store/order/{order_id}',
+                'operation_id': 'get_order_by_id',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'order_id',
+                ],
+                'required': [
+                    'order_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                    'order_id',
+                ]
+            },
+            root_map={
+                'validations': {
+                    ('order_id',): {
 
-        # Authentication setting
-        auth_settings = ['api_key']  # noqa: E501
-        
-        response_types_map = {
-            200: "dict(str, int)",
-        }
-
-        return self.api_client.call_api(
-            '/store/inventory', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
-
-    def get_order_by_id(self, order_id, **kwargs):  # noqa: E501
-        """Find purchase order by ID  # noqa: E501
-
-        For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.get_order_by_id(order_id, async_req=True)
-        >>> result = thread.get()
-
-        :param order_id: ID of pet that needs to be fetched (required)
-        :type order_id: int
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: Order
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_order_by_id_with_http_info(order_id, **kwargs)  # noqa: E501
-
-    def get_order_by_id_with_http_info(self, order_id, **kwargs):  # noqa: E501
-        """Find purchase order by ID  # noqa: E501
-
-        For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.get_order_by_id_with_http_info(order_id, async_req=True)
-        >>> result = thread.get()
-
-        :param order_id: ID of pet that needs to be fetched (required)
-        :type order_id: int
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: tuple(Order, status_code(int), headers(HTTPHeaderDict))
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'order_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout',
-                '_request_auth'
-            ]
+                        'inclusive_maximum': 5,
+                        'inclusive_minimum': 1,
+                    },
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'order_id':
+                        (int,),
+                },
+                'attribute_map': {
+                    'order_id': 'order_id',
+                },
+                'location_map': {
+                    'order_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/xml',
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_order_by_id
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_order_by_id" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'order_id' is set
-        if self.api_client.client_side_validation and ('order_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['order_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `order_id` when calling `get_order_by_id`")  # noqa: E501
+        def __place_order(
+            self,
+            body,
+            **kwargs
+        ):
+            """Place an order for a pet  # noqa: E501
 
-        if self.api_client.client_side_validation and 'order_id' in local_var_params and local_var_params['order_id'] > 5:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value less than or equal to `5`")  # noqa: E501
-        if self.api_client.client_side_validation and 'order_id' in local_var_params and local_var_params['order_id'] < 1:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value greater than or equal to `1`")  # noqa: E501
-        collection_formats = {}
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'order_id' in local_var_params:
-            path_params['order_id'] = local_var_params['order_id']  # noqa: E501
+            >>> thread = api.place_order(body, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                body (Order): order placed for purchasing the pet
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                Order
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['body'] = \
+                body
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/xml', 'application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-        
-        response_types_map = {
-            200: "Order",
-            400: None,
-            404: None,
-        }
-
-        return self.api_client.call_api(
-            '/store/order/{order_id}', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
-
-    def place_order(self, body, **kwargs):  # noqa: E501
-        """Place an order for a pet  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.place_order(body, async_req=True)
-        >>> result = thread.get()
-
-        :param body: order placed for purchasing the pet (required)
-        :type body: Order
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: Order
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.place_order_with_http_info(body, **kwargs)  # noqa: E501
-
-    def place_order_with_http_info(self, body, **kwargs):  # noqa: E501
-        """Place an order for a pet  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.place_order_with_http_info(body, async_req=True)
-        >>> result = thread.get()
-
-        :param body: order placed for purchasing the pet (required)
-        :type body: Order
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: tuple(Order, status_code(int), headers(HTTPHeaderDict))
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'body'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout',
-                '_request_auth'
-            ]
+        self.place_order = Endpoint(
+            settings={
+                'response_type': (Order,),
+                'auth': [],
+                'endpoint_path': '/store/order',
+                'operation_id': 'place_order',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'body',
+                ],
+                'required': [
+                    'body',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'body':
+                        (Order,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'body': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/xml',
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__place_order
         )
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method place_order" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'body' is set
-        if self.api_client.client_side_validation and ('body' not in local_var_params or  # noqa: E501
-                                                        local_var_params['body'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `body` when calling `place_order`")  # noqa: E501
-
-        collection_formats = {}
-
-        path_params = {}
-
-        query_params = []
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'body' in local_var_params:
-            body_params = local_var_params['body']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/xml', 'application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-        
-        response_types_map = {
-            200: "Order",
-            400: None,
-        }
-
-        return self.api_client.call_api(
-            '/store/order', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
