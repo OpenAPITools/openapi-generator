@@ -33,23 +33,6 @@ export interface InlineObject2 {
     enumFormString?: InlineObject2EnumFormStringEnum;
 }
 
-/**
-* @export
-* @enum {string}
-*/
-export enum InlineObject2EnumFormStringArrayEnum {
-    GreaterThan = '>',
-    Dollar = '$'
-}/**
-* @export
-* @enum {string}
-*/
-export enum InlineObject2EnumFormStringEnum {
-    Abc = '_abc',
-    Efg = '-efg',
-    Xyz = '(xyz)'
-}
-
 export function InlineObject2FromJSON(json: any): InlineObject2 {
     return InlineObject2FromJSONTyped(json, false);
 }
@@ -77,6 +60,24 @@ export function InlineObject2ToJSON(value?: InlineObject2 | null): any {
         'enum_form_string_array': value.enumFormStringArray,
         'enum_form_string': value.enumFormString,
     };
+}
+
+/**
+* @export
+* @enum {string}
+*/
+export enum InlineObject2EnumFormStringArrayEnum {
+    GreaterThan = '>',
+    Dollar = '$'
+}
+/**
+* @export
+* @enum {string}
+*/
+export enum InlineObject2EnumFormStringEnum {
+    Abc = '_abc',
+    Efg = '-efg',
+    Xyz = '(xyz)'
 }
 
 
