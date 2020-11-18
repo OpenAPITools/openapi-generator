@@ -33,22 +33,6 @@ export interface EnumArrays {
     arrayEnum?: Array<EnumArraysArrayEnumEnum>;
 }
 
-/**
-* @export
-* @enum {string}
-*/
-export enum EnumArraysJustSymbolEnum {
-    GreaterThanOrEqualTo = '>=',
-    Dollar = '$'
-}/**
-* @export
-* @enum {string}
-*/
-export enum EnumArraysArrayEnumEnum {
-    Fish = 'fish',
-    Crab = 'crab'
-}
-
 export function EnumArraysFromJSON(json: any): EnumArrays {
     return EnumArraysFromJSONTyped(json, false);
 }
@@ -76,6 +60,23 @@ export function EnumArraysToJSON(value?: EnumArrays | null): any {
         'just_symbol': value.justSymbol,
         'array_enum': value.arrayEnum,
     };
+}
+
+/**
+* @export
+* @enum {string}
+*/
+export enum EnumArraysJustSymbolEnum {
+    GreaterThanOrEqualTo = '>=',
+    Dollar = '$'
+}
+/**
+* @export
+* @enum {string}
+*/
+export enum EnumArraysArrayEnumEnum {
+    Fish = 'fish',
+    Crab = 'crab'
 }
 
 

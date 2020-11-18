@@ -45,24 +45,6 @@ export interface InlineObject {
     nullableNumberEnum?: number | null;
 }
 
-/**
-* @export
-* @enum {string}
-*/
-export enum InlineObjectStringEnumEnum {
-    One = 'one',
-    Two = 'two',
-    Three = 'three'
-}/**
-* @export
-* @enum {string}
-*/
-export enum InlineObjectNumberEnumEnum {
-    NUMBER_1 = 1,
-    NUMBER_2 = 2,
-    NUMBER_3 = 3
-}
-
 export function InlineObjectFromJSON(json: any): InlineObject {
     return InlineObjectFromJSONTyped(json, false);
 }
@@ -94,6 +76,25 @@ export function InlineObjectToJSON(value?: InlineObject | null): any {
         'number-enum': value.numberEnum,
         'nullable-number-enum': value.nullableNumberEnum,
     };
+}
+
+/**
+* @export
+* @enum {string}
+*/
+export enum InlineObjectStringEnumEnum {
+    One = 'one',
+    Two = 'two',
+    Three = 'three'
+}
+/**
+* @export
+* @enum {string}
+*/
+export enum InlineObjectNumberEnumEnum {
+    NUMBER_1 = 1,
+    NUMBER_2 = 2,
+    NUMBER_3 = 3
 }
 
 
