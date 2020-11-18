@@ -232,7 +232,7 @@ public class DefaultCodegenTest {
         Assert.assertEquals(version, new SemVer("2.0.0"));
 
         // Test with OAS 3.0 document.
-        location = "src/test/resources/3_0/python-experimental/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml";
+        location = "src/test/resources/3_0/python/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml";
         openAPI = TestUtils.parseFlattenSpec(location);
         version = ModelUtils.getOpenApiVersion(openAPI, location, null);
         Assert.assertEquals(version, new SemVer("3.0.0"));
@@ -291,7 +291,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testAdditionalPropertiesV3Spec() {
-        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/python-experimental/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/python/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
         codegen.setOpenAPI(openAPI);

@@ -19,7 +19,7 @@ package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.PythonClientCodegen;
+import org.openapitools.codegen.languages.PythonLegacyClientCodegen;
 
 import java.util.Map;
 
@@ -39,7 +39,7 @@ public class PythonClientOptionsProvider implements OptionsProvider {
     @Override
     public Map<String, String> createOptions() {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
-        return builder.put(PythonClientCodegen.PACKAGE_URL, PACKAGE_URL_VALUE)
+        return builder.put(PythonLegacyClientCodegen.PACKAGE_URL, PACKAGE_URL_VALUE)
                 .put(CodegenConstants.PACKAGE_NAME, PACKAGE_NAME_VALUE)
                 .put(CodegenConstants.PROJECT_NAME, PROJECT_NAME_VALUE)
                 .put(CodegenConstants.PACKAGE_VERSION, PACKAGE_VERSION_VALUE)
@@ -47,8 +47,8 @@ public class PythonClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .put(CodegenConstants.SOURCECODEONLY_GENERATION, "false")
                 .put(CodegenConstants.LIBRARY, "urllib3")
-                .put(PythonClientCodegen.USE_NOSE, USE_NOSE_VALUE)
-                .put(PythonClientCodegen.RECURSION_LIMIT, RECURSION_LIMIT)
+                .put(PythonLegacyClientCodegen.USE_NOSE, USE_NOSE_VALUE)
+                .put(PythonLegacyClientCodegen.RECURSION_LIMIT, RECURSION_LIMIT)
                 .build();
     }
 

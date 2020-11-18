@@ -27,6 +27,20 @@
                 <version>1.2.1</version>
                 <executions>
                     <execution>
+                        <id>bundle-install</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>/bin/bash</executable>
+                            <arguments>
+                                <argument>gradlew</argument>
+                                <argument>wrapper</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>bundle-test</id>
                         <phase>integration-test</phase>
                         <goals>
