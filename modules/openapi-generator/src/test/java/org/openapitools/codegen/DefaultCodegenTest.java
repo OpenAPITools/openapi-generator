@@ -2400,6 +2400,12 @@ public class DefaultCodegenTest {
         CodegenProperty mapWithAddPropsFalse;
         CodegenProperty mapWithAddPropsSchema;
 
+        // make sure isGenerateAliasAsModel is false
+        boolean isGenerateAliasAsModel = ModelUtils.isGenerateAliasAsModel();
+        if (isGenerateAliasAsModel) {
+            GlobalSettings.setProperty("generateAliasAsModel", "false");
+        }
+
         modelName = "ObjectModelWithRefAddPropsInProps";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
@@ -2423,6 +2429,10 @@ public class DefaultCodegenTest {
         assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
         mapWithAddPropsSchema = cm.getVars().get(3);
         assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+
+        if (isGenerateAliasAsModel) { // restore the setting
+            GlobalSettings.setProperty("generateAliasAsModel", "true");
+        }
     }
 
     @Test
@@ -2443,6 +2453,12 @@ public class DefaultCodegenTest {
         CodegenParameter mapWithAddPropsFalse;
         CodegenParameter mapWithAddPropsSchema;
 
+        // make sure isGenerateAliasAsModel is false
+        boolean isGenerateAliasAsModel = ModelUtils.isGenerateAliasAsModel();
+        if (isGenerateAliasAsModel) {
+            GlobalSettings.setProperty("generateAliasAsModel", "false");
+        }
+
         path = "/ref_additional_properties/";
         operation = openAPI.getPaths().get(path).getPost();
         co = codegen.fromOperation(path, "POST", operation, null);
@@ -2466,6 +2482,10 @@ public class DefaultCodegenTest {
         assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
         mapWithAddPropsSchema = co.queryParams.get(3);
         assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+
+        if (isGenerateAliasAsModel) { // restore the setting
+            GlobalSettings.setProperty("generateAliasAsModel", "true");
+        }
     }
 
     @Test
@@ -2486,6 +2506,12 @@ public class DefaultCodegenTest {
         CodegenResponse mapWithAddPropsFalse;
         CodegenResponse mapWithAddPropsSchema;
 
+        // make sure isGenerateAliasAsModel is false
+        boolean isGenerateAliasAsModel = ModelUtils.isGenerateAliasAsModel();
+        if (isGenerateAliasAsModel) {
+            GlobalSettings.setProperty("generateAliasAsModel", "false");
+        }
+
         path = "/ref_additional_properties/";
         operation = openAPI.getPaths().get(path).getPost();
         co = codegen.fromOperation(path, "POST", operation, null);
@@ -2509,6 +2535,10 @@ public class DefaultCodegenTest {
         assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
         mapWithAddPropsSchema = co.responses.get(3);
         assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+
+        if (isGenerateAliasAsModel) { // restore the setting
+            GlobalSettings.setProperty("generateAliasAsModel", "true");
+        }
     }
 
     @Test
