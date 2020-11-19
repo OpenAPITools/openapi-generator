@@ -270,7 +270,7 @@ public class ApiClient extends JavaTimeFormatter {
    *
    * @param secrets Hash map from authentication name to its secret.
    */
-  public ApiClient configureApiKeys(HashMap<String, String> secrets) {
+  public ApiClient configureApiKeys(Map<String, String> secrets) {
     for (Map.Entry<String, Authentication> authEntry : authentications.entrySet()) {
       Authentication auth = authEntry.getValue();
       if (auth instanceof ApiKeyAuth) {
