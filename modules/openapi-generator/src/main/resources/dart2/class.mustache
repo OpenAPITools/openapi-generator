@@ -77,8 +77,8 @@ class {{{classname}}} {
     return json;
   }
 
-  /// Returns a new [{{{classname}}}] instance and optionally import its values from
-  /// [json] if it's non-null.
+  /// Returns a new [{{{classname}}}] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
   static {{{classname}}} fromJson(Map<String, dynamic> json) => json == null
     ? null
     : {{{classname}}}(

@@ -46,8 +46,8 @@ class Category {
     return json;
   }
 
-  /// Returns a new [Category] instance and optionally import its values from
-  /// [json] if it's non-null.
+  /// Returns a new [Category] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
   static Category fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Category(

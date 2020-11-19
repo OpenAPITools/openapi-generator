@@ -100,8 +100,8 @@ class User {
     return json;
   }
 
-  /// Returns a new [User] instance and optionally import its values from
-  /// [json] if it's non-null.
+  /// Returns a new [User] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
   static User fromJson(Map<String, dynamic> json) => json == null
     ? null
     : User(

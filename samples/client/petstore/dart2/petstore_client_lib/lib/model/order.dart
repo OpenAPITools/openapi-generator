@@ -82,8 +82,8 @@ class Order {
     return json;
   }
 
-  /// Returns a new [Order] instance and optionally import its values from
-  /// [json] if it's non-null.
+  /// Returns a new [Order] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
   static Order fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Order(
