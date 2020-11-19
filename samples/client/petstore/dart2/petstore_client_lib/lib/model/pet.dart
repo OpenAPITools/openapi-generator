@@ -20,21 +20,6 @@ class Pet {
     this.status,
   });
 
-  /// Returns a new [Pet] instance and optionally import its values from
-  /// [json] if it's non-null.
-  Pet.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      id = json['id'];
-      category = Category.fromJson(json['category']);
-      name = json['name'];
-      photoUrls = json['photoUrls'] == null
-        ? null
-        : (json['photoUrls'] as List).cast<String>();
-      tags = Tag.listFromJson(json['tags']);
-      status = PetStatusEnum.fromJson(json['status']);
-    }
-  }
-
   
   int id;
 
@@ -64,12 +49,12 @@ class Pet {
 
   @override
   int get hashCode =>
-    id.hashCode +
-    category.hashCode +
-    name.hashCode +
-    photoUrls.hashCode +
-    tags.hashCode +
-    status.hashCode;
+    (id == null ? 0 : id.hashCode) +
+    (category == null ? 0 : category.hashCode) +
+    (name == null ? 0 : name.hashCode) +
+    (photoUrls == null ? 0 : photoUrls.hashCode) +
+    (tags == null ? 0 : tags.hashCode) +
+    (status == null ? 0 : status.hashCode);
 
   @override
   String toString() => 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]';
@@ -96,6 +81,21 @@ class Pet {
     }
     return json;
   }
+
+  /// Returns a new [Pet] instance and optionally import its values from
+  /// [json] if it's non-null.
+  static Pet fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : Pet(
+        id: json['id'],
+        category: Category.fromJson(json['category']),
+        name: json['name'],
+        photoUrls: json['photoUrls'] == null
+          ? null
+          : (json['photoUrls'] as List).cast<String>(),
+        tags: Tag.listFromJson(json['tags']),
+        status: PetStatusEnum.fromJson(json['status']),
+    );
 
   static List<Pet> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
