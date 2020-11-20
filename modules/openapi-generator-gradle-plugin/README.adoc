@@ -97,7 +97,7 @@ task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.Valid
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "5.0.0-beta3"
+  id "org.openapi.generator" version "4.3.1"
 }
 ----
 
@@ -113,7 +113,7 @@ buildscript {
     // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:5.0.0-beta3"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:4.3.1"
   }
 }
 
