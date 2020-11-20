@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 
 # **any_key**
-> object any_key()
+> {str: (bool, date, datetime, dict, float, int, list, str, none_type)} any_key()
 
 Use any API key
 
@@ -68,7 +68,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**object**
+**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**
 
 ### Authorization
 
@@ -87,7 +87,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **both_keys**
-> object both_keys()
+> {str: (bool, date, datetime, dict, float, int, list, str, none_type)} both_keys()
 
 Use both API keys
 
@@ -144,7 +144,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**object**
+**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**
 
 ### Authorization
 
@@ -163,7 +163,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **key_in_header**
-> object key_in_header()
+> {str: (bool, date, datetime, dict, float, int, list, str, none_type)} key_in_header()
 
 Use API key in header
 
@@ -213,7 +213,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**object**
+**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**
 
 ### Authorization
 
@@ -232,7 +232,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **key_in_query**
-> object key_in_query()
+> {str: (bool, date, datetime, dict, float, int, list, str, none_type)} key_in_query()
 
 Use API key in query
 
@@ -282,7 +282,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**object**
+**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**
 
 ### Authorization
 

@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **custom_server**
-> object custom_server()
+> {str: (bool, date, datetime, dict, float, int, list, str, none_type)} custom_server()
 
 Use custom server
 
@@ -48,7 +48,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**object**
+**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**
 
 ### Authorization
 
@@ -67,7 +67,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **default_server**
-> object default_server()
+> {str: (bool, date, datetime, dict, float, int, list, str, none_type)} default_server()
 
 Use default server
 
@@ -106,7 +106,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**object**
+**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**
 
 ### Authorization
 
