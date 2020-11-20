@@ -9,10 +9,11 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-{{classname}}::{{classname}}(const QString &scheme, const QString &host, int port, const QString &basePath, const int timeOut)
+{{classname}}::{{classname}}(const QString &scheme, const QString &host, int port, const QString &basePath, const int timeOut, const QString &apiKey)
     : _scheme(scheme),
       _host(host),
       _port(port),
+      _apiKey(apiKey),
       _basePath(basePath),
       _timeOut(timeOut),
       _manager(nullptr),
@@ -32,6 +33,10 @@ void {{classname}}::setHost(const QString &host) {
 
 void {{classname}}::setPort(int port) {
     _port = port;
+}
+
+void {{classname}}::setApiKey(const QString &apiKey){
+    _apiKey = apiKey;
 }
 
 void {{classname}}::setBasePath(const QString &basePath) {
@@ -80,6 +85,11 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     {{paramName}}PathParam.append("{{baseName}}").append("}");
     fullPath.replace({{paramName}}PathParam, QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
 {{/pathParams}}
+
+{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
+    addHeaders("{{name}}",_apiKey);
+{{/isKeyInHeader}}{{/isApiKey}}{{/authMethods}}
+
 {{#queryParams}}{{^collectionFormat}}
     if (fullPath.indexOf("?") > 0)
         fullPath.append("&");
