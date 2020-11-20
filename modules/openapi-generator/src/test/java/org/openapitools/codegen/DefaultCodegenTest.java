@@ -922,7 +922,7 @@ public class DefaultCodegenTest {
     public void testComposedSchemaAllOfDiscriminatorMapLegacy() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
-        // codegen.discriminatorExplicitMappingVerbose remains false in the legacy use case
+        // codegen.legacyDiscriminatorBehavior remains false in the legacy use case
         codegen.setOpenAPI(openAPI);
         Schema sc;
         String modelName;
