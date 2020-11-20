@@ -32,6 +32,9 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
+import org.unbescape.html.HtmlEscape;
+import org.unbescape.html.HtmlEscapeLevel;
+import org.unbescape.html.HtmlEscapeType;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -529,11 +532,25 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (value.length() == 0) {
             return "empty";
         }
-        String var = value.replaceAll("\\W+", "_");
-        if ("number".equalsIgnoreCase(datatype) ||
-                "int".equalsIgnoreCase(datatype)) {
-            var = "Number" + var;
-        }
+        String var = value;
+        var = HtmlEscape.escapeHtml(
+            var,
+            HtmlEscapeType.HTML5_NAMED_REFERENCES_DEFAULT_TO_DECIMAL,
+            HtmlEscapeLevel.LEVEL_3_ALL_NON_ALPHANUMERIC);
+        // replace all escaped space characters with _ characters,
+        var = var.replaceAll("&#32;", "_");
+        // A string with a single _ character is a space, marked with 'space'
+        var = var.replaceAll("^_$", "space");
+        // remove & and ; characters from escaped HTML entities
+        var = var.replaceAll("[&;]", "_");
+        // Replace consecutive _ characters with a single _ character
+        var = var.replaceAll("_+", "_");
+        // replace all # with 'num' string
+        var = var.replaceAll("#", "num");
+        // remove _ character from the beginning and end of the string
+        var = var.replaceAll("^_|_$", "");
+        // strings beginning with a number should start with text
+        var = var.replaceAll("^(\\d+)", "Number$1");
         return escapeReservedWord(camelize(var, true));
     }
 
