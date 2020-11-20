@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **Byte** | **string** |  | 
 **Binary** | Pointer to ***os.File** |  | [optional] 
 **Date** | **string** |  | 
-**DateTime** | Pointer to [**time.Time** |  | [optional] 
+**DateTime** | Pointer to **time.Time** |  | [optional] 
 **Uuid** | Pointer to **string** |  | [optional] 
 **Password** | **string** |  | 
 **BigDecimal** | Pointer to **float64** |  | [optional] 

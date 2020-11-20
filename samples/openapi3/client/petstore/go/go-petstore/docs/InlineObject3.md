@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **Byte** | **string** | None | 
 **Binary** | Pointer to ***os.File** | None | [optional] 
 **Date** | Pointer to **string** | None | [optional] 
-**DateTime** | Pointer to [**time.Time** | None | [optional] 
+**DateTime** | Pointer to **time.Time** | None | [optional] 
 **Password** | Pointer to **string** | None | [optional] 
 **Callback** | Pointer to **string** | None | [optional] 
 
