@@ -12,6 +12,7 @@
    For more info on generating Elm code, see https://eriktim.github.io/openapi-elm/
 -}
 
+
 module Api.Request.Default exposing
     ( headerPost, HeaderType(..), headerTypeVariants
     , maybeGet
@@ -113,14 +114,14 @@ stringFromEnum model =
 
 
 
-headerPost : String -> Maybe Int -> Maybe String -> Api.Request Api.Data.String
+headerPost : String -> Maybe Int -> Maybe HeaderType -> Api.Request Api.Data.String
 headerPost string_header integer_header headerType_header =
     Api.request
         "POST"
         "/header"
         []
         []
-        [ ( "string", Just <| identity string_header ), ( "integer", Maybe.map String.fromInt integer_header ), ( "headerType", Maybe.map Api.Data.stringFromString headerType_header ) ]
+        [ ( "string", Just <| identity string_header ), ( "integer", Maybe.map String.fromInt integer_header ), ( "headerType", Maybe.map Api.Data.stringFromHeaderType headerType_header ) ]
         Nothing
         Json.Decode.string
 
@@ -139,12 +140,12 @@ maybeGet =
 
 
 
-pathStringIntegerEnumerationGet : String -> Int -> String -> Api.Request ()Api.Data.
+pathStringIntegerEnumerationGet : String -> Int -> Enumeration -> Api.Request ()
 pathStringIntegerEnumerationGet string_path integer_path enumeration_path =
     Api.request
         "GET"
         "/path/{string}/{integer}/{enumeration}"
-        [ ( "string", identity string_path ), ( "integer", String.fromInt integer_path ), ( "enumeration", Api.Data.stringFromString enumeration_path ) ]
+        [ ( "string", identity string_path ), ( "integer", String.fromInt integer_path ), ( "enumeration", Api.Data.stringFromEnumeration enumeration_path ) ]
         []
         []
         Nothing
@@ -152,20 +153,20 @@ pathStringIntegerEnumerationGet string_path integer_path enumeration_path =
 
 
 
-queryGet : Maybe String -> Maybe Int -> Maybe String -> Api.Request ()Api.Data.
+queryGet : Maybe String -> Maybe Int -> Maybe Enum -> Api.Request ()
 queryGet string_query int_query enum_query =
     Api.request
         "GET"
         "/query"
         []
-        [ ( "string", Maybe.map identity string_query ), ( "int", Maybe.map String.fromInt int_query ), ( "enum", Maybe.map Api.Data.stringFromString enum_query ) ]
+        [ ( "string", Maybe.map identity string_query ), ( "int", Maybe.map String.fromInt int_query ), ( "enum", Maybe.map Api.Data.stringFromEnum enum_query ) ]
         []
         Nothing
         (Json.Decode.succeed ())
 
 
 
-securedPost : String -> Api.Request ()Api.Data.
+securedPost : String -> Api.Request ()
 securedPost auth_token =
     Api.request
         "POST"
@@ -189,3 +190,4 @@ uuidGet value_query =
         []
         Nothing
         Uuid.decoder
+
