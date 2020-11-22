@@ -114,7 +114,7 @@ stringFromEnum model =
 
 
 
-headerPost : String -> Maybe Int -> Maybe HeaderType -> Api.Request Api.Data.String
+headerPost : String -> Maybe Int -> Maybe HeaderType -> Api.Request String
 headerPost string_header integer_header headerType_header =
     Api.request
         "POST"
