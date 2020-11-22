@@ -45,6 +45,24 @@ export interface InlineResponse200 {
     nullableNumberEnum?: number | null;
 }
 
+/**
+* @export
+* @enum {string}
+*/
+export enum InlineResponse200StringEnumEnum {
+    One = 'one',
+    Two = 'two',
+    Three = 'three'
+}/**
+* @export
+* @enum {string}
+*/
+export enum InlineResponse200NumberEnumEnum {
+    NUMBER_1 = 1,
+    NUMBER_2 = 2,
+    NUMBER_3 = 3
+}
+
 export function InlineResponse200FromJSON(json: any): InlineResponse200 {
     return InlineResponse200FromJSONTyped(json, false);
 }
@@ -76,25 +94,6 @@ export function InlineResponse200ToJSON(value?: InlineResponse200 | null): any {
         'number-enum': value.numberEnum,
         'nullable-number-enum': value.nullableNumberEnum,
     };
-}
-
-/**
-* @export
-* @enum {string}
-*/
-export enum InlineResponse200StringEnumEnum {
-    One = 'one',
-    Two = 'two',
-    Three = 'three'
-}
-/**
-* @export
-* @enum {string}
-*/
-export enum InlineResponse200NumberEnumEnum {
-    NUMBER_1 = 1,
-    NUMBER_2 = 2,
-    NUMBER_3 = 3
 }
 
 

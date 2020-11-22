@@ -35,6 +35,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.core.models.ParseOptions;
 
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.templating.mustache.LowercaseLambda;
@@ -232,7 +233,7 @@ public class DefaultCodegenTest {
         Assert.assertEquals(version, new SemVer("2.0.0"));
 
         // Test with OAS 3.0 document.
-        location = "src/test/resources/3_0/python-experimental/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml";
+        location = "src/test/resources/3_0/python/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml";
         openAPI = TestUtils.parseFlattenSpec(location);
         version = ModelUtils.getOpenApiVersion(openAPI, location, null);
         Assert.assertEquals(version, new SemVer("3.0.0"));
@@ -291,7 +292,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testAdditionalPropertiesV3Spec() {
-        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/python-experimental/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/python/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
         codegen.setOpenAPI(openAPI);
@@ -407,6 +408,20 @@ public class DefaultCodegenTest {
         List<String> queryParamsNames = co.queryParams.stream().map(p -> p.paramName).collect(Collectors.toList());
         Assert.assertTrue(queryParamsNames.contains("myparam"));
         Assert.assertTrue(queryParamsNames.contains("myparam2"));
+    }
+
+    @Test
+    public void testUniquenessRenameOfFormParameters() throws Exception {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/form-duplicated-parameter.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        Operation operation = openAPI.getPaths().get("/form-param-poc/{id}").getPut();
+        CodegenOperation co = codegen.fromOperation("/form-param-poc/{id}", "put", operation, null);
+        Assert.assertEquals(co.path, "/form-param-poc/{id}");
+        Assert.assertEquals(co.allParams.size(), 2);
+        List<String> allParamsNames = co.allParams.stream().map(p -> p.paramName).collect(Collectors.toList());
+        Assert.assertTrue(allParamsNames.contains("id"));
+        Assert.assertTrue(allParamsNames.contains("id2"));
     }
 
     @Test
@@ -907,7 +922,7 @@ public class DefaultCodegenTest {
     public void testComposedSchemaAllOfDiscriminatorMapLegacy() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
-        // codegen.discriminatorExplicitMappingVerbose remains false in the legacy use case
+        // codegen.legacyDiscriminatorBehavior remains false in the legacy use case
         codegen.setOpenAPI(openAPI);
         Schema sc;
         String modelName;
@@ -2386,6 +2401,12 @@ public class DefaultCodegenTest {
         CodegenProperty mapWithAddPropsFalse;
         CodegenProperty mapWithAddPropsSchema;
 
+        // make sure isGenerateAliasAsModel is false
+        boolean isGenerateAliasAsModel = ModelUtils.isGenerateAliasAsModel();
+        if (isGenerateAliasAsModel) {
+            GlobalSettings.setProperty("generateAliasAsModel", "false");
+        }
+
         modelName = "ObjectModelWithRefAddPropsInProps";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
@@ -2409,6 +2430,10 @@ public class DefaultCodegenTest {
         assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
         mapWithAddPropsSchema = cm.getVars().get(3);
         assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+
+        if (isGenerateAliasAsModel) { // restore the setting
+            GlobalSettings.setProperty("generateAliasAsModel", "true");
+        }
     }
 
     @Test
@@ -2429,6 +2454,12 @@ public class DefaultCodegenTest {
         CodegenParameter mapWithAddPropsFalse;
         CodegenParameter mapWithAddPropsSchema;
 
+        // make sure isGenerateAliasAsModel is false
+        boolean isGenerateAliasAsModel = ModelUtils.isGenerateAliasAsModel();
+        if (isGenerateAliasAsModel) {
+            GlobalSettings.setProperty("generateAliasAsModel", "false");
+        }
+
         path = "/ref_additional_properties/";
         operation = openAPI.getPaths().get(path).getPost();
         co = codegen.fromOperation(path, "POST", operation, null);
@@ -2452,6 +2483,10 @@ public class DefaultCodegenTest {
         assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
         mapWithAddPropsSchema = co.queryParams.get(3);
         assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+
+        if (isGenerateAliasAsModel) { // restore the setting
+            GlobalSettings.setProperty("generateAliasAsModel", "true");
+        }
     }
 
     @Test
@@ -2472,6 +2507,12 @@ public class DefaultCodegenTest {
         CodegenResponse mapWithAddPropsFalse;
         CodegenResponse mapWithAddPropsSchema;
 
+        // make sure isGenerateAliasAsModel is false
+        boolean isGenerateAliasAsModel = ModelUtils.isGenerateAliasAsModel();
+        if (isGenerateAliasAsModel) {
+            GlobalSettings.setProperty("generateAliasAsModel", "false");
+        }
+
         path = "/ref_additional_properties/";
         operation = openAPI.getPaths().get(path).getPost();
         co = codegen.fromOperation(path, "POST", operation, null);
@@ -2495,6 +2536,10 @@ public class DefaultCodegenTest {
         assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
         mapWithAddPropsSchema = co.responses.get(3);
         assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+
+        if (isGenerateAliasAsModel) { // restore the setting
+            GlobalSettings.setProperty("generateAliasAsModel", "true");
+        }
     }
 
     @Test

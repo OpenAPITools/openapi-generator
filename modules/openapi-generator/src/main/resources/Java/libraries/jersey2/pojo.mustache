@@ -282,7 +282,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
     return HashCodeBuilder.reflectionHashCode(this);
   {{/useReflectionEqualsHashCode}}
   {{^useReflectionEqualsHashCode}}
-    return Objects.hash({{#vars}}{{^isByteArray}}{{name}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{name}}){{/isByteArray}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}}{{#additionalPropertiesType}}, additionalProperties{{/additionalPropertiesType}});
+    return Objects.hash({{#vars}}{{^isByteArray}}{{name}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{name}}){{/isByteArray}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}}{{#additionalPropertiesType}}{{#hasVars}}, {{/hasVars}}{{^hasVars}}{{#parent}}, {{/parent}}{{/hasVars}}additionalProperties{{/additionalPropertiesType}});
   {{/useReflectionEqualsHashCode}}
   }
 
