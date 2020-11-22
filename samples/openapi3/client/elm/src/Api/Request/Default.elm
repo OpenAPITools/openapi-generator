@@ -14,10 +14,10 @@
 
 
 module Api.Request.Default exposing
-    ( headerPost, HeaderType(..), headerTypeVariants
+    ( headerPost, HeaderType(..), stringFromHeaderType, headerTypeVariants
     , maybeGet
-    , pathStringIntegerEnumerationGet, Enumeration(..), enumerationVariants
-    , queryGet, Enum(..), enumVariants
+    , pathStringIntegerEnumerationGet, Enumeration(..), stringFromEnumeration, enumerationVariants
+    , queryGet, Enum(..), stringFromEnum, enumVariants
     , securedPost
     , uuidGet
     )
@@ -121,7 +121,7 @@ headerPost string_header integer_header headerType_header =
         "/header"
         []
         []
-        [ ( "string", Just <| identity string_header ), ( "integer", Maybe.map String.fromInt integer_header ), ( "headerType", Maybe.map Api.Data.stringFromHeaderType headerType_header ) ]
+        [ ( "string", Just <| identity string_header ), ( "integer", Maybe.map String.fromInt integer_header ), ( "headerType", Maybe.map stringFromHeaderType headerType_header ) ]
         Nothing
         Json.Decode.string
 
@@ -145,7 +145,7 @@ pathStringIntegerEnumerationGet string_path integer_path enumeration_path =
     Api.request
         "GET"
         "/path/{string}/{integer}/{enumeration}"
-        [ ( "string", identity string_path ), ( "integer", String.fromInt integer_path ), ( "enumeration", Api.Data.stringFromEnumeration enumeration_path ) ]
+        [ ( "string", identity string_path ), ( "integer", String.fromInt integer_path ), ( "enumeration", stringFromEnumeration enumeration_path ) ]
         []
         []
         Nothing
@@ -159,7 +159,7 @@ queryGet string_query int_query enum_query =
         "GET"
         "/query"
         []
-        [ ( "string", Maybe.map identity string_query ), ( "int", Maybe.map String.fromInt int_query ), ( "enum", Maybe.map Api.Data.stringFromEnum enum_query ) ]
+        [ ( "string", Maybe.map identity string_query ), ( "int", Maybe.map String.fromInt int_query ), ( "enum", Maybe.map stringFromEnum enum_query ) ]
         []
         Nothing
         (Json.Decode.succeed ())
