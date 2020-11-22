@@ -115,7 +115,7 @@ before_install:
   - cat /etc/hosts
   # show java version
   - java -version
-  - export TRAVIS_BRANCH="master" && export TRAVIS_PULL_REQUEST="true" && export TRAVIS_TAG="v5.0.0-beta3"
+  - export TRAVIS_BRANCH="master" && export TRAVIS_PULL_REQUEST="false" && export TRAVIS_TAG="v5.0.0-beta3"
   - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       openssl aes-256-cbc -K $encrypted_6e2c8bba47c6_key -iv $encrypted_6e2c8bba47c6_iv -in sec.gpg.enc -out sec.gpg -d ;
       gpg --keyserver keyserver.ubuntu.com --recv-key $SIGNING_KEY ;
