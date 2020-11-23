@@ -17,16 +17,6 @@ class ApiResponse {
     this.message,
   });
 
-  /// Returns a new [ApiResponse] instance and optionally import its values from
-  /// [json] if it's non-null.
-  ApiResponse.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      code = json['code'];
-      type = json['type'];
-      message = json['message'];
-    }
-  }
-
   
   int code;
 
@@ -44,9 +34,9 @@ class ApiResponse {
 
   @override
   int get hashCode =>
-    code.hashCode +
-    type.hashCode +
-    message.hashCode;
+    (code == null ? 0 : code.hashCode) +
+    (type == null ? 0 : type.hashCode) +
+    (message == null ? 0 : message.hashCode);
 
   @override
   String toString() => 'ApiResponse[code=$code, type=$type, message=$message]';
@@ -64,6 +54,16 @@ class ApiResponse {
     }
     return json;
   }
+
+  /// Returns a new [ApiResponse] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static ApiResponse fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : ApiResponse(
+        code: json['code'],
+        type: json['type'],
+        message: json['message'],
+    );
 
   static List<ApiResponse> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

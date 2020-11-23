@@ -37,7 +37,6 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-
     final contentTypes = <String>['application/json', 'application/xml'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
@@ -104,7 +103,9 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    headerParams['api_key'] = apiKey;
+    if (apiKey != null) {
+      headerParams['api_key'] = parameterToString(apiKey);
+    }
 
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -330,7 +331,6 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['api_key'];
@@ -403,7 +403,6 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-
     final contentTypes = <String>['application/json', 'application/xml'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
@@ -473,7 +472,6 @@ class PetApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
-
 
     final contentTypes = <String>['application/x-www-form-urlencoded'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -564,7 +562,6 @@ class PetApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
-
 
     final contentTypes = <String>['multipart/form-data'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;

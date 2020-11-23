@@ -39,7 +39,7 @@ class {{{classname}}}{{{enumName}}} {
   {{/allowableValues}}
   ];
 
-  static {{{classname}}}{{{enumName}}} fromJson({{{dataType}}} value) =>
+  static {{{classname}}}{{{enumName}}} fromJson(dynamic value) =>
     {{{classname}}}{{{enumName}}}TypeTransformer().decode(value);
 
   static List<{{{classname}}}{{{enumName}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
