@@ -59,6 +59,7 @@ void StoreApiTests::getOrderByIdTest() {
 
 void StoreApiTests::getInventoryTest() {
     PFXStoreApi api;
+    api.setApiKey("api_key","special-key");
     QEventLoop loop;
     bool inventoryFetched = false;
 

@@ -42,6 +42,10 @@ void PFXStoreApi::setPort(int port) {
     _port = port;
 }
 
+void PFXStoreApi::setApiKey(const QString &apiKeyName, const QString &apiKey){
+    _apiKeys.insert(apiKeyName,apiKey);
+}
+
 void PFXStoreApi::setBasePath(const QString &basePath) {
     _basePath = basePath;
 }
@@ -85,6 +89,9 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
     order_idPathParam.append("orderId").append("}");
     fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
 
+
+
+
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
@@ -126,6 +133,11 @@ void PFXStoreApi::getInventory() {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/store/inventory");
+
+
+    addHeaders("api_key",_apiKeys.find("api_key").value());
+
+
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -182,6 +194,9 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
     order_idPathParam.append("orderId").append("}");
     fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
 
+
+
+
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
@@ -224,6 +239,9 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/store/order");
+
+
+
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);

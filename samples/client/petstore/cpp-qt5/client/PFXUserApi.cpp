@@ -42,6 +42,10 @@ void PFXUserApi::setPort(int port) {
     _port = port;
 }
 
+void PFXUserApi::setApiKey(const QString &apiKeyName, const QString &apiKey){
+    _apiKeys.insert(apiKeyName,apiKey);
+}
+
 void PFXUserApi::setBasePath(const QString &basePath) {
     _basePath = basePath;
 }
@@ -81,6 +85,9 @@ void PFXUserApi::createUser(const PFXUser &body) {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/user");
+
+
+
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -127,6 +134,9 @@ void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
                            .arg(_basePath)
                            .arg("/user/createWithArray");
 
+
+
+
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
@@ -172,6 +182,9 @@ void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/user/createWithList");
+
+
+
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -222,6 +235,9 @@ void PFXUserApi::deleteUser(const QString &username) {
     usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
 
+
+
+
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
@@ -267,6 +283,9 @@ void PFXUserApi::getUserByName(const QString &username) {
     usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
 
+
+
+
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
@@ -309,6 +328,9 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/user/login");
+
+
+
 
     if (fullPath.indexOf("?") > 0)
         fullPath.append("&");
@@ -366,6 +388,9 @@ void PFXUserApi::logoutUser() {
                            .arg(_basePath)
                            .arg("/user/logout");
 
+
+
+
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
@@ -410,6 +435,9 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
     QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
+
+
+
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
