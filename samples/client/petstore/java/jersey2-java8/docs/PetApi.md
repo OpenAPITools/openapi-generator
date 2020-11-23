@@ -203,7 +203,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
+ **status** | **List&lt;String&gt;**| Status values that need to be considered for filter | [enum: available, pending, sold]
 
 ### Return type
 
@@ -274,7 +274,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**Set&lt;String&gt;**](String.md)| Tags to filter by |
+ **tags** | **List&lt;String&gt;**| Tags to filter by |
 
 ### Return type
 
