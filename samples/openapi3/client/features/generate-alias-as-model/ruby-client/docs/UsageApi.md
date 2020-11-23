@@ -2,11 +2,10 @@
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**array**](UsageApi.md#array) | **GET** /array | Use alias to array
-[**map**](UsageApi.md#map) | **GET** /map | Use alias to map
-
+| Method | HTTP request | Description |
+| ------ | ------------ | ----------- |
+| [**array**](UsageApi.md#array) | **GET** /array | Use alias to array |
+| [**map**](UsageApi.md#map) | **GET** /map | Use alias to map |
 
 
 ## array
@@ -39,10 +38,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **array_alias** | [**ArrayAlias**](ArrayAlias.md)|  | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **array_alias** | [**ArrayAlias**](ArrayAlias.md) |  | [optional] |
 
 ### Return type
 
@@ -88,10 +86,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **map_alias** | [**MapAlias**](MapAlias.md)|  | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **map_alias** | [**MapAlias**](MapAlias.md) |  | [optional] |
 
 ### Return type
 

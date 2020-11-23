@@ -2,24 +2,23 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
-[**fake_http_signature_test**](FakeApi.md#fake_http_signature_test) | **GET** /fake/http-signature-test | test http signature authentication
-[**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
-[**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
-[**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
-[**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
-[**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
-[**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
-[**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
-[**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-[**test_enum_parameters**](FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
-[**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
-[**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
-[**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
-[**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
-
+| Method | HTTP request | Description |
+| ------ | ------------ | ----------- |
+| [**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint |
+| [**fake_http_signature_test**](FakeApi.md#fake_http_signature_test) | **GET** /fake/http-signature-test | test http signature authentication |
+| [**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean |  |
+| [**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite |  |
+| [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number |  |
+| [**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string |  |
+| [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema |  |
+| [**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params |  |
+| [**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model |
+| [**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  |
+| [**test_enum_parameters**](FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters |
+| [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional) |
+| [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties |
+| [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data |
+| [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters |  |
 
 
 ## fake_health_get
@@ -95,12 +94,11 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
- **query_1** | **String**| query parameter | [optional] 
- **header_1** | **String**| header parameter | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |  |
+| **query_1** | **String** | query parameter | [optional] |
+| **header_1** | **String** | header parameter | [optional] |
 
 ### Return type
 
@@ -145,10 +143,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **Boolean**| Input boolean as post body | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **body** | **Boolean** | Input boolean as post body | [optional] |
 
 ### Return type
 
@@ -193,10 +190,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **outer_composite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **outer_composite** | [**OuterComposite**](OuterComposite.md) | Input composite as post body | [optional] |
 
 ### Return type
 
@@ -241,10 +237,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **Float**| Input number as post body | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **body** | **Float** | Input number as post body | [optional] |
 
 ### Return type
 
@@ -289,10 +284,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **String**| Input string as post body | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **body** | **String** | Input string as post body | [optional] |
 
 ### Return type
 
@@ -334,10 +328,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **file_schema_test_class** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **file_schema_test_class** | [**FileSchemaTestClass**](FileSchemaTestClass.md) |  |  |
 
 ### Return type
 
@@ -378,11 +371,10 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **query** | **String**|  | 
- **user** | [**User**](User.md)|  | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **query** | **String** |  |  |
+| **user** | [**User**](User.md) |  |  |
 
 ### Return type
 
@@ -426,10 +418,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **client** | [**Client**](Client.md) | client model |  |
 
 ### Return type
 
@@ -493,23 +484,22 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **number** | **Float**| None | 
- **double** | **Float**| None | 
- **pattern_without_delimiter** | **String**| None | 
- **byte** | **String**| None | 
- **integer** | **Integer**| None | [optional] 
- **int32** | **Integer**| None | [optional] 
- **int64** | **Integer**| None | [optional] 
- **float** | **Float**| None | [optional] 
- **string** | **String**| None | [optional] 
- **binary** | **File**| None | [optional] 
- **date** | **Date**| None | [optional] 
- **date_time** | **Time**| None | [optional] 
- **password** | **String**| None | [optional] 
- **callback** | **String**| None | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **number** | **Float** | None |  |
+| **double** | **Float** | None |  |
+| **pattern_without_delimiter** | **String** | None |  |
+| **byte** | **String** | None |  |
+| **integer** | **Integer** | None | [optional] |
+| **int32** | **Integer** | None | [optional] |
+| **int64** | **Integer** | None | [optional] |
+| **float** | **Float** | None | [optional] |
+| **string** | **String** | None | [optional] |
+| **binary** | **File** | None | [optional] |
+| **date** | **Date** | None | [optional] |
+| **date_time** | **Time** | None | [optional] |
+| **password** | **String** | None | [optional] |
+| **callback** | **String** | None | [optional] |
 
 ### Return type
 
@@ -561,17 +551,16 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **enum_header_string_array** | [**Array&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] 
- **enum_header_string** | **String**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enum_query_string_array** | [**Array&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] 
- **enum_query_string** | **String**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enum_query_integer** | **Integer**| Query parameter enum test (double) | [optional] 
- **enum_query_double** | **Float**| Query parameter enum test (double) | [optional] 
- **enum_form_string_array** | [**Array&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
- **enum_form_string** | **String**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **enum_header_string_array** | [**Array&lt;String&gt;**](String.md) | Header parameter enum test (string array) | [optional] |
+| **enum_header_string** | **String** | Header parameter enum test (string) | [optional][default to &#39;-efg&#39;] |
+| **enum_query_string_array** | [**Array&lt;String&gt;**](String.md) | Query parameter enum test (string array) | [optional] |
+| **enum_query_string** | **String** | Query parameter enum test (string) | [optional][default to &#39;-efg&#39;] |
+| **enum_query_integer** | **Integer** | Query parameter enum test (double) | [optional] |
+| **enum_query_double** | **Float** | Query parameter enum test (double) | [optional] |
+| **enum_form_string_array** | [**Array&lt;String&gt;**](String.md) | Form parameter enum test (string array) | [optional][default to &#39;$&#39;] |
+| **enum_form_string** | **String** | Form parameter enum test (string) | [optional][default to &#39;-efg&#39;] |
 
 ### Return type
 
@@ -626,15 +615,14 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **required_string_group** | **Integer**| Required String in group parameters | 
- **required_boolean_group** | **Boolean**| Required Boolean in group parameters | 
- **required_int64_group** | **Integer**| Required Integer in group parameters | 
- **string_group** | **Integer**| String in group parameters | [optional] 
- **boolean_group** | **Boolean**| Boolean in group parameters | [optional] 
- **int64_group** | **Integer**| Integer in group parameters | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **required_string_group** | **Integer** | Required String in group parameters |  |
+| **required_boolean_group** | **Boolean** | Required Boolean in group parameters |  |
+| **required_int64_group** | **Integer** | Required Integer in group parameters |  |
+| **string_group** | **Integer** | String in group parameters | [optional] |
+| **boolean_group** | **Boolean** | Boolean in group parameters | [optional] |
+| **int64_group** | **Integer** | Integer in group parameters | [optional] |
 
 ### Return type
 
@@ -675,10 +663,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **request_body** | [**Hash&lt;String, String&gt;**](String.md)| request body | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **request_body** | [**Hash&lt;String, String&gt;**](String.md) | request body |  |
 
 ### Return type
 
@@ -720,11 +707,10 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **param** | **String**| field1 | 
- **param2** | **String**| field2 | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **param** | **String** | field1 |  |
+| **param2** | **String** | field2 |  |
 
 ### Return type
 
@@ -770,14 +756,13 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pipe** | [**Array&lt;String&gt;**](String.md)|  | 
- **ioutil** | [**Array&lt;String&gt;**](String.md)|  | 
- **http** | [**Array&lt;String&gt;**](String.md)|  | 
- **url** | [**Array&lt;String&gt;**](String.md)|  | 
- **context** | [**Array&lt;String&gt;**](String.md)|  | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **pipe** | [**Array&lt;String&gt;**](String.md) |  |  |
+| **ioutil** | [**Array&lt;String&gt;**](String.md) |  |  |
+| **http** | [**Array&lt;String&gt;**](String.md) |  |  |
+| **url** | [**Array&lt;String&gt;**](String.md) |  |  |
+| **context** | [**Array&lt;String&gt;**](String.md) |  |  |
 
 ### Return type
 
