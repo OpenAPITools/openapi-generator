@@ -688,13 +688,13 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**List&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] [enum: >, $]
+ **enumHeaderStringArray** | **List&lt;String&gt;**| Header parameter enum test (string array) | [optional] [enum: >, $]
  **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
- **enumQueryStringArray** | [**List&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] [enum: >, $]
+ **enumQueryStringArray** | **List&lt;String&gt;**| Query parameter enum test (string array) | [optional] [enum: >, $]
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
  **enumQueryInteger** | **Integer**| Query parameter enum test (double) | [optional] [enum: 1, -2]
  **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2]
- **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [enum: >, $]
+ **enumFormStringArray** | **List&lt;String&gt;**| Form parameter enum test (string array) | [optional] [enum: >, $]
  **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
 
 ### Return type
@@ -839,7 +839,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | [**Map&lt;String, String&gt;**](String.md)| request body |
+ **param** | **Map&lt;String,String&gt;**| request body |
 
 ### Return type
 
@@ -971,11 +971,11 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pipe** | [**List&lt;String&gt;**](String.md)|  |
- **ioutil** | [**List&lt;String&gt;**](String.md)|  |
- **http** | [**List&lt;String&gt;**](String.md)|  |
- **url** | [**List&lt;String&gt;**](String.md)|  |
- **context** | [**List&lt;String&gt;**](String.md)|  |
+ **pipe** | **List&lt;String&gt;**|  |
+ **ioutil** | **List&lt;String&gt;**|  |
+ **http** | **List&lt;String&gt;**|  |
+ **url** | **List&lt;String&gt;**|  |
+ **context** | **List&lt;String&gt;**|  |
 
 ### Return type
 

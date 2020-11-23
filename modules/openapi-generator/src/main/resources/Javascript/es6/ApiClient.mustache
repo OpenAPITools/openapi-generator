@@ -272,16 +272,16 @@ class ApiClient {
         }
         switch (collectionFormat) {
             case 'csv':
-                return param.map(this.paramToString).join(',');
+                return param.map(this.paramToString, this).join(',');
             case 'ssv':
-                return param.map(this.paramToString).join(' ');
+                return param.map(this.paramToString, this).join(' ');
             case 'tsv':
-                return param.map(this.paramToString).join('\t');
+                return param.map(this.paramToString, this).join('\t');
             case 'pipes':
-                return param.map(this.paramToString).join('|');
+                return param.map(this.paramToString, this).join('|');
             case 'multi':
                 //return the array directly as SuperAgent will handle it as expected
-                return param.map(this.paramToString);
+                return param.map(this.paramToString, this);
             default:
                 throw new Error('Unknown collection format: ' + collectionFormat);
         }

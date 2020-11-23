@@ -39,7 +39,7 @@ class {{{classname}}} {
   {{/allowableValues}}
   ];
 
-  static {{{classname}}} fromJson({{{dataType}}} value) =>
+  static {{{classname}}} fromJson(dynamic value) =>
     {{{classname}}}TypeTransformer().decode(value);
 
   static List<{{{classname}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
