@@ -226,6 +226,7 @@ Test serialization of outer number types
 ### Example
 
 ```java
+import java.math.BigDecimal;
 // Import classes:
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
@@ -552,6 +553,10 @@ Fake endpoint for testing various parameters
 ### Example
 
 ```java
+import java.io.File;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 // Import classes:
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;

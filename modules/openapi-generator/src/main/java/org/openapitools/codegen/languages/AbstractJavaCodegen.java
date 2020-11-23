@@ -1139,6 +1139,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 itr.remove();
             }
         }
+
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        for (CodegenOperation op : operationList) {
+            Collection<String> operationImports = new TreeSet<String>();
+            for (CodegenParameter p : op.allParams) {
+                if (importMapping.containsKey(p.dataType)) {
+                    operationImports.add(importMapping.get(p.dataType));
+                }
+            }
+            op.vendorExtensions.put("x-java-import", operationImports);
+        }
         return objs;
     }
 
