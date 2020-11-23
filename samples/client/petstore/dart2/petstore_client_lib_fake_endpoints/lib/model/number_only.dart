@@ -15,16 +15,6 @@ class NumberOnly {
     this.justNumber,
   });
 
-  /// Returns a new [NumberOnly] instance and optionally import its values from
-  /// [json] if it's non-null.
-  NumberOnly.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      justNumber = json['JustNumber'] == null ?
-        null :
-        json['JustNumber'].toDouble();
-    }
-  }
-
   
   num justNumber;
 
@@ -34,7 +24,7 @@ class NumberOnly {
 
   @override
   int get hashCode =>
-    justNumber.hashCode;
+    (justNumber == null ? 0 : justNumber.hashCode);
 
   @override
   String toString() => 'NumberOnly[justNumber=$justNumber]';
@@ -46,6 +36,16 @@ class NumberOnly {
     }
     return json;
   }
+
+  /// Returns a new [NumberOnly] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static NumberOnly fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : NumberOnly(
+        justNumber: json['JustNumber'] == null ?
+          null :
+          json['JustNumber'].toDouble(),
+    );
 
   static List<NumberOnly> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

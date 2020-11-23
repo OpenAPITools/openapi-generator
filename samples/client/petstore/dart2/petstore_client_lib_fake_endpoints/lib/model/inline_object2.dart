@@ -16,15 +16,6 @@ class InlineObject2 {
     this.enumFormString = '-efg',
   });
 
-  /// Returns a new [InlineObject2] instance and optionally import its values from
-  /// [json] if it's non-null.
-  InlineObject2.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      enumFormStringArray = InlineObject2EnumFormStringArrayEnum.listFromJson(json['enum_form_string_array']);
-      enumFormString = InlineObject2EnumFormStringEnum.fromJson(json['enum_form_string']);
-    }
-  }
-
   /// Form parameter enum test (string array)
   List<InlineObject2EnumFormStringArrayEnum> enumFormStringArray;
 
@@ -38,8 +29,8 @@ class InlineObject2 {
 
   @override
   int get hashCode =>
-    enumFormStringArray.hashCode +
-    enumFormString.hashCode;
+    (enumFormStringArray == null ? 0 : enumFormStringArray.hashCode) +
+    (enumFormString == null ? 0 : enumFormString.hashCode);
 
   @override
   String toString() => 'InlineObject2[enumFormStringArray=$enumFormStringArray, enumFormString=$enumFormString]';
@@ -54,6 +45,15 @@ class InlineObject2 {
     }
     return json;
   }
+
+  /// Returns a new [InlineObject2] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static InlineObject2 fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : InlineObject2(
+        enumFormStringArray: InlineObject2EnumFormStringArrayEnum.listFromJson(json['enum_form_string_array']),
+        enumFormString: InlineObject2EnumFormStringEnum.fromJson(json['enum_form_string']),
+    );
 
   static List<InlineObject2> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
@@ -101,16 +101,16 @@ class InlineObject2EnumFormStringArrayEnum {
 
   String toJson() => value;
 
-  static const _ = InlineObject2EnumFormStringArrayEnum._('>');
-  static const _ = InlineObject2EnumFormStringArrayEnum._('$');
+  static const greaterthan = InlineObject2EnumFormStringArrayEnum._(">");
+  static const dollar = InlineObject2EnumFormStringArrayEnum._("$");
 
   /// List of all possible values in this [enum][InlineObject2EnumFormStringArrayEnum].
   static const values = <InlineObject2EnumFormStringArrayEnum>[
-    _,
-    _,
+    greaterthan,
+    dollar,
   ];
 
-  static InlineObject2EnumFormStringArrayEnum fromJson(List<String> value) =>
+  static InlineObject2EnumFormStringArrayEnum fromJson(dynamic value) =>
     InlineObject2EnumFormStringArrayEnumTypeTransformer().decode(value);
 
   static List<InlineObject2EnumFormStringArrayEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
@@ -140,8 +140,8 @@ class InlineObject2EnumFormStringArrayEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   InlineObject2EnumFormStringArrayEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case '>': return InlineObject2EnumFormStringArrayEnum._;
-      case '$': return InlineObject2EnumFormStringArrayEnum._;
+      case ">": return InlineObject2EnumFormStringArrayEnum.greaterthan;
+      case "$": return InlineObject2EnumFormStringArrayEnum.dollar;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
@@ -175,18 +175,18 @@ class InlineObject2EnumFormStringEnum {
 
   String toJson() => value;
 
-  static const abc_ = InlineObject2EnumFormStringEnum._('_abc');
-  static const efg_ = InlineObject2EnumFormStringEnum._('-efg');
-  static const xyz_ = InlineObject2EnumFormStringEnum._('(xyz)');
+  static const abc = InlineObject2EnumFormStringEnum._("_abc");
+  static const efg = InlineObject2EnumFormStringEnum._("-efg");
+  static const xyz = InlineObject2EnumFormStringEnum._("(xyz)");
 
   /// List of all possible values in this [enum][InlineObject2EnumFormStringEnum].
   static const values = <InlineObject2EnumFormStringEnum>[
-    abc_,
-    efg_,
-    xyz_,
+    abc,
+    efg,
+    xyz,
   ];
 
-  static InlineObject2EnumFormStringEnum fromJson(String value) =>
+  static InlineObject2EnumFormStringEnum fromJson(dynamic value) =>
     InlineObject2EnumFormStringEnumTypeTransformer().decode(value);
 
   static List<InlineObject2EnumFormStringEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
@@ -216,9 +216,9 @@ class InlineObject2EnumFormStringEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   InlineObject2EnumFormStringEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case '_abc': return InlineObject2EnumFormStringEnum.abc_;
-      case '-efg': return InlineObject2EnumFormStringEnum.efg_;
-      case '(xyz)': return InlineObject2EnumFormStringEnum.xyz_;
+      case "_abc": return InlineObject2EnumFormStringEnum.abc;
+      case "-efg": return InlineObject2EnumFormStringEnum.efg;
+      case "(xyz)": return InlineObject2EnumFormStringEnum.xyz;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

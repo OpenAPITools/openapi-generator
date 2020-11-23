@@ -17,16 +17,6 @@ class Dog {
     this.breed,
   });
 
-  /// Returns a new [Dog] instance and optionally import its values from
-  /// [json] if it's non-null.
-  Dog.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      className = json['className'];
-      color = json['color'];
-      breed = json['breed'];
-    }
-  }
-
   
   String className;
 
@@ -44,9 +34,9 @@ class Dog {
 
   @override
   int get hashCode =>
-    className.hashCode +
-    color.hashCode +
-    breed.hashCode;
+    (className == null ? 0 : className.hashCode) +
+    (color == null ? 0 : color.hashCode) +
+    (breed == null ? 0 : breed.hashCode);
 
   @override
   String toString() => 'Dog[className=$className, color=$color, breed=$breed]';
@@ -64,6 +54,16 @@ class Dog {
     }
     return json;
   }
+
+  /// Returns a new [Dog] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static Dog fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : Dog(
+        className: json['className'],
+        color: json['color'],
+        breed: json['breed'],
+    );
 
   static List<Dog> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

@@ -17,26 +17,6 @@ class ArrayTest {
     this.arrayArrayOfModel = const [],
   });
 
-  /// Returns a new [ArrayTest] instance and optionally import its values from
-  /// [json] if it's non-null.
-  ArrayTest.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      arrayOfString = json['array_of_string'] == null
-        ? null
-        : (json['array_of_string'] as List).cast<String>();
-      arrayArrayOfInteger = json['array_array_of_integer'] == null
-        ? null
-        : (json['array_array_of_integer'] as List).map(
-            (e) => e == null ? null : (e as List).cast<int>()
-          ).toList(growable: false);
-      arrayArrayOfModel = json['array_array_of_model'] == null
-        ? null
-        : (json['array_array_of_model'] as List).map(
-            ReadOnlyFirst.listFromJson(json['array_array_of_model'])
-          ).toList(growable: false);
-    }
-  }
-
   
   List<String> arrayOfString;
 
@@ -54,9 +34,9 @@ class ArrayTest {
 
   @override
   int get hashCode =>
-    arrayOfString.hashCode +
-    arrayArrayOfInteger.hashCode +
-    arrayArrayOfModel.hashCode;
+    (arrayOfString == null ? 0 : arrayOfString.hashCode) +
+    (arrayArrayOfInteger == null ? 0 : arrayArrayOfInteger.hashCode) +
+    (arrayArrayOfModel == null ? 0 : arrayArrayOfModel.hashCode);
 
   @override
   String toString() => 'ArrayTest[arrayOfString=$arrayOfString, arrayArrayOfInteger=$arrayArrayOfInteger, arrayArrayOfModel=$arrayArrayOfModel]';
@@ -74,6 +54,26 @@ class ArrayTest {
     }
     return json;
   }
+
+  /// Returns a new [ArrayTest] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static ArrayTest fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : ArrayTest(
+        arrayOfString: json['array_of_string'] == null
+          ? null
+          : (json['array_of_string'] as List).cast<String>(),
+        arrayArrayOfInteger: json['array_array_of_integer'] == null
+          ? null
+          : (json['array_array_of_integer'] as List).map(
+              (e) => e == null ? null : (e as List).cast<int>()
+            ).toList(growable: false),
+        arrayArrayOfModel: json['array_array_of_model'] == null
+          ? null
+          : (json['array_array_of_model'] as List).map(
+              ReadOnlyFirst.listFromJson(json['array_array_of_model'])
+            ).toList(growable: false),
+    );
 
   static List<ArrayTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

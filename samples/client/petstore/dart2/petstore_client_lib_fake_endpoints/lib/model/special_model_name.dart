@@ -15,14 +15,6 @@ class SpecialModelName {
     this.$special[propertyName],
   });
 
-  /// Returns a new [SpecialModelName] instance and optionally import its values from
-  /// [json] if it's non-null.
-  SpecialModelName.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      $special[propertyName] = json['$special[property.name]'];
-    }
-  }
-
   
   int $special[propertyName];
 
@@ -32,7 +24,7 @@ class SpecialModelName {
 
   @override
   int get hashCode =>
-    $special[propertyName].hashCode;
+    ($special[propertyName] == null ? 0 : $special[propertyName].hashCode);
 
   @override
   String toString() => 'SpecialModelName[$special[propertyName]=$$special[propertyName]]';
@@ -44,6 +36,14 @@ class SpecialModelName {
     }
     return json;
   }
+
+  /// Returns a new [SpecialModelName] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static SpecialModelName fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : SpecialModelName(
+        $special[propertyName]: json['$special[property.name]'],
+    );
 
   static List<SpecialModelName> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

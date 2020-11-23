@@ -20,19 +20,6 @@ class Capitalization {
     this.ATT_NAME,
   });
 
-  /// Returns a new [Capitalization] instance and optionally import its values from
-  /// [json] if it's non-null.
-  Capitalization.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      smallCamel = json['smallCamel'];
-      capitalCamel = json['CapitalCamel'];
-      smallSnake = json['small_Snake'];
-      capitalSnake = json['Capital_Snake'];
-      sCAETHFlowPoints = json['SCA_ETH_Flow_Points'];
-      ATT_NAME = json['ATT_NAME'];
-    }
-  }
-
   
   String smallCamel;
 
@@ -62,12 +49,12 @@ class Capitalization {
 
   @override
   int get hashCode =>
-    smallCamel.hashCode +
-    capitalCamel.hashCode +
-    smallSnake.hashCode +
-    capitalSnake.hashCode +
-    sCAETHFlowPoints.hashCode +
-    ATT_NAME.hashCode;
+    (smallCamel == null ? 0 : smallCamel.hashCode) +
+    (capitalCamel == null ? 0 : capitalCamel.hashCode) +
+    (smallSnake == null ? 0 : smallSnake.hashCode) +
+    (capitalSnake == null ? 0 : capitalSnake.hashCode) +
+    (sCAETHFlowPoints == null ? 0 : sCAETHFlowPoints.hashCode) +
+    (ATT_NAME == null ? 0 : ATT_NAME.hashCode);
 
   @override
   String toString() => 'Capitalization[smallCamel=$smallCamel, capitalCamel=$capitalCamel, smallSnake=$smallSnake, capitalSnake=$capitalSnake, sCAETHFlowPoints=$sCAETHFlowPoints, ATT_NAME=$ATT_NAME]';
@@ -94,6 +81,19 @@ class Capitalization {
     }
     return json;
   }
+
+  /// Returns a new [Capitalization] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static Capitalization fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : Capitalization(
+        smallCamel: json['smallCamel'],
+        capitalCamel: json['CapitalCamel'],
+        smallSnake: json['small_Snake'],
+        capitalSnake: json['Capital_Snake'],
+        sCAETHFlowPoints: json['SCA_ETH_Flow_Points'],
+        ATT_NAME: json['ATT_NAME'],
+    );
 
   static List<Capitalization> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

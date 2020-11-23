@@ -15,14 +15,6 @@ class ModelReturn {
     this.return_,
   });
 
-  /// Returns a new [ModelReturn] instance and optionally import its values from
-  /// [json] if it's non-null.
-  ModelReturn.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      return_ = json['return'];
-    }
-  }
-
   
   int return_;
 
@@ -32,7 +24,7 @@ class ModelReturn {
 
   @override
   int get hashCode =>
-    return_.hashCode;
+    (return_ == null ? 0 : return_.hashCode);
 
   @override
   String toString() => 'ModelReturn[return_=$return_]';
@@ -44,6 +36,14 @@ class ModelReturn {
     }
     return json;
   }
+
+  /// Returns a new [ModelReturn] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static ModelReturn fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : ModelReturn(
+        return_: json['return'],
+    );
 
   static List<ModelReturn> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

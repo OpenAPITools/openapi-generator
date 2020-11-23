@@ -16,19 +16,6 @@ class AdditionalPropertiesClass {
     this.mapOfMapProperty = const {},
   });
 
-  /// Returns a new [AdditionalPropertiesClass] instance and optionally import its values from
-  /// [json] if it's non-null.
-  AdditionalPropertiesClass.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      mapProperty = json['map_property'] == null ?
-        null :
-        (json['map_property'] as Map).cast<String, String>();
-      mapOfMapProperty = json['map_of_map_property'] == null
-        ? null
-        : Map.mapFromJson(json['map_of_map_property']);
-    }
-  }
-
   
   Map<String, String> mapProperty;
 
@@ -42,8 +29,8 @@ class AdditionalPropertiesClass {
 
   @override
   int get hashCode =>
-    mapProperty.hashCode +
-    mapOfMapProperty.hashCode;
+    (mapProperty == null ? 0 : mapProperty.hashCode) +
+    (mapOfMapProperty == null ? 0 : mapOfMapProperty.hashCode);
 
   @override
   String toString() => 'AdditionalPropertiesClass[mapProperty=$mapProperty, mapOfMapProperty=$mapOfMapProperty]';
@@ -58,6 +45,19 @@ class AdditionalPropertiesClass {
     }
     return json;
   }
+
+  /// Returns a new [AdditionalPropertiesClass] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static AdditionalPropertiesClass fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : AdditionalPropertiesClass(
+        mapProperty: json['map_property'] == null ?
+          null :
+          (json['map_property'] as Map).cast<String, String>(),
+        mapOfMapProperty: json['map_of_map_property'] == null
+          ? null
+          : Map.mapFromJson(json['map_of_map_property']),
+    );
 
   static List<AdditionalPropertiesClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

@@ -26,37 +26,6 @@ class NullableClass {
     this.objectItemsNullable = const {},
   });
 
-  /// Returns a new [NullableClass] instance and optionally import its values from
-  /// [json] if it's non-null.
-  NullableClass.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      integerProp = json['integer_prop'];
-      numberProp = json['number_prop'] == null ?
-        null :
-        json['number_prop'].toDouble();
-      booleanProp = json['boolean_prop'];
-      stringProp = json['string_prop'];
-      dateProp = json['date_prop'] == null
-        ? null
-        : DateTime.parse(json['date_prop']);
-      datetimeProp = json['datetime_prop'] == null
-        ? null
-        : DateTime.parse(json['datetime_prop']);
-      arrayNullableProp = Object.listFromJson(json['array_nullable_prop']);
-      arrayAndItemsNullableProp = Object.listFromJson(json['array_and_items_nullable_prop']);
-      arrayItemsNullable = Object.listFromJson(json['array_items_nullable']);
-      objectNullableProp = json['object_nullable_prop'] == null
-        ? null
-        : Object.mapFromJson(json['object_nullable_prop']);
-      objectAndItemsNullableProp = json['object_and_items_nullable_prop'] == null
-        ? null
-        : Object.mapFromJson(json['object_and_items_nullable_prop']);
-      objectItemsNullable = json['object_items_nullable'] == null
-        ? null
-        : Object.mapFromJson(json['object_items_nullable']);
-    }
-  }
-
   
   int integerProp;
 
@@ -110,18 +79,18 @@ class NullableClass {
 
   @override
   int get hashCode =>
-    (integerProp?.hashCode ?? 0) +
-    (numberProp?.hashCode ?? 0) +
-    (booleanProp?.hashCode ?? 0) +
-    (stringProp?.hashCode ?? 0) +
-    (dateProp?.hashCode ?? 0) +
-    (datetimeProp?.hashCode ?? 0) +
-    (arrayNullableProp?.hashCode ?? 0) +
-    (arrayAndItemsNullableProp?.hashCode ?? 0) +
-    arrayItemsNullable.hashCode +
-    (objectNullableProp?.hashCode ?? 0) +
-    (objectAndItemsNullableProp?.hashCode ?? 0) +
-    objectItemsNullable.hashCode;
+    (integerProp == null ? 0 : integerProp.hashCode) +
+    (numberProp == null ? 0 : numberProp.hashCode) +
+    (booleanProp == null ? 0 : booleanProp.hashCode) +
+    (stringProp == null ? 0 : stringProp.hashCode) +
+    (dateProp == null ? 0 : dateProp.hashCode) +
+    (datetimeProp == null ? 0 : datetimeProp.hashCode) +
+    (arrayNullableProp == null ? 0 : arrayNullableProp.hashCode) +
+    (arrayAndItemsNullableProp == null ? 0 : arrayAndItemsNullableProp.hashCode) +
+    (arrayItemsNullable == null ? 0 : arrayItemsNullable.hashCode) +
+    (objectNullableProp == null ? 0 : objectNullableProp.hashCode) +
+    (objectAndItemsNullableProp == null ? 0 : objectAndItemsNullableProp.hashCode) +
+    (objectItemsNullable == null ? 0 : objectItemsNullable.hashCode);
 
   @override
   String toString() => 'NullableClass[integerProp=$integerProp, numberProp=$numberProp, booleanProp=$booleanProp, stringProp=$stringProp, dateProp=$dateProp, datetimeProp=$datetimeProp, arrayNullableProp=$arrayNullableProp, arrayAndItemsNullableProp=$arrayAndItemsNullableProp, arrayItemsNullable=$arrayItemsNullable, objectNullableProp=$objectNullableProp, objectAndItemsNullableProp=$objectAndItemsNullableProp, objectItemsNullable=$objectItemsNullable]';
@@ -166,6 +135,37 @@ class NullableClass {
     }
     return json;
   }
+
+  /// Returns a new [NullableClass] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static NullableClass fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : NullableClass(
+        integerProp: json['integer_prop'],
+        numberProp: json['number_prop'] == null ?
+          null :
+          json['number_prop'].toDouble(),
+        booleanProp: json['boolean_prop'],
+        stringProp: json['string_prop'],
+        dateProp: json['date_prop'] == null
+          ? null
+          : DateTime.parse(json['date_prop']),
+        datetimeProp: json['datetime_prop'] == null
+          ? null
+          : DateTime.parse(json['datetime_prop']),
+        arrayNullableProp: Object.listFromJson(json['array_nullable_prop']),
+        arrayAndItemsNullableProp: Object.listFromJson(json['array_and_items_nullable_prop']),
+        arrayItemsNullable: Object.listFromJson(json['array_items_nullable']),
+        objectNullableProp: json['object_nullable_prop'] == null
+          ? null
+          : Object.mapFromJson(json['object_nullable_prop']),
+        objectAndItemsNullableProp: json['object_and_items_nullable_prop'] == null
+          ? null
+          : Object.mapFromJson(json['object_and_items_nullable_prop']),
+        objectItemsNullable: json['object_items_nullable'] == null
+          ? null
+          : Object.mapFromJson(json['object_items_nullable']),
+    );
 
   static List<NullableClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

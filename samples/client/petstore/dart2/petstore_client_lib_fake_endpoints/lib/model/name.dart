@@ -18,17 +18,6 @@ class Name {
     this.n123number,
   });
 
-  /// Returns a new [Name] instance and optionally import its values from
-  /// [json] if it's non-null.
-  Name.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      name = json['name'];
-      snakeCase = json['snake_case'];
-      property = json['property'];
-      n123number = json['123Number'];
-    }
-  }
-
   
   int name;
 
@@ -50,10 +39,10 @@ class Name {
 
   @override
   int get hashCode =>
-    name.hashCode +
-    snakeCase.hashCode +
-    property.hashCode +
-    n123number.hashCode;
+    (name == null ? 0 : name.hashCode) +
+    (snakeCase == null ? 0 : snakeCase.hashCode) +
+    (property == null ? 0 : property.hashCode) +
+    (n123number == null ? 0 : n123number.hashCode);
 
   @override
   String toString() => 'Name[name=$name, snakeCase=$snakeCase, property=$property, n123number=$n123number]';
@@ -74,6 +63,17 @@ class Name {
     }
     return json;
   }
+
+  /// Returns a new [Name] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static Name fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : Name(
+        name: json['name'],
+        snakeCase: json['snake_case'],
+        property: json['property'],
+        n123number: json['123Number'],
+    );
 
   static List<Name> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

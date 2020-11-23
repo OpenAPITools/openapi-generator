@@ -370,26 +370,44 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         return toVarName(name);
     }
 
+
     @Override
     public String toModelName(String name) {
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            name = modelNamePrefix + "_" + name;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            name = name + "_" + modelNameSuffix;
+        }
+
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + camelize("model_" + name));
-            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
+            String modelName = camelize("model_" + name);
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
         }
 
+        // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
-            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+            String modelName = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
         }
 
-        if (typeMapping.containsValue(name)) {
-            return camelize(name);
-        } else {
-            // camelize the model name
-            return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
+        if (languageSpecificPrimitives.contains(name)) {
+            String modelName = camelize("model_" + name);
+            LOGGER.warn(name + " (model name matches existing language type) cannot be used as a model name. Renamed to " + modelName);
+            return modelName;
         }
+
+        // camelize the model name
+        // phone_number => PhoneNumber
+        return camelize(name);
     }
+
 
     @Override
     public String toModelFilename(String name) {
@@ -530,25 +548,50 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toEnumVarName(String value, String datatype) {
-        if (value.length() == 0) {
-            return "empty";
+    public String toEnumVarName(String name, String datatype) {
+        if (name.length() == 0) {
+            return "Empty";
         }
-        String var = value.replaceAll("\\W+", "_");
-        if ("number".equalsIgnoreCase(datatype) ||
-                "int".equalsIgnoreCase(datatype)) {
-            var = "Number" + var;
+
+        // for symbol, e.g. $, #
+        if (getSymbolName(name) != null) {
+            return camelize(getSymbolName(name));
         }
-        return escapeReservedWord(camelize(var, true));
+
+        // number
+        if ("number".equals(datatype)) {
+            String varName = "NUMBER_" + name;
+
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        // string
+        String enumName = sanitizeName(name);
+        enumName = enumName.replaceFirst("^_", "");
+        enumName = enumName.replaceFirst("_$", "");
+
+        // camelize the enum variable name
+        // ref: https://basarat.gitbooks.io/typescript/content/docs/enums.html
+        enumName = camelize(enumName);
+
+        if (enumName.matches("\\d.*")) { // starts with number
+            return "_" + enumName;
+        } else {
+            return enumName;
+        }
     }
 
     @Override
-    public String toEnumValue(String value, String datatype) {
-        if ("number".equalsIgnoreCase(datatype) ||
-                "int".equalsIgnoreCase(datatype)) {
-            return value;
+    public String toEnumName(CodegenProperty property) {
+        String enumName = toModelName(property.name) + "Enum";
+
+        if (enumName.matches("\\d.*")) { // starts with number
+            return "_" + enumName;
         } else {
-            return "'" + escapeText(value) + "'";
+            return enumName;
         }
     }
 

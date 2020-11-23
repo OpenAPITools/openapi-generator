@@ -15,14 +15,6 @@ class InlineResponseDefault {
     this.string,
   });
 
-  /// Returns a new [InlineResponseDefault] instance and optionally import its values from
-  /// [json] if it's non-null.
-  InlineResponseDefault.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      string = Foo.fromJson(json['string']);
-    }
-  }
-
   
   Foo string;
 
@@ -32,7 +24,7 @@ class InlineResponseDefault {
 
   @override
   int get hashCode =>
-    string.hashCode;
+    (string == null ? 0 : string.hashCode);
 
   @override
   String toString() => 'InlineResponseDefault[string=$string]';
@@ -44,6 +36,14 @@ class InlineResponseDefault {
     }
     return json;
   }
+
+  /// Returns a new [InlineResponseDefault] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static InlineResponseDefault fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : InlineResponseDefault(
+        string: Foo.fromJson(json['string']),
+    );
 
   static List<InlineResponseDefault> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

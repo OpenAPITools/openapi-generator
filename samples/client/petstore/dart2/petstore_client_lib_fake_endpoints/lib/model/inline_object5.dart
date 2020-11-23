@@ -16,15 +16,6 @@ class InlineObject5 {
     @required this.requiredFile,
   });
 
-  /// Returns a new [InlineObject5] instance and optionally import its values from
-  /// [json] if it's non-null.
-  InlineObject5.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      additionalMetadata = json['additionalMetadata'];
-      requiredFile = File.fromJson(json['requiredFile']);
-    }
-  }
-
   /// Additional data to pass to server
   String additionalMetadata;
 
@@ -38,8 +29,8 @@ class InlineObject5 {
 
   @override
   int get hashCode =>
-    additionalMetadata.hashCode +
-    requiredFile.hashCode;
+    (additionalMetadata == null ? 0 : additionalMetadata.hashCode) +
+    (requiredFile == null ? 0 : requiredFile.hashCode);
 
   @override
   String toString() => 'InlineObject5[additionalMetadata=$additionalMetadata, requiredFile=$requiredFile]';
@@ -54,6 +45,15 @@ class InlineObject5 {
     }
     return json;
   }
+
+  /// Returns a new [InlineObject5] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static InlineObject5 fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : InlineObject5(
+        additionalMetadata: json['additionalMetadata'],
+        requiredFile: File.fromJson(json['requiredFile']),
+    );
 
   static List<InlineObject5> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

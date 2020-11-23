@@ -30,35 +30,6 @@ class FormatTest {
     this.patternWithDigitsAndDelimiter,
   });
 
-  /// Returns a new [FormatTest] instance and optionally import its values from
-  /// [json] if it's non-null.
-  FormatTest.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      integer = json['integer'];
-      int32 = json['int32'];
-      int64 = json['int64'];
-      number = json['number'] == null ?
-        null :
-        json['number'].toDouble();
-      float = json['float'];
-      double = json['double'];
-      decimal = Decimal.fromJson(json['decimal']);
-      string = json['string'];
-      byte = json['byte'];
-      binary = File.fromJson(json['binary']);
-      date = json['date'] == null
-        ? null
-        : DateTime.parse(json['date']);
-      dateTime = json['dateTime'] == null
-        ? null
-        : DateTime.parse(json['dateTime']);
-      uuid = json['uuid'];
-      password = json['password'];
-      patternWithDigits = json['pattern_with_digits'];
-      patternWithDigitsAndDelimiter = json['pattern_with_digits_and_delimiter'];
-    }
-  }
-
   
   int integer;
 
@@ -128,22 +99,22 @@ class FormatTest {
 
   @override
   int get hashCode =>
-    integer.hashCode +
-    int32.hashCode +
-    int64.hashCode +
-    number.hashCode +
-    float.hashCode +
-    double.hashCode +
-    decimal.hashCode +
-    string.hashCode +
-    byte.hashCode +
-    binary.hashCode +
-    date.hashCode +
-    dateTime.hashCode +
-    uuid.hashCode +
-    password.hashCode +
-    patternWithDigits.hashCode +
-    patternWithDigitsAndDelimiter.hashCode;
+    (integer == null ? 0 : integer.hashCode) +
+    (int32 == null ? 0 : int32.hashCode) +
+    (int64 == null ? 0 : int64.hashCode) +
+    (number == null ? 0 : number.hashCode) +
+    (float == null ? 0 : float.hashCode) +
+    (double == null ? 0 : double.hashCode) +
+    (decimal == null ? 0 : decimal.hashCode) +
+    (string == null ? 0 : string.hashCode) +
+    (byte == null ? 0 : byte.hashCode) +
+    (binary == null ? 0 : binary.hashCode) +
+    (date == null ? 0 : date.hashCode) +
+    (dateTime == null ? 0 : dateTime.hashCode) +
+    (uuid == null ? 0 : uuid.hashCode) +
+    (password == null ? 0 : password.hashCode) +
+    (patternWithDigits == null ? 0 : patternWithDigits.hashCode) +
+    (patternWithDigitsAndDelimiter == null ? 0 : patternWithDigitsAndDelimiter.hashCode);
 
   @override
   String toString() => 'FormatTest[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double=$double, decimal=$decimal, string=$string, byte=$byte, binary=$binary, date=$date, dateTime=$dateTime, uuid=$uuid, password=$password, patternWithDigits=$patternWithDigits, patternWithDigitsAndDelimiter=$patternWithDigitsAndDelimiter]';
@@ -200,6 +171,35 @@ class FormatTest {
     }
     return json;
   }
+
+  /// Returns a new [FormatTest] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static FormatTest fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : FormatTest(
+        integer: json['integer'],
+        int32: json['int32'],
+        int64: json['int64'],
+        number: json['number'] == null ?
+          null :
+          json['number'].toDouble(),
+        float: json['float'],
+        double: json['double'],
+        decimal: Decimal.fromJson(json['decimal']),
+        string: json['string'],
+        byte: json['byte'],
+        binary: File.fromJson(json['binary']),
+        date: json['date'] == null
+          ? null
+          : DateTime.parse(json['date']),
+        dateTime: json['dateTime'] == null
+          ? null
+          : DateTime.parse(json['dateTime']),
+        uuid: json['uuid'],
+        password: json['password'],
+        patternWithDigits: json['pattern_with_digits'],
+        patternWithDigitsAndDelimiter: json['pattern_with_digits_and_delimiter'],
+    );
 
   static List<FormatTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

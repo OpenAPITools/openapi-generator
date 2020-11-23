@@ -16,15 +16,6 @@ class InlineObject4 {
     @required this.param2,
   });
 
-  /// Returns a new [InlineObject4] instance and optionally import its values from
-  /// [json] if it's non-null.
-  InlineObject4.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      param = json['param'];
-      param2 = json['param2'];
-    }
-  }
-
   /// field1
   String param;
 
@@ -38,8 +29,8 @@ class InlineObject4 {
 
   @override
   int get hashCode =>
-    param.hashCode +
-    param2.hashCode;
+    (param == null ? 0 : param.hashCode) +
+    (param2 == null ? 0 : param2.hashCode);
 
   @override
   String toString() => 'InlineObject4[param=$param, param2=$param2]';
@@ -54,6 +45,15 @@ class InlineObject4 {
     }
     return json;
   }
+
+  /// Returns a new [InlineObject4] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static InlineObject4 fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : InlineObject4(
+        param: json['param'],
+        param2: json['param2'],
+    );
 
   static List<InlineObject4> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

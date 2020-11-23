@@ -17,16 +17,6 @@ class Cat {
     this.declawed,
   });
 
-  /// Returns a new [Cat] instance and optionally import its values from
-  /// [json] if it's non-null.
-  Cat.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      className = json['className'];
-      color = json['color'];
-      declawed = json['declawed'];
-    }
-  }
-
   
   String className;
 
@@ -44,9 +34,9 @@ class Cat {
 
   @override
   int get hashCode =>
-    className.hashCode +
-    color.hashCode +
-    declawed.hashCode;
+    (className == null ? 0 : className.hashCode) +
+    (color == null ? 0 : color.hashCode) +
+    (declawed == null ? 0 : declawed.hashCode);
 
   @override
   String toString() => 'Cat[className=$className, color=$color, declawed=$declawed]';
@@ -64,6 +54,16 @@ class Cat {
     }
     return json;
   }
+
+  /// Returns a new [Cat] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static Cat fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : Cat(
+        className: json['className'],
+        color: json['color'],
+        declawed: json['declawed'],
+    );
 
   static List<Cat> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

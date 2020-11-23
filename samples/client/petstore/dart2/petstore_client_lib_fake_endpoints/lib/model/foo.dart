@@ -15,14 +15,6 @@ class Foo {
     this.bar = 'bar',
   });
 
-  /// Returns a new [Foo] instance and optionally import its values from
-  /// [json] if it's non-null.
-  Foo.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      bar = json['bar'];
-    }
-  }
-
   
   String bar;
 
@@ -32,7 +24,7 @@ class Foo {
 
   @override
   int get hashCode =>
-    bar.hashCode;
+    (bar == null ? 0 : bar.hashCode);
 
   @override
   String toString() => 'Foo[bar=$bar]';
@@ -44,6 +36,14 @@ class Foo {
     }
     return json;
   }
+
+  /// Returns a new [Foo] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static Foo fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : Foo(
+        bar: json['bar'],
+    );
 
   static List<Foo> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

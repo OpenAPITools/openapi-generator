@@ -17,20 +17,6 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     this.map = const {},
   });
 
-  /// Returns a new [MixedPropertiesAndAdditionalPropertiesClass] instance and optionally import its values from
-  /// [json] if it's non-null.
-  MixedPropertiesAndAdditionalPropertiesClass.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      uuid = json['uuid'];
-      dateTime = json['dateTime'] == null
-        ? null
-        : DateTime.parse(json['dateTime']);
-      map = json['map'] == null
-        ? null
-        : Animal.mapFromJson(json['map']);
-    }
-  }
-
   
   String uuid;
 
@@ -48,9 +34,9 @@ class MixedPropertiesAndAdditionalPropertiesClass {
 
   @override
   int get hashCode =>
-    uuid.hashCode +
-    dateTime.hashCode +
-    map.hashCode;
+    (uuid == null ? 0 : uuid.hashCode) +
+    (dateTime == null ? 0 : dateTime.hashCode) +
+    (map == null ? 0 : map.hashCode);
 
   @override
   String toString() => 'MixedPropertiesAndAdditionalPropertiesClass[uuid=$uuid, dateTime=$dateTime, map=$map]';
@@ -68,6 +54,20 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     }
     return json;
   }
+
+  /// Returns a new [MixedPropertiesAndAdditionalPropertiesClass] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static MixedPropertiesAndAdditionalPropertiesClass fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : MixedPropertiesAndAdditionalPropertiesClass(
+        uuid: json['uuid'],
+        dateTime: json['dateTime'] == null
+          ? null
+          : DateTime.parse(json['dateTime']),
+        map: json['map'] == null
+          ? null
+          : Animal.mapFromJson(json['map']),
+    );
 
   static List<MixedPropertiesAndAdditionalPropertiesClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

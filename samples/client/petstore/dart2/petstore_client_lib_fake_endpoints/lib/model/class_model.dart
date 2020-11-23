@@ -15,14 +15,6 @@ class ClassModel {
     this.class_,
   });
 
-  /// Returns a new [ClassModel] instance and optionally import its values from
-  /// [json] if it's non-null.
-  ClassModel.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      class_ = json['_class'];
-    }
-  }
-
   
   String class_;
 
@@ -32,7 +24,7 @@ class ClassModel {
 
   @override
   int get hashCode =>
-    class_.hashCode;
+    (class_ == null ? 0 : class_.hashCode);
 
   @override
   String toString() => 'ClassModel[class_=$class_]';
@@ -44,6 +36,14 @@ class ClassModel {
     }
     return json;
   }
+
+  /// Returns a new [ClassModel] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static ClassModel fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : ClassModel(
+        class_: json['_class'],
+    );
 
   static List<ClassModel> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

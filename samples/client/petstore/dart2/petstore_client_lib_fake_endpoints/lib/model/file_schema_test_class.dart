@@ -16,15 +16,6 @@ class FileSchemaTestClass {
     this.files = const [],
   });
 
-  /// Returns a new [FileSchemaTestClass] instance and optionally import its values from
-  /// [json] if it's non-null.
-  FileSchemaTestClass.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      file = MultipartFile.fromJson(json['file']);
-      files = MultipartFile.listFromJson(json['files']);
-    }
-  }
-
   
   MultipartFile file;
 
@@ -38,8 +29,8 @@ class FileSchemaTestClass {
 
   @override
   int get hashCode =>
-    file.hashCode +
-    files.hashCode;
+    (file == null ? 0 : file.hashCode) +
+    (files == null ? 0 : files.hashCode);
 
   @override
   String toString() => 'FileSchemaTestClass[file=$file, files=$files]';
@@ -54,6 +45,15 @@ class FileSchemaTestClass {
     }
     return json;
   }
+
+  /// Returns a new [FileSchemaTestClass] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static FileSchemaTestClass fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : FileSchemaTestClass(
+        file: MultipartFile.fromJson(json['file']),
+        files: MultipartFile.listFromJson(json['files']),
+    );
 
   static List<FileSchemaTestClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
