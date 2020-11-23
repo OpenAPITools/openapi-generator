@@ -13,9 +13,9 @@ Name | Type | Description | Notes
 **String** | Pointer to **string** | None | [optional] 
 **PatternWithoutDelimiter** | **string** | None | 
 **Byte** | **string** | None | 
-**Binary** | Pointer to [***os.File**](*os.File.md) | None | [optional] 
+**Binary** | Pointer to ***os.File** | None | [optional] 
 **Date** | Pointer to **string** | None | [optional] 
-**DateTime** | Pointer to [**time.Time**](time.Time.md) | None | [optional] 
+**DateTime** | Pointer to **time.Time** | None | [optional] 
 **Password** | Pointer to **string** | None | [optional] 
 **Callback** | Pointer to **string** | None | [optional] 
 
