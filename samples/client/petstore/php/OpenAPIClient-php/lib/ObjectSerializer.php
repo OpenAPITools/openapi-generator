@@ -322,7 +322,7 @@ class ObjectSerializer
                     // Some API's return a date-time with too high nanosecond
                     // precision for php's DateTime to handle. This conversion
                     // (string -> unix timestamp -> DateTime) is a workaround
-                    // for this problem.
+                    // for the problem.
                     return (new \DateTime())->setTimestamp(strtotime($data));
                 }
             } else {
