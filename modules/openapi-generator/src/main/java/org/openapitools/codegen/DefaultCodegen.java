@@ -4011,6 +4011,7 @@ public class DefaultCodegen implements CodegenConfig {
                     throw new RuntimeException("Invalid response code " + responseCode);
             }
         }
+
         Schema responseSchema;
         if (this.openAPI != null && this.openAPI.getComponents() != null) {
             responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(response), importMapping);
