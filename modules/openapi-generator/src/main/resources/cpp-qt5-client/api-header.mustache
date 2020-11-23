@@ -8,6 +8,7 @@
 {{/imports}}
 
 #include <QObject>
+ #include <QStringList> 
 #include <QNetworkAccessManager>
 
 {{#cppNamespaceDeclarations}}
@@ -18,13 +19,13 @@ class {{classname}} : public QObject {
     Q_OBJECT
 
 public:
-    {{classname}}(const QString &scheme = "{{scheme}}", const QString &host = "{{serverHost}}", int port = {{#serverPort}}{{serverPort}}{{/serverPort}}{{^serverPort}}0{{/serverPort}}, const QString &basePath = "{{basePathWithoutHost}}", const int timeOut = 0, const QString &apiKey="");
+    {{classname}}(const QString &scheme = "{{scheme}}", const QString &host = "{{serverHost}}", int port = {{#serverPort}}{{serverPort}}{{/serverPort}}{{^serverPort}}0{{/serverPort}}, const QString &basePath = "{{basePathWithoutHost}}", const int timeOut = 0);
     ~{{classname}}();
 
     void setScheme(const QString &scheme);
     void setHost(const QString &host);
     void setPort(int port);
-    void setApiKey(const QString &apiKey);
+    void setApiKey(const QString &apiKeyName, const QString &apiKey);
     void setBasePath(const QString &basePath);
     void setTimeOut(const int timeOut);
     void setWorkingDirectory(const QString &path);
@@ -34,12 +35,12 @@ public:
     void enableResponseCompression();
     void abortRequests();
 {{#operations}}{{#operation}}
-    void {{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{/operation}}{{/operations}}
+    void {{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/operation}}{{/operations}}
 
 private:
     QString _scheme, _host;
     int _port;
-    QString _apiKey;
+    QMap<QString, QString> _apiKeys;
     QString _basePath;
     int _timeOut;
     QString _workingDirectory;
