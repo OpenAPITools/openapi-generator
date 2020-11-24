@@ -579,7 +579,7 @@ public class Example {
         String string = "string_example"; // String | None
         AsyncFile binary = new AsyncFile(); // AsyncFile | None
         LocalDate date = new LocalDate(); // LocalDate | None
-        OffsetDateTime dateTime = new OffsetDateTime(); // OffsetDateTime | None
+        OffsetDateTime dateTime = OffsetDateTime.now(); // OffsetDateTime | None
         String password = "password_example"; // String | None
         String paramCallback = "paramCallback_example"; // String | None
         try {

@@ -1014,6 +1014,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             example = "new Date()";
         } else if ("OffsetDateTime".equals(type)) {
             example = "OffsetDateTime.now()";
+        } else if (p.allowableValues != null && !p.allowableValues.isEmpty()) {
+            Map<String, Object> allowableValues = p.allowableValues;
+            List<Object> values = (List<Object>) allowableValues.get("values");
+            example = type + ".fromValue(\"" + String.valueOf(values.get(0)) + "\")";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
             example = "new " + type + "()";
