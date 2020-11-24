@@ -46,6 +46,10 @@ void PFXUserApi::setApiKey(const QString &apiKeyName, const QString &apiKey){
     _apiKeys.insert(apiKeyName,apiKey);
 }
 
+void PFXUserApi::setBearerToken(const QString &token){
+    _bearerToken = token;
+}
+
 void PFXUserApi::setUsername(const QString &username) {
     _username = username;
 }
@@ -93,7 +97,7 @@ void PFXUserApi::createUser(const PFXUser &body) {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/user");
-    
+
 
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -140,7 +144,7 @@ void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/user/createWithArray");
-    
+
 
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -188,7 +192,7 @@ void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/user/createWithList");
-    
+
 
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -331,7 +335,7 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/user/login");
-    
+
 
 
     if (fullPath.indexOf("?") > 0)
@@ -389,7 +393,7 @@ void PFXUserApi::logoutUser() {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/user/logout");
-    
+
 
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);

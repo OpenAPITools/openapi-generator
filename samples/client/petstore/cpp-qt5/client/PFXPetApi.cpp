@@ -46,6 +46,10 @@ void PFXPetApi::setApiKey(const QString &apiKeyName, const QString &apiKey){
     _apiKeys.insert(apiKeyName,apiKey);
 }
 
+void PFXPetApi::setBearerToken(const QString &token){
+    _bearerToken = token;
+}
+
 void PFXPetApi::setUsername(const QString &username) {
     _username = username;
 }
@@ -93,7 +97,7 @@ void PFXPetApi::addPet(const PFXPet &body) {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/pet");
-    
+
 
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -191,7 +195,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/pet/findByStatus");
-    
+
 
 
     if (status.size() > 0) {
@@ -283,7 +287,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/pet/findByTags");
-    
+
 
 
     if (tags.size() > 0) {
@@ -378,6 +382,7 @@ void PFXPetApi::getPetById(const qint64 &pet_id) {
     QString pet_idPathParam("{");
     pet_idPathParam.append("petId").append("}");
     fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
+    
     addHeaders("api_key",_apiKeys.find("api_key").value());
     
 
@@ -424,7 +429,7 @@ void PFXPetApi::updatePet(const PFXPet &body) {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/pet");
-    
+
 
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);

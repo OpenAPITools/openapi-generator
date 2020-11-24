@@ -38,6 +38,10 @@ void {{classname}}::setApiKey(const QString &apiKeyName, const QString &apiKey){
     _apiKeys.insert(apiKeyName,apiKey);
 }
 
+void {{classname}}::setBearerToken(const QString &token){
+    _bearerToken = token;
+}
+
 void {{classname}}::setUsername(const QString &username) {
     _username = username;
 }
@@ -91,17 +95,20 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     QString {{paramName}}PathParam("{");
     {{paramName}}PathParam.append("{{baseName}}").append("}");
     fullPath.replace({{paramName}}PathParam, QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
-    {{/pathParams}}
-    {{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}addHeaders("{{name}}",_apiKeys.find("{{name}}").value());
+    {{/pathParams}}{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
+    addHeaders("{{name}}",_apiKeys.find("{{name}}").value());
     {{/isKeyInHeader}}{{#isKeyInQuery}}
     if (fullPath.indexOf("?") > 0)
         fullPath.append("&");
     else
         fullPath.append("?");
     fullPath.append("{{{name}}}=").append(_apiKeys.find("{{name}}").value());
-    {{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}QByteArray b64;
+    {{/isKeyInQuery}}{{/isApiKey}}{{#isBasicBearer}}
+    addHeaders("Authorization", "Bearer " + _bearerToken);
+    {{/isBasicBearer}}{{#isBasicBasic}}
+    QByteArray b64;
     b64.append(_username + ":" + _password);
-    addHeaders("Authorization","Basic " + b64.toBase64());{{/isBasic}}{{/authMethods}}
+    addHeaders("Authorization","Basic " + b64.toBase64());{{/isBasicBasic}}{{/authMethods}}
 
 {{#queryParams}}{{^collectionFormat}}
     if (fullPath.indexOf("?") > 0)

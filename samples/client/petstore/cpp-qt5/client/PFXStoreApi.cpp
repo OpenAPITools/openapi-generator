@@ -46,6 +46,10 @@ void PFXStoreApi::setApiKey(const QString &apiKeyName, const QString &apiKey){
     _apiKeys.insert(apiKeyName,apiKey);
 }
 
+void PFXStoreApi::setBearerToken(const QString &token){
+    _bearerToken = token;
+}
+
 void PFXStoreApi::setUsername(const QString &username) {
     _username = username;
 }
@@ -140,6 +144,7 @@ void PFXStoreApi::getInventory() {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/store/inventory");
+
     addHeaders("api_key",_apiKeys.find("api_key").value());
     
 
@@ -243,7 +248,7 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/store/order");
-    
+
 
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
