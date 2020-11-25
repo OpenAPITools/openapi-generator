@@ -1014,6 +1014,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             example = "new Date()";
         } else if ("OffsetDateTime".equals(type)) {
             example = "OffsetDateTime.now()";
+        } else if ("BigDecimal".equals(type)) {
+            example = "new BigDecimal(78)";
         } else if (p.allowableValues != null && !p.allowableValues.isEmpty()) {
             Map<String, Object> allowableValues = p.allowableValues;
             List<Object> values = (List<Object>) allowableValues.get("values");
