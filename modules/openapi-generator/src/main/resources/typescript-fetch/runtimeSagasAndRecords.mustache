@@ -82,7 +82,7 @@ export abstract class ApiRecordUtils<TAPI, TREC extends RecordOf<any>> {
 
 export const allApiActionFailures: SagaActionDefinition<any>[] = [];
 
-export interface BasePayloadApiAction {
+export interface BasePayloadReturnValueApiAction {
 	toEntities?: boolean;
 }
 

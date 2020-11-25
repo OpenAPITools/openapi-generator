@@ -191,18 +191,40 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                                         Map<String, String> importMappings) {
         super.handleMethodResponse(operation, schemas, op, methodResponse, importMappings);
 
-        Schema schema = null;
-        if (schemas != null) {
-            schema = schemas.get(op.returnBaseType);
-        }
-        if (schema != null) {
-            CodegenModel cm = fromModel(op.returnBaseType, schema);
-            if (Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_META_DATA_RESPONSE))) {
-                if (cm.vars.size() == 1 && "meta".equals(cm.vars.get(0).name)) {
-                    op.returnTypeIsMetaOnlyResponse = true;
+        if (this.getSagasAndRecords()) {
+            op.returnTypeAlternate = "void";
+
+            Schema schema = null;
+            if (schemas != null) {
+                schema = schemas.get(op.returnBaseType);
+            }
+
+            CodegenModel cm = null;
+            if (schema != null) {
+                cm = fromModel(op.returnBaseType, schema);
+
+                if (Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_META_DATA_RESPONSE))) {
+                    if (cm.vars.size() == 1 && "meta".equals(cm.vars.get(0).name)) {
+                        op.returnTypeIsMetaOnlyResponse = true;
+                    }
+                    if (cm.vars.size() == 2 && "data".equals(cm.vars.get(1).name)) {
+                        op.returnTypeIsMetaDataResponse = true;
+                    }
                 }
-                if (cm.vars.size() == 2 && "data".equals(cm.vars.get(1).name)) {
-                    op.returnTypeIsMetaDataResponse = true;
+            }
+
+            if (!op.returnTypeIsMetaOnlyResponse) {
+                Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(methodResponse), importMapping);
+                CodegenProperty cp = null;
+                if (op.returnTypeIsMetaDataResponse && cm != null) {
+                    cp = this.processCodeGenModel(cm).vars.get(1);
+                } else if (responseSchema != null) {
+                    cp = fromProperty("response", responseSchema);
+                    this.processCodegenProperty(cp, "", null);
+                }
+
+                if (cp != null) {
+                    op.returnTypeAlternate = cp.dataTypeAlternate;
                 }
             }
         }
@@ -217,80 +239,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
             cm.imports = new TreeSet(cm.imports);
-            for (CodegenProperty var : cm.vars) {
-                // name enum with model name, e.g. StatusEnum => PetStatusEnum
-                if (Boolean.TRUE.equals(var.isEnum)) {
-                    // behaviour for enum names is specific for Typescript Fetch, not using namespaces
-                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
-
-					// need to post-process defaultValue, was computed with previous var.datatypeWithEnum
-                    if (var.defaultValue != null && !var.defaultValue.equals("undefined")) {
-                        int dotPos = var.defaultValue.indexOf(".");
-                        if (dotPos != -1) {
-                            var.defaultValue = var.datatypeWithEnum + var.defaultValue.substring(dotPos);
-                        }
-                    }
-                }
-
-                var.isUniqueId = Boolean.TRUE.equals(var.vendorExtensions.get(X_IS_UNIQUE_ID));
-                if (var.isUniqueId && cm.vendorExtensions.get(X_ENTITY_ID).equals(var.name)) {
-                    cm.isEntity = true;
-                }
-
-                var.itemsDataType = var.isListContainer ? var.items.dataType : null;
-                var.itemsAreModels = var.isListContainer && var.items.isModel;
-
-                if (this.getSagasAndRecords()) {
-                    var.dataTypeAlternate = var.dataType;
-                    if (var.isListContainer) {
-                        var.dataTypeAlternate = var.dataType.replace("Array<", "List<");
-                        if (var.items.isModel) {
-                            var.itemsDataType = var.items.dataType + "Record";
-                            var.dataTypeAlternate = var.dataTypeAlternate.replace(var.items.dataType, var.itemsDataType);
-                        } else if (var.items.isEnum) {
-                            var.itemsDataType = var.items.datatypeWithEnum;
-                            var.dataTypeAlternate = var.dataTypeAlternate.replace(var.items.dataType, var.itemsDataType);
-                        }
-                    } else if (var.isEnum) {
-                        var.dataTypeAlternate = var.datatypeWithEnum;
-                    } else if (var.isModel) {
-                        var.dataTypeAlternate = var.dataType + "Record";
-                    } else if (var.isUniqueId) {
-                        var.dataTypeAlternate = "string";
-                    }
-                    if (var.defaultValue == null || var.defaultValue.equals("undefined")) {
-                        this.autoSetDefaultValueForProperty(var);
-                    }
-                }
-            }
-
-            if (Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_META_DATA_RESPONSE))) {
-                if (cm.vars.size() == 1 && "meta".equals(cm.vars.get(0).name)) {
-                    cm.isMetaOnlyResponse = true;
-                }
-                if (cm.vars.size() == 2 && "data".equals(cm.vars.get(1).name)) {
-                    cm.isMetaDataResponse = true;
-                }
-            }
-
-            if (cm.parent != null) {
-                for (CodegenProperty var : cm.allVars) {
-                    if (Boolean.TRUE.equals(var.isEnum)) {
-                        var.datatypeWithEnum = var.datatypeWithEnum
-                                .replace(var.enumName, cm.classname + var.enumName);
-                    }
-                }
-            }
-            if (!cm.oneOf.isEmpty()) {
-                // For oneOfs only import $refs within the oneOf
-                TreeSet<String> oneOfRefs = new TreeSet<>();
-                for (String im : cm.imports) {
-                    if (cm.oneOf.contains(im)) {
-                        oneOfRefs.add(im);
-                    }
-                }
-                cm.imports = oneOfRefs;
-            }
+            this.processCodeGenModel(cm);
         }
 
         return objs;
@@ -351,7 +300,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             updateCodegenPropertyEnum(var);
         } else if (var.dataType.equalsIgnoreCase("string")) {
             var.defaultValue = "\"\"";
-        } else if (var.dataType.equalsIgnoreCase("integer")){
+        } else if (var.dataType.equalsIgnoreCase("integer")) {
             var.defaultValue = "0";
         }
     }
@@ -402,6 +351,94 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         parentObjs.put("useSagaAndRecords", this.getSagasAndRecords());
 
         return parentObjs;
+    }
+
+    private CodegenModel processCodeGenModel(CodegenModel cm) {
+        Object xEntityId = cm.vendorExtensions.get(X_ENTITY_ID);
+        for (CodegenProperty var : cm.vars) {
+            boolean parentIsEntity = this.processCodegenProperty(var, cm.classname, xEntityId);
+            if (parentIsEntity) {
+                cm.isEntity = true;
+            };
+        }
+
+        if (Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_META_DATA_RESPONSE))) {
+            if (cm.vars.size() == 1 && "meta".equals(cm.vars.get(0).name)) {
+                cm.isMetaOnlyResponse = true;
+            }
+            if (cm.vars.size() == 2 && "data".equals(cm.vars.get(1).name)) {
+                cm.isMetaDataResponse = true;
+            }
+        }
+
+        if (cm.parent != null) {
+            for (CodegenProperty var : cm.allVars) {
+                if (Boolean.TRUE.equals(var.isEnum)) {
+                    var.datatypeWithEnum = var.datatypeWithEnum
+                            .replace(var.enumName, cm.classname + var.enumName);
+                }
+            }
+        }
+        if (!cm.oneOf.isEmpty()) {
+            // For oneOfs only import $refs within the oneOf
+            TreeSet<String> oneOfRefs = new TreeSet<>();
+            for (String im : cm.imports) {
+                if (cm.oneOf.contains(im)) {
+                    oneOfRefs.add(im);
+                }
+            }
+            cm.imports = oneOfRefs;
+        }
+        return cm;
+    }
+
+    private boolean processCodegenProperty(CodegenProperty var, String parentClassName, Object xEntityId) {
+        boolean parentIsEntity = false;
+        // name enum with model name, e.g. StatusEnum => PetStatusEnum
+        if (Boolean.TRUE.equals(var.isEnum)) {
+            // behaviour for enum names is specific for Typescript Fetch, not using namespaces
+            var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, parentClassName + var.enumName);
+
+            // need to post-process defaultValue, was computed with previous var.datatypeWithEnum
+            if (var.defaultValue != null && !var.defaultValue.equals("undefined")) {
+                int dotPos = var.defaultValue.indexOf(".");
+                if (dotPos != -1) {
+                    var.defaultValue = var.datatypeWithEnum + var.defaultValue.substring(dotPos);
+                }
+            }
+        }
+
+        var.isUniqueId = Boolean.TRUE.equals(var.vendorExtensions.get(X_IS_UNIQUE_ID));
+        if (var.isUniqueId && xEntityId != null && xEntityId.equals(var.name)) {
+            parentIsEntity = true;
+        }
+
+        var.itemsDataType = var.isListContainer ? var.items.dataType : null;
+        var.itemsAreModels = var.isListContainer && var.items.isModel;
+
+        if (this.getSagasAndRecords()) {
+            var.dataTypeAlternate = var.dataType;
+            if (var.isListContainer) {
+                var.dataTypeAlternate = var.dataType.replace("Array<", "List<");
+                if (var.items.isModel) {
+                    var.itemsDataType = var.items.dataType + "Record";
+                    var.dataTypeAlternate = var.dataTypeAlternate.replace(var.items.dataType, var.itemsDataType);
+                } else if (var.items.isEnum) {
+                    var.itemsDataType = var.items.datatypeWithEnum;
+                    var.dataTypeAlternate = var.dataTypeAlternate.replace(var.items.dataType, var.itemsDataType);
+                }
+            } else if (var.isEnum) {
+                var.dataTypeAlternate = var.datatypeWithEnum;
+            } else if (var.isModel) {
+                var.dataTypeAlternate = var.dataType + "Record";
+            } else if (var.isUniqueId) {
+                var.dataTypeAlternate = "string";
+            }
+            if (var.defaultValue == null || var.defaultValue.equals("undefined")) {
+                this.autoSetDefaultValueForProperty(var);
+            }
+        }
+        return parentIsEntity;
     }
 
     private void escapeOperationIds(Map<String, Object> operations) {
@@ -460,24 +497,22 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     param.isUniqueId = true;
                 }
 
-                if (this.getSagasAndRecords()) {
-                    param.dataTypeAlternate = param.dataType;
-                    if (param.isListContainer) {
-                        if (param.items.isModel) {
-                            param.dataTypeAlternate = param.dataType.replace("Array<", "List<");
-                            param.itemsDataType = param.items.dataType + "Record";
-                            param.dataTypeAlternate = param.dataTypeAlternate.replace(param.items.dataType, param.itemsDataType);
-                        } else if (param.items.isEnum) {
-                            param.itemsDataType = param.datatypeWithEnum.substring(param.datatypeWithEnum.indexOf("<") + 1, param.datatypeWithEnum.lastIndexOf(">"));
-                            param.dataTypeAlternate = param.datatypeWithEnum.replace("Array<", "List<");
-                        }
-                    } else if (param.isEnum) {
-                        param.dataTypeAlternate = param.datatypeWithEnum;
-                    } else if (param.isModel) {
-                        param.dataTypeAlternate = param.dataType + "Record";
-                    } else if (param.isUniqueId) {
-                        param.dataTypeAlternate = "string";
+                param.dataTypeAlternate = param.dataType;
+                if (param.isListContainer) {
+                    if (param.items.isModel) {
+                        param.dataTypeAlternate = param.dataType.replace("Array<", "List<");
+                        param.itemsDataType = param.items.dataType + "Record";
+                        param.dataTypeAlternate = param.dataTypeAlternate.replace(param.items.dataType, param.itemsDataType);
+                    } else if (param.items.isEnum) {
+                        param.itemsDataType = param.datatypeWithEnum.substring(param.datatypeWithEnum.indexOf("<") + 1, param.datatypeWithEnum.lastIndexOf(">"));
+                        param.dataTypeAlternate = param.datatypeWithEnum.replace("Array<", "List<");
                     }
+                } else if (param.isEnum) {
+                    param.dataTypeAlternate = param.datatypeWithEnum;
+                } else if (param.isModel) {
+                    param.dataTypeAlternate = param.dataType + "Record";
+                } else if (param.isUniqueId) {
+                    param.dataTypeAlternate = "string";
                 }
             }
         }

@@ -535,6 +535,10 @@ paths:
           schema:
             $ref: '#/definitions/User'
       responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/DefaultMetaOnlyResponse'
         '400':
           description: Invalid user supplied
         '404':
@@ -810,7 +814,28 @@ definitions:
         type: array
         description: "An array of all the specific error encountered during the request"
         items:
-          $ref: "#/definitions/Error"
+          $ref: "#/definitions/CSError"
+  CSError:
+    type: object
+    description: "This represent an error normally linked to a specific item from a previous request"
+    required:
+      - type
+    properties:
+      type:
+        type: string
+        description: "Usually contains the simple name of the exception"
+        default: "GenericException"
+        example: "GenericException"
+      itemInfo:
+        $ref: "#/definitions/ItemId"
+      details:
+        type: string
+        description: "Simple explanation of the error"
+        example: "Could not update that field"
+      exception:
+        type: string
+        description: "Message of the exception that will help developer to debug this problem if needed"
+        example: "DBException + stack trace"
   ErrorCode:
     type: string
     description: "Error code returned when an error occurs"
@@ -833,27 +858,6 @@ definitions:
       - Maximum_Message_Gain_Lower_Than_Message_Gain
       - Minimum_Volume_Blocks_Music_Volume_Decrease
       - Maximum_Volume_Blocks_Music_Volume_Increase
-  Error:
-    type: object
-    description: "This represent an error normally linked to a specific item from a previous request"
-    required:
-      - type
-    properties:
-      type:
-        type: string
-        description: "Usually contains the simple name of the exception"
-        default: "GenericException"
-        example: "GenericException"
-      itemInfo:
-        $ref: "#/definitions/ItemId"
-      details:
-        type: string
-        description: "Simple explanation of the error"
-        example: "Could not update that field"
-      exception:
-        type: string
-        description: "Message of the exception that will help developer to debug this problem if needed"
-        example: "DBException + stack trace"
   ItemId:
     type: object
     description: "Simplified identifier of an item"
@@ -871,6 +875,7 @@ definitions:
         example: "5667"
   DefaultMetaOnlyResponse:
     type: object
+    x-isMetaDataResponse: true
     required:
       - meta
     properties:

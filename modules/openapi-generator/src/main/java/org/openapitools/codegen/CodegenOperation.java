@@ -30,8 +30,8 @@ public class CodegenOperation {
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
             isRestful, isDeprecated, isCallbackRequest, uniqueItems, returnTypeIsMetaDataResponse, returnTypeIsMetaOnlyResponse;
-    public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
-            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse; 
+    public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType, returnTypeAlternate,
+            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
     public CodegenDiscriminator discriminator;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
     public List<CodegenServer> servers = new ArrayList<CodegenServer>();
@@ -278,6 +278,7 @@ public class CodegenOperation {
         sb.append(", returnType='").append(returnType).append('\'');
         sb.append(", httpMethod='").append(httpMethod).append('\'');
         sb.append(", returnBaseType='").append(returnBaseType).append('\'');
+        sb.append(", returnTypeAlternate='").append(returnTypeAlternate).append('\'');
         sb.append(", returnContainer='").append(returnContainer).append('\'');
         sb.append(", summary='").append(summary).append('\'');
         sb.append(", unescapedNotes='").append(unescapedNotes).append('\'');
@@ -355,6 +356,7 @@ public class CodegenOperation {
                 Objects.equals(returnType, that.returnType) &&
                 Objects.equals(httpMethod, that.httpMethod) &&
                 Objects.equals(returnBaseType, that.returnBaseType) &&
+                Objects.equals(returnTypeAlternate, that.returnTypeAlternate) &&
                 Objects.equals(returnContainer, that.returnContainer) &&
                 Objects.equals(summary, that.summary) &&
                 Objects.equals(unescapedNotes, that.unescapedNotes) &&
@@ -399,7 +401,7 @@ public class CodegenOperation {
                 hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMapContainer,
                 isListContainer, isMultipart, hasMore, isResponseBinary, isResponseFile, hasReference, isRestfulIndex,
                 isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy, isRestful, isDeprecated,
-                isCallbackRequest, uniqueItems, returnTypeIsMetaDataResponse, returnTypeIsMetaOnlyResponse, path, operationId, returnType, httpMethod, returnBaseType,
+                isCallbackRequest, uniqueItems, returnTypeIsMetaDataResponse, returnTypeIsMetaOnlyResponse, path, operationId, returnType, httpMethod, returnBaseType, returnTypeAlternate,
                 returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, consumes,
                 produces, prioritizedContentTypes, servers, bodyParam, allParams, bodyParams, pathParams, queryParams,
                 headerParams, formParams, cookieParams, requiredParams, optionalParams, authMethods, tags,

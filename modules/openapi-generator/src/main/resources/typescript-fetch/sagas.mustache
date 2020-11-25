@@ -3,20 +3,34 @@
 {{>licenseInfo}}
 
 import {List} from 'immutable';
-import {all, fork, put} from "redux-saga/effects";
-import {apiCall, createSagaAction as originalCreateSagaAction, BasePayloadApiAction} from "../runtimeSagasAndRecords";
+import {all, fork, put, takeLatest} from "redux-saga/effects";
+import {apiCall, createSagaAction as originalCreateSagaAction, BasePayloadReturnValueApiAction, NormalizedRecordEntities} from "../runtimeSagasAndRecords";
 
 {{#imports.0}}
 import {
     {{#imports}}
-    {{className}},
-    {{className}}FromJSON,
-    {{className}}ToJSON,
+    {{className}}Record,
     {{/imports}}
 } from '../models';
 {{/imports.0}}
 
-const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "{{className}}"});
+{{#hasEnums}}
+
+{{#operations}}
+{{#operation}}
+{{#allParams}}
+{{#isEnum}}
+import {
+    {{operationIdCamelCase}}{{enumName}},
+} from './{{classname}}';
+{{/isEnum}}
+{{/allParams}}
+{{/operation}}
+{{/operations}}
+{{/hasEnums}}
+
+
+const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_{{className}}"});
 
 export const {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}SagaMap = new Map<string, () => Generator<any, any, any>>([
 {{#operations}}
@@ -34,8 +48,7 @@ export function *{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}AllSagas
 {{#operations}}
 {{#operation}}
 //region {{nickname}}
-export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}} extends {{#allParams.0}}Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request, {{/allParams.0}}BasePayloadApiAction {
-}
+
 {{#allParams.0}}
 export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request {
 {{#allParams}}
@@ -43,6 +56,50 @@ export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{
 {{/allParams}}
 }
 {{/allParams.0}}
+
+{{#returnType}}
+{{#returnTypeIsMetaDataResponse}}
+export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}} extends {{#allParams.0}}Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request, {{/allParams.0}}BasePayloadReturnValueApiAction {
+}
+{{/returnTypeIsMetaDataResponse}}
+{{#returnTypeIsMetaOnlyResponse}}
+export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}} extends {{#allParams.0}}Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request{{/allParams.0}} {
+}
+{{/returnTypeIsMetaOnlyResponse}}
+{{^returnTypeIsMetaDataResponse}}
+{{^returnTypeIsMetaOnlyResponse}}
+export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}} extends {{#allParams.0}}Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request, {{/allParams.0}}BasePayloadReturnValueApiAction {
+}
+{{/returnTypeIsMetaOnlyResponse}}
+{{/returnTypeIsMetaDataResponse}}
+{{/returnType}}
+{{^returnType}}
+export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}} extends {{#allParams.0}}Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request{{/allParams.0}} {
+}
+{{/returnType}}
+
+export const {{nickname}}Request = createSagaAction<Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request>("{{nickname}}Request");
+{{#returnType}}
+export const {{nickname}}Success = createSagaAction<{{{returnTypeAlternate}}}>("{{nickname}}Success");
+{{#returnTypeIsMetaDataResponse}}
+export const {{nickname}}Success_Entities = createSagaAction<NormalizedRecordEntities>("{{nickname}}Success_Entities");
+{{/returnTypeIsMetaDataResponse}}
+{{^returnTypeIsMetaDataResponse}}
+{{^returnTypeIsMetaOnlyResponse}}
+export const {{nickname}}Success_Entities = createSagaAction<NormalizedRecordEntities>("{{nickname}}Success_Entities");
+{{/returnTypeIsMetaOnlyResponse}}
+{{/returnTypeIsMetaDataResponse}}
+{{/returnType}}
+{{^returnType}}
+export const {{nickname}}Success = createSagaAction<void>("{{nickname}}Success");
+{{/returnType}}
+export const {{nickname}}Failure = createSagaAction<any>("{{nickname}}Failure");
+
+export const {{nickname}} = createSagaAction<Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}>("{{nickname}}");
+
+export function *{{nickname}}Saga() {
+	yield takeLatest({{nickname}}, {{nickname}}SagaImp);
+}
 //endregion
 {{/operation}}
 {{/operations}}
