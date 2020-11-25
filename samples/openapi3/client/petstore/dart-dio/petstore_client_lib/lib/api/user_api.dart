@@ -250,8 +250,7 @@ class UserApi {
             onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
-            final serializer = _serializers.serializerForType(String);
-            final data = _serializers.deserializeWith<String>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            var data = response.data as String;
 
             return Response<String>(
                 data: data,
