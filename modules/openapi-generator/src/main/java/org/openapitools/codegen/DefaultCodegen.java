@@ -5771,7 +5771,6 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
                 // key => property name
                 // value => property schema
-                String collectionFormat = null;
                 Schema s = entry.getValue();
                 // array of schema
                 if (ModelUtils.isArraySchema(s)) {
@@ -5795,6 +5794,7 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                     //TODO fix collectformat for form parameters
                     //collectionFormat = getCollectionFormat(s);
+                    String collectionFormat = getCollectionFormat(codegenParameter);
                     // default to csv:
                     codegenParameter.collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
 
@@ -6668,5 +6668,16 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected static boolean isJsonVendorMimeType(String mime) {
         return mime != null && JSON_VENDOR_MIME_PATTERN.matcher(mime).matches();
+    }
+
+    /**
+     * Returns null by default but can be overwritten to return a valid collectionFormat
+     * for the {@link CodegenParameter}.
+     *
+     * @param codegenParameter parameter
+     * @return string for a collectionFormat.
+     */
+    protected String getCollectionFormat(CodegenParameter codegenParameter) {
+        return null;
     }
 }
