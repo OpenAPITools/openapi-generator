@@ -51,7 +51,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
     private static final String IS_FORMAT_JSON = "jsonFormat";
     private static final String CLIENT_NAME = "clientName";
-    private static Set<String> modelToIgnore = new HashSet<>();
+    private static final Set<String> modelToIgnore = new HashSet<>();
 
     static {
         modelToIgnore.add("datetime");
@@ -70,10 +70,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
         outputFolder = "generated-code/dart-dio";
         embeddedTemplateDir = "dart-dio";
         this.setTemplateDir(embeddedTemplateDir);
-
-        //no tests at this time
-        modelTestTemplateFiles.clear();
-        apiTestTemplateFiles.clear();
 
         cliOptions.add(new CliOption(NULLABLE_FIELDS, "Is the null fields should be in the JSON payload"));
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
