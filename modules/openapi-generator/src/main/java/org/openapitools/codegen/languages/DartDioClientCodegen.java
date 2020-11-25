@@ -84,6 +84,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
         typeMapping.put("AnyType", "Object");
 
         importMapping.put("BuiltList", "package:built_collection/built_collection.dart");
+        importMapping.put("BuiltSet", "package:built_collection/built_collection.dart");
         importMapping.put("BuiltMap", "package:built_collection/built_collection.dart");
         importMapping.put("JsonObject", "package:built_value/json_object.dart");
         importMapping.put("Uint8List", "dart:typed_data");
@@ -104,7 +105,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
     public void setNullableFields(boolean nullableFields) {
         this.nullableFields = nullableFields;
     }
-
 
     @Override
     public String getName() {
@@ -312,6 +312,11 @@ public class DartDioClientCodegen extends DartClientCodegen {
         if (property.dataType.contains("JsonObject")) {
             model.imports.add("JsonObject");
         }
+
+        if (property.isEnum) {
+            // enums are generated with built_value and make use of BuiltSet
+            model.imports.add("BuiltSet");
+        }
     }
 
     @Override
@@ -373,6 +378,5 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
         return objs;
     }
-
 
 }
