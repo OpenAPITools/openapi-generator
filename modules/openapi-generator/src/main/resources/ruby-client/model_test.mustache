@@ -41,9 +41,8 @@ describe {{moduleName}}::{{classname}} do
 {{#oneOf}}
 {{#-first}}
   describe '.openapi_one_of' do
-    it 'lists the models referenced in the oneOf array' do
+    it 'lists the items referenced in the oneOf array' do
       expect(described_class.openapi_one_of).to_not be_empty
-      described_class.openapi_one_of.each { |klass| expect { {{moduleName}}.const_get(klass) }.to_not raise_error }
     end
   end
 
