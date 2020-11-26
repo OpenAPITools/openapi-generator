@@ -3,12 +3,7 @@ package org.openapitools.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
-import java.util.ArrayList;
-import java.util.List;
-import org.openapitools.model.Category;
-import org.openapitools.model.Tag;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import java.util.Date;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -21,33 +16,28 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
-  * A pet for sale in the pet store
+  * An order for a pets from the pet store
  **/
-@ApiModel(description="A pet for sale in the pet store")
-public class Pet  {
+@ApiModel(description="An order for a pets from the pet store")
+public class Order  {
   
   @ApiModelProperty(value = "")
   private Long id;
 
   @ApiModelProperty(value = "")
-  @Valid
-  private Category category;
-
-  @ApiModelProperty(example = "doggie", required = true, value = "")
-  private String name;
-
-  @ApiModelProperty(required = true, value = "")
-  private List<String> photoUrls = new ArrayList<String>();
+  private Long petId;
 
   @ApiModelProperty(value = "")
-  @Valid
-  private List<Tag> tags = null;
+  private Integer quantity;
+
+  @ApiModelProperty(value = "")
+  private Date shipDate;
 
 @XmlType(name="StatusEnum")
 @XmlEnum(String.class)
 public enum StatusEnum {
 
-@XmlEnumValue("available") AVAILABLE(String.valueOf("available")), @XmlEnumValue("pending") PENDING(String.valueOf("pending")), @XmlEnumValue("sold") SOLD(String.valueOf("sold"));
+@XmlEnumValue("placed") PLACED(String.valueOf("placed")), @XmlEnumValue("approved") APPROVED(String.valueOf("approved")), @XmlEnumValue("delivered") DELIVERED(String.valueOf("delivered"));
 
 
     private String value;
@@ -77,11 +67,14 @@ public enum StatusEnum {
     }
 }
 
-  @ApiModelProperty(value = "pet status in the store")
+  @ApiModelProperty(value = "Order Status")
  /**
-   * pet status in the store
+   * Order Status
   **/
   private StatusEnum status;
+
+  @ApiModelProperty(value = "")
+  private Boolean complete = false;
  /**
    * Get id
    * @return id
@@ -95,97 +88,67 @@ public enum StatusEnum {
     this.id = id;
   }
 
-  public Pet id(Long id) {
+  public Order id(Long id) {
     this.id = id;
     return this;
   }
 
  /**
-   * Get category
-   * @return category
+   * Get petId
+   * @return petId
   **/
-  @JsonProperty("category")
-  public Category getCategory() {
-    return category;
+  @JsonProperty("petId")
+  public Long getPetId() {
+    return petId;
   }
 
-  public void setCategory(Category category) {
-    this.category = category;
+  public void setPetId(Long petId) {
+    this.petId = petId;
   }
 
-  public Pet category(Category category) {
-    this.category = category;
+  public Order petId(Long petId) {
+    this.petId = petId;
     return this;
   }
 
  /**
-   * Get name
-   * @return name
+   * Get quantity
+   * @return quantity
   **/
-  @JsonProperty("name")
-  @NotNull
-  public String getName() {
-    return name;
+  @JsonProperty("quantity")
+  public Integer getQuantity() {
+    return quantity;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setQuantity(Integer quantity) {
+    this.quantity = quantity;
   }
 
-  public Pet name(String name) {
-    this.name = name;
+  public Order quantity(Integer quantity) {
+    this.quantity = quantity;
     return this;
   }
 
  /**
-   * Get photoUrls
-   * @return photoUrls
+   * Get shipDate
+   * @return shipDate
   **/
-  @JsonProperty("photoUrls")
-  @NotNull
-  public List<String> getPhotoUrls() {
-    return photoUrls;
+  @JsonProperty("shipDate")
+  public Date getShipDate() {
+    return shipDate;
   }
 
-  public void setPhotoUrls(List<String> photoUrls) {
-    this.photoUrls = photoUrls;
+  public void setShipDate(Date shipDate) {
+    this.shipDate = shipDate;
   }
 
-  public Pet photoUrls(List<String> photoUrls) {
-    this.photoUrls = photoUrls;
-    return this;
-  }
-
-  public Pet addPhotoUrlsItem(String photoUrlsItem) {
-    this.photoUrls.add(photoUrlsItem);
+  public Order shipDate(Date shipDate) {
+    this.shipDate = shipDate;
     return this;
   }
 
  /**
-   * Get tags
-   * @return tags
-  **/
-  @JsonProperty("tags")
-  public List<Tag> getTags() {
-    return tags;
-  }
-
-  public void setTags(List<Tag> tags) {
-    this.tags = tags;
-  }
-
-  public Pet tags(List<Tag> tags) {
-    this.tags = tags;
-    return this;
-  }
-
-  public Pet addTagsItem(Tag tagsItem) {
-    this.tags.add(tagsItem);
-    return this;
-  }
-
- /**
-   * pet status in the store
+   * Order Status
    * @return status
   **/
   @JsonProperty("status")
@@ -200,8 +163,26 @@ public enum StatusEnum {
     this.status = status;
   }
 
-  public Pet status(StatusEnum status) {
+  public Order status(StatusEnum status) {
     this.status = status;
+    return this;
+  }
+
+ /**
+   * Get complete
+   * @return complete
+  **/
+  @JsonProperty("complete")
+  public Boolean getComplete() {
+    return complete;
+  }
+
+  public void setComplete(Boolean complete) {
+    this.complete = complete;
+  }
+
+  public Order complete(Boolean complete) {
+    this.complete = complete;
     return this;
   }
 
@@ -209,14 +190,14 @@ public enum StatusEnum {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Pet {\n");
+    sb.append("class Order {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    category: ").append(toIndentedString(category)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
-    sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
+    sb.append("    petId: ").append(toIndentedString(petId)).append("\n");
+    sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
+    sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
     sb.append("}");
     return sb.toString();
   }
