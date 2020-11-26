@@ -51,16 +51,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
     private static final String IS_FORMAT_JSON = "jsonFormat";
     private static final String CLIENT_NAME = "clientName";
-    private static final Set<String> modelToIgnore = new HashSet<>();
-
-    static {
-        modelToIgnore.add("datetime");
-        modelToIgnore.add("map");
-        modelToIgnore.add("object");
-        modelToIgnore.add("list");
-        modelToIgnore.add("file");
-        modelToIgnore.add("uint8list");
-    }
 
     private boolean nullableFields = true;
     private String dateLibrary = "core";
@@ -270,12 +260,13 @@ public class DartDioClientCodegen extends DartClientCodegen {
             Set<String> modelImports = new HashSet<>();
             CodegenModel cm = (CodegenModel) mo.get("model");
             for (String modelImport : cm.imports) {
-                if (importMapping.containsKey(modelImport)) {
-                    modelImports.add(importMapping.get(modelImport));
-                } else {
-                    if (!modelToIgnore.contains(modelImport.toLowerCase(Locale.ROOT))) {
-                        modelImports.add("package:" + pubName + "/model/" + underscore(modelImport) + ".dart");
+                if (importMapping().containsKey(modelImport)) {
+                    final String value = importMapping().get(modelImport);
+                    if (value != null && !"dart:core".equals(value)) {
+                        modelImports.add(value);
                     }
+                } else {
+                    modelImports.add("package:" + pubName + "/model/" + underscore(modelImport) + ".dart");
                 }
             }
 
@@ -362,10 +353,13 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
             Set<String> imports = new HashSet<>();
             for (String item : op.imports) {
-                if (!modelToIgnore.contains(item.toLowerCase(Locale.ROOT))) {
+                if (importMapping().containsKey(item)) {
+                    final String value = importMapping().get(item);
+                    if (value != null && !"dart:core".equals(value)) {
+                        fullImports.add(value);
+                    }
+                } else {
                     imports.add(underscore(item));
-                } else if (item.equalsIgnoreCase("Uint8List")) {
-                    fullImports.add("dart:typed_data");
                 }
             }
             modelImports.addAll(imports);

@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'dart:core';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 

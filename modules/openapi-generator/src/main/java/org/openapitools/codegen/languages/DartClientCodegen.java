@@ -174,6 +174,8 @@ public class DartClientCodegen extends DefaultCodegen {
 
         // These are needed as they prevent models from being generated
         // which would clash with existing types, e.g. List
+        // Importing dart:core doesn't hurt but a subclass may choose to skip
+        // dart:core imports.
         importMapping.put("dynamic", "dart:core");
         importMapping.put("Object", "dart:core");
         importMapping.put("String", "dart:core");
