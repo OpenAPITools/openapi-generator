@@ -37,9 +37,17 @@ class UserApi {
 
         final List<String> contentTypes = [];
 
+<<<<<<< HEAD
         final serializedBody = _serializers.serialize(body);
         final jsonbody = json.encode(serializedBody);
         bodyData = jsonbody;
+=======
+
+            var bodySerializer = _serializers.serializerForType(User);
+            var serializedBody = _serializers.serializeWith(bodySerializer, body);
+            var jsonbody = json.encode(serializedBody);
+            bodyData = jsonbody;
+>>>>>>> Updates samples
 
         return _dio.request(
             _path,
@@ -394,9 +402,17 @@ class UserApi {
 
         final List<String> contentTypes = [];
 
+<<<<<<< HEAD
         final serializedBody = _serializers.serialize(body);
         final jsonbody = json.encode(serializedBody);
         bodyData = jsonbody;
+=======
+
+            var bodySerializer = _serializers.serializerForType(User);
+            var serializedBody = _serializers.serializeWith(bodySerializer, body);
+            var jsonbody = json.encode(serializedBody);
+            bodyData = jsonbody;
+>>>>>>> Updates samples
 
         return _dio.request(
             _path,

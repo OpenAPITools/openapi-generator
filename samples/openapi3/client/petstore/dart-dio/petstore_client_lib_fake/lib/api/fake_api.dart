@@ -112,7 +112,17 @@ class FakeApi {
         final jsonpet = json.encode(serializedBody);
         bodyData = jsonpet;
 
+<<<<<<< HEAD
         return _dio.request(
+=======
+
+            var bodySerializer = _serializers.serializerForType(Pet);
+            var serializedBody = _serializers.serializeWith(bodySerializer, pet);
+            var jsonpet = json.encode(serializedBody);
+            bodyData = jsonpet;
+
+            return _dio.request(
+>>>>>>> Updates samples
             _path,
             queryParameters: queryParams,
             data: bodyData,
@@ -168,7 +178,17 @@ class FakeApi {
         final jsonbody = json.encode(serializedBody);
         bodyData = jsonbody;
 
+<<<<<<< HEAD
         return _dio.request(
+=======
+
+            var bodySerializer = _serializers.serializerForType(bool);
+            var serializedBody = _serializers.serializeWith(bodySerializer, body);
+            var jsonbody = json.encode(serializedBody);
+            bodyData = jsonbody;
+
+            return _dio.request(
+>>>>>>> Updates samples
             _path,
             queryParameters: queryParams,
             data: bodyData,
@@ -231,7 +251,17 @@ class FakeApi {
         final jsonouterComposite = json.encode(serializedBody);
         bodyData = jsonouterComposite;
 
+<<<<<<< HEAD
         return _dio.request(
+=======
+
+            var bodySerializer = _serializers.serializerForType(OuterComposite);
+            var serializedBody = _serializers.serializeWith(bodySerializer, outerComposite);
+            var jsonouterComposite = json.encode(serializedBody);
+            bodyData = jsonouterComposite;
+
+            return _dio.request(
+>>>>>>> Updates samples
             _path,
             queryParameters: queryParams,
             data: bodyData,
@@ -295,7 +325,17 @@ class FakeApi {
         final jsonbody = json.encode(serializedBody);
         bodyData = jsonbody;
 
+<<<<<<< HEAD
         return _dio.request(
+=======
+
+            var bodySerializer = _serializers.serializerForType(num);
+            var serializedBody = _serializers.serializeWith(bodySerializer, body);
+            var jsonbody = json.encode(serializedBody);
+            bodyData = jsonbody;
+
+            return _dio.request(
+>>>>>>> Updates samples
             _path,
             queryParameters: queryParams,
             data: bodyData,
@@ -358,7 +398,17 @@ class FakeApi {
         final jsonbody = json.encode(serializedBody);
         bodyData = jsonbody;
 
+<<<<<<< HEAD
         return _dio.request(
+=======
+
+            var bodySerializer = _serializers.serializerForType(String);
+            var serializedBody = _serializers.serializeWith(bodySerializer, body);
+            var jsonbody = json.encode(serializedBody);
+            bodyData = jsonbody;
+
+            return _dio.request(
+>>>>>>> Updates samples
             _path,
             queryParameters: queryParams,
             data: bodyData,
@@ -421,7 +471,17 @@ class FakeApi {
         final jsonfileSchemaTestClass = json.encode(serializedBody);
         bodyData = jsonfileSchemaTestClass;
 
+<<<<<<< HEAD
         return _dio.request(
+=======
+
+            var bodySerializer = _serializers.serializerForType(FileSchemaTestClass);
+            var serializedBody = _serializers.serializeWith(bodySerializer, fileSchemaTestClass);
+            var jsonfileSchemaTestClass = json.encode(serializedBody);
+            bodyData = jsonfileSchemaTestClass;
+
+            return _dio.request(
+>>>>>>> Updates samples
             _path,
             queryParameters: queryParams,
             data: bodyData,
@@ -474,7 +534,17 @@ class FakeApi {
         final jsonuser = json.encode(serializedBody);
         bodyData = jsonuser;
 
+<<<<<<< HEAD
         return _dio.request(
+=======
+
+            var bodySerializer = _serializers.serializerForType(User);
+            var serializedBody = _serializers.serializeWith(bodySerializer, user);
+            var jsonuser = json.encode(serializedBody);
+            bodyData = jsonuser;
+
+            return _dio.request(
+>>>>>>> Updates samples
             _path,
             queryParameters: queryParams,
             data: bodyData,
@@ -525,7 +595,17 @@ class FakeApi {
         final jsonmodelClient = json.encode(serializedBody);
         bodyData = jsonmodelClient;
 
+<<<<<<< HEAD
         return _dio.request(
+=======
+
+            var bodySerializer = _serializers.serializerForType(Client);
+            var serializedBody = _serializers.serializeWith(bodySerializer, client);
+            var jsonclient = json.encode(serializedBody);
+            bodyData = jsonclient;
+
+            return _dio.request(
+>>>>>>> Updates samples
             _path,
             queryParameters: queryParams,
             data: bodyData,
@@ -797,7 +877,17 @@ class FakeApi {
         final jsonrequestBody = json.encode(serializedBody);
         bodyData = jsonrequestBody;
 
+<<<<<<< HEAD
         return _dio.request(
+=======
+
+            var bodySerializer = _serializers.serializerForType(String);
+            var serializedBody = _serializers.serializeWith(bodySerializer, requestBody);
+            var jsonrequestBody = json.encode(serializedBody);
+            bodyData = jsonrequestBody;
+
+            return _dio.request(
+>>>>>>> Updates samples
             _path,
             queryParameters: queryParams,
             data: bodyData,

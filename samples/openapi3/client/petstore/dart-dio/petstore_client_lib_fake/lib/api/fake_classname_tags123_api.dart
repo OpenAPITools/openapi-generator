@@ -38,9 +38,17 @@ class FakeClassnameTags123Api {
             'application/json',
         ];
 
+<<<<<<< HEAD
         final serializedBody = _serializers.serialize(modelClient);
         final jsonmodelClient = json.encode(serializedBody);
         bodyData = jsonmodelClient;
+=======
+
+            var bodySerializer = _serializers.serializerForType(Client);
+            var serializedBody = _serializers.serializeWith(bodySerializer, client);
+            var jsonclient = json.encode(serializedBody);
+            bodyData = jsonclient;
+>>>>>>> Updates samples
 
         return _dio.request(
             _path,

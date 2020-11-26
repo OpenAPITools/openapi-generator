@@ -43,9 +43,17 @@ class PetApi {
             'application/xml',
         ];
 
+<<<<<<< HEAD
         final serializedBody = _serializers.serialize(pet);
         final jsonpet = json.encode(serializedBody);
         bodyData = jsonpet;
+=======
+
+            var bodySerializer = _serializers.serializerForType(Pet);
+            var serializedBody = _serializers.serializeWith(bodySerializer, pet);
+            var jsonpet = json.encode(serializedBody);
+            bodyData = jsonpet;
+>>>>>>> Updates samples
 
         return _dio.request(
             _path,
@@ -364,7 +372,17 @@ class PetApi {
         final jsonpet = json.encode(serializedBody);
         bodyData = jsonpet;
 
+<<<<<<< HEAD
         return _dio.request(
+=======
+
+            var bodySerializer = _serializers.serializerForType(Pet);
+            var serializedBody = _serializers.serializeWith(bodySerializer, pet);
+            var jsonpet = json.encode(serializedBody);
+            bodyData = jsonpet;
+
+            return _dio.request(
+>>>>>>> Updates samples
             _path,
             queryParameters: queryParams,
             data: bodyData,

@@ -207,9 +207,17 @@ class StoreApi {
             'application/json',
         ];
 
+<<<<<<< HEAD
         final serializedBody = _serializers.serialize(order);
         final jsonorder = json.encode(serializedBody);
         bodyData = jsonorder;
+=======
+
+            var bodySerializer = _serializers.serializerForType(Order);
+            var serializedBody = _serializers.serializeWith(bodySerializer, order);
+            var jsonorder = json.encode(serializedBody);
+            bodyData = jsonorder;
+>>>>>>> Updates samples
 
         return _dio.request(
             _path,
