@@ -510,6 +510,12 @@ public class GoClientCodegen extends AbstractGoCodegen {
             // look up the model
             if (modelMaps.containsKey(codegenParameter.dataType)) {
                 return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, processedModelMap);
+            } else if (codegenParameter.isEmail) { // email
+                if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
+                    return "\"" + codegenParameter.example + "\"";
+                } else {
+                    return "\"" + codegenParameter.paramName + "@example.com\"";
+                }
             } else if (codegenParameter.isDateTime || codegenParameter.isDate) { // datetime or date
                 processedModelMap.put("time.Time", 1);
                 return "time.Now()";
@@ -567,6 +573,12 @@ public class GoClientCodegen extends AbstractGoCodegen {
             // look up the model
             if (modelMaps.containsKey(codegenProperty.dataType)) {
                 return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, processedModelMap);
+            } else if (codegenProperty.isEmail) { // email
+                if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                    return "\"" + codegenProperty.example + "\"";
+                } else {
+                    return "\"" + codegenProperty.name + "@example.com\"";
+                }
             } else if (codegenProperty.isDateTime || codegenProperty.isDate) { // datetime or date
                 processedModelMap.put("time.Time", 1);
                 return "time.Now()";
