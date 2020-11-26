@@ -46,13 +46,10 @@ public abstract class StoreApiControllerImpInterface {
         CompletionStage<Map<String, Integer>> stage = getInventory(request).thenApply(obj -> { 
     return obj;
 });
-stage.thenApply(obj -> {
+return stage.thenApply(obj -> {
     JsonNode result = mapper.valueToTree(obj);
     return ok(result);
 });
-
-// TODO revise below as returning null may be incorrect
-    return null;
 
     }
 
@@ -65,13 +62,10 @@ stage.thenApply(obj -> {
     }
     return obj;
 });
-stage.thenApply(obj -> {
+return stage.thenApply(obj -> {
     JsonNode result = mapper.valueToTree(obj);
     return ok(result);
 });
-
-// TODO revise below as returning null may be incorrect
-    return null;
 
     }
 
@@ -84,13 +78,10 @@ stage.thenApply(obj -> {
     }
     return obj;
 });
-stage.thenApply(obj -> {
+return stage.thenApply(obj -> {
     JsonNode result = mapper.valueToTree(obj);
     return ok(result);
 });
-
-// TODO revise below as returning null may be incorrect
-    return null;
 
     }
 

@@ -54,7 +54,7 @@ CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
 {{/returnType}}
 {{#returnType}}
 {{#supportAsync}}
-stage.thenApply(obj -> {
+return stage.thenApply(obj -> {
 {{/supportAsync}}
 {{^isResponseFile}}
 {{#supportAsync}}    {{/supportAsync}}JsonNode result = mapper.valueToTree(obj);
@@ -80,9 +80,6 @@ return ok();
 {{#returnType}}
 {{#supportAsync}}
 });
-
-// TODO revise below as returning null may be incorrect
-    return null;
 {{/supportAsync}}
 {{/returnType}}
 {{/controllerOnly}}
