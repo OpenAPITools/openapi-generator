@@ -1048,6 +1048,10 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             }
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isArraySchema(schema)) {
+            if (objExample instanceof Iterable) {
+                // If the example is already a list, return it directly instead of wrongly wrap it in another list
+                return objExample.toString();
+            }
             ArraySchema arrayschema = (ArraySchema) schema;
             Schema itemSchema = arrayschema.getItems();
             String itemModelName = getModelName(itemSchema);
