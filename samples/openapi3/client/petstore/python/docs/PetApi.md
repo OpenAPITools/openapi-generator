@@ -477,9 +477,7 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pet_api.PetApi(api_client)
-    tags = [
-        "tags_example",
-    ] # [str] | Tags to filter by
+    tags = ["tag1","tag2"] # [str] | Tags to filter by
 
     # example passing only required values which don't have defaults set
     try:

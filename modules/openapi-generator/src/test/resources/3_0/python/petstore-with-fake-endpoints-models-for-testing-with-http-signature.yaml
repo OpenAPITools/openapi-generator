@@ -133,6 +133,7 @@ paths:
             type: array
             items:
               type: string
+            example: ['tag1', 'tag2']
       responses:
         '200':
           description: successful operation
