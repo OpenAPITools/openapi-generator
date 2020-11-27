@@ -158,10 +158,13 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: {{keyParamName}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
-{{#isBasic}}
+{{#isBasicBasic}}
 
 - **Type**: HTTP basic authentication
-{{/isBasic}}
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+- **Type**: HTTP Bearer Token authentication
+{{/isBasicBearer}}
 {{#isOAuth}}
 
 - **Type**: OAuth
