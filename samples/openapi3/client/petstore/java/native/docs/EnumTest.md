@@ -10,10 +10,10 @@ Name | Type | Description | Notes
 **enumStringRequired** | [**EnumStringRequiredEnum**](#EnumStringRequiredEnum) |  | 
 **enumInteger** | [**EnumIntegerEnum**](#EnumIntegerEnum) |  |  [optional]
 **enumNumber** | [**EnumNumberEnum**](#EnumNumberEnum) |  |  [optional]
-**outerEnum** | [**OuterEnum**](OuterEnum.md) |  |  [optional]
-**outerEnumInteger** | [**OuterEnumInteger**](OuterEnumInteger.md) |  |  [optional]
-**outerEnumDefaultValue** | [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  |  [optional]
-**outerEnumIntegerDefaultValue** | [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  |  [optional]
+**outerEnum** | **OuterEnum** |  |  [optional]
+**outerEnumInteger** | **OuterEnumInteger** |  |  [optional]
+**outerEnumDefaultValue** | **OuterEnumDefaultValue** |  |  [optional]
+**outerEnumIntegerDefaultValue** | **OuterEnumIntegerDefaultValue** |  |  [optional]
 
 
 
