@@ -14,7 +14,12 @@ import javax.validation.*;
 {{>enumOuterClass}}
 {{/isEnum}}
 {{^isEnum}}
+{{#useModelBuilder}}
+{{>pojoBuilder}}
+{{/useModelBuilder}}
+{{^useModelBuilder}}
 {{>pojo}}
+{{/useModelBuilder}}
 {{/isEnum}}
 {{/model}}
 {{/models}}
