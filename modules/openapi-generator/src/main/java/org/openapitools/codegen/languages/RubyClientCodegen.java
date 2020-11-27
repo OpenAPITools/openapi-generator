@@ -621,16 +621,16 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 return "\"https://example.com\"";
             } else if (codegenParameter.isDateTime) {
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
-                    return "DateTime.parse(" + codegenParameter.example + ")";
+                    return "DateTime.parse(\"" + codegenParameter.example + "\")";
                 }
                 return "DateTime.now";
             } else if (codegenParameter.isDate) {
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
-                    return "Date.parse(" + codegenParameter.example + ")";
+                    return "Date.parse(\"" + codegenParameter.example + "\")";
                 }
                 return "Date.today";
             } else if (codegenParameter.isFile) {
-                return "File.new('/path/to/some/file')";
+                return "File.new(\"/path/to/some/file\")";
             } else if (codegenParameter.isInteger) {
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
                     return codegenParameter.example;
@@ -678,16 +678,16 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 return "\"https://example.com\"";
             } else if (codegenProperty.isDateTime) {
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
-                    return "DateTime.parse(" + codegenProperty.example + ")";
+                    return "DateTime.parse(\"" + codegenProperty.example + "\")";
                 }
                 return "DateTime.now";
             } else if (codegenProperty.isDate) {
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
-                    return "Date.parse(" + codegenProperty.example + ")";
+                    return "Date.parse(\"" + codegenProperty.example + "\")";
                 }
                 return "Date.today";
             } else if (codegenProperty.isFile) {
-                return "File.new('/path/to/some/file')";
+                return "File.new(\"/path/to/some/file\")";
             } else if (codegenProperty.isInteger) {
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
                     return codegenProperty.example;
