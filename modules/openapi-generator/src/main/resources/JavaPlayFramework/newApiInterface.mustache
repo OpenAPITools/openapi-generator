@@ -17,6 +17,7 @@ import openapitools.OpenAPIUtils;
 import static play.mvc.Results.ok;
 import play.api.libs.Files.TemporaryFile;
 {{#supportAsync}}
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 {{/supportAsync}}

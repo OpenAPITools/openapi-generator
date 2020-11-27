@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import openapitools.OpenAPIUtils;
 import static play.mvc.Results.ok;
 import play.api.libs.Files.TemporaryFile;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 
@@ -27,10 +28,15 @@ public abstract class StoreApiControllerImpInterface {
     private ObjectMapper mapper = new ObjectMapper();
 
     public CompletionStage<Result> deleteOrderHttp(Http.Request request, String orderId) throws Exception {
-        return CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        try {
     deleteOrder(request, orderId);
-    return ok();
-});
+        } catch (Exception e) {
+            throw new CompletionException(e);
+        }
+        return ok();
+    });
+    return result;
 
     }
 
@@ -40,7 +46,7 @@ public abstract class StoreApiControllerImpInterface {
         CompletionStage<Map<String, Integer>> stage = getInventory(request).thenApply(obj -> { 
     return obj;
 });
-stage.thenApply(obj -> {
+return stage.thenApply(obj -> {
     JsonNode result = mapper.valueToTree(obj);
     return ok(result);
 });
@@ -56,7 +62,7 @@ stage.thenApply(obj -> {
     }
     return obj;
 });
-stage.thenApply(obj -> {
+return stage.thenApply(obj -> {
     JsonNode result = mapper.valueToTree(obj);
     return ok(result);
 });
@@ -72,7 +78,7 @@ stage.thenApply(obj -> {
     }
     return obj;
 });
-stage.thenApply(obj -> {
+return stage.thenApply(obj -> {
     JsonNode result = mapper.valueToTree(obj);
     return ok(result);
 });
