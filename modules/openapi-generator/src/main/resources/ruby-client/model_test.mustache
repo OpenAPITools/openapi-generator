@@ -11,19 +11,13 @@ require 'date'
 # Please update as you see appropriate
 {{#models}}
 {{#model}}
-describe '{{classname}}' do
-  before do
-    # run before each test
-    @instance = {{moduleName}}::{{classname}}.new
-  end
-
-  after do
-    # run after each test
-  end
+describe {{moduleName}}::{{classname}} do
+{{^oneOf}}
+  let(:instance) { {{moduleName}}::{{classname}}.new }
 
   describe 'test an instance of {{classname}}' do
     it 'should create an instance of {{classname}}' do
-      expect(@instance).to be_instance_of({{moduleName}}::{{classname}})
+      expect(instance).to be_instance_of({{moduleName}}::{{classname}})
     end
   end
 {{#vars}}
@@ -33,7 +27,7 @@ describe '{{classname}}' do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
       # validator = Petstore::EnumTest::EnumAttributeValidator.new('{{{dataType}}}', [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
       # validator.allowable_values.each do |value|
-      #   expect { @instance.{{name}} = value }.not_to raise_error
+      #   expect { instance.{{name}} = value }.not_to raise_error
       # end
       {{/isEnum}}
       {{^isEnum}}
@@ -43,6 +37,41 @@ describe '{{classname}}' do
   end
 
 {{/vars}}
+{{/oneOf}}
+{{#oneOf}}
+{{#-first}}
+  describe '.openapi_one_of' do
+    it 'lists the items referenced in the oneOf array' do
+      expect(described_class.openapi_one_of).to_not be_empty
+    end
+  end
+
+  {{#discriminator}}
+  {{#propertyName}}
+  describe '.openapi_discriminator_name' do
+    it 'returns the value of the "discriminator" property' do
+      expect(described_class.openapi_discriminator_name).to_not be_empty
+    end
+  end
+
+  {{/propertyName}}
+  {{#mappedModels}}
+  {{#-first}}
+  describe '.openapi_discriminator_mapping' do
+    it 'returns the key/values of the "mapping" property' do
+      expect(described_class.openapi_discriminator_mapping.values.sort).to eq(described_class.openapi_one_of.sort)
+    end
+  end
+
+  {{/-first}}
+  {{/mappedModels}}
+  {{/discriminator}}
+  describe '.build' do
+    it 'returns the correct model' do
+    end
+  end
+{{/-first}}
+{{/oneOf}}
 end
 {{/model}}
 {{/models}}

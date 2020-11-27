@@ -130,64 +130,64 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{^isPrimitiveType}}
     {{#isModel}}
     {{#isEnum}}
-    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{#hasMore}},{{/hasMore}}
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{^-last}},{{/-last}}
     {{/isEnum}}
     {{^isEnum}}
-    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isEnum}}
     {{/isModel}}
     {{#isUuid}}
-    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isUuid}}
     {{#isEmail}}
-    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isEmail}}
     {{#isFreeFormObject}}
-    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isFreeFormObject}}
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
-    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
     {{/isNumeric}}
     {{#isBoolean}}
-    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{#hasMore}},{{/hasMore}}
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{^-last}},{{/-last}}
     {{/isString}}
     {{/isEnum}}
     {{^isEnum}}
     {{#isString}}
-    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
     {{/isByteArray}}
     {{#isBinary}}
-    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
     {{/isBinary}}
     {{#isDate}}
-    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isDate}}
     {{#isDateTime}}
-    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isDateTime}}
     {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}
     {{#isArray}}
     {{#isPrimitiveType}}
-    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isPrimitiveType}}
     {{/isArray}}
     {{#isMap}}
-    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
     {{/isMap}}
     {{/isContainer}}
     {{/vars}}
@@ -704,64 +704,64 @@ fail:
         {{^isPrimitiveType}}
         {{#isModel}}
         {{#isEnum}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim_enum{{^required}} : -1{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim_enum{{^required}} : -1{{/required}}{{^-last}},{{/-last}}
         {{/isEnum}}
         {{^isEnum}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isEnum}}
         {{/isModel}}
         {{#isUuid}}
-        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isUuid}}
         {{#isEmail}}
-        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isEmail}}
         {{#isFreeFormObject}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_object{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_object{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isFreeFormObject}}
         {{/isPrimitiveType}}
         {{#isPrimitiveType}}
         {{#isNumeric}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}->valuedouble{{^required}} : 0{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}->valuedouble{{^required}} : 0{{/required}}{{^-last}},{{/-last}}
         {{/isNumeric}}
         {{#isBoolean}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}->valueint{{^required}} : 0{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}->valueint{{^required}} : 0{{/required}}{{^-last}},{{/-last}}
         {{/isBoolean}}
         {{#isEnum}}
         {{#isString}}
-        {{^required}}{{{name}}} ? {{/required}}{{name}}Variable{{^required}} : -1{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{name}}Variable{{^required}} : -1{{/required}}{{^-last}},{{/-last}}
         {{/isString}}
         {{/isEnum}}
         {{^isEnum}}
         {{#isString}}
-        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isString}}
         {{/isEnum}}
         {{#isByteArray}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}->valueint{{^required}} : 0{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}->valueint{{^required}} : 0{{/required}}{{^-last}},{{/-last}}
         {{/isByteArray}}
         {{#isBinary}}
-        {{^required}}{{{name}}} ? {{/required}}decoded_str_{{{name}}}{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}decoded_str_{{{name}}}{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isBinary}}
         {{#isDate}}
-        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isDate}}
         {{#isDateTime}}
-        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isDateTime}}
         {{/isPrimitiveType}}
         {{/isContainer}}
         {{#isContainer}}
         {{#isArray}}
         {{#isPrimitiveType}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}List{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}List{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}List{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}List{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isPrimitiveType}}
         {{/isArray}}
         {{#isMap}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}List{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}List{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isMap}}
         {{/isContainer}}
         {{/vars}}

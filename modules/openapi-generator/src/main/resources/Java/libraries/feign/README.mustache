@@ -38,6 +38,6 @@ It's recommended to create an instance of `ApiClient` per thread in a multithrea
 
 ## Author
 
-{{#apiInfo}}{{#apis}}{{^hasMore}}{{infoEmail}}
-{{/hasMore}}{{/apis}}{{/apiInfo}}
+{{#apiInfo}}{{#apis}}{{#-last}}{{infoEmail}}
+{{/-last}}{{/apis}}{{/apiInfo}}
 

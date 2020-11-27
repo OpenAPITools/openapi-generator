@@ -32,8 +32,6 @@ namespace Org.OpenAPITools.Model
     /// </summary>
     [DataContract(Name = "Animal")]
     [JsonConverter(typeof(JsonSubtypes), "ClassName")]
-    [JsonSubtypes.KnownSubType(typeof(Dog), "Dog")]
-    [JsonSubtypes.KnownSubType(typeof(Cat), "Cat")]
     [JsonSubtypes.KnownSubType(typeof(Cat), "Cat")]
     [JsonSubtypes.KnownSubType(typeof(Dog), "Dog")]
     public partial class Animal : IEquatable<Animal>, IValidatableObject

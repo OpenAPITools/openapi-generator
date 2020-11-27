@@ -28,7 +28,6 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean is4xx;
     public boolean is5xx;
     public String message;
-    public boolean hasMore;
     public List<Map<String, Object>> examples;
     public String dataType;
     public String baseType;
@@ -76,15 +75,19 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public Number multipleOf;
     public CodegenProperty items;
     public CodegenProperty additionalProperties;
+    public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
+    public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>();
 
     @Override
     public int hashCode() {
-        return Objects.hash(headers, code, message, hasMore, examples, dataType, baseType, containerType, hasHeaders,
+        return Objects.hash(headers, code, message, examples, dataType, baseType, containerType, hasHeaders,
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
                 isMap, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
+                vars, requiredVars,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
-                getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern());
+                getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(),
+                is1xx, is2xx, is3xx, is4xx, is5xx);
     }
 
     @Override
@@ -92,8 +95,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         if (this == o) return true;
         if (!(o instanceof CodegenResponse)) return false;
         CodegenResponse that = (CodegenResponse) o;
-        return hasMore == that.hasMore &&
-                hasHeaders == that.hasHeaders &&
+        return hasHeaders == that.hasHeaders &&
                 isString == that.isString &&
                 isNumeric == that.isNumeric &&
                 isInteger == that.isInteger &&
@@ -120,6 +122,13 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isFile == that.isFile &&
                 items == that.items &&
                 additionalProperties == that.additionalProperties &&
+                is1xx == that.is1xx &&
+                is2xx == that.is2xx &&
+                is3xx == that.is3xx &&
+                is4xx == that.is4xx &&
+                is5xx == that.is5xx &&
+                Objects.equals(vars, that.vars) &&
+                Objects.equals(requiredVars, that.requiredVars) &&
                 Objects.equals(headers, that.headers) &&
                 Objects.equals(code, that.code) &&
                 Objects.equals(message, that.message) &&
@@ -335,12 +344,36 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public List<CodegenProperty> getVars() {
+        return vars;
+    }
+
+    @Override
+    public void setVars(List<CodegenProperty> vars) {
+        this.vars = vars;
+    }
+
+    @Override
+    public List<CodegenProperty> getRequiredVars() {
+        return requiredVars;
+    }
+
+    @Override
+    public void setRequiredVars(List<CodegenProperty> requiredVars) {
+        this.requiredVars = requiredVars;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenResponse{");
         sb.append("headers=").append(headers);
         sb.append(", code='").append(code).append('\'');
+        sb.append(", is1xx='").append(is1xx).append('\'');
+        sb.append(", is2xx='").append(is2xx).append('\'');
+        sb.append(", is3xx='").append(is3xx).append('\'');
+        sb.append(", is4xx='").append(is4xx).append('\'');
+        sb.append(", is5xx='").append(is5xx).append('\'');
         sb.append(", message='").append(message).append('\'');
-        sb.append(", hasMore=").append(hasMore);
         sb.append(", examples=").append(examples);
         sb.append(", dataType='").append(dataType).append('\'');
         sb.append(", baseType='").append(baseType).append('\'');
@@ -388,6 +421,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", multipleOf='").append(multipleOf).append('\'');
         sb.append(", items='").append(items).append('\'');
         sb.append(", additionalProperties='").append(additionalProperties).append('\'');
+        sb.append(", vars='").append(vars).append('\'');
+        sb.append(", requiredVars='").append(requiredVars).append('\'');
         sb.append('}');
         return sb.toString();
     }
@@ -396,5 +431,16 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     @SuppressWarnings("unused")
     public boolean isWildcard() {
         return "0".equals(code) || "default".equals(code);
+    }
+
+    /*
+     * Boolean value indicating whether the status code is a range
+     *
+     * @return True if the status code is a range (e.g. 2XX)
+     */
+    public boolean isRange() {
+        if (code != null && code.length() == 3 && "XX".equalsIgnoreCase(code.substring(1)))
+            return true;
+        return false;
     }
 }

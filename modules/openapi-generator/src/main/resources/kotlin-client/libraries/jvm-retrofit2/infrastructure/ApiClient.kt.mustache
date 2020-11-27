@@ -103,7 +103,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
     ) : this(baseUrl, okHttpClientBuilder, serializerBuilder) {
         authNames.forEach { authName ->
             val auth = when (authName) {
-                {{#authMethods}}"{{name}}" -> {{#isBasic}}{{#isBasicBasic}}HttpBasicAuth(){{/isBasicBasic}}{{#isBasicBearer}}HttpBearerAuth("{{scheme}}"){{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{#hasMore}}, {{/hasMore}}{{/scopes}}"){{/isOAuth}}{{/authMethods}}
+                {{#authMethods}}"{{name}}" -> {{#isBasic}}{{#isBasicBasic}}HttpBasicAuth(){{/isBasicBasic}}{{#isBasicBearer}}HttpBearerAuth("{{scheme}}"){{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}"){{/isOAuth}}{{/authMethods}}
                 else -> throw RuntimeException("auth name $authName not found in available auth names")
             }
             addAuthorization(authName, auth);

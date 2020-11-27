@@ -164,6 +164,11 @@ namespace Org.OpenAPITools.Model
         public static Mammal FromJson(string jsonString)
         {
             Mammal newMammal = null;
+
+            if (jsonString == null)
+            {
+                return newMammal;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
@@ -288,7 +293,11 @@ namespace Org.OpenAPITools.Model
         /// <returns>The object converted from the JSON string</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return Mammal.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return Mammal.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
         }
 
         /// <summary>

@@ -78,7 +78,7 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
     {{/isPrimitiveType}}
     {{/bodyParam}}
     {{/hasBodyParam}}
-      this->{{operationIdSnakeCase}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}response);
+      this->{{operationIdSnakeCase}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}response);
     {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     {{^vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     try {

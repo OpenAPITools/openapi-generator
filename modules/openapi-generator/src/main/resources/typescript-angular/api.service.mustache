@@ -157,10 +157,10 @@ export class {{classname}} {
      * @deprecated
      {{/isDeprecated}}
      */
-    public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: {{#produces}}'{{mediaType}}'{{#hasMore}} | {{/hasMore}}{{/produces}}{{^produces}}undefined{{/produces}}}): Observable<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>;
-    public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: {{#produces}}'{{mediaType}}'{{#hasMore}} | {{/hasMore}}{{/produces}}{{^produces}}undefined{{/produces}}}): Observable<HttpResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
-    public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: {{#produces}}'{{mediaType}}'{{#hasMore}} | {{/hasMore}}{{/produces}}{{^produces}}undefined{{/produces}}}): Observable<HttpEvent<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
-    public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: {{#produces}}'{{mediaType}}'{{#hasMore}} | {{/hasMore}}{{/produces}}{{^produces}}undefined{{/produces}}}): Observable<any> {
+    public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: {{#produces}}'{{mediaType}}'{{^-last}} | {{/-last}}{{/produces}}{{^produces}}undefined{{/produces}}}): Observable<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>;
+    public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: {{#produces}}'{{mediaType}}'{{^-last}} | {{/-last}}{{/produces}}{{^produces}}undefined{{/produces}}}): Observable<HttpResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
+    public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: {{#produces}}'{{mediaType}}'{{^-last}} | {{/-last}}{{/produces}}{{^produces}}undefined{{/produces}}}): Observable<HttpEvent<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
+    public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: {{#produces}}'{{mediaType}}'{{^-last}} | {{/-last}}{{/produces}}{{^produces}}undefined{{/produces}}}): Observable<any> {
 {{#allParams}}
 {{#useSingleRequestParameter}}
         const {{paramName}} = requestParameters.{{paramName}};
@@ -252,7 +252,7 @@ export class {{classname}} {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 {{#produces}}
-                '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
+                '{{{mediaType}}}'{{^-last}},{{/-last}}
                 {{/produces}}
             ];
             httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
@@ -266,7 +266,7 @@ export class {{classname}} {
         // to determine the Content-Type header
         const consumes: string[] = [
             {{#consumes}}
-            '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
+            '{{{mediaType}}}'{{^-last}},{{/-last}}
             {{/consumes}}
         ];
 {{/bodyParam}}
@@ -275,7 +275,7 @@ export class {{classname}} {
         // to determine the Content-Type header
         const consumes: string[] = [
             {{#consumes}}
-            '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
+            '{{{mediaType}}}'{{^-last}},{{/-last}}
             {{/consumes}}
         ];
 {{/bodyParam}}

@@ -22,7 +22,7 @@ import javax.validation.constraints.*;
 public class {{classname}}ControllerImp {{#useInterfaces}}extends {{classname}}ControllerImpInterface{{/useInterfaces}} {
 {{#operation}}
     {{#useInterfaces}}@Override{{/useInterfaces}}
-    public {{^returnType}}void{{/returnType}}{{#returnType}}{{#supportAsync}}CompletionStage<{{/supportAsync}}{{>returnTypesNoVoid}}{{#supportAsync}}>{{/supportAsync}}{{/returnType}} {{operationId}}(Http.Request request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#handleExceptions}}throws Exception{{/handleExceptions}} {
+    public {{^returnType}}void{{/returnType}}{{#returnType}}{{#supportAsync}}CompletionStage<{{/supportAsync}}{{>returnTypesNoVoid}}{{#supportAsync}}>{{/supportAsync}}{{/returnType}} {{operationId}}(Http.Request request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{^-last}}, {{/-last}}{{/allParams}}) {{#handleExceptions}}throws Exception{{/handleExceptions}} {
         //Do your magic!!!
         {{#returnType}}
         {{#supportAsync}}

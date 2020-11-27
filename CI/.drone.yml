@@ -42,6 +42,7 @@ steps:
   # test java native client
   - ./mvnw clean test -f samples/client/petstore/java/native/pom.xml
   - ./mvnw clean test -f samples/client/petstore/java/native-async/pom.xml
+  - ./mvnw clean test -f samples/openapi3/client/petstore/java/native/pom.xml
   # test all generators with fake petstore spec (2.0, 3.0)
   - /bin/bash bin/utils/test-fake-petstore-for-all.sh
   # generate test scripts

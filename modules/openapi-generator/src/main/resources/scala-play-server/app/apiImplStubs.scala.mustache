@@ -22,9 +22,9 @@ class {{classname}}Impl extends {{classname}} {
 
     {{#supportAsync}}Future.successful({{/supportAsync}}{{^returnType}}{{#supportAsync}}(): Unit{{/supportAsync}}{{/returnType}}{{#returnType}}{{&defaultResponse}}{{/returnType}}{{#supportAsync}}){{/supportAsync}}
   }
-{{#hasMore}}
+{{^-last}}
 
-{{/hasMore}}
+{{/-last}}
 {{/operation}}
 }
 {{/operations}}

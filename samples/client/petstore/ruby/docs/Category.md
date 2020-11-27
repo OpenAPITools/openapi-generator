@@ -2,18 +2,19 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**id** | **Integer** |  | [optional] 
-**name** | **String** |  | [default to &#39;default-name&#39;]
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **id** | **Integer** |  | [optional] |
+| **name** | **String** |  | [default to &#39;default-name&#39;] |
 
 ## Code Sample
 
 ```ruby
-require 'Petstore'
+require 'petstore'
 
-instance = Petstore::Category.new(id: null,
-                                 name: null)
+instance = Petstore::Category.new(
+  id: null,
+  name: null
+)
 ```
-
 

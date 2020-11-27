@@ -32,8 +32,8 @@ interface {{classname}}Delegate {
     /**
      * @see {{classname}}#{{operationId}}
      */
-    fun {{operationId}}({{#allParams}}{{paramName}}: {{^isFile}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{{dataType}}}{{/isBodyParam}}{{/isFile}}{{#isFile}}Resource?{{/isFile}}{{#hasMore}},
-        {{/hasMore}}{{/allParams}}): {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {
+    fun {{operationId}}({{#allParams}}{{paramName}}: {{^isFile}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{{dataType}}}{{/isBodyParam}}{{/isFile}}{{#isFile}}Resource?{{/isFile}}{{^-last}},
+        {{/-last}}{{/allParams}}): {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {
         {{>methodBody}}
     }
 

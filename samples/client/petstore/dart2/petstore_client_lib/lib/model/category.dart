@@ -16,15 +16,6 @@ class Category {
     this.name,
   });
 
-  /// Returns a new [Category] instance and optionally import its values from
-  /// [json] if it's non-null.
-  Category.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      id = json['id'];
-      name = json['name'];
-    }
-  }
-
   
   int id;
 
@@ -38,8 +29,8 @@ class Category {
 
   @override
   int get hashCode =>
-    id.hashCode +
-    name.hashCode;
+    (id == null ? 0 : id.hashCode) +
+    (name == null ? 0 : name.hashCode);
 
   @override
   String toString() => 'Category[id=$id, name=$name]';
@@ -54,6 +45,15 @@ class Category {
     }
     return json;
   }
+
+  /// Returns a new [Category] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static Category fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : Category(
+        id: json['id'],
+        name: json['name'],
+    );
 
   static List<Category> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

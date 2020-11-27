@@ -26,7 +26,7 @@ import javax.validation.Valid;
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
-         }, tags={ "pet",  })
+         }, tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
@@ -38,7 +38,7 @@ import javax.validation.Valid;
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
-         }, tags={ "pet",  })
+         }, tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
@@ -51,7 +51,7 @@ import javax.validation.Valid;
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
-         }, tags={ "pet",  })
+         }, tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid status value", response = Void.class, responseContainer = "List") })
@@ -64,7 +64,7 @@ import javax.validation.Valid;
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
-         }, tags={ "pet",  })
+         }, tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "Set"),
         @ApiResponse(code = 400, message = "Invalid tag value", response = Void.class, responseContainer = "Set") })
@@ -76,7 +76,7 @@ import javax.validation.Valid;
     @ApiOperation(value = "Find pet by ID", notes = "Returns a single pet", authorizations = {
         
         @Authorization(value = "api_key")
-         }, tags={ "pet",  })
+         }, tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
@@ -89,7 +89,7 @@ import javax.validation.Valid;
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
-         }, tags={ "pet",  })
+         }, tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
@@ -104,7 +104,7 @@ import javax.validation.Valid;
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
-         }, tags={ "pet",  })
+         }, tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
     void updatePetWithForm(@PathParam("petId") @ApiParam("ID of pet that needs to be updated") Long petId,@FormParam(value = "name")  String name,@FormParam(value = "status")  String status);
