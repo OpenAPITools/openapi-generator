@@ -34,6 +34,22 @@ void {{classname}}::setPort(int port) {
     _port = port;
 }
 
+void {{classname}}::setApiKey(const QString &apiKeyName, const QString &apiKey){
+    _apiKeys.insert(apiKeyName,apiKey);
+}
+
+void {{classname}}::setBearerToken(const QString &token){
+    _bearerToken = token;
+}
+
+void {{classname}}::setUsername(const QString &username) {
+    _username = username;
+}
+
+void {{classname}}::setPassword(const QString &password) {
+    _password = password;
+}
+
 void {{classname}}::setBasePath(const QString &basePath) {
     _basePath = basePath;
 }
@@ -79,7 +95,27 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     QString {{paramName}}PathParam("{");
     {{paramName}}PathParam.append("{{baseName}}").append("}");
     fullPath.replace({{paramName}}PathParam, QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
-{{/pathParams}}
+    {{/pathParams}}{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
+    if(_apiKeys.contains("{{name}}")){
+        addHeaders("{{name}}",_apiKeys.find("{{name}}").value());
+    }
+    {{/isKeyInHeader}}{{#isKeyInQuery}}
+    if(_apiKeys.contains("{{name}}")){
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append("&");
+        else
+            fullPath.append("?");
+        fullPath.append("{{{name}}}=").append(_apiKeys.find("{{name}}").value());
+    }
+    {{/isKeyInQuery}}{{/isApiKey}}{{#isBasicBearer}}
+    if(!_bearerToken.isEmpty())
+        addHeaders("Authorization", "Bearer " + _bearerToken);
+    {{/isBasicBearer}}{{#isBasicBasic}}
+    if(!_username.isEmpty() && !_password.isEmpty()){
+        QByteArray b64;
+        b64.append(_username + ":" + _password);
+        addHeaders("Authorization","Basic " + b64.toBase64());
+    }{{/isBasicBasic}}{{/authMethods}}
 {{#queryParams}}{{^collectionFormat}}
     if (fullPath.indexOf("?") > 0)
         fullPath.append("&");
