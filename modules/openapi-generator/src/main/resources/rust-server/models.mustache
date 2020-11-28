@@ -327,42 +327,42 @@ impl std::string::ToString for {{{classname}}} {
 {{^isByteArray}}{{^isBinary}}{{^isMap}}{{#isPrimitiveType}}
 {{#required}}
         params.push("{{{baseName}}}".to_string());
-{{^isListContainer}}
+{{^isArray}}
 {{#isNullable}}
         params.push(self.{{{name}}}.as_ref().map_or("null".to_string(), |x| x.to_string()));
 {{/isNullable}}
 {{^isNullable}}
         params.push(self.{{{name}}}.to_string());
 {{/isNullable}}
-{{/isListContainer}}
-{{#isListContainer}}
+{{/isArray}}
+{{#isArray}}
 {{#isNullable}}
         params.push(self.{{{name}}}.as_ref().map_or(vec!["null".to_string()], |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()));
 {{/isNullable}}
 {{^isNullable}}
         params.push(self.{{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
 {{/isNullable}}
-{{/isListContainer}}
+{{/isArray}}
 {{/required}}
 {{^required}}
         if let Some(ref {{{name}}}) = self.{{{name}}} {
             params.push("{{{baseName}}}".to_string());
-{{^isListContainer}}
+{{^isArray}}
 {{#isNullable}}
             params.push({{{name}}}.as_ref().map_or("null".to_string(), |x| x.to_string()));
 {{/isNullable}}
 {{^isNullable}}
             params.push({{{name}}}.to_string());
 {{/isNullable}}
-{{/isListContainer}}
-{{#isListContainer}}
+{{/isArray}}
+{{#isArray}}
 {{#isNullable}}
             params.push({{{name}}}.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()));
 {{/isNullable}}
 {{^isNullable}}
             params.push({{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
 {{/isNullable}}
-{{/isListContainer}}
+{{/isArray}}
         }
 {{/required}}
 {{/isPrimitiveType}}{{/isMap}}{{/isBinary}}{{/isByteArray}}

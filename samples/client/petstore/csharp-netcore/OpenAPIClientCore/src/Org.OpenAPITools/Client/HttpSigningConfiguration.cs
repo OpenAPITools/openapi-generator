@@ -26,10 +26,10 @@ namespace Org.OpenAPITools.Client
             SigningAlgorithm = "PKCS1-v15";
         }
         #endregion
-        
+
         #region Properties
         /// <summary>
-        ///Gets the Api keyId 
+        ///Gets the Api keyId
         /// </summary>
         public string KeyId { get; set; }
 
@@ -78,9 +78,10 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Gets the Headers for HttpSigning
         /// </summary>
-        /// <param name="method"></param>
-        /// <param name="path"></param>
-        /// <param name="requestOptions"></param>
+        /// <param name="basePath">Base path</param>
+        /// <param name="method">HTTP method</param>
+        /// <param name="path">Path</param>
+        /// <param name="requestOptions">Request options</param>
         /// <returns></returns>
         internal Dictionary<string, string> GetHttpSignedHeader(string basePath,string method, string path, RequestOptions requestOptions)
         {
@@ -126,12 +127,12 @@ namespace Org.OpenAPITools.Client
                 { // array
                     foreach (var value in parameter.Value)
                     {
-                        httpValues.Add(parameter.Key + "[]", value);
+                        httpValues.Add(HttpUtility.UrlEncode(parameter.Key) + "[]", value);
                     }
                 }
                 else
                 {
-                    httpValues.Add(parameter.Key, parameter.Value[0]);
+                    httpValues.Add(HttpUtility.UrlEncode(parameter.Key), parameter.Value[0]);
 
                 }
             }
@@ -141,12 +142,11 @@ namespace Org.OpenAPITools.Client
             var dateTime = DateTime.Now;
             String Digest = String.Empty;
 
-            //get the body 
+            //get the body
             string requestBody = string.Empty;
             if (requestOptions.Data != null)
             {
                 var serializerSettings = new JsonSerializerSettings();
-                serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 requestBody = JsonConvert.SerializeObject(requestOptions.Data, serializerSettings);
             }
 
@@ -296,7 +296,7 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
-        /// Gets the ECDSA signature 
+        /// Gets the ECDSA signature
         /// </summary>
         /// <param name="dataToSign"></param>
         /// <returns></returns>
@@ -313,16 +313,16 @@ namespace Org.OpenAPITools.Client
             var ecKeyBase64String = keyStr.Replace(ecKeyHeader, "").Replace(ecKeyFooter, "").Trim();
             var keyBytes = System.Convert.FromBase64String(ecKeyBase64String);
             var ecdsa = ECDsa.Create();
-            var bytCount = 0;
 
 #if (NETCOREAPP3_0 || NETCOREAPP3_1 || NET5_0)
+            var byteCount = 0;
             if (configuration.KeyPassPhrase != null)
             {
-                ecdsa.ImportEncryptedPkcs8PrivateKey(keyPassPhrase, keyBytes, out bytCount);
+                ecdsa.ImportEncryptedPkcs8PrivateKey(keyPassPhrase, keyBytes, out byteCount);
             }
             else
             {
-                ecdsa.ImportPkcs8PrivateKey(keyBytes, out bytCount);
+                ecdsa.ImportPkcs8PrivateKey(keyBytes, out byteCount);
             }
             var signedBytes = ecdsa.SignHash(dataToSign);
             var derBytes = ConvertToECDSAANS1Format(signedBytes);
@@ -339,7 +339,7 @@ namespace Org.OpenAPITools.Client
         {
             var derBytes = new List<byte>();
             byte derLength = 68; //default lenght for ECDSA code signinged bit 0x44
-            byte rbytesLength = 32; //R length 0x20 
+            byte rbytesLength = 32; //R length 0x20
             byte sbytesLength = 32; //S length 0x20
             var rBytes = new List<byte>();
             var sBytes = new List<byte>();
@@ -610,7 +610,7 @@ namespace Org.OpenAPITools.Client
             {
                 // ----  Now hash consecutively for count times ------
                 if (j == 0)
-                    result = data00;    //initialize 
+                    result = data00;    //initialize
                 else
                 {
                     Array.Copy(result, hashtarget, result.Length);
@@ -669,8 +669,8 @@ namespace Org.OpenAPITools.Client
             var ecPrivateKeyFooter = "END EC PRIVATE KEY";
             var rsaPrivateKeyHeader = "BEGIN RSA PRIVATE KEY";
             var rsaPrivateFooter = "END RSA PRIVATE KEY";
-            var pkcs8Header = "BEGIN PRIVATE KEY";
-            var pkcs8Footer = "END PRIVATE KEY";
+            //var pkcs8Header = "BEGIN PRIVATE KEY";
+            //var pkcs8Footer = "END PRIVATE KEY";
             var keyType = PrivateKeyType.None;
             var key = File.ReadAllLines(keyFilePath);
 

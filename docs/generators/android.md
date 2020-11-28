@@ -36,17 +36,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |ArrayList|java.util.ArrayList|
 |BigDecimal|java.math.BigDecimal|
 |Date|java.util.Date|
-|DateTime|org.joda.time.*|
 |File|java.io.File|
 |HashMap|java.util.HashMap|
-|LinkedHashSet|java.util.LinkedHashSet|
 |List|java.util.*|
-|LocalDate|org.joda.time.*|
-|LocalDateTime|org.joda.time.*|
-|LocalTime|org.joda.time.*|
 |Map|java.util.Map|
 |Set|java.util.*|
-|Timestamp|java.sql.Timestamp|
 |URI|java.net.URI|
 |UUID|java.util.UUID|
 

@@ -521,10 +521,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends DefaultCodege
             opsByPathEntry.put("path", entry.getKey());
             opsByPathEntry.put("operation", entry.getValue());
             List<CodegenOperation> operationsForThisPath = Lists.newArrayList(entry.getValue());
-            operationsForThisPath.get(operationsForThisPath.size() - 1).hasMore = false;
-            if (opsByPathList.size() < opsByPath.asMap().size()) {
-                opsByPathEntry.put("hasMore", "true");
-            }
         }
 
         return opsByPathList;
@@ -811,12 +807,12 @@ public abstract class AbstractPythonConnexionServerCodegen extends DefaultCodege
             example = p.items.defaultValue;
         }
         if (example == null) {
-            if (Boolean.TRUE.equals(p.isListContainer)) {
+            if (Boolean.TRUE.equals(p.isArray)) {
                 example = "[]";
             } else {
                 example = "None";
             }
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (Boolean.TRUE.equals(p.isArray)) {
             if (Boolean.TRUE.equals(p.isBodyParam)) {
                 example = "[" + example + "]";
             }

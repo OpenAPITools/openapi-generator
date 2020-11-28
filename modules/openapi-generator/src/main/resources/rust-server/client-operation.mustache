@@ -6,7 +6,7 @@
   {{/x-callback-params}}
 {{/vendorExtensions}}
 {{#allParams}}
-        param_{{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
+        param_{{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
         context: &C) -> Result<{{{operationId}}}Response, ApiError>
     {
@@ -45,12 +45,12 @@
                     });
     {{/x-consumes-json}}
     {{^x-consumes-json}}
-      {{#isListContainer}}
+      {{#isArray}}
                     &param_{{{paramName}}}.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
-      {{/isListContainer}}
-      {{^isListContainer}}
+      {{/isArray}}
+      {{^isArray}}
                     &param_{{{paramName}}}.to_string());
-      {{/isListContainer}}
+      {{/isArray}}
     {{/x-consumes-json}}
   {{/vendorExtensions}}
   {{^required}}

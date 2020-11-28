@@ -2,11 +2,10 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**custom_server**](UsageApi.md#custom_server) | **GET** /custom | Use custom server
-[**default_server**](UsageApi.md#default_server) | **GET** /default | Use default server
-
+| Method | HTTP request | Description |
+| ------ | ------------ | ----------- |
+| [**custom_server**](UsageApi.md#custom_server) | **GET** /custom | Use custom server |
+| [**default_server**](UsageApi.md#default_server) | **GET** /default | Use default server |
 
 
 ## custom_server

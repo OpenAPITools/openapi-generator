@@ -249,7 +249,7 @@ class UserApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function createUserRequest($user)
+    public function createUserRequest($user)
     {
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
@@ -466,7 +466,7 @@ class UserApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function createUsersWithArrayInputRequest($user)
+    public function createUsersWithArrayInputRequest($user)
     {
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
@@ -683,7 +683,7 @@ class UserApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function createUsersWithListInputRequest($user)
+    public function createUsersWithListInputRequest($user)
     {
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
@@ -900,7 +900,7 @@ class UserApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function deleteUserRequest($username)
+    public function deleteUserRequest($username)
     {
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
@@ -1167,7 +1167,7 @@ class UserApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getUserByNameRequest($username)
+    public function getUserByNameRequest($username)
     {
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
@@ -1439,7 +1439,7 @@ class UserApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function loginUserRequest($username, $password)
+    public function loginUserRequest($username, $password)
     {
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
@@ -1673,7 +1673,7 @@ class UserApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function logoutUserRequest()
+    public function logoutUserRequest()
     {
 
         $resourcePath = '/user/logout';
@@ -1883,7 +1883,7 @@ class UserApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function updateUserRequest($username, $user)
+    public function updateUserRequest($username, $user)
     {
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {

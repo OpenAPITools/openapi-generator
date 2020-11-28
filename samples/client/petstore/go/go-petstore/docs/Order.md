@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Id** | Pointer to **int64** |  | [optional] 
 **PetId** | Pointer to **int64** |  | [optional] 
 **Quantity** | Pointer to **int32** |  | [optional] 
-**ShipDate** | Pointer to [**time.Time**](time.Time.md) |  | [optional] 
+**ShipDate** | Pointer to **time.Time** |  | [optional] 
 **Status** | Pointer to **string** | Order Status | [optional] 
 **Complete** | Pointer to **bool** |  | [optional] [default to false]
 

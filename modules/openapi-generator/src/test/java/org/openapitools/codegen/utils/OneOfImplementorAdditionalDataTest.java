@@ -43,7 +43,6 @@ public class OneOfImplementorAdditionalDataTest {
         implModel.vars = new ArrayList<>();
         CodegenProperty cp3 = new CodegenProperty();
         cp3.baseName = "OtherProperty";
-        cp3.hasMore = false;
         implModel.vars.add(cp3);
         List<Map<String, String>> implModelImports = new ArrayList<>();
         GoClientCodegen cc = new GoClientCodegen();
@@ -55,6 +54,5 @@ public class OneOfImplementorAdditionalDataTest {
         Assert.assertEquals(implModel.getVendorExtensions().get("x-implements"), new ArrayList<String>(){{add(oneOfModel.classname);}});
         Assert.assertEquals(implModelImports, interfaceModelImports);
         Assert.assertEquals(implModel.vars, new ArrayList<CodegenProperty>(){{add(cp3); add(cp1);}});
-        Assert.assertTrue(implModel.vars.get(0).hasMore);
     }
 }

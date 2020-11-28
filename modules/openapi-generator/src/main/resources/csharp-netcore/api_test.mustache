@@ -11,10 +11,11 @@ using Xunit;
 using {{packageName}}.Client;
 using {{packageName}}.{{apiPackage}};
 {{#hasImport}}
-using {{packageName}}.{{modelPackage}};
+// uncomment below to import models
+//using {{packageName}}.{{modelPackage}};
 {{/hasImport}}
 
-namespace {{packageName}}.Test
+namespace {{packageName}}.Test.Api
 {
     /// <summary>
     ///  Class for testing {{classname}}
@@ -59,7 +60,7 @@ namespace {{packageName}}.Test
             {{#allParams}}
             //{{{dataType}}} {{paramName}} = null;
             {{/allParams}}
-            //{{#returnType}}var response = {{/returnType}}instance.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+            //{{#returnType}}var response = {{/returnType}}instance.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
             {{#returnType}}
             //Assert.IsType<{{{returnType}}}>(response);
             {{/returnType}}

@@ -173,7 +173,7 @@ index 49b17c7..16ee191 100644
    @Deprecated
    {{/isDeprecated}}
 +  @Loggable(Loggable.INFO)
-   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
      Object {{localVariablePrefix}}localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}new Object(){{/bodyParam}};
      {{#allParams}}{{#required}}
 
@@ -247,7 +247,7 @@ Now we're ready to generate the client with our simple changes. When we pass the
 openapi-generator generate -g java --library resteasy \
     -t ~/.openapi-generator/templates/Java \
     -o ~/.openapi-generator/example \
-    -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+    -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 ```
 
 Make sure your custom template compiles:
@@ -610,9 +610,7 @@ A `Pet` model with three properties will provide a _lot_ of information about th
       "jsonSchema" : "{\n  \"type\" : \"integer\",\n  \"format\" : \"int64\"\n}",
       "exclusiveMinimum" : false,
       "exclusiveMaximum" : false,
-      "hasMore" : true,
       "required" : true,
-      "secondaryParam" : false,
       "hasMoreNonReadOnly" : true,
       "isPrimitiveType" : true,
       "isModel" : false,
@@ -634,7 +632,7 @@ A `Pet` model with three properties will provide a _lot_ of information about th
       "isUuid" : false,
       "isEmail" : false,
       "isFreeFormObject" : false,
-      "isListContainer" : false,
+      "isArray" : false,
       "isMap" : false,
       "isEnum" : false,
       "isReadOnly" : false,
@@ -662,9 +660,7 @@ A `Pet` model with three properties will provide a _lot_ of information about th
       "jsonSchema" : "{\n  \"type\" : \"string\"\n}",
       "exclusiveMinimum" : false,
       "exclusiveMaximum" : false,
-      "hasMore" : true,
       "required" : true,
-      "secondaryParam" : false,
       "hasMoreNonReadOnly" : true,
       "isPrimitiveType" : true,
       "isModel" : false,
@@ -686,7 +682,7 @@ A `Pet` model with three properties will provide a _lot_ of information about th
       "isUuid" : false,
       "isEmail" : false,
       "isFreeFormObject" : false,
-      "isListContainer" : false,
+      "isArray" : false,
       "isMap" : false,
       "isEnum" : false,
       "isReadOnly" : false,
@@ -714,9 +710,7 @@ A `Pet` model with three properties will provide a _lot_ of information about th
       "jsonSchema" : "{\n  \"type\" : \"string\"\n}",
       "exclusiveMinimum" : false,
       "exclusiveMaximum" : false,
-      "hasMore" : false,
       "required" : false,
-      "secondaryParam" : false,
       "hasMoreNonReadOnly" : false,
       "isPrimitiveType" : true,
       "isModel" : false,
@@ -738,7 +732,7 @@ A `Pet` model with three properties will provide a _lot_ of information about th
       "isUuid" : false,
       "isEmail" : false,
       "isFreeFormObject" : false,
-      "isListContainer" : false,
+      "isArray" : false,
       "isMap" : false,
       "isEnum" : false,
       "isReadOnly" : false,
@@ -770,7 +764,7 @@ A `Pet` model with three properties will provide a _lot_ of information about th
     "isEnum" : false,
     "hasRequired" : true,
     "hasOptional" : true,
-    "isArrayModel" : false,
+    "isArray" : false,
     "hasChildren" : false,
     "isMap" : false,
     "hasOnlyReadOnly" : false,
@@ -954,10 +948,8 @@ definitions:
             colDataTypeArguments:
               - argumentValue: 16
                 isString: false
-                hasMore: true
               - argumentValue: 4
                 isString: false
-                hasMore: false
             colUnsigned: true
             colNotNull: true
             colDefault:

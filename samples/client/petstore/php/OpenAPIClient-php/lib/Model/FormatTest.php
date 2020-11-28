@@ -43,7 +43,7 @@ use \OpenAPI\Client\ObjectSerializer;
  * @template TKey int|null
  * @template TValue mixed|null  
  */
-class FormatTest implements ModelInterface, ArrayAccess
+class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -66,6 +66,7 @@ class FormatTest implements ModelInterface, ArrayAccess
         'number' => 'float',
         'float' => 'float',
         'double' => 'double',
+        'decimal' => 'Decimal',
         'string' => 'string',
         'byte' => 'string',
         'binary' => '\SplFileObject',
@@ -91,6 +92,7 @@ class FormatTest implements ModelInterface, ArrayAccess
         'number' => null,
         'float' => 'float',
         'double' => 'double',
+        'decimal' => 'number',
         'string' => null,
         'byte' => 'byte',
         'binary' => 'binary',
@@ -135,6 +137,7 @@ class FormatTest implements ModelInterface, ArrayAccess
         'number' => 'number',
         'float' => 'float',
         'double' => 'double',
+        'decimal' => 'decimal',
         'string' => 'string',
         'byte' => 'byte',
         'binary' => 'binary',
@@ -158,6 +161,7 @@ class FormatTest implements ModelInterface, ArrayAccess
         'number' => 'setNumber',
         'float' => 'setFloat',
         'double' => 'setDouble',
+        'decimal' => 'setDecimal',
         'string' => 'setString',
         'byte' => 'setByte',
         'binary' => 'setBinary',
@@ -181,6 +185,7 @@ class FormatTest implements ModelInterface, ArrayAccess
         'number' => 'getNumber',
         'float' => 'getFloat',
         'double' => 'getDouble',
+        'decimal' => 'getDecimal',
         'string' => 'getString',
         'byte' => 'getByte',
         'binary' => 'getBinary',
@@ -258,6 +263,7 @@ class FormatTest implements ModelInterface, ArrayAccess
         $this->container['number'] = $data['number'] ?? null;
         $this->container['float'] = $data['float'] ?? null;
         $this->container['double'] = $data['double'] ?? null;
+        $this->container['decimal'] = $data['decimal'] ?? null;
         $this->container['string'] = $data['string'] ?? null;
         $this->container['byte'] = $data['byte'] ?? null;
         $this->container['binary'] = $data['binary'] ?? null;
@@ -550,6 +556,30 @@ class FormatTest implements ModelInterface, ArrayAccess
     }
 
     /**
+     * Gets decimal
+     *
+     * @return Decimal|null
+     */
+    public function getDecimal()
+    {
+        return $this->container['decimal'];
+    }
+
+    /**
+     * Sets decimal
+     *
+     * @param Decimal|null $decimal decimal
+     *
+     * @return self
+     */
+    public function setDecimal($decimal)
+    {
+        $this->container['decimal'] = $decimal;
+
+        return $this;
+    }
+
+    /**
      * Gets string
      *
      * @return string|null
@@ -837,6 +867,18 @@ class FormatTest implements ModelInterface, ArrayAccess
     public function offsetUnset($offset)
     {
         unset($this->container[$offset]);
+    }
+
+    /**
+     * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
+     *
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
+     */
+    public function jsonSerialize()
+    {
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**

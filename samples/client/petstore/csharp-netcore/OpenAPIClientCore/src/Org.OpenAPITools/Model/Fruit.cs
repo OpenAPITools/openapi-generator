@@ -23,24 +23,17 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Reflection;
 
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
     /// Fruit
     /// </summary>
+    [JsonConverter(typeof(FruitJsonConverter))]
     [DataContract(Name = "fruit")]
     public partial class Fruit : AbstractOpenAPISchema, IEquatable<Fruit>, IValidatableObject
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Fruit" /> class.
-        /// </summary>
-        public Fruit()
-        {
-            this.IsNullable = true;
-            this.SchemaType= "oneOf";
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Fruit" /> class
         /// with the <see cref="Apple" /> class
@@ -133,41 +126,47 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
+            return JsonConvert.SerializeObject(this.ActualInstance, Fruit.SerializerSettings);
         }
 
         /// <summary>
-        /// Converts the JSON string into the object
+        /// Converts the JSON string into an instance of Fruit
         /// </summary>
         /// <param name="jsonString">JSON string</param>
+        /// <returns>An instance of Fruit</returns>
         public static Fruit FromJson(string jsonString)
         {
-            Fruit newFruit = new Fruit();
+            Fruit newFruit = null;
+
+            if (jsonString == null)
+            {
+                return newFruit;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                newFruit.ActualInstance = JsonConvert.DeserializeObject<Apple>(jsonString, newFruit._serializerSettings);
+                newFruit = new Fruit(JsonConvert.DeserializeObject<Apple>(jsonString, Fruit.SerializerSettings));
                 matchedTypes.Add("Apple");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into Apple: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Apple: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newFruit.ActualInstance = JsonConvert.DeserializeObject<Banana>(jsonString, newFruit._serializerSettings);
+                newFruit = new Fruit(JsonConvert.DeserializeObject<Banana>(jsonString, Fruit.SerializerSettings));
                 matchedTypes.Add("Banana");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into Banana: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Banana: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)
@@ -226,6 +225,50 @@ namespace Org.OpenAPITools.Model
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
+        }
+    }
+
+    /// <summary>
+    /// Custom JSON converter for Fruit
+    /// </summary>
+    public class FruitJsonConverter : JsonConverter
+    {
+        /// <summary>
+        /// To write the JSON string
+        /// </summary>
+        /// <param name="writer">JSON writer</param>
+        /// <param name="value">Object to be converted into a JSON string</param>
+        /// <param name="serializer">JSON Serializer</param>
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            writer.WriteRawValue((String)(typeof(Fruit).GetMethod("ToJson").Invoke(value, null)));
+        }
+
+        /// <summary>
+        /// To convert a JSON string into an object
+        /// </summary>
+        /// <param name="reader">JSON reader</param>
+        /// <param name="objectType">Object type</param>
+        /// <param name="existingValue">Existing value</param>
+        /// <param name="serializer">JSON Serializer</param>
+        /// <returns>The object converted from the JSON string</returns>
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return Fruit.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Check if the object can be converted
+        /// </summary>
+        /// <param name="objectType">Object type</param>
+        /// <returns>True if the object can be converted</returns>
+        public override bool CanConvert(Type objectType)
+        {
+            return false;
         }
     }
 

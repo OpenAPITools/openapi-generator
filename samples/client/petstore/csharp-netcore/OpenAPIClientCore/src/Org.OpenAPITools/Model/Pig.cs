@@ -24,24 +24,17 @@ using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Reflection;
 
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
     /// Pig
     /// </summary>
+    [JsonConverter(typeof(PigJsonConverter))]
     [DataContract(Name = "Pig")]
     public partial class Pig : AbstractOpenAPISchema, IEquatable<Pig>, IValidatableObject
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Pig" /> class.
-        /// </summary>
-        public Pig()
-        {
-            this.IsNullable = true;
-            this.SchemaType= "oneOf";
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Pig" /> class
         /// with the <see cref="BasquePig" /> class
@@ -134,41 +127,47 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
+            return JsonConvert.SerializeObject(this.ActualInstance, Pig.SerializerSettings);
         }
 
         /// <summary>
-        /// Converts the JSON string into the object
+        /// Converts the JSON string into an instance of Pig
         /// </summary>
         /// <param name="jsonString">JSON string</param>
+        /// <returns>An instance of Pig</returns>
         public static Pig FromJson(string jsonString)
         {
-            Pig newPig = new Pig();
+            Pig newPig = null;
+
+            if (jsonString == null)
+            {
+                return newPig;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                newPig.ActualInstance = JsonConvert.DeserializeObject<BasquePig>(jsonString, newPig._serializerSettings);
+                newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.SerializerSettings));
                 matchedTypes.Add("BasquePig");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into BasquePig: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into BasquePig: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newPig.ActualInstance = JsonConvert.DeserializeObject<DanishPig>(jsonString, newPig._serializerSettings);
+                newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.SerializerSettings));
                 matchedTypes.Add("DanishPig");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into DanishPig: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into DanishPig: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)
@@ -227,6 +226,50 @@ namespace Org.OpenAPITools.Model
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
+        }
+    }
+
+    /// <summary>
+    /// Custom JSON converter for Pig
+    /// </summary>
+    public class PigJsonConverter : JsonConverter
+    {
+        /// <summary>
+        /// To write the JSON string
+        /// </summary>
+        /// <param name="writer">JSON writer</param>
+        /// <param name="value">Object to be converted into a JSON string</param>
+        /// <param name="serializer">JSON Serializer</param>
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            writer.WriteRawValue((String)(typeof(Pig).GetMethod("ToJson").Invoke(value, null)));
+        }
+
+        /// <summary>
+        /// To convert a JSON string into an object
+        /// </summary>
+        /// <param name="reader">JSON reader</param>
+        /// <param name="objectType">Object type</param>
+        /// <param name="existingValue">Existing value</param>
+        /// <param name="serializer">JSON Serializer</param>
+        /// <returns>The object converted from the JSON string</returns>
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return Pig.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Check if the object can be converted
+        /// </summary>
+        /// <param name="objectType">Object type</param>
+        /// <returns>True if the object can be converted</returns>
+        public override bool CanConvert(Type objectType)
+        {
+            return false;
         }
     }
 

@@ -1,9 +1,11 @@
     /// <summary>
     /// {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
+    [JsonConverter(typeof({{classname}}JsonConverter))]
     [DataContract(Name = "{{{name}}}")]
     {{>visibility}} partial class {{classname}} : AbstractOpenAPISchema, {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
     {
+        {{#isNullable}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
@@ -13,6 +15,7 @@
             this.SchemaType= "oneOf";
         }
 
+        {{/isNullable}}
         {{#oneOf}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class
@@ -85,16 +88,22 @@
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
+            return JsonConvert.SerializeObject(this.ActualInstance, {{classname}}.SerializerSettings);
         }
 
         /// <summary>
-        /// Converts the JSON string into the object
+        /// Converts the JSON string into an instance of {{classname}}
         /// </summary>
         /// <param name="jsonString">JSON string</param>
+        /// <returns>An instance of {{classname}}</returns>
         public static {{classname}} FromJson(string jsonString)
         {
-            {{classname}} new{{classname}} = new {{classname}}();
+            {{classname}} new{{classname}} = null;
+
+            if (jsonString == null)
+            {
+                return new{{classname}};
+            }
             {{#useOneOfDiscriminatorLookup}}
             {{#discriminator}}
 
@@ -103,11 +112,11 @@
             {
                 {{#mappedModels}}
                 case "{{{mappingName}}}":
-                    new{{classname}}.ActualInstance = JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, new{{classname}}._serializerSettings);
+                    new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, {{classname}}.SerializerSettings));
                     return new{{classname}};
                 {{/mappedModels}}
                 default:
-                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
+                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
                     break;
             }
 
@@ -119,14 +128,14 @@
 
             try
             {
-                new{{classname}}.ActualInstance = JsonConvert.DeserializeObject<{{{.}}}>(jsonString, new{{classname}}._serializerSettings);
+                new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{.}}}>(jsonString, {{classname}}.SerializerSettings));
                 matchedTypes.Add("{{{.}}}");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into {{{.}}}: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into {{{.}}}: {1}", jsonString, exception.ToString()));
             }
             {{/oneOf}}
 
@@ -199,5 +208,49 @@
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
+        }
+    }
+
+    /// <summary>
+    /// Custom JSON converter for {{classname}}
+    /// </summary>
+    public class {{classname}}JsonConverter : JsonConverter
+    {
+        /// <summary>
+        /// To write the JSON string
+        /// </summary>
+        /// <param name="writer">JSON writer</param>
+        /// <param name="value">Object to be converted into a JSON string</param>
+        /// <param name="serializer">JSON Serializer</param>
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            writer.WriteRawValue((String)(typeof({{classname}}).GetMethod("ToJson").Invoke(value, null)));
+        }
+
+        /// <summary>
+        /// To convert a JSON string into an object
+        /// </summary>
+        /// <param name="reader">JSON reader</param>
+        /// <param name="objectType">Object type</param>
+        /// <param name="existingValue">Existing value</param>
+        /// <param name="serializer">JSON Serializer</param>
+        /// <returns>The object converted from the JSON string</returns>
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return {{classname}}.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Check if the object can be converted
+        /// </summary>
+        /// <param name="objectType">Object type</param>
+        /// <returns>True if the object can be converted</returns>
+        public override bool CanConvert(Type objectType)
+        {
+            return false;
         }
     }

@@ -2,16 +2,17 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**_return** | **Integer** |  | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **_return** | **Integer** |  | [optional] |
 
 ## Code Sample
 
 ```ruby
-require 'Petstore'
+require 'petstore'
 
-instance = Petstore::ModelReturn.new(_return: null)
+instance = Petstore::ModelReturn.new(
+  _return: null
+)
 ```
-
 

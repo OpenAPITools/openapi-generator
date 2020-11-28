@@ -226,13 +226,14 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("float", "Float");
         typeMapping.put("number", "Double");
         typeMapping.put("double", "Double");
-        typeMapping.put("object", "Any");
         typeMapping.put("file", "URL");
         typeMapping.put("binary", "URL");
         typeMapping.put("ByteArray", "Data");
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "String");
-        typeMapping.put("BigDecimal", "Decimal");
+        typeMapping.put("decimal", "Decimal");
+        typeMapping.put("object", "Any");
+        typeMapping.put("AnyType", "Any");
 
         importMapping = new HashMap<>();
 
@@ -308,13 +309,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         }
 
         if (removedChildProperty) {
-            // If we removed an entry from this model's vars, we need to ensure hasMore is updated
-            int count = 0;
-            int numVars = codegenProperties.size();
-            for (CodegenProperty codegenProperty : codegenProperties) {
-                count += 1;
-                codegenProperty.hasMore = count < numVars;
-            }
             codegenModel.vars = codegenProperties;
         }
 
@@ -1007,7 +1001,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
-        if (codegenParameter.isListContainer) { // array
+        if (codegenParameter.isArray) { // array
             return "[" + constructExampleCode(codegenParameter.items, modelMaps) + "]";
         } else if (codegenParameter.isMap) { // TODO: map, file type
             return "\"TODO\"";
@@ -1047,7 +1041,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps) {
-        if (codegenProperty.isListContainer) { // array
+        if (codegenProperty.isArray) { // array
             return "[" + constructExampleCode(codegenProperty.items, modelMaps) + "]";
         } else if (codegenProperty.isMap) { // TODO: map, file type
             return "\"TODO\"";

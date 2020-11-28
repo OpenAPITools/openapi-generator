@@ -16,7 +16,7 @@ defmodule {{moduleName}}.Connection do
   {{#isOAuth}}
   @scopes [
     {{#scopes}}
-    "{{scope}}"{{#hasMore}},{{/hasMore}} {{#description}}# {{description}}{{/description}}
+    "{{scope}}"{{^-last}},{{/-last}} {{#description}}# {{description}}{{/description}}
     {{/scopes}}
   ]
 

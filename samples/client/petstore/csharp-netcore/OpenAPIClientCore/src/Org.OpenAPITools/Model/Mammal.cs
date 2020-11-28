@@ -24,24 +24,17 @@ using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Reflection;
 
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
     /// Mammal
     /// </summary>
+    [JsonConverter(typeof(MammalJsonConverter))]
     [DataContract(Name = "mammal")]
     public partial class Mammal : AbstractOpenAPISchema, IEquatable<Mammal>, IValidatableObject
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Mammal" /> class.
-        /// </summary>
-        public Mammal()
-        {
-            this.IsNullable = true;
-            this.SchemaType= "oneOf";
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Mammal" /> class
         /// with the <see cref="Pig" /> class
@@ -160,53 +153,59 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance, _serializerSettings);
+            return JsonConvert.SerializeObject(this.ActualInstance, Mammal.SerializerSettings);
         }
 
         /// <summary>
-        /// Converts the JSON string into the object
+        /// Converts the JSON string into an instance of Mammal
         /// </summary>
         /// <param name="jsonString">JSON string</param>
+        /// <returns>An instance of Mammal</returns>
         public static Mammal FromJson(string jsonString)
         {
-            Mammal newMammal = new Mammal();
+            Mammal newMammal = null;
+
+            if (jsonString == null)
+            {
+                return newMammal;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                newMammal.ActualInstance = JsonConvert.DeserializeObject<Pig>(jsonString, newMammal._serializerSettings);
+                newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.SerializerSettings));
                 matchedTypes.Add("Pig");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into Pig: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Pig: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newMammal.ActualInstance = JsonConvert.DeserializeObject<Whale>(jsonString, newMammal._serializerSettings);
+                newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.SerializerSettings));
                 matchedTypes.Add("Whale");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into Whale: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Whale: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newMammal.ActualInstance = JsonConvert.DeserializeObject<Zebra>(jsonString, newMammal._serializerSettings);
+                newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.SerializerSettings));
                 matchedTypes.Add("Zebra");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `%s` into Zebra: %s", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Zebra: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)
@@ -265,6 +264,50 @@ namespace Org.OpenAPITools.Model
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
+        }
+    }
+
+    /// <summary>
+    /// Custom JSON converter for Mammal
+    /// </summary>
+    public class MammalJsonConverter : JsonConverter
+    {
+        /// <summary>
+        /// To write the JSON string
+        /// </summary>
+        /// <param name="writer">JSON writer</param>
+        /// <param name="value">Object to be converted into a JSON string</param>
+        /// <param name="serializer">JSON Serializer</param>
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            writer.WriteRawValue((String)(typeof(Mammal).GetMethod("ToJson").Invoke(value, null)));
+        }
+
+        /// <summary>
+        /// To convert a JSON string into an object
+        /// </summary>
+        /// <param name="reader">JSON reader</param>
+        /// <param name="objectType">Object type</param>
+        /// <param name="existingValue">Existing value</param>
+        /// <param name="serializer">JSON Serializer</param>
+        /// <returns>The object converted from the JSON string</returns>
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return Mammal.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Check if the object can be converted
+        /// </summary>
+        /// <param name="objectType">Object type</param>
+        /// <returns>True if the object can be converted</returns>
+        public override bool CanConvert(Type objectType)
+        {
+            return false;
         }
     }
 

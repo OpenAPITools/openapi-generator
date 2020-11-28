@@ -21,10 +21,12 @@ import com.google.common.base.Strings;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.io.FilenameUtils;
@@ -177,6 +179,24 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         typeMapping.put("date", "Date");
         typeMapping.put("file", "File");
         typeMapping.put("AnyType", "Object");
+
+        importMapping.put("BigDecimal", "java.math.BigDecimal");
+        importMapping.put("UUID", "java.util.UUID");
+        importMapping.put("URI", "java.net.URI");
+        importMapping.put("File", "java.io.File");
+        importMapping.put("Date", "java.util.Date");
+        importMapping.put("Timestamp", "java.sql.Timestamp");
+        importMapping.put("Map", "java.util.Map");
+        importMapping.put("HashMap", "java.util.HashMap");
+        importMapping.put("Array", "java.util.List");
+        importMapping.put("ArrayList", "java.util.ArrayList");
+        importMapping.put("List", "java.util.*");
+        importMapping.put("Set", "java.util.*");
+        importMapping.put("LinkedHashSet", "java.util.LinkedHashSet");
+        importMapping.put("DateTime", "org.joda.time.*");
+        importMapping.put("LocalDateTime", "org.joda.time.*");
+        importMapping.put("LocalDate", "org.joda.time.*");
+        importMapping.put("LocalTime", "org.joda.time.*");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
@@ -774,7 +794,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p);
+        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
@@ -865,8 +885,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (schema.getDefault() != null) {
                 if (SchemaTypeUtil.FLOAT_FORMAT.equals(schema.getFormat())) {
                     return schema.getDefault().toString() + "f";
-                } else {
+                } else if (SchemaTypeUtil.DOUBLE_FORMAT.equals(schema.getFormat())) {
                     return schema.getDefault().toString() + "d";
+                } else {
+                    return "new BigDecimal(\"" + schema.getDefault().toString() + "\")";
                 }
             }
             return null;
@@ -911,6 +933,37 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return super.toDefaultValue(schema);
     }
 
+    /**
+     * Return the example value of the parameter. Overrides the
+     * setParameterExampleValue(CodegenParameter, Parameter) method in
+     * DefaultCodegen to always call setParameterExampleValue(CodegenParameter)
+     * in this class, which adds single quotes around strings from the
+     * x-example property.
+     *
+     * @param codegenParameter Codegen parameter
+     * @param parameter        Parameter
+     */
+    @Override
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        if (parameter.getExample() != null) {
+            codegenParameter.example = parameter.getExample().toString();
+        }
+
+        if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
+            Example example = parameter.getExamples().values().iterator().next();
+            if (example.getValue() != null) {
+                codegenParameter.example = example.getValue().toString();
+            }
+        }
+
+        Schema schema = parameter.getSchema();
+        if (schema != null && schema.getExample() != null) {
+            codegenParameter.example = schema.getExample().toString();
+        }
+
+        setParameterExampleValue(codegenParameter);
+    }
+
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
         String example;
@@ -939,15 +992,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (example == null) {
                 example = "56";
             }
-            example = example + "L";
+            example = StringUtils.appendIfMissingIgnoreCase(example, "L");
         } else if ("Float".equals(type)) {
             if (example == null) {
                 example = "3.4";
             }
-            example = example + "F";
+            example = StringUtils.appendIfMissingIgnoreCase(example, "F");
         } else if ("Double".equals(type)) {
-            example = "3.4";
-            example = example + "D";
+            if (example == null) {
+                example = "3.4";
+            }
+            example = StringUtils.appendIfMissingIgnoreCase(example, "D");
         } else if ("Boolean".equals(type)) {
             if (example == null) {
                 example = "true";
@@ -959,6 +1014,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             example = "new File(\"" + escapeText(example) + "\")";
         } else if ("Date".equals(type)) {
             example = "new Date()";
+        } else if ("OffsetDateTime".equals(type)) {
+            example = "OffsetDateTime.now()";
+        } else if ("BigDecimal".equals(type)) {
+            example = "new BigDecimal(78)";
+        } else if (p.allowableValues != null && !p.allowableValues.isEmpty()) {
+            Map<String, Object> allowableValues = p.allowableValues;
+            List<Object> values = (List<Object>) allowableValues.get("values");
+            example = type + ".fromValue(\"" + String.valueOf(values.get(0)) + "\")";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
             example = "new " + type + "()";
@@ -966,7 +1029,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (example == null) {
             example = "null";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (Boolean.TRUE.equals(p.isArray)) {
 
             if (p.items.defaultValue != null) {
                 String innerExample;
@@ -1060,7 +1123,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         if (serializeBigDecimalAsString) {
-            if (property.baseType.equals("BigDecimal")) {
+            if ("decimal".equals(property.baseType)) {
                 // we serialize BigDecimal as `string` to avoid precision loss
                 property.vendorExtensions.put("x-extra-annotation", "@JsonSerialize(using = ToStringSerializer.class)");
 
@@ -1120,6 +1183,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (pattern.matcher(itrImport).matches()) {
                 itr.remove();
             }
+        }
+
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        for (CodegenOperation op : operationList) {
+            Collection<String> operationImports = new TreeSet<String>();
+            for (CodegenParameter p : op.allParams) {
+                if (importMapping.containsKey(p.dataType)) {
+                    operationImports.add(importMapping.get(p.dataType));
+                }
+            }
+            op.vendorExtensions.put("x-java-import", operationImports);
         }
         return objs;
     }
@@ -1326,13 +1401,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (removedChildEnum) {
-            // If we removed an entry from this model's vars, we need to ensure hasMore is updated
-            int count = 0;
-            int numVars = codegenProperties.size();
-            for (CodegenProperty codegenProperty : codegenProperties) {
-                count += 1;
-                codegenProperty.hasMore = count < numVars;
-            }
             codegenModel.vars = codegenProperties;
         }
         return codegenModel;

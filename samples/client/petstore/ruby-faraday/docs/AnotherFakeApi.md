@@ -2,10 +2,9 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**call_123_test_special_tags**](AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
-
+| Method | HTTP request | Description |
+| ------ | ------------ | ----------- |
+| [**call_123_test_special_tags**](AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags |
 
 
 ## call_123_test_special_tags
@@ -36,10 +35,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **client** | [**Client**](Client.md) | client model |  |
 
 ### Return type
 

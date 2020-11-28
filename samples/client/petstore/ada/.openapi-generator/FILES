@@ -1,0 +1,8 @@
+config.gpr
+src/client/samples-petstore-clients.adb
+src/client/samples-petstore-clients.ads
+src/model/samples-petstore-models.adb
+src/model/samples-petstore-models.ads
+src/samples-petstore-client.adb
+src/samples-petstore.ads
+src/samples.ads

@@ -23,6 +23,18 @@ namespace Org.OpenAPITools.Test
         }
 
         /// <summary>
+        /// Test WebProxy
+        /// </summary>
+        [Fact]
+        public void WebProxyTest()
+        {
+            Configuration c = new Configuration();
+            System.Net.WebProxy webProxy = new System.Net.WebProxy("http://myProxyUrl:80/");
+            webProxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            c.Proxy = webProxy;
+        }
+
+        /// <summary>
         /// Test GetServerUrl
         /// </summary>
         [Fact]

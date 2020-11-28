@@ -45,44 +45,59 @@ class {{{classname}}} {
     {{#description}}
   ///   {{{description}}}
     {{/description}}
-    {{#hasMore}}
+    {{^-last}}
   ///
-    {{/hasMore}}
+    {{/-last}}
   {{/allParams}}
-  {{#returnType}}Future<Response> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+  {{#returnType}}Future<Response> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+  {{#hasParams}}
     // Verify required params are set.
     {{#allParams}}
       {{#required}}
     if ({{{paramName}}} == null) {
-     throw ApiException(400, 'Missing required param: {{{paramName}}}');
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: {{{paramName}}}');
     }
       {{/required}}
     {{/allParams}}
 
-    final path = '{{{path}}}'.replaceAll('{format}', 'json'){{#pathParams}}.replaceAll('{' + '{{{baseName}}}' + '}', {{{paramName}}}.toString()){{/pathParams}};
+  {{/hasParams}}
+    final path = '{{{path}}}'.replaceAll('{format}', 'json'){{#pathParams}}
+      .replaceAll('{' + '{{{baseName}}}' + '}', {{{paramName}}}.toString()){{/pathParams}};
 
     Object postBody{{#bodyParam}} = {{{paramName}}}{{/bodyParam}};
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
+    {{#hasQueryParams}}
 
-    {{#queryParams}}
-      {{^required}}
+      {{#queryParams}}
+        {{^required}}
     if ({{{paramName}}} != null) {
-      {{/required}}
+          {{/required}}
       queryParams.addAll(_convertParametersForCollectionFormat('{{{collectionFormat}}}', '{{{baseName}}}', {{{paramName}}}));
-      {{^required}}
+          {{^required}}
     }
-      {{/required}}
-    {{/queryParams}}
-    {{#headerParams}}
-    headerParams['{{{baseName}}}'] = {{{paramName}}};
-    {{/headerParams}}
+        {{/required}}
+      {{/queryParams}}
+    {{/hasQueryParams}}
+    {{#hasHeaderParams}}
 
-    final contentTypes = <String>[{{#consumes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}];
+      {{#headerParams}}
+        {{#required}}
+    headerParams['{{{baseName}}}'] = parameterToString({{{paramName}}});
+        {{/required}}
+        {{^required}}
+    if ({{{paramName}}} != null) {
+      headerParams['{{{baseName}}}'] = parameterToString({{{paramName}}});
+    }
+        {{/required}}
+      {{/headerParams}}
+    {{/hasHeaderParams}}
+
+    final contentTypes = <String>[{{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}}];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[{{#authMethods}}'{{{name}}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
+    final authNames = <String>[{{#authMethods}}'{{{name}}}'{{^-last}}, {{/-last}}{{/authMethods}}];
 
     if (
       nullableContentType != null &&
@@ -156,37 +171,36 @@ class {{{classname}}} {
     {{#description}}
   ///   {{{description}}}
     {{/description}}
-    {{#hasMore}}
+    {{^-last}}
   ///
-    {{/hasMore}}
+    {{/-last}}
   {{/allParams}}
-  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
-    final response = await {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{{paramName}}}: {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
-    if (response.statusCode >= 400) {
+  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+    final response = await {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{{paramName}}}: {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
+    if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-    if (response.body != null) {
-      {{#isListContainer}}
-        {{#returnType}}
+    {{#returnType}}
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+      {{#isArray}}
       return (apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as List)
         .map((item) => item as {{{returnBaseType}}})
         .toList(growable: false);
-        {{/returnType}}
-      {{/isListContainer}}
-      {{^isListContainer}}
+      {{/isArray}}
+      {{^isArray}}
         {{#isMap}}
-          {{#returnType}}
       return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
-          {{/returnType}}
         {{/isMap}}
         {{^isMap}}
-          {{#returnType}}
       return apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}};
-          {{/returnType}}
         {{/isMap}}
-      {{/isListContainer}}
+      {{/isArray}}
     }
-    return{{#returnType}} null{{/returnType}};
+    return null;
+    {{/returnType}}
   }
   {{/operation}}
 }

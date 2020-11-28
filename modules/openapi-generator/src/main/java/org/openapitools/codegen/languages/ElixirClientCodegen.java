@@ -559,7 +559,6 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.headers.addAll(o.headers);
             this.code = o.code;
             this.message = o.message;
-            this.hasMore = o.hasMore;
             this.examples = o.examples;
             this.dataType = o.dataType;
             this.baseType = o.baseType;
@@ -584,7 +583,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.simpleType = o.simpleType;
             this.primitiveType = o.primitiveType;
             this.isMap = o.isMap;
-            this.isListContainer = o.isListContainer;
+            this.isArray = o.isArray;
             this.isBinary = o.isBinary;
             this.isFile = o.isFile;
             this.schema = o.schema;
@@ -615,11 +614,11 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             // Primitive return type, don't even try to decode
             if (baseType == null || (simpleType && primitiveType)) {
                 return "false";
-            } else if (isListContainer && languageSpecificPrimitives().contains(baseType)) {
+            } else if (isArray && languageSpecificPrimitives().contains(baseType)) {
                 return "[]";
             }
             StringBuilder sb = new StringBuilder();
-            if (isListContainer) {
+            if (isArray) {
                 sb.append("[");
             }
             sb.append("%");
@@ -627,7 +626,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             sb.append(".Model.");
             sb.append(baseType);
             sb.append("{}");
-            if (isListContainer) {
+            if (isArray) {
                 sb.append("]");
             }
             return sb.toString();
@@ -653,9 +652,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
             this.isMap = o.isMap;
-            this.isListContainer = o.isListContainer;
+            this.isArray = o.isArray;
             this.isMultipart = o.isMultipart;
-            this.hasMore = o.hasMore;
             this.isResponseBinary = o.isResponseBinary;
             this.hasReference = o.hasReference;
             this.isRestfulIndex = o.isRestfulIndex;
@@ -772,7 +770,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         private void buildTypespec(CodegenParameter param, StringBuilder sb) {
             if (param.dataType == null) {
                 sb.append("nil");
-            } else if (param.isListContainer) {
+            } else if (param.isArray) {
                 // list(<subtype>)
                 sb.append("list(");
                 buildTypespec(param.items, sb);
@@ -802,7 +800,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         private void buildTypespec(CodegenProperty property, StringBuilder sb) {
             if (property == null) {
                 LOGGER.error("CodegenProperty cannot be null. Please report the issue to https://github.com/openapitools/openapi-generator with the spec");
-            } else if (property.isListContainer) {
+            } else if (property.isArray) {
                 sb.append("list(");
                 buildTypespec(property.items, sb);
                 sb.append(")");
@@ -868,7 +866,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.isEnum = cm.isEnum;
             this.hasRequired = cm.hasRequired;
             this.hasOptional = cm.hasOptional;
-            this.isArrayModel = cm.isArrayModel;
+            this.isArray = cm.isArray;
             this.hasChildren = cm.hasChildren;
             this.hasOnlyReadOnly = cm.hasOnlyReadOnly;
             this.externalDocumentation = cm.externalDocumentation;

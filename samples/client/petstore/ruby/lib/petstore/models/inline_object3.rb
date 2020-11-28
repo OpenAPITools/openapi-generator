@@ -11,6 +11,7 @@ OpenAPI Generator version: 5.0.0-SNAPSHOT
 =end
 
 require 'date'
+require 'time'
 
 module Petstore
   class InlineObject3
@@ -76,6 +77,11 @@ module Petstore
       }
     end
 
+    # Returns all the JSON keys this model knows about
+    def self.acceptable_attributes
+      attribute_map.values
+    end
+
     # Attribute type mapping.
     def self.openapi_types
       {
@@ -90,7 +96,7 @@ module Petstore
         :'byte' => :'String',
         :'binary' => :'File',
         :'date' => :'Date',
-        :'date_time' => :'DateTime',
+        :'date_time' => :'Time',
         :'password' => :'String',
         :'callback' => :'String'
       }
@@ -456,8 +462,8 @@ module Petstore
     # @return [Object] Deserialized data
     def _deserialize(type, value)
       case type.to_sym
-      when :DateTime
-        DateTime.parse(value)
+      when :Time
+        Time.parse(value)
       when :Date
         Date.parse(value)
       when :String
@@ -487,7 +493,9 @@ module Petstore
           end
         end
       else # model
-        Petstore.const_get(type).build_from_hash(value)
+        # models (e.g. Pet) or oneOf
+        klass = Petstore.const_get(type)
+        klass.respond_to?(:openapi_one_of) ? klass.build(value) : klass.build_from_hash(value)
       end
     end
 
@@ -513,7 +521,7 @@ module Petstore
           is_nullable = self.class.openapi_nullable.include?(attr)
           next if !is_nullable || (is_nullable && !instance_variable_defined?(:"@#{attr}"))
         end
-        
+
         hash[param] = _to_hash(value)
       end
       hash
@@ -536,5 +544,7 @@ module Petstore
         value
       end
     end
+
   end
+
 end

@@ -144,7 +144,14 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         operations.stream()
                 .filter(op -> op.hasConsumes)
                 .filter(op -> op.consumes.stream().anyMatch(opc -> opc.values().stream().anyMatch("multipart/form-data"::equals)))
-                .forEach(op -> op.vendorExtensions.putIfAbsent("multipartFormData", true));
+                .forEach(op -> {
+                    op.vendorExtensions.putIfAbsent("multipartFormData", true);
+                    op.allParams.stream()
+                            .filter(param -> param.isFormParam)
+                            .filter(param -> param.isArray)
+                            .filter(param -> param.dataFormat.equals("binary"))
+                            .forEach(param -> param.isCollectionFormatMulti = true);
+                });
         return objs;
     }
 
