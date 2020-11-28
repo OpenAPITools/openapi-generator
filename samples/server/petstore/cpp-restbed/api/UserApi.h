@@ -38,24 +38,6 @@ namespace api {
 
 using namespace org::openapitools::server::model;
 
-class  UserApi: public restbed::Service
-{
-public:
-	UserApi();
-	~UserApi();
-	void startService(int const& port);
-	void stopService();
-	
-protected:
-	std::shared_ptr<UserApiUserResource> m_spUserApiUserResource;
-	std::shared_ptr<UserApiUserCreateWithArrayResource> m_spUserApiUserCreateWithArrayResource;
-	std::shared_ptr<UserApiUserCreateWithListResource> m_spUserApiUserCreateWithListResource;
-	std::shared_ptr<UserApiUserUsernameResource> m_spUserApiUserUsernameResource;
-	std::shared_ptr<UserApiUserLoginResource> m_spUserApiUserLoginResource;
-	std::shared_ptr<UserApiUserLogoutResource> m_spUserApiUserLogoutResource;
-};
-
-
 /// <summary>
 /// Create user
 /// </summary>
@@ -237,6 +219,27 @@ private:
 	)> handler_GET_;
 
 
+};
+
+
+//
+// The restbed service to actually implement the REST server
+//
+class  UserApi: public restbed::Service
+{
+public:
+	UserApi();
+	~UserApi();
+	void startService(int const& port);
+	void stopService();
+	
+protected:
+	std::shared_ptr<UserApiUserResource> m_spUserApiUserResource;
+	std::shared_ptr<UserApiUserCreateWithArrayResource> m_spUserApiUserCreateWithArrayResource;
+	std::shared_ptr<UserApiUserCreateWithListResource> m_spUserApiUserCreateWithListResource;
+	std::shared_ptr<UserApiUserUsernameResource> m_spUserApiUserUsernameResource;
+	std::shared_ptr<UserApiUserLoginResource> m_spUserApiUserLoginResource;
+	std::shared_ptr<UserApiUserLogoutResource> m_spUserApiUserLogoutResource;
 };
 
 
