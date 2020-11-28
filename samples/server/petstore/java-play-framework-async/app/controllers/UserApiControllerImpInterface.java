@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import openapitools.OpenAPIUtils;
 import static play.mvc.Results.ok;
 import play.api.libs.Files.TemporaryFile;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 
@@ -27,40 +28,60 @@ public abstract class UserApiControllerImpInterface {
     private ObjectMapper mapper = new ObjectMapper();
 
     public CompletionStage<Result> createUserHttp(Http.Request request, User body) throws Exception {
-        return CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        try {
     createUser(request, body);
-    return ok();
-});
+        } catch (Exception e) {
+            throw new CompletionException(e);
+        }
+        return ok();
+    });
+    return result;
 
     }
 
     public abstract void createUser(Http.Request request, User body) throws Exception;
 
     public CompletionStage<Result> createUsersWithArrayInputHttp(Http.Request request, List<User> body) throws Exception {
-        return CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        try {
     createUsersWithArrayInput(request, body);
-    return ok();
-});
+        } catch (Exception e) {
+            throw new CompletionException(e);
+        }
+        return ok();
+    });
+    return result;
 
     }
 
     public abstract void createUsersWithArrayInput(Http.Request request, List<User> body) throws Exception;
 
     public CompletionStage<Result> createUsersWithListInputHttp(Http.Request request, List<User> body) throws Exception {
-        return CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        try {
     createUsersWithListInput(request, body);
-    return ok();
-});
+        } catch (Exception e) {
+            throw new CompletionException(e);
+        }
+        return ok();
+    });
+    return result;
 
     }
 
     public abstract void createUsersWithListInput(Http.Request request, List<User> body) throws Exception;
 
     public CompletionStage<Result> deleteUserHttp(Http.Request request, String username) throws Exception {
-        return CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        try {
     deleteUser(request, username);
-    return ok();
-});
+        } catch (Exception e) {
+            throw new CompletionException(e);
+        }
+        return ok();
+    });
+    return result;
 
     }
 
@@ -73,7 +94,7 @@ public abstract class UserApiControllerImpInterface {
     }
     return obj;
 });
-stage.thenApply(obj -> {
+return stage.thenApply(obj -> {
     JsonNode result = mapper.valueToTree(obj);
     return ok(result);
 });
@@ -86,7 +107,7 @@ stage.thenApply(obj -> {
         CompletionStage<String> stage = loginUser(request, username, password).thenApply(obj -> { 
     return obj;
 });
-stage.thenApply(obj -> {
+return stage.thenApply(obj -> {
     JsonNode result = mapper.valueToTree(obj);
     return ok(result);
 });
@@ -96,20 +117,30 @@ stage.thenApply(obj -> {
     public abstract CompletionStage<String> loginUser(Http.Request request, @NotNull String username, @NotNull String password) throws Exception;
 
     public CompletionStage<Result> logoutUserHttp(Http.Request request) throws Exception {
-        return CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        try {
     logoutUser(request);
-    return ok();
-});
+        } catch (Exception e) {
+            throw new CompletionException(e);
+        }
+        return ok();
+    });
+    return result;
 
     }
 
     public abstract void logoutUser(Http.Request request) throws Exception;
 
     public CompletionStage<Result> updateUserHttp(Http.Request request, String username, User body) throws Exception {
-        return CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        try {
     updateUser(request, username, body);
-    return ok();
-});
+        } catch (Exception e) {
+            throw new CompletionException(e);
+        }
+        return ok();
+    });
+    return result;
 
     }
 

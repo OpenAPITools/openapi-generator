@@ -28,6 +28,9 @@ Method | HTTP request | Description
 ### Example
 
 ```java
+{{#vendorExtensions.x-java-import}}
+import {{.}};
+{{/vendorExtensions.x-java-import}}
 // Import classes:
 import {{{invokerPackage}}}.ApiClient;
 import {{{invokerPackage}}}.ApiException;

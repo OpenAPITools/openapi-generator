@@ -520,6 +520,7 @@ uploads an image
 ### Example
 
 ```java
+import java.io.File;
 // Import classes:
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
@@ -592,6 +593,7 @@ uploads an image (required)
 ### Example
 
 ```java
+import java.io.File;
 // Import classes:
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
