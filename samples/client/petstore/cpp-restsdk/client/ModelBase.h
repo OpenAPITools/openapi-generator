@@ -137,7 +137,7 @@ public:
     static bool fromHttpContent( std::shared_ptr<HttpContent> val, utility::datetime & );
     static bool fromHttpContent( std::shared_ptr<HttpContent> val, web::json::value & );
     static bool fromHttpContent( std::shared_ptr<HttpContent> val, std::shared_ptr<HttpContent>& );
-    template <typename T>    
+    template <typename T>
     static bool fromHttpContent( std::shared_ptr<HttpContent> val, std::shared_ptr<T>& );
     template <typename T>
     static bool fromHttpContent( std::shared_ptr<HttpContent> val, std::vector<T> & );
