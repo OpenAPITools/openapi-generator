@@ -626,7 +626,7 @@ public class SpringCodegenTest {
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/java/reactive-spring-boot-map-in-request-body-issue.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/issue_8045.yaml");
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setOpenAPI(openAPI);
         codegen.setOutputDir(output.getAbsolutePath());
