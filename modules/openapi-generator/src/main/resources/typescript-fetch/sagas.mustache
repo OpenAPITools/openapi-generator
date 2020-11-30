@@ -116,12 +116,12 @@ export function *{{nickname}}SagaImp(action: Action<Payload{{#lambda.titlecase}}
 {{/isUniqueId}}
 {{^isUniqueId}}
 {{#isArray}}
-{{#itemsAreModels}}
-            {{#lambda.camelcase}}{{itemsDataType}}{{/lambda.camelcase}}Utils.toApiArray({{paramName}}),
-{{/itemsAreModels}}
-{{^itemsAreModels}}
+{{#items.isModel}}
+            {{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.toApiArray({{paramName}}),
+{{/items.isModel}}
+{{^items.isModel}}
             {{paramName}}.toJS(),
-{{/itemsAreModels}}
+{{/items.isModel}}
 {{/isArray}}
 {{#isModel}}
             {{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.toApi({{paramName}}),

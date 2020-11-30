@@ -28,12 +28,12 @@ export const {{classname}}RecordProps = {
 	recType: "{{classname}}Record" as "{{classname}}Record",
 {{#vars}}
     {{#isArray}}
-    {{#itemsAreModels}}
-    {{name}}: ({{{itemsDataType}}}(), {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null as {{{dataTypeAlternate}}} | null{{/required}}),
-    {{/itemsAreModels}}
-    {{^itemsAreModels}}
+    {{#items.isModel}}
+    {{name}}: ({{{items.dataType}}}Record(), {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null as {{{dataTypeAlternate}}} | null{{/required}}),
+    {{/items.isModel}}
+    {{^items.isModel}}
     {{name}}: {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null as {{{dataTypeAlternate}}} | null{{/required}},
-    {{/itemsAreModels}}
+    {{/items.isModel}}
     {{/isArray}}
     {{#isModel}}
     {{name}}: {{#required}}{{{defaultValue}}}{{/required}}{{^required}}({{{defaultValue}}}, null as {{{dataTypeAlternate}}} | null){{/required}},
@@ -60,9 +60,11 @@ export const {{classname}}RecordEntityProps = {
     {{#isEntity}}
     {{name}}: {{#required}}"-1"{{/required}}{{^required}}null as string | null{{/required}},
     {{/isEntity}}
-    {{#itemsAreEntities}}
+    {{#isArray}}
+    {{#items.isEntity}}
     {{name}}: {{#required}}List<string>(){{/required}}{{^required}}null as List<string> | null{{/required}},
-    {{/itemsAreEntities}}
+    {{/items.isEntity}}
+    {{/isArray}}
 {{/vars}}
 };
 
@@ -83,9 +85,11 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
         {{#isModel}}
         {{^required}}if (apiObject.{{name}}) { {{/required}}{{#lambda.camelcase}}{{dataTypeAlternate}}{{/lambda.camelcase}}Utils.normalize(apiObject.{{name}});{{^required}} } {{/required}}
         {{/isModel}}
-        {{#itemsAreModels}}
-        {{^required}}if (apiObject.{{name}}) { {{/required}}{{#lambda.camelcase}}{{itemsDataType}}{{/lambda.camelcase}}Utils.normalizeArray(apiObject.{{name}});{{^required}} } {{/required}}
-        {{/itemsAreModels}}
+        {{#isArray}}
+        {{#items.isModel}}
+        {{^required}}if (apiObject.{{name}}) { {{/required}}{{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.normalizeArray(apiObject.{{name}});{{^required}} } {{/required}}
+        {{/items.isModel}}
+        {{/isArray}}
 {{/vars}}
 		return apiObject;
 	}
@@ -97,9 +101,11 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
             {{#isEntity}}
             {{#lambda.camelcase}}{{name}}{{/lambda.camelcase}}: {{#lambda.camelcase}}{{dataTypeAlternate}}{{/lambda.camelcase}}Utils.getSchema(),
             {{/isEntity}}
-            {{#itemsAreEntities}}
-            {{#lambda.camelcase}}{{name}}{{/lambda.camelcase}}: [{{#lambda.camelcase}}{{itemsDataType}}{{/lambda.camelcase}}Utils.getSchema()],
-            {{/itemsAreEntities}}
+            {{#isArray}}
+            {{#items.isEntity}}
+            {{#lambda.camelcase}}{{name}}{{/lambda.camelcase}}: [{{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.getSchema()],
+            {{/items.isEntity}}
+            {{/isArray}}
 {{/vars}}
 		});
 	}
@@ -113,15 +119,20 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
 		const normalizedApiObject = {{#lambda.camelcase}}{{dataTypeAlternate}}{{/lambda.camelcase}}Utils.normalize(apiObject.data);
 		return appFromJS(normalizedApiObject);
     {{/isModel}}
-    {{#itemsAreModels}}
+    {{#isArray}}
+    {{#items.isModel}}
 	    if (!apiObject.data) {return {{{defaultValue}}}; }
-		const normalizedApiObject = {{#lambda.camelcase}}{{itemsDataType}}{{/lambda.camelcase}}Utils.normalizeArray(apiObject.data);
+		const normalizedApiObject = {{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.normalizeArray(apiObject.data);
 		return appFromJS(normalizedApiObject);
-    {{/itemsAreModels}}
-    {{^isModel}}
-    {{^itemsAreModels}}
+    {{/items.isModel}}
+    {{^items.isModel}}
 	    return apiObject.data;
-    {{/itemsAreModels}}
+    {{/items.isModel}}
+    {{/isArray}}
+    {{^isModel}}
+    {{^isArray}}
+	    return apiObject.data;
+    {{/isArray}}
     {{/isModel}}
 	}
 
@@ -130,15 +141,21 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
 		if (!apiObject.data) {return {entities: {}, result: List<string>()}; }
 		return ApiRecordUtils.toNormalizedRecordEntities({{#lambda.camelcase}}{{dataTypeAlternate}}{{/lambda.camelcase}}Utils.normalizeArrayAsEntities([apiObject.data]), true);
     {{/isEntity}}
-    {{#itemsAreEntities}}
+    {{#isArray}}
+    {{#items.isEntity}}
 		if (!apiObject.data) {return {entities: {}, result: List<string>()}; }
-		return ApiRecordUtils.toNormalizedRecordEntities({{#lambda.camelcase}}{{itemsDataType}}{{/lambda.camelcase}}Utils.normalizeArrayAsEntities(apiObject.data), true);
-    {{/itemsAreEntities}}
-    {{^isEntity}}
-    {{^itemsAreEntities}}
+		return ApiRecordUtils.toNormalizedRecordEntities({{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.normalizeArrayAsEntities(apiObject.data), true);
+    {{/items.isEntity}}
+    {{^items.isEntity}}
 	    console.log("entities revival not supported on this response");
 		return {entities: {}, result: List<string>()};
-    {{/itemsAreEntities}}
+    {{/items.isEntity}}
+    {{/isArray}}
+    {{^isEntity}}
+    {{^isArray}}
+	    console.log("entities revival not supported on this response");
+		return {entities: {}, result: List<string>()};
+    {{/isArray}}
     {{/isEntity}}
 	}
 {{/vars.1}}

@@ -247,9 +247,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     op.returnTypeAlternate = cp.dataTypeAlternate;
                     op.returnTypeIsModel = cp.isModel;
                     op.returnTypeIsArray = cp.isArray;
-                    if (cp.itemsAreModels) {
+                    if (cp.isArray && cp.items.isModel) {
                         op.returnTypeSupportsEntities = true;
-                        op.returnBaseTypeAlternate = cp.itemsDataType;
+                        op.returnBaseTypeAlternate = cp.items.dataType + "Record";
                     } else if (cp.isModel) {
                         op.returnTypeSupportsEntities = true;
                     }
@@ -311,8 +311,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             for (CodegenProperty var : rootModel.vars) {
                 if (var.isModel && entityModelClassnames.indexOf(var.dataType) != -1) {
                     var.isEntity = true;
-                } else if (var.itemsAreModels && entityModelClassnames.indexOf(var.items.dataType) != -1) {
-                    var.itemsAreEntities = true;
+                } else if (var.isArray && var.items.isModel && entityModelClassnames.indexOf(var.items.dataType) != -1) {
+                    var.items.isEntity = true;
                 }
             }
         }
@@ -446,22 +446,17 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             parentIsEntity = true;
         }
 
-        var.itemsDataType = var.isArray ? var.items.dataType : null;
-        var.itemsAreModels = var.isArray && var.items.isModel;
-
         if (this.getSagasAndRecords()) {
             var.dataTypeAlternate = var.dataType;
             if (var.isArray) {
                 var.dataTypeAlternate = var.dataType.replace("Array<", "List<");
                 if (var.items.isModel) {
-                    var.itemsDataType = var.items.dataType + "Record";
-                    var.dataTypeAlternate = var.dataTypeAlternate.replace(var.items.dataType, var.itemsDataType);
+                    String itemsDataType = var.items.dataType + "Record";
+                    var.dataTypeAlternate = var.dataTypeAlternate.replace(var.items.dataType, itemsDataType);
                 } else if (var.items.isEnum) {
-                    var.itemsDataType = var.items.datatypeWithEnum;
-                    var.dataTypeAlternate = var.dataTypeAlternate.replace(var.items.dataType, var.itemsDataType);
+                    var.dataTypeAlternate = var.dataTypeAlternate.replace(var.items.dataType, var.items.datatypeWithEnum);
                 }
                 if (var.isUniqueId) {
-                    var.itemsDataType = "string";
                     var.dataTypeAlternate = var.dataTypeAlternate.replace("number", "string");
                 }
             } else if (var.isEnum) {
@@ -537,19 +532,15 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 param.dataTypeAlternate = param.dataType;
                 if (param.isArray) {
                     if (param.items.isModel) {
-                        param.itemsDataType = param.items.dataType + "Record";
+                        String itemsDataType = param.items.dataType + "Record";
                         param.dataTypeAlternate = param.dataType.replace("Array<", "List<");
-                        param.itemsAreModels = true;
-                        param.dataTypeAlternate = param.dataTypeAlternate.replace(param.items.dataType, param.itemsDataType);
+                        param.dataTypeAlternate = param.dataTypeAlternate.replace(param.items.dataType, itemsDataType);
                     } else if (param.items.isEnum) {
-                        param.itemsDataType = param.datatypeWithEnum.substring(param.datatypeWithEnum.indexOf("<") + 1, param.datatypeWithEnum.lastIndexOf(">"));
                         param.dataTypeAlternate = param.datatypeWithEnum.replace("Array<", "List<");
                     } else {
-                        param.itemsDataType = param.items.dataType;
                         param.dataTypeAlternate = param.dataType.replace("Array<", "List<");
                     }
                     if (param.isUniqueId) {
-                        param.itemsDataType = "string";
                         param.dataTypeAlternate = param.dataTypeAlternate.replace("number", "string");
                     }
                 } else if (param.isEnum) {

@@ -173,10 +173,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     // the undeclared properties. 
     public CodegenProperty items;
 
-    public String itemsDataType; // if isContainer == true, this is the dataType of the items else it is null. Used by typescript fetch only for now.
-    public boolean itemsAreModels; // true if items of container are 'isModel == true'
-    public boolean itemsAreEntities; // true if items of container are 'isEntity == true'
-
     public CodegenProperty additionalProperties;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<>();
@@ -714,9 +710,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", description='").append(description).append('\'');
         sb.append(", dataType='").append(dataType).append('\'');
         sb.append(", dataTypeAlternate='").append(dataTypeAlternate).append('\'');
-        sb.append(", itemsDataType='").append(itemsDataType).append('\'');
-        sb.append(", itemsAreModels='").append(itemsAreModels).append('\'');
-        sb.append(", itemsAreEntities='").append(itemsAreEntities).append('\'');
         sb.append(", datatypeWithEnum='").append(datatypeWithEnum).append('\'');
         sb.append(", dataFormat='").append(dataFormat).append('\'');
         sb.append(", name='").append(name).append('\'');
@@ -855,9 +848,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(description, that.description) &&
                 Objects.equals(dataType, that.dataType) &&
                 Objects.equals(dataTypeAlternate, that.dataTypeAlternate) &&
-                Objects.equals(itemsDataType, that.itemsDataType) &&
-                Objects.equals(itemsAreModels, that.itemsAreModels) &&
-                Objects.equals(itemsAreEntities, that.itemsAreEntities) &&
                 Objects.equals(datatypeWithEnum, that.datatypeWithEnum) &&
                 Objects.equals(dataFormat, that.dataFormat) &&
                 Objects.equals(name, that.name) &&
@@ -912,6 +902,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 items, mostInnerItems, additionalProperties, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
-                xmlNamespace, isXmlWrapped, dataTypeAlternate, itemsDataType, itemsAreModels, itemsAreEntities, isEntity, isUniqueId);
+                xmlNamespace, isXmlWrapped, dataTypeAlternate, isEntity, isUniqueId);
     }
 }
