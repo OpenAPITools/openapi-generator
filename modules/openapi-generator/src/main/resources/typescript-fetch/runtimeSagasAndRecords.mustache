@@ -70,6 +70,10 @@ export abstract class ApiRecordUtils<TAPI, TREC extends RecordOf<any>> {
 		return apiObject;
 	}
 
+	public toApiArray(records: List<TREC>): TAPI[] {
+		return records.map(record => this.toApi(record)).toArray();
+	}
+
 	public static toNormalizedRecordEntities(normalizedAsEntities: any, forArray: boolean) {
 		const entities = normalizedAsEntities.entities;
 		for (const entityKey of Object.keys(entities)) {
@@ -82,7 +86,8 @@ export abstract class ApiRecordUtils<TAPI, TREC extends RecordOf<any>> {
 
 export const allApiActionFailures: SagaActionDefinition<any>[] = [];
 
-export interface BasePayloadReturnValueApiAction {
+export interface BasePayloadApiAction {
+	toInlined?: boolean;
 	toEntities?: boolean;
 }
 
@@ -106,3 +111,5 @@ export function setApiCall(apiCallFc: <Ctx, Fn extends (this: Ctx, ...args: any[
 	console.log("init apiCall");
 	apiCall = apiCallFc;
 }
+
+export const normalizedEntities = createSagaAction<NormalizedRecordEntities>("normalizedEntities");

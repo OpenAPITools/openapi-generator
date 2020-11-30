@@ -154,6 +154,40 @@ paths:
             - 'write:pets'
             - 'read:pets'
       deprecated: true
+  /pet/findByIds:
+    get:
+      tags:
+        - pet
+      summary: Finds Pets by ids
+      description: 'Multiple ids can be provided with comma separated strings.'
+      operationId: findPetsByIds
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: Ids to filter by
+          required: true
+          type: array
+          x-isUniqueId: true
+          items:
+            type: number
+          collectionFormat: csv
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Pet'
+        '400':
+          description: Invalid tag value
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+      deprecated: true
   '/pet/{petId}':
     get:
       tags:
@@ -167,6 +201,7 @@ paths:
       parameters:
         - name: petId
           in: path
+          x-isUniqueId: true
           description: ID of pet to return
           required: true
           type: integer
@@ -196,6 +231,7 @@ paths:
       parameters:
         - name: petId
           in: path
+          x-isUniqueId: true
           description: ID of pet that needs to be updated
           required: true
           type: integer
@@ -232,6 +268,7 @@ paths:
           required: false
           type: string
         - name: petId
+          x-isUniqueId: true
           in: path
           description: Pet id to delete
           required: true
@@ -258,6 +295,7 @@ paths:
       parameters:
         - name: petId
           in: path
+          x-isUniqueId: true
           description: ID of pet to update
           required: true
           type: integer

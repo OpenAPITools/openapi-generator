@@ -192,7 +192,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         super.handleMethodResponse(operation, schemas, op, methodResponse, importMappings);
 
         if (this.getSagasAndRecords()) {
-            op.returnTypeAlternate = "void";
 
             Schema schema = null;
             if (schemas != null) {
@@ -206,6 +205,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 if (Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_META_DATA_RESPONSE))) {
                     if (cm.vars.size() == 1 && "meta".equals(cm.vars.get(0).name)) {
                         op.returnTypeIsMetaOnlyResponse = true;
+                        op.returnType = null; // changing the return so that it's as if it was void.
                     }
                     if (cm.vars.size() == 2 && "data".equals(cm.vars.get(1).name)) {
                         op.returnTypeIsMetaDataResponse = true;
@@ -223,8 +223,18 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     this.processCodegenProperty(cp, "", null);
                 }
 
+                op.returnBaseTypeAlternate = null;
                 if (cp != null) {
                     op.returnTypeAlternate = cp.dataTypeAlternate;
+                    op.returnTypeIsModel = cp.isModel;
+                    op.returnTypeIsListContainer = cp.isListContainer;
+                    if (cp.itemsAreModels) {
+                        op.returnTypeSupportsEntities = true;
+                        op.returnBaseTypeAlternate = cp.itemsDataType;
+                    } else if (cp.isModel) {
+                        op.returnTypeSupportsEntities = true;
+                    }
+
                 }
             }
         }
@@ -325,6 +335,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         if (operations.size() > 0 && !addedApiIndex) {
             addedApiIndex = true;
             supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
+            if (this.getSagasAndRecords()) {
+                supportingFiles.add(new SupportingFile("sagaApiManager.mustache", apiPackage().replace('.', File.separatorChar), "SagaApiManager.ts"));
+            }
         }
 
         // Add supporting file only if we plan to generate files in /models
@@ -359,7 +372,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             boolean parentIsEntity = this.processCodegenProperty(var, cm.classname, xEntityId);
             if (parentIsEntity) {
                 cm.isEntity = true;
-            };
+            }
+            ;
         }
 
         if (Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_META_DATA_RESPONSE))) {
@@ -426,6 +440,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 } else if (var.items.isEnum) {
                     var.itemsDataType = var.items.datatypeWithEnum;
                     var.dataTypeAlternate = var.dataTypeAlternate.replace(var.items.dataType, var.itemsDataType);
+                }
+                if (var.isUniqueId) {
+                    var.itemsDataType = "string";
+                    var.dataTypeAlternate = var.dataTypeAlternate.replace("number", "string");
                 }
             } else if (var.isEnum) {
                 var.dataTypeAlternate = var.datatypeWithEnum;
@@ -500,12 +518,20 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 param.dataTypeAlternate = param.dataType;
                 if (param.isListContainer) {
                     if (param.items.isModel) {
-                        param.dataTypeAlternate = param.dataType.replace("Array<", "List<");
                         param.itemsDataType = param.items.dataType + "Record";
+                        param.dataTypeAlternate = param.dataType.replace("Array<", "List<");
+                        param.itemsAreModels = true;
                         param.dataTypeAlternate = param.dataTypeAlternate.replace(param.items.dataType, param.itemsDataType);
                     } else if (param.items.isEnum) {
                         param.itemsDataType = param.datatypeWithEnum.substring(param.datatypeWithEnum.indexOf("<") + 1, param.datatypeWithEnum.lastIndexOf(">"));
                         param.dataTypeAlternate = param.datatypeWithEnum.replace("Array<", "List<");
+                    } else {
+                        param.itemsDataType = param.items.dataType;
+                        param.dataTypeAlternate = param.dataType.replace("Array<", "List<");
+                    }
+                    if (param.isUniqueId) {
+                        param.itemsDataType = "string";
+                        param.dataTypeAlternate = param.dataTypeAlternate.replace("number", "string");
                     }
                 } else if (param.isEnum) {
                     param.dataTypeAlternate = param.datatypeWithEnum;

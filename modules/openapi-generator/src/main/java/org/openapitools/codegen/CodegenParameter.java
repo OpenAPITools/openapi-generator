@@ -27,7 +27,7 @@ import java.util.*;
 public class CodegenParameter implements IJsonSchemaValidationProperties {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, hasMore, isContainer,
-            secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode;
+            secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, itemsAreModels;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat, contentType,
             collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style;
 
@@ -191,6 +191,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.isListContainer = this.isListContainer;
         output.isMapContainer = this.isMapContainer;
         output.isExplode = this.isExplode;
+        output.itemsAreModels = this.itemsAreModels;
         output.style = this.style;
         output.contentType = this.contentType;
         output.dataTypeAlternate = this.dataTypeAlternate;
@@ -201,7 +202,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
 
     @Override
     public int hashCode() {
-        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, hasMore, isContainer, secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isAnyType, isListContainer, isMapContainer, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, isUniqueId, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, dataTypeAlternate, itemsDataType, multipleOf);
+        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, hasMore, isContainer, secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, itemsAreModels, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isAnyType, isListContainer, isMapContainer, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, isUniqueId, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, dataTypeAlternate, itemsDataType, multipleOf);
     }
 
     @Override
@@ -222,6 +223,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 isPrimitiveType == that.isPrimitiveType &&
                 isModel == that.isModel &&
                 isExplode == that.isExplode &&
+                itemsAreModels == that.itemsAreModels &&
                 isString == that.isString &&
                 isNumeric == that.isNumeric &&
                 isInteger == that.isInteger &&
@@ -300,6 +302,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", isPrimitiveType=").append(isPrimitiveType);
         sb.append(", isModel=").append(isModel);
         sb.append(", isExplode=").append(isExplode);
+        sb.append(", itemsAreModels=").append(itemsAreModels);
         sb.append(", baseName='").append(baseName).append('\'');
         sb.append(", paramName='").append(paramName).append('\'');
         sb.append(", dataType='").append(dataType).append('\'');

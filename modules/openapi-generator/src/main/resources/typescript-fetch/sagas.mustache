@@ -2,14 +2,18 @@
 /* eslint-disable */
 {{>licenseInfo}}
 
+import {Api} from './';
 import {List} from 'immutable';
 import {all, fork, put, takeLatest} from "redux-saga/effects";
-import {apiCall, createSagaAction as originalCreateSagaAction, BasePayloadReturnValueApiAction, NormalizedRecordEntities} from "../runtimeSagasAndRecords";
+import {apiCall, createSagaAction as originalCreateSagaAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
+import {Action} from "redux-ts-simple";
 
 {{#imports.0}}
 import {
     {{#imports}}
+    {{className}},
     {{className}}Record,
+    {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}RecordUtils,
     {{/imports}}
 } from '../models';
 {{/imports.0}}
@@ -30,7 +34,7 @@ import {
 {{/hasEnums}}
 
 
-const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_{{className}}"});
+const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}"});
 
 export const {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}SagaMap = new Map<string, () => Generator<any, any, any>>([
 {{#operations}}
@@ -49,6 +53,15 @@ export function *{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}AllSagas
 {{#operation}}
 //region {{nickname}}
 
+{{#returnTypeSupportsEntities}}
+export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}} extends {{#allParams.0}}Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request, {{/allParams.0}}BasePayloadApiAction {
+}
+{{/returnTypeSupportsEntities}}
+{{^returnTypeSupportsEntities}}
+export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}{{#allParams.0}} extends Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request{{/allParams.0}} {
+}
+{{/returnTypeSupportsEntities}}
+
 {{#allParams.0}}
 export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request {
 {{#allParams}}
@@ -57,38 +70,12 @@ export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{
 }
 {{/allParams.0}}
 
-{{#returnType}}
-{{#returnTypeIsMetaDataResponse}}
-export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}} extends {{#allParams.0}}Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request, {{/allParams.0}}BasePayloadReturnValueApiAction {
-}
-{{/returnTypeIsMetaDataResponse}}
-{{#returnTypeIsMetaOnlyResponse}}
-export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}} extends {{#allParams.0}}Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request{{/allParams.0}} {
-}
-{{/returnTypeIsMetaOnlyResponse}}
-{{^returnTypeIsMetaDataResponse}}
-{{^returnTypeIsMetaOnlyResponse}}
-export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}} extends {{#allParams.0}}Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request, {{/allParams.0}}BasePayloadReturnValueApiAction {
-}
-{{/returnTypeIsMetaOnlyResponse}}
-{{/returnTypeIsMetaDataResponse}}
-{{/returnType}}
-{{^returnType}}
-export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}} extends {{#allParams.0}}Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request{{/allParams.0}} {
-}
-{{/returnType}}
-
-export const {{nickname}}Request = createSagaAction<Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request>("{{nickname}}Request");
+export const {{nickname}}Request = createSagaAction<{{#allParams.0}}Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request{{/allParams.0}}{{^allParams.0}}void{{/allParams.0}}>("{{nickname}}Request");
 {{#returnType}}
 export const {{nickname}}Success = createSagaAction<{{{returnTypeAlternate}}}>("{{nickname}}Success");
-{{#returnTypeIsMetaDataResponse}}
+{{#returnTypeSupportsEntities}}
 export const {{nickname}}Success_Entities = createSagaAction<NormalizedRecordEntities>("{{nickname}}Success_Entities");
-{{/returnTypeIsMetaDataResponse}}
-{{^returnTypeIsMetaDataResponse}}
-{{^returnTypeIsMetaOnlyResponse}}
-export const {{nickname}}Success_Entities = createSagaAction<NormalizedRecordEntities>("{{nickname}}Success_Entities");
-{{/returnTypeIsMetaOnlyResponse}}
-{{/returnTypeIsMetaDataResponse}}
+{{/returnTypeSupportsEntities}}
 {{/returnType}}
 {{^returnType}}
 export const {{nickname}}Success = createSagaAction<void>("{{nickname}}Success");
@@ -100,48 +87,142 @@ export const {{nickname}} = createSagaAction<Payload{{#lambda.titlecase}}{{#lamb
 export function *{{nickname}}Saga() {
 	yield takeLatest({{nickname}}, {{nickname}}SagaImp);
 }
+
+export function *{{nickname}}SagaImp(action: Action<Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}>) {
+	try {
+{{#returnTypeSupportsEntities}}
+		const {toEntities, toInlined = !toEntities, ...requestPayload} = action.payload;
+{{/returnTypeSupportsEntities}}
+{{#allParams.0}}
+        const {
+{{#allParams}}
+            {{paramName}},
+{{/allParams}}
+   		} = action.payload;
+{{/allParams.0}}
+
+		yield put({{nickname}}Request({{#allParams.0}}{{#returnTypeSupportsEntities}}requestPayload{{/returnTypeSupportsEntities}}{{^returnTypeSupportsEntities}}action.payload{{/returnTypeSupportsEntities}}{{/allParams.0}}));
+
+		const response{{#returnType}}: Required<{{{returnType}}}>{{/returnType}} = yield apiCall(Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}, Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.{{nickname}},
+{{#allParams.0}}
+{{#allParams}}
+{{#isUniqueId}}
+{{#isListContainer}}
+            {{paramName}}.map(p => parseFloat(p)).toArray(),
+{{/isListContainer}}
+{{^isListContainer}}
+            parseFloat({{paramName}}),
+{{/isListContainer}}
+{{/isUniqueId}}
+{{^isUniqueId}}
+{{#isListContainer}}
+{{#itemsAreModels}}
+            {{#lambda.camelcase}}{{itemsDataType}}{{/lambda.camelcase}}Utils.toApiArray({{paramName}}),
+{{/itemsAreModels}}
+{{^itemsAreModels}}
+            {{paramName}}.toJS(),
+{{/itemsAreModels}}
+{{/isListContainer}}
+{{#isModel}}
+            {{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.toApi({{paramName}}),
+{{/isModel}}
+{{^isListContainer}}
+{{^isModel}}
+            {{paramName}},
+{{/isModel}}
+{{/isListContainer}}
+{{/isUniqueId}}
+{{/allParams}}
+{{/allParams.0}}
+		);
+
+{{#returnType}}
+		let successReturnValue: any = undefined;
+{{/returnType}}
+{{#returnTypeSupportsEntities}}
+		if (toEntities) {
+{{#returnTypeIsMetaDataResponse}}
+			successReturnValue = {{#lambda.camelcase}}{{{returnType}}}{{/lambda.camelcase}}RecordUtils.fromApiAsEntities_data(response);
+{{/returnTypeIsMetaDataResponse}}
+{{^returnTypeIsMetaOnlyResponse}}
+{{^returnTypeIsMetaDataResponse}}
+{{#returnTypeIsListContainer}}
+{{#returnTypeAlternate}}
+            successReturnValue = {{#lambda.camelcase}}{{returnBaseTypeAlternate}}{{/lambda.camelcase}}Utils.fromApiArrayAsEntities(response);
+{{/returnTypeAlternate}}
+{{/returnTypeIsListContainer}}
+{{#returnTypeIsModel}}
+            successReturnValue = {{#lambda.camelcase}}{{returnTypeAlternate}}{{/lambda.camelcase}}Utils.fromApiArrayAsEntities([response]);
+{{/returnTypeIsModel}}
+{{/returnTypeIsMetaDataResponse}}
+{{/returnTypeIsMetaOnlyResponse}}
+			yield put(normalizedEntities(successReturnValue));
+			yield put({{nickname}}Success_Entities(successReturnValue));
+		}
+		if (toInlined) {
+{{/returnTypeSupportsEntities}}
+{{#returnType}}
+{{#returnTypeIsMetaDataResponse}}
+    		successReturnValue = {{#lambda.camelcase}}{{{returnType}}}{{/lambda.camelcase}}RecordUtils.fromApi_data(response);
+	    	yield put({{nickname}}Success(successReturnValue));
+{{/returnTypeIsMetaDataResponse}}
+{{^returnTypeIsMetaOnlyResponse}}
+{{^returnTypeIsMetaDataResponse}}
+{{#returnTypeIsListContainer}}
+{{#returnTypeAlternate}}
+            successReturnValue = {{#lambda.camelcase}}{{returnBaseTypeAlternate}}{{/lambda.camelcase}}Utils.fromApiArray(response);
+	    	yield put({{nickname}}Success(successReturnValue));
+{{/returnTypeAlternate}}
+{{/returnTypeIsListContainer}}
+{{#returnTypeIsModel}}
+            successReturnValue = {{#lambda.camelcase}}{{returnTypeAlternate}}{{/lambda.camelcase}}Utils.fromApi(response);
+		    yield put({{nickname}}Success(successReturnValue));
+{{/returnTypeIsModel}}
+{{^returnTypeIsListContainer}}
+{{^returnTypeIsModel}}
+		    yield put({{nickname}}Success(response));
+{{/returnTypeIsModel}}
+{{/returnTypeIsListContainer}}
+{{/returnTypeIsMetaDataResponse}}
+{{/returnTypeIsMetaOnlyResponse}}
+{{/returnType}}
+{{^returnType}}
+		    yield put({{nickname}}Success());
+{{/returnType}}
+{{#returnTypeSupportsEntities}}
+		}
+{{/returnTypeSupportsEntities}}
+
+{{#returnType}}
+{{#returnTypeIsMetaDataResponse}}
+		return successReturnValue;
+{{/returnTypeIsMetaDataResponse}}
+{{^returnTypeIsMetaOnlyResponse}}
+{{^returnTypeIsMetaDataResponse}}
+{{#returnTypeIsListContainer}}
+{{#returnTypeAlternate}}
+        return successReturnValue;
+{{/returnTypeAlternate}}
+{{/returnTypeIsListContainer}}
+{{#returnTypeIsModel}}
+        return successReturnValue;
+{{/returnTypeIsModel}}
+{{^returnTypeIsListContainer}}
+{{^returnTypeIsModel}}
+		return response;
+{{/returnTypeIsModel}}
+{{/returnTypeIsListContainer}}
+{{/returnTypeIsMetaDataResponse}}
+{{/returnTypeIsMetaOnlyResponse}}
+{{/returnType}}
+{{^returnType}}
+        return undefined;
+{{/returnType}}
+	} catch (error) {
+		yield put({{nickname}}Failure(error));
+		return error;
+	}
+}
 //endregion
 {{/operation}}
 {{/operations}}
-
-/*
-
-export interface PayloadGetAffiliateBrandsRequest {
-	affiliateId: string;
-	wantedStatuses?: string[];
-	brandCode?: string;
-	isLibrary?: boolean;
-}
-
-export interface PayloadGetAffiliateBrandsSuccess {
-	data: List<BrandListingInfoRecord>;
-}
-
-export const getAffiliateBrands = createSagaAction<PayloadGetAffiliateBrands>("{{nickname}}");
-
-export const getAffiliateBrandsRequest = createSagaAction<PayloadGetAffiliateBrandsRequest>("getAffiliateBrandsRequest");
-export const getAffiliateBrandsSuccess = createSagaAction<PayloadGetAffiliateBrandsSuccess>("getAffiliateBrandsSuccess");
-export const getAffiliateBrandsSuccess_Entities = createSagaAction<NormalizedRecordEntities>("getAffiliateBrandsSuccess_Entities");
-export const getAffiliateBrandsFailure = createSagaAction<any>("getAffiliateBrandsFailure");
-
-export function *getAffiliateBrandsSaga() {
-	yield takeLatest(publishConfig, publishConfigSagaImp);
-}
-
-export function *getAffiliateBrandsSagaImp(action: Action<PayloadGetAffiliateBrands>) {
-	try {
-		const {toEntities, affiliateId, wantedStatuses, brandCode, isLibrary} = action.payload;
-		yield put(getAffiliateBrandsRequest());
-		const response: Required<GetBrandsResponse> = yield apiCall(Api.affiliateAPI, Api.affiliateAPI.getAffiliateBrands, parseFloat(affiliateId), wantedStatuses, brandCode, isLibrary);
-		if (toEntities) {
-			const normalizeDataEntities = brandListingInfoRecordUtils.fromApiArrayAsEntities(response.data);
-			yield put(normalizedEntities(normalizeDataEntities));
-			yield put(getAffiliateBrandsSuccess_Entities(normalizeDataEntities));
-		} else {
-			yield put(getAffiliateBrandsSuccess({data: brandListingInfoRecordUtils.fromApiArray(response.data)}));
-		}
-	} catch (error) {
-		yield put(getAffiliateBrandsFailure(error));
-	}
-}
-*/

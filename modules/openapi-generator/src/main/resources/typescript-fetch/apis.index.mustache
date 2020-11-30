@@ -1,7 +1,13 @@
+{{#useSagaAndRecords}}
+export * from './SagaApiManager'
+{{/useSagaAndRecords}}
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
 export * from './{{ classFilename }}';
+{{#useSagaAndRecords}}
+export * from './{{{ classFilename }}}Sagas';
+{{/useSagaAndRecords}}
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
