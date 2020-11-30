@@ -7,13 +7,14 @@
 size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp);
 
 apiClient_t *apiClient_create() {
-    curl_global_init(CURL_GLOBAL_ALL);
     apiClient_t *apiClient = malloc(sizeof(apiClient_t));
     apiClient->basePath = strdup("http://petstore.swagger.io/v2");
     apiClient->sslConfig = NULL;
     apiClient->dataReceived = NULL;
     apiClient->dataReceivedLen = 0;
     apiClient->data_callback_func = NULL;
+    apiClient->progress_func = NULL;
+    apiClient->progress_data = NULL;
     apiClient->response_code = 0;
     apiClient->apiKeys_api_key = NULL;
     apiClient->accessToken = NULL;
@@ -25,7 +26,6 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
 , sslConfig_t *sslConfig
 , list_t *apiKeys_api_key
 ) {
-    curl_global_init(CURL_GLOBAL_ALL);
     apiClient_t *apiClient = malloc(sizeof(apiClient_t));
     if(basePath){
         apiClient->basePath = strdup(basePath);
@@ -42,6 +42,8 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
     apiClient->dataReceived = NULL;
     apiClient->dataReceivedLen = 0;
     apiClient->data_callback_func = NULL;
+    apiClient->progress_func = NULL;
+    apiClient->progress_data = NULL;
     apiClient->response_code = 0;
     if(apiKeys_api_key!= NULL) {
         apiClient->apiKeys_api_key = list_create();
@@ -64,6 +66,8 @@ void apiClient_free(apiClient_t *apiClient) {
         free(apiClient->basePath);
     }
     apiClient->data_callback_func = NULL;
+    apiClient->progress_func = NULL;
+    apiClient->progress_data = NULL;
     if(apiClient->apiKeys_api_key) {
         listEntry_t *listEntry = NULL;
         list_ForEach(listEntry, apiClient->apiKeys_api_key) {
@@ -82,7 +86,6 @@ void apiClient_free(apiClient_t *apiClient) {
         free(apiClient->accessToken);
     }
     free(apiClient);
-    curl_global_cleanup();
 }
 
 sslConfig_t *sslConfig_create(const char *clientCertFile, const char *clientKeyFile, const char *CACertFile, int insecureSkipTlsVerify) {
@@ -391,6 +394,14 @@ void apiClient_invoke(apiClient_t    *apiClient,
             }
         }
 
+        if (apiClient->progress_func != NULL) {
+            curl_easy_setopt(handle, CURLOPT_XFERINFOFUNCTION, apiClient->progress_func);
+            if (apiClient->progress_data != NULL) {
+                curl_easy_setopt(handle, CURLOPT_XFERINFODATA, apiClient->progress_data);
+            }
+            curl_easy_setopt(handle, CURLOPT_NOPROGRESS, 0L);
+        }
+
         // this would only be generated for apiKey authentication
         if (apiClient->apiKeys_api_key != NULL)
         {
@@ -526,3 +537,10 @@ char *strReplace(char *orig, char *rep, char *with) {
     return result;
 }
 
+void apiClient_setupGlobalEnv() {
+    curl_global_init(CURL_GLOBAL_ALL);
+}
+
+void apiClient_unsetupGlobalEnv() {
+    curl_global_cleanup();
+}

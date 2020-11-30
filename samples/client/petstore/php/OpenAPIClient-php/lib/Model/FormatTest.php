@@ -39,10 +39,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
-class FormatTest implements ModelInterface, ArrayAccess
+class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -63,6 +66,7 @@ class FormatTest implements ModelInterface, ArrayAccess
         'number' => 'float',
         'float' => 'float',
         'double' => 'double',
+        'decimal' => 'Decimal',
         'string' => 'string',
         'byte' => 'string',
         'binary' => '\SplFileObject',
@@ -78,6 +82,8 @@ class FormatTest implements ModelInterface, ArrayAccess
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'integer' => null,
@@ -86,6 +92,7 @@ class FormatTest implements ModelInterface, ArrayAccess
         'number' => null,
         'float' => 'float',
         'double' => 'double',
+        'decimal' => 'number',
         'string' => null,
         'byte' => 'byte',
         'binary' => 'binary',
@@ -130,6 +137,7 @@ class FormatTest implements ModelInterface, ArrayAccess
         'number' => 'number',
         'float' => 'float',
         'double' => 'double',
+        'decimal' => 'decimal',
         'string' => 'string',
         'byte' => 'byte',
         'binary' => 'binary',
@@ -153,6 +161,7 @@ class FormatTest implements ModelInterface, ArrayAccess
         'number' => 'setNumber',
         'float' => 'setFloat',
         'double' => 'setDouble',
+        'decimal' => 'setDecimal',
         'string' => 'setString',
         'byte' => 'setByte',
         'binary' => 'setBinary',
@@ -176,6 +185,7 @@ class FormatTest implements ModelInterface, ArrayAccess
         'number' => 'getNumber',
         'float' => 'getFloat',
         'double' => 'getDouble',
+        'decimal' => 'getDecimal',
         'string' => 'getString',
         'byte' => 'getByte',
         'binary' => 'getBinary',
@@ -247,21 +257,22 @@ class FormatTest implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['integer'] = isset($data['integer']) ? $data['integer'] : null;
-        $this->container['int32'] = isset($data['int32']) ? $data['int32'] : null;
-        $this->container['int64'] = isset($data['int64']) ? $data['int64'] : null;
-        $this->container['number'] = isset($data['number']) ? $data['number'] : null;
-        $this->container['float'] = isset($data['float']) ? $data['float'] : null;
-        $this->container['double'] = isset($data['double']) ? $data['double'] : null;
-        $this->container['string'] = isset($data['string']) ? $data['string'] : null;
-        $this->container['byte'] = isset($data['byte']) ? $data['byte'] : null;
-        $this->container['binary'] = isset($data['binary']) ? $data['binary'] : null;
-        $this->container['date'] = isset($data['date']) ? $data['date'] : null;
-        $this->container['date_time'] = isset($data['date_time']) ? $data['date_time'] : null;
-        $this->container['uuid'] = isset($data['uuid']) ? $data['uuid'] : null;
-        $this->container['password'] = isset($data['password']) ? $data['password'] : null;
-        $this->container['pattern_with_digits'] = isset($data['pattern_with_digits']) ? $data['pattern_with_digits'] : null;
-        $this->container['pattern_with_digits_and_delimiter'] = isset($data['pattern_with_digits_and_delimiter']) ? $data['pattern_with_digits_and_delimiter'] : null;
+        $this->container['integer'] = $data['integer'] ?? null;
+        $this->container['int32'] = $data['int32'] ?? null;
+        $this->container['int64'] = $data['int64'] ?? null;
+        $this->container['number'] = $data['number'] ?? null;
+        $this->container['float'] = $data['float'] ?? null;
+        $this->container['double'] = $data['double'] ?? null;
+        $this->container['decimal'] = $data['decimal'] ?? null;
+        $this->container['string'] = $data['string'] ?? null;
+        $this->container['byte'] = $data['byte'] ?? null;
+        $this->container['binary'] = $data['binary'] ?? null;
+        $this->container['date'] = $data['date'] ?? null;
+        $this->container['date_time'] = $data['date_time'] ?? null;
+        $this->container['uuid'] = $data['uuid'] ?? null;
+        $this->container['password'] = $data['password'] ?? null;
+        $this->container['pattern_with_digits'] = $data['pattern_with_digits'] ?? null;
+        $this->container['pattern_with_digits_and_delimiter'] = $data['pattern_with_digits_and_delimiter'] ?? null;
     }
 
     /**
@@ -375,7 +386,7 @@ class FormatTest implements ModelInterface, ArrayAccess
      *
      * @param int|null $integer integer
      *
-     * @return $this
+     * @return self
      */
     public function setInteger($integer)
     {
@@ -407,7 +418,7 @@ class FormatTest implements ModelInterface, ArrayAccess
      *
      * @param int|null $int32 int32
      *
-     * @return $this
+     * @return self
      */
     public function setInt32($int32)
     {
@@ -439,7 +450,7 @@ class FormatTest implements ModelInterface, ArrayAccess
      *
      * @param int|null $int64 int64
      *
-     * @return $this
+     * @return self
      */
     public function setInt64($int64)
     {
@@ -463,7 +474,7 @@ class FormatTest implements ModelInterface, ArrayAccess
      *
      * @param float $number number
      *
-     * @return $this
+     * @return self
      */
     public function setNumber($number)
     {
@@ -495,7 +506,7 @@ class FormatTest implements ModelInterface, ArrayAccess
      *
      * @param float|null $float float
      *
-     * @return $this
+     * @return self
      */
     public function setFloat($float)
     {
@@ -527,7 +538,7 @@ class FormatTest implements ModelInterface, ArrayAccess
      *
      * @param double|null $double double
      *
-     * @return $this
+     * @return self
      */
     public function setDouble($double)
     {
@@ -540,6 +551,30 @@ class FormatTest implements ModelInterface, ArrayAccess
         }
 
         $this->container['double'] = $double;
+
+        return $this;
+    }
+
+    /**
+     * Gets decimal
+     *
+     * @return Decimal|null
+     */
+    public function getDecimal()
+    {
+        return $this->container['decimal'];
+    }
+
+    /**
+     * Sets decimal
+     *
+     * @param Decimal|null $decimal decimal
+     *
+     * @return self
+     */
+    public function setDecimal($decimal)
+    {
+        $this->container['decimal'] = $decimal;
 
         return $this;
     }
@@ -559,7 +594,7 @@ class FormatTest implements ModelInterface, ArrayAccess
      *
      * @param string|null $string string
      *
-     * @return $this
+     * @return self
      */
     public function setString($string)
     {
@@ -588,7 +623,7 @@ class FormatTest implements ModelInterface, ArrayAccess
      *
      * @param string $byte byte
      *
-     * @return $this
+     * @return self
      */
     public function setByte($byte)
     {
@@ -612,7 +647,7 @@ class FormatTest implements ModelInterface, ArrayAccess
      *
      * @param \SplFileObject|null $binary binary
      *
-     * @return $this
+     * @return self
      */
     public function setBinary($binary)
     {
@@ -636,7 +671,7 @@ class FormatTest implements ModelInterface, ArrayAccess
      *
      * @param \DateTime $date date
      *
-     * @return $this
+     * @return self
      */
     public function setDate($date)
     {
@@ -660,7 +695,7 @@ class FormatTest implements ModelInterface, ArrayAccess
      *
      * @param \DateTime|null $date_time date_time
      *
-     * @return $this
+     * @return self
      */
     public function setDateTime($date_time)
     {
@@ -684,7 +719,7 @@ class FormatTest implements ModelInterface, ArrayAccess
      *
      * @param string|null $uuid uuid
      *
-     * @return $this
+     * @return self
      */
     public function setUuid($uuid)
     {
@@ -708,7 +743,7 @@ class FormatTest implements ModelInterface, ArrayAccess
      *
      * @param string $password password
      *
-     * @return $this
+     * @return self
      */
     public function setPassword($password)
     {
@@ -739,7 +774,7 @@ class FormatTest implements ModelInterface, ArrayAccess
      *
      * @param string|null $pattern_with_digits A string that is a 10 digit number. Can have leading zeros.
      *
-     * @return $this
+     * @return self
      */
     public function setPatternWithDigits($pattern_with_digits)
     {
@@ -768,7 +803,7 @@ class FormatTest implements ModelInterface, ArrayAccess
      *
      * @param string|null $pattern_with_digits_and_delimiter A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
      *
-     * @return $this
+     * @return self
      */
     public function setPatternWithDigitsAndDelimiter($pattern_with_digits_and_delimiter)
     {
@@ -798,18 +833,18 @@ class FormatTest implements ModelInterface, ArrayAccess
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return $this->container[$offset] ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */
@@ -832,6 +867,18 @@ class FormatTest implements ModelInterface, ArrayAccess
     public function offsetUnset($offset)
     {
         unset($this->container[$offset]);
+    }
+
+    /**
+     * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
+     *
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
+     */
+    public function jsonSerialize()
+    {
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**

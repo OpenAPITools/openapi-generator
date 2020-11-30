@@ -3,6 +3,8 @@ title: Config Options for ruby
 sidebar_label: ruby
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
@@ -46,13 +48,13 @@ sidebar_label: ruby
 <li>Array</li>
 <li>Boolean</li>
 <li>Date</li>
-<li>DateTime</li>
 <li>File</li>
 <li>Float</li>
 <li>Hash</li>
 <li>Integer</li>
 <li>Object</li>
 <li>String</li>
+<li>Time</li>
 <li>array</li>
 <li>int</li>
 <li>map</li>

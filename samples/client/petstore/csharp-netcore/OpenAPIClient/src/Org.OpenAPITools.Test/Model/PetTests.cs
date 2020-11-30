@@ -182,6 +182,22 @@ namespace Org.OpenAPITools.Test
             Assert.False(p1.Equals(p2));
         }
 
+
+        /// <summary>
+        /// Test Pet deserialization
+        /// </summary>
+        [Fact]
+        public void TestDeserialization()
+        {
+            // properly deserialized, no exception
+            Pet p2 = JsonConvert.DeserializeObject<Pet>("{\n  \"name\": \"csharp test 2\",\n  \"photoUrls\": [\"http://petstore.com/csharp_test\", \"http://petstore.com/csharp_test2\"]\n}");
+            // comment out below as the result (json string) is OS dependent.
+            //Assert.Equal("{\n  \"name\": \"csharp test 2\",\n  \"photoUrls\": [\n    \"http://petstore.com/csharp_test\",\n    \"http://petstore.com/csharp_test2\"\n  ]\n}", p2.ToJson());
+
+            // Missing `name` to cause exceptions in deserialization
+            Assert.Throws<Newtonsoft.Json.JsonSerializationException>(() => JsonConvert.DeserializeObject<Pet>("{\n  \"Something\": \"csharp test 2\",\n  \"photoUrls\": [\"http://petstore.com/csharp_test\", \"http://petstore.com/csharp_test2\"]\n}"));
+        }
+
     }
 
 }

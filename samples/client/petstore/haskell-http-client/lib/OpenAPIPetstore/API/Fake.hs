@@ -234,7 +234,7 @@ testBodyWithQueryParams
 testBodyWithQueryParams body (Query query) =
   _mkRequest "PUT" ["/fake/body-with-query-params"]
     `setBodyParam` body
-    `setQuery` toQuery ("query", Just query)
+    `addQuery` toQuery ("query", Just query)
 
 data TestBodyWithQueryParams 
 instance HasBodyParam TestBodyWithQueryParams User 
@@ -385,32 +385,32 @@ instance HasOptionalParam TestEnumParameters EnumFormString where
 -- | /Optional Param/ "enum_header_string_array" - Header parameter enum test (string array)
 instance HasOptionalParam TestEnumParameters EnumHeaderStringArray where
   applyOptionalParam req (EnumHeaderStringArray xs) =
-    req `setHeader` toHeaderColl CommaSeparated ("enum_header_string_array", xs)
+    req `addHeader` toHeaderColl CommaSeparated ("enum_header_string_array", xs)
 
 -- | /Optional Param/ "enum_header_string" - Header parameter enum test (string)
 instance HasOptionalParam TestEnumParameters EnumHeaderString where
   applyOptionalParam req (EnumHeaderString xs) =
-    req `setHeader` toHeader ("enum_header_string", xs)
+    req `addHeader` toHeader ("enum_header_string", xs)
 
 -- | /Optional Param/ "enum_query_string_array" - Query parameter enum test (string array)
 instance HasOptionalParam TestEnumParameters EnumQueryStringArray where
   applyOptionalParam req (EnumQueryStringArray xs) =
-    req `setQuery` toQueryColl CommaSeparated ("enum_query_string_array", Just xs)
+    req `addQuery` toQueryColl CommaSeparated ("enum_query_string_array", Just xs)
 
 -- | /Optional Param/ "enum_query_string" - Query parameter enum test (string)
 instance HasOptionalParam TestEnumParameters EnumQueryString where
   applyOptionalParam req (EnumQueryString xs) =
-    req `setQuery` toQuery ("enum_query_string", Just xs)
+    req `addQuery` toQuery ("enum_query_string", Just xs)
 
 -- | /Optional Param/ "enum_query_integer" - Query parameter enum test (double)
 instance HasOptionalParam TestEnumParameters EnumQueryInteger where
   applyOptionalParam req (EnumQueryInteger xs) =
-    req `setQuery` toQuery ("enum_query_integer", Just xs)
+    req `addQuery` toQuery ("enum_query_integer", Just xs)
 
 -- | /Optional Param/ "enum_query_double" - Query parameter enum test (double)
 instance HasOptionalParam TestEnumParameters EnumQueryDouble where
   applyOptionalParam req (EnumQueryDouble xs) =
-    req `setQuery` toQuery ("enum_query_double", Just xs)
+    req `addQuery` toQuery ("enum_query_double", Just xs)
 
 -- | @application/x-www-form-urlencoded@
 instance Consumes TestEnumParameters MimeFormUrlEncoded
@@ -433,26 +433,26 @@ testGroupParameters
   -> OpenAPIPetstoreRequest TestGroupParameters MimeNoContent NoContent MimeNoContent
 testGroupParameters (RequiredStringGroup requiredStringGroup) (RequiredBooleanGroup requiredBooleanGroup) (RequiredInt64Group requiredInt64Group) =
   _mkRequest "DELETE" ["/fake"]
-    `setQuery` toQuery ("required_string_group", Just requiredStringGroup)
-    `setHeader` toHeader ("required_boolean_group", requiredBooleanGroup)
-    `setQuery` toQuery ("required_int64_group", Just requiredInt64Group)
+    `addQuery` toQuery ("required_string_group", Just requiredStringGroup)
+    `addHeader` toHeader ("required_boolean_group", requiredBooleanGroup)
+    `addQuery` toQuery ("required_int64_group", Just requiredInt64Group)
 
 data TestGroupParameters  
 
 -- | /Optional Param/ "string_group" - String in group parameters
 instance HasOptionalParam TestGroupParameters StringGroup where
   applyOptionalParam req (StringGroup xs) =
-    req `setQuery` toQuery ("string_group", Just xs)
+    req `addQuery` toQuery ("string_group", Just xs)
 
 -- | /Optional Param/ "boolean_group" - Boolean in group parameters
 instance HasOptionalParam TestGroupParameters BooleanGroup where
   applyOptionalParam req (BooleanGroup xs) =
-    req `setHeader` toHeader ("boolean_group", xs)
+    req `addHeader` toHeader ("boolean_group", xs)
 
 -- | /Optional Param/ "int64_group" - Integer in group parameters
 instance HasOptionalParam TestGroupParameters Int64Group where
   applyOptionalParam req (Int64Group xs) =
-    req `setQuery` toQuery ("int64_group", Just xs)
+    req `addQuery` toQuery ("int64_group", Just xs)
 instance Produces TestGroupParameters MimeNoContent
 
 
@@ -520,11 +520,11 @@ testQueryParameterCollectionFormat
   -> OpenAPIPetstoreRequest TestQueryParameterCollectionFormat MimeNoContent NoContent MimeNoContent
 testQueryParameterCollectionFormat (Pipe pipe) (Ioutil ioutil) (Http http) (Url url) (Context context) =
   _mkRequest "PUT" ["/fake/test-query-paramters"]
-    `setQuery` toQueryColl CommaSeparated ("pipe", Just pipe)
-    `setQuery` toQueryColl CommaSeparated ("ioutil", Just ioutil)
-    `setQuery` toQueryColl SpaceSeparated ("http", Just http)
-    `setQuery` toQueryColl CommaSeparated ("url", Just url)
-    `setQuery` toQueryColl MultiParamArray ("context", Just context)
+    `addQuery` toQueryColl CommaSeparated ("pipe", Just pipe)
+    `addQuery` toQueryColl CommaSeparated ("ioutil", Just ioutil)
+    `addQuery` toQueryColl SpaceSeparated ("http", Just http)
+    `addQuery` toQueryColl CommaSeparated ("url", Just url)
+    `addQuery` toQueryColl MultiParamArray ("context", Just context)
 
 data TestQueryParameterCollectionFormat  
 instance Produces TestQueryParameterCollectionFormat MimeNoContent

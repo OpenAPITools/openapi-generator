@@ -6,7 +6,7 @@
 class {{classname}} < ApplicationRecord
 {{#requiredVars}}
   validates_presence_of :{{name}}
-{{/requiredVars}}{{#vars}}{{#isListContainer}}
-  serialize :{{name}}, Array{{/isListContainer}}{{#isMapContainer}}
-  serialize :{{name}}, Hash{{/isMapContainer}}{{/vars}}
+{{/requiredVars}}{{#vars}}{{#isArray}}
+  serialize :{{name}}, Array{{/isArray}}{{#isMap}}
+  serialize :{{name}}, Hash{{/isMap}}{{/vars}}
 end{{/model}}{{/models}}

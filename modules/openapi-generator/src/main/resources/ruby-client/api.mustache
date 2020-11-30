@@ -142,11 +142,11 @@ module {{moduleName}}
       header_params = opts[:header_params] || {}
       {{#hasProduces}}
       # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept([{{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}}])
+      header_params['Accept'] = @api_client.select_header_accept([{{#produces}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}])
       {{/hasProduces}}
       {{#hasConsumes}}
       # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type([{{#consumes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}])
+      header_params['Content-Type'] = @api_client.select_header_content_type([{{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}}])
       {{/hasConsumes}}
       {{#headerParams}}
       {{#required}}
@@ -179,7 +179,7 @@ module {{moduleName}}
       return_type = opts[:debug_return_type]{{#returnType}} || '{{{returnType}}}'{{/returnType}}
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
+      auth_names = opts[:debug_auth_names] || [{{#authMethods}}'{{name}}'{{^-last}}, {{/-last}}{{/authMethods}}]
 
       new_options = opts.merge(
         :operation => :"{{classname}}.{{operationId}}",

@@ -2,16 +2,17 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**nullable_message** | **String** |  | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **nullable_message** | **String** |  | [optional] |
 
 ## Code Sample
 
 ```ruby
-require 'Petstore'
+require 'petstore'
 
-instance = Petstore::HealthCheckResult.new(nullable_message: null)
+instance = Petstore::HealthCheckResult.new(
+  nullable_message: null
+)
 ```
-
 

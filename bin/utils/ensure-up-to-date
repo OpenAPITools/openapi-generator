@@ -53,6 +53,9 @@ if [ -n "$(git status --porcelain)" ]; then
     git --no-pager diff
     echo "Perform git status"
     git status
+    echo -e "\nThis script runs in pull requests against the anticipated merge commit (as if the PR was merged now)."
+    echo "When you see unexpected files here, it likely means that there are newer commits in master that you need to "
+    echo -e "rebase or merge into your branch.\n"
     echo "Please run 'bin/utils/ensure-up-to-date' locally and commit changes (UNCOMMITTED CHANGES ERROR)"
     exit 1
 else

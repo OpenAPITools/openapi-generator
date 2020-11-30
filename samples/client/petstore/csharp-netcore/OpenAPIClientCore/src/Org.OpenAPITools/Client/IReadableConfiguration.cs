@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Org.OpenAPITools.Client
@@ -75,6 +76,12 @@ namespace Org.OpenAPITools.Client
         int Timeout { get; }
 
         /// <summary>
+        /// Gets the proxy.
+        /// </summary>
+        /// <value>Proxy.</value>
+        WebProxy Proxy { get; }
+
+        /// <summary>
         /// Gets the user agent.
         /// </summary>
         /// <value>User agent.</value>
@@ -106,8 +113,8 @@ namespace Org.OpenAPITools.Client
         X509CertificateCollection ClientCertificates { get; }
 
         /// <summary>
-        /// Gets the HTTPSigning configuration
+        /// Gets the HttpSigning configuration
         /// </summary>
-        HTTPSigningConfiguration HTTPSigningConfiguration { get; }
+        HttpSigningConfiguration HttpSigningConfiguration { get; }
     }
 }

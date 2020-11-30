@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **MapProperty** | Pointer to **map[string]string** |  | [optional] 
-**MapOfMapProperty** | Pointer to [**map[string]map[string]string**](map.md) |  | [optional] 
+**MapOfMapProperty** | Pointer to **map[string]map[string]string** |  | [optional] 
 
 ## Methods
 

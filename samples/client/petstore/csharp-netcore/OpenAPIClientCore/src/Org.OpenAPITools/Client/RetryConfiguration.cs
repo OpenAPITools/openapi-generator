@@ -1,4 +1,4 @@
-using Polly.Retry;
+using Polly;
 using RestSharp;
 
 namespace Org.OpenAPITools.Client
@@ -11,11 +11,11 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Retry policy
         /// </summary>
-        public static RetryPolicy<IRestResponse> RetryPolicy { get; set; }
+        public static Policy<IRestResponse> RetryPolicy { get; set; }
 
         /// <summary>
         /// Async retry policy
         /// </summary>
-        public static AsyncRetryPolicy<IRestResponse> AsyncRetryPolicy { get; set; }
+        public static AsyncPolicy<IRestResponse> AsyncRetryPolicy { get; set; }
     }
 }

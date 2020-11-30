@@ -3,6 +3,8 @@ title: Config Options for cpp-pistache-server
 sidebar_label: cpp-pistache-server
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |addExternalLibs|Add the Possibility to fetch and compile external Libraries needed by this Framework.| |true|

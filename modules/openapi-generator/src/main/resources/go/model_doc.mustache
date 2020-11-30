@@ -1,5 +1,6 @@
 {{#models}}{{#model}}# {{classname}}
 
+{{^isEnum}}
 ## Properties
 
 Name | Type | Description | Notes
@@ -8,11 +9,10 @@ Name | Type | Description | Notes
 **{{classname}}Interface** | **interface { {{#discriminator}}{{propertyGetter}}() {{propertyType}}{{/discriminator}} }** | An interface that can hold any of the proper implementing types |
 {{/vendorExtensions.x-is-one-of-interface}}
 {{^vendorExtensions.x-is-one-of-interface}}
-{{#vars}}**{{name}}** | {{^required}}Pointer to {{/required}}{{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{{dataType}}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
+{{#vars}}**{{name}}** | {{^required}}Pointer to {{/required}}{{#isContainer}}{{#isArray}}{{#items}}{{^isPrimitiveType}}{{^isFile}}[{{/isFile}}{{/isPrimitiveType}}**[]{{dataType}}**{{^isPrimitiveType}}{{^isFile}}]({{dataType}}.md){{/isFile}}{{/isPrimitiveType}}{{/items}}{{/isArray}}{{#isMap}}{{#items}}{{^isPrimitiveType}}{{^isFile}}[{{/isFile}}{{/isPrimitiveType}}**map[string]{{dataType}}**{{^isPrimitiveType}}{{^isFile}}]({{^baseType}}{{dataType}}{{/baseType}}{{baseType}}.md){{/isFile}}{{/isPrimitiveType}}{{/items}}{{/isMap}}{{/isContainer}}{{^isContainer}}{{^isPrimitiveType}}{{^isFile}}{{^isDateTime}}[{{/isDateTime}}{{/isFile}}{{/isPrimitiveType}}**{{dataType}}**{{^isPrimitiveType}}{{^isFile}}{{^isDateTime}}]({{^baseType}}{{dataType}}{{/baseType}}{{baseType}}.md){{/isDateTime}}{{/isFile}}{{/isPrimitiveType}}{{/isContainer}} | {{description}} | {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
 {{/vars}}
 {{/vendorExtensions.x-is-one-of-interface}}
 
-{{^isEnum}}
 ## Methods
 
 {{^vendorExtensions.x-is-one-of-interface}}
@@ -83,6 +83,13 @@ Unset{{name}} ensures that no value is present for {{name}}, not even an explici
 Convenience method to wrap this instance of {{classname}} in {{{.}}}
 {{/vendorExtensions.x-implements}}
 {{/vendorExtensions.x-is-one-of-interface}}
+{{/isEnum}}
+{{#isEnum}}
+## Enum
+
+{{#allowableValues}}{{#enumVars}}
+* `{{name}}` (value: `{{{value}}}`)
+{{/enumVars}}{{/allowableValues}}
 {{/isEnum}}
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

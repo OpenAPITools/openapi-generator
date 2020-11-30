@@ -6,6 +6,8 @@
 
 void StoreApiTests::placeOrderTest() {
     PFXStoreApi api;
+  //  api.setUsername("TestName");
+   // api.setPassword("TestPassword");
     QEventLoop loop;
     bool orderPlaced = false;
 
@@ -36,6 +38,7 @@ void StoreApiTests::placeOrderTest() {
 
 void StoreApiTests::getOrderByIdTest() {
     PFXStoreApi api;
+    api.setApiKey("api_key_2","testKey");
     QEventLoop loop;
     bool orderFetched = false;
 
@@ -59,6 +62,7 @@ void StoreApiTests::getOrderByIdTest() {
 
 void StoreApiTests::getInventoryTest() {
     PFXStoreApi api;
+    api.setApiKey("api_key","special-key");
     QEventLoop loop;
     bool inventoryFetched = false;
 
