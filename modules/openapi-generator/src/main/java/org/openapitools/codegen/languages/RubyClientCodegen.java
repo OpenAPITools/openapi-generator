@@ -604,11 +604,16 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         } else if (codegenParameter.isMap) {
             return "{ key: " + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
         } else if (codegenParameter.isPrimitiveType) { // primitive type
+            if (codegenParameter.isEnum) {
+                // When inline enum, set example to first allowable value
+                List<Map<String, String>> enumVars = (List<Map<String, String>>) codegenParameter.allowableValues.get("enumVars");
+                codegenParameter.example = enumVars.get(0).get("value");
+            }
             if (codegenParameter.isString) {
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
-                    return "\"" + codegenParameter.example + "\"";
+                    return "'" + codegenParameter.example + "'";
                 }
-                return "\"" + codegenParameter.paramName + "_example\"";
+                return "'" + codegenParameter.paramName + "_example'";
             } else if (codegenParameter.isBoolean) { // boolean
                 if (Boolean.parseBoolean(codegenParameter.example)) {
                     return "true";
@@ -616,21 +621,21 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 return "false";
             } else if (codegenParameter.isUri) {
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
-                    return "\"" + codegenParameter.example + "\"";
+                    return "'" + codegenParameter.example + "'";
                 }
-                return "\"https://example.com\"";
+                return "'https://example.com'";
             } else if (codegenParameter.isDateTime) {
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
-                    return "DateTime.parse(\"" + codegenParameter.example + "\")";
+                    return "DateTime.parse('" + codegenParameter.example + "')";
                 }
                 return "DateTime.now";
             } else if (codegenParameter.isDate) {
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
-                    return "Date.parse(\"" + codegenParameter.example + "\")";
+                    return "Date.parse('" + codegenParameter.example + "')";
                 }
                 return "Date.today";
             } else if (codegenParameter.isFile) {
-                return "File.new(\"/path/to/some/file\")";
+                return "File.new('/path/to/some/file')";
             } else if (codegenParameter.isInteger) {
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
                     return codegenParameter.example;
@@ -659,11 +664,16 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         } else if (codegenProperty.isMap) {
             return "{ key: " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
         } else if (codegenProperty.isPrimitiveType) { // primitive type
+            if (codegenProperty.isEnum) {
+                // When inline enum, set example to first allowable value
+                List<Object> values = (List<Object>) codegenProperty.allowableValues.get("values");
+                codegenProperty.example = String.valueOf(values.get(0));
+            }
             if (codegenProperty.isString) {
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
-                    return "\"" + codegenProperty.example + "\"";
+                    return "'" + codegenProperty.example + "'";
                 } else {
-                    return "\"" + codegenProperty.name + "_example\"";
+                    return "'" + codegenProperty.name + "_example'";
                 }
             } else if (codegenProperty.isBoolean) { // boolean
                 if (Boolean.parseBoolean(codegenProperty.example)) {
@@ -673,21 +683,21 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 }
             } else if (codegenProperty.isUri) {
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
-                    return "\"" + codegenProperty.example + "\"";
+                    return "'" + codegenProperty.example + "'";
                 }
-                return "\"https://example.com\"";
+                return "'https://example.com'";
             } else if (codegenProperty.isDateTime) {
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
-                    return "DateTime.parse(\"" + codegenProperty.example + "\")";
+                    return "DateTime.parse('" + codegenProperty.example + "')";
                 }
                 return "DateTime.now";
             } else if (codegenProperty.isDate) {
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
-                    return "Date.parse(\"" + codegenProperty.example + "\")";
+                    return "Date.parse('" + codegenProperty.example + "')";
                 }
                 return "Date.today";
             } else if (codegenProperty.isFile) {
-                return "File.new(\"/path/to/some/file\")";
+                return "File.new('/path/to/some/file')";
             } else if (codegenProperty.isInteger) {
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
                     return codegenProperty.example;

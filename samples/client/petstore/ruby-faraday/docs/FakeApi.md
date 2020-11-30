@@ -94,10 +94,10 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::FakeApi.new
-pet = Petstore::Pet.new({name: "doggie", photo_urls: ["photo_urls_example"]}) # Pet | Pet object that needs to be added to the store
+pet = Petstore::Pet.new({name: 'doggie', photo_urls: ['photo_urls_example']}) # Pet | Pet object that needs to be added to the store
 opts = {
-  query_1: "query_1_example", # String | query parameter
-  header_1: "header_1_example" # String | header parameter
+  query_1: 'query_1_example', # String | query parameter
+  header_1: 'header_1_example' # String | header parameter
 }
 
 begin
@@ -358,7 +358,7 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  body: "body_example" # String | Input string as post body
+  body: 'body_example' # String | Input string as post body
 }
 
 begin
@@ -482,7 +482,7 @@ No authorization required
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-query = "query_example" # String | 
+query = 'query_example' # String | 
 user = Petstore::User.new # User | 
 
 begin
@@ -617,19 +617,19 @@ end
 api_instance = Petstore::FakeApi.new
 number = 8.14 # Float | None
 double = 1.2 # Float | None
-pattern_without_delimiter = "pattern_without_delimiter_example" # String | None
+pattern_without_delimiter = 'pattern_without_delimiter_example' # String | None
 byte = BYTE_ARRAY_DATA_HERE # String | None
 opts = {
   integer: 56, # Integer | None
   int32: 56, # Integer | None
   int64: 789, # Integer | None
   float: 3.4, # Float | None
-  string: "string_example", # String | None
+  string: 'string_example', # String | None
   binary: File.new('/path/to/some/file'), # File | None
-  date: Date.parse(2013-10-20), # Date | None
-  date_time: DateTime.parse(2013-10-20T19:20:30+01:00), # Time | None
-  password: "password_example", # String | None
-  callback: "callback_example" # String | None
+  date: Date.parse('2013-10-20'), # Date | None
+  date_time: DateTime.parse('2013-10-20T19:20:30+01:00'), # Time | None
+  password: 'password_example', # String | None
+  callback: 'callback_example' # String | None
 }
 
 begin
@@ -706,14 +706,14 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  enum_header_string_array: ["enum_header_string_array_example"], # Array<String> | Header parameter enum test (string array)
-  enum_header_string: "enum_header_string_example", # String | Header parameter enum test (string)
-  enum_query_string_array: ["enum_query_string_array_example"], # Array<String> | Query parameter enum test (string array)
-  enum_query_string: "enum_query_string_example", # String | Query parameter enum test (string)
-  enum_query_integer: 56, # Integer | Query parameter enum test (double)
-  enum_query_double: 1.2, # Float | Query parameter enum test (double)
-  enum_form_string_array: ["inner_example"], # Array<String> | Form parameter enum test (string array)
-  enum_form_string: "enum_form_string_example" # String | Form parameter enum test (string)
+  enum_header_string_array: ['>'], # Array<String> | Header parameter enum test (string array)
+  enum_header_string: '"_abc"', # String | Header parameter enum test (string)
+  enum_query_string_array: ['>'], # Array<String> | Query parameter enum test (string array)
+  enum_query_string: '"_abc"', # String | Query parameter enum test (string)
+  enum_query_integer: 1, # Integer | Query parameter enum test (double)
+  enum_query_double: 1.1, # Float | Query parameter enum test (double)
+  enum_form_string_array: ['>'], # Array<String> | Form parameter enum test (string array)
+  enum_form_string: '"_abc"' # String | Form parameter enum test (string)
 }
 
 begin
@@ -860,7 +860,7 @@ test inline additionalProperties
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-request_body = { key: "inner_example"} # Hash<String, String> | request body
+request_body = { key: 'inner_example'} # Hash<String, String> | request body
 
 begin
   # test inline additionalProperties
@@ -920,8 +920,8 @@ test json serialization of form data
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-param = "param_example" # String | field1
-param2 = "param2_example" # String | field2
+param = 'param_example' # String | field1
+param2 = 'param2_example' # String | field2
 
 begin
   # test json serialization of form data
@@ -984,11 +984,11 @@ To test the collection format in query parameters
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-pipe = ["inner_example"] # Array<String> | 
-ioutil = ["inner_example"] # Array<String> | 
-http = ["inner_example"] # Array<String> | 
-url = ["inner_example"] # Array<String> | 
-context = ["inner_example"] # Array<String> | 
+pipe = ['inner_example'] # Array<String> | 
+ioutil = ['inner_example'] # Array<String> | 
+http = ['inner_example'] # Array<String> | 
+url = ['inner_example'] # Array<String> | 
+context = ['inner_example'] # Array<String> | 
 
 begin
   
