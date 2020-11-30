@@ -3,6 +3,8 @@ title: Config Options for scalatra
 sidebar_label: scalatra
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
@@ -24,7 +26,6 @@ sidebar_label: scalatra
 | ---------- | ------- |
 |Array|java.util.List|
 |ArrayList|java.util.ArrayList|
-|BigDecimal|java.math.BigDecimal|
 |Date|java.util.Date|
 |DateTime|org.joda.time.DateTime|
 |File|java.io.File|

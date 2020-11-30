@@ -9,11 +9,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.io.FileInputStream;
+import play.api.libs.Files.TemporaryFile;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
-public class StoreApiControllerImp implements StoreApiControllerImpInterface {
+public class StoreApiControllerImp extends StoreApiControllerImpInterface {
     @Override
     public void deleteOrder(Http.Request request, String orderId) throws Exception {
         //Do your magic!!!

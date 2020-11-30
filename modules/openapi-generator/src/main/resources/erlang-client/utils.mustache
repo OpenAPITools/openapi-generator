@@ -75,7 +75,7 @@ update_params_with_auth(Cfg, Headers, QS) ->
     Auths = #{ {{#authMethods}}'{{name}}' =>
                 #{type => '{{type}}',
                   key => <<"{{#isApiKey}}{{keyParamName}}{{/isApiKey}}{{^isApiKey}}Authorization{{/isApiKey}}">>,
-                  in => {{^isApiKey}}header{{/isApiKey}}{{#isKeyInHeader}}header{{/isKeyInHeader}}{{#isKeyInQuery}}query{{/isKeyInQuery}}}{{#hasMore}}, {{/hasMore}}{{/authMethods}}},
+                  in => {{^isApiKey}}header{{/isApiKey}}{{#isKeyInHeader}}header{{/isKeyInHeader}}{{#isKeyInQuery}}query{{/isKeyInQuery}}}{{^-last}}, {{/-last}}{{/authMethods}}},
 
     maps:fold(fun(AuthName, #{type := _Type,
                               in := In,

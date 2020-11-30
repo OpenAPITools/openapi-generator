@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -50,7 +51,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets _Name
         /// </summary>
-        [DataMember(Name = "name", EmitDefaultValue = false)]
+        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = false)]
         public int _Name { get; set; }
 
         /// <summary>
@@ -58,6 +59,15 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "snake_case", EmitDefaultValue = false)]
         public int SnakeCase { get; private set; }
+
+        /// <summary>
+        /// Returns false as SnakeCase should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeSnakeCase()
+        {
+            return false;
+        }
 
         /// <summary>
         /// Gets or Sets Property
@@ -70,6 +80,15 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "123Number", EmitDefaultValue = false)]
         public int _123Number { get; private set; }
+
+        /// <summary>
+        /// Returns false as _123Number should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerialize_123Number()
+        {
+            return false;
+        }
 
         /// <summary>
         /// Returns the string presentation of the object

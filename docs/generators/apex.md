@@ -3,6 +3,8 @@ title: Config Options for apex
 sidebar_label: apex
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
@@ -62,6 +64,7 @@ sidebar_label: apex
 <li>begin</li>
 <li>bigdecimal</li>
 <li>blob</li>
+<li>boolean</li>
 <li>break</li>
 <li>bulk</li>
 <li>by</li>
@@ -75,7 +78,6 @@ sidebar_label: apex
 <li>commit</li>
 <li>const</li>
 <li>continue</li>
-<li>convertcurrency</li>
 <li>currency</li>
 <li>date</li>
 <li>datetime</li>
@@ -84,6 +86,7 @@ sidebar_label: apex
 <li>delete</li>
 <li>desc</li>
 <li>do</li>
+<li>double</li>
 <li>else</li>
 <li>end</li>
 <li>enum</li>
@@ -97,7 +100,6 @@ sidebar_label: apex
 <li>float</li>
 <li>for</li>
 <li>from</li>
-<li>future</li>
 <li>global</li>
 <li>goto</li>
 <li>group</li>
@@ -111,13 +113,10 @@ sidebar_label: apex
 <li>insert</li>
 <li>instanceof</li>
 <li>int</li>
+<li>integer</li>
 <li>interface</li>
 <li>into</li>
 <li>join</li>
-<li>last_90_days</li>
-<li>last_month</li>
-<li>last_n_days</li>
-<li>last_week</li>
 <li>like</li>
 <li>limit</li>
 <li>list</li>
@@ -126,10 +125,6 @@ sidebar_label: apex
 <li>map</li>
 <li>merge</li>
 <li>new</li>
-<li>next_90_days</li>
-<li>next_month</li>
-<li>next_n_days</li>
-<li>next_week</li>
 <li>not</li>
 <li>null</li>
 <li>nulls</li>
@@ -148,16 +143,14 @@ sidebar_label: apex
 <li>public</li>
 <li>retrieve</li>
 <li>return</li>
-<li>returning</li>
 <li>rollback</li>
-<li>savepoint</li>
-<li>search</li>
 <li>select</li>
 <li>set</li>
 <li>short</li>
+<li>sobject</li>
 <li>sort</li>
-<li>stat</li>
 <li>static</li>
+<li>string</li>
 <li>super</li>
 <li>switch</li>
 <li>synchronized</li>
@@ -165,28 +158,22 @@ sidebar_label: apex
 <li>testmethod</li>
 <li>then</li>
 <li>this</li>
-<li>this_month</li>
-<li>this_week</li>
 <li>throw</li>
 <li>time</li>
-<li>today</li>
-<li>tolabel</li>
-<li>tomorrow</li>
 <li>transaction</li>
 <li>trigger</li>
 <li>true</li>
 <li>try</li>
-<li>type</li>
 <li>undelete</li>
 <li>update</li>
 <li>upsert</li>
 <li>using</li>
 <li>virtual</li>
+<li>void</li>
 <li>webservice</li>
 <li>when</li>
 <li>where</li>
 <li>while</li>
-<li>yesterday</li>
 </ul>
 
 ## FEATURE SET

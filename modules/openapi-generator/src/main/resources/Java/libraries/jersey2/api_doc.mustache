@@ -15,10 +15,10 @@ Method | HTTP request | Description
 ## {{operationId}}
 
 {{^vendorExtensions.x-group-parameters}}
-> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
 {{/vendorExtensions.x-group-parameters}}
 {{#vendorExtensions.x-group-parameters}}
-> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#pathParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}){{#allParams}}{{^isPathParam}}.{{paramName}}({{paramName}}){{/isPathParam}}{{/allParams}}.execute();
+> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#pathParams}}{{paramName}}{{^-last}}, {{/-last}}{{/pathParams}}){{#allParams}}{{^isPathParam}}.{{paramName}}({{paramName}}){{/isPathParam}}{{/allParams}}.execute();
 {{/vendorExtensions.x-group-parameters}}
 
 {{summary}}{{#notes}}
@@ -28,6 +28,9 @@ Method | HTTP request | Description
 ### Example
 
 ```java
+{{#vendorExtensions.x-java-import}}
+import {{.}};
+{{/vendorExtensions.x-java-import}}
 // Import classes:
 import {{{invokerPackage}}}.ApiClient;
 import {{{invokerPackage}}}.ApiException;
@@ -66,10 +69,10 @@ public class Example {
         {{/allParams}}
         try {
             {{^vendorExtensions.x-group-parameters}}
-            {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+            {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
             {{/vendorExtensions.x-group-parameters}}
             {{#vendorExtensions.x-group-parameters}}
-            {{#returnType}}{{{returnType}}} result = {{/returnType}}api.{{operationId}}({{#pathParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}){{#allParams}}{{^isPathParam}}
+            {{#returnType}}{{{returnType}}} result = {{/returnType}}api.{{operationId}}({{#pathParams}}{{paramName}}{{^-last}}, {{/-last}}{{/pathParams}}){{#allParams}}{{^isPathParam}}
                 .{{paramName}}({{paramName}}){{/isPathParam}}{{/allParams}}
                 .execute();
             {{/vendorExtensions.x-group-parameters}}
@@ -92,7 +95,7 @@ public class Example {
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} |{{^required}} [optional]{{/required}}{{^isContainer}}{{#defaultValue}} [default to {{defaultValue}}]{{/defaultValue}}{{/isContainer}}{{#allowableValues}} [enum: {{#values}}{{{.}}}{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
+{{#allParams}} **{{paramName}}** | {{#isContainer}}{{#isArray}}{{#items}}{{#isModel}}{{^isFile}}[{{/isFile}}{{/isModel}}**List&lt;{{dataType}}&gt;**{{#isModel}}{{^isFile}}]({{^baseType}}{{dataType}}{{/baseType}}{{#baseType}}{{baseType}}{{/baseType}}.md){{/isFile}}{{/isModel}}{{/items}}{{/isArray}}{{#isMap}}{{#items}}{{#isModel}}{{^isFile}}[{{/isFile}}{{/isModel}}**Map&lt;String,{{dataType}}&gt;**{{#isModel}}{{^isFile}}]({{^baseType}}{{dataType}}{{/baseType}}{{#baseType}}{{baseType}}{{/baseType}}.md){{/isFile}}{{/isModel}}{{/items}}{{/isMap}}{{/isContainer}}{{^isContainer}}{{#isModel}}{{^isFile}}[{{/isFile}}{{/isModel}}**{{dataType}}**{{#isModel}}{{^isFile}}]({{^baseType}}{{dataType}}{{/baseType}}{{#baseType}}{{baseType}}{{/baseType}}.md){{/isFile}}{{/isModel}}{{/isContainer}}| {{description}} |{{^required}} [optional]{{/required}}{{^isContainer}}{{#defaultValue}} [default to {{defaultValue}}]{{/defaultValue}}{{/isContainer}}{{#allowableValues}} [enum: {{#values}}{{{.}}}{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
 {{/allParams}}
 
 ### Return type
@@ -105,8 +108,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
-- **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
+- **Content-Type**: {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+- **Accept**: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
 
 {{#responses.0}}
 ### HTTP response details

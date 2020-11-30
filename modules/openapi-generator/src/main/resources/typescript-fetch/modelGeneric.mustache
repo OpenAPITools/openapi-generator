@@ -18,24 +18,7 @@ import {
 } from './';
 
 {{/discriminator}}
-/**
- * {{#lambda.indented_star_1}}{{{unescapedDescription}}}{{/lambda.indented_star_1}}
- * @export
- * @interface {{classname}}
- */
-export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
-{{#additionalPropertiesType}}
-    [key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | any{{/hasVars}};
-{{/additionalPropertiesType}}
-{{#vars}}
-    /**
-     * {{#lambda.indented_star_4}}{{{unescapedDescription}}}{{/lambda.indented_star_4}}
-     * @type {{=<% %>=}}{<%&datatype%>}<%={{ }}=%>
-     * @memberof {{classname}}
-     */
-    {{#isReadOnly}}readonly {{/isReadOnly}}{{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
-{{/vars}}
-}
+{{>modelGenericInterfaces}}
 
 export function {{classname}}FromJSON(json: any): {{classname}} {
     return {{classname}}FromJSONTyped(json, false);
@@ -75,22 +58,22 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         {{/isDate}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        {{#isListContainer}}
+        {{#isArray}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}({{#isNullable}}json['{{baseName}}'] === null ? null : {{/isNullable}}(json['{{baseName}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}FromJSON)),
-        {{/isListContainer}}
-        {{#isMapContainer}}
+        {{/isArray}}
+        {{#isMap}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}({{#isNullable}}json['{{baseName}}'] === null ? null : {{/isNullable}}mapValues(json['{{baseName}}'], {{#items}}{{datatype}}{{/items}}FromJSON)),
-        {{/isMapContainer}}
-        {{^isListContainer}}
-        {{^isMapContainer}}
+        {{/isMap}}
+        {{^isArray}}
+        {{^isMap}}
         {{^isFreeFormObject}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}{{datatype}}FromJSON(json['{{baseName}}']),
         {{/isFreeFormObject}}
         {{#isFreeFormObject}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}json['{{baseName}}'],
         {{/isFreeFormObject}}
-        {{/isMapContainer}}
-        {{/isListContainer}}
+        {{/isMap}}
+        {{/isArray}}
         {{/isPrimitiveType}}
         {{/vars}}
     };
@@ -119,22 +102,22 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
         '{{baseName}}': {{#isDate}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString().substr(0,10)){{/isDate}}{{#isDateTime}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString()){{/isDateTime}}{{^isDate}}{{^isDateTime}}value.{{name}}{{/isDateTime}}{{/isDate}},
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        {{#isListContainer}}
+        {{#isArray}}
         '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}(value.{{name}} as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON)),
-        {{/isListContainer}}
-        {{#isMapContainer}}
+        {{/isArray}}
+        {{#isMap}}
         '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}mapValues(value.{{name}}, {{#items}}{{datatype}}{{/items}}ToJSON)),
-        {{/isMapContainer}}
-        {{^isListContainer}}
-        {{^isMapContainer}}
+        {{/isMap}}
+        {{^isArray}}
+        {{^isMap}}
         {{^isFreeFormObject}}
         '{{baseName}}': {{datatype}}ToJSON(value.{{name}}),
         {{/isFreeFormObject}}
         {{#isFreeFormObject}}
         '{{baseName}}': value.{{name}},
         {{/isFreeFormObject}}
-        {{/isMapContainer}}
-        {{/isListContainer}}
+        {{/isMap}}
+        {{/isArray}}
         {{/isPrimitiveType}}
         {{/isReadOnly}}
         {{/vars}}
@@ -145,21 +128,3 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
     {{/hasVars}}
 }
 
-{{#hasEnums}}
-{{#vars}}
-{{#isEnum}}
-/**
-* @export
-* @enum {string}
-*/
-export enum {{classname}}{{enumName}} {
-{{#allowableValues}}
-    {{#enumVars}}
-    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
-    {{/enumVars}}
-{{/allowableValues}}
-}
-{{/isEnum}}
-{{/vars}}
-
-{{/hasEnums}}

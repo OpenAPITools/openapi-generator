@@ -3,6 +3,8 @@ title: Config Options for objc
 sidebar_label: objc
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |authorEmail|Email to use in the podspec file.| |team@openapitools.org|

@@ -1,0 +1,92 @@
+# {{moduleName}}::{{classname}}
+
+## Class instance methods
+
+### `openapi_one_of`
+
+Returns the list of classes defined in oneOf.
+
+#### Example
+
+```ruby
+require '{{{gemName}}}'
+
+{{moduleName}}::{{classname}}.openapi_one_of
+# =>
+{{#oneOf}}
+{{#-first}}
+# [
+{{/-first}}
+#   :'{{{.}}}'{{^-last}},{{/-last}}
+{{#-last}}
+# ]
+{{/-last}}
+{{/oneOf}}
+```
+{{#discriminator}}
+{{#propertyName}}
+
+### `openapi_discriminator_name`
+
+Returns the discriminator's property name.
+
+#### Example
+
+```ruby
+require '{{{gemName}}}'
+
+{{moduleName}}::{{classname}}.openapi_discriminator_name
+# => :'{{{.}}}'
+```
+{{/propertyName}}
+{{#mappedModels}}
+{{#-first}}
+
+### `openapi_discriminator_name`
+
+Returns the discriminator's mapping.
+
+#### Example
+
+```ruby
+require '{{{gemName}}}'
+
+{{moduleName}}::{{classname}}.openapi_discriminator_mapping
+# =>
+# {
+{{/-first}}
+#   :'{{{mappingName}}}' => :'{{{modelName}}}'{{^-last}},{{/-last}}
+{{#-last}}
+# }
+{{/-last}}
+{{/mappedModels}}
+{{/discriminator}}
+
+### build
+
+Find the appropriate object from the `openapi_one_of` list and casts the data into it.
+
+#### Example
+
+```ruby
+require '{{{gemName}}}'
+
+{{moduleName}}::{{classname}}.build(data)
+# => {{#oneOf}}{{#-first}}#<{{{.}}}:0x00007fdd4aab02a0>{{/-first}}{{/oneOf}}
+
+{{moduleName}}::{{classname}}.build(data_that_doesnt_match)
+# => nil
+```
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| **data** | **Mixed** | data to be matched against the list of oneOf items |
+
+#### Return type
+
+{{#oneOf}}
+- `{{{.}}}`
+{{/oneOf}}
+- `nil` (if no type matches)

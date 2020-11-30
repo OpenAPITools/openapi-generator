@@ -2,18 +2,19 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**file** | **File** |  | [optional] 
-**files** | **Array&lt;File&gt;** |  | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **file** | **File** |  | [optional] |
+| **files** | **Array&lt;File&gt;** |  | [optional] |
 
 ## Code Sample
 
 ```ruby
-require 'Petstore'
+require 'petstore'
 
-instance = Petstore::FileSchemaTestClass.new(file: null,
-                                 files: null)
+instance = Petstore::FileSchemaTestClass.new(
+  file: null,
+  files: null
+)
 ```
-
 

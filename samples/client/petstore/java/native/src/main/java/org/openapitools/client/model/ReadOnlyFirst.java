@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -23,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * ReadOnlyFirst
@@ -31,7 +35,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-@JsonTypeName("ReadOnlyFirst")
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
@@ -58,7 +61,6 @@ public class ReadOnlyFirst {
 
 
   public ReadOnlyFirst baz(String baz) {
-    
     this.baz = baz;
     return this;
   }
@@ -82,6 +84,9 @@ public class ReadOnlyFirst {
   }
 
 
+  /**
+   * Return true if this ReadOnlyFirst object is equal to o.
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -99,7 +104,6 @@ public class ReadOnlyFirst {
   public int hashCode() {
     return Objects.hash(bar, baz);
   }
-
 
   @Override
   public String toString() {

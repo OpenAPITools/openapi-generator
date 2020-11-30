@@ -41,7 +41,7 @@ import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplateFileType;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
-import org.openapitools.codegen.languages.PythonClientExperimentalCodegen;
+import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.serializer.SerializerUtils;
@@ -520,9 +520,9 @@ public class DefaultGenerator implements Generator {
                 Map<String, Object> modelTemplate = (Map<String, Object>) ((List<Object>) models.get("models")).get(0);
                 if (modelTemplate != null && modelTemplate.containsKey("model")) {
                     CodegenModel m = (CodegenModel) modelTemplate.get("model");
-                    if (m.isAlias && !(config instanceof PythonClientExperimentalCodegen))  {
+                    if (m.isAlias && !(config instanceof PythonClientCodegen))  {
                         // alias to number, string, enum, etc, which should not be generated as model
-                        // for PythonClientExperimentalCodegen, all aliases are generated as models
+                        // for PythonClientCodegen, all aliases are generated as models
                         continue;  // Don't create user-defined classes for aliases
                     }
                 }
@@ -627,12 +627,6 @@ public class DefaultGenerator implements Generator {
                 */
 
                 allOperations.add(new HashMap<>(operation));
-                for (int i = 0; i < allOperations.size(); i++) {
-                    Map<String, Object> oo = (Map<String, Object>) allOperations.get(i);
-                    if (i < (allOperations.size() - 1)) {
-                        oo.put("hasMore", "true");
-                    }
-                }
 
                 for (String templateName : config.apiTemplateFiles().keySet()) {
                     String filename = config.apiFilename(templateName, tag);
@@ -775,7 +769,7 @@ public class DefaultGenerator implements Generator {
         bundle.put("basePathWithoutHost", basePathWithoutHost);
         bundle.put("scheme", URLPathUtils.getScheme(url, config));
         bundle.put("host", url.getHost());
-        if (url.getPort() != 80 ) {
+        if (url.getPort() != 80 && url.getPort() != 443 ) {
             bundle.put("port", url.getPort());
         }
         bundle.put("contextPath", contextPath);
@@ -1193,14 +1187,6 @@ public class DefaultGenerator implements Generator {
         }
 
         config.postProcessOperationsWithModels(operations, allModels);
-        if (objs.size() > 0) {
-            List<CodegenOperation> os = (List<CodegenOperation>) objs.get("operation");
-
-            if (os != null && os.size() > 0) {
-                CodegenOperation op = os.get(os.size() - 1);
-                op.hasMore = false;
-            }
-        }
         return operations;
     }
 
@@ -1359,7 +1345,9 @@ public class DefaultGenerator implements Generator {
     private static OAuthFlow cloneOAuthFlow(OAuthFlow originFlow, List<String> operationScopes) {
         Scopes newScopes = new Scopes();
         for (String operationScope : operationScopes) {
-            newScopes.put(operationScope, originFlow.getScopes().get(operationScope));
+            if (originFlow.getScopes().containsKey(operationScope)) {
+                newScopes.put(operationScope, originFlow.getScopes().get(operationScope));
+            }
         }
 
         return new OAuthFlow()
@@ -1388,7 +1376,6 @@ public class DefaultGenerator implements Generator {
                         // We have to create a new auth method instance because the original object must
                         // not be modified.
                         CodegenSecurity opSecurity = security.filterByScopeNames(opScopes);
-                        opSecurity.hasMore = security.hasMore;
                         result.add(opSecurity);
                         filtered = true;
                         break;
@@ -1431,6 +1418,11 @@ public class DefaultGenerator implements Generator {
         }
     }
 
+    private Path absPath(File input) {
+        // intentionally creates a new absolute path instance, disconnected from underlying FileSystem provider of File
+        return java.nio.file.Paths.get(input.getAbsolutePath());
+    }
+
     /**
      * Generates a file at .openapi-generator/FILES to track the files created by the user's latest run.
      * This is ideal for CI and regeneration of code without stale/unused files from older generations.
@@ -1441,7 +1433,7 @@ public class DefaultGenerator implements Generator {
         if (generateMetadata) {
             try {
                 StringBuilder sb = new StringBuilder();
-                File outDir = new File(this.config.getOutputDir());
+                Path outDir = absPath(new File(this.config.getOutputDir()));
 
                 List<File> filesToSort = new ArrayList<>();
 
@@ -1450,7 +1442,7 @@ public class DefaultGenerator implements Generator {
                     // We have seen NPE on CI for getPath() returning null, so guard against this (to be fixed in 5.0 template management refactor)
                     //noinspection ConstantConditions
                     if (f != null && f.getPath() != null) {
-                        filesToSort.add(f);
+                        filesToSort.add(outDir.relativize(absPath(f)).normalize().toFile());
                     }
                 });
 
@@ -1459,13 +1451,12 @@ public class DefaultGenerator implements Generator {
                 String relativeMeta = METADATA_DIR + "/VERSION";
                 filesToSort.sort(PathFileComparator.PATH_COMPARATOR);
                 filesToSort.forEach(f -> {
-                    String tmp = outDir.toPath().relativize(f.toPath()).normalize().toString();
                     // some Java implementations don't honor .relativize documentation fully.
                     // When outDir is /a/b and the input is /a/b/c/d, the result should be c/d.
                     // Some implementations make the output ./c/d which seems to mix the logic
                     // as documented for symlinks. So we need to trim any / or ./ from the start,
                     // as nobody should be generating into system root and our expectation is no ./
-                    String relativePath = removeStart(removeStart(tmp, "." + File.separator), File.separator);
+                    String relativePath = removeStart(removeStart(f.toString(), "." + File.separator), File.separator);
                     if (File.separator.equals("\\")) {
                         // ensure that windows outputs same FILES format
                         relativePath = relativePath.replace(File.separator, "/");

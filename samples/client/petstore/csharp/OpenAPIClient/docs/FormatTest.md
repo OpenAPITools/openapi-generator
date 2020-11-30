@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **Number** | **decimal** |  | 
 **Float** | **float** |  | [optional] 
 **Double** | **double** |  | [optional] 
+**Decimal** | **decimal** |  | [optional] 
 **String** | **string** |  | [optional] 
 **Byte** | **byte[]** |  | 
 **Binary** | **System.IO.Stream** |  | [optional] 
