@@ -32,7 +32,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
             collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style;
 
     public String dataTypeAlternate; // Used by typescript fetch only for now.
-    public String itemsDataType; // if isListContainer == true, this is the dataType of the items else it is null. Used by typescript fetch only for now.
+    public String itemsDataType; // if isArray == true, this is the dataType of the items else it is null. Used by typescript fetch only for now.
 
     public String nameInLowerCase; // property name in lower case
     public String example; // example value (x-example)

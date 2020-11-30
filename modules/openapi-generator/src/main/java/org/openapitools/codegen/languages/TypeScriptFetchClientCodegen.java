@@ -246,7 +246,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 if (cp != null) {
                     op.returnTypeAlternate = cp.dataTypeAlternate;
                     op.returnTypeIsModel = cp.isModel;
-                    op.returnTypeIsListContainer = cp.isListContainer;
+                    op.returnTypeIsArray = cp.isArray;
                     if (cp.itemsAreModels) {
                         op.returnTypeSupportsEntities = true;
                         op.returnBaseTypeAlternate = cp.itemsDataType;
@@ -320,7 +320,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private void autoSetDefaultValueForProperty(CodegenProperty var) {
-        if (var.isListContainer || var.isModel) {
+        if (var.isArray || var.isModel) {
             var.defaultValue = var.dataTypeAlternate + "()";
         } else if (var.isUniqueId) {
             var.defaultValue = "\"-1\"";
@@ -446,12 +446,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             parentIsEntity = true;
         }
 
-        var.itemsDataType = var.isListContainer ? var.items.dataType : null;
-        var.itemsAreModels = var.isListContainer && var.items.isModel;
+        var.itemsDataType = var.isArray ? var.items.dataType : null;
+        var.itemsAreModels = var.isArray && var.items.isModel;
 
         if (this.getSagasAndRecords()) {
             var.dataTypeAlternate = var.dataType;
-            if (var.isListContainer) {
+            if (var.isArray) {
                 var.dataTypeAlternate = var.dataType.replace("Array<", "List<");
                 if (var.items.isModel) {
                     var.itemsDataType = var.items.dataType + "Record";
@@ -535,7 +535,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 }
 
                 param.dataTypeAlternate = param.dataType;
-                if (param.isListContainer) {
+                if (param.isArray) {
                     if (param.items.isModel) {
                         param.itemsDataType = param.items.dataType + "Record";
                         param.dataTypeAlternate = param.dataType.replace("Array<", "List<");

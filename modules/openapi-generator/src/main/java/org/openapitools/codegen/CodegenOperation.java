@@ -29,7 +29,7 @@ public class CodegenOperation {
             isArray, isMultipart,
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
-            isRestful, isDeprecated, isCallbackRequest, uniqueItems, returnTypeIsMetaDataResponse, returnTypeIsMetaOnlyResponse, returnTypeSupportsEntities, returnTypeIsModel, returnTypeIsListContainer;
+            isRestful, isDeprecated, isCallbackRequest, uniqueItems, returnTypeIsMetaDataResponse, returnTypeIsMetaOnlyResponse, returnTypeSupportsEntities, returnTypeIsModel, returnTypeIsArray;
     public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType, returnTypeAlternate, returnBaseTypeAlternate,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
     public CodegenDiscriminator discriminator;
@@ -273,7 +273,7 @@ public class CodegenOperation {
         sb.append(", returnTypeIsMetaDataResponse='").append(returnTypeIsMetaDataResponse);
         sb.append(", returnTypeIsMetaOnlyResponse='").append(returnTypeIsMetaOnlyResponse);
         sb.append(", returnTypeSupportsEntities='").append(returnTypeSupportsEntities);
-        sb.append(", returnTypeIsListContainer='").append(returnTypeIsListContainer);
+        sb.append(", returnTypeIsArray='").append(returnTypeIsArray);
         sb.append(", returnTypeIsModel='").append(returnTypeIsModel);
         sb.append(", path='").append(path).append('\'');
         sb.append(", operationId='").append(operationId).append('\'');
@@ -353,7 +353,7 @@ public class CodegenOperation {
                 returnTypeIsMetaDataResponse == that.returnTypeIsMetaDataResponse &&
                 returnTypeIsMetaOnlyResponse == that.returnTypeIsMetaOnlyResponse &&
                 returnTypeSupportsEntities == that.returnTypeSupportsEntities &&
-                returnTypeIsListContainer == that.returnTypeIsListContainer &&
+                returnTypeIsArray == that.returnTypeIsArray &&
                 returnTypeIsModel == that.returnTypeIsModel &&
                 Objects.equals(responseHeaders, that.responseHeaders) &&
                 Objects.equals(path, that.path) &&
@@ -407,7 +407,7 @@ public class CodegenOperation {
                 hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
                 isArray, isMultipart, isResponseBinary, isResponseFile, hasReference, isRestfulIndex,
                 isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy, isRestful, isDeprecated,
-                isCallbackRequest, uniqueItems, returnTypeIsMetaDataResponse, returnTypeIsMetaOnlyResponse, returnTypeSupportsEntities, returnTypeIsListContainer, returnTypeIsModel, path, operationId, returnType, httpMethod, returnBaseType, returnTypeAlternate, returnBaseTypeAlternate,
+                isCallbackRequest, uniqueItems, returnTypeIsMetaDataResponse, returnTypeIsMetaOnlyResponse, returnTypeSupportsEntities, returnTypeIsArray, returnTypeIsModel, path, operationId, returnType, httpMethod, returnBaseType, returnTypeAlternate, returnBaseTypeAlternate,
                 returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, consumes,
                 produces, prioritizedContentTypes, servers, bodyParam, allParams, bodyParams, pathParams, queryParams,
                 headerParams, formParams, cookieParams, requiredParams, optionalParams, authMethods, tags,

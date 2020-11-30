@@ -7,7 +7,8 @@ export * from './{{{ classFilename }}}';
 export * from './{{{ classFilename }}}Record';
 {{/isEnum}}
 {{/useSagaAndRecords}}
-{{/withoutRuntimeChecks}}{{#withoutRuntimeChecks}}
+{{/withoutRuntimeChecks}}
+{{#withoutRuntimeChecks}}
 {{#isEnum}}
 {{>modelEnumInterfaces}}
 {{/isEnum}}

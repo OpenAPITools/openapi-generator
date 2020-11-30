@@ -27,14 +27,14 @@ import {
 export const {{classname}}RecordProps = {
 	recType: "{{classname}}Record" as "{{classname}}Record",
 {{#vars}}
-    {{#isListContainer}}
+    {{#isArray}}
     {{#itemsAreModels}}
     {{name}}: ({{{itemsDataType}}}(), {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null as {{{dataTypeAlternate}}} | null{{/required}}),
     {{/itemsAreModels}}
     {{^itemsAreModels}}
     {{name}}: {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null as {{{dataTypeAlternate}}} | null{{/required}},
     {{/itemsAreModels}}
-    {{/isListContainer}}
+    {{/isArray}}
     {{#isModel}}
     {{name}}: {{#required}}{{{defaultValue}}}{{/required}}{{^required}}({{{defaultValue}}}, null as {{{dataTypeAlternate}}} | null){{/required}},
     {{/isModel}}

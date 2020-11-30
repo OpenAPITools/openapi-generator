@@ -107,30 +107,30 @@ export function *{{nickname}}SagaImp(action: Action<Payload{{#lambda.titlecase}}
 {{#allParams.0}}
 {{#allParams}}
 {{#isUniqueId}}
-{{#isListContainer}}
+{{#isArray}}
             {{paramName}}.map(p => parseFloat(p)).toArray(),
-{{/isListContainer}}
-{{^isListContainer}}
+{{/isArray}}
+{{^isArray}}
             parseFloat({{paramName}}),
-{{/isListContainer}}
+{{/isArray}}
 {{/isUniqueId}}
 {{^isUniqueId}}
-{{#isListContainer}}
+{{#isArray}}
 {{#itemsAreModels}}
             {{#lambda.camelcase}}{{itemsDataType}}{{/lambda.camelcase}}Utils.toApiArray({{paramName}}),
 {{/itemsAreModels}}
 {{^itemsAreModels}}
             {{paramName}}.toJS(),
 {{/itemsAreModels}}
-{{/isListContainer}}
+{{/isArray}}
 {{#isModel}}
             {{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.toApi({{paramName}}),
 {{/isModel}}
-{{^isListContainer}}
+{{^isArray}}
 {{^isModel}}
             {{paramName}},
 {{/isModel}}
-{{/isListContainer}}
+{{/isArray}}
 {{/isUniqueId}}
 {{/allParams}}
 {{/allParams.0}}
@@ -146,11 +146,11 @@ export function *{{nickname}}SagaImp(action: Action<Payload{{#lambda.titlecase}}
 {{/returnTypeIsMetaDataResponse}}
 {{^returnTypeIsMetaOnlyResponse}}
 {{^returnTypeIsMetaDataResponse}}
-{{#returnTypeIsListContainer}}
+{{#returnTypeIsArray}}
 {{#returnTypeAlternate}}
             successReturnValue = {{#lambda.camelcase}}{{returnBaseTypeAlternate}}{{/lambda.camelcase}}Utils.fromApiArrayAsEntities(response);
 {{/returnTypeAlternate}}
-{{/returnTypeIsListContainer}}
+{{/returnTypeIsArray}}
 {{#returnTypeIsModel}}
             successReturnValue = {{#lambda.camelcase}}{{returnTypeAlternate}}{{/lambda.camelcase}}Utils.fromApiArrayAsEntities([response]);
 {{/returnTypeIsModel}}
@@ -168,21 +168,21 @@ export function *{{nickname}}SagaImp(action: Action<Payload{{#lambda.titlecase}}
 {{/returnTypeIsMetaDataResponse}}
 {{^returnTypeIsMetaOnlyResponse}}
 {{^returnTypeIsMetaDataResponse}}
-{{#returnTypeIsListContainer}}
+{{#returnTypeIsArray}}
 {{#returnTypeAlternate}}
             successReturnValue = {{#lambda.camelcase}}{{returnBaseTypeAlternate}}{{/lambda.camelcase}}Utils.fromApiArray(response);
 	    	yield put({{nickname}}Success(successReturnValue));
 {{/returnTypeAlternate}}
-{{/returnTypeIsListContainer}}
+{{/returnTypeIsArray}}
 {{#returnTypeIsModel}}
             successReturnValue = {{#lambda.camelcase}}{{returnTypeAlternate}}{{/lambda.camelcase}}Utils.fromApi(response);
 		    yield put({{nickname}}Success(successReturnValue));
 {{/returnTypeIsModel}}
-{{^returnTypeIsListContainer}}
+{{^returnTypeIsArray}}
 {{^returnTypeIsModel}}
 		    yield put({{nickname}}Success(response));
 {{/returnTypeIsModel}}
-{{/returnTypeIsListContainer}}
+{{/returnTypeIsArray}}
 {{/returnTypeIsMetaDataResponse}}
 {{/returnTypeIsMetaOnlyResponse}}
 {{/returnType}}
@@ -199,19 +199,19 @@ export function *{{nickname}}SagaImp(action: Action<Payload{{#lambda.titlecase}}
 {{/returnTypeIsMetaDataResponse}}
 {{^returnTypeIsMetaOnlyResponse}}
 {{^returnTypeIsMetaDataResponse}}
-{{#returnTypeIsListContainer}}
+{{#returnTypeIsArray}}
 {{#returnTypeAlternate}}
         return successReturnValue;
 {{/returnTypeAlternate}}
-{{/returnTypeIsListContainer}}
+{{/returnTypeIsArray}}
 {{#returnTypeIsModel}}
         return successReturnValue;
 {{/returnTypeIsModel}}
-{{^returnTypeIsListContainer}}
+{{^returnTypeIsArray}}
 {{^returnTypeIsModel}}
 		return response;
 {{/returnTypeIsModel}}
-{{/returnTypeIsListContainer}}
+{{/returnTypeIsArray}}
 {{/returnTypeIsMetaDataResponse}}
 {{/returnTypeIsMetaOnlyResponse}}
 {{/returnType}}
