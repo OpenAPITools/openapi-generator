@@ -585,11 +585,23 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
+            for (CodegenParameter p : op.allParams) {
+                p.vendorExtensions.put("x-ruby-example", constructExampleCode(p, modelMaps, processedModelMaps));
+            }
+            processedModelMaps.clear();
             for (CodegenParameter p : op.requiredParams) {
                 p.vendorExtensions.put("x-ruby-example", constructExampleCode(p, modelMaps, processedModelMaps));
             }
             processedModelMaps.clear();
             for (CodegenParameter p : op.optionalParams) {
+                p.vendorExtensions.put("x-ruby-example", constructExampleCode(p, modelMaps, processedModelMaps));
+            }
+            processedModelMaps.clear();
+            for (CodegenParameter p : op.bodyParams) {
+                p.vendorExtensions.put("x-ruby-example", constructExampleCode(p, modelMaps, processedModelMaps));
+            }
+            processedModelMaps.clear();
+            for (CodegenParameter p : op.pathParams) {
                 p.vendorExtensions.put("x-ruby-example", constructExampleCode(p, modelMaps, processedModelMaps));
             }
             processedModelMaps.clear();
