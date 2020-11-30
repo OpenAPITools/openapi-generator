@@ -274,7 +274,7 @@ feature {NONE} -- Helpers: Object
 
 	reference_from_json_object (a_json_object: JSON_OBJECT; ctx: JSON_DESERIALIZER_CONTEXT; a_type: detachable TYPE [detachable ANY]): detachable ANY
 		local
-			l_type_name: detachable READABLE_STRING_32
+			l_type_name: detachable READABLE_STRING_8
 			ref: REFLECTED_REFERENCE_OBJECT
 			i: INTEGER
 			fn: READABLE_STRING_GENERAL
@@ -285,7 +285,7 @@ feature {NONE} -- Helpers: Object
 					-- Updated to use the Type info insted of the type_field in JSON.
 					--  fn.same_string ({JSON_REFLECTOR_SERIALIZER}.type_field_name
 				if attached a_type then
-					l_type_name := a_type.name.as_string_32
+					l_type_name := a_type.name.to_string_8
 				end
 				Result := new_instance_of (l_type_name, a_type)
 				if Result = Void then

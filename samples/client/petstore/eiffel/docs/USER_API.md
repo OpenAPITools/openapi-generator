@@ -1,6 +1,6 @@
 # USER_API
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *http://petstore.swagger.io/v2*
 
 Feature | HTTP request | Description
 ------------- | ------------- | -------------
@@ -35,11 +35,11 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -55,7 +55,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**LIST [USER]**](LIST.md)| List of user object | 
+ **user** | [**LIST [USER]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -63,11 +63,11 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -83,7 +83,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**LIST [USER]**](LIST.md)| List of user object | 
+ **user** | [**LIST [USER]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -91,11 +91,11 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -113,7 +113,7 @@ This can only be done by the logged in user.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **STRING_32**| The name that needs to be deleted | 
+ **username** | **STRING_32**| The name that needs to be deleted | [default to null]
 
 ### Return type
 
@@ -121,7 +121,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -141,8 +141,8 @@ Logs user into the system
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **STRING_32**| The user name for login | 
- **password** | **STRING_32**| The password for login in clear text | 
+ **username** | **STRING_32**| The user name for login | [default to null]
+ **password** | **STRING_32**| The password for login in clear text | [default to null]
 
 ### Return type
 
@@ -175,7 +175,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -197,7 +197,7 @@ This can only be done by the logged in user.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **STRING_32**| name that need to be deleted | 
+ **username** | **STRING_32**| name that need to be deleted | [default to null]
  **user** | [**USER**](USER.md)| Updated user object | 
 
 ### Return type
@@ -206,11 +206,11 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -226,7 +226,7 @@ Get user by user name
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **STRING_32**| The name that needs to be fetched. Use user1 for testing. | 
+ **username** | **STRING_32**| The name that needs to be fetched. Use user1 for testing. | [default to null]
 
 ### Return type
 

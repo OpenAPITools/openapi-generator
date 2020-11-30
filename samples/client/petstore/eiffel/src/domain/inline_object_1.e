@@ -12,7 +12,7 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel openapi generator", "src=https://openapi-generator.tech", "protocol=uri"
-class CATEGORY 
+class INLINE_OBJECT_1 
 
 inherit
 
@@ -24,27 +24,27 @@ inherit
 
 feature --Access
 
-    id: INTEGER_64 
-      
-    name: detachable STRING_32 
-      
+    additional_metadata: detachable STRING_32 
+      -- Additional data to pass to server
+    file: detachable FILE 
+      -- file to upload
 
 feature -- Change Element  
  
-    set_id (a_name: like id)
-        -- Set 'id' with 'a_name'.
+    set_additional_metadata (a_name: like additional_metadata)
+        -- Set 'additional_metadata' with 'a_name'.
       do
-        id := a_name
+        additional_metadata := a_name
       ensure
-        id_set: id = a_name		
+        additional_metadata_set: additional_metadata = a_name		
       end
 
-    set_name (a_name: like name)
-        -- Set 'name' with 'a_name'.
+    set_file (a_name: like file)
+        -- Set 'file' with 'a_name'.
       do
-        name := a_name
+        file := a_name
       ensure
-        name_set: name = a_name		
+        file_set: file = a_name		
       end
 
 
@@ -54,15 +54,15 @@ feature -- Change Element
           -- <Precursor>
       do
         create Result.make_empty
-        Result.append("%Nclass CATEGORY%N")
-        if attached id as l_id then
-          Result.append ("%Nid:")
-          Result.append (l_id.out)
+        Result.append("%Nclass INLINE_OBJECT_1%N")
+        if attached additional_metadata as l_additional_metadata then
+          Result.append ("%Nadditional_metadata:")
+          Result.append (l_additional_metadata.out)
           Result.append ("%N")    
         end  
-        if attached name as l_name then
-          Result.append ("%Nname:")
-          Result.append (l_name.out)
+        if attached file as l_file then
+          Result.append ("%Nfile:")
+          Result.append (l_file.out)
           Result.append ("%N")    
         end  
       end

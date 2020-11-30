@@ -48,8 +48,8 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
         setReservedWordsLowerCase(Arrays.asList(
                 // language reserved words
-                "across", "agent", "alias", "all", "and", "as", "assign", "attribute", "check", "class", "convert",
-                "create", "Current", "debug", "deferred", "do", "else", "elseif", "end", "ensure", "expanded", "export",
+                "across", "agent", "alias", "all", "and", "as", "assign", "attached", "attribute", "check", "class", "convert",
+                "create", "Current", "debug", "deferred", "detachable", "do", "else", "elseif", "end", "ensure", "expanded", "export",
                 "external", "False", "feature", "from", "frozen", "if", "implies", "inherit", "inspect", "invariant",
                 "like", "local", "loop", "not", "note", "obsolete", "old", "once", "only", "or", "Precursor",
                 "redefine", "rename", "require", "rescue", "Result", "retry", "select", "separate", "then", "True",
