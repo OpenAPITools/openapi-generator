@@ -640,7 +640,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             for (String entry : entries) {
                 tagStr.append(prefix);
                 prefix = ",";
-                tagStr.append(String.format("'%s' ",entry));
+                tagStr.append(String.format(Locale.ROOT, "'%s' ",entry));
             }
             tagStr.append(")");
             setTags(tagStr.toString());
