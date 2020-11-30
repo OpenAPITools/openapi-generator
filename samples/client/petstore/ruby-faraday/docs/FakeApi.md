@@ -618,7 +618,7 @@ api_instance = Petstore::FakeApi.new
 number = 8.14 # Float | None
 double = 1.2 # Float | None
 pattern_without_delimiter = 'pattern_without_delimiter_example' # String | None
-byte = BYTE_ARRAY_DATA_HERE # String | None
+byte = 'BYTE_ARRAY_DATA_HERE' # String | None
 opts = {
   integer: 56, # Integer | None
   int32: 56, # Integer | None
@@ -707,13 +707,13 @@ require 'petstore'
 api_instance = Petstore::FakeApi.new
 opts = {
   enum_header_string_array: ['>'], # Array<String> | Header parameter enum test (string array)
-  enum_header_string: '"_abc"', # String | Header parameter enum test (string)
+  enum_header_string: '_abc', # String | Header parameter enum test (string)
   enum_query_string_array: ['>'], # Array<String> | Query parameter enum test (string array)
-  enum_query_string: '"_abc"', # String | Query parameter enum test (string)
+  enum_query_string: '_abc', # String | Query parameter enum test (string)
   enum_query_integer: 1, # Integer | Query parameter enum test (double)
   enum_query_double: 1.1, # Float | Query parameter enum test (double)
   enum_form_string_array: ['>'], # Array<String> | Form parameter enum test (string array)
-  enum_form_string: '"_abc"' # String | Form parameter enum test (string)
+  enum_form_string: '_abc' # String | Form parameter enum test (string)
 }
 
 begin

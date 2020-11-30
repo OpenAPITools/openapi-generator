@@ -606,10 +606,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         } else if (codegenParameter.isPrimitiveType) { // primitive type
             if (codegenParameter.isEnum) {
                 // When inline enum, set example to first allowable value
-                List<Map<String, String>> enumVars = (List<Map<String, String>>) codegenParameter.allowableValues.get("enumVars");
-                codegenParameter.example = enumVars.get(0).get("value");
+                List<Object> values = (List<Object>) codegenParameter.allowableValues.get("values");
+                codegenParameter.example = String.valueOf(values.get(0));
             }
-            if (codegenParameter.isString) {
+            if (codegenParameter.isString || "String".equalsIgnoreCase(codegenParameter.baseType)) {
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
                     return "'" + codegenParameter.example + "'";
                 }
@@ -669,7 +669,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 List<Object> values = (List<Object>) codegenProperty.allowableValues.get("values");
                 codegenProperty.example = String.valueOf(values.get(0));
             }
-            if (codegenProperty.isString) {
+            if (codegenProperty.isString || "String".equalsIgnoreCase(codegenProperty.baseType)) {
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
                     return "'" + codegenProperty.example + "'";
                 } else {
