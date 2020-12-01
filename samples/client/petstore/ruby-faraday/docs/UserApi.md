@@ -2,22 +2,21 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**create_user**](UserApi.md#create_user) | **POST** /user | Create user
-[**create_users_with_array_input**](UserApi.md#create_users_with_array_input) | **POST** /user/createWithArray | Creates list of users with given input array
-[**create_users_with_list_input**](UserApi.md#create_users_with_list_input) | **POST** /user/createWithList | Creates list of users with given input array
-[**delete_user**](UserApi.md#delete_user) | **DELETE** /user/{username} | Delete user
-[**get_user_by_name**](UserApi.md#get_user_by_name) | **GET** /user/{username} | Get user by user name
-[**login_user**](UserApi.md#login_user) | **GET** /user/login | Logs user into the system
-[**logout_user**](UserApi.md#logout_user) | **GET** /user/logout | Logs out current logged in user session
-[**update_user**](UserApi.md#update_user) | **PUT** /user/{username} | Updated user
-
+| Method | HTTP request | Description |
+| ------ | ------------ | ----------- |
+| [**create_user**](UserApi.md#create_user) | **POST** /user | Create user |
+| [**create_users_with_array_input**](UserApi.md#create_users_with_array_input) | **POST** /user/createWithArray | Creates list of users with given input array |
+| [**create_users_with_list_input**](UserApi.md#create_users_with_list_input) | **POST** /user/createWithList | Creates list of users with given input array |
+| [**delete_user**](UserApi.md#delete_user) | **DELETE** /user/{username} | Delete user |
+| [**get_user_by_name**](UserApi.md#get_user_by_name) | **GET** /user/{username} | Get user by user name |
+| [**login_user**](UserApi.md#login_user) | **GET** /user/login | Logs user into the system |
+| [**logout_user**](UserApi.md#logout_user) | **GET** /user/logout | Logs out current logged in user session |
+| [**update_user**](UserApi.md#update_user) | **PUT** /user/{username} | Updated user |
 
 
 ## create_user
 
-> create_user(body)
+> create_user(user)
 
 Create user
 
@@ -30,11 +29,11 @@ This can only be done by the logged in user.
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
-body = Petstore::User.new # User | Created user object
+user = Petstore::User.new # User | Created user object
 
 begin
   #Create user
-  api_instance.create_user(body)
+  api_instance.create_user(user)
 rescue Petstore::ApiError => e
   puts "Exception when calling UserApi->create_user: #{e}"
 end
@@ -42,10 +41,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **user** | [**User**](User.md) | Created user object |  |
 
 ### Return type
 
@@ -57,13 +55,13 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 
 ## create_users_with_array_input
 
-> create_users_with_array_input(body)
+> create_users_with_array_input(user)
 
 Creates list of users with given input array
 
@@ -74,11 +72,11 @@ Creates list of users with given input array
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
-body = [Petstore::User.new] # Array<User> | List of user object
+user = [Petstore::User.new] # Array<User> | List of user object
 
 begin
   #Creates list of users with given input array
-  api_instance.create_users_with_array_input(body)
+  api_instance.create_users_with_array_input(user)
 rescue Petstore::ApiError => e
   puts "Exception when calling UserApi->create_users_with_array_input: #{e}"
 end
@@ -86,10 +84,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**Array&lt;User&gt;**](User.md)| List of user object | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **user** | [**Array&lt;User&gt;**](User.md) | List of user object |  |
 
 ### Return type
 
@@ -101,13 +98,13 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 
 ## create_users_with_list_input
 
-> create_users_with_list_input(body)
+> create_users_with_list_input(user)
 
 Creates list of users with given input array
 
@@ -118,11 +115,11 @@ Creates list of users with given input array
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
-body = [Petstore::User.new] # Array<User> | List of user object
+user = [Petstore::User.new] # Array<User> | List of user object
 
 begin
   #Creates list of users with given input array
-  api_instance.create_users_with_list_input(body)
+  api_instance.create_users_with_list_input(user)
 rescue Petstore::ApiError => e
   puts "Exception when calling UserApi->create_users_with_list_input: #{e}"
 end
@@ -130,10 +127,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**Array&lt;User&gt;**](User.md)| List of user object | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **user** | [**Array&lt;User&gt;**](User.md) | List of user object |  |
 
 ### Return type
 
@@ -145,7 +141,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 
@@ -176,10 +172,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be deleted | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **username** | **String** | The name that needs to be deleted |  |
 
 ### Return type
 
@@ -221,10 +216,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be fetched. Use user1 for testing. | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **username** | **String** | The name that needs to be fetched. Use user1 for testing. |  |
 
 ### Return type
 
@@ -267,11 +261,10 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **String**| The user name for login | 
- **password** | **String**| The password for login in clear text | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **username** | **String** | The user name for login |  |
+| **password** | **String** | The password for login in clear text |  |
 
 ### Return type
 
@@ -329,7 +322,7 @@ No authorization required
 
 ## update_user
 
-> update_user(username, body)
+> update_user(username, user)
 
 Updated user
 
@@ -343,11 +336,11 @@ require 'petstore'
 
 api_instance = Petstore::UserApi.new
 username = 'username_example' # String | name that need to be deleted
-body = Petstore::User.new # User | Updated user object
+user = Petstore::User.new # User | Updated user object
 
 begin
   #Updated user
-  api_instance.update_user(username, body)
+  api_instance.update_user(username, user)
 rescue Petstore::ApiError => e
   puts "Exception when calling UserApi->update_user: #{e}"
 end
@@ -355,11 +348,10 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be deleted | 
- **body** | [**User**](User.md)| Updated user object | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **username** | **String** | name that need to be deleted |  |
+| **user** | [**User**](User.md) | Updated user object |  |
 
 ### Return type
 
@@ -371,6 +363,6 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 

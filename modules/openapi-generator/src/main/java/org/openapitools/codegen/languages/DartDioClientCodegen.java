@@ -40,7 +40,6 @@ import java.util.Set;
 
 import io.swagger.v3.oas.models.media.Schema;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -48,10 +47,10 @@ public class DartDioClientCodegen extends DartClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartDioClientCodegen.class);
 
     public static final String NULLABLE_FIELDS = "nullableFields";
-    private static final String IS_FORMAT_JSON = "jsonFormat";
-    private static final String CLIENT_NAME = "clientName";
     public static final String DATE_LIBRARY = "dateLibrary";
 
+    private static final String IS_FORMAT_JSON = "jsonFormat";
+    private static final String CLIENT_NAME = "clientName";
     private static Set<String> modelToIgnore = new HashSet<>();
 
     static {
@@ -63,14 +62,11 @@ public class DartDioClientCodegen extends DartClientCodegen {
         modelToIgnore.add("uint8list");
     }
 
-    private static final String SERIALIZATION_JSON = "json";
-
     private boolean nullableFields = true;
     private String dateLibrary = "core";
 
     public DartDioClientCodegen() {
         super();
-        browserClient = false;
         outputFolder = "generated-code/dart-dio";
         embeddedTemplateDir = "dart-dio";
         this.setTemplateDir(embeddedTemplateDir);
@@ -89,6 +85,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
         typeMapping.put("file", "Uint8List");
         typeMapping.put("binary", "Uint8List");
+        typeMapping.put("AnyType", "Object");
 
         importMapping.put("BuiltList", "package:built_collection/built_collection.dart");
         importMapping.put("BuiltMap", "package:built_collection/built_collection.dart");
@@ -124,24 +121,27 @@ public class DartDioClientCodegen extends DartClientCodegen {
     }
 
     @Override
-    public void setBrowserClient(boolean browserClient) {
-        super.browserClient = browserClient;
-    }
-
-    @Override
-    public String toDefaultValue(Schema p) {
-        if (ModelUtils.isMapSchema(p)) {
+    public String toDefaultValue(Schema schema) {
+        if (ModelUtils.isMapSchema(schema)) {
             return "const {}";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (ModelUtils.isArraySchema(schema)) {
             return "const []";
         }
-        return super.toDefaultValue(p);
+
+        if (schema.getDefault() != null) {
+            if (ModelUtils.isStringSchema(schema)) {
+                return "'" + schema.getDefault().toString().replaceAll("'", "\\'") + "'";
+            }
+            return schema.getDefault().toString();
+        } else {
+            return "null";
+        }
     }
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         //super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
-        codegenModel.additionalPropertiesType = getSchemaType(ModelUtils.getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getSchemaType(getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -170,13 +170,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
-        if (additionalProperties.containsKey(BROWSER_CLIENT)) {
-            this.setBrowserClient(convertPropertyToBooleanAndWriteBack(BROWSER_CLIENT));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(BROWSER_CLIENT, browserClient);
-        }
-
         if (additionalProperties.containsKey(NULLABLE_FIELDS)) {
             this.setNullableFields(convertPropertyToBooleanAndWriteBack(NULLABLE_FIELDS));
         } else {
@@ -185,6 +178,13 @@ public class DartDioClientCodegen extends DartClientCodegen {
         }
 
         additionalProperties.put(IS_FORMAT_JSON, true);
+
+        if (additionalProperties.containsKey(PUB_LIBRARY)) {
+            this.setPubLibrary((String) additionalProperties.get(PUB_LIBRARY));
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(PUB_LIBRARY, pubLibrary);
+        }
 
         if (additionalProperties.containsKey(PUB_NAME)) {
             this.setPubName((String) additionalProperties.get(PUB_NAME));
@@ -240,6 +240,12 @@ public class DartDioClientCodegen extends DartClientCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
+        final String authFolder = libFolder + File.separator + "auth";
+        supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
+        supportingFiles.add(new SupportingFile("auth/basic_auth.mustache", authFolder, "basic_auth.dart"));
+        supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
+        supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
+
         if ("core".equals(dateLibrary)) {
             additionalProperties.put("core", "true");
             typeMapping.put("Date", "DateTime");
@@ -263,9 +269,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
         List<Object> models = (List<Object>) objs.get("models");
         ProcessUtils.addIndexToProperties(models, 1);
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             Set<String> modelImports = new HashSet<>();
@@ -282,7 +285,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
             cm.imports = modelImports;
             boolean hasVars =  cm.vars.size() > 0;
-            cm.vendorExtensions.put("hasVars", hasVars); // TODO: 5.0 Remove
             cm.vendorExtensions.put("x-has-vars", hasVars);
         }
         return objs;
@@ -348,13 +350,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
                     param.dataType = "MultipartFile";
                 }
             }
-
-            // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-            once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
-            op.vendorExtensions.put("isJson", isJson); // TODO: 5.0 Remove
-            op.vendorExtensions.put("isForm", isForm); // TODO: 5.0 Remove
-            op.vendorExtensions.put("isMultipart", isMultipart); // TODO: 5.0 Remove
 
             op.vendorExtensions.put("x-is-json", isJson);
             op.vendorExtensions.put("x-is-form", isForm);

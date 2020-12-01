@@ -3,12 +3,10 @@ title: Config Options for elm
 sidebar_label: elm
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|elmEnableCustomBasePaths|Enable setting the base path for each request| |false|
-|elmEnableHttpRequestTrackers|Enable adding a tracker to each http request| |false|
-|elmPrefixCustomTypeVariants|Prefix custom type variants| |false|
-|elmVersion|Elm version: 0.18, 0.19|<dl><dt>**0.19**</dt><dd>Elm 0.19</dd><dt>**0.18**</dt><dd>Elm 0.18</dd></dl>|0.19|
 
 ## IMPORT MAPPING
 
@@ -63,6 +61,7 @@ sidebar_label: elm
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |
@@ -148,7 +147,7 @@ sidebar_label: elm
 |BasicAuth|✗|OAS2,OAS3
 |ApiKey|✗|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✗|OAS3
+|BearerToken|✓|OAS3
 |OAuth2_Implicit|✗|OAS2,OAS3
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3

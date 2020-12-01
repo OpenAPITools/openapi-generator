@@ -91,6 +91,14 @@ void PFXApiResponse::setCode(const qint32 &code) {
     this->m_code_isSet = true;
 }
 
+bool PFXApiResponse::is_code_Set() const{
+    return m_code_isSet;
+}
+
+bool PFXApiResponse::is_code_Valid() const{
+    return m_code_isValid;
+}
+
 QString PFXApiResponse::getType() const {
     return type;
 }
@@ -99,12 +107,28 @@ void PFXApiResponse::setType(const QString &type) {
     this->m_type_isSet = true;
 }
 
+bool PFXApiResponse::is_type_Set() const{
+    return m_type_isSet;
+}
+
+bool PFXApiResponse::is_type_Valid() const{
+    return m_type_isValid;
+}
+
 QString PFXApiResponse::getMessage() const {
     return message;
 }
 void PFXApiResponse::setMessage(const QString &message) {
     this->message = message;
     this->m_message_isSet = true;
+}
+
+bool PFXApiResponse::is_message_Set() const{
+    return m_message_isSet;
+}
+
+bool PFXApiResponse::is_message_Valid() const{
+    return m_message_isValid;
 }
 
 bool PFXApiResponse::isSet() const {

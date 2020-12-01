@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 NAME = "{{packageName}}"
 VERSION = "{{packageVersion}}"
-{{#apiInfo}}{{#apis}}{{^hasMore}}
+{{#apiInfo}}{{#apis}}{{#-last}}
 # To install the library, run the following
 #
 # python setup.py install
@@ -23,7 +23,8 @@ setup(
     url="{{packageUrl}}",
     keywords=["Swagger", "{{appName}}"],
     install_requires=REQUIRES,
-    packages=find_packages(),
+    packages=find_packages({{#pythonSrcRoot}}"{{{.}}}"{{/pythonSrcRoot}}),{{#pythonSrcRoot}}
+    package_dir={"": "{{{.}}}"},{{/pythonSrcRoot}}
     package_data={'': ['swagger/swagger.yaml']},
     include_package_data=True,
     entry_points={
@@ -32,4 +33,4 @@ setup(
     {{appDescription}}
     """
 )
-{{/hasMore}}{{/apis}}{{/apiInfo}}
+{{/-last}}{{/apis}}{{/apiInfo}}

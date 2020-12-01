@@ -121,6 +121,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         typeMapping.put("file", "File");
         typeMapping.put("binary", "File");
         typeMapping.put("number", "BigDecimal");
+        typeMapping.put("decimal", "BigDecimal");
         typeMapping.put("date-time", "DateTime");
         typeMapping.put("date", "DateTime");
 
@@ -182,7 +183,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         } else if (ModelUtils.isIntegerSchema(p)) {
             return null;
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
+            String inner = getSchemaType(getAdditionalProperties(p));
 
             return "Map.empty[String, " + inner + "] ";
         } else if (ModelUtils.isArraySchema(p)) {

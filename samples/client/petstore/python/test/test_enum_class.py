@@ -11,13 +11,12 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
-import datetime
 
 import petstore_api
-from petstore_api.models.enum_class import EnumClass  # noqa: E501
-from petstore_api.rest import ApiException
+from petstore_api.model.enum_class import EnumClass
+
 
 class TestEnumClass(unittest.TestCase):
     """EnumClass unit test stubs"""
@@ -28,23 +27,11 @@ class TestEnumClass(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional):
-        """Test EnumClass
-            include_option is a boolean, when False only required
-            params are included, when True both required and
-            optional params are included """
-        # model = petstore_api.models.enum_class.EnumClass()  # noqa: E501
-        if include_optional :
-            return EnumClass(
-            )
-        else :
-            return EnumClass(
-        )
-
     def testEnumClass(self):
         """Test EnumClass"""
-        inst_req_only = self.make_instance(include_optional=False)
-        inst_req_and_optional = self.make_instance(include_optional=True)
+        # FIXME: construct object with mandatory attributes with example values
+        # model = EnumClass()  # noqa: E501
+        pass
 
 
 if __name__ == '__main__':

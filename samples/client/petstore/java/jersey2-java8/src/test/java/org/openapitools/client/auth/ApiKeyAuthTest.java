@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
 
+import org.openapitools.client.ApiException;
 import org.openapitools.client.Pair;
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -12,14 +13,14 @@ import static org.junit.Assert.*;
 
 public class ApiKeyAuthTest {
     @Test
-    public void testApplyToParamsInQuery() {
+    public void testApplyToParamsInQuery() throws ApiException {
         List<Pair> queryParams = new ArrayList<Pair>();
         Map<String, String> headerParams = new HashMap<String, String>();
         Map<String, String> cookieParams = new HashMap<String, String>();
 
         ApiKeyAuth auth = new ApiKeyAuth("query", "api_key");
         auth.setApiKey("my-api-key");
-        auth.applyToParams(queryParams, headerParams, cookieParams);
+        auth.applyToParams(queryParams, headerParams, cookieParams, null, null, null);
 
         assertEquals(1, queryParams.size());
         for (Pair queryParam : queryParams) {
@@ -32,7 +33,7 @@ public class ApiKeyAuthTest {
     }
 
     @Test
-    public void testApplyToParamsInHeaderWithPrefix() {
+    public void testApplyToParamsInHeaderWithPrefix() throws ApiException {
             List<Pair> queryParams = new ArrayList<Pair>();
         Map<String, String> headerParams = new HashMap<String, String>();
         Map<String, String> cookieParams = new HashMap<String, String>();
@@ -40,7 +41,7 @@ public class ApiKeyAuthTest {
         ApiKeyAuth auth = new ApiKeyAuth("header", "X-API-TOKEN");
         auth.setApiKey("my-api-token");
         auth.setApiKeyPrefix("Token");
-        auth.applyToParams(queryParams, headerParams, cookieParams);
+        auth.applyToParams(queryParams, headerParams, cookieParams, null, null, null);
 
         // no changes to query parameters
         assertEquals(0, queryParams.size());
@@ -50,7 +51,7 @@ public class ApiKeyAuthTest {
     }
 
     @Test
-    public void testApplyToParamsInCookieWithPrefix() {
+    public void testApplyToParamsInCookieWithPrefix() throws ApiException {
             List<Pair> queryParams = new ArrayList<Pair>();
         Map<String, String> headerParams = new HashMap<String, String>();
         Map<String, String> cookieParams = new HashMap<String, String>();
@@ -58,7 +59,7 @@ public class ApiKeyAuthTest {
         ApiKeyAuth auth = new ApiKeyAuth("cookie", "X-API-TOKEN");
         auth.setApiKey("my-api-token");
         auth.setApiKeyPrefix("Token");
-        auth.applyToParams(queryParams, headerParams, cookieParams);
+        auth.applyToParams(queryParams, headerParams, cookieParams, null, null, null);
 
         // no changes to query or header parameters
         assertEquals(0, queryParams.size());

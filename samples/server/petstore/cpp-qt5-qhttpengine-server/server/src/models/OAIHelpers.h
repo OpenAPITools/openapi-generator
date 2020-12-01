@@ -28,6 +28,8 @@
 
 namespace OpenAPI {
 
+bool setDateTimeFormat(const QString&);
+
 template <typename T>
 QString toStringValue(const QList<T> &val);
 

@@ -1,13 +1,13 @@
 {{#isQueryParam}}
-{{^isListContainer}}
+{{^isArray}}
 {{#isModel}}
-            {{{dataType}}} {{paramName}} = ParameterCast.toObject(routingContext.queryParams().get("{{baseName}}"), {{dataType}}.class);
+        {{{dataType}}} {{paramName}} = requestParameters.queryParameter("{{baseName}}") != null ? DatabindCodec.mapper().convertValue(requestParameters.queryParameter("{{baseName}}").get(), new TypeReference<{{{dataType}}}>(){}) : null;
 {{/isModel}}
 {{^isModel}}
-            {{{dataType}}} {{paramName}} = ParameterCast.to{{dataType}}(routingContext.queryParams().get("{{baseName}}"));
+        {{{dataType}}} {{paramName}} = requestParameters.queryParameter("{{baseName}}") != null ? requestParameters.queryParameter("{{baseName}}").get{{dataType}}() : null;
 {{/isModel}}
-{{/isListContainer}}
-{{#isListContainer}}
-            {{{dataType}}} {{paramName}} = routingContext.request().params().getAll("{{baseName}}");
-{{/isListContainer}}
+{{/isArray}}
+{{#isArray}}
+        {{{dataType}}} {{paramName}} = requestParameters.queryParameter("{{baseName}}") != null ? DatabindCodec.mapper().convertValue(requestParameters.queryParameter("{{baseName}}").get(), new TypeReference<{{{dataType}}}>(){}) : null;
+{{/isArray}}
 {{/isQueryParam}}

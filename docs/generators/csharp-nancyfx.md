@@ -3,6 +3,8 @@ title: Config Options for csharp-nancyfx
 sidebar_label: csharp-nancyfx
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |asyncServer|Set to true to enable the generation of async routes/endpoints.| |false|
@@ -44,6 +46,7 @@ sidebar_label: csharp-nancyfx
 <li>DateTime?</li>
 <li>DateTimeOffset</li>
 <li>DateTimeOffset?</li>
+<li>Decimal</li>
 <li>Dictionary</li>
 <li>Double</li>
 <li>Float</li>
@@ -94,6 +97,7 @@ sidebar_label: csharp-nancyfx
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

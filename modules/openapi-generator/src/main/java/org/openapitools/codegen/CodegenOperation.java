@@ -25,13 +25,13 @@ import java.util.*;
 public class CodegenOperation {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
     public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
-            returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMapContainer,
-            isListContainer, isMultipart, hasMore = true,
+            returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
+            isArray, isMultipart,
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
-            isRestful, isDeprecated, isCallbackRequest;
-    public String path, operationId, returnType, httpMethod, returnBaseType,
-            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
+            isRestful, isDeprecated, isCallbackRequest, uniqueItems;
+    public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
+            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse; 
     public CodegenDiscriminator discriminator;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
     public List<CodegenServer> servers = new ArrayList<CodegenServer>();
@@ -255,10 +255,9 @@ public class CodegenOperation {
         sb.append(", returnTypeIsPrimitive=").append(returnTypeIsPrimitive);
         sb.append(", returnSimpleType=").append(returnSimpleType);
         sb.append(", subresourceOperation=").append(subresourceOperation);
-        sb.append(", isMapContainer=").append(isMapContainer);
-        sb.append(", isListContainer=").append(isListContainer);
+        sb.append(", isMap=").append(isMap);
+        sb.append(", isArray=").append(isArray);
         sb.append(", isMultipart=").append(isMultipart);
-        sb.append(", hasMore=").append(hasMore);
         sb.append(", isResponseBinary=").append(isResponseBinary);
         sb.append(", isResponseFile=").append(isResponseFile);
         sb.append(", hasReference=").append(hasReference);
@@ -270,6 +269,7 @@ public class CodegenOperation {
         sb.append(", isRestful=").append(isRestful);
         sb.append(", isDeprecated=").append(isDeprecated);
         sb.append(", isCallbackRequest=").append(isCallbackRequest);
+        sb.append(", uniqueItems='").append(uniqueItems);
         sb.append(", path='").append(path).append('\'');
         sb.append(", operationId='").append(operationId).append('\'');
         sb.append(", returnType='").append(returnType).append('\'');
@@ -328,10 +328,9 @@ public class CodegenOperation {
                 returnTypeIsPrimitive == that.returnTypeIsPrimitive &&
                 returnSimpleType == that.returnSimpleType &&
                 subresourceOperation == that.subresourceOperation &&
-                isMapContainer == that.isMapContainer &&
-                isListContainer == that.isListContainer &&
+                isMap == that.isMap &&
+                isArray == that.isArray &&
                 isMultipart == that.isMultipart &&
-                hasMore == that.hasMore &&
                 isResponseBinary == that.isResponseBinary &&
                 isResponseFile == that.isResponseFile &&
                 hasReference == that.hasReference &&
@@ -343,6 +342,7 @@ public class CodegenOperation {
                 isRestful == that.isRestful &&
                 isDeprecated == that.isDeprecated &&
                 isCallbackRequest == that.isCallbackRequest &&
+                uniqueItems == that.uniqueItems &&
                 Objects.equals(responseHeaders, that.responseHeaders) &&
                 Objects.equals(path, that.path) &&
                 Objects.equals(operationId, that.operationId) &&
@@ -390,12 +390,12 @@ public class CodegenOperation {
     public int hashCode() {
 
         return Objects.hash(responseHeaders, hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams,
-                hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMapContainer,
-                isListContainer, isMultipart, hasMore, isResponseBinary, isResponseFile, hasReference, isRestfulIndex,
+                hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
+                isArray, isMultipart, isResponseBinary, isResponseFile, hasReference, isRestfulIndex,
                 isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy, isRestful, isDeprecated,
-                isCallbackRequest, path, operationId, returnType, httpMethod, returnBaseType, returnContainer,
-                summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, consumes, produces,
-                prioritizedContentTypes, servers, bodyParam, allParams, bodyParams, pathParams, queryParams,
+                isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod, returnBaseType,
+                returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, consumes,
+                produces, prioritizedContentTypes, servers, bodyParam, allParams, bodyParams, pathParams, queryParams,
                 headerParams, formParams, cookieParams, requiredParams, optionalParams, authMethods, tags,
                 responses, callbacks, imports, examples, requestBodyExamples, externalDocs, vendorExtensions,
                 nickname, operationIdOriginal, operationIdLowerCase, operationIdCamelCase, operationIdSnakeCase);

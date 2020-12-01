@@ -3,6 +3,8 @@ title: Config Options for scala-finch
 sidebar_label: scala-finch
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |apiPackage|package for generated api classes| |null|
@@ -14,7 +16,6 @@ sidebar_label: scala-finch
 | Type/Alias | Imports |
 | ---------- | ------- |
 |ArrayBuffer|scala.collection.mutable.ArrayBuffer|
-|BigDecimal|java.math.BigDecimal|
 |Date|java.util.Date|
 |DateTime|java.time.LocalDateTime|
 |File|java.io.File|
@@ -134,6 +135,7 @@ sidebar_label: scala-finch
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

@@ -235,19 +235,14 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
         char firstChar = parameter.paramName.charAt(0);
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         if (Character.isUpperCase(firstChar)) {
             // First char is already uppercase, just use paramName.
-            parameter.vendorExtensions.put("x-exportParamName", parameter.paramName);  // TODO: 5.0 Remove
             parameter.vendorExtensions.put("x-export-param-name", parameter.paramName);
         }
 
         // It's a lowercase first char, let's convert it to uppercase
         StringBuilder sb = new StringBuilder(parameter.paramName);
         sb.setCharAt(0, Character.toUpperCase(firstChar));
-        parameter.vendorExtensions.put("x-exportParamName", sb.toString());  // TODO: 5.0 Remove
         parameter.vendorExtensions.put("x-export-param-name", sb.toString());
     }
 
@@ -281,7 +276,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             Schema inner = ap.getItems();
             return "LIST [" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
 
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         }
@@ -511,12 +506,6 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         }
 
         if (removedChildEnum) {
-            // If we removed an entry from this model's vars, we need to ensure hasMore is updated
-            int count = 0, numVars = codegenProperties.size();
-            for (CodegenProperty codegenProperty : codegenProperties) {
-                count += 1;
-                codegenProperty.hasMore = (count < numVars) ? true : false;
-            }
             codegenModel.vars = codegenProperties;
         }
         return codegenModel;
@@ -549,7 +538,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            Schema additionalProperties2 = ModelUtils.getAdditionalProperties(p);
+            Schema additionalProperties2 = getAdditionalProperties(p);
             String type = additionalProperties2.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Schema " + additionalProperties2 + "\n" //

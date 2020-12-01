@@ -1,5 +1,5 @@
 {{>licenseInfo}}
-package {{{mainPackage}}}.core
+package {{invokerPackage}}
 
 import java.io.File
 
@@ -72,8 +72,8 @@ trait UnitJSONSupport {
 
 class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomContentTypes with Json4sSupport {
 
-  import {{{mainPackage}}}.core.ApiInvoker._
-  import {{{mainPackage}}}.core.ParametersMap._
+  import {{{invokerPackage}}}.ApiInvoker._
+  import {{{invokerPackage}}}.ParametersMap._
 
   implicit val ec: ExecutionContextExecutor = system.dispatcher
   implicit val jsonFormats: Formats = formats
@@ -103,11 +103,11 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
     request: HttpRequest =>
       credentialsSeq.foldLeft(request) {
         case (req, BasicCredentials(login, password)) =>
-          req.withHeaders(Authorization(BasicHttpCredentials(login, password)))
+          req.addHeader(Authorization(BasicHttpCredentials(login, password)))
         case (req, ApiKeyCredentials(keyValue, keyName, ApiKeyLocations.HEADER)) =>
-          req.withHeaders(RawHeader(keyName, keyValue.value))
+          req.addHeader(RawHeader(keyName, keyValue.value))
         case (req, BearerToken(token)) =>
-            req.withHeaders(RawHeader("Authorization", s"Bearer $token"))
+            req.addHeader(RawHeader("Authorization", s"Bearer $token"))
         case (req, _) => req
       }
   }

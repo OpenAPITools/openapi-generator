@@ -9,6 +9,7 @@ declare root="$(cd "$cwd" && cd ../ && pwd)"
 executable="${root}/modules/openapi-generator-cli/target/openapi-generator-cli.jar"
 
 if [ ! -f "$executable" ]; then
+  echo "Rebuilding…"
   (cd "$root" && ./mvnw -B clean package)
 fi
 
@@ -17,7 +18,7 @@ ags="meta -n myClientCodegen -t DOCUMENTATION -p com.my.company.codegen -o sampl
 
 java $JAVA_OPTS -jar $executable $ags
 
-(cd "$root" && ./mvnw clean package -f samples/meta-codegen/pom.xml)
+(cd "$root"/samples/meta-codegen/ && mvn -B package -Djacoco.skip=true -DskipTests=true -f pom.xml)
 
 ags2="generate -g myClientCodegen -i modules/openapi-generator/src/test/resources/2_0/petstore.json -o samples/meta-codegen/usage $@"
 

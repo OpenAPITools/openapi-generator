@@ -30,11 +30,11 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class DartJaguarClientCodegen extends DartClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartJaguarClientCodegen.class);
+
     private static final String NULLABLE_FIELDS = "nullableFields";
     private static final String SERIALIZATION_FORMAT = "serialization";
     private static final String IS_FORMAT_JSON = "jsonFormat";
@@ -86,7 +86,6 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
                 )
         );
 
-        browserClient = false;
         outputFolder = "generated-code/dart-jaguar";
         embeddedTemplateDir = templateDir = "dart-jaguar";
 
@@ -132,13 +131,21 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
-        if (ModelUtils.isMapSchema(p)) {
+    public String toDefaultValue(Schema schema) {
+        if (ModelUtils.isMapSchema(schema)) {
             return "const {}";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (ModelUtils.isArraySchema(schema)) {
             return "const []";
         }
-        return super.toDefaultValue(p);
+
+        if (schema.getDefault() != null) {
+            if (ModelUtils.isStringSchema(schema)) {
+                return "'" + schema.getDefault().toString().replaceAll("'", "\\'") + "'";
+            }
+            return schema.getDefault().toString();
+        } else {
+            return "null";
+        }
     }
 
     @Override
@@ -163,6 +170,13 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             //not set, use to be passed to template
             additionalProperties.put(IS_FORMAT_JSON, true);
             additionalProperties.put(IS_FORMAT_PROTO, false);
+        }
+
+        if (additionalProperties.containsKey(PUB_LIBRARY)) {
+            this.setPubLibrary((String) additionalProperties.get(PUB_LIBRARY));
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(PUB_LIBRARY, pubLibrary);
         }
 
         if (additionalProperties.containsKey(PUB_NAME)) {
@@ -225,9 +239,6 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         List<Object> models = (List<Object>) objs.get("models");
         ProcessUtils.addIndexToProperties(models, 1);
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             Set<String> modelImports = new HashSet<>();
@@ -240,7 +251,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
             for (CodegenProperty p : cm.vars) {
                 String protoType = protoTypeMapping.get(p.openApiType);
-                if (p.isListContainer) {
+                if (p.isArray) {
                     String innerType = protoTypeMapping.get(p.mostInnerItems.openApiType);
                     protoType = protoType + " " + (innerType == null ? p.mostInnerItems.openApiType : innerType);
                 }
@@ -249,7 +260,6 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
             cm.imports = modelImports;
             boolean hasVars = cm.vars.size() > 0;
-            cm.vendorExtensions.put("hasVars", hasVars); // TODO: 5.0 Remove
             cm.vendorExtensions.put("x-has-vars", hasVars);
         }
         return objs;
@@ -258,9 +268,6 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
 
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
@@ -304,11 +311,6 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
                     param.dataType = "MultipartFile";
                 }
             }
-
-            op.vendorExtensions.put("isForm", isForm); // TODO: 5.0 Remove
-            op.vendorExtensions.put("isJson", isJson); // TODO: 5.0 Remove
-            op.vendorExtensions.put("isProto", isProto); // TODO: 5.0 Remove
-            op.vendorExtensions.put("isMultipart", isMultipart); // TODO: 5.0 Remove
 
             op.vendorExtensions.put("x-is-form", isForm);
             op.vendorExtensions.put("x-is-json", isJson);

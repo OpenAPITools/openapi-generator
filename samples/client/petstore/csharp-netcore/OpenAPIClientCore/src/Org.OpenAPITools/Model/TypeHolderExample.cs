@@ -49,13 +49,13 @@ namespace Org.OpenAPITools.Model
         public TypeHolderExample(string stringItem = default(string), decimal numberItem = default(decimal), float floatItem = default(float), int integerItem = default(int), bool boolItem = default(bool), List<int> arrayItem = default(List<int>))
         {
             // to ensure "stringItem" is required (not null)
-            this.StringItem = stringItem ?? throw new ArgumentNullException("stringItem is a required property for TypeHolderExample and cannot be null");;
+            this.StringItem = stringItem ?? throw new ArgumentNullException("stringItem is a required property for TypeHolderExample and cannot be null");
             this.NumberItem = numberItem;
             this.FloatItem = floatItem;
             this.IntegerItem = integerItem;
             this.BoolItem = boolItem;
             // to ensure "arrayItem" is required (not null)
-            this.ArrayItem = arrayItem ?? throw new ArgumentNullException("arrayItem is a required property for TypeHolderExample and cannot be null");;
+            this.ArrayItem = arrayItem ?? throw new ArgumentNullException("arrayItem is a required property for TypeHolderExample and cannot be null");
         }
         
         /// <summary>

@@ -357,8 +357,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
     }
 
     /**
-     * This method removes header parameters from the list of parameters and
-     * also corrects last allParams hasMore state.
+     * This method removes header parameters from the list of parameters
      *
      * @param allParams list of all parameters
      */
@@ -374,7 +373,6 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                 allParams.add(p);
             }
         }
-        allParams.get(allParams.size() - 1).hasMore = false;
     }
 
     /**
@@ -554,11 +552,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                             for (String tag : operation.getTags()) {
                                 Map<String, String> value = new HashMap<String, String>();
                                 value.put("tag", tag);
-                                value.put("hasMore", "true");
                                 tags.add(value);
-                            }
-                            if (tags.size() > 0) {
-                                tags.get(tags.size() - 1).remove("hasMore");
                             }
                             if (operation.getTags().size() > 0) {
                                 String tag = operation.getTags().get(0);

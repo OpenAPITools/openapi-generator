@@ -3,8 +3,11 @@ title: Config Options for go-server
 sidebar_label: go-server
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|enumClassPrefix|Prefix enum with class name| |false|
 |featureCORS|Enable Cross-Origin Resource Sharing middleware| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |packageName|Go package name (convention: lowercase).| |openapi|
@@ -36,6 +39,8 @@ sidebar_label: go-server
 <li>int</li>
 <li>int32</li>
 <li>int64</li>
+<li>interface{}</li>
+<li>map[string]interface{}</li>
 <li>rune</li>
 <li>string</li>
 <li>uint</li>
@@ -103,6 +108,7 @@ sidebar_label: go-server
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

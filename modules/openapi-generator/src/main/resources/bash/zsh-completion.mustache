@@ -301,9 +301,9 @@ case $state in
 {{#apis}}
 {{#operations}}
 {{#operation}}
-            "{{operationId}}[{{{summary}}}]" {{#hasMore}}\
-{{/hasMore}}{{/operation}}{{/operations}}{{/apis}}{{#hasMore}}\
-{{/hasMore}}
+            "{{operationId}}[{{{summary}}}]" {{^-last}}\
+{{/-last}}{{/operation}}{{/operations}}{{/apis}}{{^-last}}\
+{{/-last}}
 {{/apiInfo}}
 
     _arguments "(--help)--help[Print information about operation]"

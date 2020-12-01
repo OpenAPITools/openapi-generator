@@ -195,7 +195,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
 
             if (inner == null) {
                 LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined");
@@ -228,11 +228,11 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         } else if (ModelUtils.isMapSchema(p)) {
             final MapSchema ap = (MapSchema) p;
             final String pattern = "new HashMap<%s>()";
-            if (ModelUtils.getAdditionalProperties(ap) == null) {
+            if (getAdditionalProperties(ap) == null) {
                 return null;
             }
 
-            return String.format(Locale.ROOT, pattern, String.format(Locale.ROOT, "String, %s", getTypeDeclaration(ModelUtils.getAdditionalProperties(ap))));
+            return String.format(Locale.ROOT, pattern, String.format(Locale.ROOT, "String, %s", getTypeDeclaration(getAdditionalProperties(ap))));
         } else if (ModelUtils.isLongSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString() + "l";
@@ -284,11 +284,11 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             p.example = "Date.newInstance(1960, 2, 17)";
         } else if (Boolean.TRUE.equals(p.isDateTime)) {
             p.example = "Datetime.newInstanceGmt(2013, 11, 12, 3, 3, 3)";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (Boolean.TRUE.equals(p.isArray)) {
             if (p.items != null && p.items.example != null) {
                 p.example = "new " + p.dataType + "{" + p.items.example + "}";
             }
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(p.isMap)) {
             if (p.items != null && p.items.example != null) {
                 p.example = "new " + p.dataType + "{" + p.items.example + "}";
             }
@@ -365,7 +365,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         } else if (ModelUtils.isLongSchema(p)) {
             example = example.isEmpty() ? "123456789L" : example + "L";
         } else if (ModelUtils.isMapSchema(p)) {
-            example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue(ModelUtils.getAdditionalProperties(p)) + "}";
+            example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue(getAdditionalProperties(p)) + "}";
 
         } else if (ModelUtils.isPasswordSchema(p)) {
             example = example.isEmpty() ? "password123" : escapeText(example);
@@ -456,13 +456,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
         }
 
-        // TODO: 5.0: Remove this block and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-        cm.vendorExtensions.put("hasPropertyMappings", !propertyMappings.isEmpty()); // TODO: 5.0 Remove
-        cm.vendorExtensions.put("hasDefaultValues", hasDefaultValues);  // TODO: 5.0 Remove
-        cm.vendorExtensions.put("propertyMappings", propertyMappings);  // TODO: 5.0 Remove
-
-
         cm.vendorExtensions.put("x-has-property-mappings", !propertyMappings.isEmpty());
         cm.vendorExtensions.put("x-has-default-values", hasDefaultValues);
         cm.vendorExtensions.put("x-property-mappings", propertyMappings);
@@ -475,7 +468,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
-        if (parameter.isBodyParam && parameter.isListContainer) {
+        if (parameter.isBodyParam && parameter.isArray) {
             // items of array bodyParams are being nested an extra level too deep for some reason
             parameter.items = parameter.items.items;
             setParameterExampleValue(parameter);
@@ -626,12 +619,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         }
 
         if (removedChildEnum) {
-            // If we removed an entry from this model's vars, we need to ensure hasMore is updated
-            int count = 0, numVars = codegenProperties.size();
-            for (CodegenProperty codegenProperty : codegenProperties) {
-                count += 1;
-                codegenProperty.hasMore = (count < numVars) ? true : false;
-            }
             codegenModel.vars = codegenProperties;
         }
         return codegenModel;

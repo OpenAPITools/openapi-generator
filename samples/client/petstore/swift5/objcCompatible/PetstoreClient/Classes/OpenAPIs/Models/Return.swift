@@ -8,7 +8,6 @@
 import Foundation
 
 /** Model for testing reserved words */
-
 @objc public class Return: NSObject, Codable {
 
     public var _return: Int?
@@ -18,7 +17,7 @@ import Foundation
         }
     }
 
-    public init(_return: Int?) {
+    public init(_return: Int? = nil) {
         self._return = _return
     }
 

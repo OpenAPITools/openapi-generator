@@ -20,13 +20,13 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
-import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
+import com.sun.jersey.multipart.FormDataBodyPart;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public abstract class FakeApiService {
       public abstract Response createXmlItem(XmlItem xmlItem,SecurityContext securityContext)
       throws NotFoundException;
@@ -44,7 +44,7 @@ public abstract class FakeApiService {
       throws NotFoundException;
       public abstract Response testClientModel(Client body,SecurityContext securityContext)
       throws NotFoundException;
-      public abstract Response testEndpointParameters(BigDecimal number,Double _double,String patternWithoutDelimiter,byte[] _byte,Integer integer,Integer int32,Long int64,Float _float,String string,InputStream binaryInputStream, FormDataContentDisposition binaryDetail,Date date,Date dateTime,String password,String paramCallback,SecurityContext securityContext)
+      public abstract Response testEndpointParameters(BigDecimal number,Double _double,String patternWithoutDelimiter,byte[] _byte,Integer integer,Integer int32,Long int64,Float _float,String string,FormDataBodyPart binaryBodypart,Date date,Date dateTime,String password,String paramCallback,SecurityContext securityContext)
       throws NotFoundException;
       public abstract Response testEnumParameters(List<String> enumHeaderStringArray,String enumHeaderString,List<String> enumQueryStringArray,String enumQueryString,Integer enumQueryInteger,Double enumQueryDouble,List<String> enumFormStringArray,String enumFormString,SecurityContext securityContext)
       throws NotFoundException;

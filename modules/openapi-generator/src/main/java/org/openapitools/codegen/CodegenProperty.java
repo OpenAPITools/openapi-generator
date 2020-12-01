@@ -20,12 +20,43 @@ package org.openapitools.codegen;
 import java.util.*;
 
 public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperties {
-    public String openApiType, baseName, complexType, getter, setter, description, dataType,
-            datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam,
-            baseType, containerType, title;
+    /**
+     * The value of the 'type' attribute in the OpenAPI schema.
+     * The per-language codegen logic may change to a language-specific type.
+     */
+    public String openApiType;
+    public String baseName;
+    public String complexType;
+    public String getter;
+    public String setter;
+    /**
+     * The value of the 'description' attribute in the OpenAPI schema.
+     */
+    public String description;
+    /**
+     * The language-specific data type for this property. For example, the OpenAPI type 'integer'
+     * may be represented as 'int', 'int32', 'Integer', etc, depending on the programming language.
+     */
+    public String dataType;
+    public String datatypeWithEnum;
+    public String dataFormat;
+    /**
+     * The name of this property in the OpenAPI schema.
+     */
+    public String name;
+    public String min; // TODO: is this really used?
+    public String max; // TODO: is this really used?
+    public String defaultValue;
+    public String defaultValueWithParam;
+    public String baseType;
+    public String containerType;
+    /**
+     * The value of the 'title' attribute in the OpenAPI schema.
+     */
+    public String title;
 
     /**
-     * The 'description' string without escape charcters needed by some programming languages/targets
+     * The 'description' string without escape characters needed by some programming languages/targets
      */
     public String unescapedDescription;
 
@@ -47,18 +78,42 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public String example;
 
     public String jsonSchema;
+    /**
+     * The value of the 'minimum' attribute in the OpenAPI schema.
+     * The value of "minimum" MUST be a number, representing an inclusive lower limit for a numeric instance.
+     */
     public String minimum;
+    /**
+     * The value of the 'maximum' attribute in the OpenAPI schema.
+     * The value of "maximum" MUST be a number, representing an inclusive upper limit for a numeric instance.
+     */
     public String maximum;
+    /**
+     * The value of the 'multipleOf' attribute in the OpenAPI schema.
+     * The value of "multipleOf" MUST be a number, strictly greater than 0.
+     */
     public Number multipleOf;
+    /**
+     * The value of the 'exclusiveMinimum' attribute in the OpenAPI schema.
+     * The value of "exclusiveMinimum" MUST be number, representing an exclusive lower limit for a numeric instance.
+     */
     public boolean exclusiveMinimum;
+    /**
+     * The value of the 'exclusiveMaximum' attribute in the OpenAPI schema.
+     * The value of "exclusiveMaximum" MUST be number, representing an exclusive upper limit for a numeric instance.
+     */
     public boolean exclusiveMaximum;
-    public boolean hasMore;
     public boolean required;
     public boolean deprecated;
-    public boolean secondaryParam;
     public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
     public boolean isPrimitiveType;
     public boolean isModel;
+    /**
+     * True if this property is an array of items or a map container.
+     * See:
+     * - ModelUtils.isArraySchema()
+     * - ModelUtils.isMapSchema()
+     */
     public boolean isContainer;
     public boolean isString;
     public boolean isNumeric;
@@ -67,6 +122,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isNumber;
     public boolean isFloat;
     public boolean isDouble;
+    public boolean isDecimal;
     public boolean isByteArray;
     public boolean isBinary;
     public boolean isFile;
@@ -76,23 +132,41 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isUuid;
     public boolean isUri;
     public boolean isEmail;
+    /**
+     * The type is a free-form object, i.e. it is a map of string to values with no declared properties.
+     * A OAS free-form schema may include the 'additionalProperties' attribute, which puts a constraint
+     * on the type of the undeclared properties.
+     */
     public boolean isFreeFormObject;
-    public boolean isListContainer;
-    public boolean isMapContainer;
+    /**
+     * The 'type' in the OAS schema is unspecified (i.e. not set). The value can be number, integer, string, object or array.
+     * If the nullable attribute is set to true, the 'null' value is valid.
+     */
+    public boolean isAnyType;
+    public boolean isArray;
+    public boolean isMap;
     public boolean isEnum;
     public boolean isReadOnly;
     public boolean isWriteOnly;
     public boolean isNullable;
     public boolean isSelfReference;
     public boolean isCircularReference;
+    public boolean isDiscriminator;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
+    // If 'additionalProperties' is not set, items is null.
+    // If 'additionalProperties' is set to a type or refers to a type, 'items' provides the type information for
+    // the undeclared properties. 
     public CodegenProperty items;
+    public CodegenProperty additionalProperties;
+    public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
+    public List<CodegenProperty> requiredVars = new ArrayList<>();
     public CodegenProperty mostInnerItems;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     public boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
     public boolean isInherited;
     public String discriminatorValue;
+    public String nameInLowerCase; // property name in lower case
     public String nameInCamelCase; // property name in camel case
     public String nameInSnakeCase; // property name in upper snake case
     // enum name based on the property name, usually use as a prefix (e.g. VAR_NAME) for enum name (e.g. VAR_NAME_VALUE1)
@@ -355,14 +429,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.required = required;
     }
 
-    public boolean getSecondaryParam() {
-        return secondaryParam;
-    }
-
-    public void setSecondaryParam(boolean secondaryParam) {
-        this.secondaryParam = secondaryParam;
-    }
-
     public List<String> get_enum() {
         return _enum;
     }
@@ -379,12 +445,62 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.allowableValues = allowableValues;
     }
 
+    @Override
     public CodegenProperty getItems() {
         return items;
     }
 
+    @Override
     public void setItems(CodegenProperty items) {
         this.items = items;
+    }
+
+    @Override
+    public CodegenProperty getAdditionalProperties() { return additionalProperties; }
+
+    @Override
+    public void setAdditionalProperties(CodegenProperty additionalProperties)  {
+        this.additionalProperties = additionalProperties;
+    }
+
+    @Override
+    public boolean getIsModel() { return isModel; }
+
+    @Override
+    public void setIsModel(boolean isModel)  {
+        this.isModel = isModel;
+    }
+
+    @Override
+    public boolean getIsDate() { return isDate; }
+
+    @Override
+    public void setIsDate(boolean isDate)   {
+        this.isDate = isDate;
+    }
+
+    @Override
+    public boolean getIsDateTime() { return isDateTime; }
+
+    @Override
+    public void setIsDateTime(boolean isDateTime)   {
+        this.isDateTime = isDateTime;
+    }
+
+    @Override
+    public boolean getIsMap() { return isMap; }
+
+    @Override
+    public void setIsMap(boolean isMap)  {
+        this.isMap = isMap;
+    }
+
+    @Override
+    public boolean getIsArray() { return isArray; }
+
+    @Override
+    public void setIsArray(boolean isArray)  {
+        this.isArray = isArray;
     }
 
     public Map<String, Object> getVendorExtensions() {
@@ -393,6 +509,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
 
     public void setVendorExtensions(Map<String, Object> vendorExtensions) {
         this.vendorExtensions = vendorExtensions;
+    }
+
+    public String getNameInLowerCase() {
+        return nameInLowerCase;
+    }
+
+    public void setNameInLowerCase(String nameInLowerCase) {
+        this.nameInLowerCase = nameInLowerCase;
     }
 
     public String getNameInCamelCase() {
@@ -472,6 +596,15 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
             if (this.items != null) {
                 cp.items = this.items;
             }
+            if (this.additionalProperties != null) {
+                cp.additionalProperties = this.additionalProperties;
+            }
+            if (this.vars != null) {
+                cp.vars = this.vars;
+            }
+            if (this.requiredVars != null) {
+                cp.requiredVars = this.requiredVars;
+            }
             if (this.mostInnerItems != null) {
                 cp.mostInnerItems = this.mostInnerItems;
             }
@@ -524,6 +657,26 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     }
 
     @Override
+    public List<CodegenProperty> getVars() {
+        return vars;
+    }
+
+    @Override
+    public void setVars(List<CodegenProperty> vars) {
+        this.vars = vars;
+    }
+
+    @Override
+    public List<CodegenProperty> getRequiredVars() {
+        return requiredVars;
+    }
+
+    @Override
+    public void setRequiredVars(List<CodegenProperty> requiredVars) {
+        this.requiredVars = requiredVars;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenProperty{");
         sb.append("openApiType='").append(openApiType).append('\'');
@@ -553,10 +706,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", maximum='").append(maximum).append('\'');
         sb.append(", exclusiveMinimum=").append(exclusiveMinimum);
         sb.append(", exclusiveMaximum=").append(exclusiveMaximum);
-        sb.append(", hasMore=").append(hasMore);
         sb.append(", required=").append(required);
         sb.append(", deprecated=").append(deprecated);
-        sb.append(", secondaryParam=").append(secondaryParam);
         sb.append(", hasMoreNonReadOnly=").append(hasMoreNonReadOnly);
         sb.append(", isPrimitiveType=").append(isPrimitiveType);
         sb.append(", isModel=").append(isModel);
@@ -568,6 +719,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isNumber=").append(isNumber);
         sb.append(", isFloat=").append(isFloat);
         sb.append(", isDouble=").append(isDouble);
+        sb.append(", isDecimal=").append(isDecimal);
         sb.append(", isByteArray=").append(isByteArray);
         sb.append(", isBinary=").append(isBinary);
         sb.append(", isFile=").append(isFile);
@@ -578,17 +730,21 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isUri=").append(isUri);
         sb.append(", isEmail=").append(isEmail);
         sb.append(", isFreeFormObject=").append(isFreeFormObject);
-        sb.append(", isListContainer=").append(isListContainer);
-        sb.append(", isMapContainer=").append(isMapContainer);
+        sb.append(", isArray=").append(isArray);
+        sb.append(", isMap=").append(isMap);
         sb.append(", isEnum=").append(isEnum);
         sb.append(", isReadOnly=").append(isReadOnly);
         sb.append(", isWriteOnly=").append(isWriteOnly);
         sb.append(", isNullable=").append(isNullable);
         sb.append(", isSelfReference=").append(isSelfReference);
         sb.append(", isCircularReference=").append(isCircularReference);
+        sb.append(", isDiscriminator=").append(isDiscriminator);
         sb.append(", _enum=").append(_enum);
         sb.append(", allowableValues=").append(allowableValues);
         sb.append(", items=").append(items);
+        sb.append(", additionalProperties=").append(additionalProperties);
+        sb.append(", vars=").append(vars);
+        sb.append(", requiredVars=").append(requiredVars);
         sb.append(", mostInnerItems=").append(mostInnerItems);
         sb.append(", vendorExtensions=").append(vendorExtensions);
         sb.append(", hasValidation=").append(hasValidation);
@@ -619,10 +775,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         CodegenProperty that = (CodegenProperty) o;
         return exclusiveMinimum == that.exclusiveMinimum &&
                 exclusiveMaximum == that.exclusiveMaximum &&
-                hasMore == that.hasMore &&
                 required == that.required &&
-                deprecated == this.deprecated &&
-                secondaryParam == that.secondaryParam &&
+                deprecated == that.deprecated &&
                 hasMoreNonReadOnly == that.hasMoreNonReadOnly &&
                 isPrimitiveType == that.isPrimitiveType &&
                 isModel == that.isModel &&
@@ -634,6 +788,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isNumber == that.isNumber &&
                 isFloat == that.isFloat &&
                 isDouble == that.isDouble &&
+                isDecimal == that.isDecimal &&
                 isByteArray == that.isByteArray &&
                 isBinary == that.isBinary &&
                 isFile == that.isFile &&
@@ -644,14 +799,15 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isUri == that.isUri &&
                 isEmail == that.isEmail &&
                 isFreeFormObject == that.isFreeFormObject &&
-                isListContainer == that.isListContainer &&
-                isMapContainer == that.isMapContainer &&
+                isArray == that.isArray &&
+                isMap == that.isMap &&
                 isEnum == that.isEnum &&
                 isReadOnly == that.isReadOnly &&
                 isWriteOnly == that.isWriteOnly &&
                 isNullable == that.isNullable &&
                 isSelfReference == that.isSelfReference &&
                 isCircularReference == that.isCircularReference &&
+                isDiscriminator == that.isDiscriminator &&
                 hasValidation == that.hasValidation &&
                 isInherited == that.isInherited &&
                 isXmlAttribute == that.isXmlAttribute &&
@@ -684,6 +840,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(_enum, that._enum) &&
                 Objects.equals(allowableValues, that.allowableValues) &&
                 Objects.equals(items, that.items) &&
+                Objects.equals(additionalProperties, that.additionalProperties) &&
+                Objects.equals(vars, that.vars) &&
+                Objects.equals(requiredVars, that.requiredVars) &&
                 Objects.equals(mostInnerItems, that.mostInnerItems) &&
                 Objects.equals(vendorExtensions, that.vendorExtensions) &&
                 Objects.equals(discriminatorValue, that.discriminatorValue) &&
@@ -705,12 +864,13 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 dataType, datatypeWithEnum, dataFormat, name, min, max, defaultValue,
                 defaultValueWithParam, baseType, containerType, title, unescapedDescription,
                 maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
-                exclusiveMinimum, exclusiveMaximum, hasMore, required, deprecated, secondaryParam,
+                exclusiveMinimum, exclusiveMaximum, required, deprecated,
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
-                isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
+                isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
-                isListContainer, isMapContainer, isEnum, isReadOnly, isWriteOnly, isNullable,
-                isSelfReference, isCircularReference, _enum, allowableValues, items, mostInnerItems,
+                isArray, isMap, isEnum, isReadOnly, isWriteOnly, isNullable,
+                isSelfReference, isCircularReference, isDiscriminator, _enum, allowableValues,
+                items, mostInnerItems, additionalProperties, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
                 xmlNamespace, isXmlWrapped);

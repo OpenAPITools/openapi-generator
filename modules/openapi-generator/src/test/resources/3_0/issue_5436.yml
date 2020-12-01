@@ -1,0 +1,51 @@
+openapi: 3.0.0
+servers:
+  - url: 'localhost:8080'
+info:
+  version: 1.0.0
+  title: OpenAPI Zoo
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /zebras:
+    get:
+      operationId: getZebras
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: number
+        - $ref: '#/components/parameters/SearchParams'
+components:
+  parameters:
+    SearchParams:
+      name: animalParams
+      description: Search animal grouped parameters
+      in: query
+      style: form
+      explode: true
+      schema:
+        $ref: '#/components/schemas/AnimalParams'
+  schemas:
+    AnimalParams:
+      type: object
+      properties:
+        born:
+          type: string
+          format: date
+          example: '2019-12-01'
+        lastSeen:
+          type: string
+          format: date-time
+          example: '2020-02-22T10:30:00.000'
+        status:
+          type: integer
+          enum: [0,1]
+          default: 0
+        name:
+          type: string
+          example: 'Marty'
+        age:
+          type: integer
+          example: 15

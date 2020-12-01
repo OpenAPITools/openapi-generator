@@ -24,7 +24,7 @@ isa_ok($api, '{{moduleName}}::{{classname}}');
 {
 {{#allParams}}    my ${{paramName}} = undef; # replace NULL with a proper value
 {{/allParams}}
-    my $result = $api->{{nickname}}({{#allParams}}{{paramName}} => ${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    my $result = $api->{{nickname}}({{#allParams}}{{paramName}} => ${{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 }
 
 {{/operation}}

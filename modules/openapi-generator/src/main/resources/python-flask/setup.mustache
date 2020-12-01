@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 NAME = "{{packageName}}"
 VERSION = "{{packageVersion}}"
-{{#apiInfo}}{{#apis}}{{^hasMore}}
+{{#apiInfo}}{{#apis}}{{#-last}}
 # To install the library, run the following
 #
 # python setup.py install
@@ -28,8 +28,9 @@ setup(
     url="{{packageUrl}}",
     keywords=["OpenAPI", "{{appName}}"],
     install_requires=REQUIRES,
-    packages=find_packages(),
-    package_data={'': ['openapi/openapi.yaml']},
+    packages=find_packages({{#pythonSrcRoot}}"{{{.}}}"{{/pythonSrcRoot}}),{{#pythonSrcRoot}}
+    package_dir={"": "{{{.}}}"},{{/pythonSrcRoot}}
+    package_data={'': ['{{#pythonSrcRoot}}{{{.}}}/{{/pythonSrcRoot}}openapi/openapi.yaml']},
     include_package_data=True,
     entry_points={
         'console_scripts': ['{{packageName}}={{packageName}}.__main__:main']},
@@ -37,4 +38,4 @@ setup(
     {{appDescription}}
     """
 )
-{{/hasMore}}{{/apis}}{{/apiInfo}}
+{{/-last}}{{/apis}}{{/apiInfo}}

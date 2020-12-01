@@ -1,0 +1,7 @@
+generatorName: python
+outputDir: samples/openapi3/client/petstore/python
+inputSpec: modules/openapi-generator/src/test/resources/3_0/python/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
+templateDir: modules/openapi-generator/src/main/resources/python
+additionalProperties:
+  packageName: petstore_api
+  recursionLimit: "1234"

@@ -30,7 +30,7 @@ use Log::Any qw($log);
 use Date::Parse;
 use DateTime;
 
-use WWW::OpenAPIClient::Object::BigDecimal;
+use WWW::OpenAPIClient::Object::Decimal;
 
 use base ("Class::Accessor", "Class::Data::Inheritable");
 
@@ -204,6 +204,13 @@ __PACKAGE__->method_documentation({
         format => '',
         read_only => '',
             },
+    'decimal' => {
+        datatype => 'Decimal',
+        base_name => 'decimal',
+        description => '',
+        format => '',
+        read_only => '',
+            },
     'string' => {
         datatype => 'string',
         base_name => 'string',
@@ -253,10 +260,17 @@ __PACKAGE__->method_documentation({
         format => '',
         read_only => '',
             },
-    'big_decimal' => {
-        datatype => 'BigDecimal',
-        base_name => 'BigDecimal',
-        description => '',
+    'pattern_with_digits' => {
+        datatype => 'string',
+        base_name => 'pattern_with_digits',
+        description => 'A string that is a 10 digit number. Can have leading zeros.',
+        format => '',
+        read_only => '',
+            },
+    'pattern_with_digits_and_delimiter' => {
+        datatype => 'string',
+        base_name => 'pattern_with_digits_and_delimiter',
+        description => 'A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.',
         format => '',
         read_only => '',
             },
@@ -269,6 +283,7 @@ __PACKAGE__->openapi_types( {
     'number' => 'double',
     'float' => 'double',
     'double' => 'double',
+    'decimal' => 'Decimal',
     'string' => 'string',
     'byte' => 'string',
     'binary' => 'string',
@@ -276,7 +291,8 @@ __PACKAGE__->openapi_types( {
     'date_time' => 'DateTime',
     'uuid' => 'string',
     'password' => 'string',
-    'big_decimal' => 'BigDecimal'
+    'pattern_with_digits' => 'string',
+    'pattern_with_digits_and_delimiter' => 'string'
 } );
 
 __PACKAGE__->attribute_map( {
@@ -286,6 +302,7 @@ __PACKAGE__->attribute_map( {
     'number' => 'number',
     'float' => 'float',
     'double' => 'double',
+    'decimal' => 'decimal',
     'string' => 'string',
     'byte' => 'byte',
     'binary' => 'binary',
@@ -293,7 +310,8 @@ __PACKAGE__->attribute_map( {
     'date_time' => 'dateTime',
     'uuid' => 'uuid',
     'password' => 'password',
-    'big_decimal' => 'BigDecimal'
+    'pattern_with_digits' => 'pattern_with_digits',
+    'pattern_with_digits_and_delimiter' => 'pattern_with_digits_and_delimiter'
 } );
 
 __PACKAGE__->mk_accessors(keys %{__PACKAGE__->attribute_map});

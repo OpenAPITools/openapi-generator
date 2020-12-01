@@ -85,11 +85,11 @@ sub {{operationId}} {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept({{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}});
+    my $_header_accept = $self->{api_client}->select_header_accept({{#produces}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}});
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type({{#consumes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/consumes}});
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type({{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}});
 
     {{#queryParams}}
     # query params

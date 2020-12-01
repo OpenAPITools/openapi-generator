@@ -1,0 +1,40 @@
+# coding: utf-8
+
+import sys
+from setuptools import setup, find_packages
+
+NAME = "{{packageName}}"
+VERSION = "{{packageVersion}}"
+{{#apiInfo}}{{#apis}}{{#-last}}
+# To install the library, run the following
+#
+# python setup.py install
+#
+# prerequisite: setuptools
+# http://pypi.python.org/pypi/setuptools
+
+REQUIRES = [
+    "connexion==2.6.0",
+    "swagger-ui-bundle==0.0.6",
+    "aiohttp_jinja2==1.2.0",
+]
+
+setup(
+    name=NAME,
+    version=VERSION,
+    description="{{appName}}",
+    author_email="{{infoEmail}}",
+    url="{{packageUrl}}",
+    keywords=["OpenAPI", "{{appName}}"],
+    install_requires=REQUIRES,
+    packages=find_packages({{#pythonSrcRoot}}"{{{.}}}"{{/pythonSrcRoot}}),{{#pythonSrcRoot}}
+    package_dir={"": "{{{.}}}"},{{/pythonSrcRoot}}
+    package_data={'': ['{{#pythonSrcRoot}}{{{.}}}/{{/pythonSrcRoot}}openapi/openapi.yaml']},
+    include_package_data=True,
+    entry_points={
+        'console_scripts': ['{{packageName}}={{packageName}}.__main__:main']},
+    long_description="""\
+    {{appDescription}}
+    """
+)
+{{/-last}}{{/apis}}{{/apiInfo}}

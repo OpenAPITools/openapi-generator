@@ -18,22 +18,13 @@ import petstore_api
 from petstore_api import Configuration
 from petstore_api.rest import ApiException
 
-from .util import id_gen
+from .util import id_gen, async_test
 
 import json
 
 import urllib3
 
 HOST = 'http://localhost:80/v2'
-
-
-def async_test(f):
-    def wrapper(*args, **kwargs):
-        coro = asyncio.coroutine(f)
-        future = coro(*args, **kwargs)
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(future)
-    return wrapper
 
 
 class TestPetApiTests(unittest.TestCase):
@@ -200,6 +191,19 @@ class TestPetApiTests(unittest.TestCase):
             raise Exception("expected an error")
         except ApiException as e:
             self.assertEqual(404, e.status)
+
+    @async_test
+    async def test_proxy(self):
+        config = Configuration()
+        # set not-existent proxy and catch an error to verify that
+        # the client library (aiohttp) tried to use it.
+        config.proxy = 'http://localhost:8080/proxy'
+        async with petstore_api.ApiClient(config) as client:
+            pet_api = petstore_api.PetApi(client)
+
+            with self.assertRaisesRegex(petstore_api.rest.aiohttp.client_exceptions.ClientProxyConnectionError,
+                                        'Cannot connect to host localhost:8080'):
+                await pet_api.get_pet_by_id(self.pet.id)
 
 
 if __name__ == '__main__':

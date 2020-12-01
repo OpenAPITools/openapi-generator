@@ -30,7 +30,7 @@ resourceTypes {
           type = {{datatype}}
           {{/isPrimitiveType}}
           {{/isContainer}}
-          {{#isListContainer}}
+          {{#isArray}}
           type = array
             {{#items}}
               {{#isPrimitiveType}}
@@ -40,10 +40,10 @@ resourceTypes {
           items.type = {{datatype}}
               {{/isPrimitiveType}}
             {{/items}}
-          {{/isListContainer}}
-          {{#isMapContainer}}
+          {{/isArray}}
+          {{#isMap}}
           # TODO
-          {{/isMapContainer}}
+          {{/isMap}}
           description = "{{description}}"
           {{#isEnum}}
           enum = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]

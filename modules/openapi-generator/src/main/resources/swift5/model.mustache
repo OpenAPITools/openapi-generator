@@ -9,16 +9,19 @@ import Foundation
 
 {{#description}}
 /** {{description}} */{{/description}}
-{{#isArrayModel}}
+{{#isDeprecated}}
+@available(*, deprecated, message: "This schema is deprecated.")
+{{/isDeprecated}}
+{{#isArray}}
 {{> modelArray}}
-{{/isArrayModel}}
-{{^isArrayModel}}
+{{/isArray}}
+{{^isArray}}
 {{#isEnum}}
 {{> modelEnum}}
 {{/isEnum}}
 {{^isEnum}}
 {{> modelObject}}
 {{/isEnum}}
-{{/isArrayModel}}
+{{/isArray}}
 {{/model}}
 {{/models}}

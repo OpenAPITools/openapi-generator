@@ -2,15 +2,14 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
 
 ## Code Sample
 
 ```ruby
-require 'Petstore'
+require 'petstore'
 
 instance = Petstore::OuterEnum.new()
 ```
-
 

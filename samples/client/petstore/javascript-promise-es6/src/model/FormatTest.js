@@ -73,6 +73,9 @@ class FormatTest {
             if (data.hasOwnProperty('double')) {
                 obj['double'] = ApiClient.convertToType(data['double'], 'Number');
             }
+            if (data.hasOwnProperty('decimal')) {
+                obj['decimal'] = ApiClient.convertToType(data['decimal'], 'Number');
+            }
             if (data.hasOwnProperty('string')) {
                 obj['string'] = ApiClient.convertToType(data['string'], 'String');
             }
@@ -94,8 +97,11 @@ class FormatTest {
             if (data.hasOwnProperty('password')) {
                 obj['password'] = ApiClient.convertToType(data['password'], 'String');
             }
-            if (data.hasOwnProperty('BigDecimal')) {
-                obj['BigDecimal'] = ApiClient.convertToType(data['BigDecimal'], 'Number');
+            if (data.hasOwnProperty('pattern_with_digits')) {
+                obj['pattern_with_digits'] = ApiClient.convertToType(data['pattern_with_digits'], 'String');
+            }
+            if (data.hasOwnProperty('pattern_with_digits_and_delimiter')) {
+                obj['pattern_with_digits_and_delimiter'] = ApiClient.convertToType(data['pattern_with_digits_and_delimiter'], 'String');
             }
         }
         return obj;
@@ -135,6 +141,11 @@ FormatTest.prototype['float'] = undefined;
 FormatTest.prototype['double'] = undefined;
 
 /**
+ * @member {Number} decimal
+ */
+FormatTest.prototype['decimal'] = undefined;
+
+/**
  * @member {String} string
  */
 FormatTest.prototype['string'] = undefined;
@@ -170,9 +181,16 @@ FormatTest.prototype['uuid'] = undefined;
 FormatTest.prototype['password'] = undefined;
 
 /**
- * @member {Number} BigDecimal
+ * A string that is a 10 digit number. Can have leading zeros.
+ * @member {String} pattern_with_digits
  */
-FormatTest.prototype['BigDecimal'] = undefined;
+FormatTest.prototype['pattern_with_digits'] = undefined;
+
+/**
+ * A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
+ * @member {String} pattern_with_digits_and_delimiter
+ */
+FormatTest.prototype['pattern_with_digits_and_delimiter'] = undefined;
 
 
 

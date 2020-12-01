@@ -30,6 +30,11 @@ import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.TemplateManager;
+import org.openapitools.codegen.api.TemplatePathLocator;
+import org.openapitools.codegen.templating.MustacheEngineAdapter;
+import org.openapitools.codegen.templating.TemplateManagerOptions;
+import org.openapitools.codegen.templating.CommonTemplateContentLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +54,7 @@ import ch.lambdaj.function.convert.Converter;
 @Command(name = "meta", description = "MetaGenerator. Generator for creating a new template set "
         + "and configuration for Codegen.  The output will be based on the language you "
         + "specify, and includes default templates to include.")
-public class Meta implements Runnable {
+public class Meta extends OpenApiGeneratorCommand {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Meta.class);
 
@@ -80,7 +85,7 @@ public class Meta implements Runnable {
     private String language = "java";
 
     @Override
-    public void run() {
+    public void execute() {
         final File targetDir = new File(outputFolder);
         LOGGER.info("writing to folder [{}]", targetDir.getAbsolutePath());
 
@@ -110,7 +115,7 @@ public class Meta implements Runnable {
                         new SupportingFile("myFile.template", String.join(File.separator, "src", "main", "resources", name), "myFile.mustache"),
                         new SupportingFile("services.mustache", "src/main/resources/META-INF/services", CodegenConfig.class.getCanonicalName()));
 
-        String currentVersion = Version.readVersionFromResources();
+        String currentVersion = buildInfo.getVersion();
 
         Map<String, Object> data =
                 new ImmutableMap.Builder<String, Object>()
@@ -136,52 +141,38 @@ public class Meta implements Runnable {
      */
     private static Converter<SupportingFile, File> processFiles(final File targetDir,
             final Map<String, Object> data) {
-        return new Converter<SupportingFile, File>() {
-            private DefaultGenerator generator = new DefaultGenerator();
+        return support -> {
+            try {
+                File destinationFolder =
+                        new File(new File(targetDir.getAbsolutePath()), support.getFolder());
+                File outputFile = new File(destinationFolder, support.getDestinationFilename());
 
-            @Override
-            public File convert(SupportingFile support) {
-                try {
-                    File destinationFolder =
-                            new File(new File(targetDir.getAbsolutePath()), support.folder);
-                    File outputFile = new File(destinationFolder, support.destinationFilename);
+                TemplateManager templateProcessor = new TemplateManager(
+                        new TemplateManagerOptions(false, false),
+                        new MustacheEngineAdapter(),
+                        new TemplatePathLocator[]{ new CommonTemplateContentLocator("codegen") }
+                );
 
-                    String template =
-                            generator.readTemplate(new File(TEMPLATE_DIR_CLASSPATH,
-                                    support.templateFile).getPath());
-                    String formatted = template;
+                String template = templateProcessor.readTemplate(new File(TEMPLATE_DIR_CLASSPATH, support.getTemplateFile()).getPath());
 
-                    if (support.templateFile.endsWith(MUSTACHE_EXTENSION)) {
-                        LOGGER.info("writing file to {}", outputFile.getAbsolutePath());
-                        formatted =
-                                Mustache.compiler().withLoader(loader(generator)).defaultValue("")
-                                        .compile(template).execute(data);
-                    } else {
-                        LOGGER.info("copying file to {}", outputFile.getAbsolutePath());
-                    }
+                String formatted = template;
 
-                    FileUtils.writeStringToFile(outputFile, formatted, StandardCharsets.UTF_8);
-                    return outputFile;
+                Mustache.TemplateLoader loader = name -> templateProcessor.getTemplateReader(name.concat(MUSTACHE_EXTENSION));
 
-                } catch (IOException e) {
-                    throw new RuntimeException("Can't generate project", e);
+                if (support.getTemplateFile().endsWith(MUSTACHE_EXTENSION)) {
+                    LOGGER.info("writing file to {}", outputFile.getAbsolutePath());
+                    formatted =
+                            Mustache.compiler().withLoader(loader).defaultValue("")
+                                    .compile(template).execute(data);
+                } else {
+                    LOGGER.info("copying file to {}", outputFile.getAbsolutePath());
                 }
-            }
-        };
-    }
 
-    /**
-     * Creates mustache loader for template using classpath loader
-     *
-     * @param generator - class with reader getter
-     * @return loader for template
-     */
-    private static Mustache.TemplateLoader loader(final DefaultGenerator generator) {
-        return new Mustache.TemplateLoader() {
-            @Override
-            public Reader getTemplate(String name) {
-                return generator.getTemplateReader(TEMPLATE_DIR_CLASSPATH + File.separator
-                        + name.concat(MUSTACHE_EXTENSION));
+                FileUtils.writeStringToFile(outputFile, formatted, StandardCharsets.UTF_8);
+                return outputFile;
+
+            } catch (IOException e) {
+                throw new RuntimeException("Can't generate project", e);
             }
         };
     }

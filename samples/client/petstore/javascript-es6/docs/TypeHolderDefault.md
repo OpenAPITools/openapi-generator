@@ -1,7 +1,6 @@
 # OpenApiPetstore.TypeHolderDefault
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **stringItem** | **String** |  | [default to &#39;what&#39;]

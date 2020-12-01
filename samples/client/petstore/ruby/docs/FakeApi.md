@@ -2,32 +2,30 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**create_xml_item**](FakeApi.md#create_xml_item) | **POST** /fake/create_xml_item | creates an XmlItem
-[**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
-[**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
-[**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
-[**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
-[**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
-[**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
-[**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
-[**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-[**test_enum_parameters**](FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
-[**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
-[**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
-[**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
-[**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
+| Method | HTTP request | Description |
+| ------ | ------------ | ----------- |
+| [**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint |
+| [**fake_http_signature_test**](FakeApi.md#fake_http_signature_test) | **GET** /fake/http-signature-test | test http signature authentication |
+| [**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean |  |
+| [**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite |  |
+| [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number |  |
+| [**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string |  |
+| [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema |  |
+| [**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params |  |
+| [**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model |
+| [**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  |
+| [**test_enum_parameters**](FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters |
+| [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional) |
+| [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties |
+| [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data |
+| [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters |  |
 
 
+## fake_health_get
 
-## create_xml_item
+> HealthCheckResult fake_health_get
 
-> create_xml_item(xml_item)
-
-creates an XmlItem
-
-this route creates an XmlItem
+Health check endpoint
 
 ### Example
 
@@ -36,26 +34,23 @@ this route creates an XmlItem
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-xml_item = Petstore::XmlItem.new # XmlItem | XmlItem Body
 
 begin
-  #creates an XmlItem
-  api_instance.create_xml_item(xml_item)
+  #Health check endpoint
+  result = api_instance.fake_health_get
+  p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling FakeApi->create_xml_item: #{e}"
+  puts "Exception when calling FakeApi->fake_health_get: #{e}"
 end
 ```
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xml_item** | [**XmlItem**](XmlItem.md)| XmlItem Body | 
+This endpoint does not need any parameter.
 
 ### Return type
 
-nil (empty response body)
+[**HealthCheckResult**](HealthCheckResult.md)
 
 ### Authorization
 
@@ -63,7 +58,59 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## fake_http_signature_test
+
+> fake_http_signature_test(pet, opts)
+
+test http signature authentication
+
+### Example
+
+```ruby
+# load the gem
+require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+end
+
+api_instance = Petstore::FakeApi.new
+pet = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
+opts = {
+  query_1: 'query_1_example', # String | query parameter
+  header_1: 'header_1_example' # String | header parameter
+}
+
+begin
+  #test http signature authentication
+  api_instance.fake_http_signature_test(pet, opts)
+rescue Petstore::ApiError => e
+  puts "Exception when calling FakeApi->fake_http_signature_test: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |  |
+| **query_1** | **String** | query parameter | [optional] |
+| **header_1** | **String** | header parameter | [optional] |
+
+### Return type
+
+nil (empty response body)
+
+### Authorization
+
+[http_signature_test](../README.md#http_signature_test)
+
+### HTTP request headers
+
+- **Content-Type**: application/json, application/xml
 - **Accept**: Not defined
 
 
@@ -96,10 +143,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **Boolean**| Input boolean as post body | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **body** | **Boolean** | Input boolean as post body | [optional] |
 
 ### Return type
 
@@ -111,7 +157,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 
@@ -131,7 +177,7 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  body: Petstore::OuterComposite.new # OuterComposite | Input composite as post body
+  outer_composite: Petstore::OuterComposite.new # OuterComposite | Input composite as post body
 }
 
 begin
@@ -144,10 +190,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **outer_composite** | [**OuterComposite**](OuterComposite.md) | Input composite as post body | [optional] |
 
 ### Return type
 
@@ -159,7 +204,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 
@@ -192,10 +237,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **Float**| Input number as post body | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **body** | **Float** | Input number as post body | [optional] |
 
 ### Return type
 
@@ -207,7 +251,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 
@@ -240,10 +284,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **String**| Input string as post body | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **body** | **String** | Input string as post body | [optional] |
 
 ### Return type
 
@@ -255,13 +298,13 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 
 ## test_body_with_file_schema
 
-> test_body_with_file_schema(body)
+> test_body_with_file_schema(file_schema_test_class)
 
 
 
@@ -274,10 +317,10 @@ For this test, the body for this request much reference a schema named `File`.
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-body = Petstore::FileSchemaTestClass.new # FileSchemaTestClass | 
+file_schema_test_class = Petstore::FileSchemaTestClass.new # FileSchemaTestClass | 
 
 begin
-  api_instance.test_body_with_file_schema(body)
+  api_instance.test_body_with_file_schema(file_schema_test_class)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_body_with_file_schema: #{e}"
 end
@@ -285,10 +328,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **file_schema_test_class** | [**FileSchemaTestClass**](FileSchemaTestClass.md) |  |  |
 
 ### Return type
 
@@ -306,7 +348,7 @@ No authorization required
 
 ## test_body_with_query_params
 
-> test_body_with_query_params(query, body)
+> test_body_with_query_params(query, user)
 
 
 
@@ -318,10 +360,10 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 query = 'query_example' # String | 
-body = Petstore::User.new # User | 
+user = Petstore::User.new # User | 
 
 begin
-  api_instance.test_body_with_query_params(query, body)
+  api_instance.test_body_with_query_params(query, user)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_body_with_query_params: #{e}"
 end
@@ -329,11 +371,10 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **query** | **String**|  | 
- **body** | [**User**](User.md)|  | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **query** | **String** |  |  |
+| **user** | [**User**](User.md) |  |  |
 
 ### Return type
 
@@ -351,7 +392,7 @@ No authorization required
 
 ## test_client_model
 
-> Client test_client_model(body)
+> Client test_client_model(client)
 
 To test \"client\" model
 
@@ -364,11 +405,11 @@ To test \"client\" model
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-body = Petstore::Client.new # Client | client model
+client = Petstore::Client.new # Client | client model
 
 begin
   #To test \"client\" model
-  result = api_instance.test_client_model(body)
+  result = api_instance.test_client_model(client)
   p result
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_client_model: #{e}"
@@ -377,10 +418,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **client** | [**Client**](Client.md) | client model |  |
 
 ### Return type
 
@@ -400,9 +440,9 @@ No authorization required
 
 > test_endpoint_parameters(number, double, pattern_without_delimiter, byte, opts)
 
-Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 ### Example
 
@@ -429,13 +469,13 @@ opts = {
   string: 'string_example', # String | None
   binary: File.new('/path/to/file'), # File | None
   date: Date.parse('2013-10-20'), # Date | None
-  date_time: DateTime.parse('2013-10-20T19:20:30+01:00'), # DateTime | None
+  date_time: Time.parse('2013-10-20T19:20:30+01:00'), # Time | None
   password: 'password_example', # String | None
   callback: 'callback_example' # String | None
 }
 
 begin
-  #Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+  #Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
   api_instance.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, opts)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_endpoint_parameters: #{e}"
@@ -444,23 +484,22 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **number** | **Float**| None | 
- **double** | **Float**| None | 
- **pattern_without_delimiter** | **String**| None | 
- **byte** | **String**| None | 
- **integer** | **Integer**| None | [optional] 
- **int32** | **Integer**| None | [optional] 
- **int64** | **Integer**| None | [optional] 
- **float** | **Float**| None | [optional] 
- **string** | **String**| None | [optional] 
- **binary** | **File**| None | [optional] 
- **date** | **Date**| None | [optional] 
- **date_time** | **DateTime**| None | [optional] 
- **password** | **String**| None | [optional] 
- **callback** | **String**| None | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **number** | **Float** | None |  |
+| **double** | **Float** | None |  |
+| **pattern_without_delimiter** | **String** | None |  |
+| **byte** | **String** | None |  |
+| **integer** | **Integer** | None | [optional] |
+| **int32** | **Integer** | None | [optional] |
+| **int64** | **Integer** | None | [optional] |
+| **float** | **Float** | None | [optional] |
+| **string** | **String** | None | [optional] |
+| **binary** | **File** | None | [optional] |
+| **date** | **Date** | None | [optional] |
+| **date_time** | **Time** | None | [optional] |
+| **password** | **String** | None | [optional] |
+| **callback** | **String** | None | [optional] |
 
 ### Return type
 
@@ -512,17 +551,16 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **enum_header_string_array** | [**Array&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] 
- **enum_header_string** | **String**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enum_query_string_array** | [**Array&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] 
- **enum_query_string** | **String**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enum_query_integer** | **Integer**| Query parameter enum test (double) | [optional] 
- **enum_query_double** | **Float**| Query parameter enum test (double) | [optional] 
- **enum_form_string_array** | [**Array&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
- **enum_form_string** | **String**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **enum_header_string_array** | [**Array&lt;String&gt;**](String.md) | Header parameter enum test (string array) | [optional] |
+| **enum_header_string** | **String** | Header parameter enum test (string) | [optional][default to &#39;-efg&#39;] |
+| **enum_query_string_array** | [**Array&lt;String&gt;**](String.md) | Query parameter enum test (string array) | [optional] |
+| **enum_query_string** | **String** | Query parameter enum test (string) | [optional][default to &#39;-efg&#39;] |
+| **enum_query_integer** | **Integer** | Query parameter enum test (double) | [optional] |
+| **enum_query_double** | **Float** | Query parameter enum test (double) | [optional] |
+| **enum_form_string_array** | [**Array&lt;String&gt;**](String.md) | Form parameter enum test (string array) | [optional][default to &#39;$&#39;] |
+| **enum_form_string** | **String** | Form parameter enum test (string) | [optional][default to &#39;-efg&#39;] |
 
 ### Return type
 
@@ -551,6 +589,11 @@ Fake endpoint to test group parameters (optional)
 ```ruby
 # load the gem
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure Bearer authorization (JWT): bearer_test
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
 
 api_instance = Petstore::FakeApi.new
 required_string_group = 56 # Integer | Required String in group parameters
@@ -572,15 +615,14 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **required_string_group** | **Integer**| Required String in group parameters | 
- **required_boolean_group** | **Boolean**| Required Boolean in group parameters | 
- **required_int64_group** | **Integer**| Required Integer in group parameters | 
- **string_group** | **Integer**| String in group parameters | [optional] 
- **boolean_group** | **Boolean**| Boolean in group parameters | [optional] 
- **int64_group** | **Integer**| Integer in group parameters | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **required_string_group** | **Integer** | Required String in group parameters |  |
+| **required_boolean_group** | **Boolean** | Required Boolean in group parameters |  |
+| **required_int64_group** | **Integer** | Required Integer in group parameters |  |
+| **string_group** | **Integer** | String in group parameters | [optional] |
+| **boolean_group** | **Boolean** | Boolean in group parameters | [optional] |
+| **int64_group** | **Integer** | Integer in group parameters | [optional] |
 
 ### Return type
 
@@ -588,7 +630,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[bearer_test](../README.md#bearer_test)
 
 ### HTTP request headers
 
@@ -598,7 +640,7 @@ No authorization required
 
 ## test_inline_additional_properties
 
-> test_inline_additional_properties(param)
+> test_inline_additional_properties(request_body)
 
 test inline additionalProperties
 
@@ -609,11 +651,11 @@ test inline additionalProperties
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-param = {'key' => 'param_example'} # Hash<String, String> | request body
+request_body = {'key' => 'request_body_example'} # Hash<String, String> | request body
 
 begin
   #test inline additionalProperties
-  api_instance.test_inline_additional_properties(param)
+  api_instance.test_inline_additional_properties(request_body)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_inline_additional_properties: #{e}"
 end
@@ -621,10 +663,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **param** | [**Hash&lt;String, String&gt;**](String.md)| request body | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **request_body** | [**Hash&lt;String, String&gt;**](String.md) | request body |  |
 
 ### Return type
 
@@ -666,11 +707,10 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **param** | **String**| field1 | 
- **param2** | **String**| field2 | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **param** | **String** | field1 |  |
+| **param2** | **String** | field2 |  |
 
 ### Return type
 
@@ -716,14 +756,13 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pipe** | [**Array&lt;String&gt;**](String.md)|  | 
- **ioutil** | [**Array&lt;String&gt;**](String.md)|  | 
- **http** | [**Array&lt;String&gt;**](String.md)|  | 
- **url** | [**Array&lt;String&gt;**](String.md)|  | 
- **context** | [**Array&lt;String&gt;**](String.md)|  | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **pipe** | [**Array&lt;String&gt;**](String.md) |  |  |
+| **ioutil** | [**Array&lt;String&gt;**](String.md) |  |  |
+| **http** | [**Array&lt;String&gt;**](String.md) |  |  |
+| **url** | [**Array&lt;String&gt;**](String.md) |  |  |
+| **context** | [**Array&lt;String&gt;**](String.md) |  |  |
 
 ### Return type
 
