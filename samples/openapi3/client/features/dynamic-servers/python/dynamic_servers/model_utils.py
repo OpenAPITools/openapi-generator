@@ -1400,7 +1400,8 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
                 configuration,
                 spec_property_naming,
                 key_type=False,
-                must_convert=True
+                must_convert=True,
+                check_type=_check_type
             )
             return converted_instance
         else:
@@ -1420,7 +1421,8 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
                 configuration,
                 spec_property_naming,
                 key_type=False,
-                must_convert=False
+                must_convert=False,
+                check_type=_check_type
             )
             return converted_instance
 
