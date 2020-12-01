@@ -117,5 +117,18 @@ namespace Org.OpenAPITools.Test
             Cat c = JsonConvert.DeserializeObject<Cat>("{\"className\":\"cat\",\"bar\":\"from json bar\"}");
             Assert.Equal("from json bar", c.AdditionalProperties["bar"]);
         }
+
+        /// <summary>
+        /// Test additonal properties
+        /// </summary>
+        [Fact]
+        public void TestAdditionalProperties()
+        {
+            Foo f = new Foo();
+
+            Assert.NotNull(f.GetType().GetProperty("AdditionalProperties"));
+            Assert.Null(f.GetType().GetProperty("unknown_property"));
+
+        }
     }
 }
