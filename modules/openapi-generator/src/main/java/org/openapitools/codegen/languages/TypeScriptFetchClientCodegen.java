@@ -23,6 +23,8 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.tags.Tag;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -204,63 +206,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    protected void handleMethodResponse(Operation operation,
-                                        Map<String, Schema> schemas,
-                                        CodegenOperation op,
-                                        ApiResponse methodResponse,
-                                        Map<String, String> importMappings) {
-        super.handleMethodResponse(operation, schemas, op, methodResponse, importMappings);
-
-        if (this.getSagasAndRecords()) {
-
-            Schema schema = null;
-            if (schemas != null) {
-                schema = schemas.get(op.returnBaseType);
-            }
-
-            ExtendedCodegenModel cm = null;
-            if (schema != null) {
-                cm = fromModel(op.returnBaseType, schema);
-
-                if (Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_META_DATA_RESPONSE))) {
-                    if (cm.vars.size() == 1 && "meta".equals(cm.vars.get(0).name)) {
-                        op.returnTypeIsMetaOnlyResponse = true;
-                        op.returnType = null; // changing the return so that it's as if it was void.
-                    }
-                    if (cm.vars.size() == 2 && "data".equals(cm.vars.get(1).name)) {
-                        op.returnTypeIsMetaDataResponse = true;
-                    }
-                }
-            }
-
-            if (!op.returnTypeIsMetaOnlyResponse) {
-                Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(methodResponse), importMapping);
-                CodegenProperty cp = null;
-                if (op.returnTypeIsMetaDataResponse && cm != null) {
-                    cp = this.processCodeGenModel(cm).vars.get(1);
-                } else if (responseSchema != null) {
-                    cp = fromProperty("response", responseSchema);
-                    this.processCodegenProperty(cp, "", null);
-                }
-
-                op.returnBaseTypeAlternate = null;
-                if (cp != null) {
-                    op.returnTypeAlternate = cp.dataTypeAlternate;
-                    op.returnTypeIsModel = cp.isModel;
-                    op.returnTypeIsArray = cp.isArray;
-                    if (cp.isArray && cp.items.isModel) {
-                        op.returnTypeSupportsEntities = true;
-                        op.returnBaseTypeAlternate = cp.items.dataType + "Record";
-                    } else if (cp.isModel) {
-                        op.returnTypeSupportsEntities = true;
-                    }
-
-                }
-            }
-        }
-    }
-
-    @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         List<Object> models = (List<Object>) postProcessModelsEnum(objs).get("models");
 
@@ -353,6 +298,65 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public ExtendedCodegenModel fromModel(String name, Schema model) {
         CodegenModel cm = super.fromModel(name, model);
         return new ExtendedCodegenModel(cm);
+    }
+
+    @Override
+    public ExtendedCodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation superOp = super.fromOperation(path, httpMethod, operation, servers);
+        ExtendedCodegenOperation op = new ExtendedCodegenOperation(superOp);
+
+        if (this.getSagasAndRecords()) {
+            ApiResponse methodResponse = findMethodResponse(operation.getResponses());
+            if (methodResponse != null) {
+                Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
+                Schema schema = null;
+                if (schemas != null) {
+                    schema = schemas.get(op.returnBaseType);
+                }
+
+                ExtendedCodegenModel cm = null;
+                if (schema != null) {
+                    cm = fromModel(op.returnBaseType, schema);
+
+                    if (Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_META_DATA_RESPONSE))) {
+                        if (cm.vars.size() == 1 && "meta".equals(cm.vars.get(0).name)) {
+                            op.returnTypeIsMetaOnlyResponse = true;
+                            op.returnType = null; // changing the return so that it's as if it was void.
+                        }
+                        if (cm.vars.size() == 2 && "data".equals(cm.vars.get(1).name)) {
+                            op.returnTypeIsMetaDataResponse = true;
+                        }
+                    }
+                }
+
+                if (!op.returnTypeIsMetaOnlyResponse) {
+                    Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(methodResponse), importMapping);
+                    CodegenProperty cp = null;
+                    if (op.returnTypeIsMetaDataResponse && cm != null) {
+                        cp = this.processCodeGenModel(cm).vars.get(1);
+                    } else if (responseSchema != null) {
+                        cp = fromProperty("response", responseSchema);
+                        this.processCodegenProperty(cp, "", null);
+                    }
+
+                    op.returnBaseTypeAlternate = null;
+                    if (cp != null) {
+                        op.returnTypeAlternate = cp.dataTypeAlternate;
+                        op.returnTypeIsModel = cp.isModel;
+                        op.returnTypeIsArray = cp.isArray;
+                        if (cp.isArray && cp.items.isModel) {
+                            op.returnTypeSupportsEntities = true;
+                            op.returnBaseTypeAlternate = cp.items.dataType + "Record";
+                        } else if (cp.isModel) {
+                            op.returnTypeSupportsEntities = true;
+                        }
+
+                    }
+                }
+            }
+        }
+
+        return op;
     }
 
     @Override
@@ -482,8 +486,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     private void escapeOperationIds(Map<String, Object> operations) {
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
-        for (CodegenOperation op : operationList) {
+        List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");
+        for (ExtendedCodegenOperation op : operationList) {
             String param = op.operationIdCamelCase + "Request";
             if (op.imports.contains(param)) {
                 // we import a model with the same name as the generated operation, escape it
@@ -509,9 +513,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         // update their names with the operation.id prefixed.
         // It will also set the uniqueId status if provided.
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
+        List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");
         boolean hasEnum = false;
-        for (CodegenOperation op : operationList) {
+        for (ExtendedCodegenOperation op : operationList) {
             for (CodegenParameter param : op.allParams) {
                 if (Boolean.TRUE.equals(param.isEnum)) {
                     hasEnum = true;
@@ -529,8 +533,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         // update their names with the operation.id prefixed.
         // It will also set the uniqueId status if provided.
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
-        for (CodegenOperation op : operationList) {
+        List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");
+        for (ExtendedCodegenOperation op : operationList) {
             for (CodegenParameter param : op.allParams) {
                 if (Boolean.TRUE.equals(param.vendorExtensions.get(X_IS_UNIQUE_ID))) {
                     param.isUniqueId = true;
@@ -566,8 +570,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         // The api template uses this infomation to know when to return a text
         // response for a given simple response operation.
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
-        for (CodegenOperation op : operationList) {
+        List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");
+        for (ExtendedCodegenOperation op : operationList) {
             if("object".equals(op.returnType)) {
                 op.isMap = true;
                 op.returnSimpleType = false;
@@ -627,6 +631,115 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.prefixParameterInterfaces = prefixParameterInterfaces;
     }
 
+    class ExtendedCodegenOperation extends CodegenOperation {
+        boolean returnTypeIsMetaDataResponse, returnTypeIsMetaOnlyResponse, returnTypeSupportsEntities, returnTypeIsModel, returnTypeIsArray;
+        String returnTypeAlternate, returnBaseTypeAlternate;
+
+        public ExtendedCodegenOperation(CodegenOperation o) {
+            super();
+
+            this.responseHeaders.addAll(o.responseHeaders);
+            this.hasAuthMethods = o.hasAuthMethods;
+            this.hasConsumes = o.hasConsumes;
+            this.hasProduces = o.hasProduces;
+            this.hasParams = o.hasParams;
+            this.hasOptionalParams = o.hasOptionalParams;
+            this.hasRequiredParams = o.hasRequiredParams;
+            this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
+            this.returnSimpleType = o.returnSimpleType;
+            this.subresourceOperation = o.subresourceOperation;
+            this.isMap = o.isMap;
+            this.isArray = o.isArray;
+            this.isMultipart  = o.isMultipart;
+            this.isResponseBinary = o.isResponseBinary;
+            this.isResponseFile = o.isResponseFile;
+            this.hasReference = o.hasReference;
+            this.isRestfulIndex = o.isRestfulIndex;
+            this.isRestfulShow = o.isRestfulShow;
+            this.isRestfulCreate = o.isRestfulCreate;
+            this.isRestfulUpdate = o.isRestfulUpdate;
+            this.isRestfulDestroy = o.isRestfulDestroy;
+            this.isRestful = o.isRestful;
+            this.isDeprecated = o.isDeprecated;
+            this.isCallbackRequest = o.isCallbackRequest;
+            this.uniqueItems = o.uniqueItems;
+            this.path = o.path;
+            this.operationId = o.operationId;
+            this.returnType = o.returnType;
+            this.returnFormat = o.returnFormat;
+            this.httpMethod = o.httpMethod;
+            this.returnBaseType = o.returnBaseType;
+            this.returnContainer = o.returnContainer;
+            this.summary = o.summary;
+            this.unescapedNotes = o.unescapedNotes;
+            this.notes = o.notes;
+            this.baseName = o.baseName;
+            this.defaultResponse = o.defaultResponse;
+            this.discriminator = o.discriminator;
+            this.consumes = o.consumes;
+            this.produces = o.produces;
+            this.prioritizedContentTypes = o.prioritizedContentTypes;
+            this.servers = o.servers;
+            this.bodyParam = o.bodyParam;
+            this.allParams = o.allParams;
+            this.bodyParams = o.bodyParams;
+            this.pathParams = o.pathParams;
+            this.queryParams = o.queryParams;
+            this.headerParams = o.headerParams;
+            this.formParams = o.formParams;
+            this.cookieParams = o.cookieParams;
+            this.requiredParams = o.requiredParams;
+            this.optionalParams = o.optionalParams;
+            this.authMethods = o.authMethods;
+            this.tags = o.tags;
+            this.responses = o.responses;
+            this.callbacks = o.callbacks;
+            this.imports = o.imports;
+            this.examples = o.examples;
+            this.requestBodyExamples = o.requestBodyExamples;
+            this.externalDocs = o.externalDocs;
+            this.vendorExtensions = o.vendorExtensions;
+            this.nickname = o.nickname;
+            this.operationIdOriginal = o.operationIdOriginal;
+            this.operationIdLowerCase = o.operationIdLowerCase;
+            this.operationIdCamelCase = o.operationIdCamelCase;
+            this.operationIdSnakeCase = o.operationIdSnakeCase;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            boolean result = super.equals(o);
+            ExtendedCodegenOperation that = (ExtendedCodegenOperation) o;
+            return result &&
+                    returnTypeIsMetaDataResponse == that.returnTypeIsMetaDataResponse &&
+                    returnTypeIsMetaOnlyResponse == that.returnTypeIsMetaOnlyResponse &&
+                    returnTypeSupportsEntities == that.returnTypeSupportsEntities &&
+                    returnTypeIsArray == that.returnTypeIsArray &&
+                    returnTypeIsModel == that.returnTypeIsModel &&
+                    Objects.equals(returnTypeAlternate, that.returnTypeAlternate) &&
+                    Objects.equals(returnBaseTypeAlternate, that.returnBaseTypeAlternate);
+        }
+
+        @Override
+        public int hashCode() {
+            int superHash = super.hashCode();
+            return Objects.hash(superHash, returnTypeIsMetaDataResponse, returnTypeIsMetaOnlyResponse, returnTypeSupportsEntities, returnTypeIsArray, returnTypeIsModel, returnTypeAlternate, returnBaseTypeAlternate);
+        }
+
+        @Override
+        public String toString() {
+            String superString = super.toString();
+            final StringBuilder sb = new StringBuilder(superString);
+            sb.append(", returnTypeIsMetaDataResponse=").append(returnTypeIsMetaDataResponse);
+            sb.append(", returnTypeIsMetaOnlyResponse=").append(returnTypeIsMetaOnlyResponse);
+            sb.append(", returnTypeSupportsEntities=").append(returnTypeSupportsEntities);
+            sb.append(", returnTypeIsArray=").append(returnTypeIsArray);
+            sb.append(", returnTypeIsModel=").append(returnTypeIsModel);
+            sb.append(", returnTypeAlternate='").append(returnTypeAlternate).append('\'');
+            sb.append(", returnBaseTypeAlternate='").append(returnBaseTypeAlternate).append('\'');
+            return sb.toString();
+        }
+    }
     class ExtendedCodegenModel extends CodegenModel {
         public Set<String> modelImports = new TreeSet<String>();
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId

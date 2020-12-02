@@ -29,9 +29,9 @@ public class CodegenOperation {
             isArray, isMultipart,
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
-            isRestful, isDeprecated, isCallbackRequest, uniqueItems, returnTypeIsMetaDataResponse, returnTypeIsMetaOnlyResponse, returnTypeSupportsEntities, returnTypeIsModel, returnTypeIsArray;
-    public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType, returnTypeAlternate, returnBaseTypeAlternate,
-            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
+            isRestful, isDeprecated, isCallbackRequest, uniqueItems;
+    public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
+            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse; 
     public CodegenDiscriminator discriminator;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
     public List<CodegenServer> servers = new ArrayList<CodegenServer>();
@@ -270,18 +270,11 @@ public class CodegenOperation {
         sb.append(", isDeprecated=").append(isDeprecated);
         sb.append(", isCallbackRequest=").append(isCallbackRequest);
         sb.append(", uniqueItems='").append(uniqueItems);
-        sb.append(", returnTypeIsMetaDataResponse='").append(returnTypeIsMetaDataResponse);
-        sb.append(", returnTypeIsMetaOnlyResponse='").append(returnTypeIsMetaOnlyResponse);
-        sb.append(", returnTypeSupportsEntities='").append(returnTypeSupportsEntities);
-        sb.append(", returnTypeIsArray='").append(returnTypeIsArray);
-        sb.append(", returnTypeIsModel='").append(returnTypeIsModel);
         sb.append(", path='").append(path).append('\'');
         sb.append(", operationId='").append(operationId).append('\'');
         sb.append(", returnType='").append(returnType).append('\'');
         sb.append(", httpMethod='").append(httpMethod).append('\'');
         sb.append(", returnBaseType='").append(returnBaseType).append('\'');
-        sb.append(", returnTypeAlternate='").append(returnTypeAlternate).append('\'');
-        sb.append(", returnBaseTypeAlternate='").append(returnBaseTypeAlternate).append('\'');
         sb.append(", returnContainer='").append(returnContainer).append('\'');
         sb.append(", summary='").append(summary).append('\'');
         sb.append(", unescapedNotes='").append(unescapedNotes).append('\'');
@@ -350,19 +343,12 @@ public class CodegenOperation {
                 isDeprecated == that.isDeprecated &&
                 isCallbackRequest == that.isCallbackRequest &&
                 uniqueItems == that.uniqueItems &&
-                returnTypeIsMetaDataResponse == that.returnTypeIsMetaDataResponse &&
-                returnTypeIsMetaOnlyResponse == that.returnTypeIsMetaOnlyResponse &&
-                returnTypeSupportsEntities == that.returnTypeSupportsEntities &&
-                returnTypeIsArray == that.returnTypeIsArray &&
-                returnTypeIsModel == that.returnTypeIsModel &&
                 Objects.equals(responseHeaders, that.responseHeaders) &&
                 Objects.equals(path, that.path) &&
                 Objects.equals(operationId, that.operationId) &&
                 Objects.equals(returnType, that.returnType) &&
                 Objects.equals(httpMethod, that.httpMethod) &&
                 Objects.equals(returnBaseType, that.returnBaseType) &&
-                Objects.equals(returnTypeAlternate, that.returnTypeAlternate) &&
-                Objects.equals(returnBaseTypeAlternate, that.returnBaseTypeAlternate) &&
                 Objects.equals(returnContainer, that.returnContainer) &&
                 Objects.equals(summary, that.summary) &&
                 Objects.equals(unescapedNotes, that.unescapedNotes) &&
@@ -407,7 +393,7 @@ public class CodegenOperation {
                 hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
                 isArray, isMultipart, isResponseBinary, isResponseFile, hasReference, isRestfulIndex,
                 isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy, isRestful, isDeprecated,
-                isCallbackRequest, uniqueItems, returnTypeIsMetaDataResponse, returnTypeIsMetaOnlyResponse, returnTypeSupportsEntities, returnTypeIsArray, returnTypeIsModel, path, operationId, returnType, httpMethod, returnBaseType, returnTypeAlternate, returnBaseTypeAlternate,
+                isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod, returnBaseType,
                 returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, consumes,
                 produces, prioritizedContentTypes, servers, bodyParam, allParams, bodyParams, pathParams, queryParams,
                 headerParams, formParams, cookieParams, requiredParams, optionalParams, authMethods, tags,
