@@ -177,6 +177,7 @@
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
+      body <- NULL
 
       {{#requiredParams}}
       if (missing(`{{paramName}}`)) {
@@ -220,8 +221,6 @@
         {{^isArray}}
         body <- `{{paramName}}`$toJSONString()
         {{/isArray}}
-      } else {
-        body <- NULL
       }
 
       {{/bodyParams}}
