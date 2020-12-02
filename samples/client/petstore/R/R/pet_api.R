@@ -349,6 +349,7 @@ PetApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
+      body <- NULL
 
       if (missing(`body`)) {
         stop("Missing required parameter `body`.")
@@ -356,8 +357,6 @@ PetApi <- R6::R6Class(
 
       if (!missing(`body`)) {
         body <- `body`$toJSONString()
-      } else {
-        body <- NULL
       }
 
       urlPath <- "/pet"
@@ -399,6 +398,7 @@ PetApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
+      body <- NULL
 
       if (missing(`pet.id`)) {
         stop("Missing required parameter `pet.id`.")
@@ -449,6 +449,7 @@ PetApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
+      body <- NULL
 
       if (missing(`status`)) {
         stop("Missing required parameter `status`.")
@@ -501,6 +502,7 @@ PetApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
+      body <- NULL
 
       if (missing(`tags`)) {
         stop("Missing required parameter `tags`.")
@@ -553,6 +555,7 @@ PetApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
+      body <- NULL
 
       if (missing(`pet.id`)) {
         stop("Missing required parameter `pet.id`.")
@@ -609,6 +612,7 @@ PetApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
+      body <- NULL
 
       if (missing(`body`)) {
         stop("Missing required parameter `body`.")
@@ -616,8 +620,6 @@ PetApi <- R6::R6Class(
 
       if (!missing(`body`)) {
         body <- `body`$toJSONString()
-      } else {
-        body <- NULL
       }
 
       urlPath <- "/pet"
@@ -659,6 +661,7 @@ PetApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
+      body <- NULL
 
       if (missing(`pet.id`)) {
         stop("Missing required parameter `pet.id`.")
@@ -712,6 +715,7 @@ PetApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
+      body <- NULL
 
       if (missing(`pet.id`)) {
         stop("Missing required parameter `pet.id`.")

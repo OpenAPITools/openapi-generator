@@ -192,6 +192,7 @@ StoreApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
+      body <- NULL
 
       if (missing(`order.id`)) {
         stop("Missing required parameter `order.id`.")
@@ -238,6 +239,7 @@ StoreApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
+      body <- NULL
 
       urlPath <- "/store/inventory"
       # API key authentication
@@ -286,6 +288,7 @@ StoreApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
+      body <- NULL
 
       if (missing(`order.id`)) {
         stop("Missing required parameter `order.id`.")
@@ -338,6 +341,7 @@ StoreApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
+      body <- NULL
 
       if (missing(`body`)) {
         stop("Missing required parameter `body`.")
@@ -345,8 +349,6 @@ StoreApi <- R6::R6Class(
 
       if (!missing(`body`)) {
         body <- `body`$toJSONString()
-      } else {
-        body <- NULL
       }
 
       urlPath <- "/store/order"
