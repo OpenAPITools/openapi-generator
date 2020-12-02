@@ -15,7 +15,6 @@ func {{{.}}}As{{classname}}(v *{{{.}}}) {{classname}} {
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
-	var err error
 	{{#isNullable}}
 	// this object is nullable so check if the payload is null or empty string
 	if string(data) == "" || string(data) == "{}" {
@@ -27,6 +26,7 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 	{{#discriminator}}
 	{{#mappedModels}}
 	{{#-first}}
+	var err error
 	// use discriminator value to speed up the lookup
 	var jsonDict map[string]interface{}
 	err = json.Unmarshal(data, &jsonDict)
@@ -53,6 +53,7 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 	{{/useOneOfDiscriminatorLookup}}
 	{{^useOneOfDiscriminatorLookup}}
 	match := 0
+	var err error
 	{{#oneOf}}
 	// try to unmarshal data into {{{.}}}
 	err = json.Unmarshal(data, &dst.{{{.}}})
