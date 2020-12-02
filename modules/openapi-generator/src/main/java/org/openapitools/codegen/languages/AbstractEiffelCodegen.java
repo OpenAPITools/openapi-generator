@@ -86,7 +86,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         typeMapping.put("map", "STRING_TABLE");
         typeMapping.put("array", "LIST");
         typeMapping.put("list", "LIST");
-        
+        typeMapping.put("AnyType", "ANY");
 
         instantiationTypes.put("array", "ARRAYED_LIST");
         instantiationTypes.put("list", "ARRAYED_LIST");
@@ -203,6 +203,13 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to "
                     + ("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response
+            // (after camelize)
+        }
+        // model name starts with _
+        if (name.startsWith("_")) {
+            LOGGER.warn(name + " (model name starts with _) cannot be used as model name. Renamed to "
+                    + ("model" + name));
+            name = "model" + name; // e.g. 200Response => Model200Response
             // (after camelize)
         }
 
@@ -329,7 +336,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toOperationId(String operationId) {
-    	  // throw exception if method name is empty
+        // throw exception if method name is empty
         if (StringUtils.isEmpty(operationId)) {
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
