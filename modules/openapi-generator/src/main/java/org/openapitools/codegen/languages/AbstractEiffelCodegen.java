@@ -175,7 +175,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toModelFilename(String name) {
-    	// We need to check if import-mapping has a different model for this class, so we use it
+        // We need to check if import-mapping has a different model for this class, so we use it
         // instead of the auto-generated one.
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
@@ -563,7 +563,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toInstantiationType(Schema p) {
-    	return getTypeDeclaration(p);
+        return getTypeDeclaration(p);
 //        if (ModelUtils.isMapSchema(p)) {
 //            Schema additionalProperties2 = getAdditionalProperties(p);
 //            String type = additionalProperties2.getType();
