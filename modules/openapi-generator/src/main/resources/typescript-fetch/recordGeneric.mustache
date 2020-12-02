@@ -83,7 +83,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
         {{^required}}if (apiObject.{{name}}) { {{/required}}(apiObject as any).{{name}} = apiObject.{{name}}.toString();{{^required}} } {{/required}}
         {{/isUniqueId}}
         {{#isModel}}
-        {{^required}}if (apiObject.{{name}}) { {{/required}}{{#lambda.camelcase}}{{dataTypeAlternate}}{{/lambda.camelcase}}Utils.normalize(apiObject.{{name}});{{^required}} } {{/required}}
+        {{^required}}if (apiObject.{{name}}) { {{/required}}{{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.normalize(apiObject.{{name}});{{^required}} } {{/required}}
         {{/isModel}}
         {{#isArray}}
         {{#items.isModel}}
@@ -99,7 +99,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
 	    return new schema.Entity("{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}", {
 {{#vars}}
             {{#isEntity}}
-            {{#lambda.camelcase}}{{name}}{{/lambda.camelcase}}: {{#lambda.camelcase}}{{dataTypeAlternate}}{{/lambda.camelcase}}Utils.getSchema(),
+            {{#lambda.camelcase}}{{name}}{{/lambda.camelcase}}: {{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.getSchema(),
             {{/isEntity}}
             {{#isArray}}
             {{#items.isEntity}}
@@ -116,7 +116,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
 	public fromApi_data(apiObject: {{classname}}): {{{dataTypeAlternate}}} {
     {{#isModel}}
 	    if (!apiObject.data) {return {{{defaultValue}}}; }
-		const normalizedApiObject = {{#lambda.camelcase}}{{dataTypeAlternate}}{{/lambda.camelcase}}Utils.normalize(apiObject.data);
+		const normalizedApiObject = {{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.normalize(apiObject.data);
 		return appFromJS(normalizedApiObject);
     {{/isModel}}
     {{#isArray}}
@@ -139,7 +139,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
 	public fromApiAsEntities_data(apiObject: {{classname}}): NormalizedRecordEntities {
     {{#isEntity}}
 		if (!apiObject.data) {return {entities: {}, result: List<string>()}; }
-		return ApiRecordUtils.toNormalizedRecordEntities({{#lambda.camelcase}}{{dataTypeAlternate}}{{/lambda.camelcase}}Utils.normalizeArrayAsEntities([apiObject.data]), true);
+		return ApiRecordUtils.toNormalizedRecordEntities({{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.normalizeArrayAsEntities([apiObject.data]), true);
     {{/isEntity}}
     {{#isArray}}
     {{#items.isEntity}}
