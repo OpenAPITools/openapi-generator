@@ -1,6 +1,6 @@
 # PET_API
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Feature | HTTP request | Description
 ------------- | ------------- | -------------
@@ -12,10 +12,11 @@ Feature | HTTP request | Description
 [**update_pet**](PET_API.md#update_pet) | **Put** /pet | Update an existing pet
 [**update_pet_with_form**](PET_API.md#update_pet_with_form) | **Post** /pet/{petId} | Updates a pet in the store with form data
 [**upload_file**](PET_API.md#upload_file) | **Post** /pet/{petId}/uploadImage | uploads an image
+[**upload_file_with_required_file**](PET_API.md#upload_file_with_required_file) | **Post** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 # **add_pet**
-> add_pet (pet: PET ): detachable PET
+> add_pet (body: PET )
 	
 
 Add a new pet to the store
@@ -25,11 +26,11 @@ Add a new pet to the store
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**PET**](PET.md)| Pet object that needs to be added to the store | 
+ **body** | [**PET**](PET.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
-[**PET**](Pet.md)
+{empty response body)
 
 ### Authorization
 
@@ -38,7 +39,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -162,7 +163,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_pet**
-> update_pet (pet: PET ): detachable PET
+> update_pet (body: PET )
 	
 
 Update an existing pet
@@ -172,11 +173,11 @@ Update an existing pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**PET**](PET.md)| Pet object that needs to be added to the store | 
+ **body** | [**PET**](PET.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
-[**PET**](Pet.md)
+{empty response body)
 
 ### Authorization
 
@@ -185,7 +186,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -233,6 +234,36 @@ Name | Type | Description  | Notes
  **pet_id** | **INTEGER_64**| ID of pet to update | [default to null]
  **additional_metadata** | **STRING_32**| Additional data to pass to server | [optional] [default to null]
  **file** | **FILE**| file to upload | [optional] [default to null]
+
+### Return type
+
+[**API_RESPONSE**](ApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **upload_file_with_required_file**
+> upload_file_with_required_file (pet_id: INTEGER_64 ; required_file: FILE ; additional_metadata:  detachable STRING_32 ): detachable API_RESPONSE
+	
+
+uploads an image (required)
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet_id** | **INTEGER_64**| ID of pet to update | [default to null]
+ **required_file** | **FILE**| file to upload | [default to null]
+ **additional_metadata** | **STRING_32**| Additional data to pass to server | [optional] [default to null]
 
 ### Return type
 

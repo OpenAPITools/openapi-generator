@@ -1,7 +1,7 @@
 note
  description:"[
 		OpenAPI Petstore
- 		This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ 		This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
   		The version of the OpenAPI document: 1.0.0
  	    
 
@@ -14,18 +14,13 @@ note
 	EIS:"Eiffel openapi generator", "src=https://openapi-generator.tech", "protocol=uri"
 class PET 
 
-inherit
 
-  ANY
-      redefine
-          out 
-      end
 
 
 feature --Access
 
-    id: INTEGER_64 
-      
+ 	id: INTEGER_64 
+    	 
     category: detachable CATEGORY 
       
     name: detachable STRING_32 
@@ -90,7 +85,7 @@ feature -- Change Element
 
  feature -- Status Report
 
-    out: STRING
+    output: STRING
           -- <Precursor>
       do
         create Result.make_empty

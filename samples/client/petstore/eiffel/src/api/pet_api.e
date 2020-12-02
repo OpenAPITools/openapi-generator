@@ -1,7 +1,7 @@
 note
  description:"[
 		OpenAPI Petstore
- 		This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ 		This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
   		The version of the OpenAPI document: 1.0.0
  	    
 
@@ -24,14 +24,13 @@ inherit
 feature -- API Access
 
 
-	add_pet (pet: PET): detachable PET
+	add_pet (body: PET)
 			-- Add a new pet to the store
 			-- 
 			-- 
-			-- argument: pet Pet object that needs to be added to the store (required)
+			-- argument: body Pet object that needs to be added to the store (required)
 			-- 
 			-- 
-			-- Result PET
 		require
 		local
   			l_path: STRING
@@ -40,22 +39,18 @@ feature -- API Access
 		do
 			reset_error
 			create l_request
-			l_request.set_body(pet)
+			l_request.set_body(body)
 			l_path := "/pet"
 
 
-			if attached {STRING} api_client.select_header_accept ({ARRAY [STRING]}<<"application/xml", "application/json">>)  as l_accept then
+			if attached {STRING} api_client.select_header_accept ({ARRAY [STRING]}<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<"application/json", "application/xml">>),"Content-Type")
 			l_request.set_auth_names ({ARRAY [STRING]}<<"petstore_auth">>)
-			l_response := api_client.call_api (l_path, "Post", l_request, Void, agent deserializer)
+			l_response := api_client.call_api (l_path, "Post", l_request, agent serializer, Void)
 			if l_response.has_error then
 				last_error := l_response.error
-			elseif attached { PET } l_response.data ({ PET }) as l_data then
-				Result := l_data
-			else
-				create last_error.make ("Unknown error: Status response [ " + l_response.status.out + "]")
 			end
 		end	
 
@@ -203,14 +198,13 @@ feature -- API Access
 			end
 		end	
 
-	update_pet (pet: PET): detachable PET
+	update_pet (body: PET)
 			-- Update an existing pet
 			-- 
 			-- 
-			-- argument: pet Pet object that needs to be added to the store (required)
+			-- argument: body Pet object that needs to be added to the store (required)
 			-- 
 			-- 
-			-- Result PET
 		require
 		local
   			l_path: STRING
@@ -219,22 +213,18 @@ feature -- API Access
 		do
 			reset_error
 			create l_request
-			l_request.set_body(pet)
+			l_request.set_body(body)
 			l_path := "/pet"
 
 
-			if attached {STRING} api_client.select_header_accept ({ARRAY [STRING]}<<"application/xml", "application/json">>)  as l_accept then
+			if attached {STRING} api_client.select_header_accept ({ARRAY [STRING]}<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<"application/json", "application/xml">>),"Content-Type")
 			l_request.set_auth_names ({ARRAY [STRING]}<<"petstore_auth">>)
-			l_response := api_client.call_api (l_path, "Put", l_request, Void, agent deserializer)
+			l_response := api_client.call_api (l_path, "Put", l_request, agent serializer, Void)
 			if l_response.has_error then
 				last_error := l_response.error
-			elseif attached { PET } l_response.data ({ PET }) as l_data then
-				Result := l_data
-			else
-				create last_error.make ("Unknown error: Status response [ " + l_response.status.out + "]")
 			end
 		end	
 
@@ -308,6 +298,52 @@ feature -- API Access
 			end
 			if attached file as l_file then
 				l_request.add_form(l_file,"file");
+			end
+
+			if attached {STRING} api_client.select_header_accept ({ARRAY [STRING]}<<"application/json">>)  as l_accept then
+				l_request.add_header(l_accept,"Accept");
+			end
+			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<"multipart/form-data">>),"Content-Type")
+			l_request.set_auth_names ({ARRAY [STRING]}<<"petstore_auth">>)
+			l_response := api_client.call_api (l_path, "Post", l_request, Void, agent deserializer)
+			if l_response.has_error then
+				last_error := l_response.error
+			elseif attached { API_RESPONSE } l_response.data ({ API_RESPONSE }) as l_data then
+				Result := l_data
+			else
+				create last_error.make ("Unknown error: Status response [ " + l_response.status.out + "]")
+			end
+		end	
+
+	upload_file_with_required_file (pet_id: INTEGER_64; required_file: FILE; additional_metadata: STRING_32): detachable API_RESPONSE
+			-- uploads an image (required)
+			-- 
+			-- 
+			-- argument: pet_id ID of pet to update (required)
+			-- 
+			-- argument: required_file file to upload (required)
+			-- 
+			-- argument: additional_metadata Additional data to pass to server (optional, default to null)
+			-- 
+			-- 
+			-- Result API_RESPONSE
+		require
+		local
+  			l_path: STRING
+  			l_request: API_CLIENT_REQUEST
+  			l_response: API_CLIENT_RESPONSE
+		do
+			reset_error
+			create l_request
+			
+			l_path := "/fake/{petId}/uploadImageWithRequiredFile"
+			l_path.replace_substring_all ("{"+"petId"+"}", api_client.url_encode (pet_id.out))
+
+			if attached additional_metadata as l_additional_metadata then
+				l_request.add_form(l_additional_metadata,"additionalMetadata");
+			end
+			if attached required_file as l_required_file then
+				l_request.add_form(l_required_file,"requiredFile");
 			end
 
 			if attached {STRING} api_client.select_header_accept ({ARRAY [STRING]}<<"application/json">>)  as l_accept then

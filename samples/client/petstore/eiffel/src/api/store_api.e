@@ -1,7 +1,7 @@
 note
  description:"[
 		OpenAPI Petstore
- 		This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ 		This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
   		The version of the OpenAPI document: 1.0.0
  	    
 
@@ -40,8 +40,8 @@ feature -- API Access
 			reset_error
 			create l_request
 			
-			l_path := "/store/order/{orderId}"
-			l_path.replace_substring_all ("{"+"orderId"+"}", api_client.url_encode (order_id.out))
+			l_path := "/store/order/{order_id}"
+			l_path.replace_substring_all ("{"+"order_id"+"}", api_client.url_encode (order_id.out))
 
 
 			if attached {STRING} api_client.select_header_accept ({ARRAY [STRING]}<<>>)  as l_accept then
@@ -55,12 +55,12 @@ feature -- API Access
 			end
 		end	
 
-	inventory : detachable STRING_TABLE[INTEGER_32]
+	inventory : detachable STRING_TABLE [INTEGER_32]
 			-- Returns pet inventories by status
 			-- Returns a map of status codes to quantities
 			-- 
 			-- 
-			-- Result STRING_TABLE[INTEGER_32]
+			-- Result STRING_TABLE [INTEGER_32]
 		require
 		local
   			l_path: STRING
@@ -81,7 +81,7 @@ feature -- API Access
 			l_response := api_client.call_api (l_path, "Get", l_request, Void, agent deserializer)
 			if l_response.has_error then
 				last_error := l_response.error
-			elseif attached { STRING_TABLE[INTEGER_32] } l_response.data ({ STRING_TABLE[INTEGER_32] }) as l_data then
+			elseif attached { STRING_TABLE [INTEGER_32] } l_response.data ({ STRING_TABLE [INTEGER_32] }) as l_data then
 				Result := l_data
 			else
 				create last_error.make ("Unknown error: Status response [ " + l_response.status.out + "]")
@@ -107,8 +107,8 @@ feature -- API Access
 			reset_error
 			create l_request
 			
-			l_path := "/store/order/{orderId}"
-			l_path.replace_substring_all ("{"+"orderId"+"}", api_client.url_encode (order_id.out))
+			l_path := "/store/order/{order_id}"
+			l_path.replace_substring_all ("{"+"order_id"+"}", api_client.url_encode (order_id.out))
 
 
 			if attached {STRING} api_client.select_header_accept ({ARRAY [STRING]}<<"application/xml", "application/json">>)  as l_accept then
@@ -126,11 +126,11 @@ feature -- API Access
 			end
 		end	
 
-	place_order (order: ORDER): detachable ORDER
+	place_order (body: ORDER): detachable ORDER
 			-- Place an order for a pet
 			-- 
 			-- 
-			-- argument: order order placed for purchasing the pet (required)
+			-- argument: body order placed for purchasing the pet (required)
 			-- 
 			-- 
 			-- Result ORDER
@@ -142,14 +142,14 @@ feature -- API Access
 		do
 			reset_error
 			create l_request
-			l_request.set_body(order)
+			l_request.set_body(body)
 			l_path := "/store/order"
 
 
 			if attached {STRING} api_client.select_header_accept ({ARRAY [STRING]}<<"application/xml", "application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
-			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<"application/json">>),"Content-Type")
+			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<>>),"Content-Type")
 			l_request.set_auth_names ({ARRAY [STRING]}<<>>)
 			l_response := api_client.call_api (l_path, "Post", l_request, Void, agent deserializer)
 			if l_response.has_error then

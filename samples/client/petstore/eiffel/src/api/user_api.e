@@ -1,7 +1,7 @@
 note
  description:"[
 		OpenAPI Petstore
- 		This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ 		This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
   		The version of the OpenAPI document: 1.0.0
  	    
 
@@ -24,11 +24,11 @@ inherit
 feature -- API Access
 
 
-	create_user (user: USER)
+	create_user (body: USER)
 			-- Create user
 			-- This can only be done by the logged in user.
 			-- 
-			-- argument: user Created user object (required)
+			-- argument: body Created user object (required)
 			-- 
 			-- 
 		require
@@ -39,26 +39,26 @@ feature -- API Access
 		do
 			reset_error
 			create l_request
-			l_request.set_body(user)
+			l_request.set_body(body)
 			l_path := "/user"
 
 
 			if attached {STRING} api_client.select_header_accept ({ARRAY [STRING]}<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
-			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<"application/json">>),"Content-Type")
-			l_request.set_auth_names ({ARRAY [STRING]}<<"api_key">>)
+			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<>>),"Content-Type")
+			l_request.set_auth_names ({ARRAY [STRING]}<<>>)
 			l_response := api_client.call_api (l_path, "Post", l_request, agent serializer, Void)
 			if l_response.has_error then
 				last_error := l_response.error
 			end
 		end	
 
-	create_users_with_array_input (user: LIST [USER])
+	create_users_with_array_input (body: LIST [USER])
 			-- Creates list of users with given input array
 			-- 
 			-- 
-			-- argument: user List of user object (required)
+			-- argument: body List of user object (required)
 			-- 
 			-- 
 		require
@@ -69,26 +69,26 @@ feature -- API Access
 		do
 			reset_error
 			create l_request
-			l_request.set_body(user)
+			l_request.set_body(body)
 			l_path := "/user/createWithArray"
 
 
 			if attached {STRING} api_client.select_header_accept ({ARRAY [STRING]}<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
-			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<"application/json">>),"Content-Type")
-			l_request.set_auth_names ({ARRAY [STRING]}<<"api_key">>)
+			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<>>),"Content-Type")
+			l_request.set_auth_names ({ARRAY [STRING]}<<>>)
 			l_response := api_client.call_api (l_path, "Post", l_request, agent serializer, Void)
 			if l_response.has_error then
 				last_error := l_response.error
 			end
 		end	
 
-	create_users_with_list_input (user: LIST [USER])
+	create_users_with_list_input (body: LIST [USER])
 			-- Creates list of users with given input array
 			-- 
 			-- 
-			-- argument: user List of user object (required)
+			-- argument: body List of user object (required)
 			-- 
 			-- 
 		require
@@ -99,15 +99,15 @@ feature -- API Access
 		do
 			reset_error
 			create l_request
-			l_request.set_body(user)
+			l_request.set_body(body)
 			l_path := "/user/createWithList"
 
 
 			if attached {STRING} api_client.select_header_accept ({ARRAY [STRING]}<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
-			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<"application/json">>),"Content-Type")
-			l_request.set_auth_names ({ARRAY [STRING]}<<"api_key">>)
+			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<>>),"Content-Type")
+			l_request.set_auth_names ({ARRAY [STRING]}<<>>)
 			l_response := api_client.call_api (l_path, "Post", l_request, agent serializer, Void)
 			if l_response.has_error then
 				last_error := l_response.error
@@ -138,7 +138,7 @@ feature -- API Access
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<>>),"Content-Type")
-			l_request.set_auth_names ({ARRAY [STRING]}<<"api_key">>)
+			l_request.set_auth_names ({ARRAY [STRING]}<<>>)
 			l_response := api_client.call_api (l_path, "Delete", l_request, agent serializer, Void)
 			if l_response.has_error then
 				last_error := l_response.error
@@ -205,20 +205,20 @@ feature -- API Access
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<>>),"Content-Type")
-			l_request.set_auth_names ({ARRAY [STRING]}<<"api_key">>)
+			l_request.set_auth_names ({ARRAY [STRING]}<<>>)
 			l_response := api_client.call_api (l_path, "Get", l_request, agent serializer, Void)
 			if l_response.has_error then
 				last_error := l_response.error
 			end
 		end	
 
-	update_user (username: STRING_32; user: USER)
+	update_user (username: STRING_32; body: USER)
 			-- Updated user
 			-- This can only be done by the logged in user.
 			-- 
 			-- argument: username name that need to be deleted (required)
 			-- 
-			-- argument: user Updated user object (required)
+			-- argument: body Updated user object (required)
 			-- 
 			-- 
 		require
@@ -229,7 +229,7 @@ feature -- API Access
 		do
 			reset_error
 			create l_request
-			l_request.set_body(user)
+			l_request.set_body(body)
 			l_path := "/user/{username}"
 			l_path.replace_substring_all ("{"+"username"+"}", api_client.url_encode (username.out))
 
@@ -237,8 +237,8 @@ feature -- API Access
 			if attached {STRING} api_client.select_header_accept ({ARRAY [STRING]}<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
-			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<"application/json">>),"Content-Type")
-			l_request.set_auth_names ({ARRAY [STRING]}<<"api_key">>)
+			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<>>),"Content-Type")
+			l_request.set_auth_names ({ARRAY [STRING]}<<>>)
 			l_response := api_client.call_api (l_path, "Put", l_request, agent serializer, Void)
 			if l_response.has_error then
 				last_error := l_response.error
