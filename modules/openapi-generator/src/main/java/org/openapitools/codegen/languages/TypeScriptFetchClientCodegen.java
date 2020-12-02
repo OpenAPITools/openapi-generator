@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -217,7 +218,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 schema = schemas.get(op.returnBaseType);
             }
 
-            CodegenModel cm = null;
+            ExtendedCodegenModel cm = null;
             if (schema != null) {
                 cm = fromModel(op.returnBaseType, schema);
 
@@ -266,7 +267,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         // process enum and custom properties in models
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+            ExtendedCodegenModel cm = (ExtendedCodegenModel) mo.get("model");
             cm.imports = new TreeSet(cm.imports);
             this.processCodeGenModel(cm);
         }
@@ -276,7 +277,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        List<CodegenModel> allModels = new ArrayList<CodegenModel>();
+        List<ExtendedCodegenModel> allModels = new ArrayList<ExtendedCodegenModel>();
         List<String> entityModelClassnames = new ArrayList<String>();
 
         Map<String, Object> result = super.postProcessAllModels(objs);
@@ -284,7 +285,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             Map<String, Object> inner = (Map<String, Object>) entry.getValue();
             List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
             for (Map<String, Object> model : models) {
-                CodegenModel codegenModel = (CodegenModel) model.get("model");
+                ExtendedCodegenModel codegenModel = (ExtendedCodegenModel) model.get("model");
                 model.put("hasImports", codegenModel.imports.size() > 0);
 
                 allModels.add(codegenModel);
@@ -294,10 +295,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
         }
 
-        for (CodegenModel rootModel : allModels) {
+        for (ExtendedCodegenModel rootModel : allModels) {
             for (String curImport : rootModel.imports) {
                 boolean isModelImport = false;
-                for (CodegenModel model : allModels) {
+                for (ExtendedCodegenModel model : allModels) {
                     if (model.classname.equals(curImport) && !model.isEnum) {
                         isModelImport = true;
                         break;
@@ -349,6 +350,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
+    public ExtendedCodegenModel fromModel(String name, Schema model) {
+        CodegenModel cm = super.fromModel(name, model);
+        return new ExtendedCodegenModel(cm);
+    }
+
+    @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
         // Add supporting file only if we plan to generate files in /apis
         if (operations.size() > 0 && !addedApiIndex) {
@@ -385,7 +392,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         return parentObjs;
     }
 
-    private CodegenModel processCodeGenModel(CodegenModel cm) {
+    private ExtendedCodegenModel processCodeGenModel(ExtendedCodegenModel cm) {
         Object xEntityId = cm.vendorExtensions.get(X_ENTITY_ID);
         for (CodegenProperty var : cm.vars) {
             boolean parentIsEntity = this.processCodegenProperty(var, cm.classname, xEntityId);
@@ -618,6 +625,135 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     private void setPrefixParameterInterfaces(boolean prefixParameterInterfaces) {
         this.prefixParameterInterfaces = prefixParameterInterfaces;
+    }
+
+    class ExtendedCodegenModel extends CodegenModel {
+        public Set<String> modelImports = new TreeSet<String>();
+        public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
+        public boolean isMetaDataResponse;
+        public boolean isMetaOnlyResponse;
+
+        public ExtendedCodegenModel(CodegenModel cm) {
+            super();
+
+            this.parent = cm.parent;
+            this.parentSchema = cm.parentSchema;
+            this.interfaces = cm.interfaces;
+            this.allParents = cm.allParents;
+            this.parentModel = cm.parentModel;
+            this.interfaceModels = cm.interfaceModels;
+            this.children = cm.children;
+            this.anyOf = cm.anyOf;
+            this.oneOf = cm.oneOf;
+            this.allOf = cm.allOf;
+            this.name = cm.name;
+            this.classname = cm.classname;
+            this.title = cm.title;
+            this.description = cm.description;
+            this.classVarName = cm.classVarName;
+            this.modelJson = cm.modelJson;
+            this.dataType = cm.dataType;
+            this.xmlPrefix = cm.xmlPrefix;
+            this.xmlNamespace = cm.xmlNamespace;
+            this.xmlName = cm.xmlName;
+            this.classFilename = cm.classFilename;
+            this.unescapedDescription = cm.unescapedDescription;
+            this.discriminator = cm.discriminator;
+            this.defaultValue = cm.defaultValue;
+            this.arrayModelType = cm.arrayModelType;
+            this.isAlias = cm.isAlias;
+            this.isString = cm.isString;
+            this.isInteger = cm.isInteger;
+            this.isLong = cm.isLong;
+            this.isNumber = cm.isNumber;
+            this.isNumeric = cm.isNumeric;
+            this.isFloat = cm.isFloat;
+            this.isDouble = cm.isDouble;
+            this.isDate = cm.isDate;
+            this.isDateTime = cm.isDateTime;
+            this.vars = cm.vars;
+            this.allVars = cm.allVars;
+            this.requiredVars = cm.requiredVars;
+            this.optionalVars = cm.optionalVars;
+            this.readOnlyVars = cm.readOnlyVars;
+            this.readWriteVars = cm.readWriteVars;
+            this.parentVars = cm.parentVars;
+            this.allowableValues = cm.allowableValues;
+            this.mandatory = cm.mandatory;
+            this.allMandatory = cm.allMandatory;
+            this.imports = cm.imports;
+            this.hasVars = cm.hasVars;
+            this.emptyVars = cm.emptyVars;
+            this.hasMoreModels = cm.hasMoreModels;
+            this.hasEnums = cm.hasEnums;
+            this.isEnum = cm.isEnum;
+            this.isNullable = cm.isNullable;
+            this.hasRequired = cm.hasRequired;
+            this.hasOptional = cm.hasOptional;
+            this.isArray = cm.isArray;
+            this.hasChildren = cm.hasChildren;
+            this.isMap = cm.isMap;
+            this.isDeprecated = cm.isDeprecated;
+            this.hasOnlyReadOnly = cm.hasOnlyReadOnly;
+            this.externalDocumentation = cm.externalDocumentation;
+
+            this.vendorExtensions = cm.vendorExtensions;
+            this.additionalPropertiesType = cm.additionalPropertiesType;
+            this.isAdditionalPropertiesTrue = cm.isAdditionalPropertiesTrue;
+            this.setMaxProperties(cm.getMaxProperties());
+            this.setMinProperties(cm.getMinProperties());
+            this.setUniqueItems(cm.getUniqueItems());
+            this.setMaxItems(cm.getMaxItems());
+            this.setMinItems(cm.getMinItems());
+            this.setMaxLength(cm.getMaxLength());
+            this.setMinLength(cm.getMinLength());
+            this.setExclusiveMinimum(cm.getExclusiveMinimum());
+            this.setExclusiveMaximum(cm.getExclusiveMaximum());
+            this.setMinimum(cm.getMinimum());
+            this.setMaximum(cm.getMaximum());
+            this.setPattern(cm.getPattern());
+            this.setMultipleOf(cm.getMultipleOf());
+            this.setItems(cm.getItems());
+            this.setAdditionalProperties(cm.getAdditionalProperties());
+            this.setIsModel(cm.getIsModel());
+        }
+
+        public Set<String> getModelImports() {
+            return modelImports;
+        }
+
+        public void setModelImports(Set<String> modelImports) {
+            this.modelImports = modelImports;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            boolean result = super.equals(o);
+            ExtendedCodegenModel that = (ExtendedCodegenModel) o;
+            return result &&
+                    isEntity == that.isEntity &&
+                    isMetaDataResponse == that.isMetaDataResponse &&
+                    isMetaOnlyResponse == that.isMetaOnlyResponse &&
+                    Objects.equals(modelImports, that.modelImports);
+
+        }
+        @Override
+        public int hashCode() {
+            int superHash = super.hashCode();
+            return Objects.hash(superHash, isEntity, isMetaDataResponse, isMetaOnlyResponse, getModelImports());
+        }
+
+        @Override
+        public String toString() {
+            String superString = super.toString();
+            final StringBuilder sb = new StringBuilder(superString);
+            sb.append(", modelImports=").append(modelImports);
+            sb.append(", isEntity=").append(isEntity);
+            sb.append(", isMetaDataResponse=").append(isMetaDataResponse);
+            sb.append(", isMetaOnlyResponse=").append(isMetaOnlyResponse);
+            return sb.toString();
+        }
+
     }
 
 }

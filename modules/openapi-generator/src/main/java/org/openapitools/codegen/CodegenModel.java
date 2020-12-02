@@ -79,7 +79,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Set<String> allMandatory = new TreeSet<String>(); // with parent's required properties
 
     public Set<String> imports = new TreeSet<String>();
-    public Set<String> modelImports = new TreeSet<String>();
     public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum;
     /**
      * Indicates the OAS schema specifies "nullable: true".
@@ -96,13 +95,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public boolean isArray;
     public boolean hasChildren;
     public boolean isMap;
-
-    /**
-     * Is a model containing an "id" property marked as isUniqueId; field populated only by typescript fetch for now.
-     */
-    public boolean isEntity;
-    public boolean isMetaDataResponse;
-    public boolean isMetaOnlyResponse;
     /**
      * Indicates the OAS schema specifies "deprecated: true".
      */
@@ -349,14 +341,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public void setImports(Set<String> imports) {
         this.imports = imports;
-    }
-
-    public Set<String> getModelImports() {
-        return modelImports;
-    }
-
-    public void setModelImports(Set<String> modelImports) {
-        this.modelImports = modelImports;
     }
 
     public List<CodegenModel> getInterfaceModels() {
@@ -744,9 +728,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 isArray == that.isArray &&
                 hasChildren == that.hasChildren &&
                 isMap == that.isMap &&
-                isEntity == that.isEntity &&
-                isMetaDataResponse == that.isMetaDataResponse &&
-                isMetaOnlyResponse == that.isMetaOnlyResponse &&
                 isDeprecated == that.isDeprecated &&
                 hasOnlyReadOnly == that.hasOnlyReadOnly &&
                 getUniqueItems() == that.getUniqueItems() &&
@@ -788,7 +769,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(mandatory, that.mandatory) &&
                 Objects.equals(allMandatory, that.allMandatory) &&
                 Objects.equals(imports, that.imports) &&
-                Objects.equals(modelImports, that.modelImports) &&
                 Objects.equals(externalDocumentation, that.externalDocumentation) &&
                 Objects.equals(vendorExtensions, that.vendorExtensions) &&
                 Objects.equals(additionalPropertiesType, that.additionalPropertiesType) &&
@@ -814,9 +794,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getDescription(), getClassVarName(), getModelJson(), getDataType(), getXmlPrefix(), getXmlNamespace(),
                 getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
                 getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
-                isDate, isDateTime, isEntity, isMetaDataResponse, isMetaOnlyResponse,
+                isDate, isDateTime,
                 getVars(), getAllVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
-                getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), getModelImports(), hasVars,
+                getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
                 isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArray,
                 hasChildren, isMap, isDeprecated, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
                 getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
@@ -873,7 +853,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", mandatory=").append(mandatory);
         sb.append(", allMandatory=").append(allMandatory);
         sb.append(", imports=").append(imports);
-        sb.append(", modelImports=").append(modelImports);
         sb.append(", hasVars=").append(hasVars);
         sb.append(", emptyVars=").append(emptyVars);
         sb.append(", hasMoreModels=").append(hasMoreModels);
@@ -885,9 +864,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", isArray=").append(isArray);
         sb.append(", hasChildren=").append(hasChildren);
         sb.append(", isMap=").append(isMap);
-        sb.append(", isEntity=").append(isEntity);
-        sb.append(", isMetaDataResponse=").append(isMetaDataResponse);
-        sb.append(", isMetaOnlyResponse=").append(isMetaOnlyResponse);
         sb.append(", isDeprecated=").append(isDeprecated);
         sb.append(", hasOnlyReadOnly=").append(hasOnlyReadOnly);
         sb.append(", externalDocumentation=").append(externalDocumentation);
