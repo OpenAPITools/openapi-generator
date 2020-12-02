@@ -197,7 +197,8 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
         $allowedValues = $this->{{getter}}AllowableValues();
         if (!is_null($this->container['{{name}}']) && !in_array($this->container['{{name}}'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value for '{{name}}', must be one of '%s'",
+                "invalid value '%s' for '{{name}}', must be one of '%s'",
+                $this->container['{{name}}'],
                 implode("', '", $allowedValues)
             );
         }
@@ -290,7 +291,8 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
         if ({{^required}}!is_null(${{name}}) && {{/required}}!in_array(${{{name}}}, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value for '{{name}}', must be one of '%s'",
+                    "Invalid value '%s' for '{{name}}', must be one of '%s'",
+                    ${{{name}}},
                     implode("', '", $allowedValues)
                 )
             );

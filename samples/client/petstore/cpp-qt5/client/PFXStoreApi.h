@@ -19,6 +19,8 @@
 #include <QString>
 
 #include <QObject>
+#include <QByteArray>
+#include <QStringList> 
 #include <QNetworkAccessManager>
 
 namespace test_namespace {
@@ -33,6 +35,10 @@ public:
     void setScheme(const QString &scheme);
     void setHost(const QString &host);
     void setPort(int port);
+    void setApiKey(const QString &apiKeyName, const QString &apiKey);
+    void setBearerToken(const QString &token);
+    void setUsername(const QString &username);
+    void setPassword(const QString &password);
     void setBasePath(const QString &basePath);
     void setTimeOut(const int timeOut);
     void setWorkingDirectory(const QString &path);
@@ -50,6 +56,10 @@ public:
 private:
     QString _scheme, _host;
     int _port;
+    QMap<QString, QString> _apiKeys;
+    QString _bearerToken;
+    QString _username;
+    QString _password;
     QString _basePath;
     int _timeOut;
     QString _workingDirectory;

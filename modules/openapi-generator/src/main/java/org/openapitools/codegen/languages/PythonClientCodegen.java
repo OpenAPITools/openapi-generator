@@ -153,7 +153,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
         // check library option to ensure only urllib3 is supported
         if (!DEFAULT_LIBRARY.equals(getLibrary())) {
-            throw new RuntimeException("Only the `urllib3` library is supported in the refactored `python` client generator at the moment. Please fall back to `python-legacy` client generator for the time being. We welcome contributions to add back `asyncio`, `tornado` support to the `pyhton` client generator.");
+            throw new RuntimeException("Only the `urllib3` library is supported in the refactored `python` client generator at the moment. Please fall back to `python-legacy` client generator for the time being. We welcome contributions to add back `asyncio`, `tornado` support to the `python` client generator.");
         }
     }
 
@@ -1072,7 +1072,10 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     key = addPropsSchema.getEnum().get(0).toString();
                 }
                 addPropsExample = exampleFromStringOrArraySchema(addPropsSchema, addPropsExample, key);
-                String addPropPrefix = ensureQuotes(key) + ": ";
+                String addPropPrefix = key + "=";
+                if (modelName == null) {
+                        addPropPrefix = ensureQuotes(key) + ": ";
+                }
                 String addPropsModelName = getModelName(addPropsSchema);
                 example = fullPrefix + "\n" +  toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1) + ",\n" + closingIndentation + closeChars;
             } else {

@@ -769,7 +769,7 @@ public class DefaultGenerator implements Generator {
         bundle.put("basePathWithoutHost", basePathWithoutHost);
         bundle.put("scheme", URLPathUtils.getScheme(url, config));
         bundle.put("host", url.getHost());
-        if (url.getPort() != 80 && url.getPort() != 443 ) {
+        if (url.getPort() != 80 && url.getPort() != 443 && url.getPort() != -1) {
             bundle.put("port", url.getPort());
         }
         bundle.put("contextPath", contextPath);
