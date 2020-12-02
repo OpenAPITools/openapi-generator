@@ -254,18 +254,19 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 }
             }
 
-            for (CodegenProperty var : rootModel.vars) {
+            for (CodegenProperty cpVar : rootModel.vars) {
+                ExtendedCodegenProperty var = (ExtendedCodegenProperty)cpVar;
                 if (var.isModel && entityModelClassnames.indexOf(var.dataType) != -1) {
                     var.isEntity = true;
                 } else if (var.isArray && var.items.isModel && entityModelClassnames.indexOf(var.items.dataType) != -1) {
-                    var.items.isEntity = true;
+                    ((ExtendedCodegenProperty)var.items).isEntity = true;
                 }
             }
         }
         return result;
     }
 
-    private void autoSetDefaultValueForProperty(CodegenProperty var) {
+    private void autoSetDefaultValueForProperty(ExtendedCodegenProperty var) {
         if (var.isArray || var.isModel) {
             var.defaultValue = var.dataTypeAlternate + "()";
         } else if (var.isUniqueId) {
@@ -292,6 +293,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         supportingFiles.add(new SupportingFile("npmignore.mustache", "", ".npmignore"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
+    }
+
+    @Override
+    public ExtendedCodegenProperty fromProperty(String name, Schema p) {
+        CodegenProperty cp = super.fromProperty(name, p);
+        return new ExtendedCodegenProperty(cp);
     }
 
     @Override
@@ -331,9 +338,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
                 if (!op.returnTypeIsMetaOnlyResponse) {
                     Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(methodResponse), importMapping);
-                    CodegenProperty cp = null;
+                    ExtendedCodegenProperty cp = null;
                     if (op.returnTypeIsMetaDataResponse && cm != null) {
-                        cp = this.processCodeGenModel(cm).vars.get(1);
+                        cp = (ExtendedCodegenProperty)this.processCodeGenModel(cm).vars.get(1);
                     } else if (responseSchema != null) {
                         cp = fromProperty("response", responseSchema);
                         this.processCodegenProperty(cp, "", null);
@@ -398,7 +405,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     private ExtendedCodegenModel processCodeGenModel(ExtendedCodegenModel cm) {
         Object xEntityId = cm.vendorExtensions.get(X_ENTITY_ID);
-        for (CodegenProperty var : cm.vars) {
+        for (CodegenProperty cpVar : cm.vars) {
+            ExtendedCodegenProperty var = (ExtendedCodegenProperty)cpVar;
             boolean parentIsEntity = this.processCodegenProperty(var, cm.classname, xEntityId);
             if (parentIsEntity) {
                 cm.isEntity = true;
@@ -416,7 +424,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         if (cm.parent != null) {
-            for (CodegenProperty var : cm.allVars) {
+            for (CodegenProperty cpVar : cm.allVars) {
+                ExtendedCodegenProperty var = (ExtendedCodegenProperty)cpVar;
                 if (Boolean.TRUE.equals(var.isEnum)) {
                     var.datatypeWithEnum = var.datatypeWithEnum
                             .replace(var.enumName, cm.classname + var.enumName);
@@ -436,7 +445,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         return cm;
     }
 
-    private boolean processCodegenProperty(CodegenProperty var, String parentClassName, Object xEntityId) {
+    private boolean processCodegenProperty(ExtendedCodegenProperty var, String parentClassName, Object xEntityId) {
         boolean parentIsEntity = false;
         // name enum with model name, e.g. StatusEnum => PetStatusEnum
         if (Boolean.TRUE.equals(var.isEnum)) {
@@ -629,6 +638,131 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     private void setPrefixParameterInterfaces(boolean prefixParameterInterfaces) {
         this.prefixParameterInterfaces = prefixParameterInterfaces;
+    }
+
+    class ExtendedCodegenProperty extends CodegenProperty {
+        public String dataTypeAlternate;
+        public boolean isEntity; //Is a model containing an "id" property marked as isUniqueId and which matches the 'x-entityId' value.
+        public boolean isUniqueId; // The property represents a unique id (x-isUniqueId: true)
+
+
+        public ExtendedCodegenProperty(CodegenProperty cp) {
+            super();
+
+            this.openApiType = openApiType;
+            this.baseName = cp.baseName;
+            this.complexType = cp.complexType;
+            this.getter = cp.getter;
+            this.setter = cp.setter;
+            this.description = cp.description;
+            this.dataType = cp.dataType;
+            this.datatypeWithEnum = cp.datatypeWithEnum;
+            this.dataFormat = cp.dataFormat;
+            this.name = cp.name;
+            this.min = cp.min;
+            this.max = cp.max;
+            this.defaultValue = cp.defaultValue;
+            this.defaultValueWithParam = cp.defaultValueWithParam;
+            this.baseType = cp.baseType;
+            this.containerType = cp.containerType;
+            this.title = cp.title;
+            this.unescapedDescription = cp.unescapedDescription;
+            this.maxLength = cp.maxLength;
+            this.minLength = cp.minLength;
+            this.pattern = cp.pattern;
+            this.example = cp.example;
+            this.jsonSchema = cp.jsonSchema;
+            this.minimum = cp.minimum;
+            this.maximum = cp.maximum;
+            this.multipleOf = cp.multipleOf;
+            this.exclusiveMinimum = cp.exclusiveMinimum;
+            this.exclusiveMaximum = cp.exclusiveMaximum;
+            this.required = cp.required;
+            this.deprecated = cp.deprecated;
+            this.hasMoreNonReadOnly = cp.hasMoreNonReadOnly;
+            this.isPrimitiveType = cp.isPrimitiveType;
+            this.isModel = cp.isModel;
+            this.isContainer = cp.isContainer;
+            this.isString = cp.isString;
+            this.isNumeric = cp.isNumeric;
+            this.isInteger = cp.isInteger;
+            this.isLong = cp.isLong;
+            this.isNumber = cp.isNumber;
+            this.isFloat = cp.isFloat;
+            this.isDouble = cp.isDouble;
+            this.isDecimal = cp.isDecimal;
+            this.isByteArray = cp.isByteArray;
+            this.isBinary = cp.isBinary;
+            this.isFile = cp.isFile;
+            this.isBoolean = cp.isBoolean;
+            this.isDate = cp.isDate; // full-date notation as defined by RFC 3339, section 5.6, for example, 2017-07-21
+            this.isDateTime = cp.isDateTime; // the date-time notation as defined by RFC 3339, section 5.6, for example, 2017-07-21T17:32:28Z
+            this.isUuid = cp.isUuid;
+            this.isUri = cp.isUri;
+            this.isEmail = cp.isEmail;
+            this.isFreeFormObject = cp.isFreeFormObject;
+            this.isAnyType = cp.isAnyType;
+            this.isArray = cp.isArray;
+            this.isMap = cp.isMap;
+            this.isEnum = cp.isEnum;
+            this.isReadOnly = cp.isReadOnly;
+            this.isWriteOnly = cp.isWriteOnly;
+            this.isNullable = cp.isNullable;
+            this.isSelfReference = cp.isSelfReference;
+            this.isCircularReference = cp.isCircularReference;
+            this.isDiscriminator = cp.isDiscriminator;
+            this._enum = cp._enum;
+            this.allowableValues = cp.allowableValues;
+            this.items = cp.items;
+            this.additionalProperties = cp.additionalProperties;
+            this.vars = cp.vars;
+            this.requiredVars = cp.requiredVars;
+            this.mostInnerItems = cp.mostInnerItems;
+            this.vendorExtensions = cp.vendorExtensions;
+            this.hasValidation = cp.hasValidation;
+            this.isInherited = cp.isInherited;
+            this.discriminatorValue = cp.discriminatorValue;
+            this.nameInLowerCase = cp.nameInLowerCase;
+            this.nameInCamelCase = cp.nameInCamelCase;
+            this.nameInSnakeCase = cp.nameInSnakeCase;
+            this.enumName = cp.enumName;
+            this.maxItems = cp.maxItems;
+            this.minItems = cp.minItems;
+            this.setMaxProperties(cp.getMaxProperties());
+            this.setMinProperties(cp.getMinProperties());
+            this.setUniqueItems(cp.getUniqueItems());
+            this.isXmlAttribute = cp.isXmlAttribute;
+            this.xmlPrefix = cp.xmlPrefix;
+            this.xmlName = cp.xmlName;
+            this.xmlNamespace = cp.xmlNamespace;
+            this.isXmlWrapped = cp.isXmlWrapped;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            boolean result = super.equals(o);
+            ExtendedCodegenProperty that = (ExtendedCodegenProperty) o;
+            return result &&
+                    isEntity == that.isEntity &&
+                    isUniqueId == that.isUniqueId &&
+                    Objects.equals(dataTypeAlternate, that.dataTypeAlternate);
+        }
+
+        @Override
+        public int hashCode() {
+            int superHash = super.hashCode();
+            return Objects.hash(superHash, dataTypeAlternate, isEntity, isUniqueId);
+        }
+
+        @Override
+        public String toString() {
+            String superString = super.toString();
+            final StringBuilder sb = new StringBuilder(superString);
+            sb.append(", dataTypeAlternate='").append(dataTypeAlternate).append('\'');
+            sb.append(", isEntity=").append(isEntity);
+            sb.append(", isUniqueId=").append(isUniqueId);
+            return sb.toString();
+        }
     }
 
     class ExtendedCodegenOperation extends CodegenOperation {

@@ -38,11 +38,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
      * may be represented as 'int', 'int32', 'Integer', etc, depending on the programming language.
      */
     public String dataType;
-    /**
-     * Alternative version of the language-specific data type when generator needs a different output in some templates.
-     * For example this is used by typescript fetch generator to output either Array (javascript) or List (immutablejs)
-     */
-    public String dataTypeAlternate;
     public String datatypeWithEnum;
     public String dataFormat;
     /**
@@ -114,15 +109,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isPrimitiveType;
     public boolean isModel;
     /**
-     * Is a model containing an "id" property marked as isUniqueId; field populated only by typescript fetch for now.
-     */
-    public boolean isEntity;
-    /**
-     * The property represents a unique id (x-isUniqueId: true); field populated only by typescript fetch for now.
-     */
-    public boolean isUniqueId;
-
-    /**
      * True if this property is an array of items or a map container.
      * See:
      * - ModelUtils.isArraySchema()
@@ -172,7 +158,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     // If 'additionalProperties' is set to a type or refers to a type, 'items' provides the type information for
     // the undeclared properties. 
     public CodegenProperty items;
-
     public CodegenProperty additionalProperties;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<>();
@@ -252,14 +237,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
 
     public String getDataType() {
         return dataType;
-    }
-
-    public void setDatatypeAlternate(String datatype) {
-        this.dataTypeAlternate = datatype;
-    }
-
-    public String getDataTypeAlternate() {
-        return dataTypeAlternate;
     }
 
     public void setDatatype(String datatype) {
@@ -709,7 +686,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", setter='").append(setter).append('\'');
         sb.append(", description='").append(description).append('\'');
         sb.append(", dataType='").append(dataType).append('\'');
-        sb.append(", dataTypeAlternate='").append(dataTypeAlternate).append('\'');
         sb.append(", datatypeWithEnum='").append(datatypeWithEnum).append('\'');
         sb.append(", dataFormat='").append(dataFormat).append('\'');
         sb.append(", name='").append(name).append('\'');
@@ -735,8 +711,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", hasMoreNonReadOnly=").append(hasMoreNonReadOnly);
         sb.append(", isPrimitiveType=").append(isPrimitiveType);
         sb.append(", isModel=").append(isModel);
-        sb.append(", isEntity=").append(isEntity);
-        sb.append(", isUniqueId=").append(isUniqueId);
         sb.append(", isContainer=").append(isContainer);
         sb.append(", isString=").append(isString);
         sb.append(", isNumeric=").append(isNumeric);
@@ -806,8 +780,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 hasMoreNonReadOnly == that.hasMoreNonReadOnly &&
                 isPrimitiveType == that.isPrimitiveType &&
                 isModel == that.isModel &&
-                isEntity == that.isEntity &&
-                isUniqueId == that.isUniqueId &&
                 isContainer == that.isContainer &&
                 isString == that.isString &&
                 isNumeric == that.isNumeric &&
@@ -847,7 +819,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(setter, that.setter) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(dataType, that.dataType) &&
-                Objects.equals(dataTypeAlternate, that.dataTypeAlternate) &&
                 Objects.equals(datatypeWithEnum, that.datatypeWithEnum) &&
                 Objects.equals(dataFormat, that.dataFormat) &&
                 Objects.equals(name, that.name) &&
@@ -902,6 +873,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 items, mostInnerItems, additionalProperties, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
-                xmlNamespace, isXmlWrapped, dataTypeAlternate, isEntity, isUniqueId);
+                xmlNamespace, isXmlWrapped);
     }
 }
