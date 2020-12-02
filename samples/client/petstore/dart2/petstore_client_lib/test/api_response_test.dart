@@ -3,20 +3,20 @@ import 'package:test/test.dart';
 
 // tests for ApiResponse
 void main() {
-    var instance = new ApiResponse();
+  final instance = ApiResponse();
 
   group('test ApiResponse', () {
-    // int code (default value: null)
+    // int code
     test('to test the property `code`', () async {
       // TODO
     });
 
-    // String type (default value: null)
+    // String type
     test('to test the property `type`', () async {
       // TODO
     });
 
-    // String message (default value: null)
+    // String message
     test('to test the property `message`', () async {
       // TODO
     });

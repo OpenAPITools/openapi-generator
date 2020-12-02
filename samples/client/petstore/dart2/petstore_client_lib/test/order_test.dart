@@ -3,31 +3,31 @@ import 'package:test/test.dart';
 
 // tests for Order
 void main() {
-    var instance = new Order();
+  final instance = Order();
 
   group('test Order', () {
-    // int id (default value: null)
+    // int id
     test('to test the property `id`', () async {
       // TODO
     });
 
-    // int petId (default value: null)
+    // int petId
     test('to test the property `petId`', () async {
       // TODO
     });
 
-    // int quantity (default value: null)
+    // int quantity
     test('to test the property `quantity`', () async {
       // TODO
     });
 
-    // DateTime shipDate (default value: null)
+    // DateTime shipDate
     test('to test the property `shipDate`', () async {
       // TODO
     });
 
     // Order Status
-    // String status (default value: null)
+    // String status
     test('to test the property `status`', () async {
       // TODO
     });

@@ -3,36 +3,36 @@ import 'package:test/test.dart';
 
 // tests for Pet
 void main() {
-    var instance = new Pet();
+  final instance = Pet();
 
   group('test Pet', () {
-    // int id (default value: null)
+    // int id
     test('to test the property `id`', () async {
       // TODO
     });
 
-    // Category category (default value: null)
+    // Category category
     test('to test the property `category`', () async {
       // TODO
     });
 
-    // String name (default value: null)
+    // String name
     test('to test the property `name`', () async {
       // TODO
     });
 
-    // List<String> photoUrls (default value: [])
+    // List<String> photoUrls (default value: const [])
     test('to test the property `photoUrls`', () async {
       // TODO
     });
 
-    // List<Tag> tags (default value: [])
+    // List<Tag> tags (default value: const [])
     test('to test the property `tags`', () async {
       // TODO
     });
 
     // pet status in the store
-    // String status (default value: null)
+    // String status
     test('to test the property `status`', () async {
       // TODO
     });
