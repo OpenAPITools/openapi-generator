@@ -68,6 +68,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         typeMapping.put("long", "INTEGER_64");
         typeMapping.put("number", "REAL_32");
         typeMapping.put("float", "REAL_32");
+        typeMapping.put("decimal", "REAL_64");
         typeMapping.put("double", "REAL_64");
         typeMapping.put("boolean", "BOOLEAN");
         typeMapping.put("string", "STRING_32");
@@ -85,10 +86,17 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         typeMapping.put("map", "STRING_TABLE");
         typeMapping.put("array", "LIST");
         typeMapping.put("list", "LIST");
+        
 
         instantiationTypes.put("array", "ARRAYED_LIST");
         instantiationTypes.put("list", "ARRAYED_LIST");
         instantiationTypes.put("map", "STRING_TABLE");
+        
+        importMapping.put("List", "LIST");
+        importMapping.put("Set", "SET");
+        importMapping.put("file", "FILE");
+        importMapping.put("File", "FILE");
+        importMapping.put("Map", "STRING_TABLE");
 
 
         cliOptions.clear();
@@ -167,6 +175,12 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toModelFilename(String name) {
+    	// We need to check if import-mapping has a different model for this class, so we use it
+        // instead of the auto-generated one.
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -278,7 +292,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
 
-            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
+            return getSchemaType(p) + " [" + getTypeDeclaration(inner) + "]";
         }
         // return super.getTypeDeclaration(p);
 
@@ -315,7 +329,12 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toOperationId(String operationId) {
-        String sanitizedOperationId = sanitizeName(operationId);
+    	  // throw exception if method name is empty
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method/operation name (operationId) not allowed");
+        }
+
+        String sanitizedOperationId = camelize(sanitizeName(operationId), true);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
@@ -323,6 +342,13 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
                     + camelize("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
+        
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
+            sanitizedOperationId = camelize("call_" + sanitizedOperationId, true);
+        }
+
         // method name from updateSomething to update_Something.
         sanitizedOperationId = unCamelize(sanitizedOperationId);
 
@@ -537,22 +563,23 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (ModelUtils.isMapSchema(p)) {
-            Schema additionalProperties2 = getAdditionalProperties(p);
-            String type = additionalProperties2.getType();
-            if (null == type) {
-                LOGGER.error("No Type defined for Additional Schema " + additionalProperties2 + "\n" //
-                        + "\tIn Schema: " + p);
-            }
-            String inner = toModelName(getSchemaType(additionalProperties2));
-            return instantiationTypes.get("map") + " [" + inner + "]";
-        } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = toModelName(getSchemaType(ap.getItems()));
-            return instantiationTypes.get("array") + " [" + inner + "]";
-        } else {
-            return null;
-        }
+    	return getTypeDeclaration(p);
+//        if (ModelUtils.isMapSchema(p)) {
+//            Schema additionalProperties2 = getAdditionalProperties(p);
+//            String type = additionalProperties2.getType();
+//            if (null == type) {
+//                LOGGER.error("No Type defined for Additional Schema " + additionalProperties2 + "\n" //
+//                        + "\tIn Schema: " + p);
+//            }
+//            String inner = toModelName(getSchemaType(additionalProperties2));
+//            return instantiationTypes.get("map") + " [" + inner + "]";
+//        } else if (ModelUtils.isArraySchema(p)) {
+//            ArraySchema ap = (ArraySchema) p;
+//            String inner = toModelName(getSchemaType(ap.getItems()));
+//            return instantiationTypes.get("array") + " [" + inner + "]";
+//        } else {
+//            return null;
+//        }
     }
 
     public String unCamelize(String name) {
