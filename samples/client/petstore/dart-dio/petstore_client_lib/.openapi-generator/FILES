@@ -1,3 +1,4 @@
+.gitignore
 README.md
 analysis_options.yaml
 doc/ApiResponse.md
