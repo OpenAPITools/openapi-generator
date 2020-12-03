@@ -1,0 +1,50 @@
+{{>licenseInfo}}
+/**
+ * Representing a Server configuration.
+ */
+#include <QString>
+#include <QMap>
+#include <stdexception>
+#include <ServerVariable.h>
+class ServerConfiguration {
+    public:
+        QString _URL;
+        QString _description;
+        QMap<QString, ServerVariable> _variables;
+
+    /**
+     * @param URL A URL to the target host.
+     * @param description A description of the host designated by the URL.
+     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+     */
+    ServerConfiguration(const QString& URL, const QString& description, const QMap<QString, ServerVariable>& variables)
+    : _description(description),
+      _variables(variables),
+      _URL(URL){}
+
+    /**
+     * Format URL template using given variables.
+     *
+     * @param variables A map between a variable name and its value.
+     * @return Formatted URL.
+     */
+    String URL() {
+        QString url = _URL;
+        if(variables != null){
+            // go through variables and replace placeholders
+            for (auto const& variable : _variables) {
+                QString name = variable.first;
+                ServerVariable serverVariable = variable.second;
+                QString value = serverVariable.defaultValue;
+
+                if (!serverVariable.enumValues.contains(value)) {
+                    throw std::runtime_error("The variable " + name + " in the server URL has invalid value " + value + ".");
+                }
+                
+                url = url.replace("\\{" + name + "\\}", value);
+            }
+        }
+        return url;
+    }
+
+}
