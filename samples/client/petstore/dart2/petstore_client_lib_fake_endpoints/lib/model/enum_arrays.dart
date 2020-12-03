@@ -101,8 +101,8 @@ class EnumArraysJustSymbolEnum {
 
   String toJson() => value;
 
-  static const greaterthanorequalto = EnumArraysJustSymbolEnum._(">=");
-  static const dollar = EnumArraysJustSymbolEnum._("$");
+  static const greaterthanorequalto = EnumArraysJustSymbolEnum._('Greater_Than_Or_Equal_To');
+  static const dollar = EnumArraysJustSymbolEnum._('Dollar');
 
   /// List of all possible values in this [enum][EnumArraysJustSymbolEnum].
   static const values = <EnumArraysJustSymbolEnum>[
@@ -140,8 +140,8 @@ class EnumArraysJustSymbolEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumArraysJustSymbolEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case ">=": return EnumArraysJustSymbolEnum.greaterthanorequalto;
-      case "$": return EnumArraysJustSymbolEnum.dollar;
+      case 'Greater_Than_Or_Equal_To': return EnumArraysJustSymbolEnum.greaterthanorequalto;
+      case 'Dollar': return EnumArraysJustSymbolEnum.dollar;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
@@ -175,8 +175,8 @@ class EnumArraysArrayEnumEnum {
 
   String toJson() => value;
 
-  static const fish = EnumArraysArrayEnumEnum._("fish");
-  static const crab = EnumArraysArrayEnumEnum._("crab");
+  static const fish = EnumArraysArrayEnumEnum._('fish');
+  static const crab = EnumArraysArrayEnumEnum._('crab');
 
   /// List of all possible values in this [enum][EnumArraysArrayEnumEnum].
   static const values = <EnumArraysArrayEnumEnum>[
@@ -214,8 +214,8 @@ class EnumArraysArrayEnumEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumArraysArrayEnumEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case "fish": return EnumArraysArrayEnumEnum.fish;
-      case "crab": return EnumArraysArrayEnumEnum.crab;
+      case 'fish': return EnumArraysArrayEnumEnum.fish;
+      case 'crab': return EnumArraysArrayEnumEnum.crab;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

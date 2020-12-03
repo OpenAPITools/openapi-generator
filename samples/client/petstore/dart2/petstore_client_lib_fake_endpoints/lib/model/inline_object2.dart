@@ -101,8 +101,8 @@ class InlineObject2EnumFormStringArrayEnum {
 
   String toJson() => value;
 
-  static const greaterthan = InlineObject2EnumFormStringArrayEnum._(">");
-  static const dollar = InlineObject2EnumFormStringArrayEnum._("$");
+  static const greaterthan = InlineObject2EnumFormStringArrayEnum._('Greater_Than');
+  static const dollar = InlineObject2EnumFormStringArrayEnum._('Dollar');
 
   /// List of all possible values in this [enum][InlineObject2EnumFormStringArrayEnum].
   static const values = <InlineObject2EnumFormStringArrayEnum>[
@@ -140,8 +140,8 @@ class InlineObject2EnumFormStringArrayEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   InlineObject2EnumFormStringArrayEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case ">": return InlineObject2EnumFormStringArrayEnum.greaterthan;
-      case "$": return InlineObject2EnumFormStringArrayEnum.dollar;
+      case 'Greater_Than': return InlineObject2EnumFormStringArrayEnum.greaterthan;
+      case 'Dollar': return InlineObject2EnumFormStringArrayEnum.dollar;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
@@ -175,9 +175,9 @@ class InlineObject2EnumFormStringEnum {
 
   String toJson() => value;
 
-  static const abc = InlineObject2EnumFormStringEnum._("_abc");
-  static const efg = InlineObject2EnumFormStringEnum._("-efg");
-  static const xyz = InlineObject2EnumFormStringEnum._("(xyz)");
+  static const abc = InlineObject2EnumFormStringEnum._('_abc');
+  static const efg = InlineObject2EnumFormStringEnum._('-efg');
+  static const xyz = InlineObject2EnumFormStringEnum._('(xyz)');
 
   /// List of all possible values in this [enum][InlineObject2EnumFormStringEnum].
   static const values = <InlineObject2EnumFormStringEnum>[
@@ -216,9 +216,9 @@ class InlineObject2EnumFormStringEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   InlineObject2EnumFormStringEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case "_abc": return InlineObject2EnumFormStringEnum.abc;
-      case "-efg": return InlineObject2EnumFormStringEnum.efg;
-      case "(xyz)": return InlineObject2EnumFormStringEnum.xyz;
+      case '_abc': return InlineObject2EnumFormStringEnum.abc;
+      case '-efg': return InlineObject2EnumFormStringEnum.efg;
+      case '(xyz)': return InlineObject2EnumFormStringEnum.xyz;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

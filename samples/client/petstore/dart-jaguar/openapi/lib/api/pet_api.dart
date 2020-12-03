@@ -4,7 +4,6 @@ import 'package:jaguar_serializer/jaguar_serializer.dart';
 import 'package:jaguar_mimetype/jaguar_mimetype.dart';
 import 'dart:async';
 
-import 'package:openapi/model/listint.dart';
 import 'package:openapi/model/pet.dart';
 import 'package:openapi/model/api_response.dart';
 
@@ -138,7 +137,7 @@ class PetApi extends ApiClient with _$PetApiClient {
             ,
             @AsMultipartField() String additionalMetadata, 
             
-            @AsMultipartField() Listint file
+            @AsMultipartField() MultipartFile file
         ) {
         return super.uploadFile(
         petId

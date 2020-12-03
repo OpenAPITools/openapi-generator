@@ -143,9 +143,9 @@ class OrderStatusEnum {
 
   String toJson() => value;
 
-  static const placed = OrderStatusEnum._("placed");
-  static const approved = OrderStatusEnum._("approved");
-  static const delivered = OrderStatusEnum._("delivered");
+  static const placed = OrderStatusEnum._('placed');
+  static const approved = OrderStatusEnum._('approved');
+  static const delivered = OrderStatusEnum._('delivered');
 
   /// List of all possible values in this [enum][OrderStatusEnum].
   static const values = <OrderStatusEnum>[
@@ -184,9 +184,9 @@ class OrderStatusEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   OrderStatusEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case "placed": return OrderStatusEnum.placed;
-      case "approved": return OrderStatusEnum.approved;
-      case "delivered": return OrderStatusEnum.delivered;
+      case 'placed': return OrderStatusEnum.placed;
+      case 'approved': return OrderStatusEnum.approved;
+      case 'delivered': return OrderStatusEnum.delivered;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

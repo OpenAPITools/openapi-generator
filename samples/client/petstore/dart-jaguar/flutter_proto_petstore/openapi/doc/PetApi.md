@@ -344,7 +344,7 @@ import 'package:openapi/api.dart';
 var api_instance = new PetApi();
 var petId = 789; // int | ID of pet to update
 var additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
-var file = BINARY_DATA_HERE; // Listint | file to upload
+var file = BINARY_DATA_HERE; // MultipartFile | file to upload
 
 try { 
     var result = api_instance.uploadFile(petId, additionalMetadata, file);
@@ -360,7 +360,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **int**| ID of pet to update | [default to null]
  **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
- **file** | **Listint****Listint**| file to upload | [optional] [default to null]
+ **file** | **MultipartFile****MultipartFile**| file to upload | [optional] [default to null]
 
 ### Return type
 

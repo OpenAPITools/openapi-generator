@@ -30,9 +30,9 @@ class EnumClass {
 
   String toJson() => value;
 
-  static const abc = EnumClass._("_abc");
-  static const efg = EnumClass._("-efg");
-  static const xyz = EnumClass._("(xyz)");
+  static const abc = EnumClass._('_abc');
+  static const efg = EnumClass._('-efg');
+  static const xyz = EnumClass._('(xyz)');
 
   /// List of all possible values in this [enum][EnumClass].
   static const values = <EnumClass>[
@@ -71,9 +71,9 @@ class EnumClassTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumClass decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case "_abc": return EnumClass.abc;
-      case "-efg": return EnumClass.efg;
-      case "(xyz)": return EnumClass.xyz;
+      case '_abc': return EnumClass.abc;
+      case '-efg': return EnumClass.efg;
+      case '(xyz)': return EnumClass.xyz;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

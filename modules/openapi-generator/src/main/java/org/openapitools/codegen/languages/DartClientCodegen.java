@@ -139,11 +139,11 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         setReservedWordsLowerCase(reservedWordsList);
 
         languageSpecificPrimitives = Sets.newHashSet(
-            "String",
-            "bool",
-            "int",
-            "num",
-            "double"
+                "String",
+                "bool",
+                "int",
+                "num",
+                "double"
         );
         instantiationTypes.put("array", "List");
         instantiationTypes.put("map", "Map");
@@ -370,44 +370,26 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         return toVarName(name);
     }
 
-
     @Override
     public String toModelName(String name) {
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        if (!StringUtils.isEmpty(modelNamePrefix)) {
-            name = modelNamePrefix + "_" + name;
-        }
-
-        if (!StringUtils.isEmpty(modelNameSuffix)) {
-            name = name + "_" + modelNameSuffix;
-        }
-
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            String modelName = camelize("model_" + name);
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
-            return modelName;
+            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
-        // model name starts with number
         if (name.matches("^\\d.*")) {
-            String modelName = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
-            return modelName;
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
-        if (languageSpecificPrimitives.contains(name)) {
-            String modelName = camelize("model_" + name);
-            LOGGER.warn(name + " (model name matches existing language type) cannot be used as a model name. Renamed to " + modelName);
-            return modelName;
+        if (typeMapping.containsValue(name)) {
+            return camelize(name);
+        } else {
+            // camelize the model name
+            return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
         }
-
-        // camelize the model name
-        // phone_number => PhoneNumber
-        return camelize(name);
     }
-
 
     @Override
     public String toModelFilename(String name) {
@@ -443,7 +425,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (schema.getDefault() != null) {
             if (ModelUtils.isStringSchema(schema)) {
-                return "'" + schema.getDefault().toString().replaceAll("'", "\\'") + "'";
+                return surroundWithApostrophe(schema.getDefault().toString().replaceAll("'", "\\'"));
             }
             return schema.getDefault().toString();
         } else {
@@ -532,11 +514,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         List<Map<String, String>> enumVars = new ArrayList<>();
         for (Map<String, Object> value : values) {
             Map<String, String> enumVar = new HashMap<>();
-            String name = camelize((String) value.get("identifier"), true);
-            if (isReservedWord(name)) {
-                name = escapeReservedWord(name);
-            }
-            enumVar.put("name", name);
+            enumVar.put("name", toEnumVarName((String) value.get("identifier"), cm.dataType));
             enumVar.put("value", toEnumValue(value.get("numericValue").toString(), cm.dataType));
             if (value.containsKey("description")) {
                 enumVar.put("description", value.get("description").toString());
@@ -550,12 +528,14 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toEnumVarName(String name, String datatype) {
         if (name.length() == 0) {
-            return "Empty";
+            return camelize("empty");
         }
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return camelize(getSymbolName(name));
+            String symbolName = getSymbolName(name);
+            symbolName = camelize(underscore(symbolName));
+            return symbolName;
         }
 
         // number
@@ -573,9 +553,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        // camelize the enum variable name
-        // ref: https://basarat.gitbooks.io/typescript/content/docs/enums.html
-        enumName = camelize(enumName);
+        enumName = camelize(underscore((enumName)));
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
@@ -585,14 +563,19 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toEnumName(CodegenProperty property) {
-        String enumName = toModelName(property.name) + "Enum";
-
-        if (enumName.matches("\\d.*")) { // starts with number
-            return "_" + enumName;
+    public String toEnumValue(String value, String datatype) {
+        if ("number".equalsIgnoreCase(datatype) ||
+                "int".equalsIgnoreCase(datatype)) {
+            return value;
+        } else if(getSymbolName(value) != null) {
+            return surroundWithApostrophe(getSymbolName(value));
         } else {
-            return enumName;
+            return surroundWithApostrophe(escapeText(value));
         }
+    }
+
+    private String surroundWithApostrophe(final String value) {
+        return "'" + value + "'";
     }
 
     @Override
@@ -665,13 +648,13 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
             return; // skip if DART_POST_PROCESS_FILE env variable is not defined
         }
 
-        // only process the following type (or we can simply rely on the file extension to check if it's a Dart file)
+        // only procees the following type (or we can simply rely on the file extension to check if it's a Dart file)
         Set<String> supportedFileType = Sets.newHashSet(
-            "supporting-mustache",
-            "model-test",
-            "model",
-            "api-test",
-            "api");
+                "supporting-mustache",
+                "model-test",
+                "model",
+                "api-test",
+                "api");
         if (!supportedFileType.contains(fileType)) {
             return;
         }

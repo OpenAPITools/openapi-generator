@@ -26,7 +26,7 @@ class EnumTest {
   EnumTestEnumStringEnum enumString;
 
   
-  EnumTestEnumStringRequiredEnum enumStringRequired = EnumTestEnumStringRequiredEnum._();
+  EnumTestEnumStringRequiredEnum enumStringRequired;
 
   
   EnumTestEnumIntegerEnum enumInteger;
@@ -161,9 +161,9 @@ class EnumTestEnumStringEnum {
 
   String toJson() => value;
 
-  static const upper = EnumTestEnumStringEnum._("UPPER");
-  static const lower = EnumTestEnumStringEnum._("lower");
-  static const empty = EnumTestEnumStringEnum._("");
+  static const upper = EnumTestEnumStringEnum._('UPPER');
+  static const lower = EnumTestEnumStringEnum._('lower');
+  static const empty = EnumTestEnumStringEnum._('');
 
   /// List of all possible values in this [enum][EnumTestEnumStringEnum].
   static const values = <EnumTestEnumStringEnum>[
@@ -202,9 +202,9 @@ class EnumTestEnumStringEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumStringEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case "UPPER": return EnumTestEnumStringEnum.upper;
-      case "lower": return EnumTestEnumStringEnum.lower;
-      case "": return EnumTestEnumStringEnum.empty;
+      case 'UPPER': return EnumTestEnumStringEnum.upper;
+      case 'lower': return EnumTestEnumStringEnum.lower;
+      case '': return EnumTestEnumStringEnum.empty;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
@@ -238,9 +238,9 @@ class EnumTestEnumStringRequiredEnum {
 
   String toJson() => value;
 
-  static const upper = EnumTestEnumStringRequiredEnum._("UPPER");
-  static const lower = EnumTestEnumStringRequiredEnum._("lower");
-  static const empty = EnumTestEnumStringRequiredEnum._("");
+  static const upper = EnumTestEnumStringRequiredEnum._('UPPER');
+  static const lower = EnumTestEnumStringRequiredEnum._('lower');
+  static const empty = EnumTestEnumStringRequiredEnum._('');
 
   /// List of all possible values in this [enum][EnumTestEnumStringRequiredEnum].
   static const values = <EnumTestEnumStringRequiredEnum>[
@@ -279,9 +279,9 @@ class EnumTestEnumStringRequiredEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumStringRequiredEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case "UPPER": return EnumTestEnumStringRequiredEnum.upper;
-      case "lower": return EnumTestEnumStringRequiredEnum.lower;
-      case "": return EnumTestEnumStringRequiredEnum.empty;
+      case 'UPPER': return EnumTestEnumStringRequiredEnum.upper;
+      case 'lower': return EnumTestEnumStringRequiredEnum.lower;
+      case '': return EnumTestEnumStringRequiredEnum.empty;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
@@ -315,8 +315,8 @@ class EnumTestEnumIntegerEnum {
 
   String toJson() => value;
 
-  static const _1 = EnumTestEnumIntegerEnum._("1");
-  static const _1 = EnumTestEnumIntegerEnum._("-1");
+  static const _1 = EnumTestEnumIntegerEnum._(1);
+  static const _1 = EnumTestEnumIntegerEnum._(-1);
 
   /// List of all possible values in this [enum][EnumTestEnumIntegerEnum].
   static const values = <EnumTestEnumIntegerEnum>[
@@ -354,8 +354,8 @@ class EnumTestEnumIntegerEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumIntegerEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case "1": return EnumTestEnumIntegerEnum._1;
-      case "-1": return EnumTestEnumIntegerEnum._1;
+      case 1: return EnumTestEnumIntegerEnum._1;
+      case -1: return EnumTestEnumIntegerEnum._1;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
@@ -389,8 +389,8 @@ class EnumTestEnumNumberEnum {
 
   String toJson() => value;
 
-  static const _11 = EnumTestEnumNumberEnum._("1.1");
-  static const _12 = EnumTestEnumNumberEnum._("-1.2");
+  static const _11 = EnumTestEnumNumberEnum._('1.1');
+  static const _12 = EnumTestEnumNumberEnum._('-1.2');
 
   /// List of all possible values in this [enum][EnumTestEnumNumberEnum].
   static const values = <EnumTestEnumNumberEnum>[
@@ -428,8 +428,8 @@ class EnumTestEnumNumberEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumNumberEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case "1.1": return EnumTestEnumNumberEnum._11;
-      case "-1.2": return EnumTestEnumNumberEnum._12;
+      case '1.1': return EnumTestEnumNumberEnum._11;
+      case '-1.2': return EnumTestEnumNumberEnum._12;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

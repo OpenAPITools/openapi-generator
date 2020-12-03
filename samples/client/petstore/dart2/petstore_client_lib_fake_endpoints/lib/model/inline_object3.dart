@@ -29,21 +29,30 @@ class InlineObject3 {
   });
 
   /// None
+  // minimum: 10
+  // maximum: 100
   int integer;
 
   /// None
+  // minimum: 20
+  // maximum: 200
   int int32;
 
   /// None
   int int64;
 
   /// None
+  // minimum: 32.1
+  // maximum: 543.2
   num number;
 
   /// None
+  // maximum: 987.6
   double float;
 
   /// None
+  // minimum: 67.8
+  // maximum: 123.4
   double double;
 
   /// None
