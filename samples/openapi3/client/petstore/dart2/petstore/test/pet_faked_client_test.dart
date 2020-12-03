@@ -41,7 +41,7 @@ void main() {
     petApi.apiClient.client = FakeClient(
       expectedUrl: 'http://petstore.swagger.io/v2/pet',
       expectedPostRequestBody: petApi.apiClient.serialize(pet),
-      postResponseBody: '',
+      postResponseBody: petApi.apiClient.serialize(pet),
       expectedHeaders: { 'Content-Type': 'application/json' }
     );
     return petApi.addPet(pet);
@@ -56,7 +56,7 @@ void main() {
       petApi.apiClient.client = FakeClient(
         expectedUrl: 'http://petstore.swagger.io/v2/pet',
         expectedPostRequestBody: petApi.apiClient.serialize(newPet),
-        postResponseBody: '',
+        postResponseBody: petApi.apiClient.serialize(newPet),
         expectedHeaders: { 'Content-Type': 'application/json' }
       );
       await petApi.addPet(newPet);
@@ -90,7 +90,7 @@ void main() {
       petApi.apiClient.client = FakeClient(
         expectedUrl: 'http://petstore.swagger.io/v2/pet',
         expectedPostRequestBody: petApi.apiClient.serialize(newPet),
-        postResponseBody: '',
+        postResponseBody: petApi.apiClient.serialize(newPet),
         expectedHeaders: { 'Content-Type': 'application/json' }
       );
       await petApi.addPet(newPet);
@@ -122,7 +122,7 @@ void main() {
       petApi.apiClient.client = FakeClient(
         expectedUrl: 'http://petstore.swagger.io/v2/pet',
         expectedPostRequestBody: petApi.apiClient.serialize(newPet),
-        postResponseBody: '',
+        postResponseBody: petApi.apiClient.serialize(newPet),
         expectedHeaders: { 'Content-Type': 'application/json' }
       );
       await petApi.addPet(newPet);
@@ -162,7 +162,7 @@ void main() {
       petApi.apiClient.client = FakeClient(
         expectedUrl: 'http://petstore.swagger.io/v2/pet',
         expectedPostRequestBody: petApi.apiClient.serialize(newPet),
-        postResponseBody: '',
+        postResponseBody: petApi.apiClient.serialize(newPet),
         expectedHeaders: { 'Content-Type': 'application/json' }
       );
       await petApi.addPet(newPet);
@@ -171,7 +171,7 @@ void main() {
       petApi.apiClient.client = FakeClient(
         expectedUrl: 'http://petstore.swagger.io/v2/pet',
         expectedPutRequestBody: petApi.apiClient.serialize(updatePet),
-        putResponseBody: '',
+        putResponseBody: petApi.apiClient.serialize(updatePet),
         expectedHeaders: { 'Content-Type': 'application/json' }
       );
       await petApi.updatePet(updatePet);
@@ -225,7 +225,7 @@ void main() {
       petApi.apiClient.client = FakeClient(
         expectedUrl: 'http://petstore.swagger.io/v2/pet',
         expectedPostRequestBody: petApi.apiClient.serialize(newPet),
-        postResponseBody: '',
+        postResponseBody: petApi.apiClient.serialize(newPet),
         expectedHeaders: { 'Content-Type': 'application/json' }
       );
       await petApi.addPet(newPet);
