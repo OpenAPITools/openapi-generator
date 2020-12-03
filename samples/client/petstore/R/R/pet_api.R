@@ -673,7 +673,6 @@ PetApi <- R6::R6Class(
         "status" = status
       )
 
-      body <- NULL
       urlPath <- "/pet/{petId}"
       if (!missing(`pet.id`)) {
         urlPath <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet.id`), reserved = TRUE), urlPath)
@@ -727,7 +726,6 @@ PetApi <- R6::R6Class(
         "file" = httr::upload_file(file)
       )
 
-      body <- NULL
       urlPath <- "/pet/{petId}/uploadImage"
       if (!missing(`pet.id`)) {
         urlPath <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet.id`), reserved = TRUE), urlPath)
