@@ -226,6 +226,11 @@
 
       {{/bodyParams}}
       {{/hasBodyParam}}
+      {{^hasBodyParam}}
+      {{^hasFormParams}}
+      body <- NULL
+      {{/hasFormParams}}
+      {{/hasBodyParam}}
       urlPath <- "{{path}}"
       {{#hasPathParams}}
       {{#pathParams}}
