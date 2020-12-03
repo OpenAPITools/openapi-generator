@@ -198,7 +198,6 @@ StoreApi <- R6::R6Class(
       }
 
       body <- NULL
-
       urlPath <- "/store/order/{orderId}"
       if (!missing(`order.id`)) {
         urlPath <- gsub(paste0("\\{", "orderId", "\\}"), URLencode(as.character(`order.id`), reserved = TRUE), urlPath)
@@ -242,7 +241,6 @@ StoreApi <- R6::R6Class(
       headerParams <- c()
 
       body <- NULL
-
       urlPath <- "/store/inventory"
       # API key authentication
       if ("api_key" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["api_key"]) > 0) {
@@ -296,7 +294,6 @@ StoreApi <- R6::R6Class(
       }
 
       body <- NULL
-
       urlPath <- "/store/order/{orderId}"
       if (!missing(`order.id`)) {
         urlPath <- gsub(paste0("\\{", "orderId", "\\}"), URLencode(as.character(`order.id`), reserved = TRUE), urlPath)
