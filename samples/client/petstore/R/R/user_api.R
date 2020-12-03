@@ -309,7 +309,6 @@ UserApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
-      body <- NULL
 
       if (missing(`body`)) {
         stop("Missing required parameter `body`.")
@@ -317,6 +316,8 @@ UserApi <- R6::R6Class(
 
       if (!missing(`body`)) {
         body <- `body`$toJSONString()
+      } else {
+        body <- NULL
       }
 
       urlPath <- "/user"
@@ -356,7 +357,6 @@ UserApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
-      body <- NULL
 
       if (missing(`body`)) {
         stop("Missing required parameter `body`.")
@@ -365,6 +365,8 @@ UserApi <- R6::R6Class(
       if (!missing(`body`)) {
         body.items = paste(unlist(lapply(body, function(param){param$toJSONString()})), collapse = ",")
         body <- paste0('[', body.items, ']')
+      } else {
+        body <- NULL
       }
 
       urlPath <- "/user/createWithArray"
@@ -404,7 +406,6 @@ UserApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
-      body <- NULL
 
       if (missing(`body`)) {
         stop("Missing required parameter `body`.")
@@ -413,6 +414,8 @@ UserApi <- R6::R6Class(
       if (!missing(`body`)) {
         body.items = paste(unlist(lapply(body, function(param){param$toJSONString()})), collapse = ",")
         body <- paste0('[', body.items, ']')
+      } else {
+        body <- NULL
       }
 
       urlPath <- "/user/createWithList"
@@ -452,11 +455,12 @@ UserApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
-      body <- NULL
 
       if (missing(`username`)) {
         stop("Missing required parameter `username`.")
       }
+
+      body <- NULL
 
       urlPath <- "/user/{username}"
       if (!missing(`username`)) {
@@ -499,11 +503,12 @@ UserApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
-      body <- NULL
 
       if (missing(`username`)) {
         stop("Missing required parameter `username`.")
       }
+
+      body <- NULL
 
       urlPath <- "/user/{username}"
       if (!missing(`username`)) {
@@ -552,7 +557,6 @@ UserApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
-      body <- NULL
 
       if (missing(`username`)) {
         stop("Missing required parameter `username`.")
@@ -565,6 +569,8 @@ UserApi <- R6::R6Class(
       queryParams['username'] <- username
 
       queryParams['password'] <- password
+
+      body <- NULL
 
       urlPath <- "/user/login"
 
@@ -609,6 +615,7 @@ UserApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
+
       body <- NULL
 
       urlPath <- "/user/logout"
@@ -648,7 +655,6 @@ UserApi <- R6::R6Class(
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
-      body <- NULL
 
       if (missing(`username`)) {
         stop("Missing required parameter `username`.")
@@ -660,6 +666,8 @@ UserApi <- R6::R6Class(
 
       if (!missing(`body`)) {
         body <- `body`$toJSONString()
+      } else {
+        body <- NULL
       }
 
       urlPath <- "/user/{username}"
