@@ -301,13 +301,13 @@ public class DartModelTest {
     }
 
     @Test(description = "test enum variable names for reserved words")
-    public void testReservedWord() throws Exception {
+    public void testReservedWord() {
         final DefaultCodegen codegen = new DartClientCodegen();
-        Assert.assertEquals(codegen.toEnumVarName("public", null), "public_");
-        Assert.assertEquals(codegen.toEnumVarName("Private", null), "private_");
-        Assert.assertEquals(codegen.toEnumVarName("IF", null), "iF_");
+        Assert.assertEquals(codegen.toEnumVarName("public", null), "Public");
+        Assert.assertEquals(codegen.toEnumVarName("Private", null), "Private");
+        Assert.assertEquals(codegen.toEnumVarName("IF", null), "If");
         // should not escape non-reserved
-        Assert.assertEquals(codegen.toEnumVarName("hello", null), "hello_");
+        Assert.assertEquals(codegen.toEnumVarName("hello", null), "Hello");
     }
 
     // datetime (or primitive type) not yet supported in HTTP request body
