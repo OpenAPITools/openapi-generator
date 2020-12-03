@@ -16,3 +16,4 @@ dependencies:
   meta: '^1.1.8'
 dev_dependencies:
   test: '^1.3.0'
+  mockito: '^4.1.3'
