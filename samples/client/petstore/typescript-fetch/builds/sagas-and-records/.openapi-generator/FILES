@@ -9,6 +9,7 @@ src/apis/StoreApi.ts
 src/apis/StoreApiSagas.ts
 src/apis/UserApi.ts
 src/apis/UserApiSagas.ts
+src/apis/allSagas.ts
 src/apis/index.ts
 src/index.ts
 src/models/CSError.ts

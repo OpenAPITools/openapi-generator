@@ -6,9 +6,7 @@ import {
 import {
 {{#apiInfo}}
 {{#apis}}
-{{#operations}}
     {{classFilename}},
-{{/operations}}
 {{/apis}}
 {{/apiInfo}}
 } from "./";
@@ -16,9 +14,7 @@ import {
 export class Api {
 {{#apiInfo}}
 {{#apis}}
-{{#operations}}
 	public static {{#lambda.camelcase}}{{classFilename}}{{/lambda.camelcase}}: {{classFilename}};
-{{/operations}}
 {{/apis}}
 {{/apiInfo}}
 
@@ -33,9 +29,7 @@ export class Api {
 
 {{#apiInfo}}
 {{#apis}}
-{{#operations}}
 		Api.{{#lambda.camelcase}}{{classFilename}}{{/lambda.camelcase}} = new {{classFilename}}(new Configuration(apiBaseConfig));
-{{/operations}}
 {{/apis}}
 {{/apiInfo}}
 	}

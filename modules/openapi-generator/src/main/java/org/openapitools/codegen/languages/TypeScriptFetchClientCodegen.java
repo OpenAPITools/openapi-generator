@@ -404,6 +404,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
             if (this.getSagasAndRecords()) {
                 supportingFiles.add(new SupportingFile("sagaApiManager.mustache", apiPackage().replace('.', File.separatorChar), "SagaApiManager.ts"));
+                supportingFiles.add(new SupportingFile("allSagas.mustache", apiPackage().replace('.', File.separatorChar), "allSagas.ts"));
             }
         }
 
