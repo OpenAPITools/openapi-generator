@@ -796,10 +796,8 @@ public class DefaultCodegen implements CodegenConfig {
                         }
                         // process all response bodies
                         if (op.getValue().getResponses() != null) {
-                            for (Map.Entry<String, ApiResponse> ar : op.getValue().getResponses()
-                                .entrySet()) {
-                                ApiResponse a = ModelUtils
-                                    .getReferencedApiResponse(openAPI, ar.getValue());
+                            for (Map.Entry<String, ApiResponse> ar : op.getValue().getResponses().entrySet()) {
+                                ApiResponse a = ModelUtils.getReferencedApiResponse(openAPI, ar.getValue());
                                 Schema responseSchema = ModelUtils.getSchemaFromResponse(a);
                                 if (responseSchema != null) {
                                     schemas.put(opId + ar.getKey(), responseSchema);
@@ -2611,18 +2609,6 @@ public class DefaultCodegen implements CodegenConfig {
                 postProcessModelProperty(m, prop);
             }
         }
-
-        if (sortModelPropertiesByRequiredFlag) {
-            Collections.sort(m.vars, new Comparator<CodegenProperty>() {
-                @Override
-                public int compare(CodegenProperty one, CodegenProperty another) {
-                    if (one.required == another.required) return 0;
-                    else if (one.required) return -1;
-                    else return 1;
-                }
-            });
-        }
-
         return m;
     }
 
