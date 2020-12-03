@@ -95,18 +95,23 @@ class {{classname}} {
             ){{#returnType}}.then((response) {
 
         {{#isResponseFile}}
-            var data = response.data;
+            final data = response.data;
         {{/isResponseFile}}
         {{^isResponseFile}}
-            {{#isArray}}
-                final FullType type = const FullType(BuiltList, const [const FullType({{returnBaseType}})]);
-                BuiltList<{{returnBaseType}}> dataList = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
-                var data = dataList.toList();
-            {{/isArray}}
-            {{^isArray}}
-                var serializer = _serializers.serializerForType({{{returnType}}});
-                var data = _serializers.deserializeWith<{{{returnType}}}>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
-            {{/isArray}}
+        {{#isArray}}
+            final FullType type = const FullType(BuiltList, const [const FullType({{returnBaseType}})]);
+            final BuiltList<{{returnBaseType}}> dataList = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
+            final data = dataList.toList();
+        {{/isArray}}
+        {{^isArray}}
+        {{#isMap}}
+            final serializer = _serializers.serializerForType(Map);
+        {{/isMap}}
+        {{^isMap}}
+            final serializer = _serializers.serializerForType({{{returnType}}});
+        {{/isMap}}
+            final data = _serializers.deserializeWith<{{{returnType}}}>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+        {{/isArray}}
         {{/isResponseFile}}
 
             return Response<{{{returnType}}}>(

@@ -384,7 +384,7 @@ public class RubyClientCodegenTest {
     public void allOfTestLegacy() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
-        // codegen.discriminatorExplicitMappingVerbose == false by default
+        // codegen.setLegacyDiscriminatorBehavior(false) by default
         codegen.setModuleName("OnlinePetstore");
 
         final Schema schema = openAPI.getComponents().getSchemas().get("Person");

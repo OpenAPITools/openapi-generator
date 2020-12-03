@@ -88,6 +88,38 @@ export interface EnumTest {
     outerEnumIntegerDefaultValue?: OuterEnumIntegerDefaultValue;
 }
 
+/**
+* @export
+* @enum {string}
+*/
+export enum EnumTestEnumStringEnum {
+    Upper = 'UPPER',
+    Lower = 'lower',
+    Empty = ''
+}/**
+* @export
+* @enum {string}
+*/
+export enum EnumTestEnumStringRequiredEnum {
+    Upper = 'UPPER',
+    Lower = 'lower',
+    Empty = ''
+}/**
+* @export
+* @enum {string}
+*/
+export enum EnumTestEnumIntegerEnum {
+    NUMBER_1 = 1,
+    NUMBER_MINUS_1 = -1
+}/**
+* @export
+* @enum {string}
+*/
+export enum EnumTestEnumNumberEnum {
+    NUMBER_1_DOT_1 = 1.1,
+    NUMBER_MINUS_1_DOT_2 = -1.2
+}
+
 export function EnumTestFromJSON(json: any): EnumTest {
     return EnumTestFromJSONTyped(json, false);
 }
@@ -127,41 +159,6 @@ export function EnumTestToJSON(value?: EnumTest | null): any {
         'outerEnumDefaultValue': OuterEnumDefaultValueToJSON(value.outerEnumDefaultValue),
         'outerEnumIntegerDefaultValue': OuterEnumIntegerDefaultValueToJSON(value.outerEnumIntegerDefaultValue),
     };
-}
-
-/**
-* @export
-* @enum {string}
-*/
-export enum EnumTestEnumStringEnum {
-    Upper = 'UPPER',
-    Lower = 'lower',
-    Empty = ''
-}
-/**
-* @export
-* @enum {string}
-*/
-export enum EnumTestEnumStringRequiredEnum {
-    Upper = 'UPPER',
-    Lower = 'lower',
-    Empty = ''
-}
-/**
-* @export
-* @enum {string}
-*/
-export enum EnumTestEnumIntegerEnum {
-    NUMBER_1 = 1,
-    NUMBER_MINUS_1 = -1
-}
-/**
-* @export
-* @enum {string}
-*/
-export enum EnumTestEnumNumberEnum {
-    NUMBER_1_DOT_1 = 1.1,
-    NUMBER_MINUS_1_DOT_2 = -1.2
 }
 
 
