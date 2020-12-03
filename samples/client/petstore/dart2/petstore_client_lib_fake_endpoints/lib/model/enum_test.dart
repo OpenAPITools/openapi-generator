@@ -22,21 +22,6 @@ class EnumTest {
     this.outerEnumIntegerDefaultValue,
   });
 
-  /// Returns a new [EnumTest] instance and optionally import its values from
-  /// [json] if it's non-null.
-  EnumTest.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      enumString = EnumTestEnumStringEnum.fromJson(json['enum_string']);
-      enumStringRequired = EnumTestEnumStringRequiredEnum.fromJson(json['enum_string_required']);
-      enumInteger = EnumTestEnumIntegerEnum.fromJson(json['enum_integer']);
-      enumNumber = EnumTestEnumNumberEnum.fromJson(json['enum_number']);
-      outerEnum = OuterEnum.fromJson(json['outerEnum']);
-      outerEnumInteger = OuterEnumInteger.fromJson(json['outerEnumInteger']);
-      outerEnumDefaultValue = OuterEnumDefaultValue.fromJson(json['outerEnumDefaultValue']);
-      outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.fromJson(json['outerEnumIntegerDefaultValue']);
-    }
-  }
-
   
   EnumTestEnumStringEnum enumString;
 
@@ -74,14 +59,14 @@ class EnumTest {
 
   @override
   int get hashCode =>
-    enumString.hashCode +
-    enumStringRequired.hashCode +
-    enumInteger.hashCode +
-    enumNumber.hashCode +
-    (outerEnum?.hashCode ?? 0) +
-    outerEnumInteger.hashCode +
-    outerEnumDefaultValue.hashCode +
-    outerEnumIntegerDefaultValue.hashCode;
+    (enumString == null ? 0 : enumString.hashCode) +
+    (enumStringRequired == null ? 0 : enumStringRequired.hashCode) +
+    (enumInteger == null ? 0 : enumInteger.hashCode) +
+    (enumNumber == null ? 0 : enumNumber.hashCode) +
+    (outerEnum == null ? 0 : outerEnum.hashCode) +
+    (outerEnumInteger == null ? 0 : outerEnumInteger.hashCode) +
+    (outerEnumDefaultValue == null ? 0 : outerEnumDefaultValue.hashCode) +
+    (outerEnumIntegerDefaultValue == null ? 0 : outerEnumIntegerDefaultValue.hashCode);
 
   @override
   String toString() => 'EnumTest[enumString=$enumString, enumStringRequired=$enumStringRequired, enumInteger=$enumInteger, enumNumber=$enumNumber, outerEnum=$outerEnum, outerEnumInteger=$outerEnumInteger, outerEnumDefaultValue=$outerEnumDefaultValue, outerEnumIntegerDefaultValue=$outerEnumIntegerDefaultValue]';
@@ -114,6 +99,21 @@ class EnumTest {
     }
     return json;
   }
+
+  /// Returns a new [EnumTest] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static EnumTest fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : EnumTest(
+        enumString: EnumTestEnumStringEnum.fromJson(json['enum_string']),
+        enumStringRequired: EnumTestEnumStringRequiredEnum.fromJson(json['enum_string_required']),
+        enumInteger: EnumTestEnumIntegerEnum.fromJson(json['enum_integer']),
+        enumNumber: EnumTestEnumNumberEnum.fromJson(json['enum_number']),
+        outerEnum: OuterEnum.fromJson(json['outerEnum']),
+        outerEnumInteger: OuterEnumInteger.fromJson(json['outerEnumInteger']),
+        outerEnumDefaultValue: OuterEnumDefaultValue.fromJson(json['outerEnumDefaultValue']),
+        outerEnumIntegerDefaultValue: OuterEnumIntegerDefaultValue.fromJson(json['outerEnumIntegerDefaultValue']),
+    );
 
   static List<EnumTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
@@ -161,18 +161,18 @@ class EnumTestEnumStringEnum {
 
   String toJson() => value;
 
-  static const upper_ = EnumTestEnumStringEnum._('UPPER');
-  static const lower_ = EnumTestEnumStringEnum._('lower');
-  static const empty = EnumTestEnumStringEnum._('');
+  static const upper = EnumTestEnumStringEnum._("UPPER");
+  static const lower = EnumTestEnumStringEnum._("lower");
+  static const empty = EnumTestEnumStringEnum._("");
 
   /// List of all possible values in this [enum][EnumTestEnumStringEnum].
   static const values = <EnumTestEnumStringEnum>[
-    upper_,
-    lower_,
+    upper,
+    lower,
     empty,
   ];
 
-  static EnumTestEnumStringEnum fromJson(String value) =>
+  static EnumTestEnumStringEnum fromJson(dynamic value) =>
     EnumTestEnumStringEnumTypeTransformer().decode(value);
 
   static List<EnumTestEnumStringEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
@@ -202,9 +202,9 @@ class EnumTestEnumStringEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumStringEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case 'UPPER': return EnumTestEnumStringEnum.upper_;
-      case 'lower': return EnumTestEnumStringEnum.lower_;
-      case '': return EnumTestEnumStringEnum.empty;
+      case "UPPER": return EnumTestEnumStringEnum.upper;
+      case "lower": return EnumTestEnumStringEnum.lower;
+      case "": return EnumTestEnumStringEnum.empty;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
@@ -238,18 +238,18 @@ class EnumTestEnumStringRequiredEnum {
 
   String toJson() => value;
 
-  static const upper_ = EnumTestEnumStringRequiredEnum._('UPPER');
-  static const lower_ = EnumTestEnumStringRequiredEnum._('lower');
-  static const empty = EnumTestEnumStringRequiredEnum._('');
+  static const upper = EnumTestEnumStringRequiredEnum._("UPPER");
+  static const lower = EnumTestEnumStringRequiredEnum._("lower");
+  static const empty = EnumTestEnumStringRequiredEnum._("");
 
   /// List of all possible values in this [enum][EnumTestEnumStringRequiredEnum].
   static const values = <EnumTestEnumStringRequiredEnum>[
-    upper_,
-    lower_,
+    upper,
+    lower,
     empty,
   ];
 
-  static EnumTestEnumStringRequiredEnum fromJson(String value) =>
+  static EnumTestEnumStringRequiredEnum fromJson(dynamic value) =>
     EnumTestEnumStringRequiredEnumTypeTransformer().decode(value);
 
   static List<EnumTestEnumStringRequiredEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
@@ -279,9 +279,9 @@ class EnumTestEnumStringRequiredEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumStringRequiredEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case 'UPPER': return EnumTestEnumStringRequiredEnum.upper_;
-      case 'lower': return EnumTestEnumStringRequiredEnum.lower_;
-      case '': return EnumTestEnumStringRequiredEnum.empty;
+      case "UPPER": return EnumTestEnumStringRequiredEnum.upper;
+      case "lower": return EnumTestEnumStringRequiredEnum.lower;
+      case "": return EnumTestEnumStringRequiredEnum.empty;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
@@ -315,16 +315,16 @@ class EnumTestEnumIntegerEnum {
 
   String toJson() => value;
 
-  static const number1_ = EnumTestEnumIntegerEnum._(1);
-  static const number1_ = EnumTestEnumIntegerEnum._(-1);
+  static const _1 = EnumTestEnumIntegerEnum._("1");
+  static const _1 = EnumTestEnumIntegerEnum._("-1");
 
   /// List of all possible values in this [enum][EnumTestEnumIntegerEnum].
   static const values = <EnumTestEnumIntegerEnum>[
-    number1_,
-    number1_,
+    _1,
+    _1,
   ];
 
-  static EnumTestEnumIntegerEnum fromJson(int value) =>
+  static EnumTestEnumIntegerEnum fromJson(dynamic value) =>
     EnumTestEnumIntegerEnumTypeTransformer().decode(value);
 
   static List<EnumTestEnumIntegerEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
@@ -354,8 +354,8 @@ class EnumTestEnumIntegerEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumIntegerEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case 1: return EnumTestEnumIntegerEnum.number1_;
-      case -1: return EnumTestEnumIntegerEnum.number1_;
+      case "1": return EnumTestEnumIntegerEnum._1;
+      case "-1": return EnumTestEnumIntegerEnum._1;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
@@ -389,16 +389,16 @@ class EnumTestEnumNumberEnum {
 
   String toJson() => value;
 
-  static const 11_ = EnumTestEnumNumberEnum._('1.1');
-  static const 12_ = EnumTestEnumNumberEnum._('-1.2');
+  static const _11 = EnumTestEnumNumberEnum._("1.1");
+  static const _12 = EnumTestEnumNumberEnum._("-1.2");
 
   /// List of all possible values in this [enum][EnumTestEnumNumberEnum].
   static const values = <EnumTestEnumNumberEnum>[
-    11_,
-    12_,
+    _11,
+    _12,
   ];
 
-  static EnumTestEnumNumberEnum fromJson(double value) =>
+  static EnumTestEnumNumberEnum fromJson(dynamic value) =>
     EnumTestEnumNumberEnumTypeTransformer().decode(value);
 
   static List<EnumTestEnumNumberEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
@@ -428,8 +428,8 @@ class EnumTestEnumNumberEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumNumberEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case '1.1': return EnumTestEnumNumberEnum.11_;
-      case '-1.2': return EnumTestEnumNumberEnum.12_;
+      case "1.1": return EnumTestEnumNumberEnum._11;
+      case "-1.2": return EnumTestEnumNumberEnum._12;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

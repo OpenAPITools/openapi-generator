@@ -30,18 +30,18 @@ class OuterEnumIntegerDefaultValue {
 
   String toJson() => value;
 
-  static const number0_ = OuterEnumIntegerDefaultValue._(0);
-  static const number1_ = OuterEnumIntegerDefaultValue._(1);
-  static const number2_ = OuterEnumIntegerDefaultValue._(2);
+  static const _0 = OuterEnumIntegerDefaultValue._("0");
+  static const _1 = OuterEnumIntegerDefaultValue._("1");
+  static const _2 = OuterEnumIntegerDefaultValue._("2");
 
   /// List of all possible values in this [enum][OuterEnumIntegerDefaultValue].
   static const values = <OuterEnumIntegerDefaultValue>[
-    number0_,
-    number1_,
-    number2_,
+    _0,
+    _1,
+    _2,
   ];
 
-  static OuterEnumIntegerDefaultValue fromJson(int value) =>
+  static OuterEnumIntegerDefaultValue fromJson(dynamic value) =>
     OuterEnumIntegerDefaultValueTypeTransformer().decode(value);
 
   static List<OuterEnumIntegerDefaultValue> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
@@ -71,9 +71,9 @@ class OuterEnumIntegerDefaultValueTypeTransformer {
   /// and users are still using an old app with the old code.
   OuterEnumIntegerDefaultValue decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case 0: return OuterEnumIntegerDefaultValue.number0_;
-      case 1: return OuterEnumIntegerDefaultValue.number1_;
-      case 2: return OuterEnumIntegerDefaultValue.number2_;
+      case "0": return OuterEnumIntegerDefaultValue._0;
+      case "1": return OuterEnumIntegerDefaultValue._1;
+      case "2": return OuterEnumIntegerDefaultValue._2;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

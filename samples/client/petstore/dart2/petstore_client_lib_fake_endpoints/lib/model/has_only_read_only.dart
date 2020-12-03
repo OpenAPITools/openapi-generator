@@ -16,15 +16,6 @@ class HasOnlyReadOnly {
     this.foo,
   });
 
-  /// Returns a new [HasOnlyReadOnly] instance and optionally import its values from
-  /// [json] if it's non-null.
-  HasOnlyReadOnly.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      bar = json['bar'];
-      foo = json['foo'];
-    }
-  }
-
   
   String bar;
 
@@ -38,8 +29,8 @@ class HasOnlyReadOnly {
 
   @override
   int get hashCode =>
-    bar.hashCode +
-    foo.hashCode;
+    (bar == null ? 0 : bar.hashCode) +
+    (foo == null ? 0 : foo.hashCode);
 
   @override
   String toString() => 'HasOnlyReadOnly[bar=$bar, foo=$foo]';
@@ -54,6 +45,15 @@ class HasOnlyReadOnly {
     }
     return json;
   }
+
+  /// Returns a new [HasOnlyReadOnly] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static HasOnlyReadOnly fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : HasOnlyReadOnly(
+        bar: json['bar'],
+        foo: json['foo'],
+    );
 
   static List<HasOnlyReadOnly> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

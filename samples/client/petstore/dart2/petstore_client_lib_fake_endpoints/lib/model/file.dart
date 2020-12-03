@@ -15,14 +15,6 @@ class File {
     this.sourceURI,
   });
 
-  /// Returns a new [File] instance and optionally import its values from
-  /// [json] if it's non-null.
-  File.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      sourceURI = json['sourceURI'];
-    }
-  }
-
   /// Test capitalization
   String sourceURI;
 
@@ -32,7 +24,7 @@ class File {
 
   @override
   int get hashCode =>
-    sourceURI.hashCode;
+    (sourceURI == null ? 0 : sourceURI.hashCode);
 
   @override
   String toString() => 'File[sourceURI=$sourceURI]';
@@ -44,6 +36,14 @@ class File {
     }
     return json;
   }
+
+  /// Returns a new [File] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static File fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : File(
+        sourceURI: json['sourceURI'],
+    );
 
   static List<File> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

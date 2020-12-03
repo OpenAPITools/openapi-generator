@@ -39,7 +39,6 @@ class FakeClassnameTags123Api {
     final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
-
     final contentTypes = <String>['application/json'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['api_key_query'];

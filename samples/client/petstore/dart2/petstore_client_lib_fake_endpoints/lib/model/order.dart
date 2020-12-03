@@ -20,21 +20,6 @@ class Order {
     this.complete = false,
   });
 
-  /// Returns a new [Order] instance and optionally import its values from
-  /// [json] if it's non-null.
-  Order.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      id = json['id'];
-      petId = json['petId'];
-      quantity = json['quantity'];
-      shipDate = json['shipDate'] == null
-        ? null
-        : DateTime.parse(json['shipDate']);
-      status = OrderStatusEnum.fromJson(json['status']);
-      complete = json['complete'];
-    }
-  }
-
   
   int id;
 
@@ -64,12 +49,12 @@ class Order {
 
   @override
   int get hashCode =>
-    id.hashCode +
-    petId.hashCode +
-    quantity.hashCode +
-    shipDate.hashCode +
-    status.hashCode +
-    complete.hashCode;
+    (id == null ? 0 : id.hashCode) +
+    (petId == null ? 0 : petId.hashCode) +
+    (quantity == null ? 0 : quantity.hashCode) +
+    (shipDate == null ? 0 : shipDate.hashCode) +
+    (status == null ? 0 : status.hashCode) +
+    (complete == null ? 0 : complete.hashCode);
 
   @override
   String toString() => 'Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]';
@@ -96,6 +81,21 @@ class Order {
     }
     return json;
   }
+
+  /// Returns a new [Order] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static Order fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : Order(
+        id: json['id'],
+        petId: json['petId'],
+        quantity: json['quantity'],
+        shipDate: json['shipDate'] == null
+          ? null
+          : DateTime.parse(json['shipDate']),
+        status: OrderStatusEnum.fromJson(json['status']),
+        complete: json['complete'],
+    );
 
   static List<Order> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
@@ -143,18 +143,18 @@ class OrderStatusEnum {
 
   String toJson() => value;
 
-  static const placed_ = OrderStatusEnum._('placed');
-  static const approved_ = OrderStatusEnum._('approved');
-  static const delivered_ = OrderStatusEnum._('delivered');
+  static const placed = OrderStatusEnum._("placed");
+  static const approved = OrderStatusEnum._("approved");
+  static const delivered = OrderStatusEnum._("delivered");
 
   /// List of all possible values in this [enum][OrderStatusEnum].
   static const values = <OrderStatusEnum>[
-    placed_,
-    approved_,
-    delivered_,
+    placed,
+    approved,
+    delivered,
   ];
 
-  static OrderStatusEnum fromJson(String value) =>
+  static OrderStatusEnum fromJson(dynamic value) =>
     OrderStatusEnumTypeTransformer().decode(value);
 
   static List<OrderStatusEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
@@ -184,9 +184,9 @@ class OrderStatusEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   OrderStatusEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case 'placed': return OrderStatusEnum.placed_;
-      case 'approved': return OrderStatusEnum.approved_;
-      case 'delivered': return OrderStatusEnum.delivered_;
+      case "placed": return OrderStatusEnum.placed;
+      case "approved": return OrderStatusEnum.approved;
+      case "delivered": return OrderStatusEnum.delivered;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

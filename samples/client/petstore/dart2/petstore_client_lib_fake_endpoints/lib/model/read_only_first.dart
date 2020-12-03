@@ -16,15 +16,6 @@ class ReadOnlyFirst {
     this.baz,
   });
 
-  /// Returns a new [ReadOnlyFirst] instance and optionally import its values from
-  /// [json] if it's non-null.
-  ReadOnlyFirst.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      bar = json['bar'];
-      baz = json['baz'];
-    }
-  }
-
   
   String bar;
 
@@ -38,8 +29,8 @@ class ReadOnlyFirst {
 
   @override
   int get hashCode =>
-    bar.hashCode +
-    baz.hashCode;
+    (bar == null ? 0 : bar.hashCode) +
+    (baz == null ? 0 : baz.hashCode);
 
   @override
   String toString() => 'ReadOnlyFirst[bar=$bar, baz=$baz]';
@@ -54,6 +45,15 @@ class ReadOnlyFirst {
     }
     return json;
   }
+
+  /// Returns a new [ReadOnlyFirst] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static ReadOnlyFirst fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : ReadOnlyFirst(
+        bar: json['bar'],
+        baz: json['baz'],
+    );
 
   static List<ReadOnlyFirst> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

@@ -15,14 +15,6 @@ class HealthCheckResult {
     this.nullableMessage,
   });
 
-  /// Returns a new [HealthCheckResult] instance and optionally import its values from
-  /// [json] if it's non-null.
-  HealthCheckResult.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      nullableMessage = json['NullableMessage'];
-    }
-  }
-
   
   String nullableMessage;
 
@@ -32,7 +24,7 @@ class HealthCheckResult {
 
   @override
   int get hashCode =>
-    (nullableMessage?.hashCode ?? 0);
+    (nullableMessage == null ? 0 : nullableMessage.hashCode);
 
   @override
   String toString() => 'HealthCheckResult[nullableMessage=$nullableMessage]';
@@ -44,6 +36,14 @@ class HealthCheckResult {
     }
     return json;
   }
+
+  /// Returns a new [HealthCheckResult] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static HealthCheckResult fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : HealthCheckResult(
+        nullableMessage: json['NullableMessage'],
+    );
 
   static List<HealthCheckResult> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

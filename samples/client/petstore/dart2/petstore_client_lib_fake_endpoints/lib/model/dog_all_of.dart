@@ -15,14 +15,6 @@ class DogAllOf {
     this.breed,
   });
 
-  /// Returns a new [DogAllOf] instance and optionally import its values from
-  /// [json] if it's non-null.
-  DogAllOf.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      breed = json['breed'];
-    }
-  }
-
   
   String breed;
 
@@ -32,7 +24,7 @@ class DogAllOf {
 
   @override
   int get hashCode =>
-    breed.hashCode;
+    (breed == null ? 0 : breed.hashCode);
 
   @override
   String toString() => 'DogAllOf[breed=$breed]';
@@ -44,6 +36,14 @@ class DogAllOf {
     }
     return json;
   }
+
+  /// Returns a new [DogAllOf] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static DogAllOf fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : DogAllOf(
+        breed: json['breed'],
+    );
 
   static List<DogAllOf> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

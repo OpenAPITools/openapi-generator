@@ -17,18 +17,6 @@ class OuterComposite {
     this.myBoolean,
   });
 
-  /// Returns a new [OuterComposite] instance and optionally import its values from
-  /// [json] if it's non-null.
-  OuterComposite.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      myNumber = json['my_number'] == null ?
-        null :
-        json['my_number'].toDouble();
-      myString = json['my_string'];
-      myBoolean = json['my_boolean'];
-    }
-  }
-
   
   num myNumber;
 
@@ -46,9 +34,9 @@ class OuterComposite {
 
   @override
   int get hashCode =>
-    myNumber.hashCode +
-    myString.hashCode +
-    myBoolean.hashCode;
+    (myNumber == null ? 0 : myNumber.hashCode) +
+    (myString == null ? 0 : myString.hashCode) +
+    (myBoolean == null ? 0 : myBoolean.hashCode);
 
   @override
   String toString() => 'OuterComposite[myNumber=$myNumber, myString=$myString, myBoolean=$myBoolean]';
@@ -66,6 +54,18 @@ class OuterComposite {
     }
     return json;
   }
+
+  /// Returns a new [OuterComposite] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static OuterComposite fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : OuterComposite(
+        myNumber: json['my_number'] == null ?
+          null :
+          json['my_number'].toDouble(),
+        myString: json['my_string'],
+        myBoolean: json['my_boolean'],
+    );
 
   static List<OuterComposite> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

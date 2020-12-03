@@ -16,15 +16,6 @@ class Model200Response {
     this.class_,
   });
 
-  /// Returns a new [Model200Response] instance and optionally import its values from
-  /// [json] if it's non-null.
-  Model200Response.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      name = json['name'];
-      class_ = json['class'];
-    }
-  }
-
   
   int name;
 
@@ -38,8 +29,8 @@ class Model200Response {
 
   @override
   int get hashCode =>
-    name.hashCode +
-    class_.hashCode;
+    (name == null ? 0 : name.hashCode) +
+    (class_ == null ? 0 : class_.hashCode);
 
   @override
   String toString() => 'Model200Response[name=$name, class_=$class_]';
@@ -54,6 +45,15 @@ class Model200Response {
     }
     return json;
   }
+
+  /// Returns a new [Model200Response] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static Model200Response fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : Model200Response(
+        name: json['name'],
+        class_: json['class'],
+    );
 
   static List<Model200Response> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

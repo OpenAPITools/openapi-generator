@@ -28,33 +28,6 @@ class InlineObject3 {
     this.callback,
   });
 
-  /// Returns a new [InlineObject3] instance and optionally import its values from
-  /// [json] if it's non-null.
-  InlineObject3.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      integer = json['integer'];
-      int32 = json['int32'];
-      int64 = json['int64'];
-      number = json['number'] == null ?
-        null :
-        json['number'].toDouble();
-      float = json['float'];
-      double = json['double'];
-      string = json['string'];
-      patternWithoutDelimiter = json['pattern_without_delimiter'];
-      byte = json['byte'];
-      binary = File.fromJson(json['binary']);
-      date = json['date'] == null
-        ? null
-        : DateTime.parse(json['date']);
-      dateTime = json['dateTime'] == null
-        ? null
-        : DateTime.parse(json['dateTime']);
-      password = json['password'];
-      callback = json['callback'];
-    }
-  }
-
   /// None
   int integer;
 
@@ -116,20 +89,20 @@ class InlineObject3 {
 
   @override
   int get hashCode =>
-    integer.hashCode +
-    int32.hashCode +
-    int64.hashCode +
-    number.hashCode +
-    float.hashCode +
-    double.hashCode +
-    string.hashCode +
-    patternWithoutDelimiter.hashCode +
-    byte.hashCode +
-    binary.hashCode +
-    date.hashCode +
-    dateTime.hashCode +
-    password.hashCode +
-    callback.hashCode;
+    (integer == null ? 0 : integer.hashCode) +
+    (int32 == null ? 0 : int32.hashCode) +
+    (int64 == null ? 0 : int64.hashCode) +
+    (number == null ? 0 : number.hashCode) +
+    (float == null ? 0 : float.hashCode) +
+    (double == null ? 0 : double.hashCode) +
+    (string == null ? 0 : string.hashCode) +
+    (patternWithoutDelimiter == null ? 0 : patternWithoutDelimiter.hashCode) +
+    (byte == null ? 0 : byte.hashCode) +
+    (binary == null ? 0 : binary.hashCode) +
+    (date == null ? 0 : date.hashCode) +
+    (dateTime == null ? 0 : dateTime.hashCode) +
+    (password == null ? 0 : password.hashCode) +
+    (callback == null ? 0 : callback.hashCode);
 
   @override
   String toString() => 'InlineObject3[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double=$double, string=$string, patternWithoutDelimiter=$patternWithoutDelimiter, byte=$byte, binary=$binary, date=$date, dateTime=$dateTime, password=$password, callback=$callback]';
@@ -180,6 +153,33 @@ class InlineObject3 {
     }
     return json;
   }
+
+  /// Returns a new [InlineObject3] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static InlineObject3 fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : InlineObject3(
+        integer: json['integer'],
+        int32: json['int32'],
+        int64: json['int64'],
+        number: json['number'] == null ?
+          null :
+          json['number'].toDouble(),
+        float: json['float'],
+        double: json['double'],
+        string: json['string'],
+        patternWithoutDelimiter: json['pattern_without_delimiter'],
+        byte: json['byte'],
+        binary: File.fromJson(json['binary']),
+        date: json['date'] == null
+          ? null
+          : DateTime.parse(json['date']),
+        dateTime: json['dateTime'] == null
+          ? null
+          : DateTime.parse(json['dateTime']),
+        password: json['password'],
+        callback: json['callback'],
+    );
 
   static List<InlineObject3> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

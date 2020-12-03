@@ -27,7 +27,6 @@ class FakeApi {
     final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
-
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
@@ -102,7 +101,10 @@ class FakeApi {
     if (query1 != null) {
       queryParams.addAll(_convertParametersForCollectionFormat('', 'query_1', query1));
     }
-    headerParams['header_1'] = header1;
+
+    if (header1 != null) {
+      headerParams['header_1'] = parameterToString(header1);
+    }
 
     final contentTypes = <String>['application/json', 'application/xml'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -169,7 +171,6 @@ class FakeApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
-
 
     final contentTypes = <String>['application/json'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -238,7 +239,6 @@ class FakeApi {
     final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
-
     final contentTypes = <String>['application/json'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
@@ -306,7 +306,6 @@ class FakeApi {
     final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
-
     final contentTypes = <String>['application/json'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
@@ -373,7 +372,6 @@ class FakeApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
-
 
     final contentTypes = <String>['application/json'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -443,7 +441,6 @@ class FakeApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
-
 
     final contentTypes = <String>['application/json'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -574,7 +571,6 @@ class FakeApi {
     final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
-
     final contentTypes = <String>['application/json'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
@@ -696,7 +692,6 @@ class FakeApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
-
 
     final contentTypes = <String>['application/x-www-form-urlencoded'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -930,8 +925,13 @@ class FakeApi {
     if (enumQueryDouble != null) {
       queryParams.addAll(_convertParametersForCollectionFormat('', 'enum_query_double', enumQueryDouble));
     }
-    headerParams['enum_header_string_array'] = enumHeaderStringArray;
-    headerParams['enum_header_string'] = enumHeaderString;
+
+    if (enumHeaderStringArray != null) {
+      headerParams['enum_header_string_array'] = parameterToString(enumHeaderStringArray);
+    }
+    if (enumHeaderString != null) {
+      headerParams['enum_header_string'] = parameterToString(enumHeaderString);
+    }
 
     final contentTypes = <String>['application/x-www-form-urlencoded'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -1064,8 +1064,11 @@ class FakeApi {
     if (int64Group != null) {
       queryParams.addAll(_convertParametersForCollectionFormat('', 'int64_group', int64Group));
     }
-    headerParams['required_boolean_group'] = requiredBooleanGroup;
-    headerParams['boolean_group'] = booleanGroup;
+
+    headerParams['required_boolean_group'] = parameterToString(requiredBooleanGroup);
+    if (booleanGroup != null) {
+      headerParams['boolean_group'] = parameterToString(booleanGroup);
+    }
 
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -1147,7 +1150,6 @@ class FakeApi {
     final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
-
     final contentTypes = <String>['application/json'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
@@ -1216,7 +1218,6 @@ class FakeApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
-
 
     final contentTypes = <String>['application/x-www-form-urlencoded'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;

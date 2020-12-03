@@ -25,7 +25,6 @@ class DefaultApi {
     final headerParams = <String, dynamic>{};
     final formParams = <String, String>{};
 
-
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];

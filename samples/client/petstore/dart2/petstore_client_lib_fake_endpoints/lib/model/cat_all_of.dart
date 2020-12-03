@@ -15,14 +15,6 @@ class CatAllOf {
     this.declawed,
   });
 
-  /// Returns a new [CatAllOf] instance and optionally import its values from
-  /// [json] if it's non-null.
-  CatAllOf.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      declawed = json['declawed'];
-    }
-  }
-
   
   bool declawed;
 
@@ -32,7 +24,7 @@ class CatAllOf {
 
   @override
   int get hashCode =>
-    declawed.hashCode;
+    (declawed == null ? 0 : declawed.hashCode);
 
   @override
   String toString() => 'CatAllOf[declawed=$declawed]';
@@ -44,6 +36,14 @@ class CatAllOf {
     }
     return json;
   }
+
+  /// Returns a new [CatAllOf] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static CatAllOf fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : CatAllOf(
+        declawed: json['declawed'],
+    );
 
   static List<CatAllOf> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

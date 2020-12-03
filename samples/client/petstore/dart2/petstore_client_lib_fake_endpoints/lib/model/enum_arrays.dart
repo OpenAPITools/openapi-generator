@@ -16,15 +16,6 @@ class EnumArrays {
     this.arrayEnum = const [],
   });
 
-  /// Returns a new [EnumArrays] instance and optionally import its values from
-  /// [json] if it's non-null.
-  EnumArrays.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      justSymbol = EnumArraysJustSymbolEnum.fromJson(json['just_symbol']);
-      arrayEnum = EnumArraysArrayEnumEnum.listFromJson(json['array_enum']);
-    }
-  }
-
   
   EnumArraysJustSymbolEnum justSymbol;
 
@@ -38,8 +29,8 @@ class EnumArrays {
 
   @override
   int get hashCode =>
-    justSymbol.hashCode +
-    arrayEnum.hashCode;
+    (justSymbol == null ? 0 : justSymbol.hashCode) +
+    (arrayEnum == null ? 0 : arrayEnum.hashCode);
 
   @override
   String toString() => 'EnumArrays[justSymbol=$justSymbol, arrayEnum=$arrayEnum]';
@@ -54,6 +45,15 @@ class EnumArrays {
     }
     return json;
   }
+
+  /// Returns a new [EnumArrays] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static EnumArrays fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : EnumArrays(
+        justSymbol: EnumArraysJustSymbolEnum.fromJson(json['just_symbol']),
+        arrayEnum: EnumArraysArrayEnumEnum.listFromJson(json['array_enum']),
+    );
 
   static List<EnumArrays> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
@@ -101,16 +101,16 @@ class EnumArraysJustSymbolEnum {
 
   String toJson() => value;
 
-  static const _ = EnumArraysJustSymbolEnum._('>=');
-  static const _ = EnumArraysJustSymbolEnum._('$');
+  static const greaterthanorequalto = EnumArraysJustSymbolEnum._(">=");
+  static const dollar = EnumArraysJustSymbolEnum._("$");
 
   /// List of all possible values in this [enum][EnumArraysJustSymbolEnum].
   static const values = <EnumArraysJustSymbolEnum>[
-    _,
-    _,
+    greaterthanorequalto,
+    dollar,
   ];
 
-  static EnumArraysJustSymbolEnum fromJson(String value) =>
+  static EnumArraysJustSymbolEnum fromJson(dynamic value) =>
     EnumArraysJustSymbolEnumTypeTransformer().decode(value);
 
   static List<EnumArraysJustSymbolEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
@@ -140,8 +140,8 @@ class EnumArraysJustSymbolEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumArraysJustSymbolEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case '>=': return EnumArraysJustSymbolEnum._;
-      case '$': return EnumArraysJustSymbolEnum._;
+      case ">=": return EnumArraysJustSymbolEnum.greaterthanorequalto;
+      case "$": return EnumArraysJustSymbolEnum.dollar;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
@@ -175,16 +175,16 @@ class EnumArraysArrayEnumEnum {
 
   String toJson() => value;
 
-  static const fish_ = EnumArraysArrayEnumEnum._('fish');
-  static const crab_ = EnumArraysArrayEnumEnum._('crab');
+  static const fish = EnumArraysArrayEnumEnum._("fish");
+  static const crab = EnumArraysArrayEnumEnum._("crab");
 
   /// List of all possible values in this [enum][EnumArraysArrayEnumEnum].
   static const values = <EnumArraysArrayEnumEnum>[
-    fish_,
-    crab_,
+    fish,
+    crab,
   ];
 
-  static EnumArraysArrayEnumEnum fromJson(List<String> value) =>
+  static EnumArraysArrayEnumEnum fromJson(dynamic value) =>
     EnumArraysArrayEnumEnumTypeTransformer().decode(value);
 
   static List<EnumArraysArrayEnumEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
@@ -214,8 +214,8 @@ class EnumArraysArrayEnumEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumArraysArrayEnumEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case 'fish': return EnumArraysArrayEnumEnum.fish_;
-      case 'crab': return EnumArraysArrayEnumEnum.crab_;
+      case "fish": return EnumArraysArrayEnumEnum.fish;
+      case "crab": return EnumArraysArrayEnumEnum.crab;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

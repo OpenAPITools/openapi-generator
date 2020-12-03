@@ -15,18 +15,6 @@ class ArrayOfArrayOfNumberOnly {
     this.arrayArrayNumber = const [],
   });
 
-  /// Returns a new [ArrayOfArrayOfNumberOnly] instance and optionally import its values from
-  /// [json] if it's non-null.
-  ArrayOfArrayOfNumberOnly.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      arrayArrayNumber = json['ArrayArrayNumber'] == null
-        ? null
-        : (json['ArrayArrayNumber'] as List).map(
-            (e) => e == null ? null : (e as List).cast<num>()
-          ).toList(growable: false);
-    }
-  }
-
   
   List<List<num>> arrayArrayNumber;
 
@@ -36,7 +24,7 @@ class ArrayOfArrayOfNumberOnly {
 
   @override
   int get hashCode =>
-    arrayArrayNumber.hashCode;
+    (arrayArrayNumber == null ? 0 : arrayArrayNumber.hashCode);
 
   @override
   String toString() => 'ArrayOfArrayOfNumberOnly[arrayArrayNumber=$arrayArrayNumber]';
@@ -48,6 +36,18 @@ class ArrayOfArrayOfNumberOnly {
     }
     return json;
   }
+
+  /// Returns a new [ArrayOfArrayOfNumberOnly] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static ArrayOfArrayOfNumberOnly fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : ArrayOfArrayOfNumberOnly(
+        arrayArrayNumber: json['ArrayArrayNumber'] == null
+          ? null
+          : (json['ArrayArrayNumber'] as List).map(
+              (e) => e == null ? null : (e as List).cast<num>()
+            ).toList(growable: false),
+    );
 
   static List<ArrayOfArrayOfNumberOnly> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

@@ -16,15 +16,6 @@ class InlineObject {
     this.status,
   });
 
-  /// Returns a new [InlineObject] instance and optionally import its values from
-  /// [json] if it's non-null.
-  InlineObject.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      name = json['name'];
-      status = json['status'];
-    }
-  }
-
   /// Updated name of the pet
   String name;
 
@@ -38,8 +29,8 @@ class InlineObject {
 
   @override
   int get hashCode =>
-    name.hashCode +
-    status.hashCode;
+    (name == null ? 0 : name.hashCode) +
+    (status == null ? 0 : status.hashCode);
 
   @override
   String toString() => 'InlineObject[name=$name, status=$status]';
@@ -54,6 +45,15 @@ class InlineObject {
     }
     return json;
   }
+
+  /// Returns a new [InlineObject] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static InlineObject fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : InlineObject(
+        name: json['name'],
+        status: json['status'],
+    );
 
   static List<InlineObject> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

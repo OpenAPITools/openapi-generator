@@ -15,14 +15,6 @@ class Client {
     this.client,
   });
 
-  /// Returns a new [Client] instance and optionally import its values from
-  /// [json] if it's non-null.
-  Client.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      client = json['client'];
-    }
-  }
-
   
   String client;
 
@@ -32,7 +24,7 @@ class Client {
 
   @override
   int get hashCode =>
-    client.hashCode;
+    (client == null ? 0 : client.hashCode);
 
   @override
   String toString() => 'Client[client=$client]';
@@ -44,6 +36,14 @@ class Client {
     }
     return json;
   }
+
+  /// Returns a new [Client] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static Client fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : Client(
+        client: json['client'],
+    );
 
   static List<Client> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
