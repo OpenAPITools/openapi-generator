@@ -855,24 +855,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    protected void addOneOfForComposedSchemaArray(String nOneOf, String modelName,
-        ComposedSchema items) {
-        addOneOfNameExtension(items, nOneOf);
-        addOneOfInterfaceModel(items, nOneOf);
-    }
-
-    protected void addOneOfForComposedSchema(Entry<String, Schema> stringSchemaEntry, String modelName, ComposedSchema composedSchema,
-        String nOneOf) {
-        if (stringSchemaEntry.getKey().contains("/")) {
-            // if this is property schema, we also need to generate the oneOf interface model
-            addOneOfNameExtension(composedSchema, nOneOf);
-            addOneOfInterfaceModel(composedSchema, nOneOf);
-        } else {
-            // else this is a component schema, so we will just use that as the oneOf interface model
-            addOneOfNameExtension(composedSchema, modelName);
-        }
-    }
-
     // override with any special handling of the entire OpenAPI spec document
     @SuppressWarnings("unused")
     public void processOpenAPI(OpenAPI openAPI) {

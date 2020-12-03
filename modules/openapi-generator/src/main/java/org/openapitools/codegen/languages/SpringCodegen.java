@@ -21,9 +21,6 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import java.util.Map.Entry;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -580,20 +577,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
     }
 
-    @Override
-    protected void addOneOfForComposedSchema(Entry<String, Schema> stringSchemaEntry, String modelName, ComposedSchema composedSchema,
-        String nOneOf){
-        // if this is property schema, we also need to generate the oneOf interface model
-        addOneOfNameExtension(composedSchema, modelName);
-        addOneOfInterfaceModel(composedSchema, modelName);
-    }
-
-    @Override
-    protected void addOneOfForComposedSchemaArray(String nOneOf, String modelName,
-        ComposedSchema items) {
-        addOneOfNameExtension(items, modelName);
-        addOneOfInterfaceModel(items, modelName);
-    }
 
     @Override
     protected String getCodegenModelName(CodegenProperty codegenProperty) {
