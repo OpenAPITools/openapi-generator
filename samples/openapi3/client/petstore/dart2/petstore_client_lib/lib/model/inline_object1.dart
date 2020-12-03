@@ -52,7 +52,7 @@ class InlineObject1 {
     ? null
     : InlineObject1(
         additionalMetadata: json['additionalMetadata'],
-        file: File.fromJson(json['file']),
+        file: null, // No support for decoding binary content from JSON
     );
 
   static List<InlineObject1> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

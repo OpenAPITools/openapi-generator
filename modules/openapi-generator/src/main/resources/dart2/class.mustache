@@ -152,7 +152,12 @@ class {{{classname}}} {
           {{/items.isArray}}
         {{/isMap}}
         {{^isMap}}
+            {{#isBinary}}
+        {{{name}}}: null, // No support for decoding binary content from JSON
+            {{/isBinary}}
+            {{^isBinary}}
         {{{name}}}: {{{complexType}}}.fromJson(json['{{{baseName}}}']),
+            {{/isBinary}}
         {{/isMap}}
       {{/isArray}}
     {{/complexType}}
