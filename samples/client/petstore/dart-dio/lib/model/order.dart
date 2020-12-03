@@ -1,5 +1,5 @@
-            import 'package:built_collection/built_collection.dart';
-        import 'package:built_value/built_value.dart';
+import 'package:built_collection/built_collection.dart';
+import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
 part 'order.g.dart';
@@ -7,28 +7,28 @@ part 'order.g.dart';
 abstract class Order implements Built<Order, OrderBuilder> {
 
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'id')
     int get id;
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'petId')
     int get petId;
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'quantity')
     int get quantity;
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'shipDate')
     DateTime get shipDate;
     /* Order Status */
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'status')
     OrderStatus get status;
-        //enum statusEnum {  placed,  approved,  delivered,  };
+    // enum statusEnum {  placed,  approved,  delivered,  };
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'complete')
     bool get complete;
 

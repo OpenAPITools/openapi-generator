@@ -1,4 +1,4 @@
-        import 'package:built_value/built_value.dart';
+import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
 part 'tag.g.dart';
@@ -6,11 +6,11 @@ part 'tag.g.dart';
 abstract class Tag implements Built<Tag, TagBuilder> {
 
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'id')
     int get id;
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'name')
     String get name;
 

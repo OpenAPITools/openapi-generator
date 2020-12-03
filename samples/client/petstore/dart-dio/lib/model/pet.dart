@@ -1,7 +1,7 @@
-            import 'package:openapi/model/tag.dart';
-            import 'package:built_collection/built_collection.dart';
-            import 'package:openapi/model/category.dart';
-        import 'package:built_value/built_value.dart';
+import 'package:openapi/model/tag.dart';
+import 'package:built_collection/built_collection.dart';
+import 'package:openapi/model/category.dart';
+import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
 part 'pet.g.dart';
@@ -9,30 +9,30 @@ part 'pet.g.dart';
 abstract class Pet implements Built<Pet, PetBuilder> {
 
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'id')
     int get id;
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'category')
     Category get category;
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'name')
     String get name;
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'photoUrls')
     BuiltList<String> get photoUrls;
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'tags')
     BuiltList<Tag> get tags;
     /* pet status in the store */
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'status')
     PetStatus get status;
-        //enum statusEnum {  available,  pending,  sold,  };
+    // enum statusEnum {  available,  pending,  sold,  };
 
     // Boilerplate code needed to wire-up generated code
     Pet._();

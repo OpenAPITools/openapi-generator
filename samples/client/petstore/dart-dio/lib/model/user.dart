@@ -1,4 +1,4 @@
-        import 'package:built_value/built_value.dart';
+import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
 part 'user.g.dart';
@@ -6,35 +6,35 @@ part 'user.g.dart';
 abstract class User implements Built<User, UserBuilder> {
 
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'id')
     int get id;
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'username')
     String get username;
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'firstName')
     String get firstName;
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'lastName')
     String get lastName;
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'email')
     String get email;
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'password')
     String get password;
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'phone')
     String get phone;
     /* User Status */
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'userStatus')
     int get userStatus;
 

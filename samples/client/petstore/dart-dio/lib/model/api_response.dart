@@ -1,4 +1,4 @@
-        import 'package:built_value/built_value.dart';
+import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
 part 'api_response.g.dart';
@@ -6,15 +6,15 @@ part 'api_response.g.dart';
 abstract class ApiResponse implements Built<ApiResponse, ApiResponseBuilder> {
 
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'code')
     int get code;
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'type')
     String get type;
     
-        @nullable
+    @nullable
     @BuiltValueField(wireName: r'message')
     String get message;
 
