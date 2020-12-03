@@ -3,6 +3,9 @@ package org.openapitools.codegen.asciidoc;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -148,4 +151,44 @@ public class AsciidocGeneratorTest {
         Assert.assertTrue(markupFileGenerated, "index.adoc is not generated!");
     }
 
+  @Test
+  public void testCommonmarkWithAsciidocGenerator() throws Exception {
+
+    File output = Files.createTempDirectory("test").toFile();
+    final CodegenConfigurator configurator =
+        new CodegenConfigurator()
+            .setGeneratorName("asciidoc")
+            .setInputSpec("src/test/resources/3_0/asciidoc_render.yml")
+            .setOutputDir(output.getAbsolutePath())
+            .addAdditionalProperty(AsciidocDocumentationCodegen.SNIPPET_DIR, "MY-SNIPPET-DIR")
+            .addAdditionalProperty(AsciidocDocumentationCodegen.SPEC_DIR, "MY-SPEC-DIR");
+    final ClientOptInput clientOptInput = configurator.toClientOptInput();
+    DefaultGenerator generator = new DefaultGenerator();
+    generator.setGenerateMetadata(false);
+    List<File> generatedFiles = generator.opts(clientOptInput).generate();
+    File adoc =
+        generatedFiles.stream()
+            .filter(file -> "index.adoc".equals(file.getName()))
+            .findFirst()
+            .get();
+    Assert.assertTrue(adoc != null, "Should have generated and asciidoc file");
+    String contents = FileUtils.readFileToString(adoc, StandardCharsets.UTF_8);
+    Assert.assertTrue(
+        contents.contains(
+            "a| This is a simpler asciidoc with `in line` and a list\n--\n"
+                + "* some item\n"
+                + "* another item\n"
+                + "--"),
+        "Table descriptions render asciidoc");
+    Assert.assertTrue(
+        contents.contains(
+            "-----------------\n"
+                + "#this should be code\ncd /some/path\n"
+                + "for (i in 1 to 10)\n  do_something();\n\n"
+                + "// some comment in our code\nexit();\n\n"
+                + "-----------------"),
+        "Asciidoc code block");
+    Assert.assertTrue(contents.contains("--\n* unorder one\n* two\n--"), "Asciidoc list");
+    Assert.assertTrue(contents.contains("link:/somepage.html[this]"), "Asciidoc Link");
+  }
 }
