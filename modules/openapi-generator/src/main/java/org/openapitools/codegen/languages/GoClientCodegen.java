@@ -448,13 +448,17 @@ public class GoClientCodegen extends AbstractGoCodegen {
             for (CodegenParameter p : op.allParams) {
                 p.vendorExtensions.put("x-go-example", constructExampleCode(p, modelMaps, processedModelMaps));
             }
+            processedModelMaps.clear();
         }
 
-        processedModelMaps.clear();
         for (CodegenOperation operation : operationList) {
             for (CodegenParameter cp : operation.allParams) {
                 cp.vendorExtensions.put("x-go-example", constructExampleCode(cp, modelMaps, processedModelMaps));
             }
+            if (processedModelMaps.containsKey("time.Time")) {
+                operation.vendorExtensions.put("x-go-import", "    \"time\"");
+            }
+            processedModelMaps.clear();
         }
 
         return objs;
@@ -462,12 +466,22 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
     private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         if (codegenParameter.isArray) { // array
-            return codegenParameter.dataType + "{" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
+            String prefix = codegenParameter.dataType;
+            String dataType = StringUtils.removeStart(codegenParameter.dataType, "[]");
+            if (modelMaps.containsKey(dataType)) {
+                prefix = "[]" + goImportAlias + "." + dataType;
+            }
+            return prefix + "{" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
         } else if (codegenParameter.isMap) {
-            return codegenParameter.dataType + "{ \"key\": " + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
+            String prefix = codegenParameter.dataType;
+            String dataType = StringUtils.removeStart(codegenParameter.dataType, "map[string][]");
+            if (modelMaps.containsKey(dataType)) {
+                prefix = "map[string][]" + goImportAlias + "." + dataType;
+            }
+            return prefix + "{\"key\": " + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
         } else if (codegenParameter.isPrimitiveType) { // primitive type
             if (codegenParameter.isString) {
-                if (StringUtils.isEmpty(codegenParameter.example)) {
+                if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
                     return "\"" + codegenParameter.example + "\"";
                 } else {
                     return "\"" + codegenParameter.paramName + "_example\"";
@@ -481,18 +495,30 @@ public class GoClientCodegen extends AbstractGoCodegen {
             } else if (codegenParameter.isUri) { // URL
                 return "\"https://example.com\"";
             } else if (codegenParameter.isDateTime || codegenParameter.isDate) { // datetime or date
+                processedModelMap.put("time.Time", 1);
                 return "time.Now()";
+            } else if (codegenParameter.isFile) {
+                return "os.NewFile(1234, \"some_file\")";
             } else { // numeric
-                if (StringUtils.isEmpty(codegenParameter.example)) {
-                    return codegenParameter.example;
+                if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
+                    return codegenParameter.dataType + "(" + codegenParameter.example + ")";
                 } else {
-                    return "987";
+                    return codegenParameter.dataType + "(987)";
                 }
             }
         } else { // model
             // look up the model
             if (modelMaps.containsKey(codegenParameter.dataType)) {
                 return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, processedModelMap);
+            } else if (codegenParameter.isEmail) { // email
+                if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
+                    return "\"" + codegenParameter.example + "\"";
+                } else {
+                    return "\"" + codegenParameter.paramName + "@example.com\"";
+                }
+            } else if (codegenParameter.isDateTime || codegenParameter.isDate) { // datetime or date
+                processedModelMap.put("time.Time", 1);
+                return "time.Now()";
             } else {
                 //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
                 return "TODO";
@@ -502,12 +528,22 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         if (codegenProperty.isArray) { // array
-            return codegenProperty.dataType + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + ")";
+            String prefix = codegenProperty.dataType;
+            String dataType = StringUtils.removeStart(codegenProperty.dataType, "[]");
+            if (modelMaps.containsKey(dataType)) {
+                prefix = "[]" + goImportAlias + "." + dataType;
+            }
+            return prefix + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
         } else if (codegenProperty.isMap) { // map
-            return codegenProperty.dataType + "{ \"key\": " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
+            String prefix = codegenProperty.dataType;
+            String dataType = StringUtils.removeStart(codegenProperty.dataType, "map[string][]");
+            if (modelMaps.containsKey(dataType)) {
+                prefix = "map[string][]" + goImportAlias + "." + dataType;
+            }
+            return prefix + "{\"key\": " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
         } else if (codegenProperty.isPrimitiveType) { // primitive type
             if (codegenProperty.isString) {
-                if (StringUtils.isEmpty(codegenProperty.example)) {
+                if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
                     return "\"" + codegenProperty.example + "\"";
                 } else {
                     return "\"" + codegenProperty.name + "_example\"";
@@ -521,25 +557,31 @@ public class GoClientCodegen extends AbstractGoCodegen {
             } else if (codegenProperty.isUri) { // URL
                 return "\"https://example.com\"";
             } else if (codegenProperty.isDateTime || codegenProperty.isDate) { // datetime or date
+                processedModelMap.put("time.Time", 1);
                 return "time.Now()";
             } else { // numeric
                 String example;
-                if (StringUtils.isEmpty(codegenProperty.example)) {
+                if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
                     example = codegenProperty.example;
                 } else {
                     example = "123";
                 }
 
-                if (codegenProperty.isLong) {
-                    return "int64(" + example + ")";
-                } else {
-                    return example;
-                }
+                return codegenProperty.dataType +  "(" + example + ")";
             }
         } else {
             // look up the model
             if (modelMaps.containsKey(codegenProperty.dataType)) {
                 return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, processedModelMap);
+            } else if (codegenProperty.isEmail) { // email
+                if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                    return "\"" + codegenProperty.example + "\"";
+                } else {
+                    return "\"" + codegenProperty.name + "@example.com\"";
+                }
+            } else if (codegenProperty.isDateTime || codegenProperty.isDate) { // datetime or date
+                processedModelMap.put("time.Time", 1);
+                return "time.Now()";
             } else {
                 //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenProperty.dataType);
                 return "\"TODO\"";
@@ -548,8 +590,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
     }
 
     private String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
-        String example;
-
         // break infinite recursion. Return, in case a model is already processed in the current context.
         String model = codegenModel.name;
         if (processedModelMap.containsKey(model)) {
@@ -561,6 +601,14 @@ public class GoClientCodegen extends AbstractGoCodegen {
             } else {
                 throw new RuntimeException("Invalid count when constructing example: " + count);
             }
+        } else if (codegenModel.isEnum) {
+            Map<String, Object> allowableValues = codegenModel.allowableValues;
+            List<Object> values = (List<Object>) allowableValues.get("values");
+            return goImportAlias + "." + model + "(\"" + String.valueOf(values.get(0)) + "\")";
+        } else if (codegenModel.oneOf != null && !codegenModel.oneOf.isEmpty()) {
+            String subModel = (String) codegenModel.oneOf.toArray()[0];
+            String oneOf = constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap).substring(1);
+            return goImportAlias + "." + model + "{" + subModel + ": " + oneOf + "}";
         } else {
             processedModelMap.put(model, 1);
         }
@@ -569,6 +617,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
         for (CodegenProperty codegenProperty : codegenModel.requiredVars) {
             propertyExamples.add(constructExampleCode(codegenProperty, modelMaps, processedModelMap));
         }
-        return "*" + goImportAlias + ".New" + codegenModel.name + "(" + StringUtils.join(propertyExamples, ", ") + ")";
+        return "*" + goImportAlias + ".New" + toModelName(model) + "(" + StringUtils.join(propertyExamples, ", ") + ")";
     }
 }

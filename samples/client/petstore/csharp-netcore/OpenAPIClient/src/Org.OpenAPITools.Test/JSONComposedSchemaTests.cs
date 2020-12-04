@@ -86,7 +86,8 @@ namespace Org.OpenAPITools.Test
             Assert.IsType<Banana>(f3.ActualInstance);
 
             Fruit f4 = Fruit.FromJson("{\"origin\":\"Japan\"}");
-            Assert.IsType<Apple>(f4.ActualInstance);
+            // since banana allows additional properties, it will apple's JSON payload as well
+            Assert.IsType<Banana>(f4.ActualInstance);
 
             // test custom deserializer
             Fruit f5 = JsonConvert.DeserializeObject<Fruit>("{\"lengthCm\":98}");
@@ -100,11 +101,35 @@ namespace Org.OpenAPITools.Test
         /// ReadOnly property tests
         /// </summary>
         [Fact]
-        public void ReadOnlyFruit()
+        public void TestReadOnlyFruit()
         {
             ReadOnlyFirst r = JsonConvert.DeserializeObject<ReadOnlyFirst>("{\"baz\":\"from json gaz\",\"bar\":\"from json bar\"}");
             Assert.Equal("from json bar", r.Bar);
             Assert.Equal("{\"baz\":\"from json gaz\"}", JsonConvert.SerializeObject(r));
+        }
+
+        /// <summary>
+        /// Cat property tests
+        /// </summary>
+        [Fact]
+        public void TestCat()
+        {
+            // test to ensure both Cat and Animal (parent) can have "AdditionalProperties", which result in warnings
+            Cat c = JsonConvert.DeserializeObject<Cat>("{\"className\":\"cat\",\"bar\":\"from json bar\"}");
+            Assert.Equal("from json bar", c.AdditionalProperties["bar"]);
+        }
+
+        /// <summary>
+        /// Test additonal properties
+        /// </summary>
+        [Fact]
+        public void TestAdditionalProperties()
+        {
+            Foo f = new Foo();
+
+            Assert.NotNull(f.GetType().GetProperty("AdditionalProperties"));
+            Assert.Null(f.GetType().GetProperty("unknown_property"));
+
         }
     }
 }

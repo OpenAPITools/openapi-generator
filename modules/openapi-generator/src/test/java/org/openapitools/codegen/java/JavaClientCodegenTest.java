@@ -957,10 +957,10 @@ public class JavaClientCodegenTest {
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/RealCommand.java"),
-                "class RealCommand extends Command");
+                "class RealCommand {");
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/Command.java"),
-                "class Command");
+                "class Command {");
 
         output.deleteOnExit();
     }

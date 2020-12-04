@@ -448,6 +448,18 @@ public class AbstractJavaCodegenTest {
         dateSchema.setDefault(date);
         defaultValue = codegen.toDefaultValue(dateSchema);
         Assert.assertEquals(defaultLocalDate, LocalDate.parse(defaultValue));
+
+        // Test default value for number without format
+        NumberSchema numberSchema = new NumberSchema();
+        Double doubleValue = 100.0;
+        numberSchema.setDefault(doubleValue);
+        defaultValue = codegen.toDefaultValue(numberSchema);
+        Assert.assertEquals(defaultValue, "new BigDecimal(\"" + doubleValue.toString() + "\")");
+
+        // Test default value for number with format set to double
+        numberSchema.setFormat("double");
+        defaultValue = codegen.toDefaultValue(numberSchema);
+        Assert.assertEquals(defaultValue, doubleValue + "d");
     }
 
     @Test

@@ -111,6 +111,10 @@ pplx::task<void> UserApi::createUser(std::shared_ptr<User> body) const
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
     }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+    }
     else
     {
         throw ApiException(415, utility::conversions::to_string_t("UserApi->createUser does not consume any supported media type"));
@@ -236,6 +240,10 @@ pplx::task<void> UserApi::createUsersWithArrayInput(std::vector<std::shared_ptr<
 
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
+    }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
     }
     else
     {
@@ -363,6 +371,10 @@ pplx::task<void> UserApi::createUsersWithListInput(std::vector<std::shared_ptr<U
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
     }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+    }
     else
     {
         throw ApiException(415, utility::conversions::to_string_t("UserApi->createUsersWithListInput does not consume any supported media type"));
@@ -462,6 +474,10 @@ pplx::task<void> UserApi::deleteUser(utility::string_t username) const
     else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+    }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
     }
     else
     {
@@ -564,6 +580,10 @@ pplx::task<std::shared_ptr<User>> UserApi::getUserByName(utility::string_t usern
     else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+    }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
     }
     else
     {
@@ -695,6 +715,10 @@ pplx::task<utility::string_t> UserApi::loginUser(utility::string_t username, uti
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
     }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+    }
     else
     {
         throw ApiException(415, utility::conversions::to_string_t("UserApi->loginUser does not consume any supported media type"));
@@ -815,6 +839,10 @@ pplx::task<void> UserApi::logoutUser() const
     else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+    }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
     }
     else
     {
@@ -937,6 +965,10 @@ pplx::task<void> UserApi::updateUser(utility::string_t username, std::shared_ptr
 
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
+    }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
     }
     else
     {

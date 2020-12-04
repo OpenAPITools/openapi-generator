@@ -233,7 +233,7 @@ import (
 )
 
 func main() {
-    body := 987 // float32 | Input number as post body (optional)
+    body := float32(8.14) // float32 | Input number as post body (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -555,20 +555,21 @@ import (
     "context"
     "fmt"
     "os"
+    "time"
     openapiclient "./openapi"
 )
 
 func main() {
-    number := 987 // float32 | None
-    double := 987 // float64 | None
+    number := float32(8.14) // float32 | None
+    double := float64(1.2) // float64 | None
     patternWithoutDelimiter := "patternWithoutDelimiter_example" // string | None
-    byte_ := 987 // string | None
-    integer := 987 // int32 | None (optional)
-    int32_ := 987 // int32 | None (optional)
-    int64_ := 987 // int64 | None (optional)
-    float := 987 // float32 | None (optional)
+    byte_ := string(BYTE_ARRAY_DATA_HERE) // string | None
+    integer := int32(56) // int32 | None (optional)
+    int32_ := int32(56) // int32 | None (optional)
+    int64_ := int64(789) // int64 | None (optional)
+    float := float32(3.4) // float32 | None (optional)
     string_ := "string__example" // string | None (optional)
-    binary := 987 // *os.File | None (optional)
+    binary := os.NewFile(1234, "some_file") // *os.File | None (optional)
     date := time.Now() // string | None (optional)
     dateTime := time.Now() // time.Time | None (optional)
     password := "password_example" // string | None (optional)
@@ -653,8 +654,8 @@ func main() {
     enumHeaderString := "enumHeaderString_example" // string | Header parameter enum test (string) (optional) (default to "-efg")
     enumQueryStringArray := []string{"EnumQueryStringArray_example"} // []string | Query parameter enum test (string array) (optional)
     enumQueryString := "enumQueryString_example" // string | Query parameter enum test (string) (optional) (default to "-efg")
-    enumQueryInteger := 987 // int32 | Query parameter enum test (double) (optional)
-    enumQueryDouble := 987 // float64 | Query parameter enum test (double) (optional)
+    enumQueryInteger := int32(56) // int32 | Query parameter enum test (double) (optional)
+    enumQueryDouble := float64(1.2) // float64 | Query parameter enum test (double) (optional)
     enumFormStringArray := []string{"Inner_example"} // []string | Form parameter enum test (string array) (optional) (default to "$")
     enumFormString := "enumFormString_example" // string | Form parameter enum test (string) (optional) (default to "-efg")
 
@@ -679,13 +680,13 @@ Other parameters are passed through a pointer to a apiTestEnumParametersRequest 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**[]string**](string.md) | Header parameter enum test (string array) | 
+ **enumHeaderStringArray** | **[]string** | Header parameter enum test (string array) | 
  **enumHeaderString** | **string** | Header parameter enum test (string) | [default to &quot;-efg&quot;]
- **enumQueryStringArray** | [**[]string**](string.md) | Query parameter enum test (string array) | 
+ **enumQueryStringArray** | **[]string** | Query parameter enum test (string array) | 
  **enumQueryString** | **string** | Query parameter enum test (string) | [default to &quot;-efg&quot;]
  **enumQueryInteger** | **int32** | Query parameter enum test (double) | 
  **enumQueryDouble** | **float64** | Query parameter enum test (double) | 
- **enumFormStringArray** | [**[]string**](string.md) | Form parameter enum test (string array) | [default to &quot;$&quot;]
+ **enumFormStringArray** | **[]string** | Form parameter enum test (string array) | [default to &quot;$&quot;]
  **enumFormString** | **string** | Form parameter enum test (string) | [default to &quot;-efg&quot;]
 
 ### Return type
@@ -727,12 +728,12 @@ import (
 )
 
 func main() {
-    requiredStringGroup := 987 // int32 | Required String in group parameters
+    requiredStringGroup := int32(56) // int32 | Required String in group parameters
     requiredBooleanGroup := true // bool | Required Boolean in group parameters
-    requiredInt64Group := 987 // int64 | Required Integer in group parameters
-    stringGroup := 987 // int32 | String in group parameters (optional)
+    requiredInt64Group := int64(789) // int64 | Required Integer in group parameters
+    stringGroup := int32(56) // int32 | String in group parameters (optional)
     booleanGroup := true // bool | Boolean in group parameters (optional)
-    int64Group := 987 // int64 | Integer in group parameters (optional)
+    int64Group := int64(789) // int64 | Integer in group parameters (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -799,7 +800,7 @@ import (
 )
 
 func main() {
-    requestBody := map[string]string{ "key": "Inner_example"} // map[string]string | request body
+    requestBody := map[string]string{"key": "Inner_example"} // map[string]string | request body
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -822,7 +823,7 @@ Other parameters are passed through a pointer to a apiTestInlineAdditionalProper
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**map[string]string**](string.md) | request body | 
+ **requestBody** | **map[string]string** | request body | 
 
 ### Return type
 
@@ -954,11 +955,11 @@ Other parameters are passed through a pointer to a apiTestQueryParameterCollecti
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pipe** | [**[]string**](string.md) |  | 
- **ioutil** | [**[]string**](string.md) |  | 
- **http** | [**[]string**](string.md) |  | 
- **url** | [**[]string**](string.md) |  | 
- **context** | [**[]string**](string.md) |  | 
+ **pipe** | **[]string** |  | 
+ **ioutil** | **[]string** |  | 
+ **http** | **[]string** |  | 
+ **url** | **[]string** |  | 
+ **context** | **[]string** |  | 
 
 ### Return type
 

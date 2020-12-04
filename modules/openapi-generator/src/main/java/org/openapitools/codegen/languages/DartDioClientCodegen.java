@@ -51,7 +51,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
     private static final String IS_FORMAT_JSON = "jsonFormat";
     private static final String CLIENT_NAME = "clientName";
-    private static Set<String> modelToIgnore = new HashSet<>();
+    private static final Set<String> modelToIgnore = new HashSet<>();
 
     static {
         modelToIgnore.add("datetime");
@@ -71,10 +71,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
         embeddedTemplateDir = "dart-dio";
         this.setTemplateDir(embeddedTemplateDir);
 
-        //no tests at this time
-        modelTestTemplateFiles.clear();
-        apiTestTemplateFiles.clear();
-
         cliOptions.add(new CliOption(NULLABLE_FIELDS, "Is the null fields should be in the JSON payload"));
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
         Map<String, String> dateOptions = new HashMap<>();
@@ -88,6 +84,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
         typeMapping.put("AnyType", "Object");
 
         importMapping.put("BuiltList", "package:built_collection/built_collection.dart");
+        importMapping.put("BuiltSet", "package:built_collection/built_collection.dart");
         importMapping.put("BuiltMap", "package:built_collection/built_collection.dart");
         importMapping.put("JsonObject", "package:built_value/json_object.dart");
         importMapping.put("Uint8List", "dart:typed_data");
@@ -108,7 +105,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
     public void setNullableFields(boolean nullableFields) {
         this.nullableFields = nullableFields;
     }
-
 
     @Override
     public String getName() {
@@ -316,6 +312,11 @@ public class DartDioClientCodegen extends DartClientCodegen {
         if (property.dataType.contains("JsonObject")) {
             model.imports.add("JsonObject");
         }
+
+        if (property.isEnum) {
+            // enums are generated with built_value and make use of BuiltSet
+            model.imports.add("BuiltSet");
+        }
     }
 
     @Override
@@ -377,6 +378,5 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
         return objs;
     }
-
 
 }

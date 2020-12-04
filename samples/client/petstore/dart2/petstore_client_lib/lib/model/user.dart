@@ -22,21 +22,6 @@ class User {
     this.userStatus,
   });
 
-  /// Returns a new [User] instance and optionally import its values from
-  /// [json] if it's non-null.
-  User.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      id = json['id'];
-      username = json['username'];
-      firstName = json['firstName'];
-      lastName = json['lastName'];
-      email = json['email'];
-      password = json['password'];
-      phone = json['phone'];
-      userStatus = json['userStatus'];
-    }
-  }
-
   
   int id;
 
@@ -74,14 +59,14 @@ class User {
 
   @override
   int get hashCode =>
-    id.hashCode +
-    username.hashCode +
-    firstName.hashCode +
-    lastName.hashCode +
-    email.hashCode +
-    password.hashCode +
-    phone.hashCode +
-    userStatus.hashCode;
+    (id == null ? 0 : id.hashCode) +
+    (username == null ? 0 : username.hashCode) +
+    (firstName == null ? 0 : firstName.hashCode) +
+    (lastName == null ? 0 : lastName.hashCode) +
+    (email == null ? 0 : email.hashCode) +
+    (password == null ? 0 : password.hashCode) +
+    (phone == null ? 0 : phone.hashCode) +
+    (userStatus == null ? 0 : userStatus.hashCode);
 
   @override
   String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
@@ -114,6 +99,21 @@ class User {
     }
     return json;
   }
+
+  /// Returns a new [User] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static User fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : User(
+        id: json['id'],
+        username: json['username'],
+        firstName: json['firstName'],
+        lastName: json['lastName'],
+        email: json['email'],
+        password: json['password'],
+        phone: json['phone'],
+        userStatus: json['userStatus'],
+    );
 
   static List<User> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
