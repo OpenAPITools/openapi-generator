@@ -1,4 +1,4 @@
-import {ApiRecordUtils, knownRecordFactories{{#isMetaDataResponse}}, appFromJS, NormalizedRecordEntities{{/isMetaDataResponse}}} from "../runtimeSagasAndRecords";
+import {ApiRecordUtils, knownRecordFactories{{#returnPassthrough}}, appFromJS, NormalizedRecordEntities{{/returnPassthrough}}} from "../runtimeSagasAndRecords";
 import {List, Record, RecordOf} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
@@ -110,41 +110,41 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
 		});
 	}
 {{/isEntity}}
-{{#isMetaDataResponse}}
+{{#returnPassthrough}}
 {{#vars.1}}
 
-	public fromApi_data(apiObject: {{classname}}): {{{dataTypeAlternate}}} {
+	public fromApiPassthrough(apiObject: {{classname}}): {{{dataTypeAlternate}}} {
     {{#isModel}}
-	    if (!apiObject.data) {return {{{defaultValue}}}; }
-		const normalizedApiObject = {{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.normalize(apiObject.data);
+	    if (!apiObject.{{{returnPassthrough}}}) {return {{{defaultValue}}}; }
+		const normalizedApiObject = {{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.normalize(apiObject.{{{returnPassthrough}}});
 		return appFromJS(normalizedApiObject);
     {{/isModel}}
     {{#isArray}}
     {{#items.isModel}}
-	    if (!apiObject.data) {return {{{defaultValue}}}; }
-		const normalizedApiObject = {{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.normalizeArray(apiObject.data);
+	    if (!apiObject.{{{returnPassthrough}}}) {return {{{defaultValue}}}; }
+		const normalizedApiObject = {{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.normalizeArray(apiObject.{{{returnPassthrough}}});
 		return appFromJS(normalizedApiObject);
     {{/items.isModel}}
     {{^items.isModel}}
-	    return apiObject.data;
+	    return apiObject.{{{returnPassthrough}}};
     {{/items.isModel}}
     {{/isArray}}
     {{^isModel}}
     {{^isArray}}
-	    return apiObject.data;
+	    return apiObject.{{{returnPassthrough}}};
     {{/isArray}}
     {{/isModel}}
 	}
 
-	public fromApiAsEntities_data(apiObject: {{classname}}): NormalizedRecordEntities {
+	public fromApiPassthroughAsEntities(apiObject: {{classname}}): NormalizedRecordEntities {
     {{#isEntity}}
-		if (!apiObject.data) {return {entities: {}, result: List<string>()}; }
-		return ApiRecordUtils.toNormalizedRecordEntities({{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.normalizeArrayAsEntities([apiObject.data]), true);
+		if (!apiObject.{{{returnPassthrough}}}) {return {entities: {}, result: List<string>()}; }
+		return ApiRecordUtils.toNormalizedRecordEntities({{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.normalizeArrayAsEntities([apiObject.{{{returnPassthrough}}}]), true);
     {{/isEntity}}
     {{#isArray}}
     {{#items.isEntity}}
-		if (!apiObject.data) {return {entities: {}, result: List<string>()}; }
-		return ApiRecordUtils.toNormalizedRecordEntities({{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.normalizeArrayAsEntities(apiObject.data), true);
+		if (!apiObject.{{{returnPassthrough}}}) {return {entities: {}, result: List<string>()}; }
+		return ApiRecordUtils.toNormalizedRecordEntities({{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.normalizeArrayAsEntities(apiObject.{{{returnPassthrough}}}), true);
     {{/items.isEntity}}
     {{^items.isEntity}}
 	    console.log("entities revival not supported on this response");
@@ -159,7 +159,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
     {{/isEntity}}
 	}
 {{/vars.1}}
-{{/isMetaDataResponse}}
+{{/returnPassthrough}}
 }
 
 export const {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}RecordUtils = new {{classname}}RecordUtils();

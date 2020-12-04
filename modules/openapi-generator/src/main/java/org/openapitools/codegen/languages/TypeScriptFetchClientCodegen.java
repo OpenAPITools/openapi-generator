@@ -19,14 +19,12 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
-import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.oas.models.tags.Tag;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -39,7 +37,8 @@ import java.util.*;
 public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final String X_IS_UNIQUE_ID = "x-isUniqueId";
     private static final String X_ENTITY_ID = "x-entityId";
-    private static final String X_IS_META_DATA_RESPONSE = "x-isMetaDataResponse";
+    private static final String X_OPERATION_RETURN_PASSTHROUGH = "x-operationReturnPassthrough";
+    private static final String X_KEEP_AS_JS_OBJECT = "x-keepAsJSObject";
 
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
@@ -57,7 +56,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     protected boolean typescriptThreePlus = false;
     protected boolean withoutRuntimeChecks = false;
     protected boolean sagasAndRecords = false;
-
 
     public TypeScriptFetchClientCodegen() {
         super();
@@ -355,21 +353,35 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 if (schema != null) {
                     cm = fromModel(op.returnBaseType, schema);
 
-                    if (Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_META_DATA_RESPONSE))) {
-                        if (cm.vars.size() == 1 && "meta".equals(cm.vars.get(0).name)) {
-                            op.returnTypeIsMetaOnlyResponse = true;
+                    Object returnPassthrough = cm.vendorExtensions.get(X_OPERATION_RETURN_PASSTHROUGH);
+                    if (returnPassthrough instanceof String) {
+                        if (((String) returnPassthrough).isEmpty()) {
+                            op.hasReturnPassthroughVoid = true;
                             op.returnType = null; // changing the return so that it's as if it was void.
-                        }
-                        if (cm.vars.size() == 2 && "data".equals(cm.vars.get(1).name)) {
-                            op.returnTypeIsMetaDataResponse = true;
+                            op.returnPassthrough = null;
+                        } else {
+                            boolean foundMatch = false;
+                            for (CodegenProperty var : cm.vars) {
+                                if (var.name.equals(returnPassthrough)) {
+                                    foundMatch = true;
+                                    break;
+                                }
+                            }
+                            if (foundMatch) {
+                                op.returnPassthrough = (String)returnPassthrough;
+                            } else { // no match, treat as if empty.
+                                op.hasReturnPassthroughVoid = true;
+                                op.returnType = null; // changing the return so that it's as if it was void.
+                                op.returnPassthrough = null;
+                            }
                         }
                     }
                 }
 
-                if (!op.returnTypeIsMetaOnlyResponse) {
+                if (!op.hasReturnPassthroughVoid) {
                     Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(methodResponse), importMapping);
                     ExtendedCodegenProperty cp = null;
-                    if (op.returnTypeIsMetaDataResponse && cm != null) {
+                    if (op.returnPassthrough instanceof String && cm != null) {
                         cp = (ExtendedCodegenProperty)this.processCodeGenModel(cm).vars.get(1);
                     } else if (responseSchema != null) {
                         cp = fromProperty("response", responseSchema);
@@ -442,15 +454,27 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             if (parentIsEntity) {
                 cm.isEntity = true;
             }
-            ;
         }
 
-        if (Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_META_DATA_RESPONSE))) {
-            if (cm.vars.size() == 1 && "meta".equals(cm.vars.get(0).name)) {
-                cm.isMetaOnlyResponse = true;
-            }
-            if (cm.vars.size() == 2 && "data".equals(cm.vars.get(1).name)) {
-                cm.isMetaDataResponse = true;
+        Object returnPassthrough = cm.vendorExtensions.get(X_OPERATION_RETURN_PASSTHROUGH);
+        if (returnPassthrough instanceof String) {
+            if (((String) returnPassthrough).isEmpty()) {
+                cm.hasReturnPassthroughVoid = true;
+                cm.returnPassthrough = null;
+            } else {
+                boolean foundMatch = false;
+                for (CodegenProperty var : cm.vars) {
+                    if (var.name.equals(returnPassthrough)) {
+                        foundMatch = true;
+                        break;
+                    }
+                }
+                if (foundMatch) {
+                    cm.returnPassthrough = (String)returnPassthrough;
+                } else { // no match, treat as if empty.
+                    cm.hasReturnPassthroughVoid = true;
+                    cm.returnPassthrough = null;
+                }
             }
         }
 
@@ -917,8 +941,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     class ExtendedCodegenOperation extends CodegenOperation {
-        boolean returnTypeIsMetaDataResponse, returnTypeIsMetaOnlyResponse, returnTypeSupportsEntities, returnTypeIsModel, returnTypeIsArray;
-        String returnTypeAlternate, returnBaseTypeAlternate;
+        boolean hasReturnPassthroughVoid, returnTypeSupportsEntities, returnTypeIsModel, returnTypeIsArray;
+        String returnTypeAlternate, returnBaseTypeAlternate, returnPassthrough;
 
         public ExtendedCodegenOperation(CodegenOperation o) {
             super();
@@ -996,40 +1020,40 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             boolean result = super.equals(o);
             ExtendedCodegenOperation that = (ExtendedCodegenOperation) o;
             return result &&
-                    returnTypeIsMetaDataResponse == that.returnTypeIsMetaDataResponse &&
-                    returnTypeIsMetaOnlyResponse == that.returnTypeIsMetaOnlyResponse &&
+                    hasReturnPassthroughVoid == that.hasReturnPassthroughVoid &&
                     returnTypeSupportsEntities == that.returnTypeSupportsEntities &&
                     returnTypeIsArray == that.returnTypeIsArray &&
                     returnTypeIsModel == that.returnTypeIsModel &&
                     Objects.equals(returnTypeAlternate, that.returnTypeAlternate) &&
-                    Objects.equals(returnBaseTypeAlternate, that.returnBaseTypeAlternate);
+                    Objects.equals(returnBaseTypeAlternate, that.returnBaseTypeAlternate) &&
+                    Objects.equals(returnPassthrough, that.returnPassthrough);
         }
 
         @Override
         public int hashCode() {
             int superHash = super.hashCode();
-            return Objects.hash(superHash, returnTypeIsMetaDataResponse, returnTypeIsMetaOnlyResponse, returnTypeSupportsEntities, returnTypeIsArray, returnTypeIsModel, returnTypeAlternate, returnBaseTypeAlternate);
+            return Objects.hash(superHash, returnPassthrough, hasReturnPassthroughVoid, returnTypeSupportsEntities, returnTypeIsArray, returnTypeIsModel, returnTypeAlternate, returnBaseTypeAlternate);
         }
 
         @Override
         public String toString() {
             String superString = super.toString();
             final StringBuilder sb = new StringBuilder(superString);
-            sb.append(", returnTypeIsMetaDataResponse=").append(returnTypeIsMetaDataResponse);
-            sb.append(", returnTypeIsMetaOnlyResponse=").append(returnTypeIsMetaOnlyResponse);
+            sb.append(", hasReturnPassthroughVoid=").append(hasReturnPassthroughVoid);
             sb.append(", returnTypeSupportsEntities=").append(returnTypeSupportsEntities);
             sb.append(", returnTypeIsArray=").append(returnTypeIsArray);
             sb.append(", returnTypeIsModel=").append(returnTypeIsModel);
             sb.append(", returnTypeAlternate='").append(returnTypeAlternate).append('\'');
             sb.append(", returnBaseTypeAlternate='").append(returnBaseTypeAlternate).append('\'');
+            sb.append(", returnPassthrough='").append(returnPassthrough).append('\'');
             return sb.toString();
         }
     }
     class ExtendedCodegenModel extends CodegenModel {
         public Set<String> modelImports = new TreeSet<String>();
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
-        public boolean isMetaDataResponse;
-        public boolean isMetaOnlyResponse;
+        public String returnPassthrough;
+        public boolean hasReturnPassthroughVoid;
 
         public ExtendedCodegenModel(CodegenModel cm) {
             super();
@@ -1130,15 +1154,15 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             ExtendedCodegenModel that = (ExtendedCodegenModel) o;
             return result &&
                     isEntity == that.isEntity &&
-                    isMetaDataResponse == that.isMetaDataResponse &&
-                    isMetaOnlyResponse == that.isMetaOnlyResponse &&
+                    hasReturnPassthroughVoid == that.hasReturnPassthroughVoid &&
+                    Objects.equals(returnPassthrough, that.returnPassthrough) &&
                     Objects.equals(modelImports, that.modelImports);
 
         }
         @Override
         public int hashCode() {
             int superHash = super.hashCode();
-            return Objects.hash(superHash, isEntity, isMetaDataResponse, isMetaOnlyResponse, getModelImports());
+            return Objects.hash(superHash, isEntity, returnPassthrough, hasReturnPassthroughVoid, getModelImports());
         }
 
         @Override
@@ -1147,8 +1171,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             final StringBuilder sb = new StringBuilder(superString);
             sb.append(", modelImports=").append(modelImports);
             sb.append(", isEntity=").append(isEntity);
-            sb.append(", isMetaDataResponse=").append(isMetaDataResponse);
-            sb.append(", isMetaOnlyResponse=").append(isMetaOnlyResponse);
+            sb.append(", returnPassthrough='").append(returnPassthrough).append('\'');
+            sb.append(", hasReturnPassthroughVoid=").append(hasReturnPassthroughVoid);
             return sb.toString();
         }
 

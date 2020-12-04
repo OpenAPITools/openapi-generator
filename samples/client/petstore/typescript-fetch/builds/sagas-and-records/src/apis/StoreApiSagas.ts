@@ -60,13 +60,13 @@ export function *deleteOrderSaga() {
 	yield takeLatest(deleteOrder, deleteOrderSagaImp);
 }
 
-export function *deleteOrderSagaImp(action: Action<PayloadDeleteOrder>) {
+export function *deleteOrderSagaImp(_action_: Action<PayloadDeleteOrder>) {
 	try {
         const {
             orderId,
-   		} = action.payload;
+   		} = _action_.payload;
 
-		yield put(deleteOrderRequest(action.payload));
+		yield put(deleteOrderRequest(_action_.payload));
 
 		const response = yield apiCall(Api.storeApi, Api.storeApi.deleteOrder,
             orderId,
@@ -97,7 +97,7 @@ export function *getInventorySaga() {
 	yield takeLatest(getInventory, getInventorySagaImp);
 }
 
-export function *getInventorySagaImp(action: Action<PayloadGetInventory>) {
+export function *getInventorySagaImp(_action_: Action<PayloadGetInventory>) {
 	try {
 
 		yield put(getInventoryRequest());
@@ -135,12 +135,12 @@ export function *getOrderByIdSaga() {
 	yield takeLatest(getOrderById, getOrderByIdSagaImp);
 }
 
-export function *getOrderByIdSagaImp(action: Action<PayloadGetOrderById>) {
+export function *getOrderByIdSagaImp(_action_: Action<PayloadGetOrderById>) {
 	try {
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = action.payload;
+		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
         const {
             orderId,
-   		} = action.payload;
+   		} = _action_.payload;
 
 		yield put(getOrderByIdRequest(requestPayload));
 
@@ -186,12 +186,12 @@ export function *placeOrderSaga() {
 	yield takeLatest(placeOrder, placeOrderSagaImp);
 }
 
-export function *placeOrderSagaImp(action: Action<PayloadPlaceOrder>) {
+export function *placeOrderSagaImp(_action_: Action<PayloadPlaceOrder>) {
 	try {
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = action.payload;
+		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
         const {
             body,
-   		} = action.payload;
+   		} = _action_.payload;
 
 		yield put(placeOrderRequest(requestPayload));
 

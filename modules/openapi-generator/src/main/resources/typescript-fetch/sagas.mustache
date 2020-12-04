@@ -88,20 +88,20 @@ export function *{{nickname}}Saga() {
 	yield takeLatest({{nickname}}, {{nickname}}SagaImp);
 }
 
-export function *{{nickname}}SagaImp(action: Action<Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}>) {
+export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}>) {
 	try {
 {{#returnTypeSupportsEntities}}
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = action.payload;
+		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
 {{/returnTypeSupportsEntities}}
 {{#allParams.0}}
         const {
 {{#allParams}}
             {{paramName}},
 {{/allParams}}
-   		} = action.payload;
+   		} = _action_.payload;
 {{/allParams.0}}
 
-		yield put({{nickname}}Request({{#allParams.0}}{{#returnTypeSupportsEntities}}requestPayload{{/returnTypeSupportsEntities}}{{^returnTypeSupportsEntities}}action.payload{{/returnTypeSupportsEntities}}{{/allParams.0}}));
+		yield put({{nickname}}Request({{#allParams.0}}{{#returnTypeSupportsEntities}}requestPayload{{/returnTypeSupportsEntities}}{{^returnTypeSupportsEntities}}_action_.payload{{/returnTypeSupportsEntities}}{{/allParams.0}}));
 
 		const response{{#returnType}}: Required<{{{returnType}}}>{{/returnType}} = yield apiCall(Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}, Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.{{nickname}},
 {{#allParams.0}}
@@ -141,11 +141,11 @@ export function *{{nickname}}SagaImp(action: Action<Payload{{#lambda.titlecase}}
 {{/returnType}}
 {{#returnTypeSupportsEntities}}
 		if (toEntities) {
-{{#returnTypeIsMetaDataResponse}}
-			successReturnValue = {{#lambda.camelcase}}{{{returnType}}}{{/lambda.camelcase}}RecordUtils.fromApiAsEntities_data(response);
-{{/returnTypeIsMetaDataResponse}}
-{{^returnTypeIsMetaOnlyResponse}}
-{{^returnTypeIsMetaDataResponse}}
+{{#returnPassthrough}}
+			successReturnValue = {{#lambda.camelcase}}{{{returnType}}}{{/lambda.camelcase}}RecordUtils.fromApiPassthroughAsEntities(response);
+{{/returnPassthrough}}
+{{^hasReturnPassthroughVoid}}
+{{^returnPassthrough}}
 {{#returnTypeIsArray}}
 {{#returnTypeAlternate}}
             successReturnValue = {{#lambda.camelcase}}{{returnBaseTypeAlternate}}{{/lambda.camelcase}}Utils.fromApiArrayAsEntities(response);
@@ -154,20 +154,20 @@ export function *{{nickname}}SagaImp(action: Action<Payload{{#lambda.titlecase}}
 {{#returnTypeIsModel}}
             successReturnValue = {{#lambda.camelcase}}{{returnTypeAlternate}}{{/lambda.camelcase}}Utils.fromApiArrayAsEntities([response]);
 {{/returnTypeIsModel}}
-{{/returnTypeIsMetaDataResponse}}
-{{/returnTypeIsMetaOnlyResponse}}
+{{/returnPassthrough}}
+{{/hasReturnPassthroughVoid}}
 			yield put(normalizedEntities(successReturnValue));
 			yield put({{nickname}}Success_Entities(successReturnValue));
 		}
 		if (toInlined) {
 {{/returnTypeSupportsEntities}}
 {{#returnType}}
-{{#returnTypeIsMetaDataResponse}}
-    		successReturnValue = {{#lambda.camelcase}}{{{returnType}}}{{/lambda.camelcase}}RecordUtils.fromApi_data(response);
+{{#returnPassthrough}}
+    		successReturnValue = {{#lambda.camelcase}}{{{returnType}}}{{/lambda.camelcase}}RecordUtils.fromApiPassthrough(response);
 	    	yield put({{nickname}}Success(successReturnValue));
-{{/returnTypeIsMetaDataResponse}}
-{{^returnTypeIsMetaOnlyResponse}}
-{{^returnTypeIsMetaDataResponse}}
+{{/returnPassthrough}}
+{{^hasReturnPassthroughVoid}}
+{{^returnPassthrough}}
 {{#returnTypeIsArray}}
 {{#returnTypeAlternate}}
             successReturnValue = {{#lambda.camelcase}}{{returnBaseTypeAlternate}}{{/lambda.camelcase}}Utils.fromApiArray(response);
@@ -183,8 +183,8 @@ export function *{{nickname}}SagaImp(action: Action<Payload{{#lambda.titlecase}}
 		    yield put({{nickname}}Success(response));
 {{/returnTypeIsModel}}
 {{/returnTypeIsArray}}
-{{/returnTypeIsMetaDataResponse}}
-{{/returnTypeIsMetaOnlyResponse}}
+{{/returnPassthrough}}
+{{/hasReturnPassthroughVoid}}
 {{/returnType}}
 {{^returnType}}
 		    yield put({{nickname}}Success());
@@ -194,11 +194,11 @@ export function *{{nickname}}SagaImp(action: Action<Payload{{#lambda.titlecase}}
 {{/returnTypeSupportsEntities}}
 
 {{#returnType}}
-{{#returnTypeIsMetaDataResponse}}
+{{#returnPassthrough}}
 		return successReturnValue;
-{{/returnTypeIsMetaDataResponse}}
-{{^returnTypeIsMetaOnlyResponse}}
-{{^returnTypeIsMetaDataResponse}}
+{{/returnPassthrough}}
+{{^hasReturnPassthroughVoid}}
+{{^returnPassthrough}}
 {{#returnTypeIsArray}}
 {{#returnTypeAlternate}}
         return successReturnValue;
@@ -212,8 +212,8 @@ export function *{{nickname}}SagaImp(action: Action<Payload{{#lambda.titlecase}}
 		return response;
 {{/returnTypeIsModel}}
 {{/returnTypeIsArray}}
-{{/returnTypeIsMetaDataResponse}}
-{{/returnTypeIsMetaOnlyResponse}}
+{{/returnPassthrough}}
+{{/hasReturnPassthroughVoid}}
 {{/returnType}}
 {{^returnType}}
         return undefined;

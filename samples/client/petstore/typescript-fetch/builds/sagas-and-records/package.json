@@ -9,13 +9,11 @@
     "build": "tsc",
     "prepare": "npm run build"
   },
-  "peerDependencies": {
+  "devDependencies": {
     "immutable": "^4.0.0-rc.12",
     "normalizr": "^3.6.1",
     "redux-saga": "^1.1.3",
-    "redux-ts-simple": "^3.2.0"
-  },
-  "devDependencies": {
+    "redux-ts-simple": "^3.2.0",
     "typescript": "^3.6"
   },
   "publishConfig": {

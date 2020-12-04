@@ -9,15 +9,13 @@
     "build": "tsc",
     "prepare": "npm run build"
   },
+  "devDependencies": {
 {{#sagasAndRecords}}
-  "peerDependencies": {
     "immutable": "^4.0.0-rc.12",
     "normalizr": "^3.6.1",
     "redux-saga": "^1.1.3",
-    "redux-ts-simple": "^3.2.0"
-  },
+    "redux-ts-simple": "^3.2.0",
 {{/sagasAndRecords}}
-  "devDependencies": {
     "typescript": "^{{#typescriptThreePlus}}3.6{{/typescriptThreePlus}}{{^typescriptThreePlus}}2.4{{/typescriptThreePlus}}"
   }{{#npmRepository}},{{/npmRepository}}
 {{#npmRepository}}

@@ -78,13 +78,13 @@ export function *addPetSaga() {
 	yield takeLatest(addPet, addPetSagaImp);
 }
 
-export function *addPetSagaImp(action: Action<PayloadAddPet>) {
+export function *addPetSagaImp(_action_: Action<PayloadAddPet>) {
 	try {
         const {
             dummyCat,
-   		} = action.payload;
+   		} = _action_.payload;
 
-		yield put(addPetRequest(action.payload));
+		yield put(addPetRequest(_action_.payload));
 
 		const response = yield apiCall(Api.petApi, Api.petApi.addPet,
             categoryRecordUtils.toApi(dummyCat),
@@ -119,14 +119,14 @@ export function *deletePetSaga() {
 	yield takeLatest(deletePet, deletePetSagaImp);
 }
 
-export function *deletePetSagaImp(action: Action<PayloadDeletePet>) {
+export function *deletePetSagaImp(_action_: Action<PayloadDeletePet>) {
 	try {
         const {
             petId,
             apiKey,
-   		} = action.payload;
+   		} = _action_.payload;
 
-		yield put(deletePetRequest(action.payload));
+		yield put(deletePetRequest(_action_.payload));
 
 		const response = yield apiCall(Api.petApi, Api.petApi.deletePet,
             parseFloat(petId),
@@ -162,12 +162,12 @@ export function *findPetsByIdsSaga() {
 	yield takeLatest(findPetsByIds, findPetsByIdsSagaImp);
 }
 
-export function *findPetsByIdsSagaImp(action: Action<PayloadFindPetsByIds>) {
+export function *findPetsByIdsSagaImp(_action_: Action<PayloadFindPetsByIds>) {
 	try {
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = action.payload;
+		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
         const {
             ids,
-   		} = action.payload;
+   		} = _action_.payload;
 
 		yield put(findPetsByIdsRequest(requestPayload));
 
@@ -213,12 +213,12 @@ export function *findPetsByStatusSaga() {
 	yield takeLatest(findPetsByStatus, findPetsByStatusSagaImp);
 }
 
-export function *findPetsByStatusSagaImp(action: Action<PayloadFindPetsByStatus>) {
+export function *findPetsByStatusSagaImp(_action_: Action<PayloadFindPetsByStatus>) {
 	try {
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = action.payload;
+		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
         const {
             status,
-   		} = action.payload;
+   		} = _action_.payload;
 
 		yield put(findPetsByStatusRequest(requestPayload));
 
@@ -228,12 +228,12 @@ export function *findPetsByStatusSagaImp(action: Action<PayloadFindPetsByStatus>
 
 		let successReturnValue: any = undefined;
 		if (toEntities) {
-			successReturnValue = findPetsByStatusResponseRecordUtils.fromApiAsEntities_data(response);
+			successReturnValue = findPetsByStatusResponseRecordUtils.fromApiPassthroughAsEntities(response);
 			yield put(normalizedEntities(successReturnValue));
 			yield put(findPetsByStatusSuccess_Entities(successReturnValue));
 		}
 		if (toInlined) {
-    		successReturnValue = findPetsByStatusResponseRecordUtils.fromApi_data(response);
+    		successReturnValue = findPetsByStatusResponseRecordUtils.fromApiPassthrough(response);
 	    	yield put(findPetsByStatusSuccess(successReturnValue));
 		}
 
@@ -264,12 +264,12 @@ export function *findPetsByTagsSaga() {
 	yield takeLatest(findPetsByTags, findPetsByTagsSagaImp);
 }
 
-export function *findPetsByTagsSagaImp(action: Action<PayloadFindPetsByTags>) {
+export function *findPetsByTagsSagaImp(_action_: Action<PayloadFindPetsByTags>) {
 	try {
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = action.payload;
+		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
         const {
             tags,
-   		} = action.payload;
+   		} = _action_.payload;
 
 		yield put(findPetsByTagsRequest(requestPayload));
 
@@ -315,12 +315,12 @@ export function *getPetByIdSaga() {
 	yield takeLatest(getPetById, getPetByIdSagaImp);
 }
 
-export function *getPetByIdSagaImp(action: Action<PayloadGetPetById>) {
+export function *getPetByIdSagaImp(_action_: Action<PayloadGetPetById>) {
 	try {
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = action.payload;
+		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
         const {
             petId,
-   		} = action.payload;
+   		} = _action_.payload;
 
 		yield put(getPetByIdRequest(requestPayload));
 
@@ -365,13 +365,13 @@ export function *updatePetSaga() {
 	yield takeLatest(updatePet, updatePetSagaImp);
 }
 
-export function *updatePetSagaImp(action: Action<PayloadUpdatePet>) {
+export function *updatePetSagaImp(_action_: Action<PayloadUpdatePet>) {
 	try {
         const {
             body,
-   		} = action.payload;
+   		} = _action_.payload;
 
-		yield put(updatePetRequest(action.payload));
+		yield put(updatePetRequest(_action_.payload));
 
 		const response = yield apiCall(Api.petApi, Api.petApi.updatePet,
             petRecordUtils.toApi(body),
@@ -407,15 +407,15 @@ export function *updatePetWithFormSaga() {
 	yield takeLatest(updatePetWithForm, updatePetWithFormSagaImp);
 }
 
-export function *updatePetWithFormSagaImp(action: Action<PayloadUpdatePetWithForm>) {
+export function *updatePetWithFormSagaImp(_action_: Action<PayloadUpdatePetWithForm>) {
 	try {
         const {
             petId,
             name,
             status,
-   		} = action.payload;
+   		} = _action_.payload;
 
-		yield put(updatePetWithFormRequest(action.payload));
+		yield put(updatePetWithFormRequest(_action_.payload));
 
 		const response = yield apiCall(Api.petApi, Api.petApi.updatePetWithForm,
             parseFloat(petId),
@@ -454,14 +454,14 @@ export function *uploadFileSaga() {
 	yield takeLatest(uploadFile, uploadFileSagaImp);
 }
 
-export function *uploadFileSagaImp(action: Action<PayloadUploadFile>) {
+export function *uploadFileSagaImp(_action_: Action<PayloadUploadFile>) {
 	try {
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = action.payload;
+		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
         const {
             petId,
             additionalMetadata,
             file,
-   		} = action.payload;
+   		} = _action_.payload;
 
 		yield put(uploadFileRequest(requestPayload));
 

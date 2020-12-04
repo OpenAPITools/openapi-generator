@@ -913,7 +913,7 @@ definitions:
         example: "5667"
   DefaultMetaOnlyResponse:
     type: object
-    x-isMetaDataResponse: true
+    x-operationReturnPassthrough: ""
     required:
       - meta
     properties:
@@ -921,7 +921,7 @@ definitions:
         $ref: "#/definitions/ResponseMeta"
   FindPetsByStatusResponse:
     type: object
-    x-isMetaDataResponse: true
+    x-operationReturnPassthrough: "data"
     required:
       - meta
     properties:

@@ -67,13 +67,13 @@ export function *createUserSaga() {
 	yield takeLatest(createUser, createUserSagaImp);
 }
 
-export function *createUserSagaImp(action: Action<PayloadCreateUser>) {
+export function *createUserSagaImp(_action_: Action<PayloadCreateUser>) {
 	try {
         const {
             body,
-   		} = action.payload;
+   		} = _action_.payload;
 
-		yield put(createUserRequest(action.payload));
+		yield put(createUserRequest(_action_.payload));
 
 		const response = yield apiCall(Api.userApi, Api.userApi.createUser,
             userRecordUtils.toApi(body),
@@ -107,13 +107,13 @@ export function *createUsersWithArrayInputSaga() {
 	yield takeLatest(createUsersWithArrayInput, createUsersWithArrayInputSagaImp);
 }
 
-export function *createUsersWithArrayInputSagaImp(action: Action<PayloadCreateUsersWithArrayInput>) {
+export function *createUsersWithArrayInputSagaImp(_action_: Action<PayloadCreateUsersWithArrayInput>) {
 	try {
         const {
             body,
-   		} = action.payload;
+   		} = _action_.payload;
 
-		yield put(createUsersWithArrayInputRequest(action.payload));
+		yield put(createUsersWithArrayInputRequest(_action_.payload));
 
 		const response = yield apiCall(Api.userApi, Api.userApi.createUsersWithArrayInput,
             userRecordUtils.toApiArray(body),
@@ -147,13 +147,13 @@ export function *createUsersWithListInputSaga() {
 	yield takeLatest(createUsersWithListInput, createUsersWithListInputSagaImp);
 }
 
-export function *createUsersWithListInputSagaImp(action: Action<PayloadCreateUsersWithListInput>) {
+export function *createUsersWithListInputSagaImp(_action_: Action<PayloadCreateUsersWithListInput>) {
 	try {
         const {
             body,
-   		} = action.payload;
+   		} = _action_.payload;
 
-		yield put(createUsersWithListInputRequest(action.payload));
+		yield put(createUsersWithListInputRequest(_action_.payload));
 
 		const response = yield apiCall(Api.userApi, Api.userApi.createUsersWithListInput,
             userRecordUtils.toApiArray(body),
@@ -187,13 +187,13 @@ export function *deleteUserSaga() {
 	yield takeLatest(deleteUser, deleteUserSagaImp);
 }
 
-export function *deleteUserSagaImp(action: Action<PayloadDeleteUser>) {
+export function *deleteUserSagaImp(_action_: Action<PayloadDeleteUser>) {
 	try {
         const {
             username,
-   		} = action.payload;
+   		} = _action_.payload;
 
-		yield put(deleteUserRequest(action.payload));
+		yield put(deleteUserRequest(_action_.payload));
 
 		const response = yield apiCall(Api.userApi, Api.userApi.deleteUser,
             username,
@@ -228,12 +228,12 @@ export function *getUserByNameSaga() {
 	yield takeLatest(getUserByName, getUserByNameSagaImp);
 }
 
-export function *getUserByNameSagaImp(action: Action<PayloadGetUserByName>) {
+export function *getUserByNameSagaImp(_action_: Action<PayloadGetUserByName>) {
 	try {
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = action.payload;
+		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
         const {
             username,
-   		} = action.payload;
+   		} = _action_.payload;
 
 		yield put(getUserByNameRequest(requestPayload));
 
@@ -279,14 +279,14 @@ export function *loginUserSaga() {
 	yield takeLatest(loginUser, loginUserSagaImp);
 }
 
-export function *loginUserSagaImp(action: Action<PayloadLoginUser>) {
+export function *loginUserSagaImp(_action_: Action<PayloadLoginUser>) {
 	try {
         const {
             username,
             password,
-   		} = action.payload;
+   		} = _action_.payload;
 
-		yield put(loginUserRequest(action.payload));
+		yield put(loginUserRequest(_action_.payload));
 
 		const response: Required<string> = yield apiCall(Api.userApi, Api.userApi.loginUser,
             username,
@@ -319,7 +319,7 @@ export function *logoutUserSaga() {
 	yield takeLatest(logoutUser, logoutUserSagaImp);
 }
 
-export function *logoutUserSagaImp(action: Action<PayloadLogoutUser>) {
+export function *logoutUserSagaImp(_action_: Action<PayloadLogoutUser>) {
 	try {
 
 		yield put(logoutUserRequest());
@@ -356,14 +356,14 @@ export function *updateUserSaga() {
 	yield takeLatest(updateUser, updateUserSagaImp);
 }
 
-export function *updateUserSagaImp(action: Action<PayloadUpdateUser>) {
+export function *updateUserSagaImp(_action_: Action<PayloadUpdateUser>) {
 	try {
         const {
             username,
             body,
-   		} = action.payload;
+   		} = _action_.payload;
 
-		yield put(updateUserRequest(action.payload));
+		yield put(updateUserRequest(_action_.payload));
 
 		const response = yield apiCall(Api.userApi, Api.userApi.updateUser,
             username,
