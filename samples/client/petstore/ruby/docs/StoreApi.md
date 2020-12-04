@@ -18,20 +18,37 @@ Delete purchase order by ID
 
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
 require 'petstore'
 
 api_instance = Petstore::StoreApi.new
 order_id = 'order_id_example' # String | ID of the order that needs to be deleted
 
 begin
-  #Delete purchase order by ID
+  # Delete purchase order by ID
   api_instance.delete_order(order_id)
 rescue Petstore::ApiError => e
-  puts "Exception when calling StoreApi->delete_order: #{e}"
+  puts "Error when calling StoreApi->delete_order: #{e}"
+end
+```
+
+#### Using the delete_order_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> delete_order_with_http_info(order_id)
+
+```ruby
+begin
+  # Delete purchase order by ID
+  data, status_code, headers = api_instance.delete_order_with_http_info(order_id)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling StoreApi->delete_order_with_http_info: #{e}"
 end
 ```
 
@@ -63,10 +80,9 @@ Returns pet inventories by status
 
 Returns a map of status codes to quantities
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -79,11 +95,29 @@ end
 api_instance = Petstore::StoreApi.new
 
 begin
-  #Returns pet inventories by status
+  # Returns pet inventories by status
   result = api_instance.get_inventory
   p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling StoreApi->get_inventory: #{e}"
+  puts "Error when calling StoreApi->get_inventory: #{e}"
+end
+```
+
+#### Using the get_inventory_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Hash&lt;String, Integer&gt;, Integer, Hash)> get_inventory_with_http_info
+
+```ruby
+begin
+  # Returns pet inventories by status
+  data, status_code, headers = api_instance.get_inventory_with_http_info
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Hash&lt;String, Integer&gt;
+rescue Petstore::ApiError => e
+  puts "Error when calling StoreApi->get_inventory_with_http_info: #{e}"
 end
 ```
 
@@ -107,27 +141,44 @@ This endpoint does not need any parameter.
 
 ## get_order_by_id
 
-> Order get_order_by_id(order_id)
+> <Order> get_order_by_id(order_id)
 
 Find purchase order by ID
 
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
 require 'petstore'
 
 api_instance = Petstore::StoreApi.new
 order_id = 56 # Integer | ID of pet that needs to be fetched
 
 begin
-  #Find purchase order by ID
+  # Find purchase order by ID
   result = api_instance.get_order_by_id(order_id)
   p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling StoreApi->get_order_by_id: #{e}"
+  puts "Error when calling StoreApi->get_order_by_id: #{e}"
+end
+```
+
+#### Using the get_order_by_id_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<Order>, Integer, Hash)> get_order_by_id_with_http_info(order_id)
+
+```ruby
+begin
+  # Find purchase order by ID
+  data, status_code, headers = api_instance.get_order_by_id_with_http_info(order_id)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <Order>
+rescue Petstore::ApiError => e
+  puts "Error when calling StoreApi->get_order_by_id_with_http_info: #{e}"
 end
 ```
 
@@ -153,25 +204,42 @@ No authorization required
 
 ## place_order
 
-> Order place_order(order)
+> <Order> place_order(order)
 
 Place an order for a pet
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
 require 'petstore'
 
 api_instance = Petstore::StoreApi.new
 order = Petstore::Order.new # Order | order placed for purchasing the pet
 
 begin
-  #Place an order for a pet
+  # Place an order for a pet
   result = api_instance.place_order(order)
   p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling StoreApi->place_order: #{e}"
+  puts "Error when calling StoreApi->place_order: #{e}"
+end
+```
+
+#### Using the place_order_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<Order>, Integer, Hash)> place_order_with_http_info(order)
+
+```ruby
+begin
+  # Place an order for a pet
+  data, status_code, headers = api_instance.place_order_with_http_info(order)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <Order>
+rescue Petstore::ApiError => e
+  puts "Error when calling StoreApi->place_order_with_http_info: #{e}"
 end
 ```
 

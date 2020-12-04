@@ -9,7 +9,7 @@
 | **property** | **String** |  | [optional] |
 | **_123_number** | **Integer** |  | [optional][readonly] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

@@ -6,7 +6,7 @@
 | ---- | ---- | ----------- | ----- |
 | **source_uri** | **String** | Test capitalization | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'
