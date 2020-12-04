@@ -5,5 +5,5 @@ templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
   artifactId: springboot-delegate
   hideGenerationTimestamp: "true"
-  java8: "false"
+  java8: true
   delegatePattern: "true"

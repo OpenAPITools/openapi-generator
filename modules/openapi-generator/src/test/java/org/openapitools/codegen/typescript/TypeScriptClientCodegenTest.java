@@ -1,4 +1,4 @@
-package org.openapitools.codegen.typescript.fetch;
+package org.openapitools.codegen.typescript;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;

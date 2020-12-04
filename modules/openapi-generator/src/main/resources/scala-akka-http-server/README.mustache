@@ -23,7 +23,7 @@
 
           {{#operations}}
             {{#operation}}
-                * `{{httpMethod}} {{contextPath}}{{path}}{{#queryParams.0}}?{{/queryParams.0}}{{#queryParams}}{{paramName}}=[value]{{#hasMore}}&{{/hasMore}}{{/queryParams}}` - {{summary}}
+                * `{{httpMethod}} {{contextPath}}{{path}}{{#queryParams.0}}?{{/queryParams.0}}{{#queryParams}}{{paramName}}=[value]{{^-last}}&{{/-last}}{{/queryParams}}` - {{summary}}
             {{/operation}}
           {{/operations}}
 

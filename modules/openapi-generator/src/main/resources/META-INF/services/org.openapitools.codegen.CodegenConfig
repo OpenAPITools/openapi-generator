@@ -34,7 +34,7 @@ org.openapitools.codegen.languages.FlashClientCodegen
 org.openapitools.codegen.languages.FsharpFunctionsServerCodegen
 org.openapitools.codegen.languages.FsharpGiraffeServerCodegen
 org.openapitools.codegen.languages.GoClientCodegen
-org.openapitools.codegen.languages.GoClientExperimentalCodegen
+org.openapitools.codegen.languages.GoDeprecatedClientCodegen
 org.openapitools.codegen.languages.GoServerCodegen
 org.openapitools.codegen.languages.GoGinServerCodegen
 org.openapitools.codegen.languages.GraphQLSchemaCodegen
@@ -89,8 +89,8 @@ org.openapitools.codegen.languages.PhpSymfonyServerCodegen
 org.openapitools.codegen.languages.PhpZendExpressivePathHandlerServerCodegen
 org.openapitools.codegen.languages.PowerShellClientCodegen
 org.openapitools.codegen.languages.ProtobufSchemaCodegen
+org.openapitools.codegen.languages.PythonLegacyClientCodegen
 org.openapitools.codegen.languages.PythonClientCodegen
-org.openapitools.codegen.languages.PythonClientExperimentalCodegen
 org.openapitools.codegen.languages.PythonFlaskConnexionServerCodegen
 org.openapitools.codegen.languages.PythonAiohttpConnexionServerCodegen
 org.openapitools.codegen.languages.PythonBluePlanetServerCodegen

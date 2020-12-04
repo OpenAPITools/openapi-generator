@@ -30,13 +30,13 @@ This can only be done by the logged in user.
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = UserApi();
-var body = User(); // User | Created user object
+final api_instance = UserApi();
+final body = User(); // User | Created user object
 
 try { 
     api_instance.createUser(body);
 } catch (e) {
-    print("Exception when calling UserApi->createUser: $e\n");
+    print('Exception when calling UserApi->createUser: $e\n');
 }
 ```
 
@@ -70,13 +70,13 @@ Creates list of users with given input array
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = UserApi();
-var body = [List&lt;User&gt;()]; // List<User> | List of user object
+final api_instance = UserApi();
+final body = [List<User>()]; // List<User> | List of user object
 
 try { 
     api_instance.createUsersWithArrayInput(body);
 } catch (e) {
-    print("Exception when calling UserApi->createUsersWithArrayInput: $e\n");
+    print('Exception when calling UserApi->createUsersWithArrayInput: $e\n');
 }
 ```
 
@@ -84,7 +84,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](User.md)| List of user object | 
+ **body** | [**List<User>**](User.md)| List of user object | 
 
 ### Return type
 
@@ -110,13 +110,13 @@ Creates list of users with given input array
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = UserApi();
-var body = [List&lt;User&gt;()]; // List<User> | List of user object
+final api_instance = UserApi();
+final body = [List<User>()]; // List<User> | List of user object
 
 try { 
     api_instance.createUsersWithListInput(body);
 } catch (e) {
-    print("Exception when calling UserApi->createUsersWithListInput: $e\n");
+    print('Exception when calling UserApi->createUsersWithListInput: $e\n');
 }
 ```
 
@@ -124,7 +124,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](User.md)| List of user object | 
+ **body** | [**List<User>**](User.md)| List of user object | 
 
 ### Return type
 
@@ -152,13 +152,13 @@ This can only be done by the logged in user.
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = UserApi();
-var username = username_example; // String | The name that needs to be deleted
+final api_instance = UserApi();
+final username = username_example; // String | The name that needs to be deleted
 
 try { 
     api_instance.deleteUser(username);
 } catch (e) {
-    print("Exception when calling UserApi->deleteUser: $e\n");
+    print('Exception when calling UserApi->deleteUser: $e\n');
 }
 ```
 
@@ -192,14 +192,14 @@ Get user by user name
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = UserApi();
-var username = username_example; // String | The name that needs to be fetched. Use user1 for testing.
+final api_instance = UserApi();
+final username = username_example; // String | The name that needs to be fetched. Use user1 for testing.
 
 try { 
-    var result = api_instance.getUserByName(username);
+    final result = api_instance.getUserByName(username);
     print(result);
 } catch (e) {
-    print("Exception when calling UserApi->getUserByName: $e\n");
+    print('Exception when calling UserApi->getUserByName: $e\n');
 }
 ```
 
@@ -233,15 +233,15 @@ Logs user into the system
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = UserApi();
-var username = username_example; // String | The user name for login
-var password = password_example; // String | The password for login in clear text
+final api_instance = UserApi();
+final username = username_example; // String | The user name for login
+final password = password_example; // String | The password for login in clear text
 
 try { 
-    var result = api_instance.loginUser(username, password);
+    final result = api_instance.loginUser(username, password);
     print(result);
 } catch (e) {
-    print("Exception when calling UserApi->loginUser: $e\n");
+    print('Exception when calling UserApi->loginUser: $e\n');
 }
 ```
 
@@ -276,12 +276,12 @@ Logs out current logged in user session
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = UserApi();
+final api_instance = UserApi();
 
 try { 
     api_instance.logoutUser();
 } catch (e) {
-    print("Exception when calling UserApi->logoutUser: $e\n");
+    print('Exception when calling UserApi->logoutUser: $e\n');
 }
 ```
 
@@ -314,14 +314,14 @@ This can only be done by the logged in user.
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = UserApi();
-var username = username_example; // String | name that need to be deleted
-var body = User(); // User | Updated user object
+final api_instance = UserApi();
+final username = username_example; // String | name that need to be deleted
+final body = User(); // User | Updated user object
 
 try { 
     api_instance.updateUser(username, body);
 } catch (e) {
-    print("Exception when calling UserApi->updateUser: $e\n");
+    print('Exception when calling UserApi->updateUser: $e\n');
 }
 ```
 

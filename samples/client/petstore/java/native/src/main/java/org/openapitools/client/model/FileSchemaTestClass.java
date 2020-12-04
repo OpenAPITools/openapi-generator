@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -25,6 +27,8 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * FileSchemaTestClass
@@ -33,7 +37,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@JsonTypeName("FileSchemaTestClass")
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
@@ -44,7 +47,6 @@ public class FileSchemaTestClass {
 
 
   public FileSchemaTestClass file(java.io.File file) {
-    
     this.file = file;
     return this;
   }
@@ -69,7 +71,6 @@ public class FileSchemaTestClass {
 
 
   public FileSchemaTestClass files(List<java.io.File> files) {
-    
     this.files = files;
     return this;
   }
@@ -101,8 +102,11 @@ public class FileSchemaTestClass {
   }
 
 
+  /**
+   * Return true if this FileSchemaTestClass object is equal to o.
+   */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -119,7 +123,6 @@ public class FileSchemaTestClass {
     return Objects.hash(file, files);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -134,7 +137,7 @@ public class FileSchemaTestClass {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

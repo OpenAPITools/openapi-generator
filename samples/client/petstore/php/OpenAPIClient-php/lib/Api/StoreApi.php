@@ -73,34 +73,34 @@ class StoreApi
      * @param ClientInterface $client
      * @param Configuration   $config
      * @param HeaderSelector  $selector
-     * @param int             $host_index (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+     * @param int             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
         Configuration $config = null,
         HeaderSelector $selector = null,
-        $host_index = 0
+        $hostIndex = 0
     ) {
         $this->client = $client ?: new Client();
         $this->config = $config ?: new Configuration();
         $this->headerSelector = $selector ?: new HeaderSelector();
-        $this->hostIndex = $host_index;
+        $this->hostIndex = $hostIndex;
     }
 
     /**
      * Set the host index
      *
-     * @param  int Host index (required)
+     * @param int $hostIndex Host index (required)
      */
-    public function setHostIndex($host_index)
+    public function setHostIndex($hostIndex)
     {
-        $this->hostIndex = $host_index;
+        $this->hostIndex = $hostIndex;
     }
 
     /**
      * Get the host index
      *
-     * @return Host index
+     * @return int Host index
      */
     public function getHostIndex()
     {
@@ -249,7 +249,7 @@ class StoreApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function deleteOrderRequest($order_id)
+    public function deleteOrderRequest($order_id)
     {
         // verify the required parameter 'order_id' is set
         if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
@@ -276,8 +276,6 @@ class StoreApi
             );
         }
 
-        // body params
-        $_tempBody = null;
 
         if ($multipart) {
             $headers = $this->headerSelector->selectHeadersForMultipart(
@@ -291,14 +289,7 @@ class StoreApi
         }
 
         // for model (json/xml)
-        if (isset($_tempBody)) {
-            // $_tempBody is the method argument, if present
-            if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
-            } else {
-                $httpBody = $_tempBody;
-            }
-        } elseif (count($formParams) > 0) {
+        if (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -520,7 +511,7 @@ class StoreApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getInventoryRequest()
+    public function getInventoryRequest()
     {
 
         $resourcePath = '/store/inventory';
@@ -533,8 +524,6 @@ class StoreApi
 
 
 
-        // body params
-        $_tempBody = null;
 
         if ($multipart) {
             $headers = $this->headerSelector->selectHeadersForMultipart(
@@ -548,14 +537,7 @@ class StoreApi
         }
 
         // for model (json/xml)
-        if (isset($_tempBody)) {
-            // $_tempBody is the method argument, if present
-            if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
-            } else {
-                $httpBody = $_tempBody;
-            }
-        } elseif (count($formParams) > 0) {
+        if (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -787,7 +769,7 @@ class StoreApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getOrderByIdRequest($order_id)
+    public function getOrderByIdRequest($order_id)
     {
         // verify the required parameter 'order_id' is set
         if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
@@ -821,8 +803,6 @@ class StoreApi
             );
         }
 
-        // body params
-        $_tempBody = null;
 
         if ($multipart) {
             $headers = $this->headerSelector->selectHeadersForMultipart(
@@ -836,14 +816,7 @@ class StoreApi
         }
 
         // for model (json/xml)
-        if (isset($_tempBody)) {
-            // $_tempBody is the method argument, if present
-            if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
-            } else {
-                $httpBody = $_tempBody;
-            }
-        } elseif (count($formParams) > 0) {
+        if (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1070,7 +1043,7 @@ class StoreApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function placeOrderRequest($order)
+    public function placeOrderRequest($order)
     {
         // verify the required parameter 'order' is set
         if ($order === null || (is_array($order) && count($order) === 0)) {
@@ -1089,11 +1062,6 @@ class StoreApi
 
 
 
-        // body params
-        $_tempBody = null;
-        if (isset($order)) {
-            $_tempBody = $order;
-        }
 
         if ($multipart) {
             $headers = $this->headerSelector->selectHeadersForMultipart(
@@ -1107,12 +1075,11 @@ class StoreApi
         }
 
         // for model (json/xml)
-        if (isset($_tempBody)) {
-            // $_tempBody is the method argument, if present
+        if (isset($order)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($order));
             } else {
-                $httpBody = $_tempBody;
+                $httpBody = $order;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {

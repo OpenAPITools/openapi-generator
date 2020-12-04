@@ -38,7 +38,7 @@ class {{classname}} {
         queryParams.removeWhere((key, value) => value == null);
         headerParams.removeWhere((key, value) => value == null);
 
-        List<String> contentTypes = [{{#consumes}}"{{{mediaType}}}"{{#hasMore}},{{/hasMore}}{{/consumes}}];
+        List<String> contentTypes = [{{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}}];
 
         {{#hasFormParams}}
         Map<String, dynamic> formData = {};
@@ -63,13 +63,13 @@ class {{classname}} {
         {{/hasFormParams}}
 
         {{#bodyParam}}
-            {{#isListContainer}}
+            {{#isArray}}
             final type = const FullType(BuiltList, const [const FullType({{baseType}})]);
             var serializedBody = _serializers.serialize(BuiltList<{{baseType}}>.from({{paramName}}), specifiedType: type);
-            {{/isListContainer}}
-            {{^isListContainer}}
+            {{/isArray}}
+            {{^isArray}}
             var serializedBody = _serializers.serialize({{paramName}});
-            {{/isListContainer}}
+            {{/isArray}}
             var json{{paramName}} = json.encode(serializedBody);
             bodyData = json{{paramName}};
         {{/bodyParam}}
@@ -85,7 +85,7 @@ class {{classname}} {
             {{/isResponseFile}}
             headers: headerParams,
             extra: {
-                'secure': [{{#authMethods}} {"type": "{{type}}", "name": "{{name}}"{{#isApiKey}}, "keyName": "{{keyParamName}}", "where": "{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}"{{/isApiKey}} }{{#hasMore}}, {{/hasMore}}{{/authMethods}}],
+                'secure': [{{#authMethods}} {"type": "{{type}}", "name": "{{name}}"{{#isApiKey}}, "keyName": "{{keyParamName}}", "where": "{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}"{{/isApiKey}} }{{^-last}}, {{/-last}}{{/authMethods}}],
             },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
@@ -95,18 +95,23 @@ class {{classname}} {
             ){{#returnType}}.then((response) {
 
         {{#isResponseFile}}
-            var data = response.data;
+            final data = response.data;
         {{/isResponseFile}}
         {{^isResponseFile}}
-            {{#isListContainer}}
-                final FullType type = const FullType(BuiltList, const [const FullType({{returnBaseType}})]);
-                BuiltList<{{returnBaseType}}> dataList = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
-                var data = dataList.toList();
-            {{/isListContainer}}
-            {{^isListContainer}}
-                var serializer = _serializers.serializerForType({{{returnType}}});
-                var data = _serializers.deserializeWith<{{{returnType}}}>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
-            {{/isListContainer}}
+        {{#isArray}}
+            final FullType type = const FullType(BuiltList, const [const FullType({{returnBaseType}})]);
+            final BuiltList<{{returnBaseType}}> dataList = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
+            final data = dataList.toList();
+        {{/isArray}}
+        {{^isArray}}
+        {{#isMap}}
+            final serializer = _serializers.serializerForType(Map);
+        {{/isMap}}
+        {{^isMap}}
+            final serializer = _serializers.serializerForType({{{returnType}}});
+        {{/isMap}}
+            final data = _serializers.deserializeWith<{{{returnType}}}>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+        {{/isArray}}
         {{/isResponseFile}}
 
             return Response<{{{returnType}}}>(

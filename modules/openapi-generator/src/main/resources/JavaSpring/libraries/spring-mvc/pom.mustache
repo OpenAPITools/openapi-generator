@@ -168,6 +168,17 @@
         {{/useSpringfox}}
         {{^useSpringfox}}
         <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-annotations</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>swagger-ui</artifactId>
             <version>3.14.2</version>
@@ -218,11 +229,13 @@
             <version>${jackson-threetenbp-version}</version>
         </dependency>
         {{/threetenbp}}
+        {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.1.0</version>
+            <version>${jackson-databind-nullable-version}</version>
         </dependency>
+        {{/openApiNullable}}
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -251,6 +264,16 @@
             <version>1.0.1.RELEASE</version>
         </dependency>
 {{/hateoas}}
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+            <version>2.0.11.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind-version}</version>
+        </dependency>
     </dependencies>
     <properties>
         <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
@@ -258,7 +281,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <jetty-version>9.2.15.v20160210</jetty-version>
         <slf4j-version>1.7.21</slf4j-version>
-        <junit-version>4.13</junit-version>
+        <junit-version>4.13.1</junit-version>
         <servlet-api-version>2.5</servlet-api-version>
         <springfox-version>2.8.0</springfox-version>
         <jackson-version>2.9.9</jackson-version>
@@ -267,5 +290,9 @@
         <beanvalidation-version>1.1.0.Final</beanvalidation-version>
 {{/useBeanValidation}}
         <spring-version>4.3.20.RELEASE</spring-version>
+        {{#openApiNullable}}
+        <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
+        {{/openApiNullable}}
+        <jackson-databind-version>2.9.8</jackson-databind-version>
     </properties>
 </project>

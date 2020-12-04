@@ -98,7 +98,8 @@ mvn clean compile
 | `skipIfSpecIsUnchanged` |  `codegen.skipIfSpecIsUnchanged` | Skip the execution if the source file is older than the output folder (`false` by default. Can also be set globally through the `codegen.skipIfSpecIsUnchanged` property)
 | `addCompileSourceRoot` |  `openapi.generator.maven.plugin.addCompileSourceRoot` | Add the output directory to the project as a source root, so that the generated java types are compiled and included in the project artifact (`true` by default). Mutually exclusive with `addTestCompileSourceRoot`.
 | `addTestCompileSourceRoot` |  `openapi.generator.maven.plugin.addTestCompileSourceRoot` | Add the output directory to the project as a test source root, so that the generated java types are compiled only for the test classpath of the project (`false` by default). Mutually exclusive with `addCompileSourceRoot`.
-| `environmentVariables` | N/A | A **map** of items conceptually similar to "environment variables" or "system properties". These are merged into a map of global settings available to all aspects of the generation flow. Use this map for any options documented elsewhere as `systemProperties`.
+| `environmentVariables` | N/A | deprecated. Use globalProperties instead.
+| `globalProperties` | N/A | A **map** of items conceptually similar to "environment variables" or "system properties". These are available to all aspects of the generation flow. See [Global Properties](https://openapi-generator.tech/docs/globals/) for list of available properties.
 | `configHelp` |  `codegen.configHelp` | dumps the configuration help for the specified library (generates no sources)
 
 ### Configuring **map** structures
@@ -114,17 +115,17 @@ For configuration options documented as a **map** above, the key/value options m
 ```
 
 This configuration node location will match that of the plugin configuration examples at the top of this document and in the section below. Here, `option` matches in option name in the first column in the table from the previous section.
-The `key` and `value` text are any values you'd like to provide for that option. As an example, to configure `environmentVariables` to match the `-Dmodels=User,Pet` example from our [Selective Generation](https://openapi-generator.tech/docs/customization#selective-generation) documentation, see below.
+The `key` and `value` text are any values you'd like to provide for that option. As an example, to configure `globalProperties` to match the `--global-property models=User,Pet` example from our [Selective Generation](https://openapi-generator.tech/docs/customization#selective-generation) documentation, see below.
 
 ```xml
 <configuration>
-    <environmentVariables>
+    <globalProperties>
        <models>User,Pet</models>
-    </environmentVariables>
+    </globalProperties>
 </configuration>
 ```
 
-Not that some of these environment variable options may overwrite or conflict with other options available to the maven plugin. For example, the above `environmentVariables` example is equivalent to the following:
+Not that some of these environment variable options may overwrite or conflict with other options available to the maven plugin. For example, the above `globalProperties` example is equivalent to the following:
 
 ```xml
 <configuration>
@@ -133,7 +134,7 @@ Not that some of these environment variable options may overwrite or conflict wi
 </configuration>
 ```
 
-The difference here is that you may define `generateModels` and `modelsToGenerate` as properties, while `environmentVariables` may only be configured as a configuration node.
+The difference here is that you may define `generateModels` and `modelsToGenerate` as properties, while `globalProperties` may only be configured as a configuration node.
 
 ### Custom Generator
 

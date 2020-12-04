@@ -318,7 +318,6 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             Map<String, Object> o = new HashMap<>();
             o.put("char", c);
             o.put("replacement", "'" + specialCharReplacements.get(c));
-            o.put("hasMore", i != replacementChars.length - 1);
             replacements.add(o);
         }
         additionalProperties.put("specialCharReplacements", replacements);
@@ -513,7 +512,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         // Query parameters appended to routes
         for (CodegenParameter param : op.queryParams) {
             String paramType = param.dataType;
-            if (param.isListContainer) {
+            if (param.isArray) {
                 if (StringUtils.isEmpty(param.collectionFormat)) {
                     param.collectionFormat = "csv";
                 }
@@ -548,7 +547,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             path.add("Header \"" + param.baseName + "\" " + param.dataType);
 
             String paramType = param.dataType;
-            if (param.isListContainer) {
+            if (param.isArray) {
                 if (StringUtils.isEmpty(param.collectionFormat)) {
                     param.collectionFormat = "csv";
                 }

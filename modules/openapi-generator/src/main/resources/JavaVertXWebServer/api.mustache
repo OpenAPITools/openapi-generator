@@ -5,7 +5,8 @@ package {{package}};
 
 import {{invokerPackage}}.ApiResponse;
 
-import io.reactivex.Single;
+import io.vertx.core.Future;
+import io.vertx.core.json.JsonObject;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,7 @@ import java.util.Map;
 public interface {{classname}}  {
 {{#operations}}
 {{#operation}}
-    Single<ApiResponse<{{{returnType}}}>> {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}});
+    Future<ApiResponse<{{{returnType}}}>> {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 {{/operation}}
 {{/operations}}
 }

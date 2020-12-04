@@ -1,0 +1,20 @@
+openapi: 3.0.1
+info:
+  title: Custom methods
+  description: "Google custom methods syntax"
+  version: 0.0.1
+
+paths:
+  /events/{event_id}:undelete:
+    post:
+      operationId: undeleteOperation
+      parameters:
+        - name: event_id
+          in: path
+          required: true
+          description: Event Id
+          schema:
+            type: number
+      responses:
+        200:
+          description: success

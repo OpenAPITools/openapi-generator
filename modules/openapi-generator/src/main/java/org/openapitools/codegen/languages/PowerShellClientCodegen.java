@@ -55,6 +55,11 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     protected HashSet methodNames; // store a list of method names to detect duplicates
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected boolean discardReadOnly = false; // Discard the readonly property in initialize cmdlet
+    protected String projectUri;
+    protected String licenseUri;
+    protected String releaseNotes;
+    protected String tags;
+    protected String iconUri; 
 
     /**
      * Constructs an instance of `PowerShellClientCodegen`.
@@ -501,6 +506,11 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption("commonVerbs", "PS common verb mappings. e.g. Delete=Remove:Patch=Update to map Delete with Remove and Patch with Update accordingly."));
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC));
         cliOptions.add(new CliOption("discardReadOnly", "Set discardReadonly to true to generate the Initialize cmdlet without readonly parameters"));
+        cliOptions.add(new CliOption("tags","Tags applied to the generated PowerShell module. These help with module discovery in online galleries"));
+        cliOptions.add(new CliOption("projectUri","A URL to the main website for this project"));
+        cliOptions.add(new CliOption("licenseUri","A URL to the license for the generated PowerShell module"));
+        cliOptions.add(new CliOption("iconUri","A URL to an icon representing the generated PowerShell module"));
+        cliOptions.add(new CliOption("releaseNotes","Release notes of the generated PowerShell module"));
         // option to change how we process + set the data in the 'additionalProperties' keyword.
         CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
                 CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
@@ -574,6 +584,27 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         return this.discardReadOnly;
     }
 
+    public void setTags(String tags){
+         this.tags = tags;
+    }
+
+    public void setLicenseUri(String licenseUri){
+        this.licenseUri = licenseUri;
+   }
+
+   public void setProjectUri(String projectUri){
+    this.projectUri = projectUri;
+   }
+
+   public void setReleaseNotes(String releaseNotes){
+       this.releaseNotes = releaseNotes;
+   }
+
+   public void setIconUri(String iconUri){
+       this.iconUri = iconUri;
+   }
+
+
     @Override
     public void processOpts() {
         this.setLegacyDiscriminatorBehavior(false);
@@ -600,6 +631,44 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             setDiscardReadOnly(convertPropertyToBooleanAndWriteBack("discardReadOnly"));
         } else {
             additionalProperties.put("discardReadOnly", discardReadOnly);
+        } 
+        
+        if (additionalProperties.containsKey("tags")) {
+            String[] entries = ((String) additionalProperties.get("tags")).split(",");
+            String prefix = "";
+            StringBuilder tagStr =  new StringBuilder("@(");
+            for (String entry : entries) {
+                tagStr.append(prefix);
+                prefix = ",";
+                tagStr.append(String.format(Locale.ROOT, "'%s' ",entry));
+            }
+            tagStr.append(")");
+            setTags(tagStr.toString());
+            additionalProperties.put("tags",tagStr.toString());
+        }
+
+        if (additionalProperties.containsKey("releaseNotes")) {
+            setReleaseNotes((String) additionalProperties.get("releaseNotes"));
+        } else {
+            additionalProperties.put("releaseNotes", releaseNote);
+        }
+
+        if (additionalProperties.containsKey("licenseUri")) {
+            setLicenseUri((String) additionalProperties.get("licenseUri"));
+        } else {
+            additionalProperties.put("licenseUri", licenseUri);
+        }
+
+        if (additionalProperties.containsKey("projectUri")) {
+            setProjectUri((String) additionalProperties.get("projectUri"));
+        } else {
+            additionalProperties.put("projectUri", tags);
+        }
+
+        if (additionalProperties.containsKey("iconUri")) {
+            setIconUri((String) additionalProperties.get("iconUri"));
+        } else {
+            additionalProperties.put("iconUri", iconUri);
         }
 
         if (StringUtils.isNotBlank(powershellGalleryUrl)) {
@@ -701,7 +770,6 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                         StringEscapeUtils.escapeJava(input)
                                 .replace("\\/", "/"))
                         .replaceAll("[\\t\\n\\r]", " ")
-                        .replace("\\", "\\\\")
                         .replace("\"", "\"\""));
 
     }
@@ -997,9 +1065,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
-        if (codegenParameter.isListContainer) { // array
+        if (codegenParameter.isArray) { // array
             return "@(" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + ")";
-        } else if (codegenParameter.isMapContainer) { // TODO: map, file type
+        } else if (codegenParameter.isMap) { // TODO: map, file type
             return "@{ \"Key\" = \"Value\" }";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType) ||
                 nullablePrimitives.contains(codegenParameter.dataType)) { // primitive type
@@ -1039,9 +1107,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
-        if (codegenProperty.isListContainer) { // array
+        if (codegenProperty.isArray) { // array
             return "@(" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + ")";
-        } else if (codegenProperty.isMapContainer) { // map
+        } else if (codegenProperty.isMap) { // map
             return "\"TODO\"";
         } else if (languageSpecificPrimitives.contains(codegenProperty.dataType) || // primitive type
                 nullablePrimitives.contains(codegenProperty.dataType)) { // nullable primitive type
@@ -1117,9 +1185,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 dataType = "System.Nullable[" + dataType + "]";
             }
             return dataType;
-        } else if (cp.isListContainer) { // array
+        } else if (cp.isArray) { // array
             return getPSDataType(cp.items) + "[]";
-        } else if (cp.isMapContainer) { // map
+        } else if (cp.isMap) { // map
             return "System.Collections.Hashtable";
         } else { // model
             return "PSCustomObject";
@@ -1135,9 +1203,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 dataType = "System.Nullable[" + dataType + "]";
             }
             return dataType;
-        } else if (cp.isListContainer) { // array
+        } else if (cp.isArray) { // array
             return getPSDataType(cp.items) + "[]";
-        } else if (cp.isMapContainer) { // map
+        } else if (cp.isMap) { // map
             return "System.Collections.Hashtable";
         } else { // model
             return "PSCustomObject";

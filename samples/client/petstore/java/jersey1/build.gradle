@@ -118,7 +118,7 @@ ext {
     jackson_threetenbp_version = "2.9.10"
     jersey_version = "1.19.4"
     jodatime_version = "2.9.9"
-    junit_version = "4.13"
+    junit_version = "4.13.1"
 }
 
 dependencies {

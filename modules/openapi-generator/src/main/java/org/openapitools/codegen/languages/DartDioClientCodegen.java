@@ -40,7 +40,6 @@ import java.util.Set;
 
 import io.swagger.v3.oas.models.media.Schema;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -48,11 +47,11 @@ public class DartDioClientCodegen extends DartClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartDioClientCodegen.class);
 
     public static final String NULLABLE_FIELDS = "nullableFields";
-    private static final String IS_FORMAT_JSON = "jsonFormat";
-    private static final String CLIENT_NAME = "clientName";
     public static final String DATE_LIBRARY = "dateLibrary";
 
-    private static Set<String> modelToIgnore = new HashSet<>();
+    private static final String IS_FORMAT_JSON = "jsonFormat";
+    private static final String CLIENT_NAME = "clientName";
+    private static final Set<String> modelToIgnore = new HashSet<>();
 
     static {
         modelToIgnore.add("datetime");
@@ -63,21 +62,14 @@ public class DartDioClientCodegen extends DartClientCodegen {
         modelToIgnore.add("uint8list");
     }
 
-    private static final String SERIALIZATION_JSON = "json";
-
     private boolean nullableFields = true;
     private String dateLibrary = "core";
 
     public DartDioClientCodegen() {
         super();
-        browserClient = false;
         outputFolder = "generated-code/dart-dio";
         embeddedTemplateDir = "dart-dio";
         this.setTemplateDir(embeddedTemplateDir);
-
-        //no tests at this time
-        modelTestTemplateFiles.clear();
-        apiTestTemplateFiles.clear();
 
         cliOptions.add(new CliOption(NULLABLE_FIELDS, "Is the null fields should be in the JSON payload"));
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
@@ -92,6 +84,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
         typeMapping.put("AnyType", "Object");
 
         importMapping.put("BuiltList", "package:built_collection/built_collection.dart");
+        importMapping.put("BuiltSet", "package:built_collection/built_collection.dart");
         importMapping.put("BuiltMap", "package:built_collection/built_collection.dart");
         importMapping.put("JsonObject", "package:built_value/json_object.dart");
         importMapping.put("Uint8List", "dart:typed_data");
@@ -113,7 +106,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
         this.nullableFields = nullableFields;
     }
 
-
     @Override
     public String getName() {
         return "dart-dio";
@@ -122,11 +114,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
     @Override
     public String getHelp() {
         return "Generates a Dart Dio client library.";
-    }
-
-    @Override
-    public void setBrowserClient(boolean browserClient) {
-        super.browserClient = browserClient;
     }
 
     @Override
@@ -139,7 +126,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
         if (schema.getDefault() != null) {
             if (ModelUtils.isStringSchema(schema)) {
-                return "\"" + schema.getDefault().toString().replaceAll("\"", "\\\"") + "\"";
+                return "'" + schema.getDefault().toString().replaceAll("'", "\\'") + "'";
             }
             return schema.getDefault().toString();
         } else {
@@ -179,13 +166,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
-        if (additionalProperties.containsKey(BROWSER_CLIENT)) {
-            this.setBrowserClient(convertPropertyToBooleanAndWriteBack(BROWSER_CLIENT));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(BROWSER_CLIENT, browserClient);
-        }
-
         if (additionalProperties.containsKey(NULLABLE_FIELDS)) {
             this.setNullableFields(convertPropertyToBooleanAndWriteBack(NULLABLE_FIELDS));
         } else {
@@ -194,6 +174,13 @@ public class DartDioClientCodegen extends DartClientCodegen {
         }
 
         additionalProperties.put(IS_FORMAT_JSON, true);
+
+        if (additionalProperties.containsKey(PUB_LIBRARY)) {
+            this.setPubLibrary((String) additionalProperties.get(PUB_LIBRARY));
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(PUB_LIBRARY, pubLibrary);
+        }
 
         if (additionalProperties.containsKey(PUB_NAME)) {
             this.setPubName((String) additionalProperties.get(PUB_NAME));
@@ -325,6 +312,11 @@ public class DartDioClientCodegen extends DartClientCodegen {
         if (property.dataType.contains("JsonObject")) {
             model.imports.add("JsonObject");
         }
+
+        if (property.isEnum) {
+            // enums are generated with built_value and make use of BuiltSet
+            model.imports.add("BuiltSet");
+        }
     }
 
     @Override
@@ -386,6 +378,5 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
         return objs;
     }
-
 
 }

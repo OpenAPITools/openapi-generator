@@ -48,7 +48,9 @@ java -cp /path/totemplate-classpath-example-1.0-SNAPSHOT.jar:modules/openapi-gen
     -g html -o template-example -t templates/htmlDocs
 ```
 
-Note that our template directory is relative to the resource directory of the JAR defined on the classpath.
+**NOTE** Running your custom generator in the example above requires adding it to the classpath. This differs on [Windows](https://docs.oracle.com/javase/8/docs/technotes/tools/windows/classpath.html) slightly from [unix](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/classpath.html).
+
+Take note that our template directory is relative to the resource directory of the JAR defined on the classpath.
 
 ### Retrieving Templates
 
@@ -84,9 +86,9 @@ The Java generator supports a `library` option. This option works by defining ba
 
 To get started, we will need to copy our target generator's directory in full.
 
-The directory will be located under `modules/opeanpi-generator/src/main/resources/{generator}`. In general, the generator directory matches the generator name (what you would pass to the `generator` option), but this is not a requirement-- if you are having a hard time finding the template directory, look at the `embeddedTemplateDir` option in your target generator's implementation.
+The directory will be located under `modules/openapi-generator/src/main/resources/{generator}`. In general, the generator directory matches the generator name (what you would pass to the `generator` option), but this is not a requirement-- if you are having a hard time finding the template directory, look at the `embeddedTemplateDir` option in your target generator's implementation.
 
-If you've already cloned openapi-generator, find and copy the `modules/opeanpi-generator/src/main/resources/Java` directory. If you have the [Refined GitHub](https://github.com/sindresorhus/refined-github) Chrome or Firefox Extension, you can navigate to this directory on GitHub and click the "Download" button. Or, to pull the directory from latest master:
+If you've already cloned openapi-generator, find and copy the `modules/openapi-generator/src/main/resources/Java` directory. If you have the [Refined GitHub](https://github.com/sindresorhus/refined-github) Chrome or Firefox Extension, you can navigate to this directory on GitHub and click the "Download" button. Or, to pull the directory from latest master:
 
 ```bash
 mkdir -p ~/.openapi-generator/templates/ && cd $_
@@ -171,7 +173,7 @@ index 49b17c7..16ee191 100644
    @Deprecated
    {{/isDeprecated}}
 +  @Loggable(Loggable.INFO)
-   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
      Object {{localVariablePrefix}}localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}new Object(){{/bodyParam}};
      {{#allParams}}{{#required}}
 
@@ -245,7 +247,7 @@ Now we're ready to generate the client with our simple changes. When we pass the
 openapi-generator generate -g java --library resteasy \
     -t ~/.openapi-generator/templates/Java \
     -o ~/.openapi-generator/example \
-    -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+    -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 ```
 
 Make sure your custom template compiles:
@@ -470,7 +472,9 @@ java $JAVA_OPTS -cp /your/path/build/libs/pebble-template-adapter-1.0-SNAPSHOT-a
     --global-property models,modelDocs,modelTests,apis,apiTests,apiDocs
 ```
 
-Notice how we've targeted our custom template engine adapter via `-e pebble`. If you don't include the SPI file under `META-INF/services`, you'll need to specify the exact classpath: `org.openapitools.examples.templating.PebbleTemplateAdapter`. Notice that the target class here matches the Kotlin class name. This is because of the `@file:JvmName` annotation.
+**NOTE** Running your custom generator requires adding it to the classpath. This differs on [Windows](https://docs.oracle.com/javase/8/docs/technotes/tools/windows/classpath.html) slightly from [unix](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/classpath.html).
+
+In the above example, we've targeted our custom template engine adapter via `-e pebble`. If you don't include the SPI file under `META-INF/services`, you'll need to specify the exact classpath: `org.openapitools.examples.templating.PebbleTemplateAdapter`. Notice that the target class here matches the Kotlin class name. This is because of the `@file:JvmName` annotation.
 
 Congratulations on creating a custom templating engine adapter!
 
@@ -606,9 +610,7 @@ A `Pet` model with three properties will provide a _lot_ of information about th
       "jsonSchema" : "{\n  \"type\" : \"integer\",\n  \"format\" : \"int64\"\n}",
       "exclusiveMinimum" : false,
       "exclusiveMaximum" : false,
-      "hasMore" : true,
       "required" : true,
-      "secondaryParam" : false,
       "hasMoreNonReadOnly" : true,
       "isPrimitiveType" : true,
       "isModel" : false,
@@ -630,8 +632,8 @@ A `Pet` model with three properties will provide a _lot_ of information about th
       "isUuid" : false,
       "isEmail" : false,
       "isFreeFormObject" : false,
-      "isListContainer" : false,
-      "isMapContainer" : false,
+      "isArray" : false,
+      "isMap" : false,
       "isEnum" : false,
       "isReadOnly" : false,
       "isWriteOnly" : false,
@@ -658,9 +660,7 @@ A `Pet` model with three properties will provide a _lot_ of information about th
       "jsonSchema" : "{\n  \"type\" : \"string\"\n}",
       "exclusiveMinimum" : false,
       "exclusiveMaximum" : false,
-      "hasMore" : true,
       "required" : true,
-      "secondaryParam" : false,
       "hasMoreNonReadOnly" : true,
       "isPrimitiveType" : true,
       "isModel" : false,
@@ -682,8 +682,8 @@ A `Pet` model with three properties will provide a _lot_ of information about th
       "isUuid" : false,
       "isEmail" : false,
       "isFreeFormObject" : false,
-      "isListContainer" : false,
-      "isMapContainer" : false,
+      "isArray" : false,
+      "isMap" : false,
       "isEnum" : false,
       "isReadOnly" : false,
       "isWriteOnly" : false,
@@ -710,9 +710,7 @@ A `Pet` model with three properties will provide a _lot_ of information about th
       "jsonSchema" : "{\n  \"type\" : \"string\"\n}",
       "exclusiveMinimum" : false,
       "exclusiveMaximum" : false,
-      "hasMore" : false,
       "required" : false,
-      "secondaryParam" : false,
       "hasMoreNonReadOnly" : false,
       "isPrimitiveType" : true,
       "isModel" : false,
@@ -734,8 +732,8 @@ A `Pet` model with three properties will provide a _lot_ of information about th
       "isUuid" : false,
       "isEmail" : false,
       "isFreeFormObject" : false,
-      "isListContainer" : false,
-      "isMapContainer" : false,
+      "isArray" : false,
+      "isMap" : false,
       "isEnum" : false,
       "isReadOnly" : false,
       "isWriteOnly" : false,
@@ -766,9 +764,9 @@ A `Pet` model with three properties will provide a _lot_ of information about th
     "isEnum" : false,
     "hasRequired" : true,
     "hasOptional" : true,
-    "isArrayModel" : false,
+    "isArray" : false,
     "hasChildren" : false,
-    "isMapModel" : false,
+    "isMap" : false,
     "hasOnlyReadOnly" : false,
     "vendorExtensions" : { }
   }
@@ -950,10 +948,8 @@ definitions:
             colDataTypeArguments:
               - argumentValue: 16
                 isString: false
-                hasMore: true
               - argumentValue: 4
                 isString: false
-                hasMore: false
             colUnsigned: true
             colNotNull: true
             colDefault:

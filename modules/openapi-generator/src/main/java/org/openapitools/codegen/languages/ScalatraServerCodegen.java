@@ -93,6 +93,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         typeMapping.put("file", "File");
         typeMapping.put("binary", "File");
         typeMapping.put("number", "Double");
+        typeMapping.put("decimal", "BigDecimal");
 
         additionalProperties.put("appName", "OpenAPI Sample");
         additionalProperties.put("appDescription", "A sample openapi server");
@@ -118,7 +119,6 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         supportingFiles.add(new SupportingFile("sbt", "", "sbt"));
 
         importMapping = new HashMap<String, String>();
-        importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("UUID", "java.util.UUID");
         importMapping.put("URI", "java.net.URI");
         importMapping.put("File", "java.io.File");

@@ -83,7 +83,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,
                         GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
+                        GlobalFeature.ParameterStyling,
+                        GlobalFeature.ParameterizedServer,
+                        GlobalFeature.MultiServer
                 )
                 .includeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
@@ -568,11 +570,11 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 example = "2013-10-20";
             }
             example = "Date.parse('" + escapeText(example) + "')";
-        } else if ("DateTime".equalsIgnoreCase(type)) {
+        } else if ("Time".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20T19:20:30+01:00";
             }
-            example = "DateTime.parse('" + escapeText(example) + "')";
+            example = "Time.parse('" + escapeText(example) + "')";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
             example = moduleName + "::" + type + ".new";
@@ -580,9 +582,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         if (example == null) {
             example = "nil";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (Boolean.TRUE.equals(p.isArray)) {
             example = "[" + example + "]";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(p.isMap)) {
             example = "{'key' => " + example + "}";
         }
 

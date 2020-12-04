@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.Operation;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -34,9 +33,6 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
      * Default library template to use. (Default: jersey2)
      */
     public static final String DEFAULT_JERSEY_LIBRARY = LIBRARY_JERSEY2;
-    public static final String USE_TAGS = "useTags";
-
-    protected boolean useTags = false;
 
     public JavaJerseyServerCodegen() {
         super();
@@ -65,7 +61,6 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         cliOptions.add(library);
         cliOptions.add(CliOption.newBoolean(SUPPORT_JAVA6, "Whether to support Java6 with the Jersey1/2 library."));
-        cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames"));
     }
 
     @Override
@@ -106,10 +101,6 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         if (additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
             implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
-        }
-
-        if (additionalProperties.containsKey(USE_TAGS)) {
-            this.setUseTags(Boolean.valueOf(additionalProperties.get(USE_TAGS).toString()));
         }
 
         if ("joda".equals(dateLibrary)) {
@@ -158,61 +149,6 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
 
         return objs;
-    }
-
-    @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        if (useTags) {
-            String basePath = tag.toLowerCase(Locale.ROOT);
-            if (basePath.startsWith("/")) {
-                basePath = basePath.substring(1);
-            }
-            int pos = basePath.indexOf("/");
-            if (pos > 0) {
-                basePath = basePath.substring(0, pos);
-            }
-
-            boolean pathStartsWithBasePath = co.path.startsWith("/" + basePath);
-            if (pathStartsWithBasePath) {
-                co.path = co.path.substring(("/" + basePath).length());
-            }
-            co.subresourceOperation = !co.path.isEmpty();
-            super.addOperationToGroup(tag, resourcePath, operation, co, operations);
-            if (pathStartsWithBasePath) {
-                co.baseName = basePath;
-            } else {
-                co.baseName = null;
-            }
-        } else {
-            String basePath = resourcePath;
-            if (basePath.startsWith("/")) {
-                basePath = basePath.substring(1);
-            }
-            int pos = basePath.indexOf("/");
-            if (pos > 0) {
-                basePath = basePath.substring(0, pos);
-            }
-
-            if (StringUtils.isEmpty(basePath)) {
-                basePath = "default";
-            } else {
-                if (co.path.startsWith("/" + basePath)) {
-                    co.path = co.path.substring(("/" + basePath).length());
-                }
-                co.subresourceOperation = !co.path.isEmpty();
-            }
-            List<CodegenOperation> opList = operations.get(basePath);
-            if (opList == null || opList.isEmpty()) {
-                opList = new ArrayList<CodegenOperation>();
-                operations.put(basePath, opList);
-            }
-            opList.add(co);
-            co.baseName = basePath;
-        }
-    }
-
-    public void setUseTags(boolean useTags) {
-        this.useTags = useTags;
     }
 
 }

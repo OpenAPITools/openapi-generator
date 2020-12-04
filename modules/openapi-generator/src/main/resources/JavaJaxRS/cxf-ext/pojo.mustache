@@ -70,13 +70,13 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
 {{/vendorExtensions.x-extra-annotation}}
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isListContainer}}{{^isMapContainer}}public {{dataType}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isArray}}{{^isMap}}public {{dataType}} {{getter}}() {
     return {{name}} == null ? null : {{name}}.value();
-  }{{/isMapContainer}}{{/isListContainer}}{{/isEnum}}{{#isEnum}}{{#isListContainer}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isMap}}{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isArray}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
-  }{{/isListContainer}}{{/isEnum}}{{#isEnum}}{{#isMapContainer}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isMap}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
-  }{{/isMapContainer}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isMap}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }{{/isEnum}}
 
@@ -100,7 +100,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
     this.{{name}} = {{name}};
     return this;
   }
-  {{#isListContainer}}
+  {{#isArray}}
 
   /**
    * Adds a new item to the <code>{{name}}</code> list.
@@ -112,8 +112,8 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
     this.{{name}}.add({{name}}Item);
     return this;
   }
-  {{/isListContainer}}
-  {{#isMapContainer}}
+  {{/isArray}}
+  {{#isMap}}
 
   /**
    * Puts a new item into the <code>{{name}}</code> map.
@@ -125,7 +125,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
     this.{{name}}.put(key, {{name}}Item);
     return this;
   }
-  {{/isMapContainer}}
+  {{/isMap}}
 
   {{/vars}}
 
@@ -143,7 +143,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

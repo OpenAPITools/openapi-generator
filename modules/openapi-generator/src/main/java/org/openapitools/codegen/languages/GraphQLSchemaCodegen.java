@@ -32,7 +32,7 @@ public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements Code
 
     @Override
     public CodegenType getTag() {
-        return CodegenType.CONFIG;
+        return CodegenType.SCHEMA;
     }
 
     public String getName() {

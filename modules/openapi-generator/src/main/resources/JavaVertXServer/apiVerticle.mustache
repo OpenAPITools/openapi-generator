@@ -41,7 +41,7 @@ public class {{classname}}Verticle extends AbstractVerticle {
                 String serviceId = "{{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}";
                 {{#hasParams}}
                     {{#allParams}}
-                        {{#isListContainer}}
+                        {{#isArray}}
                 JsonArray {{paramName}}Param = message.body().getJsonArray("{{baseName}}");
                 {{#required}}
                 if({{paramName}}Param == null) {
@@ -55,8 +55,8 @@ public class {{classname}}Verticle extends AbstractVerticle {
                 {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : Json.mapper.readValue({{paramName}}Param.encode(),
                     Json.mapper.getTypeFactory().constructCollectionType(List.class, {{{baseType}}}.class));
                 {{/required}}
-                        {{/isListContainer}}
-                        {{^isListContainer}}
+                        {{/isArray}}
+                        {{^isArray}}
                             {{#isPrimitiveType}}
                                 {{#isString}}
                 String {{paramName}}Param = message.body().getString("{{baseName}}");
@@ -93,7 +93,7 @@ public class {{classname}}Verticle extends AbstractVerticle {
                 }
                 {{{dataType}}} {{paramName}} = Json.mapper.readValue({{paramName}}Param.encode(), {{{dataType}}}.class);
                             {{/isPrimitiveType}}
-                        {{/isListContainer}}
+                        {{/isArray}}
                     {{/allParams}}
                 {{/hasParams}}
                 {{#rxInterface}}

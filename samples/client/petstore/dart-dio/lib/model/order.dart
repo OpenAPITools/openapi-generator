@@ -1,3 +1,4 @@
+            import 'package:built_collection/built_collection.dart';
         import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -41,13 +42,13 @@ abstract class Order implements Built<Order, OrderBuilder> {
 class OrderStatus extends EnumClass {
 
   /// Order Status
-  @BuiltValueEnumConst(wireName: "placed")
+  @BuiltValueEnumConst(wireName: 'placed')
   static const OrderStatus placed = _$placed;
   /// Order Status
-  @BuiltValueEnumConst(wireName: "approved")
+  @BuiltValueEnumConst(wireName: 'approved')
   static const OrderStatus approved = _$approved;
   /// Order Status
-  @BuiltValueEnumConst(wireName: "delivered")
+  @BuiltValueEnumConst(wireName: 'delivered')
   static const OrderStatus delivered = _$delivered;
 
   static Serializer<OrderStatus> get serializer => _$orderStatusSerializer;

@@ -72,6 +72,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         super();
 
         supportsInheritance = true;
+        useTags = true;
 
         artifactId = "openapi-cxf-server";
 
@@ -79,6 +80,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         // clioOptions default redifinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(USE_TAGS, String.valueOf(true));
 
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
 
@@ -235,18 +237,20 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
     }
 
     @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        super.addOperationToGroup(tag, resourcePath, operation, co, operations);
-        co.subresourceOperation = !co.path.isEmpty();
-    }
-
-    @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
         model.imports.remove("ApiModelProperty");
         model.imports.remove("ApiModel");
         model.imports.remove("JsonSerialize");
         model.imports.remove("ToStringSerializer");
+
+        //Add imports for Jackson when model has inner enum
+        if (additionalProperties.containsKey("jackson")) {
+            if (Boolean.FALSE.equals(model.isEnum) && Boolean.TRUE.equals(model.hasEnums)) {
+                model.imports.add("JsonCreator");
+                model.imports.add("JsonValue");
+            }
+        }
     }
 
     @Override
