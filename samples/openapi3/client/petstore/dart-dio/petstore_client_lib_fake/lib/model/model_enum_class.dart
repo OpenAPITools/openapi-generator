@@ -2,23 +2,23 @@ import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
-part 'enum_class.g.dart';
+part 'model_enum_class.g.dart';
 
-class EnumClass extends EnumClass {
+class ModelEnumClass extends EnumClass {
 
   @BuiltValueEnumConst(wireName: '_abc')
-  static const EnumClass abc = _$abc;
+  static const ModelEnumClass abc = _$abc;
   @BuiltValueEnumConst(wireName: '-efg')
-  static const EnumClass efg = _$efg;
+  static const ModelEnumClass efg = _$efg;
   @BuiltValueEnumConst(wireName: '(xyz)')
-  static const EnumClass (xyz) = _$(xyz);
+  static const ModelEnumClass (xyz) = _$(xyz);
 
-  static Serializer<EnumClass> get serializer => _$enumClassSerializer;
+  static Serializer<ModelEnumClass> get serializer => _$enumClassSerializer;
 
-  const EnumClass._(String name): super(name);
+  const ModelEnumClass._(String name): super(name);
 
-  static BuiltSet<EnumClass> get values => _$values;
-  static EnumClass valueOf(String name) => _$valueOf(name);
+  static BuiltSet<ModelEnumClass> get values => _$values;
+  static ModelEnumClass valueOf(String name) => _$valueOf(name);
 }
 
 /// Optionally, enum_class can generate a mixin to go with your enum for use
@@ -27,5 +27,5 @@ class EnumClass extends EnumClass {
 /// corresponding Angular template.
 ///
 /// Trigger mixin generation by writing a line like this one next to your enum.
-abstract class EnumClassMixin = Object with _$EnumClassMixin;
+abstract class ModelEnumClassMixin = Object with _$ModelEnumClassMixin;
 

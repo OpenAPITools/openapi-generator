@@ -21,7 +21,6 @@ import 'package:openapi/model/client.dart';
 import 'package:openapi/model/dog.dart';
 import 'package:openapi/model/dog_all_of.dart';
 import 'package:openapi/model/enum_arrays.dart';
-import 'package:openapi/model/enum_class.dart';
 import 'package:openapi/model/enum_test.dart';
 import 'package:openapi/model/file.dart';
 import 'package:openapi/model/file_schema_test_class.dart';
@@ -39,6 +38,7 @@ import 'package:openapi/model/inline_response_default.dart';
 import 'package:openapi/model/map_test.dart';
 import 'package:openapi/model/mixed_properties_and_additional_properties_class.dart';
 import 'package:openapi/model/model200_response.dart';
+import 'package:openapi/model/model_enum_class.dart';
 import 'package:openapi/model/model_return.dart';
 import 'package:openapi/model/name.dart';
 import 'package:openapi/model/nullable_class.dart';
@@ -74,7 +74,6 @@ Client,
 Dog,
 DogAllOf,
 EnumArrays,
-EnumClass,
 EnumTest,
 File,
 FileSchemaTestClass,
@@ -92,6 +91,7 @@ InlineResponseDefault,
 MapTest,
 MixedPropertiesAndAdditionalPropertiesClass,
 Model200Response,
+ModelEnumClass,
 ModelReturn,
 Name,
 NullableClass,
@@ -158,9 +158,6 @@ const FullType(BuiltList, const [const FullType(DogAllOf)]),
 const FullType(BuiltList, const [const FullType(EnumArrays)]),
 () => new ListBuilder<EnumArrays>())
 ..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(EnumClass)]),
-() => new ListBuilder<EnumClass>())
-..addBuilderFactory(
 const FullType(BuiltList, const [const FullType(EnumTest)]),
 () => new ListBuilder<EnumTest>())
 ..addBuilderFactory(
@@ -211,6 +208,9 @@ const FullType(BuiltList, const [const FullType(MixedPropertiesAndAdditionalProp
 ..addBuilderFactory(
 const FullType(BuiltList, const [const FullType(Model200Response)]),
 () => new ListBuilder<Model200Response>())
+..addBuilderFactory(
+const FullType(BuiltList, const [const FullType(ModelEnumClass)]),
+() => new ListBuilder<ModelEnumClass>())
 ..addBuilderFactory(
 const FullType(BuiltList, const [const FullType(ModelReturn)]),
 () => new ListBuilder<ModelReturn>())

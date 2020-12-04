@@ -16,8 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
-import java.util.HashMap;
-
+import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -32,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -54,6 +54,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
     private boolean nullableFields = true;
     private String dateLibrary = "core";
+    private static final Set<String> reservedBuiltValueWords = Sets.newHashSet("EnumClass");
 
     public DartDioClientCodegen() {
         super();
@@ -104,6 +105,11 @@ public class DartDioClientCodegen extends DartClientCodegen {
     @Override
     public String getHelp() {
         return "Generates a Dart Dio client library.";
+    }
+
+    @Override
+    protected boolean isReservedWord(String word) {
+        return super.isReservedWord(word) || reservedBuiltValueWords.contains(word);
     }
 
     @Override

@@ -1,4 +1,4 @@
-# openapi.model.EnumClass
+# openapi.model.ModelEnumClass
 
 ## Load the model package
 ```dart
