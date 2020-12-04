@@ -244,6 +244,11 @@
   infoLink: "https://www.kurusugawa.jp/"
   pinned: false
 -
+  caption: "LVM Versicherungen"
+  image: "img/companies/lvm_versicherungen.png"
+  infoLink: "https://www.lvm.de"
+  pinned: false
+-
   caption: M3, Inc.
   image: "img/companies/m3.png"
   infoLink: "https://jobs.m3.com/engineer/"

@@ -2,17 +2,16 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**create_user**](UserApi.md#create_user) | **POST** /user | Create user
-[**create_users_with_array_input**](UserApi.md#create_users_with_array_input) | **POST** /user/createWithArray | Creates list of users with given input array
-[**create_users_with_list_input**](UserApi.md#create_users_with_list_input) | **POST** /user/createWithList | Creates list of users with given input array
-[**delete_user**](UserApi.md#delete_user) | **DELETE** /user/{username} | Delete user
-[**get_user_by_name**](UserApi.md#get_user_by_name) | **GET** /user/{username} | Get user by user name
-[**login_user**](UserApi.md#login_user) | **GET** /user/login | Logs user into the system
-[**logout_user**](UserApi.md#logout_user) | **GET** /user/logout | Logs out current logged in user session
-[**update_user**](UserApi.md#update_user) | **PUT** /user/{username} | Updated user
-
+| Method | HTTP request | Description |
+| ------ | ------------ | ----------- |
+| [**create_user**](UserApi.md#create_user) | **POST** /user | Create user |
+| [**create_users_with_array_input**](UserApi.md#create_users_with_array_input) | **POST** /user/createWithArray | Creates list of users with given input array |
+| [**create_users_with_list_input**](UserApi.md#create_users_with_list_input) | **POST** /user/createWithList | Creates list of users with given input array |
+| [**delete_user**](UserApi.md#delete_user) | **DELETE** /user/{username} | Delete user |
+| [**get_user_by_name**](UserApi.md#get_user_by_name) | **GET** /user/{username} | Get user by user name |
+| [**login_user**](UserApi.md#login_user) | **GET** /user/login | Logs user into the system |
+| [**logout_user**](UserApi.md#logout_user) | **GET** /user/logout | Logs out current logged in user session |
+| [**update_user**](UserApi.md#update_user) | **PUT** /user/{username} | Updated user |
 
 
 ## create_user
@@ -42,10 +41,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)| Created user object | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **user** | [**User**](User.md) | Created user object |  |
 
 ### Return type
 
@@ -86,10 +84,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **user** | [**Array&lt;User&gt;**](User.md)| List of user object | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **user** | [**Array&lt;User&gt;**](User.md) | List of user object |  |
 
 ### Return type
 
@@ -130,10 +127,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **user** | [**Array&lt;User&gt;**](User.md)| List of user object | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **user** | [**Array&lt;User&gt;**](User.md) | List of user object |  |
 
 ### Return type
 
@@ -176,10 +172,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be deleted | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **username** | **String** | The name that needs to be deleted |  |
 
 ### Return type
 
@@ -221,10 +216,9 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be fetched. Use user1 for testing. | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **username** | **String** | The name that needs to be fetched. Use user1 for testing. |  |
 
 ### Return type
 
@@ -267,11 +261,10 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **String**| The user name for login | 
- **password** | **String**| The password for login in clear text | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **username** | **String** | The user name for login |  |
+| **password** | **String** | The password for login in clear text |  |
 
 ### Return type
 
@@ -355,11 +348,10 @@ end
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be deleted | 
- **user** | [**User**](User.md)| Updated user object | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **username** | **String** | name that need to be deleted |  |
+| **user** | [**User**](User.md) | Updated user object |  |
 
 ### Return type
 

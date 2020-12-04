@@ -69,19 +69,31 @@ class {{{classname}}} {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
+    {{#hasQueryParams}}
 
-    {{#queryParams}}
-      {{^required}}
+      {{#queryParams}}
+        {{^required}}
     if ({{{paramName}}} != null) {
-      {{/required}}
+          {{/required}}
       queryParams.addAll(_convertParametersForCollectionFormat('{{{collectionFormat}}}', '{{{baseName}}}', {{{paramName}}}));
-      {{^required}}
+          {{^required}}
     }
-      {{/required}}
-    {{/queryParams}}
-    {{#headerParams}}
-    headerParams['{{{baseName}}}'] = {{{paramName}}};
-    {{/headerParams}}
+        {{/required}}
+      {{/queryParams}}
+    {{/hasQueryParams}}
+    {{#hasHeaderParams}}
+
+      {{#headerParams}}
+        {{#required}}
+    headerParams['{{{baseName}}}'] = parameterToString({{{paramName}}});
+        {{/required}}
+        {{^required}}
+    if ({{{paramName}}} != null) {
+      headerParams['{{{baseName}}}'] = parameterToString({{{paramName}}});
+    }
+        {{/required}}
+      {{/headerParams}}
+    {{/hasHeaderParams}}
 
     final contentTypes = <String>[{{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}}];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;

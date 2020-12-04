@@ -2936,7 +2936,16 @@ public class DefaultCodegen implements CodegenConfig {
             // for schemas that allOf inherit from this schema, add those descendants to this discriminator map
             List<MappedModel> otherDescendants = getAllOfDescendants(schemaName, openAPI);
             for (MappedModel otherDescendant : otherDescendants) {
-                if (!uniqueDescendants.contains(otherDescendant)) {
+                // add only if the mapping names are not the same
+                boolean matched = false;
+                for (MappedModel uniqueDescendant: uniqueDescendants) {
+                    if (uniqueDescendant.getMappingName().equals(otherDescendant.getMappingName())) {
+                        matched = true;
+                        break;
+                    }
+                }
+
+                if (matched == false) {
                     uniqueDescendants.add(otherDescendant);
                 }
             }
@@ -2954,6 +2963,7 @@ public class DefaultCodegen implements CodegenConfig {
             Collections.sort(uniqueDescendants);
         }
         discriminator.getMappedModels().addAll(uniqueDescendants);
+
         return discriminator;
     }
 
@@ -3856,10 +3866,20 @@ public class DefaultCodegen implements CodegenConfig {
         // add form/body parameter (if any) to the end of all parameter list
         if (!prependFormOrBodyParameters) {
             for (CodegenParameter cp : formParams) {
+                if (ensureUniqueParams) {
+                    if (!isParameterNameUnique(cp, allParams)) {
+                        cp.paramName = generateNextName(cp.paramName);
+                    }
+                }
                 allParams.add(cp.copy());
             }
 
             for (CodegenParameter cp : bodyParams) {
+                if (ensureUniqueParams) {
+                    if (!isParameterNameUnique(cp, allParams)) {
+                        cp.paramName = generateNextName(cp.paramName);
+                    }
+                }
                 allParams.add(cp.copy());
             }
         }
@@ -3991,6 +4011,7 @@ public class DefaultCodegen implements CodegenConfig {
                     throw new RuntimeException("Invalid response code " + responseCode);
             }
         }
+
         Schema responseSchema;
         if (this.openAPI != null && this.openAPI.getComponents() != null) {
             responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(response), importMapping);
@@ -5750,7 +5771,6 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
                 // key => property name
                 // value => property schema
-                String collectionFormat = null;
                 Schema s = entry.getValue();
                 // array of schema
                 if (ModelUtils.isArraySchema(s)) {
@@ -5774,6 +5794,7 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                     //TODO fix collectformat for form parameters
                     //collectionFormat = getCollectionFormat(s);
+                    String collectionFormat = getCollectionFormat(codegenParameter);
                     // default to csv:
                     codegenParameter.collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
 
@@ -6647,5 +6668,16 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected static boolean isJsonVendorMimeType(String mime) {
         return mime != null && JSON_VENDOR_MIME_PATTERN.matcher(mime).matches();
+    }
+
+    /**
+     * Returns null by default but can be overwritten to return a valid collectionFormat
+     * for the {@link CodegenParameter}.
+     *
+     * @param codegenParameter parameter
+     * @return string for a collectionFormat.
+     */
+    protected String getCollectionFormat(CodegenParameter codegenParameter) {
+        return null;
     }
 }

@@ -52,6 +52,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |/app|
+|supportAsync|Support Async operations| |false|
 |title|server title name or client service name| |openapi-java-playframework|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useInterfaces|Makes the controllerImp implements an interface to facilitate automatic completion when updating from version x to y of your spec| |true|
