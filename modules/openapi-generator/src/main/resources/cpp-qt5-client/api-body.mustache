@@ -25,28 +25,28 @@ namespace {{this}} {
 }
 
 void {{classname}}::initializeServerConfigs(){
+    QMap<QString, ServerVariable> vars = QMap<QString, ServerVariable>();
+    QSet<QString> enumValues = QSet<QString>();  
 
 //Default server
 ServerConfiguration defaultConf(QString("%1://%2%3%4")
                            .arg("{{scheme}}")
                            .arg("{{serverHost}}")
                            .arg("{{serverPort}}" ? ":" + QString::number({{serverPort}}) : "")
-                           .arg("{{basePathWithoutHost}}"),"Defuault Server", NULL);
+                           .arg("{{basePathWithoutHost}}"),"Defuault Server", vars);
 
 {{#operations}}
   {{#operation}}
     {{#servers}}
-    QMap<QString, ServerVariable>& vars;
-    QSet<QString> enumVals;  
     {{#variables}}
     {{#enumValues}}
-    enumVals.insert("{{.}}");
+    enumValues.insert("{{.}}");
     {{/enumValues}}  
     {{^enumValues}}
-    enumVals = NULL;
+    enumValues;
     {{/enumValues}}  
-    vars.insert("{{name}}",ServerVariable("{{description}}", "{{{defaultValue}}}", enumValues);
-    enumVals.clear();
+    vars.insert("{{name}}",ServerVariable("{{description}}", "{{{defaultValue}}}", enumValues));
+    enumValues.clear();
 
     
 {{/variables}}

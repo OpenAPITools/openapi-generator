@@ -2,16 +2,15 @@
 /**
  * Representing a Server configuration.
  */
+#ifndef SERVERVCONFIGURATION_H
+#define SERVERVCONFIGURATION_H
 #include <QString>
 #include <QMap>
-#include <stdexception>
+#include <stdexcept>
 #include <ServerVariable.h>
-class ServerConfiguration {
-    public:
-        QString _URL;
-        QString _description;
-        QMap<QString, ServerVariable> _variables;
 
+class ServerConfiguration {
+public:
     /**
      * @param URL A URL to the target host.
      * @param description A description of the host designated by the URL.
@@ -22,23 +21,25 @@ class ServerConfiguration {
       _variables(variables),
       _URL(URL){}
 
+    ~ServerConfiguration(){}
+
     /**
      * Format URL template using given variables.
      *
      * @param variables A map between a variable name and its value.
      * @return Formatted URL.
      */
-    String URL() {
+    QString URL() {
         QString url = _URL;
-        if(variables != null){
+        if(!_variables.empty()){
             // go through variables and replace placeholders
-            for (auto const& variable : _variables) {
-                QString name = variable.first;
-                ServerVariable serverVariable = variable.second;
-                QString value = serverVariable.defaultValue;
+            for (auto const& v : _variables.keys()) {
+                QString name = v;
+                ServerVariable serverVariable = _variables.value(v);
+                QString value = serverVariable._defaultValue;
 
-                if (!serverVariable.enumValues.contains(value)) {
-                    throw std::runtime_error("The variable " + name + " in the server URL has invalid value " + value + ".");
+                if (!serverVariable._enumValues.contains(value)) {
+                    throw std::runtime_error(QString("The variable " + name + " in the server URL has invalid value " + value + ".").toUtf8());
                 }
                 
                 url = url.replace("\\{" + name + "\\}", value);
@@ -47,4 +48,10 @@ class ServerConfiguration {
         return url;
     }
 
-}
+    QString _URL;
+    QString _description;
+    QMap<QString, ServerVariable> _variables;
+
+
+};
+#endif
