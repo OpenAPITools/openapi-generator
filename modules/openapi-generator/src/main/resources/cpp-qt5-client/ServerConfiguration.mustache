@@ -8,7 +8,7 @@
 #include <QMap>
 #include <stdexcept>
 #include <ServerVariable.h>
-
+#include <QRegularExpression>
 class ServerConfiguration {
 public:
     /**
@@ -20,7 +20,7 @@ public:
     : _description(description),
       _variables(variables),
       _URL(URL){}
-
+    ServerConfiguration(){}
     ~ServerConfiguration(){}
 
     /**
@@ -38,12 +38,14 @@ public:
                 ServerVariable serverVariable = _variables.value(v);
                 QString value = serverVariable._defaultValue;
 
-                if (!serverVariable._enumValues.contains(value)) {
+                if (!serverVariable._enumValues.empty() && !serverVariable._enumValues.contains(value)) {
                     throw std::runtime_error(QString("The variable " + name + " in the server URL has invalid value " + value + ".").toUtf8());
                 }
-                
-                url = url.replace("\\{" + name + "\\}", value);
+                QRegularExpression regex(QString("\\{" + name + "\\}"));
+                url = url.replace(regex, value);
+
             }
+            return url;
         }
         return url;
     }

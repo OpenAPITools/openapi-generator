@@ -29,11 +29,12 @@ void {{classname}}::initializeServerConfigs(){
     QSet<QString> enumValues = QSet<QString>();  
 
 //Default server
+//TODO inset the scheme host port etc into an ServerVariable enum...
 ServerConfiguration defaultConf(QString("%1://%2%3%4")
                            .arg("{{scheme}}")
                            .arg("{{serverHost}}")
                            .arg("{{serverPort}}" ? ":" + QString::number({{serverPort}}) : "")
-                           .arg("{{basePathWithoutHost}}"),"Defuault Server", vars);
+                           .arg("{{basePathWithoutHost}}"),"Default Server", vars);
 
 {{#operations}}
   {{#operation}}
@@ -124,12 +125,8 @@ void {{classname}}::abortRequests(){
 {{#operations}}
 {{#operation}}
 void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("{{{path}}}");
+    ServerConfiguration config = serverConfigs.value("{{nickname}}");
+    QString fullPath = QString(config.URL()+"{{{path}}}");
     {{#pathParams}}
     QString {{paramName}}PathParam("{");
     {{paramName}}PathParam.append("{{baseName}}").append("}");
