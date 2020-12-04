@@ -140,6 +140,8 @@ install:
 script:
   # fail fast
   - set -e
+  # fail if the test files have changes
+  - bin/utils/detect_test_file_changes.rb bin/utils/test_file_list.yaml
   # fail if templates/generators contain carriage return '\r'
   - /bin/bash ./bin/utils/detect_carriage_return.sh
   # fail if generators contain merge conflicts
