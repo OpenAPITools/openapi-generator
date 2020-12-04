@@ -160,8 +160,7 @@ public class DartClientCodegen extends DefaultCodegen {
         typeMapping.put("number", "num");
         typeMapping.put("float", "double");
         typeMapping.put("double", "double");
-        typeMapping.put("object", "Object");
-        typeMapping.put("AnyType", "Object");
+        typeMapping.put("decimal", "double");
         typeMapping.put("integer", "int");
         typeMapping.put("Date", "DateTime");
         typeMapping.put("date", "DateTime");
@@ -170,6 +169,8 @@ public class DartClientCodegen extends DefaultCodegen {
         typeMapping.put("UUID", "String");
         typeMapping.put("URI", "String");
         typeMapping.put("ByteArray", "String");
+        typeMapping.put("object", "Object");
+        typeMapping.put("AnyType", "Object");
 
         // These are needed as they prevent models from being generated
         // which would clash with existing types, e.g. List

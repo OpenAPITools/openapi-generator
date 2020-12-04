@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'package:openapi/model/decimal.dart';
 import 'dart:core';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -35,7 +34,7 @@ abstract class FormatTest implements Built<FormatTest, FormatTestBuilder> {
     
     @nullable
     @BuiltValueField(wireName: r'decimal')
-    Decimal get decimal;
+    double get decimal;
     
     @nullable
     @BuiltValueField(wireName: r'string')
