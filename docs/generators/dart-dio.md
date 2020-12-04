@@ -32,6 +32,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ---------- | ------- |
 |BuiltList|package:built_collection/built_collection.dart|
 |BuiltMap|package:built_collection/built_collection.dart|
+|BuiltSet|package:built_collection/built_collection.dart|
 |JsonObject|package:built_value/json_object.dart|
 |Uint8List|dart:typed_data|
 

@@ -617,7 +617,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
             return; // skip if DART_POST_PROCESS_FILE env variable is not defined
         }
 
-        // only procees the following type (or we can simply rely on the file extension to check if it's a Dart file)
+        // only process the following type (or we can simply rely on the file extension to check if it's a Dart file)
         Set<String> supportedFileType = Sets.newHashSet(
             "supporting-mustache",
             "model-test",
