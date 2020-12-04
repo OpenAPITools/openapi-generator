@@ -224,8 +224,6 @@ class ApiClient {
           return InlineObject5.fromJson(value);
         case 'InlineResponseDefault':
           return InlineResponseDefault.fromJson(value);
-        case 'List':
-          return List.fromJson(value);
         case 'MapTest':
           return MapTest.fromJson(value);
         case 'MixedPropertiesAndAdditionalPropertiesClass':

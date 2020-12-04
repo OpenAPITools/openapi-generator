@@ -1,5 +1,6 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:openapi/model/read_only_first.dart';
+import 'dart:core';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 

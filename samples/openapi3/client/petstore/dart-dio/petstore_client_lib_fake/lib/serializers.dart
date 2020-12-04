@@ -36,7 +36,6 @@ import 'package:openapi/model/inline_object3.dart';
 import 'package:openapi/model/inline_object4.dart';
 import 'package:openapi/model/inline_object5.dart';
 import 'package:openapi/model/inline_response_default.dart';
-import 'package:openapi/model/list.dart';
 import 'package:openapi/model/map_test.dart';
 import 'package:openapi/model/mixed_properties_and_additional_properties_class.dart';
 import 'package:openapi/model/model200_response.dart';
@@ -90,7 +89,6 @@ InlineObject3,
 InlineObject4,
 InlineObject5,
 InlineResponseDefault,
-List,
 MapTest,
 MixedPropertiesAndAdditionalPropertiesClass,
 Model200Response,
@@ -204,9 +202,6 @@ const FullType(BuiltList, const [const FullType(InlineObject5)]),
 ..addBuilderFactory(
 const FullType(BuiltList, const [const FullType(InlineResponseDefault)]),
 () => new ListBuilder<InlineResponseDefault>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(List)]),
-() => new ListBuilder<List>())
 ..addBuilderFactory(
 const FullType(BuiltList, const [const FullType(MapTest)]),
 () => new ListBuilder<MapTest>())

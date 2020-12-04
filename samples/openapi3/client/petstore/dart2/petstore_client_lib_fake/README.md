@@ -131,7 +131,6 @@ Class | Method | HTTP request | Description
  - [InlineObject4](doc//InlineObject4.md)
  - [InlineObject5](doc//InlineObject5.md)
  - [InlineResponseDefault](doc//InlineResponseDefault.md)
- - [List](doc//List.md)
  - [MapTest](doc//MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](doc//MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](doc//Model200Response.md)

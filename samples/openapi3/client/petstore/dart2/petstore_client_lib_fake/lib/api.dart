@@ -64,7 +64,6 @@ part 'model/inline_object3.dart';
 part 'model/inline_object4.dart';
 part 'model/inline_object5.dart';
 part 'model/inline_response_default.dart';
-part 'model/list.dart';
 part 'model/map_test.dart';
 part 'model/mixed_properties_and_additional_properties_class.dart';
 part 'model/model200_response.dart';
