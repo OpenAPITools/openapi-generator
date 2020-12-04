@@ -30,6 +30,7 @@ Health check endpoint
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -88,6 +89,7 @@ test http signature authentication
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -159,6 +161,7 @@ Test serialization of outer boolean types
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -224,6 +227,7 @@ Test serialization of object with outer number type
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -289,6 +293,7 @@ Test serialization of outer number types
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -354,6 +359,7 @@ Test serialization of outer string types
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -419,6 +425,7 @@ For this test, the body for this request much reference a schema named `File`.
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -479,6 +486,7 @@ No authorization required
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -543,6 +551,7 @@ To test \"client\" model
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -606,6 +615,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -627,7 +637,7 @@ opts = {
   string: 'string_example', # String | None
   binary: File.new('/path/to/some/file'), # File | None
   date: Date.parse('2013-10-20'), # Date | None
-  date_time: DateTime.parse('2013-10-20T19:20:30+01:00'), # Time | None
+  date_time: Time.parse('2013-10-20T19:20:30+01:00'), # Time | None
   password: 'password_example', # String | None
   callback: 'callback_example' # String | None
 }
@@ -702,6 +712,7 @@ To test enum parameters
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -780,6 +791,7 @@ Fake endpoint to test group parameters (optional)
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -857,6 +869,7 @@ test inline additionalProperties
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -917,6 +930,7 @@ test json serialization of form data
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -981,6 +995,7 @@ To test the collection format in query parameters
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new

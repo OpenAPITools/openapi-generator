@@ -19,6 +19,7 @@ Use alias to array
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::UsageApi.new
@@ -84,6 +85,7 @@ Use alias to map
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::UsageApi.new

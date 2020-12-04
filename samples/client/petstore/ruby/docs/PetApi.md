@@ -24,6 +24,7 @@ Add a new pet to the store
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -89,6 +90,7 @@ Deletes a pet
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -160,6 +162,7 @@ Multiple status values can be provided with comma separated strings
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -228,6 +231,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -296,6 +300,7 @@ Returns a single pet
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -364,6 +369,7 @@ Update an existing pet
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -429,6 +435,7 @@ Updates a pet in the store with form data
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -500,6 +507,7 @@ uploads an image
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -572,6 +580,7 @@ uploads an image (required)
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|

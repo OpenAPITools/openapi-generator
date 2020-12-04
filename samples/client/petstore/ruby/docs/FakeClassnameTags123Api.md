@@ -18,6 +18,7 @@ To test class name in snake case
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|

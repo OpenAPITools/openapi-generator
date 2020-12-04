@@ -638,9 +638,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 return "'https://example.com'";
             } else if (codegenParameter.isDateTime) {
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
-                    return "DateTime.parse('" + codegenParameter.example + "')";
+                    return "Time.parse('" + codegenParameter.example + "')";
                 }
-                return "DateTime.now";
+                return "Time.now";
             } else if (codegenParameter.isDate) {
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
                     return "Date.parse('" + codegenParameter.example + "')";
@@ -700,9 +700,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 return "'https://example.com'";
             } else if (codegenProperty.isDateTime) {
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
-                    return "DateTime.parse('" + codegenProperty.example + "')";
+                    return "Time.parse('" + codegenProperty.example + "')";
                 }
-                return "DateTime.now";
+                return "Time.now";
             } else if (codegenProperty.isDate) {
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
                     return "Date.parse('" + codegenProperty.example + "')";
