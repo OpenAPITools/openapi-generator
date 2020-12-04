@@ -34,16 +34,21 @@ export const PetRecordProps = {
 	recType: "PetRecord" as "PetRecord",
     id: "-1",
     friendId: null as string | null,
+    friendAge: 0,
+    age: 2,
+    isHappy: true,
+    isTall: false,
     category: CategoryRecord(),
     optionalCategory: (CategoryRecord(), null as CategoryRecord | null),
     name: "",
     surname: null as string | null,
     photoUrls: List<string>(),
     depStatus: null as DeploymentRequestStatus | null,
+    alternateStatus: DeploymentRequestStatus.New,
     otherDepStatuses: List<DeploymentRequestStatus>(),
     tags: (TagRecord(), List<TagRecord>()),
     optionalTags: (TagRecord(), null as List<TagRecord> | null),
-    status: PetStatusEnum.Available,
+    status: PetStatusEnum.Pending,
 };
 
 export type PetRecordPropsType = typeof PetRecordProps;

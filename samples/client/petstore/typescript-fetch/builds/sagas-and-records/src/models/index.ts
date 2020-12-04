@@ -1,5 +1,3 @@
-export * from './CSError';
-export * from './CSErrorRecord';
 export * from './Category';
 export * from './CategoryRecord';
 export * from './DefaultMetaOnlyResponse';
@@ -12,6 +10,8 @@ export * from './ItemId';
 export * from './ItemIdRecord';
 export * from './ModelApiResponse';
 export * from './ModelApiResponseRecord';
+export * from './ModelError';
+export * from './ModelErrorRecord';
 export * from './Order';
 export * from './OrderRecord';
 export * from './Pet';

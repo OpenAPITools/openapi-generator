@@ -12,8 +12,6 @@ src/apis/UserApiSagas.ts
 src/apis/allSagas.ts
 src/apis/index.ts
 src/index.ts
-src/models/CSError.ts
-src/models/CSErrorRecord.ts
 src/models/Category.ts
 src/models/CategoryRecord.ts
 src/models/DefaultMetaOnlyResponse.ts
@@ -28,6 +26,8 @@ src/models/ItemId.ts
 src/models/ItemIdRecord.ts
 src/models/ModelApiResponse.ts
 src/models/ModelApiResponseRecord.ts
+src/models/ModelError.ts
+src/models/ModelErrorRecord.ts
 src/models/Order.ts
 src/models/OrderRecord.ts
 src/models/Pet.ts

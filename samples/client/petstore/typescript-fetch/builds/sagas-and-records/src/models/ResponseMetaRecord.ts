@@ -21,10 +21,7 @@ import { ResponseMeta } from './';
 import { ResponseMetaCodeEnum } from "./";
 
 import {
-    CSError,
     ErrorCode,
-    CSErrorRecord,
-    cSErrorRecordUtils,
 } from './';
 
 export const ResponseMetaRecordProps = {
@@ -34,7 +31,7 @@ export const ResponseMetaRecordProps = {
     exception: null as string | null,
     type: null as string | null,
     errorCode: null as ErrorCode | null,
-    errors: (CSErrorRecord(), null as List<CSErrorRecord> | null),
+    errors: null as Array<Error> | null,
 };
 
 export type ResponseMetaRecordPropsType = typeof ResponseMetaRecordProps;
@@ -47,7 +44,6 @@ knownRecordFactories.set(ResponseMetaRecordProps.recType, ResponseMetaRecord);
 class ResponseMetaRecordUtils extends ApiRecordUtils<ResponseMeta, ResponseMetaRecord> {
 	public normalize(apiObject: ResponseMeta, asEntity?: boolean): ResponseMeta {
 		(apiObject as any).recType = "ResponseMetaRecord";
-        if (apiObject.errors) { cSErrorRecordUtils.normalizeArray(apiObject.errors); } 
 		return apiObject;
 	}
 }

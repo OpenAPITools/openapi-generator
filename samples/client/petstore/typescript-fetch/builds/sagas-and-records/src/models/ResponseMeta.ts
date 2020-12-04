@@ -14,10 +14,6 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    CSError,
-    CSErrorFromJSON,
-    CSErrorFromJSONTyped,
-    CSErrorToJSON,
     ErrorCode,
     ErrorCodeFromJSON,
     ErrorCodeFromJSONTyped,
@@ -62,10 +58,10 @@ export interface ResponseMeta {
     errorCode?: ErrorCode;
     /**
      * An array of all the specific error encountered during the request
-     * @type {Array<CSError>}
+     * @type {Array<Error>}
      * @memberof ResponseMeta
      */
-    errors?: Array<CSError>;
+    errors?: Array<Error>;
 }
 
 /**
@@ -113,7 +109,7 @@ export function ResponseMetaFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'exception': !exists(json, 'exception') ? undefined : json['exception'],
         'type': !exists(json, 'type') ? undefined : json['type'],
         'errorCode': !exists(json, 'errorCode') ? undefined : ErrorCodeFromJSON(json['errorCode']),
-        'errors': !exists(json, 'errors') ? undefined : ((json['errors'] as Array<any>).map(CSErrorFromJSON)),
+        'errors': !exists(json, 'errors') ? undefined : json['errors'],
     };
 }
 
@@ -131,7 +127,7 @@ export function ResponseMetaToJSON(value?: ResponseMeta | null): any {
         'exception': value.exception,
         'type': value.type,
         'errorCode': ErrorCodeToJSON(value.errorCode),
-        'errors': value.errors === undefined ? undefined : ((value.errors as Array<any>).map(CSErrorToJSON)),
+        'errors': value.errors,
     };
 }
 

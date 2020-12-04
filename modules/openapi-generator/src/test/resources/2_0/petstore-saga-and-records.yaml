@@ -665,10 +665,16 @@ definitions:
     title: a User
     description: A User who is purchasing from the pet store
     type: object
+    x-entityId: "id"
+    x-keepAsJSObject: "subUser,subUser2"
+    required:
+      - id
+      - subUser2
     properties:
       id:
         type: integer
         format: int64
+        x-isUniqueId: true
       username:
         type: string
       firstName:
@@ -685,6 +691,10 @@ definitions:
         type: integer
         format: int32
         description: User Status
+      subUser:
+        $ref: '#/definitions/User'
+      subUser2:
+        $ref: '#/definitions/User'
     xml:
       name: User
   Tag:
@@ -712,7 +722,12 @@ definitions:
       - photoUrls
       - tags
       - status
+      - alternateStatus
       - otherDepStatuses
+      - friendAge
+      - age
+      - isHappy
+      - isTall
     x-entityId: "id"
     properties:
       id:
@@ -723,6 +738,18 @@ definitions:
         type: integer
         format: int64
         x-isUniqueId: true
+      friendAge:
+        type: integer
+        format: int64
+      age:
+        type: integer
+        format: int64
+        default: 2
+      isHappy:
+        type: boolean
+        default: true
+      isTall:
+        type: boolean
       category:
         $ref: '#/definitions/Category'
       optionalCategory:
@@ -741,6 +768,8 @@ definitions:
         items:
           type: string
       depStatus:
+        $ref: "#/definitions/DeploymentRequestStatus"
+      alternateStatus:
         $ref: "#/definitions/DeploymentRequestStatus"
       otherDepStatuses:
         type: array
@@ -767,6 +796,7 @@ definitions:
           - available
           - pending
           - sold
+        default: pending
     xml:
       name: Pet
   ApiResponse:
@@ -802,6 +832,7 @@ definitions:
   ResponseMeta:
     type: object
     description: "Mandatory part of each response given by our API"
+    x-keepAsJSObject: "errors"
     required:
       - code
     properties:
@@ -852,8 +883,8 @@ definitions:
         type: array
         description: "An array of all the specific error encountered during the request"
         items:
-          $ref: "#/definitions/CSError"
-  CSError:
+          $ref: "#/definitions/Error"
+  Error:
     type: object
     description: "This represent an error normally linked to a specific item from a previous request"
     required:

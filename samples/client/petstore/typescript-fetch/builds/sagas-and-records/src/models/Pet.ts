@@ -48,6 +48,30 @@ export interface Pet {
     friendId?: number;
     /**
      * 
+     * @type {number}
+     * @memberof Pet
+     */
+    friendAge: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Pet
+     */
+    age: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Pet
+     */
+    isHappy: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Pet
+     */
+    isTall: boolean;
+    /**
+     * 
      * @type {Category}
      * @memberof Pet
      */
@@ -82,6 +106,12 @@ export interface Pet {
      * @memberof Pet
      */
     depStatus?: DeploymentRequestStatus;
+    /**
+     * 
+     * @type {DeploymentRequestStatus}
+     * @memberof Pet
+     */
+    alternateStatus: DeploymentRequestStatus;
     /**
      * 
      * @type {Array<DeploymentRequestStatus>}
@@ -130,12 +160,17 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
         
         'id': json['id'],
         'friendId': !exists(json, 'friendId') ? undefined : json['friendId'],
+        'friendAge': json['friendAge'],
+        'age': json['age'],
+        'isHappy': json['isHappy'],
+        'isTall': json['isTall'],
         'category': CategoryFromJSON(json['category']),
         'optionalCategory': !exists(json, 'optionalCategory') ? undefined : CategoryFromJSON(json['optionalCategory']),
         'name': json['name'],
         'surname': !exists(json, 'surname') ? undefined : json['surname'],
         'photoUrls': json['photoUrls'],
         'depStatus': !exists(json, 'depStatus') ? undefined : DeploymentRequestStatusFromJSON(json['depStatus']),
+        'alternateStatus': DeploymentRequestStatusFromJSON(json['alternateStatus']),
         'otherDepStatuses': ((json['otherDepStatuses'] as Array<any>).map(DeploymentRequestStatusFromJSON)),
         'tags': ((json['tags'] as Array<any>).map(TagFromJSON)),
         'optionalTags': !exists(json, 'optionalTags') ? undefined : ((json['optionalTags'] as Array<any>).map(TagFromJSON)),
@@ -154,12 +189,17 @@ export function PetToJSON(value?: Pet | null): any {
         
         'id': value.id,
         'friendId': value.friendId,
+        'friendAge': value.friendAge,
+        'age': value.age,
+        'isHappy': value.isHappy,
+        'isTall': value.isTall,
         'category': CategoryToJSON(value.category),
         'optionalCategory': CategoryToJSON(value.optionalCategory),
         'name': value.name,
         'surname': value.surname,
         'photoUrls': value.photoUrls,
         'depStatus': DeploymentRequestStatusToJSON(value.depStatus),
+        'alternateStatus': DeploymentRequestStatusToJSON(value.alternateStatus),
         'otherDepStatuses': ((value.otherDepStatuses as Array<any>).map(DeploymentRequestStatusToJSON)),
         'tags': ((value.tags as Array<any>).map(TagToJSON)),
         'optionalTags': value.optionalTags === undefined ? undefined : ((value.optionalTags as Array<any>).map(TagToJSON)),

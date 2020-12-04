@@ -29,14 +29,24 @@ export const {{classname}}RecordProps = {
 {{#vars}}
     {{#isArray}}
     {{#items.isModel}}
+    {{#keepAsJSObject}}
+    {{name}}: {{#required}}new {{{dataType}}}(){{/required}}{{^required}}null as {{{dataType}}} | null{{/required}},
+    {{/keepAsJSObject}}
+    {{^keepAsJSObject}}
     {{name}}: ({{{items.dataType}}}Record(), {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null as {{{dataTypeAlternate}}} | null{{/required}}),
+    {{/keepAsJSObject}}
     {{/items.isModel}}
     {{^items.isModel}}
     {{name}}: {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null as {{{dataTypeAlternate}}} | null{{/required}},
     {{/items.isModel}}
     {{/isArray}}
     {{#isModel}}
+    {{#keepAsJSObject}}
+    {{name}}: {{#required}}{} as any as {{{dataType}}}{{/required}}{{^required}}null as {{{dataType}}} | null{{/required}},
+    {{/keepAsJSObject}}
+    {{^keepAsJSObject}}
     {{name}}: {{#required}}{{{defaultValue}}}{{/required}}{{^required}}({{{defaultValue}}}, null as {{{dataTypeAlternate}}} | null){{/required}},
+    {{/keepAsJSObject}}
     {{/isModel}}
     {{^isContainer}}
     {{^isModel}}
@@ -82,6 +92,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
         {{#isUniqueId}}
         {{^required}}if (apiObject.{{name}}) { {{/required}}(apiObject as any).{{name}} = apiObject.{{name}}.toString();{{^required}} } {{/required}}
         {{/isUniqueId}}
+        {{^keepAsJSObject}}
         {{#isModel}}
         {{^required}}if (apiObject.{{name}}) { {{/required}}{{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.normalize(apiObject.{{name}});{{^required}} } {{/required}}
         {{/isModel}}
@@ -90,6 +101,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
         {{^required}}if (apiObject.{{name}}) { {{/required}}{{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.normalizeArray(apiObject.{{name}});{{^required}} } {{/required}}
         {{/items.isModel}}
         {{/isArray}}
+        {{/keepAsJSObject}}
 {{/vars}}
 		return apiObject;
 	}

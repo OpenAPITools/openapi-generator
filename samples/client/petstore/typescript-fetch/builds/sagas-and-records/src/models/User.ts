@@ -24,7 +24,7 @@ export interface User {
      * @type {number}
      * @memberof User
      */
-    id?: number;
+    id: number;
     /**
      * 
      * @type {string}
@@ -67,6 +67,18 @@ export interface User {
      * @memberof User
      */
     userStatus?: number;
+    /**
+     * 
+     * @type {User}
+     * @memberof User
+     */
+    subUser?: User;
+    /**
+     * 
+     * @type {User}
+     * @memberof User
+     */
+    subUser2: User;
 }
 
 export function UserFromJSON(json: any): User {
@@ -79,7 +91,7 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
+        'id': json['id'],
         'username': !exists(json, 'username') ? undefined : json['username'],
         'firstName': !exists(json, 'firstName') ? undefined : json['firstName'],
         'lastName': !exists(json, 'lastName') ? undefined : json['lastName'],
@@ -87,6 +99,8 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'password': !exists(json, 'password') ? undefined : json['password'],
         'phone': !exists(json, 'phone') ? undefined : json['phone'],
         'userStatus': !exists(json, 'userStatus') ? undefined : json['userStatus'],
+        'subUser': !exists(json, 'subUser') ? undefined : UserFromJSON(json['subUser']),
+        'subUser2': UserFromJSON(json['subUser2']),
     };
 }
 
@@ -107,6 +121,8 @@ export function UserToJSON(value?: User | null): any {
         'password': value.password,
         'phone': value.phone,
         'userStatus': value.userStatus,
+        'subUser': UserToJSON(value.subUser),
+        'subUser2': UserToJSON(value.subUser2),
     };
 }
 

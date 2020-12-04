@@ -276,8 +276,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             updateCodegenPropertyEnum(var);
         } else if (var.dataType.equalsIgnoreCase("string")) {
             var.defaultValue = "\"\"";
-        } else if (var.dataType.equalsIgnoreCase("integer")) {
+        } else if (var.dataType.equalsIgnoreCase("number")) {
             var.defaultValue = "0";
+        } else if (var.dataType.equalsIgnoreCase("boolean")) {
+            var.defaultValue = "false";
+        } else if (var.allowableValues != null && var.allowableValues.get("enumVars") instanceof ArrayList && var.allowableValues.get("values") instanceof ArrayList) {
+            var.defaultValue = var.dataTypeAlternate + "." + ((ArrayList)var.allowableValues.get("values")).get(0);
         }
     }
 
@@ -448,8 +452,17 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     private ExtendedCodegenModel processCodeGenModel(ExtendedCodegenModel cm) {
         Object xEntityId = cm.vendorExtensions.get(X_ENTITY_ID);
+        Object vendorKeepAsJSObject = cm.vendorExtensions.get(X_KEEP_AS_JS_OBJECT);
+        String[] propertiesToKeepAsJSObject = null;
+        if (vendorKeepAsJSObject instanceof String) {
+            propertiesToKeepAsJSObject = ((String)vendorKeepAsJSObject).split(",");
+        }
+
         for (CodegenProperty cpVar : cm.vars) {
             ExtendedCodegenProperty var = (ExtendedCodegenProperty)cpVar;
+            if (propertiesToKeepAsJSObject != null && Arrays.asList(propertiesToKeepAsJSObject).contains(var.name)) {
+                var.keepAsJSObject = true;
+            }
             boolean parentIsEntity = this.processCodegenProperty(var, cm.classname, xEntityId);
             if (parentIsEntity) {
                 cm.isEntity = true;
@@ -481,6 +494,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         if (cm.parent != null) {
             for (CodegenProperty cpVar : cm.allVars) {
                 ExtendedCodegenProperty var = (ExtendedCodegenProperty)cpVar;
+
                 if (Boolean.TRUE.equals(var.isEnum)) {
                     var.datatypeWithEnum = var.datatypeWithEnum
                             .replace(var.enumName, cm.classname + var.enumName);
@@ -819,7 +833,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public String dataTypeAlternate;
         public boolean isEntity; //Is a model containing an "id" property marked as isUniqueId and which matches the 'x-entityId' value.
         public boolean isUniqueId; // The property represents a unique id (x-isUniqueId: true)
-
+        public boolean keepAsJSObject;
 
         public ExtendedCodegenProperty(CodegenProperty cp) {
             super();
@@ -920,13 +934,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             return result &&
                     isEntity == that.isEntity &&
                     isUniqueId == that.isUniqueId &&
+                    keepAsJSObject == that.keepAsJSObject &&
                     Objects.equals(dataTypeAlternate, that.dataTypeAlternate);
         }
 
         @Override
         public int hashCode() {
             int superHash = super.hashCode();
-            return Objects.hash(superHash, dataTypeAlternate, isEntity, isUniqueId);
+            return Objects.hash(superHash, dataTypeAlternate, isEntity, isUniqueId, keepAsJSObject);
         }
 
         @Override
@@ -936,6 +951,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             sb.append(", dataTypeAlternate='").append(dataTypeAlternate).append('\'');
             sb.append(", isEntity=").append(isEntity);
             sb.append(", isUniqueId=").append(isUniqueId);
+            sb.append(", keepAsJSObject=").append(keepAsJSObject);
             return sb.toString();
         }
     }
