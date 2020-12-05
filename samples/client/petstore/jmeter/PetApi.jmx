@@ -121,8 +121,14 @@
         </HeaderManager>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="addPet - ${testCase}" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments">
+              <elementProp name="body" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${body}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
             </collectionProp>
           </elementProp>
           <stringProp name="HTTPSampler.domain"></stringProp>
@@ -191,6 +197,7 @@
         </HeaderManager>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="deletePet - ${testCase}" enabled="true">
+          
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments">
             </collectionProp>
@@ -257,6 +264,7 @@
         </HeaderManager>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="findPetsByStatus - ${testCase}" enabled="true">
+          
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments">
               <elementProp name="status" elementType="HTTPArgument">
@@ -330,6 +338,7 @@
         </HeaderManager>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="findPetsByTags - ${testCase}" enabled="true">
+          
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments">
               <elementProp name="tags" elementType="HTTPArgument">
@@ -403,6 +412,7 @@
         </HeaderManager>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="getPetById - ${testCase}" enabled="true">
+          
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments">
             </collectionProp>
@@ -469,8 +479,14 @@
         </HeaderManager>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="updatePet - ${testCase}" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments">
+              <elementProp name="body" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${body}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
             </collectionProp>
           </elementProp>
           <stringProp name="HTTPSampler.domain"></stringProp>
@@ -535,6 +551,7 @@
         </HeaderManager>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="updatePetWithForm - ${testCase}" enabled="true">
+          
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments">
             </collectionProp>
@@ -601,6 +618,7 @@
         </HeaderManager>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="uploadFile - ${testCase}" enabled="true">
+          
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments">
             </collectionProp>
