@@ -46,7 +46,7 @@ public class SharedTypeScriptTest {
         String apiFileContent = FileUtils.readFileToString(apiFile);
         Assert.assertTrue(!apiFileContent.contains("import { OrganizationWrapper | PersonWrapper }"));
         Assert.assertEquals(StringUtils.countMatches(apiFileContent,"import { PersonWrapper }"),1);
-        Assert.assertEquals(StringUtils.countMatches(apiFileContent,"import { OrganizationWrapper }"),1);
+        Assert.assertEquals(StringUtils.countMatches(apiFileContent,"import { GetCustomerResponse }"),1);
     }
 
     @Test

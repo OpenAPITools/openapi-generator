@@ -2655,15 +2655,19 @@ public class DefaultCodegenTest {
         path = "/object_with_optional_and_required_props/{objectData}";
         operation = openAPI.getPaths().get(path).getPost();
         co = codegen.fromOperation(path, "POST", operation, null);
-        assertEquals(co.pathParams.get(0).vars, vars);
-        assertEquals(co.pathParams.get(0).requiredVars, requiredVars);
-        assertEquals(co.bodyParams.get(0).vars, vars);
-        assertEquals(co.bodyParams.get(0).requiredVars, requiredVars);
+        // CodegenOperation puts the inline parameter schema into schemas and refs it
+        assertEquals(co.pathParams.get(0).isModel, true);
+        assertEquals(co.pathParams.get(0).dataType, "objectWithOptionalAndRequiredPropsBody");
+        modelName = "objectWithOptionalAndRequiredPropsBody";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.vars, vars);
+        assertEquals(cm.requiredVars, requiredVars);
 
         // CodegenOperation puts the inline schema into schemas and refs it
         assertEquals(co.responses.get(0).isModel, true);
-        assertEquals(co.responses.get(0).baseType, "objectData");
-        modelName = "objectData";
+        assertEquals(co.responses.get(0).baseType, "objectWithOptionalAndRequiredPropsBody");
+        modelName = "objectWithOptionalAndRequiredPropsBody";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         assertEquals(cm.vars, vars);
@@ -2675,6 +2679,6 @@ public class DefaultCodegenTest {
         cm = codegen.fromModel(modelName, sc);
         CodegenProperty cp = cm.getVars().get(0);
         assertEquals(cp.isModel, true);
-        assertEquals(cp.complexType, "objectData");
+        assertEquals(cp.complexType, "objectWithOptionalAndRequiredPropsBody");
     }
 }
