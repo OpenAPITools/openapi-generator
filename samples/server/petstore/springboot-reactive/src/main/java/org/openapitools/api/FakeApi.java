@@ -295,7 +295,7 @@ public interface FakeApi {
         value = "/fake/inline-additionalProperties",
         consumes = { "application/json" }
     )
-    default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true )  @Valid @RequestBody Mono<String> param, @ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true )  @Valid @RequestBody Mono<Map<String, String>> param, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().testInlineAdditionalProperties(param, exchange);
     }
 
