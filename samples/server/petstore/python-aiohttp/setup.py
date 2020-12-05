@@ -33,7 +33,7 @@ setup(
     entry_points={
         'console_scripts': ['openapi_server=openapi_server.__main__:main']},
     long_description="""\
-    This is a sample server Petstore server. For this sample, you can use the api key &#x60;special-key&#x60; to test the authorization filters.
+    This is a sample server Petstore server. For this sample, you can use the api key &#x60;special-key&#x60; to test the authorization filters. NOTE - this spec differs from petstore.yaml in order to circumvent this known issue - https://github.com/OpenAPITools/openapi-generator/issues/3870 When the issue is resolves the bin/configs/python-aiohttp.yaml can be reverted to use petstore.yaml and this spec can be removed.
     """
 )
 
