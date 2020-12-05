@@ -40,9 +40,9 @@ func NewBananaWithDefaults() *Banana {
 }
 
 // GetLengthCm returns the LengthCm field value if set, zero value otherwise.
-func (o *Banana) GetLengthCm()  {
+func (o *Banana) GetLengthCm() float32 {
 	if o == nil || o.LengthCm == nil {
-		var ret 
+		var ret float32
 		return ret
 	}
 	return *o.LengthCm
@@ -50,7 +50,7 @@ func (o *Banana) GetLengthCm()  {
 
 // GetLengthCmOk returns a tuple with the LengthCm field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Banana) GetLengthCmOk() (*, bool) {
+func (o *Banana) GetLengthCmOk() (*float32, bool) {
 	if o == nil || o.LengthCm == nil {
 		return nil, false
 	}
@@ -67,7 +67,7 @@ func (o *Banana) HasLengthCm() bool {
 }
 
 // SetLengthCm gets a reference to the given float32 and assigns it to the LengthCm field.
-func (o *Banana) SetLengthCm(v ) {
+func (o *Banana) SetLengthCm(v float32) {
 	o.LengthCm = &v
 }
 

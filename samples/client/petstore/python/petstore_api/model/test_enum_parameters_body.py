@@ -146,7 +146,7 @@ class TestEnumParametersBody(ModelNormal):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             enum_form_string_array ([str]): Form parameter enum test (string array). [optional]  # noqa: E501
-            enum_form_string (str): Form parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'  # noqa: E501
+            enum_form_string (str): Form parameter enum test (string). [optional] if omitted the server will use the default value of "-efg"  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

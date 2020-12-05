@@ -12,6 +12,7 @@ package petstore
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // EnumArraysJustSymbol the model 'EnumArraysJustSymbol'

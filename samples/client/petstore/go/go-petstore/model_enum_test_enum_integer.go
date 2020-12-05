@@ -12,6 +12,7 @@ package petstore
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // EnumTestEnumInteger the model 'EnumTestEnumInteger'

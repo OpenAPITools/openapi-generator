@@ -38,9 +38,9 @@ func NewBigCatWithDefaults() *BigCat {
 }
 
 // GetKind returns the Kind field value if set, zero value otherwise.
-func (o *BigCat) GetKind()  {
+func (o *BigCat) GetKind() BigCatAllOfKind {
 	if o == nil || o.Kind == nil {
-		var ret 
+		var ret BigCatAllOfKind
 		return ret
 	}
 	return *o.Kind
@@ -48,7 +48,7 @@ func (o *BigCat) GetKind()  {
 
 // GetKindOk returns a tuple with the Kind field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BigCat) GetKindOk() (*, bool) {
+func (o *BigCat) GetKindOk() (*BigCatAllOfKind, bool) {
 	if o == nil || o.Kind == nil {
 		return nil, false
 	}
@@ -65,7 +65,7 @@ func (o *BigCat) HasKind() bool {
 }
 
 // SetKind gets a reference to the given BigCatAllOfKind and assigns it to the Kind field.
-func (o *BigCat) SetKind(v ) {
+func (o *BigCat) SetKind(v BigCatAllOfKind) {
 	o.Kind = &v
 }
 

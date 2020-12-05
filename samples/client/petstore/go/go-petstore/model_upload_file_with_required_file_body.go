@@ -27,9 +27,9 @@ type UploadFileWithRequiredFileBody struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUploadFileWithRequiredFileBody(RequiredFile *os.File, ) *UploadFileWithRequiredFileBody {
+func NewUploadFileWithRequiredFileBody(requiredFile *os.File, ) *UploadFileWithRequiredFileBody {
 	this := UploadFileWithRequiredFileBody{}
-	this.RequiredFile = RequiredFile
+	this.RequiredFile = requiredFile
 	return &this
 }
 
@@ -42,9 +42,9 @@ func NewUploadFileWithRequiredFileBodyWithDefaults() *UploadFileWithRequiredFile
 }
 
 // GetAdditionalMetadata returns the AdditionalMetadata field value if set, zero value otherwise.
-func (o *UploadFileWithRequiredFileBody) GetAdditionalMetadata()  {
+func (o *UploadFileWithRequiredFileBody) GetAdditionalMetadata() string {
 	if o == nil || o.AdditionalMetadata == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.AdditionalMetadata
@@ -52,7 +52,7 @@ func (o *UploadFileWithRequiredFileBody) GetAdditionalMetadata()  {
 
 // GetAdditionalMetadataOk returns a tuple with the AdditionalMetadata field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UploadFileWithRequiredFileBody) GetAdditionalMetadataOk() (*, bool) {
+func (o *UploadFileWithRequiredFileBody) GetAdditionalMetadataOk() (*string, bool) {
 	if o == nil || o.AdditionalMetadata == nil {
 		return nil, false
 	}
@@ -69,14 +69,14 @@ func (o *UploadFileWithRequiredFileBody) HasAdditionalMetadata() bool {
 }
 
 // SetAdditionalMetadata gets a reference to the given string and assigns it to the AdditionalMetadata field.
-func (o *UploadFileWithRequiredFileBody) SetAdditionalMetadata(v ) {
+func (o *UploadFileWithRequiredFileBody) SetAdditionalMetadata(v string) {
 	o.AdditionalMetadata = &v
 }
 
 // GetRequiredFile returns the RequiredFile field value
-func (o *UploadFileWithRequiredFileBody) GetRequiredFile()  {
+func (o *UploadFileWithRequiredFileBody) GetRequiredFile() *os.File {
 	if o == nil  {
-		var ret 
+		var ret *os.File
 		return ret
 	}
 
@@ -85,7 +85,7 @@ func (o *UploadFileWithRequiredFileBody) GetRequiredFile()  {
 
 // GetRequiredFileOk returns a tuple with the RequiredFile field value
 // and a boolean to check if the value has been set.
-func (o *UploadFileWithRequiredFileBody) GetRequiredFileOk() (*, bool) {
+func (o *UploadFileWithRequiredFileBody) GetRequiredFileOk() (**os.File, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -93,7 +93,7 @@ func (o *UploadFileWithRequiredFileBody) GetRequiredFileOk() (*, bool) {
 }
 
 // SetRequiredFile sets field value
-func (o *UploadFileWithRequiredFileBody) SetRequiredFile(v ) {
+func (o *UploadFileWithRequiredFileBody) SetRequiredFile(v *os.File) {
 	o.RequiredFile = v
 }
 

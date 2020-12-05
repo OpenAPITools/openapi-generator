@@ -65,7 +65,7 @@ public class CatAllOf {
 
 
   /**
-   * Return true if this Cat_allOf object is equal to o.
+   * Return true if this CatAllOf object is equal to o.
    */
   @Override
   public boolean equals(Object o) {

@@ -40,9 +40,9 @@ func NewNumberOnlyWithDefaults() *NumberOnly {
 }
 
 // GetJustNumber returns the JustNumber field value if set, zero value otherwise.
-func (o *NumberOnly) GetJustNumber()  {
+func (o *NumberOnly) GetJustNumber() float32 {
 	if o == nil || o.JustNumber == nil {
-		var ret 
+		var ret float32
 		return ret
 	}
 	return *o.JustNumber
@@ -50,7 +50,7 @@ func (o *NumberOnly) GetJustNumber()  {
 
 // GetJustNumberOk returns a tuple with the JustNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NumberOnly) GetJustNumberOk() (*, bool) {
+func (o *NumberOnly) GetJustNumberOk() (*float32, bool) {
 	if o == nil || o.JustNumber == nil {
 		return nil, false
 	}
@@ -67,7 +67,7 @@ func (o *NumberOnly) HasJustNumber() bool {
 }
 
 // SetJustNumber gets a reference to the given float32 and assigns it to the JustNumber field.
-func (o *NumberOnly) SetJustNumber(v ) {
+func (o *NumberOnly) SetJustNumber(v float32) {
 	o.JustNumber = &v
 }
 

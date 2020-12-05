@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// DogAllOf
     /// </summary>
-    [DataContract(Name = "Dog_allOf")]
+    [DataContract(Name = "DogAllOf")]
     public partial class DogAllOf : IEquatable<DogAllOf>, IValidatableObject
     {
         /// <summary>

@@ -2,8 +2,11 @@ apis/DefaultApi.ts
 apis/index.ts
 index.ts
 models/EnumPatternObject.ts
-models/InlineObject.ts
-models/InlineResponse200.ts
+models/FakeEnumRequestGetInlineResponse.ts
+models/NullableNumberEnum.ts
+models/NullableNumberEnum1.ts
+models/NullableStringEnum.ts
+models/NullableStringEnum1.ts
 models/NumberEnum.ts
 models/StringEnum.ts
 models/index.ts

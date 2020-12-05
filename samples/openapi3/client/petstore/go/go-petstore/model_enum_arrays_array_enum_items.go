@@ -12,6 +12,7 @@ package petstore
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // EnumArraysArrayEnumItems the model 'EnumArraysArrayEnumItems'

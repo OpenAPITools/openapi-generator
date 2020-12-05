@@ -2,18 +2,19 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**name** | **String** | Updated name of the pet | [optional] 
-**status** | **String** | Updated status of the pet | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **name** | **String** | Updated name of the pet | [optional] |
+| **status** | **String** | Updated status of the pet | [optional] |
 
 ## Code Sample
 
 ```ruby
-require 'Petstore'
+require 'petstore'
 
-instance = Petstore::UpdatePetWithFormBody.new(name: null,
-                                 status: null)
+instance = Petstore::UpdatePetWithFormBody.new(
+  name: null,
+  status: null
+)
 ```
-
 

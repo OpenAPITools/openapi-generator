@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetVar123List
 
-`func (o *List) GetVar123List() `
+`func (o *List) GetVar123List() string`
 
 GetVar123List returns the Var123List field if non-nil, zero value otherwise.
 
 ### GetVar123ListOk
 
-`func (o *List) GetVar123ListOk() (*, bool)`
+`func (o *List) GetVar123ListOk() (*string, bool)`
 
 GetVar123ListOk returns a tuple with the Var123List field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVar123List
 
-`func (o *List) SetVar123List(v )`
+`func (o *List) SetVar123List(v string)`
 
 SetVar123List sets Var123List field to given value.
 

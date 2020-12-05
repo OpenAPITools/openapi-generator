@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AdditionalMetadata** | Pointer to **string** | Additional data to pass to server | [optional] 
-**File** | Pointer to [***os.File**](*os.File.md) | file to upload | [optional] 
+**File** | Pointer to ***os.File** | file to upload | [optional] 
 
 ## Methods
 
@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetAdditionalMetadata
 
-`func (o *UploadFileBody) GetAdditionalMetadata() `
+`func (o *UploadFileBody) GetAdditionalMetadata() string`
 
 GetAdditionalMetadata returns the AdditionalMetadata field if non-nil, zero value otherwise.
 
 ### GetAdditionalMetadataOk
 
-`func (o *UploadFileBody) GetAdditionalMetadataOk() (*, bool)`
+`func (o *UploadFileBody) GetAdditionalMetadataOk() (*string, bool)`
 
 GetAdditionalMetadataOk returns a tuple with the AdditionalMetadata field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAdditionalMetadata
 
-`func (o *UploadFileBody) SetAdditionalMetadata(v )`
+`func (o *UploadFileBody) SetAdditionalMetadata(v string)`
 
 SetAdditionalMetadata sets AdditionalMetadata field to given value.
 
@@ -53,20 +53,20 @@ HasAdditionalMetadata returns a boolean if a field has been set.
 
 ### GetFile
 
-`func (o *UploadFileBody) GetFile() `
+`func (o *UploadFileBody) GetFile() *os.File`
 
 GetFile returns the File field if non-nil, zero value otherwise.
 
 ### GetFileOk
 
-`func (o *UploadFileBody) GetFileOk() (*, bool)`
+`func (o *UploadFileBody) GetFileOk() (**os.File, bool)`
 
 GetFileOk returns a tuple with the File field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFile
 
-`func (o *UploadFileBody) SetFile(v )`
+`func (o *UploadFileBody) SetFile(v *os.File)`
 
 SetFile sets File field to given value.
 

@@ -34,8 +34,8 @@ type _Order Order
 // will change when the set of required properties is changed
 func NewOrder() *Order {
 	this := Order{}
-	var Complete bool = false
-	this.Complete = &Complete
+	var complete bool = false
+	this.Complete = &complete
 	return &this
 }
 
@@ -44,15 +44,15 @@ func NewOrder() *Order {
 // but it doesn't guarantee that properties required by API are set
 func NewOrderWithDefaults() *Order {
 	this := Order{}
-	var Complete bool = false
-	this.Complete = &Complete
+	var complete bool = false
+	this.Complete = &complete
 	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *Order) GetId()  {
+func (o *Order) GetId() int64 {
 	if o == nil || o.Id == nil {
-		var ret 
+		var ret int64
 		return ret
 	}
 	return *o.Id
@@ -60,7 +60,7 @@ func (o *Order) GetId()  {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Order) GetIdOk() (*, bool) {
+func (o *Order) GetIdOk() (*int64, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
@@ -77,14 +77,14 @@ func (o *Order) HasId() bool {
 }
 
 // SetId gets a reference to the given int64 and assigns it to the Id field.
-func (o *Order) SetId(v ) {
+func (o *Order) SetId(v int64) {
 	o.Id = &v
 }
 
 // GetPetId returns the PetId field value if set, zero value otherwise.
-func (o *Order) GetPetId()  {
+func (o *Order) GetPetId() int64 {
 	if o == nil || o.PetId == nil {
-		var ret 
+		var ret int64
 		return ret
 	}
 	return *o.PetId
@@ -92,7 +92,7 @@ func (o *Order) GetPetId()  {
 
 // GetPetIdOk returns a tuple with the PetId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Order) GetPetIdOk() (*, bool) {
+func (o *Order) GetPetIdOk() (*int64, bool) {
 	if o == nil || o.PetId == nil {
 		return nil, false
 	}
@@ -109,14 +109,14 @@ func (o *Order) HasPetId() bool {
 }
 
 // SetPetId gets a reference to the given int64 and assigns it to the PetId field.
-func (o *Order) SetPetId(v ) {
+func (o *Order) SetPetId(v int64) {
 	o.PetId = &v
 }
 
 // GetQuantity returns the Quantity field value if set, zero value otherwise.
-func (o *Order) GetQuantity()  {
+func (o *Order) GetQuantity() int32 {
 	if o == nil || o.Quantity == nil {
-		var ret 
+		var ret int32
 		return ret
 	}
 	return *o.Quantity
@@ -124,7 +124,7 @@ func (o *Order) GetQuantity()  {
 
 // GetQuantityOk returns a tuple with the Quantity field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Order) GetQuantityOk() (*, bool) {
+func (o *Order) GetQuantityOk() (*int32, bool) {
 	if o == nil || o.Quantity == nil {
 		return nil, false
 	}
@@ -141,14 +141,14 @@ func (o *Order) HasQuantity() bool {
 }
 
 // SetQuantity gets a reference to the given int32 and assigns it to the Quantity field.
-func (o *Order) SetQuantity(v ) {
+func (o *Order) SetQuantity(v int32) {
 	o.Quantity = &v
 }
 
 // GetShipDate returns the ShipDate field value if set, zero value otherwise.
-func (o *Order) GetShipDate()  {
+func (o *Order) GetShipDate() time.Time {
 	if o == nil || o.ShipDate == nil {
-		var ret 
+		var ret time.Time
 		return ret
 	}
 	return *o.ShipDate
@@ -156,7 +156,7 @@ func (o *Order) GetShipDate()  {
 
 // GetShipDateOk returns a tuple with the ShipDate field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Order) GetShipDateOk() (*, bool) {
+func (o *Order) GetShipDateOk() (*time.Time, bool) {
 	if o == nil || o.ShipDate == nil {
 		return nil, false
 	}
@@ -173,14 +173,14 @@ func (o *Order) HasShipDate() bool {
 }
 
 // SetShipDate gets a reference to the given time.Time and assigns it to the ShipDate field.
-func (o *Order) SetShipDate(v ) {
+func (o *Order) SetShipDate(v time.Time) {
 	o.ShipDate = &v
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *Order) GetStatus()  {
+func (o *Order) GetStatus() OrderStatus {
 	if o == nil || o.Status == nil {
-		var ret 
+		var ret OrderStatus
 		return ret
 	}
 	return *o.Status
@@ -188,7 +188,7 @@ func (o *Order) GetStatus()  {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Order) GetStatusOk() (*, bool) {
+func (o *Order) GetStatusOk() (*OrderStatus, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -205,14 +205,14 @@ func (o *Order) HasStatus() bool {
 }
 
 // SetStatus gets a reference to the given OrderStatus and assigns it to the Status field.
-func (o *Order) SetStatus(v ) {
+func (o *Order) SetStatus(v OrderStatus) {
 	o.Status = &v
 }
 
 // GetComplete returns the Complete field value if set, zero value otherwise.
-func (o *Order) GetComplete()  {
+func (o *Order) GetComplete() bool {
 	if o == nil || o.Complete == nil {
-		var ret 
+		var ret bool
 		return ret
 	}
 	return *o.Complete
@@ -220,7 +220,7 @@ func (o *Order) GetComplete()  {
 
 // GetCompleteOk returns a tuple with the Complete field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Order) GetCompleteOk() (*, bool) {
+func (o *Order) GetCompleteOk() (*bool, bool) {
 	if o == nil || o.Complete == nil {
 		return nil, false
 	}
@@ -237,7 +237,7 @@ func (o *Order) HasComplete() bool {
 }
 
 // SetComplete gets a reference to the given bool and assigns it to the Complete field.
-func (o *Order) SetComplete(v ) {
+func (o *Order) SetComplete(v bool) {
 	o.Complete = &v
 }
 

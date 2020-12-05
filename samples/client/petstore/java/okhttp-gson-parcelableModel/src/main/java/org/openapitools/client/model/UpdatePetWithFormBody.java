@@ -30,7 +30,7 @@ import android.os.Parcel;
  * UpdatePetWithFormBody
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class UpdatePetWithFormBody implements Parcelable {
+public class UpdatePetWithFormBody {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;

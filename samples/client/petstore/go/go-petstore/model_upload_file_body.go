@@ -41,9 +41,9 @@ func NewUploadFileBodyWithDefaults() *UploadFileBody {
 }
 
 // GetAdditionalMetadata returns the AdditionalMetadata field value if set, zero value otherwise.
-func (o *UploadFileBody) GetAdditionalMetadata()  {
+func (o *UploadFileBody) GetAdditionalMetadata() string {
 	if o == nil || o.AdditionalMetadata == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.AdditionalMetadata
@@ -51,7 +51,7 @@ func (o *UploadFileBody) GetAdditionalMetadata()  {
 
 // GetAdditionalMetadataOk returns a tuple with the AdditionalMetadata field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UploadFileBody) GetAdditionalMetadataOk() (*, bool) {
+func (o *UploadFileBody) GetAdditionalMetadataOk() (*string, bool) {
 	if o == nil || o.AdditionalMetadata == nil {
 		return nil, false
 	}
@@ -68,14 +68,14 @@ func (o *UploadFileBody) HasAdditionalMetadata() bool {
 }
 
 // SetAdditionalMetadata gets a reference to the given string and assigns it to the AdditionalMetadata field.
-func (o *UploadFileBody) SetAdditionalMetadata(v ) {
+func (o *UploadFileBody) SetAdditionalMetadata(v string) {
 	o.AdditionalMetadata = &v
 }
 
 // GetFile returns the File field value if set, zero value otherwise.
-func (o *UploadFileBody) GetFile()  {
+func (o *UploadFileBody) GetFile() *os.File {
 	if o == nil || o.File == nil {
-		var ret 
+		var ret *os.File
 		return ret
 	}
 	return *o.File
@@ -83,7 +83,7 @@ func (o *UploadFileBody) GetFile()  {
 
 // GetFileOk returns a tuple with the File field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UploadFileBody) GetFileOk() (*, bool) {
+func (o *UploadFileBody) GetFileOk() (**os.File, bool) {
 	if o == nil || o.File == nil {
 		return nil, false
 	}
@@ -100,7 +100,7 @@ func (o *UploadFileBody) HasFile() bool {
 }
 
 // SetFile gets a reference to the given *os.File and assigns it to the File field.
-func (o *UploadFileBody) SetFile(v ) {
+func (o *UploadFileBody) SetFile(v *os.File) {
 	o.File = &v
 }
 

@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -25,6 +27,8 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * TestEnumParametersBody
@@ -33,7 +37,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   TestEnumParametersBody.JSON_PROPERTY_ENUM_FORM_STRING_ARRAY,
   TestEnumParametersBody.JSON_PROPERTY_ENUM_FORM_STRING
 })
-@JsonTypeName("testEnumParametersBody")
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TestEnumParametersBody {
   /**
@@ -116,7 +119,6 @@ public class TestEnumParametersBody {
 
 
   public TestEnumParametersBody enumFormStringArray(List<EnumFormStringArrayEnum> enumFormStringArray) {
-    
     this.enumFormStringArray = enumFormStringArray;
     return this;
   }
@@ -149,7 +151,6 @@ public class TestEnumParametersBody {
 
 
   public TestEnumParametersBody enumFormString(EnumFormStringEnum enumFormString) {
-    
     this.enumFormString = enumFormString;
     return this;
   }
@@ -173,6 +174,9 @@ public class TestEnumParametersBody {
   }
 
 
+  /**
+   * Return true if this testEnumParametersBody object is equal to o.
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -190,7 +194,6 @@ public class TestEnumParametersBody {
   public int hashCode() {
     return Objects.hash(enumFormStringArray, enumFormString);
   }
-
 
   @Override
   public String toString() {

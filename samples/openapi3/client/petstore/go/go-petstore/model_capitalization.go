@@ -46,9 +46,9 @@ func NewCapitalizationWithDefaults() *Capitalization {
 }
 
 // GetSmallCamel returns the SmallCamel field value if set, zero value otherwise.
-func (o *Capitalization) GetSmallCamel()  {
+func (o *Capitalization) GetSmallCamel() string {
 	if o == nil || o.SmallCamel == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.SmallCamel
@@ -56,7 +56,7 @@ func (o *Capitalization) GetSmallCamel()  {
 
 // GetSmallCamelOk returns a tuple with the SmallCamel field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Capitalization) GetSmallCamelOk() (*, bool) {
+func (o *Capitalization) GetSmallCamelOk() (*string, bool) {
 	if o == nil || o.SmallCamel == nil {
 		return nil, false
 	}
@@ -73,14 +73,14 @@ func (o *Capitalization) HasSmallCamel() bool {
 }
 
 // SetSmallCamel gets a reference to the given string and assigns it to the SmallCamel field.
-func (o *Capitalization) SetSmallCamel(v ) {
+func (o *Capitalization) SetSmallCamel(v string) {
 	o.SmallCamel = &v
 }
 
 // GetCapitalCamel returns the CapitalCamel field value if set, zero value otherwise.
-func (o *Capitalization) GetCapitalCamel()  {
+func (o *Capitalization) GetCapitalCamel() string {
 	if o == nil || o.CapitalCamel == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.CapitalCamel
@@ -88,7 +88,7 @@ func (o *Capitalization) GetCapitalCamel()  {
 
 // GetCapitalCamelOk returns a tuple with the CapitalCamel field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Capitalization) GetCapitalCamelOk() (*, bool) {
+func (o *Capitalization) GetCapitalCamelOk() (*string, bool) {
 	if o == nil || o.CapitalCamel == nil {
 		return nil, false
 	}
@@ -105,14 +105,14 @@ func (o *Capitalization) HasCapitalCamel() bool {
 }
 
 // SetCapitalCamel gets a reference to the given string and assigns it to the CapitalCamel field.
-func (o *Capitalization) SetCapitalCamel(v ) {
+func (o *Capitalization) SetCapitalCamel(v string) {
 	o.CapitalCamel = &v
 }
 
 // GetSmallSnake returns the SmallSnake field value if set, zero value otherwise.
-func (o *Capitalization) GetSmallSnake()  {
+func (o *Capitalization) GetSmallSnake() string {
 	if o == nil || o.SmallSnake == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.SmallSnake
@@ -120,7 +120,7 @@ func (o *Capitalization) GetSmallSnake()  {
 
 // GetSmallSnakeOk returns a tuple with the SmallSnake field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Capitalization) GetSmallSnakeOk() (*, bool) {
+func (o *Capitalization) GetSmallSnakeOk() (*string, bool) {
 	if o == nil || o.SmallSnake == nil {
 		return nil, false
 	}
@@ -137,14 +137,14 @@ func (o *Capitalization) HasSmallSnake() bool {
 }
 
 // SetSmallSnake gets a reference to the given string and assigns it to the SmallSnake field.
-func (o *Capitalization) SetSmallSnake(v ) {
+func (o *Capitalization) SetSmallSnake(v string) {
 	o.SmallSnake = &v
 }
 
 // GetCapitalSnake returns the CapitalSnake field value if set, zero value otherwise.
-func (o *Capitalization) GetCapitalSnake()  {
+func (o *Capitalization) GetCapitalSnake() string {
 	if o == nil || o.CapitalSnake == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.CapitalSnake
@@ -152,7 +152,7 @@ func (o *Capitalization) GetCapitalSnake()  {
 
 // GetCapitalSnakeOk returns a tuple with the CapitalSnake field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Capitalization) GetCapitalSnakeOk() (*, bool) {
+func (o *Capitalization) GetCapitalSnakeOk() (*string, bool) {
 	if o == nil || o.CapitalSnake == nil {
 		return nil, false
 	}
@@ -169,14 +169,14 @@ func (o *Capitalization) HasCapitalSnake() bool {
 }
 
 // SetCapitalSnake gets a reference to the given string and assigns it to the CapitalSnake field.
-func (o *Capitalization) SetCapitalSnake(v ) {
+func (o *Capitalization) SetCapitalSnake(v string) {
 	o.CapitalSnake = &v
 }
 
 // GetSCAETHFlowPoints returns the SCAETHFlowPoints field value if set, zero value otherwise.
-func (o *Capitalization) GetSCAETHFlowPoints()  {
+func (o *Capitalization) GetSCAETHFlowPoints() string {
 	if o == nil || o.SCAETHFlowPoints == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.SCAETHFlowPoints
@@ -184,7 +184,7 @@ func (o *Capitalization) GetSCAETHFlowPoints()  {
 
 // GetSCAETHFlowPointsOk returns a tuple with the SCAETHFlowPoints field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Capitalization) GetSCAETHFlowPointsOk() (*, bool) {
+func (o *Capitalization) GetSCAETHFlowPointsOk() (*string, bool) {
 	if o == nil || o.SCAETHFlowPoints == nil {
 		return nil, false
 	}
@@ -201,14 +201,14 @@ func (o *Capitalization) HasSCAETHFlowPoints() bool {
 }
 
 // SetSCAETHFlowPoints gets a reference to the given string and assigns it to the SCAETHFlowPoints field.
-func (o *Capitalization) SetSCAETHFlowPoints(v ) {
+func (o *Capitalization) SetSCAETHFlowPoints(v string) {
 	o.SCAETHFlowPoints = &v
 }
 
 // GetATT_NAME returns the ATT_NAME field value if set, zero value otherwise.
-func (o *Capitalization) GetATT_NAME()  {
+func (o *Capitalization) GetATT_NAME() string {
 	if o == nil || o.ATT_NAME == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.ATT_NAME
@@ -216,7 +216,7 @@ func (o *Capitalization) GetATT_NAME()  {
 
 // GetATT_NAMEOk returns a tuple with the ATT_NAME field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Capitalization) GetATT_NAMEOk() (*, bool) {
+func (o *Capitalization) GetATT_NAMEOk() (*string, bool) {
 	if o == nil || o.ATT_NAME == nil {
 		return nil, false
 	}
@@ -233,7 +233,7 @@ func (o *Capitalization) HasATT_NAME() bool {
 }
 
 // SetATT_NAME gets a reference to the given string and assigns it to the ATT_NAME field.
-func (o *Capitalization) SetATT_NAME(v ) {
+func (o *Capitalization) SetATT_NAME(v string) {
 	o.ATT_NAME = &v
 }
 

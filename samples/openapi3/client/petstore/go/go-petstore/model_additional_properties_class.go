@@ -41,9 +41,9 @@ func NewAdditionalPropertiesClassWithDefaults() *AdditionalPropertiesClass {
 }
 
 // GetMapProperty returns the MapProperty field value if set, zero value otherwise.
-func (o *AdditionalPropertiesClass) GetMapProperty()  {
+func (o *AdditionalPropertiesClass) GetMapProperty() map[string]string {
 	if o == nil || o.MapProperty == nil {
-		var ret 
+		var ret map[string]string
 		return ret
 	}
 	return *o.MapProperty
@@ -51,7 +51,7 @@ func (o *AdditionalPropertiesClass) GetMapProperty()  {
 
 // GetMapPropertyOk returns a tuple with the MapProperty field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesClass) GetMapPropertyOk() (*, bool) {
+func (o *AdditionalPropertiesClass) GetMapPropertyOk() (*map[string]string, bool) {
 	if o == nil || o.MapProperty == nil {
 		return nil, false
 	}
@@ -68,14 +68,14 @@ func (o *AdditionalPropertiesClass) HasMapProperty() bool {
 }
 
 // SetMapProperty gets a reference to the given map[string]string and assigns it to the MapProperty field.
-func (o *AdditionalPropertiesClass) SetMapProperty(v ) {
+func (o *AdditionalPropertiesClass) SetMapProperty(v map[string]string) {
 	o.MapProperty = &v
 }
 
 // GetMapOfMapProperty returns the MapOfMapProperty field value if set, zero value otherwise.
-func (o *AdditionalPropertiesClass) GetMapOfMapProperty()  {
+func (o *AdditionalPropertiesClass) GetMapOfMapProperty() map[string]map[string]string {
 	if o == nil || o.MapOfMapProperty == nil {
-		var ret 
+		var ret map[string]map[string]string
 		return ret
 	}
 	return *o.MapOfMapProperty
@@ -83,7 +83,7 @@ func (o *AdditionalPropertiesClass) GetMapOfMapProperty()  {
 
 // GetMapOfMapPropertyOk returns a tuple with the MapOfMapProperty field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesClass) GetMapOfMapPropertyOk() (*, bool) {
+func (o *AdditionalPropertiesClass) GetMapOfMapPropertyOk() (*map[string]map[string]string, bool) {
 	if o == nil || o.MapOfMapProperty == nil {
 		return nil, false
 	}
@@ -100,7 +100,7 @@ func (o *AdditionalPropertiesClass) HasMapOfMapProperty() bool {
 }
 
 // SetMapOfMapProperty gets a reference to the given map[string]map[string]string and assigns it to the MapOfMapProperty field.
-func (o *AdditionalPropertiesClass) SetMapOfMapProperty(v ) {
+func (o *AdditionalPropertiesClass) SetMapOfMapProperty(v map[string]map[string]string) {
 	o.MapOfMapProperty = &v
 }
 

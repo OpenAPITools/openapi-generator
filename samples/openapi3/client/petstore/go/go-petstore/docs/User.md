@@ -38,20 +38,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *User) GetId() `
+`func (o *User) GetId() int64`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *User) GetIdOk() (*, bool)`
+`func (o *User) GetIdOk() (*int64, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *User) SetId(v )`
+`func (o *User) SetId(v int64)`
 
 SetId sets Id field to given value.
 
@@ -63,20 +63,20 @@ HasId returns a boolean if a field has been set.
 
 ### GetUsername
 
-`func (o *User) GetUsername() `
+`func (o *User) GetUsername() string`
 
 GetUsername returns the Username field if non-nil, zero value otherwise.
 
 ### GetUsernameOk
 
-`func (o *User) GetUsernameOk() (*, bool)`
+`func (o *User) GetUsernameOk() (*string, bool)`
 
 GetUsernameOk returns a tuple with the Username field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUsername
 
-`func (o *User) SetUsername(v )`
+`func (o *User) SetUsername(v string)`
 
 SetUsername sets Username field to given value.
 
@@ -88,20 +88,20 @@ HasUsername returns a boolean if a field has been set.
 
 ### GetFirstName
 
-`func (o *User) GetFirstName() `
+`func (o *User) GetFirstName() string`
 
 GetFirstName returns the FirstName field if non-nil, zero value otherwise.
 
 ### GetFirstNameOk
 
-`func (o *User) GetFirstNameOk() (*, bool)`
+`func (o *User) GetFirstNameOk() (*string, bool)`
 
 GetFirstNameOk returns a tuple with the FirstName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFirstName
 
-`func (o *User) SetFirstName(v )`
+`func (o *User) SetFirstName(v string)`
 
 SetFirstName sets FirstName field to given value.
 
@@ -113,20 +113,20 @@ HasFirstName returns a boolean if a field has been set.
 
 ### GetLastName
 
-`func (o *User) GetLastName() `
+`func (o *User) GetLastName() string`
 
 GetLastName returns the LastName field if non-nil, zero value otherwise.
 
 ### GetLastNameOk
 
-`func (o *User) GetLastNameOk() (*, bool)`
+`func (o *User) GetLastNameOk() (*string, bool)`
 
 GetLastNameOk returns a tuple with the LastName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLastName
 
-`func (o *User) SetLastName(v )`
+`func (o *User) SetLastName(v string)`
 
 SetLastName sets LastName field to given value.
 
@@ -138,20 +138,20 @@ HasLastName returns a boolean if a field has been set.
 
 ### GetEmail
 
-`func (o *User) GetEmail() `
+`func (o *User) GetEmail() string`
 
 GetEmail returns the Email field if non-nil, zero value otherwise.
 
 ### GetEmailOk
 
-`func (o *User) GetEmailOk() (*, bool)`
+`func (o *User) GetEmailOk() (*string, bool)`
 
 GetEmailOk returns a tuple with the Email field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEmail
 
-`func (o *User) SetEmail(v )`
+`func (o *User) SetEmail(v string)`
 
 SetEmail sets Email field to given value.
 
@@ -163,20 +163,20 @@ HasEmail returns a boolean if a field has been set.
 
 ### GetPassword
 
-`func (o *User) GetPassword() `
+`func (o *User) GetPassword() string`
 
 GetPassword returns the Password field if non-nil, zero value otherwise.
 
 ### GetPasswordOk
 
-`func (o *User) GetPasswordOk() (*, bool)`
+`func (o *User) GetPasswordOk() (*string, bool)`
 
 GetPasswordOk returns a tuple with the Password field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPassword
 
-`func (o *User) SetPassword(v )`
+`func (o *User) SetPassword(v string)`
 
 SetPassword sets Password field to given value.
 
@@ -188,20 +188,20 @@ HasPassword returns a boolean if a field has been set.
 
 ### GetPhone
 
-`func (o *User) GetPhone() `
+`func (o *User) GetPhone() string`
 
 GetPhone returns the Phone field if non-nil, zero value otherwise.
 
 ### GetPhoneOk
 
-`func (o *User) GetPhoneOk() (*, bool)`
+`func (o *User) GetPhoneOk() (*string, bool)`
 
 GetPhoneOk returns a tuple with the Phone field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPhone
 
-`func (o *User) SetPhone(v )`
+`func (o *User) SetPhone(v string)`
 
 SetPhone sets Phone field to given value.
 
@@ -213,20 +213,20 @@ HasPhone returns a boolean if a field has been set.
 
 ### GetUserStatus
 
-`func (o *User) GetUserStatus() `
+`func (o *User) GetUserStatus() int32`
 
 GetUserStatus returns the UserStatus field if non-nil, zero value otherwise.
 
 ### GetUserStatusOk
 
-`func (o *User) GetUserStatusOk() (*, bool)`
+`func (o *User) GetUserStatusOk() (*int32, bool)`
 
 GetUserStatusOk returns a tuple with the UserStatus field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUserStatus
 
-`func (o *User) SetUserStatus(v )`
+`func (o *User) SetUserStatus(v int32)`
 
 SetUserStatus sets UserStatus field to given value.
 
@@ -238,20 +238,20 @@ HasUserStatus returns a boolean if a field has been set.
 
 ### GetArbitraryObject
 
-`func (o *User) GetArbitraryObject() `
+`func (o *User) GetArbitraryObject() map[string]interface{}`
 
 GetArbitraryObject returns the ArbitraryObject field if non-nil, zero value otherwise.
 
 ### GetArbitraryObjectOk
 
-`func (o *User) GetArbitraryObjectOk() (*, bool)`
+`func (o *User) GetArbitraryObjectOk() (*map[string]interface{}, bool)`
 
 GetArbitraryObjectOk returns a tuple with the ArbitraryObject field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetArbitraryObject
 
-`func (o *User) SetArbitraryObject(v )`
+`func (o *User) SetArbitraryObject(v map[string]interface{})`
 
 SetArbitraryObject sets ArbitraryObject field to given value.
 
@@ -263,20 +263,20 @@ HasArbitraryObject returns a boolean if a field has been set.
 
 ### GetArbitraryNullableObject
 
-`func (o *User) GetArbitraryNullableObject() `
+`func (o *User) GetArbitraryNullableObject() map[string]interface{}`
 
 GetArbitraryNullableObject returns the ArbitraryNullableObject field if non-nil, zero value otherwise.
 
 ### GetArbitraryNullableObjectOk
 
-`func (o *User) GetArbitraryNullableObjectOk() (*, bool)`
+`func (o *User) GetArbitraryNullableObjectOk() (*map[string]interface{}, bool)`
 
 GetArbitraryNullableObjectOk returns a tuple with the ArbitraryNullableObject field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetArbitraryNullableObject
 
-`func (o *User) SetArbitraryNullableObject(v )`
+`func (o *User) SetArbitraryNullableObject(v map[string]interface{})`
 
 SetArbitraryNullableObject sets ArbitraryNullableObject field to given value.
 
@@ -298,20 +298,20 @@ HasArbitraryNullableObject returns a boolean if a field has been set.
 UnsetArbitraryNullableObject ensures that no value is present for ArbitraryNullableObject, not even an explicit nil
 ### GetArbitraryTypeValue
 
-`func (o *User) GetArbitraryTypeValue() `
+`func (o *User) GetArbitraryTypeValue() interface{}`
 
 GetArbitraryTypeValue returns the ArbitraryTypeValue field if non-nil, zero value otherwise.
 
 ### GetArbitraryTypeValueOk
 
-`func (o *User) GetArbitraryTypeValueOk() (*, bool)`
+`func (o *User) GetArbitraryTypeValueOk() (*interface{}, bool)`
 
 GetArbitraryTypeValueOk returns a tuple with the ArbitraryTypeValue field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetArbitraryTypeValue
 
-`func (o *User) SetArbitraryTypeValue(v )`
+`func (o *User) SetArbitraryTypeValue(v interface{})`
 
 SetArbitraryTypeValue sets ArbitraryTypeValue field to given value.
 
@@ -333,20 +333,20 @@ HasArbitraryTypeValue returns a boolean if a field has been set.
 UnsetArbitraryTypeValue ensures that no value is present for ArbitraryTypeValue, not even an explicit nil
 ### GetArbitraryNullableTypeValue
 
-`func (o *User) GetArbitraryNullableTypeValue() `
+`func (o *User) GetArbitraryNullableTypeValue() interface{}`
 
 GetArbitraryNullableTypeValue returns the ArbitraryNullableTypeValue field if non-nil, zero value otherwise.
 
 ### GetArbitraryNullableTypeValueOk
 
-`func (o *User) GetArbitraryNullableTypeValueOk() (*, bool)`
+`func (o *User) GetArbitraryNullableTypeValueOk() (*interface{}, bool)`
 
 GetArbitraryNullableTypeValueOk returns a tuple with the ArbitraryNullableTypeValue field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetArbitraryNullableTypeValue
 
-`func (o *User) SetArbitraryNullableTypeValue(v )`
+`func (o *User) SetArbitraryNullableTypeValue(v interface{})`
 
 SetArbitraryNullableTypeValue sets ArbitraryNullableTypeValue field to given value.
 

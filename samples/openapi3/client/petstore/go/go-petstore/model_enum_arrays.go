@@ -41,9 +41,9 @@ func NewEnumArraysWithDefaults() *EnumArrays {
 }
 
 // GetJustSymbol returns the JustSymbol field value if set, zero value otherwise.
-func (o *EnumArrays) GetJustSymbol()  {
+func (o *EnumArrays) GetJustSymbol() EnumArraysJustSymbol {
 	if o == nil || o.JustSymbol == nil {
-		var ret 
+		var ret EnumArraysJustSymbol
 		return ret
 	}
 	return *o.JustSymbol
@@ -51,7 +51,7 @@ func (o *EnumArrays) GetJustSymbol()  {
 
 // GetJustSymbolOk returns a tuple with the JustSymbol field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumArrays) GetJustSymbolOk() (*, bool) {
+func (o *EnumArrays) GetJustSymbolOk() (*EnumArraysJustSymbol, bool) {
 	if o == nil || o.JustSymbol == nil {
 		return nil, false
 	}
@@ -68,14 +68,14 @@ func (o *EnumArrays) HasJustSymbol() bool {
 }
 
 // SetJustSymbol gets a reference to the given EnumArraysJustSymbol and assigns it to the JustSymbol field.
-func (o *EnumArrays) SetJustSymbol(v ) {
+func (o *EnumArrays) SetJustSymbol(v EnumArraysJustSymbol) {
 	o.JustSymbol = &v
 }
 
 // GetArrayEnum returns the ArrayEnum field value if set, zero value otherwise.
-func (o *EnumArrays) GetArrayEnum()  {
+func (o *EnumArrays) GetArrayEnum() []EnumArraysArrayEnumItems {
 	if o == nil || o.ArrayEnum == nil {
-		var ret 
+		var ret []EnumArraysArrayEnumItems
 		return ret
 	}
 	return *o.ArrayEnum
@@ -83,7 +83,7 @@ func (o *EnumArrays) GetArrayEnum()  {
 
 // GetArrayEnumOk returns a tuple with the ArrayEnum field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumArrays) GetArrayEnumOk() (*, bool) {
+func (o *EnumArrays) GetArrayEnumOk() (*[]EnumArraysArrayEnumItems, bool) {
 	if o == nil || o.ArrayEnum == nil {
 		return nil, false
 	}
@@ -100,7 +100,7 @@ func (o *EnumArrays) HasArrayEnum() bool {
 }
 
 // SetArrayEnum gets a reference to the given []EnumArraysArrayEnumItems and assigns it to the ArrayEnum field.
-func (o *EnumArrays) SetArrayEnum(v ) {
+func (o *EnumArrays) SetArrayEnum(v []EnumArraysArrayEnumItems) {
 	o.ArrayEnum = &v
 }
 

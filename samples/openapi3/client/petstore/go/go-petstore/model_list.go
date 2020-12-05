@@ -40,9 +40,9 @@ func NewListWithDefaults() *List {
 }
 
 // GetVar123List returns the Var123List field value if set, zero value otherwise.
-func (o *List) GetVar123List()  {
+func (o *List) GetVar123List() string {
 	if o == nil || o.Var123List == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Var123List
@@ -50,7 +50,7 @@ func (o *List) GetVar123List()  {
 
 // GetVar123ListOk returns a tuple with the Var123List field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *List) GetVar123ListOk() (*, bool) {
+func (o *List) GetVar123ListOk() (*string, bool) {
 	if o == nil || o.Var123List == nil {
 		return nil, false
 	}
@@ -67,7 +67,7 @@ func (o *List) HasVar123List() bool {
 }
 
 // SetVar123List gets a reference to the given string and assigns it to the Var123List field.
-func (o *List) SetVar123List(v ) {
+func (o *List) SetVar123List(v string) {
 	o.Var123List = &v
 }
 

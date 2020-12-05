@@ -12,6 +12,7 @@ package petstore
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // TestEnumParametersBodyEnumFormString Form parameter enum test (string)

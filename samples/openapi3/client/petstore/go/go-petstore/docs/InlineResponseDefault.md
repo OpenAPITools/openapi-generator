@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetString
 
-`func (o *InlineResponseDefault) GetString() `
+`func (o *InlineResponseDefault) GetString() Foo`
 
 GetString returns the String field if non-nil, zero value otherwise.
 
 ### GetStringOk
 
-`func (o *InlineResponseDefault) GetStringOk() (*, bool)`
+`func (o *InlineResponseDefault) GetStringOk() (*Foo, bool)`
 
 GetStringOk returns a tuple with the String field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetString
 
-`func (o *InlineResponseDefault) SetString(v )`
+`func (o *InlineResponseDefault) SetString(v Foo)`
 
 SetString sets String field to given value.
 

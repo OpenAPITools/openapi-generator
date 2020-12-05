@@ -37,9 +37,9 @@ func NewAdditionalPropertiesNumberWithDefaults() *AdditionalPropertiesNumber {
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *AdditionalPropertiesNumber) GetName()  {
+func (o *AdditionalPropertiesNumber) GetName() string {
 	if o == nil || o.Name == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Name
@@ -47,7 +47,7 @@ func (o *AdditionalPropertiesNumber) GetName()  {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesNumber) GetNameOk() (*, bool) {
+func (o *AdditionalPropertiesNumber) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -64,7 +64,7 @@ func (o *AdditionalPropertiesNumber) HasName() bool {
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *AdditionalPropertiesNumber) SetName(v ) {
+func (o *AdditionalPropertiesNumber) SetName(v string) {
 	o.Name = &v
 }
 

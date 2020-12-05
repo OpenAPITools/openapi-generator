@@ -27,9 +27,9 @@ type _Zebra Zebra
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewZebra(ClassName string, ) *Zebra {
+func NewZebra(className string, ) *Zebra {
 	this := Zebra{}
-	this.ClassName = ClassName
+	this.ClassName = className
 	return &this
 }
 
@@ -42,9 +42,9 @@ func NewZebraWithDefaults() *Zebra {
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
-func (o *Zebra) GetType()  {
+func (o *Zebra) GetType() ZebraType {
 	if o == nil || o.Type == nil {
-		var ret 
+		var ret ZebraType
 		return ret
 	}
 	return *o.Type
@@ -52,7 +52,7 @@ func (o *Zebra) GetType()  {
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Zebra) GetTypeOk() (*, bool) {
+func (o *Zebra) GetTypeOk() (*ZebraType, bool) {
 	if o == nil || o.Type == nil {
 		return nil, false
 	}
@@ -69,14 +69,14 @@ func (o *Zebra) HasType() bool {
 }
 
 // SetType gets a reference to the given ZebraType and assigns it to the Type field.
-func (o *Zebra) SetType(v ) {
+func (o *Zebra) SetType(v ZebraType) {
 	o.Type = &v
 }
 
 // GetClassName returns the ClassName field value
-func (o *Zebra) GetClassName()  {
+func (o *Zebra) GetClassName() string {
 	if o == nil  {
-		var ret 
+		var ret string
 		return ret
 	}
 
@@ -85,7 +85,7 @@ func (o *Zebra) GetClassName()  {
 
 // GetClassNameOk returns a tuple with the ClassName field value
 // and a boolean to check if the value has been set.
-func (o *Zebra) GetClassNameOk() (*, bool) {
+func (o *Zebra) GetClassNameOk() (*string, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -93,7 +93,7 @@ func (o *Zebra) GetClassNameOk() (*, bool) {
 }
 
 // SetClassName sets field value
-func (o *Zebra) SetClassName(v ) {
+func (o *Zebra) SetClassName(v string) {
 	o.ClassName = v
 }
 

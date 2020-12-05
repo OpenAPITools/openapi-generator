@@ -55,12 +55,12 @@ type _TestEndpointParametersBody TestEndpointParametersBody
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTestEndpointParametersBody(Number float32, Double float64, PatternWithoutDelimiter string, Byte string, ) *TestEndpointParametersBody {
+func NewTestEndpointParametersBody(number float32, double float64, patternWithoutDelimiter string, byte_ string, ) *TestEndpointParametersBody {
 	this := TestEndpointParametersBody{}
-	this.Number = Number
-	this.Double = Double
-	this.PatternWithoutDelimiter = PatternWithoutDelimiter
-	this.Byte = Byte
+	this.Number = number
+	this.Double = double
+	this.PatternWithoutDelimiter = patternWithoutDelimiter
+	this.Byte = byte_
 	return &this
 }
 
@@ -73,9 +73,9 @@ func NewTestEndpointParametersBodyWithDefaults() *TestEndpointParametersBody {
 }
 
 // GetInteger returns the Integer field value if set, zero value otherwise.
-func (o *TestEndpointParametersBody) GetInteger()  {
+func (o *TestEndpointParametersBody) GetInteger() int32 {
 	if o == nil || o.Integer == nil {
-		var ret 
+		var ret int32
 		return ret
 	}
 	return *o.Integer
@@ -83,7 +83,7 @@ func (o *TestEndpointParametersBody) GetInteger()  {
 
 // GetIntegerOk returns a tuple with the Integer field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TestEndpointParametersBody) GetIntegerOk() (*, bool) {
+func (o *TestEndpointParametersBody) GetIntegerOk() (*int32, bool) {
 	if o == nil || o.Integer == nil {
 		return nil, false
 	}
@@ -100,14 +100,14 @@ func (o *TestEndpointParametersBody) HasInteger() bool {
 }
 
 // SetInteger gets a reference to the given int32 and assigns it to the Integer field.
-func (o *TestEndpointParametersBody) SetInteger(v ) {
+func (o *TestEndpointParametersBody) SetInteger(v int32) {
 	o.Integer = &v
 }
 
 // GetInt32 returns the Int32 field value if set, zero value otherwise.
-func (o *TestEndpointParametersBody) GetInt32()  {
+func (o *TestEndpointParametersBody) GetInt32() int32 {
 	if o == nil || o.Int32 == nil {
-		var ret 
+		var ret int32
 		return ret
 	}
 	return *o.Int32
@@ -115,7 +115,7 @@ func (o *TestEndpointParametersBody) GetInt32()  {
 
 // GetInt32Ok returns a tuple with the Int32 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TestEndpointParametersBody) GetInt32Ok() (*, bool) {
+func (o *TestEndpointParametersBody) GetInt32Ok() (*int32, bool) {
 	if o == nil || o.Int32 == nil {
 		return nil, false
 	}
@@ -132,14 +132,14 @@ func (o *TestEndpointParametersBody) HasInt32() bool {
 }
 
 // SetInt32 gets a reference to the given int32 and assigns it to the Int32 field.
-func (o *TestEndpointParametersBody) SetInt32(v ) {
+func (o *TestEndpointParametersBody) SetInt32(v int32) {
 	o.Int32 = &v
 }
 
 // GetInt64 returns the Int64 field value if set, zero value otherwise.
-func (o *TestEndpointParametersBody) GetInt64()  {
+func (o *TestEndpointParametersBody) GetInt64() int64 {
 	if o == nil || o.Int64 == nil {
-		var ret 
+		var ret int64
 		return ret
 	}
 	return *o.Int64
@@ -147,7 +147,7 @@ func (o *TestEndpointParametersBody) GetInt64()  {
 
 // GetInt64Ok returns a tuple with the Int64 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TestEndpointParametersBody) GetInt64Ok() (*, bool) {
+func (o *TestEndpointParametersBody) GetInt64Ok() (*int64, bool) {
 	if o == nil || o.Int64 == nil {
 		return nil, false
 	}
@@ -164,14 +164,14 @@ func (o *TestEndpointParametersBody) HasInt64() bool {
 }
 
 // SetInt64 gets a reference to the given int64 and assigns it to the Int64 field.
-func (o *TestEndpointParametersBody) SetInt64(v ) {
+func (o *TestEndpointParametersBody) SetInt64(v int64) {
 	o.Int64 = &v
 }
 
 // GetNumber returns the Number field value
-func (o *TestEndpointParametersBody) GetNumber()  {
+func (o *TestEndpointParametersBody) GetNumber() float32 {
 	if o == nil  {
-		var ret 
+		var ret float32
 		return ret
 	}
 
@@ -180,7 +180,7 @@ func (o *TestEndpointParametersBody) GetNumber()  {
 
 // GetNumberOk returns a tuple with the Number field value
 // and a boolean to check if the value has been set.
-func (o *TestEndpointParametersBody) GetNumberOk() (*, bool) {
+func (o *TestEndpointParametersBody) GetNumberOk() (*float32, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -188,14 +188,14 @@ func (o *TestEndpointParametersBody) GetNumberOk() (*, bool) {
 }
 
 // SetNumber sets field value
-func (o *TestEndpointParametersBody) SetNumber(v ) {
+func (o *TestEndpointParametersBody) SetNumber(v float32) {
 	o.Number = v
 }
 
 // GetFloat returns the Float field value if set, zero value otherwise.
-func (o *TestEndpointParametersBody) GetFloat()  {
+func (o *TestEndpointParametersBody) GetFloat() float32 {
 	if o == nil || o.Float == nil {
-		var ret 
+		var ret float32
 		return ret
 	}
 	return *o.Float
@@ -203,7 +203,7 @@ func (o *TestEndpointParametersBody) GetFloat()  {
 
 // GetFloatOk returns a tuple with the Float field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TestEndpointParametersBody) GetFloatOk() (*, bool) {
+func (o *TestEndpointParametersBody) GetFloatOk() (*float32, bool) {
 	if o == nil || o.Float == nil {
 		return nil, false
 	}
@@ -220,14 +220,14 @@ func (o *TestEndpointParametersBody) HasFloat() bool {
 }
 
 // SetFloat gets a reference to the given float32 and assigns it to the Float field.
-func (o *TestEndpointParametersBody) SetFloat(v ) {
+func (o *TestEndpointParametersBody) SetFloat(v float32) {
 	o.Float = &v
 }
 
 // GetDouble returns the Double field value
-func (o *TestEndpointParametersBody) GetDouble()  {
+func (o *TestEndpointParametersBody) GetDouble() float64 {
 	if o == nil  {
-		var ret 
+		var ret float64
 		return ret
 	}
 
@@ -236,7 +236,7 @@ func (o *TestEndpointParametersBody) GetDouble()  {
 
 // GetDoubleOk returns a tuple with the Double field value
 // and a boolean to check if the value has been set.
-func (o *TestEndpointParametersBody) GetDoubleOk() (*, bool) {
+func (o *TestEndpointParametersBody) GetDoubleOk() (*float64, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -244,14 +244,14 @@ func (o *TestEndpointParametersBody) GetDoubleOk() (*, bool) {
 }
 
 // SetDouble sets field value
-func (o *TestEndpointParametersBody) SetDouble(v ) {
+func (o *TestEndpointParametersBody) SetDouble(v float64) {
 	o.Double = v
 }
 
 // GetString returns the String field value if set, zero value otherwise.
-func (o *TestEndpointParametersBody) GetString()  {
+func (o *TestEndpointParametersBody) GetString() string {
 	if o == nil || o.String == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.String
@@ -259,7 +259,7 @@ func (o *TestEndpointParametersBody) GetString()  {
 
 // GetStringOk returns a tuple with the String field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TestEndpointParametersBody) GetStringOk() (*, bool) {
+func (o *TestEndpointParametersBody) GetStringOk() (*string, bool) {
 	if o == nil || o.String == nil {
 		return nil, false
 	}
@@ -276,14 +276,14 @@ func (o *TestEndpointParametersBody) HasString() bool {
 }
 
 // SetString gets a reference to the given string and assigns it to the String field.
-func (o *TestEndpointParametersBody) SetString(v ) {
+func (o *TestEndpointParametersBody) SetString(v string) {
 	o.String = &v
 }
 
 // GetPatternWithoutDelimiter returns the PatternWithoutDelimiter field value
-func (o *TestEndpointParametersBody) GetPatternWithoutDelimiter()  {
+func (o *TestEndpointParametersBody) GetPatternWithoutDelimiter() string {
 	if o == nil  {
-		var ret 
+		var ret string
 		return ret
 	}
 
@@ -292,7 +292,7 @@ func (o *TestEndpointParametersBody) GetPatternWithoutDelimiter()  {
 
 // GetPatternWithoutDelimiterOk returns a tuple with the PatternWithoutDelimiter field value
 // and a boolean to check if the value has been set.
-func (o *TestEndpointParametersBody) GetPatternWithoutDelimiterOk() (*, bool) {
+func (o *TestEndpointParametersBody) GetPatternWithoutDelimiterOk() (*string, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -300,14 +300,14 @@ func (o *TestEndpointParametersBody) GetPatternWithoutDelimiterOk() (*, bool) {
 }
 
 // SetPatternWithoutDelimiter sets field value
-func (o *TestEndpointParametersBody) SetPatternWithoutDelimiter(v ) {
+func (o *TestEndpointParametersBody) SetPatternWithoutDelimiter(v string) {
 	o.PatternWithoutDelimiter = v
 }
 
 // GetByte returns the Byte field value
-func (o *TestEndpointParametersBody) GetByte()  {
+func (o *TestEndpointParametersBody) GetByte() string {
 	if o == nil  {
-		var ret 
+		var ret string
 		return ret
 	}
 
@@ -316,7 +316,7 @@ func (o *TestEndpointParametersBody) GetByte()  {
 
 // GetByteOk returns a tuple with the Byte field value
 // and a boolean to check if the value has been set.
-func (o *TestEndpointParametersBody) GetByteOk() (*, bool) {
+func (o *TestEndpointParametersBody) GetByteOk() (*string, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -324,14 +324,14 @@ func (o *TestEndpointParametersBody) GetByteOk() (*, bool) {
 }
 
 // SetByte sets field value
-func (o *TestEndpointParametersBody) SetByte(v ) {
+func (o *TestEndpointParametersBody) SetByte(v string) {
 	o.Byte = v
 }
 
 // GetBinary returns the Binary field value if set, zero value otherwise.
-func (o *TestEndpointParametersBody) GetBinary()  {
+func (o *TestEndpointParametersBody) GetBinary() *os.File {
 	if o == nil || o.Binary == nil {
-		var ret 
+		var ret *os.File
 		return ret
 	}
 	return *o.Binary
@@ -339,7 +339,7 @@ func (o *TestEndpointParametersBody) GetBinary()  {
 
 // GetBinaryOk returns a tuple with the Binary field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TestEndpointParametersBody) GetBinaryOk() (*, bool) {
+func (o *TestEndpointParametersBody) GetBinaryOk() (**os.File, bool) {
 	if o == nil || o.Binary == nil {
 		return nil, false
 	}
@@ -356,14 +356,14 @@ func (o *TestEndpointParametersBody) HasBinary() bool {
 }
 
 // SetBinary gets a reference to the given *os.File and assigns it to the Binary field.
-func (o *TestEndpointParametersBody) SetBinary(v ) {
+func (o *TestEndpointParametersBody) SetBinary(v *os.File) {
 	o.Binary = &v
 }
 
 // GetDate returns the Date field value if set, zero value otherwise.
-func (o *TestEndpointParametersBody) GetDate()  {
+func (o *TestEndpointParametersBody) GetDate() string {
 	if o == nil || o.Date == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Date
@@ -371,7 +371,7 @@ func (o *TestEndpointParametersBody) GetDate()  {
 
 // GetDateOk returns a tuple with the Date field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TestEndpointParametersBody) GetDateOk() (*, bool) {
+func (o *TestEndpointParametersBody) GetDateOk() (*string, bool) {
 	if o == nil || o.Date == nil {
 		return nil, false
 	}
@@ -388,14 +388,14 @@ func (o *TestEndpointParametersBody) HasDate() bool {
 }
 
 // SetDate gets a reference to the given string and assigns it to the Date field.
-func (o *TestEndpointParametersBody) SetDate(v ) {
+func (o *TestEndpointParametersBody) SetDate(v string) {
 	o.Date = &v
 }
 
 // GetDateTime returns the DateTime field value if set, zero value otherwise.
-func (o *TestEndpointParametersBody) GetDateTime()  {
+func (o *TestEndpointParametersBody) GetDateTime() time.Time {
 	if o == nil || o.DateTime == nil {
-		var ret 
+		var ret time.Time
 		return ret
 	}
 	return *o.DateTime
@@ -403,7 +403,7 @@ func (o *TestEndpointParametersBody) GetDateTime()  {
 
 // GetDateTimeOk returns a tuple with the DateTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TestEndpointParametersBody) GetDateTimeOk() (*, bool) {
+func (o *TestEndpointParametersBody) GetDateTimeOk() (*time.Time, bool) {
 	if o == nil || o.DateTime == nil {
 		return nil, false
 	}
@@ -420,14 +420,14 @@ func (o *TestEndpointParametersBody) HasDateTime() bool {
 }
 
 // SetDateTime gets a reference to the given time.Time and assigns it to the DateTime field.
-func (o *TestEndpointParametersBody) SetDateTime(v ) {
+func (o *TestEndpointParametersBody) SetDateTime(v time.Time) {
 	o.DateTime = &v
 }
 
 // GetPassword returns the Password field value if set, zero value otherwise.
-func (o *TestEndpointParametersBody) GetPassword()  {
+func (o *TestEndpointParametersBody) GetPassword() string {
 	if o == nil || o.Password == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Password
@@ -435,7 +435,7 @@ func (o *TestEndpointParametersBody) GetPassword()  {
 
 // GetPasswordOk returns a tuple with the Password field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TestEndpointParametersBody) GetPasswordOk() (*, bool) {
+func (o *TestEndpointParametersBody) GetPasswordOk() (*string, bool) {
 	if o == nil || o.Password == nil {
 		return nil, false
 	}
@@ -452,14 +452,14 @@ func (o *TestEndpointParametersBody) HasPassword() bool {
 }
 
 // SetPassword gets a reference to the given string and assigns it to the Password field.
-func (o *TestEndpointParametersBody) SetPassword(v ) {
+func (o *TestEndpointParametersBody) SetPassword(v string) {
 	o.Password = &v
 }
 
 // GetCallback returns the Callback field value if set, zero value otherwise.
-func (o *TestEndpointParametersBody) GetCallback()  {
+func (o *TestEndpointParametersBody) GetCallback() string {
 	if o == nil || o.Callback == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Callback
@@ -467,7 +467,7 @@ func (o *TestEndpointParametersBody) GetCallback()  {
 
 // GetCallbackOk returns a tuple with the Callback field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TestEndpointParametersBody) GetCallbackOk() (*, bool) {
+func (o *TestEndpointParametersBody) GetCallbackOk() (*string, bool) {
 	if o == nil || o.Callback == nil {
 		return nil, false
 	}
@@ -484,7 +484,7 @@ func (o *TestEndpointParametersBody) HasCallback() bool {
 }
 
 // SetCallback gets a reference to the given string and assigns it to the Callback field.
-func (o *TestEndpointParametersBody) SetCallback(v ) {
+func (o *TestEndpointParametersBody) SetCallback(v string) {
 	o.Callback = &v
 }
 

@@ -28,12 +28,6 @@ models/Foo.ts
 models/FormatTest.ts
 models/HasOnlyReadOnly.ts
 models/HealthCheckResult.ts
-models/InlineObject.ts
-models/InlineObject1.ts
-models/InlineObject2.ts
-models/InlineObject3.ts
-models/InlineObject4.ts
-models/InlineObject5.ts
 models/InlineResponseDefault.ts
 models/List.ts
 models/MapTest.ts
@@ -55,6 +49,12 @@ models/ReadOnlyFirst.ts
 models/Return.ts
 models/SpecialModelName.ts
 models/Tag.ts
+models/TestEndpointParametersBody.ts
+models/TestEnumParametersBody.ts
+models/TestJsonFormDataBody.ts
+models/UpdatePetWithFormBody.ts
+models/UploadFileBody.ts
+models/UploadFileWithRequiredFileBody.ts
 models/User.ts
 models/index.ts
 runtime.ts

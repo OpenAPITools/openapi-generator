@@ -40,9 +40,9 @@ func NewMapTestWithDefaults() *MapTest {
 }
 
 // GetMapMapOfString returns the MapMapOfString field value if set, zero value otherwise.
-func (o *MapTest) GetMapMapOfString()  {
+func (o *MapTest) GetMapMapOfString() map[string]map[string]string {
 	if o == nil || o.MapMapOfString == nil {
-		var ret 
+		var ret map[string]map[string]string
 		return ret
 	}
 	return *o.MapMapOfString
@@ -50,7 +50,7 @@ func (o *MapTest) GetMapMapOfString()  {
 
 // GetMapMapOfStringOk returns a tuple with the MapMapOfString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MapTest) GetMapMapOfStringOk() (*, bool) {
+func (o *MapTest) GetMapMapOfStringOk() (*map[string]map[string]string, bool) {
 	if o == nil || o.MapMapOfString == nil {
 		return nil, false
 	}
@@ -67,14 +67,14 @@ func (o *MapTest) HasMapMapOfString() bool {
 }
 
 // SetMapMapOfString gets a reference to the given map[string]map[string]string and assigns it to the MapMapOfString field.
-func (o *MapTest) SetMapMapOfString(v ) {
+func (o *MapTest) SetMapMapOfString(v map[string]map[string]string) {
 	o.MapMapOfString = &v
 }
 
 // GetMapOfEnumString returns the MapOfEnumString field value if set, zero value otherwise.
-func (o *MapTest) GetMapOfEnumString()  {
+func (o *MapTest) GetMapOfEnumString() map[string]MapTestMapOfEnumStringAddlProps {
 	if o == nil || o.MapOfEnumString == nil {
-		var ret 
+		var ret map[string]MapTestMapOfEnumStringAddlProps
 		return ret
 	}
 	return *o.MapOfEnumString
@@ -82,7 +82,7 @@ func (o *MapTest) GetMapOfEnumString()  {
 
 // GetMapOfEnumStringOk returns a tuple with the MapOfEnumString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MapTest) GetMapOfEnumStringOk() (*, bool) {
+func (o *MapTest) GetMapOfEnumStringOk() (*map[string]MapTestMapOfEnumStringAddlProps, bool) {
 	if o == nil || o.MapOfEnumString == nil {
 		return nil, false
 	}
@@ -99,14 +99,14 @@ func (o *MapTest) HasMapOfEnumString() bool {
 }
 
 // SetMapOfEnumString gets a reference to the given map[string]MapTestMapOfEnumStringAddlProps and assigns it to the MapOfEnumString field.
-func (o *MapTest) SetMapOfEnumString(v ) {
+func (o *MapTest) SetMapOfEnumString(v map[string]MapTestMapOfEnumStringAddlProps) {
 	o.MapOfEnumString = &v
 }
 
 // GetDirectMap returns the DirectMap field value if set, zero value otherwise.
-func (o *MapTest) GetDirectMap()  {
+func (o *MapTest) GetDirectMap() map[string]bool {
 	if o == nil || o.DirectMap == nil {
-		var ret 
+		var ret map[string]bool
 		return ret
 	}
 	return *o.DirectMap
@@ -114,7 +114,7 @@ func (o *MapTest) GetDirectMap()  {
 
 // GetDirectMapOk returns a tuple with the DirectMap field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MapTest) GetDirectMapOk() (*, bool) {
+func (o *MapTest) GetDirectMapOk() (*map[string]bool, bool) {
 	if o == nil || o.DirectMap == nil {
 		return nil, false
 	}
@@ -131,14 +131,14 @@ func (o *MapTest) HasDirectMap() bool {
 }
 
 // SetDirectMap gets a reference to the given map[string]bool and assigns it to the DirectMap field.
-func (o *MapTest) SetDirectMap(v ) {
+func (o *MapTest) SetDirectMap(v map[string]bool) {
 	o.DirectMap = &v
 }
 
 // GetIndirectMap returns the IndirectMap field value if set, zero value otherwise.
-func (o *MapTest) GetIndirectMap()  {
+func (o *MapTest) GetIndirectMap() map[string]bool {
 	if o == nil || o.IndirectMap == nil {
-		var ret 
+		var ret map[string]bool
 		return ret
 	}
 	return *o.IndirectMap
@@ -146,7 +146,7 @@ func (o *MapTest) GetIndirectMap()  {
 
 // GetIndirectMapOk returns a tuple with the IndirectMap field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MapTest) GetIndirectMapOk() (*, bool) {
+func (o *MapTest) GetIndirectMapOk() (*map[string]bool, bool) {
 	if o == nil || o.IndirectMap == nil {
 		return nil, false
 	}
@@ -163,7 +163,7 @@ func (o *MapTest) HasIndirectMap() bool {
 }
 
 // SetIndirectMap gets a reference to the given map[string]bool and assigns it to the IndirectMap field.
-func (o *MapTest) SetIndirectMap(v ) {
+func (o *MapTest) SetIndirectMap(v map[string]bool) {
 	o.IndirectMap = &v
 }
 

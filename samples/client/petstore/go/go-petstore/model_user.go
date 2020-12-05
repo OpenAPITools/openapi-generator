@@ -45,9 +45,9 @@ func NewUserWithDefaults() *User {
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *User) GetId()  {
+func (o *User) GetId() int64 {
 	if o == nil || o.Id == nil {
-		var ret 
+		var ret int64
 		return ret
 	}
 	return *o.Id
@@ -55,7 +55,7 @@ func (o *User) GetId()  {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetIdOk() (*, bool) {
+func (o *User) GetIdOk() (*int64, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
@@ -72,14 +72,14 @@ func (o *User) HasId() bool {
 }
 
 // SetId gets a reference to the given int64 and assigns it to the Id field.
-func (o *User) SetId(v ) {
+func (o *User) SetId(v int64) {
 	o.Id = &v
 }
 
 // GetUsername returns the Username field value if set, zero value otherwise.
-func (o *User) GetUsername()  {
+func (o *User) GetUsername() string {
 	if o == nil || o.Username == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Username
@@ -87,7 +87,7 @@ func (o *User) GetUsername()  {
 
 // GetUsernameOk returns a tuple with the Username field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetUsernameOk() (*, bool) {
+func (o *User) GetUsernameOk() (*string, bool) {
 	if o == nil || o.Username == nil {
 		return nil, false
 	}
@@ -104,14 +104,14 @@ func (o *User) HasUsername() bool {
 }
 
 // SetUsername gets a reference to the given string and assigns it to the Username field.
-func (o *User) SetUsername(v ) {
+func (o *User) SetUsername(v string) {
 	o.Username = &v
 }
 
 // GetFirstName returns the FirstName field value if set, zero value otherwise.
-func (o *User) GetFirstName()  {
+func (o *User) GetFirstName() string {
 	if o == nil || o.FirstName == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.FirstName
@@ -119,7 +119,7 @@ func (o *User) GetFirstName()  {
 
 // GetFirstNameOk returns a tuple with the FirstName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetFirstNameOk() (*, bool) {
+func (o *User) GetFirstNameOk() (*string, bool) {
 	if o == nil || o.FirstName == nil {
 		return nil, false
 	}
@@ -136,14 +136,14 @@ func (o *User) HasFirstName() bool {
 }
 
 // SetFirstName gets a reference to the given string and assigns it to the FirstName field.
-func (o *User) SetFirstName(v ) {
+func (o *User) SetFirstName(v string) {
 	o.FirstName = &v
 }
 
 // GetLastName returns the LastName field value if set, zero value otherwise.
-func (o *User) GetLastName()  {
+func (o *User) GetLastName() string {
 	if o == nil || o.LastName == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.LastName
@@ -151,7 +151,7 @@ func (o *User) GetLastName()  {
 
 // GetLastNameOk returns a tuple with the LastName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetLastNameOk() (*, bool) {
+func (o *User) GetLastNameOk() (*string, bool) {
 	if o == nil || o.LastName == nil {
 		return nil, false
 	}
@@ -168,14 +168,14 @@ func (o *User) HasLastName() bool {
 }
 
 // SetLastName gets a reference to the given string and assigns it to the LastName field.
-func (o *User) SetLastName(v ) {
+func (o *User) SetLastName(v string) {
 	o.LastName = &v
 }
 
 // GetEmail returns the Email field value if set, zero value otherwise.
-func (o *User) GetEmail()  {
+func (o *User) GetEmail() string {
 	if o == nil || o.Email == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Email
@@ -183,7 +183,7 @@ func (o *User) GetEmail()  {
 
 // GetEmailOk returns a tuple with the Email field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetEmailOk() (*, bool) {
+func (o *User) GetEmailOk() (*string, bool) {
 	if o == nil || o.Email == nil {
 		return nil, false
 	}
@@ -200,14 +200,14 @@ func (o *User) HasEmail() bool {
 }
 
 // SetEmail gets a reference to the given string and assigns it to the Email field.
-func (o *User) SetEmail(v ) {
+func (o *User) SetEmail(v string) {
 	o.Email = &v
 }
 
 // GetPassword returns the Password field value if set, zero value otherwise.
-func (o *User) GetPassword()  {
+func (o *User) GetPassword() string {
 	if o == nil || o.Password == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Password
@@ -215,7 +215,7 @@ func (o *User) GetPassword()  {
 
 // GetPasswordOk returns a tuple with the Password field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetPasswordOk() (*, bool) {
+func (o *User) GetPasswordOk() (*string, bool) {
 	if o == nil || o.Password == nil {
 		return nil, false
 	}
@@ -232,14 +232,14 @@ func (o *User) HasPassword() bool {
 }
 
 // SetPassword gets a reference to the given string and assigns it to the Password field.
-func (o *User) SetPassword(v ) {
+func (o *User) SetPassword(v string) {
 	o.Password = &v
 }
 
 // GetPhone returns the Phone field value if set, zero value otherwise.
-func (o *User) GetPhone()  {
+func (o *User) GetPhone() string {
 	if o == nil || o.Phone == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Phone
@@ -247,7 +247,7 @@ func (o *User) GetPhone()  {
 
 // GetPhoneOk returns a tuple with the Phone field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetPhoneOk() (*, bool) {
+func (o *User) GetPhoneOk() (*string, bool) {
 	if o == nil || o.Phone == nil {
 		return nil, false
 	}
@@ -264,14 +264,14 @@ func (o *User) HasPhone() bool {
 }
 
 // SetPhone gets a reference to the given string and assigns it to the Phone field.
-func (o *User) SetPhone(v ) {
+func (o *User) SetPhone(v string) {
 	o.Phone = &v
 }
 
 // GetUserStatus returns the UserStatus field value if set, zero value otherwise.
-func (o *User) GetUserStatus()  {
+func (o *User) GetUserStatus() int32 {
 	if o == nil || o.UserStatus == nil {
-		var ret 
+		var ret int32
 		return ret
 	}
 	return *o.UserStatus
@@ -279,7 +279,7 @@ func (o *User) GetUserStatus()  {
 
 // GetUserStatusOk returns a tuple with the UserStatus field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetUserStatusOk() (*, bool) {
+func (o *User) GetUserStatusOk() (*int32, bool) {
 	if o == nil || o.UserStatus == nil {
 		return nil, false
 	}
@@ -296,7 +296,7 @@ func (o *User) HasUserStatus() bool {
 }
 
 // SetUserStatus gets a reference to the given int32 and assigns it to the UserStatus field.
-func (o *User) SetUserStatus(v ) {
+func (o *User) SetUserStatus(v int32) {
 	o.UserStatus = &v
 }
 

@@ -20,7 +20,7 @@ type EnumTest struct {
 	EnumStringRequired EnumTestEnumString `json:"enum_string_required"`
 	EnumInteger *EnumTestEnumInteger `json:"enum_integer,omitempty"`
 	EnumNumber *EnumQueryDouble `json:"enum_number,omitempty"`
-	OuterEnum OuterEnum `json:"outerEnum,omitempty"`
+	OuterEnum NullableOuterEnum `json:"outerEnum,omitempty"`
 	OuterEnumInteger *OuterEnumInteger `json:"outerEnumInteger,omitempty"`
 	OuterEnumDefaultValue *OuterEnumDefaultValue `json:"outerEnumDefaultValue,omitempty"`
 	OuterEnumIntegerDefaultValue *OuterEnumIntegerDefaultValue `json:"outerEnumIntegerDefaultValue,omitempty"`
@@ -33,9 +33,13 @@ type _EnumTest EnumTest
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEnumTest(EnumStringRequired EnumTestEnumString, ) *EnumTest {
+func NewEnumTest(enumStringRequired EnumTestEnumString, ) *EnumTest {
 	this := EnumTest{}
-	this.EnumStringRequired = EnumStringRequired
+	this.EnumStringRequired = enumStringRequired
+	var outerEnumDefaultValue OuterEnumDefaultValue = "placed"
+	this.OuterEnumDefaultValue = &outerEnumDefaultValue
+	var outerEnumIntegerDefaultValue OuterEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue__0
+	this.OuterEnumIntegerDefaultValue = &outerEnumIntegerDefaultValue
 	return &this
 }
 
@@ -44,13 +48,17 @@ func NewEnumTest(EnumStringRequired EnumTestEnumString, ) *EnumTest {
 // but it doesn't guarantee that properties required by API are set
 func NewEnumTestWithDefaults() *EnumTest {
 	this := EnumTest{}
+	var outerEnumDefaultValue OuterEnumDefaultValue = "placed"
+	this.OuterEnumDefaultValue = &outerEnumDefaultValue
+	var outerEnumIntegerDefaultValue OuterEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue__0
+	this.OuterEnumIntegerDefaultValue = &outerEnumIntegerDefaultValue
 	return &this
 }
 
 // GetEnumString returns the EnumString field value if set, zero value otherwise.
-func (o *EnumTest) GetEnumString()  {
+func (o *EnumTest) GetEnumString() EnumTestEnumString {
 	if o == nil || o.EnumString == nil {
-		var ret 
+		var ret EnumTestEnumString
 		return ret
 	}
 	return *o.EnumString
@@ -58,7 +66,7 @@ func (o *EnumTest) GetEnumString()  {
 
 // GetEnumStringOk returns a tuple with the EnumString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumTest) GetEnumStringOk() (*, bool) {
+func (o *EnumTest) GetEnumStringOk() (*EnumTestEnumString, bool) {
 	if o == nil || o.EnumString == nil {
 		return nil, false
 	}
@@ -75,14 +83,14 @@ func (o *EnumTest) HasEnumString() bool {
 }
 
 // SetEnumString gets a reference to the given EnumTestEnumString and assigns it to the EnumString field.
-func (o *EnumTest) SetEnumString(v ) {
+func (o *EnumTest) SetEnumString(v EnumTestEnumString) {
 	o.EnumString = &v
 }
 
 // GetEnumStringRequired returns the EnumStringRequired field value
-func (o *EnumTest) GetEnumStringRequired()  {
+func (o *EnumTest) GetEnumStringRequired() EnumTestEnumString {
 	if o == nil  {
-		var ret 
+		var ret EnumTestEnumString
 		return ret
 	}
 
@@ -91,7 +99,7 @@ func (o *EnumTest) GetEnumStringRequired()  {
 
 // GetEnumStringRequiredOk returns a tuple with the EnumStringRequired field value
 // and a boolean to check if the value has been set.
-func (o *EnumTest) GetEnumStringRequiredOk() (*, bool) {
+func (o *EnumTest) GetEnumStringRequiredOk() (*EnumTestEnumString, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -99,14 +107,14 @@ func (o *EnumTest) GetEnumStringRequiredOk() (*, bool) {
 }
 
 // SetEnumStringRequired sets field value
-func (o *EnumTest) SetEnumStringRequired(v ) {
+func (o *EnumTest) SetEnumStringRequired(v EnumTestEnumString) {
 	o.EnumStringRequired = v
 }
 
 // GetEnumInteger returns the EnumInteger field value if set, zero value otherwise.
-func (o *EnumTest) GetEnumInteger()  {
+func (o *EnumTest) GetEnumInteger() EnumTestEnumInteger {
 	if o == nil || o.EnumInteger == nil {
-		var ret 
+		var ret EnumTestEnumInteger
 		return ret
 	}
 	return *o.EnumInteger
@@ -114,7 +122,7 @@ func (o *EnumTest) GetEnumInteger()  {
 
 // GetEnumIntegerOk returns a tuple with the EnumInteger field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumTest) GetEnumIntegerOk() (*, bool) {
+func (o *EnumTest) GetEnumIntegerOk() (*EnumTestEnumInteger, bool) {
 	if o == nil || o.EnumInteger == nil {
 		return nil, false
 	}
@@ -131,14 +139,14 @@ func (o *EnumTest) HasEnumInteger() bool {
 }
 
 // SetEnumInteger gets a reference to the given EnumTestEnumInteger and assigns it to the EnumInteger field.
-func (o *EnumTest) SetEnumInteger(v ) {
+func (o *EnumTest) SetEnumInteger(v EnumTestEnumInteger) {
 	o.EnumInteger = &v
 }
 
 // GetEnumNumber returns the EnumNumber field value if set, zero value otherwise.
-func (o *EnumTest) GetEnumNumber()  {
+func (o *EnumTest) GetEnumNumber() EnumQueryDouble {
 	if o == nil || o.EnumNumber == nil {
-		var ret 
+		var ret EnumQueryDouble
 		return ret
 	}
 	return *o.EnumNumber
@@ -146,7 +154,7 @@ func (o *EnumTest) GetEnumNumber()  {
 
 // GetEnumNumberOk returns a tuple with the EnumNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumTest) GetEnumNumberOk() (*, bool) {
+func (o *EnumTest) GetEnumNumberOk() (*EnumQueryDouble, bool) {
 	if o == nil || o.EnumNumber == nil {
 		return nil, false
 	}
@@ -163,14 +171,14 @@ func (o *EnumTest) HasEnumNumber() bool {
 }
 
 // SetEnumNumber gets a reference to the given EnumQueryDouble and assigns it to the EnumNumber field.
-func (o *EnumTest) SetEnumNumber(v ) {
+func (o *EnumTest) SetEnumNumber(v EnumQueryDouble) {
 	o.EnumNumber = &v
 }
 
 // GetOuterEnum returns the OuterEnum field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *EnumTest) GetOuterEnum()  {
+func (o *EnumTest) GetOuterEnum() OuterEnum {
 	if o == nil || o.OuterEnum.Get() == nil {
-		var ret 
+		var ret OuterEnum
 		return ret
 	}
 	return *o.OuterEnum.Get()
@@ -179,7 +187,7 @@ func (o *EnumTest) GetOuterEnum()  {
 // GetOuterEnumOk returns a tuple with the OuterEnum field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *EnumTest) GetOuterEnumOk() (*, bool) {
+func (o *EnumTest) GetOuterEnumOk() (*OuterEnum, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -195,8 +203,8 @@ func (o *EnumTest) HasOuterEnum() bool {
 	return false
 }
 
-// SetOuterEnum gets a reference to the given OuterEnum and assigns it to the OuterEnum field.
-func (o *EnumTest) SetOuterEnum(v ) {
+// SetOuterEnum gets a reference to the given NullableOuterEnum and assigns it to the OuterEnum field.
+func (o *EnumTest) SetOuterEnum(v OuterEnum) {
 	o.OuterEnum.Set(&v)
 }
 // SetOuterEnumNil sets the value for OuterEnum to be an explicit nil
@@ -210,9 +218,9 @@ func (o *EnumTest) UnsetOuterEnum() {
 }
 
 // GetOuterEnumInteger returns the OuterEnumInteger field value if set, zero value otherwise.
-func (o *EnumTest) GetOuterEnumInteger()  {
+func (o *EnumTest) GetOuterEnumInteger() OuterEnumInteger {
 	if o == nil || o.OuterEnumInteger == nil {
-		var ret 
+		var ret OuterEnumInteger
 		return ret
 	}
 	return *o.OuterEnumInteger
@@ -220,7 +228,7 @@ func (o *EnumTest) GetOuterEnumInteger()  {
 
 // GetOuterEnumIntegerOk returns a tuple with the OuterEnumInteger field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumTest) GetOuterEnumIntegerOk() (*, bool) {
+func (o *EnumTest) GetOuterEnumIntegerOk() (*OuterEnumInteger, bool) {
 	if o == nil || o.OuterEnumInteger == nil {
 		return nil, false
 	}
@@ -237,14 +245,14 @@ func (o *EnumTest) HasOuterEnumInteger() bool {
 }
 
 // SetOuterEnumInteger gets a reference to the given OuterEnumInteger and assigns it to the OuterEnumInteger field.
-func (o *EnumTest) SetOuterEnumInteger(v ) {
+func (o *EnumTest) SetOuterEnumInteger(v OuterEnumInteger) {
 	o.OuterEnumInteger = &v
 }
 
 // GetOuterEnumDefaultValue returns the OuterEnumDefaultValue field value if set, zero value otherwise.
-func (o *EnumTest) GetOuterEnumDefaultValue()  {
+func (o *EnumTest) GetOuterEnumDefaultValue() OuterEnumDefaultValue {
 	if o == nil || o.OuterEnumDefaultValue == nil {
-		var ret 
+		var ret OuterEnumDefaultValue
 		return ret
 	}
 	return *o.OuterEnumDefaultValue
@@ -252,7 +260,7 @@ func (o *EnumTest) GetOuterEnumDefaultValue()  {
 
 // GetOuterEnumDefaultValueOk returns a tuple with the OuterEnumDefaultValue field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumTest) GetOuterEnumDefaultValueOk() (*, bool) {
+func (o *EnumTest) GetOuterEnumDefaultValueOk() (*OuterEnumDefaultValue, bool) {
 	if o == nil || o.OuterEnumDefaultValue == nil {
 		return nil, false
 	}
@@ -269,14 +277,14 @@ func (o *EnumTest) HasOuterEnumDefaultValue() bool {
 }
 
 // SetOuterEnumDefaultValue gets a reference to the given OuterEnumDefaultValue and assigns it to the OuterEnumDefaultValue field.
-func (o *EnumTest) SetOuterEnumDefaultValue(v ) {
+func (o *EnumTest) SetOuterEnumDefaultValue(v OuterEnumDefaultValue) {
 	o.OuterEnumDefaultValue = &v
 }
 
 // GetOuterEnumIntegerDefaultValue returns the OuterEnumIntegerDefaultValue field value if set, zero value otherwise.
-func (o *EnumTest) GetOuterEnumIntegerDefaultValue()  {
+func (o *EnumTest) GetOuterEnumIntegerDefaultValue() OuterEnumIntegerDefaultValue {
 	if o == nil || o.OuterEnumIntegerDefaultValue == nil {
-		var ret 
+		var ret OuterEnumIntegerDefaultValue
 		return ret
 	}
 	return *o.OuterEnumIntegerDefaultValue
@@ -284,7 +292,7 @@ func (o *EnumTest) GetOuterEnumIntegerDefaultValue()  {
 
 // GetOuterEnumIntegerDefaultValueOk returns a tuple with the OuterEnumIntegerDefaultValue field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumTest) GetOuterEnumIntegerDefaultValueOk() (*, bool) {
+func (o *EnumTest) GetOuterEnumIntegerDefaultValueOk() (*OuterEnumIntegerDefaultValue, bool) {
 	if o == nil || o.OuterEnumIntegerDefaultValue == nil {
 		return nil, false
 	}
@@ -301,7 +309,7 @@ func (o *EnumTest) HasOuterEnumIntegerDefaultValue() bool {
 }
 
 // SetOuterEnumIntegerDefaultValue gets a reference to the given OuterEnumIntegerDefaultValue and assigns it to the OuterEnumIntegerDefaultValue field.
-func (o *EnumTest) SetOuterEnumIntegerDefaultValue(v ) {
+func (o *EnumTest) SetOuterEnumIntegerDefaultValue(v OuterEnumIntegerDefaultValue) {
 	o.OuterEnumIntegerDefaultValue = &v
 }
 

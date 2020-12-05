@@ -27,13 +27,13 @@ type TypeHolderDefault struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTypeHolderDefault(StringItem string, NumberItem float32, IntegerItem int32, BoolItem bool, ArrayItem []int32, ) *TypeHolderDefault {
+func NewTypeHolderDefault(stringItem string, numberItem float32, integerItem int32, boolItem bool, arrayItem []int32, ) *TypeHolderDefault {
 	this := TypeHolderDefault{}
-	this.StringItem = StringItem
-	this.NumberItem = NumberItem
-	this.IntegerItem = IntegerItem
-	this.BoolItem = BoolItem
-	this.ArrayItem = ArrayItem
+	this.StringItem = stringItem
+	this.NumberItem = numberItem
+	this.IntegerItem = integerItem
+	this.BoolItem = boolItem
+	this.ArrayItem = arrayItem
 	return &this
 }
 
@@ -42,17 +42,17 @@ func NewTypeHolderDefault(StringItem string, NumberItem float32, IntegerItem int
 // but it doesn't guarantee that properties required by API are set
 func NewTypeHolderDefaultWithDefaults() *TypeHolderDefault {
 	this := TypeHolderDefault{}
-	var StringItem string = what
-	this.StringItem = StringItem
-	var BoolItem bool = true
-	this.BoolItem = BoolItem
+	var stringItem string = "what"
+	this.StringItem = stringItem
+	var boolItem bool = true
+	this.BoolItem = boolItem
 	return &this
 }
 
 // GetStringItem returns the StringItem field value
-func (o *TypeHolderDefault) GetStringItem()  {
+func (o *TypeHolderDefault) GetStringItem() string {
 	if o == nil  {
-		var ret 
+		var ret string
 		return ret
 	}
 
@@ -61,7 +61,7 @@ func (o *TypeHolderDefault) GetStringItem()  {
 
 // GetStringItemOk returns a tuple with the StringItem field value
 // and a boolean to check if the value has been set.
-func (o *TypeHolderDefault) GetStringItemOk() (*, bool) {
+func (o *TypeHolderDefault) GetStringItemOk() (*string, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -69,14 +69,14 @@ func (o *TypeHolderDefault) GetStringItemOk() (*, bool) {
 }
 
 // SetStringItem sets field value
-func (o *TypeHolderDefault) SetStringItem(v ) {
+func (o *TypeHolderDefault) SetStringItem(v string) {
 	o.StringItem = v
 }
 
 // GetNumberItem returns the NumberItem field value
-func (o *TypeHolderDefault) GetNumberItem()  {
+func (o *TypeHolderDefault) GetNumberItem() float32 {
 	if o == nil  {
-		var ret 
+		var ret float32
 		return ret
 	}
 
@@ -85,7 +85,7 @@ func (o *TypeHolderDefault) GetNumberItem()  {
 
 // GetNumberItemOk returns a tuple with the NumberItem field value
 // and a boolean to check if the value has been set.
-func (o *TypeHolderDefault) GetNumberItemOk() (*, bool) {
+func (o *TypeHolderDefault) GetNumberItemOk() (*float32, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -93,14 +93,14 @@ func (o *TypeHolderDefault) GetNumberItemOk() (*, bool) {
 }
 
 // SetNumberItem sets field value
-func (o *TypeHolderDefault) SetNumberItem(v ) {
+func (o *TypeHolderDefault) SetNumberItem(v float32) {
 	o.NumberItem = v
 }
 
 // GetIntegerItem returns the IntegerItem field value
-func (o *TypeHolderDefault) GetIntegerItem()  {
+func (o *TypeHolderDefault) GetIntegerItem() int32 {
 	if o == nil  {
-		var ret 
+		var ret int32
 		return ret
 	}
 
@@ -109,7 +109,7 @@ func (o *TypeHolderDefault) GetIntegerItem()  {
 
 // GetIntegerItemOk returns a tuple with the IntegerItem field value
 // and a boolean to check if the value has been set.
-func (o *TypeHolderDefault) GetIntegerItemOk() (*, bool) {
+func (o *TypeHolderDefault) GetIntegerItemOk() (*int32, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -117,14 +117,14 @@ func (o *TypeHolderDefault) GetIntegerItemOk() (*, bool) {
 }
 
 // SetIntegerItem sets field value
-func (o *TypeHolderDefault) SetIntegerItem(v ) {
+func (o *TypeHolderDefault) SetIntegerItem(v int32) {
 	o.IntegerItem = v
 }
 
 // GetBoolItem returns the BoolItem field value
-func (o *TypeHolderDefault) GetBoolItem()  {
+func (o *TypeHolderDefault) GetBoolItem() bool {
 	if o == nil  {
-		var ret 
+		var ret bool
 		return ret
 	}
 
@@ -133,7 +133,7 @@ func (o *TypeHolderDefault) GetBoolItem()  {
 
 // GetBoolItemOk returns a tuple with the BoolItem field value
 // and a boolean to check if the value has been set.
-func (o *TypeHolderDefault) GetBoolItemOk() (*, bool) {
+func (o *TypeHolderDefault) GetBoolItemOk() (*bool, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -141,14 +141,14 @@ func (o *TypeHolderDefault) GetBoolItemOk() (*, bool) {
 }
 
 // SetBoolItem sets field value
-func (o *TypeHolderDefault) SetBoolItem(v ) {
+func (o *TypeHolderDefault) SetBoolItem(v bool) {
 	o.BoolItem = v
 }
 
 // GetArrayItem returns the ArrayItem field value
-func (o *TypeHolderDefault) GetArrayItem()  {
+func (o *TypeHolderDefault) GetArrayItem() []int32 {
 	if o == nil  {
-		var ret 
+		var ret []int32
 		return ret
 	}
 
@@ -157,7 +157,7 @@ func (o *TypeHolderDefault) GetArrayItem()  {
 
 // GetArrayItemOk returns a tuple with the ArrayItem field value
 // and a boolean to check if the value has been set.
-func (o *TypeHolderDefault) GetArrayItemOk() (*, bool) {
+func (o *TypeHolderDefault) GetArrayItemOk() (*[]int32, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -165,7 +165,7 @@ func (o *TypeHolderDefault) GetArrayItemOk() (*, bool) {
 }
 
 // SetArrayItem sets field value
-func (o *TypeHolderDefault) SetArrayItem(v ) {
+func (o *TypeHolderDefault) SetArrayItem(v []int32) {
 	o.ArrayItem = v
 }
 

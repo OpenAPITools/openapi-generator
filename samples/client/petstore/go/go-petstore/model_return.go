@@ -37,9 +37,9 @@ func NewReturnWithDefaults() *Return {
 }
 
 // GetReturn returns the Return field value if set, zero value otherwise.
-func (o *Return) GetReturn()  {
+func (o *Return) GetReturn() int32 {
 	if o == nil || o.Return == nil {
-		var ret 
+		var ret int32
 		return ret
 	}
 	return *o.Return
@@ -47,7 +47,7 @@ func (o *Return) GetReturn()  {
 
 // GetReturnOk returns a tuple with the Return field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Return) GetReturnOk() (*, bool) {
+func (o *Return) GetReturnOk() (*int32, bool) {
 	if o == nil || o.Return == nil {
 		return nil, false
 	}
@@ -64,7 +64,7 @@ func (o *Return) HasReturn() bool {
 }
 
 // SetReturn gets a reference to the given int32 and assigns it to the Return field.
-func (o *Return) SetReturn(v ) {
+func (o *Return) SetReturn(v int32) {
 	o.Return = &v
 }
 

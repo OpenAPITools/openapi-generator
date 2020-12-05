@@ -30,7 +30,7 @@ import android.os.Parcel;
  * TestJsonFormDataBody
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class TestJsonFormDataBody implements Parcelable {
+public class TestJsonFormDataBody {
   public static final String SERIALIZED_NAME_PARAM = "param";
   @SerializedName(SERIALIZED_NAME_PARAM)
   private String param;

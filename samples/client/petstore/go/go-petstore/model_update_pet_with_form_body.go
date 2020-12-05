@@ -40,9 +40,9 @@ func NewUpdatePetWithFormBodyWithDefaults() *UpdatePetWithFormBody {
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *UpdatePetWithFormBody) GetName()  {
+func (o *UpdatePetWithFormBody) GetName() string {
 	if o == nil || o.Name == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Name
@@ -50,7 +50,7 @@ func (o *UpdatePetWithFormBody) GetName()  {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UpdatePetWithFormBody) GetNameOk() (*, bool) {
+func (o *UpdatePetWithFormBody) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -67,14 +67,14 @@ func (o *UpdatePetWithFormBody) HasName() bool {
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *UpdatePetWithFormBody) SetName(v ) {
+func (o *UpdatePetWithFormBody) SetName(v string) {
 	o.Name = &v
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *UpdatePetWithFormBody) GetStatus()  {
+func (o *UpdatePetWithFormBody) GetStatus() string {
 	if o == nil || o.Status == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Status
@@ -82,7 +82,7 @@ func (o *UpdatePetWithFormBody) GetStatus()  {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UpdatePetWithFormBody) GetStatusOk() (*, bool) {
+func (o *UpdatePetWithFormBody) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -99,7 +99,7 @@ func (o *UpdatePetWithFormBody) HasStatus() bool {
 }
 
 // SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *UpdatePetWithFormBody) SetStatus(v ) {
+func (o *UpdatePetWithFormBody) SetStatus(v string) {
 	o.Status = &v
 }
 

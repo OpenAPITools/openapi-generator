@@ -10,13 +10,13 @@ Name | Type | Description | Notes
 
 - Prepare the resource
 ```powershell
-Initialize-PSPetstoreUploadFileBody  -AdditionalMetadata null `
+$UploadFileBody = Initialize-PSPetstoreUploadFileBody  -AdditionalMetadata null `
  -File null
 ```
 
 - Convert the resource to JSON
 ```powershell
-$ | Convert-ToJSON
+$UploadFileBody | ConvertTo-JSON
 ```
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

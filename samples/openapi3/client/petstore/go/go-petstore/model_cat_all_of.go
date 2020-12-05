@@ -40,9 +40,9 @@ func NewCatAllOfWithDefaults() *CatAllOf {
 }
 
 // GetDeclawed returns the Declawed field value if set, zero value otherwise.
-func (o *CatAllOf) GetDeclawed()  {
+func (o *CatAllOf) GetDeclawed() bool {
 	if o == nil || o.Declawed == nil {
-		var ret 
+		var ret bool
 		return ret
 	}
 	return *o.Declawed
@@ -50,7 +50,7 @@ func (o *CatAllOf) GetDeclawed()  {
 
 // GetDeclawedOk returns a tuple with the Declawed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CatAllOf) GetDeclawedOk() (*, bool) {
+func (o *CatAllOf) GetDeclawedOk() (*bool, bool) {
 	if o == nil || o.Declawed == nil {
 		return nil, false
 	}
@@ -67,7 +67,7 @@ func (o *CatAllOf) HasDeclawed() bool {
 }
 
 // SetDeclawed gets a reference to the given bool and assigns it to the Declawed field.
-func (o *CatAllOf) SetDeclawed(v ) {
+func (o *CatAllOf) SetDeclawed(v bool) {
 	o.Declawed = &v
 }
 

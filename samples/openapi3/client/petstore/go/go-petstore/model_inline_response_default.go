@@ -40,9 +40,9 @@ func NewInlineResponseDefaultWithDefaults() *InlineResponseDefault {
 }
 
 // GetString returns the String field value if set, zero value otherwise.
-func (o *InlineResponseDefault) GetString()  {
+func (o *InlineResponseDefault) GetString() Foo {
 	if o == nil || o.String == nil {
-		var ret 
+		var ret Foo
 		return ret
 	}
 	return *o.String
@@ -50,7 +50,7 @@ func (o *InlineResponseDefault) GetString()  {
 
 // GetStringOk returns a tuple with the String field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineResponseDefault) GetStringOk() (*, bool) {
+func (o *InlineResponseDefault) GetStringOk() (*Foo, bool) {
 	if o == nil || o.String == nil {
 		return nil, false
 	}
@@ -67,7 +67,7 @@ func (o *InlineResponseDefault) HasString() bool {
 }
 
 // SetString gets a reference to the given Foo and assigns it to the String field.
-func (o *InlineResponseDefault) SetString(v ) {
+func (o *InlineResponseDefault) SetString(v Foo) {
 	o.String = &v
 }
 

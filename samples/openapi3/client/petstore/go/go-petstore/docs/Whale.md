@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 
 ### NewWhale
 
-`func NewWhale(ClassName string, ) *Whale`
+`func NewWhale(className string, ) *Whale`
 
 NewWhale instantiates a new Whale object
 This constructor will assign default values to properties that have it defined,
@@ -29,20 +29,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetHasBaleen
 
-`func (o *Whale) GetHasBaleen() `
+`func (o *Whale) GetHasBaleen() bool`
 
 GetHasBaleen returns the HasBaleen field if non-nil, zero value otherwise.
 
 ### GetHasBaleenOk
 
-`func (o *Whale) GetHasBaleenOk() (*, bool)`
+`func (o *Whale) GetHasBaleenOk() (*bool, bool)`
 
 GetHasBaleenOk returns a tuple with the HasBaleen field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetHasBaleen
 
-`func (o *Whale) SetHasBaleen(v )`
+`func (o *Whale) SetHasBaleen(v bool)`
 
 SetHasBaleen sets HasBaleen field to given value.
 
@@ -54,20 +54,20 @@ HasHasBaleen returns a boolean if a field has been set.
 
 ### GetHasTeeth
 
-`func (o *Whale) GetHasTeeth() `
+`func (o *Whale) GetHasTeeth() bool`
 
 GetHasTeeth returns the HasTeeth field if non-nil, zero value otherwise.
 
 ### GetHasTeethOk
 
-`func (o *Whale) GetHasTeethOk() (*, bool)`
+`func (o *Whale) GetHasTeethOk() (*bool, bool)`
 
 GetHasTeethOk returns a tuple with the HasTeeth field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetHasTeeth
 
-`func (o *Whale) SetHasTeeth(v )`
+`func (o *Whale) SetHasTeeth(v bool)`
 
 SetHasTeeth sets HasTeeth field to given value.
 
@@ -79,20 +79,20 @@ HasHasTeeth returns a boolean if a field has been set.
 
 ### GetClassName
 
-`func (o *Whale) GetClassName() `
+`func (o *Whale) GetClassName() string`
 
 GetClassName returns the ClassName field if non-nil, zero value otherwise.
 
 ### GetClassNameOk
 
-`func (o *Whale) GetClassNameOk() (*, bool)`
+`func (o *Whale) GetClassNameOk() (*string, bool)`
 
 GetClassNameOk returns a tuple with the ClassName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetClassName
 
-`func (o *Whale) SetClassName(v )`
+`func (o *Whale) SetClassName(v string)`
 
 SetClassName sets ClassName field to given value.
 

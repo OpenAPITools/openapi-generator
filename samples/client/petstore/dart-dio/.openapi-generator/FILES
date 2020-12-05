@@ -30,3 +30,5 @@ lib/model/upload_file_body.dart
 lib/model/user.dart
 lib/serializers.dart
 pubspec.yaml
+test/update_pet_with_form_body_test.dart
+test/upload_file_body_test.dart

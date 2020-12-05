@@ -15,6 +15,8 @@ model/models.ts
 model/order.ts
 model/pet.ts
 model/tag.ts
+model/updatePetWithFormBody.ts
+model/uploadFileBody.ts
 model/user.ts
 ng-package.json
 package.json

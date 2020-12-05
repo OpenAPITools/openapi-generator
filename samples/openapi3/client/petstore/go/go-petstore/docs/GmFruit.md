@@ -29,20 +29,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetColor
 
-`func (o *GmFruit) GetColor() `
+`func (o *GmFruit) GetColor() string`
 
 GetColor returns the Color field if non-nil, zero value otherwise.
 
 ### GetColorOk
 
-`func (o *GmFruit) GetColorOk() (*, bool)`
+`func (o *GmFruit) GetColorOk() (*string, bool)`
 
 GetColorOk returns a tuple with the Color field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetColor
 
-`func (o *GmFruit) SetColor(v )`
+`func (o *GmFruit) SetColor(v string)`
 
 SetColor sets Color field to given value.
 
@@ -54,20 +54,20 @@ HasColor returns a boolean if a field has been set.
 
 ### GetCultivar
 
-`func (o *GmFruit) GetCultivar() `
+`func (o *GmFruit) GetCultivar() string`
 
 GetCultivar returns the Cultivar field if non-nil, zero value otherwise.
 
 ### GetCultivarOk
 
-`func (o *GmFruit) GetCultivarOk() (*, bool)`
+`func (o *GmFruit) GetCultivarOk() (*string, bool)`
 
 GetCultivarOk returns a tuple with the Cultivar field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCultivar
 
-`func (o *GmFruit) SetCultivar(v )`
+`func (o *GmFruit) SetCultivar(v string)`
 
 SetCultivar sets Cultivar field to given value.
 
@@ -79,20 +79,20 @@ HasCultivar returns a boolean if a field has been set.
 
 ### GetLengthCm
 
-`func (o *GmFruit) GetLengthCm() `
+`func (o *GmFruit) GetLengthCm() float32`
 
 GetLengthCm returns the LengthCm field if non-nil, zero value otherwise.
 
 ### GetLengthCmOk
 
-`func (o *GmFruit) GetLengthCmOk() (*, bool)`
+`func (o *GmFruit) GetLengthCmOk() (*float32, bool)`
 
 GetLengthCmOk returns a tuple with the LengthCm field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLengthCm
 
-`func (o *GmFruit) SetLengthCm(v )`
+`func (o *GmFruit) SetLengthCm(v float32)`
 
 SetLengthCm sets LengthCm field to given value.
 

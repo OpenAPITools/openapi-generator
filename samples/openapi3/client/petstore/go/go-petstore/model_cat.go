@@ -12,6 +12,8 @@ package petstore
 
 import (
 	"encoding/json"
+	"reflect"
+	"strings"
 )
 
 // Cat struct for Cat
@@ -41,9 +43,9 @@ func NewCatWithDefaults() *Cat {
 }
 
 // GetDeclawed returns the Declawed field value if set, zero value otherwise.
-func (o *Cat) GetDeclawed()  {
+func (o *Cat) GetDeclawed() bool {
 	if o == nil || o.Declawed == nil {
-		var ret 
+		var ret bool
 		return ret
 	}
 	return *o.Declawed
@@ -51,7 +53,7 @@ func (o *Cat) GetDeclawed()  {
 
 // GetDeclawedOk returns a tuple with the Declawed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Cat) GetDeclawedOk() (*, bool) {
+func (o *Cat) GetDeclawedOk() (*bool, bool) {
 	if o == nil || o.Declawed == nil {
 		return nil, false
 	}
@@ -68,7 +70,7 @@ func (o *Cat) HasDeclawed() bool {
 }
 
 // SetDeclawed gets a reference to the given bool and assigns it to the Declawed field.
-func (o *Cat) SetDeclawed(v ) {
+func (o *Cat) SetDeclawed(v bool) {
 	o.Declawed = &v
 }
 

@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -123,9 +124,6 @@ public class TypeHolderDefault   {
   }
 
   public TypeHolderDefault addArrayItemItem(Integer arrayItemItem) {
-    if (this.arrayItem == null) {
-      this.arrayItem = new ArrayList<>();
-    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }

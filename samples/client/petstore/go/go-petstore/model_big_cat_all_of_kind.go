@@ -12,6 +12,7 @@ package petstore
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // BigCatAllOfKind the model 'BigCatAllOfKind'

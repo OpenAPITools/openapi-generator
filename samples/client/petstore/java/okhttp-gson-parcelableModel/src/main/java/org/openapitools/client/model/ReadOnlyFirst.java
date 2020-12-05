@@ -30,7 +30,7 @@ import android.os.Parcel;
  * ReadOnlyFirst
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class ReadOnlyFirst implements Parcelable {
+public class ReadOnlyFirst {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
   private String bar;

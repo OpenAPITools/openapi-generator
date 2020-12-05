@@ -34,20 +34,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *User) GetId() `
+`func (o *User) GetId() int64`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *User) GetIdOk() (*, bool)`
+`func (o *User) GetIdOk() (*int64, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *User) SetId(v )`
+`func (o *User) SetId(v int64)`
 
 SetId sets Id field to given value.
 
@@ -59,20 +59,20 @@ HasId returns a boolean if a field has been set.
 
 ### GetUsername
 
-`func (o *User) GetUsername() `
+`func (o *User) GetUsername() string`
 
 GetUsername returns the Username field if non-nil, zero value otherwise.
 
 ### GetUsernameOk
 
-`func (o *User) GetUsernameOk() (*, bool)`
+`func (o *User) GetUsernameOk() (*string, bool)`
 
 GetUsernameOk returns a tuple with the Username field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUsername
 
-`func (o *User) SetUsername(v )`
+`func (o *User) SetUsername(v string)`
 
 SetUsername sets Username field to given value.
 
@@ -84,20 +84,20 @@ HasUsername returns a boolean if a field has been set.
 
 ### GetFirstName
 
-`func (o *User) GetFirstName() `
+`func (o *User) GetFirstName() string`
 
 GetFirstName returns the FirstName field if non-nil, zero value otherwise.
 
 ### GetFirstNameOk
 
-`func (o *User) GetFirstNameOk() (*, bool)`
+`func (o *User) GetFirstNameOk() (*string, bool)`
 
 GetFirstNameOk returns a tuple with the FirstName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFirstName
 
-`func (o *User) SetFirstName(v )`
+`func (o *User) SetFirstName(v string)`
 
 SetFirstName sets FirstName field to given value.
 
@@ -109,20 +109,20 @@ HasFirstName returns a boolean if a field has been set.
 
 ### GetLastName
 
-`func (o *User) GetLastName() `
+`func (o *User) GetLastName() string`
 
 GetLastName returns the LastName field if non-nil, zero value otherwise.
 
 ### GetLastNameOk
 
-`func (o *User) GetLastNameOk() (*, bool)`
+`func (o *User) GetLastNameOk() (*string, bool)`
 
 GetLastNameOk returns a tuple with the LastName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLastName
 
-`func (o *User) SetLastName(v )`
+`func (o *User) SetLastName(v string)`
 
 SetLastName sets LastName field to given value.
 
@@ -134,20 +134,20 @@ HasLastName returns a boolean if a field has been set.
 
 ### GetEmail
 
-`func (o *User) GetEmail() `
+`func (o *User) GetEmail() string`
 
 GetEmail returns the Email field if non-nil, zero value otherwise.
 
 ### GetEmailOk
 
-`func (o *User) GetEmailOk() (*, bool)`
+`func (o *User) GetEmailOk() (*string, bool)`
 
 GetEmailOk returns a tuple with the Email field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEmail
 
-`func (o *User) SetEmail(v )`
+`func (o *User) SetEmail(v string)`
 
 SetEmail sets Email field to given value.
 
@@ -159,20 +159,20 @@ HasEmail returns a boolean if a field has been set.
 
 ### GetPassword
 
-`func (o *User) GetPassword() `
+`func (o *User) GetPassword() string`
 
 GetPassword returns the Password field if non-nil, zero value otherwise.
 
 ### GetPasswordOk
 
-`func (o *User) GetPasswordOk() (*, bool)`
+`func (o *User) GetPasswordOk() (*string, bool)`
 
 GetPasswordOk returns a tuple with the Password field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPassword
 
-`func (o *User) SetPassword(v )`
+`func (o *User) SetPassword(v string)`
 
 SetPassword sets Password field to given value.
 
@@ -184,20 +184,20 @@ HasPassword returns a boolean if a field has been set.
 
 ### GetPhone
 
-`func (o *User) GetPhone() `
+`func (o *User) GetPhone() string`
 
 GetPhone returns the Phone field if non-nil, zero value otherwise.
 
 ### GetPhoneOk
 
-`func (o *User) GetPhoneOk() (*, bool)`
+`func (o *User) GetPhoneOk() (*string, bool)`
 
 GetPhoneOk returns a tuple with the Phone field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPhone
 
-`func (o *User) SetPhone(v )`
+`func (o *User) SetPhone(v string)`
 
 SetPhone sets Phone field to given value.
 
@@ -209,20 +209,20 @@ HasPhone returns a boolean if a field has been set.
 
 ### GetUserStatus
 
-`func (o *User) GetUserStatus() `
+`func (o *User) GetUserStatus() int32`
 
 GetUserStatus returns the UserStatus field if non-nil, zero value otherwise.
 
 ### GetUserStatusOk
 
-`func (o *User) GetUserStatusOk() (*, bool)`
+`func (o *User) GetUserStatusOk() (*int32, bool)`
 
 GetUserStatusOk returns a tuple with the UserStatus field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUserStatus
 
-`func (o *User) SetUserStatus(v )`
+`func (o *User) SetUserStatus(v int32)`
 
 SetUserStatus sets UserStatus field to given value.
 

@@ -26,10 +26,10 @@ type TestJsonFormDataBody struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTestJsonFormDataBody(Param string, Param2 string, ) *TestJsonFormDataBody {
+func NewTestJsonFormDataBody(param string, param2 string, ) *TestJsonFormDataBody {
 	this := TestJsonFormDataBody{}
-	this.Param = Param
-	this.Param2 = Param2
+	this.Param = param
+	this.Param2 = param2
 	return &this
 }
 
@@ -42,9 +42,9 @@ func NewTestJsonFormDataBodyWithDefaults() *TestJsonFormDataBody {
 }
 
 // GetParam returns the Param field value
-func (o *TestJsonFormDataBody) GetParam()  {
+func (o *TestJsonFormDataBody) GetParam() string {
 	if o == nil  {
-		var ret 
+		var ret string
 		return ret
 	}
 
@@ -53,7 +53,7 @@ func (o *TestJsonFormDataBody) GetParam()  {
 
 // GetParamOk returns a tuple with the Param field value
 // and a boolean to check if the value has been set.
-func (o *TestJsonFormDataBody) GetParamOk() (*, bool) {
+func (o *TestJsonFormDataBody) GetParamOk() (*string, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -61,14 +61,14 @@ func (o *TestJsonFormDataBody) GetParamOk() (*, bool) {
 }
 
 // SetParam sets field value
-func (o *TestJsonFormDataBody) SetParam(v ) {
+func (o *TestJsonFormDataBody) SetParam(v string) {
 	o.Param = v
 }
 
 // GetParam2 returns the Param2 field value
-func (o *TestJsonFormDataBody) GetParam2()  {
+func (o *TestJsonFormDataBody) GetParam2() string {
 	if o == nil  {
-		var ret 
+		var ret string
 		return ret
 	}
 
@@ -77,7 +77,7 @@ func (o *TestJsonFormDataBody) GetParam2()  {
 
 // GetParam2Ok returns a tuple with the Param2 field value
 // and a boolean to check if the value has been set.
-func (o *TestJsonFormDataBody) GetParam2Ok() (*, bool) {
+func (o *TestJsonFormDataBody) GetParam2Ok() (*string, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -85,7 +85,7 @@ func (o *TestJsonFormDataBody) GetParam2Ok() (*, bool) {
 }
 
 // SetParam2 sets field value
-func (o *TestJsonFormDataBody) SetParam2(v ) {
+func (o *TestJsonFormDataBody) SetParam2(v string) {
 	o.Param2 = v
 }
 

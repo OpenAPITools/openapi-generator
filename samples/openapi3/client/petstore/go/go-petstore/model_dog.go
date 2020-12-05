@@ -12,6 +12,8 @@ package petstore
 
 import (
 	"encoding/json"
+	"reflect"
+	"strings"
 )
 
 // Dog struct for Dog
@@ -41,9 +43,9 @@ func NewDogWithDefaults() *Dog {
 }
 
 // GetBreed returns the Breed field value if set, zero value otherwise.
-func (o *Dog) GetBreed()  {
+func (o *Dog) GetBreed() string {
 	if o == nil || o.Breed == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Breed
@@ -51,7 +53,7 @@ func (o *Dog) GetBreed()  {
 
 // GetBreedOk returns a tuple with the Breed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Dog) GetBreedOk() (*, bool) {
+func (o *Dog) GetBreedOk() (*string, bool) {
 	if o == nil || o.Breed == nil {
 		return nil, false
 	}
@@ -68,7 +70,7 @@ func (o *Dog) HasBreed() bool {
 }
 
 // SetBreed gets a reference to the given string and assigns it to the Breed field.
-func (o *Dog) SetBreed(v ) {
+func (o *Dog) SetBreed(v string) {
 	o.Breed = &v
 }
 

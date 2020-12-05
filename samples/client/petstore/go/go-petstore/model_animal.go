@@ -24,11 +24,11 @@ type Animal struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAnimal(ClassName string, ) *Animal {
+func NewAnimal(className string, ) *Animal {
 	this := Animal{}
-	this.ClassName = ClassName
-	var Color string = red
-	this.Color = &Color
+	this.ClassName = className
+	var color string = "red"
+	this.Color = &color
 	return &this
 }
 
@@ -37,15 +37,15 @@ func NewAnimal(ClassName string, ) *Animal {
 // but it doesn't guarantee that properties required by API are set
 func NewAnimalWithDefaults() *Animal {
 	this := Animal{}
-	var Color string = red
-	this.Color = &Color
+	var color string = "red"
+	this.Color = &color
 	return &this
 }
 
 // GetClassName returns the ClassName field value
-func (o *Animal) GetClassName()  {
+func (o *Animal) GetClassName() string {
 	if o == nil  {
-		var ret 
+		var ret string
 		return ret
 	}
 
@@ -54,7 +54,7 @@ func (o *Animal) GetClassName()  {
 
 // GetClassNameOk returns a tuple with the ClassName field value
 // and a boolean to check if the value has been set.
-func (o *Animal) GetClassNameOk() (*, bool) {
+func (o *Animal) GetClassNameOk() (*string, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -62,14 +62,14 @@ func (o *Animal) GetClassNameOk() (*, bool) {
 }
 
 // SetClassName sets field value
-func (o *Animal) SetClassName(v ) {
+func (o *Animal) SetClassName(v string) {
 	o.ClassName = v
 }
 
 // GetColor returns the Color field value if set, zero value otherwise.
-func (o *Animal) GetColor()  {
+func (o *Animal) GetColor() string {
 	if o == nil || o.Color == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Color
@@ -77,7 +77,7 @@ func (o *Animal) GetColor()  {
 
 // GetColorOk returns a tuple with the Color field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Animal) GetColorOk() (*, bool) {
+func (o *Animal) GetColorOk() (*string, bool) {
 	if o == nil || o.Color == nil {
 		return nil, false
 	}
@@ -94,7 +94,7 @@ func (o *Animal) HasColor() bool {
 }
 
 // SetColor gets a reference to the given string and assigns it to the Color field.
-func (o *Animal) SetColor(v ) {
+func (o *Animal) SetColor(v string) {
 	o.Color = &v
 }
 

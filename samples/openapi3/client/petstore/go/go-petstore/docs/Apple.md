@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetCultivar
 
-`func (o *Apple) GetCultivar() `
+`func (o *Apple) GetCultivar() string`
 
 GetCultivar returns the Cultivar field if non-nil, zero value otherwise.
 
 ### GetCultivarOk
 
-`func (o *Apple) GetCultivarOk() (*, bool)`
+`func (o *Apple) GetCultivarOk() (*string, bool)`
 
 GetCultivarOk returns a tuple with the Cultivar field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCultivar
 
-`func (o *Apple) SetCultivar(v )`
+`func (o *Apple) SetCultivar(v string)`
 
 SetCultivar sets Cultivar field to given value.
 

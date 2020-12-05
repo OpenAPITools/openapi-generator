@@ -27,6 +27,8 @@ type TestEnumParametersBody struct {
 // will change when the set of required properties is changed
 func NewTestEnumParametersBody() *TestEnumParametersBody {
 	this := TestEnumParametersBody{}
+	var enumFormString TestEnumParametersBodyEnumFormString = "-efg"
+	this.EnumFormString = &enumFormString
 	return &this
 }
 
@@ -35,13 +37,15 @@ func NewTestEnumParametersBody() *TestEnumParametersBody {
 // but it doesn't guarantee that properties required by API are set
 func NewTestEnumParametersBodyWithDefaults() *TestEnumParametersBody {
 	this := TestEnumParametersBody{}
+	var enumFormString TestEnumParametersBodyEnumFormString = "-efg"
+	this.EnumFormString = &enumFormString
 	return &this
 }
 
 // GetEnumFormStringArray returns the EnumFormStringArray field value if set, zero value otherwise.
-func (o *TestEnumParametersBody) GetEnumFormStringArray()  {
+func (o *TestEnumParametersBody) GetEnumFormStringArray() []TestEnumParametersBodyEnumFormStringArrayItems {
 	if o == nil || o.EnumFormStringArray == nil {
-		var ret 
+		var ret []TestEnumParametersBodyEnumFormStringArrayItems
 		return ret
 	}
 	return *o.EnumFormStringArray
@@ -49,7 +53,7 @@ func (o *TestEnumParametersBody) GetEnumFormStringArray()  {
 
 // GetEnumFormStringArrayOk returns a tuple with the EnumFormStringArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TestEnumParametersBody) GetEnumFormStringArrayOk() (*, bool) {
+func (o *TestEnumParametersBody) GetEnumFormStringArrayOk() (*[]TestEnumParametersBodyEnumFormStringArrayItems, bool) {
 	if o == nil || o.EnumFormStringArray == nil {
 		return nil, false
 	}
@@ -66,14 +70,14 @@ func (o *TestEnumParametersBody) HasEnumFormStringArray() bool {
 }
 
 // SetEnumFormStringArray gets a reference to the given []TestEnumParametersBodyEnumFormStringArrayItems and assigns it to the EnumFormStringArray field.
-func (o *TestEnumParametersBody) SetEnumFormStringArray(v ) {
+func (o *TestEnumParametersBody) SetEnumFormStringArray(v []TestEnumParametersBodyEnumFormStringArrayItems) {
 	o.EnumFormStringArray = &v
 }
 
 // GetEnumFormString returns the EnumFormString field value if set, zero value otherwise.
-func (o *TestEnumParametersBody) GetEnumFormString()  {
+func (o *TestEnumParametersBody) GetEnumFormString() TestEnumParametersBodyEnumFormString {
 	if o == nil || o.EnumFormString == nil {
-		var ret 
+		var ret TestEnumParametersBodyEnumFormString
 		return ret
 	}
 	return *o.EnumFormString
@@ -81,7 +85,7 @@ func (o *TestEnumParametersBody) GetEnumFormString()  {
 
 // GetEnumFormStringOk returns a tuple with the EnumFormString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TestEnumParametersBody) GetEnumFormStringOk() (*, bool) {
+func (o *TestEnumParametersBody) GetEnumFormStringOk() (*TestEnumParametersBodyEnumFormString, bool) {
 	if o == nil || o.EnumFormString == nil {
 		return nil, false
 	}
@@ -98,7 +102,7 @@ func (o *TestEnumParametersBody) HasEnumFormString() bool {
 }
 
 // SetEnumFormString gets a reference to the given TestEnumParametersBodyEnumFormString and assigns it to the EnumFormString field.
-func (o *TestEnumParametersBody) SetEnumFormString(v ) {
+func (o *TestEnumParametersBody) SetEnumFormString(v TestEnumParametersBodyEnumFormString) {
 	o.EnumFormString = &v
 }
 

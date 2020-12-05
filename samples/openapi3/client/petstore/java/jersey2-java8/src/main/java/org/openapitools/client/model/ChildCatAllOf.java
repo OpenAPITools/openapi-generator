@@ -24,6 +24,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Set;
+import java.util.HashSet;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
@@ -41,7 +43,7 @@ public class ChildCatAllOf {
   private String name;
 
   public static final String JSON_PROPERTY_PET_TYPE = "pet_type";
-  private PetTypeEnum petType = PetTypeEnum.CHILDCAT;
+  private String petType = "ChildCat";
 
 
   public ChildCatAllOf name(String name) {
@@ -72,7 +74,7 @@ public class ChildCatAllOf {
     "ChildCat"
   ));
 
-  public ChildCatAllOf petType(PetTypeEnum petType) {
+  public ChildCatAllOf petType(String petType) {
     if (!PET_TYPE_VALUES.contains(petType)) {
       throw new IllegalArgumentException(petType + " is invalid. Possible values for petType: " + String.join(", ", PET_TYPE_VALUES));
     }
@@ -90,12 +92,12 @@ public class ChildCatAllOf {
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public PetTypeEnum getPetType() {
+  public String getPetType() {
     return petType;
   }
 
 
-  public void setPetType(PetTypeEnum petType) {
+  public void setPetType(String petType) {
     if (!PET_TYPE_VALUES.contains(petType)) {
       throw new IllegalArgumentException(petType + " is invalid. Possible values for petType: " + String.join(", ", PET_TYPE_VALUES));
     }

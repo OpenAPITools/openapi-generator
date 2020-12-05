@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetName
 
-`func (o *UpdatePetWithFormBody) GetName() `
+`func (o *UpdatePetWithFormBody) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *UpdatePetWithFormBody) GetNameOk() (*, bool)`
+`func (o *UpdatePetWithFormBody) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *UpdatePetWithFormBody) SetName(v )`
+`func (o *UpdatePetWithFormBody) SetName(v string)`
 
 SetName sets Name field to given value.
 
@@ -53,20 +53,20 @@ HasName returns a boolean if a field has been set.
 
 ### GetStatus
 
-`func (o *UpdatePetWithFormBody) GetStatus() `
+`func (o *UpdatePetWithFormBody) GetStatus() string`
 
 GetStatus returns the Status field if non-nil, zero value otherwise.
 
 ### GetStatusOk
 
-`func (o *UpdatePetWithFormBody) GetStatusOk() (*, bool)`
+`func (o *UpdatePetWithFormBody) GetStatusOk() (*string, bool)`
 
 GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStatus
 
-`func (o *UpdatePetWithFormBody) SetStatus(v )`
+`func (o *UpdatePetWithFormBody) SetStatus(v string)`
 
 SetStatus sets Status field to given value.
 

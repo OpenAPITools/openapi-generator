@@ -65,7 +65,7 @@ public class DogAllOf {
 
 
   /**
-   * Return true if this Dog_allOf object is equal to o.
+   * Return true if this DogAllOf object is equal to o.
    */
   @Override
   public boolean equals(Object o) {

@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetBar
 
-`func (o *HasOnlyReadOnly) GetBar() `
+`func (o *HasOnlyReadOnly) GetBar() string`
 
 GetBar returns the Bar field if non-nil, zero value otherwise.
 
 ### GetBarOk
 
-`func (o *HasOnlyReadOnly) GetBarOk() (*, bool)`
+`func (o *HasOnlyReadOnly) GetBarOk() (*string, bool)`
 
 GetBarOk returns a tuple with the Bar field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBar
 
-`func (o *HasOnlyReadOnly) SetBar(v )`
+`func (o *HasOnlyReadOnly) SetBar(v string)`
 
 SetBar sets Bar field to given value.
 
@@ -53,20 +53,20 @@ HasBar returns a boolean if a field has been set.
 
 ### GetFoo
 
-`func (o *HasOnlyReadOnly) GetFoo() `
+`func (o *HasOnlyReadOnly) GetFoo() string`
 
 GetFoo returns the Foo field if non-nil, zero value otherwise.
 
 ### GetFooOk
 
-`func (o *HasOnlyReadOnly) GetFooOk() (*, bool)`
+`func (o *HasOnlyReadOnly) GetFooOk() (*string, bool)`
 
 GetFooOk returns a tuple with the Foo field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFoo
 
-`func (o *HasOnlyReadOnly) SetFoo(v )`
+`func (o *HasOnlyReadOnly) SetFoo(v string)`
 
 SetFoo sets Foo field to given value.
 

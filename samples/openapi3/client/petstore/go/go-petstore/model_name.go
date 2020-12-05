@@ -29,9 +29,9 @@ type _Name Name
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewName(Name int32, ) *Name {
+func NewName(name int32, ) *Name {
 	this := Name{}
-	this.Name = Name
+	this.Name = name
 	return &this
 }
 
@@ -44,9 +44,9 @@ func NewNameWithDefaults() *Name {
 }
 
 // GetName returns the Name field value
-func (o *Name) GetName()  {
+func (o *Name) GetName() int32 {
 	if o == nil  {
-		var ret 
+		var ret int32
 		return ret
 	}
 
@@ -55,7 +55,7 @@ func (o *Name) GetName()  {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *Name) GetNameOk() (*, bool) {
+func (o *Name) GetNameOk() (*int32, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -63,14 +63,14 @@ func (o *Name) GetNameOk() (*, bool) {
 }
 
 // SetName sets field value
-func (o *Name) SetName(v ) {
+func (o *Name) SetName(v int32) {
 	o.Name = v
 }
 
 // GetSnakeCase returns the SnakeCase field value if set, zero value otherwise.
-func (o *Name) GetSnakeCase()  {
+func (o *Name) GetSnakeCase() int32 {
 	if o == nil || o.SnakeCase == nil {
-		var ret 
+		var ret int32
 		return ret
 	}
 	return *o.SnakeCase
@@ -78,7 +78,7 @@ func (o *Name) GetSnakeCase()  {
 
 // GetSnakeCaseOk returns a tuple with the SnakeCase field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Name) GetSnakeCaseOk() (*, bool) {
+func (o *Name) GetSnakeCaseOk() (*int32, bool) {
 	if o == nil || o.SnakeCase == nil {
 		return nil, false
 	}
@@ -95,14 +95,14 @@ func (o *Name) HasSnakeCase() bool {
 }
 
 // SetSnakeCase gets a reference to the given int32 and assigns it to the SnakeCase field.
-func (o *Name) SetSnakeCase(v ) {
+func (o *Name) SetSnakeCase(v int32) {
 	o.SnakeCase = &v
 }
 
 // GetProperty returns the Property field value if set, zero value otherwise.
-func (o *Name) GetProperty()  {
+func (o *Name) GetProperty() string {
 	if o == nil || o.Property == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Property
@@ -110,7 +110,7 @@ func (o *Name) GetProperty()  {
 
 // GetPropertyOk returns a tuple with the Property field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Name) GetPropertyOk() (*, bool) {
+func (o *Name) GetPropertyOk() (*string, bool) {
 	if o == nil || o.Property == nil {
 		return nil, false
 	}
@@ -127,14 +127,14 @@ func (o *Name) HasProperty() bool {
 }
 
 // SetProperty gets a reference to the given string and assigns it to the Property field.
-func (o *Name) SetProperty(v ) {
+func (o *Name) SetProperty(v string) {
 	o.Property = &v
 }
 
 // GetVar123Number returns the Var123Number field value if set, zero value otherwise.
-func (o *Name) GetVar123Number()  {
+func (o *Name) GetVar123Number() int32 {
 	if o == nil || o.Var123Number == nil {
-		var ret 
+		var ret int32
 		return ret
 	}
 	return *o.Var123Number
@@ -142,7 +142,7 @@ func (o *Name) GetVar123Number()  {
 
 // GetVar123NumberOk returns a tuple with the Var123Number field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Name) GetVar123NumberOk() (*, bool) {
+func (o *Name) GetVar123NumberOk() (*int32, bool) {
 	if o == nil || o.Var123Number == nil {
 		return nil, false
 	}
@@ -159,7 +159,7 @@ func (o *Name) HasVar123Number() bool {
 }
 
 // SetVar123Number gets a reference to the given int32 and assigns it to the Var123Number field.
-func (o *Name) SetVar123Number(v ) {
+func (o *Name) SetVar123Number(v int32) {
 	o.Var123Number = &v
 }
 

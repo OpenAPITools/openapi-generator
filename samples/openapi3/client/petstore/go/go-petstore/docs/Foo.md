@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Bar** | Pointer to **string** |  | [optional] [default to bar]
+**Bar** | Pointer to **string** |  | [optional] [default to "bar"]
 
 ## Methods
 
@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetBar
 
-`func (o *Foo) GetBar() `
+`func (o *Foo) GetBar() string`
 
 GetBar returns the Bar field if non-nil, zero value otherwise.
 
 ### GetBarOk
 
-`func (o *Foo) GetBarOk() (*, bool)`
+`func (o *Foo) GetBarOk() (*string, bool)`
 
 GetBarOk returns a tuple with the Bar field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBar
 
-`func (o *Foo) SetBar(v )`
+`func (o *Foo) SetBar(v string)`
 
 SetBar sets Bar field to given value.
 

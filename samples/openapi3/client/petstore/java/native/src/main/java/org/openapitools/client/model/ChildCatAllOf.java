@@ -107,7 +107,7 @@ public class ChildCatAllOf {
 
 
   /**
-   * Return true if this ChildCat_allOf object is equal to o.
+   * Return true if this ChildCatAllOf object is equal to o.
    */
   @Override
   public boolean equals(Object o) {

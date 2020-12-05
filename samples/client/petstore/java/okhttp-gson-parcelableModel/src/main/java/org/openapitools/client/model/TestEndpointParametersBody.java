@@ -34,7 +34,7 @@ import android.os.Parcel;
  * TestEndpointParametersBody
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class TestEndpointParametersBody implements Parcelable {
+public class TestEndpointParametersBody {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
   @SerializedName(SERIALIZED_NAME_INTEGER)
   private Integer integer;

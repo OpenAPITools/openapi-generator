@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -23,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * UpdatePetWithFormBody
@@ -31,7 +35,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   UpdatePetWithFormBody.JSON_PROPERTY_NAME,
   UpdatePetWithFormBody.JSON_PROPERTY_STATUS
 })
-@JsonTypeName("updatePetWithFormBody")
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class UpdatePetWithFormBody {
   public static final String JSON_PROPERTY_NAME = "name";
@@ -42,7 +45,6 @@ public class UpdatePetWithFormBody {
 
 
   public UpdatePetWithFormBody name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -67,7 +69,6 @@ public class UpdatePetWithFormBody {
 
 
   public UpdatePetWithFormBody status(String status) {
-    
     this.status = status;
     return this;
   }
@@ -91,6 +92,9 @@ public class UpdatePetWithFormBody {
   }
 
 
+  /**
+   * Return true if this updatePetWithFormBody object is equal to o.
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -108,7 +112,6 @@ public class UpdatePetWithFormBody {
   public int hashCode() {
     return Objects.hash(name, status);
   }
-
 
   @Override
   public String toString() {

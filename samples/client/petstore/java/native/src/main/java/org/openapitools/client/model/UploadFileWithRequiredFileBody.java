@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -24,6 +26,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * UploadFileWithRequiredFileBody
@@ -32,7 +36,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   UploadFileWithRequiredFileBody.JSON_PROPERTY_ADDITIONAL_METADATA,
   UploadFileWithRequiredFileBody.JSON_PROPERTY_REQUIRED_FILE
 })
-@JsonTypeName("uploadFileWithRequiredFileBody")
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class UploadFileWithRequiredFileBody {
   public static final String JSON_PROPERTY_ADDITIONAL_METADATA = "additionalMetadata";
@@ -43,7 +46,6 @@ public class UploadFileWithRequiredFileBody {
 
 
   public UploadFileWithRequiredFileBody additionalMetadata(String additionalMetadata) {
-    
     this.additionalMetadata = additionalMetadata;
     return this;
   }
@@ -68,7 +70,6 @@ public class UploadFileWithRequiredFileBody {
 
 
   public UploadFileWithRequiredFileBody requiredFile(File requiredFile) {
-    
     this.requiredFile = requiredFile;
     return this;
   }
@@ -91,6 +92,9 @@ public class UploadFileWithRequiredFileBody {
   }
 
 
+  /**
+   * Return true if this uploadFileWithRequiredFileBody object is equal to o.
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -108,7 +112,6 @@ public class UploadFileWithRequiredFileBody {
   public int hashCode() {
     return Objects.hash(additionalMetadata, requiredFile);
   }
-
 
   @Override
   public String toString() {

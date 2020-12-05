@@ -37,9 +37,9 @@ func NewAdditionalPropertiesArrayWithDefaults() *AdditionalPropertiesArray {
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *AdditionalPropertiesArray) GetName()  {
+func (o *AdditionalPropertiesArray) GetName() string {
 	if o == nil || o.Name == nil {
-		var ret 
+		var ret string
 		return ret
 	}
 	return *o.Name
@@ -47,7 +47,7 @@ func (o *AdditionalPropertiesArray) GetName()  {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesArray) GetNameOk() (*, bool) {
+func (o *AdditionalPropertiesArray) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -64,7 +64,7 @@ func (o *AdditionalPropertiesArray) HasName() bool {
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *AdditionalPropertiesArray) SetName(v ) {
+func (o *AdditionalPropertiesArray) SetName(v string) {
 	o.Name = &v
 }
 

@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -23,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * TestJsonFormDataBody
@@ -31,7 +35,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   TestJsonFormDataBody.JSON_PROPERTY_PARAM,
   TestJsonFormDataBody.JSON_PROPERTY_PARAM2
 })
-@JsonTypeName("testJsonFormDataBody")
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TestJsonFormDataBody {
   public static final String JSON_PROPERTY_PARAM = "param";
@@ -42,7 +45,6 @@ public class TestJsonFormDataBody {
 
 
   public TestJsonFormDataBody param(String param) {
-    
     this.param = param;
     return this;
   }
@@ -66,7 +68,6 @@ public class TestJsonFormDataBody {
 
 
   public TestJsonFormDataBody param2(String param2) {
-    
     this.param2 = param2;
     return this;
   }
@@ -89,6 +90,9 @@ public class TestJsonFormDataBody {
   }
 
 
+  /**
+   * Return true if this testJsonFormDataBody object is equal to o.
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -106,7 +110,6 @@ public class TestJsonFormDataBody {
   public int hashCode() {
     return Objects.hash(param, param2);
   }
-
 
   @Override
   public String toString() {

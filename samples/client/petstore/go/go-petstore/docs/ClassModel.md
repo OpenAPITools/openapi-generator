@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetClass
 
-`func (o *ClassModel) GetClass() `
+`func (o *ClassModel) GetClass() string`
 
 GetClass returns the Class field if non-nil, zero value otherwise.
 
 ### GetClassOk
 
-`func (o *ClassModel) GetClassOk() (*, bool)`
+`func (o *ClassModel) GetClassOk() (*string, bool)`
 
 GetClassOk returns a tuple with the Class field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetClass
 
-`func (o *ClassModel) SetClass(v )`
+`func (o *ClassModel) SetClass(v string)`
 
 SetClass sets Class field to given value.
 

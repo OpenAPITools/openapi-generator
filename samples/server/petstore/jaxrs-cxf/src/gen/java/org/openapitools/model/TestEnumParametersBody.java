@@ -1,5 +1,7 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.*;
@@ -35,10 +37,12 @@ public enum EnumFormStringArrayEnum {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return String.valueOf(value);
     }
 
+    @JsonCreator
     public static EnumFormStringArrayEnum fromValue(String value) {
         for (EnumFormStringArrayEnum b : EnumFormStringArrayEnum.values()) {
             if (b.value.equals(value)) {
@@ -73,10 +77,12 @@ public enum EnumFormStringEnum {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return String.valueOf(value);
     }
 
+    @JsonCreator
     public static EnumFormStringEnum fromValue(String value) {
         for (EnumFormStringEnum b : EnumFormStringEnum.values()) {
             if (b.value.equals(value)) {
