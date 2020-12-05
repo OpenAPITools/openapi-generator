@@ -49,9 +49,9 @@ namespace {{modelPackage}}
         {{^isEnum}}
         public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }{{#defaultValue}} = {{{defaultValue}}};{{/defaultValue}}
         {{/isEnum}}
-        {{#hasMore}}
+        {{^-last}}
 
-        {{/hasMore}}
+        {{/-last}}
         {{/vars}}
 
         /// <summary>
@@ -105,13 +105,13 @@ namespace {{modelPackage}}
                     {{name}} == other.{{name}} ||
                     {{^vendorExtensions.x-is-value-type}}{{name}} != null &&{{/vendorExtensions.x-is-value-type}}
                     {{name}}.Equals(other.{{name}})
-                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{#isContainer}}
+                ){{^-last}} && {{/-last}}{{/isContainer}}{{#isContainer}}
                 (
                     {{name}} == other.{{name}} ||
                     {{^vendorExtensions.x-is-value-type}}{{name}} != null &&
                     other.{{name}} != null &&
                     {{/vendorExtensions.x-is-value-type}}{{name}}.SequenceEqual(other.{{name}})
-                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{/vars}}{{^vars}}false{{/vars}};
+                ){{^-last}} && {{/-last}}{{/isContainer}}{{/vars}}{{^vars}}false{{/vars}};
         }
 
         /// <summary>

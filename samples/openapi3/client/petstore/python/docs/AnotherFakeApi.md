@@ -17,10 +17,10 @@ To test special tags and operation ID starting with number
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
-from petstore_api.rest import ApiException
+from petstore_api.api import another_fake_api
+from petstore_api.model.client import Client
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -32,14 +32,17 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.AnotherFakeApi(api_client)
-    client = petstore_api.Client() # Client | client model
+    api_instance = another_fake_api.AnotherFakeApi(api_client)
+    client = Client(
+        client="client_example",
+    ) # Client | client model
 
+    # example passing only required values which don't have defaults set
     try:
         # To test special tags
         api_response = api_instance.call_123_test_special_tags(client)
         pprint(api_response)
-    except ApiException as e:
+    except petstore_api.ApiException as e:
         print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
 ```
 
@@ -47,7 +50,7 @@ with petstore_api.ApiClient() as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model | 
+ **client** | [**Client**](Client.md)| client model |
 
 ### Return type
 

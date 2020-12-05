@@ -249,7 +249,7 @@ class StoreApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function deleteOrderRequest($order_id)
+    public function deleteOrderRequest($order_id)
     {
         // verify the required parameter 'order_id' is set
         if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
@@ -511,7 +511,7 @@ class StoreApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getInventoryRequest()
+    public function getInventoryRequest()
     {
 
         $resourcePath = '/store/inventory';
@@ -769,7 +769,7 @@ class StoreApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getOrderByIdRequest($order_id)
+    public function getOrderByIdRequest($order_id)
     {
         // verify the required parameter 'order_id' is set
         if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
@@ -1043,7 +1043,7 @@ class StoreApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function placeOrderRequest($order)
+    public function placeOrderRequest($order)
     {
         // verify the required parameter 'order' is set
         if ($order === null || (is_array($order) && count($order) === 0)) {

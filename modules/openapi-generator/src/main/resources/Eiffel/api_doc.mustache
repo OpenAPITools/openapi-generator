@@ -11,7 +11,7 @@ Feature | HTTP request | Description
 {{#operations}}
 {{#operation}}
 # **{{{operationId}}}**
-> {{operationId}} {{#hasParams}}({{#allParams}}{{paramName}}: {{#required}}{{{dataType}}}{{/required}}{{^required}} detachable {{{dataType}}}{{/required}} {{#hasMore}}; {{/hasMore}}{{/allParams}}){{/hasParams}}{{#returnType}}: detachable {{{returnType}}}{{/returnType}}{{^returnType}}{{/returnType}}
+> {{operationId}} {{#hasParams}}({{#allParams}}{{paramName}}: {{#required}}{{{dataType}}}{{/required}}{{^required}} detachable {{{dataType}}}{{/required}} {{^-last}}; {{/-last}}{{/allParams}}){{/hasParams}}{{#returnType}}: detachable {{{returnType}}}{{/returnType}}{{^returnType}}{{/returnType}}
 	
 
 {{{summary}}}{{#notes}}
@@ -36,8 +36,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
- - **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
+ - **Content-Type**: {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+ - **Accept**: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

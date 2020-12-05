@@ -20,21 +20,6 @@ class Order {
     this.complete = false,
   });
 
-  /// Returns a new [Order] instance and optionally import its values from
-  /// [json] if it's non-null.
-  Order.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      id = json['id'];
-      petId = json['petId'];
-      quantity = json['quantity'];
-      shipDate = json['shipDate'] == null
-        ? null
-        : DateTime.parse(json['shipDate']);
-      status = OrderStatusEnum.fromJson(json['status']);
-      complete = json['complete'];
-    }
-  }
-
   
   int id;
 
@@ -64,12 +49,12 @@ class Order {
 
   @override
   int get hashCode =>
-    id.hashCode +
-    petId.hashCode +
-    quantity.hashCode +
-    shipDate.hashCode +
-    status.hashCode +
-    complete.hashCode;
+    (id == null ? 0 : id.hashCode) +
+    (petId == null ? 0 : petId.hashCode) +
+    (quantity == null ? 0 : quantity.hashCode) +
+    (shipDate == null ? 0 : shipDate.hashCode) +
+    (status == null ? 0 : status.hashCode) +
+    (complete == null ? 0 : complete.hashCode);
 
   @override
   String toString() => 'Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]';
@@ -96,6 +81,21 @@ class Order {
     }
     return json;
   }
+
+  /// Returns a new [Order] instance and imports its values from
+  /// [json] if it's non-null, null if [json] is null.
+  static Order fromJson(Map<String, dynamic> json) => json == null
+    ? null
+    : Order(
+        id: json['id'],
+        petId: json['petId'],
+        quantity: json['quantity'],
+        shipDate: json['shipDate'] == null
+          ? null
+          : DateTime.parse(json['shipDate']),
+        status: OrderStatusEnum.fromJson(json['status']),
+        complete: json['complete'],
+    );
 
   static List<Order> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
@@ -154,7 +154,7 @@ class OrderStatusEnum {
     delivered_,
   ];
 
-  static OrderStatusEnum fromJson(String value) =>
+  static OrderStatusEnum fromJson(dynamic value) =>
     OrderStatusEnumTypeTransformer().decode(value);
 
   static List<OrderStatusEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

@@ -2,16 +2,17 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**_class** | **String** |  | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **_class** | **String** |  | [optional] |
 
 ## Code Sample
 
 ```ruby
-require 'Petstore'
+require 'petstore'
 
-instance = Petstore::ClassModel.new(_class: null)
+instance = Petstore::ClassModel.new(
+  _class: null
+)
 ```
-
 

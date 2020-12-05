@@ -147,12 +147,22 @@ namespace Org.OpenAPITools.Model
         public static NullableShape FromJson(string jsonString)
         {
             NullableShape newNullableShape = null;
+
+            if (jsonString == null)
+            {
+                return newNullableShape;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, NullableShape.SerializerSettings));
+                newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, NullableShape.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newNullableShape.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, NullableShape.SerializerSettings));
+                }
                 matchedTypes.Add("Quadrilateral");
                 match++;
             }
@@ -164,7 +174,12 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, NullableShape.SerializerSettings));
+                newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, NullableShape.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newNullableShape.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, NullableShape.SerializerSettings));
+                }
                 matchedTypes.Add("Triangle");
                 match++;
             }
@@ -246,7 +261,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRaw((String)(typeof(NullableShape).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((String)(typeof(NullableShape).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>
@@ -259,7 +274,11 @@ namespace Org.OpenAPITools.Model
         /// <returns>The object converted from the JSON string</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return NullableShape.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return NullableShape.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
         }
 
         /// <summary>

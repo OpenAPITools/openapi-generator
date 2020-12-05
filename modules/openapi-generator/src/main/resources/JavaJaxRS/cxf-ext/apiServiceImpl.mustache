@@ -74,7 +74,7 @@ public class {{classname}}ServiceImpl implements {{classname}} {
      */
     {{/summary}}
     @Override
-    public {{>returnTypes}} {{operationId}}({{#allParams}}{{>queryParamsImpl}}{{>pathParamsImpl}}{{>headerParamsImpl}}{{>bodyParamsImpl}}{{>formParamsImpl}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    public {{>returnTypes}} {{operationId}}({{#allParams}}{{>queryParamsImpl}}{{>pathParamsImpl}}{{>headerParamsImpl}}{{>bodyParamsImpl}}{{>formParamsImpl}}{{^-last}}, {{/-last}}{{/allParams}}) {
     {{^loadTestDataFromFile}}
         // TODO: Implement...
     {{/loadTestDataFromFile}}

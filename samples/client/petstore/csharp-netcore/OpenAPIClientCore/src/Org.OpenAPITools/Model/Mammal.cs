@@ -164,12 +164,22 @@ namespace Org.OpenAPITools.Model
         public static Mammal FromJson(string jsonString)
         {
             Mammal newMammal = null;
+
+            if (jsonString == null)
+            {
+                return newMammal;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.SerializerSettings));
+                newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newMammal.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.SerializerSettings));
+                }
                 matchedTypes.Add("Pig");
                 match++;
             }
@@ -181,7 +191,12 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.SerializerSettings));
+                newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newMammal.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.SerializerSettings));
+                }
                 matchedTypes.Add("Whale");
                 match++;
             }
@@ -193,7 +208,12 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.SerializerSettings));
+                newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newMammal.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.SerializerSettings));
+                }
                 matchedTypes.Add("Zebra");
                 match++;
             }
@@ -275,7 +295,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRaw((String)(typeof(Mammal).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((String)(typeof(Mammal).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>
@@ -288,7 +308,11 @@ namespace Org.OpenAPITools.Model
         /// <returns>The object converted from the JSON string</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return Mammal.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return Mammal.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
         }
 
         /// <summary>

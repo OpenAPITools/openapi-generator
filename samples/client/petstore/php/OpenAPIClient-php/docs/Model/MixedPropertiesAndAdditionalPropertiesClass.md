@@ -4,10 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**uuid** | **string** |  | [optional] 
-**date_time** | [**\DateTime**](\DateTime.md) |  | [optional] 
-**map** | [**map[string,\OpenAPI\Client\Model\Animal]**](Animal.md) |  | [optional] 
+**uuid** | **string** |  | [optional]
+**date_time** | [**\DateTime**](\DateTime.md) |  | [optional]
+**map** | [**map[string,\OpenAPI\Client\Model\Animal]**](Animal.md) |  | [optional]
 
-[[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
-
-
+[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

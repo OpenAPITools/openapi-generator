@@ -137,12 +137,22 @@ namespace Org.OpenAPITools.Model
         public static Fruit FromJson(string jsonString)
         {
             Fruit newFruit = null;
+
+            if (jsonString == null)
+            {
+                return newFruit;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                newFruit = new Fruit(JsonConvert.DeserializeObject<Apple>(jsonString, Fruit.SerializerSettings));
+                newFruit = new Fruit(JsonConvert.DeserializeObject<Apple>(jsonString, Fruit.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newFruit.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newFruit = new Fruit(JsonConvert.DeserializeObject<Apple>(jsonString, Fruit.SerializerSettings));
+                }
                 matchedTypes.Add("Apple");
                 match++;
             }
@@ -154,7 +164,12 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newFruit = new Fruit(JsonConvert.DeserializeObject<Banana>(jsonString, Fruit.SerializerSettings));
+                newFruit = new Fruit(JsonConvert.DeserializeObject<Banana>(jsonString, Fruit.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newFruit.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newFruit = new Fruit(JsonConvert.DeserializeObject<Banana>(jsonString, Fruit.SerializerSettings));
+                }
                 matchedTypes.Add("Banana");
                 match++;
             }
@@ -236,7 +251,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRaw((String)(typeof(Fruit).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((String)(typeof(Fruit).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>
@@ -249,7 +264,11 @@ namespace Org.OpenAPITools.Model
         /// <returns>The object converted from the JSON string</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return Fruit.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return Fruit.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
         }
 
         /// <summary>

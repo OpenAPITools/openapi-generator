@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **enumStringRequired** | [**EnumStringRequiredEnum**](#EnumStringRequiredEnum) |  | 
 **enumInteger** | [**EnumIntegerEnum**](#EnumIntegerEnum) |  |  [optional]
 **enumNumber** | [**EnumNumberEnum**](#EnumNumberEnum) |  |  [optional]
-**outerEnum** | [**OuterEnum**](OuterEnum.md) |  |  [optional]
+**outerEnum** | **OuterEnum** |  |  [optional]
 
 
 

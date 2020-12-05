@@ -146,12 +146,22 @@ namespace Org.OpenAPITools.Model
         public static FruitReq FromJson(string jsonString)
         {
             FruitReq newFruitReq = null;
+
+            if (jsonString == null)
+            {
+                return newFruitReq;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                newFruitReq = new FruitReq(JsonConvert.DeserializeObject<AppleReq>(jsonString, FruitReq.SerializerSettings));
+                newFruitReq = new FruitReq(JsonConvert.DeserializeObject<AppleReq>(jsonString, FruitReq.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newFruitReq.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newFruitReq = new FruitReq(JsonConvert.DeserializeObject<AppleReq>(jsonString, FruitReq.SerializerSettings));
+                }
                 matchedTypes.Add("AppleReq");
                 match++;
             }
@@ -163,7 +173,12 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newFruitReq = new FruitReq(JsonConvert.DeserializeObject<BananaReq>(jsonString, FruitReq.SerializerSettings));
+                newFruitReq = new FruitReq(JsonConvert.DeserializeObject<BananaReq>(jsonString, FruitReq.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newFruitReq.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newFruitReq = new FruitReq(JsonConvert.DeserializeObject<BananaReq>(jsonString, FruitReq.SerializerSettings));
+                }
                 matchedTypes.Add("BananaReq");
                 match++;
             }
@@ -245,7 +260,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRaw((String)(typeof(FruitReq).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((String)(typeof(FruitReq).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>
@@ -258,7 +273,11 @@ namespace Org.OpenAPITools.Model
         /// <returns>The object converted from the JSON string</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return FruitReq.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return FruitReq.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
         }
 
         /// <summary>

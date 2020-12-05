@@ -188,8 +188,8 @@ loginUser
   -> OpenAPIPetstoreRequest LoginUser MimeNoContent Text accept
 loginUser  _ (Username username) (Password password) =
   _mkRequest "GET" ["/user/login"]
-    `setQuery` toQuery ("username", Just username)
-    `setQuery` toQuery ("password", Just password)
+    `addQuery` toQuery ("username", Just username)
+    `addQuery` toQuery ("password", Just password)
 
 data LoginUser  
 -- | @application/xml@

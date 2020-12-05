@@ -27,6 +27,8 @@ module Petstore
 
     attr_accessor :double
 
+    attr_accessor :decimal
+
     attr_accessor :string
 
     attr_accessor :byte
@@ -56,6 +58,7 @@ module Petstore
         :'number' => :'number',
         :'float' => :'float',
         :'double' => :'double',
+        :'decimal' => :'decimal',
         :'string' => :'string',
         :'byte' => :'byte',
         :'binary' => :'binary',
@@ -68,6 +71,11 @@ module Petstore
       }
     end
 
+    # Returns all the JSON keys this model knows about
+    def self.acceptable_attributes
+      attribute_map.values
+    end
+
     # Attribute type mapping.
     def self.openapi_types
       {
@@ -77,6 +85,7 @@ module Petstore
         :'number' => :'Float',
         :'float' => :'Float',
         :'double' => :'Float',
+        :'decimal' => :'Decimal',
         :'string' => :'String',
         :'byte' => :'String',
         :'binary' => :'File',
@@ -132,6 +141,10 @@ module Petstore
 
       if attributes.key?(:'double')
         self.double = attributes[:'double']
+      end
+
+      if attributes.key?(:'decimal')
+        self.decimal = attributes[:'decimal']
       end
 
       if attributes.key?(:'string')
@@ -418,6 +431,7 @@ module Petstore
           number == o.number &&
           float == o.float &&
           double == o.double &&
+          decimal == o.decimal &&
           string == o.string &&
           byte == o.byte &&
           binary == o.binary &&
@@ -438,7 +452,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [integer, int32, int64, number, float, double, string, byte, binary, date, date_time, uuid, password, pattern_with_digits, pattern_with_digits_and_delimiter].hash
+      [integer, int32, int64, number, float, double, decimal, string, byte, binary, date, date_time, uuid, password, pattern_with_digits, pattern_with_digits_and_delimiter].hash
     end
 
     # Builds the object from hash
@@ -507,7 +521,9 @@ module Petstore
           end
         end
       else # model
-        Petstore.const_get(type).build_from_hash(value)
+        # models (e.g. Pet) or oneOf
+        klass = Petstore.const_get(type)
+        klass.respond_to?(:openapi_one_of) ? klass.build(value) : klass.build_from_hash(value)
       end
     end
 
@@ -533,7 +549,7 @@ module Petstore
           is_nullable = self.class.openapi_nullable.include?(attr)
           next if !is_nullable || (is_nullable && !instance_variable_defined?(:"@#{attr}"))
         end
-        
+
         hash[param] = _to_hash(value)
       end
       hash
@@ -558,4 +574,5 @@ module Petstore
     end
 
   end
+
 end

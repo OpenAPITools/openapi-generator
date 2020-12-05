@@ -26,7 +26,7 @@ using namespace {{modelNamespace}};
 }
 
 {{#operation}}
-pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{classname}}::{{operationId}}({{#allParams}}{{^required}}boost::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) const
+pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{classname}}::{{operationId}}({{#allParams}}{{^required}}boost::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) const
 {
 {{#allParams}}{{#required}}{{^isPrimitiveType}}{{^isContainer}}
     // verify the required parameter '{{paramName}}' is set
@@ -223,6 +223,10 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
         {{/bodyParam}}
+    }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
     }
     else
     {

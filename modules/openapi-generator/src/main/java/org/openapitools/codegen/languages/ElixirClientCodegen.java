@@ -559,7 +559,6 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.headers.addAll(o.headers);
             this.code = o.code;
             this.message = o.message;
-            this.hasMore = o.hasMore;
             this.examples = o.examples;
             this.dataType = o.dataType;
             this.baseType = o.baseType;
@@ -655,7 +654,6 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.isMap = o.isMap;
             this.isArray = o.isArray;
             this.isMultipart = o.isMultipart;
-            this.hasMore = o.hasMore;
             this.isResponseBinary = o.isResponseBinary;
             this.hasReference = o.hasReference;
             this.isRestfulIndex = o.isRestfulIndex;
