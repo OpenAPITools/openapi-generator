@@ -11,7 +11,7 @@
 | **sca_eth_flow_points** | **String** |  | [optional] |
 | **att_name** | **String** | Name of the pet  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'
