@@ -149,7 +149,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
-        if (parameter.isFormParam && parameter.isArray && parameter.dataFormat.equals("binary")) {
+        if (parameter.isFormParam && parameter.isArray && "binary".equals(parameter.dataFormat)) {
             parameter.isCollectionFormatMulti = true;
         }
     }
