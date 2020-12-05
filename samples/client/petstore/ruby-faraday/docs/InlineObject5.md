@@ -7,7 +7,7 @@
 | **additional_metadata** | **String** | Additional data to pass to server | [optional] |
 | **required_file** | **File** | file to upload |  |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

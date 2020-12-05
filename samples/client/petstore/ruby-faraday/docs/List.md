@@ -6,7 +6,7 @@
 | ---- | ---- | ----------- | ----- |
 | **_123_list** | **String** |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

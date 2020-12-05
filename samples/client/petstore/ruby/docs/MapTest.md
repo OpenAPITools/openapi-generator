@@ -9,7 +9,7 @@
 | **direct_map** | **Hash&lt;String, Boolean&gt;** |  | [optional] |
 | **indirect_map** | **Hash&lt;String, Boolean&gt;** |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

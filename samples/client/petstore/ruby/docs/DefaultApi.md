@@ -9,23 +9,41 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 ## foo_get
 
-> InlineResponseDefault foo_get
+> <InlineResponseDefault> foo_get
 
 
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
 require 'petstore'
 
 api_instance = Petstore::DefaultApi.new
 
 begin
+  
   result = api_instance.foo_get
   p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling DefaultApi->foo_get: #{e}"
+  puts "Error when calling DefaultApi->foo_get: #{e}"
+end
+```
+
+#### Using the foo_get_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<InlineResponseDefault>, Integer, Hash)> foo_get_with_http_info
+
+```ruby
+begin
+  
+  data, status_code, headers = api_instance.foo_get_with_http_info
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <InlineResponseDefault>
+rescue Petstore::ApiError => e
+  puts "Error when calling DefaultApi->foo_get_with_http_info: #{e}"
 end
 ```
 

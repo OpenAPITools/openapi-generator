@@ -6,7 +6,7 @@
 | ---- | ---- | ----------- | ----- |
 | **bar** | **String** |  | [optional][default to &#39;bar&#39;] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

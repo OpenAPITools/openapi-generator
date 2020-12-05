@@ -19,7 +19,7 @@
 | **password** | **String** | None | [optional] |
 | **callback** | **String** | None | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'
