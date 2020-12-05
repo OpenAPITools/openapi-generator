@@ -157,6 +157,9 @@ public class InlineModelResolver {
             }
             return;
         }
+        // Check object models / any type models / composed models for properties,
+        // if the schema has a type defined that is not "object" it should not define
+        // any properties
         if (schema.getType() == null || "object".equals(schema.getType())) {
             // Check properties and recurse, each property could be its own inline model
             Map<String, Schema> props = schema.getProperties();
