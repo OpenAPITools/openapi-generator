@@ -98,7 +98,7 @@ async def update_pet_with_form(request: web.Request, pet_id, name=None, status=N
     return web.Response(status=200)
 
 
-async def upload_file(request: web.Request, pet_id, additional_metadata=None, file=None) -> web.Response:
+async def upload_file(request: web.Request, pet_id, additional_metadata=None) -> web.Response:
     """uploads an image
 
     
@@ -107,8 +107,6 @@ async def upload_file(request: web.Request, pet_id, additional_metadata=None, fi
     :type pet_id: int
     :param additional_metadata: Additional data to pass to server
     :type additional_metadata: str
-    :param file: file to upload
-    :type file: str
 
     """
     return web.Response(status=200)

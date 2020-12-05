@@ -14,24 +14,20 @@ class UploadFileBody(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, additional_metadata: str=None, file: file=None):
+    def __init__(self, additional_metadata: str=None):
         """UploadFileBody - a model defined in OpenAPI
 
         :param additional_metadata: The additional_metadata of this UploadFileBody.
-        :param file: The file of this UploadFileBody.
         """
         self.openapi_types = {
-            'additional_metadata': str,
-            'file': file
+            'additional_metadata': str
         }
 
         self.attribute_map = {
-            'additional_metadata': 'additionalMetadata',
-            'file': 'file'
+            'additional_metadata': 'additionalMetadata'
         }
 
         self._additional_metadata = additional_metadata
-        self._file = file
 
     @classmethod
     def from_dict(cls, dikt: dict) -> 'UploadFileBody':
@@ -64,26 +60,3 @@ class UploadFileBody(Model):
         """
 
         self._additional_metadata = additional_metadata
-
-    @property
-    def file(self):
-        """Gets the file of this UploadFileBody.
-
-        file to upload
-
-        :return: The file of this UploadFileBody.
-        :rtype: file
-        """
-        return self._file
-
-    @file.setter
-    def file(self, file):
-        """Sets the file of this UploadFileBody.
-
-        file to upload
-
-        :param file: The file of this UploadFileBody.
-        :type file: file
-        """
-
-        self._file = file
