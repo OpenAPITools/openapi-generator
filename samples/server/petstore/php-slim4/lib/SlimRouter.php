@@ -22,7 +22,7 @@
  */
 namespace OpenAPIServer;
 
-use Slim\Factory\AppFactory;
+use DI\Bridge\Slim\Bridge;
 use Slim\Interfaces\RouteInterface;
 use Slim\Exception\HttpNotImplementedException;
 use Psr\Container\ContainerInterface;
@@ -855,12 +855,20 @@ class SlimRouter
     {
         if ($settings instanceof ContainerInterface) {
             // Set container to create App with on AppFactory
-            AppFactory::setContainer($settings);
+            $this->slimApp = Bridge::create($settings);
+        } else {
+            $this->slimApp = Bridge::create();
         }
-        $this->slimApp = AppFactory::create();
 
         // middlewares requires Psr\Container\ContainerInterface
         $container = $this->slimApp->getContainer();
+
+        // when settings provided as array need to map them as container services
+        if ($container instanceof ContainerInterface && is_array($settings)) {
+            foreach ($settings as $serviceName => $service) {
+                $container->set($serviceName, $service);
+            }
+        }
 
         $authPackage = 'OpenAPIServer\Auth';
         $basicAuthenticator = function (ServerRequestInterface &$request, TokenSearch $tokenSearch) use ($authPackage) {
@@ -886,14 +894,14 @@ class SlimRouter
         $mockAfterCallback = $mockerOptions['afterCallback'] ?? null;
 
         foreach ($this->operations as $operation) {
-            $callback = function ($request, $response, $arguments) use ($operation) {
+            $callback = function ($request, $response) use ($operation) {
                 $message = "How about extending {$operation['classname']} by {$operation['apiPackage']}\\{$operation['userClassname']} class implementing {$operation['operationId']} as a {$operation['httpMethod']} method?";
                 throw new HttpNotImplementedException($request, $message);
             };
             $middlewares = [new JsonBodyParserMiddleware()];
 
             if (class_exists("\\{$operation['apiPackage']}\\{$operation['userClassname']}")) {
-                $callback = "\\{$operation['apiPackage']}\\{$operation['userClassname']}:{$operation['operationId']}";
+                $callback = ["\\{$operation['apiPackage']}\\{$operation['userClassname']}", "{$operation['operationId']}"];
             }
 
             foreach ($operation['authMethods'] as $authMethod) {

@@ -31,8 +31,10 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlim4ServerCodegen.class);
 
     public static final String PSR7_IMPLEMENTATION = "psr7Implementation";
+    public static final String DEPENDENCY_CONTAINER = "dependencyContainer";
 
     protected String psr7Implementation = "slim-psr7";
+    protected String dependencyContainer = "php-di";
     protected String interfacesDirName = "Interfaces";
     protected String interfacesPackage = "";
 
@@ -66,6 +68,17 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
                 .setDefault("slim-psr7");
 
         cliOptions.add(psr7Option);
+
+        // Dependency Container
+        // http://www.slimframework.com/docs/v4/concepts/di.html
+        CliOption diContainerOption = new CliOption(DEPENDENCY_CONTAINER,
+                "Slim uses an optional dependency container to prepare, manage, and inject application dependencies. Slim supports containers that implement PSR-11 like PHP-DI. Ref: http://www.slimframework.com/docs/v4/concepts/di.html");
+
+        diContainerOption.addEnum("php-di", "Generate Slim with php-di/php-di dependency container. https://php-di.org")
+                .addEnum("none", "Generate Slim without dependency container")
+                .setDefault("php-di");
+
+        cliOptions.add(diContainerOption);
     }
 
     @Override
@@ -121,6 +134,27 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
                 additionalProperties.put("isSlimPsr7", Boolean.TRUE);
         }
 
+        if (additionalProperties.containsKey(DEPENDENCY_CONTAINER)) {
+            this.setDependencyContainer((String) additionalProperties.get(DEPENDENCY_CONTAINER));
+        }
+
+        // reset di container flags
+        additionalProperties.put("isPhpDiContainer", Boolean.FALSE);
+        additionalProperties.put("isNoneContainer", Boolean.FALSE);
+
+        // set specific dependency container flag
+        switch (getDependencyContainer()) {
+            case "php-di":
+                additionalProperties.put("isPhpDiContainer", Boolean.TRUE);
+                break;
+            case "none":
+                additionalProperties.put("isNoneContainer", Boolean.TRUE);
+                break;
+            default:
+                LOGGER.warn("\"" + getDependencyContainer() + "\" is invalid \"dependencyContainer\" codegen option. Default \"php-di\" used instead.");
+                additionalProperties.put("isPhpDiContainer", Boolean.TRUE);
+        }
+
         // Slim 4 doesn't parse JSON body anymore we need to add suggested middleware
         // ref: https://www.slimframework.com/docs/v4/objects/request.html#the-request-body
         supportingFiles.add(new SupportingFile("htaccess_deny_all", "config", ".htaccess"));
@@ -158,5 +192,32 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
      */
     public String getPsr7Implementation() {
         return this.psr7Implementation;
+    }
+
+    /**
+     * Set dependency container package.
+     * Ref: http://www.slimframework.com/docs/v4/concepts/di.html
+     *
+     * @param dependencyContainer dependency container package
+     */
+    public void setDependencyContainer(String dependencyContainer) {
+        switch (dependencyContainer) {
+            case "php-di":
+            case "none":
+                this.dependencyContainer = dependencyContainer;
+                break;
+            default:
+                this.dependencyContainer = "php-di";
+                LOGGER.warn("\"" + (String) dependencyContainer + "\" is invalid \"dependencyContainer\" argument. Default \"php-di\" used instead.");
+        }
+    }
+
+    /**
+     * Returns dependency container package.
+     *
+     * @return dependency container package
+     */
+    public String getDependencyContainer() {
+        return this.dependencyContainer;
     }
 }

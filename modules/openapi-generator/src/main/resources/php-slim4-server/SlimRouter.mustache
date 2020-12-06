@@ -9,7 +9,12 @@
  */{{#apiInfo}}
 namespace {{invokerPackage}};
 
+{{#isPhpDiContainer}}
+use DI\Bridge\Slim\Bridge;
+{{/isPhpDiContainer}}
+{{#isNoneContainer}}
 use Slim\Factory\AppFactory;
+{{/isNoneContainer}}
 use Slim\Interfaces\RouteInterface;
 use Slim\Exception\HttpNotImplementedException;
 use Psr\Container\ContainerInterface;
@@ -135,14 +140,32 @@ class SlimRouter
      */
     public function __construct($settings = [])
     {
+        {{#isPhpDiContainer}}
+        if ($settings instanceof ContainerInterface) {
+            // Set container to create App with on AppFactory
+            $this->slimApp = Bridge::create($settings);
+        } else {
+            $this->slimApp = Bridge::create();
+        }
+        {{/isPhpDiContainer}}
+        {{#isNoneContainer}}
         if ($settings instanceof ContainerInterface) {
             // Set container to create App with on AppFactory
             AppFactory::setContainer($settings);
         }
+
         $this->slimApp = AppFactory::create();
+        {{/isNoneContainer}}
 
         // middlewares requires Psr\Container\ContainerInterface
         $container = $this->slimApp->getContainer();
+
+        // when settings provided as array need to map them as container services
+        if ($container instanceof ContainerInterface && is_array($settings)) {
+            foreach ($settings as $serviceName => $service) {
+                $container->set($serviceName, $service);
+            }
+        }
 
         {{#hasAuthMethods}}
         $authPackage = '{{authPackage}}';
@@ -181,14 +204,19 @@ class SlimRouter
         $mockAfterCallback = $mockerOptions['afterCallback'] ?? null;
 
         foreach ($this->operations as $operation) {
-            $callback = function ($request, $response, $arguments) use ($operation) {
+            $callback = function ($request, $response) use ($operation) {
                 $message = "How about extending {$operation['classname']} by {$operation['apiPackage']}\\{$operation['userClassname']} class implementing {$operation['operationId']} as a {$operation['httpMethod']} method?";
                 throw new HttpNotImplementedException($request, $message);
             };
             $middlewares = [new JsonBodyParserMiddleware()];
 
             if (class_exists("\\{$operation['apiPackage']}\\{$operation['userClassname']}")) {
+                {{#isPhpDiContainer}}
+                $callback = ["\\{$operation['apiPackage']}\\{$operation['userClassname']}", "{$operation['operationId']}"];
+                {{/isPhpDiContainer}}
+                {{#isNoneContainer}}
                 $callback = "\\{$operation['apiPackage']}\\{$operation['userClassname']}:{$operation['operationId']}";
+                {{/isNoneContainer}}
             }
 
             {{#hasAuthMethods}}

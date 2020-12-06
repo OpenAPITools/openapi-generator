@@ -23,22 +23,22 @@ use Slim\Exception\HttpNotImplementedException;
  */
 abstract class {{classname}}
 {
-
+    {{#isPhpDiContainer}}
     /**
-     * @var ContainerInterface|null Slim app container instance
+     * @var ContainerInterface Slim app container instance
      */
     protected $container;
 
     /**
      * Route Controller constructor receives container
      *
-     * @param ContainerInterface|null $container Slim app container instance
+     * @param ContainerInterface $container Slim app container instance
      */
-    public function __construct(ContainerInterface $container = null)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
-
+    {{/isPhpDiContainer}}
     {{#operations}}
     {{#operation}}
 
@@ -56,24 +56,39 @@ abstract class {{classname}}
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response
-     * @param array|null             $args     Path arguments
+    {{#isPhpDiContainer}}
+    {{#pathParams}}
+     * @param {{dataType}} ${{paramName}} {{description}}
+    {{/pathParams}}
+    {{/isPhpDiContainer}}
+    {{#isNoneContainer}}
+    {{#hasPathParams}}
+     * @param array                  $args     Path arguments
+    {{/hasPathParams}}
+    {{/isNoneContainer}}
      *
      * @return ResponseInterface
      * @throws HttpNotImplementedException to force implementation class to override this method
      */
-    public function {{operationId}}(ServerRequestInterface $request, ResponseInterface $response, array $args)
-    {
+    public function {{operationId}}(
+        ServerRequestInterface $request,
+        ResponseInterface $response{{#isPhpDiContainer}}{{#hasPathParams}},{{#pathParams}}
+        ${{paramName}}{{^-last}},{{/-last}}{{/pathParams}}{{/hasPathParams}}{{/isPhpDiContainer}}{{#isNoneContainer}}{{#hasPathParams}},
+        array $args{{/hasPathParams}}{{/isNoneContainer}}
+    ) {
         {{#hasHeaderParams}}
         $headers = $request->getHeaders();
         {{#headerParams}}
         ${{paramName}} = $request->hasHeader('{{baseName}}') ? $headers['{{baseName}}'] : null;
         {{/headerParams}}
         {{/hasHeaderParams}}
+        {{#isNoneContainer}}
         {{#hasPathParams}}
         {{#pathParams}}
         ${{paramName}} = $args['{{baseName}}'];
         {{/pathParams}}
         {{/hasPathParams}}
+        {{/isNoneContainer}}
         {{#hasQueryParams}}
         $queryParams = $request->getQueryParams();
         {{#queryParams}}

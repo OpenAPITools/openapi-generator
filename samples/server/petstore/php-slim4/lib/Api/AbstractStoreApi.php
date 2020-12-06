@@ -36,22 +36,20 @@ use Slim\Exception\HttpNotImplementedException;
  */
 abstract class AbstractStoreApi
 {
-
     /**
-     * @var ContainerInterface|null Slim app container instance
+     * @var ContainerInterface Slim app container instance
      */
     protected $container;
 
     /**
      * Route Controller constructor receives container
      *
-     * @param ContainerInterface|null $container Slim app container instance
+     * @param ContainerInterface $container Slim app container instance
      */
-    public function __construct(ContainerInterface $container = null)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
-
 
     /**
      * DELETE deleteOrder
@@ -60,14 +58,16 @@ abstract class AbstractStoreApi
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response
-     * @param array|null             $args     Path arguments
+     * @param string $orderId ID of the order that needs to be deleted
      *
      * @return ResponseInterface
      * @throws HttpNotImplementedException to force implementation class to override this method
      */
-    public function deleteOrder(ServerRequestInterface $request, ResponseInterface $response, array $args)
-    {
-        $orderId = $args['orderId'];
+    public function deleteOrder(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        $orderId
+    ) {
         $message = "How about implementing deleteOrder as a DELETE method in OpenAPIServer\Api\StoreApi class?";
         throw new HttpNotImplementedException($request, $message);
     }
@@ -80,13 +80,14 @@ abstract class AbstractStoreApi
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response
-     * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
      * @throws HttpNotImplementedException to force implementation class to override this method
      */
-    public function getInventory(ServerRequestInterface $request, ResponseInterface $response, array $args)
-    {
+    public function getInventory(
+        ServerRequestInterface $request,
+        ResponseInterface $response
+    ) {
         $message = "How about implementing getInventory as a GET method in OpenAPIServer\Api\StoreApi class?";
         throw new HttpNotImplementedException($request, $message);
     }
@@ -99,14 +100,16 @@ abstract class AbstractStoreApi
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response
-     * @param array|null             $args     Path arguments
+     * @param int $orderId ID of pet that needs to be fetched
      *
      * @return ResponseInterface
      * @throws HttpNotImplementedException to force implementation class to override this method
      */
-    public function getOrderById(ServerRequestInterface $request, ResponseInterface $response, array $args)
-    {
-        $orderId = $args['orderId'];
+    public function getOrderById(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        $orderId
+    ) {
         $message = "How about implementing getOrderById as a GET method in OpenAPIServer\Api\StoreApi class?";
         throw new HttpNotImplementedException($request, $message);
     }
@@ -118,13 +121,14 @@ abstract class AbstractStoreApi
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response
-     * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
      * @throws HttpNotImplementedException to force implementation class to override this method
      */
-    public function placeOrder(ServerRequestInterface $request, ResponseInterface $response, array $args)
-    {
+    public function placeOrder(
+        ServerRequestInterface $request,
+        ResponseInterface $response
+    ) {
         $body = $request->getParsedBody();
         $message = "How about implementing placeOrder as a POST method in OpenAPIServer\Api\StoreApi class?";
         throw new HttpNotImplementedException($request, $message);
