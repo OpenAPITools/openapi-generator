@@ -3,7 +3,7 @@ info:
   description: This is a sample server Petstore server. For this sample, you can use
     the api key `special-key` to test the authorization filters. NOTE - this spec
     differs from petstore.yaml in order to circumvent this known issue - https://github.com/OpenAPITools/openapi-generator/issues/3870
-    When the issue is resolves the bin/configs/python-aiohttp.yaml can be reverted
+    When the issue is resolved the bin/configs/python-aiohttp.yaml can be reverted
     to use petstore.yaml and this spec can be removed.
   license:
     name: Apache-2.0
