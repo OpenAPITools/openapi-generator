@@ -2069,13 +2069,13 @@ public class DefaultCodegen implements CodegenConfig {
                 return schema.getFormat();
             }
             return "string";
-        } else if (isFreeFormObject(schema)) {
+        } else if (ModelUtils.isFreeFormObject(openAPI, schema)) {
             // Note: the value of a free-form object cannot be an arbitrary type. Per OAS specification,
             // it must be a map of string to values.
             return "object";
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) { // having property implies it's a model
             return "object";
-        } else if (isAnyTypeSchema(schema)) {
+        } else if (ModelUtils.isAnyTypeSchema(openAPI, schema)) {
             return "AnyType";
         } else if (StringUtils.isNotEmpty(schema.getType())) {
             if (!importMapping.containsKey(schema.getType())) {
@@ -2284,7 +2284,7 @@ public class DefaultCodegen implements CodegenConfig {
             m.xmlNamespace = schema.getXml().getNamespace();
             m.xmlName = schema.getXml().getName();
         }
-        if (isAnyTypeSchema(schema)) {
+        if (ModelUtils.isAnyTypeSchema(openAPI, schema)) {
             // The 'null' value is allowed when the OAS schema is 'any type'.
             // See https://github.com/OAI/OpenAPI-Specification/issues/1389
             if (Boolean.FALSE.equals(schema.getNullable())) {
@@ -3251,9 +3251,9 @@ public class DefaultCodegen implements CodegenConfig {
                 property.hasValidation = true;
             }
 
-        } else if (isFreeFormObject(p)) {
+        } else if (ModelUtils.isFreeFormObject(openAPI, p)) {
             property.isFreeFormObject = true;
-        } else if (isAnyTypeSchema(p)) {
+        } else if (ModelUtils.isAnyTypeSchema(openAPI, p)) {
             // The 'null' value is allowed when the OAS schema is 'any type'.
             // See https://github.com/OAI/OpenAPI-Specification/issues/1389
             if (Boolean.FALSE.equals(p.getNullable())) {
@@ -3366,13 +3366,13 @@ public class DefaultCodegen implements CodegenConfig {
             }
             CodegenProperty cp = fromProperty("inner", innerSchema);
             updatePropertyForMap(property, cp);
-        } else if (isFreeFormObject(p)) {
+        } else if (ModelUtils.isFreeFormObject(openAPI, p)) {
             property.isFreeFormObject = true;
             property.baseType = getSchemaType(p);
             if (languageSpecificPrimitives.contains(property.dataType)) {
                 property.isPrimitiveType = true;
             }
-        } else if (isAnyTypeSchema(p)) {
+        } else if (ModelUtils.isAnyTypeSchema(openAPI, p)) {
             property.isAnyType = true;
             property.baseType = getSchemaType(p);
             if (languageSpecificPrimitives.contains(property.dataType)) {
@@ -6108,7 +6108,7 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenProperty = codegenProperty.items;
                 }
             }
-        } else if (isFreeFormObject(schema)) {
+        } else if (ModelUtils.isFreeFormObject(openAPI, schema)) {
             // HTTP request body is free form object
             CodegenProperty codegenProperty = fromProperty("FREE_FORM_REQUEST_BODY", schema);
             if (codegenProperty != null) {
@@ -6543,82 +6543,6 @@ public class DefaultCodegen implements CodegenConfig {
         public int hashCode() {
             return Objects.hash(getName(), getRemoveCharRegEx(), getExceptions());
         }
-    }
-
-    /**
-     * Return true if the schema value can be any type, i.e. it can be
-     * the null value, integer, number, string, object or array.
-     * One use case is when the "type" attribute in the OAS schema is unspecified.
-     *
-     * Examples:
-     *
-     *     arbitraryTypeValue:
-     *       description: This is an arbitrary type schema.
-     *         It is not a free-form object.
-     *         The value can be any type except the 'null' value.
-     *     arbitraryTypeNullableValue:
-     *       description: This is an arbitrary type schema.
-     *         It is not a free-form object.
-     *         The value can be any type, including the 'null' value.
-     *       nullable: true
-     *
-     * @param schema the OAS schema.
-     * @return true if the schema value can be an arbitrary type.
-     */
-    public boolean isAnyTypeSchema(Schema schema) {
-        if (schema == null) {
-            once(LOGGER).error("Schema cannot be null in isAnyTypeSchema check");
-            return false;
-        }
-
-        if (isFreeFormObject(schema)) {
-            // make sure it's not free form object
-            return false;
-        }
-
-        if (schema.getClass().equals(Schema.class) && schema.get$ref() == null && schema.getType() == null &&
-                (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
-                schema.getAdditionalProperties() == null && schema.getNot() == null &&
-                schema.getEnum() == null) {
-            return true;
-            // If and when type arrays are supported in a future OAS specification,
-            // we could return true if the type array includes all possible JSON schema types.
-        }
-        return false;
-    }
-
-    /**
-     * Check to see if the schema is a free form object.
-     *
-     * A free form object is an object (i.e. 'type: object' in a OAS document) that:
-     * 1) Does not define properties, and
-     * 2) Is not a composed schema (no anyOf, oneOf, allOf), and
-     * 3) additionalproperties is not defined, or additionalproperties: true, or additionalproperties: {}.
-     *
-     * Examples:
-     *
-     * components:
-     *   schemas:
-     *     arbitraryObject:
-     *       type: object
-     *       description: This is a free-form object.
-     *         The value must be a map of strings to values. The value cannot be 'null'.
-     *         It cannot be array, string, integer, number.
-     *     arbitraryNullableObject:
-     *       type: object
-     *       description: This is a free-form object.
-     *         The value must be a map of strings to values. The value can be 'null',
-     *         It cannot be array, string, integer, number.
-     *       nullable: true
-     *     arbitraryTypeValue:
-     *       description: This is NOT a free-form object.
-     *         The value can be any type except the 'null' value.
-     *
-     * @param schema potentially containing a '$ref'
-     * @return true if it's a free-form object
-     */
-    protected boolean isFreeFormObject(Schema schema) {
-        return ModelUtils.isFreeFormObject(this.openAPI, schema);
     }
 
     /**

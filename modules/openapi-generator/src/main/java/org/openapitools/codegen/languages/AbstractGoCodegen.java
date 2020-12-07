@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
@@ -394,7 +395,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         if (ref != null && !ref.isEmpty()) {
             type = openAPIType;
-        } else if ("object".equals(openAPIType) && isAnyTypeSchema(p)) {
+        } else if ("object".equals(openAPIType) && ModelUtils.isAnyTypeSchema(openAPI, p)) {
             // Arbitrary type. Note this is not the same thing as free-form object.
             type = "interface{}";
         } else if (typeMapping.containsKey(openAPIType)) {
