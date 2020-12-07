@@ -382,7 +382,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     if (returnPassthrough instanceof String) {
                         if (((String) returnPassthrough).isEmpty()) {
                             op.hasReturnPassthroughVoid = true;
-                            op.returnType = null; // changing the return so that it's as if it was void.
                             op.returnPassthrough = null;
                         } else {
                             boolean foundMatch = false;
@@ -396,7 +395,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                                 op.returnPassthrough = (String)returnPassthrough;
                             } else { // no match, treat as if empty.
                                 op.hasReturnPassthroughVoid = true;
-                                op.returnType = null; // changing the return so that it's as if it was void.
                                 op.returnPassthrough = null;
                             }
                         }
@@ -412,7 +410,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                             op.returnPassthrough = this.getPassthroughField();
                         } else { // no match, treat as if empty.
                             op.hasReturnPassthroughVoid = true;
-                            op.returnType = null; // changing the return so that it's as if it was void.
                             op.returnPassthrough = null;
                         }
                     }

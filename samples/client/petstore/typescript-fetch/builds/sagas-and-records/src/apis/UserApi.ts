@@ -288,7 +288,7 @@ export class UserApi extends runtime.BaseAPI {
      * This can only be done by the logged in user.
      * Updated user
      */
-    async updateUserRaw(requestParameters: UpdateUserRequest): Promise<runtime.ApiResponse<void>> {
+    async updateUserRaw(requestParameters: UpdateUserRequest): Promise<runtime.ApiResponse<DefaultMetaOnlyResponse>> {
         if (requestParameters.username === null || requestParameters.username === undefined) {
             throw new runtime.RequiredError('username','Required parameter requestParameters.username was null or undefined when calling updateUser.');
         }
@@ -311,15 +311,16 @@ export class UserApi extends runtime.BaseAPI {
             body: UserToJSON(requestParameters.body),
         });
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => DefaultMetaOnlyResponseFromJSON(jsonValue));
     }
 
     /**
      * This can only be done by the logged in user.
      * Updated user
      */
-    async updateUser(username: string, body: User): Promise<void> {
-        await this.updateUserRaw({ username: username, body: body });
+    async updateUser(username: string, body: User): Promise<DefaultMetaOnlyResponse> {
+        const response = await this.updateUserRaw({ username: username, body: body });
+        return await response.value();
     }
 
 }

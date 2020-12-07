@@ -365,7 +365,7 @@ export function *updateUserSagaImp(_action_: Action<PayloadUpdateUser>) {
 
 		yield put(updateUserRequest(_action_.payload));
 
-		const response = yield apiCall(Api.userApi, Api.userApi.updateUser,
+		const response: Required<DefaultMetaOnlyResponse> = yield apiCall(Api.userApi, Api.userApi.updateUser,
             username,
             userRecordUtils.toApi(body),
 		);

@@ -72,7 +72,7 @@ export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{
 
 export const {{nickname}}Request = createSagaAction<{{#allParams.0}}Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request{{/allParams.0}}{{^allParams.0}}void{{/allParams.0}}>("{{nickname}}Request");
 {{#returnType}}
-export const {{nickname}}Success = createSagaAction<{{{returnTypeAlternate}}}>("{{nickname}}Success");
+export const {{nickname}}Success = createSagaAction<{{#hasReturnPassthroughVoid}}void{{/hasReturnPassthroughVoid}}{{^hasReturnPassthroughVoid}}{{{returnTypeAlternate}}}{{/hasReturnPassthroughVoid}}>("{{nickname}}Success");
 {{#returnTypeSupportsEntities}}
 export const {{nickname}}Success_Entities = createSagaAction<NormalizedRecordEntities>("{{nickname}}Success_Entities");
 {{/returnTypeSupportsEntities}}
@@ -137,7 +137,9 @@ export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase
 		);
 
 {{#returnType}}
+{{^hasReturnPassthroughVoid}}
 		let successReturnValue: any = undefined;
+{{/hasReturnPassthroughVoid}}
 {{/returnType}}
 {{#returnTypeSupportsEntities}}
 		if (toEntities) {
@@ -166,6 +168,9 @@ export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase
     		successReturnValue = {{#lambda.camelcase}}{{{returnType}}}{{/lambda.camelcase}}RecordUtils.fromApiPassthrough(response);
 	    	yield put({{nickname}}Success(successReturnValue));
 {{/returnPassthrough}}
+{{#hasReturnPassthroughVoid}}
+		    yield put({{nickname}}Success());
+{{/hasReturnPassthroughVoid}}
 {{^hasReturnPassthroughVoid}}
 {{^returnPassthrough}}
 {{#returnTypeIsArray}}
@@ -197,6 +202,9 @@ export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase
 {{#returnPassthrough}}
 		return successReturnValue;
 {{/returnPassthrough}}
+{{#hasReturnPassthroughVoid}}
+        return undefined;
+{{/hasReturnPassthroughVoid}}
 {{^hasReturnPassthroughVoid}}
 {{^returnPassthrough}}
 {{#returnTypeIsArray}}
