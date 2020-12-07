@@ -16,7 +16,7 @@ class {{classname}} extends EnumClass {
     {{/enumVars}}
   {{/allowableValues}}
 
-  static Serializer<{{classname}}> get serializer => _${{classVarName}}Serializer;
+  static Serializer<{{classname}}> get serializer => _${{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Serializer;
 
   const {{classname}}._(String name): super(name);
 

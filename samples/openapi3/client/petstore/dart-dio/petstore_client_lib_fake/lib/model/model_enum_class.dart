@@ -13,7 +13,7 @@ class ModelEnumClass extends EnumClass {
   @BuiltValueEnumConst(wireName: '(xyz)')
   static const ModelEnumClass (xyz) = _$(xyz);
 
-  static Serializer<ModelEnumClass> get serializer => _$enumClassSerializer;
+  static Serializer<ModelEnumClass> get serializer => _$modelEnumClassSerializer;
 
   const ModelEnumClass._(String name): super(name);
 
