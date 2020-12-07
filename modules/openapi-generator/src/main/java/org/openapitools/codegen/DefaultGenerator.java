@@ -517,7 +517,9 @@ public class DefaultGenerator implements Generator {
                 }
 
                 // TODO revise below as we've already performed unaliasing so that the isAlias check may be removed
-                Map<String, Object> modelTemplate = (Map<String, Object>) ((List<Object>) models.get("models")).get(0);
+                List<Object> modelList = (List<Object>) models.get("models");
+                if (modelList != null && !modelList.isEmpty()) {
+                Map<String, Object> modelTemplate = (Map<String, Object>) modelList.get(0);
                 if (modelTemplate != null && modelTemplate.containsKey("model")) {
                     CodegenModel m = (CodegenModel) modelTemplate.get("model");
                     if (m.isAlias && !(config instanceof PythonClientCodegen))  {
@@ -526,8 +528,9 @@ public class DefaultGenerator implements Generator {
                         continue;  // Don't create user-defined classes for aliases
                     }
                 }
-
                 allModels.add(modelTemplate);
+                }
+
 
                 // to generate model files
                 generateModel(files, models, modelName);
