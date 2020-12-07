@@ -230,7 +230,7 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	additionalMetadata := r.FormValue("additionalMetadata")
-    file, err := ReadFormFileToTempFile(r, "file")
+	file, err := ReadFormFileToTempFile(r, "file")
 	if err != nil {
 		w.WriteHeader(500)
 		return

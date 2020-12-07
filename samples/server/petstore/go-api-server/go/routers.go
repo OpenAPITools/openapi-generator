@@ -68,58 +68,58 @@ func EncodeJSONResponse(i interface{}, status *int, w http.ResponseWriter) error
 
 // ReadFormFileToTempFile reads file data from a request form and writes it to a temporary file
 func ReadFormFileToTempFile(r *http.Request, key string) (*os.File, error) {
-    _, fileHeader, err := r.FormFile(key)
-    if err != nil {
-        return nil, err
-    }
+	_, fileHeader, err := r.FormFile(key)
+	if err != nil {
+		return nil, err
+	}
 
-    return readFileHeaderToTempFile(fileHeader)
+	return readFileHeaderToTempFile(fileHeader)
 }
 
 // ReadFormFilesToTempFiles reads files array data from a request form and writes it to a temporary files
 func ReadFormFilesToTempFiles(r *http.Request, key string) ([]*os.File, error) {
-    if err := r.ParseMultipartForm(32 << 20); err != nil {
-        return nil, err
-    }
+	if err := r.ParseMultipartForm(32 << 20); err != nil {
+		return nil, err
+	}
 
-    files := make([]*os.File, 0, len(r.MultipartForm.File[key]))
+	files := make([]*os.File, 0, len(r.MultipartForm.File[key]))
 
-    for _, fileHeader := range r.MultipartForm.File[key] {
-        file, err := readFileHeaderToTempFile(fileHeader)
-        if err != nil {
-            return nil, err
-        }
+	for _, fileHeader := range r.MultipartForm.File[key] {
+		file, err := readFileHeaderToTempFile(fileHeader)
+		if err != nil {
+			return nil, err
+		}
 
-        files = append(files, file)
-    }
+		files = append(files, file)
+	}
 
-    return files, nil
+	return files, nil
 }
 
 // readFileHeaderToTempFile reads multipart.FileHeader and writes it to a temporary file
 func readFileHeaderToTempFile(fileHeader *multipart.FileHeader) (*os.File, error) {
-    formFile, err := fileHeader.Open()
-    if err != nil {
-        return nil, err
-    }
+	formFile, err := fileHeader.Open()
+	if err != nil {
+		return nil, err
+	}
 
-    defer formFile.Close()
+	defer formFile.Close()
 
-    fileBytes, err := ioutil.ReadAll(formFile)
-    if err != nil {
-        return nil, err
-    }
+	fileBytes, err := ioutil.ReadAll(formFile)
+	if err != nil {
+		return nil, err
+	}
 
-    file, err := ioutil.TempFile("", fileHeader.Filename)
-    if err != nil {
-        return nil, err
-    }
+	file, err := ioutil.TempFile("", fileHeader.Filename)
+	if err != nil {
+		return nil, err
+	}
 
-    defer file.Close()
+	defer file.Close()
 
-    file.Write(fileBytes)
+	file.Write(fileBytes)
 
-    return file, nil
+	return file, nil
 }
 
 
