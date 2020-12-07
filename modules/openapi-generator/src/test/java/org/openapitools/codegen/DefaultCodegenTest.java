@@ -833,7 +833,7 @@ public class DefaultCodegenTest {
 
         // all leaf Schemas have discriminators with PropertyName/BaseName + empty discriminator maps
         List<String> leafModelNames = Arrays.asList("Cat", "Dog", "Lizard", "Snake");
-        for (String leafModelName: leafModelNames) {
+        for (String leafModelName : leafModelNames) {
             Schema leafSc = openAPI.getComponents().getSchemas().get(leafModelName);
             CodegenModel leafCm = codegen.fromModel(leafModelName, leafSc);
             Assert.assertEquals(leafCm.discriminator, emptyMapDisc);
@@ -844,7 +844,7 @@ public class DefaultCodegenTest {
         petDisc.setPropertyName(propertyName);
         petDisc.setPropertyBaseName(propertyBaseName);
         java.util.LinkedHashSet hs = new LinkedHashSet<>();
-        for (String leafModelName: leafModelNames) {
+        for (String leafModelName : leafModelNames) {
             hs.add(new CodegenDiscriminator.MappedModel(leafModelName, codegen.toModelName(leafModelName)));
         }
         hs.add(new CodegenDiscriminator.MappedModel("Reptile", codegen.toModelName("Reptile")));
@@ -860,7 +860,7 @@ public class DefaultCodegenTest {
         reptileDisc.setPropertyName(propertyName);
         reptileDisc.setPropertyBaseName(propertyBaseName);
         hs.clear();
-        for (String reptileModelName: reptileModelNames) {
+        for (String reptileModelName : reptileModelNames) {
             hs.add(new CodegenDiscriminator.MappedModel(reptileModelName, codegen.toModelName(reptileModelName)));
         }
         reptileDisc.setMappedModels(hs);
@@ -875,7 +875,7 @@ public class DefaultCodegenTest {
         myPetDisc.setPropertyName(propertyName);
         myPetDisc.setPropertyBaseName(propertyBaseName);
         hs.clear();
-        for (String myPetName: myPetNames) {
+        for (String myPetName : myPetNames) {
             hs.add(new CodegenDiscriminator.MappedModel(myPetName, codegen.toModelName(myPetName)));
         }
         myPetDisc.setMappedModels(hs);
@@ -938,7 +938,7 @@ public class DefaultCodegenTest {
 
         // all leaf Schemas have discriminators with PropertyName/BaseName + empty discriminator maps
         List<String> leafModelNames = Arrays.asList("Cat", "Dog", "Lizard", "Snake");
-        for (String leafModelName: leafModelNames) {
+        for (String leafModelName : leafModelNames) {
             Schema leafSc = openAPI.getComponents().getSchemas().get(leafModelName);
             CodegenModel leafCm = codegen.fromModel(leafModelName, leafSc);
             Assert.assertEquals(leafCm.discriminator, null);
@@ -949,7 +949,7 @@ public class DefaultCodegenTest {
         petDisc.setPropertyName(propertyName);
         petDisc.setPropertyBaseName(propertyBaseName);
         java.util.LinkedHashSet hs = new LinkedHashSet<>();
-        for (String leafModelName: leafModelNames) {
+        for (String leafModelName : leafModelNames) {
             hs.add(new CodegenDiscriminator.MappedModel(leafModelName, codegen.toModelName(leafModelName)));
         }
         hs.add(new CodegenDiscriminator.MappedModel("Reptile", codegen.toModelName("Reptile")));
@@ -965,7 +965,7 @@ public class DefaultCodegenTest {
         reptileDisc.setPropertyName(propertyName);
         reptileDisc.setPropertyBaseName(propertyBaseName);
         hs.clear();
-        for (String reptileModelName: reptileModelNames) {
+        for (String reptileModelName : reptileModelNames) {
             hs.add(new CodegenDiscriminator.MappedModel(reptileModelName, codegen.toModelName(reptileModelName)));
         }
         reptileDisc.setMappedModels(hs);
@@ -1030,7 +1030,7 @@ public class DefaultCodegenTest {
         hm.put("ComposedDiscTypeInconsistent", "'ComposedDiscTypeInconsistent' defines discriminator 'fruitType', but the referenced schema 'DiscTypeIncorrect' is incorrect. invalid type for fruitType, set it to string");
         hm.put("ComposedDiscRequiredInconsistent", "'ComposedDiscRequiredInconsistent' defines discriminator 'fruitType', but the referenced schema 'DiscOptionalTypeCorrect' is incorrect. invalid optional definition of fruitType, include it in required");
 
-        for(Map.Entry<String, String> entry : hm.entrySet()) {
+        for (Map.Entry<String, String> entry : hm.entrySet()) {
             String modelName = entry.getKey();
             String errorMessageExpected = entry.getValue();
 
@@ -1038,7 +1038,7 @@ public class DefaultCodegenTest {
 
             try {
                 codegen.fromModel(modelName, sc);
-                Assert.assertTrue(false, "A RuntimeException should have been thrown when processing "+modelName+ " but it was not");
+                Assert.assertTrue(false, "A RuntimeException should have been thrown when processing " + modelName + " but it was not");
             } catch (RuntimeException re) {
                 Assert.assertEquals(re.getMessage(), errorMessageExpected);
             }
@@ -1062,7 +1062,7 @@ public class DefaultCodegenTest {
         hm.put("ComposedDiscTypeInconsistent", "'ComposedDiscTypeInconsistent' defines discriminator 'fruitType', but the referenced schema 'DiscTypeIncorrect' is incorrect. invalid type for fruitType, set it to string");
         hm.put("ComposedDiscRequiredInconsistent", "'ComposedDiscRequiredInconsistent' defines discriminator 'fruitType', but the referenced schema 'DiscOptionalTypeCorrect' is incorrect. invalid optional definition of fruitType, include it in required");
 
-        for(Map.Entry<String, String> entry : hm.entrySet()) {
+        for (Map.Entry<String, String> entry : hm.entrySet()) {
             String modelName = entry.getKey();
             String errorMessageExpected = entry.getValue();
 
@@ -1070,7 +1070,7 @@ public class DefaultCodegenTest {
 
             try {
                 codegen.fromModel(modelName, sc);
-                Assert.assertTrue(false, "A RuntimeException should have been thrown when processing "+modelName+ " but it was not");
+                Assert.assertTrue(false, "A RuntimeException should have been thrown when processing " + modelName + " but it was not");
             } catch (RuntimeException re) {
                 Assert.assertEquals(re.getMessage(), errorMessageExpected);
             }
@@ -1267,7 +1267,7 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void testComposedSchemaAllOfHierarchy(){
+    public void testComposedSchemaAllOfHierarchy() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
 
         DefaultCodegen codegen = new DefaultCodegen();
@@ -1299,7 +1299,7 @@ public class DefaultCodegenTest {
         test.setPropertyName(prop);
         test.setPropertyBaseName(prop);
         test.setMapping(null);
-        test.setMappedModels(new HashSet<CodegenDiscriminator.MappedModel>(){{
+        test.setMappedModels(new HashSet<CodegenDiscriminator.MappedModel>() {{
             add(new CodegenDiscriminator.MappedModel("Snake", "Snake"));
             add(new CodegenDiscriminator.MappedModel("Lizard", "Lizard"));
         }});
@@ -1312,7 +1312,7 @@ public class DefaultCodegenTest {
         test.setPropertyName(prop);
         test.setPropertyBaseName(prop);
         test.setMapping(null);
-        test.setMappedModels(new HashSet<CodegenDiscriminator.MappedModel>(){{
+        test.setMappedModels(new HashSet<CodegenDiscriminator.MappedModel>() {{
             add(new CodegenDiscriminator.MappedModel("Cat", "Cat"));
             add(new CodegenDiscriminator.MappedModel("Lizard", "Lizard"));
         }});
@@ -1320,7 +1320,7 @@ public class DefaultCodegenTest {
     }
 
     public CodegenModel getModel(List<Object> allModels, String modelName) {
-        for (Object obj: allModels) {
+        for (Object obj : allModels) {
             HashMap<String, Object> hm = (HashMap<String, Object>) obj;
             CodegenModel cm = (CodegenModel) hm.get("model");
             if (modelName.equals(cm.name)) {
@@ -1361,7 +1361,7 @@ public class DefaultCodegenTest {
         Assert.assertNotNull(cm.children);
         List<String> excpectedDiscriminatorValues = new ArrayList<>(Arrays.asList("daily", "sub-obj"));
         ArrayList<String> xDiscriminatorValues = new ArrayList<>();
-        for (CodegenModel child: cm.children) {
+        for (CodegenModel child : cm.children) {
             xDiscriminatorValues.add((String) child.vendorExtensions.get("x-discriminator-value"));
         }
         assertEquals(xDiscriminatorValues, excpectedDiscriminatorValues);
@@ -1372,7 +1372,7 @@ public class DefaultCodegenTest {
         discriminator.setPropertyName(config.toVarName(prop));
         discriminator.setPropertyBaseName(prop);
         discriminator.setMapping(null);
-        discriminator.setMappedModels(new HashSet<CodegenDiscriminator.MappedModel>(){{
+        discriminator.setMappedModels(new HashSet<CodegenDiscriminator.MappedModel>() {{
             add(new CodegenDiscriminator.MappedModel("DailySubObj", "DailySubObj"));
             add(new CodegenDiscriminator.MappedModel("SubObj", "SubObj"));
             add(new CodegenDiscriminator.MappedModel("daily", "DailySubObj"));
@@ -1390,7 +1390,7 @@ public class DefaultCodegenTest {
         Schema schema = openAPI.getComponents().getSchemas().get("NewMessageEventCoreNoOwnProps");
         codegen.setOpenAPI(openAPI);
         CodegenModel model = codegen.fromModel("NewMessageEventCoreNoOwnProps", schema);
-        Assert.assertEquals(getNames(model.getVars()), Arrays.asList("id","message"));
+        Assert.assertEquals(getNames(model.getVars()), Arrays.asList("id", "message"));
         Assert.assertNull(model.parent);
         Assert.assertNull(model.allParents);
     }
@@ -1427,7 +1427,7 @@ public class DefaultCodegenTest {
     }
 
     private List<String> getNames(List<CodegenProperty> props) {
-        if(props == null) return null;
+        if (props == null) return null;
         return props.stream().map(v -> v.name).collect(Collectors.toList());
     }
 
@@ -1502,12 +1502,12 @@ public class DefaultCodegenTest {
     public void testDefaultResponseShouldBeLast() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         Operation myOperation = new Operation().operationId("myOperation").responses(
-            new ApiResponses()
-            .addApiResponse(
-                "default", new ApiResponse().description("Default"))
-            .addApiResponse(
-                "422", new ApiResponse().description("Error"))
-            );
+                new ApiResponses()
+                        .addApiResponse(
+                                "default", new ApiResponse().description("Default"))
+                        .addApiResponse(
+                                "422", new ApiResponse().description("Error"))
+        );
         openAPI.path("/here", new PathItem().get(myOperation));
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
@@ -1570,10 +1570,10 @@ public class DefaultCodegenTest {
         final Map responseProperties = Collections.unmodifiableMap(openAPI.getComponents().getSchemas().get("Response").getProperties());
         final Map requestProperties = Collections.unmodifiableMap(openAPI.getComponents().getSchemas().get("Response").getProperties());
 
-        Assert.assertTrue(codegen.fromProperty("firstName",(Schema) responseProperties.get("firstName")).deprecated);
-        Assert.assertFalse(codegen.fromProperty("customerCode",(Schema) responseProperties.get("customerCode")).deprecated);
-        Assert.assertTrue(codegen.fromProperty("firstName",(Schema) requestProperties.get("firstName")).deprecated);
-        Assert.assertFalse(codegen.fromProperty("customerCode",(Schema) requestProperties.get("customerCode")).deprecated);
+        Assert.assertTrue(codegen.fromProperty("firstName", (Schema) responseProperties.get("firstName")).deprecated);
+        Assert.assertFalse(codegen.fromProperty("customerCode", (Schema) responseProperties.get("customerCode")).deprecated);
+        Assert.assertTrue(codegen.fromProperty("firstName", (Schema) requestProperties.get("firstName")).deprecated);
+        Assert.assertFalse(codegen.fromProperty("customerCode", (Schema) requestProperties.get("customerCode")).deprecated);
     }
 
     @Test
@@ -1585,8 +1585,8 @@ public class DefaultCodegenTest {
 
         final Map requestProperties = Collections.unmodifiableMap(openAPI.getComponents().getSchemas().get("complex").getProperties());
 
-        Assert.assertTrue(codegen.fromProperty("deprecated", (Schema)requestProperties.get("deprecated")).deprecated);
-        Assert.assertFalse(codegen.fromProperty("current", (Schema)requestProperties.get("current")).deprecated);
+        Assert.assertTrue(codegen.fromProperty("deprecated", (Schema) requestProperties.get("deprecated")).deprecated);
+        Assert.assertFalse(codegen.fromProperty("current", (Schema) requestProperties.get("current")).deprecated);
     }
 
     @Test
@@ -2179,49 +2179,49 @@ public class DefaultCodegenTest {
     @Test
     public void testFormComposedSchema() {
         OpenAPI openAPI = TestUtils.parseContent("openapi: 3.0.1\n" +
-            "info:\n" +
-            "  version: '1.0.0'\n" +
-            "  title: the title\n" +
-            "\n" +
-            "paths:\n" +
-            "  '/users/me':\n" +
-            "    post:\n" +
-            "      description: Change user password.\n" +
-            "      operationId: changeCurrentUserPassword\n" +
-            "      requestBody:\n" +
-            "        required: true\n" +
-            "        content:\n" +
-            "          multipart/form-data:\n" +
-            "            schema:\n" +
-            "              $ref: '#/components/schemas/ChangePasswordRequest'\n" +
-            "      responses:\n" +
-            "        '200':\n" +
-            "          description: Successful operation\n" +
-            "          content: {}\n" +
-            "\n" +
-            "components:\n" +
-            "  schemas:\n" +
-            "    CommonPasswordRequest:\n" +
-            "      type: object\n" +
-            "      required: [ password, passwordConfirmation ]\n" +
-            "      properties:\n" +
-            "        password:\n" +
-            "          type: string\n" +
-            "          format: password\n" +
-            "        passwordConfirmation:\n" +
-            "          type: string\n" +
-            "          format: password\n" +
-            "\n" +
-            "    ChangePasswordRequest:\n" +
-            "      type: object\n" +
-            "      allOf:\n" +
-            "        - $ref: '#/components/schemas/CommonPasswordRequest'\n" +
-            "        - type: object\n" +
-            "          required: [ oldPassword ]\n" +
-            "          properties:\n" +
-            "            oldPassword:\n" +
-            "              type: string\n" +
-            "              format: password\n");
+                "info:\n" +
+                "  version: '1.0.0'\n" +
+                "  title: the title\n" +
+                "\n" +
+                "paths:\n" +
+                "  '/users/me':\n" +
+                "    post:\n" +
+                "      description: Change user password.\n" +
+                "      operationId: changeCurrentUserPassword\n" +
+                "      requestBody:\n" +
+                "        required: true\n" +
+                "        content:\n" +
+                "          multipart/form-data:\n" +
+                "            schema:\n" +
+                "              $ref: '#/components/schemas/ChangePasswordRequest'\n" +
+                "      responses:\n" +
+                "        '200':\n" +
+                "          description: Successful operation\n" +
+                "          content: {}\n" +
+                "\n" +
+                "components:\n" +
+                "  schemas:\n" +
+                "    CommonPasswordRequest:\n" +
+                "      type: object\n" +
+                "      required: [ password, passwordConfirmation ]\n" +
+                "      properties:\n" +
+                "        password:\n" +
+                "          type: string\n" +
+                "          format: password\n" +
+                "        passwordConfirmation:\n" +
+                "          type: string\n" +
+                "          format: password\n" +
+                "\n" +
+                "    ChangePasswordRequest:\n" +
+                "      type: object\n" +
+                "      allOf:\n" +
+                "        - $ref: '#/components/schemas/CommonPasswordRequest'\n" +
+                "        - type: object\n" +
+                "          required: [ oldPassword ]\n" +
+                "          properties:\n" +
+                "            oldPassword:\n" +
+                "              type: string\n" +
+                "              format: password\n");
 
         final DefaultCodegen cg = new DefaultCodegen();
         cg.setOpenAPI(openAPI);
@@ -2230,16 +2230,16 @@ public class DefaultCodegenTest {
 
         final PathItem path = openAPI.getPaths().get("/users/me");
         final CodegenOperation operation = cg.fromOperation(
-            "/users/me",
-            "post",
-            path.getPost(),
-            path.getServers());
+                "/users/me",
+                "post",
+                path.getPost(),
+                path.getServers());
         assertEquals(operation.formParams.size(), 3,
-            "The list of parameters should include inherited type");
+                "The list of parameters should include inherited type");
 
         final List<String> names = operation.formParams.stream()
-            .map(param -> param.paramName)
-            .collect(Collectors.toList());
+                .map(param -> param.paramName)
+                .collect(Collectors.toList());
         assertTrue(names.contains("password"));
         assertTrue(names.contains("passwordConfirmation"));
         assertTrue(names.contains("oldPassword"));
