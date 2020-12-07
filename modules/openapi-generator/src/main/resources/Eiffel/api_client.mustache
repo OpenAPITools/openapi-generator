@@ -233,7 +233,8 @@ feature -- Query Parameter Helpers
 						-- dateTime	string	date-time	As defined by date-time - RFC3339
 					Result := date_time.date.debug_output
 				elseif attached {STRING_32} a_param as str_32 then
-					Result := str_32
+						-- TODO check if this is a good convertion.
+					Result := str_32.to_string_8
 				elseif attached {STRING_8} a_param as str_8 then
 					Result := str_8
 				else
@@ -420,18 +421,18 @@ feature -- HTTP client: call api
 			end
 		end
 
-	add_header_params (a_content_executor:HTTP_CLIENT_REQUEST_CONTEXT; a_header_params: STRING_TABLE [STRING])
+	add_header_params (a_content_executor:HTTP_CLIENT_REQUEST_CONTEXT; a_header_params: STRING_TABLE [READABLE_STRING_8])
 			-- Set header parameters `a_header_params' to the request context executor `a_content_executor', including default headers.
 		do
 				-- headers
 			across a_header_params as ic  loop
-				a_content_executor.add_header (ic.key.as_string_8, ic.item)
+				a_content_executor.add_header (ic.key.to_string_8, ic.item)
 			end
 
 				-- default headers
 			across default_header_map as ic  loop
 				if not a_header_params.has (ic.key) then
-					a_content_executor.add_header (ic.key.as_string_8, ic.item)
+					a_content_executor.add_header (ic.key.to_string_8, ic.item)
 				end
 			end
 		end
@@ -484,7 +485,7 @@ feature -- HTTP client: Change Element
 
 feature {NONE} -- Implementation
 
-	default_header_map: STRING_TABLE [STRING]
+	default_header_map: STRING_TABLE [READABLE_STRING_8]
 			-- default header map.
 
 	http_session: detachable HTTP_CLIENT_SESSION
