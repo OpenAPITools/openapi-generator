@@ -47,6 +47,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String TYPESCRIPT_THREE_PLUS = "typescriptThreePlus";
     public static final String WITHOUT_RUNTIME_CHECKS = "withoutRuntimeChecks";
     public static final String SAGAS_AND_RECORDS = "sagasAndRecords";
+    public static final String DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD = "detectPassthroughModelsWithSuffixAndField";
 
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = true;
@@ -56,6 +57,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     protected boolean typescriptThreePlus = false;
     protected boolean withoutRuntimeChecks = false;
     protected boolean sagasAndRecords = false;
+    protected String detectPassthroughModelsWithSuffixAndField = null; // Ex: "Response;data"
 
     public TypeScriptFetchClientCodegen() {
         super();
@@ -128,6 +130,22 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.sagasAndRecords = sagasAndRecords;
     }
 
+    public String getDetectPassthroughModelsWithSuffixAndField() {
+        return detectPassthroughModelsWithSuffixAndField;
+    }
+
+    public String getPassthroughSuffix() {
+        return detectPassthroughModelsWithSuffixAndField != null ? detectPassthroughModelsWithSuffixAndField.split("\\.")[0] : null;
+    }
+
+    public String getPassthroughField() {
+        return detectPassthroughModelsWithSuffixAndField != null ? detectPassthroughModelsWithSuffixAndField.split("\\.")[1] : null;
+    }
+
+    public void setDetectPassthroughModelsWithSuffixAndField(String detectPassthroughModelsWithSuffixAndField) {
+        this.detectPassthroughModelsWithSuffixAndField = detectPassthroughModelsWithSuffixAndField;
+    }
+
     @Override
     public void processOpts() {
         super.processOpts();
@@ -178,6 +196,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 modelTemplateFiles.put("records.mustache", "Record.ts");
                 supportingFiles.add(new SupportingFile("runtimeSagasAndRecords.mustache", sourceDir, "runtimeSagasAndRecords.ts"));
             }
+        }
+        if (additionalProperties.containsKey(DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD)) {
+            this.setDetectPassthroughModelsWithSuffixAndField((String)additionalProperties.get(DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD));
         }
     }
 
@@ -379,6 +400,21 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                                 op.returnPassthrough = null;
                             }
                         }
+                    } else if (this.getDetectPassthroughModelsWithSuffixAndField() != null && op.returnBaseType.length() > this.getPassthroughSuffix().length() && op.returnBaseType.substring(op.returnBaseType.length() - this.getPassthroughSuffix().length()).equals(this.getPassthroughSuffix())) {
+                        boolean foundMatch = false;
+                        for (CodegenProperty var : cm.vars) {
+                            if (var.name.equals(this.getPassthroughField())) {
+                                foundMatch = true;
+                                break;
+                            }
+                        }
+                        if (foundMatch) {
+                            op.returnPassthrough = this.getPassthroughField();
+                        } else { // no match, treat as if empty.
+                            op.hasReturnPassthroughVoid = true;
+                            op.returnType = null; // changing the return so that it's as if it was void.
+                            op.returnPassthrough = null;
+                        }
                     }
                 }
 
@@ -488,6 +524,20 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     cm.hasReturnPassthroughVoid = true;
                     cm.returnPassthrough = null;
                 }
+            }
+        } else if (this.getDetectPassthroughModelsWithSuffixAndField() != null && cm.name.length() > this.getPassthroughSuffix().length() && cm.name.substring(cm.name.length() - this.getPassthroughSuffix().length()).equals(this.getPassthroughSuffix())) {
+            boolean foundMatch = false;
+            for (CodegenProperty var : cm.vars) {
+                if (var.name.equals(this.getPassthroughField())) {
+                    foundMatch = true;
+                    break;
+                }
+            }
+            if (foundMatch) {
+                cm.returnPassthrough = this.getPassthroughField();
+            } else { // no match, treat as if empty.
+                cm.hasReturnPassthroughVoid = true;
+                cm.returnPassthrough = null;
             }
         }
 

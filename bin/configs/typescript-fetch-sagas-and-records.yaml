@@ -9,4 +9,5 @@ additionalProperties:
   supportsES6: true
   typescriptThreePlus: true
   sagasAndRecords: true
+  detectPassthroughModelsWithSuffixAndField: 'Response.data'
   snapshot: false
