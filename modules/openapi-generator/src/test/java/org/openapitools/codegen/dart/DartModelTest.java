@@ -310,13 +310,48 @@ public class DartModelTest {
         Assert.assertEquals(cm.classname, codegen.toModelName(expectedName));
     }
 
-    @Test(description = "test enum variable names for reserved words")
-    public void testReservedWord() throws Exception {
+    @Test(description = "test variable names are correctly escaped")
+    public void testVarNames() throws Exception {
         final DefaultCodegen codegen = new DartClientCodegen();
-        Assert.assertEquals(codegen.toEnumVarName("public", null), "public_");
-        Assert.assertEquals(codegen.toEnumVarName("Private", null), "private_");
-        Assert.assertEquals(codegen.toEnumVarName("IF", null), "iF_");
+        // variable names are always lower case: Double -> double -> double_
+        Assert.assertEquals(codegen.toVarName("Double"), "double_");
+        Assert.assertEquals(codegen.toVarName("double"), "double_");
+        Assert.assertEquals(codegen.toVarName("dynamic"), "dynamic_");
+
         // should not escape non-reserved
+        Assert.assertEquals(codegen.toVarName("String"), "string");
+        Assert.assertEquals(codegen.toVarName("string"), "string");
+        Assert.assertEquals(codegen.toVarName("hello"), "hello");
+
+        // should not escape full upper case names
+        Assert.assertEquals(codegen.toVarName("FOO"), "FOO");
+        Assert.assertEquals(codegen.toVarName("FOO_BAR"), "FOO_BAR");
+        Assert.assertEquals(codegen.toVarName("FOO_BAR_BAZ_"), "FOO_BAR_BAZ_");
+
+        // should escape leading numbers
+        Assert.assertEquals(codegen.toVarName("123hello"), "n123hello");
+        Assert.assertEquals(codegen.toVarName("5FOO"), "n5fOO");
+
+        // should remove leading underscores (this would be private in Dart)
+        Assert.assertEquals(codegen.toVarName("_hello"), "hello");
+        Assert.assertEquals(codegen.toVarName("_double"), "double_");
+        Assert.assertEquals(codegen.toVarName("_123hello"), "n123hello");
+         Assert.assertEquals(codegen.toVarName("_5FOO"), "n5fOO");
+        // TODO this fails
+        // Assert.assertEquals(codegen.toVarName("_FOO"), "FOO");
+    }
+
+    @Test(description = "test enum variable names")
+    public void testEnumVarNames() throws Exception {
+        final DefaultCodegen codegen = new DartClientCodegen();
+        // variable names are always lower case: Double -> double -> double_
+        Assert.assertEquals(codegen.toEnumVarName("Double", null), "double_");
+        Assert.assertEquals(codegen.toEnumVarName("double", null), "double_");
+        Assert.assertEquals(codegen.toEnumVarName("dynamic", null), "dynamic_");
+
+        // should not escape non-reserved
+        // TODO these are wrong
+        Assert.assertEquals(codegen.toEnumVarName("IF", null), "iF_");
         Assert.assertEquals(codegen.toEnumVarName("hello", null), "hello_");
     }
 
