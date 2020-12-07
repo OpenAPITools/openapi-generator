@@ -3,10 +3,10 @@ class {{classname}}{{nameInCamelCase}} extends EnumClass {
   {{#allowableValues}}
     {{#enumVars}}
       {{#description}}
-  /// {{description}}
+  /// {{{description}}}
       {{/description}}
   @BuiltValueEnumConst({{#isInteger}}wireNumber: {{{value}}}{{/isInteger}}{{^isInteger}}wireName: {{{value}}}{{/isInteger}})
-  static const {{classname}}{{nameInCamelCase}} {{name}} = _${{name}};
+  static const {{classname}}{{nameInCamelCase}} {{name}} = _${{#lambda.camelcase}}{{classname}}{{nameInCamelCase}}{{/lambda.camelcase}}_{{name}};
     {{/enumVars}}
   {{/allowableValues}}
 
