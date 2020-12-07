@@ -1,8 +1,8 @@
 {{#models}}
     {{#model}}
         {{#imports}}
-            import '{{.}}';
+import '{{.}}';
         {{/imports}}
-        {{#isEnum}}{{>enum}}{{/isEnum}}{{^isEnum}}{{>class}}{{/isEnum}}
+{{#isEnum}}{{>enum}}{{/isEnum}}{{^isEnum}}{{>class}}{{/isEnum}}
     {{/model}}
 {{/models}}
