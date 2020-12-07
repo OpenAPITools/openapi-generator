@@ -29,12 +29,6 @@ import 'package:openapi/model/foo.dart';
 import 'package:openapi/model/format_test.dart';
 import 'package:openapi/model/has_only_read_only.dart';
 import 'package:openapi/model/health_check_result.dart';
-import 'package:openapi/model/inline_object.dart';
-import 'package:openapi/model/inline_object1.dart';
-import 'package:openapi/model/inline_object2.dart';
-import 'package:openapi/model/inline_object3.dart';
-import 'package:openapi/model/inline_object4.dart';
-import 'package:openapi/model/inline_object5.dart';
 import 'package:openapi/model/inline_response_default.dart';
 import 'package:openapi/model/list.dart';
 import 'package:openapi/model/map_test.dart';
@@ -83,12 +77,6 @@ Foo,
 FormatTest,
 HasOnlyReadOnly,
 HealthCheckResult,
-InlineObject,
-InlineObject1,
-InlineObject2,
-InlineObject3,
-InlineObject4,
-InlineObject5,
 InlineResponseDefault,
 List,
 MapTest,
@@ -183,24 +171,6 @@ const FullType(BuiltList, const [const FullType(HasOnlyReadOnly)]),
 ..addBuilderFactory(
 const FullType(BuiltList, const [const FullType(HealthCheckResult)]),
 () => new ListBuilder<HealthCheckResult>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(InlineObject)]),
-() => new ListBuilder<InlineObject>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(InlineObject1)]),
-() => new ListBuilder<InlineObject1>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(InlineObject2)]),
-() => new ListBuilder<InlineObject2>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(InlineObject3)]),
-() => new ListBuilder<InlineObject3>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(InlineObject4)]),
-() => new ListBuilder<InlineObject4>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(InlineObject5)]),
-() => new ListBuilder<InlineObject5>())
 ..addBuilderFactory(
 const FullType(BuiltList, const [const FullType(InlineResponseDefault)]),
 () => new ListBuilder<InlineResponseDefault>())

@@ -43,6 +43,7 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
@@ -199,6 +200,10 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     protected void defaultProcessOpts() {
+        // This disables the generation of inline objects for operation parameters
+        // with OAS3. None of the Dart generators actually uses these models so we can
+        // safely disable this for now.
+        GlobalSettings.setProperty(CodegenConstants.SKIP_FORM_MODEL, Boolean.TRUE.toString());
         super.processOpts();
     }
 
