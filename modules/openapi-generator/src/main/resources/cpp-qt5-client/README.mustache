@@ -146,6 +146,36 @@ Class | Method | HTTP request | Description
 {{#models}}{{#model}} - [{{classname}}]({{modelDocPath}}{{classname}}.md)
 {{/model}}{{/models}}
 
+## Documentation for Servers
+
+Parameterized Servers are supported. Define a server in the API for each endpoint with arbitrary numbers of variables: 
+
+```
+servers:
+- url: http://{server}:{port}/{basePath}
+  description: Description of the Server
+  variables:
+    server:
+        enum:
+          - 'petstore'
+          - 'qa-petstore'
+          - 'dev-petstore'
+        default: 'petstore'
+    port:
+      enum:
+        - '3000'
+        - '1000'
+      default: '3000'
+    basePath:
+      default: v1
+```
+To change the default variable, use this function in each Api:
+```
+int setDefaultServerValue(QString operation, QString variable, QString value);
+```
+The parameter "operation" should be the desired endpoint operationid. Variable is the name of the variable you wish to change and the value is the new default Value.
+The function will return -1 when the variable does not exists, -2 if value is not defined in the variable enum and -3 if the operation is not found.
+
 ## Documentation for Authorization
 
 {{^authMethods}}All endpoints do not require authorization.

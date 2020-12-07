@@ -11,6 +11,7 @@
 #include <QObject>
 #include <QByteArray>
 #include <QStringList> 
+#include <QList>
 #include <QNetworkAccessManager>
 
 {{#cppNamespaceDeclarations}}
@@ -25,6 +26,8 @@ public:
     ~{{classname}}();
 
     void initializeServerConfigs();
+    int setDefaultServerValue(int index, QString operation, QString variable, QString value);
+    void setServerIndex(int serverIndex);
     void setScheme(const QString &scheme);
     void setHost(const QString &host);
     void setPort(int port);
@@ -45,7 +48,8 @@ public:
 
 private:
     QString _scheme, _host;
-    QMap<QString,ServerConfiguration> serverConfigs;
+    int _serverIndex;
+    QMap<QString,QList<ServerConfiguration>> serverConfigs;
     int _port;
     QMap<QString, QString> _apiKeys;
     QString _bearerToken;

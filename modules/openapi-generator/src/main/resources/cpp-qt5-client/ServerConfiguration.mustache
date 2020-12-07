@@ -50,10 +50,18 @@ public:
         return url;
     }
 
-    QString _URL;
+    int setDefaultValue(const QString& variable,const QString& value){
+
+      QMap<QString, ServerVariable>::iterator it = _variables.find(variable);
+      if(it != _variables.end())
+        return it.value().setDefaultValue(value);
+      return -1;
+
+    }
+
     QString _description;
     QMap<QString, ServerVariable> _variables;
-
+    QString _URL;
 
 };
 #endif

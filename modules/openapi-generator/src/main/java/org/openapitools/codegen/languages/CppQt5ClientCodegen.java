@@ -21,6 +21,8 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
 
 import java.io.File;
 
@@ -34,6 +36,12 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
 
     public CppQt5ClientCodegen() {
         super();
+
+
+        modifyFeatureSet(features -> features
+        .includeDocumentationFeatures(DocumentationFeature.Readme)
+        .includeGlobalFeatures(GlobalFeature.ParameterizedServer)
+        );
 
         // set the output folder here
         outputFolder = "generated-code/qt5cpp";

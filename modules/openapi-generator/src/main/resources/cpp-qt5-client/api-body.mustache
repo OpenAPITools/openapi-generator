@@ -16,6 +16,7 @@ namespace {{this}} {
       _basePath(basePath),
       _timeOut(timeOut),
       _manager(nullptr),
+      _serverIndex(0),
       isResponseCompressionEnabled(false),
       isRequestCompressionEnabled(false) {
       initializeServerConfigs();
@@ -25,34 +26,43 @@ namespace {{this}} {
 }
 
 void {{classname}}::initializeServerConfigs(){
-    QMap<QString, ServerVariable> vars = QMap<QString, ServerVariable>();
-    QSet<QString> enumValues = QSet<QString>();  
 
 //Default server
-//TODO inset the scheme host port etc into an ServerVariable enum...
-ServerConfiguration defaultConf(QString("%1://%2%3%4")
-                           .arg("{{scheme}}")
-                           .arg("{{serverHost}}")
-                           .arg("{{serverPort}}" ? ":" + QString::number({{serverPort}}) : "")
-                           .arg("{{basePathWithoutHost}}"),"Default Server", vars);
+QList<ServerConfiguration> defaultConf = {{
+    "{protocol}://{server}:{port}/{basePath}",
+    "Default Server",
+    QMap<QString, ServerVariable> { 
+          {"server", ServerVariable("Default Server","{{serverHost}}",
+          QSet<QString>{ {"{{serverHost}}"} })}, 
 
+          {"port", ServerVariable("Default Port","{{serverPort}}",
+          QSet<QString>{ {"{{serverPort}}"} })}, 
+
+          {"basePath", ServerVariable("Default BasePath","{{basePathWithoutHost}}",
+          QSet<QString>{ {"{{basePathWithoutHost}}"} })}, 
+
+          {"protocol", ServerVariable("Default Protocol","{{scheme}}",
+          QSet<QString>{ {"{{scheme}}"} })}, 
+}};
 {{#operations}}
   {{#operation}}
-    {{#servers}}
-    {{#variables}}
-    {{#enumValues}}
-    enumValues.insert("{{.}}");
-    {{/enumValues}}  
-    {{^enumValues}}
-    enumValues;
-    {{/enumValues}}  
-    vars.insert("{{name}}",ServerVariable("{{description}}", "{{{defaultValue}}}", enumValues));
-    enumValues.clear();
-
-    
-{{/variables}}
-serverConfigs.insert("{{nickname}}",ServerConfiguration("{{url}}","{{{description}}}",vars));
-
+{{#servers}}
+{{#-first}}serverConfigs.insert("{{nickname}}",QList<ServerConfiguration>{ServerConfiguration(
+      "{{{url}}}",
+      "{{{description}}}{{^description}}No description provided{{/description}}",
+      QMap<QString, ServerVariable>{{#variables}}{{#-first}} { {{/-first}}
+          {"{{{name}}}", ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
+          QSet<QString>{ {{#enumValues}}{"{{{.}}}"}{{#-last}} })}, {{/-last}}{{^-last}},{{/-last}}{{/enumValues}}{{^enumValues}}{"{{defaultValue}}"} })}, {{/enumValues}}
+{{#-last}}  }{{/-last}}{{/variables}})});{{/-first}}
+{{^-first}}
+serverConfigs.find("{{nickname}}").value().push_back(ServerConfiguration(
+      "{{{url}}}",
+      "{{{description}}}{{^description}}No description provided{{/description}}",
+      QMap<QString, ServerVariable>{{#variables}}{{#-first}} { {{/-first}}
+          {"{{{name}}}", ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
+          QSet<QString>{ {{#enumValues}}{"{{{.}}}"}{{#-last}} })}, {{/-last}}{{^-last}},{{/-last}}{{/enumValues}}{{^enumValues}}{"{{defaultValue}}"} })}, {{/enumValues}}
+{{#-last}} }{{/-last}}{{/variables}}));
+{{/-first}}
 {{/servers}}
 {{^servers}}
 serverConfigs.insert("{{nickname}}",defaultConf);
@@ -60,6 +70,19 @@ serverConfigs.insert("{{nickname}}",defaultConf);
 {{/operation}}
 {{/operations}}
 
+}
+
+int {{classname}}::setDefaultServerValue(int serverIndex, QString operation, QString variable, QString value){
+    // returns 0 on success and -1 or -2 on failure.
+    // -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation is not found 
+    QMap<QString,QList<ServerConfiguration>>::iterator it = serverConfigs.find(operation);
+    if(it != serverConfigs.end()){
+   //     return serverConfigs[operation].at(serverIndex).setDefaultValue(variable,value);
+    }
+    return -3;
+}
+void {{classname}}::setServerIndex(int serverIndex){
+    _serverIndex = serverIndex;
 }
 
 void {{classname}}::setScheme(const QString &scheme) {
@@ -125,7 +148,7 @@ void {{classname}}::abortRequests(){
 {{#operations}}
 {{#operation}}
 void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
-    ServerConfiguration config = serverConfigs.value("{{nickname}}");
+    ServerConfiguration config = serverConfigs.value("{{nickname}}").at(_serverIndex);
     QString fullPath = QString(config.URL()+"{{{path}}}");
     {{#pathParams}}
     QString {{paramName}}PathParam("{");

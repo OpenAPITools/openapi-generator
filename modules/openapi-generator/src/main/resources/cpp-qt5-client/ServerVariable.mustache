@@ -23,8 +23,19 @@ public:
     ServerVariable(){}
     ~ServerVariable(){}
 
-    QString _description;
+    int setDefaultValue(const QString& value){
+      if( _enumValues.contains(value)){
+        _defaultValue = value;
+        return 0;
+      }
+      return -2;
+    }
+    QString getDefaultValue();
+    QSet<QString> getEnumValues();
+
+
     QString _defaultValue;
+    QString _description;
     QSet<QString> _enumValues;
 
 };
