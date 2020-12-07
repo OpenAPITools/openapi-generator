@@ -18,6 +18,7 @@ import os
 import re
 import typing
 from urllib.parse import quote
+from urllib3.fields import RequestField
 
 
 from dynamic_servers import rest
@@ -171,6 +172,9 @@ class ApiClient(object):
             post_params = self.parameters_to_tuples(post_params,
                                                     collection_formats)
             post_params.extend(self.files_parameters(files))
+            if header_params['Content-Type'].startswith("multipart"):
+                post_params = self.parameters_to_multipart(post_params,
+                                                          (dict) )
 
         # body
         if body:
@@ -230,6 +234,26 @@ class ApiClient(object):
         else:
             return (return_data, response_data.status,
                     response_data.getheaders())
+
+    def parameters_to_multipart(self, params, collection_types):
+        """Get parameters as list of tuples, formatting as json if value is collection_types
+
+        :param params: Parameters as list of two-tuples
+        :param dict collection_types: Parameter collection types
+        :return: Parameters as list of tuple or urllib3.fields.RequestField
+        """
+        new_params = []
+        if collection_types is None:
+            collection_types = (dict)
+        for k, v in params.items() if isinstance(params, dict) else params:  # noqa: E501
+            if isinstance(v, collection_types): # v is instance of collection_type, formatting as application/json
+                 v = json.dumps(v, ensure_ascii=False).encode("utf-8")
+                 field = RequestField(k, v)
+                 field.make_multipart(content_type="application/json; charset=utf-8")
+                 new_params.append(field)
+            else:
+                 new_params.append((k, v))
+        return new_params
 
     @classmethod
     def sanitize_for_serialization(cls, obj):
