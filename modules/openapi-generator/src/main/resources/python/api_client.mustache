@@ -256,7 +256,7 @@ class ApiClient(object):
         """
         new_params = []
         if collection_types is None:
-            collection_types = (dict,list)
+            collection_types = (dict)
         for k, v in params.items() if isinstance(params, dict) else params:  # noqa: E501
             if isinstance(v, collection_types): # v is instance of collection_type, formatting as application/json
                  v = json.dumps(v, ensure_ascii=False).encode("utf-8")
