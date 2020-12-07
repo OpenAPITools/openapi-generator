@@ -443,15 +443,22 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             }
         }
 
-        // Converts, for example, PUT to HttpPut for controller attributes
-        // operation.httpMethod = "Http" + operation.httpMethod.substring(0, 1) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
-
+        //  Setup the various HTTP verb predicates based upon the unconverted HTTP method
         operation.isHttpPost = operation.isHttpPost();
         operation.isHttpGet = operation.isHttpGet();
         operation.isHttpPut = operation.isHttpPut();
         operation.isHttpPatch = operation.isHttpPatch();
         operation.isHttpDelete = operation.isHttpDelete();
 
+        // //  Setup the various Restful predicates based upon the unconverted HTTP method
+        // operation.isRestfulIndex = operation.isRestfulIndex();
+        // operation.isRestfulShow = operation.isRestfulShow();
+        // operation.isRestfulCreate = operation.isRestfulCreate();
+        // operation.isRestfulUpdate = operation.isRestfulUpdate();
+        // operation.isRestfulDestroy = operation.isRestfulDestroy();
+
+        // Converts, for example, PUT to HttpPut for controller attributes
+        operation.msHttpMethod = "Http" + operation.httpMethod.substring(0, 1) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
     }
 
     @Override
