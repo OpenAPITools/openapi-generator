@@ -794,13 +794,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
-        Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
-        if (ModelUtils.isArraySchema(target)) {
+        Schema<?> schema = modelUtils.unaliasSchema(p, importMapping);
+        Schema<?> target = modelUtils.isGenerateAliasAsModel() ? p : schema;
+        if (modelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
             return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
-        } else if (ModelUtils.isMapSchema(target)) {
-            // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
+        } else if (modelUtils.isMapSchema(target)) {
+            // Note: modelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
             Schema<?> inner = getAdditionalProperties(target);
             if (inner == null) {
@@ -823,10 +823,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toDefaultValue(Schema schema) {
-        schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
-        if (ModelUtils.isArraySchema(schema)) {
+        schema = modelUtils.getReferencedSchema(schema);
+        if (modelUtils.isArraySchema(schema)) {
             final String pattern;
-            if (ModelUtils.isSet(schema)) {
+            if (modelUtils.isSet(schema)) {
                 String mapInstantiationType = instantiationTypes().getOrDefault("set", "LinkedHashSet");
                 pattern = "new " + mapInstantiationType + "<%s>()";
             } else {
@@ -836,7 +836,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             Schema<?> items = getSchemaItems((ArraySchema) schema);
 
-            String typeDeclaration = getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items));
+            String typeDeclaration = getTypeDeclaration(modelUtils.unaliasSchema(items));
             Object java8obj = additionalProperties.get("java8");
             if (java8obj != null) {
                 Boolean java8 = Boolean.valueOf(java8obj.toString());
@@ -846,7 +846,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
 
             return String.format(Locale.ROOT, pattern, typeDeclaration);
-        } else if (ModelUtils.isMapSchema(schema) && !(schema instanceof ComposedSchema)) {
+        } else if (modelUtils.isMapSchema(schema) && !(schema instanceof ComposedSchema)) {
             if (schema.getProperties() != null && schema.getProperties().size() > 0) {
                 // object is complex object with free-form additional properties
                 if (schema.getDefault() != null) {
@@ -872,7 +872,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
 
             return String.format(Locale.ROOT, pattern, typeDeclaration);
-        } else if (ModelUtils.isIntegerSchema(schema)) {
+        } else if (modelUtils.isIntegerSchema(schema)) {
             if (schema.getDefault() != null) {
                 if (SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) {
                     return schema.getDefault().toString() + "l";
@@ -881,7 +881,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
             }
             return null;
-        } else if (ModelUtils.isNumberSchema(schema)) {
+        } else if (modelUtils.isNumberSchema(schema)) {
             if (schema.getDefault() != null) {
                 if (SchemaTypeUtil.FLOAT_FORMAT.equals(schema.getFormat())) {
                     return schema.getDefault().toString() + "f";
@@ -892,17 +892,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
             }
             return null;
-        } else if (ModelUtils.isBooleanSchema(schema)) {
+        } else if (modelUtils.isBooleanSchema(schema)) {
             if (schema.getDefault() != null) {
                 return schema.getDefault().toString();
             }
             return null;
-        } else if (ModelUtils.isURISchema(schema)) {
+        } else if (modelUtils.isURISchema(schema)) {
             if (schema.getDefault() != null) {
                 return "URI.create(\"" + escapeText((String) schema.getDefault()) + "\")";
             }
             return null;
-        } else if (ModelUtils.isStringSchema(schema)) {
+        } else if (modelUtils.isStringSchema(schema)) {
             if (schema.getDefault() != null) {
                 String _default;
                 if (schema.getDefault() instanceof Date) {
@@ -923,7 +923,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
             }
             return null;
-        } else if (ModelUtils.isObjectSchema(schema)) {
+        } else if (modelUtils.isObjectSchema(schema)) {
             if (schema.getDefault() != null) {
                 return super.toDefaultValue(schema);
             }
@@ -1100,7 +1100,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public CodegenModel fromModel(String name, Schema model) {
-        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+        Map<String, Schema> allDefinitions = modelUtils.getSchemas();
         CodegenModel codegenModel = super.fromModel(name, model);
         if (codegenModel.description != null) {
             codegenModel.imports.add("ApiModel");
@@ -1213,13 +1213,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
                 for (Operation operation : path.readOperations()) {
                     LOGGER.info("Processing operation " + operation.getOperationId());
-                    if (hasBodyParameter(openAPI, operation) || hasFormParameter(openAPI, operation)) {
-                        String defaultContentType = hasFormParameter(openAPI, operation) ? "application/x-www-form-urlencoded" : "application/json";
-                        List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
+                    if (hasBodyParameter(operation) || hasFormParameter(operation)) {
+                        String defaultContentType = hasFormParameter(operation) ? "application/x-www-form-urlencoded" : "application/json";
+                        List<String> consumes = new ArrayList<>(getConsumesInfo(operation));
                         String contentType = consumes == null || consumes.isEmpty() ? defaultContentType : consumes.get(0);
                         operation.addExtension("x-contentType", contentType);
                     }
-                    String accepts = getAccept(openAPI, operation);
+                    String accepts = getAccept(operation);
                     operation.addExtension("x-accepts", accepts);
 
                 }
@@ -1271,10 +1271,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
-    private static String getAccept(OpenAPI openAPI, Operation operation) {
+    private String getAccept(Operation operation) {
         String accepts = null;
         String defaultContentType = "application/json";
-        Set<String> producesInfo = getProducesInfo(openAPI, operation);
+        Set<String> producesInfo = getProducesInfo(operation);
         if (producesInfo != null && !producesInfo.isEmpty()) {
             ArrayList<String> produces = new ArrayList<>(producesInfo);
             StringBuilder sb = new StringBuilder();

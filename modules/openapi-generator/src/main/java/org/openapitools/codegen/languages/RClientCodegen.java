@@ -355,11 +355,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner)+ "]"; 
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "(" + getTypeDeclaration(inner) + ")";
         }
@@ -629,33 +629,33 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
+        if (modelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 if (Boolean.valueOf(p.getDefault().toString()) == false)
                     return "FALSE";
                 else
                     return "TRUE";
             }
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (modelUtils.isDateSchema(p)) {
             // TODO
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             // TODO
-        } else if (ModelUtils.isNumberSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
                     return "'''" + p.getDefault() + "'''";
                 else
                     return "'" + ((String) p.getDefault()).replaceAll("'","\'") + "'";
             }
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (modelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }

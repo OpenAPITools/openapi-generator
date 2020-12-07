@@ -25,19 +25,21 @@ public class TypeScriptClientCodegenTest {
             new Schema().$ref("#/components/schemas/Child")
         );
 
-        ModelUtils.setGenerateAliasAsModel(false);
+        ModelUtils modelUtils = new ModelUtils(api);
+
+        modelUtils.setGenerateAliasAsModel(false);
         Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "Array<Array<string>>");
 
-        ModelUtils.setGenerateAliasAsModel(true);
+        modelUtils.setGenerateAliasAsModel(true);
         Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "Array<Child>");
 
         // Same for Map
         parentSchema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/Child"));
 
-        ModelUtils.setGenerateAliasAsModel(false);
+        modelUtils.setGenerateAliasAsModel(false);
         Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Array<string>; }");
 
-        ModelUtils.setGenerateAliasAsModel(true);
+        modelUtils.setGenerateAliasAsModel(true);
         Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Child; }");
     }
 

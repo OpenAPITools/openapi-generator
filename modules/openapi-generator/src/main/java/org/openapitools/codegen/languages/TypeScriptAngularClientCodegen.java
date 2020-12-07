@@ -362,7 +362,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
  
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isFileSchema(p)) {
+        if (modelUtils.isFileSchema(p)) {
             return "Blob";
         } else {
             return super.getTypeDeclaration(p);

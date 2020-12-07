@@ -235,7 +235,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p) || ModelUtils.isMapSchema(p)) {
+        if (modelUtils.isArraySchema(p) || modelUtils.isMapSchema(p)) {
             return getSchemaType(p);
         }
         return super.getTypeDeclaration(p);
@@ -258,27 +258,27 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
+        if (modelUtils.isBooleanSchema(p)) {
             return "false";
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (modelUtils.isDateSchema(p)) {
             return "null";
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             return "null";
-        } else if (ModelUtils.isNumberSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
             return "0.0";
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
             return "0";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             return "new Dictionary()";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (modelUtils.isArraySchema(p)) {
             return "new Array()";
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             return "null";
         } else {
             return "NaN";

@@ -172,29 +172,29 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         }
 
         // comment out the following as the default value is no handled differently
-        if (ModelUtils.isBooleanSchema(p)) {
+        if (modelUtils.isBooleanSchema(p)) {
             return null;
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (modelUtils.isDateSchema(p)) {
             return null;
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             return null;
-        } else if (ModelUtils.isNumberSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
             return null;
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             return null;
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             String inner = getSchemaType(getAdditionalProperties(p));
 
             return "Map.empty[String, " + inner + "] ";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            String collectionType = ModelUtils.isSet(ap) ? typeMapping.get("set") : typeMapping.get("array");
+            String collectionType = modelUtils.isSet(ap) ? typeMapping.get("set") : typeMapping.get("array");
 
             // We assume that users would map these collections to a monoid with an identity function
             // There's no reason to assume mutable structure here (which may make consumption more difficult)
             return collectionType + ".empty[" + inner + "] ";
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             return null;
         } else {
             return null;

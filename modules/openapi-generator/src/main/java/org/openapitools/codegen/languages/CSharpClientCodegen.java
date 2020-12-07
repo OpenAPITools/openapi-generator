@@ -588,7 +588,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public CodegenModel fromModel(String name, Schema model) {
-        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+        Map<String, Schema> allDefinitions = modelUtils.getSchemas();
         CodegenModel codegenModel = super.fromModel(name, model);
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null) {
             final Schema parentModel = allDefinitions.get(toModelName(codegenModel.parent));
@@ -965,14 +965,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
      */
     @Override
     public String toInstantiationType(Schema schema) {
-        if (ModelUtils.isMapSchema(schema)) {
+        if (modelUtils.isMapSchema(schema)) {
             Schema additionalProperties = getAdditionalProperties(schema);
             String inner = getSchemaType(additionalProperties);
-            if (ModelUtils.isMapSchema(additionalProperties)) {
+            if (modelUtils.isMapSchema(additionalProperties)) {
                 inner = toInstantiationType(additionalProperties);
             }
             return instantiationTypes.get("map") + "<String, " + inner + ">";
-        } else if (ModelUtils.isArraySchema(schema)) {
+        } else if (modelUtils.isArraySchema(schema)) {
             ArraySchema arraySchema = (ArraySchema) schema;
             String inner = getSchemaType(arraySchema.getItems());
             return instantiationTypes.get("array") + "<" + inner + ">";
@@ -984,7 +984,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Override
     public String getNullableType(Schema p, String type) {
         if (languageSpecificPrimitives.contains(type)) {
-            if (isSupportNullable() && ModelUtils.isNullable(p) && nullableType.contains(type)) {
+            if (isSupportNullable() && modelUtils.isNullable(p) && nullableType.contains(type)) {
                 return type + "?";
             } else {
                 return type;

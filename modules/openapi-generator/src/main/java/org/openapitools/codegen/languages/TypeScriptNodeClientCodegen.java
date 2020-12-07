@@ -87,14 +87,14 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isFileSchema(p)) {
+        if (modelUtils.isFileSchema(p)) {
             // There are two file types:
             // 1) RequestFile: the parameter for the request lib when uploading a file
             // (https://github.com/request/request#multipartform-data-multipart-form-uploads)
             // 2) Buffer: for downloading files.
             // Use RequestFile as a default. The return type is fixed to Buffer in handleMethodResponse.
             return "RequestFile";
-        } else if (ModelUtils.isBinarySchema(p)) {
+        } else if (modelUtils.isBinarySchema(p)) {
             return "Buffer";
         }
         return super.getTypeDeclaration(p);

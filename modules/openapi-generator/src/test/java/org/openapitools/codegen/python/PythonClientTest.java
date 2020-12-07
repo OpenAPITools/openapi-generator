@@ -330,7 +330,7 @@ public class PythonClientTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/python/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
         final DefaultCodegen codegen = new PythonClientCodegen();
 
-        Schema modelSchema = ModelUtils.getSchema(openAPI, "DateTimeTest");
+        Schema modelSchema = codegen.getModelUtils().getSchema("DateTimeTest");
         String defaultValue = codegen.toDefaultValue(modelSchema);
         Assert.assertEquals(defaultValue, "dateutil_parser('2010-01-01T10:10:10.000111+01:00')");
     }
@@ -421,7 +421,7 @@ public class PythonClientTest {
         codegen.setOpenAPI(openAPI);
 
         String modelName = "FreeFormWithValidation";
-        Schema modelSchema = ModelUtils.getSchema(openAPI, modelName);
+        Schema modelSchema = codegen.getModelUtils().getSchema(modelName);
         final CodegenModel model = codegen.fromModel(modelName, modelSchema);
         Assert.assertEquals((int) model.getMinProperties(), 1);
     }

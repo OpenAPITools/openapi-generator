@@ -490,42 +490,42 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return "%{optional(String.t) => " + getTypeDeclaration(inner) + "}";
-        } else if (ModelUtils.isPasswordSchema(p)) {
+        } else if (modelUtils.isPasswordSchema(p)) {
             return "String.t";
-        } else if (ModelUtils.isEmailSchema(p)) {
+        } else if (modelUtils.isEmailSchema(p)) {
             return "String.t";
-        } else if (ModelUtils.isByteArraySchema(p)) {
+        } else if (modelUtils.isByteArraySchema(p)) {
             return "binary()";
-        } else if (ModelUtils.isUUIDSchema(p)) {
+        } else if (modelUtils.isUUIDSchema(p)) {
             return "String.t";
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (modelUtils.isDateSchema(p)) {
             return "Date.t";
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             return "DateTime.t";
-        } else if (ModelUtils.isObjectSchema(p)) {
+        } else if (modelUtils.isObjectSchema(p)) {
             // TODO How to map it?
             return super.getTypeDeclaration(p);
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             return "integer()";
-        } else if (ModelUtils.isNumberSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
             return "float()";
-        } else if (ModelUtils.isBinarySchema(p) || ModelUtils.isFileSchema(p)) {
+        } else if (modelUtils.isBinarySchema(p) || modelUtils.isFileSchema(p)) {
             return "String.t";
-        } else if (ModelUtils.isBooleanSchema(p)) {
+        } else if (modelUtils.isBooleanSchema(p)) {
             return "boolean()";
         } else if (!StringUtils.isEmpty(p.get$ref())) { // model
             // How to map it?
             return super.getTypeDeclaration(p);
-        } else if (ModelUtils.isFileSchema(p)) {
+        } else if (modelUtils.isFileSchema(p)) {
             return "String.t";
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             return "String.t";
         }
         return super.getTypeDeclaration(p);

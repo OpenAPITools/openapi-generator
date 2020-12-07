@@ -349,8 +349,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
     @Override
     public String toDefaultValue(Schema p) {
-        p = ModelUtils.getReferencedSchema(this.openAPI, p);
-        if (ModelUtils.isStringSchema(p)) {
+        p = modelUtils.getReferencedSchema(p);
+        if (modelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 return "\"" + escapeText((String) p.getDefault()) + "\"";
             }

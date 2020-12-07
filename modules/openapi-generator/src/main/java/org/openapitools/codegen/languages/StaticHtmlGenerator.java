@@ -112,11 +112,11 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
@@ -207,7 +207,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         Info info = openAPI.getInfo();
         info.setDescription(toHtml(info.getDescription()));
         info.setTitle(toHtml(info.getTitle()));
-        Map<String, Schema> models = ModelUtils.getSchemas(openAPI);
+        Map<String, Schema> models = modelUtils.getSchemas();
         for (Schema model : models.values()) {
             model.setDescription(toHtml(model.getDescription()));
             model.setTitle(toHtml(model.getTitle()));

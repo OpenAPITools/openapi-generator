@@ -424,24 +424,24 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     protected String getParameterDataType(Parameter parameter, Schema p) {
         // handle enums of various data types
         Schema inner;
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema mp1 = (ArraySchema) p;
             inner = mp1.getItems();
             return this.getSchemaType(p) + "<" + this.getParameterDataType(parameter, inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             inner = (Schema) p.getAdditionalProperties();
             return "{ [key: string]: " + this.getParameterDataType(parameter, inner) + "; }";
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             // Handle string enums
             if (p.getEnum() != null) {
                 return enumValuesToEnumTypeUnion(p.getEnum(), "string");
             }
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             // Handle integer enums
             if (p.getEnum() != null) {
                 return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
             }
-        } else if (ModelUtils.isNumberSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
             // Handle double enums
             if (p.getEnum() != null) {
                 return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
@@ -488,23 +488,23 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
+        if (modelUtils.isBooleanSchema(p)) {
             return UNDEFINED_VALUE;
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (modelUtils.isDateSchema(p)) {
             return UNDEFINED_VALUE;
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             return UNDEFINED_VALUE;
-        } else if (ModelUtils.isNumberSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
            if (p.getDefault() != null) {
              return p.getDefault().toString();
            }
            return UNDEFINED_VALUE;
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
             return UNDEFINED_VALUE;
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 return "'" + (String) p.getDefault() + "'";
             }
@@ -837,15 +837,15 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String getTypeDeclaration(Schema p) {
         Schema inner;
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             inner = ((ArraySchema) p).getItems();
-            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
+            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(modelUtils.unaliasSchema(inner)) + ">";
+        } else if (modelUtils.isMapSchema(p)) {
             inner = (Schema) p.getAdditionalProperties();
-            return "{ [key: string]: " + this.getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + "; }";
-        } else if (ModelUtils.isFileSchema(p)) {
+            return "{ [key: string]: " + this.getTypeDeclaration(modelUtils.unaliasSchema(inner)) + "; }";
+        } else if (modelUtils.isFileSchema(p)) {
             return "HttpFile";
-        } else if (ModelUtils.isBinarySchema(p)) {
+        } else if (modelUtils.isBinarySchema(p)) {
             return "any";
         } else {
             return super.getTypeDeclaration(p);

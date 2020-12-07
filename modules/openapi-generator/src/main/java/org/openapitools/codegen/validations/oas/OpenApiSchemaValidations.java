@@ -92,7 +92,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
      * Note: the validator invokes checkNullType() for every top-level schema in the OAS document. The method
      * is not called for nested schemas that are defined inline.
      * 
-     * @param schema An input schema, regardless of the type of schema.
+     * @param schemaWrapper An input schema, regardless of the type of schema.
      * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}
      */
     private static ValidationRule.Result checkNullType(SchemaWrapper schemaWrapper) {
@@ -102,7 +102,8 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
             SemVer version = new SemVer(schemaWrapper.getOpenAPI().getOpenapi());
             if (version.atLeast("3.0") && version.compareTo(new SemVer("3.1")) < 0) {
                 // OAS spec is 3.0.x
-                if (ModelUtils.isNullType(schema)) {
+                ModelUtils modelUtils = new ModelUtils(null);
+                if (modelUtils.isNullType(schema)) {
                     result = new ValidationRule.Fail();
                     String name = schema.getName();
                     if (name == null) {
@@ -123,7 +124,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
      * <p>
      * The 'nullable' attribute is supported in OpenAPI Specification 3.0.x, but it is deprecated in OpenAPI 3.1 and above.
      * 
-     * @param schema An input schema, regardless of the type of schema
+     * @param schemaWrapper An input schema, regardless of the type of schema
      * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}
      */
     private static ValidationRule.Result checkNullableAttribute(SchemaWrapper schemaWrapper) {
@@ -132,7 +133,8 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
         if (schemaWrapper.getOpenAPI() != null) {
             SemVer version = new SemVer(schemaWrapper.getOpenAPI().getOpenapi());
             if (version.atLeast("3.1")) {
-                if (ModelUtils.isNullable(schema)) {
+                ModelUtils modelUtils = new ModelUtils(null);
+                if (modelUtils.isNullable(schema)) {
                     result = new ValidationRule.Fail();
                     String name = schema.getName();
                     if (name == null) {
@@ -157,7 +159,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
      * <p>
      * The type must be one of the following values: null, boolean, object, array, number, string, integer.
      * 
-     * @param schema An input schema, regardless of the type of schema
+     * @param schemaWrapper An input schema, regardless of the type of schema
      * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}
      */
     private static ValidationRule.Result checkInvalidType(SchemaWrapper schemaWrapper) {

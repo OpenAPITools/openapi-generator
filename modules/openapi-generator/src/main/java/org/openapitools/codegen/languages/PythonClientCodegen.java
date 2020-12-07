@@ -142,7 +142,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         }
 
         // default this to true so the python ModelSimple models will be generated
-        ModelUtils.setGenerateAliasAsModel(true);
+        modelUtils.setGenerateAliasAsModel(true);
         LOGGER.info(CodegenConstants.GENERATE_ALIAS_AS_MODEL + " is hard coded to true in this generator. Alias models will only be generated if they contain validations or enums");
 
         Boolean attrNoneIfUnset = false;
@@ -170,7 +170,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
     @Override
     public Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings) {
-        Map<String, Schema> allSchemas = ModelUtils.getSchemas(openAPI);
+        Map<String, Schema> allSchemas = modelUtils.getSchemas();
         if (allSchemas == null || allSchemas.isEmpty()) {
             // skip the warning as the spec can have no model defined
             //LOGGER.warn("allSchemas cannot be null/empty in unaliasSchema. Returned 'schema'");
@@ -178,7 +178,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         }
 
         if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
-            String simpleRef = ModelUtils.getSimpleRef(schema.get$ref());
+            String simpleRef = modelUtils.getSimpleRef(schema.get$ref());
             if (usedImportMappings.containsKey(simpleRef)) {
                 LOGGER.debug("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, usedImportMappings.get(simpleRef));
                 return schema;
@@ -190,41 +190,41 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             } else if (ref.getEnum() != null && !ref.getEnum().isEmpty()) {
                 // top-level enum class
                 return schema;
-            } else if (ModelUtils.isArraySchema(ref)) {
-                if (ModelUtils.isGenerateAliasAsModel(ref)) {
+            } else if (modelUtils.isArraySchema(ref)) {
+                if (modelUtils.isGenerateAliasAsModel(ref)) {
                     return schema; // generate a model extending array
                 } else {
-                    return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
+                    return unaliasSchema(allSchemas.get(modelUtils.getSimpleRef(schema.get$ref())),
                             usedImportMappings);
                 }
-            } else if (ModelUtils.isComposedSchema(ref)) {
+            } else if (modelUtils.isComposedSchema(ref)) {
                 return schema;
-            } else if (ModelUtils.isMapSchema(ref)) {
+            } else if (modelUtils.isMapSchema(ref)) {
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has at least one property
                     return schema; // treat it as model
                 else {
-                    if (ModelUtils.isGenerateAliasAsModel(ref)) {
+                    if (modelUtils.isGenerateAliasAsModel(ref)) {
                         return schema; // generate a model extending map
                     } else {
                         // treat it as a typical map
-                        return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
+                        return unaliasSchema(allSchemas.get(modelUtils.getSimpleRef(schema.get$ref())),
                                 usedImportMappings);
                     }
                 }
-            } else if (ModelUtils.isObjectSchema(ref)) { // model
+            } else if (modelUtils.isObjectSchema(ref)) { // model
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property
                     return schema;
                 } else {
                     // free form object (type: object)
-                    if (ModelUtils.hasValidation(ref)) {
+                    if (modelUtils.hasValidation(ref)) {
                         return schema;
                     } else if (getAllOfDescendants(simpleRef, openAPI).size() > 0) {
                         return schema;
                     }
-                    return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
+                    return unaliasSchema(allSchemas.get(modelUtils.getSimpleRef(schema.get$ref())),
                             usedImportMappings);
                 }
-            } else if (ModelUtils.hasValidation(ref)) {
+            } else if (modelUtils.hasValidation(ref)) {
                 // non object non array non map schemas that have validations
                 // are returned so we can generate those schemas as models
                 // we do this to:
@@ -232,7 +232,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 // - use those validations when we use this schema in composed oneOf schemas
                 return schema;
             } else {
-                return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())), usedImportMappings);
+                return unaliasSchema(allSchemas.get(modelUtils.getSimpleRef(schema.get$ref())), usedImportMappings);
             }
         }
         return schema;
@@ -297,13 +297,13 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         }
 
         String defaultValue = defaultObject.toString();
-        if (ModelUtils.isDateSchema(p)) {
+        if (modelUtils.isDateSchema(p)) {
             defaultValue = pythonDate(defaultObject);
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             defaultValue = pythonDateTime(defaultObject);
-        } else if (ModelUtils.isStringSchema(p) && !ModelUtils.isByteArraySchema(p) && !ModelUtils.isBinarySchema(p) && !ModelUtils.isFileSchema(p) && !ModelUtils.isUUIDSchema(p) && !ModelUtils.isEmailSchema(p)) {
+        } else if (modelUtils.isStringSchema(p) && !modelUtils.isByteArraySchema(p) && !modelUtils.isBinarySchema(p) && !modelUtils.isFileSchema(p) && !modelUtils.isUUIDSchema(p) && !modelUtils.isEmailSchema(p)) {
             defaultValue =  ensureQuotes(defaultValue);
-        } else if (ModelUtils.isBooleanSchema(p)) {
+        } else if (modelUtils.isBooleanSchema(p)) {
             if (Boolean.valueOf(defaultValue) == false) {
                 defaultValue = "False";
             } else {
@@ -359,7 +359,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
          super.postProcessAllModels(objs);
 
         List<String> modelsToRemove = new ArrayList<>();
-        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+        Map<String, Schema> allDefinitions = modelUtils.getSchemas();
         for (String schemaName: allDefinitions.keySet()) {
             Schema refSchema = new Schema().$ref("#/components/schemas/"+schemaName);
             Schema unaliasedSchema = unaliasSchema(refSchema, importMapping);
@@ -467,7 +467,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
     @Override
     public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
         CodegenParameter cp = super.fromRequestBody(body, imports, bodyParameterName);
-        Schema schema = ModelUtils.getSchemaFromRequestBody(body);
+        Schema schema = modelUtils.getSchemaFromRequestBody(body);
         if (schema.get$ref() == null) {
             return cp;
         }
@@ -586,7 +586,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             oneOfanyOfSchemas.addAll(anyOf);
         }
         for (Schema sc: oneOfanyOfSchemas) {
-            Schema refSchema = ModelUtils.getReferencedSchema(this.openAPI, sc);
+            Schema refSchema = modelUtils.getReferencedSchema(sc);
             addProperties(otherProperties, otherRequired, refSchema);
         }
         Set<String> otherRequiredSet = new HashSet<String>(otherRequired);
@@ -651,7 +651,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 postProcessModelProperty(cm, cp);
             }
         }
-        Boolean isNotPythonModelSimpleModel = (ModelUtils.isComposedSchema(sc) || ModelUtils.isObjectSchema(sc) || ModelUtils.isMapSchema(sc));
+        Boolean isNotPythonModelSimpleModel = (modelUtils.isComposedSchema(sc) || modelUtils.isObjectSchema(sc) || modelUtils.isMapSchema(sc));
         if (isNotPythonModelSimpleModel) {
             return cm;
         }
@@ -703,7 +703,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if (sc.get$ref() != null) {
             Schema unaliasedSchema = unaliasSchema(sc, importMapping);
             if (unaliasedSchema.get$ref() != null) {
-                return toModelName(ModelUtils.getSimpleRef(sc.get$ref()));
+                return toModelName(modelUtils.getSimpleRef(sc.get$ref()));
             }
         }
         return null;
@@ -740,27 +740,27 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             // a composed schema, convert the name to a Python class.
             Schema unaliasedSchema = unaliasSchema(p, importMapping);
             if (unaliasedSchema.get$ref() != null) {
-                String modelName = toModelName(ModelUtils.getSimpleRef(p.get$ref()));
+                String modelName = toModelName(modelUtils.getSimpleRef(p.get$ref()));
                 if (referencedModelNames != null) {
                     referencedModelNames.add(modelName);
                 }
                 return prefix + modelName + fullSuffix;
             }
         }
-        if (ModelUtils.isAnyTypeSchema(openAPI, p)) {
+        if (modelUtils.isAnyTypeSchema(p)) {
             return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + suffix;
         }
-        // Resolve $ref because ModelUtils.isXYZ methods do not automatically resolve references.
-        if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
+        // Resolve $ref because modelUtils.isXYZ methods do not automatically resolve references.
+        if (modelUtils.isNullable(modelUtils.getReferencedSchema(p))) {
             fullSuffix = ", none_type" + suffix;
         }
-        if (ModelUtils.isFreeFormObject(openAPI, p) && getAdditionalProperties(p) == null) {
+        if (modelUtils.isFreeFormObject(p) && getAdditionalProperties(p) == null) {
             return prefix + "bool, date, datetime, dict, float, int, list, str" + fullSuffix;
         }
-        if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && getAdditionalProperties(p) != null) {
+        if ((modelUtils.isMapSchema(p) || "object".equals(p.getType())) && getAdditionalProperties(p) != null) {
             Schema inner = getAdditionalProperties(p);
             return prefix + "{str: " + getTypeString(inner, "(", ")", referencedModelNames) + "}" + fullSuffix;
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             if (inner == null) {
@@ -777,7 +777,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 return prefix + getTypeString(inner, "[", "]", referencedModelNames) + fullSuffix;
             }
         }
-        if (ModelUtils.isFileSchema(p)) {
+        if (modelUtils.isFileSchema(p)) {
             return prefix + "file_type" + fullSuffix;
         }
         String baseType = getSchemaType(p);
@@ -801,7 +801,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
     @Override
     public String toInstantiationType(Schema property) {
-        if (ModelUtils.isArraySchema(property) || ModelUtils.isMapSchema(property) || property.getAdditionalProperties() != null) {
+        if (modelUtils.isArraySchema(property) || modelUtils.isMapSchema(property) || property.getAdditionalProperties() != null) {
             return getSchemaType(property);
         }
         return super.toInstantiationType(property);
@@ -837,10 +837,10 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         Schema schema = sc;
         String ref = sc.get$ref();
         if (ref != null) {
-            schema = ModelUtils.getSchema(this.openAPI, ModelUtils.getSimpleRef(ref));
+            schema = modelUtils.getSchema(modelUtils.getSimpleRef(ref));
         }
         // TODO handle examples in object models in the future
-        Boolean objectModel = (ModelUtils.isObjectSchema(schema) || ModelUtils.isMapSchema(schema) || ModelUtils.isComposedSchema(schema));
+        Boolean objectModel = (modelUtils.isObjectSchema(schema) || modelUtils.isMapSchema(schema) || modelUtils.isComposedSchema(schema));
         if (objectModel) {
             return null;
         }
@@ -883,9 +883,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         Schema sc = schema;
         String ref = schema.get$ref();
         if (ref != null) {
-            sc = ModelUtils.getSchema(this.openAPI, ModelUtils.getSimpleRef(ref));
+            sc = modelUtils.getSchema(modelUtils.getSimpleRef(ref));
         }
-        if (ModelUtils.isStringSchema(sc) && !ModelUtils.isDateSchema(sc) && !ModelUtils.isDateTimeSchema(sc) && !"Number".equalsIgnoreCase(sc.getFormat()) && !ModelUtils.isByteArraySchema(sc) && !ModelUtils.isBinarySchema(sc) && schema.getPattern() == null) {
+        if (modelUtils.isStringSchema(sc) && !modelUtils.isDateSchema(sc) && !modelUtils.isDateTimeSchema(sc) && !"Number".equalsIgnoreCase(sc.getFormat()) && !modelUtils.isByteArraySchema(sc) && !modelUtils.isBinarySchema(sc) && schema.getPattern() == null) {
             return true;
         }
         return false;
@@ -895,7 +895,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         for ( MappedModel mm : disc.getMappedModels() ) {
             String modelName = mm.getModelName();
             Schema modelSchema = getModelNameToSchemaCache().get(modelName);
-            if (ModelUtils.isObjectSchema(modelSchema)) {
+            if (modelUtils.isObjectSchema(modelSchema)) {
                 return mm;
             }
         }
@@ -949,8 +949,8 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             example = objExample.toString();
         }
         if (null != schema.get$ref()) {
-            Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
-            String ref = ModelUtils.getSimpleRef(schema.get$ref());
+            Map<String, Schema> allDefinitions = modelUtils.getSchemas();
+            String ref = modelUtils.getSimpleRef(schema.get$ref());
             Schema refSchema = allDefinitions.get(ref);
             if (null == refSchema) {
                 LOGGER.warn("Unable to find referenced schema "+schema.get$ref()+"\n");
@@ -958,11 +958,11 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             }
             String refModelName = getModelName(schema);
             return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine);
-        } else if (ModelUtils.isNullType(schema) || ModelUtils.isAnyTypeSchema(openAPI, schema)) {
+        } else if (modelUtils.isNullType(schema) || modelUtils.isAnyTypeSchema(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
             return fullPrefix + "None" + closeChars;
-        } else if (ModelUtils.isBooleanSchema(schema)) {
+        } else if (modelUtils.isBooleanSchema(schema)) {
             if (objExample == null) {
                 example = "True";
             } else {
@@ -973,32 +973,32 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 }
             }
             return fullPrefix + example + closeChars;
-        } else if (ModelUtils.isDateSchema(schema)) {
+        } else if (modelUtils.isDateSchema(schema)) {
             if (objExample == null) {
                 example = pythonDate("1970-01-01");
             } else {
                 example = pythonDate(objExample);
             }
             return fullPrefix + example + closeChars;
-        } else if (ModelUtils.isDateTimeSchema(schema)) {
+        } else if (modelUtils.isDateTimeSchema(schema)) {
             if (objExample == null) {
                 example = pythonDateTime("1970-01-01T00:00:00.00Z");
             } else {
                 example = pythonDateTime(objExample);
             }
             return fullPrefix + example + closeChars;
-        } else if (ModelUtils.isBinarySchema(schema)) {
+        } else if (modelUtils.isBinarySchema(schema)) {
             if (objExample == null) {
                 example = "/path/to/file";
             }
             example = "open('" + example + "', 'rb')";
             return fullPrefix + example + closeChars;
-        } else if (ModelUtils.isByteArraySchema(schema)) {
+        } else if (modelUtils.isByteArraySchema(schema)) {
             if (objExample == null) {
                 example = "'YQ=='";
             }
             return fullPrefix + example + closeChars;
-        } else if (ModelUtils.isStringSchema(schema)) {
+        } else if (modelUtils.isStringSchema(schema)) {
             if (objExample == null) {
                 // a BigDecimal:
                 if ("Number".equalsIgnoreCase(schema.getFormat())) {
@@ -1022,14 +1022,14 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     example = "";
                     int len = schema.getMinLength().intValue();
                     for (int i=0;i<len;i++) example += "a";
-                } else if (ModelUtils.isUUIDSchema(schema)) {
+                } else if (modelUtils.isUUIDSchema(schema)) {
                     example = "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
                 } else {
                     example = "string_example";
                 }
             }
             return  fullPrefix + ensureQuotes(example) + closeChars;
-        } else if (ModelUtils.isIntegerSchema(schema)) {
+        } else if (modelUtils.isIntegerSchema(schema)) {
             if (objExample == null) {
                 if (schema.getMinimum() != null) {
                     example = schema.getMinimum().toString();
@@ -1038,7 +1038,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 }
             }
             return fullPrefix + example + closeChars;
-        } else if (ModelUtils.isNumberSchema(schema)) {
+        } else if (modelUtils.isNumberSchema(schema)) {
             if (objExample == null) {
                 if (schema.getMinimum() != null) {
                     example = schema.getMinimum().toString();
@@ -1047,7 +1047,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 }
             }
             return fullPrefix + example + closeChars;
-        } else if (ModelUtils.isArraySchema(schema)) {
+        } else if (modelUtils.isArraySchema(schema)) {
             if (objExample instanceof Iterable) {
                 // If the example is already a list, return it directly instead of wrongly wrap it in another list
                 return fullPrefix + objExample.toString();
@@ -1057,7 +1057,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             String itemModelName = getModelName(itemSchema);
             example = fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel+1, "", exampleLine+1) + ",\n" + closingIndentation + "]" + closeChars;
             return example;
-        } else if (ModelUtils.isMapSchema(schema)) {
+        } else if (modelUtils.isMapSchema(schema)) {
             if (modelName == null) {
                 fullPrefix += "{";
                 closeChars = "}";
@@ -1082,7 +1082,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 example = fullPrefix + closeChars;
             }
             return example;
-        } else if (ModelUtils.isObjectSchema(schema)) {
+        } else if (modelUtils.isObjectSchema(schema)) {
             if (modelName == null) {
                 fullPrefix += "{";
                 closeChars = "}";
@@ -1101,7 +1101,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 }
             }
             return exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation);
-        } else if (ModelUtils.isComposedSchema(schema)) {
+        } else if (modelUtils.isComposedSchema(schema)) {
             // TODO add examples for composed schema models without discriminators
 
             CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
@@ -1161,14 +1161,14 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         Schema schema = sc;
         String ref = sc.get$ref();
         if (ref != null) {
-            schema = ModelUtils.getSchema(this.openAPI, ModelUtils.getSimpleRef(ref));
+            schema = modelUtils.getSchema(modelUtils.getSimpleRef(ref));
         }
         Object example = getObjectExample(schema);
         if (example != null) {
             return example;
         } else if (simpleStringSchema(schema)) {
             return propName + "_example";
-        } else if (ModelUtils.isArraySchema(schema)) {
+        } else if (modelUtils.isArraySchema(schema)) {
             ArraySchema arraySchema = (ArraySchema) schema;
             Schema itemSchema = arraySchema.getItems();
             example = getObjectExample(itemSchema);
@@ -1228,7 +1228,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         Content content = requestBody.getContent();
 
         if (content.size() > 1) {
-            // @see ModelUtils.getSchemaFromContent()
+            // @see modelUtils.getSchemaFromContent()
             once(LOGGER).warn("Multiple MediaTypes found, using only the first one");
         }
 
@@ -1283,7 +1283,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if (modelNameToSchemaCache == null) {
             // Create a cache to efficiently lookup schema based on model name.
             Map<String, Schema> m = new HashMap<String, Schema>();
-            ModelUtils.getSchemas(openAPI).forEach((key, schema) -> {
+            modelUtils.getSchemas().forEach((key, schema) -> {
                 m.put(toModelName(key), schema);
             });
             modelNameToSchemaCache = Collections.unmodifiableMap(m);

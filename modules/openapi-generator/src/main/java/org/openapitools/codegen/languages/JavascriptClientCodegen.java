@@ -611,11 +611,11 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return "{String: " + getTypeDeclaration(inner) + "}";
         }
@@ -624,23 +624,23 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
+        if (modelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (modelUtils.isDateSchema(p)) {
             // TODO
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             // TODO
-        } else if (ModelUtils.isNumberSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 return "'" + p.getDefault() + "'";
             }
@@ -865,7 +865,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public CodegenModel fromModel(String name, Schema model) {
 
-        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+        Map<String, Schema> allDefinitions = modelUtils.getSchemas();
         CodegenModel codegenModel = super.fromModel(name, model);
 
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null && codegenModel.hasEnums) {
@@ -873,14 +873,14 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
             codegenModel = JavascriptClientCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
-        if (ModelUtils.isArraySchema(model)) {
+        if (modelUtils.isArraySchema(model)) {
             ArraySchema am = (ArraySchema) model;
             if (codegenModel != null && am.getItems() != null) {
                 String itemType = getSchemaType(am.getItems());
                 codegenModel.vendorExtensions.put("x-is-array", true);
                 codegenModel.vendorExtensions.put("x-item-type", itemType);
             }
-        } else if (ModelUtils.isMapSchema(model)) {
+        } else if (modelUtils.isMapSchema(model)) {
             if (codegenModel != null && getAdditionalProperties(model) != null) {
                 String itemType = getSchemaType(getAdditionalProperties(model));
                 codegenModel.vendorExtensions.put("x-is-map", true);

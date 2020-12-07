@@ -394,6 +394,8 @@ public class DefaultGeneratorTest {
     @Test
     public void testRefModelValidationProperties() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/refAliasedPrimitiveWithValidation.yml");
+        ModelUtils modelUtils = new ModelUtils(openAPI);
+
         ClientOptInput opts = new ClientOptInput();
         opts.openAPI(openAPI);
         DefaultCodegen config = new DefaultCodegen();
@@ -412,7 +414,7 @@ public class DefaultGeneratorTest {
         Assert.assertEquals(stringRegex.getPattern(), expectedPattern);
 
         // Validate when we alias/unalias
-        Schema unaliasedStringRegex = ModelUtils.unaliasSchema(openAPI, stringRegex);
+        Schema unaliasedStringRegex = modelUtils.unaliasSchema(stringRegex);
         Assert.assertEquals(unaliasedStringRegex.getPattern(), expectedPattern);
 
         // Validate when converting to property

@@ -229,7 +229,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             ApiResponse apiResponse = findMethodResponse(operation.getResponses());
 
             if (apiResponse != null) {
-                Schema response = ModelUtils.getSchemaFromResponse(apiResponse);
+                Schema response = modelUtils.getSchemaFromResponse(apiResponse);
                 if (response != null) {
                     CodegenProperty cm = fromProperty("response", response);
                     op.vendorExtensions.put("x-codegen-response", cm);
@@ -350,20 +350,20 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     public String getTypeDeclaration(Schema p) {
         String openAPIType = getSchemaType(p);
 
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         }
-        if (ModelUtils.isMapSchema(p)) {
+        if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isByteArraySchema(p)) {
+        } else if (modelUtils.isByteArraySchema(p)) {
             return "std::string";
         }
-        if (ModelUtils.isStringSchema(p)
-                || ModelUtils.isDateSchema(p)
-                || ModelUtils.isDateTimeSchema(p) || ModelUtils.isFileSchema(p)
+        if (modelUtils.isStringSchema(p)
+                || modelUtils.isDateSchema(p)
+                || modelUtils.isDateTimeSchema(p) || modelUtils.isFileSchema(p)
                 || languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
         }
@@ -373,34 +373,34 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
+        if (modelUtils.isBooleanSchema(p)) {
             return "false";
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (modelUtils.isDateSchema(p)) {
             return "\"\"";
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             return "\"\"";
-        } else if (ModelUtils.isNumberSchema(p)) {
-            if (ModelUtils.isFloatSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
+            if (modelUtils.isFloatSchema(p)) {
                 return "0.0f";
             }
             return "0.0";
-        } else if (ModelUtils.isIntegerSchema(p)) {
-            if (ModelUtils.isLongSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
+            if (modelUtils.isLongSchema(p)) {
                 return "0L";
             }
             return "0";
-        } else if (ModelUtils.isByteArraySchema(p)) {
+        } else if (modelUtils.isByteArraySchema(p)) {
             return "\"\"";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             String inner = getSchemaType(getAdditionalProperties(p));
             return "std::map<std::string, " + inner + ">()";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
             return "std::vector<" + inner + ">()";
         } else if (!StringUtils.isEmpty(p.get$ref())) { // model
-            return toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
-        } else if (ModelUtils.isStringSchema(p)) {
+            return toModelName(modelUtils.getSimpleRef(p.get$ref())) + "()";
+        } else if (modelUtils.isStringSchema(p)) {
             return "\"\"";
         }
 

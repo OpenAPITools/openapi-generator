@@ -368,11 +368,11 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return "(Map.Map String " + getTypeDeclaration(inner) + ")";
         }
@@ -407,7 +407,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (ModelUtils.isMapSchema(p)) {
+        if (modelUtils.isMapSchema(p)) {
             Schema additionalProperties2 = getAdditionalProperties(p);
             String type = additionalProperties2.getType();
             if (null == type) {
@@ -416,7 +416,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             }
             String inner = getSchemaType(additionalProperties2);
             return "(Map.Map Text " + inner + ")";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
             // Return only the inner type; the wrapping with QueryList is done

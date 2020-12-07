@@ -108,9 +108,9 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isFileSchema(p)) {
+        if (modelUtils.isFileSchema(p)) {
             return "Blob";
-        } else if (ModelUtils.isBinarySchema(p)) {
+        } else if (modelUtils.isBinarySchema(p)) {
             return "Blob";
         }
         return super.getTypeDeclaration(p);

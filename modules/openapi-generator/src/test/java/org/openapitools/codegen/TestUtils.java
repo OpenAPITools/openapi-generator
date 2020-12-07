@@ -59,17 +59,19 @@ public class TestUtils {
      */
     public static OpenAPI parseSpec(String specFilePath) {
         OpenAPI openAPI = new OpenAPIParser().readLocation(specFilePath, null, new ParseOptions()).getOpenAPI();
+        ModelUtils modelUtils = new ModelUtils(openAPI);
         // Invoke helper function to get the original swagger version.
         // See https://github.com/swagger-api/swagger-parser/pull/1374
         // Also see https://github.com/swagger-api/swagger-parser/issues/1369.
-        ModelUtils.getOpenApiVersion(openAPI, specFilePath, null);
+        modelUtils.getOpenApiVersion(specFilePath, null);
         return openAPI;
     }
 
     public static OpenAPI parseContent(String jsonOrYaml) {
         OpenAPI openAPI = new OpenAPIParser().readContents(jsonOrYaml, null, null).getOpenAPI();
+        ModelUtils modelUtils = new ModelUtils(openAPI);
         // Invoke helper function to get the original swagger version.
-        ModelUtils.getOpenApiVersion(openAPI, jsonOrYaml, null);
+        modelUtils.getOpenApiVersion(jsonOrYaml, null);
         return openAPI;
     }
 

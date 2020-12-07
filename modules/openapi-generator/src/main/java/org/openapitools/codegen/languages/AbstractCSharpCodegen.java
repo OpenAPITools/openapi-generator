@@ -437,7 +437,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     private void postProcessEnumRefs(final Map<String, Object> models) {
         Map<String, CodegenModel> enumRefs = new HashMap<String, CodegenModel>();
         for (Map.Entry<String, Object> entry : models.entrySet()) {
-            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), models);
+            CodegenModel model = modelUtils.getModelByName(entry.getKey(), models);
             if (model.isEnum) {
                 enumRefs.put(entry.getKey(), model);
             }
@@ -445,7 +445,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         for (Map.Entry<String, Object> entry : models.entrySet()) {
             String openAPIName = entry.getKey();
-            CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
+            CodegenModel model = modelUtils.getModelByName(openAPIName, models);
             if (model != null) {
                 for (CodegenProperty var : model.allVars) {
                     if (enumRefs.containsKey(var.dataType)) {
@@ -594,7 +594,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected void updateValueTypeProperty(Map<String, Object> models) {
         for (Map.Entry<String, Object> entry : models.entrySet()) {
             String openAPIName = entry.getKey();
-            CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
+            CodegenModel model = modelUtils.getModelByName(openAPIName, models);
             if (model != null) {
                 for (CodegenProperty var : model.vars) {
                     var.vendorExtensions.put("x-is-value-type", isValueType(var));
@@ -611,7 +611,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected void updateNullableTypeProperty(Map<String, Object> models) {
         for (Map.Entry<String, Object> entry : models.entrySet()) {
             String openAPIName = entry.getKey();
-            CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
+            CodegenModel model = modelUtils.getModelByName(openAPIName, models);
             if (model != null) {
                 for (CodegenProperty var : model.vars) {
                     if (!var.isContainer && (nullableType.contains(var.dataType) || var.isEnum)) {
@@ -859,23 +859,23 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String toExampleValue(Schema p) {
-        if (ModelUtils.isStringSchema(p)) {
+        if (modelUtils.isStringSchema(p)) {
             if (p.getExample() != null) {
                 return "\"" + p.getExample().toString() + "\"";
             }
-        } else if (ModelUtils.isBooleanSchema(p)) {
+        } else if (modelUtils.isBooleanSchema(p)) {
             if (p.getExample() != null) {
                 return p.getExample().toString();
             }
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (modelUtils.isDateSchema(p)) {
             // TODO
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             // TODO
-        } else if (ModelUtils.isNumberSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
             if (p.getExample() != null) {
                 return p.getExample().toString();
             }
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             if (p.getExample() != null) {
                 return p.getExample().toString();
             }
@@ -891,33 +891,33 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
+        if (modelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (modelUtils.isDateSchema(p)) {
             if (p.getDefault() != null) {
                 return "\"" + p.getDefault().toString() + "\"";
             }
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             if (p.getDefault() != null) {
                 return "\"" + p.getDefault().toString() + "\"";
             }
-        } else if (ModelUtils.isNumberSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
-                if (ModelUtils.isFloatSchema(p)) { // float
+                if (modelUtils.isFloatSchema(p)) { // float
                     return p.getDefault().toString() + "F";
-                } else if (ModelUtils.isDoubleSchema(p)) { // double
+                } else if (modelUtils.isDoubleSchema(p)) { // double
                     return p.getDefault().toString() + "D";
                 } else {    // decimal
                     return p.getDefault().toString() + "M";
                 }
             }
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 String _default = (String) p.getDefault();
                 if (p.getEnum() == null) {
@@ -989,7 +989,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             return getArrayTypeDeclaration((ArraySchema) p);
         }
         return super.toInstantiationType(p);
@@ -997,9 +997,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             return getArrayTypeDeclaration((ArraySchema) p);
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
             Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";

@@ -624,11 +624,11 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return "(Map.Map String " + getTypeDeclaration(inner) + ")";
         }
@@ -650,7 +650,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (ModelUtils.isMapSchema(p)) {
+        if (modelUtils.isMapSchema(p)) {
             Schema additionalProperties2 = getAdditionalProperties(p);
             String type = additionalProperties2.getType();
             if (null == type) {
@@ -659,7 +659,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             }
             String inner = getSchemaType(additionalProperties2);
             return "(Map.Map Text " + inner + ")";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             return getSchemaType(ap.getItems());
         } else {
@@ -1245,11 +1245,11 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isStringSchema(p)) {
+        if (modelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 return "\"" + escapeText((String) p.getDefault()) + "\"";
             }
-        } else if (ModelUtils.isBooleanSchema(p)) {
+        } else if (modelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 if (p.getDefault().toString().equalsIgnoreCase("false"))
                     return "False";

@@ -413,16 +413,16 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             Schema<?> items = getSchemaItems((ArraySchema) p);
-            return getSchemaType(p) + "<" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items)) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
+            return getSchemaType(p) + "<" + getTypeDeclaration(modelUtils.unaliasSchema(items)) + ">";
+        } else if (modelUtils.isMapSchema(p)) {
             Schema<?> inner = getSchemaAdditionalProperties(p);
             String nullSafeSuffix = getNullSafeAdditionalProps() ? " | undefined" : "";
-            return "{ [key: string]: " + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + nullSafeSuffix  + "; }";
-        } else if (ModelUtils.isFileSchema(p)) {
+            return "{ [key: string]: " + getTypeDeclaration(modelUtils.unaliasSchema(inner)) + nullSafeSuffix  + "; }";
+        } else if (modelUtils.isFileSchema(p)) {
             return "any";
-        } else if (ModelUtils.isBinarySchema(p)) {
+        } else if (modelUtils.isBinarySchema(p)) {
             return "any";
         }
         return super.getTypeDeclaration(p);
@@ -432,37 +432,37 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     protected String getParameterDataType(Parameter parameter, Schema p) {
         // handle enums of various data types
         Schema inner;
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema mp1 = (ArraySchema) p;
             inner = mp1.getItems();
             return this.getSchemaType(p) + "<" + this.getParameterDataType(parameter, inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             inner = getAdditionalProperties(p);
             return "{ [key: string]: " + this.getParameterDataType(parameter, inner) + "; }";
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             // Handle string enums
             if (p.getEnum() != null) {
                 return enumValuesToEnumTypeUnion(p.getEnum(), "string");
             }
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             // Handle integer enums
             if (p.getEnum() != null) {
                 return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
             }
-        } else if (ModelUtils.isNumberSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
             // Handle double enums
             if (p.getEnum() != null) {
                 return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
             }
         }
         /* TODO revise the logic below
-        else if (ModelUtils.isDateSchema(p)) {
+        else if (modelUtils.isDateSchema(p)) {
             // Handle date enums
             DateSchema sp = (DateSchema) p;
             if (sp.getEnum() != null) {
                 return enumValuesToEnumTypeUnion(sp.getEnum(), "string");
             }
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             // Handle datetime enums
             DateTimeSchema sp = (DateTimeSchema) p;
             if (sp.getEnum() != null) {
@@ -510,27 +510,27 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
+        if (modelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
             return UNDEFINED_VALUE;
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (modelUtils.isDateSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
             return UNDEFINED_VALUE;
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
             return UNDEFINED_VALUE;
-        } else if (ModelUtils.isNumberSchema(p) || ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p) || modelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
             return UNDEFINED_VALUE;
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 return "'" + (String) p.getDefault() + "'";
             }
@@ -551,7 +551,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         String type = null;
-        if (ModelUtils.isComposedSchema(p)) {
+        if (modelUtils.isComposedSchema(p)) {
             return openAPIType;
         } else if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
@@ -898,7 +898,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         return filteredSchemas.stream().map(schema -> {
             String schemaType = getSchemaType(schema);
-            if (ModelUtils.isArraySchema(schema)) {
+            if (modelUtils.isArraySchema(schema)) {
                 ArraySchema ap = (ArraySchema) schema;
                 Schema inner = ap.getItems();
                 schemaType = schemaType + "<" + getSchemaType(inner) + ">";

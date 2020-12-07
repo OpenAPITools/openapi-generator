@@ -181,16 +181,16 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
     public String getTypeDeclaration(Schema p) {
         String openAPIType = getSchemaType(p);
 
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "<QString, " + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isBinarySchema(p)) {
+        } else if (modelUtils.isBinarySchema(p)) {
             return getSchemaType(p);
-        } else if (ModelUtils.isFileSchema(p)) {
+        } else if (modelUtils.isFileSchema(p)) {
             return getSchemaType(p);
         }
         if (foundationClasses.contains(openAPIType)) {
@@ -205,33 +205,33 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
     @Override
     @SuppressWarnings("rawtypes")
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
+        if (modelUtils.isBooleanSchema(p)) {
             return "false";
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (modelUtils.isDateSchema(p)) {
             return "NULL";
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             return "NULL";
-        } else if (ModelUtils.isNumberSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
             if (SchemaTypeUtil.FLOAT_FORMAT.equals(p.getFormat())) {
                 return "0.0f";
             }
             return "0.0";
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
                 return "0L";
             }
             return "0";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return "QMap<QString, " + getTypeDeclaration(inner) + ">()";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return "QList<" + getTypeDeclaration(inner) + ">()";
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             return "QString(\"\")";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
-            return toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
+            return toModelName(modelUtils.getSimpleRef(p.get$ref())) + "()";
         }
         return "NULL";
     }

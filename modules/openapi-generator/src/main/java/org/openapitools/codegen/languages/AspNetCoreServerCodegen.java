@@ -450,7 +450,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     @Override
     public String getNullableType(Schema p, String type) {
         if (languageSpecificPrimitives.contains(type)) {
-            if (isSupportNullable() && ModelUtils.isNullable(p) && nullableType.contains(type)) {
+            if (isSupportNullable() && modelUtils.isNullable(p) && nullableType.contains(type)) {
                 return type + "?";
             } else {
                 return type;

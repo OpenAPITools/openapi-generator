@@ -516,11 +516,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return ModelUtils.isSet(p) ? "Set<" + getTypeDeclaration(inner) + ">" : "[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
+            return modelUtils.isSet(p) ? "Set<" + getTypeDeclaration(inner) + ">" : "[" + getTypeDeclaration(inner) + "]";
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return "[String:" + getTypeDeclaration(inner) + "]";
         }
@@ -612,7 +612,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public String toDefaultValue(Schema p) {
         if (p.getEnum() != null && !p.getEnum().isEmpty()) {
             if (p.getDefault() != null) {
-                if (ModelUtils.isStringSchema(p)) {
+                if (modelUtils.isStringSchema(p)) {
                     return "." + toEnumVarName(escapeText((String) p.getDefault()), p.getType());
                 } else {
                     return "." + toEnumVarName(escapeText(p.getDefault().toString()), p.getType());
@@ -620,15 +620,15 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             }
         }
         if (p.getDefault() != null) {
-            if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
+            if (modelUtils.isIntegerSchema(p) || modelUtils.isNumberSchema(p) || modelUtils.isBooleanSchema(p)) {
                 return p.getDefault().toString();
-            } else if (ModelUtils.isDateTimeSchema(p)) {
+            } else if (modelUtils.isDateTimeSchema(p)) {
                 // Datetime time stamps in Swift are expressed as Seconds with Microsecond precision.
                 // In Java, we need to be creative to get the Timestamp in Microseconds as a long.
                 Instant instant = ((OffsetDateTime) p.getDefault()).toInstant();
                 long epochMicro = TimeUnit.SECONDS.toMicros(instant.getEpochSecond()) + ((long) instant.get(ChronoField.MICRO_OF_SECOND));
                 return "Date(timeIntervalSince1970: " + String.valueOf(epochMicro) + ".0 / 1_000_000)";
-            } else if (ModelUtils.isStringSchema(p)) {
+            } else if (modelUtils.isStringSchema(p)) {
                 return "\"" + escapeText((String) p.getDefault()) + "\"";
             }
             // TODO: Handle more cases from `ModelUtils`, such as Date
@@ -638,12 +638,12 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (ModelUtils.isMapSchema(p)) {
+        if (modelUtils.isMapSchema(p)) {
             return getSchemaType(getAdditionalProperties(p));
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            return ModelUtils.isSet(p) ? "Set<" + inner + ">" : "[" + inner + "]";
+            return modelUtils.isSet(p) ? "Set<" + inner + ">" : "[" + inner + "]";
         }
         return null;
     }
@@ -753,7 +753,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public CodegenModel fromModel(String name, Schema model) {
-        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+        Map<String, Schema> allDefinitions = modelUtils.getSchemas();
         CodegenModel codegenModel = super.fromModel(name, model);
         if (codegenModel.description != null) {
             codegenModel.imports.add("ApiModel");

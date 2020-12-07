@@ -27,7 +27,6 @@ import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.utils.ModelUtils;
 
 import java.util.*;
 
@@ -271,8 +270,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
 
             if (methodResponse != null) {
-                Schema response = ModelUtils.getSchemaFromResponse(methodResponse);
-                response = ModelUtils.unaliasSchema(this.openAPI, response, importMapping);
+                Schema response = modelUtils.getSchemaFromResponse(methodResponse);
+                response = modelUtils.unaliasSchema(response, importMapping);
                 if (response != null) {
                     CodegenProperty cm = fromProperty("response", response);
                     op.vendorExtensions.put("x-codegen-response", cm);
@@ -344,18 +343,18 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
     public String getTypeDeclaration(Schema p) {
         String openAPIType = getSchemaType(p);
 
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "<utility::string_t, " + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isFileSchema(p) || ModelUtils.isBinarySchema(p)) {
+        } else if (modelUtils.isFileSchema(p) || modelUtils.isBinarySchema(p)) {
             return "std::shared_ptr<" + openAPIType + ">";
-        } else if (ModelUtils.isStringSchema(p)
-                || ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)
-                || ModelUtils.isFileSchema(p) || ModelUtils.isUUIDSchema(p)
+        } else if (modelUtils.isStringSchema(p)
+                || modelUtils.isDateSchema(p) || modelUtils.isDateTimeSchema(p)
+                || modelUtils.isFileSchema(p) || modelUtils.isUUIDSchema(p)
                 || languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
         }
@@ -365,26 +364,26 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
+        if (modelUtils.isBooleanSchema(p)) {
             return "false";
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (modelUtils.isDateSchema(p)) {
             return "utility::datetime()";
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             return "utility::datetime()";
-        } else if (ModelUtils.isNumberSchema(p)) {
-            if (ModelUtils.isFloatSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
+            if (modelUtils.isFloatSchema(p)) {
                 return "0.0f";
             }
             return "0.0";
-        } else if (ModelUtils.isIntegerSchema(p)) {
-            if (ModelUtils.isLongSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
+            if (modelUtils.isLongSchema(p)) {
                 return "0L";
             }
             return "0";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             String inner = getSchemaType(getAdditionalProperties(p));
             return "std::map<utility::string_t, " + inner + ">()";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
             if (!languageSpecificPrimitives.contains(inner)) {
@@ -392,10 +391,10 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             }
             return "std::vector<" + inner + ">()";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
-            return "new " + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
-        } else if (ModelUtils.isStringSchema(p)) {
+            return "new " + toModelName(modelUtils.getSimpleRef(p.get$ref())) + "()";
+        } else if (modelUtils.isStringSchema(p)) {
             return "utility::conversions::to_string_t(\"\")";
-        } else if (ModelUtils.isFreeFormObject(openAPI, p)) {
+        } else if (modelUtils.isFreeFormObject(p)) {
             return "new Object()";
         }
 
@@ -446,7 +445,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
     private void postProcessParentModels(final Map<String, Object> models) {
         for (final String parent : parentModels) {
-            final CodegenModel parentModel = ModelUtils.getModelByName(parent, models);
+            final CodegenModel parentModel = modelUtils.getModelByName(parent, models);
             final Collection<CodegenModel> childrenModels = childrenByParent.get(parent);
             for (final CodegenModel child : childrenModels) {
                 processParentPropertiesInChildModel(parentModel, child);

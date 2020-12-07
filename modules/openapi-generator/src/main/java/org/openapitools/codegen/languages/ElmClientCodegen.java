@@ -238,7 +238,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
             return instantiationTypes.get("array") + " " + inner;
@@ -414,19 +414,19 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isStringSchema(p)) {
+        if (modelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 return "\"" + p.getDefault().toString() + "\"";
             }
-        } else if (ModelUtils.isBooleanSchema(p)) {
+        } else if (modelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return Boolean.valueOf(p.getDefault().toString()) ? "True" : "False";
             }
-        } else if (ModelUtils.isNumberSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
@@ -450,11 +450,11 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner);
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return getTypeDeclaration(inner);
         }

@@ -379,11 +379,11 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     public String getTypeDeclaration(Schema p) {
         String openAPIType = getSchemaType(p);
 
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             String inner = getSchemaType(getAdditionalProperties(p));
             return getSchemaType(p) + "<FString, " + getTypeDeclaration(inner) + ">";
         }
@@ -404,41 +404,41 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isStringSchema(p)) {
+        if (modelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 return "TEXT(\"" + p.getDefault().toString() + "\")";
             } else {
                 return null;
             }
-        } else if (ModelUtils.isBooleanSchema(p)) {
+        } else if (modelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             } else {
                 return "false";
             }
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (modelUtils.isDateSchema(p)) {
             return "FDateTime(0)";
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             return "FDateTime(0)";
-        } else if (ModelUtils.isDoubleSchema(p)) {
+        } else if (modelUtils.isDoubleSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             } else {
                 return "0.0";
             }
-        } else if (ModelUtils.isFloatSchema(p)) {
+        } else if (modelUtils.isFloatSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             } else {
                 return "0.0f";
             }
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             } else {
                 return "0";
             }
-        } else if (ModelUtils.isLongSchema(p)) {
+        } else if (modelUtils.isLongSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             } else {

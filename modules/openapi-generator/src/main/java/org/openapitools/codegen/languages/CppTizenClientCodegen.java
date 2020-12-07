@@ -161,9 +161,9 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (ModelUtils.isMapSchema(p)) {
+        if (modelUtils.isMapSchema(p)) {
             return instantiationTypes.get("map");
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (modelUtils.isArraySchema(p)) {
             return instantiationTypes.get("array");
         } else {
             return null;
@@ -232,28 +232,28 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
     //Might not be needed
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
+        if (modelUtils.isBooleanSchema(p)) {
             return "bool(false)";
-        } else if (ModelUtils.isNumberSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
             if (SchemaTypeUtil.FLOAT_FORMAT.equals(p.getFormat())) {
                 return "float(0)";
             }
             return "double(0)";
 
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
                 return "long(0)";
             }
             return "int(0)";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             return "new std::map()";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (modelUtils.isArraySchema(p)) {
             return "new std::list()";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
-            return "new " + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
-        } else if (ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)) {
+            return "new " + toModelName(modelUtils.getSimpleRef(p.get$ref())) + "()";
+        } else if (modelUtils.isDateSchema(p) || modelUtils.isDateTimeSchema(p)) {
             return "null";
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             return "std::string()";
         }
         return "null";

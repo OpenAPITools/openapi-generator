@@ -43,14 +43,16 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
         OpenApiSchemaValidations schemaValidations = new OpenApiSchemaValidations(ruleConfiguration);
         OpenApiOperationValidations operationValidations = new OpenApiOperationValidations(ruleConfiguration);
 
+        ModelUtils modelUtils = new ModelUtils(specification);
+
         if (ruleConfiguration.isEnableUnusedSchemasRecommendation()) {
             ValidationRule unusedSchema = ValidationRule.create(Severity.WARNING, "Unused schema", "A schema was determined to be unused.", s -> ValidationRule.Pass.empty());
-            ModelUtils.getUnusedSchemas(specification).forEach(schemaName -> validationResult.addResult(Validated.invalid(unusedSchema, "Unused model: " + schemaName)));
+            modelUtils.getUnusedSchemas().forEach(schemaName -> validationResult.addResult(Validated.invalid(unusedSchema, "Unused model: " + schemaName)));
         }
 
         // Get list of all schemas under /components/schemas, including nested schemas defined inline and composed schema.
         // The validators must be able to validate every schema defined in the OAS document.
-        List<Schema> schemas = ModelUtils.getAllSchemas(specification);
+        List<Schema> schemas = modelUtils.getAllSchemas(specification);
         schemas.forEach(schema -> {
             SchemaWrapper wrapper = new SchemaWrapper(specification, schema);
             validationResult.consume(schemaValidations.validate(wrapper));
@@ -95,7 +97,7 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
         }
 
         parameters.forEach(parameter -> {
-            parameter = ModelUtils.getReferencedParameter(specification, parameter);
+            parameter = modelUtils.getReferencedParameter(parameter);
             ParameterWrapper wrapper = new ParameterWrapper(specification, parameter);
             validationResult.consume(parameterValidations.validate(wrapper));
         });

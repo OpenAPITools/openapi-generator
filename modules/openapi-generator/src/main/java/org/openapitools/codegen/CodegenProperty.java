@@ -111,8 +111,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     /**
      * True if this property is an array of items or a map container.
      * See:
-     * - ModelUtils.isArraySchema()
-     * - ModelUtils.isMapSchema()
+     * - modelUtils.isArraySchema()
+     * - modelUtils.isMapSchema()
      */
     public boolean isContainer;
     public boolean isString;

@@ -114,10 +114,10 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
 
     @Override
     public String getTypeDeclaration(Schema schema) {
-        if (ModelUtils.isArraySchema(schema)) {
+        if (modelUtils.isArraySchema(schema)) {
             Schema inner = ((ArraySchema) schema).getItems();
             return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(schema)) {
+        } else if (modelUtils.isMapSchema(schema)) {
             Schema inner = getAdditionalProperties(schema);
             return getSchemaType(schema) + "<String, " + getTypeDeclaration(inner) + ">";
         }
@@ -127,11 +127,11 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toInstantiationType(Schema schema) {
-        if (ModelUtils.isMapSchema(schema)) {
+        if (modelUtils.isMapSchema(schema)) {
             return instantiationTypes.get("map");
-        } else if (ModelUtils.isArraySchema(schema)) {
+        } else if (modelUtils.isArraySchema(schema)) {
             String parentType;
-            if (ModelUtils.isSet(schema)) {
+            if (modelUtils.isSet(schema)) {
                 parentType = "set";
             } else {
                 parentType = "array";
@@ -143,12 +143,12 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toDefaultValue(Schema p) {
-        p = ModelUtils.getReferencedSchema(this.openAPI, p);
-        if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
+        p = modelUtils.getReferencedSchema(p);
+        if (modelUtils.isIntegerSchema(p) || modelUtils.isNumberSchema(p) || modelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 if (p.getDefault() instanceof Date) {
                     Date date = (Date) p.getDefault();

@@ -39,6 +39,7 @@ import java.util.stream.Collectors;
 
 public class InlineModelResolver {
     private OpenAPI openapi;
+    private ModelUtils modelUtils;
     private Map<String, Schema> addedModels = new HashMap<String, Schema>();
     private Map<String, String> generatedSignature = new HashMap<String, String>();
 
@@ -56,6 +57,7 @@ public class InlineModelResolver {
 
     void flatten(OpenAPI openapi) {
         this.openapi = openapi;
+        this.modelUtils = new ModelUtils(openapi);
 
         if (openapi.getComponents() == null) {
             openapi.setComponents(new Components());
@@ -116,7 +118,7 @@ public class InlineModelResolver {
             return;
         }
 
-        Schema model = ModelUtils.getSchemaFromRequestBody(requestBody);
+        Schema model = modelUtils.getSchemaFromRequestBody(requestBody);
         if (model instanceof ObjectSchema) {
             Schema obj = (Schema) model;
             if (obj.getType() == null || "object".equals(obj.getType())) {
@@ -266,11 +268,11 @@ public class InlineModelResolver {
 
         for (String key : responses.keySet()) {
             ApiResponse response = responses.get(key);
-            if (ModelUtils.getSchemaFromResponse(response) == null) {
+            if (modelUtils.getSchemaFromResponse(response) == null) {
                 continue;
             }
 
-            Schema property = ModelUtils.getSchemaFromResponse(response);
+            Schema property = modelUtils.getSchemaFromResponse(response);
             if (property instanceof ObjectSchema) {
                 ObjectSchema op = (ObjectSchema) property;
                 if (op.getProperties() != null && op.getProperties().size() > 0) {
@@ -318,7 +320,7 @@ public class InlineModelResolver {
                 }
             } else if (property instanceof MapSchema) {
                 MapSchema mp = (MapSchema) property;
-                Schema innerProperty = ModelUtils.getAdditionalProperties(openAPI, mp);
+                Schema innerProperty = modelUtils.getAdditionalProperties(mp);
                 if (innerProperty instanceof ObjectSchema) {
                     ObjectSchema op = (ObjectSchema) innerProperty;
                     if (op.getProperties() != null && op.getProperties().size() > 0) {
@@ -428,7 +430,7 @@ public class InlineModelResolver {
         List<String> modelNames = new ArrayList<String>(models.keySet());
         for (String modelName : modelNames) {
             Schema model = models.get(modelName);
-            if (ModelUtils.isComposedSchema(model)) {
+            if (modelUtils.isComposedSchema(model)) {
                 ComposedSchema m = (ComposedSchema) model;
                 // inline child schemas
                 flattenComposedChildren(openAPI, modelName + "_allOf", m.getAllOf());
@@ -439,7 +441,7 @@ public class InlineModelResolver {
                 Map<String, Schema> properties = m.getProperties();
                 flattenProperties(openAPI, properties, modelName);
                 fixStringModel(m);
-            } else if (ModelUtils.isArraySchema(model)) {
+            } else if (modelUtils.isArraySchema(model)) {
                 ArraySchema m = (ArraySchema) model;
                 Schema inner = m.getItems();
                 if (inner instanceof ObjectSchema) {
@@ -602,8 +604,8 @@ public class InlineModelResolver {
                     }
                 }
             }
-            if (ModelUtils.isMapSchema(property)) {
-                Schema inner = ModelUtils.getAdditionalProperties(openAPI, property);
+            if (modelUtils.isMapSchema(property)) {
+                Schema inner = modelUtils.getAdditionalProperties(property);
                 if (inner instanceof ObjectSchema) {
                     ObjectSchema op = (ObjectSchema) inner;
                     if (op.getProperties() != null && op.getProperties().size() > 0) {

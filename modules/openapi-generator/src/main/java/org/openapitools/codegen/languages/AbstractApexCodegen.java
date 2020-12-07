@@ -185,7 +185,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             if (inner == null) {
@@ -194,7 +194,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
                 return null;
             }
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
 
             if (inner == null) {
@@ -217,7 +217,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             final ArraySchema ap = (ArraySchema) p;
             final String pattern = "new ArrayList<%s>()";
             if (ap.getItems() == null) {
@@ -225,7 +225,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
 
             return String.format(Locale.ROOT, pattern, getTypeDeclaration(ap.getItems()));
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             final MapSchema ap = (MapSchema) p;
             final String pattern = "new HashMap<%s>()";
             if (getAdditionalProperties(ap) == null) {
@@ -233,32 +233,32 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
 
             return String.format(Locale.ROOT, pattern, String.format(Locale.ROOT, "String, %s", getTypeDeclaration(getAdditionalProperties(ap))));
-        } else if (ModelUtils.isLongSchema(p)) {
+        } else if (modelUtils.isLongSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString() + "l";
             }
             return "null";
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
             return "null";
-        } else if (ModelUtils.isFloatSchema(p)) {
+        } else if (modelUtils.isFloatSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString() + "f";
             }
             return "null";
-        } else if (ModelUtils.isDoubleSchema(p)) {
+        } else if (modelUtils.isDoubleSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString() + "d";
             }
             return "null";
-        } else if (ModelUtils.isBooleanSchema(p)) {
+        } else if (modelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
             return "null";
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 String _default = (String) p.getDefault();
                 if (p.getEnum() == null) {
@@ -314,18 +314,18 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         Object obj = p.getExample();
         String example = obj == null ? "" : obj.toString();
 
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             example = "new " + getTypeDeclaration(p) + "{" + toExampleValue(
                     ((ArraySchema) p).getItems()) + "}";
-        } else if (ModelUtils.isBooleanSchema(p)) {
+        } else if (modelUtils.isBooleanSchema(p)) {
             example = String.valueOf(!"false".equals(example));
-        } else if (ModelUtils.isByteArraySchema(p)) {
+        } else if (modelUtils.isByteArraySchema(p)) {
             if (example.isEmpty()) {
                 example = "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2cu";
             }
             p.setExample(example);
             example = "EncodingUtil.base64Decode('" + example + "')";
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (modelUtils.isDateSchema(p)) {
             if (example.matches("^\\d{4}(-\\d{2}){2}")) {
                 example = example.substring(0, 10).replaceAll("-0?", ", ");
             } else if (example.isEmpty()) {
@@ -336,7 +336,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
                 example = "2000, 1, 23";
             }
             example = "Date.newInstance(" + example + ")";
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             if (example.matches("^\\d{4}([-T:]\\d{2}){5}.+")) {
                 example = example.substring(0, 19).replaceAll("[-T:]0?", ", ");
             } else if (example.isEmpty()) {
@@ -347,31 +347,31 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
                 example = "2000, 1, 23, 4, 56, 7";
             }
             example = "Datetime.newInstanceGmt(" + example + ")";
-        } else if (ModelUtils.isNumberSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
             example = example.replaceAll("[^-0-9.]", "");
             example = example.isEmpty() ? "1.3579" : example;
-        } else if (ModelUtils.isFileSchema(p)) {
+        } else if (modelUtils.isFileSchema(p)) {
             if (example.isEmpty()) {
                 example = "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2cu";
                 p.setExample(example);
             }
             example = "EncodingUtil.base64Decode(" + example + ")";
-        } else if (ModelUtils.isEmailSchema(p)) {
+        } else if (modelUtils.isEmailSchema(p)) {
             if (example.isEmpty()) {
                 example = "example@example.com";
                 p.setExample(example);
             }
             example = "'" + example + "'";
-        } else if (ModelUtils.isLongSchema(p)) {
+        } else if (modelUtils.isLongSchema(p)) {
             example = example.isEmpty() ? "123456789L" : example + "L";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue(getAdditionalProperties(p)) + "}";
 
-        } else if (ModelUtils.isPasswordSchema(p)) {
+        } else if (modelUtils.isPasswordSchema(p)) {
             example = example.isEmpty() ? "password123" : escapeText(example);
             p.setExample(example);
             example = "'" + example + "'";
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             List<String> enums = p.getEnum();
             if (enums != null && example.isEmpty()) {
                 example = enums.get(0);
@@ -383,13 +383,13 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
                 p.setExample(example);
             }
             example = "'" + example + "'";
-        } else if (ModelUtils.isUUIDSchema(p)) {
+        } else if (modelUtils.isUUIDSchema(p)) {
             example = example.isEmpty()
                     ? "'046b6c7f-0b8a-43b9-b35d-6489e6daee91'"
                     : "'" + escapeText(example) + "'";
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             example = example.matches("^-?\\d+$") ? example : "0";
-        } else if (ModelUtils.isObjectSchema(p)) {
+        } else if (modelUtils.isObjectSchema(p)) {
             example = example.isEmpty() ? "null" : example;
         } else {
             example = getTypeDeclaration(p) + ".getExample()";
@@ -571,7 +571,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         if (op.getHasExamples()) {
             // prepare examples for Apex test classes
             ApiResponse apiResponse = findMethodResponse(operation.getResponses());
-            final Schema responseSchema = ModelUtils.getSchemaFromResponse(apiResponse);
+            final Schema responseSchema = modelUtils.getSchemaFromResponse(apiResponse);
             String deserializedExample = toExampleValue(responseSchema);
             for (Map<String, String> example : op.examples) {
                 example.put("example", escapeText(example.get("example")));

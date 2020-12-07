@@ -266,7 +266,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     " (--enable-post-process-file for CLI).");
         }
 
-        if (!Boolean.TRUE.equals(ModelUtils.isGenerateAliasAsModel())) {
+        if (!Boolean.TRUE.equals(modelUtils.isGenerateAliasAsModel())) {
             LOGGER.warn("generateAliasAsModel is set to false, which means array/map will be generated as model instead and the resulting code may have issues. Please enable `generateAliasAsModel` to address the issue.");
         }
 
@@ -606,7 +606,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
-        Map<String, Schema> definitions = ModelUtils.getSchemas(this.openAPI);
+        Map<String, Schema> definitions = modelUtils.getSchemas();
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
         String pathFormatString = op.path;
@@ -762,7 +762,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         // Determine the types that this operation produces. `getProducesInfo`
         // simply lists all the types, and then we add the correct imports to
         // the generated library.
-        List<String> produces = new ArrayList<String>(getProducesInfo(openAPI, operation));
+        List<String> produces = new ArrayList<String>(getProducesInfo(operation));
         boolean producesXml = false;
         boolean producesPlainText = false;
         if (produces != null && !produces.isEmpty()) {
@@ -925,7 +925,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 Schema response = (Schema) rsp.schema;
                 // Check whether we're returning an object with a defined XML namespace.
                 if (response != null && (!StringUtils.isEmpty(response.get$ref()))) {
-                    Schema model = definitions.get(ModelUtils.getSimpleRef(response.get$ref()));
+                    Schema model = definitions.get(modelUtils.getSimpleRef(response.get$ref()));
                     if ((model != null)) {
                         XML xml = model.getXml();
                         if ((xml != null) && (xml.getNamespace() != null)) {
@@ -1114,7 +1114,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     // restore things to sensible values.
     @Override
     public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
-        Schema original_schema = ModelUtils.getSchemaFromRequestBody(body);
+        Schema original_schema = modelUtils.getSchemaFromRequestBody(body);
         CodegenParameter codegenParameter = super.fromRequestBody(body, imports, bodyParameterName);
 
         if (StringUtils.isNotBlank(original_schema.get$ref())) {
@@ -1124,7 +1124,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             codegenParameter.isPrimitiveType = false;
             codegenParameter.isArray = false;
             codegenParameter.isString = false;
-            codegenParameter.isByteArray = ModelUtils.isByteArraySchema(original_schema);
+            codegenParameter.isByteArray = modelUtils.isByteArraySchema(original_schema);
 
 
             // This is a model, so should only have an example if explicitly
@@ -1142,12 +1142,12 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             String innerType = getTypeDeclaration(inner);
             return typeMapping.get("array") + "<" + innerType + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             String innerType = getTypeDeclaration(inner);
             StringBuilder typeDeclaration = new StringBuilder(typeMapping.get("map")).append("<").append(typeMapping.get("string")).append(", ");
@@ -1177,11 +1177,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return instantiationTypes.get("array") + "<" + getSchemaType(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return instantiationTypes.get("map") + "<" + typeMapping.get("string") + ", " + getSchemaType(inner) + ">";
         } else {
@@ -1191,14 +1191,14 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public CodegenModel fromModel(String name, Schema model) {
-        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+        Map<String, Schema> allDefinitions = modelUtils.getSchemas();
         CodegenModel mdl = super.fromModel(name, model);
         mdl.vendorExtensions.put("x-upper-case-name", name.toUpperCase(Locale.ROOT));
         if (!StringUtils.isEmpty(model.get$ref())) {
-            Schema schema = allDefinitions.get(ModelUtils.getSimpleRef(model.get$ref()));
+            Schema schema = allDefinitions.get(modelUtils.getSimpleRef(model.get$ref()));
             mdl.dataType = typeMapping.get(schema.getType());
         }
-        if (ModelUtils.isArraySchema(model)) {
+        if (modelUtils.isArraySchema(model)) {
             ArraySchema am = (ArraySchema) model;
             String xmlName = null;
 
@@ -1213,7 +1213,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     am.getItems() != null &&
                     !StringUtils.isEmpty(am.getItems().get$ref())) {
                 Schema inner_schema = allDefinitions.get(
-                        ModelUtils.getSimpleRef(am.getItems().get$ref()));
+                        modelUtils.getSimpleRef(am.getItems().get$ref()));
 
                 if (inner_schema.getXml() != null &&
                         inner_schema.getXml().getName() != null) {
@@ -1376,29 +1376,29 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toDefaultValue(Schema p) {
         String defaultValue = null;
-        if ((ModelUtils.isNullable(p)) && (p.getDefault() != null) && (p.getDefault().toString().equalsIgnoreCase("null")))
+        if ((modelUtils.isNullable(p)) && (p.getDefault() != null) && (p.getDefault().toString().equalsIgnoreCase("null")))
             return "swagger::Nullable::Null";
-        else if (ModelUtils.isBooleanSchema(p)) {
+        else if (modelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 if (p.getDefault().toString().equalsIgnoreCase("false"))
                     defaultValue = "false";
                 else
                     defaultValue = "true";
             }
-        } else if (ModelUtils.isNumberSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 defaultValue = p.getDefault().toString();
             }
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 defaultValue = p.getDefault().toString();
             }
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 defaultValue = "\"" + (String) p.getDefault() + "\".to_string()";
             }
         }
-        if ((defaultValue != null) && (ModelUtils.isNullable(p)))
+        if ((defaultValue != null) && (modelUtils.isNullable(p)))
             defaultValue = "swagger::Nullable::Present(" + defaultValue + ")";
         return defaultValue;
     }

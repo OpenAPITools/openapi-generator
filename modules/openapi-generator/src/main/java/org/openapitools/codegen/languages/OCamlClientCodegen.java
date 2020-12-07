@@ -575,7 +575,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             if (inner == null) {
@@ -583,7 +583,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 inner = new StringSchema().description("TODO default missing array inner type to string");
             }
             return getTypeDeclaration(inner) + " list";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             if (inner == null) {
                 LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined. Default to string");
@@ -596,7 +596,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             return enumUniqNames.get(h);
         }
 
-        Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, p);
+        Schema referencedSchema = modelUtils.getReferencedSchema(p);
         if (referencedSchema != null && referencedSchema.getEnum() != null) {
             String h = hashEnum(referencedSchema);
             return "Enums." + enumUniqNames.get(h);

@@ -168,7 +168,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
             Schema inner = ap.getItems();
 
             return "(s/coll-of " + getTypeDeclaration(inner) + ")";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
 
             return "(s/map-of string? " + getTypeDeclaration(inner) + ")";

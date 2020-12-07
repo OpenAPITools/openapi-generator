@@ -310,13 +310,13 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
-        Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
-        if (ModelUtils.isArraySchema(target)) {
+        Schema<?> schema = modelUtils.unaliasSchema(p, importMapping);
+        Schema<?> target = modelUtils.isGenerateAliasAsModel() ? p : schema;
+        if (modelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
             return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
-        } else if (ModelUtils.isMapSchema(target)) {
-            // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
+        } else if (modelUtils.isMapSchema(target)) {
+            // Note: modelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
             Schema<?> inner = getAdditionalProperties(target);
             if (inner == null) {
@@ -899,27 +899,27 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
+        if (modelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (modelUtils.isDateSchema(p)) {
             // TODO
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             // TODO
-        } else if (ModelUtils.isNumberSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-        } else if (ModelUtils.isURISchema(p)) {
+        } else if (modelUtils.isURISchema(p)) {
             if (p.getDefault() != null) {
                 return "URI.create('" + p.getDefault() + "')";
             }
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 return "\"" + p.getDefault() + "\"";
             }

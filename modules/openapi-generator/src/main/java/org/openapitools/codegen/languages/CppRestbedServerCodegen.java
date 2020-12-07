@@ -345,18 +345,18 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     public String getTypeDeclaration(Schema p) {
         String openAPIType = getSchemaType(p);
 
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isByteArraySchema(p)) {
+        } else if (modelUtils.isByteArraySchema(p)) {
             return "std::string";
-        } else if (ModelUtils.isStringSchema(p)
-                || ModelUtils.isDateSchema(p)
-                || ModelUtils.isDateTimeSchema(p) || ModelUtils.isFileSchema(p)
+        } else if (modelUtils.isStringSchema(p)
+                || modelUtils.isDateSchema(p)
+                || modelUtils.isDateTimeSchema(p) || modelUtils.isFileSchema(p)
                 || languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
         }
@@ -366,32 +366,32 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isStringSchema(p)) {
+        if (modelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 return "\"" + p.getDefault().toString() + "\"";
             } else {
                 return "\"\"";
             }
-        } else if (ModelUtils.isBooleanSchema(p)) {
+        } else if (modelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             } else {
                 return "false";
             }
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (modelUtils.isDateSchema(p)) {
             if (p.getDefault() != null) {
                 return "\"" + p.getDefault().toString() + "\"";
             } else {
                 return "\"\"";
             }
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             if (p.getDefault() != null) {
                 return "\"" + p.getDefault().toString() + "\"";
             } else {
                 return "\"\"";
             }
-        } else if (ModelUtils.isNumberSchema(p)) {
-            if (ModelUtils.isFloatSchema(p)) { // float
+        } else if (modelUtils.isNumberSchema(p)) {
+            if (modelUtils.isFloatSchema(p)) { // float
                 if (p.getDefault() != null) {
                     return p.getDefault().toString() + "f";
                 } else {
@@ -404,8 +404,8 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                     return "0.0";
                 }
             }
-        } else if (ModelUtils.isIntegerSchema(p)) {
-            if (ModelUtils.isLongSchema(p)) { // long
+        } else if (modelUtils.isIntegerSchema(p)) {
+            if (modelUtils.isLongSchema(p)) { // long
                 if (p.getDefault() != null) {
                     return p.getDefault().toString() + "L";
                 } else {
@@ -418,16 +418,16 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                     return "0";
                 }
             }
-        } else if (ModelUtils.isByteArraySchema(p)) {
+        } else if (modelUtils.isByteArraySchema(p)) {
             if (p.getDefault() != null) {
                 return "\"" + p.getDefault().toString() + "\"";
             } else {
                 return "\"\"";
             }
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             String inner = getSchemaType(getAdditionalProperties(p));
             return "std::map<std::string, " + inner + ">()";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
             if (!languageSpecificPrimitives.contains(inner)) {
@@ -435,7 +435,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
             }
             return "std::vector<" + inner + ">()";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
-            return "std::make_shared<" + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + ">()";
+            return "std::make_shared<" + toModelName(modelUtils.getSimpleRef(p.get$ref())) + ">()";
         }
 
         return "nullptr";

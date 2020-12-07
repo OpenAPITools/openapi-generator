@@ -410,12 +410,12 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             schemaType = schemaType.replace("-", "_");
         }
 
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner) + "_Vectors.Vector";
         }
-        if (ModelUtils.isMapSchema(p)) {
+        if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             String name = getTypeDeclaration(inner) + "_Map";
             if (name.startsWith("Swagger.")) {
@@ -432,7 +432,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             return schemaType;
         }
         String modelType = toModelName(schemaType).replace("-", "_");
-        if (ModelUtils.isStringSchema(p) || ModelUtils.isFileSchema(p)
+        if (modelUtils.isStringSchema(p) || modelUtils.isFileSchema(p)
                 || languageSpecificPrimitives.contains(modelType)) {
             return modelType;
         }
@@ -526,8 +526,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
-            if (methodResponse != null && ModelUtils.getSchemaFromResponse(methodResponse) != null) {
-                CodegenProperty cm = fromProperty("response", ModelUtils.getSchemaFromResponse(methodResponse));
+            if (methodResponse != null && modelUtils.getSchemaFromResponse(methodResponse) != null) {
+                CodegenProperty cm = fromProperty("response", modelUtils.getSchemaFromResponse(methodResponse));
                 op.vendorExtensions.put("x-codegen-response", cm);
                 op.vendorExtensions.put("x-is-model-type", isModelType(cm));
                 op.vendorExtensions.put("x-is-stream-type", isStreamType(cm));

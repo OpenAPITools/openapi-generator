@@ -51,7 +51,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
     private static final String PACKAGE_CONTEXT = "packageContext";
     private static final String ASYNC_SERVER = "asyncServer";
 
-    private static final Map<String, Predicate<Schema>> propertyToOpenAPITypeMapping =
+    private final Map<String, Predicate<Schema>> propertyToOpenAPITypeMapping =
             createPropertyToOpenAPITypeMapping();
 
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
@@ -270,7 +270,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
     private void postProcessParentModels(final Map<String, Object> models) {
         LOGGER.debug("Processing parents:  " + parentModels);
         for (final String parent : parentModels) {
-            final CodegenModel parentModel = ModelUtils.getModelByName(parent, models);
+            final CodegenModel parentModel = modelUtils.getModelByName(parent, models);
             if (parentModel != null) {
                 parentModel.hasChildren = true;
                 final Collection<CodegenModel> childrenModels = childrenByParent.get(parent);
@@ -397,17 +397,17 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
         return super.getSchemaType(property);
     }
 
-    private static Map<String, Predicate<Schema>> createPropertyToOpenAPITypeMapping() {
+    private Map<String, Predicate<Schema>> createPropertyToOpenAPITypeMapping() {
         final ImmutableMap.Builder<String, Predicate<Schema>> mapping = ImmutableMap.builder();
         mapping.put("time", timeProperty());
         return mapping.build();
     }
 
-    private static Predicate<Schema> timeProperty() {
+    private Predicate<Schema> timeProperty() {
         return new Predicate<Schema>() {
             @Override
             public boolean apply(Schema property) {
-                return ModelUtils.isStringSchema(property) && "time".equalsIgnoreCase(property.getFormat());
+                return modelUtils.isStringSchema(property) && "time".equalsIgnoreCase(property.getFormat());
             }
         };
     }

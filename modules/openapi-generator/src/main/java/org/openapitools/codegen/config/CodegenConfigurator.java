@@ -264,7 +264,7 @@ public class CodegenConfigurator {
 
     public CodegenConfigurator setGenerateAliasAsModel(boolean generateAliasAsModel) {
         workflowSettingsBuilder.withGenerateAliasAsModel(generateAliasAsModel);
-        ModelUtils.setGenerateAliasAsModel(generateAliasAsModel);
+        GlobalSettings.setProperty("generateAliasAsModelKey", String.valueOf(generateAliasAsModel));
         return this;
     }
 
@@ -508,9 +508,6 @@ public class CodegenConfigurator {
             GlobalSettings.setProperty(entry.getKey(), entry.getValue());
         }
 
-        // if caller resets GlobalSettings, we'll need to reset generateAliasAsModel. As noted in this method, this should be moved.
-        ModelUtils.setGenerateAliasAsModel(workflowSettings.isGenerateAliasAsModel());
-
         // TODO: Support custom spec loader implementations (https://github.com/OpenAPITools/openapi-generator/issues/844)
         final List<AuthorizationValue> authorizationValues = AuthParser.parse(this.auth);
         ParseOptions options = new ParseOptions();
@@ -523,13 +520,18 @@ public class CodegenConfigurator {
         // TODO: The line below could be removed when at least one of the issue below has been resolved.
         // https://github.com/swagger-api/swagger-parser/issues/1369
         // https://github.com/swagger-api/swagger-parser/pull/1374
-        //ModelUtils.getOpenApiVersion(specification, inputSpec, authorizationValues);
+        //modelUtils.getOpenApiVersion(specification, inputSpec, authorizationValues);
+
+        ModelUtils modelUtils = new ModelUtils(specification);
+
+        // if caller resets GlobalSettings, we'll need to reset generateAliasAsModel. As noted in this method, this should be moved.
+        modelUtils.setGenerateAliasAsModel(workflowSettings.isGenerateAliasAsModel());
 
         // NOTE: We will only expose errors+warnings if there are already errors in the spec.
         if (validationMessages.size() > 0) {
             Set<String> warnings = new HashSet<>();
             if (specification != null) {
-                List<String> unusedModels = ModelUtils.getUnusedSchemas(specification);
+                List<String> unusedModels = modelUtils.getUnusedSchemas();
                 if (unusedModels != null) {
                     unusedModels.forEach(name -> warnings.add("Unused model: " + name));
                 }

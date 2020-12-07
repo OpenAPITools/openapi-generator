@@ -72,23 +72,23 @@ public class AbstractGoCodegenTest {
 
         // Create an array schema with item type set to the array alias
         Schema<?> schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/NestedArray"));
-
-        ModelUtils.setGenerateAliasAsModel(false);
+        ModelUtils modelUtils = new ModelUtils(codegen.getOpenAPI());
+        modelUtils.setGenerateAliasAsModel(false);
         String defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "[][]int32");
 
-        ModelUtils.setGenerateAliasAsModel(true);
+        modelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "[]NestedArray");
 
         // Create a map schema with additionalProperties type set to array alias
         schema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
 
-        ModelUtils.setGenerateAliasAsModel(false);
+        modelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "map[string][]int32");
 
-        ModelUtils.setGenerateAliasAsModel(true);
+        modelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "map[string]NestedArray");
     }

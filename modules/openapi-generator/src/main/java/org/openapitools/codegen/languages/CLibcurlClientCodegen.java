@@ -296,10 +296,10 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String getTypeDeclaration(Schema schema) {
         /* comment out below as we'll do it in the template instead
-        if (ModelUtils.isArraySchema(schema)) {
+        if (modelUtils.isArraySchema(schema)) {
             Schema inner = ((ArraySchema) schema).getItems();
             return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(schema)) {
+        } else if (modelUtils.isMapSchema(schema)) {
             Schema inner = (Schema) schema.getAdditionalProperties();
             return getSchemaType(schema) + "<String, " + getTypeDeclaration(inner) + ">";
         }
@@ -310,11 +310,11 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
+        if (modelUtils.isIntegerSchema(p) || modelUtils.isNumberSchema(p) || modelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 return "'" + escapeText((String) p.getDefault()) + "'";
             }
@@ -327,17 +327,17 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     public String toExampleValue(Schema schema) {
         String example = super.toExampleValue(schema);
 
-        if (ModelUtils.isNullType(schema) && null != example) {
+        if (modelUtils.isNullType(schema) && null != example) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
             return "NULL";
         }
         // correct "&#39;"s into "'"s after toString()
-        if (ModelUtils.isStringSchema(schema) && schema.getDefault() != null) {
+        if (modelUtils.isStringSchema(schema) && schema.getDefault() != null) {
             example = (String) schema.getDefault();
         }
         if (StringUtils.isNotBlank(example) && !"null".equals(example)) {
-            if (ModelUtils.isStringSchema(schema)) {
+            if (modelUtils.isStringSchema(schema)) {
                 example = "\"" + example + "\"";
             }
             return example;
@@ -346,7 +346,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
             // Enum case:
             example = schema.getEnum().get(0).toString();
-/*            if (ModelUtils.isStringSchema(schema)) {
+/*            if (modelUtils.isStringSchema(schema)) {
                 example = "'" + escapeText(example) + "'";
             }*/
             if (null == example)
@@ -355,8 +355,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             return example;
         } else if (null != schema.get$ref()) {
             // $ref case:
-            Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
-            String ref = ModelUtils.getSimpleRef(schema.get$ref());
+            Map<String, Schema> allDefinitions = modelUtils.getSchemas();
+            String ref = modelUtils.getSimpleRef(schema.get$ref());
             if (allDefinitions != null) {
                 Schema refSchema = allDefinitions.get(ref);
                 if (null == refSchema) {
@@ -372,18 +372,18 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                 LOGGER.warn("allDefinitions not defined in toExampleValue!\n");
             }
         }
-        if (ModelUtils.isDateSchema(schema)) {
+        if (modelUtils.isDateSchema(schema)) {
             example = "\"2013-10-20\"";
             return example;
-        } else if (ModelUtils.isDateTimeSchema(schema)) {
+        } else if (modelUtils.isDateTimeSchema(schema)) {
             example = "\"2013-10-20T19:20:30+01:00\"";
             return example;
-        } else if (ModelUtils.isBinarySchema(schema)) {
+        } else if (modelUtils.isBinarySchema(schema)) {
             example = "instantiate_binary_t(\"blah\", 5)";
             return example;
-        } else if (ModelUtils.isByteArraySchema(schema)) {
+        } else if (modelUtils.isByteArraySchema(schema)) {
             example = "YQ==";
-        } else if (ModelUtils.isStringSchema(schema)) {
+        } else if (modelUtils.isStringSchema(schema)) {
             // decimal (type: string, format: decimal)
             if ("number".equalsIgnoreCase(schema.getFormat())) {
                 return "1";
@@ -398,29 +398,29 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             example = "";
             for (int i = 0; i < len; i++)
                 example += i;
-        } else if (ModelUtils.isIntegerSchema(schema)) {
+        } else if (modelUtils.isIntegerSchema(schema)) {
             if (schema.getMinimum() != null)
                 example = schema.getMinimum().toString();
             else
                 example = "56";
-        } else if (ModelUtils.isNumberSchema(schema)) {
+        } else if (modelUtils.isNumberSchema(schema)) {
             if (schema.getMinimum() != null)
                 example = schema.getMinimum().toString();
             else
                 example = "1.337";
-        } else if (ModelUtils.isBooleanSchema(schema)) {
+        } else if (modelUtils.isBooleanSchema(schema)) {
             example = "1";
-        } else if (ModelUtils.isArraySchema(schema)) {
+        } else if (modelUtils.isArraySchema(schema)) {
             example = "list_create()";
-        } else if (ModelUtils.isMapSchema(schema)) {
+        } else if (modelUtils.isMapSchema(schema)) {
             example = "list_create()";
-        } else if (ModelUtils.isObjectSchema(schema)) {
+        } else if (modelUtils.isObjectSchema(schema)) {
             return null; // models are managed at moustache level
         } else {
             LOGGER.warn("Type " + schema.getType() + " not handled properly in toExampleValue");
         }
 
-        if (ModelUtils.isStringSchema(schema)) {
+        if (modelUtils.isStringSchema(schema)) {
             example = "\"" + escapeText(example) + "\"";
         }
 
@@ -744,7 +744,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public CodegenProperty fromProperty(String name, Schema p) {
         CodegenProperty cm = super.fromProperty(name, p);
-        Schema ref = ModelUtils.getReferencedSchema(openAPI, p);
+        Schema ref = modelUtils.getReferencedSchema(p);
         if (ref != null) {
             if (ref.getEnum() != null) {
                 cm.isEnum = true;

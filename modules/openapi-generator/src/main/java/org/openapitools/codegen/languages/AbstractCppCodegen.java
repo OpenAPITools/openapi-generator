@@ -362,7 +362,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs){
         Map<String, Object> models = super.postProcessAllModels(objs);
         for (final Entry<String, Object> model : models.entrySet()) {
-            CodegenModel mo = ModelUtils.getModelByName(model.getKey(), models);
+            CodegenModel mo = modelUtils.getModelByName(model.getKey(), models);
             addForwardDeclarations(mo, models);
         }
         return models;
@@ -379,7 +379,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             }
             String childPropertyType = property.isContainer? property.mostInnerItems.baseType : property.baseType;
             for(final Entry<String, Object> mo : objs.entrySet()) {
-                CodegenModel childModel = ModelUtils.getModelByName(mo.getKey(), objs);
+                CodegenModel childModel = modelUtils.getModelByName(mo.getKey(), objs);
                 if( !childPropertyType.equals(childModel.classname) || childPropertyType.equals(parentModel.classname) || !childModel.hasVars ){
                     continue;
                 }

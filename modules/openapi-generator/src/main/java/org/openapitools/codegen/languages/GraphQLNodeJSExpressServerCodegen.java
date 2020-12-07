@@ -123,7 +123,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
 
@@ -131,7 +131,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
             // between some specific types for GraphQL:
             // return "[" + getTypeDeclaration(inner) + "]";
             return getTypeDeclaration(inner);
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
 
             return getTypeDeclaration(inner);
@@ -139,7 +139,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
 
         // IMPORANT NOTE Not using the supertype invocation, because we want to UpperCamelize the type:
         String schemaType = getSchemaType(p);
-        String nullable = ModelUtils.isNullable(p) ? "" : "!";
+        String nullable = modelUtils.isNullable(p) ? "" : "!";
 
         if (typeMapping.containsKey(schemaType)) {
             return typeMapping.get(schemaType) + nullable;

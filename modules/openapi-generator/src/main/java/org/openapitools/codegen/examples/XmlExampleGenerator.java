@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.examples;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.XML;
@@ -35,8 +36,12 @@ public class XmlExampleGenerator {
     public static String TAG_END = "</";
     private static String EMPTY = "";
     protected Map<String, Schema> examples;
+    protected OpenAPI openAPI;
+    protected ModelUtils modelUtils;
 
-    public XmlExampleGenerator(Map<String, Schema> examples) {
+    public XmlExampleGenerator(Map<String, Schema> examples, OpenAPI openAPI) {
+        this.openAPI = openAPI;
+        this.modelUtils = new ModelUtils(openAPI);
         this.examples = examples;
         if (examples == null) {
             this.examples = new HashMap<String, Schema>();
@@ -124,7 +129,7 @@ public class XmlExampleGenerator {
         }
         StringBuilder sb = new StringBuilder();
 
-        if (ModelUtils.isArraySchema(schema)) {
+        if (modelUtils.isArraySchema(schema)) {
             ArraySchema as = (ArraySchema) schema;
             Schema inner = as.getItems();
             boolean wrapped = false;
@@ -177,29 +182,29 @@ public class XmlExampleGenerator {
     protected String getExample(Schema schema) {
         if (schema.getExample() != null) {
             return schema.getExample().toString();
-        } else if (ModelUtils.isDateTimeSchema(schema)) {
+        } else if (modelUtils.isDateTimeSchema(schema)) {
             return "2000-01-23T04:56:07.000Z";
-        } else if (ModelUtils.isDateSchema(schema)) {
+        } else if (modelUtils.isDateSchema(schema)) {
             return "2000-01-23";
-        } else if (ModelUtils.isBooleanSchema(schema)) {
+        } else if (modelUtils.isBooleanSchema(schema)) {
             return "true";
-        } else if (ModelUtils.isNumberSchema(schema)) {
-            if (ModelUtils.isFloatSchema(schema)) { // float
+        } else if (modelUtils.isNumberSchema(schema)) {
+            if (modelUtils.isFloatSchema(schema)) { // float
                 return "1.3579";
             } else { // double
                 return "3.149";
             }
-        } else if (ModelUtils.isPasswordSchema(schema)) {
+        } else if (modelUtils.isPasswordSchema(schema)) {
             return "********";
-        } else if (ModelUtils.isUUIDSchema(schema)) {
+        } else if (modelUtils.isUUIDSchema(schema)) {
             return "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
-        } else if (ModelUtils.isURISchema(schema)) {
+        } else if (modelUtils.isURISchema(schema)) {
             return "https://openapi-generator.tech";
             // do these last in case the specific types above are derived from these classes
-        } else if (ModelUtils.isStringSchema(schema)) {
+        } else if (modelUtils.isStringSchema(schema)) {
             return "aeiou";
-        } else if (ModelUtils.isIntegerSchema(schema)) {
-            if (ModelUtils.isLongSchema(schema)) { // long
+        } else if (modelUtils.isIntegerSchema(schema)) {
+            if (modelUtils.isLongSchema(schema)) { // long
                 return "123456789";
             } else { //integer
                 return "123";

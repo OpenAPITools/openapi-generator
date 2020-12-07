@@ -418,26 +418,27 @@ public class AbstractJavaCodegenTest {
         // Create an alias to an array schema
         Schema<?> nestedArraySchema = new ArraySchema().items(new IntegerSchema().format("int32"));
         codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("NestedArray", nestedArraySchema)));
+        ModelUtils modelUtils = new ModelUtils(codegen.getOpenAPI());
 
         // Create an array schema with item type set to the array alias
         schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/NestedArray"));
 
-        ModelUtils.setGenerateAliasAsModel(false);
+        modelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.toDefaultValue(schema);
         Assert.assertEquals(defaultValue, "new ArrayList<List<Integer>>()");
 
-        ModelUtils.setGenerateAliasAsModel(true);
+        modelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.toDefaultValue(schema);
         Assert.assertEquals(defaultValue, "new ArrayList<NestedArray>()");
 
         // Create a map schema with additionalProperties type set to array alias
         schema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
 
-        ModelUtils.setGenerateAliasAsModel(false);
+        modelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.toDefaultValue(schema);
         Assert.assertEquals(defaultValue, "new HashMap<String, List<Integer>>()");
 
-        ModelUtils.setGenerateAliasAsModel(true);
+        modelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.toDefaultValue(schema);
         Assert.assertEquals(defaultValue, "new HashMap<String, NestedArray>()");
         
@@ -483,15 +484,16 @@ public class AbstractJavaCodegenTest {
         // Create an alias to an array schema
         Schema<?> nestedArraySchema = new ArraySchema().items(new IntegerSchema().format("int32"));
         codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("NestedArray", nestedArraySchema)));
+        ModelUtils modelUtils = new ModelUtils(codegen.getOpenAPI());
 
         // Create an array schema with item type set to the array alias
         schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/NestedArray"));
 
-        ModelUtils.setGenerateAliasAsModel(false);
+        modelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<List<Integer>>");
 
-        ModelUtils.setGenerateAliasAsModel(true);
+        modelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<NestedArray>");
 
@@ -499,22 +501,22 @@ public class AbstractJavaCodegenTest {
         schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/NestedArray"));
         schema.setUniqueItems(true);
 
-        ModelUtils.setGenerateAliasAsModel(false);
+        modelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "Set<List<Integer>>");
 
-        ModelUtils.setGenerateAliasAsModel(true);
+        modelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "Set<NestedArray>");
 
         // Create a map schema with additionalProperties type set to array alias
         schema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
 
-        ModelUtils.setGenerateAliasAsModel(false);
+        modelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "Map<String, List<Integer>>");
 
-        ModelUtils.setGenerateAliasAsModel(true);
+        modelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "Map<String, NestedArray>");
     }

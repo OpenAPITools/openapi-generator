@@ -331,7 +331,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             // In OAS 3.0.x, the array "items" attribute is required.
@@ -339,7 +339,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             // specification is aligned with the JSON schema specification.
             // When "items" is not specified, the elements of the array may be anything at all.
             if (inner != null) {
-                inner = ModelUtils.unaliasSchema(this.openAPI, inner);
+                inner = modelUtils.unaliasSchema(inner);
             }
             String typDecl;
             if (inner != null) {
@@ -348,9 +348,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 typDecl = "interface{}";
             }
             return "[]" + typDecl;
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
-            return getSchemaType(p) + "[string]" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner));
+            return getSchemaType(p) + "[string]" + getTypeDeclaration(modelUtils.unaliasSchema(inner));
         }
         //return super.getTypeDeclaration(p);
 
@@ -395,7 +395,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         if (ref != null && !ref.isEmpty()) {
             type = openAPIType;
-        } else if ("object".equals(openAPIType) && ModelUtils.isAnyTypeSchema(openAPI, p)) {
+        } else if ("object".equals(openAPIType) && modelUtils.isAnyTypeSchema(p)) {
             // Arbitrary type. Note this is not the same thing as free-form object.
             type = "interface{}";
         } else if (typeMapping.containsKey(openAPIType)) {
@@ -426,9 +426,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
      */
     @Override
     public String toInstantiationType(Schema property) {
-        if (ModelUtils.isMapSchema(property)) {
+        if (modelUtils.isMapSchema(property)) {
             return getTypeDeclaration(property);
-        } else if (ModelUtils.isArraySchema(property)) {
+        } else if (modelUtils.isArraySchema(property)) {
             return getTypeDeclaration(property);
         }
         return super.toInstantiationType(property);

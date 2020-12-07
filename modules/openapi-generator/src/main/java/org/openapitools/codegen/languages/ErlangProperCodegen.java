@@ -137,7 +137,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel cm = super.fromModel(name, model);
-        if(ModelUtils.isArraySchema(model)) {
+        if(modelUtils.isArraySchema(model)) {
             return new CodegenArrayModel(cm, (ArraySchema) model);
         } else {
             return cm;
@@ -152,7 +152,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String getTypeDeclaration(Schema schema) {
         String typeDeclaration = super.getSchemaType(schema);
-        if(ModelUtils.isArraySchema(schema)) {
+        if(modelUtils.isArraySchema(schema)) {
             ArraySchema arraySchema = (ArraySchema) schema;
             String complexType = getSchemaType(arraySchema.getItems());
 
@@ -170,7 +170,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String getSchemaType(Schema schema) {
         String schemaType = super.getSchemaType(schema);
-        if(ModelUtils.isArraySchema(schema)) {
+        if(modelUtils.isArraySchema(schema)) {
             ArraySchema arraySchema = (ArraySchema) schema;
             String complexType = getSchemaType(arraySchema.getItems());
 
@@ -183,7 +183,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
             if(minItems != null && maxItems != null) sb.append(", ").append(maxItems);
 
             return sb.append(")").toString();
-        } else if(ModelUtils.isIntegerSchema(schema)) {
+        } else if(modelUtils.isIntegerSchema(schema)) {
             StringBuilder sb = new StringBuilder("integer(");
 
             BigDecimal min = schema.getMinimum();
@@ -192,9 +192,9 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
             if(min != null && max != null) sb.append(", ").append(max);
 
             return sb.append(")").toString();
-        } else if(ModelUtils.isDateSchema(schema) || ModelUtils.isDateTimeSchema(schema)) {
+        } else if(modelUtils.isDateSchema(schema) || modelUtils.isDateTimeSchema(schema)) {
             return typeMapping.get(schemaType);
-        } else if(ModelUtils.isStringSchema(schema)) {
+        } else if(modelUtils.isStringSchema(schema)) {
             StringBuilder sb = new StringBuilder("binary(");
             Integer min = schema.getMinLength();
             Integer max = schema.getMaxLength();

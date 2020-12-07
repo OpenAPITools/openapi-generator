@@ -18,6 +18,7 @@
 package org.openapitools.codegen;
 
 import com.google.common.collect.ImmutableList;
+import io.swagger.models.Model;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -76,6 +77,7 @@ public class DefaultGenerator implements Generator {
     protected CodegenConfig config;
     protected ClientOptInput opts;
     protected OpenAPI openAPI;
+    protected ModelUtils modelUtils;
     protected CodegenIgnoreProcessor ignoreProcessor;
     private Boolean generateApis = null;
     private Boolean generateModels = null;
@@ -108,6 +110,7 @@ public class DefaultGenerator implements Generator {
     public Generator opts(ClientOptInput opts) {
         this.opts = opts;
         this.openAPI = opts.getOpenAPI();
+        this.modelUtils = new ModelUtils(openAPI);
         this.config = opts.getConfig();
         List<TemplateDefinition> userFiles = opts.getUserDefinedTemplates();
         if (userFiles != null) {
@@ -150,6 +153,10 @@ public class DefaultGenerator implements Generator {
         }
 
         return this;
+    }
+
+    public ModelUtils getModelUtils() {
+        return modelUtils;
     }
 
     /**
@@ -397,7 +404,7 @@ public class DefaultGenerator implements Generator {
             return;
         }
 
-        final Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
+        final Map<String, Schema> schemas = modelUtils.getSchemas();
         if (schemas == null) {
             LOGGER.warn("Skipping generation of models because specification document has no schemas.");
             return;
@@ -458,7 +465,7 @@ public class DefaultGenerator implements Generator {
 
                 Schema schema = schemas.get(name);
 
-                if (ModelUtils.isFreeFormObject(this.openAPI, schema)) { // check to see if it'a a free-form object
+                if (modelUtils.isFreeFormObject(schema)) { // check to see if it'a a free-form object
                     // there are 3 free form use cases
                     // 1. free form with no validation that is not allOf included in any composed schemas
                     // 2. free form with validation
@@ -472,17 +479,17 @@ public class DefaultGenerator implements Generator {
                         LOGGER.info("Model {} not generated since it's a free-form object", name);
                         continue;
                     }
-                } else if (ModelUtils.isMapSchema(schema)) { // check to see if it's a "map" model
+                } else if (modelUtils.isMapSchema(schema)) { // check to see if it's a "map" model
                     // A composed schema (allOf, oneOf, anyOf) is considered a Map schema if the additionalproperties attribute is set
                     // for that composed schema. However, in the case of a composed schema, the properties are defined or referenced
                     // in the inner schemas, and the outer schema does not have properties.
-                    if (!ModelUtils.isGenerateAliasAsModel(schema) && !ModelUtils.isComposedSchema(schema) && (schema.getProperties() == null || schema.getProperties().isEmpty())) {
+                    if (!modelUtils.isGenerateAliasAsModel(schema) && !modelUtils.isComposedSchema(schema) && (schema.getProperties() == null || schema.getProperties().isEmpty())) {
                         // schema without property, i.e. alias to map
                         LOGGER.info("Model {} not generated since it's an alias to map (without property) and `generateAliasAsModel` is set to false (default)", name);
                         continue;
                     }
-                } else if (ModelUtils.isArraySchema(schema)) { // check to see if it's an "array" model
-                    if (!ModelUtils.isGenerateAliasAsModel(schema) && (schema.getProperties() == null || schema.getProperties().isEmpty())) {
+                } else if (modelUtils.isArraySchema(schema)) { // check to see if it's an "array" model
+                    if (!modelUtils.isGenerateAliasAsModel(schema) && (schema.getProperties() == null || schema.getProperties().isEmpty())) {
                         // schema without property, i.e. alias to array
                         LOGGER.info("Model {} not generated since it's an alias to array (without property) and `generateAliasAsModel` is set to false (default)", name);
                         continue;
@@ -868,7 +875,7 @@ public class DefaultGenerator implements Generator {
 
         List<File> files = new ArrayList<>();
         // models
-        List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        List<String> filteredSchemas = modelUtils.getSchemasUsedOnlyInFormParam();
         List<Object> allModels = new ArrayList<>();
         generateModels(files, allModels, filteredSchemas);
         // apis

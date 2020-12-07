@@ -333,48 +333,48 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
             return p.getDefault().toString();
         }
 
-        if (ModelUtils.isBooleanSchema(p)) {
+        if (modelUtils.isBooleanSchema(p)) {
             return "false";
         }
 
-        if (ModelUtils.isDateSchema(p)) {
+        if (modelUtils.isDateSchema(p)) {
             return "LocalDate.now";
         }
 
-        if (ModelUtils.isDateTimeSchema(p)) {
+        if (modelUtils.isDateTimeSchema(p)) {
             return "OffsetDateTime.now";
         }
 
-        if (ModelUtils.isDoubleSchema(p)) {
+        if (modelUtils.isDoubleSchema(p)) {
             return "0.0";
         }
 
-        if (ModelUtils.isFloatSchema(p)) {
+        if (modelUtils.isFloatSchema(p)) {
             return "0.0F";
         }
 
-        if (ModelUtils.isIntegerSchema(p)) {
+        if (modelUtils.isIntegerSchema(p)) {
             return "0";
         }
 
-        if (ModelUtils.isLongSchema(p)) {
+        if (modelUtils.isLongSchema(p)) {
             return "0L";
         }
 
-        if (ModelUtils.isStringSchema(p)) {
+        if (modelUtils.isStringSchema(p)) {
             return "\"\"";
         }
 
-        if (ModelUtils.isMapSchema(p)) {
+        if (modelUtils.isMapSchema(p)) {
             Schema ap = getAdditionalProperties(p);
             String inner = getSchemaType(ap);
             return "Map.empty[String, " + inner + "]";
         }
 
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             Schema items = ((ArraySchema) p).getItems();
             String inner = getSchemaType(items);
-            if (ModelUtils.isSet(p)) {
+            if (modelUtils.isSet(p)) {
                 return "Set.empty[" + inner + "]";
             }
             return "List.empty[" + inner + "]";

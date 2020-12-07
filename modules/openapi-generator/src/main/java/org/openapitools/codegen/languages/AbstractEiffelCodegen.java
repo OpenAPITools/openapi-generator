@@ -292,11 +292,11 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return "LIST [" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
 
             return getSchemaType(p) + " [" + getTypeDeclaration(inner) + "]";
@@ -463,7 +463,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
     private void postProcessParentModels(final Map<String, Object> models) {
         for (final String parent : parentModels) {
-            final CodegenModel parentModel = ModelUtils.getModelByName(parent, models);
+            final CodegenModel parentModel = modelUtils.getModelByName(parent, models);
             final Collection<CodegenModel> childrenModels = childrenByParent.get(parent);
             for (final CodegenModel child : childrenModels) {
                 processParentPropertiesInChildModel(parentModel, child);
@@ -492,7 +492,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
     @Override
     public CodegenModel fromModel(String name, Schema model) {
-        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+        Map<String, Schema> allDefinitions = modelUtils.getSchemas();
         CodegenModel codegenModel = super.fromModel(name, model);
         if (allDefinitions != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
             final Schema parentModel = allDefinitions.get(codegenModel.parentSchema);
@@ -571,7 +571,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     @Override
     public String toInstantiationType(Schema p) {
         return getTypeDeclaration(p);
-//        if (ModelUtils.isMapSchema(p)) {
+//        if (modelUtils.isMapSchema(p)) {
 //            Schema additionalProperties2 = getAdditionalProperties(p);
 //            String type = additionalProperties2.getType();
 //            if (null == type) {
@@ -580,7 +580,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 //            }
 //            String inner = toModelName(getSchemaType(additionalProperties2));
 //            return instantiationTypes.get("map") + " [" + inner + "]";
-//        } else if (ModelUtils.isArraySchema(p)) {
+//        } else if (modelUtils.isArraySchema(p)) {
 //            ArraySchema ap = (ArraySchema) p;
 //            String inner = toModelName(getSchemaType(ap.getItems()));
 //            return instantiationTypes.get("array") + " [" + inner + "]";

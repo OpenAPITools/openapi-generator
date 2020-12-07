@@ -320,11 +320,11 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
 
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
@@ -335,7 +335,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
-        if (ModelUtils.isSet(p)) {
+        if (modelUtils.isSet(p)) {
             openAPIType = "set";
         }
 
@@ -353,13 +353,13 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (ModelUtils.isMapSchema(p)) {
+        if (modelUtils.isMapSchema(p)) {
             String inner = getSchemaType(getAdditionalProperties(p));
             return instantiationTypes.get("map") + "[String, " + inner + "]";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            return ( ModelUtils.isSet(ap) ? instantiationTypes.get("set") : instantiationTypes.get("array") ) + "[" + inner + "]";
+            return ( modelUtils.isSet(ap) ? instantiationTypes.get("set") : instantiationTypes.get("array") ) + "[" + inner + "]";
         } else {
             return null;
         }
@@ -372,24 +372,24 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         }
 
         // comment out the following as the default value is no handled differently
-        if (ModelUtils.isBooleanSchema(p)) {
+        if (modelUtils.isBooleanSchema(p)) {
             return null;
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (modelUtils.isDateSchema(p)) {
             return null;
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             return null;
-        } else if (ModelUtils.isNumberSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
             return null;
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             return null;
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             String inner = getSchemaType(getAdditionalProperties(p));
             return "new HashMap[String, " + inner + "]() ";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
             String genericType;
-            if (ModelUtils.isSet(ap)) {
+            if (modelUtils.isSet(ap)) {
                 genericType = instantiationTypes.get("set");
             } else {
                 genericType = instantiationTypes.get("array");
@@ -410,7 +410,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
             // Assume that any other generic types can be new'd up.
             return "new " + genericType + "[" + inner + "]() ";
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             return null;
         } else {
             return null;
@@ -427,9 +427,9 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     @Override
     public CodegenProperty fromProperty(String name, Schema p) {
         CodegenProperty prop = super.fromProperty(name, p);
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema as = (ArraySchema) p;
-            if (ModelUtils.isSet(as)) {
+            if (modelUtils.isSet(as)) {
                 prop.containerType = "set";
             }
         }

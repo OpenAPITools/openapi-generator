@@ -423,11 +423,11 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
@@ -619,7 +619,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod,
                                           Operation operation, List<Server> servers) {
-        Map<String, Schema> definitions = ModelUtils.getSchemas(this.openAPI);
+        Map<String, Schema> definitions = modelUtils.getSchemas();
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
         /**
@@ -663,8 +663,8 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
                  * If the operation produces Json and has nonempty example
                  * try to reformat it.
                  */
-                if (getConsumesInfo(this.openAPI, operation) != null
-                        && getConsumesInfo(this.openAPI, operation).contains("application/json")
+                if (getConsumesInfo(operation) != null
+                        && getConsumesInfo(operation).contains("application/json")
                         && definitions.get(p.dataType).getExample() != null) {
 
                     ObjectMapper mapper = new ObjectMapper();

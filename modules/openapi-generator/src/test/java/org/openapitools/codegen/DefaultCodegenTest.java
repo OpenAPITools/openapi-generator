@@ -76,8 +76,8 @@ public class DefaultCodegenTest {
 
         final DefaultCodegen codegen = new DefaultCodegen();
 
-        Assert.assertEquals(codegen.hasBodyParameter(openAPI, pingOperation), false);
-        Assert.assertEquals(codegen.hasBodyParameter(openAPI, createOperation), true);
+        Assert.assertEquals(codegen.hasBodyParameter(pingOperation), false);
+        Assert.assertEquals(codegen.hasBodyParameter(createOperation), true);
     }
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -110,13 +110,13 @@ public class DefaultCodegenTest {
                 .responses(
                         new ApiResponses().addApiResponse("201", new ApiResponse()
                                 .description("Created response")));
-        Set<String> createConsumesInfo = DefaultCodegen.getConsumesInfo(openAPI, createOperation);
+        final DefaultCodegen codegen = new DefaultCodegen();
+        Set<String> createConsumesInfo = codegen.getConsumesInfo(createOperation);
         Assert.assertEquals(createConsumesInfo.size(), 2);
         Assert.assertTrue(createConsumesInfo.contains("application/json"), "contains 'application/json'");
         Assert.assertTrue(createConsumesInfo.contains("application/xml"), "contains 'application/xml'");
-        Set<String> createProducesInfo = DefaultCodegen.getProducesInfo(openAPI, createOperation);
+        Set<String> createProducesInfo = codegen.getProducesInfo(createOperation);
         Assert.assertEquals(createProducesInfo.size(), 0);
-        final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
         CodegenOperation coCreate = codegen.fromOperation("somepath", "post", createOperation, null);
         Assert.assertTrue(coCreate.hasConsumes);
@@ -126,10 +126,10 @@ public class DefaultCodegenTest {
         Operation updateOperationWithRef = new Operation()
                 .requestBody(new RequestBody().$ref("#/components/requestBodies/MyRequestBody"))
                 .responses(new ApiResponses().addApiResponse("201", new ApiResponse().$ref("#/components/responses/MyResponse")));
-        Set<String> updateConsumesInfo = DefaultCodegen.getConsumesInfo(openAPI, updateOperationWithRef);
+        Set<String> updateConsumesInfo = codegen.getConsumesInfo(updateOperationWithRef);
         Assert.assertEquals(updateConsumesInfo.size(), 1);
         Assert.assertTrue(updateConsumesInfo.contains("application/json"), "contains 'application/json'");
-        Set<String> updateProducesInfo = DefaultCodegen.getProducesInfo(openAPI, updateOperationWithRef);
+        Set<String> updateProducesInfo = codegen.getProducesInfo(updateOperationWithRef);
         Assert.assertEquals(updateProducesInfo.size(), 1);
         Assert.assertTrue(updateProducesInfo.contains("application/xml"), "contains 'application/xml'");
 
@@ -218,7 +218,7 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
-        Schema requestBodySchema = ModelUtils.getSchemaFromRequestBody(openAPI.getPaths().get("/fake").getGet().getRequestBody());
+        Schema requestBodySchema = codegen.getModelUtils().getSchemaFromRequestBody(openAPI.getPaths().get("/fake").getGet().getRequestBody());
         CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<String>());
 
         Assert.assertEquals(codegenParameter.defaultValue, "-efg");
@@ -229,13 +229,14 @@ public class DefaultCodegenTest {
         // Test with OAS 2.0 document.
         String location = "src/test/resources/2_0/python-client-experimental/petstore-with-fake-endpoints-models-for-testing.yaml";
         OpenAPI openAPI = TestUtils.parseFlattenSpec(location);
-        SemVer version = ModelUtils.getOpenApiVersion(openAPI, location, null);
+        ModelUtils modelUtils = new ModelUtils(openAPI);
+        SemVer version = modelUtils.getOpenApiVersion(location, null);
         Assert.assertEquals(version, new SemVer("2.0.0"));
 
         // Test with OAS 3.0 document.
         location = "src/test/resources/3_0/python/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml";
         openAPI = TestUtils.parseFlattenSpec(location);
-        version = ModelUtils.getOpenApiVersion(openAPI, location, null);
+        version = modelUtils.getOpenApiVersion(location, null);
         Assert.assertEquals(version, new SemVer("3.0.0"));
     }
 
@@ -245,11 +246,12 @@ public class DefaultCodegenTest {
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
         codegen.setDisallowAdditionalPropertiesIfNotPresent(true);
+        ModelUtils modelUtils = new ModelUtils(openAPI);
 
         Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
         Assert.assertEquals(schema.getAdditionalProperties(), null);
 
-        Schema addProps = ModelUtils.getAdditionalProperties(openAPI, schema);
+        Schema addProps = modelUtils.getAdditionalProperties(schema);
         // The petstore-with-fake-endpoints-models-for-testing.yaml does not set the
         // 'additionalProperties' keyword for this model, hence assert the value to be null.
         Assert.assertNull(addProps);
@@ -275,7 +277,7 @@ public class DefaultCodegenTest {
         // We cannot differentiate between 'additionalProperties' not present and
         // additionalProperties: true.
         Assert.assertNull(child.getAdditionalProperties());
-        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        addProps = modelUtils.getAdditionalProperties(child);
         Assert.assertNull(addProps);
 
         child = m.get("map_without_additional_properties");
@@ -286,7 +288,7 @@ public class DefaultCodegenTest {
         // We cannot differentiate between 'additionalProperties' not present and
         // additionalProperties: false.
         Assert.assertNull(child.getAdditionalProperties());
-        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        addProps = modelUtils.getAdditionalProperties(child);
         Assert.assertNull(addProps);
     }
 
@@ -296,13 +298,14 @@ public class DefaultCodegenTest {
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
         codegen.setOpenAPI(openAPI);
+        ModelUtils modelUtils = new ModelUtils(openAPI);
 
         Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
         Assert.assertNull(schema.getAdditionalProperties());
 
         // When the 'additionalProperties' keyword is not present, the schema may be
         // extended with any undeclared properties.
-        Schema addProps = ModelUtils.getAdditionalProperties(openAPI, schema);
+        Schema addProps = modelUtils.getAdditionalProperties(schema);
         Assert.assertNotNull(addProps);
         Assert.assertTrue(addProps instanceof ObjectSchema);
         CodegenModel cm = codegen.fromModel("AdditionalPropertiesClass", schema);
@@ -320,7 +323,7 @@ public class DefaultCodegenTest {
         // which means by default undeclared properties are allowed.
         Assert.assertNotNull(child);
         Assert.assertNull(child.getAdditionalProperties());
-        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        addProps = modelUtils.getAdditionalProperties(child);
         Assert.assertNotNull(addProps);
         Assert.assertTrue(addProps instanceof ObjectSchema);
 
@@ -329,7 +332,7 @@ public class DefaultCodegenTest {
         // which means by default undeclared properties are allowed.
         Assert.assertNotNull(child);
         Assert.assertNull(child.getAdditionalProperties());
-        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        addProps = modelUtils.getAdditionalProperties(child);
         Assert.assertNotNull(addProps);
         Assert.assertTrue(addProps instanceof ObjectSchema);
 
@@ -341,7 +344,7 @@ public class DefaultCodegenTest {
         // additionalProperties: true.
         Assert.assertNotNull(child.getAdditionalProperties());
         Assert.assertEquals(child.getAdditionalProperties(), Boolean.TRUE);
-        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        addProps = modelUtils.getAdditionalProperties(child);
         Assert.assertNotNull(addProps);
         Assert.assertTrue(addProps instanceof ObjectSchema);
 
@@ -353,7 +356,7 @@ public class DefaultCodegenTest {
         // additionalProperties: false.
         Assert.assertNotNull(child.getAdditionalProperties());
         Assert.assertEquals(child.getAdditionalProperties(), Boolean.FALSE);
-        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        addProps = modelUtils.getAdditionalProperties(child);
         Assert.assertNull(addProps);
     }
 
@@ -371,7 +374,7 @@ public class DefaultCodegenTest {
         // extended with any undeclared properties.
         // However, in legacy 'additionalProperties' mode, this is interpreted as
         // 'no additional properties are allowed'.
-        Schema addProps = ModelUtils.getAdditionalProperties(openAPI, schema);
+        Schema addProps = codegen.getModelUtils().getAdditionalProperties(schema);
         Assert.assertNull(addProps);
     }
 
@@ -430,7 +433,7 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
 
         Operation operation = openAPI.getPaths().get("/state").getPost();
-        Schema schema = ModelUtils.getSchemaFromRequestBody(operation.getRequestBody());
+        Schema schema = codegen.getModelUtils().getSchemaFromRequestBody(operation.getRequestBody());
         String type = codegen.getSchemaType(schema);
 
         Assert.assertNotNull(type);
@@ -1347,7 +1350,7 @@ public class DefaultCodegenTest {
         // for us to check a model's children we need to run generator.generateModels
         // because children are assigned in config.updateAllModels which is invoked in generator.generateModels
         List<File> files = new ArrayList<>();
-        List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        List<String> filteredSchemas = generator.getModelUtils().getSchemasUsedOnlyInFormParam();
         List<Object> allModels = new ArrayList<>();
         generator.generateModels(files, allModels, filteredSchemas);
 
@@ -2401,7 +2404,7 @@ public class DefaultCodegenTest {
         CodegenProperty mapWithAddPropsSchema;
 
         // make sure isGenerateAliasAsModel is false
-        boolean isGenerateAliasAsModel = ModelUtils.isGenerateAliasAsModel();
+        boolean isGenerateAliasAsModel = codegen.getModelUtils().isGenerateAliasAsModel();
         if (isGenerateAliasAsModel) {
             GlobalSettings.setProperty("generateAliasAsModel", "false");
         }
@@ -2454,7 +2457,7 @@ public class DefaultCodegenTest {
         CodegenParameter mapWithAddPropsSchema;
 
         // make sure isGenerateAliasAsModel is false
-        boolean isGenerateAliasAsModel = ModelUtils.isGenerateAliasAsModel();
+        boolean isGenerateAliasAsModel = codegen.getModelUtils().isGenerateAliasAsModel();
         if (isGenerateAliasAsModel) {
             GlobalSettings.setProperty("generateAliasAsModel", "false");
         }
@@ -2507,7 +2510,7 @@ public class DefaultCodegenTest {
         CodegenResponse mapWithAddPropsSchema;
 
         // make sure isGenerateAliasAsModel is false
-        boolean isGenerateAliasAsModel = ModelUtils.isGenerateAliasAsModel();
+        boolean isGenerateAliasAsModel = codegen.getModelUtils().isGenerateAliasAsModel();
         if (isGenerateAliasAsModel) {
             GlobalSettings.setProperty("generateAliasAsModel", "false");
         }

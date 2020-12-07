@@ -221,24 +221,24 @@ public class ApexClientCodegen extends AbstractApexCodegen {
     @Override
     public String toDefaultValue(Schema p) {
         String out = null;
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             Schema inner = ((ArraySchema) p).getItems();
             out = String.format(
                     Locale.ROOT,
                     "new List<%s>()",
                     inner == null ? "Object" : getTypeDeclaration(inner)
             );
-        } else if (ModelUtils.isBooleanSchema(p)) {
+        } else if (modelUtils.isBooleanSchema(p)) {
             // true => "true", false => "false", null => "null"
             out = String.valueOf(p.getDefault());
-        } else if (ModelUtils.isLongSchema(p)) {
+        } else if (modelUtils.isLongSchema(p)) {
             Long def = (Long) p.getDefault();
             out = def == null ? out : def.toString() + "L";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             String s = inner == null ? "Object" : getTypeDeclaration(inner);
             out = String.format(Locale.ROOT, "new Map<String, %s>()", s);
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 String def = p.getDefault().toString();
                 if (def != null) {

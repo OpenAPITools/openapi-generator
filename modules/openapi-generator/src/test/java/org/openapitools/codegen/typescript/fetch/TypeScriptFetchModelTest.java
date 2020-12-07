@@ -42,7 +42,7 @@ import java.util.Locale;
 /*
 import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
-import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
+import static io.swagger.codegen.utils.modelUtils.updateCodegenPropertyEnum;
 */
 
 @SuppressWarnings("static-method")

@@ -412,14 +412,14 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toDefaultValue(Schema schema) {
-        if (ModelUtils.isMapSchema(schema)) {
+        if (modelUtils.isMapSchema(schema)) {
             return "const {}";
-        } else if (ModelUtils.isArraySchema(schema)) {
+        } else if (modelUtils.isArraySchema(schema)) {
             return "const []";
         }
 
         if (schema.getDefault() != null) {
-            if (ModelUtils.isStringSchema(schema)) {
+            if (modelUtils.isStringSchema(schema)) {
                 return "'" + schema.getDefault().toString().replaceAll("'", "\\'") + "'";
             }
             return schema.getDefault().toString();
@@ -430,11 +430,11 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
 
             return getSchemaType(p) + "<String, " + getTypeDeclaration(inner) + ">";

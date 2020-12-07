@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.examples;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -46,11 +47,13 @@ public class ExampleGenerator {
 
     protected Map<String, Schema> examples;
     private OpenAPI openAPI;
+    private ModelUtils modelUtils;
     private Random random;
 
     public ExampleGenerator(Map<String, Schema> examples, OpenAPI openAPI) {
         this.examples = examples;
         this.openAPI = openAPI;
+        this.modelUtils = new ModelUtils(openAPI);
         // use a fixed seed to make the "random" numbers reproducible.
         this.random = new Random("ExampleGenerator".hashCode());
     }
@@ -69,7 +72,7 @@ public class ExampleGenerator {
     }
 
     private List<Map<String, String>> generateFromResponseSchema(Schema responseSchema, Set<String> producesInfo) {
-        if (responseSchema.getExample() == null && StringUtils.isEmpty(responseSchema.get$ref()) && !ModelUtils.isArraySchema(responseSchema)) {
+        if (responseSchema.getExample() == null && StringUtils.isEmpty(responseSchema.get$ref()) && !modelUtils.isArraySchema(responseSchema)) {
             // no example provided
             return null;
         }
@@ -78,14 +81,14 @@ public class ExampleGenerator {
             return generate(responseSchema.getExample(), new ArrayList<>(producesInfo));
         }
 
-        if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
+        if (modelUtils.isArraySchema(responseSchema)) { // array of schema
             ArraySchema as = (ArraySchema) responseSchema;
             if (as.getItems() != null && StringUtils.isEmpty(as.getItems().get$ref())) { // arary of primtive types
                 return generate((Map<String, Object>) responseSchema.getExample(),
                         new ArrayList<String>(producesInfo), as.getItems());
             } else if (as.getItems() != null && !StringUtils.isEmpty(as.getItems().get$ref())) { // array of model
                 return generate((Map<String, Object>) responseSchema.getExample(),
-                        new ArrayList<String>(producesInfo), ModelUtils.getSimpleRef(as.getItems().get$ref()));
+                        new ArrayList<String>(producesInfo), modelUtils.getSimpleRef(as.getItems().get$ref()));
             } else {
                 // TODO log warning message as such case is not handled at the moment
                 return null;
@@ -95,7 +98,7 @@ public class ExampleGenerator {
                     new ArrayList<String>(producesInfo), responseSchema);
         } else { // model
             return generate((Map<String, Object>) responseSchema.getExample(),
-                    new ArrayList<String>(producesInfo), ModelUtils.getSimpleRef(responseSchema.get$ref()));
+                    new ArrayList<String>(producesInfo), modelUtils.getSimpleRef(responseSchema.get$ref()));
         }
     }
 
@@ -118,7 +121,7 @@ public class ExampleGenerator {
                         output.add(kv);
                     }
                 } else if (property != null && mediaType.startsWith(MIME_TYPE_XML)) {
-                    String example = new XmlExampleGenerator(this.examples).toXml(property);
+                    String example = new XmlExampleGenerator(this.examples, openAPI).toXml(property);
                     if (example != null) {
                         kv.put(EXAMPLE, example);
                         output.add(kv);
@@ -165,7 +168,7 @@ public class ExampleGenerator {
                     }
                 } else if (modelName != null && mediaType.startsWith(MIME_TYPE_XML)) {
                     final Schema schema = this.examples.get(modelName);
-                    String example = new XmlExampleGenerator(this.examples).toXml(schema, 0, Collections.<String>emptySet());
+                    String example = new XmlExampleGenerator(this.examples, openAPI).toXml(schema, 0, Collections.<String>emptySet());
                     if (example != null) {
                         kv.put(EXAMPLE, example);
                         output.add(kv);
@@ -222,13 +225,13 @@ public class ExampleGenerator {
         if (property.getExample() != null) {
             LOGGER.debug("Example set in openapi spec, returning example: '{}'", property.getExample().toString());
             return property.getExample();
-        } else if (ModelUtils.isBooleanSchema(property)) {
+        } else if (modelUtils.isBooleanSchema(property)) {
             Object defaultValue = property.getDefault();
             if (defaultValue != null) {
                 return defaultValue;
             }
             return Boolean.TRUE;
-        } else if (ModelUtils.isArraySchema(property)) {
+        } else if (modelUtils.isArraySchema(property)) {
             Schema innerType = ((ArraySchema) property).getItems();
             if (innerType != null) {
                 int arrayLength = null == ((ArraySchema) property).getMaxItems() ? 2 : ((ArraySchema) property).getMaxItems();
@@ -241,45 +244,45 @@ public class ExampleGenerator {
                 }
                 return objectProperties;
             }
-        } else if (ModelUtils.isDateSchema(property)) {
+        } else if (modelUtils.isDateSchema(property)) {
             return "2000-01-23";
-        } else if (ModelUtils.isDateTimeSchema(property)) {
+        } else if (modelUtils.isDateTimeSchema(property)) {
             return "2000-01-23T04:56:07.000+00:00";
-        } else if (ModelUtils.isNumberSchema(property)) {
+        } else if (modelUtils.isNumberSchema(property)) {
             Double min = getPropertyValue(property.getMinimum());
             Double max = getPropertyValue(property.getMaximum());
-            if (ModelUtils.isFloatSchema(property)) { // float
+            if (modelUtils.isFloatSchema(property)) { // float
                 return (float) randomNumber(min, max);
-            } else if (ModelUtils.isDoubleSchema(property)) { // decimal/double
+            } else if (modelUtils.isDoubleSchema(property)) { // decimal/double
                 return BigDecimal.valueOf(randomNumber(min, max));
             } else { // no format defined
                 return randomNumber(min, max);
             }
-        } else if (ModelUtils.isFileSchema(property)) {
+        } else if (modelUtils.isFileSchema(property)) {
             return "";  // TODO
 
-        } else if (ModelUtils.isIntegerSchema(property)) {
+        } else if (modelUtils.isIntegerSchema(property)) {
             Double min = getPropertyValue(property.getMinimum());
             Double max = getPropertyValue(property.getMaximum());
-            if (ModelUtils.isLongSchema(property)) {
+            if (modelUtils.isLongSchema(property)) {
                 return (long) randomNumber(min, max);
             }
             return (int) randomNumber(min, max);
-        } else if (ModelUtils.isMapSchema(property)) {
+        } else if (modelUtils.isMapSchema(property)) {
             Map<String, Object> mp = new HashMap<String, Object>();
             if (property.getName() != null) {
                 mp.put(property.getName(),
-                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(openAPI, property), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, modelUtils.getAdditionalProperties(property), processedModels));
             } else {
                 mp.put("key",
-                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(openAPI, property), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, modelUtils.getAdditionalProperties(property), processedModels));
             }
             return mp;
-        } else if (ModelUtils.isUUIDSchema(property)) {
+        } else if (modelUtils.isUUIDSchema(property)) {
             return "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
-        } else if (ModelUtils.isURISchema(property)) {
+        } else if (modelUtils.isURISchema(property)) {
             return "https://openapi-generator.tech";
-        } else if (ModelUtils.isStringSchema(property)) {
+        } else if (modelUtils.isStringSchema(property)) {
             LOGGER.debug("String property");
             String defaultValue = (String) property.getDefault();
             if (defaultValue != null && !defaultValue.isEmpty()) {
@@ -299,14 +302,14 @@ public class ExampleGenerator {
             LOGGER.debug("No values found, using property name " + propertyName + " as example");
             return propertyName;
         } else if (!StringUtils.isEmpty(property.get$ref())) { // model
-            String simpleName = ModelUtils.getSimpleRef(property.get$ref());
-            Schema schema = ModelUtils.getSchema(openAPI, simpleName);
+            String simpleName = modelUtils.getSimpleRef(property.get$ref());
+            Schema schema = modelUtils.getSchema(simpleName);
             if (schema == null) { // couldn't find the model/schema
                 return "{}";
             }
             return resolveModelToExample(simpleName, mediaType, schema, processedModels);
 
-        } else if (ModelUtils.isObjectSchema(property)) {
+        } else if (modelUtils.isObjectSchema(property)) {
             return "{}";
         }
 

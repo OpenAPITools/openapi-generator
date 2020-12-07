@@ -76,6 +76,7 @@ public class TypeScriptFetchClientCodegenTest {
         Schema<?> childSchema = new ArraySchema().items(new StringSchema());
 
         OpenAPI api = TestUtils.createOpenAPI();
+        ModelUtils modelUtils = new ModelUtils(api);
         api.getComponents().addSchemas("Child", childSchema);
 
         TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
@@ -86,19 +87,19 @@ public class TypeScriptFetchClientCodegenTest {
             new Schema().$ref("#/components/schemas/Child")
         );
 
-        ModelUtils.setGenerateAliasAsModel(false);
+        modelUtils.setGenerateAliasAsModel(false);
         Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "Array<Array<string>>");
 
-        ModelUtils.setGenerateAliasAsModel(true);
+        modelUtils.setGenerateAliasAsModel(true);
         Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "Array<Child>");
 
         // Same for Map
         parentSchema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/Child"));
 
-        ModelUtils.setGenerateAliasAsModel(false);
+        modelUtils.setGenerateAliasAsModel(false);
         Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Array<string>; }");
 
-        ModelUtils.setGenerateAliasAsModel(true);
+        modelUtils.setGenerateAliasAsModel(true);
         Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Child; }");
     }
 

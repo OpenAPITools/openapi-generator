@@ -469,11 +469,11 @@ public class PythonLegacyClientCodegen extends DefaultCodegen implements Codegen
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
 
             return getSchemaType(p) + "(str, " + getTypeDeclaration(inner) + ")";
@@ -673,33 +673,33 @@ public class PythonLegacyClientCodegen extends DefaultCodegen implements Codegen
      */
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
+        if (modelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 if (Boolean.valueOf(p.getDefault().toString()) == false)
                     return "False";
                 else
                     return "True";
             }
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (modelUtils.isDateSchema(p)) {
             // TODO
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (modelUtils.isDateTimeSchema(p)) {
             // TODO
-        } else if (ModelUtils.isNumberSchema(p)) {
+        } else if (modelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (modelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (modelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
                     return "'''" + p.getDefault() + "'''";
                 else
                     return "'" + ((String) p.getDefault()).replaceAll("'", "\'") + "'";
             }
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (modelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
@@ -726,24 +726,24 @@ public class PythonLegacyClientCodegen extends DefaultCodegen implements Codegen
             example = schema.getExample().toString();
         }
 
-        if (ModelUtils.isNullType(schema) && null != example) {
+        if (modelUtils.isNullType(schema) && null != example) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
             return "None";
         }
         // correct "true"s into "True"s, since super.toExampleValue uses "toString()" on Java booleans
-        if (ModelUtils.isBooleanSchema(schema) && null!=example) {
+        if (modelUtils.isBooleanSchema(schema) && null!=example) {
             if ("false".equalsIgnoreCase(example)) example = "False";
             else example = "True";
         }
 
         // correct "&#39;"s into "'"s after toString()
-        if (ModelUtils.isStringSchema(schema) && schema.getDefault() != null && !ModelUtils.isDateSchema(schema) && !ModelUtils.isDateTimeSchema(schema)) {
+        if (modelUtils.isStringSchema(schema) && schema.getDefault() != null && !modelUtils.isDateSchema(schema) && !modelUtils.isDateTimeSchema(schema)) {
             example = (String) schema.getDefault();
         }
 
         if (StringUtils.isNotBlank(example) && !"null".equals(example)) {
-            if (ModelUtils.isStringSchema(schema)) {
+            if (modelUtils.isStringSchema(schema)) {
                 example = "'" + example + "'";
             }
             return example;
@@ -752,7 +752,7 @@ public class PythonLegacyClientCodegen extends DefaultCodegen implements Codegen
         if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
         // Enum case:
             example = schema.getEnum().get(0).toString();
-            if (ModelUtils.isStringSchema(schema)) {
+            if (modelUtils.isStringSchema(schema)) {
                 example = "'" + escapeText(example) + "'";
             }
             if (null == example)
@@ -761,8 +761,8 @@ public class PythonLegacyClientCodegen extends DefaultCodegen implements Codegen
             return example;
         } else if (null != schema.get$ref()) {
         // $ref case:
-            Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
-            String ref = ModelUtils.getSimpleRef(schema.get$ref());
+            Map<String, Schema> allDefinitions = modelUtils.getSchemas();
+            String ref = modelUtils.getSimpleRef(schema.get$ref());
             if (allDefinitions != null) {
                 Schema refSchema = allDefinitions.get(ref);
                 if (null == refSchema) {
@@ -781,18 +781,18 @@ public class PythonLegacyClientCodegen extends DefaultCodegen implements Codegen
                 LOGGER.warn("allDefinitions not defined in toExampleValue!\n");
             }
         }
-        if (ModelUtils.isDateSchema(schema)) {
+        if (modelUtils.isDateSchema(schema)) {
             example = "datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date()";
             return example;
-        } else if (ModelUtils.isDateTimeSchema(schema)) {
+        } else if (modelUtils.isDateTimeSchema(schema)) {
             example = "datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')";
             return example;
-        } else if (ModelUtils.isBinarySchema(schema)) {
+        } else if (modelUtils.isBinarySchema(schema)) {
             example = "bytes(b'blah')";
             return example;
-        } else if (ModelUtils.isByteArraySchema(schema)) {
+        } else if (modelUtils.isByteArraySchema(schema)) {
             example = "YQ==";
-        } else if (ModelUtils.isStringSchema(schema)) {
+        } else if (modelUtils.isStringSchema(schema)) {
             // a BigDecimal:
             if ("Number".equalsIgnoreCase(schema.getFormat())) {return "1";}
             if (StringUtils.isNotBlank(schema.getPattern())) {
@@ -822,25 +822,25 @@ public class PythonLegacyClientCodegen extends DefaultCodegen implements Codegen
                     for (int i=0;i<len;i++) example += i;
                 }
             }
-        } else if (ModelUtils.isIntegerSchema(schema)) {
+        } else if (modelUtils.isIntegerSchema(schema)) {
             if (schema.getMinimum() != null)
                 example = schema.getMinimum().toString();
             else
                 example = "56";
-        } else if (ModelUtils.isNumberSchema(schema)) {
+        } else if (modelUtils.isNumberSchema(schema)) {
             if (schema.getMinimum() != null)
                 example = schema.getMinimum().toString();
             else
                 example = "1.337";
-        } else if (ModelUtils.isBooleanSchema(schema)) {
+        } else if (modelUtils.isBooleanSchema(schema)) {
             example = "True";
-        } else if (ModelUtils.isArraySchema(schema)) {
+        } else if (modelUtils.isArraySchema(schema)) {
             if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
                 included_schemas.add(schema.getTitle());
             }
             ArraySchema arrayschema = (ArraySchema) schema;
             example = "[\n" + indentation_string + toExampleValueRecursive(arrayschema.getItems(), included_schemas, indentation+1) + "\n" + indentation_string + "]";
-        } else if (ModelUtils.isMapSchema(schema)) {
+        } else if (modelUtils.isMapSchema(schema)) {
             if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
                 included_schemas.add(schema.getTitle());
             }
@@ -850,7 +850,7 @@ public class PythonLegacyClientCodegen extends DefaultCodegen implements Codegen
                 String the_key = "'key'";
                 if (additional.getEnum() != null && !additional.getEnum().isEmpty()) {
                     the_key = additional.getEnum().get(0).toString();
-                    if (ModelUtils.isStringSchema(additional)) {
+                    if (modelUtils.isStringSchema(additional)) {
                         the_key = "'" + escapeText(the_key) + "'";
                     }
                 }
@@ -858,7 +858,7 @@ public class PythonLegacyClientCodegen extends DefaultCodegen implements Codegen
             } else {
                 example = "{ }";
             }
-        } else if (ModelUtils.isObjectSchema(schema)) {
+        } else if (modelUtils.isObjectSchema(schema)) {
             if (StringUtils.isBlank(schema.getTitle())) {
                 example = "None";
                 return example;
@@ -916,7 +916,7 @@ public class PythonLegacyClientCodegen extends DefaultCodegen implements Codegen
             LOGGER.warn("Type " + schema.getType() + " not handled properly in toExampleValue");
         }
 
-        if (ModelUtils.isStringSchema(schema)) {
+        if (modelUtils.isStringSchema(schema)) {
             example = "'" + escapeText(example) + "'";
         }
 

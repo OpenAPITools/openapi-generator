@@ -906,11 +906,11 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (modelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner) + "[]";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (modelUtils.isMapSchema(p)) {
             return "System.Collections.Hashtable";
         } else if (!languageSpecificPrimitives.contains(getSchemaType(p))) {
             return super.getTypeDeclaration(p);
@@ -1272,21 +1272,21 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String toDefaultValue(Schema p) {
         if (p.getDefault() != null) {
-            if (ModelUtils.isBooleanSchema(p)) {
+            if (modelUtils.isBooleanSchema(p)) {
                 if (Boolean.valueOf(p.getDefault().toString())) {
                     return "$true";
                 } else {
                     return "$false";
                 }
-            } else if (ModelUtils.isDateSchema(p)) {
+            } else if (modelUtils.isDateSchema(p)) {
                 LOGGER.warn("Default value for `date` not yet supported. Please open an issue with https://github.com/openapitools/openapi-generator");
-            } else if (ModelUtils.isDateTimeSchema(p)) {
+            } else if (modelUtils.isDateTimeSchema(p)) {
                 LOGGER.warn("Default value for `datetime` not yet supported. Please open an issue with https://github.com/openapitools/openapi-generator");
-            } else if (ModelUtils.isNumberSchema(p)) {
+            } else if (modelUtils.isNumberSchema(p)) {
                 return p.getDefault().toString();
-            } else if (ModelUtils.isIntegerSchema(p)) {
+            } else if (modelUtils.isIntegerSchema(p)) {
                 return p.getDefault().toString();
-            } else if (ModelUtils.isStringSchema(p)) {
+            } else if (modelUtils.isStringSchema(p)) {
                 return "\"" + p.getDefault() + "\"";
             }
         }

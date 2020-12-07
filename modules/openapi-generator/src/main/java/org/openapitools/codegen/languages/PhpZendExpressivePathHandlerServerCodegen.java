@@ -226,7 +226,7 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
         if (parameter instanceof QueryParameter) {
             QueryParameter queryParameter = (QueryParameter) parameter;
             // array
-            if (ModelUtils.isArraySchema(queryParameter.getSchema())) {
+            if (modelUtils.isArraySchema(queryParameter.getSchema())) {
                 Schema inner = ((ArraySchema) queryParameter.getSchema()).getItems();
                 ArraySchema arraySchema = new ArraySchema();
                 arraySchema.setMinItems(queryParameter.getSchema().getMinItems());
