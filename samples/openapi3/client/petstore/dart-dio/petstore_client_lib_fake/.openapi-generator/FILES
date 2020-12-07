@@ -119,4 +119,3 @@ lib/model/tag.dart
 lib/model/user.dart
 lib/serializers.dart
 pubspec.yaml
-test/model_enum_class_test.dart

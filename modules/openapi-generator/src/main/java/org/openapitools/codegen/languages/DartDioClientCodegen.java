@@ -31,12 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import io.swagger.v3.oas.models.media.Schema;
 
@@ -268,7 +263,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
             for (String modelImport : cm.imports) {
                 if (importMapping().containsKey(modelImport)) {
                     final String value = importMapping().get(modelImport);
-                    if (value != null && !"dart:core".equals(value)) {
+                    if (!Objects.equals(value, "dart:core")) {
                         modelImports.add(value);
                     }
                 } else {
@@ -361,7 +356,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
             for (String item : op.imports) {
                 if (importMapping().containsKey(item)) {
                     final String value = importMapping().get(item);
-                    if (value != null && !"dart:core".equals(value)) {
+                    if (!Objects.equals(value, "dart:core")) {
                         fullImports.add(value);
                     }
                 } else {
