@@ -246,6 +246,9 @@ public class DefaultCodegen implements CodegenConfig {
     // make openapi available to all methods
     protected OpenAPI openAPI;
 
+    // model utils
+    protected ModelUtils modelUtils;
+
     // A cache to efficiently lookup a Schema instance based on the return value of `toModelName()`.
     private Map<String, Schema> modelNameToSchemaCache;
 
@@ -1413,6 +1416,9 @@ public class DefaultCodegen implements CodegenConfig {
      * returns string presentation of the example path (it's a constructor)
      */
     public DefaultCodegen() {
+        modelUtils = new ModelUtils(openAPI);
+
+
         CodegenType codegenType = getTag();
         if (codegenType == null) {
             codegenType = CodegenType.OTHER;
