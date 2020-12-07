@@ -238,13 +238,13 @@ class ApiClient(object):
     def parameters_to_multipart(self, params, collection_types):
         """Get parameters as list of tuples, formatting as json if value is collection_types
 
-        :param params: Parameters as dict or list of two-tuples
+        :param params: Parameters as list of two-tuples
         :param dict collection_types: Parameter collection types
         :return: Parameters as list of tuple or urllib3.fields.RequestField
         """
         new_params = []
         if collection_types is None:
-            collection_types = (dict,list)
+            collection_types = (dict)
         for k, v in params.items() if isinstance(params, dict) else params:  # noqa: E501
             if isinstance(v, collection_types): # v is instance of collection_type, formatting as application/json
                  v = json.dumps(v, ensure_ascii=False).encode("utf-8")
