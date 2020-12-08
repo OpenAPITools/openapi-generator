@@ -18,7 +18,6 @@ doc/DefaultApi.md
 doc/Dog.md
 doc/DogAllOf.md
 doc/EnumArrays.md
-doc/EnumClass.md
 doc/EnumTest.md
 doc/FakeApi.md
 doc/FakeClassnameTags123Api.md
@@ -35,10 +34,10 @@ doc/InlineObject3.md
 doc/InlineObject4.md
 doc/InlineObject5.md
 doc/InlineResponseDefault.md
-doc/List.md
 doc/MapTest.md
 doc/MixedPropertiesAndAdditionalPropertiesClass.md
 doc/Model200Response.md
+doc/ModelEnumClass.md
 doc/ModelReturn.md
 doc/Name.md
 doc/NullableClass.md
@@ -85,7 +84,6 @@ lib/model/client.dart
 lib/model/dog.dart
 lib/model/dog_all_of.dart
 lib/model/enum_arrays.dart
-lib/model/enum_class.dart
 lib/model/enum_test.dart
 lib/model/file.dart
 lib/model/file_schema_test_class.dart
@@ -100,10 +98,10 @@ lib/model/inline_object3.dart
 lib/model/inline_object4.dart
 lib/model/inline_object5.dart
 lib/model/inline_response_default.dart
-lib/model/list.dart
 lib/model/map_test.dart
 lib/model/mixed_properties_and_additional_properties_class.dart
 lib/model/model200_response.dart
+lib/model/model_enum_class.dart
 lib/model/model_return.dart
 lib/model/name.dart
 lib/model/nullable_class.dart

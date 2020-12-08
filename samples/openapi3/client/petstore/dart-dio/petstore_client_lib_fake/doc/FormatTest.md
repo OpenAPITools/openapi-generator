@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **number** | **num** |  | [default to null]
 **float** | **double** |  | [optional] [default to null]
 **double** | **double** |  | [optional] [default to null]
-**decimal** | [**Decimal**](Decimal.md) |  | [optional] [default to null]
+**decimal** | **double** |  | [optional] [default to null]
 **string** | **String** |  | [optional] [default to null]
 **byte** | **String** |  | [default to null]
 **binary** | [**Uint8List**](Uint8List.md) |  | [optional] [default to null]

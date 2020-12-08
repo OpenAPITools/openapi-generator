@@ -35,7 +35,6 @@ doc/InlineObject3.md
 doc/InlineObject4.md
 doc/InlineObject5.md
 doc/InlineResponseDefault.md
-doc/List.md
 doc/MapTest.md
 doc/MixedPropertiesAndAdditionalPropertiesClass.md
 doc/Model200Response.md
@@ -104,7 +103,6 @@ lib/model/inline_object3.dart
 lib/model/inline_object4.dart
 lib/model/inline_object5.dart
 lib/model/inline_response_default.dart
-lib/model/list.dart
 lib/model/map_test.dart
 lib/model/mixed_properties_and_additional_properties_class.dart
 lib/model/model200_response.dart

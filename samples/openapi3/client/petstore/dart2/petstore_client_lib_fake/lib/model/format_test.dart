@@ -59,7 +59,7 @@ class FormatTest {
   double double;
 
   
-  Decimal decimal;
+  double decimal;
 
   
   String string;
@@ -195,7 +195,7 @@ class FormatTest {
           json['number'].toDouble(),
         float: json['float'],
         double: json['double'],
-        decimal: Decimal.fromJson(json['decimal']),
+        decimal: json['decimal'],
         string: json['string'],
         byte: json['byte'],
         binary: null, // No support for decoding binary content from JSON

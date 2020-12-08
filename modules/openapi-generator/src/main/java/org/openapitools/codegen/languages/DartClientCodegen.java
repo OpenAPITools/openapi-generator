@@ -36,7 +36,6 @@ import com.google.common.collect.Sets;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
@@ -56,7 +55,7 @@ import org.slf4j.LoggerFactory;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 
-public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
+public class DartClientCodegen extends DefaultCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
 
     public static final String PUB_LIBRARY = "pubLibrary";
@@ -161,8 +160,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("number", "num");
         typeMapping.put("float", "double");
         typeMapping.put("double", "double");
-        typeMapping.put("object", "Object");
-        typeMapping.put("AnyType", "Object");
+        typeMapping.put("decimal", "double");
         typeMapping.put("integer", "int");
         typeMapping.put("Date", "DateTime");
         typeMapping.put("date", "DateTime");
@@ -171,6 +169,24 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("UUID", "String");
         typeMapping.put("URI", "String");
         typeMapping.put("ByteArray", "String");
+        typeMapping.put("object", "Object");
+        typeMapping.put("AnyType", "Object");
+
+        // These are needed as they prevent models from being generated
+        // which would clash with existing types, e.g. List
+        // Importing dart:core doesn't hurt but a subclass may choose to skip
+        // dart:core imports.
+        importMapping.put("dynamic", "dart:core");
+        importMapping.put("Object", "dart:core");
+        importMapping.put("String", "dart:core");
+        importMapping.put("bool", "dart:core");
+        importMapping.put("num", "dart:core");
+        importMapping.put("int", "dart:core");
+        importMapping.put("double", "dart:core");
+        importMapping.put("List", "dart:core");
+        importMapping.put("Map", "dart:core");
+        importMapping.put("Set", "dart:core");
+        importMapping.put("DateTime", "dart:core");
 
         cliOptions.add(new CliOption(PUB_LIBRARY, "Library name in generated code"));
         cliOptions.add(new CliOption(PUB_NAME, "Name in generated pubspec"));
