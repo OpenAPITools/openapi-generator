@@ -283,7 +283,7 @@ public class DartModelTest {
     }
 
     @DataProvider(name = "modelNames")
-    public static Object[][] primeNumbers() {
+    public static Object[][] modelNames() {
         return new Object[][] {
             {"sample", "Sample"},
             {"sample_name", "SampleName"},
@@ -292,6 +292,7 @@ public class DartModelTest {
             {"\\sample", "\\Sample"},
             {"sample.name", "SampleName"},
             {"_sample", "Sample"},
+            {"sample name", "SampleName"},
         };
     }
 
@@ -328,6 +329,7 @@ public class DartModelTest {
                 {"_$foo", "dollarFoo"},
                 {"_$_foo_", "dollarFoo"},
                 {"$special[property.name]", "dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket"},
+                {"foo bar", "fooBar"},
         };
     }
 

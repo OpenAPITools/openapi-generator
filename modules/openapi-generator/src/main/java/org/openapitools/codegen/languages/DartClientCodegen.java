@@ -365,7 +365,13 @@ public class DartClientCodegen extends DefaultCodegen {
             return name;
         }
 
-        name = replaceSpecialCharsInDartString(name);
+        // replace all characters that have a mapping but ignore underscores
+        // append an underscore to each replacement so that it can be camelized
+        if (name.chars().anyMatch(character -> specialCharReplacements.containsKey("" + ((char) character)))) {
+            name = escape(name, specialCharReplacements, Lists.newArrayList("_"), "_");
+        }
+        // remove the rest
+        name = sanitizeName(name);
 
         // camelize (lower first character) the variable name
         // pet_id => petId
@@ -380,13 +386,6 @@ public class DartClientCodegen extends DefaultCodegen {
         }
 
         return name;
-    }
-
-    protected String replaceSpecialCharsInDartString(String source) {
-        if (source.chars().anyMatch(character -> specialCharReplacements.containsKey("" + ((char) character)))) {
-            return escape(source, specialCharReplacements, Lists.newArrayList("_"), "_");
-        }
-        return source;
     }
 
     @Override
