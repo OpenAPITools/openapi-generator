@@ -5,7 +5,7 @@
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

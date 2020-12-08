@@ -13,7 +13,7 @@
 | **phone** | **String** |  | [optional] |
 | **user_status** | **Integer** | User Status | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

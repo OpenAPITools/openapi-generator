@@ -37,6 +37,8 @@ public class DartModelTest {
                 .addProperties("name", new StringSchema())
                 .addProperties("createdAt", new DateTimeSchema())
                 .addProperties("defaultItem", new IntegerSchema()._default(1))
+                .addProperties("number", new NumberSchema())
+                .addProperties("decimal", new StringSchema().format("number"))
                 .addRequiredItem("id")
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new DartClientCodegen();
@@ -47,9 +49,7 @@ public class DartModelTest {
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
-        Assert.assertEquals(cm.vars.size(), 4);
-        // {{imports}} is not used in template
-        //Assert.assertEquals(cm.imports.size(), 1);
+        Assert.assertEquals(cm.vars.size(), 6);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
@@ -88,6 +88,16 @@ public class DartModelTest {
         Assert.assertEquals(property4.baseType, "int");
         Assert.assertFalse(property4.required);
         Assert.assertFalse(property4.isContainer);
+
+        final CodegenProperty property5 = cm.vars.get(4);
+        Assert.assertEquals(property5.baseName, "number");
+        Assert.assertEquals(property5.dataType, "num");
+        Assert.assertEquals(property5.baseType, "num");
+
+        final CodegenProperty property6 = cm.vars.get(5);
+        Assert.assertEquals(property6.baseName, "decimal");
+        Assert.assertEquals(property6.dataType, "double");
+        Assert.assertEquals(property6.baseType, "double");
     }
 
     @Test(description = "convert a model with list property")
