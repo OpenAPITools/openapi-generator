@@ -591,12 +591,10 @@ public class DartClientCodegen extends DefaultCodegen {
 
     @Override
     public String toOperationId(String operationId) {
-        // throw exception if method name is empty
-        if (StringUtils.isEmpty(operationId)) {
-            throw new RuntimeException("Empty method/operation name (operationId) not allowed");
-        }
+        operationId = super.toOperationId(operationId);
 
         operationId = camelize(sanitizeName(operationId), true);
+
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize("call_" + operationId, true);
