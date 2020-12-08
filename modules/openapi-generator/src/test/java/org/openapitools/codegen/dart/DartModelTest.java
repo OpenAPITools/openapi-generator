@@ -324,8 +324,7 @@ public class DartModelTest {
                 {"_double", "double_"},
                 {"_123hello", "n123hello"},
                 {"_5FOO", "n5fOO"},
-                // TODO this fails
-                // {"_FOO", "FOO"},
+                 {"_FOO", "FOO"},
                 {"_$foo", "dollarFoo"},
                 {"_$_foo_", "dollarFoo"},
                 {"$special[property.name]", "dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket"},

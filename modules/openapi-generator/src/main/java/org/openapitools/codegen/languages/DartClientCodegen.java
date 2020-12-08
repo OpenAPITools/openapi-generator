@@ -355,6 +355,9 @@ public class DartClientCodegen extends DefaultCodegen {
         // replace - with _ e.g. created-at => created_at
         name = name.replace("-", "_");
 
+        // always need to replace leading underscores first
+        name = name.replaceAll("^_", "");
+
         // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
