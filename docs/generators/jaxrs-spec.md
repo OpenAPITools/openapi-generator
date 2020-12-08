@@ -26,7 +26,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |discriminatorCaseSensitive|Whether the discriminator value lookup should be case-sensitive or not. This option only works for Java API client| |true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|
-|generateBuilders|Whether to generate builders for models.| |false|
+|generateBuilders|Whether to generate builders for models. This will not result in valid code if the models use extension/inheritance.| |false|
 |generatePom|Whether to generate pom.xml if the file does not already exist.| |true|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|

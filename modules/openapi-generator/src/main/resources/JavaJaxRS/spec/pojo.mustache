@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   {{#vars}}{{#isEnum}}{{^isContainer}}
 
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
- 
+
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
   private {{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}
 
@@ -34,12 +34,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return this;
   }
 
-  {{#generateBuilders}}public {{classname}}({{#vars}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vars}}) {
-    {{#vars}}
-    this.{{name}} = {{name}};
-    {{/vars}}
-  }{{/generateBuilders}}
-
   {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}{{#useSwaggerAnnotations}}
   @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}
   @JsonProperty("{{baseName}}")
@@ -50,6 +44,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }{{/vars}}
+
+  {{#generateBuilders}}public {{classname}}({{#vars}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vars}}) {
+    {{#vars}}
+    this.{{name}} = {{name}};
+    {{/vars}}
+  }{{/generateBuilders}}
 
   @Override
   public boolean equals(Object o) {
