@@ -26,6 +26,9 @@ import {
     FindPetsByStatusResponse,
     FindPetsByStatusResponseRecord,
     findPetsByStatusResponseRecordUtils,
+    FindPetsByUserResponse,
+    FindPetsByUserResponseRecord,
+    findPetsByUserResponseRecordUtils,
     ModelApiResponse,
     ModelApiResponseRecord,
     modelApiResponseRecordUtils,
@@ -34,11 +37,13 @@ import {
     petRecordUtils,
 } from '../models';
 
-
 import {
     FindPetsByStatusStatusEnum,
 } from './PetApi';
 
+import {
+    UserRecord,
+} from '../models';
 
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_petApi"});
 
@@ -48,6 +53,7 @@ export const petApiSagaMap = new Map<string, () => Generator<any, any, any>>([
     	["findPetsByIds", findPetsByIdsSaga],
     	["findPetsByStatus", findPetsByStatusSaga],
     	["findPetsByTags", findPetsByTagsSaga],
+    	["findPetsByUserIds", findPetsByUserIdsSaga],
     	["getPetById", getPetByIdSaga],
     	["updatePet", updatePetSaga],
     	["updatePetWithForm", updatePetWithFormSaga],
@@ -291,6 +297,57 @@ export function *findPetsByTagsSagaImp(_action_: Action<PayloadFindPetsByTags>) 
         return successReturnValue;
 	} catch (error) {
 		yield put(findPetsByTagsFailure(error));
+		return error;
+	}
+}
+//endregion
+//region findPetsByUserIds
+
+export interface PayloadFindPetsByUserIds extends PayloadFindPetsByUserIdsRequest, BasePayloadApiAction {
+}
+
+export interface PayloadFindPetsByUserIdsRequest {
+    ids: List<string>;
+}
+
+export const findPetsByUserIdsRequest = createSagaAction<PayloadFindPetsByUserIdsRequest>("findPetsByUserIdsRequest");
+export const findPetsByUserIdsSuccess = createSagaAction<List<UserRecord>>("findPetsByUserIdsSuccess");
+export const findPetsByUserIdsSuccess_Entities = createSagaAction<NormalizedRecordEntities>("findPetsByUserIdsSuccess_Entities");
+export const findPetsByUserIdsFailure = createSagaAction<any>("findPetsByUserIdsFailure");
+
+export const findPetsByUserIds = createSagaAction<PayloadFindPetsByUserIds>("findPetsByUserIds");
+
+export function *findPetsByUserIdsSaga() {
+	yield takeLatest(findPetsByUserIds, findPetsByUserIdsSagaImp);
+}
+
+export function *findPetsByUserIdsSagaImp(_action_: Action<PayloadFindPetsByUserIds>) {
+	try {
+		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+        const {
+            ids,
+   		} = _action_.payload;
+
+		yield put(findPetsByUserIdsRequest(requestPayload));
+
+		const response: Required<FindPetsByUserResponse> = yield apiCall(Api.petApi, Api.petApi.findPetsByUserIds,
+            ids.map(p => parseFloat(p)).toArray(),
+		);
+
+		let successReturnValue: any = undefined;
+		if (toEntities) {
+			successReturnValue = findPetsByUserResponseRecordUtils.fromApiPassthroughAsEntities(response);
+			yield put(normalizedEntities(successReturnValue));
+			yield put(findPetsByUserIdsSuccess_Entities(successReturnValue));
+		}
+		if (toInlined) {
+    		successReturnValue = findPetsByUserResponseRecordUtils.fromApiPassthrough(response);
+	    	yield put(findPetsByUserIdsSuccess(successReturnValue));
+		}
+
+		return successReturnValue;
+	} catch (error) {
+		yield put(findPetsByUserIdsFailure(error));
 		return error;
 	}
 }

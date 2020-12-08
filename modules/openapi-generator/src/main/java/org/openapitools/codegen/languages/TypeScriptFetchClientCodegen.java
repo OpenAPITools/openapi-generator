@@ -301,8 +301,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             var.defaultValue = "0";
         } else if (var.dataType.equalsIgnoreCase("boolean")) {
             var.defaultValue = "false";
-        } else if (var.allowableValues != null && var.allowableValues.get("enumVars") instanceof ArrayList && var.allowableValues.get("values") instanceof ArrayList) {
-            var.defaultValue = var.dataTypeAlternate + "." + ((ArrayList)var.allowableValues.get("values")).get(0);
+        } else {
+            if (var.allowableValues != null && var.allowableValues.get("enumVars") instanceof ArrayList && ((ArrayList)var.allowableValues.get("enumVars")).get(0) instanceof HashMap) {
+                var.defaultValue = var.dataTypeAlternate + "." + ((HashMap<String, String>)((ArrayList)var.allowableValues.get("enumVars")).get(0)).get("name");
+            }
         }
     }
 
@@ -430,11 +432,18 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                         op.returnTypeAlternate = cp.dataTypeAlternate;
                         op.returnTypeIsModel = cp.isModel;
                         op.returnTypeIsArray = cp.isArray;
-                        if (cp.isArray && cp.items.isModel) {
-                            op.returnTypeSupportsEntities = true;
-                            op.returnBaseTypeAlternate = cp.items.dataType + "Record";
+                        if (cp.isArray) {
+                            if (cp.items.isModel) {
+                                op.returnTypeSupportsEntities = true;
+                                op.returnBaseTypeAlternate = cp.items.dataType + "Record";
+                            } else if (cp.items.allowableValues != null) {
+                                op.returnBaseTypeAlternate = cp.items.dataType;
+                            }
                         } else if (cp.isModel) {
                             op.returnTypeSupportsEntities = true;
+                            op.returnBaseTypeAlternate = cp.dataTypeAlternate;
+                        } else if (cp.allowableValues != null) {
+                            op.returnBaseTypeAlternate = cp.dataTypeAlternate;
                         }
 
                     }
@@ -628,8 +637,30 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         // The api template uses this infomation to import all the required
         // models for a given operation.
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
+        List<String> existingRecordClassNames = new ArrayList<String>();
+        List<String> existingClassNames = new ArrayList<String>();
         for (Map<String, Object> im : imports) {
-            im.put("className", im.get("import").toString().replace(modelPackage() + ".", ""));
+            String className = im.get("import").toString().replace(modelPackage() + ".", "");
+            existingClassNames.add(className);
+            existingRecordClassNames.add(className + "Record");
+            im.put("className", className);
+        }
+
+        if (this.getSagasAndRecords()) {
+            Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
+            List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");
+            Set<String> additionalPassthroughImports = new TreeSet<String>();
+            for (ExtendedCodegenOperation op : operationList) {
+                if (op.returnPassthrough != null && op.returnBaseTypeAlternate instanceof String) {
+                    if (op.returnTypeSupportsEntities && !existingRecordClassNames.contains(op.returnBaseTypeAlternate)) {
+                        additionalPassthroughImports.add(op.returnBaseTypeAlternate);
+                    } else if (!op.returnTypeSupportsEntities && !existingClassNames.contains(op.returnBaseTypeAlternate)) {
+                        additionalPassthroughImports.add(op.returnBaseTypeAlternate);
+                    }
+                }
+            }
+            operations.put("passthroughImports", additionalPassthroughImports);
+            operations.put("hasPassthroughImports", additionalPassthroughImports.size() > 0);
         }
     }
 

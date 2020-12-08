@@ -17,13 +17,12 @@ import {
     {{/imports}}
 } from '../models';
 {{/imports.0}}
-
 {{#hasEnums}}
-
 {{#operations}}
 {{#operation}}
 {{#allParams}}
 {{#isEnum}}
+
 import {
     {{operationIdCamelCase}}{{enumName}},
 } from './{{classname}}';
@@ -32,7 +31,14 @@ import {
 {{/operation}}
 {{/operations}}
 {{/hasEnums}}
+{{#hasPassthroughImports}}
 
+import {
+{{#passthroughImports}}
+    {{.}},
+{{/passthroughImports}}
+} from '../models';
+{{/hasPassthroughImports}}
 
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}"});
 

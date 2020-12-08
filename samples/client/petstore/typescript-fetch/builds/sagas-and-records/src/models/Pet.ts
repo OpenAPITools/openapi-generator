@@ -26,6 +26,10 @@ import {
     TagFromJSON,
     TagFromJSONTyped,
     TagToJSON,
+    WarningCode,
+    WarningCodeFromJSON,
+    WarningCodeFromJSONTyped,
+    WarningCodeToJSON,
 } from './';
 
 /**
@@ -102,6 +106,12 @@ export interface Pet {
     photoUrls: Array<string>;
     /**
      * 
+     * @type {WarningCode}
+     * @memberof Pet
+     */
+    warningStatus: WarningCode;
+    /**
+     * 
      * @type {DeploymentRequestStatus}
      * @memberof Pet
      */
@@ -169,6 +179,7 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
         'name': json['name'],
         'surname': !exists(json, 'surname') ? undefined : json['surname'],
         'photoUrls': json['photoUrls'],
+        'warningStatus': WarningCodeFromJSON(json['warningStatus']),
         'depStatus': !exists(json, 'depStatus') ? undefined : DeploymentRequestStatusFromJSON(json['depStatus']),
         'alternateStatus': DeploymentRequestStatusFromJSON(json['alternateStatus']),
         'otherDepStatuses': ((json['otherDepStatuses'] as Array<any>).map(DeploymentRequestStatusFromJSON)),
@@ -198,6 +209,7 @@ export function PetToJSON(value?: Pet | null): any {
         'name': value.name,
         'surname': value.surname,
         'photoUrls': value.photoUrls,
+        'warningStatus': WarningCodeToJSON(value.warningStatus),
         'depStatus': DeploymentRequestStatusToJSON(value.depStatus),
         'alternateStatus': DeploymentRequestStatusToJSON(value.alternateStatus),
         'otherDepStatuses': ((value.otherDepStatuses as Array<any>).map(DeploymentRequestStatusToJSON)),

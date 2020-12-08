@@ -28,8 +28,6 @@ import {
     userRecordUtils,
 } from '../models';
 
-
-
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_userApi"});
 
 export const userApiSagaMap = new Map<string, () => Generator<any, any, any>>([

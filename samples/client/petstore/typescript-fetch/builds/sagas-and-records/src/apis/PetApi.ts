@@ -21,6 +21,9 @@ import {
     FindPetsByStatusResponse,
     FindPetsByStatusResponseFromJSON,
     FindPetsByStatusResponseToJSON,
+    FindPetsByUserResponse,
+    FindPetsByUserResponseFromJSON,
+    FindPetsByUserResponseToJSON,
     ModelApiResponse,
     ModelApiResponseFromJSON,
     ModelApiResponseToJSON,
@@ -48,6 +51,10 @@ export interface FindPetsByStatusRequest {
 
 export interface FindPetsByTagsRequest {
     tags: Array<string>;
+}
+
+export interface FindPetsByUserIdsRequest {
+    ids: Array<number>;
 }
 
 export interface GetPetByIdRequest {
@@ -290,6 +297,51 @@ export class PetApi extends runtime.BaseAPI {
      */
     async findPetsByTags(tags: Array<string>): Promise<Array<Pet>> {
         const response = await this.findPetsByTagsRaw({ tags: tags });
+        return await response.value();
+    }
+
+    /**
+     * Multiple ids can be provided with comma separated strings.
+     * Finds Pets by user ids
+     */
+    async findPetsByUserIdsRaw(requestParameters: FindPetsByUserIdsRequest): Promise<runtime.ApiResponse<FindPetsByUserResponse>> {
+        if (requestParameters.ids === null || requestParameters.ids === undefined) {
+            throw new runtime.RequiredError('ids','Required parameter requestParameters.ids was null or undefined when calling findPetsByUserIds.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.ids) {
+            queryParameters['ids'] = requestParameters.ids.join(runtime.COLLECTION_FORMATS["csv"]);
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            if (typeof this.configuration.accessToken === 'function') {
+                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
+            } else {
+                headerParameters["Authorization"] = this.configuration.accessToken;
+            }
+        }
+
+        const response = await this.request({
+            path: `/pet/findByUserIds`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => FindPetsByUserResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Multiple ids can be provided with comma separated strings.
+     * Finds Pets by user ids
+     */
+    async findPetsByUserIds(ids: Array<number>): Promise<FindPetsByUserResponse> {
+        const response = await this.findPetsByUserIdsRaw({ ids: ids });
         return await response.value();
     }
 

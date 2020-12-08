@@ -138,7 +138,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
 		return appFromJS(normalizedApiObject);
     {{/items.isModel}}
     {{^items.isModel}}
-	    return apiObject.{{{returnPassthrough}}};
+	    return appFromJS(apiObject.{{{returnPassthrough}}});
     {{/items.isModel}}
     {{/isArray}}
     {{^isModel}}

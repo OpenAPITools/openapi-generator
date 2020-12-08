@@ -17,7 +17,106 @@ tags:
     description: Operations about user
 schemes:
   - http
+parameters:
+  affiliate-id:
+    in: path
+    name: affiliate-id
+    required: true
+    type: integer
+    format: int64
 paths:
+  /channels/{channel-id}/published-status:
+    #TODO move to channel controller instead of brand if additional channel operations are needed
+    get:
+      tags:
+        - Brand
+      summary: Get the published status of a channel
+      operationId: getChannelPublishedStatus
+      parameters:
+        - in: path
+          name: channel-id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetChannelPublishedStatusResponse"
+#  /affiliates/{affiliate-id}/product-types:
+#    get:
+#      tags:
+#        - Affiliate
+#      summary: Returns all product types for the given affiliate
+#      operationId: getAffiliateProductTypes
+#      parameters:
+#        - $ref: "#/definitions/affiliate-id"
+#      responses:
+#        200:
+#          description: OK
+#          schema:
+#            $ref: "#/definitions/GetProductTypesResponse"
+  /affiliates/{affiliate-id}/product-type:
+    get:
+      tags:
+        - Affiliate
+      summary: Returns single product types for the given affiliate
+      operationId: getAffiliateProductType
+      parameters:
+        - $ref: "#/definitions/affiliate-id"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetProductTypeResponse"
+  /affiliates/{affiliate-id}/matching-roles:
+    get:
+      tags:
+        - Affiliate
+      summary: Get the matching roles for the given affiliate
+      operationId: getMatchingRoles
+      parameters:
+        - $ref: "#/parameters/affiliate-id"
+        - in: query
+          name: video
+          required: true
+          type: boolean
+        - in: query
+          name: mono
+          required: true
+          type: boolean
+        - in: query
+          name: audio-bit-rate
+          required: false
+          #TODO: Replace this with enum when OpenApi 3.0 is available
+          type: string
+        - in: query
+          name: related-media-type
+          required: false
+          #TODO: Replace this with enum when OpenApi 3.0 is available
+          type: string
+        - in: query
+          name: claper-enabled
+          required: true
+          type: boolean
+        - in: query
+          name: messaging
+          required: true
+          type: boolean
+        - in: query
+          name: signage
+          required: true
+          type: boolean
+        - in: query
+          name: branding-type
+          required: false
+          #TODO: Replace this with enum when OpenApi 3.0 is available
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetMatchingRolesResponse"
   /pet:
     post:
       tags:
@@ -121,6 +220,38 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
+  /pet/findByUserIds:
+    get:
+      tags:
+        - pet
+      summary: Finds Pets by user ids
+      description: 'Multiple ids can be provided with comma separated strings.'
+      operationId: findPetsByUserIds
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: Ids to filter by
+          required: true
+          type: array
+          x-isUniqueId: true
+          items:
+            type: number
+          collectionFormat: csv
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: "#/definitions/FindPetsByUserResponse"
+        '400':
+          description: Invalid status value
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+      deprecated: true
   /pet/findByTags:
     get:
       tags:
@@ -728,6 +859,7 @@ definitions:
       - age
       - isHappy
       - isTall
+      - warningStatus
     x-entityId: "id"
     properties:
       id:
@@ -767,6 +899,8 @@ definitions:
           wrapped: true
         items:
           type: string
+      warningStatus:
+        $ref: "#/definitions/WarningCode"
       depStatus:
         $ref: "#/definitions/DeploymentRequestStatus"
       alternateStatus:
@@ -811,6 +945,13 @@ definitions:
         type: string
       message:
         type: string
+  WarningCode:
+    type: string
+    description: "Warning code returned when a potential problem is detected"
+    enum:
+      - Reduce_Volume_Range_To_Avoid_Large_Steps
+      - Raise_Amplifier_Volume
+      - No_Volume_Range_Specified
   DeploymentRequestStatus:
     type: string
     enum:
@@ -960,3 +1101,101 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/Pet"
+  FindPetsByUserResponse:
+    type: object
+    required:
+      - meta
+    properties:
+      meta:
+        $ref: "#/definitions/ResponseMeta"
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/User"
+  GetProductTypeResponse:
+    type: object
+    required:
+      - meta
+    properties:
+      meta:
+        $ref: "#/definitions/ResponseMeta"
+      data:
+        $ref: "#/definitions/ProductType"
+  GetProductTypesResponse:
+    type: object
+    required:
+      - meta
+    properties:
+      meta:
+        $ref: "#/definitions/ResponseMeta"
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/ProductType"
+  ProductType:
+    type: string
+    enum:
+      - Linear
+      - Signage
+      - Galaxie_Api
+    description: "Type of product"
+    example: Linear
+  GetMatchingRolesResponse:
+    type: object
+    required:
+      - meta
+    properties:
+      meta:
+        $ref: "#/definitions/ResponseMeta"
+      data:
+        $ref: "#/definitions/MatchingRoles"
+  MatchingRoles:
+    type: object
+    description: "Contains all the matching roles for each category"
+    required:
+      - songRoles
+      - messagingRoles
+    properties:
+      songRoles:
+        type: array
+        items:
+          $ref: "#/definitions/Role"
+        description: "List of all the song roles"
+      messagingRoles:
+        type: array
+        items:
+          $ref: "#/definitions/Role"
+        description: "List of all the messaging roles"
+  Role:
+    type: object
+    description: "Contains all the info about a Role from the SAM system"
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: "Unique identifier from the database"
+        example: 1
+      name:
+        type: string
+        description: "Name of the role in SAM"
+        example: "GX_OGG_MONO_128KBPS_12DB_CLEAN_CUE_CUT_CRYPT"
+  GetChannelPublishedStatusResponse:
+    type: object
+    required:
+      - meta
+    properties:
+      meta:
+        $ref: "#/definitions/ResponseMeta"
+      data:
+        $ref: "#/definitions/ChannelPublishedStatus"
+  ChannelPublishedStatus:
+    type: string
+    enum:
+      - Unpublished
+      - RecentlyPublished
+      - Published
+    description: "Publishing status of a channel"
+    example: Published
