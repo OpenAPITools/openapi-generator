@@ -16,7 +16,7 @@ class AnotherFakeApi {
         /// To test special tags
         ///
         /// To test special tags and operation ID starting with number
-        Future<Response<Client>>123test@$%SpecialTags(Client client,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
+        Future<Response<Client>>call123testSpecialTags(Client client,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/another-fake/dummy";
 
