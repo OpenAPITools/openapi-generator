@@ -12,11 +12,11 @@ part of openapi.api;
 class ApiClient {
   ApiClient({this.basePath = 'http://petstore.swagger.io:80/v2'}) {
     // Setup authentications (key: authentication name, value: authentication).
-    _authentications['api_key'] = ApiKeyAuth('header', 'api_key');
-    _authentications['api_key_query'] = ApiKeyAuth('query', 'api_key_query');
-    _authentications['bearer_test'] = HttpBearerAuth();
-    _authentications['http_basic_test'] = HttpBasicAuth();
-    _authentications['petstore_auth'] = OAuth();
+    _authentications[r'api_key'] = ApiKeyAuth('header', 'api_key');
+    _authentications[r'api_key_query'] = ApiKeyAuth('query', 'api_key_query');
+    _authentications[r'bearer_test'] = HttpBearerAuth();
+    _authentications[r'http_basic_test'] = HttpBasicAuth();
+    _authentications[r'petstore_auth'] = OAuth();
   }
 
   final String basePath;

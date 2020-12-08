@@ -74,28 +74,28 @@ class User {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (id != null) {
-      json['id'] = id;
+      json[r'id'] = id;
     }
     if (username != null) {
-      json['username'] = username;
+      json[r'username'] = username;
     }
     if (firstName != null) {
-      json['firstName'] = firstName;
+      json[r'firstName'] = firstName;
     }
     if (lastName != null) {
-      json['lastName'] = lastName;
+      json[r'lastName'] = lastName;
     }
     if (email != null) {
-      json['email'] = email;
+      json[r'email'] = email;
     }
     if (password != null) {
-      json['password'] = password;
+      json[r'password'] = password;
     }
     if (phone != null) {
-      json['phone'] = phone;
+      json[r'phone'] = phone;
     }
     if (userStatus != null) {
-      json['userStatus'] = userStatus;
+      json[r'userStatus'] = userStatus;
     }
     return json;
   }
@@ -105,14 +105,14 @@ class User {
   static User fromJson(Map<String, dynamic> json) => json == null
     ? null
     : User(
-        id: json['id'],
-        username: json['username'],
-        firstName: json['firstName'],
-        lastName: json['lastName'],
-        email: json['email'],
-        password: json['password'],
-        phone: json['phone'],
-        userStatus: json['userStatus'],
+        id: json[r'id'],
+        username: json[r'username'],
+        firstName: json[r'firstName'],
+        lastName: json[r'lastName'],
+        email: json[r'email'],
+        password: json[r'password'],
+        phone: json[r'phone'],
+        userStatus: json[r'userStatus'],
     );
 
   static List<User> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

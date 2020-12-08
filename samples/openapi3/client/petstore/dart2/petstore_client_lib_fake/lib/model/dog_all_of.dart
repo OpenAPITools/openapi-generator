@@ -32,7 +32,7 @@ class DogAllOf {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (breed != null) {
-      json['breed'] = breed;
+      json[r'breed'] = breed;
     }
     return json;
   }
@@ -42,7 +42,7 @@ class DogAllOf {
   static DogAllOf fromJson(Map<String, dynamic> json) => json == null
     ? null
     : DogAllOf(
-        breed: json['breed'],
+        breed: json[r'breed'],
     );
 
   static List<DogAllOf> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

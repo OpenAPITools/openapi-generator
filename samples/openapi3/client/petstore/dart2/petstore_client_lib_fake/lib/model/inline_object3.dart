@@ -119,46 +119,46 @@ class InlineObject3 {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (integer != null) {
-      json['integer'] = integer;
+      json[r'integer'] = integer;
     }
     if (int32 != null) {
-      json['int32'] = int32;
+      json[r'int32'] = int32;
     }
     if (int64 != null) {
-      json['int64'] = int64;
+      json[r'int64'] = int64;
     }
     if (number != null) {
-      json['number'] = number;
+      json[r'number'] = number;
     }
     if (float != null) {
-      json['float'] = float;
+      json[r'float'] = float;
     }
     if (double != null) {
-      json['double'] = double;
+      json[r'double'] = double;
     }
     if (string != null) {
-      json['string'] = string;
+      json[r'string'] = string;
     }
     if (patternWithoutDelimiter != null) {
-      json['pattern_without_delimiter'] = patternWithoutDelimiter;
+      json[r'pattern_without_delimiter'] = patternWithoutDelimiter;
     }
     if (byte != null) {
-      json['byte'] = byte;
+      json[r'byte'] = byte;
     }
     if (binary != null) {
-      json['binary'] = binary;
+      json[r'binary'] = binary;
     }
     if (date != null) {
-      json['date'] = _dateFormatter.format(date.toUtc());
+      json[r'date'] = _dateFormatter.format(date.toUtc());
     }
     if (dateTime != null) {
-      json['dateTime'] = dateTime.toUtc().toIso8601String();
+      json[r'dateTime'] = dateTime.toUtc().toIso8601String();
     }
     if (password != null) {
-      json['password'] = password;
+      json[r'password'] = password;
     }
     if (callback != null) {
-      json['callback'] = callback;
+      json[r'callback'] = callback;
     }
     return json;
   }
@@ -168,26 +168,26 @@ class InlineObject3 {
   static InlineObject3 fromJson(Map<String, dynamic> json) => json == null
     ? null
     : InlineObject3(
-        integer: json['integer'],
-        int32: json['int32'],
-        int64: json['int64'],
-        number: json['number'] == null ?
+        integer: json[r'integer'],
+        int32: json[r'int32'],
+        int64: json[r'int64'],
+        number: json[r'number'] == null ?
           null :
-          json['number'].toDouble(),
-        float: json['float'],
-        double: json['double'],
-        string: json['string'],
-        patternWithoutDelimiter: json['pattern_without_delimiter'],
-        byte: json['byte'],
+          json[r'number'].toDouble(),
+        float: json[r'float'],
+        double: json[r'double'],
+        string: json[r'string'],
+        patternWithoutDelimiter: json[r'pattern_without_delimiter'],
+        byte: json[r'byte'],
         binary: null, // No support for decoding binary content from JSON
-        date: json['date'] == null
+        date: json[r'date'] == null
           ? null
-          : DateTime.parse(json['date']),
-        dateTime: json['dateTime'] == null
+          : DateTime.parse(json[r'date']),
+        dateTime: json[r'dateTime'] == null
           ? null
-          : DateTime.parse(json['dateTime']),
-        password: json['password'],
-        callback: json['callback'],
+          : DateTime.parse(json[r'dateTime']),
+        password: json[r'password'],
+        callback: json[r'callback'],
     );
 
   static List<InlineObject3> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

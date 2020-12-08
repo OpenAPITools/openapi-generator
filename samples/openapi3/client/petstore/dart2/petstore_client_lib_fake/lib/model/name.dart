@@ -50,16 +50,16 @@ class Name {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (name != null) {
-      json['name'] = name;
+      json[r'name'] = name;
     }
     if (snakeCase != null) {
-      json['snake_case'] = snakeCase;
+      json[r'snake_case'] = snakeCase;
     }
     if (property != null) {
-      json['property'] = property;
+      json[r'property'] = property;
     }
     if (n123number != null) {
-      json['123Number'] = n123number;
+      json[r'123Number'] = n123number;
     }
     return json;
   }
@@ -69,10 +69,10 @@ class Name {
   static Name fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Name(
-        name: json['name'],
-        snakeCase: json['snake_case'],
-        property: json['property'],
-        n123number: json['123Number'],
+        name: json[r'name'],
+        snakeCase: json[r'snake_case'],
+        property: json[r'property'],
+        n123number: json[r'123Number'],
     );
 
   static List<Name> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
