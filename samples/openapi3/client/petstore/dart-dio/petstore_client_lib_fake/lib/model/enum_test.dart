@@ -76,7 +76,6 @@ class EnumTestEnumString extends EnumClass {
 }
 
 
-
 class EnumTestEnumStringRequired extends EnumClass {
 
   @BuiltValueEnumConst(wireName: 'UPPER')
@@ -95,7 +94,6 @@ class EnumTestEnumStringRequired extends EnumClass {
 }
 
 
-
 class EnumTestEnumInteger extends EnumClass {
 
   @BuiltValueEnumConst(wireNumber: 1)
@@ -112,12 +110,11 @@ class EnumTestEnumInteger extends EnumClass {
 }
 
 
-
 class EnumTestEnumNumber extends EnumClass {
 
-  @BuiltValueEnumConst()
+  @BuiltValueEnumConst(wireName: '1.1')
   static const EnumTestEnumNumber 11_ = _$11_;
-  @BuiltValueEnumConst()
+  @BuiltValueEnumConst(wireName: '-1.2')
   static const EnumTestEnumNumber 12_ = _$12_;
 
   static Serializer<EnumTestEnumNumber> get serializer => _$enumTestEnumNumberSerializer;
@@ -127,6 +124,5 @@ class EnumTestEnumNumber extends EnumClass {
   static BuiltSet<EnumTestEnumNumber> get values => _$enumTestEnumNumberValues;
   static EnumTestEnumNumber valueOf(String name) => _$enumTestEnumNumberValueOf(name);
 }
-
 
 

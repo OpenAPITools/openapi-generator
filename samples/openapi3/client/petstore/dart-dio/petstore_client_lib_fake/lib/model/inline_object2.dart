@@ -42,7 +42,6 @@ class InlineObject2EnumFormStringArray extends EnumClass {
 }
 
 
-
 class InlineObject2EnumFormString extends EnumClass {
 
   /// Form parameter enum test (string)
@@ -62,6 +61,5 @@ class InlineObject2EnumFormString extends EnumClass {
   static BuiltSet<InlineObject2EnumFormString> get values => _$inlineObject2EnumFormStringValues;
   static InlineObject2EnumFormString valueOf(String name) => _$inlineObject2EnumFormStringValueOf(name);
 }
-
 
 

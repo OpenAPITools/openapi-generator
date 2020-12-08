@@ -62,4 +62,3 @@ class PetStatus extends EnumClass {
 }
 
 
-

@@ -60,4 +60,3 @@ class OrderStatus extends EnumClass {
 }
 
 
-

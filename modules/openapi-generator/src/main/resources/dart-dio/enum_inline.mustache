@@ -5,7 +5,7 @@ class {{classname}}{{nameInCamelCase}} extends EnumClass {
       {{#description}}
   /// {{description}}
       {{/description}}
-  @BuiltValueEnumConst({{#isInteger}}wireNumber: {{{value}}}{{/isInteger}}{{#isString}}wireName: {{{value}}}{{/isString}})
+  @BuiltValueEnumConst({{#isInteger}}wireNumber: {{{value}}}{{/isInteger}}{{^isInteger}}wireName: {{{value}}}{{/isInteger}})
   static const {{classname}}{{nameInCamelCase}} {{name}} = _${{name}};
     {{/enumVars}}
   {{/allowableValues}}
