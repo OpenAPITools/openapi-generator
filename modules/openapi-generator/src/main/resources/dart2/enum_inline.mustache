@@ -4,29 +4,23 @@ class {{{classname}}}{{{enumName}}} {
   const {{{classname}}}{{{enumName}}}._(this.value);
 
   /// The underlying value of this enum member.
-  {{#isEnum}}
-  final String value;
-  {{/isEnum}}
-  {{^isEnum}}
   final {{{dataType}}} value;
-  {{/isEnum}}
 
   @override
   bool operator ==(Object other) => identical(this, other) ||
-      other is {{{classname}}}{{{enumName}}} && other.value == value ||
-      other is {{#isEnum}}String{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}} && other == value;
+      other is {{{classname}}}{{{enumName}}} && other.value == value;
 
   @override
   int get hashCode => toString().hashCode;
 
   @override
-  String toString() => {{#isString}}value{{/isString}}{{^isString}}value.toString(){{/isString}};
+  String toString() => value{{^isString}}.toString(){{/isString}};
 
-  {{#isEnum}}String{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}} toJson() => value;
+  {{{dataType}}} toJson() => value;
 
   {{#allowableValues}}
     {{#enumVars}}
-  static const {{{name}}} = {{{classname}}}{{{enumName}}}._({{{value}}});
+  static const {{{name}}} = {{{classname}}}{{{enumName}}}._({{#isString}}r{{/isString}}{{{value}}});
     {{/enumVars}}
   {{/allowableValues}}
 
@@ -57,7 +51,7 @@ class {{{classname}}}{{{enumName}}}TypeTransformer {
 
   factory {{{classname}}}{{{enumName}}}TypeTransformer() => _instance ??= {{{classname}}}{{{enumName}}}TypeTransformer._();
 
-  {{#isEnum}}String{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}} encode({{{classname}}}{{{enumName}}} data) => data.value;
+  {{{dataType}}} encode({{{classname}}}{{{enumName}}} data) => data.value;
 
   /// Decodes a [dynamic value][data] to a {{{classname}}}{{{enumName}}}.
   ///
@@ -71,7 +65,7 @@ class {{{classname}}}{{{enumName}}}TypeTransformer {
     switch (data) {
       {{#allowableValues}}
         {{#enumVars}}
-      case {{{value}}}: return {{{classname}}}{{{enumName}}}.{{{name}}};
+      case {{#isString}}r{{/isString}}{{{value}}}: return {{{classname}}}{{{enumName}}}.{{{name}}};
         {{/enumVars}}
       {{/allowableValues}}
       default:
