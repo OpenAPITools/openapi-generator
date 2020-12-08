@@ -5,7 +5,6 @@ README.md
 api/openapi.yaml
 docs/InlineObject.md
 docs/MultipartRelatedRequest.md
-docs/MultipartRequest.md
 docs/MultipartRequestObjectField.md
 docs/default_api.md
 examples/ca.pem

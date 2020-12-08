@@ -42,12 +42,6 @@ src/gen/java/org/openapitools/model/Foo.java
 src/gen/java/org/openapitools/model/FormatTest.java
 src/gen/java/org/openapitools/model/HasOnlyReadOnly.java
 src/gen/java/org/openapitools/model/HealthCheckResult.java
-src/gen/java/org/openapitools/model/InlineObject.java
-src/gen/java/org/openapitools/model/InlineObject1.java
-src/gen/java/org/openapitools/model/InlineObject2.java
-src/gen/java/org/openapitools/model/InlineObject3.java
-src/gen/java/org/openapitools/model/InlineObject4.java
-src/gen/java/org/openapitools/model/InlineObject5.java
 src/gen/java/org/openapitools/model/InlineResponseDefault.java
 src/gen/java/org/openapitools/model/MapTest.java
 src/gen/java/org/openapitools/model/MixedPropertiesAndAdditionalPropertiesClass.java

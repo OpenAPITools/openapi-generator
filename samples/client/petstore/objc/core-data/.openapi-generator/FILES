@@ -35,18 +35,6 @@ SwaggerClient/Model/SWGCategoryManagedObject.h
 SwaggerClient/Model/SWGCategoryManagedObject.m
 SwaggerClient/Model/SWGCategoryManagedObjectBuilder.h
 SwaggerClient/Model/SWGCategoryManagedObjectBuilder.m
-SwaggerClient/Model/SWGInlineObject.h
-SwaggerClient/Model/SWGInlineObject.m
-SwaggerClient/Model/SWGInlineObject1.h
-SwaggerClient/Model/SWGInlineObject1.m
-SwaggerClient/Model/SWGInlineObject1ManagedObject.h
-SwaggerClient/Model/SWGInlineObject1ManagedObject.m
-SwaggerClient/Model/SWGInlineObject1ManagedObjectBuilder.h
-SwaggerClient/Model/SWGInlineObject1ManagedObjectBuilder.m
-SwaggerClient/Model/SWGInlineObjectManagedObject.h
-SwaggerClient/Model/SWGInlineObjectManagedObject.m
-SwaggerClient/Model/SWGInlineObjectManagedObjectBuilder.h
-SwaggerClient/Model/SWGInlineObjectManagedObjectBuilder.m
 SwaggerClient/Model/SWGModel.xcdatamodeld/.xccurrentversion
 SwaggerClient/Model/SWGModel.xcdatamodeld/SWGModel.xcdatamodel/contents
 SwaggerClient/Model/SWGOrder.h
@@ -74,8 +62,6 @@ SwaggerClient/Model/SWGUserManagedObject.m
 SwaggerClient/Model/SWGUserManagedObjectBuilder.h
 SwaggerClient/Model/SWGUserManagedObjectBuilder.m
 docs/SWGCategory.md
-docs/SWGInlineObject.md
-docs/SWGInlineObject1.md
 docs/SWGOrder.md
 docs/SWGPet.md
 docs/SWGPetApi.md

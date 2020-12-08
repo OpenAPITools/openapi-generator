@@ -33,12 +33,6 @@ docs/Model/Foo.md
 docs/Model/FormatTest.md
 docs/Model/HasOnlyReadOnly.md
 docs/Model/HealthCheckResult.md
-docs/Model/InlineObject.md
-docs/Model/InlineObject1.md
-docs/Model/InlineObject2.md
-docs/Model/InlineObject3.md
-docs/Model/InlineObject4.md
-docs/Model/InlineObject5.md
 docs/Model/InlineResponseDefault.md
 docs/Model/MapTest.md
 docs/Model/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -93,12 +87,6 @@ lib/Model/Foo.php
 lib/Model/FormatTest.php
 lib/Model/HasOnlyReadOnly.php
 lib/Model/HealthCheckResult.php
-lib/Model/InlineObject.php
-lib/Model/InlineObject1.php
-lib/Model/InlineObject2.php
-lib/Model/InlineObject3.php
-lib/Model/InlineObject4.php
-lib/Model/InlineObject5.php
 lib/Model/InlineResponseDefault.php
 lib/Model/MapTest.php
 lib/Model/MixedPropertiesAndAdditionalPropertiesClass.php

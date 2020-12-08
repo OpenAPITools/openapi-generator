@@ -22,12 +22,6 @@ Model/Foo.sql
 Model/FormatTest.sql
 Model/HasOnlyReadOnly.sql
 Model/HealthCheckResult.sql
-Model/InlineObject.sql
-Model/InlineObject1.sql
-Model/InlineObject2.sql
-Model/InlineObject3.sql
-Model/InlineObject4.sql
-Model/InlineObject5.sql
 Model/InlineResponseDefault.sql
 Model/List.sql
 Model/MapTest.sql
