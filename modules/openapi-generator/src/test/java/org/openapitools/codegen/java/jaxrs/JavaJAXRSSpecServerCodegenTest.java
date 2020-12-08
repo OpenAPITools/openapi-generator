@@ -53,7 +53,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         OpenAPI openAPI = new OpenAPI();
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
@@ -103,7 +103,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         OpenAPI openAPI = new OpenAPI();
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);

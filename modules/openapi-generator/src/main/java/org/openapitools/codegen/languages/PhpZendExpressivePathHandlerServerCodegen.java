@@ -174,8 +174,8 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
      * @param openAPI OpenAPI object
      */
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
-        super.preprocessOpenAPI(openAPI);
+    public void preprocessOpenAPI() {
+        super.preprocessOpenAPI();
 
         Map<String, PathItem> paths = openAPI.getPaths();
         if (paths != null) {

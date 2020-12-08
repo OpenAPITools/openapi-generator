@@ -223,8 +223,8 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
-        super.preprocessOpenAPI(openAPI);
+    public void preprocessOpenAPI() {
+        super.preprocessOpenAPI();
 
         // add server port from the swagger file, 8080 by default
         URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());

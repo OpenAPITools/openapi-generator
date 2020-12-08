@@ -454,8 +454,8 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
-        super.preprocessOpenAPI(openAPI);
+    public void preprocessOpenAPI() {
+        super.preprocessOpenAPI();
         if (openAPI == null || openAPI.getPaths() == null) {
             return;
         }

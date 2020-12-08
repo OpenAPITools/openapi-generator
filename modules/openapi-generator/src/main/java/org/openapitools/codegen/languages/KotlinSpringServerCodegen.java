@@ -474,8 +474,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
-        super.preprocessOpenAPI(openAPI);
+    public void preprocessOpenAPI() {
+        super.preprocessOpenAPI();
 
         if (!additionalProperties.containsKey(TITLE)) {
             // The purpose of the title is for:

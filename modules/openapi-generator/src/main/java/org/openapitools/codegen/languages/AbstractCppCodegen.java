@@ -326,7 +326,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
+    public void preprocessOpenAPI() {
         URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
         String port = URLPathUtils.getPort(url, "");
         String host = url.getHost();

@@ -203,7 +203,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         }
     }
 
-    public void preprocessOpenAPI(OpenAPI openAPI) {
+    public void preprocessOpenAPI() {
         Info info = openAPI.getInfo();
         info.setDescription(toHtml(info.getDescription()));
         info.setTitle(toHtml(info.getTitle()));

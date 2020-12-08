@@ -264,7 +264,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
+    public void preprocessOpenAPI() {
         Info info = openAPI.getInfo();
         if (moduleName == null) {
             if (info.getTitle() != null) {

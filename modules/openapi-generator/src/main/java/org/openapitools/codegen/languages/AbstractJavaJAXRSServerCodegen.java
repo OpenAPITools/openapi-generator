@@ -127,8 +127,8 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
-        super.preprocessOpenAPI(openAPI);
+    public void preprocessOpenAPI() {
+        super.preprocessOpenAPI();
         /* TODO there should be no need for the following logic
         if ("/".equals(swagger.getBasePath())) {
             swagger.setBasePath("");

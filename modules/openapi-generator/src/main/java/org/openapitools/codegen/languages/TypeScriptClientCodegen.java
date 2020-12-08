@@ -249,7 +249,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
     
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
+    public void preprocessOpenAPI() {
 
         if (additionalProperties.containsKey(NPM_NAME)) {
 

@@ -788,7 +788,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     //override with any special handling of the entire OpenAPI spec document
     @SuppressWarnings("unused")
-    public void preprocessOpenAPI(OpenAPI openAPI) {
+    public void preprocessOpenAPI() {
         if (useOneOfInterfaces) {
             // we process the openapi schema here to find oneOf schemas and create interface models for them
             Map<String, Schema> schemas = new HashMap<String, Schema>(openAPI.getComponents().getSchemas());
@@ -870,7 +870,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     // override with any special handling of the entire OpenAPI spec document
     @SuppressWarnings("unused")
-    public void processOpenAPI(OpenAPI openAPI) {
+    public void processOpenAPI() {
     }
 
     // override with any special handling of the JMustache compiler

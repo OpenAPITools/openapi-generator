@@ -269,7 +269,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
+    public void preprocessOpenAPI() {
 
         if (additionalProperties.containsKey(NPM_NAME)) {
 

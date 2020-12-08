@@ -359,14 +359,14 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public void processOpenAPI(OpenAPI openAPI) {
+    public void processOpenAPI() {
         if (this.includeSpecMarkupLambda != null) {
             LOGGER.debug("specs: " + ": " + this.includeSpecMarkupLambda.resetCounter());
         }
         if (this.includeSnippetMarkupLambda != null) {
             LOGGER.debug("snippets: " + ": " + this.includeSnippetMarkupLambda.resetCounter());
         }
-        super.processOpenAPI(openAPI);
+        super.processOpenAPI();
     }
 
 }

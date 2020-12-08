@@ -697,8 +697,8 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
      * @param openAPI [description]
      */
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
-        super.preprocessOpenAPI(openAPI);
+    public void preprocessOpenAPI() {
+        super.preprocessOpenAPI();
 
       /* TODO need to revise the logic below
       if ("/".equals(openAPI.getServers())) {

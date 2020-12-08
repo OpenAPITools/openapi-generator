@@ -296,7 +296,7 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
 
         OpenAPI openAPI = new OpenAPI();
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
-        testerCodegen.preprocessOpenAPI(openAPI);
+        testerCodegen.preprocessOpenAPI();
 
         // Options processed by DefaultCodegen
         assertEquals(testerCodegen.getAllowUnicodeIdentifiers(), Boolean.TRUE);
@@ -462,7 +462,7 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
 
         OpenAPI openAPI = new OpenAPI();
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI();
 
         Map<String, Object> additionalProperties = codegen.additionalProperties();
 

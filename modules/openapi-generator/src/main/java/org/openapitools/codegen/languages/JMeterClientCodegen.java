@@ -147,7 +147,7 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
+    public void preprocessOpenAPI() {
         if (openAPI != null && openAPI.getPaths() != null) {
             for (String pathname : openAPI.getPaths().keySet()) {
                 PathItem path = openAPI.getPaths().get(pathname);

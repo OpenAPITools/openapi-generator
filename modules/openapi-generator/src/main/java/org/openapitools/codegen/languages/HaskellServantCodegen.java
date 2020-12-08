@@ -268,7 +268,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
+    public void preprocessOpenAPI() {
         // From the title, compute a reasonable name for the package and the API
         String title = openAPI.getInfo().getTitle();
 
@@ -325,7 +325,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         // See docstring for setGenerateToSchema for why we do this
         additionalProperties.put("generateToSchema", true);
 
-        super.preprocessOpenAPI(openAPI);
+        super.preprocessOpenAPI();
     }
 
     /**

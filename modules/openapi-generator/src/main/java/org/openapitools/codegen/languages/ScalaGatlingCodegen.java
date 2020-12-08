@@ -250,7 +250,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      * @param openAPI input openapi document
      */
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
+    public void preprocessOpenAPI() {
         for (String pathname : openAPI.getPaths().keySet()) {
             PathItem path = openAPI.getPaths().get(pathname);
             if (path.readOperations() == null) {

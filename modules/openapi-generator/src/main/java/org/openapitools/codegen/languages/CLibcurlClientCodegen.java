@@ -716,7 +716,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
+    public void preprocessOpenAPI() {
         if (openAPI.getInfo() != null) {
             Info info = openAPI.getInfo();
             setProjectName((escapeText(info.getTitle())));

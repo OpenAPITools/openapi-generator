@@ -519,7 +519,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
+    public void preprocessOpenAPI() {
         String baseTitle = openAPI.getInfo().getTitle();
 
         if (baseTitle == null) {
@@ -612,7 +612,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             additionalProperties.put(X_HAS_IMPORT_MAPPINGS, true);
         }
 
-        super.preprocessOpenAPI(openAPI);
+        super.preprocessOpenAPI();
     }
 
     @Override

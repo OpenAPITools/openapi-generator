@@ -112,8 +112,8 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     }
 
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
-        super.preprocessOpenAPI(openAPI);
+    public void preprocessOpenAPI() {
+        super.preprocessOpenAPI();
 
         if (useEs6) {
             embeddedTemplateDir = templateDir = "Javascript-Closure-Angular/es6";

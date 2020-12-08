@@ -354,7 +354,7 @@ public class SpringCodegenTest {
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
         openAPI.setInfo(new Info());
         openAPI.getInfo().setTitle("Some test API");
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
@@ -451,7 +451,7 @@ public class SpringCodegenTest {
         OpenAPI openAPI = new OpenAPI();
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
         openAPI.setInfo(new Info());
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);

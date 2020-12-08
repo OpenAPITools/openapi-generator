@@ -68,7 +68,7 @@ public class AbstractJavaCodegenTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.getArtifactVersion(), openAPI.getInfo().getVersion());
         Assert.assertEquals(openAPI.getPaths().get("/pet").getPost().getExtensions().get("x-accepts"), "application/json");
@@ -79,7 +79,7 @@ public class AbstractJavaCodegenTest {
         final OpenAPI openAPIOtherNumVersion = TestUtils.parseFlattenSpec("src/test/resources/2_0/duplicateOperationIds.yaml");
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
-        codegen.preprocessOpenAPI(openAPIOtherNumVersion);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.getArtifactVersion(), openAPIOtherNumVersion.getInfo().getVersion());
     }
@@ -128,7 +128,7 @@ public class AbstractJavaCodegenTest {
 
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.processOpts();
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
@@ -157,7 +157,7 @@ public class AbstractJavaCodegenTest {
         codegen.setArtifactVersion("0.9.0-SNAPSHOT");
 
         codegen.processOpts();
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
@@ -184,7 +184,7 @@ public class AbstractJavaCodegenTest {
         codegen.additionalProperties().put(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX, "getBoolean");
         codegen.additionalProperties().put(CodegenConstants.ARTIFACT_VERSION, "0.8.0-SNAPSHOT");
         codegen.processOpts();
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI();
 
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
@@ -258,7 +258,7 @@ public class AbstractJavaCodegenTest {
 
         OpenAPI api = TestUtils.createOpenAPI();
         codegen.processOpts();
-        codegen.preprocessOpenAPI(api);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.getArtifactVersion(), "1.0.7");
     }
@@ -271,7 +271,7 @@ public class AbstractJavaCodegenTest {
 
         OpenAPI api = TestUtils.createOpenAPI();
         codegen.processOpts();
-        codegen.preprocessOpenAPI(api);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.getArtifactVersion(), "1.0.7-SNAPSHOT");
     }
@@ -284,7 +284,7 @@ public class AbstractJavaCodegenTest {
 
         OpenAPI api = TestUtils.createOpenAPI();
         codegen.processOpts();
-        codegen.preprocessOpenAPI(api);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.getArtifactVersion(), "1.1.1");
     }
@@ -298,7 +298,7 @@ public class AbstractJavaCodegenTest {
 
         OpenAPI api = TestUtils.createOpenAPI();
         codegen.processOpts();
-        codegen.preprocessOpenAPI(api);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.getArtifactVersion(), "1.1.1-SNAPSHOT");
     }
@@ -311,7 +311,7 @@ public class AbstractJavaCodegenTest {
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion(null);
         codegen.processOpts();
-        codegen.preprocessOpenAPI(api);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.getArtifactVersion(), "1.0.0");
     }
@@ -325,7 +325,7 @@ public class AbstractJavaCodegenTest {
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion(null);
         codegen.processOpts();
-        codegen.preprocessOpenAPI(api);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.getArtifactVersion(), "1.0.0-SNAPSHOT");
     }
@@ -339,7 +339,7 @@ public class AbstractJavaCodegenTest {
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion("2.0");
         codegen.processOpts();
-        codegen.preprocessOpenAPI(api);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.getArtifactVersion(), "2.0-SNAPSHOT");
     }
@@ -353,7 +353,7 @@ public class AbstractJavaCodegenTest {
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion(null);
         codegen.processOpts();
-        codegen.preprocessOpenAPI(api);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.getArtifactVersion(), version);
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), version);
@@ -368,7 +368,7 @@ public class AbstractJavaCodegenTest {
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion("1.2.3-SNAPSHOT");
         codegen.processOpts();
-        codegen.preprocessOpenAPI(api);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.getArtifactVersion(), version);
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), version);
@@ -385,7 +385,7 @@ public class AbstractJavaCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.ARTIFACT_VERSION, null);
 
         codegen.processOpts();
-        codegen.preprocessOpenAPI(api);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.getArtifactVersion(), version);
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), version);
@@ -402,7 +402,7 @@ public class AbstractJavaCodegenTest {
         OpenAPI api = TestUtils.createOpenAPI();
         codegen.setArtifactVersion("4.1.2-SNAPSHOT");
         codegen.processOpts();
-        codegen.preprocessOpenAPI(api);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.getArtifactVersion(), "4.1.2-SNAPSHOT");
     }
@@ -526,7 +526,7 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "true");
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI();
         Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
 
@@ -535,7 +535,7 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, true);
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI();
         Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
 
@@ -544,7 +544,7 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "false");
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI();
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
 
@@ -553,7 +553,7 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, false);
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI();
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
 
@@ -562,7 +562,7 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "blibb");
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI();
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
 
@@ -571,7 +571,7 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, 42L);
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI();
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
 

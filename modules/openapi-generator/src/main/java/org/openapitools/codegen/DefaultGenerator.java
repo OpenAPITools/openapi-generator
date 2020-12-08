@@ -112,6 +112,8 @@ public class DefaultGenerator implements Generator {
         this.openAPI = opts.getOpenAPI();
         this.modelUtils = new ModelUtils(openAPI);
         this.config = opts.getConfig();
+        this.config.setOpenAPI(this.openAPI);
+
         List<TemplateDefinition> userFiles = opts.getUserDefinedTemplates();
         if (userFiles != null) {
             this.userDefinedTemplates = ImmutableList.copyOf(userFiles);
@@ -255,10 +257,7 @@ public class DefaultGenerator implements Generator {
         }
 
         config.processOpts();
-        config.preprocessOpenAPI(openAPI);
-
-        // set OpenAPI to make these available to all methods
-        config.setOpenAPI(openAPI);
+        config.preprocessOpenAPI();
 
         config.additionalProperties().put("generatorVersion", ImplementationVersion.read());
         config.additionalProperties().put("generatedDate", ZonedDateTime.now().toString());
@@ -863,13 +862,13 @@ public class DefaultGenerator implements Generator {
         }
 
         // resolve inline models
-        InlineModelResolver inlineModelResolver = new InlineModelResolver();
-        inlineModelResolver.flatten(openAPI);
+        InlineModelResolver inlineModelResolver = new InlineModelResolver(openAPI);
+        inlineModelResolver.flatten();
 
         configureGeneratorProperties();
         configureOpenAPIInfo();
 
-        config.processOpenAPI(openAPI);
+        config.processOpenAPI();
 
         processUserDefinedTemplates();
 

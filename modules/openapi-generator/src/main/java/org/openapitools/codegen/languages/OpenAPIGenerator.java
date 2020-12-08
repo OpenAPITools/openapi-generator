@@ -83,7 +83,7 @@ public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public void processOpenAPI(OpenAPI openAPI) {
+    public void processOpenAPI() {
         String jsonOpenAPI = SerializerUtils.toJsonString(openAPI);
 
         try {

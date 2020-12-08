@@ -16,7 +16,7 @@ public class TypescriptAngularApiVersionTest {
 
         OpenAPI api = TestUtils.createOpenAPI();
         codegen.processOpts();
-        codegen.preprocessOpenAPI(api);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.getNpmVersion(), "1.0.7");
     }
@@ -30,7 +30,7 @@ public class TypescriptAngularApiVersionTest {
 
         OpenAPI api = TestUtils.createOpenAPI();
         codegen.processOpts();
-        codegen.preprocessOpenAPI(api);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.getNpmVersion(), "2.0.0");
     }
@@ -44,7 +44,7 @@ public class TypescriptAngularApiVersionTest {
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion(null);
         codegen.processOpts();
-        codegen.preprocessOpenAPI(api);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.getNpmVersion(), "1.0.0");
     }

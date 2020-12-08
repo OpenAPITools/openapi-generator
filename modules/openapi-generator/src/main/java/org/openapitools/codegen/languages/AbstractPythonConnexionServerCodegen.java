@@ -372,7 +372,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends DefaultCodege
     }
 
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
+    public void preprocessOpenAPI() {
         // need vendor extensions for x-openapi-router-controller
         Map<String, PathItem> paths = openAPI.getPaths();
         if (paths != null) {

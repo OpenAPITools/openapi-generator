@@ -150,9 +150,9 @@ public interface CodegenConfig {
 
     Map<String, String> reservedWordsMappings();
 
-    void preprocessOpenAPI(OpenAPI openAPI);
+    void preprocessOpenAPI();
 
-    void processOpenAPI(OpenAPI openAPI);
+    void processOpenAPI();
 
     Compiler processCompiler(Compiler compiler);
 

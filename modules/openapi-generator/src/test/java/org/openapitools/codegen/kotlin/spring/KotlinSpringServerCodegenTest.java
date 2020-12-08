@@ -48,7 +48,7 @@ public class KotlinSpringServerCodegenTest {
         final OpenAPI openAPI = new OpenAPI();
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
         openAPI.setInfo(new Info());
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.getLibrary(), KotlinSpringServerCodegen.SPRING_BOOT);
         Assert.assertTrue(codegen.supportedLibraries().containsKey(KotlinSpringServerCodegen.SPRING_BOOT));
@@ -125,7 +125,7 @@ public class KotlinSpringServerCodegenTest {
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
         openAPI.setInfo(new Info());
         openAPI.getInfo().setTitle("Some test API");
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.mmmmm.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.mmmmm.model");

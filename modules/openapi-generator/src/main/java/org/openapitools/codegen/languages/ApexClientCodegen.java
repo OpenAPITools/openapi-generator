@@ -158,7 +158,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
     }
 
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
+    public void preprocessOpenAPI() {
         String calloutLabel = openAPI.getInfo().getTitle();
         if (StringUtils.isNotBlank(namedCredential)) {
             calloutLabel = namedCredential;

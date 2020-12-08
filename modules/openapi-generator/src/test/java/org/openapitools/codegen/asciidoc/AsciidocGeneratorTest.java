@@ -32,7 +32,7 @@ public class AsciidocGeneratorTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/ping.yaml");
 
         AsciidocDocumentationCodegen codeGen = new AsciidocDocumentationCodegen();
-        codeGen.preprocessOpenAPI(openAPI);
+        codeGen.preprocessOpenAPI();
 
         Assert.assertEquals(openAPI.getInfo().getTitle(), "ping test");
     }

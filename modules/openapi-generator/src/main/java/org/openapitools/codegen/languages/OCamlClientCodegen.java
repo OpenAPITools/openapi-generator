@@ -422,7 +422,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
+    public void preprocessOpenAPI() {
         collectEnumSchemas(openAPI);
 
         supportingFiles.add(new SupportingFile("lib.mustache", "", packageName + ".opam"));

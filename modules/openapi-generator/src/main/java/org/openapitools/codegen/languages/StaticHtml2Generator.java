@@ -158,8 +158,8 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
-        super.preprocessOpenAPI(openAPI);
+    public void preprocessOpenAPI() {
+        super.preprocessOpenAPI();
 
         if (openAPI.getInfo() != null) {
             Info info = openAPI.getInfo();

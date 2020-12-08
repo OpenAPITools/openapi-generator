@@ -51,7 +51,7 @@ public class StaticHtmlGeneratorTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/ping.yaml");
 
         final StaticHtmlGenerator codegen = new StaticHtmlGenerator();
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI();
 
         Assert.assertEquals(openAPI.getInfo().getTitle(), "ping test");
     }
