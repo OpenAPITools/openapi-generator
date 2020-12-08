@@ -332,13 +332,13 @@ public class DartModelTest {
     }
 
     @Test(dataProvider = "varNames", description = "test variable names are correctly escaped")
-    public void convertVarName(String name, String expectedName) throws Exception {
+    public void convertVarName(String name, String expectedName) {
         final DefaultCodegen codegen = new DartClientCodegen();
         Assert.assertEquals(codegen.toVarName(name), expectedName);
     }
 
     @Test(description = "test enum variable names")
-    public void testEnumVarNames() throws Exception {
+    public void testEnumVarNames() {
         final DefaultCodegen codegen = new DartClientCodegen();
         // variable names are always lower case: Double -> double -> double_
         Assert.assertEquals(codegen.toEnumVarName("Double", null), "double_");
@@ -349,6 +349,15 @@ public class DartModelTest {
         // TODO these are wrong
         Assert.assertEquals(codegen.toEnumVarName("IF", null), "iF_");
         Assert.assertEquals(codegen.toEnumVarName("hello", null), "hello_");
+    }
+
+    @Test(description = "model names support `--model-name-prefix` and `--model-name-suffix`")
+    public void modelPrefixSuffixTest() {
+        final DefaultCodegen codegen = new DartClientCodegen();
+        codegen.setModelNamePrefix("model");
+        codegen.setModelNameSuffix("type");
+
+        Assert.assertEquals(codegen.toModelName("hello_test"), "ModelHelloTestType");
     }
 
     // datetime (or primitive type) not yet supported in HTTP request body

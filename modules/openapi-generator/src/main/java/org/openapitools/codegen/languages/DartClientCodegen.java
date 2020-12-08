@@ -150,6 +150,7 @@ public class DartClientCodegen extends DefaultCodegen {
         typeMapping = new HashMap<>();
         typeMapping.put("Array", "List");
         typeMapping.put("array", "List");
+        typeMapping.put("map", "Map");
         typeMapping.put("List", "List");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "String");
@@ -164,6 +165,7 @@ public class DartClientCodegen extends DefaultCodegen {
         typeMapping.put("integer", "int");
         typeMapping.put("Date", "DateTime");
         typeMapping.put("date", "DateTime");
+        typeMapping.put("DateTime", "DateTime");
         typeMapping.put("File", "MultipartFile");
         typeMapping.put("binary", "MultipartFile");
         typeMapping.put("UUID", "String");
@@ -394,24 +396,41 @@ public class DartClientCodegen extends DefaultCodegen {
     }
 
     @Override
-    public String toModelName(String name) {
+    public String toModelName(final String name) {
+        if (importMapping().containsKey(name)) {
+            return name;
+        }
+
+        String nameWithPrefixSuffix = sanitizeName(name);
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            // add '_' so that model name can be camelized correctly
+            nameWithPrefixSuffix = modelNamePrefix + "_" + nameWithPrefixSuffix;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            // add '_' so that model name can be camelized correctly
+            nameWithPrefixSuffix = nameWithPrefixSuffix + "_" + modelNameSuffix;
+        }
+
+        // camelize the model name
+        // phone_number => PhoneNumber
+        final String camelizedName = camelize(nameWithPrefixSuffix);
+
         // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + camelize("model_" + name));
-            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
+        if (isReservedWord(camelizedName)) {
+            final String modelName = "Model" + camelizedName;
+            LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
         }
 
-        if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
-            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+        // model name starts with number
+        if (camelizedName.matches("^\\d.*")) {
+            final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
         }
 
-        if (typeMapping.containsValue(name)) {
-            return camelize(name);
-        } else {
-            // camelize the model name
-            return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
-        }
+        return camelizedName;
     }
 
     @Override
@@ -420,7 +439,7 @@ public class DartClientCodegen extends DefaultCodegen {
     }
 
     @Override public String toModelDocFilename(String name) {
-        return super.toModelDocFilename(toModelName(name));
+        return toModelName(name);
     }
 
     @Override
@@ -461,26 +480,22 @@ public class DartClientCodegen extends DefaultCodegen {
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
+            return instantiationTypes().get("array") + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
-
-            return getSchemaType(p) + "<String, " + getTypeDeclaration(inner) + ">";
+            return instantiationTypes().get("map") + "<String, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
     }
 
     @Override
     public String getSchemaType(Schema p) {
-        String openAPIType = super.getSchemaType(p);
-        String type;
-        if (typeMapping.containsKey(openAPIType)) {
-            type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return type;
-            }
-        } else {
-            type = openAPIType;
+        String type = super.getSchemaType(p);
+        if (typeMapping.containsKey(type)) {
+            return typeMapping.get(type);
+        }
+        if (languageSpecificPrimitives.contains(type)) {
+            return type;
         }
         return toModelName(type);
     }
