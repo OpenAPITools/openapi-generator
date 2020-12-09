@@ -101,13 +101,13 @@ class EnumArraysJustSymbolEnum {
 
   String toJson() => value;
 
-  static const _ = EnumArraysJustSymbolEnum._('>=');
-  static const _ = EnumArraysJustSymbolEnum._('$');
+  static const greaterThanEqual = EnumArraysJustSymbolEnum._('>=');
+  static const dollar = EnumArraysJustSymbolEnum._('$');
 
   /// List of all possible values in this [enum][EnumArraysJustSymbolEnum].
   static const values = <EnumArraysJustSymbolEnum>[
-    _,
-    _,
+    greaterThanEqual,
+    dollar,
   ];
 
   static EnumArraysJustSymbolEnum fromJson(dynamic value) =>
@@ -140,8 +140,8 @@ class EnumArraysJustSymbolEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumArraysJustSymbolEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case '>=': return EnumArraysJustSymbolEnum._;
-      case '$': return EnumArraysJustSymbolEnum._;
+      case '>=': return EnumArraysJustSymbolEnum.greaterThanEqual;
+      case '$': return EnumArraysJustSymbolEnum.dollar;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
@@ -175,13 +175,13 @@ class EnumArraysArrayEnumEnum {
 
   String toJson() => value;
 
-  static const fish_ = EnumArraysArrayEnumEnum._('fish');
-  static const crab_ = EnumArraysArrayEnumEnum._('crab');
+  static const fish = EnumArraysArrayEnumEnum._('fish');
+  static const crab = EnumArraysArrayEnumEnum._('crab');
 
   /// List of all possible values in this [enum][EnumArraysArrayEnumEnum].
   static const values = <EnumArraysArrayEnumEnum>[
-    fish_,
-    crab_,
+    fish,
+    crab,
   ];
 
   static EnumArraysArrayEnumEnum fromJson(dynamic value) =>
@@ -214,8 +214,8 @@ class EnumArraysArrayEnumEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumArraysArrayEnumEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case 'fish': return EnumArraysArrayEnumEnum.fish_;
-      case 'crab': return EnumArraysArrayEnumEnum.crab_;
+      case 'fish': return EnumArraysArrayEnumEnum.fish;
+      case 'crab': return EnumArraysArrayEnumEnum.crab;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

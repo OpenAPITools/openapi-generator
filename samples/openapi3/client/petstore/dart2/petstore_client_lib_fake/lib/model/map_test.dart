@@ -129,13 +129,13 @@ class MapTestMapOfEnumStringEnum {
 
   String toJson() => value;
 
-  static const upper_ = MapTestMapOfEnumStringEnum._('UPPER');
-  static const lower_ = MapTestMapOfEnumStringEnum._('lower');
+  static const UPPER = MapTestMapOfEnumStringEnum._('UPPER');
+  static const lower = MapTestMapOfEnumStringEnum._('lower');
 
   /// List of all possible values in this [enum][MapTestMapOfEnumStringEnum].
   static const values = <MapTestMapOfEnumStringEnum>[
-    upper_,
-    lower_,
+    UPPER,
+    lower,
   ];
 
   static MapTestMapOfEnumStringEnum fromJson(dynamic value) =>
@@ -168,8 +168,8 @@ class MapTestMapOfEnumStringEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   MapTestMapOfEnumStringEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case 'UPPER': return MapTestMapOfEnumStringEnum.upper_;
-      case 'lower': return MapTestMapOfEnumStringEnum.lower_;
+      case 'UPPER': return MapTestMapOfEnumStringEnum.UPPER;
+      case 'lower': return MapTestMapOfEnumStringEnum.lower;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

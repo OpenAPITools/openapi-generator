@@ -28,10 +28,10 @@ class InlineObject2EnumFormStringArray extends EnumClass {
 
   /// Form parameter enum test (string array)
   @BuiltValueEnumConst(wireName: '>')
-  static const InlineObject2EnumFormStringArray &gt; = _$inlineObject2EnumFormStringArray_&gt;;
+  static const InlineObject2EnumFormStringArray greaterThan = _$inlineObject2EnumFormStringArray_greaterThan;
   /// Form parameter enum test (string array)
   @BuiltValueEnumConst(wireName: '$')
-  static const InlineObject2EnumFormStringArray $ = _$inlineObject2EnumFormStringArray_$;
+  static const InlineObject2EnumFormStringArray dollar = _$inlineObject2EnumFormStringArray_dollar;
 
   static Serializer<InlineObject2EnumFormStringArray> get serializer => _$inlineObject2EnumFormStringArraySerializer;
 
@@ -52,7 +52,7 @@ class InlineObject2EnumFormString extends EnumClass {
   static const InlineObject2EnumFormString efg = _$inlineObject2EnumFormString_efg;
   /// Form parameter enum test (string)
   @BuiltValueEnumConst(wireName: '(xyz)')
-  static const InlineObject2EnumFormString (xyz) = _$inlineObject2EnumFormString_(xyz);
+  static const InlineObject2EnumFormString leftParenthesisXyzRightParenthesis = _$inlineObject2EnumFormString_leftParenthesisXyzRightParenthesis;
 
   static Serializer<InlineObject2EnumFormString> get serializer => _$inlineObject2EnumFormStringSerializer;
 

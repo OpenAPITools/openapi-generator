@@ -30,15 +30,15 @@ class OuterEnumInteger {
 
   String toJson() => value;
 
-  static const number0_ = OuterEnumInteger._(0);
-  static const number1_ = OuterEnumInteger._(1);
-  static const number2_ = OuterEnumInteger._(2);
+  static const number0 = OuterEnumInteger._(0);
+  static const number1 = OuterEnumInteger._(1);
+  static const number2 = OuterEnumInteger._(2);
 
   /// List of all possible values in this [enum][OuterEnumInteger].
   static const values = <OuterEnumInteger>[
-    number0_,
-    number1_,
-    number2_,
+    number0,
+    number1,
+    number2,
   ];
 
   static OuterEnumInteger fromJson(dynamic value) =>
@@ -71,9 +71,9 @@ class OuterEnumIntegerTypeTransformer {
   /// and users are still using an old app with the old code.
   OuterEnumInteger decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case 0: return OuterEnumInteger.number0_;
-      case 1: return OuterEnumInteger.number1_;
-      case 2: return OuterEnumInteger.number2_;
+      case 0: return OuterEnumInteger.number0;
+      case 1: return OuterEnumInteger.number1;
+      case 2: return OuterEnumInteger.number2;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

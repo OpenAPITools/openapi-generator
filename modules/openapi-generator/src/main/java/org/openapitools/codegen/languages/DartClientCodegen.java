@@ -35,8 +35,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
@@ -354,6 +352,10 @@ public class DartClientCodegen extends DefaultCodegen {
 
     @Override
     public String toVarName(String name) {
+        return  toVarName(name, "n");
+    }
+
+    private String toVarName(String name, String numberPrefix) {
         // replace - with _ e.g. created-at => created_at
         name = name.replace("-", "_");
 
@@ -378,7 +380,7 @@ public class DartClientCodegen extends DefaultCodegen {
         name = camelize(name, true);
 
         if (name.matches("^\\d.*")) {
-            name = "n" + name;
+            name = numberPrefix + name;
         }
 
         if (isReservedWord(name) || importMapping().containsKey(name)) {
@@ -505,65 +507,27 @@ public class DartClientCodegen extends DefaultCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            boolean succes = buildEnumFromVendorExtension(cm) ||
-                    buildEnumFromValues(cm);
-            for (CodegenProperty var : cm.vars) {
-                updateCodegenPropertyEnum(var);
-            }
-        }
-        return objs;
-    }
+    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
+        if (vendorExtensions != null && useEnumExtension && vendorExtensions.containsKey("x-enum-values")) {
+            // Use the x-enum-values extension for this enum
+            // Existing enumVars added by the default handling need to be removed first
+            enumVars.clear();
 
-    /**
-     * Builds the set of enum members from their declared value.
-     *
-     * @return {@code true} if the enum was built
-     */
-    private boolean buildEnumFromValues(CodegenModel cm) {
-        if (!cm.isEnum || cm.allowableValues == null) {
-            return false;
-        }
-        Map<String, Object> allowableValues = cm.allowableValues;
-        List<Object> values = (List<Object>) allowableValues.get("values");
-        List<Map<String, Object>> enumVars = buildEnumVars(values, cm.dataType);
-        cm.allowableValues.put("enumVars", enumVars);
-        return true;
-    }
-
-    /**
-     * Builds the set of enum members from a vendor extension.
-     *
-     * @return {@code true} if the enum was built
-     */
-    private boolean buildEnumFromVendorExtension(CodegenModel cm) {
-        if (!cm.isEnum || cm.allowableValues == null ||
-                !useEnumExtension ||
-                !cm.vendorExtensions.containsKey("x-enum-values")) {
-            return false;
-        }
-        Object extension = cm.vendorExtensions.get("x-enum-values");
-        List<Map<String, Object>> values = (List<Map<String, Object>>) extension;
-        List<Map<String, String>> enumVars = new ArrayList<>();
-        for (Map<String, Object> value : values) {
-            Map<String, String> enumVar = new HashMap<>();
-            String name = camelize((String) value.get("identifier"), true);
-            if (isReservedWord(name)) {
-                name = escapeReservedWord(name);
+            Object extension = vendorExtensions.get("x-enum-values");
+            List<Map<String, Object>> values = (List<Map<String, Object>>) extension;
+            for (Map<String, Object> value : values) {
+                Map<String, Object> enumVar = new HashMap<>();
+                enumVar.put("name", toEnumVarName((String) value.get("identifier"), dataType));
+                enumVar.put("value", toEnumValue(value.get("numericValue").toString(), dataType));
+                enumVar.put("isString", isDataTypeString(dataType));
+                if (value.containsKey("description")) {
+                    enumVar.put("description", value.get("description").toString());
+                }
+                enumVars.add(enumVar);
             }
-            enumVar.put("name", name);
-            enumVar.put("value", toEnumValue(value.get("numericValue").toString(), cm.dataType));
-            if (value.containsKey("description")) {
-                enumVar.put("description", value.get("description").toString());
-            }
-            enumVars.add(enumVar);
+        } else {
+            super.updateEnumVarsWithExtensions(enumVars, vendorExtensions, dataType);
         }
-        cm.allowableValues.put("enumVars", enumVars);
-        return true;
     }
 
     @Override
@@ -571,12 +535,7 @@ public class DartClientCodegen extends DefaultCodegen {
         if (value.length() == 0) {
             return "empty";
         }
-        String var = value.replaceAll("\\W+", "_");
-        if ("number".equalsIgnoreCase(datatype) ||
-                "int".equalsIgnoreCase(datatype)) {
-            var = "Number" + var;
-        }
-        return escapeReservedWord(camelize(var, true));
+        return toVarName(value, "number");
     }
 
     @Override

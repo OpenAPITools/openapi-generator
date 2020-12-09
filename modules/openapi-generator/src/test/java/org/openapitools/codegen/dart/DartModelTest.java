@@ -26,6 +26,8 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.*;
+
 @SuppressWarnings("static-method")
 public class DartModelTest {
 
@@ -339,18 +341,38 @@ public class DartModelTest {
         Assert.assertEquals(codegen.toVarName(name), expectedName);
     }
 
-    @Test(description = "test enum variable names")
-    public void testEnumVarNames() {
-        final DefaultCodegen codegen = new DartClientCodegen();
-        // variable names are always lower case: Double -> double -> double_
-        Assert.assertEquals(codegen.toEnumVarName("Double", null), "double_");
-        Assert.assertEquals(codegen.toEnumVarName("double", null), "double_");
-        Assert.assertEquals(codegen.toEnumVarName("dynamic", null), "dynamic_");
+    @DataProvider(name = "enumVarNames")
+    public static Object[][] enumVarNames() {
+        return new Object[][] {
+                {"", "empty"},
+                {"Double", "double_"},
+                {"double", "double_"},
+                {"dynamic", "dynamic_"},
+                {"String", "string"},
+                {"string", "string"},
+                {"hello", "hello"},
+                {"FOO", "FOO"},
+                {"FOO_BAR", "FOO_BAR"},
+                {"FOO_BAR_BAZ_", "FOO_BAR_BAZ_"},
+                {"123hello", "number123hello"},
+                {"_hello", "hello"},
+                {"_double", "double_"},
+                {"_123hello", "number123hello"},
+                {"_5FOO", "number5fOO"},
+                {"_FOO", "FOO"},
+                {"_$foo", "dollarFoo"},
+                {"_$_foo_", "dollarFoo"},
+                {"$special[property.name]", "dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket"},
+                {"$", "dollar"},
+                {">=", "greaterThanEqual"},
+                {"foo bar", "fooBar"},
+        };
+    }
 
-        // should not escape non-reserved
-        // TODO these are wrong
-        Assert.assertEquals(codegen.toEnumVarName("IF", null), "iF_");
-        Assert.assertEquals(codegen.toEnumVarName("hello", null), "hello_");
+    @Test(dataProvider = "enumVarNames", description = "test enum names are correctly escaped")
+    public void convertEnumVarNames(String name, String expectedName) {
+        final DefaultCodegen codegen = new DartClientCodegen();
+        Assert.assertEquals(codegen.toEnumVarName(name, null), expectedName);
     }
 
     @Test(description = "model names support `--model-name-prefix` and `--model-name-suffix`")
@@ -360,6 +382,104 @@ public class DartModelTest {
         codegen.setModelNameSuffix("type");
 
         Assert.assertEquals(codegen.toModelName("hello_test"), "ModelHelloTestType");
+    }
+
+    @Test(description = "support normal enum values")
+    public void testEnumValues() {
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("testStringEnum", new StringSchema()._enum(Arrays.asList("foo", "bar")))
+                .addProperties("testIntEnum", new IntegerSchema().addEnumItem(1).addEnumItem(2));
+        final DefaultCodegen codegen = new DartClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+        codegen.postProcessModels(Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm))));
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "testStringEnum");
+        Assert.assertEquals(property1.dataType, "String");
+        Assert.assertEquals(property1.baseType, "String");
+        Assert.assertEquals(property1.datatypeWithEnum, "TestStringEnumEnum");
+        Assert.assertEquals(property1.name, "testStringEnum");
+        Assert.assertTrue(property1.isEnum);
+        Assert.assertEquals(property1.allowableValues.size(), 2);
+        Assert.assertEquals(((List<String>) property1.allowableValues.get("values")).size(), 2);
+        List<Map<String, Object>> enumVars1 = (List<Map<String, Object>>) property1.allowableValues.get("enumVars");
+        Assert.assertEquals(enumVars1.size(), 2);
+
+        Assert.assertEquals(enumVars1.get(0).get("name"), "foo");
+        Assert.assertEquals(enumVars1.get(0).get("value"), "'foo'");
+        Assert.assertEquals(enumVars1.get(0).get("isString"), true);
+
+        Assert.assertEquals(enumVars1.get(1).get("name"), "bar");
+        Assert.assertEquals(enumVars1.get(1).get("value"), "'bar'");
+        Assert.assertEquals(enumVars1.get(1).get("isString"), true);
+
+        final CodegenProperty property2 = cm.vars.get(1);
+        Assert.assertEquals(property2.baseName, "testIntEnum");
+        Assert.assertEquals(property2.dataType, "int");
+        Assert.assertEquals(property2.baseType, "int");
+        Assert.assertEquals(property2.datatypeWithEnum, "TestIntEnumEnum");
+        Assert.assertEquals(property2.name, "testIntEnum");
+        Assert.assertTrue(property2.isEnum);
+        Assert.assertEquals(property2.allowableValues.size(), 2);
+        Assert.assertEquals(((List<String>) property2.allowableValues.get("values")).size(), 2);
+        List<Map<String, Object>> enumVars2 = (List<Map<String, Object>>) property2.allowableValues.get("enumVars");
+        Assert.assertEquals(enumVars2.size(), 2);
+
+        Assert.assertEquals(enumVars2.get(0).get("name"), "number1");
+        Assert.assertEquals(enumVars2.get(0).get("value"), "1");
+        Assert.assertEquals(enumVars2.get(0).get("isString"), false);
+
+        Assert.assertEquals(enumVars2.get(1).get("name"), "number2");
+        Assert.assertEquals(enumVars2.get(1).get("value"), "2");
+        Assert.assertEquals(enumVars2.get(1).get("isString"), false);
+    }
+
+    @Test(description = "support for x-enum-values extension")
+    public void testXEnumValuesExtension() {
+        final Map<String, Object> enumValue1 = new HashMap<>();
+        enumValue1.put("identifier", "foo");
+        enumValue1.put("numericValue", 1);
+        enumValue1.put("description", "the foo");
+        final Map<String, Object> enumValue2 = new HashMap<>();
+        enumValue2.put("identifier", "bar");
+        enumValue2.put("numericValue", 2);
+        enumValue2.put("description", "the bar");
+
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("testIntEnum", new IntegerSchema().addEnumItem(1).addEnumItem(2)
+                        .extensions(Collections.singletonMap("x-enum-values", Arrays.asList(enumValue1, enumValue2))));
+        final DartClientCodegen codegen = new DartClientCodegen();
+        codegen.setUseEnumExtension(true);
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+        codegen.postProcessModels(Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm))));
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "testIntEnum");
+        Assert.assertEquals(property1.dataType, "int");
+        Assert.assertEquals(property1.baseType, "int");
+        Assert.assertEquals(property1.datatypeWithEnum, "TestIntEnumEnum");
+        Assert.assertEquals(property1.name, "testIntEnum");
+        Assert.assertTrue(property1.isEnum);
+        Assert.assertEquals(property1.allowableValues.size(), 2);
+        Assert.assertEquals(((List<String>) property1.allowableValues.get("values")).size(), 2);
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) property1.allowableValues.get("enumVars");
+        Assert.assertEquals(enumVars.size(), 2);
+
+        Assert.assertEquals(enumVars.get(0).get("name"), "foo");
+        Assert.assertEquals(enumVars.get(0).get("value"), "1");
+        Assert.assertEquals(enumVars.get(0).get("isString"), false);
+        Assert.assertEquals(enumVars.get(0).get("description"), "the foo");
+
+        Assert.assertEquals(enumVars.get(1).get("name"), "bar");
+        Assert.assertEquals(enumVars.get(1).get("value"), "2");
+        Assert.assertEquals(enumVars.get(1).get("isString"), false);
+        Assert.assertEquals(enumVars.get(1).get("description"), "the bar");
     }
 
     // datetime (or primitive type) not yet supported in HTTP request body
