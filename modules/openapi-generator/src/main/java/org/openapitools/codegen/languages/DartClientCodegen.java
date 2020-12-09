@@ -352,10 +352,6 @@ public class DartClientCodegen extends DefaultCodegen {
 
     @Override
     public String toVarName(String name) {
-        return  toVarName(name, "n");
-    }
-
-    private String toVarName(String name, String numberPrefix) {
         // replace - with _ e.g. created-at => created_at
         name = name.replace("-", "_");
 
@@ -380,7 +376,7 @@ public class DartClientCodegen extends DefaultCodegen {
         name = camelize(name, true);
 
         if (name.matches("^\\d.*")) {
-            name = numberPrefix + name;
+            name = "n" + name;
         }
 
         if (isReservedWord(name) || importMapping().containsKey(name)) {
@@ -535,7 +531,16 @@ public class DartClientCodegen extends DefaultCodegen {
         if (value.length() == 0) {
             return "empty";
         }
-        return toVarName(value, "number");
+        if (("number".equalsIgnoreCase(datatype) ||
+                "double".equalsIgnoreCase(datatype) ||
+                "int".equalsIgnoreCase(datatype)) &&
+                value.matches("^-?\\d.*")) {
+            // Only rename numeric values when the datatype is numeric
+            // AND the name is not changed by enum extensions (matches a numeric value).
+            boolean isNegative = value.startsWith("-");
+            return toVarName("number" + (isNegative ? "_negative" : "") + value);
+        }
+        return toVarName(value);
     }
 
     @Override
