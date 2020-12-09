@@ -6,11 +6,11 @@ part 'model_enum_class.g.dart';
 
 class ModelEnumClass extends EnumClass {
 
-  @BuiltValueEnumConst(wireName: '_abc')
+  @BuiltValueEnumConst(wireName: r'_abc')
   static const ModelEnumClass abc = _$abc;
-  @BuiltValueEnumConst(wireName: '-efg')
+  @BuiltValueEnumConst(wireName: r'-efg')
   static const ModelEnumClass efg = _$efg;
-  @BuiltValueEnumConst(wireName: '(xyz)')
+  @BuiltValueEnumConst(wireName: r'(xyz)')
   static const ModelEnumClass leftParenthesisXyzRightParenthesis = _$leftParenthesisXyzRightParenthesis;
 
   static Serializer<ModelEnumClass> get serializer => _$modelEnumClassSerializer;
