@@ -11,7 +11,7 @@
 package petstore
 
 import (
-  "bytes"
+	"bytes"
 	_context "context"
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
@@ -82,13 +82,13 @@ func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassname
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-	    executionError       GenericOpenAPIError
+		executionError       GenericOpenAPIError
 		localVarReturnValue  Client
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeClassnameTags123ApiService.TestClassname")
 	if err != nil {
-        executionError.error = err.Error()
+		executionError.error = err.Error()
 		return localVarReturnValue, nil, executionError}
 	}
 
@@ -98,7 +98,7 @@ func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassname
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	if r.client == nil {
-	    executionError.error = "client is required and must be specified"
+		executionError.error = "client is required and must be specified"
 		return localVarReturnValue, nil, executionError
 	}
 
@@ -137,21 +137,21 @@ func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassname
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-	    executionError.error = err.Error()
+		executionError.error = err.Error()
 		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-	    executionError.error = err.Error()
+		executionError.error = err.Error()
 		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-  localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-	    executionError.error = err.Error()
+		executionError.error = err.Error()
 		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
