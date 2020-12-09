@@ -26,7 +26,7 @@ After that you should be able to call all methods from your API spec. Most of th
 
 But for obvious reason you will not get any `200 OK`, only `501 Not implemented`. So your next steps are:
 
-- check all TODOs left in the stub code where generator was not smart enough to guarantee correct implementation
+- check all TODOs left in the stub code where generator was not smart enough and could not guarantee correct implementation
 - implement your API security mechanism (either special attribute or separate middleware) - generator does not do anything about it yet
 - implement your handlers - the most tricky part :)
 
