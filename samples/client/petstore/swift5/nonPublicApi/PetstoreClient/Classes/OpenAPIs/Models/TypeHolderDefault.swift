@@ -15,7 +15,7 @@ internal struct TypeHolderDefault: Codable {
     internal var boolItem: Bool = true
     internal var arrayItem: [Int]
 
-    internal init(stringItem: String, numberItem: Double, integerItem: Int, boolItem: Bool, arrayItem: [Int]) {
+    internal init(stringItem: String = "what", numberItem: Double, integerItem: Int, boolItem: Bool = true, arrayItem: [Int]) {
         self.stringItem = stringItem
         self.numberItem = numberItem
         self.integerItem = integerItem
