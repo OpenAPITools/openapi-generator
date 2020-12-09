@@ -372,6 +372,10 @@ public class DartClientCodegen extends DefaultCodegen {
             name = escapeReservedWord(name);
         }
 
+        if (importMapping.containsKey(name)) {
+            name = escapeReservedWord(name);
+        }
+
         return name;
     }
 

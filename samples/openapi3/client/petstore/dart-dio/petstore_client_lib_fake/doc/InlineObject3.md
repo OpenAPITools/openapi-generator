@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **int64** | **int** | None | [optional] [default to null]
 **number** | **num** | None | [default to null]
 **float** | **double** | None | [optional] [default to null]
-**double** | **double** | None | [default to null]
+**double_** | **double** | None | [default to null]
 **string** | **String** | None | [optional] [default to null]
 **patternWithoutDelimiter** | **String** | None | [default to null]
 **byte** | **String** | None | [default to null]

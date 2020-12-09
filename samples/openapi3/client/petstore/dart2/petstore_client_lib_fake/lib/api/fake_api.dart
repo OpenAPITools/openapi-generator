@@ -632,7 +632,7 @@ class FakeApi {
   /// * [num] number (required):
   ///   None
   ///
-  /// * [double] double (required):
+  /// * [double] double_ (required):
   ///   None
   ///
   /// * [String] patternWithoutDelimiter (required):
@@ -670,13 +670,13 @@ class FakeApi {
   ///
   /// * [String] callback:
   ///   None
-  Future testEndpointParametersWithHttpInfo(num number, double double, String patternWithoutDelimiter, String byte, { int integer, int int32, int int64, double float, String string, MultipartFile binary, DateTime date, DateTime dateTime, String password, String callback }) async {
+  Future testEndpointParametersWithHttpInfo(num number, double double_, String patternWithoutDelimiter, String byte, { int integer, int int32, int int64, double float, String string, MultipartFile binary, DateTime date, DateTime dateTime, String password, String callback }) async {
     // Verify required params are set.
     if (number == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: number');
     }
-    if (double == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: double');
+    if (double_ == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: double_');
     }
     if (patternWithoutDelimiter == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: patternWithoutDelimiter');
@@ -723,9 +723,9 @@ class FakeApi {
         hasFields = true;
         mp.fields[r'float'] = parameterToString(float);
       }
-      if (double != null) {
+      if (double_ != null) {
         hasFields = true;
-        mp.fields[r'double'] = parameterToString(double);
+        mp.fields[r'double'] = parameterToString(double_);
       }
       if (string != null) {
         hasFields = true;
@@ -779,8 +779,8 @@ class FakeApi {
       if (float != null) {
         formParams[r'float'] = parameterToString(float);
       }
-      if (double != null) {
-        formParams[r'double'] = parameterToString(double);
+      if (double_ != null) {
+        formParams[r'double'] = parameterToString(double_);
       }
       if (string != null) {
         formParams[r'string'] = parameterToString(string);
@@ -826,7 +826,7 @@ class FakeApi {
   /// * [num] number (required):
   ///   None
   ///
-  /// * [double] double (required):
+  /// * [double] double_ (required):
   ///   None
   ///
   /// * [String] patternWithoutDelimiter (required):
@@ -864,8 +864,8 @@ class FakeApi {
   ///
   /// * [String] callback:
   ///   None
-  Future testEndpointParameters(num number, double double, String patternWithoutDelimiter, String byte, { int integer, int int32, int int64, double float, String string, MultipartFile binary, DateTime date, DateTime dateTime, String password, String callback }) async {
-    final response = await testEndpointParametersWithHttpInfo(number, double, patternWithoutDelimiter, byte,  integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback );
+  Future testEndpointParameters(num number, double double_, String patternWithoutDelimiter, String byte, { int integer, int int32, int int64, double float, String string, MultipartFile binary, DateTime date, DateTime dateTime, String password, String callback }) async {
+    final response = await testEndpointParametersWithHttpInfo(number, double_, patternWithoutDelimiter, byte,  integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
