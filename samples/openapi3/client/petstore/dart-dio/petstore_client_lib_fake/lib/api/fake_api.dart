@@ -147,8 +147,7 @@ class FakeApi {
             onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
-            final serializer = _serializers.serializerForType(bool);
-            final data = _serializers.deserializeWith<bool>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            var data = response.data as bool;
 
             return Response<bool>(
                 data: data,
@@ -251,8 +250,7 @@ class FakeApi {
             onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
-            final serializer = _serializers.serializerForType(num);
-            final data = _serializers.deserializeWith<num>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            var data = response.data as num;
 
             return Response<num>(
                 data: data,
@@ -303,8 +301,7 @@ class FakeApi {
             onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
-            final serializer = _serializers.serializerForType(String);
-            final data = _serializers.deserializeWith<String>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            var data = response.data as String;
 
             return Response<String>(
                 data: data,

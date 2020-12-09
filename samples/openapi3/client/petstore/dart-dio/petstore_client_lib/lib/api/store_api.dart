@@ -83,8 +83,7 @@ class StoreApi {
             onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
-            final serializer = _serializers.serializerForType(Map);
-            final data = _serializers.deserializeWith<Map<String, int>>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            var data = response.data as Map<String, int>;
 
             return Response<Map<String, int>>(
                 data: data,
