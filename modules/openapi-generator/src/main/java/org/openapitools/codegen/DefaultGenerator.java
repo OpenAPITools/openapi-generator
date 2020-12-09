@@ -925,6 +925,9 @@ public class DefaultGenerator implements Generator {
             }
         }
 
+        // post-process
+        config.postProcess();
+
         // reset GlobalSettings, so that the running thread can be reused for another generator-run
         GlobalSettings.reset();
 

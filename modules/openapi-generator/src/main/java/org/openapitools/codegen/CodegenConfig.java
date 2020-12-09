@@ -182,6 +182,8 @@ public interface CodegenConfig {
 
     Map<String, Object> updateAllModels(Map<String, Object> objs);
 
+    void postProcess();
+
     Map<String, Object> postProcessAllModels(Map<String, Object> objs);
 
     Map<String, Object> postProcessModels(Map<String, Object> objs);
