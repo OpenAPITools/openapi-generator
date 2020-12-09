@@ -644,6 +644,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [TravelTime platform](https://www.traveltimeplatform.com/)
 - [TribalScale](https://www.tribalscale.com)
 - [TUI InfoTec GmbH](http://www.tui-infotec.com/)
+- [Twitter](https://twitter.com)
 - [unblu inc.](https://www.unblu.com/)
 - [Veamly](https://www.veamly.com/)
 - [wbt-solutions](https://www.wbt-solutions.de/)
