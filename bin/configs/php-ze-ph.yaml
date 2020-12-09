@@ -1,4 +1,0 @@
-generatorName: php-ze-ph
-outputDir: samples/server/petstore/php-ze-ph
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
-templateDir: modules/openapi-generator/src/main/resources/php-ze-ph

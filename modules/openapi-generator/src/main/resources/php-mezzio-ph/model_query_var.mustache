@@ -1,0 +1,52 @@
+{{^isPrimitiveType}}
+{{^isContainer}}
+{{#isDate}}
+     * @DTA\Strategy(name="Date")
+     * @DTA\Validator(name="Date")
+{{/isDate}}
+{{#isDateTime}}
+     * @DTA\Strategy(name="DateTime")
+     * @DTA\Validator(name="Date", options={"format": \DateTime::RFC3339})
+{{/isDateTime}}
+{{/isContainer}}
+{{#isContainer}}
+     * TODO add validator(s) and strategy for {{dataType}} and collection format {{internal.ze-ph.collectionFormat}}
+{{/isContainer}}
+{{/isPrimitiveType}}
+{{#isPrimitiveType}}
+{{#isContainer}}
+     * TODO check validator and strategy are correct and can handle container item type
+     * @DTA\Strategy(name="QueryStringScalarArray", options={"type":"{{#items}}{{dataType}}{{/items}}", "format":"{{internal.ze-ph.collectionFormat}}"})
+     * @DTA\Validator(name="QueryStringScalarArray", options={"type":"{{#items}}{{dataType}}{{/items}}", "format":"{{internal.ze-ph.collectionFormat}}"{{#minItems}}, "min_items":{{minItems}}{{/minItems}}{{#maxItems}}, "max_items":{{maxItems}}{{/maxItems}}})
+{{/isContainer}}
+{{^isContainer}}
+     * @DTA\Strategy(name="QueryStringScalar", options={"type":"{{dataType}}"})
+     * @DTA\Validator(name="QueryStringScalar", options={"type":"{{dataType}}"})
+{{/isContainer}}
+{{/isPrimitiveType}}
+{{#hasValidation}}
+{{#minLength}}
+{{#maxLength}}
+     * @DTA\Validator(name="StringLength", options={"min":{{minLength}}, "max":{{maxLength}}})
+{{/maxLength}}
+{{/minLength}}
+{{^minLength}}
+{{#maxLength}}
+     * @DTA\Validator(name="StringLength", options={"max":{{maxLength}}})
+{{/maxLength}}
+{{/minLength}}
+{{#minLength}}
+{{^maxLength}}
+     * @DTA\Validator(name="StringLength", options={"min":{{minLength}}})
+{{/maxLength}}
+{{/minLength}}
+{{#minimum}}
+     * @DTA\Validator(name="GreaterThan", options={"min":{{minimum}}{{^exclusiveMinimum}}, "inclusive":true{{/exclusiveMinimum}}})
+{{/minimum}}
+{{#maximum}}
+     * @DTA\Validator(name="LessThan", options={"max":{{maximum}}{{^exclusiveMaximum}}, "inclusive":true{{/exclusiveMaximum}}})
+{{/maximum}}
+{{#pattern}}
+     * @DTA\Validator(name="Regex", options={"pattern":"{{{pattern}}}"})
+{{/pattern}}
+{{/hasValidation}}

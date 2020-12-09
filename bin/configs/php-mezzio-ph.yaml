@@ -1,0 +1,4 @@
+generatorName: php-mezzio-ph
+outputDir: samples/server/petstore/php-mezzio-ph
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/php-mezzio-ph

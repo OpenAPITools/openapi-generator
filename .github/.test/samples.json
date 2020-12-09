@@ -807,7 +807,7 @@
       ]
     },
     {
-      "input": "php-ze-ph-petstore-server.sh",
+      "input": "php-mezzio-ph-petstore-server.sh",
       "matches": [
         "Server: PHP"
       ]
