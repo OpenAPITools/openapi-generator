@@ -17,9 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -31,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import org.apache.commons.io.FilenameUtils;
@@ -54,6 +52,8 @@ import org.slf4j.LoggerFactory;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class DartClientCodegen extends DefaultCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
@@ -353,12 +353,14 @@ public class DartClientCodegen extends DefaultCodegen {
     @Override
     public String toVarName(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = name.replace("-", "_");
 
         // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
+
+        name = replaceSpecialCharsInDartString(name);
 
         // camelize (lower first character) the variable name
         // pet_id => petId
@@ -368,15 +370,18 @@ public class DartClientCodegen extends DefaultCodegen {
             name = "n" + name;
         }
 
-        if (isReservedWord(name)) {
-            name = escapeReservedWord(name);
-        }
-
-        if (importMapping.containsKey(name)) {
+        if (isReservedWord(name) || importMapping().containsKey(name)) {
             name = escapeReservedWord(name);
         }
 
         return name;
+    }
+
+    protected String replaceSpecialCharsInDartString(String source) {
+        if (source.chars().anyMatch(character -> specialCharReplacements.containsKey("" + ((char) character)))) {
+            return escape(source, specialCharReplacements, Lists.newArrayList("_"), "_");
+        }
+        return source;
     }
 
     @Override
@@ -440,7 +445,7 @@ public class DartClientCodegen extends DefaultCodegen {
 
         if (schema.getDefault() != null) {
             if (ModelUtils.isStringSchema(schema)) {
-                return "'" + schema.getDefault().toString().replaceAll("'", "\\'") + "'";
+                return "'" + schema.getDefault().toString().replace("'", "\\'") + "'";
             }
             return schema.getDefault().toString();
         } else {

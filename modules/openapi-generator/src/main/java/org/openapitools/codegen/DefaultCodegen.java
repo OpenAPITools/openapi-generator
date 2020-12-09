@@ -1313,7 +1313,7 @@ public class DefaultCodegen implements CodegenConfig {
     public String toVarName(final String name) {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
+        } else if (name.chars().anyMatch(character -> specialCharReplacements.containsKey("" + ((char) character)))) {
             return escape(name, specialCharReplacements, null, null);
         }
         return name;
@@ -1330,7 +1330,7 @@ public class DefaultCodegen implements CodegenConfig {
         name = removeNonNameElementToCamelCase(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
+        } else if (name.chars().anyMatch(character -> specialCharReplacements.containsKey("" + ((char) character)))) {
             return escape(name, specialCharReplacements, null, null);
         }
         return name;
@@ -1506,7 +1506,7 @@ public class DefaultCodegen implements CodegenConfig {
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
 
         // initialize special character mapping
-        initalizeSpecialCharacterMapping();
+        initializeSpecialCharacterMapping();
 
         // Register common Mustache lambdas.
         registerMustacheLambdas();
@@ -1515,7 +1515,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Initialize special character mapping
      */
-    protected void initalizeSpecialCharacterMapping() {
+    protected void initializeSpecialCharacterMapping() {
         // Initialize special characters
         specialCharReplacements.put("$", "Dollar");
         specialCharReplacements.put("^", "Caret");

@@ -280,9 +280,6 @@ public class DartModelTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
-        // {{imports}} is not used in template
-        //Assert.assertEquals(cm.imports.size(), 2);
-        //Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
 
     @DataProvider(name = "modelNames")
@@ -310,35 +307,35 @@ public class DartModelTest {
         Assert.assertEquals(cm.classname, codegen.toModelName(expectedName));
     }
 
-    @Test(description = "test variable names are correctly escaped")
-    public void testVarNames() throws Exception {
+    @DataProvider(name = "varNames")
+    public static Object[][] varNames() {
+        return new Object[][] {
+                {"Double", "double_"},
+                {"double", "double_"},
+                {"dynamic", "dynamic_"},
+                {"String", "string"},
+                {"string", "string"},
+                {"hello", "hello"},
+                {"FOO", "FOO"},
+                {"FOO_BAR", "FOO_BAR"},
+                {"FOO_BAR_BAZ_", "FOO_BAR_BAZ_"},
+                {"123hello", "n123hello"},
+                {"_hello", "hello"},
+                {"_double", "double_"},
+                {"_123hello", "n123hello"},
+                {"_5FOO", "n5fOO"},
+                // TODO this fails
+                // {"_FOO", "FOO"},
+                {"_$foo", "dollarFoo"},
+                {"_$_foo_", "dollarFoo"},
+                {"$special[property.name]", "dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket"},
+        };
+    }
+
+    @Test(dataProvider = "varNames", description = "test variable names are correctly escaped")
+    public void convertVarName(String name, String expectedName) throws Exception {
         final DefaultCodegen codegen = new DartClientCodegen();
-        // variable names are always lower case: Double -> double -> double_
-        Assert.assertEquals(codegen.toVarName("Double"), "double_");
-        Assert.assertEquals(codegen.toVarName("double"), "double_");
-        Assert.assertEquals(codegen.toVarName("dynamic"), "dynamic_");
-
-        // should not escape non-reserved
-        Assert.assertEquals(codegen.toVarName("String"), "string");
-        Assert.assertEquals(codegen.toVarName("string"), "string");
-        Assert.assertEquals(codegen.toVarName("hello"), "hello");
-
-        // should not escape full upper case names
-        Assert.assertEquals(codegen.toVarName("FOO"), "FOO");
-        Assert.assertEquals(codegen.toVarName("FOO_BAR"), "FOO_BAR");
-        Assert.assertEquals(codegen.toVarName("FOO_BAR_BAZ_"), "FOO_BAR_BAZ_");
-
-        // should escape leading numbers
-        Assert.assertEquals(codegen.toVarName("123hello"), "n123hello");
-        Assert.assertEquals(codegen.toVarName("5FOO"), "n5fOO");
-
-        // should remove leading underscores (this would be private in Dart)
-        Assert.assertEquals(codegen.toVarName("_hello"), "hello");
-        Assert.assertEquals(codegen.toVarName("_double"), "double_");
-        Assert.assertEquals(codegen.toVarName("_123hello"), "n123hello");
-         Assert.assertEquals(codegen.toVarName("_5FOO"), "n5fOO");
-        // TODO this fails
-        // Assert.assertEquals(codegen.toVarName("_FOO"), "FOO");
+        Assert.assertEquals(codegen.toVarName(name), expectedName);
     }
 
     @Test(description = "test enum variable names")
