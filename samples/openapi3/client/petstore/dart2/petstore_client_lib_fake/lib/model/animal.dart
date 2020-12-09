@@ -38,10 +38,10 @@ class Animal {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (className != null) {
-      json['className'] = className;
+      json[r'className'] = className;
     }
     if (color != null) {
-      json['color'] = color;
+      json[r'color'] = color;
     }
     return json;
   }
@@ -51,8 +51,8 @@ class Animal {
   static Animal fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Animal(
-        className: json['className'],
-        color: json['color'],
+        className: json[r'className'],
+        color: json[r'color'],
     );
 
   static List<Animal> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

@@ -44,13 +44,13 @@ class Cat {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (className != null) {
-      json['className'] = className;
+      json[r'className'] = className;
     }
     if (color != null) {
-      json['color'] = color;
+      json[r'color'] = color;
     }
     if (declawed != null) {
-      json['declawed'] = declawed;
+      json[r'declawed'] = declawed;
     }
     return json;
   }
@@ -60,9 +60,9 @@ class Cat {
   static Cat fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Cat(
-        className: json['className'],
-        color: json['color'],
-        declawed: json['declawed'],
+        className: json[r'className'],
+        color: json[r'color'],
+        declawed: json[r'declawed'],
     );
 
   static List<Cat> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

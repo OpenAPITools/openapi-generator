@@ -98,40 +98,40 @@ class NullableClass {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (integerProp != null) {
-      json['integer_prop'] = integerProp;
+      json[r'integer_prop'] = integerProp;
     }
     if (numberProp != null) {
-      json['number_prop'] = numberProp;
+      json[r'number_prop'] = numberProp;
     }
     if (booleanProp != null) {
-      json['boolean_prop'] = booleanProp;
+      json[r'boolean_prop'] = booleanProp;
     }
     if (stringProp != null) {
-      json['string_prop'] = stringProp;
+      json[r'string_prop'] = stringProp;
     }
     if (dateProp != null) {
-      json['date_prop'] = _dateFormatter.format(dateProp.toUtc());
+      json[r'date_prop'] = _dateFormatter.format(dateProp.toUtc());
     }
     if (datetimeProp != null) {
-      json['datetime_prop'] = datetimeProp.toUtc().toIso8601String();
+      json[r'datetime_prop'] = datetimeProp.toUtc().toIso8601String();
     }
     if (arrayNullableProp != null) {
-      json['array_nullable_prop'] = arrayNullableProp;
+      json[r'array_nullable_prop'] = arrayNullableProp;
     }
     if (arrayAndItemsNullableProp != null) {
-      json['array_and_items_nullable_prop'] = arrayAndItemsNullableProp;
+      json[r'array_and_items_nullable_prop'] = arrayAndItemsNullableProp;
     }
     if (arrayItemsNullable != null) {
-      json['array_items_nullable'] = arrayItemsNullable;
+      json[r'array_items_nullable'] = arrayItemsNullable;
     }
     if (objectNullableProp != null) {
-      json['object_nullable_prop'] = objectNullableProp;
+      json[r'object_nullable_prop'] = objectNullableProp;
     }
     if (objectAndItemsNullableProp != null) {
-      json['object_and_items_nullable_prop'] = objectAndItemsNullableProp;
+      json[r'object_and_items_nullable_prop'] = objectAndItemsNullableProp;
     }
     if (objectItemsNullable != null) {
-      json['object_items_nullable'] = objectItemsNullable;
+      json[r'object_items_nullable'] = objectItemsNullable;
     }
     return json;
   }
@@ -141,30 +141,30 @@ class NullableClass {
   static NullableClass fromJson(Map<String, dynamic> json) => json == null
     ? null
     : NullableClass(
-        integerProp: json['integer_prop'],
-        numberProp: json['number_prop'] == null ?
+        integerProp: json[r'integer_prop'],
+        numberProp: json[r'number_prop'] == null ?
           null :
-          json['number_prop'].toDouble(),
-        booleanProp: json['boolean_prop'],
-        stringProp: json['string_prop'],
-        dateProp: json['date_prop'] == null
+          json[r'number_prop'].toDouble(),
+        booleanProp: json[r'boolean_prop'],
+        stringProp: json[r'string_prop'],
+        dateProp: json[r'date_prop'] == null
           ? null
-          : DateTime.parse(json['date_prop']),
-        datetimeProp: json['datetime_prop'] == null
+          : DateTime.parse(json[r'date_prop']),
+        datetimeProp: json[r'datetime_prop'] == null
           ? null
-          : DateTime.parse(json['datetime_prop']),
-        arrayNullableProp: Object.listFromJson(json['array_nullable_prop']),
-        arrayAndItemsNullableProp: Object.listFromJson(json['array_and_items_nullable_prop']),
-        arrayItemsNullable: Object.listFromJson(json['array_items_nullable']),
-        objectNullableProp: json['object_nullable_prop'] == null
+          : DateTime.parse(json[r'datetime_prop']),
+        arrayNullableProp: Object.listFromJson(json[r'array_nullable_prop']),
+        arrayAndItemsNullableProp: Object.listFromJson(json[r'array_and_items_nullable_prop']),
+        arrayItemsNullable: Object.listFromJson(json[r'array_items_nullable']),
+        objectNullableProp: json[r'object_nullable_prop'] == null
           ? null
-          : Object.mapFromJson(json['object_nullable_prop']),
-        objectAndItemsNullableProp: json['object_and_items_nullable_prop'] == null
+          : Object.mapFromJson(json[r'object_nullable_prop']),
+        objectAndItemsNullableProp: json[r'object_and_items_nullable_prop'] == null
           ? null
-          : Object.mapFromJson(json['object_and_items_nullable_prop']),
-        objectItemsNullable: json['object_items_nullable'] == null
+          : Object.mapFromJson(json[r'object_and_items_nullable_prop']),
+        objectItemsNullable: json[r'object_items_nullable'] == null
           ? null
-          : Object.mapFromJson(json['object_items_nullable']),
+          : Object.mapFromJson(json[r'object_items_nullable']),
     );
 
   static List<NullableClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

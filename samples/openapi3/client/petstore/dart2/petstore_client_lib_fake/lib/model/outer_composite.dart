@@ -44,13 +44,13 @@ class OuterComposite {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (myNumber != null) {
-      json['my_number'] = myNumber;
+      json[r'my_number'] = myNumber;
     }
     if (myString != null) {
-      json['my_string'] = myString;
+      json[r'my_string'] = myString;
     }
     if (myBoolean != null) {
-      json['my_boolean'] = myBoolean;
+      json[r'my_boolean'] = myBoolean;
     }
     return json;
   }
@@ -60,11 +60,11 @@ class OuterComposite {
   static OuterComposite fromJson(Map<String, dynamic> json) => json == null
     ? null
     : OuterComposite(
-        myNumber: json['my_number'] == null ?
+        myNumber: json[r'my_number'] == null ?
           null :
-          json['my_number'].toDouble(),
-        myString: json['my_string'],
-        myBoolean: json['my_boolean'],
+          json[r'my_number'].toDouble(),
+        myString: json[r'my_string'],
+        myBoolean: json[r'my_boolean'],
     );
 
   static List<OuterComposite> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

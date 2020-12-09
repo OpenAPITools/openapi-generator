@@ -32,7 +32,7 @@ class HealthCheckResult {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (nullableMessage != null) {
-      json['NullableMessage'] = nullableMessage;
+      json[r'NullableMessage'] = nullableMessage;
     }
     return json;
   }
@@ -42,7 +42,7 @@ class HealthCheckResult {
   static HealthCheckResult fromJson(Map<String, dynamic> json) => json == null
     ? null
     : HealthCheckResult(
-        nullableMessage: json['NullableMessage'],
+        nullableMessage: json[r'NullableMessage'],
     );
 
   static List<HealthCheckResult> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

@@ -74,28 +74,28 @@ class EnumTest {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (enumString != null) {
-      json['enum_string'] = enumString;
+      json[r'enum_string'] = enumString;
     }
     if (enumStringRequired != null) {
-      json['enum_string_required'] = enumStringRequired;
+      json[r'enum_string_required'] = enumStringRequired;
     }
     if (enumInteger != null) {
-      json['enum_integer'] = enumInteger;
+      json[r'enum_integer'] = enumInteger;
     }
     if (enumNumber != null) {
-      json['enum_number'] = enumNumber;
+      json[r'enum_number'] = enumNumber;
     }
     if (outerEnum != null) {
-      json['outerEnum'] = outerEnum;
+      json[r'outerEnum'] = outerEnum;
     }
     if (outerEnumInteger != null) {
-      json['outerEnumInteger'] = outerEnumInteger;
+      json[r'outerEnumInteger'] = outerEnumInteger;
     }
     if (outerEnumDefaultValue != null) {
-      json['outerEnumDefaultValue'] = outerEnumDefaultValue;
+      json[r'outerEnumDefaultValue'] = outerEnumDefaultValue;
     }
     if (outerEnumIntegerDefaultValue != null) {
-      json['outerEnumIntegerDefaultValue'] = outerEnumIntegerDefaultValue;
+      json[r'outerEnumIntegerDefaultValue'] = outerEnumIntegerDefaultValue;
     }
     return json;
   }
@@ -105,14 +105,14 @@ class EnumTest {
   static EnumTest fromJson(Map<String, dynamic> json) => json == null
     ? null
     : EnumTest(
-        enumString: EnumTestEnumStringEnum.fromJson(json['enum_string']),
-        enumStringRequired: EnumTestEnumStringRequiredEnum.fromJson(json['enum_string_required']),
-        enumInteger: EnumTestEnumIntegerEnum.fromJson(json['enum_integer']),
-        enumNumber: EnumTestEnumNumberEnum.fromJson(json['enum_number']),
-        outerEnum: OuterEnum.fromJson(json['outerEnum']),
-        outerEnumInteger: OuterEnumInteger.fromJson(json['outerEnumInteger']),
-        outerEnumDefaultValue: OuterEnumDefaultValue.fromJson(json['outerEnumDefaultValue']),
-        outerEnumIntegerDefaultValue: OuterEnumIntegerDefaultValue.fromJson(json['outerEnumIntegerDefaultValue']),
+        enumString: EnumTestEnumStringEnum.fromJson(json[r'enum_string']),
+        enumStringRequired: EnumTestEnumStringRequiredEnum.fromJson(json[r'enum_string_required']),
+        enumInteger: EnumTestEnumIntegerEnum.fromJson(json[r'enum_integer']),
+        enumNumber: EnumTestEnumNumberEnum.fromJson(json[r'enum_number']),
+        outerEnum: OuterEnum.fromJson(json[r'outerEnum']),
+        outerEnumInteger: OuterEnumInteger.fromJson(json[r'outerEnumInteger']),
+        outerEnumDefaultValue: OuterEnumDefaultValue.fromJson(json[r'outerEnumDefaultValue']),
+        outerEnumIntegerDefaultValue: OuterEnumIntegerDefaultValue.fromJson(json[r'outerEnumIntegerDefaultValue']),
     );
 
   static List<EnumTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

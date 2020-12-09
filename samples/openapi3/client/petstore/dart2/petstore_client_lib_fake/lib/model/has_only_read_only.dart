@@ -38,10 +38,10 @@ class HasOnlyReadOnly {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (bar != null) {
-      json['bar'] = bar;
+      json[r'bar'] = bar;
     }
     if (foo != null) {
-      json['foo'] = foo;
+      json[r'foo'] = foo;
     }
     return json;
   }
@@ -51,8 +51,8 @@ class HasOnlyReadOnly {
   static HasOnlyReadOnly fromJson(Map<String, dynamic> json) => json == null
     ? null
     : HasOnlyReadOnly(
-        bar: json['bar'],
-        foo: json['foo'],
+        bar: json[r'bar'],
+        foo: json[r'foo'],
     );
 
   static List<HasOnlyReadOnly> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

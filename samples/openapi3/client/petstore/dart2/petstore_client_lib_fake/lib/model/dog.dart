@@ -44,13 +44,13 @@ class Dog {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (className != null) {
-      json['className'] = className;
+      json[r'className'] = className;
     }
     if (color != null) {
-      json['color'] = color;
+      json[r'color'] = color;
     }
     if (breed != null) {
-      json['breed'] = breed;
+      json[r'breed'] = breed;
     }
     return json;
   }
@@ -60,9 +60,9 @@ class Dog {
   static Dog fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Dog(
-        className: json['className'],
-        color: json['color'],
-        breed: json['breed'],
+        className: json[r'className'],
+        color: json[r'color'],
+        breed: json[r'breed'],
     );
 
   static List<Dog> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

@@ -38,10 +38,10 @@ class EnumArrays {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (justSymbol != null) {
-      json['just_symbol'] = justSymbol;
+      json[r'just_symbol'] = justSymbol;
     }
     if (arrayEnum != null) {
-      json['array_enum'] = arrayEnum;
+      json[r'array_enum'] = arrayEnum;
     }
     return json;
   }
@@ -51,8 +51,8 @@ class EnumArrays {
   static EnumArrays fromJson(Map<String, dynamic> json) => json == null
     ? null
     : EnumArrays(
-        justSymbol: EnumArraysJustSymbolEnum.fromJson(json['just_symbol']),
-        arrayEnum: EnumArraysArrayEnumEnum.listFromJson(json['array_enum']),
+        justSymbol: EnumArraysJustSymbolEnum.fromJson(json[r'just_symbol']),
+        arrayEnum: EnumArraysArrayEnumEnum.listFromJson(json[r'array_enum']),
     );
 
   static List<EnumArrays> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

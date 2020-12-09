@@ -32,7 +32,7 @@ class SpecialModelName {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if ($special[propertyName] != null) {
-      json['$special[property.name]'] = $special[propertyName];
+      json[r'$special[property.name]'] = $special[propertyName];
     }
     return json;
   }
@@ -42,7 +42,7 @@ class SpecialModelName {
   static SpecialModelName fromJson(Map<String, dynamic> json) => json == null
     ? null
     : SpecialModelName(
-        $special[propertyName]: json['$special[property.name]'],
+        $special[propertyName]: json[r'$special[property.name]'],
     );
 
   static List<SpecialModelName> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

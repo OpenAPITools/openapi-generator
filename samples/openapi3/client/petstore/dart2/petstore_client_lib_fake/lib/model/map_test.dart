@@ -50,16 +50,16 @@ class MapTest {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (mapMapOfString != null) {
-      json['map_map_of_string'] = mapMapOfString;
+      json[r'map_map_of_string'] = mapMapOfString;
     }
     if (mapOfEnumString != null) {
-      json['map_of_enum_string'] = mapOfEnumString;
+      json[r'map_of_enum_string'] = mapOfEnumString;
     }
     if (directMap != null) {
-      json['direct_map'] = directMap;
+      json[r'direct_map'] = directMap;
     }
     if (indirectMap != null) {
-      json['indirect_map'] = indirectMap;
+      json[r'indirect_map'] = indirectMap;
     }
     return json;
   }
@@ -69,18 +69,18 @@ class MapTest {
   static MapTest fromJson(Map<String, dynamic> json) => json == null
     ? null
     : MapTest(
-        mapMapOfString: json['map_map_of_string'] == null
+        mapMapOfString: json[r'map_map_of_string'] == null
           ? null
-          : Map.mapFromJson(json['map_map_of_string']),
-        mapOfEnumString: json['map_of_enum_string'] == null ?
+          : Map.mapFromJson(json[r'map_map_of_string']),
+        mapOfEnumString: json[r'map_of_enum_string'] == null ?
           null :
-          (json['map_of_enum_string'] as Map).cast<String, String>(),
-        directMap: json['direct_map'] == null ?
+          (json[r'map_of_enum_string'] as Map).cast<String, String>(),
+        directMap: json[r'direct_map'] == null ?
           null :
-          (json['direct_map'] as Map).cast<String, bool>(),
-        indirectMap: json['indirect_map'] == null ?
+          (json[r'direct_map'] as Map).cast<String, bool>(),
+        indirectMap: json[r'indirect_map'] == null ?
           null :
-          (json['indirect_map'] as Map).cast<String, bool>(),
+          (json[r'indirect_map'] as Map).cast<String, bool>(),
     );
 
   static List<MapTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

@@ -103,7 +103,7 @@ class FakeApi {
     }
 
     if (header1 != null) {
-      headerParams['header_1'] = parameterToString(header1);
+      headerParams[r'header_1'] = parameterToString(header1);
     }
 
     final contentTypes = <String>['application/json', 'application/xml'];
@@ -705,103 +705,103 @@ class FakeApi {
       final mp = MultipartRequest(null, null);
       if (integer != null) {
         hasFields = true;
-        mp.fields['integer'] = parameterToString(integer);
+        mp.fields[r'integer'] = parameterToString(integer);
       }
       if (int32 != null) {
         hasFields = true;
-        mp.fields['int32'] = parameterToString(int32);
+        mp.fields[r'int32'] = parameterToString(int32);
       }
       if (int64 != null) {
         hasFields = true;
-        mp.fields['int64'] = parameterToString(int64);
+        mp.fields[r'int64'] = parameterToString(int64);
       }
       if (number != null) {
         hasFields = true;
-        mp.fields['number'] = parameterToString(number);
+        mp.fields[r'number'] = parameterToString(number);
       }
       if (float != null) {
         hasFields = true;
-        mp.fields['float'] = parameterToString(float);
+        mp.fields[r'float'] = parameterToString(float);
       }
       if (double != null) {
         hasFields = true;
-        mp.fields['double'] = parameterToString(double);
+        mp.fields[r'double'] = parameterToString(double);
       }
       if (string != null) {
         hasFields = true;
-        mp.fields['string'] = parameterToString(string);
+        mp.fields[r'string'] = parameterToString(string);
       }
       if (patternWithoutDelimiter != null) {
         hasFields = true;
-        mp.fields['pattern_without_delimiter'] = parameterToString(patternWithoutDelimiter);
+        mp.fields[r'pattern_without_delimiter'] = parameterToString(patternWithoutDelimiter);
       }
       if (byte != null) {
         hasFields = true;
-        mp.fields['byte'] = parameterToString(byte);
+        mp.fields[r'byte'] = parameterToString(byte);
       }
       if (binary != null) {
         hasFields = true;
-        mp.fields['binary'] = binary.field;
+        mp.fields[r'binary'] = binary.field;
         mp.files.add(binary);
       }
       if (date != null) {
         hasFields = true;
-        mp.fields['date'] = parameterToString(date);
+        mp.fields[r'date'] = parameterToString(date);
       }
       if (dateTime != null) {
         hasFields = true;
-        mp.fields['dateTime'] = parameterToString(dateTime);
+        mp.fields[r'dateTime'] = parameterToString(dateTime);
       }
       if (password != null) {
         hasFields = true;
-        mp.fields['password'] = parameterToString(password);
+        mp.fields[r'password'] = parameterToString(password);
       }
       if (callback != null) {
         hasFields = true;
-        mp.fields['callback'] = parameterToString(callback);
+        mp.fields[r'callback'] = parameterToString(callback);
       }
       if (hasFields) {
         postBody = mp;
       }
     } else {
       if (integer != null) {
-        formParams['integer'] = parameterToString(integer);
+        formParams[r'integer'] = parameterToString(integer);
       }
       if (int32 != null) {
-        formParams['int32'] = parameterToString(int32);
+        formParams[r'int32'] = parameterToString(int32);
       }
       if (int64 != null) {
-        formParams['int64'] = parameterToString(int64);
+        formParams[r'int64'] = parameterToString(int64);
       }
       if (number != null) {
-        formParams['number'] = parameterToString(number);
+        formParams[r'number'] = parameterToString(number);
       }
       if (float != null) {
-        formParams['float'] = parameterToString(float);
+        formParams[r'float'] = parameterToString(float);
       }
       if (double != null) {
-        formParams['double'] = parameterToString(double);
+        formParams[r'double'] = parameterToString(double);
       }
       if (string != null) {
-        formParams['string'] = parameterToString(string);
+        formParams[r'string'] = parameterToString(string);
       }
       if (patternWithoutDelimiter != null) {
-        formParams['pattern_without_delimiter'] = parameterToString(patternWithoutDelimiter);
+        formParams[r'pattern_without_delimiter'] = parameterToString(patternWithoutDelimiter);
       }
       if (byte != null) {
-        formParams['byte'] = parameterToString(byte);
+        formParams[r'byte'] = parameterToString(byte);
       }
       if (date != null) {
-        formParams['date'] = parameterToString(date);
+        formParams[r'date'] = parameterToString(date);
       }
       if (dateTime != null) {
-        formParams['dateTime'] = parameterToString(dateTime);
+        formParams[r'dateTime'] = parameterToString(dateTime);
       }
       if (password != null) {
-        formParams['password'] = parameterToString(password);
+        formParams[r'password'] = parameterToString(password);
       }
       if (callback != null) {
-        formParams['callback'] = parameterToString(callback);
+        formParams[r'callback'] = parameterToString(callback);
       }
     }
 
@@ -927,10 +927,10 @@ class FakeApi {
     }
 
     if (enumHeaderStringArray != null) {
-      headerParams['enum_header_string_array'] = parameterToString(enumHeaderStringArray);
+      headerParams[r'enum_header_string_array'] = parameterToString(enumHeaderStringArray);
     }
     if (enumHeaderString != null) {
-      headerParams['enum_header_string'] = parameterToString(enumHeaderString);
+      headerParams[r'enum_header_string'] = parameterToString(enumHeaderString);
     }
 
     final contentTypes = <String>['application/x-www-form-urlencoded'];
@@ -945,21 +945,21 @@ class FakeApi {
       final mp = MultipartRequest(null, null);
       if (enumFormStringArray != null) {
         hasFields = true;
-        mp.fields['enum_form_string_array'] = parameterToString(enumFormStringArray);
+        mp.fields[r'enum_form_string_array'] = parameterToString(enumFormStringArray);
       }
       if (enumFormString != null) {
         hasFields = true;
-        mp.fields['enum_form_string'] = parameterToString(enumFormString);
+        mp.fields[r'enum_form_string'] = parameterToString(enumFormString);
       }
       if (hasFields) {
         postBody = mp;
       }
     } else {
       if (enumFormStringArray != null) {
-        formParams['enum_form_string_array'] = parameterToString(enumFormStringArray);
+        formParams[r'enum_form_string_array'] = parameterToString(enumFormStringArray);
       }
       if (enumFormString != null) {
-        formParams['enum_form_string'] = parameterToString(enumFormString);
+        formParams[r'enum_form_string'] = parameterToString(enumFormString);
       }
     }
 
@@ -1065,9 +1065,9 @@ class FakeApi {
       queryParams.addAll(_convertParametersForCollectionFormat('', 'int64_group', int64Group));
     }
 
-    headerParams['required_boolean_group'] = parameterToString(requiredBooleanGroup);
+    headerParams[r'required_boolean_group'] = parameterToString(requiredBooleanGroup);
     if (booleanGroup != null) {
-      headerParams['boolean_group'] = parameterToString(booleanGroup);
+      headerParams[r'boolean_group'] = parameterToString(booleanGroup);
     }
 
     final contentTypes = <String>[];
@@ -1231,21 +1231,21 @@ class FakeApi {
       final mp = MultipartRequest(null, null);
       if (param != null) {
         hasFields = true;
-        mp.fields['param'] = parameterToString(param);
+        mp.fields[r'param'] = parameterToString(param);
       }
       if (param2 != null) {
         hasFields = true;
-        mp.fields['param2'] = parameterToString(param2);
+        mp.fields[r'param2'] = parameterToString(param2);
       }
       if (hasFields) {
         postBody = mp;
       }
     } else {
       if (param != null) {
-        formParams['param'] = parameterToString(param);
+        formParams[r'param'] = parameterToString(param);
       }
       if (param2 != null) {
-        formParams['param2'] = parameterToString(param2);
+        formParams[r'param2'] = parameterToString(param2);
       }
     }
 

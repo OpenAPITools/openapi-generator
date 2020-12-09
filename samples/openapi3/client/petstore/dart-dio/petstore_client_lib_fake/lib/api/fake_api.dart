@@ -460,20 +460,20 @@ class FakeApi {
         List<String> contentTypes = ["application/x-www-form-urlencoded"];
 
         Map<String, dynamic> formData = {};
-            formData['integer'] = parameterToString(_serializers, integer);
-            formData['int32'] = parameterToString(_serializers, int32);
-            formData['int64'] = parameterToString(_serializers, int64);
-            formData['number'] = parameterToString(_serializers, number);
-            formData['float'] = parameterToString(_serializers, float);
-            formData['double'] = parameterToString(_serializers, double);
-            formData['string'] = parameterToString(_serializers, string);
-            formData['pattern_without_delimiter'] = parameterToString(_serializers, patternWithoutDelimiter);
-            formData['byte'] = parameterToString(_serializers, byte);
-            formData['binary'] = parameterToString(_serializers, binary);
-            formData['date'] = parameterToString(_serializers, date);
-            formData['dateTime'] = parameterToString(_serializers, dateTime);
-            formData['password'] = parameterToString(_serializers, password);
-            formData['callback'] = parameterToString(_serializers, callback);
+            formData[r'integer'] = parameterToString(_serializers, integer);
+            formData[r'int32'] = parameterToString(_serializers, int32);
+            formData[r'int64'] = parameterToString(_serializers, int64);
+            formData[r'number'] = parameterToString(_serializers, number);
+            formData[r'float'] = parameterToString(_serializers, float);
+            formData[r'double'] = parameterToString(_serializers, double);
+            formData[r'string'] = parameterToString(_serializers, string);
+            formData[r'pattern_without_delimiter'] = parameterToString(_serializers, patternWithoutDelimiter);
+            formData[r'byte'] = parameterToString(_serializers, byte);
+            formData[r'binary'] = parameterToString(_serializers, binary);
+            formData[r'date'] = parameterToString(_serializers, date);
+            formData[r'dateTime'] = parameterToString(_serializers, dateTime);
+            formData[r'password'] = parameterToString(_serializers, password);
+            formData[r'callback'] = parameterToString(_serializers, callback);
         bodyData = FormData.fromMap(formData);
 
 
@@ -517,8 +517,8 @@ class FakeApi {
         List<String> contentTypes = ["application/x-www-form-urlencoded"];
 
         Map<String, dynamic> formData = {};
-            formData['enum_form_string_array'] = parameterToString(_serializers, enumFormStringArray);
-            formData['enum_form_string'] = parameterToString(_serializers, enumFormString);
+            formData[r'enum_form_string_array'] = parameterToString(_serializers, enumFormStringArray);
+            formData[r'enum_form_string'] = parameterToString(_serializers, enumFormString);
         bodyData = FormData.fromMap(formData);
 
 
@@ -635,8 +635,8 @@ class FakeApi {
         List<String> contentTypes = ["application/x-www-form-urlencoded"];
 
         Map<String, dynamic> formData = {};
-            formData['param'] = parameterToString(_serializers, param);
-            formData['param2'] = parameterToString(_serializers, param2);
+            formData[r'param'] = parameterToString(_serializers, param);
+            formData[r'param2'] = parameterToString(_serializers, param2);
         bodyData = FormData.fromMap(formData);
 
 

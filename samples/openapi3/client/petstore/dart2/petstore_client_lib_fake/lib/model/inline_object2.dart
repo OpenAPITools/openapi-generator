@@ -38,10 +38,10 @@ class InlineObject2 {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (enumFormStringArray != null) {
-      json['enum_form_string_array'] = enumFormStringArray;
+      json[r'enum_form_string_array'] = enumFormStringArray;
     }
     if (enumFormString != null) {
-      json['enum_form_string'] = enumFormString;
+      json[r'enum_form_string'] = enumFormString;
     }
     return json;
   }
@@ -51,8 +51,8 @@ class InlineObject2 {
   static InlineObject2 fromJson(Map<String, dynamic> json) => json == null
     ? null
     : InlineObject2(
-        enumFormStringArray: InlineObject2EnumFormStringArrayEnum.listFromJson(json['enum_form_string_array']),
-        enumFormString: InlineObject2EnumFormStringEnum.fromJson(json['enum_form_string']),
+        enumFormStringArray: InlineObject2EnumFormStringArrayEnum.listFromJson(json[r'enum_form_string_array']),
+        enumFormString: InlineObject2EnumFormStringEnum.fromJson(json[r'enum_form_string']),
     );
 
   static List<InlineObject2> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

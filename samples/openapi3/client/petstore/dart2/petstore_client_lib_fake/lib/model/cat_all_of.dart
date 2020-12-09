@@ -32,7 +32,7 @@ class CatAllOf {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (declawed != null) {
-      json['declawed'] = declawed;
+      json[r'declawed'] = declawed;
     }
     return json;
   }
@@ -42,7 +42,7 @@ class CatAllOf {
   static CatAllOf fromJson(Map<String, dynamic> json) => json == null
     ? null
     : CatAllOf(
-        declawed: json['declawed'],
+        declawed: json[r'declawed'],
     );
 
   static List<CatAllOf> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

@@ -38,10 +38,10 @@ class ReadOnlyFirst {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (bar != null) {
-      json['bar'] = bar;
+      json[r'bar'] = bar;
     }
     if (baz != null) {
-      json['baz'] = baz;
+      json[r'baz'] = baz;
     }
     return json;
   }
@@ -51,8 +51,8 @@ class ReadOnlyFirst {
   static ReadOnlyFirst fromJson(Map<String, dynamic> json) => json == null
     ? null
     : ReadOnlyFirst(
-        bar: json['bar'],
-        baz: json['baz'],
+        bar: json[r'bar'],
+        baz: json[r'baz'],
     );
 
   static List<ReadOnlyFirst> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
