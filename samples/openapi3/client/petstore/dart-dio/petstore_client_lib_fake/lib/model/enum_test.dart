@@ -96,9 +96,9 @@ class EnumTestEnumStringRequired extends EnumClass {
 
 class EnumTestEnumInteger extends EnumClass {
 
-  @BuiltValueEnumConst(wireName: 1)
+  @BuiltValueEnumConst(wireNumber: 1)
   static const EnumTestEnumInteger number1 = _$number1;
-  @BuiltValueEnumConst(wireName: -1)
+  @BuiltValueEnumConst(wireNumber: -1)
   static const EnumTestEnumInteger number1 = _$number1;
 
   static Serializer<EnumTestEnumInteger> get serializer => _$enumTestEnumIntegerSerializer;
