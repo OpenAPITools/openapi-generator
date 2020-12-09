@@ -29,7 +29,7 @@ abstract class FormatTest implements Built<FormatTest, FormatTestBuilder> {
     
     @nullable
     @BuiltValueField(wireName: r'double')
-    double get double;
+    double get double_;
     
     @nullable
     @BuiltValueField(wireName: r'decimal')

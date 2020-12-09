@@ -27,9 +27,9 @@ abstract class EnumArrays implements Built<EnumArrays, EnumArraysBuilder> {
 class EnumArraysJustSymbol extends EnumClass {
 
   @BuiltValueEnumConst(wireName: '>=')
-  static const EnumArraysJustSymbol &gt;&#x3D; = _$enumArraysJustSymbol_&gt;&#x3D;;
+  static const EnumArraysJustSymbol greaterThanEqual = _$enumArraysJustSymbol_greaterThanEqual;
   @BuiltValueEnumConst(wireName: '$')
-  static const EnumArraysJustSymbol $ = _$enumArraysJustSymbol_$;
+  static const EnumArraysJustSymbol dollar = _$enumArraysJustSymbol_dollar;
 
   static Serializer<EnumArraysJustSymbol> get serializer => _$enumArraysJustSymbolSerializer;
 

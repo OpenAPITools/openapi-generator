@@ -17,9 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -31,14 +28,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
@@ -54,6 +50,8 @@ import org.slf4j.LoggerFactory;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class DartClientCodegen extends DefaultCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
@@ -150,6 +148,7 @@ public class DartClientCodegen extends DefaultCodegen {
         typeMapping = new HashMap<>();
         typeMapping.put("Array", "List");
         typeMapping.put("array", "List");
+        typeMapping.put("map", "Map");
         typeMapping.put("List", "List");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "String");
@@ -164,6 +163,7 @@ public class DartClientCodegen extends DefaultCodegen {
         typeMapping.put("integer", "int");
         typeMapping.put("Date", "DateTime");
         typeMapping.put("date", "DateTime");
+        typeMapping.put("DateTime", "DateTime");
         typeMapping.put("File", "MultipartFile");
         typeMapping.put("binary", "MultipartFile");
         typeMapping.put("UUID", "String");
@@ -352,23 +352,38 @@ public class DartClientCodegen extends DefaultCodegen {
 
     @Override
     public String toVarName(String name) {
+        return  toVarName(name, "n");
+    }
+
+    private String toVarName(String name, String numberPrefix) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = name.replace("-", "_");
+
+        // always need to replace leading underscores first
+        name = name.replaceAll("^_", "");
 
         // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
 
+        // replace all characters that have a mapping but ignore underscores
+        // append an underscore to each replacement so that it can be camelized
+        if (name.chars().anyMatch(character -> specialCharReplacements.containsKey("" + ((char) character)))) {
+            name = escape(name, specialCharReplacements, Lists.newArrayList("_"), "_");
+        }
+        // remove the rest
+        name = sanitizeName(name);
+
         // camelize (lower first character) the variable name
         // pet_id => petId
         name = camelize(name, true);
 
         if (name.matches("^\\d.*")) {
-            name = "n" + name;
+            name = numberPrefix + name;
         }
 
-        if (isReservedWord(name)) {
+        if (isReservedWord(name) || importMapping().containsKey(name)) {
             name = escapeReservedWord(name);
         }
 
@@ -382,24 +397,41 @@ public class DartClientCodegen extends DefaultCodegen {
     }
 
     @Override
-    public String toModelName(String name) {
+    public String toModelName(final String name) {
+        if (importMapping().containsKey(name)) {
+            return name;
+        }
+
+        String nameWithPrefixSuffix = sanitizeName(name);
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            // add '_' so that model name can be camelized correctly
+            nameWithPrefixSuffix = modelNamePrefix + "_" + nameWithPrefixSuffix;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            // add '_' so that model name can be camelized correctly
+            nameWithPrefixSuffix = nameWithPrefixSuffix + "_" + modelNameSuffix;
+        }
+
+        // camelize the model name
+        // phone_number => PhoneNumber
+        final String camelizedName = camelize(nameWithPrefixSuffix);
+
         // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + camelize("model_" + name));
-            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
+        if (isReservedWord(camelizedName)) {
+            final String modelName = "Model" + camelizedName;
+            LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
         }
 
-        if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
-            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+        // model name starts with number
+        if (camelizedName.matches("^\\d.*")) {
+            final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
         }
 
-        if (typeMapping.containsValue(name)) {
-            return camelize(name);
-        } else {
-            // camelize the model name
-            return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
-        }
+        return camelizedName;
     }
 
     @Override
@@ -408,7 +440,7 @@ public class DartClientCodegen extends DefaultCodegen {
     }
 
     @Override public String toModelDocFilename(String name) {
-        return super.toModelDocFilename(toModelName(name));
+        return toModelName(name);
     }
 
     @Override
@@ -436,7 +468,7 @@ public class DartClientCodegen extends DefaultCodegen {
 
         if (schema.getDefault() != null) {
             if (ModelUtils.isStringSchema(schema)) {
-                return "'" + schema.getDefault().toString().replaceAll("'", "\\'") + "'";
+                return "'" + schema.getDefault().toString().replace("'", "\\'") + "'";
             }
             return schema.getDefault().toString();
         } else {
@@ -449,26 +481,22 @@ public class DartClientCodegen extends DefaultCodegen {
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
+            return instantiationTypes().get("array") + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
-
-            return getSchemaType(p) + "<String, " + getTypeDeclaration(inner) + ">";
+            return instantiationTypes().get("map") + "<String, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
     }
 
     @Override
     public String getSchemaType(Schema p) {
-        String openAPIType = super.getSchemaType(p);
-        String type;
-        if (typeMapping.containsKey(openAPIType)) {
-            type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return type;
-            }
-        } else {
-            type = openAPIType;
+        String type = super.getSchemaType(p);
+        if (typeMapping.containsKey(type)) {
+            return typeMapping.get(type);
+        }
+        if (languageSpecificPrimitives.contains(type)) {
+            return type;
         }
         return toModelName(type);
     }
@@ -479,65 +507,27 @@ public class DartClientCodegen extends DefaultCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            boolean succes = buildEnumFromVendorExtension(cm) ||
-                    buildEnumFromValues(cm);
-            for (CodegenProperty var : cm.vars) {
-                updateCodegenPropertyEnum(var);
-            }
-        }
-        return objs;
-    }
+    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
+        if (vendorExtensions != null && useEnumExtension && vendorExtensions.containsKey("x-enum-values")) {
+            // Use the x-enum-values extension for this enum
+            // Existing enumVars added by the default handling need to be removed first
+            enumVars.clear();
 
-    /**
-     * Builds the set of enum members from their declared value.
-     *
-     * @return {@code true} if the enum was built
-     */
-    private boolean buildEnumFromValues(CodegenModel cm) {
-        if (!cm.isEnum || cm.allowableValues == null) {
-            return false;
-        }
-        Map<String, Object> allowableValues = cm.allowableValues;
-        List<Object> values = (List<Object>) allowableValues.get("values");
-        List<Map<String, Object>> enumVars = buildEnumVars(values, cm.dataType);
-        cm.allowableValues.put("enumVars", enumVars);
-        return true;
-    }
-
-    /**
-     * Builds the set of enum members from a vendor extension.
-     *
-     * @return {@code true} if the enum was built
-     */
-    private boolean buildEnumFromVendorExtension(CodegenModel cm) {
-        if (!cm.isEnum || cm.allowableValues == null ||
-                !useEnumExtension ||
-                !cm.vendorExtensions.containsKey("x-enum-values")) {
-            return false;
-        }
-        Object extension = cm.vendorExtensions.get("x-enum-values");
-        List<Map<String, Object>> values = (List<Map<String, Object>>) extension;
-        List<Map<String, String>> enumVars = new ArrayList<>();
-        for (Map<String, Object> value : values) {
-            Map<String, String> enumVar = new HashMap<>();
-            String name = camelize((String) value.get("identifier"), true);
-            if (isReservedWord(name)) {
-                name = escapeReservedWord(name);
+            Object extension = vendorExtensions.get("x-enum-values");
+            List<Map<String, Object>> values = (List<Map<String, Object>>) extension;
+            for (Map<String, Object> value : values) {
+                Map<String, Object> enumVar = new HashMap<>();
+                enumVar.put("name", toEnumVarName((String) value.get("identifier"), dataType));
+                enumVar.put("value", toEnumValue(value.get("numericValue").toString(), dataType));
+                enumVar.put("isString", isDataTypeString(dataType));
+                if (value.containsKey("description")) {
+                    enumVar.put("description", value.get("description").toString());
+                }
+                enumVars.add(enumVar);
             }
-            enumVar.put("name", name);
-            enumVar.put("value", toEnumValue(value.get("numericValue").toString(), cm.dataType));
-            if (value.containsKey("description")) {
-                enumVar.put("description", value.get("description").toString());
-            }
-            enumVars.add(enumVar);
+        } else {
+            super.updateEnumVarsWithExtensions(enumVars, vendorExtensions, dataType);
         }
-        cm.allowableValues.put("enumVars", enumVars);
-        return true;
     }
 
     @Override
@@ -545,12 +535,7 @@ public class DartClientCodegen extends DefaultCodegen {
         if (value.length() == 0) {
             return "empty";
         }
-        String var = value.replaceAll("\\W+", "_");
-        if ("number".equalsIgnoreCase(datatype) ||
-                "int".equalsIgnoreCase(datatype)) {
-            var = "Number" + var;
-        }
-        return escapeReservedWord(camelize(var, true));
+        return toVarName(value, "number");
     }
 
     @Override
@@ -565,6 +550,10 @@ public class DartClientCodegen extends DefaultCodegen {
 
     @Override
     public String toOperationId(String operationId) {
+        operationId = super.toOperationId(operationId);
+
+        operationId = camelize(sanitizeName(operationId), true);
+
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize("call_" + operationId, true);
@@ -572,7 +561,13 @@ public class DartClientCodegen extends DefaultCodegen {
             return newOperationId;
         }
 
-        return camelize(operationId, true);
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize("call_" + operationId), true);
+            operationId = camelize("call_" + operationId, true);
+        }
+
+        return operationId;
     }
 
     public void setPubLibrary(String pubLibrary) {

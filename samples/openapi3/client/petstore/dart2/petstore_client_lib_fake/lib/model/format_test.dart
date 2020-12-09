@@ -17,7 +17,7 @@ class FormatTest {
     this.int64,
     @required this.number,
     this.float,
-    this.double,
+    this.double_,
     this.decimal,
     this.string,
     @required this.byte,
@@ -56,7 +56,7 @@ class FormatTest {
   
   // minimum: 67.8
   // maximum: 123.4
-  double double;
+  double double_;
 
   
   double decimal;
@@ -95,7 +95,7 @@ class FormatTest {
      other.int64 == int64 &&
      other.number == number &&
      other.float == float &&
-     other.double == double &&
+     other.double_ == double_ &&
      other.decimal == decimal &&
      other.string == string &&
      other.byte == byte &&
@@ -114,7 +114,7 @@ class FormatTest {
     (int64 == null ? 0 : int64.hashCode) +
     (number == null ? 0 : number.hashCode) +
     (float == null ? 0 : float.hashCode) +
-    (double == null ? 0 : double.hashCode) +
+    (double_ == null ? 0 : double_.hashCode) +
     (decimal == null ? 0 : decimal.hashCode) +
     (string == null ? 0 : string.hashCode) +
     (byte == null ? 0 : byte.hashCode) +
@@ -127,7 +127,7 @@ class FormatTest {
     (patternWithDigitsAndDelimiter == null ? 0 : patternWithDigitsAndDelimiter.hashCode);
 
   @override
-  String toString() => 'FormatTest[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double=$double, decimal=$decimal, string=$string, byte=$byte, binary=$binary, date=$date, dateTime=$dateTime, uuid=$uuid, password=$password, patternWithDigits=$patternWithDigits, patternWithDigitsAndDelimiter=$patternWithDigitsAndDelimiter]';
+  String toString() => 'FormatTest[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double_=$double_, decimal=$decimal, string=$string, byte=$byte, binary=$binary, date=$date, dateTime=$dateTime, uuid=$uuid, password=$password, patternWithDigits=$patternWithDigits, patternWithDigitsAndDelimiter=$patternWithDigitsAndDelimiter]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -146,8 +146,8 @@ class FormatTest {
     if (float != null) {
       json[r'float'] = float;
     }
-    if (double != null) {
-      json[r'double'] = double;
+    if (double_ != null) {
+      json[r'double'] = double_;
     }
     if (decimal != null) {
       json[r'decimal'] = decimal;
@@ -194,7 +194,7 @@ class FormatTest {
           null :
           json[r'number'].toDouble(),
         float: json[r'float'],
-        double: json[r'double'],
+        double_: json[r'double'],
         decimal: json[r'decimal'],
         string: json[r'string'],
         byte: json[r'byte'],

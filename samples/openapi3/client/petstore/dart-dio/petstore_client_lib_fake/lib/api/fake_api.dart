@@ -446,7 +446,7 @@ class FakeApi {
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         ///
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-        Future<Response>testEndpointParameters(num number,double double,String patternWithoutDelimiter,String byte,{ int integer,int int32,int int64,double float,String string,Uint8List binary,DateTime date,DateTime dateTime,String password,String callback,CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
+        Future<Response>testEndpointParameters(num number,double double_,String patternWithoutDelimiter,String byte,{ int integer,int int32,int int64,double float,String string,Uint8List binary,DateTime date,DateTime dateTime,String password,String callback,CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/fake";
 
@@ -465,7 +465,7 @@ class FakeApi {
             formData[r'int64'] = parameterToString(_serializers, int64);
             formData[r'number'] = parameterToString(_serializers, number);
             formData[r'float'] = parameterToString(_serializers, float);
-            formData[r'double'] = parameterToString(_serializers, double);
+            formData[r'double'] = parameterToString(_serializers, double_);
             formData[r'string'] = parameterToString(_serializers, string);
             formData[r'pattern_without_delimiter'] = parameterToString(_serializers, patternWithoutDelimiter);
             formData[r'byte'] = parameterToString(_serializers, byte);

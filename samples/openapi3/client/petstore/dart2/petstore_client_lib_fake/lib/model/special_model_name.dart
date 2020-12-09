@@ -12,27 +12,27 @@ part of openapi.api;
 class SpecialModelName {
   /// Returns a new [SpecialModelName] instance.
   SpecialModelName({
-    this.$special[propertyName],
+    this.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
   });
 
   
-  int $special[propertyName];
+  int dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is SpecialModelName &&
-     other.$special[propertyName] == $special[propertyName];
+     other.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket == dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
 
   @override
   int get hashCode =>
-    ($special[propertyName] == null ? 0 : $special[propertyName].hashCode);
+    (dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket == null ? 0 : dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket.hashCode);
 
   @override
-  String toString() => 'SpecialModelName[$special[propertyName]=$$special[propertyName]]';
+  String toString() => 'SpecialModelName[dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket=$dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if ($special[propertyName] != null) {
-      json[r'$special[property.name]'] = $special[propertyName];
+    if (dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket != null) {
+      json[r'$special[property.name]'] = dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
     }
     return json;
   }
@@ -42,7 +42,7 @@ class SpecialModelName {
   static SpecialModelName fromJson(Map<String, dynamic> json) => json == null
     ? null
     : SpecialModelName(
-        $special[propertyName]: json[r'$special[property.name]'],
+        dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket: json[r'$special[property.name]'],
     );
 
   static List<SpecialModelName> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
