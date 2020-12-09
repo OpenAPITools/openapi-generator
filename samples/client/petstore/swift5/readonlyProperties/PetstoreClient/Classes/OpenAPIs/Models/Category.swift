@@ -12,7 +12,7 @@ public struct Category: Codable {
     public private(set) var id: Int64?
     public private(set) var name: String = "default-name"
 
-    public init(id: Int64? = nil, name: String) {
+    public init(id: Int64? = nil, name: String = "default-name") {
         self.id = id
         self.name = name
     }
