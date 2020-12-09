@@ -747,7 +747,7 @@ public class DefaultCodegen implements CodegenConfig {
         ModelUtils.setDisallowAdditionalPropertiesIfNotPresent(getDisallowAdditionalPropertiesIfNotPresent());
     }
 
-    // override with any special post-processing
+    // override with any message to be shown right before the process finishes
     @SuppressWarnings("static-method")
     public void postProcess() {
         System.out.println("################################################################################");
