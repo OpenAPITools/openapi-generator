@@ -9,14 +9,14 @@ class {{classname}} extends EnumClass {
   {{#allowableValues}}
     {{#enumVars}}
       {{#description}}
-  /// {{description}}
+  /// {{{description}}}
       {{/description}}
   @BuiltValueEnumConst({{#isInteger}}wireNumber: {{{value}}}{{/isInteger}}{{^isInteger}}wireName: {{{value}}}{{/isInteger}})
   static const {{classname}} {{name}} = _${{name}};
     {{/enumVars}}
   {{/allowableValues}}
 
-  static Serializer<{{classname}}> get serializer => _${{classVarName}}Serializer;
+  static Serializer<{{classname}}> get serializer => _${{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Serializer;
 
   const {{classname}}._(String name): super(name);
 
