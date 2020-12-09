@@ -11,7 +11,7 @@
 package x_auth_id_alias
 
 import (
-    "bytes"
+  "bytes"
 	_context "context"
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
@@ -60,13 +60,13 @@ func (a *UsageApiService) AnyKeyExecute(r ApiAnyKeyRequest) (map[string]interfac
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        executionError       GenericOpenAPIError
+    executionError       GenericOpenAPIError
 		localVarReturnValue  map[string]interface{}
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageApiService.AnyKey")
 	if err != nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, nil, executionError}
 	}
 
@@ -123,21 +123,21 @@ func (a *UsageApiService) AnyKeyExecute(r ApiAnyKeyRequest) (map[string]interfac
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-    localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+  localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
@@ -195,13 +195,13 @@ func (a *UsageApiService) BothKeysExecute(r ApiBothKeysRequest) (map[string]inte
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        executionError       GenericOpenAPIError
+    executionError       GenericOpenAPIError
 		localVarReturnValue  map[string]interface{}
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageApiService.BothKeys")
 	if err != nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, nil, executionError}
 	}
 
@@ -258,21 +258,21 @@ func (a *UsageApiService) BothKeysExecute(r ApiBothKeysRequest) (map[string]inte
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-    localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+  localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
@@ -330,13 +330,13 @@ func (a *UsageApiService) KeyInHeaderExecute(r ApiKeyInHeaderRequest) (map[strin
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        executionError       GenericOpenAPIError
+    executionError       GenericOpenAPIError
 		localVarReturnValue  map[string]interface{}
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageApiService.KeyInHeader")
 	if err != nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, nil, executionError}
 	}
 
@@ -379,21 +379,21 @@ func (a *UsageApiService) KeyInHeaderExecute(r ApiKeyInHeaderRequest) (map[strin
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-    localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+  localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
@@ -451,13 +451,13 @@ func (a *UsageApiService) KeyInQueryExecute(r ApiKeyInQueryRequest) (map[string]
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        executionError       GenericOpenAPIError
+    executionError       GenericOpenAPIError
 		localVarReturnValue  map[string]interface{}
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageApiService.KeyInQuery")
 	if err != nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, nil, executionError}
 	}
 
@@ -500,21 +500,21 @@ func (a *UsageApiService) KeyInQueryExecute(r ApiKeyInQueryRequest) (map[string]
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-    localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+  localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 

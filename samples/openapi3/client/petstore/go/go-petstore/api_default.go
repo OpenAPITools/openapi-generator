@@ -11,7 +11,7 @@
 package petstore
 
 import (
-    "bytes"
+  "bytes"
 	_context "context"
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
@@ -75,13 +75,13 @@ func (a *DefaultApiService) FooGetExecute(r ApiFooGetRequest) (InlineResponseDef
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        executionError       GenericOpenAPIError
+    executionError       GenericOpenAPIError
 		localVarReturnValue  InlineResponseDefault
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.FooGet")
 	if err != nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, nil, executionError}
 	}
 
@@ -110,21 +110,21 @@ func (a *DefaultApiService) FooGetExecute(r ApiFooGetRequest) (InlineResponseDef
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-    localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+  localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-        executionError.error = err.Error()
+    executionError.error = err.Error()
 		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
