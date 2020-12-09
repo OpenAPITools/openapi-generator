@@ -510,8 +510,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         } else if (ModelUtils.isDateTimeSchema(p)) {
             return "DateTime.t";
         } else if (ModelUtils.isObjectSchema(p)) {
-            // TODO How to map it?
-            return super.getTypeDeclaration(p);
+            return super.getTypeDeclaration(p) + ".t";
         } else if (ModelUtils.isIntegerSchema(p)) {
             return "integer()";
         } else if (ModelUtils.isNumberSchema(p)) {
