@@ -1029,7 +1029,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 - [Daniel](https://github.com/Danielku15)
 - [Emiliano Bonassi](https://github.com/emilianobonassi)
 - [Erik Timmers](https://github.com/eriktim)
-- [Esteban Marin](https://github.com/macjohnny)
+- [Esteban Gehring](https://github.com/macjohnny)
 - [Gustavo Paz](https://github.com/gustavoapaz)
 - [Javier Velilla](https://github.com/jvelilla)
 - [Jean-François Côté](https://github.com/JFCote)
