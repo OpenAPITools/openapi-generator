@@ -205,17 +205,10 @@ class StoreApi {
 
         final List<String> contentTypes = [];
 
-<<<<<<< HEAD
-        final serializedBody = _serializers.serialize(body);
+        final bodySerializer = _serializers.serializerForType(Order);
+        final serializedBody = _serializers.serializeWith(bodySerializer, body);
         final jsonbody = json.encode(serializedBody);
         bodyData = jsonbody;
-=======
-
-            var bodySerializer = _serializers.serializerForType(Order);
-            var serializedBody = _serializers.serializeWith(bodySerializer, body);
-            var jsonbody = json.encode(serializedBody);
-            bodyData = jsonbody;
->>>>>>> Updates samples
 
         return _dio.request(
             _path,

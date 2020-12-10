@@ -39,17 +39,10 @@ class UserApi {
             'application/json',
         ];
 
-<<<<<<< HEAD
-        final serializedBody = _serializers.serialize(user);
+        final bodySerializer = _serializers.serializerForType(User);
+        final serializedBody = _serializers.serializeWith(bodySerializer, user);
         final jsonuser = json.encode(serializedBody);
         bodyData = jsonuser;
-=======
-
-            var bodySerializer = _serializers.serializerForType(User);
-            var serializedBody = _serializers.serializeWith(bodySerializer, user);
-            var jsonuser = json.encode(serializedBody);
-            bodyData = jsonuser;
->>>>>>> Updates samples
 
         return _dio.request(
             _path,
@@ -445,17 +438,10 @@ class UserApi {
             'application/json',
         ];
 
-<<<<<<< HEAD
-        final serializedBody = _serializers.serialize(user);
+        final bodySerializer = _serializers.serializerForType(User);
+        final serializedBody = _serializers.serializeWith(bodySerializer, user);
         final jsonuser = json.encode(serializedBody);
         bodyData = jsonuser;
-=======
-
-            var bodySerializer = _serializers.serializerForType(User);
-            var serializedBody = _serializers.serializeWith(bodySerializer, user);
-            var jsonuser = json.encode(serializedBody);
-            bodyData = jsonuser;
->>>>>>> Updates samples
 
         return _dio.request(
             _path,
