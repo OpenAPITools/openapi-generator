@@ -102,7 +102,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "{{{classname}}}Service.{{{nickname}}}")
 	if err != nil {
 		executionError.error = err.Error()
-		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, executionError}
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, executionError
 	}
 
 	localVarPath := localBasePath + "{{{path}}}"{{#pathParams}}
