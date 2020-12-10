@@ -106,7 +106,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **findPetsByStatus**
-> List<Pet> findPetsByStatus(status)
+> BuiltList<Pet> findPetsByStatus(status)
 
 Finds Pets by status
 
@@ -119,7 +119,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
-var status = []; // List<String> | Status values that need to be considered for filter
+var status = []; // BuiltList<String> | Status values that need to be considered for filter
 
 try { 
     var result = api_instance.findPetsByStatus(status);
@@ -133,11 +133,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [default to const []]
+ **status** | [**BuiltList&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [default to const []]
 
 ### Return type
 
-[**List<Pet>**](Pet.md)
+[**BuiltList<Pet>**](Pet.md)
 
 ### Authorization
 
@@ -151,7 +151,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **findPetsByTags**
-> List<Pet> findPetsByTags(tags)
+> BuiltList<Pet> findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -164,7 +164,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
-var tags = []; // List<String> | Tags to filter by
+var tags = []; // BuiltList<String> | Tags to filter by
 
 try { 
     var result = api_instance.findPetsByTags(tags);
@@ -178,11 +178,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | [default to const []]
+ **tags** | [**BuiltList&lt;String&gt;**](String.md)| Tags to filter by | [default to const []]
 
 ### Return type
 
-[**List<Pet>**](Pet.md)
+[**BuiltList<Pet>**](Pet.md)
 
 ### Authorization
 

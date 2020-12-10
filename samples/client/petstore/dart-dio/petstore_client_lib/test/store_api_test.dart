@@ -21,7 +21,7 @@ void main() {
     //
     // Returns a map of status codes to quantities
     //
-    //Future<Map<String, int>> getInventory() async
+    //Future<BuiltMap<String, int>> getInventory() async
     test('test getInventory', () async {
       // TODO
     });
