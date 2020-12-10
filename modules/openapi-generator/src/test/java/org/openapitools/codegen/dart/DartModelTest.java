@@ -341,38 +341,57 @@ public class DartModelTest {
         Assert.assertEquals(codegen.toVarName(name), expectedName);
     }
 
+    private static class EnumVarName {
+        final String name;
+        final String expected;
+        final String dataType;
+
+        EnumVarName(String name, String expected, String dataType) {
+            this.name = name;
+            this.expected = expected;
+            this.dataType = dataType;
+        }
+    }
+
     @DataProvider(name = "enumVarNames")
-    public static Object[][] enumVarNames() {
-        return new Object[][] {
-                {"", "empty"},
-                {"Double", "double_"},
-                {"double", "double_"},
-                {"dynamic", "dynamic_"},
-                {"String", "string"},
-                {"string", "string"},
-                {"hello", "hello"},
-                {"FOO", "FOO"},
-                {"FOO_BAR", "FOO_BAR"},
-                {"FOO_BAR_BAZ_", "FOO_BAR_BAZ_"},
-                {"123hello", "number123hello"},
-                {"_hello", "hello"},
-                {"_double", "double_"},
-                {"_123hello", "number123hello"},
-                {"_5FOO", "number5fOO"},
-                {"_FOO", "FOO"},
-                {"_$foo", "dollarFoo"},
-                {"_$_foo_", "dollarFoo"},
-                {"$special[property.name]", "dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket"},
-                {"$", "dollar"},
-                {">=", "greaterThanEqual"},
-                {"foo bar", "fooBar"},
+    public static Object[] enumVarNames() {
+        return new Object[] {
+                new EnumVarName("", "empty", "String"),
+                new EnumVarName("Double", "double_", "String"),
+                new EnumVarName("double", "double_", "String"),
+                new EnumVarName("dynamic", "dynamic_", "String"),
+                new EnumVarName("String", "string", "String"),
+                new EnumVarName("string", "string", "String"),
+                new EnumVarName("hello", "hello", "String"),
+                new EnumVarName("FOO", "FOO", "String"),
+                new EnumVarName("FOO_BAR", "FOO_BAR", "String"),
+                new EnumVarName("FOO_BAR_BAZ_", "FOO_BAR_BAZ_", "String"),
+                new EnumVarName("123hello", "n123hello", "String"),
+                new EnumVarName("_hello", "hello", "String"),
+                new EnumVarName("_double", "double_", "String"),
+                new EnumVarName("_123hello", "n123hello", "String"),
+                new EnumVarName("_5FOO", "n5fOO", "String"),
+                new EnumVarName("_FOO", "FOO", "String"),
+                new EnumVarName("_$foo", "dollarFoo", "String"),
+                new EnumVarName("_$_foo_", "dollarFoo", "String"),
+                new EnumVarName("$special[property.name]", "dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket", "String"),
+                new EnumVarName("$", "dollar", "String"),
+                new EnumVarName(">=", "greaterThanEqual", "String"),
+                new EnumVarName("foo bar", "fooBar", "String"),
+                new EnumVarName("1", "number1", "int"),
+                new EnumVarName("2", "number2", "int"),
+                new EnumVarName("-1", "numberNegative1", "int"),
+                new EnumVarName("-99", "numberNegative99", "int"),
+                new EnumVarName("1", "number1", "double"),
+                new EnumVarName("1.1", "number1Period1", "double"),
+                new EnumVarName("-1.2", "numberNegative1Period2", "double"),
         };
     }
 
     @Test(dataProvider = "enumVarNames", description = "test enum names are correctly escaped")
-    public void convertEnumVarNames(String name, String expectedName) {
+    public void convertEnumVarNames(EnumVarName enumVar) {
         final DefaultCodegen codegen = new DartClientCodegen();
-        Assert.assertEquals(codegen.toEnumVarName(name, null), expectedName);
+        Assert.assertEquals(codegen.toEnumVarName(enumVar.name, enumVar.dataType), enumVar.expected);
     }
 
     @Test(description = "model names support `--model-name-prefix` and `--model-name-suffix`")

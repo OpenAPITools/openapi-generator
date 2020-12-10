@@ -99,7 +99,7 @@ class EnumTestEnumInteger extends EnumClass {
   @BuiltValueEnumConst(wireNumber: 1)
   static const EnumTestEnumInteger number1 = _$enumTestEnumInteger_number1;
   @BuiltValueEnumConst(wireNumber: -1)
-  static const EnumTestEnumInteger number1 = _$enumTestEnumInteger_number1;
+  static const EnumTestEnumInteger numberNegative1 = _$enumTestEnumInteger_numberNegative1;
 
   static Serializer<EnumTestEnumInteger> get serializer => _$enumTestEnumIntegerSerializer;
 
@@ -113,9 +113,9 @@ class EnumTestEnumInteger extends EnumClass {
 class EnumTestEnumNumber extends EnumClass {
 
   @BuiltValueEnumConst(wireName: '1.1')
-  static const EnumTestEnumNumber number1period1 = _$enumTestEnumNumber_number1period1;
+  static const EnumTestEnumNumber number1Period1 = _$enumTestEnumNumber_number1Period1;
   @BuiltValueEnumConst(wireName: '-1.2')
-  static const EnumTestEnumNumber number1period2 = _$enumTestEnumNumber_number1period2;
+  static const EnumTestEnumNumber numberNegative1Period2 = _$enumTestEnumNumber_numberNegative1Period2;
 
   static Serializer<EnumTestEnumNumber> get serializer => _$enumTestEnumNumberSerializer;
 

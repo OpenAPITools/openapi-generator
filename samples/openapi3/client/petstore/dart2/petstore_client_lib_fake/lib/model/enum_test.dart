@@ -316,12 +316,12 @@ class EnumTestEnumIntegerEnum {
   String toJson() => value;
 
   static const number1 = EnumTestEnumIntegerEnum._(1);
-  static const number1 = EnumTestEnumIntegerEnum._(-1);
+  static const numberNegative1 = EnumTestEnumIntegerEnum._(-1);
 
   /// List of all possible values in this [enum][EnumTestEnumIntegerEnum].
   static const values = <EnumTestEnumIntegerEnum>[
     number1,
-    number1,
+    numberNegative1,
   ];
 
   static EnumTestEnumIntegerEnum fromJson(dynamic value) =>
@@ -355,7 +355,7 @@ class EnumTestEnumIntegerEnumTypeTransformer {
   EnumTestEnumIntegerEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
       case 1: return EnumTestEnumIntegerEnum.number1;
-      case -1: return EnumTestEnumIntegerEnum.number1;
+      case -1: return EnumTestEnumIntegerEnum.numberNegative1;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
@@ -389,13 +389,13 @@ class EnumTestEnumNumberEnum {
 
   String toJson() => value;
 
-  static const number1period1 = EnumTestEnumNumberEnum._('1.1');
-  static const number1period2 = EnumTestEnumNumberEnum._('-1.2');
+  static const number1Period1 = EnumTestEnumNumberEnum._('1.1');
+  static const numberNegative1Period2 = EnumTestEnumNumberEnum._('-1.2');
 
   /// List of all possible values in this [enum][EnumTestEnumNumberEnum].
   static const values = <EnumTestEnumNumberEnum>[
-    number1period1,
-    number1period2,
+    number1Period1,
+    numberNegative1Period2,
   ];
 
   static EnumTestEnumNumberEnum fromJson(dynamic value) =>
@@ -428,8 +428,8 @@ class EnumTestEnumNumberEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumNumberEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case '1.1': return EnumTestEnumNumberEnum.number1period1;
-      case '-1.2': return EnumTestEnumNumberEnum.number1period2;
+      case '1.1': return EnumTestEnumNumberEnum.number1Period1;
+      case '-1.2': return EnumTestEnumNumberEnum.numberNegative1Period2;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
