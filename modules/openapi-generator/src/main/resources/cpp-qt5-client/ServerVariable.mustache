@@ -30,8 +30,9 @@ public:
       }
       return -2;
     }
-    QString getDefaultValue();
-    QSet<QString> getEnumValues();
+
+    QString getDefaultValue(){return _defaultValue;}
+    QSet<QString> getEnumValues(){return _enumValues;}
 
 
     QString _defaultValue;
