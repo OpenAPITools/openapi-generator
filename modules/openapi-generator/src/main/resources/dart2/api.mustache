@@ -85,11 +85,11 @@ class {{{classname}}} {
 
       {{#headerParams}}
         {{#required}}
-    headerParams['{{{baseName}}}'] = parameterToString({{{paramName}}});
+    headerParams[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
         {{/required}}
         {{^required}}
     if ({{{paramName}}} != null) {
-      headerParams['{{{baseName}}}'] = parameterToString({{{paramName}}});
+      headerParams[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
     }
         {{/required}}
       {{/headerParams}}
@@ -109,13 +109,13 @@ class {{{classname}}} {
       {{^isFile}}
       if ({{{paramName}}} != null) {
         hasFields = true;
-        mp.fields['{{{baseName}}}'] = parameterToString({{{paramName}}});
+        mp.fields[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
       }
       {{/isFile}}
       {{#isFile}}
       if ({{{paramName}}} != null) {
         hasFields = true;
-        mp.fields['{{{baseName}}}'] = {{{paramName}}}.field;
+        mp.fields[r'{{{baseName}}}'] = {{{paramName}}}.field;
         mp.files.add({{{paramName}}});
       }
       {{/isFile}}
@@ -127,7 +127,7 @@ class {{{classname}}} {
       {{#formParams}}
       {{^isFile}}
       if ({{{paramName}}} != null) {
-        formParams['{{{baseName}}}'] = parameterToString({{{paramName}}});
+        formParams[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
       }
       {{/isFile}}
       {{/formParams}}

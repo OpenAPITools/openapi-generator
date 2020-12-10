@@ -8,7 +8,7 @@
 | **my_string** | **String** |  | [optional] |
 | **my_boolean** | **Boolean** |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

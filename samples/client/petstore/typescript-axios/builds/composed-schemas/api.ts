@@ -342,7 +342,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async filePost(inlineObject?: InlineObject, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).filePost(inlineObject, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+            return (axios: AxiosInstance = globalAxios, basePath: string = this.basePath) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
             };
@@ -355,7 +355,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async petsFilteredPatch(petByAgePetByType?: PetByAge | PetByType, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).petsFilteredPatch(petByAgePetByType, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+            return (axios: AxiosInstance = globalAxios, basePath: string = this.basePath) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
             };
@@ -368,7 +368,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async petsPatch(catDog?: Cat | Dog, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).petsPatch(catDog, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+            return (axios: AxiosInstance = globalAxios, basePath: string = this.basePath) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
             };

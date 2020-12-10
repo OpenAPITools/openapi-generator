@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.io.FileInputStream;
-import play.api.libs.Files.TemporaryFile;
+import play.libs.Files.TemporaryFile;
 import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class PetApiControllerImp extends PetApiControllerImpInterface {

@@ -51,7 +51,7 @@ with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
     additional_properties_with_array_of_enums = AdditionalPropertiesWithArrayOfEnums(
-        "key": [
+        key=[
             EnumClass("-efg"),
         ],
     ) # AdditionalPropertiesWithArrayOfEnums | Input enum (optional)

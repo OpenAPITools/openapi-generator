@@ -21,10 +21,9 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Add a new pet to the store
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -36,10 +35,28 @@ api_instance = Petstore::PetApi.new
 pet = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
 
 begin
-  #Add a new pet to the store
+  # Add a new pet to the store
   api_instance.add_pet(pet)
 rescue Petstore::ApiError => e
-  puts "Exception when calling PetApi->add_pet: #{e}"
+  puts "Error when calling PetApi->add_pet: #{e}"
+end
+```
+
+#### Using the add_pet_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> add_pet_with_http_info(pet)
+
+```ruby
+begin
+  # Add a new pet to the store
+  data, status_code, headers = api_instance.add_pet_with_http_info(pet)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling PetApi->add_pet_with_http_info: #{e}"
 end
 ```
 
@@ -69,10 +86,9 @@ nil (empty response body)
 
 Deletes a pet
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -87,10 +103,28 @@ opts = {
 }
 
 begin
-  #Deletes a pet
+  # Deletes a pet
   api_instance.delete_pet(pet_id, opts)
 rescue Petstore::ApiError => e
-  puts "Exception when calling PetApi->delete_pet: #{e}"
+  puts "Error when calling PetApi->delete_pet: #{e}"
+end
+```
+
+#### Using the delete_pet_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> delete_pet_with_http_info(pet_id, opts)
+
+```ruby
+begin
+  # Deletes a pet
+  data, status_code, headers = api_instance.delete_pet_with_http_info(pet_id, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling PetApi->delete_pet_with_http_info: #{e}"
 end
 ```
 
@@ -117,16 +151,15 @@ nil (empty response body)
 
 ## find_pets_by_status
 
-> Array&lt;Pet&gt; find_pets_by_status(status)
+> <Array<Pet>> find_pets_by_status(status)
 
 Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -138,11 +171,29 @@ api_instance = Petstore::PetApi.new
 status = ['status_example'] # Array<String> | Status values that need to be considered for filter
 
 begin
-  #Finds Pets by status
+  # Finds Pets by status
   result = api_instance.find_pets_by_status(status)
   p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling PetApi->find_pets_by_status: #{e}"
+  puts "Error when calling PetApi->find_pets_by_status: #{e}"
+end
+```
+
+#### Using the find_pets_by_status_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<Array<Pet>>, Integer, Hash)> find_pets_by_status_with_http_info(status)
+
+```ruby
+begin
+  # Finds Pets by status
+  data, status_code, headers = api_instance.find_pets_by_status_with_http_info(status)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <Array<Pet>>
+rescue Petstore::ApiError => e
+  puts "Error when calling PetApi->find_pets_by_status_with_http_info: #{e}"
 end
 ```
 
@@ -168,16 +219,15 @@ end
 
 ## find_pets_by_tags
 
-> Array&lt;Pet&gt; find_pets_by_tags(tags)
+> <Array<Pet>> find_pets_by_tags(tags)
 
 Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -189,11 +239,29 @@ api_instance = Petstore::PetApi.new
 tags = ['tags_example'] # Array<String> | Tags to filter by
 
 begin
-  #Finds Pets by tags
+  # Finds Pets by tags
   result = api_instance.find_pets_by_tags(tags)
   p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling PetApi->find_pets_by_tags: #{e}"
+  puts "Error when calling PetApi->find_pets_by_tags: #{e}"
+end
+```
+
+#### Using the find_pets_by_tags_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<Array<Pet>>, Integer, Hash)> find_pets_by_tags_with_http_info(tags)
+
+```ruby
+begin
+  # Finds Pets by tags
+  data, status_code, headers = api_instance.find_pets_by_tags_with_http_info(tags)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <Array<Pet>>
+rescue Petstore::ApiError => e
+  puts "Error when calling PetApi->find_pets_by_tags_with_http_info: #{e}"
 end
 ```
 
@@ -219,16 +287,15 @@ end
 
 ## get_pet_by_id
 
-> Pet get_pet_by_id(pet_id)
+> <Pet> get_pet_by_id(pet_id)
 
 Find pet by ID
 
 Returns a single pet
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -242,11 +309,29 @@ api_instance = Petstore::PetApi.new
 pet_id = 56 # Integer | ID of pet to return
 
 begin
-  #Find pet by ID
+  # Find pet by ID
   result = api_instance.get_pet_by_id(pet_id)
   p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling PetApi->get_pet_by_id: #{e}"
+  puts "Error when calling PetApi->get_pet_by_id: #{e}"
+end
+```
+
+#### Using the get_pet_by_id_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<Pet>, Integer, Hash)> get_pet_by_id_with_http_info(pet_id)
+
+```ruby
+begin
+  # Find pet by ID
+  data, status_code, headers = api_instance.get_pet_by_id_with_http_info(pet_id)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <Pet>
+rescue Petstore::ApiError => e
+  puts "Error when calling PetApi->get_pet_by_id_with_http_info: #{e}"
 end
 ```
 
@@ -276,10 +361,9 @@ end
 
 Update an existing pet
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -291,10 +375,28 @@ api_instance = Petstore::PetApi.new
 pet = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
 
 begin
-  #Update an existing pet
+  # Update an existing pet
   api_instance.update_pet(pet)
 rescue Petstore::ApiError => e
-  puts "Exception when calling PetApi->update_pet: #{e}"
+  puts "Error when calling PetApi->update_pet: #{e}"
+end
+```
+
+#### Using the update_pet_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> update_pet_with_http_info(pet)
+
+```ruby
+begin
+  # Update an existing pet
+  data, status_code, headers = api_instance.update_pet_with_http_info(pet)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling PetApi->update_pet_with_http_info: #{e}"
 end
 ```
 
@@ -324,10 +426,9 @@ nil (empty response body)
 
 Updates a pet in the store with form data
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -343,10 +444,28 @@ opts = {
 }
 
 begin
-  #Updates a pet in the store with form data
+  # Updates a pet in the store with form data
   api_instance.update_pet_with_form(pet_id, opts)
 rescue Petstore::ApiError => e
-  puts "Exception when calling PetApi->update_pet_with_form: #{e}"
+  puts "Error when calling PetApi->update_pet_with_form: #{e}"
+end
+```
+
+#### Using the update_pet_with_form_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> update_pet_with_form_with_http_info(pet_id, opts)
+
+```ruby
+begin
+  # Updates a pet in the store with form data
+  data, status_code, headers = api_instance.update_pet_with_form_with_http_info(pet_id, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling PetApi->update_pet_with_form_with_http_info: #{e}"
 end
 ```
 
@@ -374,14 +493,13 @@ nil (empty response body)
 
 ## upload_file
 
-> ApiResponse upload_file(pet_id, opts)
+> <ApiResponse> upload_file(pet_id, opts)
 
 uploads an image
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -397,11 +515,29 @@ opts = {
 }
 
 begin
-  #uploads an image
+  # uploads an image
   result = api_instance.upload_file(pet_id, opts)
   p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling PetApi->upload_file: #{e}"
+  puts "Error when calling PetApi->upload_file: #{e}"
+end
+```
+
+#### Using the upload_file_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<ApiResponse>, Integer, Hash)> upload_file_with_http_info(pet_id, opts)
+
+```ruby
+begin
+  # uploads an image
+  data, status_code, headers = api_instance.upload_file_with_http_info(pet_id, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <ApiResponse>
+rescue Petstore::ApiError => e
+  puts "Error when calling PetApi->upload_file_with_http_info: #{e}"
 end
 ```
 
@@ -429,14 +565,13 @@ end
 
 ## upload_file_with_required_file
 
-> ApiResponse upload_file_with_required_file(pet_id, required_file, opts)
+> <ApiResponse> upload_file_with_required_file(pet_id, required_file, opts)
 
 uploads an image (required)
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -452,11 +587,29 @@ opts = {
 }
 
 begin
-  #uploads an image (required)
+  # uploads an image (required)
   result = api_instance.upload_file_with_required_file(pet_id, required_file, opts)
   p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling PetApi->upload_file_with_required_file: #{e}"
+  puts "Error when calling PetApi->upload_file_with_required_file: #{e}"
+end
+```
+
+#### Using the upload_file_with_required_file_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<ApiResponse>, Integer, Hash)> upload_file_with_required_file_with_http_info(pet_id, required_file, opts)
+
+```ruby
+begin
+  # uploads an image (required)
+  data, status_code, headers = api_instance.upload_file_with_required_file_with_http_info(pet_id, required_file, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <ApiResponse>
+rescue Petstore::ApiError => e
+  puts "Error when calling PetApi->upload_file_with_required_file_with_http_info: #{e}"
 end
 ```
 

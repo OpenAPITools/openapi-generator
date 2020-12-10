@@ -15,6 +15,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Type/Alias | Imports |
 | ---------- | ------- |
+|File|FILE|
+|List|LIST|
+|Map|STRING_TABLE|
+|Set|SET|
+|file|FILE|
 
 
 ## INSTANTIATION TYPES
@@ -52,6 +57,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>and</li>
 <li>as</li>
 <li>assign</li>
+<li>attached</li>
 <li>attribute</li>
 <li>check</li>
 <li>class</li>
@@ -60,6 +66,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>current</li>
 <li>debug</li>
 <li>deferred</li>
+<li>detachable</li>
 <li>do</li>
 <li>else</li>
 <li>elseif</li>

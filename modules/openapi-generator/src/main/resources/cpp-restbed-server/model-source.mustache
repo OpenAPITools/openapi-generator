@@ -183,6 +183,8 @@ void {{classname}}::{{setter}}({{{dataType}}} value)
 {
 	{{#isEnum}}if (std::find(m_{{enumName}}.begin(), m_{{enumName}}.end(), value) != m_{{enumName}}.end()) {
 		{{/isEnum}}m_{{name}} = value;{{#isEnum}}
+	} else {
+		throw std::runtime_error("Value " + value + " not allowed");
 	}{{/isEnum}}
 }
 {{/vars}}
