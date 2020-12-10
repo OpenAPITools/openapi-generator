@@ -52,6 +52,12 @@ class GetChannelPublishedStatusResponseRecordUtils extends ApiRecordUtils<GetCha
 		return apiObject;
 	}
 
+	public toApi(record: GetChannelPublishedStatusResponseRecord): GetChannelPublishedStatusResponse {
+        const apiObject = super.toApi(record);
+        apiObject.meta = responseMetaRecordUtils.toApi(record.meta);
+        return apiObject;
+    }
+
 	public fromApiPassthrough(apiObject: GetChannelPublishedStatusResponse): ChannelPublishedStatus {
 	    return apiObject.data;
 	}

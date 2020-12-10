@@ -94,6 +94,12 @@ export interface Pet {
     name: string;
     /**
      * 
+     * @type {Array<Category>}
+     * @memberof Pet
+     */
+    entities?: Array<Category>;
+    /**
+     * 
      * @type {string}
      * @memberof Pet
      */
@@ -177,6 +183,7 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
         'category': CategoryFromJSON(json['category']),
         'optionalCategory': !exists(json, 'optionalCategory') ? undefined : CategoryFromJSON(json['optionalCategory']),
         'name': json['name'],
+        'entities': !exists(json, 'entities') ? undefined : ((json['entities'] as Array<any>).map(CategoryFromJSON)),
         'surname': !exists(json, 'surname') ? undefined : json['surname'],
         'photoUrls': json['photoUrls'],
         'warningStatus': WarningCodeFromJSON(json['warningStatus']),
@@ -207,6 +214,7 @@ export function PetToJSON(value?: Pet | null): any {
         'category': CategoryToJSON(value.category),
         'optionalCategory': CategoryToJSON(value.optionalCategory),
         'name': value.name,
+        'entities': value.entities === undefined ? undefined : ((value.entities as Array<any>).map(CategoryToJSON)),
         'surname': value.surname,
         'photoUrls': value.photoUrls,
         'warningStatus': WarningCodeToJSON(value.warningStatus),

@@ -40,6 +40,11 @@ class ItemIdRecordUtils extends ApiRecordUtils<ItemId, ItemIdRecord> {
 		(apiObject as any).recType = "ItemIdRecord";
 		return apiObject;
 	}
+
+	public toApi(record: ItemIdRecord): ItemId {
+        const apiObject = super.toApi(record);
+        return apiObject;
+    }
 }
 
 export const itemIdRecordUtils = new ItemIdRecordUtils();

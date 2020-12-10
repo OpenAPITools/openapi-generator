@@ -48,6 +48,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String WITHOUT_RUNTIME_CHECKS = "withoutRuntimeChecks";
     public static final String SAGAS_AND_RECORDS = "sagasAndRecords";
     public static final String DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD = "detectPassthroughModelsWithSuffixAndField";
+    public static final String RESERVED_RECORD_FIELDS = "reservedRecordFields";
 
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = true;
@@ -58,6 +59,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     protected boolean withoutRuntimeChecks = false;
     protected boolean sagasAndRecords = false;
     protected String detectPassthroughModelsWithSuffixAndField = null; // Ex: "Response;data"
+    protected String reservedRecordFields = null;
 
     public TypeScriptFetchClientCodegen() {
         super();
@@ -130,10 +132,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.sagasAndRecords = sagasAndRecords;
     }
 
-    public String getDetectPassthroughModelsWithSuffixAndField() {
-        return detectPassthroughModelsWithSuffixAndField;
-    }
-
     public String getPassthroughSuffix() {
         return detectPassthroughModelsWithSuffixAndField != null ? detectPassthroughModelsWithSuffixAndField.split("\\.")[0] : null;
     }
@@ -142,8 +140,24 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         return detectPassthroughModelsWithSuffixAndField != null ? detectPassthroughModelsWithSuffixAndField.split("\\.")[1] : null;
     }
 
+    public String getDetectPassthroughModelsWithSuffixAndField() {
+        return detectPassthroughModelsWithSuffixAndField;
+    }
+
     public void setDetectPassthroughModelsWithSuffixAndField(String detectPassthroughModelsWithSuffixAndField) {
         this.detectPassthroughModelsWithSuffixAndField = detectPassthroughModelsWithSuffixAndField;
+    }
+
+    public String getReservedRecordFields() {
+        return reservedRecordFields;
+    }
+
+    public void setReservedRecordFields(String reservedRecordFields) {
+        this.reservedRecordFields = reservedRecordFields;
+    }
+
+    public List<String> getReservedRecordFieldList() {
+        return this.reservedRecordFields != null ? Arrays.asList(this.reservedRecordFields.split("\\.")) : new ArrayList<String>();
     }
 
     @Override
@@ -199,6 +213,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
         if (additionalProperties.containsKey(DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD)) {
             this.setDetectPassthroughModelsWithSuffixAndField((String)additionalProperties.get(DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD));
+        }
+        if (additionalProperties.containsKey(RESERVED_RECORD_FIELDS)) {
+            this.setReservedRecordFields((String)additionalProperties.get(RESERVED_RECORD_FIELDS));
         }
     }
 
@@ -608,6 +625,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             parentIsEntity = true;
         }
 
+        if (this.getReservedRecordFieldList().contains(var.name)) {
+            var.isReservedRecordField = true;
+        }
+
         if (this.getSagasAndRecords()) {
             var.dataTypeAlternate = var.dataType;
             if (var.isArray) {
@@ -929,6 +950,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public boolean isEntity; //Is a model containing an "id" property marked as isUniqueId and which matches the 'x-entityId' value.
         public boolean isUniqueId; // The property represents a unique id (x-isUniqueId: true)
         public boolean keepAsJSObject;
+        public boolean isReservedRecordField;
 
         public ExtendedCodegenProperty(CodegenProperty cp) {
             super();
@@ -1030,13 +1052,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     isEntity == that.isEntity &&
                     isUniqueId == that.isUniqueId &&
                     keepAsJSObject == that.keepAsJSObject &&
+                    isReservedRecordField == that.isReservedRecordField &&
                     Objects.equals(dataTypeAlternate, that.dataTypeAlternate);
         }
 
         @Override
         public int hashCode() {
             int superHash = super.hashCode();
-            return Objects.hash(superHash, dataTypeAlternate, isEntity, isUniqueId, keepAsJSObject);
+            return Objects.hash(superHash, dataTypeAlternate, isEntity, isUniqueId, keepAsJSObject, isReservedRecordField);
         }
 
         @Override
@@ -1047,6 +1070,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             sb.append(", isEntity=").append(isEntity);
             sb.append(", isUniqueId=").append(isUniqueId);
             sb.append(", keepAsJSObject=").append(keepAsJSObject);
+            sb.append(", isReservedRecordField=").append(isReservedRecordField);
             return sb.toString();
         }
     }

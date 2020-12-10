@@ -57,6 +57,13 @@ class GetMatchingRolesResponseRecordUtils extends ApiRecordUtils<GetMatchingRole
 		return apiObject;
 	}
 
+	public toApi(record: GetMatchingRolesResponseRecord): GetMatchingRolesResponse {
+        const apiObject = super.toApi(record);
+        apiObject.meta = responseMetaRecordUtils.toApi(record.meta);
+        if (record.data) { apiObject.data = matchingRolesRecordUtils.toApi(record.data); } 
+        return apiObject;
+    }
+
 	public fromApiPassthrough(apiObject: GetMatchingRolesResponse): MatchingRolesRecord {
 	    if (!apiObject.data) {return MatchingRolesRecord(); }
 		const normalizedApiObject = matchingRolesRecordUtils.normalize(apiObject.data);

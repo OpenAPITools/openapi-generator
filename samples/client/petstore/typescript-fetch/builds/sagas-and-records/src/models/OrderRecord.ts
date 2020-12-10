@@ -62,6 +62,13 @@ class OrderRecordUtils extends ApiRecordUtils<Order, OrderRecord> {
 	    return new schema.Entity("order", {
 		});
 	}
+
+	public toApi(record: OrderRecord): Order {
+        const apiObject = super.toApi(record);
+        if (record.id) { apiObject.id = parseFloat(record.id); } 
+        if (record.petId) { apiObject.petId = parseFloat(record.petId); } 
+        return apiObject;
+    }
 }
 
 export const orderRecordUtils = new OrderRecordUtils();

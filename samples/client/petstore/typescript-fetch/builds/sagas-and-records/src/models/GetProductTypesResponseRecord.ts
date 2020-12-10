@@ -52,6 +52,12 @@ class GetProductTypesResponseRecordUtils extends ApiRecordUtils<GetProductTypesR
 		return apiObject;
 	}
 
+	public toApi(record: GetProductTypesResponseRecord): GetProductTypesResponse {
+        const apiObject = super.toApi(record);
+        apiObject.meta = responseMetaRecordUtils.toApi(record.meta);
+        return apiObject;
+    }
+
 	public fromApiPassthrough(apiObject: GetProductTypesResponse): List<ProductType> {
 	    return appFromJS(apiObject.data);
 	}

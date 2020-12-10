@@ -68,6 +68,12 @@ class UserRecordUtils extends ApiRecordUtils<User, UserRecord> {
             subUser2: userRecordUtils.getSchema(),
 		});
 	}
+
+	public toApi(record: UserRecord): User {
+        const apiObject = super.toApi(record);
+        apiObject.id = parseFloat(record.id);
+        return apiObject;
+    }
 }
 
 export const userRecordUtils = new UserRecordUtils();

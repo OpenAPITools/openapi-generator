@@ -40,6 +40,11 @@ class RoleRecordUtils extends ApiRecordUtils<Role, RoleRecord> {
 		(apiObject as any).recType = "RoleRecord";
 		return apiObject;
 	}
+
+	public toApi(record: RoleRecord): Role {
+        const apiObject = super.toApi(record);
+        return apiObject;
+    }
 }
 
 export const roleRecordUtils = new RoleRecordUtils();

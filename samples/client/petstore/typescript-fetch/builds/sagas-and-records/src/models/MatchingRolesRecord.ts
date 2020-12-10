@@ -49,6 +49,13 @@ class MatchingRolesRecordUtils extends ApiRecordUtils<MatchingRoles, MatchingRol
         roleRecordUtils.normalizeArray(apiObject.messagingRoles);
 		return apiObject;
 	}
+
+	public toApi(record: MatchingRolesRecord): MatchingRoles {
+        const apiObject = super.toApi(record);
+        apiObject.songRoles = roleRecordUtils.toApiArray(record.songRoles);
+        apiObject.messagingRoles = roleRecordUtils.toApiArray(record.messagingRoles);
+        return apiObject;
+    }
 }
 
 export const matchingRolesRecordUtils = new MatchingRolesRecordUtils();

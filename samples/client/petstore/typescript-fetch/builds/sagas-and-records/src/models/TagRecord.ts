@@ -56,6 +56,12 @@ class TagRecordUtils extends ApiRecordUtils<Tag, TagRecord> {
 	    return new schema.Entity("tag", {
 		});
 	}
+
+	public toApi(record: TagRecord): Tag {
+        const apiObject = super.toApi(record);
+        if (record.id) { apiObject.id = parseFloat(record.id); } 
+        return apiObject;
+    }
 }
 
 export const tagRecordUtils = new TagRecordUtils();

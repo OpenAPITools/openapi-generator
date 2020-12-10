@@ -56,6 +56,12 @@ class CategoryRecordUtils extends ApiRecordUtils<Category, CategoryRecord> {
 	    return new schema.Entity("category", {
 		});
 	}
+
+	public toApi(record: CategoryRecord): Category {
+        const apiObject = super.toApi(record);
+        if (record.id) { apiObject.id = parseFloat(record.id); } 
+        return apiObject;
+    }
 }
 
 export const categoryRecordUtils = new CategoryRecordUtils();

@@ -54,6 +54,7 @@ export const PetRecordProps = {
     category: CategoryRecord(),
     optionalCategory: (CategoryRecord(), null as CategoryRecord | null),
     name: "",
+    _entities: (CategoryRecord(), null as List<CategoryRecord> | null),
     surname: null as string | null,
     photoUrls: List<string>(),
     warningStatus: WarningCode.ReduceVolumeRangeToAvoidLargeSteps,
@@ -76,6 +77,7 @@ export const PetRecordEntityProps = {
 	recType: "PetRecordEntity" as "PetRecordEntity",
     category: "-1",
     optionalCategory: null as string | null,
+    _entities: null as List<string> | null,
     tags: List<string>(),
     optionalTags: null as List<string> | null,
 };
@@ -93,6 +95,9 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
         if (apiObject.friendId) { (apiObject as any).friendId = apiObject.friendId.toString(); } 
         categoryRecordUtils.normalize(apiObject.category);
         if (apiObject.optionalCategory) { categoryRecordUtils.normalize(apiObject.optionalCategory); } 
+        if (apiObject.entities) { categoryRecordUtils.normalizeArray(apiObject.entities); } 
+        (apiObject as any)._entities = apiObject.entities;
+        delete apiObject.entities;
         tagRecordUtils.normalizeArray(apiObject.tags);
         if (apiObject.optionalTags) { tagRecordUtils.normalizeArray(apiObject.optionalTags); } 
 		return apiObject;
@@ -102,10 +107,25 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
 	    return new schema.Entity("pet", {
             category: categoryRecordUtils.getSchema(),
             optionalCategory: categoryRecordUtils.getSchema(),
+            _entities: [categoryRecordUtils.getSchema()],
             tags: [tagRecordUtils.getSchema()],
             optionalTags: [tagRecordUtils.getSchema()],
 		});
 	}
+
+	public toApi(record: PetRecord): Pet {
+        const apiObject = super.toApi(record);
+        apiObject.id = parseFloat(record.id);
+        if (record.friendId) { apiObject.friendId = parseFloat(record.friendId); } 
+        apiObject.category = categoryRecordUtils.toApi(record.category);
+        if (record.optionalCategory) { apiObject.optionalCategory = categoryRecordUtils.toApi(record.optionalCategory); } 
+        if (record._entities) { (apiObject as any)._entities = categoryRecordUtils.toApiArray(record._entities); } 
+        apiObject.entities = (apiObject as any)._entities;
+        delete (apiObject as any)._entities;
+        apiObject.tags = tagRecordUtils.toApiArray(record.tags);
+        if (record.optionalTags) { apiObject.optionalTags = tagRecordUtils.toApiArray(record.optionalTags); } 
+        return apiObject;
+    }
 }
 
 export const petRecordUtils = new PetRecordUtils();

@@ -50,6 +50,12 @@ class ModelErrorRecordUtils extends ApiRecordUtils<ModelError, ModelErrorRecord>
         if (apiObject.itemInfo) { itemIdRecordUtils.normalize(apiObject.itemInfo); } 
 		return apiObject;
 	}
+
+	public toApi(record: ModelErrorRecord): ModelError {
+        const apiObject = super.toApi(record);
+        if (record.itemInfo) { apiObject.itemInfo = itemIdRecordUtils.toApi(record.itemInfo); } 
+        return apiObject;
+    }
 }
 
 export const modelErrorRecordUtils = new ModelErrorRecordUtils();

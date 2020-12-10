@@ -47,6 +47,12 @@ class DefaultMetaOnlyResponseRecordUtils extends ApiRecordUtils<DefaultMetaOnlyR
         responseMetaRecordUtils.normalize(apiObject.meta);
 		return apiObject;
 	}
+
+	public toApi(record: DefaultMetaOnlyResponseRecord): DefaultMetaOnlyResponse {
+        const apiObject = super.toApi(record);
+        apiObject.meta = responseMetaRecordUtils.toApi(record.meta);
+        return apiObject;
+    }
 }
 
 export const defaultMetaOnlyResponseRecordUtils = new DefaultMetaOnlyResponseRecordUtils();

@@ -48,6 +48,11 @@ class ResponseMetaRecordUtils extends ApiRecordUtils<ResponseMeta, ResponseMetaR
 		(apiObject as any).recType = "ResponseMetaRecord";
 		return apiObject;
 	}
+
+	public toApi(record: ResponseMetaRecord): ResponseMeta {
+        const apiObject = super.toApi(record);
+        return apiObject;
+    }
 }
 
 export const responseMetaRecordUtils = new ResponseMetaRecordUtils();

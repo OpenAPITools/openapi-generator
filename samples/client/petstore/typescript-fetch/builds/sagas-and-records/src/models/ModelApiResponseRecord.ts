@@ -41,6 +41,11 @@ class ModelApiResponseRecordUtils extends ApiRecordUtils<ModelApiResponse, Model
 		(apiObject as any).recType = "ModelApiResponseRecord";
 		return apiObject;
 	}
+
+	public toApi(record: ModelApiResponseRecord): ModelApiResponse {
+        const apiObject = super.toApi(record);
+        return apiObject;
+    }
 }
 
 export const modelApiResponseRecordUtils = new ModelApiResponseRecordUtils();

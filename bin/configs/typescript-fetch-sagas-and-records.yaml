@@ -10,4 +10,5 @@ additionalProperties:
   typescriptThreePlus: true
   sagasAndRecords: true
   detectPassthroughModelsWithSuffixAndField: 'Response.data'
+  reservedRecordFields: 'entries'
   snapshot: false

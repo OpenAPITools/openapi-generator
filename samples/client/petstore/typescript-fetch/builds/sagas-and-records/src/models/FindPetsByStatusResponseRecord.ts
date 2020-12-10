@@ -57,6 +57,13 @@ class FindPetsByStatusResponseRecordUtils extends ApiRecordUtils<FindPetsByStatu
 		return apiObject;
 	}
 
+	public toApi(record: FindPetsByStatusResponseRecord): FindPetsByStatusResponse {
+        const apiObject = super.toApi(record);
+        apiObject.meta = responseMetaRecordUtils.toApi(record.meta);
+        if (record.data) { apiObject.data = petRecordUtils.toApiArray(record.data); } 
+        return apiObject;
+    }
+
 	public fromApiPassthrough(apiObject: FindPetsByStatusResponse): List<PetRecord> {
 	    if (!apiObject.data) {return List<PetRecord>(); }
 		const normalizedApiObject = petRecordUtils.normalizeArray(apiObject.data);

@@ -889,6 +889,10 @@ definitions:
       name:
         type: string
         example: doggie
+      entries:
+        type: array
+        items:
+          $ref: "#/definitions/Category"
       surname:
         type: string
         example: woofy
