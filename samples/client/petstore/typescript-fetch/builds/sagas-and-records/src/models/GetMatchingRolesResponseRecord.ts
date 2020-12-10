@@ -16,17 +16,25 @@ import {ApiRecordUtils, knownRecordFactories, appFromJS, NormalizedRecordEntitie
 import {List, Record, RecordOf} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
-import { GetMatchingRolesResponse } from './';
-
+import {
+    GetMatchingRolesResponse,
+} from './GetMatchingRolesResponse';
 
 import {
     MatchingRoles,
+} from './MatchingRoles';
+import {
     ResponseMeta,
+} from './ResponseMeta';
+
+import {
     MatchingRolesRecord,
     matchingRolesRecordUtils,
+} from './MatchingRolesRecord';
+import {
     ResponseMetaRecord,
     responseMetaRecordUtils,
-} from './';
+} from './ResponseMetaRecord';
 
 export const GetMatchingRolesResponseRecordProps = {
 	recType: "GetMatchingRolesResponseRecord" as "GetMatchingRolesResponseRecord",

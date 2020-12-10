@@ -203,6 +203,23 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        if (this.getSagasAndRecords()) {
+            return datatype + "." + value;
+        }
+        return super.toEnumDefaultValue(value, datatype);
+    }
+
+    @Override
+    protected String getEnumDefaultValue(String defaultValue, String dataType) {
+        if (this.getSagasAndRecords()) {
+            return defaultValue;
+        }
+        return super.getEnumDefaultValue(defaultValue, dataType);
+    }
+
+
+    @Override
     protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
         ImmutableMap.Builder<String, Mustache.Lambda> lambdas = super.addMustacheLambdas();
         lambdas.put("indented_star_1", new IndentedLambda(1, " ", "* "));

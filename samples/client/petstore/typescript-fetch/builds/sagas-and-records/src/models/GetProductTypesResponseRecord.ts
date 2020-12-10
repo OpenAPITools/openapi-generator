@@ -16,15 +16,21 @@ import {ApiRecordUtils, knownRecordFactories, appFromJS, NormalizedRecordEntitie
 import {List, Record, RecordOf} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
-import { GetProductTypesResponse } from './';
-
+import {
+    GetProductTypesResponse,
+} from './GetProductTypesResponse';
 
 import {
     ProductType,
+} from './ProductType';
+import {
     ResponseMeta,
+} from './ResponseMeta';
+
+import {
     ResponseMetaRecord,
     responseMetaRecordUtils,
-} from './';
+} from './ResponseMetaRecord';
 
 export const GetProductTypesResponseRecordProps = {
 	recType: "GetProductTypesResponseRecord" as "GetProductTypesResponseRecord",

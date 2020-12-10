@@ -16,9 +16,11 @@ import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
 import {List, Record, RecordOf} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
-import { Order } from './';
+import {
+    Order,
+    OrderStatusEnum,
+} from './Order';
 
-import { OrderStatusEnum } from "./";
 
 
 export const OrderRecordProps = {

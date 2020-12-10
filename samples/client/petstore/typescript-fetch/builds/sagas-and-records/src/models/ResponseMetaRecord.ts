@@ -16,13 +16,15 @@ import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
 import {List, Record, RecordOf} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
-import { ResponseMeta } from './';
-
-import { ResponseMetaCodeEnum } from "./";
+import {
+    ResponseMeta,
+    ResponseMetaCodeEnum,
+} from './ResponseMeta';
 
 import {
     ErrorCode,
-} from './';
+} from './ErrorCode';
+
 
 export const ResponseMetaRecordProps = {
 	recType: "ResponseMetaRecord" as "ResponseMetaRecord",

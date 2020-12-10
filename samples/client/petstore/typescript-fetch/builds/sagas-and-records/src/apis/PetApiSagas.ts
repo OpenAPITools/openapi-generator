@@ -35,15 +35,12 @@ import {
     Pet,
     PetRecord,
     petRecordUtils,
+    UserRecord,
 } from '../models';
 
 import {
     FindPetsByStatusStatusEnum,
 } from './PetApi';
-
-import {
-    UserRecord,
-} from '../models';
 
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_petApi"});
 

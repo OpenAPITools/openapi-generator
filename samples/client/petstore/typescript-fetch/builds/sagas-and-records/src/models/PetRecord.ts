@@ -16,20 +16,32 @@ import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
 import {List, Record, RecordOf} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
-import { Pet } from './';
-
-import { PetStatusEnum } from "./";
+import {
+    Pet,
+    PetStatusEnum,
+} from './Pet';
 
 import {
     Category,
+} from './Category';
+import {
     DeploymentRequestStatus,
+} from './DeploymentRequestStatus';
+import {
     Tag,
+} from './Tag';
+import {
     WarningCode,
+} from './WarningCode';
+
+import {
     CategoryRecord,
     categoryRecordUtils,
+} from './CategoryRecord';
+import {
     TagRecord,
     tagRecordUtils,
-} from './';
+} from './TagRecord';
 
 export const PetRecordProps = {
 	recType: "PetRecord" as "PetRecord",

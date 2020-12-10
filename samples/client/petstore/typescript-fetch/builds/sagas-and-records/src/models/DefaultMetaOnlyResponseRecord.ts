@@ -16,14 +16,18 @@ import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
 import {List, Record, RecordOf} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
-import { DefaultMetaOnlyResponse } from './';
-
+import {
+    DefaultMetaOnlyResponse,
+} from './DefaultMetaOnlyResponse';
 
 import {
     ResponseMeta,
+} from './ResponseMeta';
+
+import {
     ResponseMetaRecord,
     responseMetaRecordUtils,
-} from './';
+} from './ResponseMetaRecord';
 
 export const DefaultMetaOnlyResponseRecordProps = {
 	recType: "DefaultMetaOnlyResponseRecord" as "DefaultMetaOnlyResponseRecord",

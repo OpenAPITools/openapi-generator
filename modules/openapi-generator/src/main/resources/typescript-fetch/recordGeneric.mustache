@@ -2,27 +2,27 @@ import {ApiRecordUtils, knownRecordFactories{{#returnPassthrough}}, appFromJS, N
 import {List, Record, RecordOf} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
-import { {{classname}} } from './';
-
-{{#hasEnums}}
+import {
+    {{classname}},
 {{#vars}}
 {{#isEnum}}
-import { {{classname}}{{enumName}} } from "./";
+    {{classname}}{{enumName}},
 {{/isEnum}}
 {{/vars}}
-{{/hasEnums}}
+} from './{{classname}}';
 
-{{#hasImports}}
+{{#imports}}
 import {
-    {{#imports}}
     {{{.}}},
-    {{/imports}}
+} from './{{{.}}}';
+{{/imports}}
+
 {{#modelImports}}
-    {{.}}Record,
+import {
+    {{{.}}}Record,
     {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}RecordUtils,
+} from './{{{.}}}Record';
 {{/modelImports}}
-} from './';
-{{/hasImports}}
 
 export const {{classname}}RecordProps = {
 	recType: "{{classname}}Record" as "{{classname}}Record",

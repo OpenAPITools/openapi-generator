@@ -23,9 +23,6 @@ import {
     GetChannelPublishedStatusResponse,
     GetChannelPublishedStatusResponseRecord,
     getChannelPublishedStatusResponseRecordUtils,
-} from '../models';
-
-import {
     ChannelPublishedStatus,
 } from '../models';
 

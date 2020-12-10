@@ -16,15 +16,21 @@ import {ApiRecordUtils, knownRecordFactories, appFromJS, NormalizedRecordEntitie
 import {List, Record, RecordOf} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
-import { GetChannelPublishedStatusResponse } from './';
-
+import {
+    GetChannelPublishedStatusResponse,
+} from './GetChannelPublishedStatusResponse';
 
 import {
     ChannelPublishedStatus,
+} from './ChannelPublishedStatus';
+import {
     ResponseMeta,
+} from './ResponseMeta';
+
+import {
     ResponseMetaRecord,
     responseMetaRecordUtils,
-} from './';
+} from './ResponseMetaRecord';
 
 export const GetChannelPublishedStatusResponseRecordProps = {
 	recType: "GetChannelPublishedStatusResponseRecord" as "GetChannelPublishedStatusResponseRecord",

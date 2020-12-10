@@ -16,14 +16,18 @@ import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
 import {List, Record, RecordOf} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
-import { MatchingRoles } from './';
-
+import {
+    MatchingRoles,
+} from './MatchingRoles';
 
 import {
     Role,
+} from './Role';
+
+import {
     RoleRecord,
     roleRecordUtils,
-} from './';
+} from './RoleRecord';
 
 export const MatchingRolesRecordProps = {
 	recType: "MatchingRolesRecord" as "MatchingRolesRecord",

@@ -16,17 +16,25 @@ import {ApiRecordUtils, knownRecordFactories, appFromJS, NormalizedRecordEntitie
 import {List, Record, RecordOf} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
-import { FindPetsByUserResponse } from './';
-
+import {
+    FindPetsByUserResponse,
+} from './FindPetsByUserResponse';
 
 import {
     ResponseMeta,
+} from './ResponseMeta';
+import {
     User,
+} from './User';
+
+import {
     ResponseMetaRecord,
     responseMetaRecordUtils,
+} from './ResponseMetaRecord';
+import {
     UserRecord,
     userRecordUtils,
-} from './';
+} from './UserRecord';
 
 export const FindPetsByUserResponseRecordProps = {
 	recType: "FindPetsByUserResponseRecord" as "FindPetsByUserResponseRecord",

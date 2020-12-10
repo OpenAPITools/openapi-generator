@@ -15,6 +15,9 @@ import {
     {{className}}Record,
     {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}RecordUtils,
     {{/imports}}
+    {{#passthroughImports}}
+    {{.}},
+    {{/passthroughImports}}
 } from '../models';
 {{/imports.0}}
 {{#hasEnums}}
@@ -31,14 +34,6 @@ import {
 {{/operation}}
 {{/operations}}
 {{/hasEnums}}
-{{#hasPassthroughImports}}
-
-import {
-{{#passthroughImports}}
-    {{.}},
-{{/passthroughImports}}
-} from '../models';
-{{/hasPassthroughImports}}
 
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}"});
 

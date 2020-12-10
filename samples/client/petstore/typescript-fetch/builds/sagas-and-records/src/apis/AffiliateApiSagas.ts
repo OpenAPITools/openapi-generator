@@ -26,9 +26,6 @@ import {
     GetProductTypeResponse,
     GetProductTypeResponseRecord,
     getProductTypeResponseRecordUtils,
-} from '../models';
-
-import {
     MatchingRolesRecord,
     ProductType,
 } from '../models';

@@ -16,14 +16,18 @@ import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
 import {List, Record, RecordOf} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
-import { ModelError } from './';
-
+import {
+    ModelError,
+} from './ModelError';
 
 import {
     ItemId,
+} from './ItemId';
+
+import {
     ItemIdRecord,
     itemIdRecordUtils,
-} from './';
+} from './ItemIdRecord';
 
 export const ModelErrorRecordProps = {
 	recType: "ModelErrorRecord" as "ModelErrorRecord",

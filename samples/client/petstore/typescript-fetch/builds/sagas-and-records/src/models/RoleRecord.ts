@@ -16,7 +16,9 @@ import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
 import {List, Record, RecordOf} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
-import { Role } from './';
+import {
+    Role,
+} from './Role';
 
 
 
