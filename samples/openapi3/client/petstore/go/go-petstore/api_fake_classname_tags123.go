@@ -89,7 +89,7 @@ func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassname
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeClassnameTags123ApiService.TestClassname")
 	if err != nil {
 		executionError.error = err.Error()
-		return localVarReturnValue, nil, executionError}
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/fake_classname_test"

@@ -128,7 +128,7 @@ func (a *StoreApiService) DeleteOrderExecute(r ApiDeleteOrderRequest) (*_nethttp
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.DeleteOrder")
 	if err != nil {
 		executionError.error = err.Error()
-		return nil, executionError}
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/store/order/{order_id}"
@@ -227,7 +227,7 @@ func (a *StoreApiService) GetInventoryExecute(r ApiGetInventoryRequest) (map[str
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.GetInventory")
 	if err != nil {
 		executionError.error = err.Error()
-		return localVarReturnValue, nil, executionError}
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/store/inventory"
@@ -351,7 +351,7 @@ func (a *StoreApiService) GetOrderByIdExecute(r ApiGetOrderByIdRequest) (Order, 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.GetOrderById")
 	if err != nil {
 		executionError.error = err.Error()
-		return localVarReturnValue, nil, executionError}
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/store/order/{order_id}"
@@ -471,7 +471,7 @@ func (a *StoreApiService) PlaceOrderExecute(r ApiPlaceOrderRequest) (Order, *_ne
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.PlaceOrder")
 	if err != nil {
 		executionError.error = err.Error()
-		return localVarReturnValue, nil, executionError}
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/store/order"

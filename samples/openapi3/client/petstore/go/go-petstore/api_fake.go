@@ -260,7 +260,7 @@ func (a *FakeApiService) FakeHealthGetExecute(r ApiFakeHealthGetRequest) (Health
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.FakeHealthGet")
 	if err != nil {
 		executionError.error = err.Error()
-		return localVarReturnValue, nil, executionError}
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/fake/health"
@@ -372,7 +372,7 @@ func (a *FakeApiService) FakeOuterBooleanSerializeExecute(r ApiFakeOuterBooleanS
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.FakeOuterBooleanSerialize")
 	if err != nil {
 		executionError.error = err.Error()
-		return localVarReturnValue, nil, executionError}
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/fake/outer/boolean"
@@ -486,7 +486,7 @@ func (a *FakeApiService) FakeOuterCompositeSerializeExecute(r ApiFakeOuterCompos
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.FakeOuterCompositeSerialize")
 	if err != nil {
 		executionError.error = err.Error()
-		return localVarReturnValue, nil, executionError}
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/fake/outer/composite"
@@ -600,7 +600,7 @@ func (a *FakeApiService) FakeOuterNumberSerializeExecute(r ApiFakeOuterNumberSer
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.FakeOuterNumberSerialize")
 	if err != nil {
 		executionError.error = err.Error()
-		return localVarReturnValue, nil, executionError}
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/fake/outer/number"
@@ -714,7 +714,7 @@ func (a *FakeApiService) FakeOuterStringSerializeExecute(r ApiFakeOuterStringSer
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.FakeOuterStringSerialize")
 	if err != nil {
 		executionError.error = err.Error()
-		return localVarReturnValue, nil, executionError}
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/fake/outer/string"
@@ -826,7 +826,7 @@ func (a *FakeApiService) TestBodyWithFileSchemaExecute(r ApiTestBodyWithFileSche
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestBodyWithFileSchema")
 	if err != nil {
 		executionError.error = err.Error()
-		return nil, executionError}
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/fake/body-with-file-schema"
@@ -937,7 +937,7 @@ func (a *FakeApiService) TestBodyWithQueryParamsExecute(r ApiTestBodyWithQueryPa
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestBodyWithQueryParams")
 	if err != nil {
 		executionError.error = err.Error()
-		return nil, executionError}
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/fake/body-with-query-params"
@@ -1051,7 +1051,7 @@ func (a *FakeApiService) TestClientModelExecute(r ApiTestClientModelRequest) (Cl
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestClientModel")
 	if err != nil {
 		executionError.error = err.Error()
-		return localVarReturnValue, nil, executionError}
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/fake"
@@ -1236,7 +1236,7 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestEndpointParameters")
 	if err != nil {
 		executionError.error = err.Error()
-		return nil, executionError}
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/fake"
@@ -1446,7 +1446,7 @@ func (a *FakeApiService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestEnumParameters")
 	if err != nil {
 		executionError.error = err.Error()
-		return nil, executionError}
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/fake"
@@ -1604,7 +1604,7 @@ func (a *FakeApiService) TestGroupParametersExecute(r ApiTestGroupParametersRequ
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestGroupParameters")
 	if err != nil {
 		executionError.error = err.Error()
-		return nil, executionError}
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/fake"
@@ -1728,7 +1728,7 @@ func (a *FakeApiService) TestInlineAdditionalPropertiesExecute(r ApiTestInlineAd
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestInlineAdditionalProperties")
 	if err != nil {
 		executionError.error = err.Error()
-		return nil, executionError}
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/fake/inline-additionalProperties"
@@ -1839,7 +1839,7 @@ func (a *FakeApiService) TestJsonFormDataExecute(r ApiTestJsonFormDataRequest) (
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestJsonFormData")
 	if err != nil {
 		executionError.error = err.Error()
-		return nil, executionError}
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/fake/jsonFormData"
@@ -1970,7 +1970,7 @@ func (a *FakeApiService) TestQueryParameterCollectionFormatExecute(r ApiTestQuer
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestQueryParameterCollectionFormat")
 	if err != nil {
 		executionError.error = err.Error()
-		return nil, executionError}
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/fake/test-query-paramters"

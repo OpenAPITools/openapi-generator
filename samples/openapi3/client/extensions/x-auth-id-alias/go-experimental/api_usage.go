@@ -67,7 +67,7 @@ func (a *UsageApiService) AnyKeyExecute(r ApiAnyKeyRequest) (map[string]interfac
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageApiService.AnyKey")
 	if err != nil {
 		executionError.error = err.Error()
-		return localVarReturnValue, nil, executionError}
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/any"
@@ -202,7 +202,7 @@ func (a *UsageApiService) BothKeysExecute(r ApiBothKeysRequest) (map[string]inte
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageApiService.BothKeys")
 	if err != nil {
 		executionError.error = err.Error()
-		return localVarReturnValue, nil, executionError}
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/both"
@@ -337,7 +337,7 @@ func (a *UsageApiService) KeyInHeaderExecute(r ApiKeyInHeaderRequest) (map[strin
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageApiService.KeyInHeader")
 	if err != nil {
 		executionError.error = err.Error()
-		return localVarReturnValue, nil, executionError}
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/header"
@@ -458,7 +458,7 @@ func (a *UsageApiService) KeyInQueryExecute(r ApiKeyInQueryRequest) (map[string]
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageApiService.KeyInQuery")
 	if err != nil {
 		executionError.error = err.Error()
-		return localVarReturnValue, nil, executionError}
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/query"

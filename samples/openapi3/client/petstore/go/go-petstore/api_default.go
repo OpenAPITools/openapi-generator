@@ -82,7 +82,7 @@ func (a *DefaultApiService) FooGetExecute(r ApiFooGetRequest) (InlineResponseDef
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.FooGet")
 	if err != nil {
 		executionError.error = err.Error()
-		return localVarReturnValue, nil, executionError}
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/foo"

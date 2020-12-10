@@ -178,7 +178,7 @@ func (a *UserApiService) CreateUserExecute(r ApiCreateUserRequest) (*_nethttp.Re
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.CreateUser")
 	if err != nil {
 		executionError.error = err.Error()
-		return nil, executionError}
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/user"
@@ -284,7 +284,7 @@ func (a *UserApiService) CreateUsersWithArrayInputExecute(r ApiCreateUsersWithAr
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.CreateUsersWithArrayInput")
 	if err != nil {
 		executionError.error = err.Error()
-		return nil, executionError}
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/user/createWithArray"
@@ -390,7 +390,7 @@ func (a *UserApiService) CreateUsersWithListInputExecute(r ApiCreateUsersWithLis
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.CreateUsersWithListInput")
 	if err != nil {
 		executionError.error = err.Error()
-		return nil, executionError}
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/user/createWithList"
@@ -495,7 +495,7 @@ func (a *UserApiService) DeleteUserExecute(r ApiDeleteUserRequest) (*_nethttp.Re
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.DeleteUser")
 	if err != nil {
 		executionError.error = err.Error()
-		return nil, executionError}
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
@@ -596,7 +596,7 @@ func (a *UserApiService) GetUserByNameExecute(r ApiGetUserByNameRequest) (User, 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.GetUserByName")
 	if err != nil {
 		executionError.error = err.Error()
-		return localVarReturnValue, nil, executionError}
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
@@ -713,7 +713,7 @@ func (a *UserApiService) LoginUserExecute(r ApiLoginUserRequest) (string, *_neth
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.LoginUser")
 	if err != nil {
 		executionError.error = err.Error()
-		return localVarReturnValue, nil, executionError}
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/user/login"
@@ -827,7 +827,7 @@ func (a *UserApiService) LogoutUserExecute(r ApiLogoutUserRequest) (*_nethttp.Re
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.LogoutUser")
 	if err != nil {
 		executionError.error = err.Error()
-		return nil, executionError}
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/user/logout"
@@ -931,7 +931,7 @@ func (a *UserApiService) UpdateUserExecute(r ApiUpdateUserRequest) (*_nethttp.Re
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.UpdateUser")
 	if err != nil {
 		executionError.error = err.Error()
-		return nil, executionError}
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
