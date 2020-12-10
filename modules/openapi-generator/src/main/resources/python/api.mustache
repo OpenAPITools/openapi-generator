@@ -64,12 +64,12 @@ class {{classname}}(object):
 {{/requiredParams}}
 {{#requiredParams}}
 {{^defaultValue}}
-                {{paramName}} ({{dataType}}):{{#description}} {{description}}{{/description}}
+                {{paramName}} ({{dataType}}):{{#description}} {{{description}}}{{/description}}
 {{/defaultValue}}
 {{/requiredParams}}
 {{#requiredParams}}
 {{#defaultValue}}
-                {{paramName}} ({{dataType}}):{{#description}} {{description}}.{{/description}} defaults to {{{defaultValue}}}, must be one of [{{{defaultValue}}}]
+                {{paramName}} ({{dataType}}):{{#description}} {{{description}}}.{{/description}} defaults to {{{defaultValue}}}, must be one of [{{{defaultValue}}}]
 {{/defaultValue}}
 {{/requiredParams}}
 
