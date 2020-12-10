@@ -26,7 +26,7 @@ class {{{classname}}} {
 
   {{#allowableValues}}
     {{#enumVars}}
-  static const {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}} = {{{classname}}}._({{{value}}});
+  static const {{{name}}} = {{{classname}}}._({{{value}}});
     {{/enumVars}}
   {{/allowableValues}}
 
@@ -34,7 +34,7 @@ class {{{classname}}} {
   static const values = <{{{classname}}}>[
   {{#allowableValues}}
     {{#enumVars}}
-    {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}},
+    {{{name}}},
     {{/enumVars}}
   {{/allowableValues}}
   ];
@@ -71,7 +71,7 @@ class {{{classname}}}TypeTransformer {
     switch (data) {
       {{#allowableValues}}
         {{#enumVars}}
-      case {{{value}}}: return {{{classname}}}.{{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}};
+      case {{{value}}}: return {{{classname}}}.{{{name}}};
         {{/enumVars}}
       {{/allowableValues}}
       default:

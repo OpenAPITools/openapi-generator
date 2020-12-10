@@ -619,4 +619,38 @@ public class SpringCodegenTest {
     public void useBeanValidationTruePerformBeanValidationTrueJava8TrueForFormatEmail() throws IOException {
         beanValidationForFormatEmail(true, true, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
     }
+
+    @Test
+    public void reactiveMapTypeRequestMonoTest() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/issue_8045.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DELEGATE_PATTERN, "true");
+        codegen.additionalProperties().put(SpringCodegen.REACTIVE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApi.java"), "Mono<Map<String, DummyRequest>>");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApiDelegate.java"), "Mono<Map<String, DummyRequest>>");
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApi.java"), "Mono<DummyRequest>");
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApiDelegate.java"), "Mono<DummyRequest>");
+    }
 }

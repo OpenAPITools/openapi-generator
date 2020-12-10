@@ -450,7 +450,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if (referencedSchema != null) {
             extensions = referencedSchema.getExtensions();
         }
-        updateEnumVarsWithExtensions(enumVars, extensions);
+        updateEnumVarsWithExtensions(enumVars, extensions, dataType);
         allowableValues.put("enumVars", enumVars);
         // overwriting defaultValue omitted from here
     }
@@ -1072,7 +1072,10 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     key = addPropsSchema.getEnum().get(0).toString();
                 }
                 addPropsExample = exampleFromStringOrArraySchema(addPropsSchema, addPropsExample, key);
-                String addPropPrefix = ensureQuotes(key) + ": ";
+                String addPropPrefix = key + "=";
+                if (modelName == null) {
+                        addPropPrefix = ensureQuotes(key) + ": ";
+                }
                 String addPropsModelName = getModelName(addPropsSchema);
                 example = fullPrefix + "\n" +  toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1) + ",\n" + closingIndentation + closeChars;
             } else {

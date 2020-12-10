@@ -1,0 +1,6 @@
+generatorName: dart-dio
+outputDir: samples/openapi3/client/petstore/dart-dio/petstore_client_lib
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/dart-dio
+additionalProperties:
+  hideGenerationTimestamp: "true"

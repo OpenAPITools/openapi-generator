@@ -17,16 +17,15 @@ All URIs are relative to *{{basePath}}*
 
 ## {{operationId}}
 
-> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}{{#hasParams}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}){{/hasParams}}
+> {{#returnType}}{{#returnTypeIsPrimitive}}{{returnType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}<{{{returnType}}}>{{/returnTypeIsPrimitive}} {{/returnType}}{{operationId}}{{#hasParams}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}){{/hasParams}}
 
 {{{summary}}}{{#notes}}
 
 {{{notes}}}{{/notes}}
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
 require '{{{gemName}}}'
 {{#hasAuthMethods}}
 # setup authorization
@@ -60,11 +59,31 @@ opts = {
 {{/optionalParams}}
 
 begin
-{{#summary}}  #{{{.}}}
-{{/summary}}  {{#returnType}}result = {{/returnType}}api_instance.{{{operationId}}}{{#hasParams}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}){{/hasParams}}{{#returnType}}
-  p result{{/returnType}}
+  {{#summary}}# {{{.}}}{{/summary}}
+  {{#returnType}}result = {{/returnType}}api_instance.{{{operationId}}}{{#hasParams}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}){{/hasParams}}
+  {{#returnType}}
+  p result
+  {{/returnType}}
 rescue {{{moduleName}}}::ApiError => e
-  puts "Exception when calling {{classname}}->{{{operationId}}}: #{e}"
+  puts "Error when calling {{classname}}->{{{operationId}}}: #{e}"
+end
+```
+
+#### Using the {{operationId}}_with_http_info variant
+
+This returns an Array which contains the response data{{^returnType}} (`nil` in this case){{/returnType}}, status code and headers.
+
+> <Array({{#returnType}}{{#returnTypeIsPrimitive}}{{returnType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}<{{{returnType}}}>{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}nil{{/returnType}}, Integer, Hash)> {{operationId}}_with_http_info{{#hasParams}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}){{/hasParams}}
+
+```ruby
+begin
+  {{#summary}}# {{{.}}}{{/summary}}
+  data, status_code, headers = api_instance.{{{operationId}}}_with_http_info{{#hasParams}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}){{/hasParams}}
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => {{#returnType}}{{#returnTypeIsPrimitive}}{{returnType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}<{{{returnType}}}>{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}nil{{/returnType}}
+rescue {{{moduleName}}}::ApiError => e
+  puts "Error when calling {{classname}}->{{{operationId}}}_with_http_info: #{e}"
 end
 ```
 

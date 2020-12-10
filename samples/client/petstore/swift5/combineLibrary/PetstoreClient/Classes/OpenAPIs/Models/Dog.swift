@@ -13,7 +13,7 @@ public struct Dog: Codable {
     public var color: String? = "red"
     public var breed: String?
 
-    public init(className: String, color: String? = nil, breed: String? = nil) {
+    public init(className: String, color: String? = "red", breed: String? = nil) {
         self.className = className
         self.color = color
         self.breed = breed

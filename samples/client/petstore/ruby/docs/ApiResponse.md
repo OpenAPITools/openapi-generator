@@ -8,7 +8,7 @@
 | **type** | **String** |  | [optional] |
 | **message** | **String** |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

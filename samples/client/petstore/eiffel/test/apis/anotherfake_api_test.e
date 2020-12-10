@@ -13,18 +13,18 @@ inherit
 feature -- Test routines
 
     
-    test_test_special_tags
+    test_call123test_special_tags
             -- To test special tags
             -- 
-            -- To test special tags 
+            -- To test special tags and operation ID starting with number 
         local
             l_response: CLIENT
-            l_client: CLIENT
+            l_body: CLIENT
         do
             -- TODO: Initialize required params.
-            -- l_client
+            -- l_body
                       
-            -- l_response := api.test_special_tags(l_client)
+            -- l_response := api.call123test_special_tags(l_body)
             assert ("not_implemented", False)
         end
 

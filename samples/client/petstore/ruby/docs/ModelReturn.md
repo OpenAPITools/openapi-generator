@@ -6,7 +6,7 @@
 | ---- | ---- | ----------- | ----- |
 | **_return** | **Integer** |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

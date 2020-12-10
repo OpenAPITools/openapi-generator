@@ -12,7 +12,7 @@ import Foundation
     public var _className: String
     public var color: String? = "red"
 
-    public init(_className: String, color: String? = nil) {
+    public init(_className: String, color: String? = "red") {
         self._className = _className
         self.color = color
     }
