@@ -38,10 +38,10 @@ class AdditionalPropertiesClass {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (mapProperty != null) {
-      json['map_property'] = mapProperty;
+      json[r'map_property'] = mapProperty;
     }
     if (mapOfMapProperty != null) {
-      json['map_of_map_property'] = mapOfMapProperty;
+      json[r'map_of_map_property'] = mapOfMapProperty;
     }
     return json;
   }
@@ -51,12 +51,12 @@ class AdditionalPropertiesClass {
   static AdditionalPropertiesClass fromJson(Map<String, dynamic> json) => json == null
     ? null
     : AdditionalPropertiesClass(
-        mapProperty: json['map_property'] == null ?
+        mapProperty: json[r'map_property'] == null ?
           null :
-          (json['map_property'] as Map).cast<String, String>(),
-        mapOfMapProperty: json['map_of_map_property'] == null
+          (json[r'map_property'] as Map).cast<String, String>(),
+        mapOfMapProperty: json[r'map_of_map_property'] == null
           ? null
-          : Map.mapFromJson(json['map_of_map_property']),
+          : Map.mapFromJson(json[r'map_of_map_property']),
     );
 
   static List<AdditionalPropertiesClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

@@ -38,10 +38,10 @@ class Model200Response {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (name != null) {
-      json['name'] = name;
+      json[r'name'] = name;
     }
     if (class_ != null) {
-      json['class'] = class_;
+      json[r'class'] = class_;
     }
     return json;
   }
@@ -51,8 +51,8 @@ class Model200Response {
   static Model200Response fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Model200Response(
-        name: json['name'],
-        class_: json['class'],
+        name: json[r'name'],
+        class_: json[r'class'],
     );
 
   static List<Model200Response> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

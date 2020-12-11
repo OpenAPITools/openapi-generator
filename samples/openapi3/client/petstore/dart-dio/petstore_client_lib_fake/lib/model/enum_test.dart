@@ -61,11 +61,11 @@ abstract class EnumTest implements Built<EnumTest, EnumTestBuilder> {
 class EnumTestEnumString extends EnumClass {
 
   @BuiltValueEnumConst(wireName: 'UPPER')
-  static const EnumTestEnumString uPPER = _$uPPER;
+  static const EnumTestEnumString UPPER = _$enumTestEnumString_UPPER;
   @BuiltValueEnumConst(wireName: 'lower')
-  static const EnumTestEnumString lower = _$lower;
+  static const EnumTestEnumString lower = _$enumTestEnumString_lower;
   @BuiltValueEnumConst(wireName: '')
-  static const EnumTestEnumString empty = _$empty;
+  static const EnumTestEnumString empty = _$enumTestEnumString_empty;
 
   static Serializer<EnumTestEnumString> get serializer => _$enumTestEnumStringSerializer;
 
@@ -79,11 +79,11 @@ class EnumTestEnumString extends EnumClass {
 class EnumTestEnumStringRequired extends EnumClass {
 
   @BuiltValueEnumConst(wireName: 'UPPER')
-  static const EnumTestEnumStringRequired uPPER = _$uPPER;
+  static const EnumTestEnumStringRequired UPPER = _$enumTestEnumStringRequired_UPPER;
   @BuiltValueEnumConst(wireName: 'lower')
-  static const EnumTestEnumStringRequired lower = _$lower;
+  static const EnumTestEnumStringRequired lower = _$enumTestEnumStringRequired_lower;
   @BuiltValueEnumConst(wireName: '')
-  static const EnumTestEnumStringRequired empty = _$empty;
+  static const EnumTestEnumStringRequired empty = _$enumTestEnumStringRequired_empty;
 
   static Serializer<EnumTestEnumStringRequired> get serializer => _$enumTestEnumStringRequiredSerializer;
 
@@ -96,10 +96,10 @@ class EnumTestEnumStringRequired extends EnumClass {
 
 class EnumTestEnumInteger extends EnumClass {
 
-  @BuiltValueEnumConst(wireName: 1)
-  static const EnumTestEnumInteger number1 = _$number1;
-  @BuiltValueEnumConst(wireName: -1)
-  static const EnumTestEnumInteger number1 = _$number1;
+  @BuiltValueEnumConst(wireNumber: 1)
+  static const EnumTestEnumInteger number1 = _$enumTestEnumInteger_number1;
+  @BuiltValueEnumConst(wireNumber: -1)
+  static const EnumTestEnumInteger numberNegative1 = _$enumTestEnumInteger_numberNegative1;
 
   static Serializer<EnumTestEnumInteger> get serializer => _$enumTestEnumIntegerSerializer;
 
@@ -113,9 +113,9 @@ class EnumTestEnumInteger extends EnumClass {
 class EnumTestEnumNumber extends EnumClass {
 
   @BuiltValueEnumConst(wireName: '1.1')
-  static const EnumTestEnumNumber 11_ = _$11_;
+  static const EnumTestEnumNumber number1Period1 = _$enumTestEnumNumber_number1Period1;
   @BuiltValueEnumConst(wireName: '-1.2')
-  static const EnumTestEnumNumber 12_ = _$12_;
+  static const EnumTestEnumNumber numberNegative1Period2 = _$enumTestEnumNumber_numberNegative1Period2;
 
   static Serializer<EnumTestEnumNumber> get serializer => _$enumTestEnumNumberSerializer;
 

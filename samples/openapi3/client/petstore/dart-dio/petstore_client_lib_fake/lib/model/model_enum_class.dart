@@ -11,9 +11,9 @@ class ModelEnumClass extends EnumClass {
   @BuiltValueEnumConst(wireName: '-efg')
   static const ModelEnumClass efg = _$efg;
   @BuiltValueEnumConst(wireName: '(xyz)')
-  static const ModelEnumClass (xyz) = _$(xyz);
+  static const ModelEnumClass leftParenthesisXyzRightParenthesis = _$leftParenthesisXyzRightParenthesis;
 
-  static Serializer<ModelEnumClass> get serializer => _$enumClassSerializer;
+  static Serializer<ModelEnumClass> get serializer => _$modelEnumClassSerializer;
 
   const ModelEnumClass._(String name): super(name);
 

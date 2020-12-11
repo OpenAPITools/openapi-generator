@@ -30,15 +30,15 @@ class OuterEnumDefaultValue {
 
   String toJson() => value;
 
-  static const placed_ = OuterEnumDefaultValue._('placed');
-  static const approved_ = OuterEnumDefaultValue._('approved');
-  static const delivered_ = OuterEnumDefaultValue._('delivered');
+  static const placed = OuterEnumDefaultValue._('placed');
+  static const approved = OuterEnumDefaultValue._('approved');
+  static const delivered = OuterEnumDefaultValue._('delivered');
 
   /// List of all possible values in this [enum][OuterEnumDefaultValue].
   static const values = <OuterEnumDefaultValue>[
-    placed_,
-    approved_,
-    delivered_,
+    placed,
+    approved,
+    delivered,
   ];
 
   static OuterEnumDefaultValue fromJson(dynamic value) =>
@@ -71,9 +71,9 @@ class OuterEnumDefaultValueTypeTransformer {
   /// and users are still using an old app with the old code.
   OuterEnumDefaultValue decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case 'placed': return OuterEnumDefaultValue.placed_;
-      case 'approved': return OuterEnumDefaultValue.approved_;
-      case 'delivered': return OuterEnumDefaultValue.delivered_;
+      case 'placed': return OuterEnumDefaultValue.placed;
+      case 'approved': return OuterEnumDefaultValue.approved;
+      case 'delivered': return OuterEnumDefaultValue.delivered;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

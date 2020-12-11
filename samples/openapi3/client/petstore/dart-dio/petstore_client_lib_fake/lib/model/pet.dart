@@ -45,13 +45,13 @@ class PetStatus extends EnumClass {
 
   /// pet status in the store
   @BuiltValueEnumConst(wireName: 'available')
-  static const PetStatus available = _$available;
+  static const PetStatus available = _$petStatus_available;
   /// pet status in the store
   @BuiltValueEnumConst(wireName: 'pending')
-  static const PetStatus pending = _$pending;
+  static const PetStatus pending = _$petStatus_pending;
   /// pet status in the store
   @BuiltValueEnumConst(wireName: 'sold')
-  static const PetStatus sold = _$sold;
+  static const PetStatus sold = _$petStatus_sold;
 
   static Serializer<PetStatus> get serializer => _$petStatusSerializer;
 

@@ -32,7 +32,7 @@ class InlineResponseDefault {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (string != null) {
-      json['string'] = string;
+      json[r'string'] = string;
     }
     return json;
   }
@@ -42,7 +42,7 @@ class InlineResponseDefault {
   static InlineResponseDefault fromJson(Map<String, dynamic> json) => json == null
     ? null
     : InlineResponseDefault(
-        string: Foo.fromJson(json['string']),
+        string: Foo.fromJson(json[r'string']),
     );
 
   static List<InlineResponseDefault> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

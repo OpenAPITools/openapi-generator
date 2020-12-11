@@ -25,7 +25,7 @@ class AnotherFakeApi {
   ///
   /// * [Client] client (required):
   ///   client model
-  Future<Response> 123test@$%SpecialTagsWithHttpInfo(Client client) async {
+  Future<Response> call123testSpecialTagsWithHttpInfo(Client client) async {
     // Verify required params are set.
     if (client == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: client');
@@ -75,8 +75,8 @@ class AnotherFakeApi {
   ///
   /// * [Client] client (required):
   ///   client model
-  Future<Client> 123test@$%SpecialTags(Client client) async {
-    final response = await 123test@$%SpecialTagsWithHttpInfo(client);
+  Future<Client> call123testSpecialTags(Client client) async {
+    final response = await call123testSpecialTagsWithHttpInfo(client);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }

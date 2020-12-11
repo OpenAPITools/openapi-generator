@@ -62,22 +62,22 @@ class Capitalization {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (smallCamel != null) {
-      json['smallCamel'] = smallCamel;
+      json[r'smallCamel'] = smallCamel;
     }
     if (capitalCamel != null) {
-      json['CapitalCamel'] = capitalCamel;
+      json[r'CapitalCamel'] = capitalCamel;
     }
     if (smallSnake != null) {
-      json['small_Snake'] = smallSnake;
+      json[r'small_Snake'] = smallSnake;
     }
     if (capitalSnake != null) {
-      json['Capital_Snake'] = capitalSnake;
+      json[r'Capital_Snake'] = capitalSnake;
     }
     if (sCAETHFlowPoints != null) {
-      json['SCA_ETH_Flow_Points'] = sCAETHFlowPoints;
+      json[r'SCA_ETH_Flow_Points'] = sCAETHFlowPoints;
     }
     if (ATT_NAME != null) {
-      json['ATT_NAME'] = ATT_NAME;
+      json[r'ATT_NAME'] = ATT_NAME;
     }
     return json;
   }
@@ -87,12 +87,12 @@ class Capitalization {
   static Capitalization fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Capitalization(
-        smallCamel: json['smallCamel'],
-        capitalCamel: json['CapitalCamel'],
-        smallSnake: json['small_Snake'],
-        capitalSnake: json['Capital_Snake'],
-        sCAETHFlowPoints: json['SCA_ETH_Flow_Points'],
-        ATT_NAME: json['ATT_NAME'],
+        smallCamel: json[r'smallCamel'],
+        capitalCamel: json[r'CapitalCamel'],
+        smallSnake: json[r'small_Snake'],
+        capitalSnake: json[r'Capital_Snake'],
+        sCAETHFlowPoints: json[r'SCA_ETH_Flow_Points'],
+        ATT_NAME: json[r'ATT_NAME'],
     );
 
   static List<Capitalization> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

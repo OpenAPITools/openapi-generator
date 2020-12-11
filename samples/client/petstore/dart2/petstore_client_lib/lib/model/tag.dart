@@ -38,10 +38,10 @@ class Tag {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (id != null) {
-      json['id'] = id;
+      json[r'id'] = id;
     }
     if (name != null) {
-      json['name'] = name;
+      json[r'name'] = name;
     }
     return json;
   }
@@ -51,8 +51,8 @@ class Tag {
   static Tag fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Tag(
-        id: json['id'],
-        name: json['name'],
+        id: json[r'id'],
+        name: json[r'name'],
     );
 
   static List<Tag> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

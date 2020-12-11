@@ -18,6 +18,6 @@ abstract class Model200Response implements Built<Model200Response, Model200Respo
     Model200Response._();
 
     factory Model200Response([updates(Model200ResponseBuilder b)]) = _$Model200Response;
-    static Serializer<Model200Response> get serializer => _$n200responseSerializer;
+    static Serializer<Model200Response> get serializer => _$model200ResponseSerializer;
 }
 

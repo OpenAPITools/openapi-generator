@@ -32,7 +32,7 @@ class Client {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (client != null) {
-      json['client'] = client;
+      json[r'client'] = client;
     }
     return json;
   }
@@ -42,7 +42,7 @@ class Client {
   static Client fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Client(
-        client: json['client'],
+        client: json[r'client'],
     );
 
   static List<Client> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

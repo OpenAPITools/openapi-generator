@@ -8,7 +8,7 @@ abstract class SpecialModelName implements Built<SpecialModelName, SpecialModelN
     
     @nullable
     @BuiltValueField(wireName: r'$special[property.name]')
-    int get $special[propertyName];
+    int get dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
 
     // Boilerplate code needed to wire-up generated code
     SpecialModelName._();

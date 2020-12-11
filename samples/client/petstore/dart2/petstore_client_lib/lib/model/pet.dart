@@ -62,22 +62,22 @@ class Pet {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (id != null) {
-      json['id'] = id;
+      json[r'id'] = id;
     }
     if (category != null) {
-      json['category'] = category;
+      json[r'category'] = category;
     }
     if (name != null) {
-      json['name'] = name;
+      json[r'name'] = name;
     }
     if (photoUrls != null) {
-      json['photoUrls'] = photoUrls;
+      json[r'photoUrls'] = photoUrls;
     }
     if (tags != null) {
-      json['tags'] = tags;
+      json[r'tags'] = tags;
     }
     if (status != null) {
-      json['status'] = status;
+      json[r'status'] = status;
     }
     return json;
   }
@@ -87,14 +87,14 @@ class Pet {
   static Pet fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Pet(
-        id: json['id'],
-        category: Category.fromJson(json['category']),
-        name: json['name'],
-        photoUrls: json['photoUrls'] == null
+        id: json[r'id'],
+        category: Category.fromJson(json[r'category']),
+        name: json[r'name'],
+        photoUrls: json[r'photoUrls'] == null
           ? null
-          : (json['photoUrls'] as List).cast<String>(),
-        tags: Tag.listFromJson(json['tags']),
-        status: PetStatusEnum.fromJson(json['status']),
+          : (json[r'photoUrls'] as List).cast<String>(),
+        tags: Tag.listFromJson(json[r'tags']),
+        status: PetStatusEnum.fromJson(json[r'status']),
     );
 
   static List<Pet> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
@@ -143,15 +143,15 @@ class PetStatusEnum {
 
   String toJson() => value;
 
-  static const available_ = PetStatusEnum._('available');
-  static const pending_ = PetStatusEnum._('pending');
-  static const sold_ = PetStatusEnum._('sold');
+  static const available = PetStatusEnum._('available');
+  static const pending = PetStatusEnum._('pending');
+  static const sold = PetStatusEnum._('sold');
 
   /// List of all possible values in this [enum][PetStatusEnum].
   static const values = <PetStatusEnum>[
-    available_,
-    pending_,
-    sold_,
+    available,
+    pending,
+    sold,
   ];
 
   static PetStatusEnum fromJson(dynamic value) =>
@@ -184,9 +184,9 @@ class PetStatusEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   PetStatusEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case 'available': return PetStatusEnum.available_;
-      case 'pending': return PetStatusEnum.pending_;
-      case 'sold': return PetStatusEnum.sold_;
+      case 'available': return PetStatusEnum.available;
+      case 'pending': return PetStatusEnum.pending;
+      case 'sold': return PetStatusEnum.sold;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

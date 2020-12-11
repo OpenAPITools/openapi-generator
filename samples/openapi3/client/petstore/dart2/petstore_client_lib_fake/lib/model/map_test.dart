@@ -50,16 +50,16 @@ class MapTest {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (mapMapOfString != null) {
-      json['map_map_of_string'] = mapMapOfString;
+      json[r'map_map_of_string'] = mapMapOfString;
     }
     if (mapOfEnumString != null) {
-      json['map_of_enum_string'] = mapOfEnumString;
+      json[r'map_of_enum_string'] = mapOfEnumString;
     }
     if (directMap != null) {
-      json['direct_map'] = directMap;
+      json[r'direct_map'] = directMap;
     }
     if (indirectMap != null) {
-      json['indirect_map'] = indirectMap;
+      json[r'indirect_map'] = indirectMap;
     }
     return json;
   }
@@ -69,18 +69,18 @@ class MapTest {
   static MapTest fromJson(Map<String, dynamic> json) => json == null
     ? null
     : MapTest(
-        mapMapOfString: json['map_map_of_string'] == null
+        mapMapOfString: json[r'map_map_of_string'] == null
           ? null
-          : Map.mapFromJson(json['map_map_of_string']),
-        mapOfEnumString: json['map_of_enum_string'] == null ?
+          : Map.mapFromJson(json[r'map_map_of_string']),
+        mapOfEnumString: json[r'map_of_enum_string'] == null ?
           null :
-          (json['map_of_enum_string'] as Map).cast<String, String>(),
-        directMap: json['direct_map'] == null ?
+          (json[r'map_of_enum_string'] as Map).cast<String, String>(),
+        directMap: json[r'direct_map'] == null ?
           null :
-          (json['direct_map'] as Map).cast<String, bool>(),
-        indirectMap: json['indirect_map'] == null ?
+          (json[r'direct_map'] as Map).cast<String, bool>(),
+        indirectMap: json[r'indirect_map'] == null ?
           null :
-          (json['indirect_map'] as Map).cast<String, bool>(),
+          (json[r'indirect_map'] as Map).cast<String, bool>(),
     );
 
   static List<MapTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
@@ -129,13 +129,13 @@ class MapTestMapOfEnumStringEnum {
 
   String toJson() => value;
 
-  static const upper_ = MapTestMapOfEnumStringEnum._('UPPER');
-  static const lower_ = MapTestMapOfEnumStringEnum._('lower');
+  static const UPPER = MapTestMapOfEnumStringEnum._('UPPER');
+  static const lower = MapTestMapOfEnumStringEnum._('lower');
 
   /// List of all possible values in this [enum][MapTestMapOfEnumStringEnum].
   static const values = <MapTestMapOfEnumStringEnum>[
-    upper_,
-    lower_,
+    UPPER,
+    lower,
   ];
 
   static MapTestMapOfEnumStringEnum fromJson(dynamic value) =>
@@ -168,8 +168,8 @@ class MapTestMapOfEnumStringEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   MapTestMapOfEnumStringEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case 'UPPER': return MapTestMapOfEnumStringEnum.upper_;
-      case 'lower': return MapTestMapOfEnumStringEnum.lower_;
+      case 'UPPER': return MapTestMapOfEnumStringEnum.UPPER;
+      case 'lower': return MapTestMapOfEnumStringEnum.lower;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
