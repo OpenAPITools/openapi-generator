@@ -137,6 +137,14 @@ public class CustomInstantDeserializer<T extends Temporal>
     } : adjust;
   }
 
+  protected CustomInstantDeserializer(CustomInstantDeserializer<T> base, Boolean leniency) {
+    super(base,base._isLenient);
+    parsedToValue = base.parsedToValue;
+    fromMilliseconds = base.fromMilliseconds;
+    fromNanoseconds = base.fromNanoseconds;
+    adjust = base.adjust;
+  }
+
   @SuppressWarnings("unchecked")
   protected CustomInstantDeserializer(CustomInstantDeserializer<T> base, DateTimeFormatter f) {
     super((Class<T>) base.handledType(), f);
@@ -147,11 +155,16 @@ public class CustomInstantDeserializer<T extends Temporal>
   }
 
   @Override
-  protected JsonDeserializer<T> withDateFormat(DateTimeFormatter dtf) {
-    if (dtf == _formatter) {
-      return this;
-    }
-    return new CustomInstantDeserializer<T>(this, dtf);
+  protected CustomInstantDeserializer<T> withDateFormat(DateTimeFormatter dtf) {
+      if (dtf == _formatter) {
+         return this;
+      }
+      return new CustomInstantDeserializer<T>(this, dtf);
+  }
+
+  @Override
+  protected CustomInstantDeserializer<T> withLeniency(Boolean aBoolean) {
+       return new CustomInstantDeserializer<T>(this,aBoolean);
   }
 
   @Override
@@ -228,10 +241,6 @@ public class CustomInstantDeserializer<T extends Temporal>
       this.fraction = fraction;
       this.zoneId = zoneId;
     }
-  }
-
-  protected abstract ThreeTenDateTimeDeserializerBase<T> withLeniency(Boolean leniency){
-     return this;
   }
 
 }
