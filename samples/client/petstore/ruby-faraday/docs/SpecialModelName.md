@@ -2,16 +2,17 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**special_property_name** | **Integer** |  | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **special_property_name** | **Integer** |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
-require 'Petstore'
+require 'petstore'
 
-instance = Petstore::SpecialModelName.new(special_property_name: null)
+instance = Petstore::SpecialModelName.new(
+  special_property_name: null
+)
 ```
-
 

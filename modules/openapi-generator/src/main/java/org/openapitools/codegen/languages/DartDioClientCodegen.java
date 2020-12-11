@@ -16,8 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
-import java.util.HashMap;
-
+import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -32,11 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import io.swagger.v3.oas.models.media.Schema;
 
@@ -51,29 +46,16 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
     private static final String IS_FORMAT_JSON = "jsonFormat";
     private static final String CLIENT_NAME = "clientName";
-    private static Set<String> modelToIgnore = new HashSet<>();
-
-    static {
-        modelToIgnore.add("datetime");
-        modelToIgnore.add("map");
-        modelToIgnore.add("object");
-        modelToIgnore.add("list");
-        modelToIgnore.add("file");
-        modelToIgnore.add("uint8list");
-    }
 
     private boolean nullableFields = true;
     private String dateLibrary = "core";
+    private static final Set<String> reservedBuiltValueWords = Sets.newHashSet("EnumClass");
 
     public DartDioClientCodegen() {
         super();
         outputFolder = "generated-code/dart-dio";
         embeddedTemplateDir = "dart-dio";
         this.setTemplateDir(embeddedTemplateDir);
-
-        //no tests at this time
-        modelTestTemplateFiles.clear();
-        apiTestTemplateFiles.clear();
 
         cliOptions.add(new CliOption(NULLABLE_FIELDS, "Is the null fields should be in the JSON payload"));
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
@@ -88,6 +70,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
         typeMapping.put("AnyType", "Object");
 
         importMapping.put("BuiltList", "package:built_collection/built_collection.dart");
+        importMapping.put("BuiltSet", "package:built_collection/built_collection.dart");
         importMapping.put("BuiltMap", "package:built_collection/built_collection.dart");
         importMapping.put("JsonObject", "package:built_value/json_object.dart");
         importMapping.put("Uint8List", "dart:typed_data");
@@ -109,7 +92,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
         this.nullableFields = nullableFields;
     }
 
-
     @Override
     public String getName() {
         return "dart-dio";
@@ -118,6 +100,11 @@ public class DartDioClientCodegen extends DartClientCodegen {
     @Override
     public String getHelp() {
         return "Generates a Dart Dio client library.";
+    }
+
+    @Override
+    protected boolean isReservedWord(String word) {
+        return super.isReservedWord(word) || reservedBuiltValueWords.contains(word);
     }
 
     @Override
@@ -143,22 +130,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
         //super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
         codegenModel.additionalPropertiesType = getSchemaType(getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
-    }
-
-    @Override
-    public String toEnumVarName(String name, String datatype) {
-        if (name.length() == 0) {
-            return "empty";
-        }
-        if ("number".equalsIgnoreCase(datatype) || "int".equalsIgnoreCase(datatype)) {
-            name = "Number" + name;
-        }
-        name = camelize(name, true);
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
-        }
-        return name;
     }
 
     @Override
@@ -274,12 +245,13 @@ public class DartDioClientCodegen extends DartClientCodegen {
             Set<String> modelImports = new HashSet<>();
             CodegenModel cm = (CodegenModel) mo.get("model");
             for (String modelImport : cm.imports) {
-                if (importMapping.containsKey(modelImport)) {
-                    modelImports.add(importMapping.get(modelImport));
-                } else {
-                    if (!modelToIgnore.contains(modelImport.toLowerCase(Locale.ROOT))) {
-                        modelImports.add("package:" + pubName + "/model/" + underscore(modelImport) + ".dart");
+                if (importMapping().containsKey(modelImport)) {
+                    final String value = importMapping().get(modelImport);
+                    if (!Objects.equals(value, "dart:core")) {
+                        modelImports.add(value);
                     }
+                } else {
+                    modelImports.add("package:" + pubName + "/model/" + underscore(modelImport) + ".dart");
                 }
             }
 
@@ -315,6 +287,11 @@ public class DartDioClientCodegen extends DartClientCodegen {
         }
         if (property.dataType.contains("JsonObject")) {
             model.imports.add("JsonObject");
+        }
+
+        if (property.isEnum) {
+            // enums are generated with built_value and make use of BuiltSet
+            model.imports.add("BuiltSet");
         }
     }
 
@@ -361,10 +338,13 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
             Set<String> imports = new HashSet<>();
             for (String item : op.imports) {
-                if (!modelToIgnore.contains(item.toLowerCase(Locale.ROOT))) {
+                if (importMapping().containsKey(item)) {
+                    final String value = importMapping().get(item);
+                    if (!Objects.equals(value, "dart:core")) {
+                        fullImports.add(value);
+                    }
+                } else {
                     imports.add(underscore(item));
-                } else if (item.equalsIgnoreCase("Uint8List")) {
-                    fullImports.add("dart:typed_data");
                 }
             }
             modelImports.addAll(imports);
@@ -377,6 +357,5 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
         return objs;
     }
-
 
 }

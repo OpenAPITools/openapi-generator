@@ -224,6 +224,10 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
         {{/bodyParam}}
     }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+    }
     else
     {
         throw ApiException(415, utility::conversions::to_string_t("{{classname}}->{{operationId}} does not consume any supported media type"));

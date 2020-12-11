@@ -288,7 +288,7 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#testInlineAdditionalProperties
      */
-    default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(Mono<String> param,
+    default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(Mono<Map<String, String>> param,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);

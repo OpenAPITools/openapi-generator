@@ -41,7 +41,7 @@ import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplateFileType;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
-import org.openapitools.codegen.languages.PythonClientExperimentalCodegen;
+import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.serializer.SerializerUtils;
@@ -517,17 +517,19 @@ public class DefaultGenerator implements Generator {
                 }
 
                 // TODO revise below as we've already performed unaliasing so that the isAlias check may be removed
-                Map<String, Object> modelTemplate = (Map<String, Object>) ((List<Object>) models.get("models")).get(0);
-                if (modelTemplate != null && modelTemplate.containsKey("model")) {
-                    CodegenModel m = (CodegenModel) modelTemplate.get("model");
-                    if (m.isAlias && !(config instanceof PythonClientExperimentalCodegen))  {
-                        // alias to number, string, enum, etc, which should not be generated as model
-                        // for PythonClientExperimentalCodegen, all aliases are generated as models
-                        continue;  // Don't create user-defined classes for aliases
+                List<Object> modelList = (List<Object>) models.get("models");
+                if (modelList != null && !modelList.isEmpty()) {
+                    Map<String, Object> modelTemplate = (Map<String, Object>) modelList.get(0);
+                    if (modelTemplate != null && modelTemplate.containsKey("model")) {
+                        CodegenModel m = (CodegenModel) modelTemplate.get("model");
+                        if (m.isAlias && !(config instanceof PythonClientCodegen))  {
+                            // alias to number, string, enum, etc, which should not be generated as model
+                            // for PythonClientCodegen, all aliases are generated as models
+                            continue;  // Don't create user-defined classes for aliases
+                        }
                     }
+                    allModels.add(modelTemplate);
                 }
-
-                allModels.add(modelTemplate);
 
                 // to generate model files
                 generateModel(files, models, modelName);
@@ -769,7 +771,7 @@ public class DefaultGenerator implements Generator {
         bundle.put("basePathWithoutHost", basePathWithoutHost);
         bundle.put("scheme", URLPathUtils.getScheme(url, config));
         bundle.put("host", url.getHost());
-        if (url.getPort() != 80 && url.getPort() != 443 ) {
+        if (url.getPort() != 80 && url.getPort() != 443 && url.getPort() != -1) {
             bundle.put("port", url.getPort());
         }
         bundle.put("contextPath", contextPath);

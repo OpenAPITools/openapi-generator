@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name="openapi_eiffel_client" uuid="6bc0532f-414f-4f9d-887e-8e3280e5fc98" library_target="openapi_eiffel_client">	
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-21-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-21-0 http://www.eiffel.com/developers/xml/configuration-1-21-0.xsd" name="openapi_eiffel_client" uuid="06b86bd6-8941-44d0-aa6f-2b0958eb8a18" library_target="openapi_eiffel_client">	
 	<target name="openapi_eiffel_client">
 		<root all_classes="true"/>
 		<file_rule>
@@ -8,17 +8,17 @@
 			<exclude>/CVS$</exclude>
 			<exclude>/EIFGENs$</exclude>
 		</file_rule>
-		<option warning="true">
+		<option warning="warning" manifest_array_type="mismatch_warning">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
-		</option>
+		</option>		
 		<setting name="console_application" value="true"/>
 		<library name="base" location="$ISE_LIBRARY/library/base/base.ecf"/>
-		<library name="encoder" location="$ISE_LIBRARY\contrib\library\web\framework\ewf\text\encoder\encoder-safe.ecf"/>
-		<library name="json" location="$ISE_LIBRARY\contrib\library\text\parser\json\library\json-safe.ecf" readonly="false"/>
-		<library name="http" location="$ISE_LIBRARY\contrib\library\network\protocol\http\http-safe.ecf"/>
-		<library name="http_client" location="$ISE_LIBRARY\contrib\library\network\http_client\http_client-safe.ecf"/>
-		<library name="time" location="$ISE_LIBRARY\library\time\time-safe.ecf"/>
-		<library name="uri" location="$ISE_LIBRARY\library\text\uri\uri-safe.ecf"/>
+		<library name="encoder" location="$ISE_LIBRARY\contrib\library\web\framework\ewf\text\encoder\encoder.ecf"/>
+		<library name="json" location="$ISE_LIBRARY\contrib\library\text\parser\json\library\json.ecf" readonly="false"/>
+		<library name="http" location="$ISE_LIBRARY\contrib\library\network\protocol\http\http.ecf"/>
+		<library name="http_client" location="$ISE_LIBRARY\contrib\library\network\http_client\http_client.ecf"/>
+		<library name="time" location="$ISE_LIBRARY\library\time\time.ecf"/>
+		<library name="uri" location="$ISE_LIBRARY\library\text\uri\uri.ecf"/>
 		<library name="uuid" location="$ISE_LIBRARY\library\uuid\uuid.ecf"/>
 		<cluster name="client" location=".\src" recursive="true"/>
 	</target>

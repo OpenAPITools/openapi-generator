@@ -2,16 +2,17 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**breed** | **String** |  | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **breed** | **String** |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
-require 'Petstore'
+require 'petstore'
 
-instance = Petstore::DogAllOf.new(breed: null)
+instance = Petstore::DogAllOf.new(
+  breed: null
+)
 ```
-
 

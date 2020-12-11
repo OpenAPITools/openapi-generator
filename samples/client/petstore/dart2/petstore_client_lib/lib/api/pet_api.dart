@@ -37,7 +37,6 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-
     final contentTypes = <String>['application/json', 'application/xml'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
@@ -104,7 +103,9 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    headerParams['api_key'] = apiKey;
+    if (apiKey != null) {
+      headerParams[r'api_key'] = parameterToString(apiKey);
+    }
 
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -330,7 +331,6 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['api_key'];
@@ -403,7 +403,6 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-
     final contentTypes = <String>['application/json', 'application/xml'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
@@ -474,7 +473,6 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-
     final contentTypes = <String>['application/x-www-form-urlencoded'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
@@ -487,21 +485,21 @@ class PetApi {
       final mp = MultipartRequest(null, null);
       if (name != null) {
         hasFields = true;
-        mp.fields['name'] = parameterToString(name);
+        mp.fields[r'name'] = parameterToString(name);
       }
       if (status != null) {
         hasFields = true;
-        mp.fields['status'] = parameterToString(status);
+        mp.fields[r'status'] = parameterToString(status);
       }
       if (hasFields) {
         postBody = mp;
       }
     } else {
       if (name != null) {
-        formParams['name'] = parameterToString(name);
+        formParams[r'name'] = parameterToString(name);
       }
       if (status != null) {
-        formParams['status'] = parameterToString(status);
+        formParams[r'status'] = parameterToString(status);
       }
     }
 
@@ -565,7 +563,6 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-
     final contentTypes = <String>['multipart/form-data'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
@@ -578,11 +575,11 @@ class PetApi {
       final mp = MultipartRequest(null, null);
       if (additionalMetadata != null) {
         hasFields = true;
-        mp.fields['additionalMetadata'] = parameterToString(additionalMetadata);
+        mp.fields[r'additionalMetadata'] = parameterToString(additionalMetadata);
       }
       if (file != null) {
         hasFields = true;
-        mp.fields['file'] = file.field;
+        mp.fields[r'file'] = file.field;
         mp.files.add(file);
       }
       if (hasFields) {
@@ -590,7 +587,7 @@ class PetApi {
       }
     } else {
       if (additionalMetadata != null) {
-        formParams['additionalMetadata'] = parameterToString(additionalMetadata);
+        formParams[r'additionalMetadata'] = parameterToString(additionalMetadata);
       }
     }
 

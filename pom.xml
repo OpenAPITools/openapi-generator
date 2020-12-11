@@ -1203,11 +1203,11 @@
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
                 <module>samples/client/petstore/javascript-flowtyped</module>
                 <module>samples/client/petstore/python</module>
-                <module>samples/client/petstore/python-experimental</module>
+                <module>samples/client/petstore/python-legacy</module>
                 <module>samples/client/petstore/python-asyncio</module>
                 <module>samples/client/petstore/python-tornado</module>
                 <module>samples/openapi3/client/petstore/python</module>
-                <module>samples/openapi3/client/petstore/python-experimental</module>
+                <module>samples/openapi3/client/petstore/python-legacy</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/default</module>
                 <module>samples/openapi3/client/petstore/typescript/tests/default</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/jquery</module>
@@ -1229,9 +1229,11 @@
                 <module>samples/client/petstore/typescript-jquery/npm</module>-->
                 <!--<module>samples/client/petstore/typescript-angular-v2/npm</module>-->
                 <!--<module>samples/client/petstore/typescript-angular-v4/npm</module>
-                <module>samples/client/petstore/typescript-angular-v4.3/npm</module>-->
+                <module>samples/client/petstore/typescript-angular-v4.3/npm</module>
                 <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
-                <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
+                <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>-->
+                <module>samples/client/petstore/kotlin-threetenbp/</module>
+                <module>samples/client/petstore/kotlin-string/</module>
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
@@ -1244,6 +1246,12 @@
                 </property>
             </activation>
             <modules>
+                <module>samples/server/petstore/kotlin-springboot</module>
+                <module>samples/server/petstore/jaxrs/jersey2</module>
+                <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
+                <module>samples/server/petstore/spring-mvc</module>
+                <module>samples/server/petstore/spring-mvc-j8-async</module>
+                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
                 <!-- servers -->
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
@@ -1295,7 +1303,6 @@
                 <module>samples/server/petstore/java-vertx-web</module>
                 <module>samples/server/petstore/scala-finch</module>
                 <!--<module>samples/server/petstore/kotlin/vertx</module>-->
-                <module>samples/server/petstore/kotlin-springboot</module>
             </modules>
         </profile>
         <!-- other tests in CircleCI -->
@@ -1342,7 +1349,12 @@
                 <module>samples/client/petstore/javascript-promise-es6</module>
                 <module>samples/server/petstore/go-api-server</module>
                 <module>samples/server/petstore/go-gin-api-server</module>
+                <module>samples/client/petstore/dart2/petstore_client_lib</module>
                 <module>samples/client/petstore/dart2/petstore</module>
+                <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
+                <module>samples/openapi3/client/petstore/dart2/petstore</module>
+                <module>samples/client/petstore/dart-dio/petstore_client_lib</module>
+                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib</module>
                 <module>samples/client/petstore/dart-jaguar/openapi</module>
                 <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>
             </modules>
@@ -1371,17 +1383,10 @@
                 <module>samples/client/petstore/kotlin-nonpublic/</module>
                 <module>samples/client/petstore/kotlin-nullable/</module>
                 <module>samples/client/petstore/kotlin-okhttp3/</module>
-                <module>samples/client/petstore/kotlin-threetenbp/</module>
-                <module>samples/client/petstore/kotlin-string/</module>
                 <module>samples/client/petstore/kotlin-moshi-codegen/</module>
                 <module>samples/client/petstore/kotlin-json-request-string/</module>
                 <!-- servers -->
                 <!--<module>samples/server/petstore/erlang-server</module>-->
-                <module>samples/server/petstore/jaxrs/jersey2</module>
-                <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
-                <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/server/petstore/spring-mvc-j8-async</module>
-                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
             </modules>
         </profile>
         <!-- test with JDK11 in drone.io -->
@@ -1511,7 +1516,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <swagger-core-version>2.1.2</swagger-core-version>
         <swagger-parser-groupid>io.swagger.parser.v3</swagger-parser-groupid>
-        <swagger-parser-version>2.0.20</swagger-parser-version>
+        <swagger-parser-version>2.0.23</swagger-parser-version>
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
@@ -1526,7 +1531,7 @@
         <testng-version>7.1.0</testng-version>
         <surefire-version>3.0.0-M3</surefire-version>
         <reflections-version>0.9.10</reflections-version>
-        <mockito-version>3.2.0</mockito-version>
+        <mockito-version>3.6.28</mockito-version>
         <jacoco.version>0.8.5</jacoco.version>
         <spotbugs.plugin.version>3.1.12.2</spotbugs.plugin.version>
         <pmd.plugin.version>3.12.0</pmd.plugin.version>

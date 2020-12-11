@@ -2,16 +2,17 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**just_number** | **Float** |  | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **just_number** | **Float** |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
-require 'Petstore'
+require 'petstore'
 
-instance = Petstore::NumberOnly.new(just_number: null)
+instance = Petstore::NumberOnly.new(
+  just_number: null
+)
 ```
-
 

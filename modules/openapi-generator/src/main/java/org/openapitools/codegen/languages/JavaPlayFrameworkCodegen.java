@@ -44,6 +44,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     public static final String HANDLE_EXCEPTIONS = "handleExceptions";
     public static final String WRAP_CALLS = "wrapCalls";
     public static final String USE_SWAGGER_UI = "useSwaggerUI";
+    public static final String SUPPORT_ASYNC = "supportAsync";
 
     protected String title = "openapi-java-playframework";
     protected String configPackage = "org.openapitools.configuration";
@@ -54,6 +55,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     protected boolean handleExceptions = true;
     protected boolean wrapCalls = true;
     protected boolean useSwaggerUI = true;
+    protected boolean supportAsync = false;
 
     public JavaPlayFrameworkCodegen() {
         super();
@@ -94,6 +96,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         cliOptions.add(createBooleanCliWithDefault(HANDLE_EXCEPTIONS, "Add a 'throw exception' to each controller function. Add also a custom error handler where you can put your custom logic", handleExceptions));
         cliOptions.add(createBooleanCliWithDefault(WRAP_CALLS, "Add a wrapper to each controller function to handle things like metrics, response modification, etc..", wrapCalls));
         cliOptions.add(createBooleanCliWithDefault(USE_SWAGGER_UI, "Add a route to /api which show your documentation in swagger-ui. Will also import needed dependencies", useSwaggerUI));
+        cliOptions.add(createBooleanCliWithDefault(SUPPORT_ASYNC, "Support Async operations", supportAsync));
     }
 
     @Override
@@ -166,6 +169,11 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
             this.setUseSwaggerUI(convertPropertyToBoolean(USE_SWAGGER_UI));
         }
         writePropertyBack(USE_SWAGGER_UI, useSwaggerUI);
+
+        if (additionalProperties.containsKey(SUPPORT_ASYNC)) {
+            this.setSupportAsync(convertPropertyToBoolean(SUPPORT_ASYNC));
+        }
+        writePropertyBack(SUPPORT_ASYNC, supportAsync);
 
         //We don't use annotation anymore
         importMapping.remove("ApiModelProperty");
@@ -285,6 +293,10 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
     public void setUseSwaggerUI(boolean useSwaggerUI) {
         this.useSwaggerUI = useSwaggerUI;
+    }
+
+    public void setSupportAsync(boolean supportAsync) {
+        this.supportAsync = supportAsync;
     }
 
     @Override

@@ -26,7 +26,7 @@ class {{{classname}}}{{{enumName}}} {
 
   {{#allowableValues}}
     {{#enumVars}}
-  static const {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}} = {{{classname}}}{{{enumName}}}._({{{value}}});
+  static const {{{name}}} = {{{classname}}}{{{enumName}}}._({{{value}}});
     {{/enumVars}}
   {{/allowableValues}}
 
@@ -34,12 +34,12 @@ class {{{classname}}}{{{enumName}}} {
   static const values = <{{{classname}}}{{{enumName}}}>[
   {{#allowableValues}}
     {{#enumVars}}
-    {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}},
+    {{{name}}},
     {{/enumVars}}
   {{/allowableValues}}
   ];
 
-  static {{{classname}}}{{{enumName}}} fromJson({{{dataType}}} value) =>
+  static {{{classname}}}{{{enumName}}} fromJson(dynamic value) =>
     {{{classname}}}{{{enumName}}}TypeTransformer().decode(value);
 
   static List<{{{classname}}}{{{enumName}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
@@ -71,7 +71,7 @@ class {{{classname}}}{{{enumName}}}TypeTransformer {
     switch (data) {
       {{#allowableValues}}
         {{#enumVars}}
-      case {{{value}}}: return {{{classname}}}{{{enumName}}}.{{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}};
+      case {{{value}}}: return {{{classname}}}{{{enumName}}}.{{{name}}};
         {{/enumVars}}
       {{/allowableValues}}
       default:

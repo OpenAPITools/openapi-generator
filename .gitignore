@@ -234,11 +234,15 @@ samples/client/petstore/erlang-proper/rebar.lock
 samples/server/petstore/erlang-server/_build/
 samples/server/petstore/erlang-server/rebar.lock
 
-# dart
-samples/client/petstore/dart/petstore/packages
-samples/client/petstore/dart/flutter_petstore/test/packages
-samples/client/petstore/dart/petstore/test/packages
-**/.dart_tool
+# Dart
+**/dart*/**/.dart_tool
+**/dart*/**/.packages
+**/dart*/**/pubspec.lock
+# Dart dio
+**/dart*/**/*.g.dart
+# Dart jaguar
+**/dart*/**/*.jser.dart
+**/dart*/**/*.jretro.dart
 
 # JS
 samples/client/petstore/javascript-es6/package-lock.json
