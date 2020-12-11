@@ -47,6 +47,7 @@ export const PetRecordProps = {
 	recType: "PetRecord" as "PetRecord",
     id: "-1",
     friendId: null as string | null,
+    otherFriendIds: List<string>(),
     friendAge: 0,
     age: 2,
     isHappy: true,
@@ -54,7 +55,7 @@ export const PetRecordProps = {
     category: CategoryRecord(),
     optionalCategory: (CategoryRecord(), null as CategoryRecord | null),
     name: "",
-    _entities: (CategoryRecord(), null as List<CategoryRecord> | null),
+    _entries: (CategoryRecord(), null as List<CategoryRecord> | null),
     surname: null as string | null,
     photoUrls: List<string>(),
     warningStatus: WarningCode.ReduceVolumeRangeToAvoidLargeSteps,
@@ -77,7 +78,7 @@ export const PetRecordEntityProps = {
 	recType: "PetRecordEntity" as "PetRecordEntity",
     category: "-1",
     optionalCategory: null as string | null,
-    _entities: null as List<string> | null,
+    _entries: null as List<string> | null,
     tags: List<string>(),
     optionalTags: null as List<string> | null,
 };
@@ -93,11 +94,12 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
 		(apiObject as any).recType = asEntity ? "PetRecordEntity" : "PetRecord";
         (apiObject as any).id = apiObject.id.toString();
         if (apiObject.friendId) { (apiObject as any).friendId = apiObject.friendId.toString(); } 
+        (apiObject as any).otherFriendIds = apiObject.otherFriendIds.map(item => item.toString());
         categoryRecordUtils.normalize(apiObject.category);
         if (apiObject.optionalCategory) { categoryRecordUtils.normalize(apiObject.optionalCategory); } 
-        if (apiObject.entities) { categoryRecordUtils.normalizeArray(apiObject.entities); } 
-        (apiObject as any)._entities = apiObject.entities;
-        delete apiObject.entities;
+        if (apiObject.entries) { categoryRecordUtils.normalizeArray(apiObject.entries); } 
+        (apiObject as any)._entries = apiObject.entries;
+        delete apiObject.entries;
         tagRecordUtils.normalizeArray(apiObject.tags);
         if (apiObject.optionalTags) { tagRecordUtils.normalizeArray(apiObject.optionalTags); } 
 		return apiObject;
@@ -107,7 +109,7 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
 	    return new schema.Entity("pet", {
             category: categoryRecordUtils.getSchema(),
             optionalCategory: categoryRecordUtils.getSchema(),
-            _entities: [categoryRecordUtils.getSchema()],
+            _entries: [categoryRecordUtils.getSchema()],
             tags: [tagRecordUtils.getSchema()],
             optionalTags: [tagRecordUtils.getSchema()],
 		});
@@ -117,11 +119,12 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
         const apiObject = super.toApi(record);
         apiObject.id = parseFloat(record.id);
         if (record.friendId) { apiObject.friendId = parseFloat(record.friendId); } 
+        apiObject.otherFriendIds = record.otherFriendIds.map(item => parseFloat(item)).toArray();
         apiObject.category = categoryRecordUtils.toApi(record.category);
         if (record.optionalCategory) { apiObject.optionalCategory = categoryRecordUtils.toApi(record.optionalCategory); } 
-        if (record._entities) { (apiObject as any)._entities = categoryRecordUtils.toApiArray(record._entities); } 
-        apiObject.entities = (apiObject as any)._entities;
-        delete (apiObject as any)._entities;
+        if (record._entries) { (apiObject as any)._entries = categoryRecordUtils.toApiArray(record._entries); } 
+        apiObject.entries = (apiObject as any)._entries;
+        delete (apiObject as any)._entries;
         apiObject.tags = tagRecordUtils.toApiArray(record.tags);
         if (record.optionalTags) { apiObject.optionalTags = tagRecordUtils.toApiArray(record.optionalTags); } 
         return apiObject;

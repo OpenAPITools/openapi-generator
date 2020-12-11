@@ -26,7 +26,7 @@ import {
 export const OrderRecordProps = {
 	recType: "OrderRecord" as "OrderRecord",
     id: null as string | null,
-    petId: null as string | null,
+    petId: null as number | null,
     quantity: null as number | null,
     shipDate: null as Date | null,
     status: null as OrderStatusEnum | null,
@@ -54,7 +54,6 @@ class OrderRecordUtils extends ApiRecordUtils<Order, OrderRecord> {
 	public normalize(apiObject: Order, asEntity?: boolean): Order {
 		(apiObject as any).recType = asEntity ? "OrderRecordEntity" : "OrderRecord";
         if (apiObject.id) { (apiObject as any).id = apiObject.id.toString(); } 
-        if (apiObject.petId) { (apiObject as any).petId = apiObject.petId.toString(); } 
 		return apiObject;
 	}
 
@@ -66,7 +65,6 @@ class OrderRecordUtils extends ApiRecordUtils<Order, OrderRecord> {
 	public toApi(record: OrderRecord): Order {
         const apiObject = super.toApi(record);
         if (record.id) { apiObject.id = parseFloat(record.id); } 
-        if (record.petId) { apiObject.petId = parseFloat(record.petId); } 
         return apiObject;
     }
 }

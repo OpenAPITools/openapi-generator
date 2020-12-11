@@ -43,7 +43,7 @@ export interface PayloadGetChannelPublishedStatus extends PayloadGetChannelPubli
 }
 
 export interface PayloadGetChannelPublishedStatusRequest {
-    channelId: number;
+    channelId: string;
 }
 
 export const getChannelPublishedStatusRequest = createSagaAction<PayloadGetChannelPublishedStatusRequest>("getChannelPublishedStatusRequest");
@@ -65,7 +65,7 @@ export function *getChannelPublishedStatusSagaImp(_action_: Action<PayloadGetCha
 		yield put(getChannelPublishedStatusRequest(_action_.payload));
 
 		const response: Required<GetChannelPublishedStatusResponse> = yield apiCall(Api.brandApi, Api.brandApi.getChannelPublishedStatus,
-            channelId,
+            parseFloat(channelId),
 		);
 
 		let successReturnValue: any = undefined;

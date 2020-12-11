@@ -52,6 +52,12 @@ export interface Pet {
     friendId?: number;
     /**
      * 
+     * @type {Array<number>}
+     * @memberof Pet
+     */
+    otherFriendIds: Array<number>;
+    /**
+     * 
      * @type {number}
      * @memberof Pet
      */
@@ -97,7 +103,7 @@ export interface Pet {
      * @type {Array<Category>}
      * @memberof Pet
      */
-    entities?: Array<Category>;
+    entries?: Array<Category>;
     /**
      * 
      * @type {string}
@@ -176,6 +182,7 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
         
         'id': json['id'],
         'friendId': !exists(json, 'friendId') ? undefined : json['friendId'],
+        'otherFriendIds': json['otherFriendIds'],
         'friendAge': json['friendAge'],
         'age': json['age'],
         'isHappy': json['isHappy'],
@@ -183,7 +190,7 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
         'category': CategoryFromJSON(json['category']),
         'optionalCategory': !exists(json, 'optionalCategory') ? undefined : CategoryFromJSON(json['optionalCategory']),
         'name': json['name'],
-        'entities': !exists(json, 'entities') ? undefined : ((json['entities'] as Array<any>).map(CategoryFromJSON)),
+        'entries': !exists(json, 'entries') ? undefined : ((json['entries'] as Array<any>).map(CategoryFromJSON)),
         'surname': !exists(json, 'surname') ? undefined : json['surname'],
         'photoUrls': json['photoUrls'],
         'warningStatus': WarningCodeFromJSON(json['warningStatus']),
@@ -207,6 +214,7 @@ export function PetToJSON(value?: Pet | null): any {
         
         'id': value.id,
         'friendId': value.friendId,
+        'otherFriendIds': value.otherFriendIds,
         'friendAge': value.friendAge,
         'age': value.age,
         'isHappy': value.isHappy,
@@ -214,7 +222,7 @@ export function PetToJSON(value?: Pet | null): any {
         'category': CategoryToJSON(value.category),
         'optionalCategory': CategoryToJSON(value.optionalCategory),
         'name': value.name,
-        'entities': value.entities === undefined ? undefined : ((value.entities as Array<any>).map(CategoryToJSON)),
+        'entries': value.entries === undefined ? undefined : ((value.entries as Array<any>).map(CategoryToJSON)),
         'surname': value.surname,
         'photoUrls': value.photoUrls,
         'warningStatus': WarningCodeToJSON(value.warningStatus),

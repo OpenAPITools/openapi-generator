@@ -119,7 +119,7 @@ export interface PayloadGetOrderById extends PayloadGetOrderByIdRequest, BasePay
 }
 
 export interface PayloadGetOrderByIdRequest {
-    orderId: number;
+    orderId: string;
 }
 
 export const getOrderByIdRequest = createSagaAction<PayloadGetOrderByIdRequest>("getOrderByIdRequest");
@@ -143,7 +143,7 @@ export function *getOrderByIdSagaImp(_action_: Action<PayloadGetOrderById>) {
 		yield put(getOrderByIdRequest(requestPayload));
 
 		const response: Required<Order> = yield apiCall(Api.storeApi, Api.storeApi.getOrderById,
-            orderId,
+            parseFloat(orderId),
 		);
 
 		let successReturnValue: any = undefined;

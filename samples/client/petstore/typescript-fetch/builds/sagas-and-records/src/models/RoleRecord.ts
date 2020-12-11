@@ -24,7 +24,7 @@ import {
 
 export const RoleRecordProps = {
 	recType: "RoleRecord" as "RoleRecord",
-    id: 0,
+    id: "-1",
     name: "",
 };
 
@@ -38,11 +38,13 @@ knownRecordFactories.set(RoleRecordProps.recType, RoleRecord);
 class RoleRecordUtils extends ApiRecordUtils<Role, RoleRecord> {
 	public normalize(apiObject: Role, asEntity?: boolean): Role {
 		(apiObject as any).recType = "RoleRecord";
+        (apiObject as any).id = apiObject.id.toString();
 		return apiObject;
 	}
 
 	public toApi(record: RoleRecord): Role {
         const apiObject = super.toApi(record);
+        apiObject.id = parseFloat(record.id);
         return apiObject;
     }
 }

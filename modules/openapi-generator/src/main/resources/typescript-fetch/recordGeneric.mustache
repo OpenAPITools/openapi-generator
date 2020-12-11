@@ -90,7 +90,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
 		(apiObject as any).recType = {{#isEntity}}asEntity ? "{{classname}}RecordEntity" : {{/isEntity}}"{{classname}}Record";
 {{#vars}}
         {{#isUniqueId}}
-        {{^required}}if (apiObject.{{name}}) { {{/required}}(apiObject as any).{{name}} = apiObject.{{name}}.toString();{{^required}} } {{/required}}
+        {{^required}}if (apiObject.{{name}}) { {{/required}}(apiObject as any).{{name}} = apiObject.{{name}}.{{#isArray}}map(item => item.{{/isArray}}toString(){{#isArray}}){{/isArray}};{{^required}} } {{/required}}
         {{/isUniqueId}}
         {{^keepAsJSObject}}
         {{#isModel}}
@@ -132,10 +132,10 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
 {{#vars}}
         {{#isUniqueId}}
         {{#isReservedRecordField}}
-        {{^required}}if (record._{{name}}) { {{/required}}(apiObject as any)._{{name}} = parseFloat(record._{{name}});{{^required}} } {{/required}}
+        {{^required}}if (record._{{name}}) { {{/required}}(apiObject as any)._{{name}} = {{#isArray}}record._{{name}}.map(item => parseFloat(item)).toArray(){{/isArray}}{{^isArray}}parseFloat(record._{{name}}){{/isArray}};{{^required}} } {{/required}}
         {{/isReservedRecordField}}
         {{^isReservedRecordField}}
-        {{^required}}if (record.{{name}}) { {{/required}}apiObject.{{name}} = parseFloat(record.{{name}});{{^required}} } {{/required}}
+        {{^required}}if (record.{{name}}) { {{/required}}apiObject.{{name}} = {{#isArray}}record.{{name}}.map(item => parseFloat(item)).toArray(){{/isArray}}{{^isArray}}parseFloat(record.{{name}}){{/isArray}};{{^required}} } {{/required}}
         {{/isReservedRecordField}}
         {{/isUniqueId}}
         {{^keepAsJSObject}}

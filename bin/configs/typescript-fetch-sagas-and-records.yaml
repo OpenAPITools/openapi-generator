@@ -11,4 +11,5 @@ additionalProperties:
   sagasAndRecords: true
   detectPassthroughModelsWithSuffixAndField: 'Response.data'
   reservedRecordFields: 'entries'
+  inferUniqueIdFromNameSuffix: true
   snapshot: false

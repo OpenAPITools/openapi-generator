@@ -48,7 +48,7 @@ export interface PayloadGetAffiliateProductType extends PayloadGetAffiliateProdu
 }
 
 export interface PayloadGetAffiliateProductTypeRequest {
-    affiliateId: number;
+    affiliateId: string;
 }
 
 export const getAffiliateProductTypeRequest = createSagaAction<PayloadGetAffiliateProductTypeRequest>("getAffiliateProductTypeRequest");
@@ -70,7 +70,7 @@ export function *getAffiliateProductTypeSagaImp(_action_: Action<PayloadGetAffil
 		yield put(getAffiliateProductTypeRequest(_action_.payload));
 
 		const response: Required<GetProductTypeResponse> = yield apiCall(Api.affiliateApi, Api.affiliateApi.getAffiliateProductType,
-            affiliateId,
+            parseFloat(affiliateId),
 		);
 
 		let successReturnValue: any = undefined;
@@ -90,7 +90,7 @@ export interface PayloadGetMatchingRoles extends PayloadGetMatchingRolesRequest,
 }
 
 export interface PayloadGetMatchingRolesRequest {
-    affiliateId: number;
+    affiliateId: string;
     video: boolean;
     mono: boolean;
     claperEnabled: boolean;
@@ -130,7 +130,7 @@ export function *getMatchingRolesSagaImp(_action_: Action<PayloadGetMatchingRole
 		yield put(getMatchingRolesRequest(requestPayload));
 
 		const response: Required<GetMatchingRolesResponse> = yield apiCall(Api.affiliateApi, Api.affiliateApi.getMatchingRoles,
-            affiliateId,
+            parseFloat(affiliateId),
             video,
             mono,
             claperEnabled,

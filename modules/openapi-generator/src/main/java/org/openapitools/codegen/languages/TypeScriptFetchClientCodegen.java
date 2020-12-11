@@ -49,6 +49,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String SAGAS_AND_RECORDS = "sagasAndRecords";
     public static final String DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD = "detectPassthroughModelsWithSuffixAndField";
     public static final String RESERVED_RECORD_FIELDS = "reservedRecordFields";
+    public static final String INFER_UNIQUE_ID_FROM_NAME_SUFFIX = "inferUniqueIdFromNameSuffix";
 
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = true;
@@ -60,6 +61,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     protected boolean sagasAndRecords = false;
     protected String detectPassthroughModelsWithSuffixAndField = null; // Ex: "Response;data"
     protected String reservedRecordFields = null;
+    protected boolean inferUniqueIdFromNameSuffix = false;
 
     public TypeScriptFetchClientCodegen() {
         super();
@@ -160,6 +162,24 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         return this.reservedRecordFields != null ? Arrays.asList(this.reservedRecordFields.split("\\.")) : new ArrayList<String>();
     }
 
+    public boolean getInferUniqueIdFromNameSuffix() {
+        return inferUniqueIdFromNameSuffix;
+    }
+
+    public void setInferUniqueIdFromNameSuffix(boolean inferUniqueIdFromNameSuffix) {
+        this.inferUniqueIdFromNameSuffix = inferUniqueIdFromNameSuffix;
+    }
+
+    public boolean isUniqueIdAccordingToNameSuffix(String name) {
+        if (name == null) {
+            return false;
+        }
+        return "id".equals(name) ||
+                "ids".equals(name) ||
+                (name.length() >= 3 && name.substring(name.length()-2).equals("Id")) ||
+                (name.length() >= 4 && name.substring(name.length()-3).equals("Ids"));
+    }
+
     @Override
     public void processOpts() {
         super.processOpts();
@@ -209,13 +229,16 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 apiTemplateFiles.put("sagas.mustache", "Sagas.ts");
                 modelTemplateFiles.put("records.mustache", "Record.ts");
                 supportingFiles.add(new SupportingFile("runtimeSagasAndRecords.mustache", sourceDir, "runtimeSagasAndRecords.ts"));
+                if (additionalProperties.containsKey(DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD)) {
+                    this.setDetectPassthroughModelsWithSuffixAndField((String)additionalProperties.get(DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD));
+                }
+                if (additionalProperties.containsKey(RESERVED_RECORD_FIELDS)) {
+                    this.setReservedRecordFields((String)additionalProperties.get(RESERVED_RECORD_FIELDS));
+                }
+                if (additionalProperties.containsKey(INFER_UNIQUE_ID_FROM_NAME_SUFFIX)) {
+                    this.setInferUniqueIdFromNameSuffix((Boolean)additionalProperties.get(INFER_UNIQUE_ID_FROM_NAME_SUFFIX));
+                }
             }
-        }
-        if (additionalProperties.containsKey(DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD)) {
-            this.setDetectPassthroughModelsWithSuffixAndField((String)additionalProperties.get(DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD));
-        }
-        if (additionalProperties.containsKey(RESERVED_RECORD_FIELDS)) {
-            this.setReservedRecordFields((String)additionalProperties.get(RESERVED_RECORD_FIELDS));
         }
     }
 
@@ -620,16 +643,20 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
         }
 
-        var.isUniqueId = Boolean.TRUE.equals(var.vendorExtensions.get(X_IS_UNIQUE_ID));
-        if (var.isUniqueId && xEntityId != null && xEntityId.equals(var.name)) {
-            parentIsEntity = true;
-        }
-
-        if (this.getReservedRecordFieldList().contains(var.name)) {
-            var.isReservedRecordField = true;
-        }
-
         if (this.getSagasAndRecords()) {
+            if (var.vendorExtensions.get(X_IS_UNIQUE_ID) instanceof Boolean) {
+                var.isUniqueId = Boolean.TRUE.equals(var.vendorExtensions.get(X_IS_UNIQUE_ID));
+            } else if (this.getInferUniqueIdFromNameSuffix() && (var.isArray && "number".equals(var.items.dataType)) || ("number".equals(var.dataType))) {
+                var.isUniqueId = this.isUniqueIdAccordingToNameSuffix(var.name);
+            }
+            if (var.isUniqueId && xEntityId != null && xEntityId.equals(var.name)) {
+                parentIsEntity = true;
+            }
+
+            if (this.getReservedRecordFieldList().contains(var.name)) {
+                var.isReservedRecordField = true;
+            }
+
             var.dataTypeAlternate = var.dataType;
             if (var.isArray) {
                 var.dataTypeAlternate = var.dataType.replace("Array<", "List<");
@@ -734,8 +761,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             for (CodegenParameter cpParam : op.allParams) {
                 ExtendedCodegenParameter param = (ExtendedCodegenParameter)cpParam;
 
-                if (Boolean.TRUE.equals(param.vendorExtensions.get(X_IS_UNIQUE_ID))) {
-                    param.isUniqueId = true;
+                if (param.vendorExtensions.get(X_IS_UNIQUE_ID) instanceof Boolean) {
+                    param.isUniqueId = Boolean.TRUE.equals(param.vendorExtensions.get(X_IS_UNIQUE_ID));
+                } else if (this.getInferUniqueIdFromNameSuffix() && (param.isArray && "number".equals(param.items.dataType)) || ("number".equals(param.dataType))) {
+                    param.isUniqueId = this.isUniqueIdAccordingToNameSuffix(param.paramName);
                 }
 
                 param.dataTypeAlternate = param.dataType;
