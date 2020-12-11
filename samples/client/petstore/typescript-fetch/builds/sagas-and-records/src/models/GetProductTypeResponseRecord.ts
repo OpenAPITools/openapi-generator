@@ -59,7 +59,7 @@ class GetProductTypeResponseRecordUtils extends ApiRecordUtils<GetProductTypeRes
     }
 
 	public fromApiPassthrough(apiObject: GetProductTypeResponse): ProductType {
-	    return apiObject.data;
+	    return apiObject.data!;
 	}
 
 	public fromApiPassthroughAsEntities(apiObject: GetProductTypeResponse): NormalizedRecordEntities {

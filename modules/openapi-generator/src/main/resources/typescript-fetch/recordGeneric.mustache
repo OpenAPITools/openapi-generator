@@ -30,29 +30,29 @@ export const {{classname}}RecordProps = {
     {{#isArray}}
     {{#items.isModel}}
     {{#keepAsJSObject}}
-    {{#isReservedRecordField}}_{{/isReservedRecordField}}{{name}}: {{#required}}new {{{dataType}}}(){{/required}}{{^required}}null as {{{dataType}}} | null{{/required}},
+    {{name}}: {{#required}}new {{{dataType}}}(){{/required}}{{^required}}null as {{{dataType}}} | null{{/required}},
     {{/keepAsJSObject}}
     {{^keepAsJSObject}}
-    {{#isReservedRecordField}}_{{/isReservedRecordField}}{{name}}: ({{{items.dataType}}}Record(), {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null as {{{dataTypeAlternate}}} | null{{/required}}),
+    {{name}}: ({{{items.dataType}}}Record(), {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null as {{{dataTypeAlternate}}} | null{{/required}}),
     {{/keepAsJSObject}}
     {{/items.isModel}}
     {{^items.isModel}}
-    {{#isReservedRecordField}}_{{/isReservedRecordField}}{{name}}: {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null as {{{dataTypeAlternate}}} | null{{/required}},
+    {{name}}: {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null as {{{dataTypeAlternate}}} | null{{/required}},
     {{/items.isModel}}
     {{/isArray}}
     {{#isModel}}
     {{#keepAsJSObject}}
-    {{#isReservedRecordField}}_{{/isReservedRecordField}}{{name}}: {{#required}}{} as any as {{{dataType}}}{{/required}}{{^required}}null as {{{dataType}}} | null{{/required}},
+    {{name}}: {{#required}}{} as any as {{{dataType}}}{{/required}}{{^required}}null as {{{dataType}}} | null{{/required}},
     {{/keepAsJSObject}}
     {{^keepAsJSObject}}
-    {{#isReservedRecordField}}_{{/isReservedRecordField}}{{name}}: {{#required}}{{{defaultValue}}}{{/required}}{{^required}}({{{defaultValue}}}, null as {{{dataTypeAlternate}}} | null){{/required}},
+    {{name}}: {{#required}}{{{defaultValue}}}{{/required}}{{^required}}({{{defaultValue}}}, null as {{{dataTypeAlternate}}} | null){{/required}},
     {{/keepAsJSObject}}
     {{/isModel}}
-    {{^isContainer}}
+    {{^isArray}}
     {{^isModel}}
-    {{#isReservedRecordField}}_{{/isReservedRecordField}}{{name}}: {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null as {{{dataTypeAlternate}}} | null{{/required}},
+    {{name}}: {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null as {{{dataTypeAlternate}}} | null{{/required}},
     {{/isModel}}
-    {{/isContainer}}
+    {{/isArray}}
 {{/vars}}
 };
 
@@ -68,11 +68,11 @@ export const {{classname}}RecordEntityProps = {
 	recType: "{{classname}}RecordEntity" as "{{classname}}RecordEntity",
 {{#vars}}
     {{#isEntity}}
-    {{#isReservedRecordField}}_{{/isReservedRecordField}}{{name}}: {{#required}}"-1"{{/required}}{{^required}}null as string | null{{/required}},
+    {{name}}: {{#required}}"-1"{{/required}}{{^required}}null as string | null{{/required}},
     {{/isEntity}}
     {{#isArray}}
     {{#items.isEntity}}
-    {{#isReservedRecordField}}_{{/isReservedRecordField}}{{name}}: {{#required}}List<string>(){{/required}}{{^required}}null as List<string> | null{{/required}},
+    {{name}}: {{#required}}List<string>(){{/required}}{{^required}}null as List<string> | null{{/required}},
     {{/items.isEntity}}
     {{/isArray}}
 {{/vars}}
@@ -102,10 +102,6 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
         {{/items.isModel}}
         {{/isArray}}
         {{/keepAsJSObject}}
-        {{#isReservedRecordField}}
-        (apiObject as any)._{{name}} = apiObject.{{name}};
-        delete apiObject.{{name}};
-        {{/isReservedRecordField}}
 {{/vars}}
 		return apiObject;
 	}
@@ -115,11 +111,11 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
 	    return new schema.Entity("{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}", {
 {{#vars}}
             {{#isEntity}}
-            {{#isReservedRecordField}}_{{/isReservedRecordField}}{{name}}: {{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.getSchema(),
+            {{name}}: {{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.getSchema(),
             {{/isEntity}}
             {{#isArray}}
             {{#items.isEntity}}
-            {{#isReservedRecordField}}_{{/isReservedRecordField}}{{name}}: [{{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.getSchema()],
+            {{name}}: [{{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.getSchema()],
             {{/items.isEntity}}
             {{/isArray}}
 {{/vars}}
@@ -131,37 +127,18 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
         const apiObject = super.toApi(record);
 {{#vars}}
         {{#isUniqueId}}
-        {{#isReservedRecordField}}
-        {{^required}}if (record._{{name}}) { {{/required}}(apiObject as any)._{{name}} = {{#isArray}}record._{{name}}.map(item => parseFloat(item)).toArray(){{/isArray}}{{^isArray}}parseFloat(record._{{name}}){{/isArray}};{{^required}} } {{/required}}
-        {{/isReservedRecordField}}
-        {{^isReservedRecordField}}
         {{^required}}if (record.{{name}}) { {{/required}}apiObject.{{name}} = {{#isArray}}record.{{name}}.map(item => parseFloat(item)).toArray(){{/isArray}}{{^isArray}}parseFloat(record.{{name}}){{/isArray}};{{^required}} } {{/required}}
-        {{/isReservedRecordField}}
         {{/isUniqueId}}
         {{^keepAsJSObject}}
         {{#isModel}}
-        {{#isReservedRecordField}}
-        {{^required}}if (record._{{name}}) { {{/required}}(apiObject as any)._{{name}} = {{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.toApi(record._{{name}});{{^required}} } {{/required}}
-        {{/isReservedRecordField}}
-        {{^isReservedRecordField}}
         {{^required}}if (record.{{name}}) { {{/required}}apiObject.{{name}} = {{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.toApi(record.{{name}});{{^required}} } {{/required}}
-        {{/isReservedRecordField}}
         {{/isModel}}
         {{#isArray}}
         {{#items.isModel}}
-        {{#isReservedRecordField}}
-        {{^required}}if (record._{{name}}) { {{/required}}(apiObject as any)._{{name}} = {{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.toApiArray(record._{{name}});{{^required}} } {{/required}}
-        {{/isReservedRecordField}}
-        {{^isReservedRecordField}}
         {{^required}}if (record.{{name}}) { {{/required}}apiObject.{{name}} = {{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.toApiArray(record.{{name}});{{^required}} } {{/required}}
-        {{/isReservedRecordField}}
         {{/items.isModel}}
         {{/isArray}}
         {{/keepAsJSObject}}
-        {{#isReservedRecordField}}
-        apiObject.{{name}} = (apiObject as any)._{{name}};
-        delete (apiObject as any)._{{name}};
-        {{/isReservedRecordField}}
 {{/vars}}
         return apiObject;
     }
@@ -186,7 +163,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
     {{/isArray}}
     {{^isModel}}
     {{^isArray}}
-	    return apiObject.{{{returnPassthrough}}};
+	    return apiObject.{{{returnPassthrough}}}!;
     {{/isArray}}
     {{/isModel}}
 	}

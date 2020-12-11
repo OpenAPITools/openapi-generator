@@ -18,7 +18,14 @@ import {
     GetChannelPublishedStatusResponse,
     GetChannelPublishedStatusResponseFromJSON,
     GetChannelPublishedStatusResponseToJSON,
+    GetFrontEndPermissionsResponse,
+    GetFrontEndPermissionsResponseFromJSON,
+    GetFrontEndPermissionsResponseToJSON,
 } from '../models';
+
+export interface GetChannelPermissionsRequest {
+    channelId: number;
+}
 
 export interface GetChannelPublishedStatusRequest {
     channelId: number;
@@ -28,6 +35,36 @@ export interface GetChannelPublishedStatusRequest {
  * 
  */
 export class BrandApi extends runtime.BaseAPI {
+
+    /**
+     * Get permissions for the channel
+     */
+    async getChannelPermissionsRaw(requestParameters: GetChannelPermissionsRequest): Promise<runtime.ApiResponse<GetFrontEndPermissionsResponse>> {
+        if (requestParameters.channelId === null || requestParameters.channelId === undefined) {
+            throw new runtime.RequiredError('channelId','Required parameter requestParameters.channelId was null or undefined when calling getChannelPermissions.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/channels/{channel-id}/permissions`.replace(`{${"channel-id"}}`, encodeURIComponent(String(requestParameters.channelId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetFrontEndPermissionsResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Get permissions for the channel
+     */
+    async getChannelPermissions(channelId: number): Promise<GetFrontEndPermissionsResponse> {
+        const response = await this.getChannelPermissionsRaw({ channelId: channelId });
+        return await response.value();
+    }
 
     /**
      * Get the published status of a channel

@@ -97,9 +97,7 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
         (apiObject as any).otherFriendIds = apiObject.otherFriendIds.map(item => item.toString());
         categoryRecordUtils.normalize(apiObject.category);
         if (apiObject.optionalCategory) { categoryRecordUtils.normalize(apiObject.optionalCategory); } 
-        if (apiObject.entries) { categoryRecordUtils.normalizeArray(apiObject.entries); } 
-        (apiObject as any)._entries = apiObject.entries;
-        delete apiObject.entries;
+        if (apiObject._entries) { categoryRecordUtils.normalizeArray(apiObject._entries); } 
         tagRecordUtils.normalizeArray(apiObject.tags);
         if (apiObject.optionalTags) { tagRecordUtils.normalizeArray(apiObject.optionalTags); } 
 		return apiObject;
@@ -122,9 +120,7 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
         apiObject.otherFriendIds = record.otherFriendIds.map(item => parseFloat(item)).toArray();
         apiObject.category = categoryRecordUtils.toApi(record.category);
         if (record.optionalCategory) { apiObject.optionalCategory = categoryRecordUtils.toApi(record.optionalCategory); } 
-        if (record._entries) { (apiObject as any)._entries = categoryRecordUtils.toApiArray(record._entries); } 
-        apiObject.entries = (apiObject as any)._entries;
-        delete (apiObject as any)._entries;
+        if (record._entries) { apiObject._entries = categoryRecordUtils.toApiArray(record._entries); } 
         apiObject.tags = tagRecordUtils.toApiArray(record.tags);
         if (record.optionalTags) { apiObject.optionalTags = tagRecordUtils.toApiArray(record.optionalTags); } 
         return apiObject;

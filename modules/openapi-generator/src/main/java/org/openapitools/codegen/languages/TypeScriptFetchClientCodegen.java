@@ -35,21 +35,12 @@ import java.io.File;
 import java.util.*;
 
 public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodegen {
-    private static final String X_IS_UNIQUE_ID = "x-isUniqueId";
-    private static final String X_ENTITY_ID = "x-entityId";
-    private static final String X_OPERATION_RETURN_PASSTHROUGH = "x-operationReturnPassthrough";
-    private static final String X_KEEP_AS_JS_OBJECT = "x-keepAsJSObject";
-
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String PREFIX_PARAMETER_INTERFACES = "prefixParameterInterfaces";
     public static final String TYPESCRIPT_THREE_PLUS = "typescriptThreePlus";
     public static final String WITHOUT_RUNTIME_CHECKS = "withoutRuntimeChecks";
-    public static final String SAGAS_AND_RECORDS = "sagasAndRecords";
-    public static final String DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD = "detectPassthroughModelsWithSuffixAndField";
-    public static final String RESERVED_RECORD_FIELDS = "reservedRecordFields";
-    public static final String INFER_UNIQUE_ID_FROM_NAME_SUFFIX = "inferUniqueIdFromNameSuffix";
 
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = true;
@@ -58,10 +49,22 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     protected boolean addedModelIndex = false;
     protected boolean typescriptThreePlus = false;
     protected boolean withoutRuntimeChecks = false;
+	
+    // "Saga and Record" mode.
+    public static final String SAGAS_AND_RECORDS = "sagasAndRecords";
+    public static final String DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD = "detectPassthroughModelsWithSuffixAndField";
+    public static final String INFER_UNIQUE_ID_FROM_NAME_SUFFIX = "inferUniqueIdFromNameSuffix";
+    public static final String INFER_ENTITY_FROM_UNIQUE_ID_WITH_NAME = "inferEntityFromUniqueIdWithName";
+
+    private static final String X_IS_UNIQUE_ID = "x-isUniqueId";
+    private static final String X_ENTITY_ID = "x-entityId";
+    private static final String X_OPERATION_RETURN_PASSTHROUGH = "x-operationReturnPassthrough";
+    private static final String X_KEEP_AS_JS_OBJECT = "x-keepAsJSObject";
+
     protected boolean sagasAndRecords = false;
     protected String detectPassthroughModelsWithSuffixAndField = null; // Ex: "Response;data"
-    protected String reservedRecordFields = null;
     protected boolean inferUniqueIdFromNameSuffix = false;
+    protected String inferEntityFromUniqueIdWithName = null;
 
     public TypeScriptFetchClientCodegen() {
         super();
@@ -150,24 +153,20 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.detectPassthroughModelsWithSuffixAndField = detectPassthroughModelsWithSuffixAndField;
     }
 
-    public String getReservedRecordFields() {
-        return reservedRecordFields;
-    }
-
-    public void setReservedRecordFields(String reservedRecordFields) {
-        this.reservedRecordFields = reservedRecordFields;
-    }
-
-    public List<String> getReservedRecordFieldList() {
-        return this.reservedRecordFields != null ? Arrays.asList(this.reservedRecordFields.split("\\.")) : new ArrayList<String>();
-    }
-
     public boolean getInferUniqueIdFromNameSuffix() {
         return inferUniqueIdFromNameSuffix;
     }
 
     public void setInferUniqueIdFromNameSuffix(boolean inferUniqueIdFromNameSuffix) {
         this.inferUniqueIdFromNameSuffix = inferUniqueIdFromNameSuffix;
+    }
+
+    public String getInferEntityFromUniqueIdWithName() {
+        return inferEntityFromUniqueIdWithName;
+    }
+
+    public void setInferEntityFromUniqueIdWithName(String inferEntityFromUniqueIdWithName) {
+        this.inferEntityFromUniqueIdWithName = inferEntityFromUniqueIdWithName;
     }
 
     public boolean isUniqueIdAccordingToNameSuffix(String name) {
@@ -232,12 +231,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 if (additionalProperties.containsKey(DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD)) {
                     this.setDetectPassthroughModelsWithSuffixAndField((String)additionalProperties.get(DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD));
                 }
-                if (additionalProperties.containsKey(RESERVED_RECORD_FIELDS)) {
-                    this.setReservedRecordFields((String)additionalProperties.get(RESERVED_RECORD_FIELDS));
-                }
                 if (additionalProperties.containsKey(INFER_UNIQUE_ID_FROM_NAME_SUFFIX)) {
-                    this.setInferUniqueIdFromNameSuffix((Boolean)additionalProperties.get(INFER_UNIQUE_ID_FROM_NAME_SUFFIX));
+                    this.setInferUniqueIdFromNameSuffix(convertPropertyToBoolean(INFER_UNIQUE_ID_FROM_NAME_SUFFIX));
                 }
+                if (additionalProperties.containsKey(INFER_ENTITY_FROM_UNIQUE_ID_WITH_NAME)) {
+                    this.setInferEntityFromUniqueIdWithName((String)additionalProperties.get(INFER_ENTITY_FROM_UNIQUE_ID_WITH_NAME));
+                }
+
+                this.addExtraReservedWordsForSagasAndRecords();
             }
         }
     }
@@ -512,6 +513,18 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
+    public String escapeReservedWord(String name) {
+        if (this.getSagasAndRecords()) {
+            if (this.reservedWordsMappings().containsKey(name)) {
+                return this.reservedWordsMappings().get(name);
+            }
+            return "_" + name;
+        } else {
+            return super.escapeReservedWord(name);
+        }
+    }
+
+    @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
         // Add supporting file only if we plan to generate files in /apis
         if (operations.size() > 0 && !addedApiIndex) {
@@ -550,57 +563,67 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private ExtendedCodegenModel processCodeGenModel(ExtendedCodegenModel cm) {
-        Object xEntityId = cm.vendorExtensions.get(X_ENTITY_ID);
-        Object vendorKeepAsJSObject = cm.vendorExtensions.get(X_KEEP_AS_JS_OBJECT);
-        String[] propertiesToKeepAsJSObject = null;
-        if (vendorKeepAsJSObject instanceof String) {
-            propertiesToKeepAsJSObject = ((String)vendorKeepAsJSObject).split(",");
-        }
-
-        for (CodegenProperty cpVar : cm.vars) {
-            ExtendedCodegenProperty var = (ExtendedCodegenProperty)cpVar;
-            if (propertiesToKeepAsJSObject != null && Arrays.asList(propertiesToKeepAsJSObject).contains(var.name)) {
-                var.keepAsJSObject = true;
+        if (this.getSagasAndRecords()) {
+            Object xEntityId = cm.vendorExtensions.get(X_ENTITY_ID);
+            if (xEntityId == null && this.getInferEntityFromUniqueIdWithName() != null) {
+                xEntityId = this.getInferEntityFromUniqueIdWithName();
             }
-            boolean parentIsEntity = this.processCodegenProperty(var, cm.classname, xEntityId);
-            if (parentIsEntity) {
-                cm.isEntity = true;
+            Object vendorKeepAsJSObject = cm.vendorExtensions.get(X_KEEP_AS_JS_OBJECT);
+            String[] propertiesToKeepAsJSObject = null;
+            if (vendorKeepAsJSObject instanceof String) {
+                propertiesToKeepAsJSObject = ((String)vendorKeepAsJSObject).split(",");
             }
-        }
 
-        Object returnPassthrough = cm.vendorExtensions.get(X_OPERATION_RETURN_PASSTHROUGH);
-        if (returnPassthrough instanceof String) {
-            if (((String) returnPassthrough).isEmpty()) {
-                cm.hasReturnPassthroughVoid = true;
-                cm.returnPassthrough = null;
-            } else {
+            for (CodegenProperty cpVar : cm.vars) {
+                ExtendedCodegenProperty var = (ExtendedCodegenProperty)cpVar;
+                if (propertiesToKeepAsJSObject != null && Arrays.asList(propertiesToKeepAsJSObject).contains(var.name)) {
+                    var.keepAsJSObject = true;
+                }
+                boolean parentIsEntity = this.processCodegenProperty(var, cm.classname, xEntityId);
+                if (parentIsEntity) {
+                    cm.isEntity = true;
+                }
+            }
+
+            Object returnPassthrough = cm.vendorExtensions.get(X_OPERATION_RETURN_PASSTHROUGH);
+            if (returnPassthrough instanceof String) {
+                if (((String) returnPassthrough).isEmpty()) {
+                    cm.hasReturnPassthroughVoid = true;
+                    cm.returnPassthrough = null;
+                } else {
+                    boolean foundMatch = false;
+                    for (CodegenProperty var : cm.vars) {
+                        if (var.name.equals(returnPassthrough)) {
+                            foundMatch = true;
+                            break;
+                        }
+                    }
+                    if (foundMatch) {
+                        cm.returnPassthrough = (String) returnPassthrough;
+                    } else { // no match, treat as if empty.
+                        cm.hasReturnPassthroughVoid = true;
+                        cm.returnPassthrough = null;
+                    }
+                }
+            } else if (this.getDetectPassthroughModelsWithSuffixAndField() != null && cm.name.length() > this.getPassthroughSuffix().length() && cm.name.substring(cm.name.length() - this.getPassthroughSuffix().length()).equals(this.getPassthroughSuffix())) {
                 boolean foundMatch = false;
                 for (CodegenProperty var : cm.vars) {
-                    if (var.name.equals(returnPassthrough)) {
+                    if (var.name.equals(this.getPassthroughField())) {
                         foundMatch = true;
                         break;
                     }
                 }
                 if (foundMatch) {
-                    cm.returnPassthrough = (String)returnPassthrough;
+                    cm.returnPassthrough = this.getPassthroughField();
                 } else { // no match, treat as if empty.
                     cm.hasReturnPassthroughVoid = true;
                     cm.returnPassthrough = null;
                 }
             }
-        } else if (this.getDetectPassthroughModelsWithSuffixAndField() != null && cm.name.length() > this.getPassthroughSuffix().length() && cm.name.substring(cm.name.length() - this.getPassthroughSuffix().length()).equals(this.getPassthroughSuffix())) {
-            boolean foundMatch = false;
-            for (CodegenProperty var : cm.vars) {
-                if (var.name.equals(this.getPassthroughField())) {
-                    foundMatch = true;
-                    break;
-                }
-            }
-            if (foundMatch) {
-                cm.returnPassthrough = this.getPassthroughField();
-            } else { // no match, treat as if empty.
-                cm.hasReturnPassthroughVoid = true;
-                cm.returnPassthrough = null;
+        } else {
+            for (CodegenProperty cpVar : cm.vars) {
+                ExtendedCodegenProperty var = (ExtendedCodegenProperty)cpVar;
+                this.processCodegenProperty(var, cm.classname, null);
             }
         }
 
@@ -628,7 +651,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private boolean processCodegenProperty(ExtendedCodegenProperty var, String parentClassName, Object xEntityId) {
-        boolean parentIsEntity = false;
         // name enum with model name, e.g. StatusEnum => PetStatusEnum
         if (Boolean.TRUE.equals(var.isEnum)) {
             // behaviour for enum names is specific for Typescript Fetch, not using namespaces
@@ -643,6 +665,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
         }
 
+        boolean parentIsEntity = false;
         if (this.getSagasAndRecords()) {
             if (var.vendorExtensions.get(X_IS_UNIQUE_ID) instanceof Boolean) {
                 var.isUniqueId = Boolean.TRUE.equals(var.vendorExtensions.get(X_IS_UNIQUE_ID));
@@ -651,10 +674,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
             if (var.isUniqueId && xEntityId != null && xEntityId.equals(var.name)) {
                 parentIsEntity = true;
-            }
-
-            if (this.getReservedRecordFieldList().contains(var.name)) {
-                var.isReservedRecordField = true;
             }
 
             var.dataTypeAlternate = var.dataType;
@@ -840,6 +859,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         // "Index" would create a file "Index.ts" which on case insensitive filesystems
         // would override our "index.js" file
         this.reservedWords.add("Index");
+    }
+
+    private void addExtraReservedWordsForSagasAndRecords() {
+        // immutablejs Records have potentially many reserved words. Adding only strict minimum for now.
+        this.reservedWords.add("entries");
     }
 
     private boolean getUseSingleRequestParameter() {

@@ -11,6 +11,8 @@ export * from './FindPetsByUserResponse';
 export * from './FindPetsByUserResponseRecord';
 export * from './GetChannelPublishedStatusResponse';
 export * from './GetChannelPublishedStatusResponseRecord';
+export * from './GetFrontEndPermissionsResponse';
+export * from './GetFrontEndPermissionsResponseRecord';
 export * from './GetMatchingRolesResponse';
 export * from './GetMatchingRolesResponseRecord';
 export * from './GetProductTypeResponse';

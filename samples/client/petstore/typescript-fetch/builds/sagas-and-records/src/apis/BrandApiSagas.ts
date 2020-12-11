@@ -23,12 +23,16 @@ import {
     GetChannelPublishedStatusResponse,
     GetChannelPublishedStatusResponseRecord,
     getChannelPublishedStatusResponseRecordUtils,
+    GetFrontEndPermissionsResponse,
+    GetFrontEndPermissionsResponseRecord,
+    getFrontEndPermissionsResponseRecordUtils,
     ChannelPublishedStatus,
 } from '../models';
 
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_brandApi"});
 
 export const brandApiSagaMap = new Map<string, () => Generator<any, any, any>>([
+    	["getChannelPermissions", getChannelPermissionsSaga],
     	["getChannelPublishedStatus", getChannelPublishedStatusSaga],
 	]
 );
@@ -37,6 +41,48 @@ export function *brandApiAllSagas() {
 	yield all([...brandApiSagaMap.values()].map(actionSaga => fork(actionSaga)));
 }
 
+//region getChannelPermissions
+
+export interface PayloadGetChannelPermissions extends PayloadGetChannelPermissionsRequest {
+}
+
+export interface PayloadGetChannelPermissionsRequest {
+    channelId: string;
+}
+
+export const getChannelPermissionsRequest = createSagaAction<PayloadGetChannelPermissionsRequest>("getChannelPermissionsRequest");
+export const getChannelPermissionsSuccess = createSagaAction<{ [key: string]: boolean; }>("getChannelPermissionsSuccess");
+export const getChannelPermissionsFailure = createSagaAction<any>("getChannelPermissionsFailure");
+
+export const getChannelPermissions = createSagaAction<PayloadGetChannelPermissions>("getChannelPermissions");
+
+export function *getChannelPermissionsSaga() {
+	yield takeLatest(getChannelPermissions, getChannelPermissionsSagaImp);
+}
+
+export function *getChannelPermissionsSagaImp(_action_: Action<PayloadGetChannelPermissions>) {
+	try {
+        const {
+            channelId,
+   		} = _action_.payload;
+
+		yield put(getChannelPermissionsRequest(_action_.payload));
+
+		const response: Required<GetFrontEndPermissionsResponse> = yield apiCall(Api.brandApi, Api.brandApi.getChannelPermissions,
+            parseFloat(channelId),
+		);
+
+		let successReturnValue: any = undefined;
+    		successReturnValue = getFrontEndPermissionsResponseRecordUtils.fromApiPassthrough(response);
+	    	yield put(getChannelPermissionsSuccess(successReturnValue));
+
+		return successReturnValue;
+	} catch (error) {
+		yield put(getChannelPermissionsFailure(error));
+		return error;
+	}
+}
+//endregion
 //region getChannelPublishedStatus
 
 export interface PayloadGetChannelPublishedStatus extends PayloadGetChannelPublishedStatusRequest {

@@ -32,6 +32,8 @@ src/models/FindPetsByUserResponse.ts
 src/models/FindPetsByUserResponseRecord.ts
 src/models/GetChannelPublishedStatusResponse.ts
 src/models/GetChannelPublishedStatusResponseRecord.ts
+src/models/GetFrontEndPermissionsResponse.ts
+src/models/GetFrontEndPermissionsResponseRecord.ts
 src/models/GetMatchingRolesResponse.ts
 src/models/GetMatchingRolesResponseRecord.ts
 src/models/GetProductTypeResponse.ts

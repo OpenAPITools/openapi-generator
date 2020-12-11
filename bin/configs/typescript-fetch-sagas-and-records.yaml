@@ -10,6 +10,6 @@ additionalProperties:
   typescriptThreePlus: true
   sagasAndRecords: true
   detectPassthroughModelsWithSuffixAndField: 'Response.data'
-  reservedRecordFields: 'entries'
   inferUniqueIdFromNameSuffix: true
+  inferEntityFromUniqueIdWithName: id
   snapshot: false

@@ -43,6 +43,25 @@ paths:
           description: OK
           schema:
             $ref: "#/definitions/GetChannelPublishedStatusResponse"
+  /channels/{channel-id}/permissions:
+    #TODO move to channel controller instead of brand if additional channel operations are needed
+    get:
+      tags:
+        - Brand
+      summary: Get permissions for the channel
+      operationId: getChannelPermissions
+      parameters:
+        - in: path
+          name: channel-id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetFrontEndPermissionsResponse"
+
 #  /affiliates/{affiliate-id}/product-types:
 #    get:
 #      tags:
@@ -743,7 +762,6 @@ definitions:
     title: Pet Order
     description: An order for a pets from the pet store
     type: object
-    x-entityId: "id"
     properties:
       id:
         type: integer
@@ -775,7 +793,6 @@ definitions:
     title: Pet category
     description: A category for a pet
     type: object
-    x-entityId: "id"
     properties:
       id:
         type: integer
@@ -788,7 +805,6 @@ definitions:
     title: a User
     description: A User who is purchasing from the pet store
     type: object
-    x-entityId: "id"
     x-keepAsJSObject: "subUser,subUser2"
     required:
       - id
@@ -823,7 +839,6 @@ definitions:
     title: Pet Tag
     description: A tag for a pet
     type: object
-    x-entityId: "id"
     properties:
       id:
         type: integer
@@ -851,7 +866,6 @@ definitions:
       - isTall
       - warningStatus
       - otherFriendIds
-    x-entityId: "id"
     properties:
       id:
         type: integer
@@ -1167,6 +1181,7 @@ definitions:
   Role:
     type: object
     description: "Contains all the info about a Role from the SAM system"
+    x-entityId: ""
     required:
       - id
       - name
@@ -1197,3 +1212,15 @@ definitions:
       - Published
     description: "Publishing status of a channel"
     example: Published
+  StringBooleanMap:
+    additionalProperties:
+      type: boolean
+  GetFrontEndPermissionsResponse:
+    type: object
+    required:
+      - meta
+    properties:
+      meta:
+        $ref: "#/definitions/ResponseMeta"
+      data:
+        $ref: "#/definitions/StringBooleanMap"

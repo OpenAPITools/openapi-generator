@@ -59,7 +59,7 @@ class GetChannelPublishedStatusResponseRecordUtils extends ApiRecordUtils<GetCha
     }
 
 	public fromApiPassthrough(apiObject: GetChannelPublishedStatusResponse): ChannelPublishedStatus {
-	    return apiObject.data;
+	    return apiObject.data!;
 	}
 
 	public fromApiPassthroughAsEntities(apiObject: GetChannelPublishedStatusResponse): NormalizedRecordEntities {
