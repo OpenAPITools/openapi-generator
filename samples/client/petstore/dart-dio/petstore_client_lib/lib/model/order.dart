@@ -25,7 +25,7 @@ abstract class Order implements Built<Order, OrderBuilder> {
     /* Order Status */
     @nullable
     @BuiltValueField(wireName: r'status')
-    OrderStatus get status;
+    OrderStatusEnum get status;
     // enum statusEnum {  placed,  approved,  delivered,  };
     
     @nullable
@@ -39,24 +39,23 @@ abstract class Order implements Built<Order, OrderBuilder> {
     static Serializer<Order> get serializer => _$orderSerializer;
 }
 
-class OrderStatus extends EnumClass {
+class OrderStatusEnum extends EnumClass {
 
   /// Order Status
   @BuiltValueEnumConst(wireName: r'placed')
-  static const OrderStatus placed = _$orderStatus_placed;
+  static const OrderStatusEnum placed = _$orderStatusEnum_placed;
   /// Order Status
   @BuiltValueEnumConst(wireName: r'approved')
-  static const OrderStatus approved = _$orderStatus_approved;
+  static const OrderStatusEnum approved = _$orderStatusEnum_approved;
   /// Order Status
   @BuiltValueEnumConst(wireName: r'delivered')
-  static const OrderStatus delivered = _$orderStatus_delivered;
+  static const OrderStatusEnum delivered = _$orderStatusEnum_delivered;
 
-  static Serializer<OrderStatus> get serializer => _$orderStatusSerializer;
+  static Serializer<OrderStatusEnum> get serializer => _$orderStatusEnumSerializer;
 
-  const OrderStatus._(String name): super(name);
+  const OrderStatusEnum._(String name): super(name);
 
-  static BuiltSet<OrderStatus> get values => _$orderStatusValues;
-  static OrderStatus valueOf(String name) => _$orderStatusValueOf(name);
+  static BuiltSet<OrderStatusEnum> get values => _$orderStatusEnumValues;
+  static OrderStatusEnum valueOf(String name) => _$orderStatusEnumValueOf(name);
 }
-
 

@@ -22,7 +22,7 @@ class MapTest {
   Map<String, Map<String, String>> mapMapOfString;
 
   
-  Map<String, dynamic> mapOfEnumString;
+  Map<String, MapTestInnerEnum> mapOfEnumString;
 
   
   Map<String, bool> directMap;
@@ -109,55 +109,55 @@ class MapTest {
 }
 
 
-class MapTestMapOfEnumStringEnum {
+class MapTestInnerEnum {
   /// Instantiate a new enum with the provided [value].
-  const MapTestMapOfEnumStringEnum._(this.value);
+  const MapTestInnerEnum._(this.value);
 
   /// The underlying value of this enum member.
-  final Map<String, String> value;
+  final String value;
 
   @override
   bool operator ==(Object other) => identical(this, other) ||
-      other is MapTestMapOfEnumStringEnum && other.value == value;
+      other is MapTestInnerEnum && other.value == value;
 
   @override
   int get hashCode => toString().hashCode;
 
   @override
-  String toString() => value.toString();
+  String toString() => value;
 
-  Map<String, String> toJson() => value;
+  String toJson() => value;
 
-  static const UPPER = MapTestMapOfEnumStringEnum._(r'UPPER');
-  static const lower = MapTestMapOfEnumStringEnum._(r'lower');
+  static const UPPER = MapTestInnerEnum._(r'UPPER');
+  static const lower = MapTestInnerEnum._(r'lower');
 
-  /// List of all possible values in this [enum][MapTestMapOfEnumStringEnum].
-  static const values = <MapTestMapOfEnumStringEnum>[
+  /// List of all possible values in this [enum][MapTestInnerEnum].
+  static const values = <MapTestInnerEnum>[
     UPPER,
     lower,
   ];
 
-  static MapTestMapOfEnumStringEnum fromJson(dynamic value) =>
-    MapTestMapOfEnumStringEnumTypeTransformer().decode(value);
+  static MapTestInnerEnum fromJson(dynamic value) =>
+    MapTestInnerEnumTypeTransformer().decode(value);
 
-  static List<MapTestMapOfEnumStringEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<MapTestInnerEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <MapTestMapOfEnumStringEnum>[]
+      ? true == emptyIsNull ? null : <MapTestInnerEnum>[]
       : json
-          .map((value) => MapTestMapOfEnumStringEnum.fromJson(value))
+          .map((value) => MapTestInnerEnum.fromJson(value))
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [MapTestMapOfEnumStringEnum] to Map<String, String>,
-/// and [decode] dynamic data back to [MapTestMapOfEnumStringEnum].
-class MapTestMapOfEnumStringEnumTypeTransformer {
-  const MapTestMapOfEnumStringEnumTypeTransformer._();
+/// Transformation class that can [encode] an instance of [MapTestInnerEnum] to String,
+/// and [decode] dynamic data back to [MapTestInnerEnum].
+class MapTestInnerEnumTypeTransformer {
+  const MapTestInnerEnumTypeTransformer._();
 
-  factory MapTestMapOfEnumStringEnumTypeTransformer() => _instance ??= MapTestMapOfEnumStringEnumTypeTransformer._();
+  factory MapTestInnerEnumTypeTransformer() => _instance ??= MapTestInnerEnumTypeTransformer._();
 
-  Map<String, String> encode(MapTestMapOfEnumStringEnum data) => data.value;
+  String encode(MapTestInnerEnum data) => data.value;
 
-  /// Decodes a [dynamic value][data] to a MapTestMapOfEnumStringEnum.
+  /// Decodes a [dynamic value][data] to a MapTestInnerEnum.
   ///
   /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
   /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
@@ -165,10 +165,10 @@ class MapTestMapOfEnumStringEnumTypeTransformer {
   ///
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
-  MapTestMapOfEnumStringEnum decode(dynamic data, {bool allowNull}) {
+  MapTestInnerEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'UPPER': return MapTestMapOfEnumStringEnum.UPPER;
-      case r'lower': return MapTestMapOfEnumStringEnum.lower;
+      case r'UPPER': return MapTestInnerEnum.UPPER;
+      case r'lower': return MapTestInnerEnum.lower;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
@@ -177,7 +177,7 @@ class MapTestMapOfEnumStringEnumTypeTransformer {
     return null;
   }
 
-  /// Singleton [MapTestMapOfEnumStringEnumTypeTransformer] instance.
-  static MapTestMapOfEnumStringEnumTypeTransformer _instance;
+  /// Singleton [MapTestInnerEnumTypeTransformer] instance.
+  static MapTestInnerEnumTypeTransformer _instance;
 }
 
