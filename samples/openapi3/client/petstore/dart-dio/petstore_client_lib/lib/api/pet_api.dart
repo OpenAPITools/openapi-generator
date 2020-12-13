@@ -323,10 +323,10 @@ class PetApi {
 
         List<String> contentTypes = ["application/x-www-form-urlencoded"];
 
-        Map<String, dynamic> formData = {};
-            formData[r'name'] = parameterToString(_serializers, name);
-            formData[r'status'] = parameterToString(_serializers, status);
-        bodyData = FormData.fromMap(formData);
+        final Map<String, dynamic> formData = {};
+        formData['name'] = parameterToString(_serializers, name);
+        formData['status'] = parameterToString(_serializers, status);
+        bodyData = formData;
 
 
             return _dio.request(
@@ -362,13 +362,13 @@ class PetApi {
 
         List<String> contentTypes = ["multipart/form-data"];
 
-        Map<String, dynamic> formData = {};
-                if (additionalMetadata != null) {
-                    formData[r'additionalMetadata'] = parameterToString(_serializers, additionalMetadata);
-                }
-                if (file != null) {
-                    formData[r'file'] = MultipartFile.fromBytes(file, filename: r'file');
-                }
+        final Map<String, dynamic> formData = {};
+        if (additionalMetadata != null) {
+            formData[r'additionalMetadata'] = parameterToString(_serializers, additionalMetadata);
+        }
+        if (file != null) {
+            formData[r'file'] = MultipartFile.fromBytes(file, filename: r'file');
+        }
         bodyData = FormData.fromMap(formData);
 
 

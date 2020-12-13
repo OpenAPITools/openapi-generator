@@ -40,25 +40,28 @@ class {{classname}} {
         List<String> contentTypes = [{{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}}];
 
         {{#hasFormParams}}
-        Map<String, dynamic> formData = {};
-        {{#formParams}}
+        final Map<String, dynamic> formData = {};
         {{#isMultipart}}
-            {{^isFile}}
-                if ({{paramName}} != null) {
-                    formData[r'{{baseName}}'] = parameterToString(_serializers, {{paramName}});
-                }
-            {{/isFile}}
-            {{#isFile}}
-                if ({{paramName}} != null) {
-                    formData[r'{{baseName}}'] = MultipartFile.fromBytes({{paramName}}, filename: r'{{baseName}}');
-                }
-            {{/isFile}}
-        {{/isMultipart}}
-        {{^isMultipart}}
+        {{#formParams}}
+        {{^isFile}}
+        if ({{paramName}} != null) {
             formData[r'{{baseName}}'] = parameterToString(_serializers, {{paramName}});
-        {{/isMultipart}}
+        }
+        {{/isFile}}
+        {{#isFile}}
+        if ({{paramName}} != null) {
+            formData[r'{{baseName}}'] = MultipartFile.fromBytes({{paramName}}, filename: r'{{baseName}}');
+        }
+        {{/isFile}}
         {{/formParams}}
         bodyData = FormData.fromMap(formData);
+        {{/isMultipart}}
+        {{^isMultipart}}
+        {{#formParams}}
+        formData['{{baseName}}'] = parameterToString(_serializers, {{paramName}});
+        {{/formParams}}
+        bodyData = formData;
+        {{/isMultipart}}
         {{/hasFormParams}}
 
         {{#bodyParam}}
