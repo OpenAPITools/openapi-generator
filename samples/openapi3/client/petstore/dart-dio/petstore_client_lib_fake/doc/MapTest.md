@@ -8,7 +8,7 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**mapMapOfString** | [**BuiltMap&lt;String, BuiltMap&lt;String, String&gt;&gt;**](Map.md) |  | [optional] [default to const {}]
+**mapMapOfString** | [**BuiltMap&lt;String, BuiltMap&lt;String, String&gt;&gt;**](BuiltMap.md) |  | [optional] [default to const {}]
 **mapOfEnumString** | **BuiltMap&lt;String, String&gt;** |  | [optional] [default to const {}]
 **directMap** | **BuiltMap&lt;String, bool&gt;** |  | [optional] [default to const {}]
 **indirectMap** | **BuiltMap&lt;String, bool&gt;** |  | [optional] [default to const {}]

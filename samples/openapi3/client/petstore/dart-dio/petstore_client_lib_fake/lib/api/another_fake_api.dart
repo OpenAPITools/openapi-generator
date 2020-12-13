@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 
 import 'package:openapi/model/client.dart';
@@ -30,8 +29,8 @@ class AnotherFakeApi {
         List<String> contentTypes = ["application/json"];
 
 
-            var serializedBody = _serializers.serialize(client);
-            var jsonclient = json.encode(serializedBody);
+            final serializedBody = _serializers.serialize(client);
+            final jsonclient = json.encode(serializedBody);
             bodyData = jsonclient;
 
             return _dio.request(

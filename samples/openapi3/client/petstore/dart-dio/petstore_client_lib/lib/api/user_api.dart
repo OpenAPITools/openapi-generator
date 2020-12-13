@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 
 import 'package:openapi/model/user.dart';
+import 'package:built_collection/built_collection.dart';
 
 class UserApi {
     final Dio _dio;
@@ -30,8 +30,8 @@ class UserApi {
         List<String> contentTypes = ["application/json"];
 
 
-            var serializedBody = _serializers.serialize(user);
-            var jsonuser = json.encode(serializedBody);
+            final serializedBody = _serializers.serialize(user);
+            final jsonuser = json.encode(serializedBody);
             bodyData = jsonuser;
 
             return _dio.request(
@@ -54,7 +54,7 @@ class UserApi {
         /// Creates list of users with given input array
         ///
         /// 
-        Future<Response>createUsersWithArrayInput(List<User> user,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
+        Future<Response>createUsersWithArrayInput(BuiltList<User> user,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/user/createWithArray";
 
@@ -68,9 +68,9 @@ class UserApi {
         List<String> contentTypes = ["application/json"];
 
 
-            final type = const FullType(BuiltList, const [const FullType(User)]);
-            var serializedBody = _serializers.serialize(BuiltList<User>.from(user), specifiedType: type);
-            var jsonuser = json.encode(serializedBody);
+            const type = FullType(BuiltList, [FullType(User)]);
+            final serializedBody = _serializers.serialize(user, specifiedType: type);
+            final jsonuser = json.encode(serializedBody);
             bodyData = jsonuser;
 
             return _dio.request(
@@ -93,7 +93,7 @@ class UserApi {
         /// Creates list of users with given input array
         ///
         /// 
-        Future<Response>createUsersWithListInput(List<User> user,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
+        Future<Response>createUsersWithListInput(BuiltList<User> user,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/user/createWithList";
 
@@ -107,9 +107,9 @@ class UserApi {
         List<String> contentTypes = ["application/json"];
 
 
-            final type = const FullType(BuiltList, const [const FullType(User)]);
-            var serializedBody = _serializers.serialize(BuiltList<User>.from(user), specifiedType: type);
-            var jsonuser = json.encode(serializedBody);
+            const type = FullType(BuiltList, [FullType(User)]);
+            final serializedBody = _serializers.serialize(user, specifiedType: type);
+            final jsonuser = json.encode(serializedBody);
             bodyData = jsonuser;
 
             return _dio.request(
@@ -250,7 +250,7 @@ class UserApi {
             onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
-            var data = response.data as String;
+            final data = response.data as String;
 
             return Response<String>(
                 data: data,
@@ -315,8 +315,8 @@ class UserApi {
         List<String> contentTypes = ["application/json"];
 
 
-            var serializedBody = _serializers.serialize(user);
-            var jsonuser = json.encode(serializedBody);
+            final serializedBody = _serializers.serialize(user);
+            final jsonuser = json.encode(serializedBody);
             bodyData = jsonuser;
 
             return _dio.request(

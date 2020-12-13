@@ -21,23 +21,17 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
@@ -106,9 +100,6 @@ public class DartClientCodegen extends DefaultCodegen {
                 )
         );
 
-        // clear import mapping (from default generator) as dart does not use it at the moment
-        importMapping.clear();
-
         outputFolder = "generated-code/dart";
         modelTemplateFiles.put("model.mustache", ".dart");
         apiTemplateFiles.put("api.mustache", ".dart");
@@ -174,8 +165,6 @@ public class DartClientCodegen extends DefaultCodegen {
 
         // These are needed as they prevent models from being generated
         // which would clash with existing types, e.g. List
-        // Importing dart:core doesn't hurt but a subclass may choose to skip
-        // dart:core imports.
         importMapping.put("dynamic", "dart:core");
         importMapping.put("Object", "dart:core");
         importMapping.put("String", "dart:core");
@@ -187,6 +176,8 @@ public class DartClientCodegen extends DefaultCodegen {
         importMapping.put("Map", "dart:core");
         importMapping.put("Set", "dart:core");
         importMapping.put("DateTime", "dart:core");
+
+        defaultIncludes = new HashSet<>(Collections.singletonList("dart:core"));
 
         cliOptions.add(new CliOption(PUB_LIBRARY, "Library name in generated code"));
         cliOptions.add(new CliOption(PUB_NAME, "Name in generated pubspec"));
@@ -474,32 +465,60 @@ public class DartClientCodegen extends DefaultCodegen {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            return instantiationTypes().get("array") + "<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
-            return instantiationTypes().get("map") + "<String, " + getTypeDeclaration(inner) + ">";
+        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
+        Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
+        if (ModelUtils.isArraySchema(target)) {
+            Schema<?> items = getSchemaItems((ArraySchema) schema);
+            return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
+        } else if (ModelUtils.isMapSchema(target)) {
+            // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
+            // additionalproperties: true
+            Schema<?> inner = getAdditionalProperties(target);
+            if (inner == null) {
+                LOGGER.error("`{}` (map property) does not have a proper inner type defined. Default to type:string", p.getName());
+                inner = new StringSchema().description("TODO default missing map inner type to string");
+                p.setAdditionalProperties(inner);
+            }
+            return getSchemaType(target) + "<String, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
     }
 
     @Override
     public String getSchemaType(Schema p) {
-        String type = super.getSchemaType(p);
-        if (typeMapping.containsKey(type)) {
-            return typeMapping.get(type);
+        String openAPIType = super.getSchemaType(p);
+        if (openAPIType == null) {
+            LOGGER.error("No Type defined for Schema " + p);
         }
-        if (languageSpecificPrimitives.contains(type)) {
-            return type;
+        if (typeMapping.containsKey(openAPIType)) {
+            return typeMapping.get(openAPIType);
         }
-        return toModelName(type);
+        if (languageSpecificPrimitives.contains(openAPIType)) {
+            return openAPIType;
+        }
+        return toModelName(openAPIType);
     }
 
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         return postProcessModelsEnum(objs);
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        final CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+        for (CodegenResponse r : op.responses) {
+            // By default only set types are automatically added to operation imports, not sure why.
+            // Add all container type imports here, by default 'dart:core' imports are skipped
+            // but other sub classes may required specific container type imports.
+            if (r.containerType != null && typeMapping().containsKey(r.containerType)) {
+                final String value = typeMapping().get(r.containerType);
+                if (needToImport(value)) {
+                    op.imports.add(value);
+                }
+            }
+        }
+        return op;
     }
 
     @Override

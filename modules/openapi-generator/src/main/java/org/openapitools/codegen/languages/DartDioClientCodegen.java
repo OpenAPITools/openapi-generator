@@ -37,7 +37,6 @@ import java.util.*;
 
 import io.swagger.v3.oas.models.media.Schema;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class DartDioClientCodegen extends DartClientCodegen {
@@ -67,9 +66,15 @@ public class DartDioClientCodegen extends DartClientCodegen {
         dateLibrary.setEnum(dateOptions);
         cliOptions.add(dateLibrary);
 
+        typeMapping.put("Array", "BuiltList");
+        typeMapping.put("array", "BuiltList");
+        typeMapping.put("List", "BuiltList");
+        typeMapping.put("set", "BuiltSet");
+        typeMapping.put("map", "BuiltMap");
         typeMapping.put("file", "Uint8List");
         typeMapping.put("binary", "Uint8List");
-        typeMapping.put("AnyType", "Object");
+        typeMapping.put("object", "JsonObject");
+        typeMapping.put("AnyType", "JsonObject");
 
         importMapping.put("BuiltList", "package:built_collection/built_collection.dart");
         importMapping.put("BuiltSet", "package:built_collection/built_collection.dart");
@@ -261,7 +266,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
             for (String modelImport : cm.imports) {
                 if (importMapping().containsKey(modelImport)) {
                     final String value = importMapping().get(modelImport);
-                    if (!Objects.equals(value, "dart:core")) {
+                    if (needToImport(value)) {
                         modelImports.add(value);
                     }
                 } else {
@@ -278,29 +283,9 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
         if (nullableFields) {
             property.isNullable = true;
-        }
-
-        property.setDatatype(property.getDataType()
-                .replaceAll("\\bList\\b", "BuiltList")
-                .replaceAll("\\bMap\\b", "BuiltMap")
-                .replaceAll("\\bObject\\b", "JsonObject")
-        );
-        property.setBaseType(property.getBaseType()
-                .replaceAll("\\bList\\b", "BuiltList")
-                .replaceAll("\\bMap\\b", "BuiltMap")
-                .replaceAll("\\bObject\\b", "JsonObject")
-        );
-
-        if (property.dataType.contains("BuiltList")) {
-            model.imports.add("BuiltList");
-        }
-        if (property.dataType.contains("BuiltMap")) {
-            model.imports.add("BuiltMap");
-        }
-        if (property.dataType.contains("JsonObject")) {
-            model.imports.add("JsonObject");
         }
 
         if (property.isEnum) {
@@ -354,7 +339,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
             for (String item : op.imports) {
                 if (importMapping().containsKey(item)) {
                     final String value = importMapping().get(item);
-                    if (!Objects.equals(value, "dart:core")) {
+                    if (needToImport(value)) {
                         fullImports.add(value);
                     }
                 } else {

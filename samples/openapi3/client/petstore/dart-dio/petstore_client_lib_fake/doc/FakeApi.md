@@ -492,13 +492,13 @@ To test enum parameters
 import 'package:openapi/api.dart';
 
 var api_instance = new FakeApi();
-var enumHeaderStringArray = []; // List<String> | Header parameter enum test (string array)
+var enumHeaderStringArray = []; // BuiltList<String> | Header parameter enum test (string array)
 var enumHeaderString = enumHeaderString_example; // String | Header parameter enum test (string)
-var enumQueryStringArray = []; // List<String> | Query parameter enum test (string array)
+var enumQueryStringArray = []; // BuiltList<String> | Query parameter enum test (string array)
 var enumQueryString = enumQueryString_example; // String | Query parameter enum test (string)
 var enumQueryInteger = 56; // int | Query parameter enum test (double)
 var enumQueryDouble = 1.2; // double | Query parameter enum test (double)
-var enumFormStringArray = [enumFormStringArray_example]; // List<String> | Form parameter enum test (string array)
+var enumFormStringArray = [enumFormStringArray_example]; // BuiltList<String> | Form parameter enum test (string array)
 var enumFormString = enumFormString_example; // String | Form parameter enum test (string)
 
 try { 
@@ -512,13 +512,13 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**List&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] [default to const []]
+ **enumHeaderStringArray** | [**BuiltList&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] [default to const []]
  **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enumQueryStringArray** | [**List&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] [default to const []]
+ **enumQueryStringArray** | [**BuiltList&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] [default to const []]
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enumQueryInteger** | **int**| Query parameter enum test (double) | [optional] [default to null]
  **enumQueryDouble** | **double**| Query parameter enum test (double) | [optional] [default to null]
- **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
+ **enumFormStringArray** | [**BuiltList&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
  **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
 
 ### Return type
@@ -601,7 +601,7 @@ test inline additionalProperties
 import 'package:openapi/api.dart';
 
 var api_instance = new FakeApi();
-var requestBody = new Map&lt;String, String&gt;(); // Map<String, String> | request body
+var requestBody = new BuiltMap&lt;String, String&gt;(); // BuiltMap<String, String> | request body
 
 try { 
     api_instance.testInlineAdditionalProperties(requestBody);
@@ -614,7 +614,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**Map&lt;String, String&gt;**](String.md)| request body | 
+ **requestBody** | [**BuiltMap&lt;String, String&gt;**](String.md)| request body | 
 
 ### Return type
 
@@ -685,11 +685,11 @@ To test the collection format in query parameters
 import 'package:openapi/api.dart';
 
 var api_instance = new FakeApi();
-var pipe = []; // List<String> | 
-var ioutil = []; // List<String> | 
-var http = []; // List<String> | 
-var url = []; // List<String> | 
-var context = []; // List<String> | 
+var pipe = []; // BuiltList<String> | 
+var ioutil = []; // BuiltList<String> | 
+var http = []; // BuiltList<String> | 
+var url = []; // BuiltList<String> | 
+var context = []; // BuiltList<String> | 
 
 try { 
     api_instance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
@@ -702,11 +702,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pipe** | [**List&lt;String&gt;**](String.md)|  | [default to const []]
- **ioutil** | [**List&lt;String&gt;**](String.md)|  | [default to const []]
- **http** | [**List&lt;String&gt;**](String.md)|  | [default to const []]
- **url** | [**List&lt;String&gt;**](String.md)|  | [default to const []]
- **context** | [**List&lt;String&gt;**](String.md)|  | [default to const []]
+ **pipe** | [**BuiltList&lt;String&gt;**](String.md)|  | [default to const []]
+ **ioutil** | [**BuiltList&lt;String&gt;**](String.md)|  | [default to const []]
+ **http** | [**BuiltList&lt;String&gt;**](String.md)|  | [default to const []]
+ **url** | [**BuiltList&lt;String&gt;**](String.md)|  | [default to const []]
+ **context** | [**BuiltList&lt;String&gt;**](String.md)|  | [default to const []]
 
 ### Return type
 

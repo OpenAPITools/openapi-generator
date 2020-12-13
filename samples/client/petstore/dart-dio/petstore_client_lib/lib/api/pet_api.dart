@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 
 import 'package:openapi/model/pet.dart';
 import 'package:openapi/model/api_response.dart';
 import 'dart:typed_data';
+import 'package:built_collection/built_collection.dart';
 import 'package:openapi/api_util.dart';
 
 class PetApi {
@@ -33,8 +33,8 @@ class PetApi {
         List<String> contentTypes = ["application/json","application/xml"];
 
 
-            var serializedBody = _serializers.serialize(body);
-            var jsonbody = json.encode(serializedBody);
+            final serializedBody = _serializers.serialize(body);
+            final jsonbody = json.encode(serializedBody);
             bodyData = jsonbody;
 
             return _dio.request(
@@ -93,7 +93,7 @@ class PetApi {
         /// Finds Pets by status
         ///
         /// Multiple status values can be provided with comma separated strings
-        Future<Response<List<Pet>>>findPetsByStatus(List<String> status,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
+        Future<Response<BuiltList<Pet>>>findPetsByStatus(BuiltList<String> status,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/pet/findByStatus";
 
@@ -126,11 +126,11 @@ class PetApi {
             onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
-            final FullType type = const FullType(BuiltList, const [const FullType(Pet)]);
-            final BuiltList<Pet> dataList = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
-            final data = dataList.toList();
+            const collectionType = BuiltList;
+            const type = FullType(collectionType, [FullType(Pet)]);
+            final BuiltList<Pet> data = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
 
-            return Response<List<Pet>>(
+            return Response<BuiltList<Pet>>(
                 data: data,
                 headers: response.headers,
                 request: response.request,
@@ -144,7 +144,7 @@ class PetApi {
         /// Finds Pets by tags
         ///
         /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-        Future<Response<List<Pet>>>findPetsByTags(List<String> tags,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
+        Future<Response<BuiltList<Pet>>>findPetsByTags(BuiltList<String> tags,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/pet/findByTags";
 
@@ -177,11 +177,11 @@ class PetApi {
             onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
-            final FullType type = const FullType(BuiltList, const [const FullType(Pet)]);
-            final BuiltList<Pet> dataList = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
-            final data = dataList.toList();
+            const collectionType = BuiltList;
+            const type = FullType(collectionType, [FullType(Pet)]);
+            final BuiltList<Pet> data = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
 
-            return Response<List<Pet>>(
+            return Response<BuiltList<Pet>>(
                 data: data,
                 headers: response.headers,
                 request: response.request,
@@ -258,8 +258,8 @@ class PetApi {
         List<String> contentTypes = ["application/json","application/xml"];
 
 
-            var serializedBody = _serializers.serialize(body);
-            var jsonbody = json.encode(serializedBody);
+            final serializedBody = _serializers.serialize(body);
+            final jsonbody = json.encode(serializedBody);
             bodyData = jsonbody;
 
             return _dio.request(

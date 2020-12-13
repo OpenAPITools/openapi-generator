@@ -19,14 +19,14 @@ void main() {
 
     // Creates list of users with given input array
     //
-    //Future createUsersWithArrayInput(List<User> user) async
+    //Future createUsersWithArrayInput(BuiltList<User> user) async
     test('test createUsersWithArrayInput', () async {
       // TODO
     });
 
     // Creates list of users with given input array
     //
-    //Future createUsersWithListInput(List<User> user) async
+    //Future createUsersWithListInput(BuiltList<User> user) async
     test('test createUsersWithListInput', () async {
       // TODO
     });

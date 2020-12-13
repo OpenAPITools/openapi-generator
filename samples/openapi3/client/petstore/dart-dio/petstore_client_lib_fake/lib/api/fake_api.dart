@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 
 import 'package:openapi/model/client.dart';
@@ -12,6 +11,7 @@ import 'package:openapi/model/user.dart';
 import 'package:openapi/model/health_check_result.dart';
 import 'package:openapi/model/pet.dart';
 import 'dart:typed_data';
+import 'package:built_collection/built_collection.dart';
 import 'package:openapi/api_util.dart';
 
 class FakeApi {
@@ -88,8 +88,8 @@ class FakeApi {
         List<String> contentTypes = ["application/json","application/xml"];
 
 
-            var serializedBody = _serializers.serialize(pet);
-            var jsonpet = json.encode(serializedBody);
+            final serializedBody = _serializers.serialize(pet);
+            final jsonpet = json.encode(serializedBody);
             bodyData = jsonpet;
 
             return _dio.request(
@@ -126,8 +126,8 @@ class FakeApi {
         List<String> contentTypes = ["application/json"];
 
 
-            var serializedBody = _serializers.serialize(body);
-            var jsonbody = json.encode(serializedBody);
+            final serializedBody = _serializers.serialize(body);
+            final jsonbody = json.encode(serializedBody);
             bodyData = jsonbody;
 
             return _dio.request(
@@ -147,7 +147,7 @@ class FakeApi {
             onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
-            var data = response.data as bool;
+            final data = response.data as bool;
 
             return Response<bool>(
                 data: data,
@@ -177,8 +177,8 @@ class FakeApi {
         List<String> contentTypes = ["application/json"];
 
 
-            var serializedBody = _serializers.serialize(outerComposite);
-            var jsonouterComposite = json.encode(serializedBody);
+            final serializedBody = _serializers.serialize(outerComposite);
+            final jsonouterComposite = json.encode(serializedBody);
             bodyData = jsonouterComposite;
 
             return _dio.request(
@@ -229,8 +229,8 @@ class FakeApi {
         List<String> contentTypes = ["application/json"];
 
 
-            var serializedBody = _serializers.serialize(body);
-            var jsonbody = json.encode(serializedBody);
+            final serializedBody = _serializers.serialize(body);
+            final jsonbody = json.encode(serializedBody);
             bodyData = jsonbody;
 
             return _dio.request(
@@ -250,7 +250,7 @@ class FakeApi {
             onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
-            var data = response.data as num;
+            final data = response.data as num;
 
             return Response<num>(
                 data: data,
@@ -280,8 +280,8 @@ class FakeApi {
         List<String> contentTypes = ["application/json"];
 
 
-            var serializedBody = _serializers.serialize(body);
-            var jsonbody = json.encode(serializedBody);
+            final serializedBody = _serializers.serialize(body);
+            final jsonbody = json.encode(serializedBody);
             bodyData = jsonbody;
 
             return _dio.request(
@@ -301,7 +301,7 @@ class FakeApi {
             onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
-            var data = response.data as String;
+            final data = response.data as String;
 
             return Response<String>(
                 data: data,
@@ -331,8 +331,8 @@ class FakeApi {
         List<String> contentTypes = ["application/json"];
 
 
-            var serializedBody = _serializers.serialize(fileSchemaTestClass);
-            var jsonfileSchemaTestClass = json.encode(serializedBody);
+            final serializedBody = _serializers.serialize(fileSchemaTestClass);
+            final jsonfileSchemaTestClass = json.encode(serializedBody);
             bodyData = jsonfileSchemaTestClass;
 
             return _dio.request(
@@ -370,8 +370,8 @@ class FakeApi {
         List<String> contentTypes = ["application/json"];
 
 
-            var serializedBody = _serializers.serialize(user);
-            var jsonuser = json.encode(serializedBody);
+            final serializedBody = _serializers.serialize(user);
+            final jsonuser = json.encode(serializedBody);
             bodyData = jsonuser;
 
             return _dio.request(
@@ -408,8 +408,8 @@ class FakeApi {
         List<String> contentTypes = ["application/json"];
 
 
-            var serializedBody = _serializers.serialize(client);
-            var jsonclient = json.encode(serializedBody);
+            final serializedBody = _serializers.serialize(client);
+            final jsonclient = json.encode(serializedBody);
             bodyData = jsonclient;
 
             return _dio.request(
@@ -497,7 +497,7 @@ class FakeApi {
         /// To test enum parameters
         ///
         /// To test enum parameters
-        Future<Response>testEnumParameters({ List<String> enumHeaderStringArray,String enumHeaderString,List<String> enumQueryStringArray,String enumQueryString,int enumQueryInteger,double enumQueryDouble,List<String> enumFormStringArray,String enumFormString,CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
+        Future<Response>testEnumParameters({ BuiltList<String> enumHeaderStringArray,String enumHeaderString,BuiltList<String> enumQueryStringArray,String enumQueryString,int enumQueryInteger,double enumQueryDouble,BuiltList<String> enumFormStringArray,String enumFormString,CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/fake";
 
@@ -583,7 +583,7 @@ class FakeApi {
         /// test inline additionalProperties
         ///
         /// 
-        Future<Response>testInlineAdditionalProperties(Map<String, String> requestBody,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
+        Future<Response>testInlineAdditionalProperties(BuiltMap<String, String> requestBody,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/fake/inline-additionalProperties";
 
@@ -597,8 +597,8 @@ class FakeApi {
         List<String> contentTypes = ["application/json"];
 
 
-            var serializedBody = _serializers.serialize(requestBody);
-            var jsonrequestBody = json.encode(serializedBody);
+            final serializedBody = _serializers.serialize(requestBody);
+            final jsonrequestBody = json.encode(serializedBody);
             bodyData = jsonrequestBody;
 
             return _dio.request(
@@ -660,7 +660,7 @@ class FakeApi {
         /// 
         ///
         /// To test the collection format in query parameters
-        Future<Response>testQueryParameterCollectionFormat(List<String> pipe,List<String> ioutil,List<String> http,List<String> url,List<String> context,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
+        Future<Response>testQueryParameterCollectionFormat(BuiltList<String> pipe,BuiltList<String> ioutil,BuiltList<String> http,BuiltList<String> url,BuiltList<String> context,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/fake/test-query-paramters";
 
