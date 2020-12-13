@@ -114,12 +114,11 @@ class MapTestMapOfEnumStringEnum {
   const MapTestMapOfEnumStringEnum._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final Map<String, String> value;
 
   @override
   bool operator ==(Object other) => identical(this, other) ||
-      other is MapTestMapOfEnumStringEnum && other.value == value ||
-      other is String && other == value;
+      other is MapTestMapOfEnumStringEnum && other.value == value;
 
   @override
   int get hashCode => toString().hashCode;
@@ -127,10 +126,10 @@ class MapTestMapOfEnumStringEnum {
   @override
   String toString() => value.toString();
 
-  String toJson() => value;
+  Map<String, String> toJson() => value;
 
-  static const UPPER = MapTestMapOfEnumStringEnum._('UPPER');
-  static const lower = MapTestMapOfEnumStringEnum._('lower');
+  static const UPPER = MapTestMapOfEnumStringEnum._(r'UPPER');
+  static const lower = MapTestMapOfEnumStringEnum._(r'lower');
 
   /// List of all possible values in this [enum][MapTestMapOfEnumStringEnum].
   static const values = <MapTestMapOfEnumStringEnum>[
@@ -156,7 +155,7 @@ class MapTestMapOfEnumStringEnumTypeTransformer {
 
   factory MapTestMapOfEnumStringEnumTypeTransformer() => _instance ??= MapTestMapOfEnumStringEnumTypeTransformer._();
 
-  String encode(MapTestMapOfEnumStringEnum data) => data.value;
+  Map<String, String> encode(MapTestMapOfEnumStringEnum data) => data.value;
 
   /// Decodes a [dynamic value][data] to a MapTestMapOfEnumStringEnum.
   ///
@@ -168,8 +167,8 @@ class MapTestMapOfEnumStringEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   MapTestMapOfEnumStringEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case 'UPPER': return MapTestMapOfEnumStringEnum.UPPER;
-      case 'lower': return MapTestMapOfEnumStringEnum.lower;
+      case r'UPPER': return MapTestMapOfEnumStringEnum.UPPER;
+      case r'lower': return MapTestMapOfEnumStringEnum.lower;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

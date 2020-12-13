@@ -42,13 +42,13 @@ abstract class Order implements Built<Order, OrderBuilder> {
 class OrderStatus extends EnumClass {
 
   /// Order Status
-  @BuiltValueEnumConst(wireName: 'placed')
+  @BuiltValueEnumConst(wireName: r'placed')
   static const OrderStatus placed = _$orderStatus_placed;
   /// Order Status
-  @BuiltValueEnumConst(wireName: 'approved')
+  @BuiltValueEnumConst(wireName: r'approved')
   static const OrderStatus approved = _$orderStatus_approved;
   /// Order Status
-  @BuiltValueEnumConst(wireName: 'delivered')
+  @BuiltValueEnumConst(wireName: r'delivered')
   static const OrderStatus delivered = _$orderStatus_delivered;
 
   static Serializer<OrderStatus> get serializer => _$orderStatusSerializer;

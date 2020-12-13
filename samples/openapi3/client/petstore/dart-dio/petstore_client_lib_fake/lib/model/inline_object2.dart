@@ -27,10 +27,10 @@ abstract class InlineObject2 implements Built<InlineObject2, InlineObject2Builde
 class InlineObject2EnumFormStringArray extends EnumClass {
 
   /// Form parameter enum test (string array)
-  @BuiltValueEnumConst(wireName: '>')
+  @BuiltValueEnumConst(wireName: r'>')
   static const InlineObject2EnumFormStringArray greaterThan = _$inlineObject2EnumFormStringArray_greaterThan;
   /// Form parameter enum test (string array)
-  @BuiltValueEnumConst(wireName: '$')
+  @BuiltValueEnumConst(wireName: r'\$')
   static const InlineObject2EnumFormStringArray dollar = _$inlineObject2EnumFormStringArray_dollar;
 
   static Serializer<InlineObject2EnumFormStringArray> get serializer => _$inlineObject2EnumFormStringArraySerializer;
@@ -45,13 +45,13 @@ class InlineObject2EnumFormStringArray extends EnumClass {
 class InlineObject2EnumFormString extends EnumClass {
 
   /// Form parameter enum test (string)
-  @BuiltValueEnumConst(wireName: '_abc')
+  @BuiltValueEnumConst(wireName: r'_abc')
   static const InlineObject2EnumFormString abc = _$inlineObject2EnumFormString_abc;
   /// Form parameter enum test (string)
-  @BuiltValueEnumConst(wireName: '-efg')
+  @BuiltValueEnumConst(wireName: r'-efg')
   static const InlineObject2EnumFormString efg = _$inlineObject2EnumFormString_efg;
   /// Form parameter enum test (string)
-  @BuiltValueEnumConst(wireName: '(xyz)')
+  @BuiltValueEnumConst(wireName: r'(xyz)')
   static const InlineObject2EnumFormString leftParenthesisXyzRightParenthesis = _$inlineObject2EnumFormString_leftParenthesisXyzRightParenthesis;
 
   static Serializer<InlineObject2EnumFormString> get serializer => _$inlineObject2EnumFormStringSerializer;

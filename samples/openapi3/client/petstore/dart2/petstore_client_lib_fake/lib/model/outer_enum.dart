@@ -19,8 +19,7 @@ class OuterEnum {
 
   @override
   bool operator ==(Object other) => identical(this, other) ||
-      other is OuterEnum && other.value == value ||
-      other is String && other == value;
+      other is OuterEnum && other.value == value;
 
   @override
   int get hashCode => toString().hashCode;
@@ -30,9 +29,9 @@ class OuterEnum {
 
   String toJson() => value;
 
-  static const placed = OuterEnum._('placed');
-  static const approved = OuterEnum._('approved');
-  static const delivered = OuterEnum._('delivered');
+  static const placed = OuterEnum._(r'placed');
+  static const approved = OuterEnum._(r'approved');
+  static const delivered = OuterEnum._(r'delivered');
 
   /// List of all possible values in this [enum][OuterEnum].
   static const values = <OuterEnum>[
@@ -71,9 +70,9 @@ class OuterEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   OuterEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case 'placed': return OuterEnum.placed;
-      case 'approved': return OuterEnum.approved;
-      case 'delivered': return OuterEnum.delivered;
+      case r'placed': return OuterEnum.placed;
+      case r'approved': return OuterEnum.approved;
+      case r'delivered': return OuterEnum.delivered;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

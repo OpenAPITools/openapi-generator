@@ -86,12 +86,11 @@ class InlineObject2EnumFormStringArrayEnum {
   const InlineObject2EnumFormStringArrayEnum._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final List<String> value;
 
   @override
   bool operator ==(Object other) => identical(this, other) ||
-      other is InlineObject2EnumFormStringArrayEnum && other.value == value ||
-      other is String && other == value;
+      other is InlineObject2EnumFormStringArrayEnum && other.value == value;
 
   @override
   int get hashCode => toString().hashCode;
@@ -99,10 +98,10 @@ class InlineObject2EnumFormStringArrayEnum {
   @override
   String toString() => value.toString();
 
-  String toJson() => value;
+  List<String> toJson() => value;
 
-  static const greaterThan = InlineObject2EnumFormStringArrayEnum._('>');
-  static const dollar = InlineObject2EnumFormStringArrayEnum._('$');
+  static const greaterThan = InlineObject2EnumFormStringArrayEnum._(r'>');
+  static const dollar = InlineObject2EnumFormStringArrayEnum._(r'$');
 
   /// List of all possible values in this [enum][InlineObject2EnumFormStringArrayEnum].
   static const values = <InlineObject2EnumFormStringArrayEnum>[
@@ -128,7 +127,7 @@ class InlineObject2EnumFormStringArrayEnumTypeTransformer {
 
   factory InlineObject2EnumFormStringArrayEnumTypeTransformer() => _instance ??= InlineObject2EnumFormStringArrayEnumTypeTransformer._();
 
-  String encode(InlineObject2EnumFormStringArrayEnum data) => data.value;
+  List<String> encode(InlineObject2EnumFormStringArrayEnum data) => data.value;
 
   /// Decodes a [dynamic value][data] to a InlineObject2EnumFormStringArrayEnum.
   ///
@@ -140,8 +139,8 @@ class InlineObject2EnumFormStringArrayEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   InlineObject2EnumFormStringArrayEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case '>': return InlineObject2EnumFormStringArrayEnum.greaterThan;
-      case '$': return InlineObject2EnumFormStringArrayEnum.dollar;
+      case r'>': return InlineObject2EnumFormStringArrayEnum.greaterThan;
+      case r'$': return InlineObject2EnumFormStringArrayEnum.dollar;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
@@ -164,8 +163,7 @@ class InlineObject2EnumFormStringEnum {
 
   @override
   bool operator ==(Object other) => identical(this, other) ||
-      other is InlineObject2EnumFormStringEnum && other.value == value ||
-      other is String && other == value;
+      other is InlineObject2EnumFormStringEnum && other.value == value;
 
   @override
   int get hashCode => toString().hashCode;
@@ -175,9 +173,9 @@ class InlineObject2EnumFormStringEnum {
 
   String toJson() => value;
 
-  static const abc = InlineObject2EnumFormStringEnum._('_abc');
-  static const efg = InlineObject2EnumFormStringEnum._('-efg');
-  static const leftParenthesisXyzRightParenthesis = InlineObject2EnumFormStringEnum._('(xyz)');
+  static const abc = InlineObject2EnumFormStringEnum._(r'_abc');
+  static const efg = InlineObject2EnumFormStringEnum._(r'-efg');
+  static const leftParenthesisXyzRightParenthesis = InlineObject2EnumFormStringEnum._(r'(xyz)');
 
   /// List of all possible values in this [enum][InlineObject2EnumFormStringEnum].
   static const values = <InlineObject2EnumFormStringEnum>[
@@ -216,9 +214,9 @@ class InlineObject2EnumFormStringEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   InlineObject2EnumFormStringEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case '_abc': return InlineObject2EnumFormStringEnum.abc;
-      case '-efg': return InlineObject2EnumFormStringEnum.efg;
-      case '(xyz)': return InlineObject2EnumFormStringEnum.leftParenthesisXyzRightParenthesis;
+      case r'_abc': return InlineObject2EnumFormStringEnum.abc;
+      case r'-efg': return InlineObject2EnumFormStringEnum.efg;
+      case r'(xyz)': return InlineObject2EnumFormStringEnum.leftParenthesisXyzRightParenthesis;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
