@@ -1093,7 +1093,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
-<<<<<<< HEAD
   /fake/http-signature-test:
     get:
       tags:
