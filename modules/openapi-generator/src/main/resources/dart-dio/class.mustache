@@ -11,7 +11,7 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
     @nullable
     {{/isNullable}}
     @BuiltValueField(wireName: r'{{baseName}}')
-    {{#isEnum}}{{classname}}{{{nameInCamelCase}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}} get {{name}};
+    {{{datatypeWithEnum}}} get {{name}};
     {{#allowableValues}}
     {{#min}}// range from {{min}} to {{max}}{{/min}}//{{^min}} enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}
     {{/allowableValues}}
@@ -31,8 +31,15 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
 }}
 {{#vars}}
     {{#isEnum}}
+        {{^isContainer}}
 
 {{>enum_inline}}
+        {{/isContainer}}
+        {{#isContainer}}
+            {{#mostInnerItems}}
 
+{{>enum_inline}}
+            {{/mostInnerItems}}
+        {{/isContainer}}
     {{/isEnum}}
 {{/vars}}

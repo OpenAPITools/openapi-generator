@@ -15,23 +15,8 @@ class {{{classname}}} {
     {{#maximum}}
   // maximum: {{{maximum}}}
     {{/maximum}}
-  {{{dataType}}} {{{name}}};
   {{/isEnum}}
-  {{#isEnum}}
-    {{#isContainer}}
-      {{#isArray}}
-  List<{{{classname}}}{{{enumName}}}> {{{name}}};
-      {{/isArray}}
-      {{#isMap}}
-  Map<String, dynamic> {{{name}}};
-      {{/isMap}}
-    {{/isContainer}}
-    {{^isContainer}}
-      {{#allowableValues}}
-  {{{classname}}}{{{enumName}}} {{{name}}}{{#required}}{{#defaultValue}} = {{{classname}}}{{{enumName}}}._({{{defaultValue}}}){{/defaultValue}}{{/required}};
-      {{/allowableValues}}
-    {{/isContainer}}
-  {{/isEnum}}
+  {{{datatypeWithEnum}}} {{{name}}};
 
   {{/vars}}
   @override
@@ -225,8 +210,16 @@ class {{{classname}}} {
   }
 }
 {{#vars}}
-{{#isEnum}}
+    {{#isEnum}}
+        {{^isContainer}}
 
 {{>enum_inline}}
-{{/isEnum}}
+        {{/isContainer}}
+        {{#isContainer}}
+            {{#mostInnerItems}}
+
+{{>enum_inline}}
+            {{/mostInnerItems}}
+        {{/isContainer}}
+    {{/isEnum}}
 {{/vars}}

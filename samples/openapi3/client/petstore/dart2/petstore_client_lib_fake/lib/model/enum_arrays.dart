@@ -159,7 +159,7 @@ class EnumArraysArrayEnumEnum {
   const EnumArraysArrayEnumEnum._(this.value);
 
   /// The underlying value of this enum member.
-  final List<String> value;
+  final String value;
 
   @override
   bool operator ==(Object other) => identical(this, other) ||
@@ -169,9 +169,9 @@ class EnumArraysArrayEnumEnum {
   int get hashCode => toString().hashCode;
 
   @override
-  String toString() => value.toString();
+  String toString() => value;
 
-  List<String> toJson() => value;
+  String toJson() => value;
 
   static const fish = EnumArraysArrayEnumEnum._(r'fish');
   static const crab = EnumArraysArrayEnumEnum._(r'crab');
@@ -193,14 +193,14 @@ class EnumArraysArrayEnumEnum {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [EnumArraysArrayEnumEnum] to List<String>,
+/// Transformation class that can [encode] an instance of [EnumArraysArrayEnumEnum] to String,
 /// and [decode] dynamic data back to [EnumArraysArrayEnumEnum].
 class EnumArraysArrayEnumEnumTypeTransformer {
   const EnumArraysArrayEnumEnumTypeTransformer._();
 
   factory EnumArraysArrayEnumEnumTypeTransformer() => _instance ??= EnumArraysArrayEnumEnumTypeTransformer._();
 
-  List<String> encode(EnumArraysArrayEnumEnum data) => data.value;
+  String encode(EnumArraysArrayEnumEnum data) => data.value;
 
   /// Decodes a [dynamic value][data] to a EnumArraysArrayEnumEnum.
   ///

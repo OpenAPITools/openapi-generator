@@ -80,13 +80,13 @@ class InlineObject2 {
   }
 }
 
-/// Form parameter enum test (string array)
+
 class InlineObject2EnumFormStringArrayEnum {
   /// Instantiate a new enum with the provided [value].
   const InlineObject2EnumFormStringArrayEnum._(this.value);
 
   /// The underlying value of this enum member.
-  final List<String> value;
+  final String value;
 
   @override
   bool operator ==(Object other) => identical(this, other) ||
@@ -96,9 +96,9 @@ class InlineObject2EnumFormStringArrayEnum {
   int get hashCode => toString().hashCode;
 
   @override
-  String toString() => value.toString();
+  String toString() => value;
 
-  List<String> toJson() => value;
+  String toJson() => value;
 
   static const greaterThan = InlineObject2EnumFormStringArrayEnum._(r'>');
   static const dollar = InlineObject2EnumFormStringArrayEnum._(r'$');
@@ -120,14 +120,14 @@ class InlineObject2EnumFormStringArrayEnum {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [InlineObject2EnumFormStringArrayEnum] to List<String>,
+/// Transformation class that can [encode] an instance of [InlineObject2EnumFormStringArrayEnum] to String,
 /// and [decode] dynamic data back to [InlineObject2EnumFormStringArrayEnum].
 class InlineObject2EnumFormStringArrayEnumTypeTransformer {
   const InlineObject2EnumFormStringArrayEnumTypeTransformer._();
 
   factory InlineObject2EnumFormStringArrayEnumTypeTransformer() => _instance ??= InlineObject2EnumFormStringArrayEnumTypeTransformer._();
 
-  List<String> encode(InlineObject2EnumFormStringArrayEnum data) => data.value;
+  String encode(InlineObject2EnumFormStringArrayEnum data) => data.value;
 
   /// Decodes a [dynamic value][data] to a InlineObject2EnumFormStringArrayEnum.
   ///

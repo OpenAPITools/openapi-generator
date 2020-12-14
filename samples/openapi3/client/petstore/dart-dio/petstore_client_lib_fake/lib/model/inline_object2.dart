@@ -9,12 +9,12 @@ abstract class InlineObject2 implements Built<InlineObject2, InlineObject2Builde
     /* Form parameter enum test (string array) */
     @nullable
     @BuiltValueField(wireName: r'enum_form_string_array')
-    InlineObject2EnumFormStringArray get enumFormStringArray;
+    BuiltList<InlineObject2EnumFormStringArrayEnum> get enumFormStringArray;
     // enum enumFormStringArrayEnum {  &gt;,  $,  };
     /* Form parameter enum test (string) */
     @nullable
     @BuiltValueField(wireName: r'enum_form_string')
-    InlineObject2EnumFormString get enumFormString;
+    InlineObject2EnumFormStringEnum get enumFormString;
     // enum enumFormStringEnum {  _abc,  -efg,  (xyz),  };
 
     // Boilerplate code needed to wire-up generated code
@@ -24,42 +24,38 @@ abstract class InlineObject2 implements Built<InlineObject2, InlineObject2Builde
     static Serializer<InlineObject2> get serializer => _$inlineObject2Serializer;
 }
 
-class InlineObject2EnumFormStringArray extends EnumClass {
+class InlineObject2EnumFormStringArrayEnum extends EnumClass {
 
-  /// Form parameter enum test (string array)
   @BuiltValueEnumConst(wireName: r'>')
-  static const InlineObject2EnumFormStringArray greaterThan = _$inlineObject2EnumFormStringArray_greaterThan;
-  /// Form parameter enum test (string array)
+  static const InlineObject2EnumFormStringArrayEnum greaterThan = _$inlineObject2EnumFormStringArrayEnum_greaterThan;
   @BuiltValueEnumConst(wireName: r'\$')
-  static const InlineObject2EnumFormStringArray dollar = _$inlineObject2EnumFormStringArray_dollar;
+  static const InlineObject2EnumFormStringArrayEnum dollar = _$inlineObject2EnumFormStringArrayEnum_dollar;
 
-  static Serializer<InlineObject2EnumFormStringArray> get serializer => _$inlineObject2EnumFormStringArraySerializer;
+  static Serializer<InlineObject2EnumFormStringArrayEnum> get serializer => _$inlineObject2EnumFormStringArrayEnumSerializer;
 
-  const InlineObject2EnumFormStringArray._(String name): super(name);
+  const InlineObject2EnumFormStringArrayEnum._(String name): super(name);
 
-  static BuiltSet<InlineObject2EnumFormStringArray> get values => _$inlineObject2EnumFormStringArrayValues;
-  static InlineObject2EnumFormStringArray valueOf(String name) => _$inlineObject2EnumFormStringArrayValueOf(name);
+  static BuiltSet<InlineObject2EnumFormStringArrayEnum> get values => _$inlineObject2EnumFormStringArrayEnumValues;
+  static InlineObject2EnumFormStringArrayEnum valueOf(String name) => _$inlineObject2EnumFormStringArrayEnumValueOf(name);
 }
 
-
-class InlineObject2EnumFormString extends EnumClass {
+class InlineObject2EnumFormStringEnum extends EnumClass {
 
   /// Form parameter enum test (string)
   @BuiltValueEnumConst(wireName: r'_abc')
-  static const InlineObject2EnumFormString abc = _$inlineObject2EnumFormString_abc;
+  static const InlineObject2EnumFormStringEnum abc = _$inlineObject2EnumFormStringEnum_abc;
   /// Form parameter enum test (string)
   @BuiltValueEnumConst(wireName: r'-efg')
-  static const InlineObject2EnumFormString efg = _$inlineObject2EnumFormString_efg;
+  static const InlineObject2EnumFormStringEnum efg = _$inlineObject2EnumFormStringEnum_efg;
   /// Form parameter enum test (string)
   @BuiltValueEnumConst(wireName: r'(xyz)')
-  static const InlineObject2EnumFormString leftParenthesisXyzRightParenthesis = _$inlineObject2EnumFormString_leftParenthesisXyzRightParenthesis;
+  static const InlineObject2EnumFormStringEnum leftParenthesisXyzRightParenthesis = _$inlineObject2EnumFormStringEnum_leftParenthesisXyzRightParenthesis;
 
-  static Serializer<InlineObject2EnumFormString> get serializer => _$inlineObject2EnumFormStringSerializer;
+  static Serializer<InlineObject2EnumFormStringEnum> get serializer => _$inlineObject2EnumFormStringEnumSerializer;
 
-  const InlineObject2EnumFormString._(String name): super(name);
+  const InlineObject2EnumFormStringEnum._(String name): super(name);
 
-  static BuiltSet<InlineObject2EnumFormString> get values => _$inlineObject2EnumFormStringValues;
-  static InlineObject2EnumFormString valueOf(String name) => _$inlineObject2EnumFormStringValueOf(name);
+  static BuiltSet<InlineObject2EnumFormStringEnum> get values => _$inlineObject2EnumFormStringEnumValues;
+  static InlineObject2EnumFormStringEnum valueOf(String name) => _$inlineObject2EnumFormStringEnumValueOf(name);
 }
-
 

@@ -505,6 +505,25 @@ public class DartClientCodegen extends DefaultCodegen {
     }
 
     @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+        if (!model.isEnum && property.isEnum) {
+            // These are inner enums, enums which do not exist as models, just as properties.
+            // They are handled via the enum_inline template and and are generated in the
+            // same file as the containing class. To prevent name clashes the inline enum classes
+            // are prefix with the classname of the containing class in the template.
+            // Here the datatypeWithEnum template variable gets updated to match that scheme.
+            // Also taking into account potential collection types e.g. List<JustSymbolEnum> -> List<EnumArraysJustSymbolEnum>
+            if (property.items != null) {
+                // basically inner items e.g. map of maps etc.
+                property.setDatatypeWithEnum(property.datatypeWithEnum.replace(property.items.datatypeWithEnum, model.classname + property.items.datatypeWithEnum));
+            } else {
+                property.setDatatypeWithEnum(property.datatypeWithEnum.replace(property.enumName, model.classname + property.enumName));
+            }
+        }
+    }
+
+    @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         final CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         for (CodegenResponse r : op.responses) {

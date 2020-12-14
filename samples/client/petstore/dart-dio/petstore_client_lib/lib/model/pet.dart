@@ -31,7 +31,7 @@ abstract class Pet implements Built<Pet, PetBuilder> {
     /* pet status in the store */
     @nullable
     @BuiltValueField(wireName: r'status')
-    PetStatus get status;
+    PetStatusEnum get status;
     // enum statusEnum {  available,  pending,  sold,  };
 
     // Boilerplate code needed to wire-up generated code
@@ -41,24 +41,23 @@ abstract class Pet implements Built<Pet, PetBuilder> {
     static Serializer<Pet> get serializer => _$petSerializer;
 }
 
-class PetStatus extends EnumClass {
+class PetStatusEnum extends EnumClass {
 
   /// pet status in the store
   @BuiltValueEnumConst(wireName: r'available')
-  static const PetStatus available = _$petStatus_available;
+  static const PetStatusEnum available = _$petStatusEnum_available;
   /// pet status in the store
   @BuiltValueEnumConst(wireName: r'pending')
-  static const PetStatus pending = _$petStatus_pending;
+  static const PetStatusEnum pending = _$petStatusEnum_pending;
   /// pet status in the store
   @BuiltValueEnumConst(wireName: r'sold')
-  static const PetStatus sold = _$petStatus_sold;
+  static const PetStatusEnum sold = _$petStatusEnum_sold;
 
-  static Serializer<PetStatus> get serializer => _$petStatusSerializer;
+  static Serializer<PetStatusEnum> get serializer => _$petStatusEnumSerializer;
 
-  const PetStatus._(String name): super(name);
+  const PetStatusEnum._(String name): super(name);
 
-  static BuiltSet<PetStatus> get values => _$petStatusValues;
-  static PetStatus valueOf(String name) => _$petStatusValueOf(name);
+  static BuiltSet<PetStatusEnum> get values => _$petStatusEnumValues;
+  static PetStatusEnum valueOf(String name) => _$petStatusEnumValueOf(name);
 }
-
 
