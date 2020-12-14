@@ -17,8 +17,10 @@ HEADERS += \
     $${PWD}/PFXHttpRequest.h \
     $${PWD}/PFXObject.h \
     $${PWD}/PFXEnum.h \
-    $${PWD}/PFXHttpFileElement.h
-
+    $${PWD}/PFXHttpFileElement.h \
+    $${PWD}/ServerConfiguration.h \
+    $${PWD}/ServerVariable.h 
+    
 SOURCES += \
 # Models
     $${PWD}/PFXApiResponse.cpp \

@@ -27,57 +27,34 @@ namespace {{this}} {
 void {{classname}}::initializeServerConfigs(){
 
 //Default server
+QList<ServerConfiguration> defaultConf = QList<ServerConfiguration>();
+//varying endpoint server 
+QList<ServerConfiguration> serverConf = QList<ServerConfiguration>();
 {{#globalServerList}}
-{{#-first}}QList<ServerConfiguration> defaultConf = QList<ServerConfiguration>{ServerConfiguration(
-      "{{{url}}}",
-      "{{{description}}}{{^description}}No description provided{{/description}}",
-      QMap<QString, ServerVariable>{{#variables}}{{#-first}} { {{/-first}}
-          {"{{{name}}}", ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
-          QSet<QString>{ {{#enumValues}}{"{{{.}}}"}{{#-last}} })}, {{/-last}}{{^-last}},{{/-last}}{{/enumValues}}{{^enumValues}}{"{{defaultValue}}"} })}, {{/enumValues}}
-{{#-last}}  }{{/-last}}{{/variables}}),{{/-first}}{{^-first}}
-ServerConfiguration(
-      "{{{url}}}",
-      "{{{description}}}{{^description}}No description provided{{/description}}",
-      QMap<QString, ServerVariable>{{#variables}}{{#-first}} { {{/-first}}
-          {"{{{name}}}", ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
-          QSet<QString>{ {{#enumValues}}{"{{{.}}}"}{{#-last}} })}, {{/-last}}{{^-last}},{{/-last}}{{/enumValues}}{{^enumValues}}{"{{defaultValue}}"} })}, {{/enumValues}}
-{{#-last}} })});{{/-last}}
-{{^-last}} 
-  }),
-{{/-last}}
-{{/variables}}
-{{/-first}}
+defaultConf.append(ServerConfiguration(
+    "{{{url}}}",
+    "{{{description}}}{{^description}}No description provided{{/description}}",
+    {{#variables}}{{#-first}}QMap<QString, ServerVariable>{ {{/-first}}
+    {"{{{name}}}", ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
+    QSet<QString>{ {{#enumValues}}{"{{{.}}}"}{{#-last}} })},{{/-last}}{{^-last}},{{/-last}}{{/enumValues}}{{^enumValues}}{"{{defaultValue}}"} })},{{/enumValues}}{{#-last}} }));{{/-last}}
+    {{/variables}}{{^variables}}QMap<QString, ServerVariable>()));{{/variables}}
 {{/globalServerList}}
-
 {{#operations}}
   {{#operation}}
-{{#servers}}
-{{#-first}}_serverConfigs.insert("{{nickname}}",QList<ServerConfiguration>{ServerConfiguration(
-      "{{{url}}}",
-      "{{{description}}}{{^description}}No description provided{{/description}}",
-      QMap<QString, ServerVariable>{{#variables}}{{#-first}} { {{/-first}}
-          {"{{{name}}}", ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
-          QSet<QString>{ {{#enumValues}}{"{{{.}}}"}{{#-last}} })}, {{/-last}}{{^-last}},{{/-last}}{{/enumValues}}{{^enumValues}}{"{{defaultValue}}"} })}, {{/enumValues}}
-{{#-last}}  }{{/-last}}{{/variables}}),{{/-first}}{{^-first}}
-ServerConfiguration(
-      "{{{url}}}", 
-      "{{{description}}}{{^description}}No description provided{{/description}}",
-      QMap<QString, ServerVariable>{{#variables}}{{#-first}} { {{/-first}}
-          {"{{{name}}}", ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
-          QSet<QString>{ {{#enumValues}}{"{{{.}}}"}{{#-last}} })}, {{/-last}}{{^-last}},{{/-last}}{{/enumValues}}{{^enumValues}}{"{{defaultValue}}"} })}, {{/enumValues}}
-{{#-last}}  })});
-_serverIndices.insert("{{nickname}}",0);{{/-last}}
-
-{{^-last}} 
-  }),
-{{/-last}}
-{{/variables}}
-{{/-first}}
-{{/servers}}
-{{^servers}}
+  {{^servers}}
 _serverConfigs.insert("{{nickname}}",defaultConf);
 _serverIndices.insert("{{nickname}}",0);
-
+{{/servers}}
+{{#servers}}
+serverConf.append(ServerConfiguration(
+    "{{{url}}}",
+    "{{{description}}}{{^description}}No description provided{{/description}}",
+    {{#variables}}{{#-first}}QMap<QString, ServerVariable>{ {{/-first}}
+    {"{{{name}}}", ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
+    QSet<QString>{ {{#enumValues}}{"{{{.}}}"}{{#-last}} })}, {{/-last}}{{^-last}},{{/-last}}{{/enumValues}}{{^enumValues}}{"{{defaultValue}}"} })},{{/enumValues}}{{#-last}} }));{{/-last}}
+    {{/variables}}{{^variables}}QMap<QString, ServerVariable>()));{{/variables}}
+{{#-last}}_serverConfigs.insert("{{nickname}}",serverConf);
+_serverIndices.insert("{{nickname}}",0);{{/-last}}
 {{/servers}}
 {{/operation}}
 {{/operations}}

@@ -355,8 +355,9 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                 s.description = server.getDescription();
                 s.url = server.getUrl();
                 s.variables = new ArrayList<CodegenServerVariable>();
-                ServerVariables ServerVars = server.getVariables();
-                ServerVars.forEach((key,value) -> {
+                ServerVariables serverVars = server.getVariables();
+                if(serverVars != null){
+                serverVars.forEach((key,value) -> {
                     CodegenServerVariable codegenServerVar= new CodegenServerVariable();
                     ServerVariable ServerVar = value;
                     codegenServerVar.name = key;
@@ -364,7 +365,8 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                     codegenServerVar.defaultValue = ServerVar.getDefault();
                     codegenServerVar.enumValues = ServerVar.getEnum();
                     s.variables.add(codegenServerVar);
-                });
+                    });
+                }
                 CodegenServerList.add(s);
             }
         this.additionalProperties.put("globalServerList", CodegenServerList);
