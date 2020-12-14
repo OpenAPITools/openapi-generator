@@ -5,19 +5,18 @@ part 'name.g.dart';
 
 abstract class Name implements Built<Name, NameBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'name')
     int get name;
-    
+
     @nullable
     @BuiltValueField(wireName: r'snake_case')
     int get snakeCase;
-    
+
     @nullable
     @BuiltValueField(wireName: r'property')
     String get property;
-    
+
     @nullable
     @BuiltValueField(wireName: r'123Number')
     int get n123number;

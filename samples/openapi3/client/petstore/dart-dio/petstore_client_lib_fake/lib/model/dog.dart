@@ -7,15 +7,14 @@ part 'dog.g.dart';
 
 abstract class Dog implements Built<Dog, DogBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'className')
     String get className;
-    
+
     @nullable
     @BuiltValueField(wireName: r'color')
     String get color;
-    
+
     @nullable
     @BuiltValueField(wireName: r'breed')
     String get breed;

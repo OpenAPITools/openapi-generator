@@ -17,7 +17,7 @@ class Openapi {
 
     Dio dio;
     Serializers serializers;
-    String basePath = "http://petstore.swagger.io/v2";
+    String basePath = 'http://petstore.swagger.io/v2';
 
     Openapi({this.dio, Serializers serializers, String basePathOverride, List<Interceptor> interceptors}) {
         if (dio == null) {

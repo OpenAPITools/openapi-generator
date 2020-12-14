@@ -15,7 +15,6 @@ class ClassModel {
     this.class_,
   });
 
-  
   String class_;
 
   @override

@@ -7,11 +7,10 @@ part 'file_schema_test_class.g.dart';
 
 abstract class FileSchemaTestClass implements Built<FileSchemaTestClass, FileSchemaTestClassBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'file')
     MultipartFile get file;
-    
+
     @nullable
     @BuiltValueField(wireName: r'files')
     BuiltList<MultipartFile> get files;

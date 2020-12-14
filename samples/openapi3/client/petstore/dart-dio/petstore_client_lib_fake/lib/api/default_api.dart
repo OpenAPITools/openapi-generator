@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
@@ -12,41 +11,42 @@ class DefaultApi {
 
     DefaultApi(this._dio, this._serializers);
 
-        /// 
-        ///
-        /// 
-        Future<Response<InlineResponseDefault>>fooGet({ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
+    /// 
+    ///
+    /// 
+    Future<Response<InlineResponseDefault>>fooGet({ 
+        CancelToken cancelToken,
+        Map<String, String> headers,
+        ProgressCallback onSendProgress,
+        ProgressCallback onReceiveProgress,
+    }) async {
+        final String _path = '/foo';
 
-        String _path = "/foo";
-
-        Map<String, dynamic> queryParams = {};
-        Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> queryParams = {};
+        final Map<String, String> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
         headerParams.removeWhere((key, value) => value == null);
 
-        List<String> contentTypes = [];
+        final List<String> contentTypes = [];
 
-
-
-            return _dio.request(
+        return _dio.request(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
-            method: 'get'.toUpperCase(),
-            headers: headerParams,
-            extra: {
-                'secure': [],
-            },
-            contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
+                method: 'get'.toUpperCase(),
+                headers: headerParams,
+                extra: {
+                    'secure': [],
+                },
+                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
-            ).then((response) {
-
+        ).then((response) {
             final serializer = _serializers.serializerForType(InlineResponseDefault);
             final data = _serializers.deserializeWith<InlineResponseDefault>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
@@ -59,6 +59,7 @@ class DefaultApi {
                 statusMessage: response.statusMessage,
                 extra: response.extra,
             );
-            });
-            }
-        }
+        });
+    }
+
+}

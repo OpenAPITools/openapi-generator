@@ -6,17 +6,19 @@ part '{{classFilename}}.g.dart';
 abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builder> {
 
 {{#vars}}
-    {{#description}}/* {{{description}}} */{{/description}}
+    {{#description}}
+    /// {{{description}}}
+    {{/description}}
     {{#isNullable}}
     @nullable
     {{/isNullable}}
     @BuiltValueField(wireName: r'{{baseName}}')
     {{{datatypeWithEnum}}} get {{name}};
     {{#allowableValues}}
-    {{#min}}// range from {{min}} to {{max}}{{/min}}//{{^min}} enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}
+    // {{#min}}range from {{{min}}} to {{{max}}}{{/min}}{{^min}}enum {{name}}Enum { {{#values}} {{{.}}}, {{/values}} };{{/min}}
     {{/allowableValues}}
-{{/vars}}
 
+{{/vars}}
     // Boilerplate code needed to wire-up generated code
     {{classname}}._();
 

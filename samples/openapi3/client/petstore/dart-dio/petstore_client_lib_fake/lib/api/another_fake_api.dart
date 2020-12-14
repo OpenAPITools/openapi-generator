@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
@@ -12,44 +11,49 @@ class AnotherFakeApi {
 
     AnotherFakeApi(this._dio, this._serializers);
 
-        /// To test special tags
-        ///
-        /// To test special tags and operation ID starting with number
-        Future<Response<Client>>call123testSpecialTags(Client client,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
+    /// To test special tags
+    ///
+    /// To test special tags and operation ID starting with number
+    Future<Response<Client>>call123testSpecialTags(
+        Client client, { 
+        CancelToken cancelToken,
+        Map<String, String> headers,
+        ProgressCallback onSendProgress,
+        ProgressCallback onReceiveProgress,
+    }) async {
+        final String _path = '/another-fake/dummy';
 
-        String _path = "/another-fake/dummy";
-
-        Map<String, dynamic> queryParams = {};
-        Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> queryParams = {};
+        final Map<String, String> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
         headerParams.removeWhere((key, value) => value == null);
 
-        List<String> contentTypes = ["application/json"];
+        final List<String> contentTypes = [
+            'application/json',
+        ];
 
+        final serializedBody = _serializers.serialize(client);
+        final jsonclient = json.encode(serializedBody);
+        bodyData = jsonclient;
 
-            final serializedBody = _serializers.serialize(client);
-            final jsonclient = json.encode(serializedBody);
-            bodyData = jsonclient;
-
-            return _dio.request(
+        return _dio.request(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
-            method: 'patch'.toUpperCase(),
-            headers: headerParams,
-            extra: {
-                'secure': [],
-            },
-            contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
+                method: 'patch'.toUpperCase(),
+                headers: headerParams,
+                extra: {
+                    'secure': [],
+                },
+                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
-            ).then((response) {
-
+        ).then((response) {
             final serializer = _serializers.serializerForType(Client);
             final data = _serializers.deserializeWith<Client>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
@@ -62,6 +66,7 @@ class AnotherFakeApi {
                 statusMessage: response.statusMessage,
                 extra: response.extra,
             );
-            });
-            }
-        }
+        });
+    }
+
+}

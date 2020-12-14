@@ -37,7 +37,7 @@ try {
     var result = api_instance.addPet(pet);
     print(result);
 } catch (e) {
-    print("Exception when calling PetApi->addPet: $e\n");
+    print('Exception when calling PetApi->addPet: $e\n');
 }
 ```
 
@@ -80,7 +80,7 @@ var apiKey = apiKey_example; // String |
 try { 
     api_instance.deletePet(petId, apiKey);
 } catch (e) {
-    print("Exception when calling PetApi->deletePet: $e\n");
+    print('Exception when calling PetApi->deletePet: $e\n');
 }
 ```
 
@@ -126,7 +126,7 @@ try {
     var result = api_instance.findPetsByStatus(status);
     print(result);
 } catch (e) {
-    print("Exception when calling PetApi->findPetsByStatus: $e\n");
+    print('Exception when calling PetApi->findPetsByStatus: $e\n');
 }
 ```
 
@@ -134,7 +134,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**BuiltList&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [default to const []]
+ **status** | [**BuiltList<String>**](String.md)| Status values that need to be considered for filter | [default to const []]
 
 ### Return type
 
@@ -171,7 +171,7 @@ try {
     var result = api_instance.findPetsByTags(tags);
     print(result);
 } catch (e) {
-    print("Exception when calling PetApi->findPetsByTags: $e\n");
+    print('Exception when calling PetApi->findPetsByTags: $e\n');
 }
 ```
 
@@ -179,7 +179,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**BuiltList&lt;String&gt;**](String.md)| Tags to filter by | [default to const []]
+ **tags** | [**BuiltList<String>**](String.md)| Tags to filter by | [default to const []]
 
 ### Return type
 
@@ -218,7 +218,7 @@ try {
     var result = api_instance.getPetById(petId);
     print(result);
 } catch (e) {
-    print("Exception when calling PetApi->getPetById: $e\n");
+    print('Exception when calling PetApi->getPetById: $e\n');
 }
 ```
 
@@ -261,7 +261,7 @@ try {
     var result = api_instance.updatePet(pet);
     print(result);
 } catch (e) {
-    print("Exception when calling PetApi->updatePet: $e\n");
+    print('Exception when calling PetApi->updatePet: $e\n');
 }
 ```
 
@@ -305,7 +305,7 @@ var status = status_example; // String | Updated status of the pet
 try { 
     api_instance.updatePetWithForm(petId, name, status);
 } catch (e) {
-    print("Exception when calling PetApi->updatePetWithForm: $e\n");
+    print('Exception when calling PetApi->updatePetWithForm: $e\n');
 }
 ```
 
@@ -352,7 +352,7 @@ try {
     var result = api_instance.uploadFile(petId, additionalMetadata, file);
     print(result);
 } catch (e) {
-    print("Exception when calling PetApi->uploadFile: $e\n");
+    print('Exception when calling PetApi->uploadFile: $e\n');
 }
 ```
 

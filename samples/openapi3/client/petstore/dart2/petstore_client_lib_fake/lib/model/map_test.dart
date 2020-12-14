@@ -18,16 +18,12 @@ class MapTest {
     this.indirectMap = const {},
   });
 
-  
   Map<String, Map<String, String>> mapMapOfString;
 
-  
   Map<String, MapTestInnerEnum> mapOfEnumString;
 
-  
   Map<String, bool> directMap;
 
-  
   Map<String, bool> indirectMap;
 
   @override

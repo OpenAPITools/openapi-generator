@@ -6,11 +6,12 @@ part 'inline_object1.g.dart';
 
 abstract class InlineObject1 implements Built<InlineObject1, InlineObject1Builder> {
 
-    /* Additional data to pass to server */
+    /// Additional data to pass to server
     @nullable
     @BuiltValueField(wireName: r'additionalMetadata')
     String get additionalMetadata;
-    /* file to upload */
+
+    /// file to upload
     @nullable
     @BuiltValueField(wireName: r'file')
     Uint8List get file;

@@ -6,20 +6,19 @@ part 'map_test.g.dart';
 
 abstract class MapTest implements Built<MapTest, MapTestBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'map_map_of_string')
     BuiltMap<String, BuiltMap<String, String>> get mapMapOfString;
-    
+
     @nullable
     @BuiltValueField(wireName: r'map_of_enum_string')
     BuiltMap<String, MapTestInnerEnum> get mapOfEnumString;
     // enum mapOfEnumStringEnum {  UPPER,  lower,  };
-    
+
     @nullable
     @BuiltValueField(wireName: r'direct_map')
     BuiltMap<String, bool> get directMap;
-    
+
     @nullable
     @BuiltValueField(wireName: r'indirect_map')
     BuiltMap<String, bool> get indirectMap;
