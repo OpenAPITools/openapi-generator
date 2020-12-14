@@ -33,10 +33,10 @@ abstract class MapTest implements Built<MapTest, MapTestBuilder> {
 
 class MapTestMapOfEnumString extends EnumClass {
 
-  @BuiltValueEnumConst(wireName: 'UPPER')
-  static const MapTestMapOfEnumString uPPER = _$uPPER;
-  @BuiltValueEnumConst(wireName: 'lower')
-  static const MapTestMapOfEnumString lower = _$lower;
+  @BuiltValueEnumConst(wireName: r'UPPER')
+  static const MapTestMapOfEnumString UPPER = _$mapTestMapOfEnumString_UPPER;
+  @BuiltValueEnumConst(wireName: r'lower')
+  static const MapTestMapOfEnumString lower = _$mapTestMapOfEnumString_lower;
 
   static Serializer<MapTestMapOfEnumString> get serializer => _$mapTestMapOfEnumStringSerializer;
 

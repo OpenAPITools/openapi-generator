@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 
 import 'package:openapi/model/order.dart';
+import 'package:built_collection/built_collection.dart';
 
 class StoreApi {
     final Dio _dio;
@@ -51,7 +51,7 @@ class StoreApi {
         /// Returns pet inventories by status
         ///
         /// Returns a map of status codes to quantities
-        Future<Response<Map<String, int>>>getInventory({ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
+        Future<Response<BuiltMap<String, int>>>getInventory({ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/store/inventory";
 
@@ -83,9 +83,11 @@ class StoreApi {
             onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
-            var data = response.data as Map<String, int>;
+            const collectionType = BuiltMap;
+            const type = FullType(collectionType, [FullType(String), FullType(int)]);
+            final BuiltMap<String, int> data = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
 
-            return Response<Map<String, int>>(
+            return Response<BuiltMap<String, int>>(
                 data: data,
                 headers: response.headers,
                 request: response.request,
@@ -162,8 +164,8 @@ class StoreApi {
         List<String> contentTypes = ["application/json"];
 
 
-            var serializedBody = _serializers.serialize(order);
-            var jsonorder = json.encode(serializedBody);
+            final serializedBody = _serializers.serialize(order);
+            final jsonorder = json.encode(serializedBody);
             bodyData = jsonorder;
 
             return _dio.request(

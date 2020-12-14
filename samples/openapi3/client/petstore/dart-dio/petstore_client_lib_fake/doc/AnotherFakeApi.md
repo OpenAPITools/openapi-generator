@@ -9,11 +9,11 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**123test@$%SpecialTags**](AnotherFakeApi.md#123test@$%SpecialTags) | **patch** /another-fake/dummy | To test special tags
+[**call123testSpecialTags**](AnotherFakeApi.md#call123testSpecialTags) | **patch** /another-fake/dummy | To test special tags
 
 
-# **123test@$%SpecialTags**
-> Client 123test@$%SpecialTags(client)
+# **call123testSpecialTags**
+> Client call123testSpecialTags(client)
 
 To test special tags
 
@@ -27,10 +27,10 @@ var api_instance = new AnotherFakeApi();
 var client = new Client(); // Client | client model
 
 try { 
-    var result = api_instance.123test@$%SpecialTags(client);
+    var result = api_instance.call123testSpecialTags(client);
     print(result);
 } catch (e) {
-    print("Exception when calling AnotherFakeApi->123test@$%SpecialTags: $e\n");
+    print("Exception when calling AnotherFakeApi->call123testSpecialTags: $e\n");
 }
 ```
 

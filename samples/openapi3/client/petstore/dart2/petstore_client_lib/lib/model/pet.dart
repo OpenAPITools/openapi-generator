@@ -132,8 +132,7 @@ class PetStatusEnum {
 
   @override
   bool operator ==(Object other) => identical(this, other) ||
-      other is PetStatusEnum && other.value == value ||
-      other is String && other == value;
+      other is PetStatusEnum && other.value == value;
 
   @override
   int get hashCode => toString().hashCode;
@@ -143,15 +142,15 @@ class PetStatusEnum {
 
   String toJson() => value;
 
-  static const available_ = PetStatusEnum._('available');
-  static const pending_ = PetStatusEnum._('pending');
-  static const sold_ = PetStatusEnum._('sold');
+  static const available = PetStatusEnum._(r'available');
+  static const pending = PetStatusEnum._(r'pending');
+  static const sold = PetStatusEnum._(r'sold');
 
   /// List of all possible values in this [enum][PetStatusEnum].
   static const values = <PetStatusEnum>[
-    available_,
-    pending_,
-    sold_,
+    available,
+    pending,
+    sold,
   ];
 
   static PetStatusEnum fromJson(dynamic value) =>
@@ -184,9 +183,9 @@ class PetStatusEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   PetStatusEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case 'available': return PetStatusEnum.available_;
-      case 'pending': return PetStatusEnum.pending_;
-      case 'sold': return PetStatusEnum.sold_;
+      case r'available': return PetStatusEnum.available;
+      case r'pending': return PetStatusEnum.pending;
+      case r'sold': return PetStatusEnum.sold;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

@@ -26,7 +26,7 @@ void main() {
     //
     // Multiple status values can be provided with comma separated strings
     //
-    //Future<List<Pet>> findPetsByStatus(List<String> status) async
+    //Future<BuiltList<Pet>> findPetsByStatus(BuiltList<String> status) async
     test('test findPetsByStatus', () async {
       // TODO
     });
@@ -35,7 +35,7 @@ void main() {
     //
     // Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     //
-    //Future<List<Pet>> findPetsByTags(List<String> tags) async
+    //Future<BuiltList<Pet>> findPetsByTags(BuiltList<String> tags) async
     test('test findPetsByTags', () async {
       // TODO
     });

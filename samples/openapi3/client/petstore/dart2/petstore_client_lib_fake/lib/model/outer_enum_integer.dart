@@ -15,12 +15,11 @@ class OuterEnumInteger {
   const OuterEnumInteger._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
   bool operator ==(Object other) => identical(this, other) ||
-      other is OuterEnumInteger && other.value == value ||
-      other is String && other == value;
+      other is OuterEnumInteger && other.value == value;
 
   @override
   int get hashCode => toString().hashCode;
@@ -28,17 +27,17 @@ class OuterEnumInteger {
   @override
   String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const number0_ = OuterEnumInteger._(0);
-  static const number1_ = OuterEnumInteger._(1);
-  static const number2_ = OuterEnumInteger._(2);
+  static const number0 = OuterEnumInteger._(0);
+  static const number1 = OuterEnumInteger._(1);
+  static const number2 = OuterEnumInteger._(2);
 
   /// List of all possible values in this [enum][OuterEnumInteger].
   static const values = <OuterEnumInteger>[
-    number0_,
-    number1_,
-    number2_,
+    number0,
+    number1,
+    number2,
   ];
 
   static OuterEnumInteger fromJson(dynamic value) =>
@@ -59,7 +58,7 @@ class OuterEnumIntegerTypeTransformer {
 
   factory OuterEnumIntegerTypeTransformer() => _instance ??= OuterEnumIntegerTypeTransformer._();
 
-  String encode(OuterEnumInteger data) => data.value;
+  int encode(OuterEnumInteger data) => data.value;
 
   /// Decodes a [dynamic value][data] to a OuterEnumInteger.
   ///
@@ -71,9 +70,9 @@ class OuterEnumIntegerTypeTransformer {
   /// and users are still using an old app with the old code.
   OuterEnumInteger decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case 0: return OuterEnumInteger.number0_;
-      case 1: return OuterEnumInteger.number1_;
-      case 2: return OuterEnumInteger.number2_;
+      case 0: return OuterEnumInteger.number0;
+      case 1: return OuterEnumInteger.number1;
+      case 2: return OuterEnumInteger.number2;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

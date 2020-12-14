@@ -79,7 +79,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKeyPrefix = 'Bearer';
 
 var api_instance = new UserApi();
-var user = [new List&lt;User&gt;()]; // List<User> | List of user object
+var user = [new BuiltList&lt;User&gt;()]; // BuiltList<User> | List of user object
 
 try { 
     api_instance.createUsersWithArrayInput(user);
@@ -92,7 +92,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**List&lt;User&gt;**](User.md)| List of user object | 
+ **user** | [**BuiltList&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -123,7 +123,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKeyPrefix = 'Bearer';
 
 var api_instance = new UserApi();
-var user = [new List&lt;User&gt;()]; // List<User> | List of user object
+var user = [new BuiltList&lt;User&gt;()]; // BuiltList<User> | List of user object
 
 try { 
     api_instance.createUsersWithListInput(user);
@@ -136,7 +136,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**List&lt;User&gt;**](User.md)| List of user object | 
+ **user** | [**BuiltList&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 

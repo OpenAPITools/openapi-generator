@@ -44,10 +44,10 @@ var api_instance = new AnotherFakeApi();
 var client = new Client(); // Client | client model
 
 try {
-    var result = api_instance.123test@$%SpecialTags(client);
+    var result = api_instance.call123testSpecialTags(client);
     print(result);
 } catch (e) {
-    print("Exception when calling AnotherFakeApi->123test@$%SpecialTags: $e\n");
+    print("Exception when calling AnotherFakeApi->call123testSpecialTags: $e\n");
 }
 
 ```
@@ -58,7 +58,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AnotherFakeApi* | [**123test@$%SpecialTags**](doc//AnotherFakeApi.md#123test@$%specialtags) | **patch** /another-fake/dummy | To test special tags
+*AnotherFakeApi* | [**call123testSpecialTags**](doc//AnotherFakeApi.md#call123testspecialtags) | **patch** /another-fake/dummy | To test special tags
 *DefaultApi* | [**fooGet**](doc//DefaultApi.md#fooget) | **get** /foo | 
 *FakeApi* | [**fakeHealthGet**](doc//FakeApi.md#fakehealthget) | **get** /fake/health | Health check endpoint
 *FakeApi* | [**fakeHttpSignatureTest**](doc//FakeApi.md#fakehttpsignaturetest) | **get** /fake/http-signature-test | test http signature authentication

@@ -31,12 +31,12 @@ void main() {
       // TODO
     });
 
-    // double double (default value: null)
-    test('to test the property `double`', () async {
+    // double double_ (default value: null)
+    test('to test the property `double_`', () async {
       // TODO
     });
 
-    // Decimal decimal (default value: null)
+    // double decimal (default value: null)
     test('to test the property `decimal`', () async {
       // TODO
     });

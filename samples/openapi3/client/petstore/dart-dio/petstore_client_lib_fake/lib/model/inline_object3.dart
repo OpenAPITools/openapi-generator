@@ -29,7 +29,7 @@ abstract class InlineObject3 implements Built<InlineObject3, InlineObject3Builde
     /* None */
     @nullable
     @BuiltValueField(wireName: r'double')
-    double get double;
+    double get double_;
     /* None */
     @nullable
     @BuiltValueField(wireName: r'string')
