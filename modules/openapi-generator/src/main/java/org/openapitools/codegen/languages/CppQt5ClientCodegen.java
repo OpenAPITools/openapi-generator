@@ -41,6 +41,7 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
         modifyFeatureSet(features -> features
         .includeDocumentationFeatures(DocumentationFeature.Readme)
         .includeGlobalFeatures(GlobalFeature.ParameterizedServer)
+        .includeGlobalFeatures(GlobalFeature.MultiServer)
         );
 
         // set the output folder here
