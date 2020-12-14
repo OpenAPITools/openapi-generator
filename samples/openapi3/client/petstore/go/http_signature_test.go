@@ -286,7 +286,7 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth, ex
 		t.Fatalf("Error while adding pet: %v", err2)
 	}
 	if !expectSuccess {
-		if err2.Error() != "" {
+		if err2.Error() == "" {
 			t.Fatalf("Error was expected, but no error was generated")
 		} else {
 			// Do not continue. Error is expected.
