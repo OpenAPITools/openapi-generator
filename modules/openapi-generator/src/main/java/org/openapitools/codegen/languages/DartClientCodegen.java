@@ -17,12 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -115,17 +117,17 @@ public class DartClientCodegen extends DefaultCodegen {
         modelTestTemplateFiles.put("model_test.mustache", ".dart");
         apiTestTemplateFiles.put("api_test.mustache", ".dart");
 
-        final Path dartKeywordPath = Paths.get("modules/openapi-generator/src/main/resources/dart/dart-keywords.txt");
-        super.reservedWords = new HashSet<>();
-        try {
-            final List<String> lines = Files.readAllLines(dartKeywordPath, StandardCharsets.UTF_8);
-            super.reservedWords.addAll(lines.stream()
-                    .map(keyword -> keyword.toLowerCase(Locale.ROOT))
-                    .collect(Collectors.toSet()));
-
-        } catch (IOException e) {
-            LOGGER.error("Failed to read dart specific keyword {}", e.getMessage(), e);
+        final List<String> reservedWordsList = new ArrayList<>();
+        try(BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(DartClientCodegen.class.getResourceAsStream("/dart/dart-keywords.txt"),
+                            StandardCharsets.UTF_8))) {
+            while (reader.ready()) {
+                reservedWordsList.add(reader.readLine());
+            }
+        } catch (Exception e) {
+            LOGGER.error("Error reading dart keywords. Exception: {}", e.getMessage());
         }
+        setReservedWordsLowerCase(reservedWordsList);
 
         languageSpecificPrimitives = Sets.newHashSet(
             "String",
