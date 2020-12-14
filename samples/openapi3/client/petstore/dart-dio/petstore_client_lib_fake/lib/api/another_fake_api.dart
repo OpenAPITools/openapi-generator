@@ -14,7 +14,7 @@ class AnotherFakeApi {
     /// To test special tags
     ///
     /// To test special tags and operation ID starting with number
-    Future<Response<Client>>call123testSpecialTags(
+    Future<Response<Client>> call123testSpecialTags(
         Client client, { 
         CancelToken cancelToken,
         Map<String, String> headers,

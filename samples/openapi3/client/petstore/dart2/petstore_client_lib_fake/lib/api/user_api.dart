@@ -25,7 +25,7 @@ class UserApi {
   ///
   /// * [User] user (required):
   ///   Created user object
-  Future createUserWithHttpInfo(User user) async {
+  Future<Response> createUserWithHttpInfo(User user) async {
     // Verify required params are set.
     if (user == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
@@ -75,7 +75,7 @@ class UserApi {
   ///
   /// * [User] user (required):
   ///   Created user object
-  Future createUser(User user) async {
+  Future<void> createUser(User user) async {
     final response = await createUserWithHttpInfo(user);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
@@ -90,7 +90,7 @@ class UserApi {
   ///
   /// * [List<User>] user (required):
   ///   List of user object
-  Future createUsersWithArrayInputWithHttpInfo(List<User> user) async {
+  Future<Response> createUsersWithArrayInputWithHttpInfo(List<User> user) async {
     // Verify required params are set.
     if (user == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
@@ -138,7 +138,7 @@ class UserApi {
   ///
   /// * [List<User>] user (required):
   ///   List of user object
-  Future createUsersWithArrayInput(List<User> user) async {
+  Future<void> createUsersWithArrayInput(List<User> user) async {
     final response = await createUsersWithArrayInputWithHttpInfo(user);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
@@ -153,7 +153,7 @@ class UserApi {
   ///
   /// * [List<User>] user (required):
   ///   List of user object
-  Future createUsersWithListInputWithHttpInfo(List<User> user) async {
+  Future<Response> createUsersWithListInputWithHttpInfo(List<User> user) async {
     // Verify required params are set.
     if (user == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
@@ -201,7 +201,7 @@ class UserApi {
   ///
   /// * [List<User>] user (required):
   ///   List of user object
-  Future createUsersWithListInput(List<User> user) async {
+  Future<void> createUsersWithListInput(List<User> user) async {
     final response = await createUsersWithListInputWithHttpInfo(user);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
@@ -218,7 +218,7 @@ class UserApi {
   ///
   /// * [String] username (required):
   ///   The name that needs to be deleted
-  Future deleteUserWithHttpInfo(String username) async {
+  Future<Response> deleteUserWithHttpInfo(String username) async {
     // Verify required params are set.
     if (username == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
@@ -269,7 +269,7 @@ class UserApi {
   ///
   /// * [String] username (required):
   ///   The name that needs to be deleted
-  Future deleteUser(String username) async {
+  Future<void> deleteUser(String username) async {
     final response = await deleteUserWithHttpInfo(username);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
@@ -432,7 +432,7 @@ class UserApi {
   /// Logs out current logged in user session
   ///
   /// Note: This method returns the HTTP [Response].
-  Future logoutUserWithHttpInfo() async {
+  Future<Response> logoutUserWithHttpInfo() async {
     final path = '/user/logout'.replaceAll('{format}', 'json');
 
     Object postBody;
@@ -470,7 +470,7 @@ class UserApi {
   }
 
   /// Logs out current logged in user session
-  Future logoutUser() async {
+  Future<void> logoutUser() async {
     final response = await logoutUserWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
@@ -490,7 +490,7 @@ class UserApi {
   ///
   /// * [User] user (required):
   ///   Updated user object
-  Future updateUserWithHttpInfo(String username, User user) async {
+  Future<Response> updateUserWithHttpInfo(String username, User user) async {
     // Verify required params are set.
     if (username == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
@@ -547,7 +547,7 @@ class UserApi {
   ///
   /// * [User] user (required):
   ///   Updated user object
-  Future updateUser(String username, User user) async {
+  Future<void> updateUser(String username, User user) async {
     final response = await updateUserWithHttpInfo(username, user);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));

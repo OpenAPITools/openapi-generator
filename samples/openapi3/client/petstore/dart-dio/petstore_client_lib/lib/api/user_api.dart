@@ -15,7 +15,7 @@ class UserApi {
     /// Create user
     ///
     /// This can only be done by the logged in user.
-    Future<Response>createUser(
+    Future<Response<void>> createUser(
         User user, { 
         CancelToken cancelToken,
         Map<String, String> headers,
@@ -67,7 +67,7 @@ class UserApi {
     /// Creates list of users with given input array
     ///
     /// 
-    Future<Response>createUsersWithArrayInput(
+    Future<Response<void>> createUsersWithArrayInput(
         BuiltList<User> user, { 
         CancelToken cancelToken,
         Map<String, String> headers,
@@ -120,7 +120,7 @@ class UserApi {
     /// Creates list of users with given input array
     ///
     /// 
-    Future<Response>createUsersWithListInput(
+    Future<Response<void>> createUsersWithListInput(
         BuiltList<User> user, { 
         CancelToken cancelToken,
         Map<String, String> headers,
@@ -173,7 +173,7 @@ class UserApi {
     /// Delete user
     ///
     /// This can only be done by the logged in user.
-    Future<Response>deleteUser(
+    Future<Response<void>> deleteUser(
         String username, { 
         CancelToken cancelToken,
         Map<String, String> headers,
@@ -219,7 +219,7 @@ class UserApi {
     /// Get user by user name
     ///
     /// 
-    Future<Response<User>>getUserByName(
+    Future<Response<User>> getUserByName(
         String username, { 
         CancelToken cancelToken,
         Map<String, String> headers,
@@ -271,7 +271,7 @@ class UserApi {
     /// Logs user into the system
     ///
     /// 
-    Future<Response<String>>loginUser(
+    Future<Response<String>> loginUser(
         String username,
         String password, { 
         CancelToken cancelToken,
@@ -325,7 +325,7 @@ class UserApi {
     /// Logs out current logged in user session
     ///
     /// 
-    Future<Response>logoutUser({ 
+    Future<Response<void>> logoutUser({ 
         CancelToken cancelToken,
         Map<String, String> headers,
         ProgressCallback onSendProgress,
@@ -370,7 +370,7 @@ class UserApi {
     /// Updated user
     ///
     /// This can only be done by the logged in user.
-    Future<Response>updateUser(
+    Future<Response<void>> updateUser(
         String username,
         User user, { 
         CancelToken cancelToken,

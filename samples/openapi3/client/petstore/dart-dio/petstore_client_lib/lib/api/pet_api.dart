@@ -18,7 +18,7 @@ class PetApi {
     /// Add a new pet to the store
     ///
     /// 
-    Future<Response<Pet>>addPet(
+    Future<Response<Pet>> addPet(
         Pet pet, { 
         CancelToken cancelToken,
         Map<String, String> headers,
@@ -82,7 +82,7 @@ class PetApi {
     /// Deletes a pet
     ///
     /// 
-    Future<Response>deletePet(
+    Future<Response<void>> deletePet(
         int petId, { 
         String apiKey,
         CancelToken cancelToken,
@@ -128,7 +128,7 @@ class PetApi {
     /// Finds Pets by status
     ///
     /// Multiple status values can be provided with comma separated strings
-    Future<Response<BuiltList<Pet>>>findPetsByStatus(
+    Future<Response<BuiltList<Pet>>> findPetsByStatus(
         BuiltList<String> status, { 
         CancelToken cancelToken,
         Map<String, String> headers,
@@ -187,7 +187,7 @@ class PetApi {
     /// Finds Pets by tags
     ///
     /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-    Future<Response<BuiltList<Pet>>>findPetsByTags(
+    Future<Response<BuiltList<Pet>>> findPetsByTags(
         BuiltList<String> tags, { 
         CancelToken cancelToken,
         Map<String, String> headers,
@@ -246,7 +246,7 @@ class PetApi {
     /// Find pet by ID
     ///
     /// Returns a single pet
-    Future<Response<Pet>>getPetById(
+    Future<Response<Pet>> getPetById(
         int petId, { 
         CancelToken cancelToken,
         Map<String, String> headers,
@@ -305,7 +305,7 @@ class PetApi {
     /// Update an existing pet
     ///
     /// 
-    Future<Response<Pet>>updatePet(
+    Future<Response<Pet>> updatePet(
         Pet pet, { 
         CancelToken cancelToken,
         Map<String, String> headers,
@@ -369,7 +369,7 @@ class PetApi {
     /// Updates a pet in the store with form data
     ///
     /// 
-    Future<Response>updatePetWithForm(
+    Future<Response<void>> updatePetWithForm(
         int petId, { 
         String name,
         String status,
@@ -422,7 +422,7 @@ class PetApi {
     /// uploads an image
     ///
     /// 
-    Future<Response<ApiResponse>>uploadFile(
+    Future<Response<ApiResponse>> uploadFile(
         int petId, { 
         String additionalMetadata,
         Uint8List file,
