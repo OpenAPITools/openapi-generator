@@ -104,7 +104,7 @@ class PetApi {
     final formParams = <String, String>{};
 
     if (apiKey != null) {
-      headerParams['api_key'] = parameterToString(apiKey);
+      headerParams[r'api_key'] = parameterToString(apiKey);
     }
 
     final contentTypes = <String>[];
@@ -485,21 +485,21 @@ class PetApi {
       final mp = MultipartRequest(null, null);
       if (name != null) {
         hasFields = true;
-        mp.fields['name'] = parameterToString(name);
+        mp.fields[r'name'] = parameterToString(name);
       }
       if (status != null) {
         hasFields = true;
-        mp.fields['status'] = parameterToString(status);
+        mp.fields[r'status'] = parameterToString(status);
       }
       if (hasFields) {
         postBody = mp;
       }
     } else {
       if (name != null) {
-        formParams['name'] = parameterToString(name);
+        formParams[r'name'] = parameterToString(name);
       }
       if (status != null) {
-        formParams['status'] = parameterToString(status);
+        formParams[r'status'] = parameterToString(status);
       }
     }
 
@@ -575,11 +575,11 @@ class PetApi {
       final mp = MultipartRequest(null, null);
       if (additionalMetadata != null) {
         hasFields = true;
-        mp.fields['additionalMetadata'] = parameterToString(additionalMetadata);
+        mp.fields[r'additionalMetadata'] = parameterToString(additionalMetadata);
       }
       if (file != null) {
         hasFields = true;
-        mp.fields['file'] = file.field;
+        mp.fields[r'file'] = file.field;
         mp.files.add(file);
       }
       if (hasFields) {
@@ -587,7 +587,7 @@ class PetApi {
       }
     } else {
       if (additionalMetadata != null) {
-        formParams['additionalMetadata'] = parameterToString(additionalMetadata);
+        formParams[r'additionalMetadata'] = parameterToString(additionalMetadata);
       }
     }
 

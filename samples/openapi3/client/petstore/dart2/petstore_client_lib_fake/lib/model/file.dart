@@ -32,7 +32,7 @@ class File {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (sourceURI != null) {
-      json['sourceURI'] = sourceURI;
+      json[r'sourceURI'] = sourceURI;
     }
     return json;
   }
@@ -42,7 +42,7 @@ class File {
   static File fromJson(Map<String, dynamic> json) => json == null
     ? null
     : File(
-        sourceURI: json['sourceURI'],
+        sourceURI: json[r'sourceURI'],
     );
 
   static List<File> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

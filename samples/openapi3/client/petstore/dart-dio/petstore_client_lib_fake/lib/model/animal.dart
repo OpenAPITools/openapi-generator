@@ -5,11 +5,10 @@ part 'animal.g.dart';
 
 abstract class Animal implements Built<Animal, AnimalBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'className')
     String get className;
-    
+
     @nullable
     @BuiltValueField(wireName: r'color')
     String get color;

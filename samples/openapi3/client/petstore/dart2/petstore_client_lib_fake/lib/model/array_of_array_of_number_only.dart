@@ -15,7 +15,6 @@ class ArrayOfArrayOfNumberOnly {
     this.arrayArrayNumber = const [],
   });
 
-  
   List<List<num>> arrayArrayNumber;
 
   @override
@@ -32,7 +31,7 @@ class ArrayOfArrayOfNumberOnly {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (arrayArrayNumber != null) {
-      json['ArrayArrayNumber'] = arrayArrayNumber;
+      json[r'ArrayArrayNumber'] = arrayArrayNumber;
     }
     return json;
   }
@@ -42,9 +41,9 @@ class ArrayOfArrayOfNumberOnly {
   static ArrayOfArrayOfNumberOnly fromJson(Map<String, dynamic> json) => json == null
     ? null
     : ArrayOfArrayOfNumberOnly(
-        arrayArrayNumber: json['ArrayArrayNumber'] == null
+        arrayArrayNumber: json[r'ArrayArrayNumber'] == null
           ? null
-          : (json['ArrayArrayNumber'] as List).map(
+          : (json[r'ArrayArrayNumber'] as List).map(
               (e) => e == null ? null : (e as List).cast<num>()
             ).toList(growable: false),
     );

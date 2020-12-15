@@ -15,7 +15,6 @@ class NumberOnly {
     this.justNumber,
   });
 
-  
   num justNumber;
 
   @override
@@ -32,7 +31,7 @@ class NumberOnly {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (justNumber != null) {
-      json['JustNumber'] = justNumber;
+      json[r'JustNumber'] = justNumber;
     }
     return json;
   }
@@ -42,9 +41,9 @@ class NumberOnly {
   static NumberOnly fromJson(Map<String, dynamic> json) => json == null
     ? null
     : NumberOnly(
-        justNumber: json['JustNumber'] == null ?
+        justNumber: json[r'JustNumber'] == null ?
           null :
-          json['JustNumber'].toDouble(),
+          json[r'JustNumber'].toDouble(),
     );
 
   static List<NumberOnly> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

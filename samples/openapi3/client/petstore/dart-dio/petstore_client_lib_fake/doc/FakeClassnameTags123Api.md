@@ -34,7 +34,7 @@ try {
     var result = api_instance.testClassname(client);
     print(result);
 } catch (e) {
-    print("Exception when calling FakeClassnameTags123Api->testClassname: $e\n");
+    print('Exception when calling FakeClassnameTags123Api->testClassname: $e\n');
 }
 ```
 

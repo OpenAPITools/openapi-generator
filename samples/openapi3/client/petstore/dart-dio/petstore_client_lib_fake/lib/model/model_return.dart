@@ -5,7 +5,6 @@ part 'model_return.g.dart';
 
 abstract class ModelReturn implements Built<ModelReturn, ModelReturnBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'return')
     int get return_;
@@ -14,6 +13,6 @@ abstract class ModelReturn implements Built<ModelReturn, ModelReturnBuilder> {
     ModelReturn._();
 
     factory ModelReturn([updates(ModelReturnBuilder b)]) = _$ModelReturn;
-    static Serializer<ModelReturn> get serializer => _$return_Serializer;
+    static Serializer<ModelReturn> get serializer => _$modelReturnSerializer;
 }
 

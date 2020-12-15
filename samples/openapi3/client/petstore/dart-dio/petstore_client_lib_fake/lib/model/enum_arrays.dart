@@ -6,15 +6,14 @@ part 'enum_arrays.g.dart';
 
 abstract class EnumArrays implements Built<EnumArrays, EnumArraysBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'just_symbol')
-    EnumArraysJustSymbol get justSymbol;
-    // enum justSymbolEnum {  &gt;&#x3D;,  $,  };
-    
+    EnumArraysJustSymbolEnum get justSymbol;
+    // enum justSymbolEnum {  >=,  $,  };
+
     @nullable
     @BuiltValueField(wireName: r'array_enum')
-    EnumArraysArrayEnum get arrayEnum;
+    BuiltList<EnumArraysArrayEnumEnum> get arrayEnum;
     // enum arrayEnumEnum {  fish,  crab,  };
 
     // Boilerplate code needed to wire-up generated code
@@ -24,35 +23,33 @@ abstract class EnumArrays implements Built<EnumArrays, EnumArraysBuilder> {
     static Serializer<EnumArrays> get serializer => _$enumArraysSerializer;
 }
 
-class EnumArraysJustSymbol extends EnumClass {
+class EnumArraysJustSymbolEnum extends EnumClass {
 
-  @BuiltValueEnumConst(wireName: '>=')
-  static const EnumArraysJustSymbol &gt;&#x3D; = _$&gt;&#x3D;;
-  @BuiltValueEnumConst(wireName: '$')
-  static const EnumArraysJustSymbol $ = _$$;
+  @BuiltValueEnumConst(wireName: r'>=')
+  static const EnumArraysJustSymbolEnum greaterThanEqual = _$enumArraysJustSymbolEnum_greaterThanEqual;
+  @BuiltValueEnumConst(wireName: r'\$')
+  static const EnumArraysJustSymbolEnum dollar = _$enumArraysJustSymbolEnum_dollar;
 
-  static Serializer<EnumArraysJustSymbol> get serializer => _$enumArraysJustSymbolSerializer;
+  static Serializer<EnumArraysJustSymbolEnum> get serializer => _$enumArraysJustSymbolEnumSerializer;
 
-  const EnumArraysJustSymbol._(String name): super(name);
+  const EnumArraysJustSymbolEnum._(String name): super(name);
 
-  static BuiltSet<EnumArraysJustSymbol> get values => _$enumArraysJustSymbolValues;
-  static EnumArraysJustSymbol valueOf(String name) => _$enumArraysJustSymbolValueOf(name);
+  static BuiltSet<EnumArraysJustSymbolEnum> get values => _$enumArraysJustSymbolEnumValues;
+  static EnumArraysJustSymbolEnum valueOf(String name) => _$enumArraysJustSymbolEnumValueOf(name);
 }
 
+class EnumArraysArrayEnumEnum extends EnumClass {
 
-class EnumArraysArrayEnum extends EnumClass {
+  @BuiltValueEnumConst(wireName: r'fish')
+  static const EnumArraysArrayEnumEnum fish = _$enumArraysArrayEnumEnum_fish;
+  @BuiltValueEnumConst(wireName: r'crab')
+  static const EnumArraysArrayEnumEnum crab = _$enumArraysArrayEnumEnum_crab;
 
-  @BuiltValueEnumConst(wireName: 'fish')
-  static const EnumArraysArrayEnum fish = _$fish;
-  @BuiltValueEnumConst(wireName: 'crab')
-  static const EnumArraysArrayEnum crab = _$crab;
+  static Serializer<EnumArraysArrayEnumEnum> get serializer => _$enumArraysArrayEnumEnumSerializer;
 
-  static Serializer<EnumArraysArrayEnum> get serializer => _$enumArraysArrayEnumSerializer;
+  const EnumArraysArrayEnumEnum._(String name): super(name);
 
-  const EnumArraysArrayEnum._(String name): super(name);
-
-  static BuiltSet<EnumArraysArrayEnum> get values => _$enumArraysArrayEnumValues;
-  static EnumArraysArrayEnum valueOf(String name) => _$enumArraysArrayEnumValueOf(name);
+  static BuiltSet<EnumArraysArrayEnumEnum> get values => _$enumArraysArrayEnumEnumValues;
+  static EnumArraysArrayEnumEnum valueOf(String name) => _$enumArraysArrayEnumEnumValueOf(name);
 }
-
 

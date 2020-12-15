@@ -17,13 +17,10 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     this.map = const {},
   });
 
-  
   String uuid;
 
-  
   DateTime dateTime;
 
-  
   Map<String, Animal> map;
 
   @override
@@ -44,13 +41,13 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (uuid != null) {
-      json['uuid'] = uuid;
+      json[r'uuid'] = uuid;
     }
     if (dateTime != null) {
-      json['dateTime'] = dateTime.toUtc().toIso8601String();
+      json[r'dateTime'] = dateTime.toUtc().toIso8601String();
     }
     if (map != null) {
-      json['map'] = map;
+      json[r'map'] = map;
     }
     return json;
   }
@@ -60,13 +57,13 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   static MixedPropertiesAndAdditionalPropertiesClass fromJson(Map<String, dynamic> json) => json == null
     ? null
     : MixedPropertiesAndAdditionalPropertiesClass(
-        uuid: json['uuid'],
-        dateTime: json['dateTime'] == null
+        uuid: json[r'uuid'],
+        dateTime: json[r'dateTime'] == null
           ? null
-          : DateTime.parse(json['dateTime']),
-        map: json['map'] == null
+          : DateTime.parse(json[r'dateTime']),
+        map: json[r'map'] == null
           ? null
-          : Animal.mapFromJson(json['map']),
+          : Animal.mapFromJson(json[r'map']),
     );
 
   static List<MixedPropertiesAndAdditionalPropertiesClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

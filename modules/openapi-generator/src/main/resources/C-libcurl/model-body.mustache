@@ -264,7 +264,7 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
         keyValuePair_t *localKeyValue = (keyValuePair_t*) listEntry->data;
         free (localKeyValue->key);
         free (localKeyValue->value);
-        free (localKeyValue);
+        keyValuePair_free(localKeyValue);
     }
     list_free({{classname}}->{{name}});
     {{/isMap}}

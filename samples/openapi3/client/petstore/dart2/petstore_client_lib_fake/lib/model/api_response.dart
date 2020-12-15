@@ -17,13 +17,10 @@ class ApiResponse {
     this.message,
   });
 
-  
   int code;
 
-  
   String type;
 
-  
   String message;
 
   @override
@@ -44,13 +41,13 @@ class ApiResponse {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (code != null) {
-      json['code'] = code;
+      json[r'code'] = code;
     }
     if (type != null) {
-      json['type'] = type;
+      json[r'type'] = type;
     }
     if (message != null) {
-      json['message'] = message;
+      json[r'message'] = message;
     }
     return json;
   }
@@ -60,9 +57,9 @@ class ApiResponse {
   static ApiResponse fromJson(Map<String, dynamic> json) => json == null
     ? null
     : ApiResponse(
-        code: json['code'],
-        type: json['type'],
-        message: json['message'],
+        code: json[r'code'],
+        type: json[r'type'],
+        message: json[r'message'],
     );
 
   static List<ApiResponse> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

@@ -12,8 +12,8 @@ void main() {
     //
     // To test special tags and operation ID starting with number
     //
-    //Future<Client> 123test@$%SpecialTags(Client client) async
-    test('test 123test@$%SpecialTags', () async {
+    //Future<Client> call123testSpecialTags(Client client) async
+    test('test call123testSpecialTags', () async {
       // TODO
     });
 

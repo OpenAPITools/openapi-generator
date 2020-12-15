@@ -6,8 +6,8 @@ void main() {
   final instance = SpecialModelName();
 
   group(SpecialModelName, () {
-    // int $special[propertyName] (default value: null)
-    test('to test the property `$special[propertyName]`', () async {
+    // int dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket (default value: null)
+    test('to test the property `dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket`', () async {
       // TODO
     });
 

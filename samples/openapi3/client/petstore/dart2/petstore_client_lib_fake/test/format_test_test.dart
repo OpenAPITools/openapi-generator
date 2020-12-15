@@ -31,12 +31,12 @@ void main() {
       // TODO
     });
 
-    // double double
-    test('to test the property `double`', () async {
+    // double double_
+    test('to test the property `double_`', () async {
       // TODO
     });
 
-    // Decimal decimal
+    // double decimal
     test('to test the property `decimal`', () async {
       // TODO
     });

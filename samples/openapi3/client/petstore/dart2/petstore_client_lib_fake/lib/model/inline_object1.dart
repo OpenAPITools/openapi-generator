@@ -38,10 +38,10 @@ class InlineObject1 {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (additionalMetadata != null) {
-      json['additionalMetadata'] = additionalMetadata;
+      json[r'additionalMetadata'] = additionalMetadata;
     }
     if (file != null) {
-      json['file'] = file;
+      json[r'file'] = file;
     }
     return json;
   }
@@ -51,7 +51,7 @@ class InlineObject1 {
   static InlineObject1 fromJson(Map<String, dynamic> json) => json == null
     ? null
     : InlineObject1(
-        additionalMetadata: json['additionalMetadata'],
+        additionalMetadata: json[r'additionalMetadata'],
         file: null, // No support for decoding binary content from JSON
     );
 

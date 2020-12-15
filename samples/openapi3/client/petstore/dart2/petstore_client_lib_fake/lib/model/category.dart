@@ -16,10 +16,8 @@ class Category {
     this.name = 'default-name',
   });
 
-  
   int id;
 
-  
   String name;
 
   @override
@@ -38,10 +36,10 @@ class Category {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (id != null) {
-      json['id'] = id;
+      json[r'id'] = id;
     }
     if (name != null) {
-      json['name'] = name;
+      json[r'name'] = name;
     }
     return json;
   }
@@ -51,8 +49,8 @@ class Category {
   static Category fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Category(
-        id: json['id'],
-        name: json['name'],
+        id: json[r'id'],
+        name: json[r'name'],
     );
 
   static List<Category> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

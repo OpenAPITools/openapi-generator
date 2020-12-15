@@ -6,7 +6,6 @@ part 'array_of_array_of_number_only.g.dart';
 
 abstract class ArrayOfArrayOfNumberOnly implements Built<ArrayOfArrayOfNumberOnly, ArrayOfArrayOfNumberOnlyBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'ArrayArrayNumber')
     BuiltList<BuiltList<num>> get arrayArrayNumber;

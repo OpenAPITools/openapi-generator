@@ -17,7 +17,7 @@ class FormatTest {
     this.int64,
     @required this.number,
     this.float,
-    this.double,
+    this.double_,
     this.decimal,
     this.string,
     @required this.byte,
@@ -30,56 +30,42 @@ class FormatTest {
     this.patternWithDigitsAndDelimiter,
   });
 
-  
   // minimum: 10
   // maximum: 100
   int integer;
 
-  
   // minimum: 20
   // maximum: 200
   int int32;
 
-  
   int int64;
 
-  
   // minimum: 32.1
   // maximum: 543.2
   num number;
 
-  
   // minimum: 54.3
   // maximum: 987.6
   double float;
 
-  
   // minimum: 67.8
   // maximum: 123.4
-  double double;
+  double double_;
 
-  
   double decimal;
 
-  
   String string;
 
-  
   String byte;
 
-  
   MultipartFile binary;
 
-  
   DateTime date;
 
-  
   DateTime dateTime;
 
-  
   String uuid;
 
-  
   String password;
 
   /// A string that is a 10 digit number. Can have leading zeros.
@@ -95,7 +81,7 @@ class FormatTest {
      other.int64 == int64 &&
      other.number == number &&
      other.float == float &&
-     other.double == double &&
+     other.double_ == double_ &&
      other.decimal == decimal &&
      other.string == string &&
      other.byte == byte &&
@@ -114,7 +100,7 @@ class FormatTest {
     (int64 == null ? 0 : int64.hashCode) +
     (number == null ? 0 : number.hashCode) +
     (float == null ? 0 : float.hashCode) +
-    (double == null ? 0 : double.hashCode) +
+    (double_ == null ? 0 : double_.hashCode) +
     (decimal == null ? 0 : decimal.hashCode) +
     (string == null ? 0 : string.hashCode) +
     (byte == null ? 0 : byte.hashCode) +
@@ -127,57 +113,57 @@ class FormatTest {
     (patternWithDigitsAndDelimiter == null ? 0 : patternWithDigitsAndDelimiter.hashCode);
 
   @override
-  String toString() => 'FormatTest[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double=$double, decimal=$decimal, string=$string, byte=$byte, binary=$binary, date=$date, dateTime=$dateTime, uuid=$uuid, password=$password, patternWithDigits=$patternWithDigits, patternWithDigitsAndDelimiter=$patternWithDigitsAndDelimiter]';
+  String toString() => 'FormatTest[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double_=$double_, decimal=$decimal, string=$string, byte=$byte, binary=$binary, date=$date, dateTime=$dateTime, uuid=$uuid, password=$password, patternWithDigits=$patternWithDigits, patternWithDigitsAndDelimiter=$patternWithDigitsAndDelimiter]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (integer != null) {
-      json['integer'] = integer;
+      json[r'integer'] = integer;
     }
     if (int32 != null) {
-      json['int32'] = int32;
+      json[r'int32'] = int32;
     }
     if (int64 != null) {
-      json['int64'] = int64;
+      json[r'int64'] = int64;
     }
     if (number != null) {
-      json['number'] = number;
+      json[r'number'] = number;
     }
     if (float != null) {
-      json['float'] = float;
+      json[r'float'] = float;
     }
-    if (double != null) {
-      json['double'] = double;
+    if (double_ != null) {
+      json[r'double'] = double_;
     }
     if (decimal != null) {
-      json['decimal'] = decimal;
+      json[r'decimal'] = decimal;
     }
     if (string != null) {
-      json['string'] = string;
+      json[r'string'] = string;
     }
     if (byte != null) {
-      json['byte'] = byte;
+      json[r'byte'] = byte;
     }
     if (binary != null) {
-      json['binary'] = binary;
+      json[r'binary'] = binary;
     }
     if (date != null) {
-      json['date'] = _dateFormatter.format(date.toUtc());
+      json[r'date'] = _dateFormatter.format(date.toUtc());
     }
     if (dateTime != null) {
-      json['dateTime'] = dateTime.toUtc().toIso8601String();
+      json[r'dateTime'] = dateTime.toUtc().toIso8601String();
     }
     if (uuid != null) {
-      json['uuid'] = uuid;
+      json[r'uuid'] = uuid;
     }
     if (password != null) {
-      json['password'] = password;
+      json[r'password'] = password;
     }
     if (patternWithDigits != null) {
-      json['pattern_with_digits'] = patternWithDigits;
+      json[r'pattern_with_digits'] = patternWithDigits;
     }
     if (patternWithDigitsAndDelimiter != null) {
-      json['pattern_with_digits_and_delimiter'] = patternWithDigitsAndDelimiter;
+      json[r'pattern_with_digits_and_delimiter'] = patternWithDigitsAndDelimiter;
     }
     return json;
   }
@@ -187,28 +173,28 @@ class FormatTest {
   static FormatTest fromJson(Map<String, dynamic> json) => json == null
     ? null
     : FormatTest(
-        integer: json['integer'],
-        int32: json['int32'],
-        int64: json['int64'],
-        number: json['number'] == null ?
+        integer: json[r'integer'],
+        int32: json[r'int32'],
+        int64: json[r'int64'],
+        number: json[r'number'] == null ?
           null :
-          json['number'].toDouble(),
-        float: json['float'],
-        double: json['double'],
-        decimal: json['decimal'],
-        string: json['string'],
-        byte: json['byte'],
+          json[r'number'].toDouble(),
+        float: json[r'float'],
+        double_: json[r'double'],
+        decimal: json[r'decimal'],
+        string: json[r'string'],
+        byte: json[r'byte'],
         binary: null, // No support for decoding binary content from JSON
-        date: json['date'] == null
+        date: json[r'date'] == null
           ? null
-          : DateTime.parse(json['date']),
-        dateTime: json['dateTime'] == null
+          : DateTime.parse(json[r'date']),
+        dateTime: json[r'dateTime'] == null
           ? null
-          : DateTime.parse(json['dateTime']),
-        uuid: json['uuid'],
-        password: json['password'],
-        patternWithDigits: json['pattern_with_digits'],
-        patternWithDigitsAndDelimiter: json['pattern_with_digits_and_delimiter'],
+          : DateTime.parse(json[r'dateTime']),
+        uuid: json[r'uuid'],
+        password: json[r'password'],
+        patternWithDigits: json[r'pattern_with_digits'],
+        patternWithDigitsAndDelimiter: json[r'pattern_with_digits_and_delimiter'],
     );
 
   static List<FormatTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

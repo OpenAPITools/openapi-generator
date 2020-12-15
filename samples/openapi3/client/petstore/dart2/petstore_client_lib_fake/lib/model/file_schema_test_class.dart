@@ -16,10 +16,8 @@ class FileSchemaTestClass {
     this.files = const [],
   });
 
-  
   MultipartFile file;
 
-  
   List<MultipartFile> files;
 
   @override
@@ -38,10 +36,10 @@ class FileSchemaTestClass {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (file != null) {
-      json['file'] = file;
+      json[r'file'] = file;
     }
     if (files != null) {
-      json['files'] = files;
+      json[r'files'] = files;
     }
     return json;
   }
@@ -51,8 +49,8 @@ class FileSchemaTestClass {
   static FileSchemaTestClass fromJson(Map<String, dynamic> json) => json == null
     ? null
     : FileSchemaTestClass(
-        file: MultipartFile.fromJson(json['file']),
-        files: MultipartFile.listFromJson(json['files']),
+        file: MultipartFile.fromJson(json[r'file']),
+        files: MultipartFile.listFromJson(json[r'files']),
     );
 
   static List<FileSchemaTestClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
