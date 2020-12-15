@@ -6,20 +6,19 @@ part 'map_test.g.dart';
 
 abstract class MapTest implements Built<MapTest, MapTestBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'map_map_of_string')
     BuiltMap<String, BuiltMap<String, String>> get mapMapOfString;
-    
+
     @nullable
     @BuiltValueField(wireName: r'map_of_enum_string')
-    MapTestMapOfEnumString get mapOfEnumString;
+    BuiltMap<String, MapTestInnerEnum> get mapOfEnumString;
     // enum mapOfEnumStringEnum {  UPPER,  lower,  };
-    
+
     @nullable
     @BuiltValueField(wireName: r'direct_map')
     BuiltMap<String, bool> get directMap;
-    
+
     @nullable
     @BuiltValueField(wireName: r'indirect_map')
     BuiltMap<String, bool> get indirectMap;
@@ -31,19 +30,18 @@ abstract class MapTest implements Built<MapTest, MapTestBuilder> {
     static Serializer<MapTest> get serializer => _$mapTestSerializer;
 }
 
-class MapTestMapOfEnumString extends EnumClass {
+class MapTestInnerEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'UPPER')
-  static const MapTestMapOfEnumString UPPER = _$mapTestMapOfEnumString_UPPER;
+  static const MapTestInnerEnum UPPER = _$mapTestInnerEnum_UPPER;
   @BuiltValueEnumConst(wireName: r'lower')
-  static const MapTestMapOfEnumString lower = _$mapTestMapOfEnumString_lower;
+  static const MapTestInnerEnum lower = _$mapTestInnerEnum_lower;
 
-  static Serializer<MapTestMapOfEnumString> get serializer => _$mapTestMapOfEnumStringSerializer;
+  static Serializer<MapTestInnerEnum> get serializer => _$mapTestInnerEnumSerializer;
 
-  const MapTestMapOfEnumString._(String name): super(name);
+  const MapTestInnerEnum._(String name): super(name);
 
-  static BuiltSet<MapTestMapOfEnumString> get values => _$mapTestMapOfEnumStringValues;
-  static MapTestMapOfEnumString valueOf(String name) => _$mapTestMapOfEnumStringValueOf(name);
+  static BuiltSet<MapTestInnerEnum> get values => _$mapTestInnerEnumValues;
+  static MapTestInnerEnum valueOf(String name) => _$mapTestInnerEnumValueOf(name);
 }
-
 

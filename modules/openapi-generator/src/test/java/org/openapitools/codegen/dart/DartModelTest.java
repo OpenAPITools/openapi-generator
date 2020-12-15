@@ -419,7 +419,7 @@ public class DartModelTest {
         Assert.assertEquals(property1.baseName, "testStringEnum");
         Assert.assertEquals(property1.dataType, "String");
         Assert.assertEquals(property1.baseType, "String");
-        Assert.assertEquals(property1.datatypeWithEnum, "TestStringEnumEnum");
+        Assert.assertEquals(property1.datatypeWithEnum, "SampleTestStringEnumEnum");
         Assert.assertEquals(property1.name, "testStringEnum");
         Assert.assertTrue(property1.isEnum);
         Assert.assertEquals(property1.allowableValues.size(), 2);
@@ -439,7 +439,7 @@ public class DartModelTest {
         Assert.assertEquals(property2.baseName, "testIntEnum");
         Assert.assertEquals(property2.dataType, "int");
         Assert.assertEquals(property2.baseType, "int");
-        Assert.assertEquals(property2.datatypeWithEnum, "TestIntEnumEnum");
+        Assert.assertEquals(property2.datatypeWithEnum, "SampleTestIntEnumEnum");
         Assert.assertEquals(property2.name, "testIntEnum");
         Assert.assertTrue(property2.isEnum);
         Assert.assertEquals(property2.allowableValues.size(), 2);
@@ -482,7 +482,7 @@ public class DartModelTest {
         Assert.assertEquals(property1.baseName, "testIntEnum");
         Assert.assertEquals(property1.dataType, "int");
         Assert.assertEquals(property1.baseType, "int");
-        Assert.assertEquals(property1.datatypeWithEnum, "TestIntEnumEnum");
+        Assert.assertEquals(property1.datatypeWithEnum, "SampleTestIntEnumEnum");
         Assert.assertEquals(property1.name, "testIntEnum");
         Assert.assertTrue(property1.isEnum);
         Assert.assertEquals(property1.allowableValues.size(), 2);

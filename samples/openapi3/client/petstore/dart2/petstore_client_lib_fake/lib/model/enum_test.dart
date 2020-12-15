@@ -22,28 +22,20 @@ class EnumTest {
     this.outerEnumIntegerDefaultValue,
   });
 
-  
   EnumTestEnumStringEnum enumString;
 
-  
   EnumTestEnumStringRequiredEnum enumStringRequired;
 
-  
   EnumTestEnumIntegerEnum enumInteger;
 
-  
   EnumTestEnumNumberEnum enumNumber;
 
-  
   OuterEnum outerEnum;
 
-  
   OuterEnumInteger outerEnumInteger;
 
-  
   OuterEnumDefaultValue outerEnumDefaultValue;
 
-  
   OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue;
 
   @override

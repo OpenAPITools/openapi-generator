@@ -5,11 +5,12 @@ part 'inline_object.g.dart';
 
 abstract class InlineObject implements Built<InlineObject, InlineObjectBuilder> {
 
-    /* Updated name of the pet */
+    /// Updated name of the pet
     @nullable
     @BuiltValueField(wireName: r'name')
     String get name;
-    /* Updated status of the pet */
+
+    /// Updated status of the pet
     @nullable
     @BuiltValueField(wireName: r'status')
     String get status;

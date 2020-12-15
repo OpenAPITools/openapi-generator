@@ -20,22 +20,17 @@ class Order {
     this.complete = false,
   });
 
-  
   int id;
 
-  
   int petId;
 
-  
   int quantity;
 
-  
   DateTime shipDate;
 
   /// Order Status
   OrderStatusEnum status;
 
-  
   bool complete;
 
   @override

@@ -20,19 +20,14 @@ class Capitalization {
     this.ATT_NAME,
   });
 
-  
   String smallCamel;
 
-  
   String capitalCamel;
 
-  
   String smallSnake;
 
-  
   String capitalSnake;
 
-  
   String sCAETHFlowPoints;
 
   /// Name of the pet 

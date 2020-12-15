@@ -6,59 +6,72 @@ part 'inline_object3.g.dart';
 
 abstract class InlineObject3 implements Built<InlineObject3, InlineObject3Builder> {
 
-    /* None */
+    /// None
     @nullable
     @BuiltValueField(wireName: r'integer')
     int get integer;
-    /* None */
+
+    /// None
     @nullable
     @BuiltValueField(wireName: r'int32')
     int get int32;
-    /* None */
+
+    /// None
     @nullable
     @BuiltValueField(wireName: r'int64')
     int get int64;
-    /* None */
+
+    /// None
     @nullable
     @BuiltValueField(wireName: r'number')
     num get number;
-    /* None */
+
+    /// None
     @nullable
     @BuiltValueField(wireName: r'float')
     double get float;
-    /* None */
+
+    /// None
     @nullable
     @BuiltValueField(wireName: r'double')
     double get double_;
-    /* None */
+
+    /// None
     @nullable
     @BuiltValueField(wireName: r'string')
     String get string;
-    /* None */
+
+    /// None
     @nullable
     @BuiltValueField(wireName: r'pattern_without_delimiter')
     String get patternWithoutDelimiter;
-    /* None */
+
+    /// None
     @nullable
     @BuiltValueField(wireName: r'byte')
     String get byte;
-    /* None */
+
+    /// None
     @nullable
     @BuiltValueField(wireName: r'binary')
     Uint8List get binary;
-    /* None */
+
+    /// None
     @nullable
     @BuiltValueField(wireName: r'date')
     DateTime get date;
-    /* None */
+
+    /// None
     @nullable
     @BuiltValueField(wireName: r'dateTime')
     DateTime get dateTime;
-    /* None */
+
+    /// None
     @nullable
     @BuiltValueField(wireName: r'password')
     String get password;
-    /* None */
+
+    /// None
     @nullable
     @BuiltValueField(wireName: r'callback')
     String get callback;

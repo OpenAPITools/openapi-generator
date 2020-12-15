@@ -17,13 +17,10 @@ class OuterComposite {
     this.myBoolean,
   });
 
-  
   num myNumber;
 
-  
   String myString;
 
-  
   bool myBoolean;
 
   @override

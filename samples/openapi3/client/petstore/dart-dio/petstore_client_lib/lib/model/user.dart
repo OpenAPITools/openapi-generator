@@ -5,35 +5,35 @@ part 'user.g.dart';
 
 abstract class User implements Built<User, UserBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'id')
     int get id;
-    
+
     @nullable
     @BuiltValueField(wireName: r'username')
     String get username;
-    
+
     @nullable
     @BuiltValueField(wireName: r'firstName')
     String get firstName;
-    
+
     @nullable
     @BuiltValueField(wireName: r'lastName')
     String get lastName;
-    
+
     @nullable
     @BuiltValueField(wireName: r'email')
     String get email;
-    
+
     @nullable
     @BuiltValueField(wireName: r'password')
     String get password;
-    
+
     @nullable
     @BuiltValueField(wireName: r'phone')
     String get phone;
-    /* User Status */
+
+    /// User Status
     @nullable
     @BuiltValueField(wireName: r'userStatus')
     int get userStatus;

@@ -8,8 +8,8 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**mapProperty** | **BuiltMap&lt;String, String&gt;** |  | [optional] [default to const {}]
-**mapOfMapProperty** | [**BuiltMap&lt;String, BuiltMap&lt;String, String&gt;&gt;**](BuiltMap.md) |  | [optional] [default to const {}]
+**mapProperty** | **BuiltMap<String, String>** |  | [optional] [default to const {}]
+**mapOfMapProperty** | [**BuiltMap<String, BuiltMap<String, String>>**](BuiltMap.md) |  | [optional] [default to const {}]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

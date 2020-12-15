@@ -5,27 +5,27 @@ part 'capitalization.g.dart';
 
 abstract class Capitalization implements Built<Capitalization, CapitalizationBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'smallCamel')
     String get smallCamel;
-    
+
     @nullable
     @BuiltValueField(wireName: r'CapitalCamel')
     String get capitalCamel;
-    
+
     @nullable
     @BuiltValueField(wireName: r'small_Snake')
     String get smallSnake;
-    
+
     @nullable
     @BuiltValueField(wireName: r'Capital_Snake')
     String get capitalSnake;
-    
+
     @nullable
     @BuiltValueField(wireName: r'SCA_ETH_Flow_Points')
     String get sCAETHFlowPoints;
-    /* Name of the pet  */
+
+    /// Name of the pet 
     @nullable
     @BuiltValueField(wireName: r'ATT_NAME')
     String get ATT_NAME;

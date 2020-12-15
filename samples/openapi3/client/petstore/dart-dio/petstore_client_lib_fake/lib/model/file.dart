@@ -5,7 +5,7 @@ part 'file.g.dart';
 
 abstract class File implements Built<File, FileBuilder> {
 
-    /* Test capitalization */
+    /// Test capitalization
     @nullable
     @BuiltValueField(wireName: r'sourceURI')
     String get sourceURI;
