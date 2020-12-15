@@ -671,18 +671,7 @@ public class DartClientCodegen extends DefaultCodegen {
             return; // skip if DART_POST_PROCESS_FILE env variable is not defined
         }
 
-        // only process the following type (or we can simply rely on the file extension to check if it's a Dart file)
-        Set<String> supportedFileType = Sets.newHashSet(
-            "supporting-mustache",
-            "model-test",
-            "model",
-            "api-test",
-            "api");
-        if (!supportedFileType.contains(fileType)) {
-            return;
-        }
-
-        // only process files with dart extension
+        // process all files with dart extension
         if ("dart".equals(FilenameUtils.getExtension(file.toString()))) {
             // currently only support "dartfmt -w yourcode.dart"
             String command = dartPostProcessFile + " " + file.toString();
