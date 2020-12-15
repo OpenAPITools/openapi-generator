@@ -5,11 +5,10 @@ part 'category.g.dart';
 
 abstract class Category implements Built<Category, CategoryBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'id')
     int get id;
-    
+
     @nullable
     @BuiltValueField(wireName: r'name')
     String get name;

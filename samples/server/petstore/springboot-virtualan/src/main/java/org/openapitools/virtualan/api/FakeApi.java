@@ -13,7 +13,6 @@ import java.util.Map;
 import org.openapitools.virtualan.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.virtualan.model.OuterComposite;
-import org.springframework.core.io.Resource;
 import org.openapitools.virtualan.model.User;
 import org.openapitools.virtualan.model.XmlItem;
 import io.swagger.annotations.*;

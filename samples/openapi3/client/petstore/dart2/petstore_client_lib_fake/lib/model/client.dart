@@ -15,7 +15,6 @@ class Client {
     this.client,
   });
 
-  
   String client;
 
   @override

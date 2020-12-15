@@ -32,7 +32,7 @@ var orderId = orderId_example; // String | ID of the order that needs to be dele
 try { 
     api_instance.deleteOrder(orderId);
 } catch (e) {
-    print("Exception when calling StoreApi->deleteOrder: $e\n");
+    print('Exception when calling StoreApi->deleteOrder: $e\n');
 }
 ```
 
@@ -58,7 +58,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getInventory**
-> Map<String, int> getInventory()
+> BuiltMap<String, int> getInventory()
 
 Returns pet inventories by status
 
@@ -78,7 +78,7 @@ try {
     var result = api_instance.getInventory();
     print(result);
 } catch (e) {
-    print("Exception when calling StoreApi->getInventory: $e\n");
+    print('Exception when calling StoreApi->getInventory: $e\n');
 }
 ```
 
@@ -87,7 +87,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Map<String, int>**
+**BuiltMap<String, int>**
 
 ### Authorization
 
@@ -118,7 +118,7 @@ try {
     var result = api_instance.getOrderById(orderId);
     print(result);
 } catch (e) {
-    print("Exception when calling StoreApi->getOrderById: $e\n");
+    print('Exception when calling StoreApi->getOrderById: $e\n');
 }
 ```
 
@@ -159,7 +159,7 @@ try {
     var result = api_instance.placeOrder(order);
     print(result);
 } catch (e) {
-    print("Exception when calling StoreApi->placeOrder: $e\n");
+    print('Exception when calling StoreApi->placeOrder: $e\n');
 }
 ```
 

@@ -15,7 +15,6 @@ class HealthCheckResult {
     this.nullableMessage,
   });
 
-  
   String nullableMessage;
 
   @override

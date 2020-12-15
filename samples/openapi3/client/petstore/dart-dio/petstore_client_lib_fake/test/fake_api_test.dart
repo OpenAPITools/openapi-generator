@@ -84,7 +84,7 @@ void main() {
     //
     // To test enum parameters
     //
-    //Future testEnumParameters({ List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, int enumQueryInteger, double enumQueryDouble, List<String> enumFormStringArray, String enumFormString }) async
+    //Future testEnumParameters({ BuiltList<String> enumHeaderStringArray, String enumHeaderString, BuiltList<String> enumQueryStringArray, String enumQueryString, int enumQueryInteger, double enumQueryDouble, BuiltList<String> enumFormStringArray, String enumFormString }) async
     test('test testEnumParameters', () async {
       // TODO
     });
@@ -100,7 +100,7 @@ void main() {
 
     // test inline additionalProperties
     //
-    //Future testInlineAdditionalProperties(Map<String, String> requestBody) async
+    //Future testInlineAdditionalProperties(BuiltMap<String, String> requestBody) async
     test('test testInlineAdditionalProperties', () async {
       // TODO
     });
@@ -114,7 +114,7 @@ void main() {
 
     // To test the collection format in query parameters
     //
-    //Future testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) async
+    //Future testQueryParameterCollectionFormat(BuiltList<String> pipe, BuiltList<String> ioutil, BuiltList<String> http, BuiltList<String> url, BuiltList<String> context) async
     test('test testQueryParameterCollectionFormat', () async {
       // TODO
     });

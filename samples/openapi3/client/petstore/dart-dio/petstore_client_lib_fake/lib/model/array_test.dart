@@ -7,15 +7,14 @@ part 'array_test.g.dart';
 
 abstract class ArrayTest implements Built<ArrayTest, ArrayTestBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'array_of_string')
     BuiltList<String> get arrayOfString;
-    
+
     @nullable
     @BuiltValueField(wireName: r'array_array_of_integer')
     BuiltList<BuiltList<int>> get arrayArrayOfInteger;
-    
+
     @nullable
     @BuiltValueField(wireName: r'array_array_of_model')
     BuiltList<BuiltList<ReadOnlyFirst>> get arrayArrayOfModel;

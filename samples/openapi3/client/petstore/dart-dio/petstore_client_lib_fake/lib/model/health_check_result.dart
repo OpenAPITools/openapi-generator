@@ -5,7 +5,6 @@ part 'health_check_result.g.dart';
 
 abstract class HealthCheckResult implements Built<HealthCheckResult, HealthCheckResultBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'NullableMessage')
     String get nullableMessage;

@@ -15,7 +15,6 @@ class SpecialModelName {
     this.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
   });
 
-  
   int dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
 
   @override

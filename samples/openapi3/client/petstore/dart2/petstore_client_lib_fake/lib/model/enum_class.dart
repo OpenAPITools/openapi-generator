@@ -19,8 +19,7 @@ class EnumClass {
 
   @override
   bool operator ==(Object other) => identical(this, other) ||
-      other is EnumClass && other.value == value ||
-      other is String && other == value;
+      other is EnumClass && other.value == value;
 
   @override
   int get hashCode => toString().hashCode;
@@ -30,9 +29,9 @@ class EnumClass {
 
   String toJson() => value;
 
-  static const abc = EnumClass._('_abc');
-  static const efg = EnumClass._('-efg');
-  static const leftParenthesisXyzRightParenthesis = EnumClass._('(xyz)');
+  static const abc = EnumClass._(r'_abc');
+  static const efg = EnumClass._(r'-efg');
+  static const leftParenthesisXyzRightParenthesis = EnumClass._(r'(xyz)');
 
   /// List of all possible values in this [enum][EnumClass].
   static const values = <EnumClass>[
@@ -71,9 +70,9 @@ class EnumClassTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumClass decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case '_abc': return EnumClass.abc;
-      case '-efg': return EnumClass.efg;
-      case '(xyz)': return EnumClass.leftParenthesisXyzRightParenthesis;
+      case r'_abc': return EnumClass.abc;
+      case r'-efg': return EnumClass.efg;
+      case r'(xyz)': return EnumClass.leftParenthesisXyzRightParenthesis;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

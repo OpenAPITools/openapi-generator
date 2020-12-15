@@ -17,13 +17,10 @@ class Dog {
     this.breed,
   });
 
-  
   String className;
 
-  
   String color;
 
-  
   String breed;
 
   @override

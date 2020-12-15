@@ -30,7 +30,7 @@ try {
     var result = api_instance.call123testSpecialTags(client);
     print(result);
 } catch (e) {
-    print("Exception when calling AnotherFakeApi->call123testSpecialTags: $e\n");
+    print('Exception when calling AnotherFakeApi->call123testSpecialTags: $e\n');
 }
 ```
 
