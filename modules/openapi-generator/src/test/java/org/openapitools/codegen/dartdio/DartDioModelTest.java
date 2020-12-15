@@ -69,7 +69,7 @@ public class DartDioModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.dataType, "int");
         Assert.assertEquals(property1.name, "id");
-        Assert.assertEquals(property1.defaultValue, "null");
+        Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int");
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
@@ -79,7 +79,7 @@ public class DartDioModelTest {
         Assert.assertEquals(property2.baseName, "name");
         Assert.assertEquals(property2.dataType, "String");
         Assert.assertEquals(property2.name, "name");
-        Assert.assertEquals(property2.defaultValue, "null");
+        Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "String");
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
@@ -90,7 +90,7 @@ public class DartDioModelTest {
         Assert.assertEquals(property3.complexType, "DateTime");
         Assert.assertEquals(property3.dataType, "DateTime");
         Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertEquals(property3.defaultValue, "null");
+        Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "DateTime");
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
@@ -128,7 +128,7 @@ public class DartDioModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.dataType, "int");
         Assert.assertEquals(property1.name, "id");
-        Assert.assertEquals(property1.defaultValue, "null");
+        Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int");
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
@@ -138,7 +138,7 @@ public class DartDioModelTest {
         Assert.assertEquals(property2.baseName, "name");
         Assert.assertEquals(property2.dataType, "String");
         Assert.assertEquals(property2.name, "name");
-        Assert.assertEquals(property2.defaultValue, "null");
+        Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "String");
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
@@ -149,7 +149,7 @@ public class DartDioModelTest {
         Assert.assertEquals(property3.complexType, "OffsetDateTime");
         Assert.assertEquals(property3.dataType, "OffsetDateTime");
         Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertEquals(property3.defaultValue, "null");
+        Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "OffsetDateTime");
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
@@ -159,7 +159,7 @@ public class DartDioModelTest {
         Assert.assertEquals(property4.complexType, "OffsetDate");
         Assert.assertEquals(property4.dataType, "OffsetDate");
         Assert.assertEquals(property4.name, "birthDate");
-        Assert.assertEquals(property4.defaultValue, "null");
+        Assert.assertNull(property4.defaultValue);
         Assert.assertEquals(property4.baseType, "OffsetDate");
         Assert.assertFalse(property4.required);
         Assert.assertFalse(property4.isContainer);
@@ -187,7 +187,7 @@ public class DartDioModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.dataType, "int");
         Assert.assertEquals(property1.name, "id");
-        Assert.assertEquals(property1.defaultValue, "null");
+        Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int");
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);

@@ -37,6 +37,8 @@ abstract class Pet implements Built<Pet, PetBuilder> {
     // Boilerplate code needed to wire-up generated code
     Pet._();
 
+    static void _initializeBuilder(PetBuilder b) => b;
+
     factory Pet([updates(PetBuilder b)]) = _$Pet;
     static Serializer<Pet> get serializer => _$petSerializer;
 }

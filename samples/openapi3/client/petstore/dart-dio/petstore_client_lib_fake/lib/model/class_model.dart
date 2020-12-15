@@ -12,6 +12,8 @@ abstract class ClassModel implements Built<ClassModel, ClassModelBuilder> {
     // Boilerplate code needed to wire-up generated code
     ClassModel._();
 
+    static void _initializeBuilder(ClassModelBuilder b) => b;
+
     factory ClassModel([updates(ClassModelBuilder b)]) = _$ClassModel;
     static Serializer<ClassModel> get serializer => _$classModelSerializer;
 }

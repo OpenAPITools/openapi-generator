@@ -21,6 +21,9 @@ abstract class InlineObject2 implements Built<InlineObject2, InlineObject2Builde
     // Boilerplate code needed to wire-up generated code
     InlineObject2._();
 
+    static void _initializeBuilder(InlineObject2Builder b) => b
+        ..enumFormString = const InlineObject2EnumFormStringEnum._('-efg');
+
     factory InlineObject2([updates(InlineObject2Builder b)]) = _$InlineObject2;
     static Serializer<InlineObject2> get serializer => _$inlineObject2Serializer;
 }

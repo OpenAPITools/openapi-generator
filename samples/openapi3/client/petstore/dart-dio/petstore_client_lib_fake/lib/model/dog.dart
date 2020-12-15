@@ -22,6 +22,9 @@ abstract class Dog implements Built<Dog, DogBuilder> {
     // Boilerplate code needed to wire-up generated code
     Dog._();
 
+    static void _initializeBuilder(DogBuilder b) => b
+        ..color = 'red';
+
     factory Dog([updates(DogBuilder b)]) = _$Dog;
     static Serializer<Dog> get serializer => _$dogSerializer;
 }

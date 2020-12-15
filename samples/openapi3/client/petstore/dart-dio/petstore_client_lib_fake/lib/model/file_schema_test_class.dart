@@ -18,6 +18,8 @@ abstract class FileSchemaTestClass implements Built<FileSchemaTestClass, FileSch
     // Boilerplate code needed to wire-up generated code
     FileSchemaTestClass._();
 
+    static void _initializeBuilder(FileSchemaTestClassBuilder b) => b;
+
     factory FileSchemaTestClass([updates(FileSchemaTestClassBuilder b)]) = _$FileSchemaTestClass;
     static Serializer<FileSchemaTestClass> get serializer => _$fileSchemaTestClassSerializer;
 }

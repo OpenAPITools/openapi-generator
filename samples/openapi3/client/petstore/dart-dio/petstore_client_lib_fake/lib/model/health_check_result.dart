@@ -12,6 +12,8 @@ abstract class HealthCheckResult implements Built<HealthCheckResult, HealthCheck
     // Boilerplate code needed to wire-up generated code
     HealthCheckResult._();
 
+    static void _initializeBuilder(HealthCheckResultBuilder b) => b;
+
     factory HealthCheckResult([updates(HealthCheckResultBuilder b)]) = _$HealthCheckResult;
     static Serializer<HealthCheckResult> get serializer => _$healthCheckResultSerializer;
 }

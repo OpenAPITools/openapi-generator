@@ -17,6 +17,8 @@ abstract class AdditionalPropertiesClass implements Built<AdditionalPropertiesCl
     // Boilerplate code needed to wire-up generated code
     AdditionalPropertiesClass._();
 
+    static void _initializeBuilder(AdditionalPropertiesClassBuilder b) => b;
+
     factory AdditionalPropertiesClass([updates(AdditionalPropertiesClassBuilder b)]) = _$AdditionalPropertiesClass;
     static Serializer<AdditionalPropertiesClass> get serializer => _$additionalPropertiesClassSerializer;
 }
