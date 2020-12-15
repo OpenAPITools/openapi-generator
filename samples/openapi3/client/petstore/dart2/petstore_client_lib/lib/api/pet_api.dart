@@ -95,7 +95,7 @@ class PetApi {
   ///   Pet id to delete
   ///
   /// * [String] apiKey:
-  Future deletePetWithHttpInfo(int petId, { String apiKey }) async {
+  Future<Response> deletePetWithHttpInfo(int petId, { String apiKey }) async {
     // Verify required params are set.
     if (petId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
@@ -150,7 +150,7 @@ class PetApi {
   ///   Pet id to delete
   ///
   /// * [String] apiKey:
-  Future deletePet(int petId, { String apiKey }) async {
+  Future<void> deletePet(int petId, { String apiKey }) async {
     final response = await deletePetWithHttpInfo(petId,  apiKey: apiKey );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
@@ -472,7 +472,7 @@ class PetApi {
   ///
   /// * [String] status:
   ///   Updated status of the pet
-  Future updatePetWithFormWithHttpInfo(int petId, { String name, String status }) async {
+  Future<Response> updatePetWithFormWithHttpInfo(int petId, { String name, String status }) async {
     // Verify required params are set.
     if (petId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
@@ -541,7 +541,7 @@ class PetApi {
   ///
   /// * [String] status:
   ///   Updated status of the pet
-  Future updatePetWithForm(int petId, { String name, String status }) async {
+  Future<void> updatePetWithForm(int petId, { String name, String status }) async {
     final response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
