@@ -5,7 +5,6 @@ part 'special_model_name.g.dart';
 
 abstract class SpecialModelName implements Built<SpecialModelName, SpecialModelNameBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'$special[property.name]')
     int get dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;

@@ -5,7 +5,6 @@ part 'class_model.g.dart';
 
 abstract class ClassModel implements Built<ClassModel, ClassModelBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'_class')
     String get class_;

@@ -16,10 +16,8 @@ class FileSchemaTestClass {
     this.files = const [],
   });
 
-  
   MultipartFile file;
 
-  
   List<MultipartFile> files;
 
   @override

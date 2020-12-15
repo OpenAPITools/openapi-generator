@@ -6,28 +6,28 @@ part 'order.g.dart';
 
 abstract class Order implements Built<Order, OrderBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'id')
     int get id;
-    
+
     @nullable
     @BuiltValueField(wireName: r'petId')
     int get petId;
-    
+
     @nullable
     @BuiltValueField(wireName: r'quantity')
     int get quantity;
-    
+
     @nullable
     @BuiltValueField(wireName: r'shipDate')
     DateTime get shipDate;
-    /* Order Status */
+
+    /// Order Status
     @nullable
     @BuiltValueField(wireName: r'status')
     OrderStatusEnum get status;
     // enum statusEnum {  placed,  approved,  delivered,  };
-    
+
     @nullable
     @BuiltValueField(wireName: r'complete')
     bool get complete;

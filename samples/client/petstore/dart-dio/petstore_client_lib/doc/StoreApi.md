@@ -32,7 +32,7 @@ var orderId = orderId_example; // String | ID of the order that needs to be dele
 try { 
     api_instance.deleteOrder(orderId);
 } catch (e) {
-    print("Exception when calling StoreApi->deleteOrder: $e\n");
+    print('Exception when calling StoreApi->deleteOrder: $e\n');
 }
 ```
 
@@ -78,7 +78,7 @@ try {
     var result = api_instance.getInventory();
     print(result);
 } catch (e) {
-    print("Exception when calling StoreApi->getInventory: $e\n");
+    print('Exception when calling StoreApi->getInventory: $e\n');
 }
 ```
 
@@ -118,7 +118,7 @@ try {
     var result = api_instance.getOrderById(orderId);
     print(result);
 } catch (e) {
-    print("Exception when calling StoreApi->getOrderById: $e\n");
+    print('Exception when calling StoreApi->getOrderById: $e\n');
 }
 ```
 
@@ -159,7 +159,7 @@ try {
     var result = api_instance.placeOrder(body);
     print(result);
 } catch (e) {
-    print("Exception when calling StoreApi->placeOrder: $e\n");
+    print('Exception when calling StoreApi->placeOrder: $e\n');
 }
 ```
 

@@ -5,11 +5,10 @@ part 'tag.g.dart';
 
 abstract class Tag implements Built<Tag, TagBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'id')
     int get id;
-    
+
     @nullable
     @BuiltValueField(wireName: r'name')
     String get name;

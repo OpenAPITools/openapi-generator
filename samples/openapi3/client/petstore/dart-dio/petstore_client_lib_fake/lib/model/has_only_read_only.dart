@@ -5,11 +5,10 @@ part 'has_only_read_only.g.dart';
 
 abstract class HasOnlyReadOnly implements Built<HasOnlyReadOnly, HasOnlyReadOnlyBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'bar')
     String get bar;
-    
+
     @nullable
     @BuiltValueField(wireName: r'foo')
     String get foo;

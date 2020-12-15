@@ -6,12 +6,13 @@ part 'inline_object2.g.dart';
 
 abstract class InlineObject2 implements Built<InlineObject2, InlineObject2Builder> {
 
-    /* Form parameter enum test (string array) */
+    /// Form parameter enum test (string array)
     @nullable
     @BuiltValueField(wireName: r'enum_form_string_array')
     BuiltList<InlineObject2EnumFormStringArrayEnum> get enumFormStringArray;
-    // enum enumFormStringArrayEnum {  &gt;,  $,  };
-    /* Form parameter enum test (string) */
+    // enum enumFormStringArrayEnum {  >,  $,  };
+
+    /// Form parameter enum test (string)
     @nullable
     @BuiltValueField(wireName: r'enum_form_string')
     InlineObject2EnumFormStringEnum get enumFormString;

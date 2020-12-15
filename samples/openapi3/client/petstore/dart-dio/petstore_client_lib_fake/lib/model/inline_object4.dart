@@ -5,11 +5,12 @@ part 'inline_object4.g.dart';
 
 abstract class InlineObject4 implements Built<InlineObject4, InlineObject4Builder> {
 
-    /* field1 */
+    /// field1
     @nullable
     @BuiltValueField(wireName: r'param')
     String get param;
-    /* field2 */
+
+    /// field2
     @nullable
     @BuiltValueField(wireName: r'param2')
     String get param2;

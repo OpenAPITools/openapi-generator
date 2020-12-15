@@ -27,7 +27,7 @@ try {
     var result = api_instance.fooGet();
     print(result);
 } catch (e) {
-    print("Exception when calling DefaultApi->fooGet: $e\n");
+    print('Exception when calling DefaultApi->fooGet: $e\n');
 }
 ```
 
