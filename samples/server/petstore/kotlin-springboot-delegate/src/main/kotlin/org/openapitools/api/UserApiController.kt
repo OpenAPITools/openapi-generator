@@ -8,7 +8,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping("\${openapi.openAPIPetstore.base-path:/v2}")
 class UserApiController(
-        @org.springframework.beans.factory.annotation.Autowired(required = false) delegate: UserApiDelegate
+        @org.springframework.beans.factory.annotation.Autowired(required = false) delegate: UserApiDelegate?
 ) : UserApi {
     private val delegate: UserApiDelegate
 
