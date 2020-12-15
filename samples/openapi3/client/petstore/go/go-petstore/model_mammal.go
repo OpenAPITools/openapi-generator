@@ -34,8 +34,8 @@ func ZebraAsMammal(v *Zebra) Mammal {
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *Mammal) UnmarshalJSON(data []byte) error {
-	var err error
 	match := 0
+	var err error
 	// try to unmarshal data into Whale
 	err = json.Unmarshal(data, &dst.Whale)
 	if err == nil {
