@@ -13,7 +13,7 @@ class InlineObject2 {
   /// Returns a new [InlineObject2] instance.
   InlineObject2({
     this.enumFormStringArray = const [],
-    this.enumFormString = '-efg',
+    this.enumFormString = const InlineObject2EnumFormStringEnum._('-efg'),
   });
 
   /// Form parameter enum test (string array)

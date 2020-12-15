@@ -2,7 +2,7 @@ class {{{classname}}} {
   /// Returns a new [{{{classname}}}] instance.
   {{{classname}}}({
   {{#vars}}
-    {{#isNullable}}{{#required}}@required {{/required}}this.{{{name}}},{{/isNullable}}{{^isNullable}}{{#defaultValue}}this.{{{name}}} = {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{#required}}@required {{/required}}this.{{{name}}}{{/defaultValue}},{{/isNullable}}
+    {{#required}}{{^defaultValue}}@required {{/defaultValue}}{{/required}}this.{{{name}}}{{^isNullable}}{{#defaultValue}} = {{#isEnum}}{{^isContainer}}const {{{classname}}}{{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/isNullable}},
   {{/vars}}
   });
 
