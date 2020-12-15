@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **string** | **String** | None | [optional] 
 **patternWithoutDelimiter** | **String** | None | 
 **byte** | **String** | None | 
-**binary** | [**MultipartFile**](File.md) | None | [optional] 
+**binary** | [**MultipartFile**](MultipartFile.md) | None | [optional] 
 **date** | [**DateTime**](DateTime.md) | None | [optional] 
 **dateTime** | [**DateTime**](DateTime.md) | None | [optional] 
 **password** | **String** | None | [optional] 

@@ -350,14 +350,41 @@ public class DartDioModelTest {
     public static Object[][] modelNames() {
         return new Object[][] {
             {"EnumClass", "ModelEnumClass"},
+            {"JsonObject", "ModelJsonObject"},
+            // OffsetDate is valid without timemachine date library
+            {"OffsetDate", "OffsetDate"},
         };
     }
 
-    @Test(dataProvider = "modelNames", description = "avoid inner class")
+    @Test(dataProvider = "modelNames", description = "correctly prefix reserved model names")
     public void modelNameTest(String name, String expectedName) {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema model = new Schema();
-        final DefaultCodegen codegen = new DartDioClientCodegen();
+        final DartDioClientCodegen codegen = new DartDioClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel(name, model);
+
+        Assert.assertEquals(cm.name, name);
+        Assert.assertEquals(cm.classname, expectedName);
+    }
+
+    @DataProvider(name = "modelNamesTimemachine")
+    public static Object[][] modelNamesTimemachine() {
+        return new Object[][] {
+            {"EnumClass", "ModelEnumClass"},
+            {"JsonObject", "ModelJsonObject"},
+            // OffsetDate is not valid with timemachine date library
+            {"OffsetDate", "ModelOffsetDate"},
+        };
+    }
+
+    @Test(dataProvider = "modelNamesTimemachine", description = "correctly prefix reserved model names")
+    public void modelNameTestTimemachine(String name, String expectedName) {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        final Schema model = new Schema();
+        final DartDioClientCodegen codegen = new DartDioClientCodegen();
+        codegen.setDateLibrary("timemachine");
+        codegen.processOpts();
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel(name, model);
 

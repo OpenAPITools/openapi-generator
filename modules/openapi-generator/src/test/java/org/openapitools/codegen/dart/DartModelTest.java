@@ -295,10 +295,15 @@ public class DartModelTest {
             {"sample.name", "SampleName"},
             {"_sample", "Sample"},
             {"sample name", "SampleName"},
+            {"List", "ModelList"},
+            {"list", "ModelList"},
+            {"File", "ModelFile"},
+            {"Client", "ModelClient"},
+            {"String", "ModelString"},
         };
     }
 
-    @Test(dataProvider = "modelNames", description = "avoid inner class")
+    @Test(dataProvider = "modelNames", description = "correctly generate model names")
     public void modelNameTest(String name, String expectedName) {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema model = new Schema();

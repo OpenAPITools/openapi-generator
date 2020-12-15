@@ -1,11 +1,11 @@
 import 'package:openapi/api.dart';
 import 'package:test/test.dart';
 
-// tests for File
+// tests for ModelFile
 void main() {
-  final instance = File();
+  final instance = ModelFile();
 
-  group('test File', () {
+  group('test ModelFile', () {
     // Test capitalization
     // String sourceURI
     test('to test the property `sourceURI`', () async {
