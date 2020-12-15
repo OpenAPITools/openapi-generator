@@ -8,27 +8,27 @@ part 'pet.g.dart';
 
 abstract class Pet implements Built<Pet, PetBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'id')
     int get id;
-    
+
     @nullable
     @BuiltValueField(wireName: r'category')
     Category get category;
-    
+
     @nullable
     @BuiltValueField(wireName: r'name')
     String get name;
-    
+
     @nullable
     @BuiltValueField(wireName: r'photoUrls')
     BuiltList<String> get photoUrls;
-    
+
     @nullable
     @BuiltValueField(wireName: r'tags')
     BuiltList<Tag> get tags;
-    /* pet status in the store */
+
+    /// pet status in the store
     @nullable
     @BuiltValueField(wireName: r'status')
     PetStatusEnum get status;

@@ -18,16 +18,12 @@ class Name {
     this.n123number,
   });
 
-  
   int name;
 
-  
   int snakeCase;
 
-  
   String property;
 
-  
   int n123number;
 
   @override

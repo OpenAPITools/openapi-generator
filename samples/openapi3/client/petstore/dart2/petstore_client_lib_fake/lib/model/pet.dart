@@ -20,19 +20,14 @@ class Pet {
     this.status,
   });
 
-  
   int id;
 
-  
   Category category;
 
-  
   String name;
 
-  
   List<String> photoUrls;
 
-  
   List<Tag> tags;
 
   /// pet status in the store

@@ -9,7 +9,7 @@ import 'package:openapi/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **justSymbol** | **String** |  | [optional] [default to null]
-**arrayEnum** | **BuiltList&lt;String&gt;** |  | [optional] [default to const []]
+**arrayEnum** | **BuiltList<String>** |  | [optional] [default to const []]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

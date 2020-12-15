@@ -17,13 +17,10 @@ class Cat {
     this.declawed,
   });
 
-  
   String className;
 
-  
   String color;
 
-  
   bool declawed;
 
   @override

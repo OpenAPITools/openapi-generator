@@ -36,7 +36,7 @@ var body = new User(); // User | Created user object
 try { 
     api_instance.createUser(body);
 } catch (e) {
-    print("Exception when calling UserApi->createUser: $e\n");
+    print('Exception when calling UserApi->createUser: $e\n');
 }
 ```
 
@@ -71,12 +71,12 @@ Creates list of users with given input array
 import 'package:openapi/api.dart';
 
 var api_instance = new UserApi();
-var body = [new BuiltList&lt;User&gt;()]; // BuiltList<User> | List of user object
+var body = [new BuiltList<User>()]; // BuiltList<User> | List of user object
 
 try { 
     api_instance.createUsersWithArrayInput(body);
 } catch (e) {
-    print("Exception when calling UserApi->createUsersWithArrayInput: $e\n");
+    print('Exception when calling UserApi->createUsersWithArrayInput: $e\n');
 }
 ```
 
@@ -84,7 +84,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**BuiltList&lt;User&gt;**](User.md)| List of user object | 
+ **body** | [**BuiltList<User>**](User.md)| List of user object | 
 
 ### Return type
 
@@ -111,12 +111,12 @@ Creates list of users with given input array
 import 'package:openapi/api.dart';
 
 var api_instance = new UserApi();
-var body = [new BuiltList&lt;User&gt;()]; // BuiltList<User> | List of user object
+var body = [new BuiltList<User>()]; // BuiltList<User> | List of user object
 
 try { 
     api_instance.createUsersWithListInput(body);
 } catch (e) {
-    print("Exception when calling UserApi->createUsersWithListInput: $e\n");
+    print('Exception when calling UserApi->createUsersWithListInput: $e\n');
 }
 ```
 
@@ -124,7 +124,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**BuiltList&lt;User&gt;**](User.md)| List of user object | 
+ **body** | [**BuiltList<User>**](User.md)| List of user object | 
 
 ### Return type
 
@@ -158,7 +158,7 @@ var username = username_example; // String | The name that needs to be deleted
 try { 
     api_instance.deleteUser(username);
 } catch (e) {
-    print("Exception when calling UserApi->deleteUser: $e\n");
+    print('Exception when calling UserApi->deleteUser: $e\n');
 }
 ```
 
@@ -199,7 +199,7 @@ try {
     var result = api_instance.getUserByName(username);
     print(result);
 } catch (e) {
-    print("Exception when calling UserApi->getUserByName: $e\n");
+    print('Exception when calling UserApi->getUserByName: $e\n');
 }
 ```
 
@@ -241,7 +241,7 @@ try {
     var result = api_instance.loginUser(username, password);
     print(result);
 } catch (e) {
-    print("Exception when calling UserApi->loginUser: $e\n");
+    print('Exception when calling UserApi->loginUser: $e\n');
 }
 ```
 
@@ -281,7 +281,7 @@ var api_instance = new UserApi();
 try { 
     api_instance.logoutUser();
 } catch (e) {
-    print("Exception when calling UserApi->logoutUser: $e\n");
+    print('Exception when calling UserApi->logoutUser: $e\n');
 }
 ```
 
@@ -321,7 +321,7 @@ var body = new User(); // User | Updated user object
 try { 
     api_instance.updateUser(username, body);
 } catch (e) {
-    print("Exception when calling UserApi->updateUser: $e\n");
+    print('Exception when calling UserApi->updateUser: $e\n');
 }
 ```
 

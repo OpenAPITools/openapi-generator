@@ -16,10 +16,8 @@ class Animal {
     this.color = 'red',
   });
 
-  
   String className;
 
-  
   String color;
 
   @override

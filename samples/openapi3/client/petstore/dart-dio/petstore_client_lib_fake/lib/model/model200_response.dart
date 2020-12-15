@@ -5,11 +5,10 @@ part 'model200_response.g.dart';
 
 abstract class Model200Response implements Built<Model200Response, Model200ResponseBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'name')
     int get name;
-    
+
     @nullable
     @BuiltValueField(wireName: r'class')
     String get class_;
