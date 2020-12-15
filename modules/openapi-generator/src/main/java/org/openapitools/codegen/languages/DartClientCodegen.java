@@ -75,7 +75,7 @@ public class DartClientCodegen extends DefaultCodegen {
 
     // Names that must not be used as model names because they clash with existing
     // default imports (dart:io, dart:async, package:http etc.) but are not basic dataTypes.
-    protected Set<String> additionalReservedWords = new HashSet<>();
+    protected Set<String> additionalReservedWords;
 
     public DartClientCodegen() {
         super();
