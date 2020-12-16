@@ -23,7 +23,7 @@ class PetApi {
   ///
   /// * [Pet] pet (required):
   ///   Pet object that needs to be added to the store
-  Future addPetWithHttpInfo(Pet pet) async {
+  Future<Response> addPetWithHttpInfo(Pet pet) async {
     // Verify required params are set.
     if (pet == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
@@ -71,7 +71,7 @@ class PetApi {
   ///
   /// * [Pet] pet (required):
   ///   Pet object that needs to be added to the store
-  Future addPet(Pet pet) async {
+  Future<void> addPet(Pet pet) async {
     final response = await addPetWithHttpInfo(pet);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
@@ -88,7 +88,7 @@ class PetApi {
   ///   Pet id to delete
   ///
   /// * [String] apiKey:
-  Future deletePetWithHttpInfo(int petId, { String apiKey }) async {
+  Future<Response> deletePetWithHttpInfo(int petId, { String apiKey }) async {
     // Verify required params are set.
     if (petId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
@@ -104,7 +104,7 @@ class PetApi {
     final formParams = <String, String>{};
 
     if (apiKey != null) {
-      headerParams['api_key'] = parameterToString(apiKey);
+      headerParams[r'api_key'] = parameterToString(apiKey);
     }
 
     final contentTypes = <String>[];
@@ -143,7 +143,7 @@ class PetApi {
   ///   Pet id to delete
   ///
   /// * [String] apiKey:
-  Future deletePet(int petId, { String apiKey }) async {
+  Future<void> deletePet(int petId, { String apiKey }) async {
     final response = await deletePetWithHttpInfo(petId,  apiKey: apiKey );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
@@ -389,7 +389,7 @@ class PetApi {
   ///
   /// * [Pet] pet (required):
   ///   Pet object that needs to be added to the store
-  Future updatePetWithHttpInfo(Pet pet) async {
+  Future<Response> updatePetWithHttpInfo(Pet pet) async {
     // Verify required params are set.
     if (pet == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
@@ -437,7 +437,7 @@ class PetApi {
   ///
   /// * [Pet] pet (required):
   ///   Pet object that needs to be added to the store
-  Future updatePet(Pet pet) async {
+  Future<void> updatePet(Pet pet) async {
     final response = await updatePetWithHttpInfo(pet);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
@@ -458,7 +458,7 @@ class PetApi {
   ///
   /// * [String] status:
   ///   Updated status of the pet
-  Future updatePetWithFormWithHttpInfo(int petId, { String name, String status }) async {
+  Future<Response> updatePetWithFormWithHttpInfo(int petId, { String name, String status }) async {
     // Verify required params are set.
     if (petId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
@@ -485,21 +485,21 @@ class PetApi {
       final mp = MultipartRequest(null, null);
       if (name != null) {
         hasFields = true;
-        mp.fields['name'] = parameterToString(name);
+        mp.fields[r'name'] = parameterToString(name);
       }
       if (status != null) {
         hasFields = true;
-        mp.fields['status'] = parameterToString(status);
+        mp.fields[r'status'] = parameterToString(status);
       }
       if (hasFields) {
         postBody = mp;
       }
     } else {
       if (name != null) {
-        formParams['name'] = parameterToString(name);
+        formParams[r'name'] = parameterToString(name);
       }
       if (status != null) {
-        formParams['status'] = parameterToString(status);
+        formParams[r'status'] = parameterToString(status);
       }
     }
 
@@ -527,7 +527,7 @@ class PetApi {
   ///
   /// * [String] status:
   ///   Updated status of the pet
-  Future updatePetWithForm(int petId, { String name, String status }) async {
+  Future<void> updatePetWithForm(int petId, { String name, String status }) async {
     final response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
@@ -575,11 +575,11 @@ class PetApi {
       final mp = MultipartRequest(null, null);
       if (additionalMetadata != null) {
         hasFields = true;
-        mp.fields['additionalMetadata'] = parameterToString(additionalMetadata);
+        mp.fields[r'additionalMetadata'] = parameterToString(additionalMetadata);
       }
       if (file != null) {
         hasFields = true;
-        mp.fields['file'] = file.field;
+        mp.fields[r'file'] = file.field;
         mp.files.add(file);
       }
       if (hasFields) {
@@ -587,7 +587,7 @@ class PetApi {
       }
     } else {
       if (additionalMetadata != null) {
-        formParams['additionalMetadata'] = parameterToString(additionalMetadata);
+        formParams[r'additionalMetadata'] = parameterToString(additionalMetadata);
       }
     }
 
@@ -673,11 +673,11 @@ class PetApi {
       final mp = MultipartRequest(null, null);
       if (additionalMetadata != null) {
         hasFields = true;
-        mp.fields['additionalMetadata'] = parameterToString(additionalMetadata);
+        mp.fields[r'additionalMetadata'] = parameterToString(additionalMetadata);
       }
       if (requiredFile != null) {
         hasFields = true;
-        mp.fields['requiredFile'] = requiredFile.field;
+        mp.fields[r'requiredFile'] = requiredFile.field;
         mp.files.add(requiredFile);
       }
       if (hasFields) {
@@ -685,7 +685,7 @@ class PetApi {
       }
     } else {
       if (additionalMetadata != null) {
-        formParams['additionalMetadata'] = parameterToString(additionalMetadata);
+        formParams[r'additionalMetadata'] = parameterToString(additionalMetadata);
       }
     }
 

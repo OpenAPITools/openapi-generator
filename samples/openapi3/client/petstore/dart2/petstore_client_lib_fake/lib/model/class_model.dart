@@ -15,7 +15,6 @@ class ClassModel {
     this.class_,
   });
 
-  
   String class_;
 
   @override
@@ -32,7 +31,7 @@ class ClassModel {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (class_ != null) {
-      json['_class'] = class_;
+      json[r'_class'] = class_;
     }
     return json;
   }
@@ -42,7 +41,7 @@ class ClassModel {
   static ClassModel fromJson(Map<String, dynamic> json) => json == null
     ? null
     : ClassModel(
-        class_: json['_class'],
+        class_: json[r'_class'],
     );
 
   static List<ClassModel> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

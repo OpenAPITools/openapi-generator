@@ -30,6 +30,7 @@ Health check endpoint
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -88,13 +89,14 @@ test http signature authentication
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
 end
 
 api_instance = Petstore::FakeApi.new
-pet = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
+pet = Petstore::Pet.new({name: 'doggie', photo_urls: ['photo_urls_example']}) # Pet | Pet object that needs to be added to the store
 opts = {
   query_1: 'query_1_example', # String | query parameter
   header_1: 'header_1_example' # String | header parameter
@@ -159,6 +161,7 @@ Test serialization of outer boolean types
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -224,6 +227,7 @@ Test serialization of object with outer number type
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -289,11 +293,12 @@ Test serialization of outer number types
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  body: 3.4 # Float | Input number as post body
+  body: 8.14 # Float | Input number as post body
 }
 
 begin
@@ -354,6 +359,7 @@ Test serialization of outer string types
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -419,6 +425,7 @@ For this test, the body for this request much reference a schema named `File`.
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -479,6 +486,7 @@ No authorization required
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -543,6 +551,7 @@ To test \"client\" model
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -606,6 +615,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -615,17 +625,17 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::FakeApi.new
-number = 3.4 # Float | None
-double = 3.4 # Float | None
+number = 8.14 # Float | None
+double = 1.2 # Float | None
 pattern_without_delimiter = 'pattern_without_delimiter_example' # String | None
-byte = 'byte_example' # String | None
+byte = 'BYTE_ARRAY_DATA_HERE' # String | None
 opts = {
   integer: 56, # Integer | None
   int32: 56, # Integer | None
-  int64: 56, # Integer | None
+  int64: 789, # Integer | None
   float: 3.4, # Float | None
   string: 'string_example', # String | None
-  binary: File.new('/path/to/file'), # File | None
+  binary: File.new('/path/to/some/file'), # File | None
   date: Date.parse('2013-10-20'), # Date | None
   date_time: Time.parse('2013-10-20T19:20:30+01:00'), # Time | None
   password: 'password_example', # String | None
@@ -702,18 +712,19 @@ To test enum parameters
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  enum_header_string_array: ['enum_header_string_array_example'], # Array<String> | Header parameter enum test (string array)
-  enum_header_string: '-efg', # String | Header parameter enum test (string)
-  enum_query_string_array: ['enum_query_string_array_example'], # Array<String> | Query parameter enum test (string array)
-  enum_query_string: '-efg', # String | Query parameter enum test (string)
-  enum_query_integer: 56, # Integer | Query parameter enum test (double)
-  enum_query_double: 3.4, # Float | Query parameter enum test (double)
-  enum_form_string_array: '$', # Array<String> | Form parameter enum test (string array)
-  enum_form_string: '-efg' # String | Form parameter enum test (string)
+  enum_header_string_array: ['>'], # Array<String> | Header parameter enum test (string array)
+  enum_header_string: '_abc', # String | Header parameter enum test (string)
+  enum_query_string_array: ['>'], # Array<String> | Query parameter enum test (string array)
+  enum_query_string: '_abc', # String | Query parameter enum test (string)
+  enum_query_integer: 1, # Integer | Query parameter enum test (double)
+  enum_query_double: 1.1, # Float | Query parameter enum test (double)
+  enum_form_string_array: ['>'], # Array<String> | Form parameter enum test (string array)
+  enum_form_string: '_abc' # String | Form parameter enum test (string)
 }
 
 begin
@@ -780,6 +791,7 @@ Fake endpoint to test group parameters (optional)
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -790,11 +802,11 @@ end
 api_instance = Petstore::FakeApi.new
 required_string_group = 56 # Integer | Required String in group parameters
 required_boolean_group = true # Boolean | Required Boolean in group parameters
-required_int64_group = 56 # Integer | Required Integer in group parameters
+required_int64_group = 789 # Integer | Required Integer in group parameters
 opts = {
   string_group: 56, # Integer | String in group parameters
   boolean_group: true, # Boolean | Boolean in group parameters
-  int64_group: 56 # Integer | Integer in group parameters
+  int64_group: 789 # Integer | Integer in group parameters
 }
 
 begin
@@ -857,10 +869,11 @@ test inline additionalProperties
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-request_body = {'key' => 'request_body_example'} # Hash<String, String> | request body
+request_body = { key: 'inner_example'} # Hash<String, String> | request body
 
 begin
   # test inline additionalProperties
@@ -917,6 +930,7 @@ test json serialization of form data
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -981,14 +995,15 @@ To test the collection format in query parameters
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-pipe = ['pipe_example'] # Array<String> | 
-ioutil = ['ioutil_example'] # Array<String> | 
-http = ['http_example'] # Array<String> | 
-url = ['url_example'] # Array<String> | 
-context = ['context_example'] # Array<String> | 
+pipe = ['inner_example'] # Array<String> | 
+ioutil = ['inner_example'] # Array<String> | 
+http = ['inner_example'] # Array<String> | 
+url = ['inner_example'] # Array<String> | 
+context = ['inner_example'] # Array<String> | 
 
 begin
   

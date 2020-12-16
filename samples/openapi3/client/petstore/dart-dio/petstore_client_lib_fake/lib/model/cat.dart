@@ -7,15 +7,14 @@ part 'cat.g.dart';
 
 abstract class Cat implements Built<Cat, CatBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'className')
     String get className;
-    
+
     @nullable
     @BuiltValueField(wireName: r'color')
     String get color;
-    
+
     @nullable
     @BuiltValueField(wireName: r'declawed')
     bool get declawed;

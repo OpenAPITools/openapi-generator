@@ -38,10 +38,10 @@ class InlineObject4 {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (param != null) {
-      json['param'] = param;
+      json[r'param'] = param;
     }
     if (param2 != null) {
-      json['param2'] = param2;
+      json[r'param2'] = param2;
     }
     return json;
   }
@@ -51,8 +51,8 @@ class InlineObject4 {
   static InlineObject4 fromJson(Map<String, dynamic> json) => json == null
     ? null
     : InlineObject4(
-        param: json['param'],
-        param2: json['param2'],
+        param: json[r'param'],
+        param2: json[r'param2'],
     );
 
   static List<InlineObject4> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

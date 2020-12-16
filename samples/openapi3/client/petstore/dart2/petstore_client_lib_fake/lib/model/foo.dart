@@ -15,7 +15,6 @@ class Foo {
     this.bar = 'bar',
   });
 
-  
   String bar;
 
   @override
@@ -32,7 +31,7 @@ class Foo {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (bar != null) {
-      json['bar'] = bar;
+      json[r'bar'] = bar;
     }
     return json;
   }
@@ -42,7 +41,7 @@ class Foo {
   static Foo fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Foo(
-        bar: json['bar'],
+        bar: json[r'bar'],
     );
 
   static List<Foo> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

@@ -38,10 +38,10 @@ class InlineObject {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (name != null) {
-      json['name'] = name;
+      json[r'name'] = name;
     }
     if (status != null) {
-      json['status'] = status;
+      json[r'status'] = status;
     }
     return json;
   }
@@ -51,8 +51,8 @@ class InlineObject {
   static InlineObject fromJson(Map<String, dynamic> json) => json == null
     ? null
     : InlineObject(
-        name: json['name'],
-        status: json['status'],
+        name: json[r'name'],
+        status: json[r'status'],
     );
 
   static List<InlineObject> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

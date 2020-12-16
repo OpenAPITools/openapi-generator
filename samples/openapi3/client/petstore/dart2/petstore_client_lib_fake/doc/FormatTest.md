@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **int64** | **int** |  | [optional] 
 **number** | **num** |  | 
 **float** | **double** |  | [optional] 
-**double** | **double** |  | [optional] 
+**double_** | **double** |  | [optional] 
 **decimal** | **double** |  | [optional] 
 **string** | **String** |  | [optional] 
 **byte** | **String** |  | 

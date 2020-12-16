@@ -15,7 +15,6 @@ class ModelReturn {
     this.return_,
   });
 
-  
   int return_;
 
   @override
@@ -32,7 +31,7 @@ class ModelReturn {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (return_ != null) {
-      json['return'] = return_;
+      json[r'return'] = return_;
     }
     return json;
   }
@@ -42,7 +41,7 @@ class ModelReturn {
   static ModelReturn fromJson(Map<String, dynamic> json) => json == null
     ? null
     : ModelReturn(
-        return_: json['return'],
+        return_: json[r'return'],
     );
 
   static List<ModelReturn> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

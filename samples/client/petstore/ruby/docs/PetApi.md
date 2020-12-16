@@ -24,6 +24,7 @@ Add a new pet to the store
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -32,7 +33,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-pet = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
+pet = Petstore::Pet.new({name: 'doggie', photo_urls: ['photo_urls_example']}) # Pet | Pet object that needs to be added to the store
 
 begin
   # Add a new pet to the store
@@ -89,6 +90,7 @@ Deletes a pet
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -97,7 +99,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-pet_id = 56 # Integer | Pet id to delete
+pet_id = 789 # Integer | Pet id to delete
 opts = {
   api_key: 'api_key_example' # String | 
 }
@@ -160,6 +162,7 @@ Multiple status values can be provided with comma separated strings
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -168,7 +171,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-status = ['status_example'] # Array<String> | Status values that need to be considered for filter
+status = ['available'] # Array<String> | Status values that need to be considered for filter
 
 begin
   # Finds Pets by status
@@ -228,6 +231,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -236,7 +240,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-tags = ['tags_example'] # Array<String> | Tags to filter by
+tags = ['inner_example'] # Array<String> | Tags to filter by
 
 begin
   # Finds Pets by tags
@@ -296,17 +300,18 @@ Returns a single pet
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
   # Configure API key authorization: api_key
   config.api_key['api_key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  #config.api_key_prefix['api_key'] = 'Bearer'
+  # config.api_key_prefix['api_key'] = 'Bearer'
 end
 
 api_instance = Petstore::PetApi.new
-pet_id = 56 # Integer | ID of pet to return
+pet_id = 789 # Integer | ID of pet to return
 
 begin
   # Find pet by ID
@@ -364,6 +369,7 @@ Update an existing pet
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -372,7 +378,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-pet = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
+pet = Petstore::Pet.new({name: 'doggie', photo_urls: ['photo_urls_example']}) # Pet | Pet object that needs to be added to the store
 
 begin
   # Update an existing pet
@@ -429,6 +435,7 @@ Updates a pet in the store with form data
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -437,7 +444,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-pet_id = 56 # Integer | ID of pet that needs to be updated
+pet_id = 789 # Integer | ID of pet that needs to be updated
 opts = {
   name: 'name_example', # String | Updated name of the pet
   status: 'status_example' # String | Updated status of the pet
@@ -500,6 +507,7 @@ uploads an image
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -508,10 +516,10 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-pet_id = 56 # Integer | ID of pet to update
+pet_id = 789 # Integer | ID of pet to update
 opts = {
   additional_metadata: 'additional_metadata_example', # String | Additional data to pass to server
-  file: File.new('/path/to/file') # File | file to upload
+  file: File.new('/path/to/some/file') # File | file to upload
 }
 
 begin
@@ -572,6 +580,7 @@ uploads an image (required)
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -580,8 +589,8 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-pet_id = 56 # Integer | ID of pet to update
-required_file = File.new('/path/to/file') # File | file to upload
+pet_id = 789 # Integer | ID of pet to update
+required_file = File.new('/path/to/some/file') # File | file to upload
 opts = {
   additional_metadata: 'additional_metadata_example' # String | Additional data to pass to server
 }

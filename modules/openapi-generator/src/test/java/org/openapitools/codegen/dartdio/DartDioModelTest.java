@@ -328,7 +328,6 @@ public class DartDioModelTest {
         Assert.assertTrue(cm.isArray);
         Assert.assertEquals(cm.description, "an array model");
         Assert.assertEquals(cm.vars.size(), 0);
-        // skip import test as import is not used by PHP codegen
     }
 
     @Test(description = "convert a map model")
@@ -345,21 +344,12 @@ public class DartDioModelTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
-        // {{imports}} is not used in template
-        //Assert.assertEquals(cm.imports.size(), 2);
-        //Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
 
     @DataProvider(name = "modelNames")
-    public static Object[][] primeNumbers() {
+    public static Object[][] modelNames() {
         return new Object[][] {
-            {"sample", "Sample"},
-            {"sample_name", "SampleName"},
-            {"sample__name", "SampleName"},
-            {"/sample", "Sample"},
-            {"\\sample", "Sample"},
-            {"sample.name", "SampleName"},
-            {"_sample", "Sample"},
+            {"EnumClass", "ModelEnumClass"},
         };
     }
 
@@ -373,31 +363,5 @@ public class DartDioModelTest {
 
         Assert.assertEquals(cm.name, name);
         Assert.assertEquals(cm.classname, expectedName);
-    }
-
-    @Test(description = "test enum variable names for reserved words")
-    public void testReservedWord() throws Exception {
-        final DefaultCodegen codegen = new DartDioClientCodegen();
-        Assert.assertEquals(codegen.toEnumVarName("assert", null), "assert_");
-        Assert.assertEquals(codegen.toEnumVarName("default", null), "default_");
-        Assert.assertEquals(codegen.toEnumVarName("IF", null), "iF_");
-        // should not escape non-reserved
-        Assert.assertEquals(codegen.toEnumVarName("hello", null), "hello");
-    }
-
-    // datetime (or primitive type) not yet supported in HTTP request body
-    @Test(description = "returns DateTime when using `--model-name-prefix`")
-    public void dateTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/datePropertyTest.json");
-        final DefaultCodegen codegen = new DartDioClientCodegen();
-        codegen.setModelNamePrefix("foo");
-        codegen.setOpenAPI(openAPI);
-
-        final String path = "/tests/dateResponse";
-        final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
-
-        Assert.assertEquals(op.returnType, "DateTime");
-        Assert.assertEquals(op.bodyParam.dataType, "DateTime");
     }
 }

@@ -27,12 +27,12 @@ void main() {
     ];
 
     return Pet(
-        id : id,
+        id: id,
         category: category,
         name: name, //required field
         tags: tags,
         photoUrls: ['https://petstore.com/sample/photo1.jpg'] //required field
-    )
+        )
       ..status = PetStatusEnum.fromJson(status)
       ..photoUrls = ['https://petstore.com/sample/photo1.jpg'];
   }
@@ -81,12 +81,12 @@ void main() {
       var id1 = newId();
       var id2 = newId();
       var id3 = newId();
-      var status = PetStatusEnum.available_.value;
+      var status = PetStatusEnum.available.value;
 
       return Future.wait([
         petApi.addPet(makePet(id: id1, status: status)),
         petApi.addPet(makePet(id: id2, status: status)),
-        petApi.addPet(makePet(id: id3, status: PetStatusEnum.sold_.value))
+        petApi.addPet(makePet(id: id3, status: PetStatusEnum.sold.value))
       ]).then((_) async {
         var pets = await petApi.findPetsByStatus([status]);
         var petIds = pets.map((pet) => pet.id).toList();

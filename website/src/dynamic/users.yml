@@ -409,6 +409,11 @@
   infoLink: "http://www.tui-infotec.com/"
   pinned: false
 -
+  caption: "Twitter"
+  image: "img/companies/twitter.png"
+  infoLink: "https://twitter.com"
+  pinned: false
+-
   caption: "unblu inc."
   image: "img/companies/unblu.svg"
   infoLink: "https://www.unblu.com/"

@@ -62,6 +62,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String CASE_INSENSITIVE_RESPONSE_HEADERS = "caseInsensitiveResponseHeaders";
     public static final String MICROPROFILE_FRAMEWORK = "microprofileFramework";
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
+    public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
 
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
@@ -107,6 +108,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean useReflectionEqualsHashCode = false;
     protected boolean caseInsensitiveResponseHeaders = false;
     protected boolean useAbstractionForFiles = false;
+    protected boolean dynamicOperations = false;
     protected String authFolder;
     protected String serializationLibrary = null;
 
@@ -150,6 +152,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
         cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values \"kumuluzee\""));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on " + RESTTEMPLATE + " library"));
+        cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
@@ -308,6 +311,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setUseAbstractionForFiles(convertPropertyToBooleanAndWriteBack(USE_ABSTRACTION_FOR_FILES));
         }
 
+        if (additionalProperties.containsKey(DYNAMIC_OPERATIONS)) {
+            this.setDynamicOperations(Boolean.valueOf(additionalProperties.get(DYNAMIC_OPERATIONS).toString()));
+        }
+        additionalProperties.put(DYNAMIC_OPERATIONS, dynamicOperations);
+
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
         authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
@@ -324,7 +332,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
         supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", invokerFolder, "ServerConfiguration.java"));
         supportingFiles.add(new SupportingFile("ServerVariable.mustache", invokerFolder, "ServerVariable.java"));
-        supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
+        if (dynamicOperations) {
+            supportingFiles.add(new SupportingFile("openapi.mustache", projectFolder + "/resources/openapi", "openapi.yaml"));
+            supportingFiles.add(new SupportingFile("apiOperation.mustache", invokerFolder, "ApiOperation.java"));
+        } else {
+            supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
+        }
 
         if (dateLibrary.equals("java8") && (isLibrary(WEBCLIENT) || isLibrary(VERTX) || isLibrary(RESTTEMPLATE) || isLibrary(RESTEASY) || isLibrary(MICROPROFILE) || isLibrary(JERSEY2))) {
             supportingFiles.add(new SupportingFile("JavaTimeFormatter.mustache", invokerFolder, "JavaTimeFormatter.java"));
@@ -937,6 +950,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setUseAbstractionForFiles(boolean useAbstractionForFiles) {
         this.useAbstractionForFiles = useAbstractionForFiles;
+    }
+
+    public void setDynamicOperations(final boolean dynamicOperations) {
+        this.dynamicOperations = dynamicOperations;
     }
 
     /**

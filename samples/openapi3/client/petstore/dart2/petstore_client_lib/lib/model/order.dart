@@ -20,22 +20,17 @@ class Order {
     this.complete = false,
   });
 
-  
   int id;
 
-  
   int petId;
 
-  
   int quantity;
 
-  
   DateTime shipDate;
 
   /// Order Status
   OrderStatusEnum status;
 
-  
   bool complete;
 
   @override
@@ -62,22 +57,22 @@ class Order {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (id != null) {
-      json['id'] = id;
+      json[r'id'] = id;
     }
     if (petId != null) {
-      json['petId'] = petId;
+      json[r'petId'] = petId;
     }
     if (quantity != null) {
-      json['quantity'] = quantity;
+      json[r'quantity'] = quantity;
     }
     if (shipDate != null) {
-      json['shipDate'] = shipDate.toUtc().toIso8601String();
+      json[r'shipDate'] = shipDate.toUtc().toIso8601String();
     }
     if (status != null) {
-      json['status'] = status;
+      json[r'status'] = status;
     }
     if (complete != null) {
-      json['complete'] = complete;
+      json[r'complete'] = complete;
     }
     return json;
   }
@@ -87,14 +82,14 @@ class Order {
   static Order fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Order(
-        id: json['id'],
-        petId: json['petId'],
-        quantity: json['quantity'],
-        shipDate: json['shipDate'] == null
+        id: json[r'id'],
+        petId: json[r'petId'],
+        quantity: json[r'quantity'],
+        shipDate: json[r'shipDate'] == null
           ? null
-          : DateTime.parse(json['shipDate']),
-        status: OrderStatusEnum.fromJson(json['status']),
-        complete: json['complete'],
+          : DateTime.parse(json[r'shipDate']),
+        status: OrderStatusEnum.fromJson(json[r'status']),
+        complete: json[r'complete'],
     );
 
   static List<Order> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
@@ -132,8 +127,7 @@ class OrderStatusEnum {
 
   @override
   bool operator ==(Object other) => identical(this, other) ||
-      other is OrderStatusEnum && other.value == value ||
-      other is String && other == value;
+      other is OrderStatusEnum && other.value == value;
 
   @override
   int get hashCode => toString().hashCode;
@@ -143,15 +137,15 @@ class OrderStatusEnum {
 
   String toJson() => value;
 
-  static const placed_ = OrderStatusEnum._('placed');
-  static const approved_ = OrderStatusEnum._('approved');
-  static const delivered_ = OrderStatusEnum._('delivered');
+  static const placed = OrderStatusEnum._(r'placed');
+  static const approved = OrderStatusEnum._(r'approved');
+  static const delivered = OrderStatusEnum._(r'delivered');
 
   /// List of all possible values in this [enum][OrderStatusEnum].
   static const values = <OrderStatusEnum>[
-    placed_,
-    approved_,
-    delivered_,
+    placed,
+    approved,
+    delivered,
   ];
 
   static OrderStatusEnum fromJson(dynamic value) =>
@@ -184,9 +178,9 @@ class OrderStatusEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   OrderStatusEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case 'placed': return OrderStatusEnum.placed_;
-      case 'approved': return OrderStatusEnum.approved_;
-      case 'delivered': return OrderStatusEnum.delivered_;
+      case r'placed': return OrderStatusEnum.placed;
+      case r'approved': return OrderStatusEnum.approved;
+      case r'delivered': return OrderStatusEnum.delivered;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

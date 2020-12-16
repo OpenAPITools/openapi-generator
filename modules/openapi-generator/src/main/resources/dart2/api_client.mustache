@@ -7,17 +7,17 @@ class ApiClient {
   {{#authMethods}}
   {{#isBasic}}
   {{#isBasicBasic}}
-    _authentications['{{{name}}}'] = HttpBasicAuth();
+    _authentications[r'{{{name}}}'] = HttpBasicAuth();
   {{/isBasicBasic}}
   {{#isBasicBearer}}
-    _authentications['{{{name}}}'] = HttpBearerAuth();
+    _authentications[r'{{{name}}}'] = HttpBearerAuth();
   {{/isBasicBearer}}
   {{/isBasic}}
   {{#isApiKey}}
-    _authentications['{{{name}}}'] = ApiKeyAuth({{#isKeyInCookie}}'cookie'{{/isKeyInCookie}}{{^isKeyInCookie}}{{#isKeyInHeader}}'header'{{/isKeyInHeader}}{{^isKeyInHeader}}'query'{{/isKeyInHeader}}{{/isKeyInCookie}}, '{{{keyParamName}}}');
+    _authentications[r'{{{name}}}'] = ApiKeyAuth({{#isKeyInCookie}}'cookie'{{/isKeyInCookie}}{{^isKeyInCookie}}{{#isKeyInHeader}}'header'{{/isKeyInHeader}}{{^isKeyInHeader}}'query'{{/isKeyInHeader}}{{/isKeyInCookie}}, '{{{keyParamName}}}');
   {{/isApiKey}}
   {{#isOAuth}}
-    _authentications['{{{name}}}'] = OAuth();
+    _authentications[r'{{{name}}}'] = OAuth();
   {{/isOAuth}}
   {{/authMethods}}
   {{/hasAuthMethods}}
