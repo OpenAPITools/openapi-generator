@@ -12,7 +12,6 @@ test/__init__.py
 tox.ini
 x_auth_id_alias/__init__.py
 x_auth_id_alias/api/__init__.py
-x_auth_id_alias/api/__init__.py
 x_auth_id_alias/api/usage_api.py
 x_auth_id_alias/api_client.py
 x_auth_id_alias/apis/__init__.py

@@ -5,7 +5,6 @@ README.md
 docs/UsageApi.md
 dynamic_servers/__init__.py
 dynamic_servers/api/__init__.py
-dynamic_servers/api/__init__.py
 dynamic_servers/api/usage_api.py
 dynamic_servers/api_client.py
 dynamic_servers/apis/__init__.py
