@@ -41,10 +41,10 @@ import 'package:openapi/api.dart';
 
 
 var api_instance = new AnotherFakeApi();
-var client = new Client(); // Client | client model
+var modelClient = new ModelClient(); // ModelClient | client model
 
 try {
-    var result = api_instance.call123testSpecialTags(client);
+    var result = api_instance.call123testSpecialTags(modelClient);
     print(result);
 } catch (e) {
     print("Exception when calling AnotherFakeApi->call123testSpecialTags: $e\n");
@@ -112,12 +112,10 @@ Class | Method | HTTP request | Description
  - [CatAllOf](doc//CatAllOf.md)
  - [Category](doc//Category.md)
  - [ClassModel](doc//ClassModel.md)
- - [Client](doc//Client.md)
  - [Dog](doc//Dog.md)
  - [DogAllOf](doc//DogAllOf.md)
  - [EnumArrays](doc//EnumArrays.md)
  - [EnumTest](doc//EnumTest.md)
- - [File](doc//File.md)
  - [FileSchemaTestClass](doc//FileSchemaTestClass.md)
  - [Foo](doc//Foo.md)
  - [FormatTest](doc//FormatTest.md)
@@ -133,7 +131,10 @@ Class | Method | HTTP request | Description
  - [MapTest](doc//MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](doc//MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](doc//Model200Response.md)
+ - [ModelClient](doc//ModelClient.md)
  - [ModelEnumClass](doc//ModelEnumClass.md)
+ - [ModelFile](doc//ModelFile.md)
+ - [ModelList](doc//ModelList.md)
  - [ModelReturn](doc//ModelReturn.md)
  - [Name](doc//Name.md)
  - [NullableClass](doc//NullableClass.md)

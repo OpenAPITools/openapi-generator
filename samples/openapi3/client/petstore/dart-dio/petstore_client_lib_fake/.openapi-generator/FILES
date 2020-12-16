@@ -13,7 +13,6 @@ doc/Cat.md
 doc/CatAllOf.md
 doc/Category.md
 doc/ClassModel.md
-doc/Client.md
 doc/DefaultApi.md
 doc/Dog.md
 doc/DogAllOf.md
@@ -21,7 +20,6 @@ doc/EnumArrays.md
 doc/EnumTest.md
 doc/FakeApi.md
 doc/FakeClassnameTags123Api.md
-doc/File.md
 doc/FileSchemaTestClass.md
 doc/Foo.md
 doc/FormatTest.md
@@ -37,7 +35,10 @@ doc/InlineResponseDefault.md
 doc/MapTest.md
 doc/MixedPropertiesAndAdditionalPropertiesClass.md
 doc/Model200Response.md
+doc/ModelClient.md
 doc/ModelEnumClass.md
+doc/ModelFile.md
+doc/ModelList.md
 doc/ModelReturn.md
 doc/Name.md
 doc/NullableClass.md
@@ -80,12 +81,10 @@ lib/model/cat.dart
 lib/model/cat_all_of.dart
 lib/model/category.dart
 lib/model/class_model.dart
-lib/model/client.dart
 lib/model/dog.dart
 lib/model/dog_all_of.dart
 lib/model/enum_arrays.dart
 lib/model/enum_test.dart
-lib/model/file.dart
 lib/model/file_schema_test_class.dart
 lib/model/foo.dart
 lib/model/format_test.dart
@@ -101,7 +100,10 @@ lib/model/inline_response_default.dart
 lib/model/map_test.dart
 lib/model/mixed_properties_and_additional_properties_class.dart
 lib/model/model200_response.dart
+lib/model/model_client.dart
 lib/model/model_enum_class.dart
+lib/model/model_file.dart
+lib/model/model_list.dart
 lib/model/model_return.dart
 lib/model/name.dart
 lib/model/nullable_class.dart

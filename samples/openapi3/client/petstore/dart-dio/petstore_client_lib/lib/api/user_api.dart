@@ -15,17 +15,21 @@ class UserApi {
     /// Create user
     ///
     /// This can only be done by the logged in user.
-    Future<Response>createUser(
+    Future<Response<void>> createUser(
         User user, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/user';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -55,7 +59,9 @@ class UserApi {
                             'where': 'header',
                         },
                     ],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -67,17 +73,21 @@ class UserApi {
     /// Creates list of users with given input array
     ///
     /// 
-    Future<Response>createUsersWithArrayInput(
+    Future<Response<void>> createUsersWithArrayInput(
         BuiltList<User> user, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/user/createWithArray';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -108,7 +118,9 @@ class UserApi {
                             'where': 'header',
                         },
                     ],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -120,17 +132,21 @@ class UserApi {
     /// Creates list of users with given input array
     ///
     /// 
-    Future<Response>createUsersWithListInput(
+    Future<Response<void>> createUsersWithListInput(
         BuiltList<User> user, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/user/createWithList';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -161,7 +177,9 @@ class UserApi {
                             'where': 'header',
                         },
                     ],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -173,17 +191,21 @@ class UserApi {
     /// Delete user
     ///
     /// This can only be done by the logged in user.
-    Future<Response>deleteUser(
+    Future<Response<void>> deleteUser(
         String username, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/user/{username}'.replaceAll('{' r'username' '}', username.toString());
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -207,7 +229,9 @@ class UserApi {
                             'where': 'header',
                         },
                     ],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -219,17 +243,21 @@ class UserApi {
     /// Get user by user name
     ///
     /// 
-    Future<Response<User>>getUserByName(
+    Future<Response<User>> getUserByName(
         String username, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/user/{username}'.replaceAll('{' r'username' '}', username.toString());
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -246,7 +274,9 @@ class UserApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -271,18 +301,22 @@ class UserApi {
     /// Logs user into the system
     ///
     /// 
-    Future<Response<String>>loginUser(
+    Future<Response<String>> loginUser(
         String username,
         String password, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/user/login';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams[r'username'] = username;
@@ -301,7 +335,9 @@ class UserApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -325,16 +361,20 @@ class UserApi {
     /// Logs out current logged in user session
     ///
     /// 
-    Future<Response>logoutUser({ 
+    Future<Response<void>> logoutUser({ 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/user/logout';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -358,7 +398,9 @@ class UserApi {
                             'where': 'header',
                         },
                     ],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -370,18 +412,22 @@ class UserApi {
     /// Updated user
     ///
     /// This can only be done by the logged in user.
-    Future<Response>updateUser(
+    Future<Response<void>> updateUser(
         String username,
         User user, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/user/{username}'.replaceAll('{' r'username' '}', username.toString());
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -411,7 +457,9 @@ class UserApi {
                             'where': 'header',
                         },
                     ],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,

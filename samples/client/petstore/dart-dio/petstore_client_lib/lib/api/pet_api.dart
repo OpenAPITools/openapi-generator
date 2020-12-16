@@ -18,17 +18,21 @@ class PetApi {
     /// Add a new pet to the store
     ///
     /// 
-    Future<Response>addPet(
+    Future<Response<void>> addPet(
         Pet body, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/pet';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -57,7 +61,9 @@ class PetApi {
                             'name': 'petstore_auth',
                         },
                     ],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -69,18 +75,22 @@ class PetApi {
     /// Deletes a pet
     ///
     /// 
-    Future<Response>deletePet(
+    Future<Response<void>> deletePet(
         int petId, { 
         String apiKey,
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         headerParams[r'api_key'] = apiKey;
@@ -103,7 +113,9 @@ class PetApi {
                             'name': 'petstore_auth',
                         },
                     ],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -115,17 +127,21 @@ class PetApi {
     /// Finds Pets by status
     ///
     /// Multiple status values can be provided with comma separated strings
-    Future<Response<BuiltList<Pet>>>findPetsByStatus(
+    Future<Response<BuiltList<Pet>>> findPetsByStatus(
         BuiltList<String> status, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/pet/findByStatus';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams[r'status'] = status;
@@ -148,7 +164,9 @@ class PetApi {
                             'name': 'petstore_auth',
                         },
                     ],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -174,17 +192,21 @@ class PetApi {
     /// Finds Pets by tags
     ///
     /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-    Future<Response<BuiltList<Pet>>>findPetsByTags(
+    Future<Response<BuiltList<Pet>>> findPetsByTags(
         BuiltList<String> tags, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/pet/findByTags';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams[r'tags'] = tags;
@@ -207,7 +229,9 @@ class PetApi {
                             'name': 'petstore_auth',
                         },
                     ],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -233,17 +257,21 @@ class PetApi {
     /// Find pet by ID
     ///
     /// Returns a single pet
-    Future<Response<Pet>>getPetById(
+    Future<Response<Pet>> getPetById(
         int petId, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -267,7 +295,9 @@ class PetApi {
                             'where': 'header',
                         },
                     ],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -292,17 +322,21 @@ class PetApi {
     /// Update an existing pet
     ///
     /// 
-    Future<Response>updatePet(
+    Future<Response<void>> updatePet(
         Pet body, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/pet';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -331,7 +365,9 @@ class PetApi {
                             'name': 'petstore_auth',
                         },
                     ],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -343,19 +379,23 @@ class PetApi {
     /// Updates a pet in the store with form data
     ///
     /// 
-    Future<Response>updatePetWithForm(
+    Future<Response<void>> updatePetWithForm(
         int petId, { 
         String name,
         String status,
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -384,7 +424,9 @@ class PetApi {
                             'name': 'petstore_auth',
                         },
                     ],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -396,19 +438,23 @@ class PetApi {
     /// uploads an image
     ///
     /// 
-    Future<Response<ApiResponse>>uploadFile(
+    Future<Response<ApiResponse>> uploadFile(
         int petId, { 
         String additionalMetadata,
         Uint8List file,
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', petId.toString());
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -441,7 +487,9 @@ class PetApi {
                             'name': 'petstore_auth',
                         },
                     ],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,

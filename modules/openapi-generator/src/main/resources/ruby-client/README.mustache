@@ -82,13 +82,13 @@ require '{{{gemName}}}'
 
 api_instance = {{{moduleName}}}::{{{classname}}}.new
 {{#requiredParams}}
-{{{paramName}}} = {{{example}}} # {{{dataType}}} | {{{description}}}
+{{{paramName}}} = {{{vendorExtensions.x-ruby-example}}} # {{{dataType}}} | {{{description}}}
 {{/requiredParams}}
 {{#optionalParams}}
 {{#-first}}
 opts = {
 {{/-first}}
-  {{{paramName}}}: {{{example}}}{{^-last}},{{/-last}} # {{{dataType}}} | {{{description}}}
+  {{{paramName}}}: {{{vendorExtensions.x-ruby-example}}}{{^-last}},{{/-last}} # {{{dataType}}} | {{{description}}}
 {{#-last}}
 }
 {{/-last}}

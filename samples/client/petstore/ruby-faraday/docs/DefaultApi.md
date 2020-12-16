@@ -16,6 +16,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::DefaultApi.new

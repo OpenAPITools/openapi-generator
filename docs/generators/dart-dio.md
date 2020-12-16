@@ -33,19 +33,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |BuiltList|package:built_collection/built_collection.dart|
 |BuiltMap|package:built_collection/built_collection.dart|
 |BuiltSet|package:built_collection/built_collection.dart|
-|DateTime|dart:core|
 |JsonObject|package:built_value/json_object.dart|
-|List|dart:core|
-|Map|dart:core|
-|Object|dart:core|
-|Set|dart:core|
-|String|dart:core|
 |Uint8List|dart:typed_data|
-|bool|dart:core|
-|double|dart:core|
-|dynamic|dart:core|
-|int|dart:core|
-|num|dart:core|
 
 
 ## INSTANTIATION TYPES
@@ -62,6 +51,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>String</li>
 <li>bool</li>
 <li>double</li>
+<li>dynamic</li>
 <li>int</li>
 <li>num</li>
 </ul>
