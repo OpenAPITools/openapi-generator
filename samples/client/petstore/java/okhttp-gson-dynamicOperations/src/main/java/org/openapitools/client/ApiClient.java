@@ -376,19 +376,6 @@ public class ApiClient {
         return authentications.get(authName);
     }
 
-    /**
-     * Helper method to set access token for the first Bearer authentication.
-     * @param bearerToken Bearer token
-     */
-    public void setBearerToken(String bearerToken) {
-        for (Authentication auth : authentications.values()) {
-            if (auth instanceof HttpBearerAuth) {
-                ((HttpBearerAuth) auth).setBearerToken(bearerToken);
-                return;
-            }
-        }
-        throw new RuntimeException("No Bearer authentication configured!");
-    }
 
     /**
      * Helper method to set username for the first HTTP basic authentication.
