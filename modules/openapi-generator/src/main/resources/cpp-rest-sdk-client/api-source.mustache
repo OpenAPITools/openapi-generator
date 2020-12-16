@@ -300,7 +300,7 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
     })
     .then([=](std::vector<unsigned char> localVarResponse)
     {
-        {{{returnType}}} localVarResult;
+        {{{returnType}}} localVarResult = std::make_shared<HttpContent>();
         std::shared_ptr<std::stringstream> stream = std::make_shared<std::stringstream>(std::string(localVarResponse.begin(), localVarResponse.end()));
         localVarResult->setData(stream);
         return localVarResult;
