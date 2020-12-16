@@ -407,7 +407,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testEndpointParameters**
-> testEndpointParameters(number, double, patternWithoutDelimiter, byte, integer, int32, int64, float, string, binary, date, dateTime, password, callback)
+> testEndpointParameters(number, double_, patternWithoutDelimiter, byte, integer, int32, int64, float, string, binary, date, dateTime, password, callback)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -422,7 +422,7 @@ import 'package:openapi/api.dart';
 
 final api_instance = FakeApi();
 final number = 8.14; // num | None
-final double = 1.2; // double | None
+final double_ = 1.2; // double | None
 final patternWithoutDelimiter = patternWithoutDelimiter_example; // String | None
 final byte = BYTE_ARRAY_DATA_HERE; // String | None
 final integer = 56; // int | None
@@ -437,7 +437,7 @@ final password = password_example; // String | None
 final callback = callback_example; // String | None
 
 try { 
-    api_instance.testEndpointParameters(number, double, patternWithoutDelimiter, byte, integer, int32, int64, float, string, binary, date, dateTime, password, callback);
+    api_instance.testEndpointParameters(number, double_, patternWithoutDelimiter, byte, integer, int32, int64, float, string, binary, date, dateTime, password, callback);
 } catch (e) {
     print('Exception when calling FakeApi->testEndpointParameters: $e\n');
 }
@@ -448,7 +448,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **number** | **num**| None | 
- **double** | **double**| None | 
+ **double_** | **double**| None | 
  **patternWithoutDelimiter** | **String**| None | 
  **byte** | **String**| None | 
  **integer** | **int**| None | [optional] 

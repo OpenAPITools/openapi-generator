@@ -37,8 +37,8 @@ void main() {
     });
 
     // None
-    // double double
-    test('to test the property `double`', () async {
+    // double double_
+    test('to test the property `double_`', () async {
       // TODO
     });
 

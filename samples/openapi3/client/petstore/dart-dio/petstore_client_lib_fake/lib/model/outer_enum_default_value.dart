@@ -6,11 +6,11 @@ part 'outer_enum_default_value.g.dart';
 
 class OuterEnumDefaultValue extends EnumClass {
 
-  @BuiltValueEnumConst(wireName: 'placed')
+  @BuiltValueEnumConst(wireName: r'placed')
   static const OuterEnumDefaultValue placed = _$placed;
-  @BuiltValueEnumConst(wireName: 'approved')
+  @BuiltValueEnumConst(wireName: r'approved')
   static const OuterEnumDefaultValue approved = _$approved;
-  @BuiltValueEnumConst(wireName: 'delivered')
+  @BuiltValueEnumConst(wireName: r'delivered')
   static const OuterEnumDefaultValue delivered = _$delivered;
 
   static Serializer<OuterEnumDefaultValue> get serializer => _$outerEnumDefaultValueSerializer;

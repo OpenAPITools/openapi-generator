@@ -17,7 +17,7 @@ class InlineObject3 {
     this.int64,
     @required this.number,
     this.float,
-    @required this.double,
+    @required this.double_,
     this.string,
     @required this.patternWithoutDelimiter,
     @required this.byte,
@@ -53,7 +53,7 @@ class InlineObject3 {
   /// None
   // minimum: 67.8
   // maximum: 123.4
-  double double;
+  double double_;
 
   /// None
   String string;
@@ -86,7 +86,7 @@ class InlineObject3 {
      other.int64 == int64 &&
      other.number == number &&
      other.float == float &&
-     other.double == double &&
+     other.double_ == double_ &&
      other.string == string &&
      other.patternWithoutDelimiter == patternWithoutDelimiter &&
      other.byte == byte &&
@@ -103,7 +103,7 @@ class InlineObject3 {
     (int64 == null ? 0 : int64.hashCode) +
     (number == null ? 0 : number.hashCode) +
     (float == null ? 0 : float.hashCode) +
-    (double == null ? 0 : double.hashCode) +
+    (double_ == null ? 0 : double_.hashCode) +
     (string == null ? 0 : string.hashCode) +
     (patternWithoutDelimiter == null ? 0 : patternWithoutDelimiter.hashCode) +
     (byte == null ? 0 : byte.hashCode) +
@@ -114,7 +114,7 @@ class InlineObject3 {
     (callback == null ? 0 : callback.hashCode);
 
   @override
-  String toString() => 'InlineObject3[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double=$double, string=$string, patternWithoutDelimiter=$patternWithoutDelimiter, byte=$byte, binary=$binary, date=$date, dateTime=$dateTime, password=$password, callback=$callback]';
+  String toString() => 'InlineObject3[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double_=$double_, string=$string, patternWithoutDelimiter=$patternWithoutDelimiter, byte=$byte, binary=$binary, date=$date, dateTime=$dateTime, password=$password, callback=$callback]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -133,8 +133,8 @@ class InlineObject3 {
     if (float != null) {
       json[r'float'] = float;
     }
-    if (double != null) {
-      json[r'double'] = double;
+    if (double_ != null) {
+      json[r'double'] = double_;
     }
     if (string != null) {
       json[r'string'] = string;
@@ -175,7 +175,7 @@ class InlineObject3 {
           null :
           json[r'number'].toDouble(),
         float: json[r'float'],
-        double: json[r'double'],
+        double_: json[r'double'],
         string: json[r'string'],
         patternWithoutDelimiter: json[r'pattern_without_delimiter'],
         byte: json[r'byte'],

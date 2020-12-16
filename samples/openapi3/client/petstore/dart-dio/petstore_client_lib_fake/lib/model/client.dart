@@ -5,7 +5,6 @@ part 'client.g.dart';
 
 abstract class Client implements Built<Client, ClientBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'client')
     String get client;

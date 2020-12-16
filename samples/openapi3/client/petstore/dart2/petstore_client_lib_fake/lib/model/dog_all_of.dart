@@ -15,7 +15,6 @@ class DogAllOf {
     this.breed,
   });
 
-  
   String breed;
 
   @override
