@@ -799,7 +799,6 @@ public class PythonLegacyClientCodegen extends DefaultCodegen implements Codegen
                 String pattern = schema.getPattern();
                 while (pattern.startsWith("/")) pattern = pattern.substring(0, pattern.length()-1);
                 while (pattern.endsWith("/")) pattern = pattern.substring(1);
-                LOGGER.info("aanimish: "+pattern);
                 RgxGen rgxGen = new RgxGen(pattern);
                 // this seed makes it so if we have [a-z] we pick a
                 Random random = new Random(18);
