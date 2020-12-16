@@ -33,7 +33,7 @@ import {
 } from './ResponseMetaRecord';
 
 export const GetChannelPublishedStatusResponseRecordProps = {
-	recType: "GetChannelPublishedStatusResponseRecord" as "GetChannelPublishedStatusResponseRecord",
+	recType: "GetChannelPublishedStatusResponseApiRecord" as "GetChannelPublishedStatusResponseApiRecord",
     meta: ResponseMetaRecord(),
     data: null as ChannelPublishedStatus | null,
 };
@@ -47,7 +47,7 @@ knownRecordFactories.set(GetChannelPublishedStatusResponseRecordProps.recType, G
 
 class GetChannelPublishedStatusResponseRecordUtils extends ApiRecordUtils<GetChannelPublishedStatusResponse, GetChannelPublishedStatusResponseRecord> {
 	public normalize(apiObject: GetChannelPublishedStatusResponse, asEntity?: boolean): GetChannelPublishedStatusResponse {
-		(apiObject as any).recType = "GetChannelPublishedStatusResponseRecord";
+		(apiObject as any).recType = GetChannelPublishedStatusResponseRecordProps.recType;
         responseMetaRecordUtils.normalize(apiObject.meta);
 		return apiObject;
 	}

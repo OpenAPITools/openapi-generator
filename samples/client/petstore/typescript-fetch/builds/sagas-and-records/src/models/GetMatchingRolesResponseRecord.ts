@@ -37,7 +37,7 @@ import {
 } from './ResponseMetaRecord';
 
 export const GetMatchingRolesResponseRecordProps = {
-	recType: "GetMatchingRolesResponseRecord" as "GetMatchingRolesResponseRecord",
+	recType: "GetMatchingRolesResponseApiRecord" as "GetMatchingRolesResponseApiRecord",
     meta: ResponseMetaRecord(),
     data: (MatchingRolesRecord(), null as MatchingRolesRecord | null),
 };
@@ -51,7 +51,7 @@ knownRecordFactories.set(GetMatchingRolesResponseRecordProps.recType, GetMatchin
 
 class GetMatchingRolesResponseRecordUtils extends ApiRecordUtils<GetMatchingRolesResponse, GetMatchingRolesResponseRecord> {
 	public normalize(apiObject: GetMatchingRolesResponse, asEntity?: boolean): GetMatchingRolesResponse {
-		(apiObject as any).recType = "GetMatchingRolesResponseRecord";
+		(apiObject as any).recType = GetMatchingRolesResponseRecordProps.recType;
         responseMetaRecordUtils.normalize(apiObject.meta);
         if (apiObject.data) { matchingRolesRecordUtils.normalize(apiObject.data); } 
 		return apiObject;

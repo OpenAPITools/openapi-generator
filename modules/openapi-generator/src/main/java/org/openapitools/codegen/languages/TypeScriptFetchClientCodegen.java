@@ -540,6 +540,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         if (allModels.size() > 0 && !addedModelIndex) {
             addedModelIndex = true;
             supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
+            if (this.getSagasAndRecords()) {
+                supportingFiles.add(new SupportingFile("ApiEntitiesRecord.mustache", modelPackage().replace('.', File.separatorChar), "ApiEntitiesRecord.ts"));
+                supportingFiles.add(new SupportingFile("ApiEntitiesReducer.mustache", modelPackage().replace('.', File.separatorChar), "ApiEntitiesReducer.ts"));
+                supportingFiles.add(new SupportingFile("ApiEntitiesSelectors.mustache", modelPackage().replace('.', File.separatorChar), "ApiEntitiesSelectors.ts"));
+            }
         }
 
         this.addOperationModelImportInfomation(operations);

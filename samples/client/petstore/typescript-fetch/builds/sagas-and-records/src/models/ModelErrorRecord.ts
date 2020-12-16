@@ -30,7 +30,7 @@ import {
 } from './ItemIdRecord';
 
 export const ModelErrorRecordProps = {
-	recType: "ModelErrorRecord" as "ModelErrorRecord",
+	recType: "ModelErrorApiRecord" as "ModelErrorApiRecord",
     type: 'GenericException',
     itemInfo: (ItemIdRecord(), null as ItemIdRecord | null),
     details: null as string | null,
@@ -46,7 +46,7 @@ knownRecordFactories.set(ModelErrorRecordProps.recType, ModelErrorRecord);
 
 class ModelErrorRecordUtils extends ApiRecordUtils<ModelError, ModelErrorRecord> {
 	public normalize(apiObject: ModelError, asEntity?: boolean): ModelError {
-		(apiObject as any).recType = "ModelErrorRecord";
+		(apiObject as any).recType = ModelErrorRecordProps.recType;
         if (apiObject.itemInfo) { itemIdRecordUtils.normalize(apiObject.itemInfo); } 
 		return apiObject;
 	}

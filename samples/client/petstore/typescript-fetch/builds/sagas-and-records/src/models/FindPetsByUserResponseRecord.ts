@@ -37,7 +37,7 @@ import {
 } from './UserRecord';
 
 export const FindPetsByUserResponseRecordProps = {
-	recType: "FindPetsByUserResponseRecord" as "FindPetsByUserResponseRecord",
+	recType: "FindPetsByUserResponseApiRecord" as "FindPetsByUserResponseApiRecord",
     meta: ResponseMetaRecord(),
     data: (UserRecord(), null as List<UserRecord> | null),
 };
@@ -51,7 +51,7 @@ knownRecordFactories.set(FindPetsByUserResponseRecordProps.recType, FindPetsByUs
 
 class FindPetsByUserResponseRecordUtils extends ApiRecordUtils<FindPetsByUserResponse, FindPetsByUserResponseRecord> {
 	public normalize(apiObject: FindPetsByUserResponse, asEntity?: boolean): FindPetsByUserResponse {
-		(apiObject as any).recType = "FindPetsByUserResponseRecord";
+		(apiObject as any).recType = FindPetsByUserResponseRecordProps.recType;
         responseMetaRecordUtils.normalize(apiObject.meta);
         if (apiObject.data) { userRecordUtils.normalizeArray(apiObject.data); } 
 		return apiObject;

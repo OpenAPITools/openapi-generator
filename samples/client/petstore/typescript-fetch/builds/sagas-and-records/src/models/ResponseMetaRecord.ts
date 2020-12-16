@@ -27,7 +27,7 @@ import {
 
 
 export const ResponseMetaRecordProps = {
-	recType: "ResponseMetaRecord" as "ResponseMetaRecord",
+	recType: "ResponseMetaApiRecord" as "ResponseMetaApiRecord",
     code: ResponseMetaCodeEnum.Ok,
     detail: null as string | null,
     exception: null as string | null,
@@ -45,7 +45,7 @@ knownRecordFactories.set(ResponseMetaRecordProps.recType, ResponseMetaRecord);
 
 class ResponseMetaRecordUtils extends ApiRecordUtils<ResponseMeta, ResponseMetaRecord> {
 	public normalize(apiObject: ResponseMeta, asEntity?: boolean): ResponseMeta {
-		(apiObject as any).recType = "ResponseMetaRecord";
+		(apiObject as any).recType = ResponseMetaRecordProps.recType;
 		return apiObject;
 	}
 

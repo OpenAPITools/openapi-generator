@@ -23,7 +23,7 @@ import {
 
 
 export const CategoryRecordProps = {
-	recType: "CategoryRecord" as "CategoryRecord",
+	recType: "CategoryApiRecord" as "CategoryApiRecord",
     id: null as string | null,
     name: null as string | null,
 };
@@ -36,7 +36,7 @@ knownRecordFactories.set(CategoryRecordProps.recType, CategoryRecord);
 
 export const CategoryRecordEntityProps = {
 	...CategoryRecordProps,
-	recType: "CategoryRecordEntity" as "CategoryRecordEntity",
+	recType: "CategoryApiRecordEntity" as "CategoryApiRecordEntity",
 };
 
 export type CategoryRecordEntityPropsType = typeof CategoryRecordEntityProps;
@@ -47,7 +47,7 @@ knownRecordFactories.set(CategoryRecordEntityProps.recType, CategoryRecordEntity
 
 class CategoryRecordUtils extends ApiRecordUtils<Category, CategoryRecord> {
 	public normalize(apiObject: Category, asEntity?: boolean): Category {
-		(apiObject as any).recType = asEntity ? "CategoryRecordEntity" : "CategoryRecord";
+		(apiObject as any).recType = asEntity ? CategoryRecordEntityProps.recType : CategoryRecordProps.recType;
         if (apiObject.id) { (apiObject as any).id = apiObject.id.toString(); } 
 		return apiObject;
 	}

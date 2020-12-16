@@ -23,7 +23,7 @@ import {
 
 
 export const ItemIdRecordProps = {
-	recType: "ItemIdRecord" as "ItemIdRecord",
+	recType: "ItemIdApiRecord" as "ItemIdApiRecord",
     id: "",
     type: "",
 };
@@ -37,7 +37,7 @@ knownRecordFactories.set(ItemIdRecordProps.recType, ItemIdRecord);
 
 class ItemIdRecordUtils extends ApiRecordUtils<ItemId, ItemIdRecord> {
 	public normalize(apiObject: ItemId, asEntity?: boolean): ItemId {
-		(apiObject as any).recType = "ItemIdRecord";
+		(apiObject as any).recType = ItemIdRecordProps.recType;
 		return apiObject;
 	}
 

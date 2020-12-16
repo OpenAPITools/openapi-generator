@@ -23,7 +23,7 @@ import {
 
 
 export const ModelApiResponseRecordProps = {
-	recType: "ModelApiResponseRecord" as "ModelApiResponseRecord",
+	recType: "ModelApiResponseApiRecord" as "ModelApiResponseApiRecord",
     code: null as number | null,
     type: null as string | null,
     message: null as string | null,
@@ -38,7 +38,7 @@ knownRecordFactories.set(ModelApiResponseRecordProps.recType, ModelApiResponseRe
 
 class ModelApiResponseRecordUtils extends ApiRecordUtils<ModelApiResponse, ModelApiResponseRecord> {
 	public normalize(apiObject: ModelApiResponse, asEntity?: boolean): ModelApiResponse {
-		(apiObject as any).recType = "ModelApiResponseRecord";
+		(apiObject as any).recType = ModelApiResponseRecordProps.recType;
 		return apiObject;
 	}
 

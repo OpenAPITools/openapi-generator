@@ -23,7 +23,7 @@ import {
 
 
 export const TagRecordProps = {
-	recType: "TagRecord" as "TagRecord",
+	recType: "TagApiRecord" as "TagApiRecord",
     id: null as string | null,
     name: null as string | null,
 };
@@ -36,7 +36,7 @@ knownRecordFactories.set(TagRecordProps.recType, TagRecord);
 
 export const TagRecordEntityProps = {
 	...TagRecordProps,
-	recType: "TagRecordEntity" as "TagRecordEntity",
+	recType: "TagApiRecordEntity" as "TagApiRecordEntity",
 };
 
 export type TagRecordEntityPropsType = typeof TagRecordEntityProps;
@@ -47,7 +47,7 @@ knownRecordFactories.set(TagRecordEntityProps.recType, TagRecordEntity);
 
 class TagRecordUtils extends ApiRecordUtils<Tag, TagRecord> {
 	public normalize(apiObject: Tag, asEntity?: boolean): Tag {
-		(apiObject as any).recType = asEntity ? "TagRecordEntity" : "TagRecord";
+		(apiObject as any).recType = asEntity ? TagRecordEntityProps.recType : TagRecordProps.recType;
         if (apiObject.id) { (apiObject as any).id = apiObject.id.toString(); } 
 		return apiObject;
 	}

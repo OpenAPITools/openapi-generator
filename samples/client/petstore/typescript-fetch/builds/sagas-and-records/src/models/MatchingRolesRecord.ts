@@ -30,7 +30,7 @@ import {
 } from './RoleRecord';
 
 export const MatchingRolesRecordProps = {
-	recType: "MatchingRolesRecord" as "MatchingRolesRecord",
+	recType: "MatchingRolesApiRecord" as "MatchingRolesApiRecord",
     songRoles: (RoleRecord(), List<RoleRecord>()),
     messagingRoles: (RoleRecord(), List<RoleRecord>()),
 };
@@ -44,7 +44,7 @@ knownRecordFactories.set(MatchingRolesRecordProps.recType, MatchingRolesRecord);
 
 class MatchingRolesRecordUtils extends ApiRecordUtils<MatchingRoles, MatchingRolesRecord> {
 	public normalize(apiObject: MatchingRoles, asEntity?: boolean): MatchingRoles {
-		(apiObject as any).recType = "MatchingRolesRecord";
+		(apiObject as any).recType = MatchingRolesRecordProps.recType;
         roleRecordUtils.normalizeArray(apiObject.songRoles);
         roleRecordUtils.normalizeArray(apiObject.messagingRoles);
 		return apiObject;

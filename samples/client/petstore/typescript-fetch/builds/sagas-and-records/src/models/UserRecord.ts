@@ -23,7 +23,7 @@ import {
 
 
 export const UserRecordProps = {
-	recType: "UserRecord" as "UserRecord",
+	recType: "UserApiRecord" as "UserApiRecord",
     id: "-1",
     username: null as string | null,
     firstName: null as string | null,
@@ -44,7 +44,7 @@ knownRecordFactories.set(UserRecordProps.recType, UserRecord);
 
 export const UserRecordEntityProps = {
 	...UserRecordProps,
-	recType: "UserRecordEntity" as "UserRecordEntity",
+	recType: "UserApiRecordEntity" as "UserApiRecordEntity",
     subUser: null as string | null,
     subUser2: "-1",
 };
@@ -57,7 +57,7 @@ knownRecordFactories.set(UserRecordEntityProps.recType, UserRecordEntity);
 
 class UserRecordUtils extends ApiRecordUtils<User, UserRecord> {
 	public normalize(apiObject: User, asEntity?: boolean): User {
-		(apiObject as any).recType = asEntity ? "UserRecordEntity" : "UserRecord";
+		(apiObject as any).recType = asEntity ? UserRecordEntityProps.recType : UserRecordProps.recType;
         (apiObject as any).id = apiObject.id.toString();
 		return apiObject;
 	}

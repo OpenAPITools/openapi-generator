@@ -33,7 +33,7 @@ import {
 } from './ResponseMetaRecord';
 
 export const GetProductTypeResponseRecordProps = {
-	recType: "GetProductTypeResponseRecord" as "GetProductTypeResponseRecord",
+	recType: "GetProductTypeResponseApiRecord" as "GetProductTypeResponseApiRecord",
     meta: ResponseMetaRecord(),
     data: null as ProductType | null,
 };
@@ -47,7 +47,7 @@ knownRecordFactories.set(GetProductTypeResponseRecordProps.recType, GetProductTy
 
 class GetProductTypeResponseRecordUtils extends ApiRecordUtils<GetProductTypeResponse, GetProductTypeResponseRecord> {
 	public normalize(apiObject: GetProductTypeResponse, asEntity?: boolean): GetProductTypeResponse {
-		(apiObject as any).recType = "GetProductTypeResponseRecord";
+		(apiObject as any).recType = GetProductTypeResponseRecordProps.recType;
         responseMetaRecordUtils.normalize(apiObject.meta);
 		return apiObject;
 	}

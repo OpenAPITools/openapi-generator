@@ -1,0 +1,16 @@
+import {ApiEntitiesRecord} from "./ApiEntitiesRecord"
+import {createSelector} from "reselect";
+
+let apiEntitiesSelector: (state: any) => ApiEntitiesRecord = (state: any) => state.apiEntities;
+
+export function setApiEntitiesSelector(selector: (state: any) => ApiEntitiesRecord) { // Use this to customize the location where you have placed your ApiEntitiesRecord in your project.
+    apiEntitiesSelector = selector;
+}
+
+{{#models}}
+{{#model}}
+{{#isEntity}}
+export const apiEntities{{classname}}Selector = createSelector(apiEntitiesSelector, apiEntities => apiEntities.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}});
+{{/isEntity}}
+{{/model}}
+{{/models}}

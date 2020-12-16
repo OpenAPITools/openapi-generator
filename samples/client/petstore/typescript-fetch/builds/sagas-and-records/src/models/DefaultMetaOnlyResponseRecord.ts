@@ -30,7 +30,7 @@ import {
 } from './ResponseMetaRecord';
 
 export const DefaultMetaOnlyResponseRecordProps = {
-	recType: "DefaultMetaOnlyResponseRecord" as "DefaultMetaOnlyResponseRecord",
+	recType: "DefaultMetaOnlyResponseApiRecord" as "DefaultMetaOnlyResponseApiRecord",
     meta: ResponseMetaRecord(),
 };
 
@@ -43,7 +43,7 @@ knownRecordFactories.set(DefaultMetaOnlyResponseRecordProps.recType, DefaultMeta
 
 class DefaultMetaOnlyResponseRecordUtils extends ApiRecordUtils<DefaultMetaOnlyResponse, DefaultMetaOnlyResponseRecord> {
 	public normalize(apiObject: DefaultMetaOnlyResponse, asEntity?: boolean): DefaultMetaOnlyResponse {
-		(apiObject as any).recType = "DefaultMetaOnlyResponseRecord";
+		(apiObject as any).recType = DefaultMetaOnlyResponseRecordProps.recType;
         responseMetaRecordUtils.normalize(apiObject.meta);
 		return apiObject;
 	}

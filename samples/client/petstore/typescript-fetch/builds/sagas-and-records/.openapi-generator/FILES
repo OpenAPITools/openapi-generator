@@ -16,6 +16,9 @@ src/apis/UserApiSagas.ts
 src/apis/allSagas.ts
 src/apis/index.ts
 src/index.ts
+src/models/ApiEntitiesRecord.ts
+src/models/ApiEntitiesReducer.ts
+src/models/ApiEntitiesSelectors.ts
 src/models/Category.ts
 src/models/CategoryRecord.ts
 src/models/ChannelPublishedStatus.ts

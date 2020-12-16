@@ -6,7 +6,7 @@ import {normalize, NormalizedSchema, schema, Schema} from "normalizr";
 import {ActionDefinition, createAction} from "redux-ts-simple";
 
 export const knownRecordFactories = new Map<string, any>();
-export const knownIndexedSetByKey = [];
+export const knownIndexedSetByKey: (string | number)[] = [];
 
 export function appFromJS(any: any): any {
 	return originalFromJS(any, (key, value) => {

@@ -25,7 +25,7 @@ import {
 {{/modelImports}}
 
 export const {{classname}}RecordProps = {
-	recType: "{{classname}}Record" as "{{classname}}Record",
+	recType: "{{classname}}ApiRecord" as "{{classname}}ApiRecord",
 {{#vars}}
     {{#isArray}}
     {{#items.isModel}}
@@ -65,7 +65,7 @@ knownRecordFactories.set({{classname}}RecordProps.recType, {{classname}}Record);
 {{#isEntity}}
 export const {{classname}}RecordEntityProps = {
 	...{{classname}}RecordProps,
-	recType: "{{classname}}RecordEntity" as "{{classname}}RecordEntity",
+	recType: "{{classname}}ApiRecordEntity" as "{{classname}}ApiRecordEntity",
 {{#vars}}
     {{#isEntity}}
     {{name}}: {{#required}}"-1"{{/required}}{{^required}}null as string | null{{/required}},
@@ -87,7 +87,7 @@ knownRecordFactories.set({{classname}}RecordEntityProps.recType, {{classname}}Re
 
 class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname}}Record> {
 	public normalize(apiObject: {{classname}}, asEntity?: boolean): {{classname}} {
-		(apiObject as any).recType = {{#isEntity}}asEntity ? "{{classname}}RecordEntity" : {{/isEntity}}"{{classname}}Record";
+		(apiObject as any).recType = {{#isEntity}}asEntity ? {{classname}}RecordEntityProps.recType : {{/isEntity}}{{classname}}RecordProps.recType;
 {{#vars}}
         {{#isUniqueId}}
         {{^required}}if (apiObject.{{name}}) { {{/required}}(apiObject as any).{{name}} = apiObject.{{name}}.{{#isArray}}map(item => item.{{/isArray}}toString(){{#isArray}}){{/isArray}};{{^required}} } {{/required}}

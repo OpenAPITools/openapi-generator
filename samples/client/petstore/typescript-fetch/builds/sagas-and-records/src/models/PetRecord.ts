@@ -44,7 +44,7 @@ import {
 } from './TagRecord';
 
 export const PetRecordProps = {
-	recType: "PetRecord" as "PetRecord",
+	recType: "PetApiRecord" as "PetApiRecord",
     id: "-1",
     friendId: null as string | null,
     otherFriendIds: List<string>(),
@@ -75,7 +75,7 @@ knownRecordFactories.set(PetRecordProps.recType, PetRecord);
 
 export const PetRecordEntityProps = {
 	...PetRecordProps,
-	recType: "PetRecordEntity" as "PetRecordEntity",
+	recType: "PetApiRecordEntity" as "PetApiRecordEntity",
     category: "-1",
     optionalCategory: null as string | null,
     _entries: null as List<string> | null,
@@ -91,7 +91,7 @@ knownRecordFactories.set(PetRecordEntityProps.recType, PetRecordEntity);
 
 class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
 	public normalize(apiObject: Pet, asEntity?: boolean): Pet {
-		(apiObject as any).recType = asEntity ? "PetRecordEntity" : "PetRecord";
+		(apiObject as any).recType = asEntity ? PetRecordEntityProps.recType : PetRecordProps.recType;
         (apiObject as any).id = apiObject.id.toString();
         if (apiObject.friendId) { (apiObject as any).friendId = apiObject.friendId.toString(); } 
         (apiObject as any).otherFriendIds = apiObject.otherFriendIds.map(item => item.toString());

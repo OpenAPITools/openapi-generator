@@ -24,7 +24,7 @@ import {
 
 
 export const OrderRecordProps = {
-	recType: "OrderRecord" as "OrderRecord",
+	recType: "OrderApiRecord" as "OrderApiRecord",
     id: null as string | null,
     petId: null as number | null,
     quantity: null as number | null,
@@ -41,7 +41,7 @@ knownRecordFactories.set(OrderRecordProps.recType, OrderRecord);
 
 export const OrderRecordEntityProps = {
 	...OrderRecordProps,
-	recType: "OrderRecordEntity" as "OrderRecordEntity",
+	recType: "OrderApiRecordEntity" as "OrderApiRecordEntity",
 };
 
 export type OrderRecordEntityPropsType = typeof OrderRecordEntityProps;
@@ -52,7 +52,7 @@ knownRecordFactories.set(OrderRecordEntityProps.recType, OrderRecordEntity);
 
 class OrderRecordUtils extends ApiRecordUtils<Order, OrderRecord> {
 	public normalize(apiObject: Order, asEntity?: boolean): Order {
-		(apiObject as any).recType = asEntity ? "OrderRecordEntity" : "OrderRecord";
+		(apiObject as any).recType = asEntity ? OrderRecordEntityProps.recType : OrderRecordProps.recType;
         if (apiObject.id) { (apiObject as any).id = apiObject.id.toString(); } 
 		return apiObject;
 	}
