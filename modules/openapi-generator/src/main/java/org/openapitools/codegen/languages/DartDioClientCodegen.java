@@ -45,7 +45,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
     public static final String NULLABLE_FIELDS = "nullableFields";
     public static final String DATE_LIBRARY = "dateLibrary";
 
-    private static final String IS_FORMAT_JSON = "jsonFormat";
     private static final String CLIENT_NAME = "clientName";
 
     private boolean nullableFields = true;
@@ -145,13 +144,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
     }
 
     @Override
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        //super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
-        codegenModel.additionalPropertiesType = getSchemaType(getAdditionalProperties(schema));
-        addImport(codegenModel, codegenModel.additionalPropertiesType);
-    }
-
-    @Override
     public void processOpts() {
         defaultProcessOpts();
 
@@ -166,8 +158,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
             //not set, use to be passed to template
             additionalProperties.put(NULLABLE_FIELDS, nullableFields);
         }
-
-        additionalProperties.put(IS_FORMAT_JSON, true);
 
         if (additionalProperties.containsKey(PUB_LIBRARY)) {
             this.setPubLibrary((String) additionalProperties.get(PUB_LIBRARY));
