@@ -16,14 +16,18 @@ class DefaultApi {
     /// 
     Future<Response<InlineResponseDefault>> fooGet({ 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/foo';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -40,7 +44,9 @@ class DefaultApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,

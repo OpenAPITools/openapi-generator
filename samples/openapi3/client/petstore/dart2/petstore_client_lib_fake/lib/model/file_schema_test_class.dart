@@ -16,9 +16,9 @@ class FileSchemaTestClass {
     this.files = const [],
   });
 
-  MultipartFile file;
+  ModelFile file;
 
-  List<MultipartFile> files;
+  List<ModelFile> files;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is FileSchemaTestClass &&
@@ -49,8 +49,8 @@ class FileSchemaTestClass {
   static FileSchemaTestClass fromJson(Map<String, dynamic> json) => json == null
     ? null
     : FileSchemaTestClass(
-        file: MultipartFile.fromJson(json[r'file']),
-        files: MultipartFile.listFromJson(json[r'files']),
+        file: ModelFile.fromJson(json[r'file']),
+        files: ModelFile.listFromJson(json[r'files']),
     );
 
   static List<FileSchemaTestClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

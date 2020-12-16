@@ -17,12 +17,10 @@ import 'package:openapi/model/cat.dart';
 import 'package:openapi/model/cat_all_of.dart';
 import 'package:openapi/model/category.dart';
 import 'package:openapi/model/class_model.dart';
-import 'package:openapi/model/client.dart';
 import 'package:openapi/model/dog.dart';
 import 'package:openapi/model/dog_all_of.dart';
 import 'package:openapi/model/enum_arrays.dart';
 import 'package:openapi/model/enum_test.dart';
-import 'package:openapi/model/file.dart';
 import 'package:openapi/model/file_schema_test_class.dart';
 import 'package:openapi/model/foo.dart';
 import 'package:openapi/model/format_test.dart';
@@ -38,7 +36,10 @@ import 'package:openapi/model/inline_response_default.dart';
 import 'package:openapi/model/map_test.dart';
 import 'package:openapi/model/mixed_properties_and_additional_properties_class.dart';
 import 'package:openapi/model/model200_response.dart';
+import 'package:openapi/model/model_client.dart';
 import 'package:openapi/model/model_enum_class.dart';
+import 'package:openapi/model/model_file.dart';
+import 'package:openapi/model/model_list.dart';
 import 'package:openapi/model/model_return.dart';
 import 'package:openapi/model/name.dart';
 import 'package:openapi/model/nullable_class.dart';
@@ -70,12 +71,10 @@ Cat,
 CatAllOf,
 Category,
 ClassModel,
-Client,
 Dog,
 DogAllOf,
 EnumArrays,
 EnumTest,
-File,
 FileSchemaTestClass,
 Foo,
 FormatTest,
@@ -91,7 +90,10 @@ InlineResponseDefault,
 MapTest,
 MixedPropertiesAndAdditionalPropertiesClass,
 Model200Response,
+ModelClient,
 ModelEnumClass,
+ModelFile,
+ModelList,
 ModelReturn,
 Name,
 NullableClass,
@@ -146,9 +148,6 @@ const FullType(BuiltList, const [const FullType(Category)]),
 const FullType(BuiltList, const [const FullType(ClassModel)]),
 () => new ListBuilder<ClassModel>())
 ..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(Client)]),
-() => new ListBuilder<Client>())
-..addBuilderFactory(
 const FullType(BuiltList, const [const FullType(Dog)]),
 () => new ListBuilder<Dog>())
 ..addBuilderFactory(
@@ -160,9 +159,6 @@ const FullType(BuiltList, const [const FullType(EnumArrays)]),
 ..addBuilderFactory(
 const FullType(BuiltList, const [const FullType(EnumTest)]),
 () => new ListBuilder<EnumTest>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(File)]),
-() => new ListBuilder<File>())
 ..addBuilderFactory(
 const FullType(BuiltList, const [const FullType(FileSchemaTestClass)]),
 () => new ListBuilder<FileSchemaTestClass>())
@@ -209,8 +205,17 @@ const FullType(BuiltList, const [const FullType(MixedPropertiesAndAdditionalProp
 const FullType(BuiltList, const [const FullType(Model200Response)]),
 () => new ListBuilder<Model200Response>())
 ..addBuilderFactory(
+const FullType(BuiltList, const [const FullType(ModelClient)]),
+() => new ListBuilder<ModelClient>())
+..addBuilderFactory(
 const FullType(BuiltList, const [const FullType(ModelEnumClass)]),
 () => new ListBuilder<ModelEnumClass>())
+..addBuilderFactory(
+const FullType(BuiltList, const [const FullType(ModelFile)]),
+() => new ListBuilder<ModelFile>())
+..addBuilderFactory(
+const FullType(BuiltList, const [const FullType(ModelList)]),
+() => new ListBuilder<ModelList>())
 ..addBuilderFactory(
 const FullType(BuiltList, const [const FullType(ModelReturn)]),
 () => new ListBuilder<ModelReturn>())

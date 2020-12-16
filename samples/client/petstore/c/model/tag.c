@@ -25,7 +25,10 @@ void tag_free(tag_t *tag) {
         return ;
     }
     listEntry_t *listEntry;
-    free(tag->name);
+    if (tag->name) {
+        free(tag->name);
+        tag->name = NULL;
+    }
     free(tag);
 }
 
