@@ -214,59 +214,92 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
     {{^isPrimitiveType}}
     {{#isModel}}
     {{^isEnum}}
-    {{{complexType}}}_free({{{classname}}}->{{{name}}});
+    if ({{{classname}}}->{{{name}}}) {
+        {{{complexType}}}_free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
     {{/isEnum}}
     {{/isModel}}
     {{#isUuid}}
-    free({{{classname}}}->{{{name}}});
+    if ({{{classname}}}->{{{name}}}) {
+        free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
     {{/isUuid}}
     {{#isEmail}}
-    free({{{classname}}}->{{{name}}});
+    if ({{{classname}}}->{{{name}}}) {
+        free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
     {{/isEmail}}
     {{#isFreeFormObject}}
-    object_free({{{classname}}}->{{{name}}});
+    if ({{{classname}}}->{{{name}}}) {
+        object_free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
     {{/isFreeFormObject}}
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{^isEnum}}
     {{#isString}}
-    free({{{classname}}}->{{{name}}});
+    if ({{{classname}}}->{{{name}}}) {
+        free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
     {{/isString}}
     {{/isEnum}}
     {{#isBinary}}
-    free({{{classname}}}->{{{name}}}->data);
+    if ({{{classname}}}->{{{name}}}) {
+        free({{{classname}}}->{{{name}}}->data);
+        {{classname}}->{{name}} = NULL;
+    }
     {{/isBinary}}
     {{#isDate}}
-    free({{{classname}}}->{{{name}}});
+    if ({{{classname}}}->{{{name}}}) {
+        free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
     {{/isDate}}
     {{#isDateTime}}
-    free({{{classname}}}->{{{name}}});
+    if ({{{classname}}}->{{{name}}}) {
+        free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
     {{/isDateTime}}
     {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}
     {{#isArray}}
     {{#isPrimitiveType}}
-    list_ForEach(listEntry, {{classname}}->{{name}}) {
-        free(listEntry->data);
+    if ({{{classname}}}->{{{name}}}) {
+        list_ForEach(listEntry, {{classname}}->{{name}}) {
+            free(listEntry->data);
+        }
+        list_free({{classname}}->{{name}});
+        {{classname}}->{{name}} = NULL;
     }
-    list_free({{classname}}->{{name}});
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    list_ForEach(listEntry, {{classname}}->{{name}}) {
-        {{complexType}}_free(listEntry->data);
+    if ({{{classname}}}->{{{name}}}) {
+        list_ForEach(listEntry, {{classname}}->{{name}}) {
+            {{complexType}}_free(listEntry->data);
+        }
+        list_free({{classname}}->{{name}});
+        {{classname}}->{{name}} = NULL;
     }
-    list_free({{classname}}->{{name}});
     {{/isPrimitiveType}}
     {{/isArray}}
     {{#isMap}}
-    list_ForEach(listEntry, {{classname}}->{{name}}) {
-        keyValuePair_t *localKeyValue = (keyValuePair_t*) listEntry->data;
-        free (localKeyValue->key);
-        free (localKeyValue->value);
-        keyValuePair_free(localKeyValue);
+    if ({{{classname}}}->{{{name}}}) {
+        list_ForEach(listEntry, {{classname}}->{{name}}) {
+            keyValuePair_t *localKeyValue = (keyValuePair_t*) listEntry->data;
+            free (localKeyValue->key);
+            free (localKeyValue->value);
+            keyValuePair_free(localKeyValue);
+        }
+        list_free({{classname}}->{{name}});
+        {{classname}}->{{name}} = NULL;
     }
-    list_free({{classname}}->{{name}});
     {{/isMap}}
     {{/isContainer}}
     {{/vars}}

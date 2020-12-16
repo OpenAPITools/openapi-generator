@@ -23,17 +23,17 @@ class FakeClassnameTags123Api {
   ///
   /// Parameters:
   ///
-  /// * [Client] client (required):
+  /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<Response> testClassnameWithHttpInfo(Client client) async {
+  Future<Response> testClassnameWithHttpInfo(ModelClient modelClient) async {
     // Verify required params are set.
-    if (client == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: client');
+    if (modelClient == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: modelClient');
     }
 
     final path = '/fake_classname_test'.replaceAll('{format}', 'json');
 
-    Object postBody = client;
+    Object postBody = modelClient;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -73,10 +73,10 @@ class FakeClassnameTags123Api {
   ///
   /// Parameters:
   ///
-  /// * [Client] client (required):
+  /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<Client> testClassname(Client client) async {
-    final response = await testClassnameWithHttpInfo(client);
+  Future<ModelClient> testClassname(ModelClient modelClient) async {
+    final response = await testClassnameWithHttpInfo(modelClient);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
@@ -84,7 +84,7 @@ class FakeClassnameTags123Api {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Client') as Client;
+      return apiClient.deserialize(_decodeBodyBytes(response), 'ModelClient') as ModelClient;
     }
     return null;
   }

@@ -18,14 +18,14 @@ class StoreApi {
     Future<Response<void>> deleteOrder(
         String orderId, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/store/order/{order_id}'.replaceAll('{' r'order_id' '}', orderId.toString());
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -56,14 +56,14 @@ class StoreApi {
     /// Returns a map of status codes to quantities
     Future<Response<BuiltMap<String, int>>> getInventory({ 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/store/inventory';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -116,14 +116,14 @@ class StoreApi {
     Future<Response<Order>> getOrderById(
         int orderId, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/store/order/{order_id}'.replaceAll('{' r'order_id' '}', orderId.toString());
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -168,14 +168,14 @@ class StoreApi {
     Future<Response<Order>> placeOrder(
         Order order, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/store/order';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);

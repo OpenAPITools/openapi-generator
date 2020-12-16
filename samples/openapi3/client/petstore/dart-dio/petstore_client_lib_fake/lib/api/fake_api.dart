@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
-import 'package:openapi/model/client.dart';
 import 'package:openapi/model/file_schema_test_class.dart';
 import 'package:openapi/model/outer_composite.dart';
 import 'package:openapi/model/user.dart';
 import 'package:openapi/model/health_check_result.dart';
 import 'package:openapi/model/pet.dart';
+import 'package:openapi/model/model_client.dart';
 import 'dart:typed_data';
 import 'package:built_collection/built_collection.dart';
 import 'package:openapi/api_util.dart';
@@ -24,14 +24,14 @@ class FakeApi {
     /// 
     Future<Response<HealthCheckResult>> fakeHealthGet({ 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/health';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -78,14 +78,14 @@ class FakeApi {
         String query1,
         String header1,
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/http-signature-test';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         headerParams[r'header_1'] = header1;
@@ -131,14 +131,14 @@ class FakeApi {
     Future<Response<bool>> fakeOuterBooleanSerialize({ 
         bool body,
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/outer/boolean';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -188,14 +188,14 @@ class FakeApi {
     Future<Response<OuterComposite>> fakeOuterCompositeSerialize({ 
         OuterComposite outerComposite,
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/outer/composite';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -246,14 +246,14 @@ class FakeApi {
     Future<Response<num>> fakeOuterNumberSerialize({ 
         num body,
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/outer/number';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -303,14 +303,14 @@ class FakeApi {
     Future<Response<String>> fakeOuterStringSerialize({ 
         String body,
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/outer/string';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -360,14 +360,14 @@ class FakeApi {
     Future<Response<void>> testBodyWithFileSchema(
         FileSchemaTestClass fileSchemaTestClass, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/body-with-file-schema';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -406,14 +406,14 @@ class FakeApi {
         String query,
         User user, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/body-with-query-params';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams[r'query'] = query;
@@ -449,17 +449,17 @@ class FakeApi {
     /// To test \"client\" model
     ///
     /// To test \"client\" model
-    Future<Response<Client>> testClientModel(
-        Client client, { 
+    Future<Response<ModelClient>> testClientModel(
+        ModelClient modelClient, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -469,9 +469,9 @@ class FakeApi {
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(client);
-        final jsonclient = json.encode(serializedBody);
-        bodyData = jsonclient;
+        final serializedBody = _serializers.serialize(modelClient);
+        final jsonmodelClient = json.encode(serializedBody);
+        bodyData = jsonmodelClient;
 
         return _dio.request(
             _path,
@@ -489,10 +489,10 @@ class FakeApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            final serializer = _serializers.serializerForType(Client);
-            final data = _serializers.deserializeWith<Client>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            final serializer = _serializers.serializerForType(ModelClient);
+            final data = _serializers.deserializeWith<ModelClient>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
-            return Response<Client>(
+            return Response<ModelClient>(
                 data: data,
                 headers: response.headers,
                 request: response.request,
@@ -523,14 +523,14 @@ class FakeApi {
         String password,
         String callback,
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -593,14 +593,14 @@ class FakeApi {
         BuiltList<String> enumFormStringArray,
         String enumFormString,
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         headerParams[r'enum_header_string_array'] = enumHeaderStringArray;
@@ -650,14 +650,14 @@ class FakeApi {
         bool booleanGroup,
         int int64Group,
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         headerParams[r'required_boolean_group'] = requiredBooleanGroup;
@@ -700,14 +700,14 @@ class FakeApi {
     Future<Response<void>> testInlineAdditionalProperties(
         BuiltMap<String, String> requestBody, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/inline-additionalProperties';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -746,14 +746,14 @@ class FakeApi {
         String param,
         String param2, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/jsonFormData';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -796,14 +796,14 @@ class FakeApi {
         BuiltList<String> url,
         BuiltList<String> context, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/test-query-paramters';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams[r'pipe'] = pipe;

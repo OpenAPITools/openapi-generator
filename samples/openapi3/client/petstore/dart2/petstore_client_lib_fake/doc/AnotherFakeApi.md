@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **call123testSpecialTags**
-> Client call123testSpecialTags(client)
+> ModelClient call123testSpecialTags(modelClient)
 
 To test special tags
 
@@ -24,10 +24,10 @@ To test special tags and operation ID starting with number
 import 'package:openapi/api.dart';
 
 final api_instance = AnotherFakeApi();
-final client = Client(); // Client | client model
+final modelClient = ModelClient(); // ModelClient | client model
 
 try { 
-    final result = api_instance.call123testSpecialTags(client);
+    final result = api_instance.call123testSpecialTags(modelClient);
     print(result);
 } catch (e) {
     print('Exception when calling AnotherFakeApi->call123testSpecialTags: $e\n');
@@ -38,11 +38,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model | 
+ **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
 
 ### Return type
 
-[**Client**](Client.md)
+[**ModelClient**](ModelClient.md)
 
 ### Authorization
 

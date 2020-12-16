@@ -21,14 +21,14 @@ class PetApi {
     Future<Response<void>> addPet(
         Pet body, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/pet';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -73,14 +73,14 @@ class PetApi {
         int petId, { 
         String apiKey,
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         headerParams[r'api_key'] = apiKey;
@@ -118,14 +118,14 @@ class PetApi {
     Future<Response<BuiltList<Pet>>> findPetsByStatus(
         BuiltList<String> status, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/pet/findByStatus';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams[r'status'] = status;
@@ -177,14 +177,14 @@ class PetApi {
     Future<Response<BuiltList<Pet>>> findPetsByTags(
         BuiltList<String> tags, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/pet/findByTags';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams[r'tags'] = tags;
@@ -236,14 +236,14 @@ class PetApi {
     Future<Response<Pet>> getPetById(
         int petId, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -295,14 +295,14 @@ class PetApi {
     Future<Response<void>> updatePet(
         Pet body, { 
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/pet';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -348,14 +348,14 @@ class PetApi {
         String name,
         String status,
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -401,14 +401,14 @@ class PetApi {
         String additionalMetadata,
         Uint8List file,
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', petId.toString());
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
