@@ -40,7 +40,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
     private static final String CLIENT_NAME = "clientName";
 
-    private boolean nullableFields = true;
+    private boolean nullableFields = false;
     private String dateLibrary = "core";
 
     public DartDioClientCodegen() {
@@ -49,7 +49,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
         embeddedTemplateDir = "dart-dio";
         this.setTemplateDir(embeddedTemplateDir);
 
-        cliOptions.add(new CliOption(NULLABLE_FIELDS, "Is the null fields should be in the JSON payload"));
+        cliOptions.add(new CliOption(NULLABLE_FIELDS, "Make all fields nullable in the JSON payload"));
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
         Map<String, String> dateOptions = new HashMap<>();
         dateOptions.put("core", "Dart core library (DateTime)");

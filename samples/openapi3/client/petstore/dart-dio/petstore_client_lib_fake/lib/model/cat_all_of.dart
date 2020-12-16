@@ -12,7 +12,6 @@ part 'cat_all_of.g.dart';
 
 abstract class CatAllOf implements Built<CatAllOf, CatAllOfBuilder> {
 
-    @nullable
     @BuiltValueField(wireName: r'declawed')
     bool get declawed;
 

@@ -46,7 +46,6 @@ abstract class NullableClass implements Built<NullableClass, NullableClassBuilde
     @BuiltValueField(wireName: r'array_and_items_nullable_prop')
     BuiltList<JsonObject> get arrayAndItemsNullableProp;
 
-    @nullable
     @BuiltValueField(wireName: r'array_items_nullable')
     BuiltList<JsonObject> get arrayItemsNullable;
 
@@ -58,7 +57,6 @@ abstract class NullableClass implements Built<NullableClass, NullableClassBuilde
     @BuiltValueField(wireName: r'object_and_items_nullable_prop')
     BuiltMap<String, JsonObject> get objectAndItemsNullableProp;
 
-    @nullable
     @BuiltValueField(wireName: r'object_items_nullable')
     BuiltMap<String, JsonObject> get objectItemsNullable;
 
