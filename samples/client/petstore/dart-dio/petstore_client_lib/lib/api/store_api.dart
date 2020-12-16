@@ -15,7 +15,7 @@ class StoreApi {
     /// Delete purchase order by ID
     ///
     /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-    Future<Response>deleteOrder(
+    Future<Response<void>> deleteOrder(
         String orderId, { 
         CancelToken cancelToken,
         Map<String, String> headers,
@@ -54,7 +54,7 @@ class StoreApi {
     /// Returns pet inventories by status
     ///
     /// Returns a map of status codes to quantities
-    Future<Response<BuiltMap<String, int>>>getInventory({ 
+    Future<Response<BuiltMap<String, int>>> getInventory({ 
         CancelToken cancelToken,
         Map<String, String> headers,
         ProgressCallback onSendProgress,
@@ -113,7 +113,7 @@ class StoreApi {
     /// Find purchase order by ID
     ///
     /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-    Future<Response<Order>>getOrderById(
+    Future<Response<Order>> getOrderById(
         int orderId, { 
         CancelToken cancelToken,
         Map<String, String> headers,
@@ -165,7 +165,7 @@ class StoreApi {
     /// Place an order for a pet
     ///
     /// 
-    Future<Response<Order>>placeOrder(
+    Future<Response<Order>> placeOrder(
         Order body, { 
         CancelToken cancelToken,
         Map<String, String> headers,

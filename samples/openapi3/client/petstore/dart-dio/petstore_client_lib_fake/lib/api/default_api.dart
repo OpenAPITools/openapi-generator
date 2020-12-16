@@ -14,7 +14,7 @@ class DefaultApi {
     /// 
     ///
     /// 
-    Future<Response<InlineResponseDefault>>fooGet({ 
+    Future<Response<InlineResponseDefault>> fooGet({ 
         CancelToken cancelToken,
         Map<String, String> headers,
         ProgressCallback onSendProgress,

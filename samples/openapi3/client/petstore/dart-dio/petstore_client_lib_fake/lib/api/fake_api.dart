@@ -22,7 +22,7 @@ class FakeApi {
     /// Health check endpoint
     ///
     /// 
-    Future<Response<HealthCheckResult>>fakeHealthGet({ 
+    Future<Response<HealthCheckResult>> fakeHealthGet({ 
         CancelToken cancelToken,
         Map<String, String> headers,
         ProgressCallback onSendProgress,
@@ -73,7 +73,7 @@ class FakeApi {
     /// test http signature authentication
     ///
     /// 
-    Future<Response>fakeHttpSignatureTest(
+    Future<Response<void>> fakeHttpSignatureTest(
         Pet pet, { 
         String query1,
         String header1,
@@ -128,7 +128,7 @@ class FakeApi {
     /// 
     ///
     /// Test serialization of outer boolean types
-    Future<Response<bool>>fakeOuterBooleanSerialize({ 
+    Future<Response<bool>> fakeOuterBooleanSerialize({ 
         bool body,
         CancelToken cancelToken,
         Map<String, String> headers,
@@ -185,7 +185,7 @@ class FakeApi {
     /// 
     ///
     /// Test serialization of object with outer number type
-    Future<Response<OuterComposite>>fakeOuterCompositeSerialize({ 
+    Future<Response<OuterComposite>> fakeOuterCompositeSerialize({ 
         OuterComposite outerComposite,
         CancelToken cancelToken,
         Map<String, String> headers,
@@ -243,7 +243,7 @@ class FakeApi {
     /// 
     ///
     /// Test serialization of outer number types
-    Future<Response<num>>fakeOuterNumberSerialize({ 
+    Future<Response<num>> fakeOuterNumberSerialize({ 
         num body,
         CancelToken cancelToken,
         Map<String, String> headers,
@@ -300,7 +300,7 @@ class FakeApi {
     /// 
     ///
     /// Test serialization of outer string types
-    Future<Response<String>>fakeOuterStringSerialize({ 
+    Future<Response<String>> fakeOuterStringSerialize({ 
         String body,
         CancelToken cancelToken,
         Map<String, String> headers,
@@ -357,7 +357,7 @@ class FakeApi {
     /// 
     ///
     /// For this test, the body for this request much reference a schema named `File`.
-    Future<Response>testBodyWithFileSchema(
+    Future<Response<void>> testBodyWithFileSchema(
         FileSchemaTestClass fileSchemaTestClass, { 
         CancelToken cancelToken,
         Map<String, String> headers,
@@ -402,7 +402,7 @@ class FakeApi {
     /// 
     ///
     /// 
-    Future<Response>testBodyWithQueryParams(
+    Future<Response<void>> testBodyWithQueryParams(
         String query,
         User user, { 
         CancelToken cancelToken,
@@ -449,7 +449,7 @@ class FakeApi {
     /// To test \"client\" model
     ///
     /// To test \"client\" model
-    Future<Response<Client>>testClientModel(
+    Future<Response<Client>> testClientModel(
         Client client, { 
         CancelToken cancelToken,
         Map<String, String> headers,
@@ -507,7 +507,7 @@ class FakeApi {
     /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     ///
     /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    Future<Response>testEndpointParameters(
+    Future<Response<void>> testEndpointParameters(
         num number,
         double double_,
         String patternWithoutDelimiter,
@@ -583,7 +583,7 @@ class FakeApi {
     /// To test enum parameters
     ///
     /// To test enum parameters
-    Future<Response>testEnumParameters({ 
+    Future<Response<void>> testEnumParameters({ 
         BuiltList<String> enumHeaderStringArray,
         String enumHeaderString,
         BuiltList<String> enumQueryStringArray,
@@ -642,7 +642,7 @@ class FakeApi {
     /// Fake endpoint to test group parameters (optional)
     ///
     /// Fake endpoint to test group parameters (optional)
-    Future<Response>testGroupParameters(
+    Future<Response<void>> testGroupParameters(
         int requiredStringGroup,
         bool requiredBooleanGroup,
         int requiredInt64Group, { 
@@ -697,7 +697,7 @@ class FakeApi {
     /// test inline additionalProperties
     ///
     /// 
-    Future<Response>testInlineAdditionalProperties(
+    Future<Response<void>> testInlineAdditionalProperties(
         BuiltMap<String, String> requestBody, { 
         CancelToken cancelToken,
         Map<String, String> headers,
@@ -742,7 +742,7 @@ class FakeApi {
     /// test json serialization of form data
     ///
     /// 
-    Future<Response>testJsonFormData(
+    Future<Response<void>> testJsonFormData(
         String param,
         String param2, { 
         CancelToken cancelToken,
@@ -789,7 +789,7 @@ class FakeApi {
     /// 
     ///
     /// To test the collection format in query parameters
-    Future<Response>testQueryParameterCollectionFormat(
+    Future<Response<void>> testQueryParameterCollectionFormat(
         BuiltList<String> pipe,
         BuiltList<String> ioutil,
         BuiltList<String> http,

@@ -14,7 +14,7 @@ class FakeClassnameTags123Api {
     /// To test class name in snake case
     ///
     /// To test class name in snake case
-    Future<Response<Client>>testClassname(
+    Future<Response<Client>> testClassname(
         Client client, { 
         CancelToken cancelToken,
         Map<String, String> headers,
