@@ -34,8 +34,8 @@ func BananaAsFruit(v *Banana) Fruit {
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *Fruit) UnmarshalJSON(data []byte) error {
-	var err error
 	match := 0
+	var err error
 	// try to unmarshal data into Apple
 	err = json.Unmarshal(data, &dst.Apple)
 	if err == nil {

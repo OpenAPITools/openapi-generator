@@ -35,44 +35,38 @@ func ZebraAsMammal(v *Zebra) Mammal {
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *Mammal) UnmarshalJSON(data []byte) error {
 	var err error
-	match := 0
-	// try to unmarshal data into Whale
-	err = json.Unmarshal(data, &dst.Whale)
-	if err == nil {
-		jsonWhale, _ := json.Marshal(dst.Whale)
-		if string(jsonWhale) == "{}" { // empty struct
+	// use discriminator value to speed up the lookup
+	var jsonDict map[string]interface{}
+	err = json.Unmarshal(data, &jsonDict)
+	if err != nil {
+		return fmt.Errorf("Failed to unmarshal JSON into map for the discrimintor lookup.")
+	}
+
+	// check if the discriminator value is 'whale'
+	if jsonDict["className"] == "whale" {
+		// try to unmarshal JSON data into Whale
+		err = json.Unmarshal(data, &dst.Whale)
+		if err == nil {
+			return nil // data stored in dst.Whale, return on the first match
+		} else {
 			dst.Whale = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal Mammal as Whale: %s", err.Error())
 		}
-	} else {
-		dst.Whale = nil
 	}
 
-	// try to unmarshal data into Zebra
-	err = json.Unmarshal(data, &dst.Zebra)
-	if err == nil {
-		jsonZebra, _ := json.Marshal(dst.Zebra)
-		if string(jsonZebra) == "{}" { // empty struct
+	// check if the discriminator value is 'zebra'
+	if jsonDict["className"] == "zebra" {
+		// try to unmarshal JSON data into Zebra
+		err = json.Unmarshal(data, &dst.Zebra)
+		if err == nil {
+			return nil // data stored in dst.Zebra, return on the first match
+		} else {
 			dst.Zebra = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal Mammal as Zebra: %s", err.Error())
 		}
-	} else {
-		dst.Zebra = nil
 	}
 
-	if match > 1 { // more than 1 match
-		// reset to nil
-		dst.Whale = nil
-		dst.Zebra = nil
-
-		return fmt.Errorf("Data matches more than one schema in oneOf(Mammal)")
-	} else if match == 1 {
-		return nil // exactly one match
-	} else { // no match
-		return fmt.Errorf("Data failed to match schemas in oneOf(Mammal)")
-	}
+	return nil
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
