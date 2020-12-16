@@ -367,7 +367,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testClientModel**
-> Client testClientModel(client)
+> ModelClient testClientModel(modelClient)
 
 To test \"client\" model
 
@@ -378,10 +378,10 @@ To test \"client\" model
 import 'package:openapi/api.dart';
 
 var api_instance = new FakeApi();
-var client = new Client(); // Client | client model
+var modelClient = new ModelClient(); // ModelClient | client model
 
 try { 
-    var result = api_instance.testClientModel(client);
+    var result = api_instance.testClientModel(modelClient);
     print(result);
 } catch (e) {
     print('Exception when calling FakeApi->testClientModel: $e\n');
@@ -392,11 +392,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model | 
+ **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
 
 ### Return type
 
-[**Client**](Client.md)
+[**ModelClient**](ModelClient.md)
 
 ### Authorization
 

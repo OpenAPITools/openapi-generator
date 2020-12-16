@@ -1,9 +1,9 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
-part 'file.g.dart';
+part 'model_file.g.dart';
 
-abstract class File implements Built<File, FileBuilder> {
+abstract class ModelFile implements Built<ModelFile, ModelFileBuilder> {
 
     /// Test capitalization
     @nullable
@@ -11,9 +11,9 @@ abstract class File implements Built<File, FileBuilder> {
     String get sourceURI;
 
     // Boilerplate code needed to wire-up generated code
-    File._();
+    ModelFile._();
 
-    factory File([updates(FileBuilder b)]) = _$File;
-    static Serializer<File> get serializer => _$fileSerializer;
+    factory ModelFile([updates(ModelFileBuilder b)]) = _$ModelFile;
+    static Serializer<ModelFile> get serializer => _$modelFileSerializer;
 }
 

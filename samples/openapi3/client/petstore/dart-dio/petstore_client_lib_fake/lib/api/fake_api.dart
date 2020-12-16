@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
-import 'package:openapi/model/client.dart';
 import 'package:openapi/model/file_schema_test_class.dart';
 import 'package:openapi/model/outer_composite.dart';
 import 'package:openapi/model/user.dart';
 import 'package:openapi/model/health_check_result.dart';
 import 'package:openapi/model/pet.dart';
+import 'package:openapi/model/model_client.dart';
 import 'dart:typed_data';
 import 'package:built_collection/built_collection.dart';
 import 'package:openapi/api_util.dart';
@@ -449,8 +449,8 @@ class FakeApi {
     /// To test \"client\" model
     ///
     /// To test \"client\" model
-    Future<Response<Client>> testClientModel(
-        Client client, { 
+    Future<Response<ModelClient>> testClientModel(
+        ModelClient modelClient, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
@@ -469,9 +469,9 @@ class FakeApi {
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(client);
-        final jsonclient = json.encode(serializedBody);
-        bodyData = jsonclient;
+        final serializedBody = _serializers.serialize(modelClient);
+        final jsonmodelClient = json.encode(serializedBody);
+        bodyData = jsonmodelClient;
 
         return _dio.request(
             _path,
@@ -489,10 +489,10 @@ class FakeApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            final serializer = _serializers.serializerForType(Client);
-            final data = _serializers.deserializeWith<Client>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            final serializer = _serializers.serializerForType(ModelClient);
+            final data = _serializers.deserializeWith<ModelClient>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
-            return Response<Client>(
+            return Response<ModelClient>(
                 data: data,
                 headers: response.headers,
                 request: response.request,

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
-import 'package:openapi/model/client.dart';
+import 'package:openapi/model/model_client.dart';
 
 class FakeClassnameTags123Api {
     final Dio _dio;
@@ -14,8 +14,8 @@ class FakeClassnameTags123Api {
     /// To test class name in snake case
     ///
     /// To test class name in snake case
-    Future<Response<Client>> testClassname(
-        Client client, { 
+    Future<Response<ModelClient>> testClassname(
+        ModelClient modelClient, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
@@ -34,9 +34,9 @@ class FakeClassnameTags123Api {
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(client);
-        final jsonclient = json.encode(serializedBody);
-        bodyData = jsonclient;
+        final serializedBody = _serializers.serialize(modelClient);
+        final jsonmodelClient = json.encode(serializedBody);
+        bodyData = jsonmodelClient;
 
         return _dio.request(
             _path,
@@ -61,10 +61,10 @@ class FakeClassnameTags123Api {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            final serializer = _serializers.serializerForType(Client);
-            final data = _serializers.deserializeWith<Client>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            final serializer = _serializers.serializerForType(ModelClient);
+            final data = _serializers.deserializeWith<ModelClient>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
-            return Response<Client>(
+            return Response<ModelClient>(
                 data: data,
                 headers: response.headers,
                 request: response.request,
