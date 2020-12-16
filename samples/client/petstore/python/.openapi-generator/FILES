@@ -74,6 +74,7 @@ docs/XmlItem.md
 git_push.sh
 petstore_api/__init__.py
 petstore_api/api/__init__.py
+petstore_api/api/__init__.py
 petstore_api/api/another_fake_api.py
 petstore_api/api/fake_api.py
 petstore_api/api/fake_classname_tags_123_api.py
@@ -84,6 +85,7 @@ petstore_api/api_client.py
 petstore_api/apis/__init__.py
 petstore_api/configuration.py
 petstore_api/exceptions.py
+petstore_api/model/__init__.py
 petstore_api/model/additional_properties_any_type.py
 petstore_api/model/additional_properties_array.py
 petstore_api/model/additional_properties_boolean.py
