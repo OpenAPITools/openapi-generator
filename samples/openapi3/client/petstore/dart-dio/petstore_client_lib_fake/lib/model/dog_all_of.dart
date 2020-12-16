@@ -12,7 +12,6 @@ part 'dog_all_of.g.dart';
 
 abstract class DogAllOf implements Built<DogAllOf, DogAllOfBuilder> {
 
-    @nullable
     @BuiltValueField(wireName: r'breed')
     String get breed;
 

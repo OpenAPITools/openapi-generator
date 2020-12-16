@@ -13,7 +13,6 @@ part 'model_file.g.dart';
 abstract class ModelFile implements Built<ModelFile, ModelFileBuilder> {
 
     /// Test capitalization
-    @nullable
     @BuiltValueField(wireName: r'sourceURI')
     String get sourceURI;
 
