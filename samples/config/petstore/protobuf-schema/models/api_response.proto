@@ -21,6 +21,6 @@ message ApiResponse {
 
   string message = 418054152;
 
-  map&lt;str, int32&gt; mapUnderscoretest = 489735482;
+  map<str, int32> mapUnderscoretest = 489735482;
 
 }
