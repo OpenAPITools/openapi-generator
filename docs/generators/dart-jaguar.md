@@ -30,17 +30,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Type/Alias | Imports |
 | ---------- | ------- |
-|DateTime|dart:core|
-|List|dart:core|
-|Map|dart:core|
-|Object|dart:core|
-|Set|dart:core|
-|String|dart:core|
-|bool|dart:core|
-|double|dart:core|
-|dynamic|dart:core|
-|int|dart:core|
-|num|dart:core|
 
 
 ## INSTANTIATION TYPES
@@ -57,6 +46,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>String</li>
 <li>bool</li>
 <li>double</li>
+<li>dynamic</li>
 <li>int</li>
 <li>num</li>
 </ul>
