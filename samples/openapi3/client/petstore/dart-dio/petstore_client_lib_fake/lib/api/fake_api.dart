@@ -25,13 +25,17 @@ class FakeApi {
     Future<Response<HealthCheckResult>> fakeHealthGet({ 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/health';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -48,7 +52,9 @@ class FakeApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -79,13 +85,17 @@ class FakeApi {
         String header1,
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/http-signature-test';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         headerParams[r'header_1'] = header1;
@@ -116,7 +126,9 @@ class FakeApi {
                             'name': 'http_signature_test',
                         },
                     ],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -132,13 +144,17 @@ class FakeApi {
         bool body,
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/outer/boolean';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -161,7 +177,9 @@ class FakeApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -189,13 +207,17 @@ class FakeApi {
         OuterComposite outerComposite,
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/outer/composite';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -218,7 +240,9 @@ class FakeApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -247,13 +271,17 @@ class FakeApi {
         num body,
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/outer/number';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -276,7 +304,9 @@ class FakeApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -304,13 +334,17 @@ class FakeApi {
         String body,
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/outer/string';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -333,7 +367,9 @@ class FakeApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -361,13 +397,17 @@ class FakeApi {
         FileSchemaTestClass fileSchemaTestClass, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/body-with-file-schema';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -390,7 +430,9 @@ class FakeApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -407,13 +449,17 @@ class FakeApi {
         User user, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/body-with-query-params';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams[r'query'] = query;
@@ -437,7 +483,9 @@ class FakeApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -453,13 +501,17 @@ class FakeApi {
         ModelClient modelClient, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -482,7 +534,9 @@ class FakeApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -524,13 +578,17 @@ class FakeApi {
         String callback,
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -571,7 +629,9 @@ class FakeApi {
                             'name': 'http_basic_test',
                         },
                     ],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -594,13 +654,17 @@ class FakeApi {
         String enumFormString,
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         headerParams[r'enum_header_string_array'] = enumHeaderStringArray;
@@ -630,7 +694,9 @@ class FakeApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -651,13 +717,17 @@ class FakeApi {
         int int64Group,
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         headerParams[r'required_boolean_group'] = requiredBooleanGroup;
@@ -685,7 +755,9 @@ class FakeApi {
                             'name': 'bearer_test',
                         },
                     ],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -701,13 +773,17 @@ class FakeApi {
         BuiltMap<String, String> requestBody, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/inline-additionalProperties';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -730,7 +806,9 @@ class FakeApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -747,13 +825,17 @@ class FakeApi {
         String param2, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/jsonFormData';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -777,7 +859,9 @@ class FakeApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -797,13 +881,17 @@ class FakeApi {
         BuiltList<String> context, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake/test-query-paramters';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams[r'pipe'] = pipe;
@@ -825,7 +913,9 @@ class FakeApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,

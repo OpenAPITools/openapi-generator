@@ -18,13 +18,17 @@ class FakeClassnameTags123Api {
         ModelClient modelClient, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/fake_classname_test';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -54,7 +58,9 @@ class FakeClassnameTags123Api {
                             'where': 'query',
                         },
                     ],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,

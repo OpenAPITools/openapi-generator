@@ -19,13 +19,17 @@ class StoreApi {
         String orderId, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/store/order/{order_id}'.replaceAll('{' r'order_id' '}', orderId.toString());
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -42,7 +46,9 @@ class StoreApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -57,13 +63,17 @@ class StoreApi {
     Future<Response<BuiltMap<String, int>>> getInventory({ 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/store/inventory';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -87,7 +97,9 @@ class StoreApi {
                             'where': 'header',
                         },
                     ],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -117,13 +129,17 @@ class StoreApi {
         int orderId, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/store/order/{order_id}'.replaceAll('{' r'order_id' '}', orderId.toString());
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -140,7 +156,9 @@ class StoreApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -169,13 +187,17 @@ class StoreApi {
         Order order, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/store/order';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -198,7 +220,9 @@ class StoreApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,

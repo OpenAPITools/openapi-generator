@@ -19,13 +19,17 @@ class UserApi {
         User body, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/user';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -46,7 +50,9 @@ class UserApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -62,13 +68,17 @@ class UserApi {
         BuiltList<User> body, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/user/createWithArray';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -90,7 +100,9 @@ class UserApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -106,13 +118,17 @@ class UserApi {
         BuiltList<User> body, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/user/createWithList';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -134,7 +150,9 @@ class UserApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -150,13 +168,17 @@ class UserApi {
         String username, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/user/{username}'.replaceAll('{' r'username' '}', username.toString());
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -173,7 +195,9 @@ class UserApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -189,13 +213,17 @@ class UserApi {
         String username, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/user/{username}'.replaceAll('{' r'username' '}', username.toString());
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -212,7 +240,9 @@ class UserApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -242,13 +272,17 @@ class UserApi {
         String password, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/user/login';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams[r'username'] = username;
@@ -267,7 +301,9 @@ class UserApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -294,13 +330,17 @@ class UserApi {
     Future<Response<void>> logoutUser({ 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/user/logout';
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -317,7 +357,9 @@ class UserApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
@@ -334,13 +376,17 @@ class UserApi {
         User body, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '/user/{username}'.replaceAll('{' r'username' '}', username.toString());
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -361,7 +407,9 @@ class UserApi {
                 headers: headerParams,
                 extra: {
                     'secure': [],
+                    if (extra != null) ...extra,
                 },
+                validateStatus: validateStatus,
                 contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
