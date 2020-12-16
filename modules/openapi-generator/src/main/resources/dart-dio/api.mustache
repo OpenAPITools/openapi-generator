@@ -23,14 +23,14 @@ class {{classname}} {
         {{{dataType}}} {{paramName}},{{#-last}} { {{/-last}}{{/requiredParams}}{{#optionalParams}}
         {{{dataType}}} {{paramName}},{{/optionalParams}}
         CancelToken cancelToken,
-        Map<String, String> headers,
+        Map<String, dynamic> headers,
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
         final String _path = '{{{path}}}'{{#pathParams}}.replaceAll('{' r'{{baseName}}' '}', {{{paramName}}}.toString()){{/pathParams}};
 
         final Map<String, dynamic> queryParams = {};
-        final Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         {{#headerParams}}
