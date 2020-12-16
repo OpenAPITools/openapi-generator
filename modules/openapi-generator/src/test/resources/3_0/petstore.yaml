@@ -734,3 +734,8 @@ components:
           type: string
         message:
           type: string
+        map_test:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int32
