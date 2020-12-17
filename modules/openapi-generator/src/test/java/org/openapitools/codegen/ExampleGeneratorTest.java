@@ -1,6 +1,7 @@
 package org.openapitools.codegen;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.examples.ExampleGenerator;
 import org.testng.annotations.Test;
 

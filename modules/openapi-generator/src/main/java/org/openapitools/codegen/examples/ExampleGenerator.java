@@ -151,26 +151,28 @@ public class ExampleGenerator {
                 mediaTypes = Collections.singletonList(MIME_TYPE_JSON); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
             }
             for (String mediaType : mediaTypes) {
-                Map<String, String> kv = new HashMap<>();
-                kv.put(CONTENT_TYPE, mediaType);
+                String example = null;
                 if (modelName != null && (mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
                     final Schema schema = this.examples.get(modelName);
                     if (schema != null) {
-                        String example = Json.pretty(resolveModelToExample(modelName, mediaType, schema, processedModels));
+                        Object exampleObject = resolveModelToExample(modelName, mediaType, schema, processedModels);
 
-                        if (example != null) {
-                            kv.put(EXAMPLE, example);
-                            output.add(kv);
+                        if (exampleObject != null) {
+                            example = Json.pretty(exampleObject);
                         }
                     }
                 } else if (modelName != null && mediaType.startsWith(MIME_TYPE_XML)) {
                     final Schema schema = this.examples.get(modelName);
-                    String example = new XmlExampleGenerator(this.examples).toXml(schema, 0, Collections.<String>emptySet());
-                    if (example != null) {
-                        kv.put(EXAMPLE, example);
-                        output.add(kv);
-                    }
+                    example = new XmlExampleGenerator(this.examples).toXml(schema, 0, Collections.<String>emptySet());
                 }
+
+                if (example != null) {
+                    Map<String, String> kv = new HashMap<>();
+                    kv.put(CONTENT_TYPE, mediaType);
+                    kv.put(EXAMPLE, example);
+                    output.add(kv);
+                }
+
             }
         } else {
             for (Map.Entry<String, Object> entry : examples.entrySet()) {
@@ -336,22 +338,31 @@ public class ExampleGenerator {
         }
 
         processedModels.add(name);
-        Map<String, Object> values = new HashMap<>();
         LOGGER.debug("Resolving model '{}' to example", name);
         if (schema.getExample() != null) {
             LOGGER.debug("Using example from spec: {}", schema.getExample());
             return schema.getExample();
         } else if (schema.getProperties() != null) {
             LOGGER.debug("Creating example from model values");
-            for (Object propertyName : schema.getProperties().keySet()) {
-                Schema property = (Schema) schema.getProperties().get(propertyName.toString());
-                values.put(propertyName.toString(), resolvePropertyToExample(propertyName.toString(), mediaType, property, processedModels));
+            Map<String, Object> values = createExampleFromModelValues(schema, mediaType, processedModels);
+            if (values != null) {
+                schema.setExample(values);
+                return schema.getExample();
+            } else {
+                return null;
             }
-            schema.setExample(values);
-            return schema.getExample();
         } else {
             // TODO log an error message as the model does not have any properties
             return null;
         }
+    }
+
+    protected Map<String, Object> createExampleFromModelValues(Schema schema, String mediaType, Set<String> processedModels) {
+        Map<String, Object> values = new HashMap<>();
+        for (Object propertyName : schema.getProperties().keySet()) {
+            Schema property = (Schema) schema.getProperties().get(propertyName.toString());
+            values.put(propertyName.toString(), resolvePropertyToExample(propertyName.toString(), mediaType, property, processedModels));
+        }
+        return values;
     }
 }

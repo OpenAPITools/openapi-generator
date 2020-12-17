@@ -3617,14 +3617,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            // generate examples
-            String exampleStatusCode = "200";
-            for (String key : operation.getResponses().keySet()) {
-                if (operation.getResponses().get(key) == methodResponse && !key.equals("default")) {
-                    exampleStatusCode = key;
-                }
-            }
-            op.examples = new ExampleGenerator(schemas, this.openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(this.openAPI, operation));
+            op.examples = generateExamplesFromResponse(schemas, operation, methodResponse);
             op.defaultResponse = toDefaultValue(responseSchema);
             op.returnType = cm.dataType;
             op.returnFormat = cm.dataFormat;
@@ -3659,6 +3652,27 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
         addHeaders(methodResponse, op.responseHeaders);
+    }
+
+    /**
+     * Generate examples from the provided operation
+     *
+     * @param schemas        a map of the schemas in the openapi spec
+     * @param operation      endpoint Operation
+     * @param methodResponse the default ApiResponse for the endpoint
+     * @return A List of example responses
+     */
+    protected List<Map<String, String>> generateExamplesFromResponse(Map<String, Schema> schemas, Operation operation, ApiResponse methodResponse) {
+        Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(methodResponse), importMapping);
+
+        String exampleStatusCode = "200";
+        for (String key : operation.getResponses().keySet()) {
+            if (operation.getResponses().get(key) == methodResponse && !key.equals("default")) {
+                exampleStatusCode = key;
+            }
+        }
+
+        return new ExampleGenerator(schemas, this.openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(this.openAPI, operation));
     }
 
     /**
