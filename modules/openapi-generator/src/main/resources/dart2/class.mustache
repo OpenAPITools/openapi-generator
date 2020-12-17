@@ -2,7 +2,7 @@ class {{{classname}}} {
   /// Returns a new [{{{classname}}}] instance.
   {{{classname}}}({
   {{#vars}}
-    {{#required}}{{^defaultValue}}@required {{/defaultValue}}{{/required}}this.{{{name}}}{{^isNullable}}{{#defaultValue}} = {{#isEnum}}{{^isContainer}}const {{{classname}}}{{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/isNullable}},
+    {{#required}}{{^defaultValue}}@required {{/defaultValue}}{{/required}}this.{{{name}}}{{^isNullable}}{{#defaultValue}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/isNullable}},
   {{/vars}}
   });
 
@@ -151,7 +151,7 @@ class {{{classname}}} {
     {{^complexType}}
       {{#isArray}}
         {{#isEnum}}
-        {{{name}}}: {{{classname}}}{{{items.datatypeWithEnum}}}.listFromJson(json[r'{{{baseName}}}']),
+        {{{name}}}: {{{items.datatypeWithEnum}}}.listFromJson(json[r'{{{baseName}}}']),
         {{/isEnum}}
         {{^isEnum}}
         {{{name}}}: json[r'{{{baseName}}}'] == null
@@ -176,7 +176,7 @@ class {{{classname}}} {
         {{{name}}}: json[r'{{{baseName}}}'],
     {{/isEnum}}
     {{#isEnum}}
-        {{{name}}}: {{{classname}}}{{{enumName}}}.fromJson(json[r'{{{baseName}}}']),
+        {{{name}}}: {{{enumName}}}.fromJson(json[r'{{{baseName}}}']),
     {{/isEnum}}
           {{/isNumber}}
         {{/isMap}}
