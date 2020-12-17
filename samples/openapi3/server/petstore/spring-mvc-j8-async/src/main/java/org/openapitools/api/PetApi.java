@@ -303,7 +303,7 @@ public interface PetApi {
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
     )
-    default CompletableFuture<ResponseEntity<ModelApiResponse>> uploadFile(@Parameter(description = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@Parameter(description = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false)  String additionalMetadata,@ApiParam(value = "file to upload") @Valid @RequestPart(value = "file", required = false) MultipartFile file) {
+    default CompletableFuture<ResponseEntity<ModelApiResponse>> uploadFile(@Parameter(description = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@Parameter(description = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false)  String additionalMetadata,@Parameter(description = "file to upload") @Valid @RequestPart(value = "file", required = false) MultipartFile file) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

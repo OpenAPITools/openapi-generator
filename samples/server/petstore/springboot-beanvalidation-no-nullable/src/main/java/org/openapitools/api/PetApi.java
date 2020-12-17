@@ -232,6 +232,6 @@ public interface PetApi {
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
     )
-    ResponseEntity<ModelApiResponse> uploadFile(@Parameter(description = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@Parameter(description = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false)  String additionalMetadata,@ApiParam(value = "file to upload") @Valid @RequestPart(value = "file", required = false) MultipartFile file);
+    ResponseEntity<ModelApiResponse> uploadFile(@Parameter(description = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@Parameter(description = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false)  String additionalMetadata,@Parameter(description = "file to upload") @Valid @RequestPart(value = "file", required = false) MultipartFile file);
 
 }
