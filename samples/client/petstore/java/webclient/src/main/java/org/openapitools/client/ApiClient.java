@@ -467,11 +467,11 @@ public class ApiClient extends JavaTimeFormatter {
      *     otherwise use the first one of the array.
      *
      * @param contentTypes The Content-Type array to select from
-     * @return MediaType The Content-Type header to use. If the given array is empty, JSON will be used.
+     * @return MediaType The Content-Type header to use. If the given array is empty, null will be returned.
      */
     public MediaType selectHeaderContentType(String[] contentTypes) {
         if (contentTypes.length == 0) {
-            return MediaType.APPLICATION_JSON;
+            return null;
         }
         for (String contentType : contentTypes) {
             MediaType mediaType = MediaType.parseMediaType(contentType);

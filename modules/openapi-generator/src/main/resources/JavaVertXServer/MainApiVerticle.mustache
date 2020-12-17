@@ -19,7 +19,7 @@ import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
 
 public class MainApiVerticle extends AbstractVerticle {
-    final static Logger LOGGER = LoggerFactory.getLogger(MainApiVerticle.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(MainApiVerticle.class);
 
     private int serverPort = {{serverPort}};
     protected Router router;

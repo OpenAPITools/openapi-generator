@@ -45,7 +45,7 @@ public class PetApi  {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
-    }, tags={ "pet",  })
+    }, tags={ "pet" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
@@ -64,7 +64,7 @@ public class PetApi  {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
-    }, tags={ "pet",  })
+    }, tags={ "pet" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
@@ -84,7 +84,7 @@ public class PetApi  {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
-    }, tags={ "pet",  })
+    }, tags={ "pet" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid status value", response = Void.class) })
@@ -103,7 +103,7 @@ public class PetApi  {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
-    }, tags={ "pet",  })
+    }, tags={ "pet" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "Set"),
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid tag value", response = Void.class) })
@@ -119,7 +119,7 @@ public class PetApi  {
     @Produces({ "application/xml", "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Find pet by ID", notes = "Returns a single pet", response = Pet.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "api_key")
-    }, tags={ "pet",  })
+    }, tags={ "pet" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Pet.class),
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
@@ -139,7 +139,7 @@ public class PetApi  {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
-    }, tags={ "pet",  })
+    }, tags={ "pet" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
@@ -160,7 +160,7 @@ public class PetApi  {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
-    }, tags={ "pet",  })
+    }, tags={ "pet" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
     public Response updatePetWithForm(
@@ -180,7 +180,7 @@ public class PetApi  {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
-    }, tags={ "pet",  })
+    }, tags={ "pet" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
     public Response uploadFile(

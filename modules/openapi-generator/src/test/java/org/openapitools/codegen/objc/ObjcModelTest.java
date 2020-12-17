@@ -85,7 +85,6 @@ public class ObjcModelTest {
         Assert.assertEquals(property1.name, "_id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "NSNumber");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
         Assert.assertFalse(property1.isContainer);
@@ -96,7 +95,6 @@ public class ObjcModelTest {
         Assert.assertEquals(property2.name, "name");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "NSString");
-        Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
         Assert.assertFalse(property2.isContainer);
@@ -107,7 +105,6 @@ public class ObjcModelTest {
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "NSDate");
-        Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
     }
@@ -136,7 +133,6 @@ public class ObjcModelTest {
         Assert.assertEquals(property1.name, "_id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "NSNumber");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
         Assert.assertFalse(property1.isContainer);
@@ -147,7 +143,6 @@ public class ObjcModelTest {
         Assert.assertEquals(property2.name, "urls");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "NSArray");
-        Assert.assertFalse(property2.hasMore);
         Assert.assertEquals(property2.containerType, "array");
         Assert.assertFalse(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);

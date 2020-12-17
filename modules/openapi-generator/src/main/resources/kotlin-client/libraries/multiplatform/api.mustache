@@ -39,9 +39,9 @@ import kotlinx.serialization.internal.StringDescriptor
     {{#returnType}}
     @Suppress("UNCHECKED_CAST")
     {{/returnType}}
-    suspend fun {{operationId}}({{#allParams}}{{{paramName}}}: {{{dataType}}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): HttpResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> {
+    suspend fun {{operationId}}({{#allParams}}{{{paramName}}}: {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}): HttpResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> {
 
-        val localVariableAuthNames = listOf<String>({{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}})
+        val localVariableAuthNames = listOf<String>({{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}})
 
         val localVariableBody = {{#hasBodyParam}}{{#bodyParam}}{{#isArray}}{{operationIdCamelCase}}Request({{{paramName}}}{{^isList}}.asList(){{/isList}}){{/isArray}}{{^isArray}}{{#isMap}}{{operationIdCamelCase}}Request({{{paramName}}}){{/isMap}}{{^isMap}}{{{paramName}}}{{/isMap}}{{/isArray}}{{/bodyParam}}{{/hasBodyParam}}
             {{^hasBodyParam}}

@@ -401,7 +401,7 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 					return err
 				}
 			} else {
-				errors.New("Unknown type with GetActualInstance but no unmarshalObj.UnmarshalJSON defined")
+				return errors.New("Unknown type with GetActualInstance but no unmarshalObj.UnmarshalJSON defined")
 			}
 		} else if err = json.Unmarshal(b, v); err != nil { // simple model
 			return err

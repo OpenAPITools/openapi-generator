@@ -139,14 +139,29 @@ namespace Org.OpenAPITools.Model
         {
             Pig newPig = null;
 
+            if (jsonString == null)
+            {
+                return newPig;
+            }
+
             string discriminatorValue = JObject.Parse(jsonString)["className"].ToString();
             switch (discriminatorValue)
             {
                 case "BasquePig":
-                    newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.SerializerSettings));
+                    newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
+                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                    if (newPig.GetType().GetProperty("AdditionalProperties") == null)
+                    {
+                        newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.SerializerSettings));
+                    }
                     return newPig;
                 case "DanishPig":
-                    newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.SerializerSettings));
+                    newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
+                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                    if (newPig.GetType().GetProperty("AdditionalProperties") == null)
+                    {
+                        newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.SerializerSettings));
+                    }
                     return newPig;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for Pig. Possible values: BasquePig DanishPig", discriminatorValue));
@@ -158,7 +173,12 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.SerializerSettings));
+                newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newPig.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.SerializerSettings));
+                }
                 matchedTypes.Add("BasquePig");
                 match++;
             }
@@ -170,7 +190,12 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.SerializerSettings));
+                newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newPig.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.SerializerSettings));
+                }
                 matchedTypes.Add("DanishPig");
                 match++;
             }
@@ -265,7 +290,11 @@ namespace Org.OpenAPITools.Model
         /// <returns>The object converted from the JSON string</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return Pig.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return Pig.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
         }
 
         /// <summary>

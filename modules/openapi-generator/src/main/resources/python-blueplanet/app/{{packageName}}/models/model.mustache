@@ -37,13 +37,13 @@ class {{classname}}(Model):
         """
         self.swagger_types = {
 {{#vars}}
-            '{{name}}': {{{datatype}}}{{#hasMore}},{{/hasMore}}
+            '{{name}}': {{{datatype}}}{{^-last}},{{/-last}}
 {{/vars}}
         }
 
         self.attribute_map = {
 {{#vars}}
-            '{{name}}': '{{baseName}}'{{#hasMore}},{{/hasMore}}
+            '{{name}}': '{{baseName}}'{{^-last}},{{/-last}}
 {{/vars}}
         }
 {{#vars}}{{#-first}}

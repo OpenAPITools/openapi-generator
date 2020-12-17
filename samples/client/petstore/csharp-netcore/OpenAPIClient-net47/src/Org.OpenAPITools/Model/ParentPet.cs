@@ -33,7 +33,6 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "ParentPet")]
     [JsonConverter(typeof(JsonSubtypes), "PetType")]
     [JsonSubtypes.KnownSubType(typeof(ChildCat), "ChildCat")]
-    [JsonSubtypes.KnownSubType(typeof(ChildCat), "ChildCat")]
     public partial class ParentPet : GrandparentAnimal, IEquatable<ParentPet>, IValidatableObject
     {
         /// <summary>
@@ -79,7 +78,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>

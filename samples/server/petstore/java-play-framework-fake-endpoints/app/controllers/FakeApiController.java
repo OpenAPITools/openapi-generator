@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
+import play.libs.Files.TemporaryFile;
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -33,7 +34,6 @@ import openapitools.OpenAPIUtils.ApiAction;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class FakeApiController extends Controller {
-
     private final FakeApiControllerImpInterface imp;
     private final ObjectMapper mapper;
     private final Config configuration;
@@ -44,7 +44,6 @@ public class FakeApiController extends Controller {
         mapper = new ObjectMapper();
         this.configuration = configuration;
     }
-
 
     @ApiAction
     public Result createXmlItem(Http.Request request) throws Exception {
@@ -58,8 +57,7 @@ public class FakeApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'XmlItem' parameter is required");
         }
-        imp.createXmlItem(request, xmlItem);
-        return ok();
+        return imp.createXmlItemHttp(request, xmlItem);
     }
 
     @ApiAction
@@ -74,9 +72,7 @@ public class FakeApiController extends Controller {
         } else {
             body = null;
         }
-        Boolean obj = imp.fakeOuterBooleanSerialize(request, body);
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.fakeOuterBooleanSerializeHttp(request, body);
     }
 
     @ApiAction
@@ -91,12 +87,7 @@ public class FakeApiController extends Controller {
         } else {
             body = null;
         }
-        OuterComposite obj = imp.fakeOuterCompositeSerialize(request, body);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.fakeOuterCompositeSerializeHttp(request, body);
     }
 
     @ApiAction
@@ -111,12 +102,7 @@ public class FakeApiController extends Controller {
         } else {
             body = null;
         }
-        BigDecimal obj = imp.fakeOuterNumberSerialize(request, body);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.fakeOuterNumberSerializeHttp(request, body);
     }
 
     @ApiAction
@@ -131,9 +117,7 @@ public class FakeApiController extends Controller {
         } else {
             body = null;
         }
-        String obj = imp.fakeOuterStringSerialize(request, body);
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.fakeOuterStringSerializeHttp(request, body);
     }
 
     @ApiAction
@@ -148,8 +132,7 @@ public class FakeApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.testBodyWithFileSchema(request, body);
-        return ok();
+        return imp.testBodyWithFileSchemaHttp(request, body);
     }
 
     @ApiAction
@@ -171,8 +154,7 @@ public class FakeApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'query' parameter is required");
         }
-        imp.testBodyWithQueryParams(request, query, body);
-        return ok();
+        return imp.testBodyWithQueryParamsHttp(request, query, body);
     }
 
     @ApiAction
@@ -187,12 +169,7 @@ public class FakeApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        Client obj = imp.testClientModel(request, body);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.testClientModelHttp(request, body);
     }
 
     @ApiAction
@@ -260,7 +237,8 @@ public class FakeApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'byte' parameter is required");
         }
-        Http.MultipartFormData.FilePart binary = request.body().asMultipartFormData().getFile("binary");
+        Http.MultipartFormData<TemporaryFile> bodybinary = request.body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<TemporaryFile> binary = bodybinary.getFile("binary");
         String valuedate = (request.body().asMultipartFormData().asFormUrlEncoded().get("date"))[0];
         LocalDate date;
         if (valuedate != null) {
@@ -289,8 +267,7 @@ public class FakeApiController extends Controller {
         } else {
             paramCallback = null;
         }
-        imp.testEndpointParameters(request, number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
-        return ok();
+        return imp.testEndpointParametersHttp(request, number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     }
 
     @ApiAction
@@ -357,8 +334,7 @@ public class FakeApiController extends Controller {
         } else {
             enumHeaderString = "-efg";
         }
-        imp.testEnumParameters(request, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
-        return ok();
+        return imp.testEnumParametersHttp(request, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
     }
 
     @ApiAction
@@ -405,8 +381,7 @@ public class FakeApiController extends Controller {
         } else {
             booleanGroup = null;
         }
-        imp.testGroupParameters(request, requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
-        return ok();
+        return imp.testGroupParametersHttp(request, requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
     }
 
     @ApiAction
@@ -423,8 +398,7 @@ public class FakeApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'param' parameter is required");
         }
-        imp.testInlineAdditionalProperties(request, param);
-        return ok();
+        return imp.testInlineAdditionalPropertiesHttp(request, param);
     }
 
     @ApiAction
@@ -443,8 +417,7 @@ public class FakeApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'param2' parameter is required");
         }
-        imp.testJsonFormData(request, param, param2);
-        return ok();
+        return imp.testJsonFormDataHttp(request, param, param2);
     }
 
     @ApiAction
@@ -509,7 +482,7 @@ public class FakeApiController extends Controller {
                 context.add(curParam);
             }
         }
-        imp.testQueryParameterCollectionFormat(request, pipe, ioutil, http, url, context);
-        return ok();
+        return imp.testQueryParameterCollectionFormatHttp(request, pipe, ioutil, http, url, context);
     }
+
 }

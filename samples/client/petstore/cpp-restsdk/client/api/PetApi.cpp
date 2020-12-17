@@ -113,6 +113,10 @@ pplx::task<void> PetApi::addPet(std::shared_ptr<Pet> body) const
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
     }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+    }
     else
     {
         throw ApiException(415, utility::conversions::to_string_t("PetApi->addPet does not consume any supported media type"));
@@ -219,6 +223,10 @@ pplx::task<void> PetApi::deletePet(int64_t petId, boost::optional<utility::strin
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
     }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+    }
     else
     {
         throw ApiException(415, utility::conversions::to_string_t("PetApi->deletePet does not consume any supported media type"));
@@ -324,6 +332,10 @@ pplx::task<std::vector<std::shared_ptr<Pet>>> PetApi::findPetsByStatus(std::vect
     else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+    }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
     }
     else
     {
@@ -453,6 +465,10 @@ pplx::task<std::vector<std::shared_ptr<Pet>>> PetApi::findPetsByTags(std::vector
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
     }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+    }
     else
     {
         throw ApiException(415, utility::conversions::to_string_t("PetApi->findPetsByTags does not consume any supported media type"));
@@ -578,6 +594,10 @@ pplx::task<std::shared_ptr<Pet>> PetApi::getPetById(int64_t petId) const
     else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+    }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
     }
     else
     {
@@ -728,6 +748,10 @@ pplx::task<void> PetApi::updatePet(std::shared_ptr<Pet> body) const
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
     }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+    }
     else
     {
         throw ApiException(415, utility::conversions::to_string_t("PetApi->updatePet does not consume any supported media type"));
@@ -838,6 +862,10 @@ pplx::task<void> PetApi::updatePetWithForm(int64_t petId, boost::optional<utilit
     else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+    }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
     }
     else
     {
@@ -950,6 +978,10 @@ pplx::task<std::shared_ptr<ApiResponse>> PetApi::uploadFile(int64_t petId, boost
     else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+    }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
     }
     else
     {

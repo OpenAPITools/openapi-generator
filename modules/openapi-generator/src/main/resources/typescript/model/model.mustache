@@ -37,8 +37,8 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
             "baseName": "{{baseName}}",
             "type": "{{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}",
             "format": "{{dataFormat}}"
-        }{{#hasMore}},
-        {{/hasMore}}
+        }{{^-last}},
+        {{/-last}}
         {{/vars}}
     ];
 

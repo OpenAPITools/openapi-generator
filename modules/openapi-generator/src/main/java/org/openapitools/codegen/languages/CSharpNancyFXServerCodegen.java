@@ -118,8 +118,6 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
         addSwitch(ASYNC_SERVER, "Set to true to enable the generation of async routes/endpoints.", this.asyncServer);
         typeMapping.putAll(nodaTimeTypesMappings());
         languageSpecificPrimitives.addAll(nodaTimePrimitiveTypes());
-
-        importMapping.clear();
     }
 
     @Override
@@ -296,11 +294,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
                         property.name, child.classname, parent.classname));
                 duplicatedByParent.isInherited = true;
                 final CodegenProperty parentVar = duplicatedByParent.clone();
-                parentVar.hasMore = false;
                 child.parentVars.add(parentVar);
-                if (previousParentVar != null) {
-                    previousParentVar.hasMore = true;
-                }
                 previousParentVar = parentVar;
             }
         }

@@ -34,7 +34,7 @@ public class {{classname}} extends OpenApi {
     /*
      * Returns {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}
      */
-    public function {{nickname}} ({{#allParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): String {
+    public function {{nickname}} ({{#allParams}}{{paramName}}: {{{dataType}}}{{^-last}}, {{/-last}}{{/allParams}}): String {
         // create path and map variables
         var path: String = "{{{path}}}".replace(/{format}/g,"xml"){{#pathParams}}.replace("{" + "{{baseName}}" + "}", getApiInvoker().escapeString({{{paramName}}})){{/pathParams}};
 
@@ -44,7 +44,7 @@ public class {{classname}} extends OpenApi {
 
         {{#allParams}}
         // verify required params are set
-        if({{/allParams}}{{#required}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/required}}{{#allParams}}) {
+        if({{/allParams}}{{#required}} {{paramName}} == null {{^-last}}|| {{/-last}}{{/required}}{{#allParams}}) {
             throw new ApiError(400, "missing required params");
         }
         {{/allParams}}

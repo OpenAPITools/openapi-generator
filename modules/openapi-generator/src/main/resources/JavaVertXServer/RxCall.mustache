@@ -1,4 +1,4 @@
-                service.{{operationId}}({{#hasParams}}{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{/hasParams}}).subscribe(
+                service.{{operationId}}({{#hasParams}}{{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/hasParams}}).subscribe(
                 {{#returnType}}
                     result -> {
                     {{#isArray}}

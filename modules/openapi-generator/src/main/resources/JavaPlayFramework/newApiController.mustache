@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
+import play.libs.Files.TemporaryFile;
 {{^handleExceptions}}
 import java.io.IOException;
 {{/handleExceptions}}
@@ -38,7 +39,6 @@ import openapitools.OpenAPIUtils.ApiAction;
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}}Controller extends Controller {
-
     {{^controllerOnly}}
     private final {{classname}}ControllerImp{{#useInterfaces}}Interface{{/useInterfaces}} imp;
     {{/controllerOnly}}
@@ -59,9 +59,8 @@ public class {{classname}}Controller extends Controller {
     }
 
 {{#operation}}
-
     {{#wrapCalls}}@ApiAction{{/wrapCalls}}
-    public {{#supportAsync}}CompletionStage<{{/supportAsync}}Result{{#supportAsync}}>{{/supportAsync}} {{operationId}}(Http.Request request{{#hasPathParams}}, {{/hasPathParams}}{{#pathParams}}{{>pathParams}}{{#hasMore}},{{/hasMore}}{{/pathParams}}) {{^handleExceptions}}{{#bodyParams}}throws IOException{{/bodyParams}}{{/handleExceptions}}{{#handleExceptions}}throws Exception{{/handleExceptions}} {
+    public {{#supportAsync}}CompletionStage<{{/supportAsync}}Result{{#supportAsync}}>{{/supportAsync}} {{operationId}}(Http.Request request{{#hasPathParams}}, {{/hasPathParams}}{{#pathParams}}{{>pathParams}}{{^-last}},{{/-last}}{{/pathParams}}) {{^handleExceptions}}{{#bodyParams}}throws IOException{{/bodyParams}}{{/handleExceptions}}{{#handleExceptions}}throws Exception{{/handleExceptions}} {
         {{#bodyParams}}
         {{^collectionFormat}}
         JsonNode node{{paramName}} = request.body().asJson();
@@ -129,9 +128,10 @@ public class {{classname}}Controller extends Controller {
         {{/queryParams}}
         {{#formParams}}
         {{#isFile}}
-        {{{dataType}}} {{paramName}} = request.body().asMultipartFormData().getFile("{{baseName}}");
+        Http.MultipartFormData<TemporaryFile> body{{paramName}} = request.body().asMultipartFormData();
+        {{{dataType}}} {{paramName}} = body{{paramName}}.getFile("{{baseName}}");
         {{#required}}
-        if (({{paramName}} == null || ((File) {{paramName}}.getFile()).length() == 0)) {
+        if (({{paramName}} == null || {{paramName}}.getFileSize() == 0)) {
             throw new IllegalArgumentException("'{{baseName}}' file cannot be empty");
         }
         {{/required}}
@@ -201,82 +201,24 @@ public class {{classname}}Controller extends Controller {
         }
         {{/collectionFormat}}
         {{/headerParams}}
-        {{^controllerOnly}}
-        {{^returnType}}
-        {{#supportAsync}}
-        return CompletableFuture.supplyAsync(() -> {
-        {{/supportAsync}}
-        {{/returnType}}
-        {{#returnType}}{{#supportAsync}}CompletionStage<{{>returnTypesNoVoid}}> stage = {{/supportAsync}}{{^supportAsync}}{{>returnTypesNoVoid}} obj = {{/supportAsync}}{{/returnType}}{{^returnType}}{{#supportAsync}}    {{/supportAsync}}{{/returnType}}imp.{{operationId}}(request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}{{#supportAsync}}.thenApply(obj -> { {{/supportAsync}}{{/returnType}}{{^supportAsync}};{{/supportAsync}}{{#supportAsync}}{{^returnType}};{{/returnType}}{{/supportAsync}}
-        {{#returnType}}
-        {{^isResponseFile}}
-        {{^returnTypeIsPrimitive}}
-        {{#useBeanValidation}}
-        {{^supportAsync}}
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            {{#isArray}}
-            for ({{{returnType}}} curItem : obj) {
-                OpenAPIUtils.validate(curItem);
-            }
-            {{/isArray}}
-            {{#isMap}}
-            for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
-                OpenAPIUtils.validate(entry.getValue());
-            }
-            {{/isMap}}
-            {{^returnContainer}}
-            OpenAPIUtils.validate(obj);
-            {{/returnContainer}}
-        }
-        {{/supportAsync}}
-        {{#supportAsync}}
-            if (configuration.getBoolean("useOutputBeanValidation")) {
-                {{#isArray}}
-                for ({{{returnType}}} curItem : obj) {
-                    OpenAPIUtils.validate(curItem);
-                }
-                {{/isArray}}
-                {{#isMap}}
-                for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
-                    OpenAPIUtils.validate(entry.getValue());
-                }
-                {{/isMap}}
-                {{^returnContainer}}
-                OpenAPIUtils.validate(obj);
-                {{/returnContainer}}
-            }
-        {{/supportAsync}}
-        {{/useBeanValidation}}
-        {{/returnTypeIsPrimitive}}
-        {{/isResponseFile}}
-        {{#supportAsync}}
-            return obj;
-        });
-        {{/supportAsync}}
-        {{/returnType}}
-        {{#returnType}}
-        {{#supportAsync}}
-        stage.thenApply(obj -> {
-        {{/supportAsync}}
-        {{^isResponseFile}}
-        {{#supportAsync}}    {{/supportAsync}}JsonNode result = mapper.valueToTree(obj);
-        {{#supportAsync}}    {{/supportAsync}}return ok(result);
-        {{/isResponseFile}}
-        {{#isResponseFile}}
-        {{#supportAsync}}    {{/supportAsync}}return ok(obj);
-        {{/isResponseFile}}
-        {{/returnType}}
-        {{^returnType}}
-        {{#supportAsync}}    {{/supportAsync}}return ok();
-        {{/returnType}}
-        {{#supportAsync}}
-        });
-        {{/supportAsync}}
-        {{/controllerOnly}}
+        {{#useInterfaces}}
         {{#controllerOnly}}
         return ok();
         {{/controllerOnly}}
+        {{^controllerOnly}}
+        {{#supportAsync}}
+        return imp.{{operationId}}Http(request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        {{/supportAsync}}
+        {{^supportAsync}}
+        return imp.{{operationId}}Http(request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        {{/supportAsync}}
+        {{/controllerOnly}}
+        {{/useInterfaces}}
+        {{^useInterfaces}}
+        {{>responseToResult}}
+        {{/useInterfaces}}
     }
+
 {{/operation}}
 }
 {{/operations}}

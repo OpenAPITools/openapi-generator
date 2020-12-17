@@ -42,6 +42,22 @@ void PFXPetApi::setPort(int port) {
     _port = port;
 }
 
+void PFXPetApi::setApiKey(const QString &apiKeyName, const QString &apiKey){
+    _apiKeys.insert(apiKeyName,apiKey);
+}
+
+void PFXPetApi::setBearerToken(const QString &token){
+    _bearerToken = token;
+}
+
+void PFXPetApi::setUsername(const QString &username) {
+    _username = username;
+}
+
+void PFXPetApi::setPassword(const QString &password) {
+    _password = password;
+}
+
 void PFXPetApi::setBasePath(const QString &basePath) {
     _basePath = basePath;
 }
@@ -81,6 +97,7 @@ void PFXPetApi::addPet(const PFXPet &body) {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/pet");
+
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -129,6 +146,7 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const QString &api_key) {
     QString pet_idPathParam("{");
     pet_idPathParam.append("petId").append("}");
     fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
+    
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -175,6 +193,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/pet/findByStatus");
+
 
     if (status.size() > 0) {
         if (QString("csv").indexOf("multi") == 0) {
@@ -265,6 +284,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/pet/findByTags");
+
 
     if (tags.size() > 0) {
         if (QString("csv").indexOf("multi") == 0) {
@@ -358,6 +378,11 @@ void PFXPetApi::getPetById(const qint64 &pet_id) {
     QString pet_idPathParam("{");
     pet_idPathParam.append("petId").append("}");
     fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
+    
+    if(_apiKeys.contains("api_key")){
+        addHeaders("api_key",_apiKeys.find("api_key").value());
+    }
+    
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -401,6 +426,7 @@ void PFXPetApi::updatePet(const PFXPet &body) {
                            .arg(_port ? ":" + QString::number(_port) : "")
                            .arg(_basePath)
                            .arg("/pet");
+
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -449,6 +475,7 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const QString &name, con
     QString pet_idPathParam("{");
     pet_idPathParam.append("petId").append("}");
     fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
+    
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -496,6 +523,7 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const QString &additional_metad
     QString pet_idPathParam("{");
     pet_idPathParam.append("petId").append("}");
     fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
+    
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);

@@ -20,17 +20,17 @@ module {{classname}}ServiceImplementation =
         member this.{{operationId}} {{^hasBodyParam}}(){{/hasBodyParam}}{{#hasBodyParam}}(parameters:{{operationId}}BodyParams){{/hasBodyParam}} =
           {{#responses}}
           {{#-first}}
-          {{#hasMore}}
+          {{^-last}}
           if true then 
-          {{/hasMore}}
+          {{/-last}}
           {{/-first}}
           {{^-first}}
-          {{#hasMore}}
+          {{^-last}}
           else if true then 
-          {{/hasMore}}
-          {{^hasMore}}
+          {{/-last}}
+          {{#-last}}
           else
-          {{/hasMore}}
+          {{/-last}}
           {{/-first}}
             let content = "{{message}}" {{#dataType}}:> obj :?> {{{.}}} // this cast is obviously wrong, and is only intended to allow generated project to compile   {{/dataType}}
             {{operationId}}{{#isDefault}}Default{{/isDefault}}StatusCode{{^isDefault}}{{code}}{{/isDefault}} { content = content }

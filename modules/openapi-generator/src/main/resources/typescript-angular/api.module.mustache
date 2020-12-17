@@ -13,8 +13,8 @@ import { {{classname}} } from './{{importPath}}';
   declarations: [],
   exports:      [],
   providers: [{{^providedInRoot}}
-    {{#apiInfo}}{{#apis}}{{classname}}{{#hasMore}},
-    {{/hasMore}}{{/apis}}{{/apiInfo}} {{/providedInRoot}}]
+    {{#apiInfo}}{{#apis}}{{classname}}{{^-last}},
+    {{/-last}}{{/apis}}{{/apiInfo}} {{/providedInRoot}}]
 })
 export class {{apiModuleClassName}} {
     public static forRoot(configurationFactory: () => {{configurationClassName}}): ModuleWithProviders{{#enforceGenericModuleWithProviders}}<{{apiModuleClassName}}>{{/enforceGenericModuleWithProviders}} {

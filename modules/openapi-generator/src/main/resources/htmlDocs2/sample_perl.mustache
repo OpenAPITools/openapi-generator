@@ -24,7 +24,7 @@ my $api_instance = {{perlModuleName}}::{{classname}}->new();
 {{/allParams}}
 
 eval { 
-    {{#returnType}}my $result = {{/returnType}}$api_instance->{{{operationId}}}({{#allParams}}{{paramName}} => ${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
+    {{#returnType}}my $result = {{/returnType}}$api_instance->{{{operationId}}}({{#allParams}}{{paramName}} => ${{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
     print Dumper($result);{{/returnType}}
 };
 if ($@) {

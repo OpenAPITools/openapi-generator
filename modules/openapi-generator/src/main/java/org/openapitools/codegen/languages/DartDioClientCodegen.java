@@ -16,31 +16,20 @@
 
 package org.openapitools.codegen.languages;
 
-import java.util.HashMap;
-
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Sets;
+import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-import io.swagger.v3.oas.models.media.Schema;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class DartDioClientCodegen extends DartClientCodegen {
@@ -49,18 +38,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
     public static final String NULLABLE_FIELDS = "nullableFields";
     public static final String DATE_LIBRARY = "dateLibrary";
 
-    private static final String IS_FORMAT_JSON = "jsonFormat";
     private static final String CLIENT_NAME = "clientName";
-    private static Set<String> modelToIgnore = new HashSet<>();
-
-    static {
-        modelToIgnore.add("datetime");
-        modelToIgnore.add("map");
-        modelToIgnore.add("object");
-        modelToIgnore.add("list");
-        modelToIgnore.add("file");
-        modelToIgnore.add("uint8list");
-    }
 
     private boolean nullableFields = true;
     private String dateLibrary = "core";
@@ -71,10 +49,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
         embeddedTemplateDir = "dart-dio";
         this.setTemplateDir(embeddedTemplateDir);
 
-        //no tests at this time
-        modelTestTemplateFiles.clear();
-        apiTestTemplateFiles.clear();
-
         cliOptions.add(new CliOption(NULLABLE_FIELDS, "Is the null fields should be in the JSON payload"));
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
         Map<String, String> dateOptions = new HashMap<>();
@@ -83,11 +57,29 @@ public class DartDioClientCodegen extends DartClientCodegen {
         dateLibrary.setEnum(dateOptions);
         cliOptions.add(dateLibrary);
 
+        typeMapping.put("Array", "BuiltList");
+        typeMapping.put("array", "BuiltList");
+        typeMapping.put("List", "BuiltList");
+        typeMapping.put("set", "BuiltSet");
+        typeMapping.put("map", "BuiltMap");
         typeMapping.put("file", "Uint8List");
         typeMapping.put("binary", "Uint8List");
-        typeMapping.put("AnyType", "Object");
+        typeMapping.put("object", "JsonObject");
+        typeMapping.put("AnyType", "JsonObject");
+
+        additionalReservedWords.addAll(Sets.newHashSet(
+                "EnumClass",
+                // The following are reserved dataTypes but can not be added to defaultIncludes
+                // as this would prevent them from being added to the imports.
+                "BuiltList",
+                "BuiltSet",
+                "BuiltMap",
+                "Uint8List",
+                "JsonObject"
+        ));
 
         importMapping.put("BuiltList", "package:built_collection/built_collection.dart");
+        importMapping.put("BuiltSet", "package:built_collection/built_collection.dart");
         importMapping.put("BuiltMap", "package:built_collection/built_collection.dart");
         importMapping.put("JsonObject", "package:built_value/json_object.dart");
         importMapping.put("Uint8List", "dart:typed_data");
@@ -109,7 +101,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
         this.nullableFields = nullableFields;
     }
 
-
     @Override
     public String getName() {
         return "dart-dio";
@@ -118,6 +109,18 @@ public class DartDioClientCodegen extends DartClientCodegen {
     @Override
     public String getHelp() {
         return "Generates a Dart Dio client library.";
+    }
+
+    @Override
+    protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+                .put("escapeBuiltValueEnum", (fragment, writer) -> {
+                    // Raw strings don't work correctly in built_value enum strings.
+                    // Dollar signs need to be escaped in to make them work.
+                    // @BuiltValueEnumConst(wireName: r'$') produces '$' in generated code.
+                    // @BuiltValueEnumConst(wireName: r'\$') produces '\$' in generated code.
+                    writer.write(fragment.execute().replace("$", "\\$"));
+                });
     }
 
     @Override
@@ -139,29 +142,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
     }
 
     @Override
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        //super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
-        codegenModel.additionalPropertiesType = getSchemaType(getAdditionalProperties(schema));
-        addImport(codegenModel, codegenModel.additionalPropertiesType);
-    }
-
-    @Override
-    public String toEnumVarName(String name, String datatype) {
-        if (name.length() == 0) {
-            return "empty";
-        }
-        if ("number".equalsIgnoreCase(datatype) || "int".equalsIgnoreCase(datatype)) {
-            name = "Number" + name;
-        }
-        name = camelize(name, true);
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
-        }
-        return name;
-    }
-
-    @Override
     public void processOpts() {
         defaultProcessOpts();
 
@@ -176,8 +156,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
             //not set, use to be passed to template
             additionalProperties.put(NULLABLE_FIELDS, nullableFields);
         }
-
-        additionalProperties.put(IS_FORMAT_JSON, true);
 
         if (additionalProperties.containsKey(PUB_LIBRARY)) {
             this.setPubLibrary((String) additionalProperties.get(PUB_LIBRARY));
@@ -247,19 +225,18 @@ public class DartDioClientCodegen extends DartClientCodegen {
         supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
 
         if ("core".equals(dateLibrary)) {
+            // this option uses the same classes as normal dart generator
             additionalProperties.put("core", "true");
-            typeMapping.put("Date", "DateTime");
-            typeMapping.put("date", "DateTime");
         } else if ("timemachine".equals(dateLibrary)) {
             additionalProperties.put("timeMachine", "true");
             typeMapping.put("date", "OffsetDate");
             typeMapping.put("Date", "OffsetDate");
             typeMapping.put("DateTime", "OffsetDateTime");
             typeMapping.put("datetime", "OffsetDateTime");
+            additionalReservedWords.addAll(Sets.newHashSet("OffsetDate", "OffsetDateTime"));
             importMapping.put("OffsetDate", "package:time_machine/time_machine.dart");
             importMapping.put("OffsetDateTime", "package:time_machine/time_machine.dart");
             supportingFiles.add(new SupportingFile("local_date_serializer.mustache", libFolder, "local_date_serializer.dart"));
-
         }
     }
 
@@ -274,10 +251,10 @@ public class DartDioClientCodegen extends DartClientCodegen {
             Set<String> modelImports = new HashSet<>();
             CodegenModel cm = (CodegenModel) mo.get("model");
             for (String modelImport : cm.imports) {
-                if (importMapping.containsKey(modelImport)) {
-                    modelImports.add(importMapping.get(modelImport));
-                } else {
-                    if (!modelToIgnore.contains(modelImport.toLowerCase(Locale.ROOT))) {
+                if (needToImport(modelImport)) {
+                    if (importMapping().containsKey(modelImport)) {
+                        modelImports.add(importMapping().get(modelImport));
+                    } else {
                         modelImports.add("package:" + pubName + "/model/" + underscore(modelImport) + ".dart");
                     }
                 }
@@ -292,29 +269,14 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
         if (nullableFields) {
             property.isNullable = true;
         }
 
-        property.setDatatype(property.getDataType()
-                .replaceAll("\\bList\\b", "BuiltList")
-                .replaceAll("\\bMap\\b", "BuiltMap")
-                .replaceAll("\\bObject\\b", "JsonObject")
-        );
-        property.setBaseType(property.getBaseType()
-                .replaceAll("\\bList\\b", "BuiltList")
-                .replaceAll("\\bMap\\b", "BuiltMap")
-                .replaceAll("\\bObject\\b", "JsonObject")
-        );
-
-        if (property.dataType.contains("BuiltList")) {
-            model.imports.add("BuiltList");
-        }
-        if (property.dataType.contains("BuiltMap")) {
-            model.imports.add("BuiltMap");
-        }
-        if (property.dataType.contains("JsonObject")) {
-            model.imports.add("JsonObject");
+        if (property.isEnum) {
+            // enums are generated with built_value and make use of BuiltSet
+            model.imports.add("BuiltSet");
         }
     }
 
@@ -361,15 +323,16 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
             Set<String> imports = new HashSet<>();
             for (String item : op.imports) {
-                if (!modelToIgnore.contains(item.toLowerCase(Locale.ROOT))) {
-                    imports.add(underscore(item));
-                } else if (item.equalsIgnoreCase("Uint8List")) {
-                    fullImports.add("dart:typed_data");
+                if (needToImport(item)) {
+                    if (importMapping().containsKey(item) && needToImport(item)) {
+                        fullImports.add(importMapping().get(item));
+                    } else {
+                        imports.add(underscore(item));
+                    }
                 }
             }
             modelImports.addAll(imports);
             op.imports = imports;
-
         }
 
         objs.put("modelImports", modelImports);
@@ -377,6 +340,5 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
         return objs;
     }
-
 
 }

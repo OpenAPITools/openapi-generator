@@ -306,7 +306,15 @@ class ObjectSerializer
             // be interpreted as a missing field/value. Let's handle
             // this graceful.
             if (!empty($data)) {
-                return new \DateTime($data);
+                try {
+                    return new \DateTime($data);
+                } catch (\Exception $exception) {
+                    // Some API's return a date-time with too high nanosecond
+                    // precision for php's DateTime to handle. This conversion
+                    // (string -> unix timestamp -> DateTime) is a workaround
+                    // for the problem.
+                    return (new \DateTime())->setTimestamp(strtotime($data));
+                }
             } else {
                 return null;
             }

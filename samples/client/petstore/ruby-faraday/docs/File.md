@@ -2,16 +2,17 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**source_uri** | **String** | Test capitalization | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **source_uri** | **String** | Test capitalization | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
-require 'Petstore'
+require 'petstore'
 
-instance = Petstore::File.new(source_uri: null)
+instance = Petstore::File.new(
+  source_uri: null
+)
 ```
-
 

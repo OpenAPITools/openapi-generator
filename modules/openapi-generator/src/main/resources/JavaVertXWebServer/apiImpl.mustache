@@ -17,7 +17,7 @@ import java.util.Map;
 public class {{classname}}Impl implements {{classname}} {
 {{#operations}}
 {{#operation}}
-    public Future<ApiResponse<{{{returnType}}}>> {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    public Future<ApiResponse<{{{returnType}}}>> {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
         return Future.failedFuture(new HttpStatusException(501));
     }
 

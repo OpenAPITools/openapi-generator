@@ -165,17 +165,37 @@ namespace Org.OpenAPITools.Model
         {
             Triangle newTriangle = null;
 
+            if (jsonString == null)
+            {
+                return newTriangle;
+            }
+
             string discriminatorValue = JObject.Parse(jsonString)["triangleType"].ToString();
             switch (discriminatorValue)
             {
                 case "EquilateralTriangle":
-                    newTriangle = new Triangle(JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, Triangle.SerializerSettings));
+                    newTriangle = new Triangle(JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, Triangle.AdditionalPropertiesSerializerSettings));
+                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                    if (newTriangle.GetType().GetProperty("AdditionalProperties") == null)
+                    {
+                        newTriangle = new Triangle(JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, Triangle.SerializerSettings));
+                    }
                     return newTriangle;
                 case "IsoscelesTriangle":
-                    newTriangle = new Triangle(JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, Triangle.SerializerSettings));
+                    newTriangle = new Triangle(JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, Triangle.AdditionalPropertiesSerializerSettings));
+                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                    if (newTriangle.GetType().GetProperty("AdditionalProperties") == null)
+                    {
+                        newTriangle = new Triangle(JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, Triangle.SerializerSettings));
+                    }
                     return newTriangle;
                 case "ScaleneTriangle":
-                    newTriangle = new Triangle(JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, Triangle.SerializerSettings));
+                    newTriangle = new Triangle(JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, Triangle.AdditionalPropertiesSerializerSettings));
+                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                    if (newTriangle.GetType().GetProperty("AdditionalProperties") == null)
+                    {
+                        newTriangle = new Triangle(JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, Triangle.SerializerSettings));
+                    }
                     return newTriangle;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for Triangle. Possible values: EquilateralTriangle IsoscelesTriangle ScaleneTriangle", discriminatorValue));
@@ -187,7 +207,12 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newTriangle = new Triangle(JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, Triangle.SerializerSettings));
+                newTriangle = new Triangle(JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, Triangle.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newTriangle.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newTriangle = new Triangle(JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, Triangle.SerializerSettings));
+                }
                 matchedTypes.Add("EquilateralTriangle");
                 match++;
             }
@@ -199,7 +224,12 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newTriangle = new Triangle(JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, Triangle.SerializerSettings));
+                newTriangle = new Triangle(JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, Triangle.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newTriangle.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newTriangle = new Triangle(JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, Triangle.SerializerSettings));
+                }
                 matchedTypes.Add("IsoscelesTriangle");
                 match++;
             }
@@ -211,7 +241,12 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newTriangle = new Triangle(JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, Triangle.SerializerSettings));
+                newTriangle = new Triangle(JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, Triangle.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newTriangle.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newTriangle = new Triangle(JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, Triangle.SerializerSettings));
+                }
                 matchedTypes.Add("ScaleneTriangle");
                 match++;
             }
@@ -306,7 +341,11 @@ namespace Org.OpenAPITools.Model
         /// <returns>The object converted from the JSON string</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return Triangle.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return Triangle.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
         }
 
         /// <summary>

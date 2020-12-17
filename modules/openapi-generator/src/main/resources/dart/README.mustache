@@ -80,7 +80,7 @@ var {{paramName}} = {{#isArray}}[{{/isArray}}{{#isBodyParam}}new {{dataType}}(){
 {{/allParams}}
 
 try {
-    {{#returnType}}var result = {{/returnType}}api_instance.{{{operationId}}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    {{#returnType}}var result = {{/returnType}}api_instance.{{{operationId}}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
     {{#returnType}}
     print(result);
     {{/returnType}}
@@ -128,6 +128,6 @@ Class | Method | HTTP request | Description
 
 ## Author
 
-{{#apiInfo}}{{#apis}}{{^hasMore}}{{infoEmail}}
-{{/hasMore}}{{/apis}}{{/apiInfo}}
+{{#apiInfo}}{{#apis}}{{#-last}}{{infoEmail}}
+{{/-last}}{{/apis}}{{/apiInfo}}
 

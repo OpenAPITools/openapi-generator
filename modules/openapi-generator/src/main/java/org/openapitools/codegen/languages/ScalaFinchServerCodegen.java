@@ -113,10 +113,11 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("string", "String");
         typeMapping.put("boolean", "Boolean");
         typeMapping.put("integer", "Int");
-        typeMapping.put("float", "Float");
         typeMapping.put("long", "Long");
+        typeMapping.put("float", "Float");
         typeMapping.put("double", "Double");
         typeMapping.put("number", "BigDecimal");
+        typeMapping.put("decimal", "BigDecimal");
         typeMapping.put("date-time", "ZonedDateTime");
         typeMapping.put("date", "LocalDateTime");
         typeMapping.put("file", "File");
@@ -177,7 +178,6 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         instantiationTypes.put("map", "HashMap");
 
         importMapping = new HashMap<String, String>();
-        importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("UUID", "java.util.UUID");
         importMapping.put("URI", "java.net.URI");
         importMapping.put("File", "java.io.File");

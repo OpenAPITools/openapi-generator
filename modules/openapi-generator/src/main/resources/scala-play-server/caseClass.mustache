@@ -1,6 +1,6 @@
 case class {{classname}}(
 {{#vars}}
-  {{&name}}: {{^required}}Option[{{/required}}{{#isEnum}}{{classname}}.{{enumName}}.Value{{/isEnum}}{{^isEnum}}{{dataType}}{{/isEnum}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}{{^hasMore}}{{#isMap}},{{/isMap}}{{/hasMore}}
+  {{&name}}: {{^required}}Option[{{/required}}{{#isEnum}}{{classname}}.{{enumName}}.Value{{/isEnum}}{{^isEnum}}{{dataType}}{{/isEnum}}{{^required}}]{{/required}}{{^-last}},{{/-last}}{{#-last}}{{#isMap}},{{/isMap}}{{/-last}}
 {{/vars}}
 {{#isMap}}
   additionalProperties: {{parent}}

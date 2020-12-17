@@ -139,14 +139,29 @@ namespace Org.OpenAPITools.Model
         {
             Shape newShape = null;
 
+            if (jsonString == null)
+            {
+                return newShape;
+            }
+
             string discriminatorValue = JObject.Parse(jsonString)["shapeType"].ToString();
             switch (discriminatorValue)
             {
                 case "Quadrilateral":
-                    newShape = new Shape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, Shape.SerializerSettings));
+                    newShape = new Shape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, Shape.AdditionalPropertiesSerializerSettings));
+                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                    if (newShape.GetType().GetProperty("AdditionalProperties") == null)
+                    {
+                        newShape = new Shape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, Shape.SerializerSettings));
+                    }
                     return newShape;
                 case "Triangle":
-                    newShape = new Shape(JsonConvert.DeserializeObject<Triangle>(jsonString, Shape.SerializerSettings));
+                    newShape = new Shape(JsonConvert.DeserializeObject<Triangle>(jsonString, Shape.AdditionalPropertiesSerializerSettings));
+                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                    if (newShape.GetType().GetProperty("AdditionalProperties") == null)
+                    {
+                        newShape = new Shape(JsonConvert.DeserializeObject<Triangle>(jsonString, Shape.SerializerSettings));
+                    }
                     return newShape;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for Shape. Possible values: Quadrilateral Triangle", discriminatorValue));
@@ -158,7 +173,12 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newShape = new Shape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, Shape.SerializerSettings));
+                newShape = new Shape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, Shape.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newShape.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newShape = new Shape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, Shape.SerializerSettings));
+                }
                 matchedTypes.Add("Quadrilateral");
                 match++;
             }
@@ -170,7 +190,12 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newShape = new Shape(JsonConvert.DeserializeObject<Triangle>(jsonString, Shape.SerializerSettings));
+                newShape = new Shape(JsonConvert.DeserializeObject<Triangle>(jsonString, Shape.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newShape.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newShape = new Shape(JsonConvert.DeserializeObject<Triangle>(jsonString, Shape.SerializerSettings));
+                }
                 matchedTypes.Add("Triangle");
                 match++;
             }
@@ -265,7 +290,11 @@ namespace Org.OpenAPITools.Model
         /// <returns>The object converted from the JSON string</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return Shape.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return Shape.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
         }
 
         /// <summary>

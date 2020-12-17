@@ -47,6 +47,21 @@ $Manifest = @{
     Author = '{{{author}}}'
     CompanyName = '{{{companyName}}}'
     Description = '{{{packageName}}} - the PowerShell module for {{{appName}}}'
+    {{#tags}}
+    Tags = {{{.}}}
+    {{/tags}}
+    {{#projectUri}}
+    ProjectUri = '{{{.}}}'
+    {{/projectUri}}
+    {{#licenseUri}}
+    LicenseUri = '{{{.}}}'
+    {{/licenseUri}}
+    {{#iconUri}}
+    IconUri = '{{{.}}}'
+    {{/iconUri}}
+    {{#releaseNotes}}
+    ReleaseNotes = '{{{.}}}'
+    {{/releaseNotes}}
 
     {{#psData}}
     PrivateData = @{

@@ -280,8 +280,9 @@ module Petstore
           data.each { |k, v| hash[k] = convert_to_type(v, sub_type) }
         end
       else
-        # models, e.g. Pet
-        Petstore.const_get(return_type).build_from_hash(data)
+        # models (e.g. Pet) or oneOf
+        klass = Petstore.const_get(return_type)
+        klass.respond_to?(:openapi_one_of) ? klass.build(data) : klass.build_from_hash(data)
       end
     end
 

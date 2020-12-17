@@ -6,13 +6,13 @@
 
   @derive [Poison.Encoder]
   defstruct [
-    {{#vars}}:"{{&baseName}}"{{#hasMore}},
-    {{/hasMore}}{{/vars}}
+    {{#vars}}:"{{&baseName}}"{{^-last}},
+    {{/-last}}{{/vars}}
   ]
 
   @type t :: %__MODULE__{
-    {{#vars}}:"{{&baseName}}" => {{{datatype}}}{{#isNullable}} | nil{{/isNullable}}{{^isNullable}}{{^required}} | nil{{/required}}{{/isNullable}}{{#hasMore}},
-    {{/hasMore}}{{/vars}}
+    {{#vars}}:"{{&baseName}}" => {{{datatype}}}{{#isNullable}} | nil{{/isNullable}}{{^isNullable}}{{^required}} | nil{{/required}}{{/isNullable}}{{^-last}},
+    {{/-last}}{{/vars}}
   }
 end
 

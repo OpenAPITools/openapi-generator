@@ -1,4 +1,4 @@
-                service.{{operationId}}({{#hasParams}}{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}, {{/hasMore}}{{/allParams}}{{/hasParams}}result -> {
+                service.{{operationId}}({{#hasParams}}{{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{#-last}}, {{/-last}}{{/allParams}}{{/hasParams}}result -> {
                     if (result.succeeded())
                 {{#returnType}}
                     {{#isArray}}

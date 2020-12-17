@@ -66,7 +66,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	}
 	{{/isInteger}}{{^isLong}}{{^isInteger}}
 	{{paramName}} := {{#isArray}}strings.Split({{/isArray}}query.Get("{{paramName}}"){{#isArray}}, ","){{/isArray}}{{/isInteger}}{{/isLong}}{{/isQueryParam}}{{#isFormParam}}{{#isFile}}
-	{{paramName}}, err := ReadFormFileToTempFile(r, "{{paramName}}")
+	{{#isArray}}{{paramName}}, err := ReadFormFilesToTempFiles(r, "{{paramName}}"){{/isArray}}{{^isArray}}{{paramName}}, err := ReadFormFileToTempFile(r, "{{paramName}}"){{/isArray}}
 	if err != nil {
 		w.WriteHeader(500)
 		return

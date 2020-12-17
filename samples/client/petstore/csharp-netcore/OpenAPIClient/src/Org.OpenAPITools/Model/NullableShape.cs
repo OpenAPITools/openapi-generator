@@ -148,14 +148,29 @@ namespace Org.OpenAPITools.Model
         {
             NullableShape newNullableShape = null;
 
+            if (jsonString == null)
+            {
+                return newNullableShape;
+            }
+
             string discriminatorValue = JObject.Parse(jsonString)["shapeType"].ToString();
             switch (discriminatorValue)
             {
                 case "Quadrilateral":
-                    newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, NullableShape.SerializerSettings));
+                    newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, NullableShape.AdditionalPropertiesSerializerSettings));
+                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                    if (newNullableShape.GetType().GetProperty("AdditionalProperties") == null)
+                    {
+                        newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, NullableShape.SerializerSettings));
+                    }
                     return newNullableShape;
                 case "Triangle":
-                    newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, NullableShape.SerializerSettings));
+                    newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, NullableShape.AdditionalPropertiesSerializerSettings));
+                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                    if (newNullableShape.GetType().GetProperty("AdditionalProperties") == null)
+                    {
+                        newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, NullableShape.SerializerSettings));
+                    }
                     return newNullableShape;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for NullableShape. Possible values: Quadrilateral Triangle", discriminatorValue));
@@ -167,7 +182,12 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, NullableShape.SerializerSettings));
+                newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, NullableShape.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newNullableShape.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, NullableShape.SerializerSettings));
+                }
                 matchedTypes.Add("Quadrilateral");
                 match++;
             }
@@ -179,7 +199,12 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, NullableShape.SerializerSettings));
+                newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, NullableShape.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newNullableShape.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, NullableShape.SerializerSettings));
+                }
                 matchedTypes.Add("Triangle");
                 match++;
             }
@@ -274,7 +299,11 @@ namespace Org.OpenAPITools.Model
         /// <returns>The object converted from the JSON string</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return NullableShape.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return NullableShape.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
         }
 
         /// <summary>

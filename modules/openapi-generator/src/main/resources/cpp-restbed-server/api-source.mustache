@@ -61,7 +61,7 @@ void {{classname}}::stopService() {
 
 void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::set_handler_{{httpMethod}}(
 	std::function<std::pair<int, std::string>(
-		{{#allParams}}{{{dataType}}} const &{{#hasMore}}, {{/hasMore}}{{/allParams}}
+		{{#allParams}}{{{dataType}}} const &{{^-last}}, {{/-last}}{{/allParams}}
 	)> handler) {
 	handler_{{httpMethod}}_ = std::move(handler);
 }
@@ -69,7 +69,7 @@ void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::set_hand
 {{#vendorExtensions.x-codegen-other-methods}}
 void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::set_handler_{{httpMethod}}(
 	std::function<std::pair<int, std::string>(
-		{{#allParams}}{{{dataType}}} const &{{#hasMore}}, {{/hasMore}}{{/allParams}}
+		{{#allParams}}{{{dataType}}} const &{{^-last}}, {{/-last}}{{/allParams}}
 	)> handler) {
 	handler_{{httpMethod}}_ = std::move(handler);
 }
@@ -126,7 +126,7 @@ void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::{{httpMe
 			if (handler_{{httpMethod}}_)
 			{
 				std::tie(status_code, result) = handler_{{httpMethod}}_(
-					{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}
+					{{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}
 				);
 			}
 
@@ -195,7 +195,7 @@ void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::{{httpMe
 			if (handler_{{httpMethod}}_)
 			{
 				std::tie(status_code, result) = handler_{{httpMethod}}_(
-					{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}
+					{{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}
 				);
 			}
 

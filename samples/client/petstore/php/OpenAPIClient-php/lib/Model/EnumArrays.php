@@ -233,7 +233,8 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
         $allowedValues = $this->getJustSymbolAllowableValues();
         if (!is_null($this->container['just_symbol']) && !in_array($this->container['just_symbol'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value for 'just_symbol', must be one of '%s'",
+                "invalid value '%s' for 'just_symbol', must be one of '%s'",
+                $this->container['just_symbol'],
                 implode("', '", $allowedValues)
             );
         }
@@ -276,7 +277,8 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
         if (!is_null($just_symbol) && !in_array($just_symbol, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value for 'just_symbol', must be one of '%s'",
+                    "Invalid value '%s' for 'just_symbol', must be one of '%s'",
+                    $just_symbol,
                     implode("', '", $allowedValues)
                 )
             );

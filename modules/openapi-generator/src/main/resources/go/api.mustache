@@ -345,9 +345,9 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 				return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
 			}
 			newErr.model = v
-			{{#hasMore}}
+			{{^-last}}
 			return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
-			{{/hasMore}}
+			{{/-last}}
 		{{^wildcard}}
 		}
 		{{/wildcard}}

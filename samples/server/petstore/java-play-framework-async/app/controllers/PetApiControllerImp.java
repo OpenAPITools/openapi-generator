@@ -10,11 +10,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.io.FileInputStream;
+import play.libs.Files.TemporaryFile;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
-public class PetApiControllerImp implements PetApiControllerImpInterface {
+public class PetApiControllerImp extends PetApiControllerImpInterface {
     @Override
     public void addPet(Http.Request request, Pet body) throws Exception {
         //Do your magic!!!
@@ -60,7 +61,7 @@ public class PetApiControllerImp implements PetApiControllerImpInterface {
     }
 
     @Override
-    public CompletionStage<ModelApiResponse> uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file) throws Exception {
+    public CompletionStage<ModelApiResponse> uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> file) throws Exception {
         //Do your magic!!!
         return CompletableFuture.supplyAsync(() -> {
            return new ModelApiResponse();

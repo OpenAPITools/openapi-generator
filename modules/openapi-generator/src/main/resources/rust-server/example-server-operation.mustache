@@ -14,6 +14,6 @@
         context: &C) -> Result<{{{operationId}}}Response, ApiError>
     {
         let context = context.clone();
-        info!("{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}({{#allParams}}{{#vendorExtensions}}{{{x-format-string}}}{{/vendorExtensions}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) - X-Span-ID: {:?}"{{#allParams}}, {{{paramName}}}{{/allParams}}, context.get().0.clone());
+        info!("{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}({{#allParams}}{{#vendorExtensions}}{{{x-format-string}}}{{/vendorExtensions}}{{^-last}}, {{/-last}}{{/allParams}}) - X-Span-ID: {:?}"{{#allParams}}, {{{paramName}}}{{/allParams}}, context.get().0.clone());
         Err("Generic failuare".into())
     }
