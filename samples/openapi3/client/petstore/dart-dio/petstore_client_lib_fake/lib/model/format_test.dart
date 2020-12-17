@@ -75,6 +75,8 @@ abstract class FormatTest implements Built<FormatTest, FormatTestBuilder> {
     // Boilerplate code needed to wire-up generated code
     FormatTest._();
 
+    static void _initializeBuilder(FormatTestBuilder b) => b;
+
     factory FormatTest([updates(FormatTestBuilder b)]) = _$FormatTest;
     static Serializer<FormatTest> get serializer => _$formatTestSerializer;
 }

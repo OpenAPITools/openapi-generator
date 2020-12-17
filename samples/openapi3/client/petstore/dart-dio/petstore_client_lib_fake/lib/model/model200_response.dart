@@ -16,6 +16,8 @@ abstract class Model200Response implements Built<Model200Response, Model200Respo
     // Boilerplate code needed to wire-up generated code
     Model200Response._();
 
+    static void _initializeBuilder(Model200ResponseBuilder b) => b;
+
     factory Model200Response([updates(Model200ResponseBuilder b)]) = _$Model200Response;
     static Serializer<Model200Response> get serializer => _$model200ResponseSerializer;
 }

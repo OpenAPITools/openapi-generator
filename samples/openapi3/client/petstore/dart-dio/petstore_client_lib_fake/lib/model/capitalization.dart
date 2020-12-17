@@ -33,6 +33,8 @@ abstract class Capitalization implements Built<Capitalization, CapitalizationBui
     // Boilerplate code needed to wire-up generated code
     Capitalization._();
 
+    static void _initializeBuilder(CapitalizationBuilder b) => b;
+
     factory Capitalization([updates(CapitalizationBuilder b)]) = _$Capitalization;
     static Serializer<Capitalization> get serializer => _$capitalizationSerializer;
 }

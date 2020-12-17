@@ -16,6 +16,8 @@ abstract class HasOnlyReadOnly implements Built<HasOnlyReadOnly, HasOnlyReadOnly
     // Boilerplate code needed to wire-up generated code
     HasOnlyReadOnly._();
 
+    static void _initializeBuilder(HasOnlyReadOnlyBuilder b) => b;
+
     factory HasOnlyReadOnly([updates(HasOnlyReadOnlyBuilder b)]) = _$HasOnlyReadOnly;
     static Serializer<HasOnlyReadOnly> get serializer => _$hasOnlyReadOnlySerializer;
 }

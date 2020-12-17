@@ -22,6 +22,8 @@ abstract class MixedPropertiesAndAdditionalPropertiesClass implements Built<Mixe
     // Boilerplate code needed to wire-up generated code
     MixedPropertiesAndAdditionalPropertiesClass._();
 
+    static void _initializeBuilder(MixedPropertiesAndAdditionalPropertiesClassBuilder b) => b;
+
     factory MixedPropertiesAndAdditionalPropertiesClass([updates(MixedPropertiesAndAdditionalPropertiesClassBuilder b)]) = _$MixedPropertiesAndAdditionalPropertiesClass;
     static Serializer<MixedPropertiesAndAdditionalPropertiesClass> get serializer => _$mixedPropertiesAndAdditionalPropertiesClassSerializer;
 }

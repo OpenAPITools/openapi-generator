@@ -58,6 +58,8 @@ abstract class NullableClass implements Built<NullableClass, NullableClassBuilde
     // Boilerplate code needed to wire-up generated code
     NullableClass._();
 
+    static void _initializeBuilder(NullableClassBuilder b) => b;
+
     factory NullableClass([updates(NullableClassBuilder b)]) = _$NullableClass;
     static Serializer<NullableClass> get serializer => _$nullableClassSerializer;
 }

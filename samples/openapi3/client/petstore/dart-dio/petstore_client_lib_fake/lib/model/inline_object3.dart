@@ -79,6 +79,8 @@ abstract class InlineObject3 implements Built<InlineObject3, InlineObject3Builde
     // Boilerplate code needed to wire-up generated code
     InlineObject3._();
 
+    static void _initializeBuilder(InlineObject3Builder b) => b;
+
     factory InlineObject3([updates(InlineObject3Builder b)]) = _$InlineObject3;
     static Serializer<InlineObject3> get serializer => _$inlineObject3Serializer;
 }

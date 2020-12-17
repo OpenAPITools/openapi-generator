@@ -12,6 +12,8 @@ abstract class CatAllOf implements Built<CatAllOf, CatAllOfBuilder> {
     // Boilerplate code needed to wire-up generated code
     CatAllOf._();
 
+    static void _initializeBuilder(CatAllOfBuilder b) => b;
+
     factory CatAllOf([updates(CatAllOfBuilder b)]) = _$CatAllOf;
     static Serializer<CatAllOf> get serializer => _$catAllOfSerializer;
 }

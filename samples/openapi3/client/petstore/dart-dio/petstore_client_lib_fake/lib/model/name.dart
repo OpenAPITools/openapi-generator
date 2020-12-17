@@ -24,6 +24,8 @@ abstract class Name implements Built<Name, NameBuilder> {
     // Boilerplate code needed to wire-up generated code
     Name._();
 
+    static void _initializeBuilder(NameBuilder b) => b;
+
     factory Name([updates(NameBuilder b)]) = _$Name;
     static Serializer<Name> get serializer => _$nameSerializer;
 }
