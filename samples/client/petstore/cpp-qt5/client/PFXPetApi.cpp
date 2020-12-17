@@ -11,7 +11,7 @@
 
 #include "PFXPetApi.h"
 #include "PFXHelpers.h"
-#include "ServerConfiguration.h"
+#include "PFXServerConfiguration.h"
 #include <QJsonArray>
 #include <QJsonDocument>
 
@@ -35,34 +35,40 @@ PFXPetApi::~PFXPetApi() {
 void PFXPetApi::initializeServerConfigs(){
 
 //Default server
-QList<ServerConfiguration> defaultConf = QList<ServerConfiguration>();
+QList<PFXServerConfiguration> defaultConf = QList<PFXServerConfiguration>();
 //varying endpoint server 
-QList<ServerConfiguration> serverConf = QList<ServerConfiguration>();
-defaultConf.append(ServerConfiguration(
-    "http://petstore.swagger.io/v2",
-    "No description provided",
-    QMap<QString, ServerVariable>()));
+QList<PFXServerConfiguration> serverConf = QList<PFXServerConfiguration>();
 _serverConfigs.insert("addPet",defaultConf);
 _serverIndices.insert("addPet",0);
+
 _serverConfigs.insert("deletePet",defaultConf);
 _serverIndices.insert("deletePet",0);
+
 _serverConfigs.insert("findPetsByStatus",defaultConf);
 _serverIndices.insert("findPetsByStatus",0);
+
 _serverConfigs.insert("findPetsByTags",defaultConf);
 _serverIndices.insert("findPetsByTags",0);
+
 _serverConfigs.insert("getPetById",defaultConf);
 _serverIndices.insert("getPetById",0);
+
 _serverConfigs.insert("updatePet",defaultConf);
 _serverIndices.insert("updatePet",0);
+
 _serverConfigs.insert("updatePetWithForm",defaultConf);
 _serverIndices.insert("updatePetWithForm",0);
+
 _serverConfigs.insert("uploadFile",defaultConf);
 _serverIndices.insert("uploadFile",0);
+
+
 }
-    /**
-     * returns 0 on success and -1, -2 or -3 on failure.
-     * -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found 
-     */
+
+/**
+* returns 0 on success and -1, -2 or -3 on failure.
+* -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found 
+*/
 int PFXPetApi::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value){
     auto it = _serverConfigs.find(operation);
     if(it != _serverConfigs.end() && serverIndex < it.value().size() ){

@@ -13,7 +13,7 @@
 #define PFX_PFXPetApi_H
 
 #include "PFXHttpRequest.h"
-#include "ServerConfiguration.h"
+#include "PFXServerConfiguration.h"
 
 #include "PFXApiResponse.h"
 #include "PFXHttpFileElement.h"
@@ -68,7 +68,7 @@ private:
     int _port;
     QString _basePath;
     QMap<QString,int> _serverIndices;
-    QMap<QString,QList<ServerConfiguration>> _serverConfigs;
+    QMap<QString,QList<PFXServerConfiguration>> _serverConfigs;
     QMap<QString, QString> _apiKeys;
     QString _bearerToken;
     QString _username;

@@ -11,7 +11,7 @@
 
 #include "PFXStoreApi.h"
 #include "PFXHelpers.h"
-#include "ServerConfiguration.h"
+#include "PFXServerConfiguration.h"
 #include <QJsonArray>
 #include <QJsonDocument>
 
@@ -35,26 +35,28 @@ PFXStoreApi::~PFXStoreApi() {
 void PFXStoreApi::initializeServerConfigs(){
 
 //Default server
-QList<ServerConfiguration> defaultConf = QList<ServerConfiguration>();
+QList<PFXServerConfiguration> defaultConf = QList<PFXServerConfiguration>();
 //varying endpoint server 
-QList<ServerConfiguration> serverConf = QList<ServerConfiguration>();
-defaultConf.append(ServerConfiguration(
-    "http://petstore.swagger.io/v2",
-    "No description provided",
-    QMap<QString, ServerVariable>()));
+QList<PFXServerConfiguration> serverConf = QList<PFXServerConfiguration>();
 _serverConfigs.insert("deleteOrder",defaultConf);
 _serverIndices.insert("deleteOrder",0);
+
 _serverConfigs.insert("getInventory",defaultConf);
 _serverIndices.insert("getInventory",0);
+
 _serverConfigs.insert("getOrderById",defaultConf);
 _serverIndices.insert("getOrderById",0);
+
 _serverConfigs.insert("placeOrder",defaultConf);
 _serverIndices.insert("placeOrder",0);
+
+
 }
-    /**
-     * returns 0 on success and -1, -2 or -3 on failure.
-     * -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found 
-     */
+
+/**
+* returns 0 on success and -1, -2 or -3 on failure.
+* -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found 
+*/
 int PFXStoreApi::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value){
     auto it = _serverConfigs.find(operation);
     if(it != _serverConfigs.end() && serverIndex < it.value().size() ){
