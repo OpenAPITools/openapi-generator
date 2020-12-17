@@ -19,6 +19,8 @@ abstract class InlineObject5 implements Built<InlineObject5, InlineObject5Builde
     // Boilerplate code needed to wire-up generated code
     InlineObject5._();
 
+    static void _initializeBuilder(InlineObject5Builder b) => b;
+
     factory InlineObject5([updates(InlineObject5Builder b)]) = _$InlineObject5;
     static Serializer<InlineObject5> get serializer => _$inlineObject5Serializer;
 }

@@ -125,20 +125,13 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
     @Override
     public String toDefaultValue(Schema schema) {
-        if (ModelUtils.isMapSchema(schema)) {
-            return "const {}";
-        } else if (ModelUtils.isArraySchema(schema)) {
-            return "const []";
-        }
-
         if (schema.getDefault() != null) {
             if (ModelUtils.isStringSchema(schema)) {
                 return "'" + schema.getDefault().toString().replaceAll("'", "\\'") + "'";
             }
             return schema.getDefault().toString();
-        } else {
-            return "null";
         }
+        return null;
     }
 
     @Override

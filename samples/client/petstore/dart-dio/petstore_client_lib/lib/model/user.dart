@@ -41,6 +41,8 @@ abstract class User implements Built<User, UserBuilder> {
     // Boilerplate code needed to wire-up generated code
     User._();
 
+    static void _initializeBuilder(UserBuilder b) => b;
+
     factory User([updates(UserBuilder b)]) = _$User;
     static Serializer<User> get serializer => _$userSerializer;
 }

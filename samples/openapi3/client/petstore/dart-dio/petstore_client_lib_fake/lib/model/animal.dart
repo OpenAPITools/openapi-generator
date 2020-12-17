@@ -16,6 +16,9 @@ abstract class Animal implements Built<Animal, AnimalBuilder> {
     // Boilerplate code needed to wire-up generated code
     Animal._();
 
+    static void _initializeBuilder(AnimalBuilder b) => b
+        ..color = 'red';
+
     factory Animal([updates(AnimalBuilder b)]) = _$Animal;
     static Serializer<Animal> get serializer => _$animalSerializer;
 }

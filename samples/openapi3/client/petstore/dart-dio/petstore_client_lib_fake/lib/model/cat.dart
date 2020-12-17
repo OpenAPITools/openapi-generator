@@ -22,6 +22,9 @@ abstract class Cat implements Built<Cat, CatBuilder> {
     // Boilerplate code needed to wire-up generated code
     Cat._();
 
+    static void _initializeBuilder(CatBuilder b) => b
+        ..color = 'red';
+
     factory Cat([updates(CatBuilder b)]) = _$Cat;
     static Serializer<Cat> get serializer => _$catSerializer;
 }

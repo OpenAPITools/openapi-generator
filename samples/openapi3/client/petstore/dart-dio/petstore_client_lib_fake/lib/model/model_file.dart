@@ -13,6 +13,8 @@ abstract class ModelFile implements Built<ModelFile, ModelFileBuilder> {
     // Boilerplate code needed to wire-up generated code
     ModelFile._();
 
+    static void _initializeBuilder(ModelFileBuilder b) => b;
+
     factory ModelFile([updates(ModelFileBuilder b)]) = _$ModelFile;
     static Serializer<ModelFile> get serializer => _$modelFileSerializer;
 }

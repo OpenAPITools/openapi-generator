@@ -13,6 +13,8 @@ abstract class ArrayOfNumberOnly implements Built<ArrayOfNumberOnly, ArrayOfNumb
     // Boilerplate code needed to wire-up generated code
     ArrayOfNumberOnly._();
 
+    static void _initializeBuilder(ArrayOfNumberOnlyBuilder b) => b;
+
     factory ArrayOfNumberOnly([updates(ArrayOfNumberOnlyBuilder b)]) = _$ArrayOfNumberOnly;
     static Serializer<ArrayOfNumberOnly> get serializer => _$arrayOfNumberOnlySerializer;
 }

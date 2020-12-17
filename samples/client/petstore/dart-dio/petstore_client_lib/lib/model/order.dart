@@ -35,6 +35,9 @@ abstract class Order implements Built<Order, OrderBuilder> {
     // Boilerplate code needed to wire-up generated code
     Order._();
 
+    static void _initializeBuilder(OrderBuilder b) => b
+        ..complete = false;
+
     factory Order([updates(OrderBuilder b)]) = _$Order;
     static Serializer<Order> get serializer => _$orderSerializer;
 }

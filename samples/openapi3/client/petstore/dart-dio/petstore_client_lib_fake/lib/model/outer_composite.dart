@@ -20,6 +20,8 @@ abstract class OuterComposite implements Built<OuterComposite, OuterCompositeBui
     // Boilerplate code needed to wire-up generated code
     OuterComposite._();
 
+    static void _initializeBuilder(OuterCompositeBuilder b) => b;
+
     factory OuterComposite([updates(OuterCompositeBuilder b)]) = _$OuterComposite;
     static Serializer<OuterComposite> get serializer => _$outerCompositeSerializer;
 }

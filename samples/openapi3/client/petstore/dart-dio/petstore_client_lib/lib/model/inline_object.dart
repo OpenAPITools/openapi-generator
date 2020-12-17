@@ -18,6 +18,8 @@ abstract class InlineObject implements Built<InlineObject, InlineObjectBuilder> 
     // Boilerplate code needed to wire-up generated code
     InlineObject._();
 
+    static void _initializeBuilder(InlineObjectBuilder b) => b;
+
     factory InlineObject([updates(InlineObjectBuilder b)]) = _$InlineObject;
     static Serializer<InlineObject> get serializer => _$inlineObjectSerializer;
 }
