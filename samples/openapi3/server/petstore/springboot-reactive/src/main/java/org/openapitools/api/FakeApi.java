@@ -15,7 +15,6 @@ import org.openapitools.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.Pet;
-import org.springframework.core.io.Resource;
 import org.openapitools.model.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -36,19 +35,14 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import org.springframework.http.codec.multipart.Part;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -68,13 +62,15 @@ public interface FakeApi {
      *
      * @return The instance started successfully (status code 200)
      */
-    @Operation(summary = "Health check endpoint", operationId = "fakeHealthGet" , tags={ "fake", })
+    @Operation(summary = "Health check endpoint", operationId = "fakeHealthGet", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "The instance started successfully" , content = { @Content( schema = @Schema(implementation = HealthCheckResult.class)) }) })
-    @RequestMapping(value = "/fake/health",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    default Mono<ResponseEntity<HealthCheckResult>> fakeHealthGet(ServerWebExchange exchange) {
+
+    @GetMapping(
+        value = "/fake/health",
+        produces = { "application/json" }
+    )
+    default Mono<ResponseEntity<HealthCheckResult>> fakeHealthGet(@ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().fakeHealthGet(exchange);
     }
 
@@ -87,15 +83,18 @@ public interface FakeApi {
      * @param header1 header parameter (optional)
      * @return The instance started successfully (status code 200)
      */
-    @Operation(summary = "test http signature authentication", operationId = "fakeHttpSignatureTest" , security = {
-        @SecurityRequirement(name = "http_signature_test")
-    }, tags={ "fake", })
+    @Operation(summary = "test http signature authentication", operationId = "fakeHttpSignatureTest", security = {
+        @SecurityRequirement(name = "http_signature_test"
+        @Authorization(value = "http_signature_test")
+         }, tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "The instance started successfully" ) })
-    @RequestMapping(value = "/fake/http-signature-test",
-        consumes = { "application/json", "application/xml" },
-        method = RequestMethod.GET)
-    default Mono<ResponseEntity<Void>> fakeHttpSignatureTest(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Mono<Pet> pet,@Parameter(description = "query parameter") @Valid @RequestParam(value = "query_1", required = false) String query1,@Parameter(description = "header parameter" ) @RequestHeader(value="header_1" , required=false) String header1, ServerWebExchange exchange) {
+
+    @GetMapping(
+        value = "/fake/http-signature-test",
+        consumes = { "application/json", "application/xml" }
+    )
+    default Mono<ResponseEntity<Void>> fakeHttpSignatureTest(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Mono<Pet> pet,@Parameter(description = "query parameter") @Valid @RequestParam(value = "query_1", required = false) String query1,@Parameter(description = "header parameter" ) @RequestHeader(value="header_1" , required=false) String header1, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().fakeHttpSignatureTest(pet, query1, header1, exchange);
     }
 
@@ -107,14 +106,16 @@ public interface FakeApi {
      * @param body Input boolean as post body (optional)
      * @return Output boolean (status code 200)
      */
-    @Operation(summary = "", operationId = "fakeOuterBooleanSerialize" , tags={ "fake", })
+    @Operation(summary = "", operationId = "fakeOuterBooleanSerialize", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "Output boolean" , content = { @Content( schema = @Schema(implementation = Boolean.class)) }) })
-    @RequestMapping(value = "/fake/outer/boolean",
-        produces = { "*/*" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    default Mono<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(@Parameter(description = "Input boolean as post body"  )  @Valid @RequestBody(required = false) Mono<Boolean> body, ServerWebExchange exchange) {
+
+    @PostMapping(
+        value = "/fake/outer/boolean",
+        produces = { "*/*" },
+        consumes = { "application/json" }
+    )
+    default Mono<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(@Parameter(description = "Input boolean as post body"  )  @Valid @RequestBody(required = false) Mono<Boolean> body, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().fakeOuterBooleanSerialize(body, exchange);
     }
 
@@ -126,14 +127,16 @@ public interface FakeApi {
      * @param outerComposite Input composite as post body (optional)
      * @return Output composite (status code 200)
      */
-    @Operation(summary = "", operationId = "fakeOuterCompositeSerialize" , tags={ "fake", })
+    @Operation(summary = "", operationId = "fakeOuterCompositeSerialize", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "Output composite" , content = { @Content( schema = @Schema(implementation = OuterComposite.class)) }) })
-    @RequestMapping(value = "/fake/outer/composite",
-        produces = { "*/*" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    default Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(@Parameter(description = "Input composite as post body"  )  @Valid @RequestBody(required = false) Mono<OuterComposite> outerComposite, ServerWebExchange exchange) {
+
+    @PostMapping(
+        value = "/fake/outer/composite",
+        produces = { "*/*" },
+        consumes = { "application/json" }
+    )
+    default Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(@Parameter(description = "Input composite as post body"  )  @Valid @RequestBody(required = false) Mono<OuterComposite> outerComposite, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().fakeOuterCompositeSerialize(outerComposite, exchange);
     }
 
@@ -145,14 +148,16 @@ public interface FakeApi {
      * @param body Input number as post body (optional)
      * @return Output number (status code 200)
      */
-    @Operation(summary = "", operationId = "fakeOuterNumberSerialize" , tags={ "fake", })
+    @Operation(summary = "", operationId = "fakeOuterNumberSerialize", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "Output number" , content = { @Content( schema = @Schema(implementation = BigDecimal.class)) }) })
-    @RequestMapping(value = "/fake/outer/number",
-        produces = { "*/*" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    default Mono<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(@Parameter(description = "Input number as post body"  )  @Valid @RequestBody(required = false) Mono<BigDecimal> body, ServerWebExchange exchange) {
+
+    @PostMapping(
+        value = "/fake/outer/number",
+        produces = { "*/*" },
+        consumes = { "application/json" }
+    )
+    default Mono<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(@Parameter(description = "Input number as post body"  )  @Valid @RequestBody(required = false) Mono<BigDecimal> body, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().fakeOuterNumberSerialize(body, exchange);
     }
 
@@ -164,14 +169,16 @@ public interface FakeApi {
      * @param body Input string as post body (optional)
      * @return Output string (status code 200)
      */
-    @Operation(summary = "", operationId = "fakeOuterStringSerialize" , tags={ "fake", })
+    @Operation(summary = "", operationId = "fakeOuterStringSerialize", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "Output string" , content = { @Content( schema = @Schema(implementation = String.class)) }) })
-    @RequestMapping(value = "/fake/outer/string",
-        produces = { "*/*" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    default Mono<ResponseEntity<String>> fakeOuterStringSerialize(@Parameter(description = "Input string as post body"  )  @Valid @RequestBody(required = false) Mono<String> body, ServerWebExchange exchange) {
+
+    @PostMapping(
+        value = "/fake/outer/string",
+        produces = { "*/*" },
+        consumes = { "application/json" }
+    )
+    default Mono<ResponseEntity<String>> fakeOuterStringSerialize(@Parameter(description = "Input string as post body"  )  @Valid @RequestBody(required = false) Mono<String> body, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().fakeOuterStringSerialize(body, exchange);
     }
 
@@ -183,13 +190,15 @@ public interface FakeApi {
      * @param fileSchemaTestClass  (required)
      * @return Success (status code 200)
      */
-    @Operation(summary = "", operationId = "testBodyWithFileSchema" , tags={ "fake", })
+    @Operation(summary = "", operationId = "testBodyWithFileSchema", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "Success" ) })
-    @RequestMapping(value = "/fake/body-with-file-schema",
-        consumes = { "application/json" },
-        method = RequestMethod.PUT)
-    default Mono<ResponseEntity<Void>> testBodyWithFileSchema(@Parameter(description = "" ,required=true )  @Valid @RequestBody Mono<FileSchemaTestClass> fileSchemaTestClass, ServerWebExchange exchange) {
+
+    @PutMapping(
+        value = "/fake/body-with-file-schema",
+        consumes = { "application/json" }
+    )
+    default Mono<ResponseEntity<Void>> testBodyWithFileSchema(@Parameter(description = "" ,required=true )  @Valid @RequestBody Mono<FileSchemaTestClass> fileSchemaTestClass, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().testBodyWithFileSchema(fileSchemaTestClass, exchange);
     }
 
@@ -201,13 +210,15 @@ public interface FakeApi {
      * @param user  (required)
      * @return Success (status code 200)
      */
-    @Operation(summary = "", operationId = "testBodyWithQueryParams" , tags={ "fake", })
+    @Operation(summary = "", operationId = "testBodyWithQueryParams", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "Success" ) })
-    @RequestMapping(value = "/fake/body-with-query-params",
-        consumes = { "application/json" },
-        method = RequestMethod.PUT)
-    default Mono<ResponseEntity<Void>> testBodyWithQueryParams(@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,@Parameter(description = "" ,required=true )  @Valid @RequestBody Mono<User> user, ServerWebExchange exchange) {
+
+    @PutMapping(
+        value = "/fake/body-with-query-params",
+        consumes = { "application/json" }
+    )
+    default Mono<ResponseEntity<Void>> testBodyWithQueryParams(@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,@Parameter(description = "" ,required=true )  @Valid @RequestBody Mono<User> user, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().testBodyWithQueryParams(query, user, exchange);
     }
 
@@ -219,14 +230,16 @@ public interface FakeApi {
      * @param client client model (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "To test \"client\" model", operationId = "testClientModel" , tags={ "fake", })
+    @Operation(summary = "To test \"client\" model", operationId = "testClientModel", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Client.class)) }) })
-    @RequestMapping(value = "/fake",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.PATCH)
-    default Mono<ResponseEntity<Client>> testClientModel(@Parameter(description = "client model" ,required=true )  @Valid @RequestBody Mono<Client> client, ServerWebExchange exchange) {
+
+    @PatchMapping(
+        value = "/fake",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    default Mono<ResponseEntity<Client>> testClientModel(@Parameter(description = "client model" ,required=true )  @Valid @RequestBody Mono<Client> client, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().testClientModel(client, exchange);
     }
 
@@ -252,16 +265,19 @@ public interface FakeApi {
      * @return Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @Operation(summary = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", operationId = "testEndpointParameters" , security = {
-        @SecurityRequirement(name = "http_basic_test")
-    }, tags={ "fake", })
+    @Operation(summary = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", operationId = "testEndpointParameters", security = {
+        @SecurityRequirement(name = "http_basic_test"
+        @Authorization(value = "http_basic_test")
+         }, tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid username supplied" ),
        @ApiResponse(responseCode = "404", description = "User not found" ) })
-    @RequestMapping(value = "/fake",
-        consumes = { "application/x-www-form-urlencoded" },
-        method = RequestMethod.POST)
-    default Mono<ResponseEntity<Void>> testEndpointParameters(@Parameter(description = "None", required=true) @Valid @RequestPart(value = "number", required = true)  BigDecimal number,@Parameter(description = "None", required=true) @Valid @RequestPart(value = "double", required = true)  Double _double,@Parameter(description = "None", required=true) @Valid @RequestPart(value = "pattern_without_delimiter", required = true)  String patternWithoutDelimiter,@Parameter(description = "None", required=true) @Valid @RequestPart(value = "byte", required = true)  byte[] _byte,@Parameter(description = "None") @Valid @RequestPart(value = "integer", required = false)  Integer integer,@Parameter(description = "None") @Valid @RequestPart(value = "int32", required = false)  Integer int32,@Parameter(description = "None") @Valid @RequestPart(value = "int64", required = false)  Long int64,@Parameter(description = "None") @Valid @RequestPart(value = "float", required = false)  Float _float,@Parameter(description = "None") @Valid @RequestPart(value = "string", required = false)  String string,@Parameter(description = "None") @Valid @RequestPart(value = "binary", required = false) MultipartFile binary,@Parameter(description = "None") @Valid @RequestPart(value = "date", required = false)  LocalDate date,@Parameter(description = "None") @Valid @RequestPart(value = "dateTime", required = false)  OffsetDateTime dateTime,@Parameter(description = "None") @Valid @RequestPart(value = "password", required = false)  String password,@Parameter(description = "None") @Valid @RequestPart(value = "callback", required = false)  String paramCallback, ServerWebExchange exchange) {
+
+    @PostMapping(
+        value = "/fake",
+        consumes = { "application/x-www-form-urlencoded" }
+    )
+    default Mono<ResponseEntity<Void>> testEndpointParameters(@Parameter(description = "None", required=true) @Valid @RequestPart(value = "number", required = true)  BigDecimal number,@Parameter(description = "None", required=true) @Valid @RequestPart(value = "double", required = true)  Double _double,@Parameter(description = "None", required=true) @Valid @RequestPart(value = "pattern_without_delimiter", required = true)  String patternWithoutDelimiter,@Parameter(description = "None", required=true) @Valid @RequestPart(value = "byte", required = true)  byte[] _byte,@Parameter(description = "None") @Valid @RequestPart(value = "integer", required = false)  Integer integer,@Parameter(description = "None") @Valid @RequestPart(value = "int32", required = false)  Integer int32,@Parameter(description = "None") @Valid @RequestPart(value = "int64", required = false)  Long int64,@Parameter(description = "None") @Valid @RequestPart(value = "float", required = false)  Float _float,@Parameter(description = "None") @Valid @RequestPart(value = "string", required = false)  String string,@ApiParam(value = "None") @Valid @RequestPart(value = "binary", required = false) Flux<Part> binary,@Parameter(description = "None") @Valid @RequestPart(value = "date", required = false)  LocalDate date,@Parameter(description = "None") @Valid @RequestPart(value = "dateTime", required = false)  OffsetDateTime dateTime,@Parameter(description = "None") @Valid @RequestPart(value = "password", required = false)  String password,@Parameter(description = "None") @Valid @RequestPart(value = "callback", required = false)  String paramCallback, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, exchange);
     }
 
@@ -281,14 +297,16 @@ public interface FakeApi {
      * @return Invalid request (status code 400)
      *         or Not found (status code 404)
      */
-    @Operation(summary = "To test enum parameters", operationId = "testEnumParameters" , tags={ "fake", })
+    @Operation(summary = "To test enum parameters", operationId = "testEnumParameters", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid request" ),
        @ApiResponse(responseCode = "404", description = "Not found" ) })
-    @RequestMapping(value = "/fake",
-        consumes = { "application/x-www-form-urlencoded" },
-        method = RequestMethod.GET)
-    default Mono<ResponseEntity<Void>> testEnumParameters(@Parameter(description = "Header parameter enum test (string array)" ) @RequestHeader(value="enum_header_string_array" , defaultValue="new ArrayList<>()", required=false) List<String> enumHeaderStringArray,@Parameter(description = "Header parameter enum test (string)" ) @RequestHeader(value="enum_header_string" , defaultValue="-efg", required=false) String enumHeaderString,@Parameter(description = "Query parameter enum test (string array)") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,@Parameter(description = "Query parameter enum test (string)") @Valid @RequestParam(value = "enum_query_string", required = false) String enumQueryString,@Parameter(description = "Query parameter enum test (double)") @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,@Parameter(description = "Query parameter enum test (double)") @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,@Parameter(description = "Form parameter enum test (string array)") @Valid @RequestPart(value = "enum_form_string_array", required = false)  List<String> enumFormStringArray,@Parameter(description = "Form parameter enum test (string)") @Valid @RequestPart(value = "enum_form_string", required = false)  String enumFormString, ServerWebExchange exchange) {
+
+    @GetMapping(
+        value = "/fake",
+        consumes = { "application/x-www-form-urlencoded" }
+    )
+    default Mono<ResponseEntity<Void>> testEnumParameters(@Parameter(description = "Header parameter enum test (string array)" ) @RequestHeader(value="enum_header_string_array" , defaultValue="new ArrayList<>()", required=false) List<String> enumHeaderStringArray,@Parameter(description = "Header parameter enum test (string)" ) @RequestHeader(value="enum_header_string" , defaultValue="-efg", required=false) String enumHeaderString,@Parameter(description = "Query parameter enum test (string array)", allowableValues = ">, $") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,@Parameter(description = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue="-efg") String enumQueryString,@Parameter(description = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,@Parameter(description = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,@Parameter(description = "Form parameter enum test (string array)", allowableValues=">, $") @Valid @RequestPart(value = "enum_form_string_array", required = false)  List<String> enumFormStringArray,@Parameter(description = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @Valid @RequestPart(value = "enum_form_string", required = false)  String enumFormString, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, exchange);
     }
 
@@ -305,14 +323,17 @@ public interface FakeApi {
      * @param int64Group Integer in group parameters (optional)
      * @return Someting wrong (status code 400)
      */
-    @Operation(summary = "Fake endpoint to test group parameters (optional)", operationId = "testGroupParameters" , security = {
-        @SecurityRequirement(name = "bearer_test")
-    }, tags={ "fake", })
+    @Operation(summary = "Fake endpoint to test group parameters (optional)", operationId = "testGroupParameters", security = {
+        @SecurityRequirement(name = "bearer_test"
+        @Authorization(value = "bearer_test")
+         }, tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Someting wrong" ) })
-    @RequestMapping(value = "/fake",
-        method = RequestMethod.DELETE)
-    default Mono<ResponseEntity<Void>> testGroupParameters(@NotNull @Parameter(description = "Required String in group parameters", required = true) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,@Parameter(description = "Required Boolean in group parameters" ,required=true) @RequestHeader(value="required_boolean_group" , required=true) Boolean requiredBooleanGroup,@NotNull @Parameter(description = "Required Integer in group parameters", required = true) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,@Parameter(description = "String in group parameters") @Valid @RequestParam(value = "string_group", required = false) Integer stringGroup,@Parameter(description = "Boolean in group parameters" ) @RequestHeader(value="boolean_group" , required=false) Boolean booleanGroup,@Parameter(description = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) Long int64Group, ServerWebExchange exchange) {
+
+    @DeleteMapping(
+        value = "/fake"
+    )
+    default Mono<ResponseEntity<Void>> testGroupParameters(@NotNull @Parameter(description = "Required String in group parameters", required = true) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,@Parameter(description = "Required Boolean in group parameters" ,required=true) @RequestHeader(value="required_boolean_group" , required=true) Boolean requiredBooleanGroup,@NotNull @Parameter(description = "Required Integer in group parameters", required = true) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,@Parameter(description = "String in group parameters") @Valid @RequestParam(value = "string_group", required = false) Integer stringGroup,@Parameter(description = "Boolean in group parameters" ) @RequestHeader(value="boolean_group" , required=false) Boolean booleanGroup,@Parameter(description = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) Long int64Group, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, exchange);
     }
 
@@ -323,13 +344,15 @@ public interface FakeApi {
      * @param requestBody request body (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "test inline additionalProperties", operationId = "testInlineAdditionalProperties" , tags={ "fake", })
+    @Operation(summary = "test inline additionalProperties", operationId = "testInlineAdditionalProperties", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
-    @RequestMapping(value = "/fake/inline-additionalProperties",
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(@Parameter(description = "request body" ,required=true )  @Valid @RequestBody Mono<String> requestBody, ServerWebExchange exchange) {
+
+    @PostMapping(
+        value = "/fake/inline-additionalProperties",
+        consumes = { "application/json" }
+    )
+    default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(@Parameter(description = "request body" ,required=true )  @Valid @RequestBody Mono<Map<String, String>> requestBody, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().testInlineAdditionalProperties(requestBody, exchange);
     }
 
@@ -341,13 +364,15 @@ public interface FakeApi {
      * @param param2 field2 (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "test json serialization of form data", operationId = "testJsonFormData" , tags={ "fake", })
+    @Operation(summary = "test json serialization of form data", operationId = "testJsonFormData", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
-    @RequestMapping(value = "/fake/jsonFormData",
-        consumes = { "application/x-www-form-urlencoded" },
-        method = RequestMethod.GET)
-    default Mono<ResponseEntity<Void>> testJsonFormData(@Parameter(description = "field1", required=true) @Valid @RequestPart(value = "param", required = true)  String param,@Parameter(description = "field2", required=true) @Valid @RequestPart(value = "param2", required = true)  String param2, ServerWebExchange exchange) {
+
+    @GetMapping(
+        value = "/fake/jsonFormData",
+        consumes = { "application/x-www-form-urlencoded" }
+    )
+    default Mono<ResponseEntity<Void>> testJsonFormData(@Parameter(description = "field1", required=true) @Valid @RequestPart(value = "param", required = true)  String param,@Parameter(description = "field2", required=true) @Valid @RequestPart(value = "param2", required = true)  String param2, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().testJsonFormData(param, param2, exchange);
     }
 
@@ -363,12 +388,14 @@ public interface FakeApi {
      * @param context  (required)
      * @return Success (status code 200)
      */
-    @Operation(summary = "", operationId = "testQueryParameterCollectionFormat" , tags={ "fake", })
+    @Operation(summary = "", operationId = "testQueryParameterCollectionFormat", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "Success" ) })
-    @RequestMapping(value = "/fake/test-query-paramters",
-        method = RequestMethod.PUT)
-    default Mono<ResponseEntity<Void>> testQueryParameterCollectionFormat(@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "ioutil", required = true) List<String> ioutil,@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "http", required = true) List<String> http,@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "url", required = true) List<String> url,@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context, ServerWebExchange exchange) {
+
+    @PutMapping(
+        value = "/fake/test-query-paramters"
+    )
+    default Mono<ResponseEntity<Void>> testQueryParameterCollectionFormat(@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "ioutil", required = true) List<String> ioutil,@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "http", required = true) List<String> http,@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "url", required = true) List<String> url,@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, exchange);
     }
 
@@ -381,19 +408,20 @@ public interface FakeApi {
      * @param additionalMetadata Additional data to pass to server (optional)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "uploads an image (required)", operationId = "uploadFileWithRequiredFile" , security = {
+    @Operation(summary = "uploads an image (required)", operationId = "uploadFileWithRequiredFile", security = {
         @SecurityRequirement(name = "petstore_auth", scopes = {
             "write:pets",
-            "read:pets"
-            })
-    }, tags={ "pet", })
+            "read:pets" })
+         }, tags={ "pet", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = ModelApiResponse.class)) }) })
-    @RequestMapping(value = "/fake/{petId}/uploadImageWithRequiredFile",
-        produces = { "application/json" }, 
-        consumes = { "multipart/form-data" },
-        method = RequestMethod.POST)
-    default Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(@Parameter(description = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@Parameter(description = "file to upload") @Valid @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,@Parameter(description = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false)  String additionalMetadata, ServerWebExchange exchange) {
+
+    @PostMapping(
+        value = "/fake/{petId}/uploadImageWithRequiredFile",
+        produces = { "application/json" },
+        consumes = { "multipart/form-data" }
+    )
+    default Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(@Parameter(description = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "file to upload") @Valid @RequestPart(value = "requiredFile", required = true) Flux<Part> requiredFile,@Parameter(description = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false)  String additionalMetadata, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, exchange);
     }
 

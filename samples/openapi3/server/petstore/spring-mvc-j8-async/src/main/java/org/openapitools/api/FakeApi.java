@@ -15,7 +15,6 @@ import org.openapitools.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.Pet;
-import org.springframework.core.io.Resource;
 import org.openapitools.model.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -38,17 +37,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -70,12 +63,14 @@ public interface FakeApi {
      *
      * @return The instance started successfully (status code 200)
      */
-    @Operation(summary = "Health check endpoint", operationId = "fakeHealthGet" , tags={ "fake", })
+    @Operation(summary = "Health check endpoint", operationId = "fakeHealthGet", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "The instance started successfully" , content = { @Content( schema = @Schema(implementation = HealthCheckResult.class)) }) })
-    @RequestMapping(value = "/fake/health",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
+
+    @GetMapping(
+        value = "/fake/health",
+        produces = { "application/json" }
+    )
     default CompletableFuture<ResponseEntity<HealthCheckResult>> fakeHealthGet() {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
@@ -101,14 +96,17 @@ public interface FakeApi {
      * @param header1 header parameter (optional)
      * @return The instance started successfully (status code 200)
      */
-    @Operation(summary = "test http signature authentication", operationId = "fakeHttpSignatureTest" , security = {
-        @SecurityRequirement(name = "http_signature_test")
-    }, tags={ "fake", })
+    @Operation(summary = "test http signature authentication", operationId = "fakeHttpSignatureTest", security = {
+        @SecurityRequirement(name = "http_signature_test"
+        @Authorization(value = "http_signature_test")
+         }, tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "The instance started successfully" ) })
-    @RequestMapping(value = "/fake/http-signature-test",
-        consumes = { "application/json", "application/xml" },
-        method = RequestMethod.GET)
+
+    @GetMapping(
+        value = "/fake/http-signature-test",
+        consumes = { "application/json", "application/xml" }
+    )
     default CompletableFuture<ResponseEntity<Void>> fakeHttpSignatureTest(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet,@Parameter(description = "query parameter") @Valid @RequestParam(value = "query_1", required = false) String query1,@Parameter(description = "header parameter" ) @RequestHeader(value="header_1" , required=false) String header1) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
@@ -122,13 +120,15 @@ public interface FakeApi {
      * @param body Input boolean as post body (optional)
      * @return Output boolean (status code 200)
      */
-    @Operation(summary = "", operationId = "fakeOuterBooleanSerialize" , tags={ "fake", })
+    @Operation(summary = "", operationId = "fakeOuterBooleanSerialize", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "Output boolean" , content = { @Content( schema = @Schema(implementation = Boolean.class)) }) })
-    @RequestMapping(value = "/fake/outer/boolean",
-        produces = { "*/*" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
+
+    @PostMapping(
+        value = "/fake/outer/boolean",
+        produces = { "*/*" },
+        consumes = { "application/json" }
+    )
     default CompletableFuture<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(@Parameter(description = "Input boolean as post body"  )  @Valid @RequestBody(required = false) Boolean body) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
@@ -142,13 +142,15 @@ public interface FakeApi {
      * @param outerComposite Input composite as post body (optional)
      * @return Output composite (status code 200)
      */
-    @Operation(summary = "", operationId = "fakeOuterCompositeSerialize" , tags={ "fake", })
+    @Operation(summary = "", operationId = "fakeOuterCompositeSerialize", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "Output composite" , content = { @Content( schema = @Schema(implementation = OuterComposite.class)) }) })
-    @RequestMapping(value = "/fake/outer/composite",
-        produces = { "*/*" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
+
+    @PostMapping(
+        value = "/fake/outer/composite",
+        produces = { "*/*" },
+        consumes = { "application/json" }
+    )
     default CompletableFuture<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(@Parameter(description = "Input composite as post body"  )  @Valid @RequestBody(required = false) OuterComposite outerComposite) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
@@ -173,13 +175,15 @@ public interface FakeApi {
      * @param body Input number as post body (optional)
      * @return Output number (status code 200)
      */
-    @Operation(summary = "", operationId = "fakeOuterNumberSerialize" , tags={ "fake", })
+    @Operation(summary = "", operationId = "fakeOuterNumberSerialize", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "Output number" , content = { @Content( schema = @Schema(implementation = BigDecimal.class)) }) })
-    @RequestMapping(value = "/fake/outer/number",
-        produces = { "*/*" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
+
+    @PostMapping(
+        value = "/fake/outer/number",
+        produces = { "*/*" },
+        consumes = { "application/json" }
+    )
     default CompletableFuture<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(@Parameter(description = "Input number as post body"  )  @Valid @RequestBody(required = false) BigDecimal body) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
@@ -193,13 +197,15 @@ public interface FakeApi {
      * @param body Input string as post body (optional)
      * @return Output string (status code 200)
      */
-    @Operation(summary = "", operationId = "fakeOuterStringSerialize" , tags={ "fake", })
+    @Operation(summary = "", operationId = "fakeOuterStringSerialize", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "Output string" , content = { @Content( schema = @Schema(implementation = String.class)) }) })
-    @RequestMapping(value = "/fake/outer/string",
-        produces = { "*/*" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
+
+    @PostMapping(
+        value = "/fake/outer/string",
+        produces = { "*/*" },
+        consumes = { "application/json" }
+    )
     default CompletableFuture<ResponseEntity<String>> fakeOuterStringSerialize(@Parameter(description = "Input string as post body"  )  @Valid @RequestBody(required = false) String body) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
@@ -213,12 +219,14 @@ public interface FakeApi {
      * @param fileSchemaTestClass  (required)
      * @return Success (status code 200)
      */
-    @Operation(summary = "", operationId = "testBodyWithFileSchema" , tags={ "fake", })
+    @Operation(summary = "", operationId = "testBodyWithFileSchema", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "Success" ) })
-    @RequestMapping(value = "/fake/body-with-file-schema",
-        consumes = { "application/json" },
-        method = RequestMethod.PUT)
+
+    @PutMapping(
+        value = "/fake/body-with-file-schema",
+        consumes = { "application/json" }
+    )
     default CompletableFuture<ResponseEntity<Void>> testBodyWithFileSchema(@Parameter(description = "" ,required=true )  @Valid @RequestBody FileSchemaTestClass fileSchemaTestClass) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
@@ -232,12 +240,14 @@ public interface FakeApi {
      * @param user  (required)
      * @return Success (status code 200)
      */
-    @Operation(summary = "", operationId = "testBodyWithQueryParams" , tags={ "fake", })
+    @Operation(summary = "", operationId = "testBodyWithQueryParams", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "Success" ) })
-    @RequestMapping(value = "/fake/body-with-query-params",
-        consumes = { "application/json" },
-        method = RequestMethod.PUT)
+
+    @PutMapping(
+        value = "/fake/body-with-query-params",
+        consumes = { "application/json" }
+    )
     default CompletableFuture<ResponseEntity<Void>> testBodyWithQueryParams(@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,@Parameter(description = "" ,required=true )  @Valid @RequestBody User user) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
@@ -251,13 +261,15 @@ public interface FakeApi {
      * @param client client model (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "To test \"client\" model", operationId = "testClientModel" , tags={ "fake", })
+    @Operation(summary = "To test \"client\" model", operationId = "testClientModel", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Client.class)) }) })
-    @RequestMapping(value = "/fake",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.PATCH)
+
+    @PatchMapping(
+        value = "/fake",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
     default CompletableFuture<ResponseEntity<Client>> testClientModel(@Parameter(description = "client model" ,required=true )  @Valid @RequestBody Client client) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
@@ -296,16 +308,19 @@ public interface FakeApi {
      * @return Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @Operation(summary = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", operationId = "testEndpointParameters" , security = {
-        @SecurityRequirement(name = "http_basic_test")
-    }, tags={ "fake", })
+    @Operation(summary = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", operationId = "testEndpointParameters", security = {
+        @SecurityRequirement(name = "http_basic_test"
+        @Authorization(value = "http_basic_test")
+         }, tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid username supplied" ),
        @ApiResponse(responseCode = "404", description = "User not found" ) })
-    @RequestMapping(value = "/fake",
-        consumes = { "application/x-www-form-urlencoded" },
-        method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<Void>> testEndpointParameters(@Parameter(description = "None", required=true) @Valid @RequestPart(value = "number", required = true)  BigDecimal number,@Parameter(description = "None", required=true) @Valid @RequestPart(value = "double", required = true)  Double _double,@Parameter(description = "None", required=true) @Valid @RequestPart(value = "pattern_without_delimiter", required = true)  String patternWithoutDelimiter,@Parameter(description = "None", required=true) @Valid @RequestPart(value = "byte", required = true)  byte[] _byte,@Parameter(description = "None") @Valid @RequestPart(value = "integer", required = false)  Integer integer,@Parameter(description = "None") @Valid @RequestPart(value = "int32", required = false)  Integer int32,@Parameter(description = "None") @Valid @RequestPart(value = "int64", required = false)  Long int64,@Parameter(description = "None") @Valid @RequestPart(value = "float", required = false)  Float _float,@Parameter(description = "None") @Valid @RequestPart(value = "string", required = false)  String string,@Parameter(description = "None") @Valid @RequestPart(value = "binary", required = false) MultipartFile binary,@Parameter(description = "None") @Valid @RequestPart(value = "date", required = false)  LocalDate date,@Parameter(description = "None") @Valid @RequestPart(value = "dateTime", required = false)  OffsetDateTime dateTime,@Parameter(description = "None") @Valid @RequestPart(value = "password", required = false)  String password,@Parameter(description = "None") @Valid @RequestPart(value = "callback", required = false)  String paramCallback) {
+
+    @PostMapping(
+        value = "/fake",
+        consumes = { "application/x-www-form-urlencoded" }
+    )
+    default CompletableFuture<ResponseEntity<Void>> testEndpointParameters(@Parameter(description = "None", required=true) @Valid @RequestPart(value = "number", required = true)  BigDecimal number,@Parameter(description = "None", required=true) @Valid @RequestPart(value = "double", required = true)  Double _double,@Parameter(description = "None", required=true) @Valid @RequestPart(value = "pattern_without_delimiter", required = true)  String patternWithoutDelimiter,@Parameter(description = "None", required=true) @Valid @RequestPart(value = "byte", required = true)  byte[] _byte,@Parameter(description = "None") @Valid @RequestPart(value = "integer", required = false)  Integer integer,@Parameter(description = "None") @Valid @RequestPart(value = "int32", required = false)  Integer int32,@Parameter(description = "None") @Valid @RequestPart(value = "int64", required = false)  Long int64,@Parameter(description = "None") @Valid @RequestPart(value = "float", required = false)  Float _float,@Parameter(description = "None") @Valid @RequestPart(value = "string", required = false)  String string,@ApiParam(value = "None") @Valid @RequestPart(value = "binary", required = false) MultipartFile binary,@Parameter(description = "None") @Valid @RequestPart(value = "date", required = false)  LocalDate date,@Parameter(description = "None") @Valid @RequestPart(value = "dateTime", required = false)  OffsetDateTime dateTime,@Parameter(description = "None") @Valid @RequestPart(value = "password", required = false)  String password,@Parameter(description = "None") @Valid @RequestPart(value = "callback", required = false)  String paramCallback) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -326,14 +341,16 @@ public interface FakeApi {
      * @return Invalid request (status code 400)
      *         or Not found (status code 404)
      */
-    @Operation(summary = "To test enum parameters", operationId = "testEnumParameters" , tags={ "fake", })
+    @Operation(summary = "To test enum parameters", operationId = "testEnumParameters", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid request" ),
        @ApiResponse(responseCode = "404", description = "Not found" ) })
-    @RequestMapping(value = "/fake",
-        consumes = { "application/x-www-form-urlencoded" },
-        method = RequestMethod.GET)
-    default CompletableFuture<ResponseEntity<Void>> testEnumParameters(@Parameter(description = "Header parameter enum test (string array)" ) @RequestHeader(value="enum_header_string_array" , defaultValue="new ArrayList<>()", required=false) List<String> enumHeaderStringArray,@Parameter(description = "Header parameter enum test (string)" ) @RequestHeader(value="enum_header_string" , defaultValue="-efg", required=false) String enumHeaderString,@Parameter(description = "Query parameter enum test (string array)") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,@Parameter(description = "Query parameter enum test (string)") @Valid @RequestParam(value = "enum_query_string", required = false) String enumQueryString,@Parameter(description = "Query parameter enum test (double)") @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,@Parameter(description = "Query parameter enum test (double)") @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,@Parameter(description = "Form parameter enum test (string array)") @Valid @RequestPart(value = "enum_form_string_array", required = false)  List<String> enumFormStringArray,@Parameter(description = "Form parameter enum test (string)") @Valid @RequestPart(value = "enum_form_string", required = false)  String enumFormString) {
+
+    @GetMapping(
+        value = "/fake",
+        consumes = { "application/x-www-form-urlencoded" }
+    )
+    default CompletableFuture<ResponseEntity<Void>> testEnumParameters(@Parameter(description = "Header parameter enum test (string array)" ) @RequestHeader(value="enum_header_string_array" , defaultValue="new ArrayList<>()", required=false) List<String> enumHeaderStringArray,@Parameter(description = "Header parameter enum test (string)" ) @RequestHeader(value="enum_header_string" , defaultValue="-efg", required=false) String enumHeaderString,@Parameter(description = "Query parameter enum test (string array)", allowableValues = ">, $") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,@Parameter(description = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue="-efg") String enumQueryString,@Parameter(description = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,@Parameter(description = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,@Parameter(description = "Form parameter enum test (string array)", allowableValues=">, $") @Valid @RequestPart(value = "enum_form_string_array", required = false)  List<String> enumFormStringArray,@Parameter(description = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @Valid @RequestPart(value = "enum_form_string", required = false)  String enumFormString) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -351,13 +368,16 @@ public interface FakeApi {
      * @param int64Group Integer in group parameters (optional)
      * @return Someting wrong (status code 400)
      */
-    @Operation(summary = "Fake endpoint to test group parameters (optional)", operationId = "testGroupParameters" , security = {
-        @SecurityRequirement(name = "bearer_test")
-    }, tags={ "fake", })
+    @Operation(summary = "Fake endpoint to test group parameters (optional)", operationId = "testGroupParameters", security = {
+        @SecurityRequirement(name = "bearer_test"
+        @Authorization(value = "bearer_test")
+         }, tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Someting wrong" ) })
-    @RequestMapping(value = "/fake",
-        method = RequestMethod.DELETE)
+
+    @DeleteMapping(
+        value = "/fake"
+    )
     default CompletableFuture<ResponseEntity<Void>> testGroupParameters(@NotNull @Parameter(description = "Required String in group parameters", required = true) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,@Parameter(description = "Required Boolean in group parameters" ,required=true) @RequestHeader(value="required_boolean_group" , required=true) Boolean requiredBooleanGroup,@NotNull @Parameter(description = "Required Integer in group parameters", required = true) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,@Parameter(description = "String in group parameters") @Valid @RequestParam(value = "string_group", required = false) Integer stringGroup,@Parameter(description = "Boolean in group parameters" ) @RequestHeader(value="boolean_group" , required=false) Boolean booleanGroup,@Parameter(description = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) Long int64Group) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
@@ -370,12 +390,14 @@ public interface FakeApi {
      * @param requestBody request body (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "test inline additionalProperties", operationId = "testInlineAdditionalProperties" , tags={ "fake", })
+    @Operation(summary = "test inline additionalProperties", operationId = "testInlineAdditionalProperties", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
-    @RequestMapping(value = "/fake/inline-additionalProperties",
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
+
+    @PostMapping(
+        value = "/fake/inline-additionalProperties",
+        consumes = { "application/json" }
+    )
     default CompletableFuture<ResponseEntity<Void>> testInlineAdditionalProperties(@Parameter(description = "request body" ,required=true )  @Valid @RequestBody Map<String, String> requestBody) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
@@ -389,12 +411,14 @@ public interface FakeApi {
      * @param param2 field2 (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "test json serialization of form data", operationId = "testJsonFormData" , tags={ "fake", })
+    @Operation(summary = "test json serialization of form data", operationId = "testJsonFormData", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
-    @RequestMapping(value = "/fake/jsonFormData",
-        consumes = { "application/x-www-form-urlencoded" },
-        method = RequestMethod.GET)
+
+    @GetMapping(
+        value = "/fake/jsonFormData",
+        consumes = { "application/x-www-form-urlencoded" }
+    )
     default CompletableFuture<ResponseEntity<Void>> testJsonFormData(@Parameter(description = "field1", required=true) @Valid @RequestPart(value = "param", required = true)  String param,@Parameter(description = "field2", required=true) @Valid @RequestPart(value = "param2", required = true)  String param2) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
@@ -412,11 +436,13 @@ public interface FakeApi {
      * @param context  (required)
      * @return Success (status code 200)
      */
-    @Operation(summary = "", operationId = "testQueryParameterCollectionFormat" , tags={ "fake", })
+    @Operation(summary = "", operationId = "testQueryParameterCollectionFormat", tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "Success" ) })
-    @RequestMapping(value = "/fake/test-query-paramters",
-        method = RequestMethod.PUT)
+
+    @PutMapping(
+        value = "/fake/test-query-paramters"
+    )
     default CompletableFuture<ResponseEntity<Void>> testQueryParameterCollectionFormat(@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "ioutil", required = true) List<String> ioutil,@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "http", required = true) List<String> http,@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "url", required = true) List<String> url,@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
@@ -431,19 +457,20 @@ public interface FakeApi {
      * @param additionalMetadata Additional data to pass to server (optional)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "uploads an image (required)", operationId = "uploadFileWithRequiredFile" , security = {
+    @Operation(summary = "uploads an image (required)", operationId = "uploadFileWithRequiredFile", security = {
         @SecurityRequirement(name = "petstore_auth", scopes = {
             "write:pets",
-            "read:pets"
-            })
-    }, tags={ "pet", })
+            "read:pets" })
+         }, tags={ "pet", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = ModelApiResponse.class)) }) })
-    @RequestMapping(value = "/fake/{petId}/uploadImageWithRequiredFile",
-        produces = { "application/json" }, 
-        consumes = { "multipart/form-data" },
-        method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(@Parameter(description = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@Parameter(description = "file to upload") @Valid @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,@Parameter(description = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false)  String additionalMetadata) {
+
+    @PostMapping(
+        value = "/fake/{petId}/uploadImageWithRequiredFile",
+        produces = { "application/json" },
+        consumes = { "multipart/form-data" }
+    )
+    default CompletableFuture<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(@Parameter(description = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "file to upload") @Valid @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,@Parameter(description = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false)  String additionalMetadata) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

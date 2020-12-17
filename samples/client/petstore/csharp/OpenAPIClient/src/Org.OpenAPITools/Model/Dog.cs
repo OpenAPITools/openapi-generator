@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Dog" /> class.
         /// </summary>
         /// <param name="breed">breed.</param>
-        public Dog(string breed = default(string), string className = default(string), string color = "red") : base(className, color)
+        public Dog(string breed = default(string), string className = "Dog", string color = "red") : base(className, color)
         {
             this.Breed = breed;
         }
@@ -70,7 +70,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>

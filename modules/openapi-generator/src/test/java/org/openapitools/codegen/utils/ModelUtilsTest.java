@@ -129,6 +129,15 @@ public class ModelUtilsTest {
     }
 
     @Test
+    public void testIsModelAllowsEmptyBaseModel() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/emptyBaseModel.yaml");
+        Schema commandSchema = ModelUtils.getSchema(openAPI, "Command");
+
+        Assert.assertTrue(ModelUtils.isModel(commandSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(openAPI, commandSchema));
+    }
+
+    @Test
     public void testReferencedSchema() {
         Schema otherObj = new ObjectSchema().addProperties("sprop", new StringSchema()).addProperties("iprop", new IntegerSchema());
 
@@ -270,5 +279,11 @@ public class ModelUtilsTest {
     public void testIsSetFailsForNullSchema() {
         ArraySchema as = null;
         Assert.assertFalse(ModelUtils.isSet(as));
+    }
+
+    @Test
+    public void testSimpleRefDecoding() {
+        String decoded = ModelUtils.getSimpleRef("#/components/~01%20Hallo~1Welt");
+        Assert.assertEquals(decoded, "~1 Hallo/Welt");
     }
 }

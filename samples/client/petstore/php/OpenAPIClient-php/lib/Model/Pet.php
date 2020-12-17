@@ -39,10 +39,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
-class Pet implements ModelInterface, ArrayAccess
+class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -69,6 +72,8 @@ class Pet implements ModelInterface, ArrayAccess
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'id' => 'int64',
@@ -219,12 +224,12 @@ class Pet implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['id'] = isset($data['id']) ? $data['id'] : null;
-        $this->container['category'] = isset($data['category']) ? $data['category'] : null;
-        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
-        $this->container['photo_urls'] = isset($data['photo_urls']) ? $data['photo_urls'] : null;
-        $this->container['tags'] = isset($data['tags']) ? $data['tags'] : null;
-        $this->container['status'] = isset($data['status']) ? $data['status'] : null;
+        $this->container['id'] = $data['id'] ?? null;
+        $this->container['category'] = $data['category'] ?? null;
+        $this->container['name'] = $data['name'] ?? null;
+        $this->container['photo_urls'] = $data['photo_urls'] ?? null;
+        $this->container['tags'] = $data['tags'] ?? null;
+        $this->container['status'] = $data['status'] ?? null;
     }
 
     /**
@@ -245,7 +250,8 @@ class Pet implements ModelInterface, ArrayAccess
         $allowedValues = $this->getStatusAllowableValues();
         if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value for 'status', must be one of '%s'",
+                "invalid value '%s' for 'status', must be one of '%s'",
+                $this->container['status'],
                 implode("', '", $allowedValues)
             );
         }
@@ -280,7 +286,7 @@ class Pet implements ModelInterface, ArrayAccess
      *
      * @param int|null $id id
      *
-     * @return $this
+     * @return self
      */
     public function setId($id)
     {
@@ -304,7 +310,7 @@ class Pet implements ModelInterface, ArrayAccess
      *
      * @param \OpenAPI\Client\Model\Category|null $category category
      *
-     * @return $this
+     * @return self
      */
     public function setCategory($category)
     {
@@ -328,7 +334,7 @@ class Pet implements ModelInterface, ArrayAccess
      *
      * @param string $name name
      *
-     * @return $this
+     * @return self
      */
     public function setName($name)
     {
@@ -352,7 +358,7 @@ class Pet implements ModelInterface, ArrayAccess
      *
      * @param string[] $photo_urls photo_urls
      *
-     * @return $this
+     * @return self
      */
     public function setPhotoUrls($photo_urls)
     {
@@ -376,7 +382,7 @@ class Pet implements ModelInterface, ArrayAccess
      *
      * @param \OpenAPI\Client\Model\Tag[]|null $tags tags
      *
-     * @return $this
+     * @return self
      */
     public function setTags($tags)
     {
@@ -400,7 +406,7 @@ class Pet implements ModelInterface, ArrayAccess
      *
      * @param string|null $status pet status in the store
      *
-     * @return $this
+     * @return self
      */
     public function setStatus($status)
     {
@@ -408,7 +414,8 @@ class Pet implements ModelInterface, ArrayAccess
         if (!is_null($status) && !in_array($status, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value for 'status', must be one of '%s'",
+                    "Invalid value '%s' for 'status', must be one of '%s'",
+                    $status,
                     implode("', '", $allowedValues)
                 )
             );
@@ -434,18 +441,18 @@ class Pet implements ModelInterface, ArrayAccess
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return $this->container[$offset] ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */
@@ -468,6 +475,18 @@ class Pet implements ModelInterface, ArrayAccess
     public function offsetUnset($offset)
     {
         unset($this->container[$offset]);
+    }
+
+    /**
+     * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
+     *
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
+     */
+    public function jsonSerialize()
+    {
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**

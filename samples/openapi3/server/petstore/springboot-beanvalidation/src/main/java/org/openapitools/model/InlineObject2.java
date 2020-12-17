@@ -102,7 +102,7 @@ public class InlineObject2   {
 
   public InlineObject2 addEnumFormStringArrayItem(EnumFormStringArrayEnum enumFormStringArrayItem) {
     if (this.enumFormStringArray == null) {
-      this.enumFormStringArray = new ArrayList<EnumFormStringArrayEnum>();
+      this.enumFormStringArray = new ArrayList<>();
     }
     this.enumFormStringArray.add(enumFormStringArrayItem);
     return this;
@@ -145,7 +145,7 @@ public class InlineObject2   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -177,7 +177,7 @@ public class InlineObject2   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -419,9 +419,9 @@
         "title": "Config Options for python-blueplanet",
         "sidebar_label": "python-blueplanet"
       },
-      "generators/python-experimental": {
-        "title": "Config Options for python-experimental",
-        "sidebar_label": "python-experimental"
+      "generators/python-legacy": {
+        "title": "Config Options for python-legacy",
+        "sidebar_label": "python-legacy"
       },
       "generators/python-flask": {
         "title": "Config Options for python-flask",

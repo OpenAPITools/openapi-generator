@@ -23,27 +23,29 @@ import io.swagger.v3.oas.annotations.security.OAuthScope;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Tag(name = "fake_classname_test", description = "the fake_classname_test API")
 public interface FakeClassnameTestApi {
+
+    default Optional<NativeWebRequest> getRequest() {
+        return Optional.empty();
+    }
 
     /**
      * PATCH /fake_classname_test : To test class name in snake case
@@ -52,15 +54,30 @@ public interface FakeClassnameTestApi {
      * @param client client model (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "To test class name in snake case", operationId = "testClassname" , security = {
-        @SecurityRequirement(name = "api_key_query")
-    }, tags={ "fake_classname_tags 123#$%^", })
+    @Operation(summary = "To test class name in snake case", operationId = "testClassname", security = {
+        @SecurityRequirement(name = "api_key_query"
+        @Authorization(value = "api_key_query")
+         }, tags={ "fake_classname_tags 123#$%^", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Client.class)) }) })
-    @RequestMapping(value = "/fake_classname_test",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.PATCH)
-    ResponseEntity<Client> testClassname(@Parameter(description = "client model" ,required=true )  @Valid @RequestBody Client client);
+
+    @PatchMapping(
+        value = "/fake_classname_test",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    default ResponseEntity<Client> testClassname(@Parameter(description = "client model" ,required=true )  @Valid @RequestBody Client client) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"client\" : \"client\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
 }

@@ -27,17 +27,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -61,15 +55,18 @@ public interface FakeClassnameTestApi {
      * @param client client model (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "To test class name in snake case", operationId = "testClassname" , security = {
-        @SecurityRequirement(name = "api_key_query")
-    }, tags={ "fake_classname_tags 123#$%^", })
+    @Operation(summary = "To test class name in snake case", operationId = "testClassname", security = {
+        @SecurityRequirement(name = "api_key_query"
+        @Authorization(value = "api_key_query")
+         }, tags={ "fake_classname_tags 123#$%^", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Client.class)) }) })
-    @RequestMapping(value = "/fake_classname_test",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.PATCH)
+
+    @PatchMapping(
+        value = "/fake_classname_test",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
     default CompletableFuture<ResponseEntity<Client>> testClassname(@Parameter(description = "client model" ,required=true )  @Valid @RequestBody Client client) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {

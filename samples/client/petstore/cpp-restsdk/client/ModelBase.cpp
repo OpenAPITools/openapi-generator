@@ -147,7 +147,12 @@ bool ModelBase::fromString( const utility::string_t& val, float &outVal )
     }
     catch (...)
     {
-        success = false;
+        int64_t intVal = 0;
+        success = ModelBase::fromString(val, intVal);
+        if(success)
+        {
+            outVal = static_cast<float>(intVal);
+        }
     }
     return success;
 }
@@ -161,7 +166,12 @@ bool ModelBase::fromString( const utility::string_t& val, double &outVal )
     }
     catch (...)
     {
-        success = false;
+        int64_t intVal = 0;
+        success = ModelBase::fromString(val, intVal);
+        if(success)
+        {
+            outVal = static_cast<double>(intVal);
+        }
     }
     return success;
 }
@@ -292,7 +302,7 @@ bool ModelBase::fromJson( const web::json::value& val, std::shared_ptr<HttpConte
         if(content == nullptr)
         {
             content = std::shared_ptr<HttpContent>(new HttpContent());
-        }        
+        }
         if(val.has_field(utility::conversions::to_string_t("ContentDisposition")))
         {
             utility::string_t value;

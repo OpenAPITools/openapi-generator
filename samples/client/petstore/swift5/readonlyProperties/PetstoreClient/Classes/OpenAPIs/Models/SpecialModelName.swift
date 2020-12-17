@@ -11,7 +11,7 @@ public struct SpecialModelName: Codable {
 
     public private(set) var specialPropertyName: Int64?
 
-    public init(specialPropertyName: Int64?) {
+    public init(specialPropertyName: Int64? = nil) {
         self.specialPropertyName = specialPropertyName
     }
 

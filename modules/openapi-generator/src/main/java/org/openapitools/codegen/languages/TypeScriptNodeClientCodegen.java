@@ -36,7 +36,8 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptNodeClientCodegen.class);
 
     public static final String NPM_REPOSITORY = "npmRepository";
-    private static final String DEFAULT_IMPORT_PREFIX = "./";
+    private static final String DEFAULT_MODEL_FILENAME_DIRECTORY_PREFIX = "./";
+    private static final String DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX = "../";
 
     protected String npmRepository = null;
     protected String apiSuffix = "Api";
@@ -153,7 +154,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
             return importMapping.get(name);
         }
 
-        return DEFAULT_IMPORT_PREFIX + camelize(toModelName(name), true);
+        return DEFAULT_MODEL_FILENAME_DIRECTORY_PREFIX + camelize(toModelName(name), true);
     }
 
     @Override
@@ -162,7 +163,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
             return importMapping.get(name);
         }
 
-        return modelPackage() + "/" + camelize(toModelName(name), true);
+        return DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX + modelPackage() + "/" + camelize(toModelName(name), true);
     }
 
     @Override
@@ -222,8 +223,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         // Add additional filename information for model imports in the apis
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         for (Map<String, Object> im : imports) {
-            im.put("filename", im.get("import"));
-            im.put("classname", getModelnameFromModelFilename(im.get("filename").toString()));
+            im.put("filename", im.get("import").toString());
         }
 
         return operations;
@@ -309,10 +309,6 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         return toApiFilename(name);
     }
 
-    private String getModelnameFromModelFilename(String filename) {
-        String name = filename.substring((modelPackage() + File.separator).length());
-        return camelize(name);
-    }
 @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);

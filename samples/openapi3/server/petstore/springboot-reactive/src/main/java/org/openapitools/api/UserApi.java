@@ -26,19 +26,14 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import org.springframework.http.codec.multipart.Part;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -60,13 +55,15 @@ public interface UserApi {
      * @param user Created user object (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Create user", operationId = "createUser" , tags={ "user", })
+    @Operation(summary = "Create user", operationId = "createUser", tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
-    @RequestMapping(value = "/user",
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    default Mono<ResponseEntity<Void>> createUser(@Parameter(description = "Created user object" ,required=true )  @Valid @RequestBody Mono<User> user, ServerWebExchange exchange) {
+
+    @PostMapping(
+        value = "/user",
+        consumes = { "application/json" }
+    )
+    default Mono<ResponseEntity<Void>> createUser(@Parameter(description = "Created user object" ,required=true )  @Valid @RequestBody Mono<User> user, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().createUser(user, exchange);
     }
 
@@ -77,13 +74,15 @@ public interface UserApi {
      * @param user List of user object (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Creates list of users with given input array", operationId = "createUsersWithArrayInput" , tags={ "user", })
+    @Operation(summary = "Creates list of users with given input array", operationId = "createUsersWithArrayInput", tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
-    @RequestMapping(value = "/user/createWithArray",
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    default Mono<ResponseEntity<Void>> createUsersWithArrayInput(@Parameter(description = "List of user object" ,required=true )  @Valid @RequestBody Flux<User> user, ServerWebExchange exchange) {
+
+    @PostMapping(
+        value = "/user/createWithArray",
+        consumes = { "application/json" }
+    )
+    default Mono<ResponseEntity<Void>> createUsersWithArrayInput(@Parameter(description = "List of user object" ,required=true )  @Valid @RequestBody Flux<User> user, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().createUsersWithArrayInput(user, exchange);
     }
 
@@ -94,13 +93,15 @@ public interface UserApi {
      * @param user List of user object (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Creates list of users with given input array", operationId = "createUsersWithListInput" , tags={ "user", })
+    @Operation(summary = "Creates list of users with given input array", operationId = "createUsersWithListInput", tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
-    @RequestMapping(value = "/user/createWithList",
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    default Mono<ResponseEntity<Void>> createUsersWithListInput(@Parameter(description = "List of user object" ,required=true )  @Valid @RequestBody Flux<User> user, ServerWebExchange exchange) {
+
+    @PostMapping(
+        value = "/user/createWithList",
+        consumes = { "application/json" }
+    )
+    default Mono<ResponseEntity<Void>> createUsersWithListInput(@Parameter(description = "List of user object" ,required=true )  @Valid @RequestBody Flux<User> user, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().createUsersWithListInput(user, exchange);
     }
 
@@ -113,13 +114,15 @@ public interface UserApi {
      * @return Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @Operation(summary = "Delete user", operationId = "deleteUser" , tags={ "user", })
+    @Operation(summary = "Delete user", operationId = "deleteUser", tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid username supplied" ),
        @ApiResponse(responseCode = "404", description = "User not found" ) })
-    @RequestMapping(value = "/user/{username}",
-        method = RequestMethod.DELETE)
-    default Mono<ResponseEntity<Void>> deleteUser(@Parameter(description = "The name that needs to be deleted",required=true) @PathVariable("username") String username, ServerWebExchange exchange) {
+
+    @DeleteMapping(
+        value = "/user/{username}"
+    )
+    default Mono<ResponseEntity<Void>> deleteUser(@Parameter(description = "The name that needs to be deleted",required=true) @PathVariable("username") String username, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().deleteUser(username, exchange);
     }
 
@@ -132,15 +135,17 @@ public interface UserApi {
      *         or Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @Operation(summary = "Get user by user name", operationId = "getUserByName" , tags={ "user", })
+    @Operation(summary = "Get user by user name", operationId = "getUserByName", tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = User.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid username supplied" ),
        @ApiResponse(responseCode = "404", description = "User not found" ) })
-    @RequestMapping(value = "/user/{username}",
-        produces = { "application/xml", "application/json" }, 
-        method = RequestMethod.GET)
-    default Mono<ResponseEntity<User>> getUserByName(@Parameter(description = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username, ServerWebExchange exchange) {
+
+    @GetMapping(
+        value = "/user/{username}",
+        produces = { "application/xml", "application/json" }
+    )
+    default Mono<ResponseEntity<User>> getUserByName(@Parameter(description = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().getUserByName(username, exchange);
     }
 
@@ -153,14 +158,16 @@ public interface UserApi {
      * @return successful operation (status code 200)
      *         or Invalid username/password supplied (status code 400)
      */
-    @Operation(summary = "Logs user into the system", operationId = "loginUser" , tags={ "user", })
+    @Operation(summary = "Logs user into the system", operationId = "loginUser", tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = String.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid username/password supplied" ) })
-    @RequestMapping(value = "/user/login",
-        produces = { "application/xml", "application/json" }, 
-        method = RequestMethod.GET)
-    default Mono<ResponseEntity<String>> loginUser(@NotNull @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password, ServerWebExchange exchange) {
+
+    @GetMapping(
+        value = "/user/login",
+        produces = { "application/xml", "application/json" }
+    )
+    default Mono<ResponseEntity<String>> loginUser(@NotNull @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().loginUser(username, password, exchange);
     }
 
@@ -170,12 +177,14 @@ public interface UserApi {
      *
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Logs out current logged in user session", operationId = "logoutUser" , tags={ "user", })
+    @Operation(summary = "Logs out current logged in user session", operationId = "logoutUser", tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
-    @RequestMapping(value = "/user/logout",
-        method = RequestMethod.GET)
-    default Mono<ResponseEntity<Void>> logoutUser(ServerWebExchange exchange) {
+
+    @GetMapping(
+        value = "/user/logout"
+    )
+    default Mono<ResponseEntity<Void>> logoutUser(@ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().logoutUser(exchange);
     }
 
@@ -189,14 +198,16 @@ public interface UserApi {
      * @return Invalid user supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @Operation(summary = "Updated user", operationId = "updateUser" , tags={ "user", })
+    @Operation(summary = "Updated user", operationId = "updateUser", tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid user supplied" ),
        @ApiResponse(responseCode = "404", description = "User not found" ) })
-    @RequestMapping(value = "/user/{username}",
-        consumes = { "application/json" },
-        method = RequestMethod.PUT)
-    default Mono<ResponseEntity<Void>> updateUser(@Parameter(description = "name that need to be deleted",required=true) @PathVariable("username") String username,@Parameter(description = "Updated user object" ,required=true )  @Valid @RequestBody Mono<User> user, ServerWebExchange exchange) {
+
+    @PutMapping(
+        value = "/user/{username}",
+        consumes = { "application/json" }
+    )
+    default Mono<ResponseEntity<Void>> updateUser(@Parameter(description = "name that need to be deleted",required=true) @PathVariable("username") String username,@Parameter(description = "Updated user object" ,required=true )  @Valid @RequestBody Mono<User> user, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().updateUser(username, user, exchange);
     }
 

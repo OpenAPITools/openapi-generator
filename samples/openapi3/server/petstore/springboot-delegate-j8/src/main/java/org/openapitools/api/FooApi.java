@@ -25,16 +25,10 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -54,12 +48,14 @@ public interface FooApi {
      *
      * @return response (status code 200)
      */
-    @Operation(summary = "", operationId = "fooGet" , tags={  })
+    @Operation(summary = "", operationId = "fooGet", tags={  })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "response" , content = { @Content( schema = @Schema(implementation = InlineResponseDefault.class)) }) })
-    @RequestMapping(value = "/foo",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
+
+    @GetMapping(
+        value = "/foo",
+        produces = { "application/json" }
+    )
     default ResponseEntity<InlineResponseDefault> fooGet() {
         return getDelegate().fooGet();
     }

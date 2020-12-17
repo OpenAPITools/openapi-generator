@@ -22,7 +22,7 @@ npm install @openapitools/openapi-generator-cli -g
 To install a specific version of the tool, pass the version during installation:
 <!-- RELEASE_VERSION -->
 ```bash
-npm install @openapitools/openapi-generator-cli@cli-4.3.1 -g
+openapi-generator-cli version-manager set 4.3.1
 ```
 <!-- /RELEASE_VERSION -->
 To install the tool as a dev dependency in your current project:
@@ -30,7 +30,7 @@ To install the tool as a dev dependency in your current project:
 ```bash
 npm install @openapitools/openapi-generator-cli -D
 ```
-Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml) doc:
+Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml) doc:
 
 ```bash
 npx @openapitools/openapi-generator-cli generate -i petstore.yaml -g ruby -o /tmp/test/
@@ -48,7 +48,7 @@ npx @openapitools/openapi-generator-cli generate -i petstore.yaml -g ruby -o /tm
 brew install openapi-generator
 ```
 
-Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml) doc:
+Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml) doc:
 
 ```bash
 openapi-generator generate -i petstore.yaml -g ruby -o /tmp/test/
@@ -60,7 +60,7 @@ openapi-generator generate -i petstore.yaml -g ruby -o /tmp/test/
 
 The OpenAPI Generator Docker image acts as a standalone executable. It can be used as an alternative to installing via homebrew, or for developers who are unable to install Java or upgrade the installed version.
 
-To generate code from a valid [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml) doc with this image, you'll need to mount a local location as a volume.
+To generate code from a valid [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml) doc with this image, you'll need to mount a local location as a volume.
 You'll then need to output the generated code to this mapped volume. Everything else works the same as if you ran the command on your host machine.
 
 Here's an example generating a Go client:

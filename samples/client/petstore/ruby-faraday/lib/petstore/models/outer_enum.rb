@@ -11,6 +11,7 @@ OpenAPI Generator version: 5.0.0-SNAPSHOT
 =end
 
 require 'date'
+require 'time'
 
 module Petstore
   class OuterEnum

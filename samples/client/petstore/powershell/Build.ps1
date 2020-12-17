@@ -53,6 +53,10 @@ $Manifest = @{
     Author = 'OpenAPI Generator Team'
     CompanyName = 'openapitools.org'
     Description = 'PSPetstore - the PowerShell module for OpenAPI Petstore'
+    Tags = @('PetStore' ,'powershell' ,'sdk' )
+    ProjectUri = 'https://github.com/OpenAPITools/openapi-generator'
+    LicenseUri = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+    ReleaseNotes = 'This is a sample project'
 
     ModuleVersion = '0.1.2'
 

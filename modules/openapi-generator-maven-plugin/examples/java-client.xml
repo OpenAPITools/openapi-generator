@@ -53,8 +53,7 @@
                             <!-- target to generate java client code -->
                             <generatorName>java</generatorName>
 
-                            <!-- hint: if you want to generate java server code, e.g. based on Spring Boot,
-                                 you can use the following target: <generatorName>spring</generatorName> -->
+                            <templateDirectory>${project.basedir}/templates</templateDirectory>
 
                             <!-- pass any necessary config options -->
                             <configOptions>
@@ -185,7 +184,7 @@
     <properties>
         <swagger-annotations-version>1.5.8</swagger-annotations-version>
         <jersey-version>2.27</jersey-version>
-        <jackson-version>2.8.9</jackson-version>
+        <jackson-version>2.9.10</jackson-version>
         <jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
         <jodatime-version>2.7</jodatime-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>

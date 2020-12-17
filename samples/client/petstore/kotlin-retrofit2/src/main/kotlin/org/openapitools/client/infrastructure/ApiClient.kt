@@ -18,7 +18,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class ApiClient(
     private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
-    private val serializerBuilder: Moshi.Builder = Serializer.moshiBuilder
+    private val serializerBuilder: Moshi.Builder = Serializer.moshiBuilder,
+    private val okHttpClient : OkHttpClient? = null
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
     var logger: ((String) -> Unit)? = null
@@ -69,10 +70,10 @@ class ApiClient(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         serializerBuilder: Moshi.Builder = Serializer.moshiBuilder,
-        authName: String, 
-        clientId: String, 
-        secret: String, 
-        username: String, 
+        authName: String,
+        clientId: String,
+        secret: String,
+        username: String,
         password: String
     ) : this(baseUrl, okHttpClientBuilder, serializerBuilder, arrayOf(authName)) {
         getTokenEndPoint()
@@ -171,7 +172,8 @@ class ApiClient(
     }
 
     fun <S> createService(serviceClass: Class<S>): S {
-        return retrofitBuilder.client(clientBuilder.build()).build().create(serviceClass)
+        val usedClient = this.okHttpClient ?: clientBuilder.build()
+        return retrofitBuilder.client(usedClient).build().create(serviceClass)
     }
 
     private fun normalizeBaseUrl() {
@@ -189,7 +191,7 @@ class ApiClient(
         }
     }
 
-    companion object {        
+    companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
             System.getProperties().getProperty("org.openapitools.client.baseUrl", "http://petstore.swagger.io/v2")

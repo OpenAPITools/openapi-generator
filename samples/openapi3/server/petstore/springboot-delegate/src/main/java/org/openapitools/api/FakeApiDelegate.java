@@ -4,13 +4,12 @@ import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import org.openapitools.model.FileSchemaTestClass;
 import org.openapitools.model.HealthCheckResult;
-import org.threeten.bp.LocalDate;
+import java.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
-import org.threeten.bp.OffsetDateTime;
+import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.Pet;
-import org.springframework.core.io.Resource;
 import org.openapitools.model.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -29,11 +28,16 @@ import io.swagger.v3.oas.annotations.security.OAuthScope;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * A delegate to be called by the {@link FakeApiController}}.
@@ -42,13 +46,29 @@ import java.util.Map;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public interface FakeApiDelegate {
 
+    default Optional<NativeWebRequest> getRequest() {
+        return Optional.empty();
+    }
+
     /**
      * GET /fake/health : Health check endpoint
      *
      * @return The instance started successfully (status code 200)
      * @see FakeApi#fakeHealthGet
      */
-    ResponseEntity<HealthCheckResult> fakeHealthGet();
+    default ResponseEntity<HealthCheckResult> fakeHealthGet() {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"NullableMessage\" : \"NullableMessage\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * GET /fake/http-signature-test : test http signature authentication
@@ -59,9 +79,12 @@ public interface FakeApiDelegate {
      * @return The instance started successfully (status code 200)
      * @see FakeApi#fakeHttpSignatureTest
      */
-    ResponseEntity<Void> fakeHttpSignatureTest(Pet pet,
+    default ResponseEntity<Void> fakeHttpSignatureTest(Pet pet,
         String query1,
-        String header1);
+        String header1) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * POST /fake/outer/boolean
@@ -71,7 +94,10 @@ public interface FakeApiDelegate {
      * @return Output boolean (status code 200)
      * @see FakeApi#fakeOuterBooleanSerialize
      */
-    ResponseEntity<Boolean> fakeOuterBooleanSerialize(Boolean body);
+    default ResponseEntity<Boolean> fakeOuterBooleanSerialize(Boolean body) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * POST /fake/outer/composite
@@ -81,7 +107,19 @@ public interface FakeApiDelegate {
      * @return Output composite (status code 200)
      * @see FakeApi#fakeOuterCompositeSerialize
      */
-    ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite outerComposite);
+    default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite outerComposite) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
+                    String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
+                    ApiUtil.setExampleResponse(request, "*/*", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * POST /fake/outer/number
@@ -91,7 +129,10 @@ public interface FakeApiDelegate {
      * @return Output number (status code 200)
      * @see FakeApi#fakeOuterNumberSerialize
      */
-    ResponseEntity<BigDecimal> fakeOuterNumberSerialize(BigDecimal body);
+    default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(BigDecimal body) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * POST /fake/outer/string
@@ -101,7 +142,10 @@ public interface FakeApiDelegate {
      * @return Output string (status code 200)
      * @see FakeApi#fakeOuterStringSerialize
      */
-    ResponseEntity<String> fakeOuterStringSerialize(String body);
+    default ResponseEntity<String> fakeOuterStringSerialize(String body) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * PUT /fake/body-with-file-schema
@@ -111,7 +155,10 @@ public interface FakeApiDelegate {
      * @return Success (status code 200)
      * @see FakeApi#testBodyWithFileSchema
      */
-    ResponseEntity<Void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass);
+    default ResponseEntity<Void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * PUT /fake/body-with-query-params
@@ -121,8 +168,11 @@ public interface FakeApiDelegate {
      * @return Success (status code 200)
      * @see FakeApi#testBodyWithQueryParams
      */
-    ResponseEntity<Void> testBodyWithQueryParams(String query,
-        User user);
+    default ResponseEntity<Void> testBodyWithQueryParams(String query,
+        User user) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * PATCH /fake : To test \&quot;client\&quot; model
@@ -132,7 +182,19 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#testClientModel
      */
-    ResponseEntity<Client> testClientModel(Client client);
+    default ResponseEntity<Client> testClientModel(Client client) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"client\" : \"client\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * POST /fake : Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -156,7 +218,7 @@ public interface FakeApiDelegate {
      *         or User not found (status code 404)
      * @see FakeApi#testEndpointParameters
      */
-    ResponseEntity<Void> testEndpointParameters(BigDecimal number,
+    default ResponseEntity<Void> testEndpointParameters(BigDecimal number,
         Double _double,
         String patternWithoutDelimiter,
         byte[] _byte,
@@ -169,15 +231,18 @@ public interface FakeApiDelegate {
         LocalDate date,
         OffsetDateTime dateTime,
         String password,
-        String paramCallback);
+        String paramCallback) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * GET /fake : To test enum parameters
      * To test enum parameters
      *
-     * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
+     * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
      * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-     * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
+     * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
@@ -187,14 +252,17 @@ public interface FakeApiDelegate {
      *         or Not found (status code 404)
      * @see FakeApi#testEnumParameters
      */
-    ResponseEntity<Void> testEnumParameters(List<String> enumHeaderStringArray,
+    default ResponseEntity<Void> testEnumParameters(List<String> enumHeaderStringArray,
         String enumHeaderString,
         List<String> enumQueryStringArray,
         String enumQueryString,
         Integer enumQueryInteger,
         Double enumQueryDouble,
         List<String> enumFormStringArray,
-        String enumFormString);
+        String enumFormString) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * DELETE /fake : Fake endpoint to test group parameters (optional)
@@ -209,12 +277,15 @@ public interface FakeApiDelegate {
      * @return Someting wrong (status code 400)
      * @see FakeApi#testGroupParameters
      */
-    ResponseEntity<Void> testGroupParameters(Integer requiredStringGroup,
+    default ResponseEntity<Void> testGroupParameters(Integer requiredStringGroup,
         Boolean requiredBooleanGroup,
         Long requiredInt64Group,
         Integer stringGroup,
         Boolean booleanGroup,
-        Long int64Group);
+        Long int64Group) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * POST /fake/inline-additionalProperties : test inline additionalProperties
@@ -223,7 +294,10 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#testInlineAdditionalProperties
      */
-    ResponseEntity<Void> testInlineAdditionalProperties(Map<String, String> requestBody);
+    default ResponseEntity<Void> testInlineAdditionalProperties(Map<String, String> requestBody) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * GET /fake/jsonFormData : test json serialization of form data
@@ -233,8 +307,11 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#testJsonFormData
      */
-    ResponseEntity<Void> testJsonFormData(String param,
-        String param2);
+    default ResponseEntity<Void> testJsonFormData(String param,
+        String param2) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * PUT /fake/test-query-paramters
@@ -248,11 +325,14 @@ public interface FakeApiDelegate {
      * @return Success (status code 200)
      * @see FakeApi#testQueryParameterCollectionFormat
      */
-    ResponseEntity<Void> testQueryParameterCollectionFormat(List<String> pipe,
+    default ResponseEntity<Void> testQueryParameterCollectionFormat(List<String> pipe,
         List<String> ioutil,
         List<String> http,
         List<String> url,
-        List<String> context);
+        List<String> context) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
@@ -263,8 +343,20 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#uploadFileWithRequiredFile
      */
-    ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(Long petId,
+    default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(Long petId,
         MultipartFile requiredFile,
-        String additionalMetadata);
+        String additionalMetadata) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
 }

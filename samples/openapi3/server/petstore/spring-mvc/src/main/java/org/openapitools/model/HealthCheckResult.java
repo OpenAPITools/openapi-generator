@@ -12,7 +12,9 @@ import javax.validation.constraints.*;
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  */
 @Schema(description = "Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
 public class HealthCheckResult   {
   @JsonProperty("NullableMessage")
   private JsonNullable<String> nullableMessage = JsonNullable.undefined();
@@ -39,7 +41,7 @@ public class HealthCheckResult   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -69,7 +71,7 @@ public class HealthCheckResult   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

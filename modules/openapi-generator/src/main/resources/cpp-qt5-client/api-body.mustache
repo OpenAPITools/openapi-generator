@@ -34,6 +34,22 @@ void {{classname}}::setPort(int port) {
     _port = port;
 }
 
+void {{classname}}::setApiKey(const QString &apiKeyName, const QString &apiKey){
+    _apiKeys.insert(apiKeyName,apiKey);
+}
+
+void {{classname}}::setBearerToken(const QString &token){
+    _bearerToken = token;
+}
+
+void {{classname}}::setUsername(const QString &username) {
+    _username = username;
+}
+
+void {{classname}}::setPassword(const QString &password) {
+    _password = password;
+}
+
 void {{classname}}::setBasePath(const QString &basePath) {
     _basePath = basePath;
 }
@@ -68,7 +84,7 @@ void {{classname}}::abortRequests(){
 
 {{#operations}}
 {{#operation}}
-void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
     QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
@@ -79,7 +95,27 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     QString {{paramName}}PathParam("{");
     {{paramName}}PathParam.append("{{baseName}}").append("}");
     fullPath.replace({{paramName}}PathParam, QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
-{{/pathParams}}
+    {{/pathParams}}{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
+    if(_apiKeys.contains("{{name}}")){
+        addHeaders("{{name}}",_apiKeys.find("{{name}}").value());
+    }
+    {{/isKeyInHeader}}{{#isKeyInQuery}}
+    if(_apiKeys.contains("{{name}}")){
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append("&");
+        else
+            fullPath.append("?");
+        fullPath.append("{{{name}}}=").append(_apiKeys.find("{{name}}").value());
+    }
+    {{/isKeyInQuery}}{{/isApiKey}}{{#isBasicBearer}}
+    if(!_bearerToken.isEmpty())
+        addHeaders("Authorization", "Bearer " + _bearerToken);
+    {{/isBasicBearer}}{{#isBasicBasic}}
+    if(!_username.isEmpty() && !_password.isEmpty()){
+        QByteArray b64;
+        b64.append(_username + ":" + _password);
+        addHeaders("Authorization","Basic " + b64.toBase64());
+    }{{/isBasicBasic}}{{/authMethods}}
 {{#queryParams}}{{^collectionFormat}}
     if (fullPath.indexOf("?") > 0)
         fullPath.append("&");
@@ -133,9 +169,9 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     {{prefix}}HttpRequestInput input(fullPath, "{{httpMethod}}");
 {{#formParams}}{{^isFile}}
     input.add_var("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}));{{/isFile}}{{#isFile}}
-    input.add_file("{{baseName}}", {{paramName}}.local_filename, {{paramName}}.request_filename, {{paramName}}.mime_type);{{/isFile}}{{/formParams}}{{#bodyParams}}{{#isContainer}}{{#isListContainer}}
-    QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}).toArray());{{/isListContainer}}{{#isMapContainer}}
-    QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}).toObject());{{/isMapContainer}}
+    input.add_file("{{baseName}}", {{paramName}}.local_filename, {{paramName}}.request_filename, {{paramName}}.mime_type);{{/isFile}}{{/formParams}}{{#bodyParams}}{{#isContainer}}{{#isArray}}
+    QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}).toArray());{{/isArray}}{{#isMap}}
+    QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}).toObject());{{/isMap}}
     QByteArray bytes = doc.toJson();
     input.request_body.append(bytes);
 {{/isContainer}}{{^isContainer}}{{#isString}}
@@ -168,7 +204,7 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
         error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     {{#returnType}}
-    {{#isListContainer}}
+    {{#isArray}}
     {{{returnType}}} output;
     QString json(worker->response);
     QByteArray array(json.toStdString().c_str());
@@ -179,15 +215,15 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
         ::{{cppNamespace}}::fromJsonValue(val, obj);
         output.append(val);
     }
-    {{/isListContainer}}
-    {{^isListContainer}}
-    {{^isMapContainer}}
+    {{/isArray}}
+    {{^isArray}}
+    {{^isMap}}
     {{#returnTypeIsPrimitive}}
     {{{returnType}}} output;
     ::{{cppNamespace}}::fromStringValue(QString(worker->response), output);
     {{/returnTypeIsPrimitive}}
-    {{/isMapContainer}}
-    {{#isMapContainer}}
+    {{/isMap}}
+    {{#isMap}}
     {{{returnType}}} output;
     QString json(worker->response);
     QByteArray array(json.toStdString().c_str());
@@ -198,13 +234,13 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
         ::{{cppNamespace}}::fromJsonValue(val, obj[key]);
         output.insert(key, val);
     }
-    {{/isMapContainer}}
-    {{^isMapContainer}}
+    {{/isMap}}
+    {{^isMap}}
     {{^returnTypeIsPrimitive}}
     {{{returnType}}} output{{^isResponseFile}}(QString(worker->response)){{/isResponseFile}}{{#isResponseFile}} = worker->getHttpFileElement(){{/isResponseFile}};
     {{/returnTypeIsPrimitive}}
-    {{/isMapContainer}}
-    {{/isListContainer}}
+    {{/isMap}}
+    {{/isArray}}
     {{/returnType}}
     worker->deleteLater();
 

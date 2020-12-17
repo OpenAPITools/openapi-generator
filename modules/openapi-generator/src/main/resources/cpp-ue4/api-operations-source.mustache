@@ -71,7 +71,7 @@ FString {{classname}}::{{operationIdCamelCase}}Request::ComputePath() const
 	{{/pathParams.0}}
 	{{#pathParams.0}}
 	TMap<FString, FStringFormatArg> PathParams = { {{#pathParams}}
-	{ TEXT("{{baseName}}"), ToStringFormatArg({{paramName}}) }{{#hasMore}},{{/hasMore}}{{/pathParams}} };
+	{ TEXT("{{baseName}}"), ToStringFormatArg({{paramName}}) }{{^-last}},{{/-last}}{{/pathParams}} };
 
 	FString Path = FString::Format(TEXT("{{{path}}}"), PathParams);
 	
@@ -111,8 +111,8 @@ FString {{classname}}::{{operationIdCamelCase}}Request::ComputePath() const
 
 void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
 {
-	static const TArray<FString> Consumes = { {{#consumes}}TEXT("{{{mediaType}}}"){{#hasMore}}, {{/hasMore}}{{/consumes}} };
-	//static const TArray<FString> Produces = { {{#produces}}TEXT("{{{mediaType}}}"){{#hasMore}}, {{/hasMore}}{{/produces}} };
+	static const TArray<FString> Consumes = { {{#consumes}}TEXT("{{{mediaType}}}"){{^-last}}, {{/-last}}{{/consumes}} };
+	//static const TArray<FString> Produces = { {{#produces}}TEXT("{{{mediaType}}}"){{^-last}}, {{/-last}}{{/produces}} };
 
 	HttpRequest->SetVerb(TEXT("{{httpMethod}}"));
 	{{#headerParams.0}}

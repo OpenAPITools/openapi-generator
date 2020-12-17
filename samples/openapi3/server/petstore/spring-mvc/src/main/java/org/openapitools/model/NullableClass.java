@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -18,7 +18,9 @@ import javax.validation.constraints.*;
 /**
  * NullableClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
 public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty("integer_prop")
   private JsonNullable<Integer> integerProp = JsonNullable.undefined();
@@ -194,7 +196,7 @@ public class NullableClass extends HashMap<String, Object>  {
 
   public NullableClass addArrayNullablePropItem(Object arrayNullablePropItem) {
     if (this.arrayNullableProp == null || !this.arrayNullableProp.isPresent()) {
-      this.arrayNullableProp = JsonNullable.of((List<Object>) new ArrayList<Object>());
+      this.arrayNullableProp = JsonNullable.of((List<Object>) new ArrayList<>());
     }
     this.arrayNullableProp.get().add(arrayNullablePropItem);
     return this;
@@ -222,7 +224,7 @@ public class NullableClass extends HashMap<String, Object>  {
 
   public NullableClass addArrayAndItemsNullablePropItem(Object arrayAndItemsNullablePropItem) {
     if (this.arrayAndItemsNullableProp == null || !this.arrayAndItemsNullableProp.isPresent()) {
-      this.arrayAndItemsNullableProp = JsonNullable.of((List<Object>) new ArrayList<Object>());
+      this.arrayAndItemsNullableProp = JsonNullable.of((List<Object>) new ArrayList<>());
     }
     this.arrayAndItemsNullableProp.get().add(arrayAndItemsNullablePropItem);
     return this;
@@ -250,7 +252,7 @@ public class NullableClass extends HashMap<String, Object>  {
 
   public NullableClass addArrayItemsNullableItem(Object arrayItemsNullableItem) {
     if (this.arrayItemsNullable == null) {
-      this.arrayItemsNullable = new ArrayList<Object>();
+      this.arrayItemsNullable = new ArrayList<>();
     }
     this.arrayItemsNullable.add(arrayItemsNullableItem);
     return this;
@@ -334,7 +336,7 @@ public class NullableClass extends HashMap<String, Object>  {
 
   public NullableClass putObjectItemsNullableItem(String key, Object objectItemsNullableItem) {
     if (this.objectItemsNullable == null) {
-      this.objectItemsNullable = new HashMap<String, Object>();
+      this.objectItemsNullable = new HashMap<>();
     }
     this.objectItemsNullable.put(key, objectItemsNullableItem);
     return this;
@@ -357,7 +359,7 @@ public class NullableClass extends HashMap<String, Object>  {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -410,7 +412,7 @@ public class NullableClass extends HashMap<String, Object>  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

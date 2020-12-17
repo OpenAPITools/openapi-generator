@@ -11,7 +11,7 @@ import Foundation
 
     public var arrayNumber: [Double]?
 
-    public init(arrayNumber: [Double]?) {
+    public init(arrayNumber: [Double]? = nil) {
         self.arrayNumber = arrayNumber
     }
 

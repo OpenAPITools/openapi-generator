@@ -11,7 +11,7 @@ import java.util.Optional;
 <%={{ }}=%>
 {{#operations}}
 class {{classname}}Controller(
-        @org.springframework.beans.factory.annotation.Autowired(required = false) delegate: {{classname}}Delegate
+        @org.springframework.beans.factory.annotation.Autowired(required = false) delegate: {{classname}}Delegate?
 ) : {{classname}} {
     private val delegate: {{classname}}Delegate
 

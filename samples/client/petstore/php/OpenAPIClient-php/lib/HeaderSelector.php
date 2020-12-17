@@ -76,7 +76,7 @@ class HeaderSelector
      *
      * @param string[] $accept Array of header
      *
-     * @return string Accept (e.g. application/json)
+     * @return null|string Accept (e.g. application/json)
      */
     private function selectAcceptHeader($accept)
     {

@@ -11,7 +11,7 @@ internal struct NumberOnly: Codable {
 
     internal var justNumber: Double?
 
-    internal init(justNumber: Double?) {
+    internal init(justNumber: Double? = nil) {
         self.justNumber = justNumber
     }
 

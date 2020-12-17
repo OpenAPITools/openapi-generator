@@ -94,6 +94,7 @@
                             <tasks>
                                 <!-- calls "clean assemble install" -->
                                 <task>clean</task>
+                                <task>check</task>
                                 <task>assemble</task>
                                 <task>publishToMavenLocal</task>
                                 <task>publishPluginMavenPublicationToMavenLocal</task>

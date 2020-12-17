@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import org.springframework.core.io.Resource;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -45,7 +44,7 @@ public class InlineObject3   {
   private byte[] _byte;
 
   @JsonProperty("binary")
-  private Resource binary;
+  private org.springframework.core.io.Resource binary;
 
   @JsonProperty("date")
   @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)
@@ -255,7 +254,7 @@ public class InlineObject3   {
     this._byte = _byte;
   }
 
-  public InlineObject3 binary(Resource binary) {
+  public InlineObject3 binary(org.springframework.core.io.Resource binary) {
     this.binary = binary;
     return this;
   }
@@ -268,11 +267,11 @@ public class InlineObject3   {
 
   @Valid
 
-  public Resource getBinary() {
+  public org.springframework.core.io.Resource getBinary() {
     return binary;
   }
 
-  public void setBinary(Resource binary) {
+  public void setBinary(org.springframework.core.io.Resource binary) {
     this.binary = binary;
   }
 
@@ -360,7 +359,7 @@ public class InlineObject3   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -416,7 +415,7 @@ public class InlineObject3   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

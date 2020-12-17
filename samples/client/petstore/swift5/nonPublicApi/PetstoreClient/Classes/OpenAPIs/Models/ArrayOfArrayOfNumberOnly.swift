@@ -11,7 +11,7 @@ internal struct ArrayOfArrayOfNumberOnly: Codable {
 
     internal var arrayArrayNumber: [[Double]]?
 
-    internal init(arrayArrayNumber: [[Double]]?) {
+    internal init(arrayArrayNumber: [[Double]]? = nil) {
         self.arrayArrayNumber = arrayArrayNumber
     }
 

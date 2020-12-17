@@ -1,4 +1,5 @@
 .babelrc
+.gitignore
 .travis.yml
 README.md
 docs/AdditionalPropertiesClass.md

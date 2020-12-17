@@ -79,12 +79,12 @@ namespace Example
 
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new AnotherFakeApi(Configuration.Default);
-            var body = new ModelClient(); // ModelClient | client model
+            var modelClient = new ModelClient(); // ModelClient | client model
 
             try
             {
                 // To test special tags
-                ModelClient result = apiInstance.Call123TestSpecialTags(body);
+                ModelClient result = apiInstance.Call123TestSpecialTags(modelClient);
                 Debug.WriteLine(result);
             }
             catch (ApiException e)
@@ -106,7 +106,9 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**Call123TestSpecialTags**](docs/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
-*FakeApi* | [**CreateXmlItem**](docs/FakeApi.md#createxmlitem) | **POST** /fake/create_xml_item | creates an XmlItem
+*DefaultApi* | [**FooGet**](docs/DefaultApi.md#fooget) | **GET** /foo | 
+*FakeApi* | [**FakeHealthGet**](docs/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
+*FakeApi* | [**FakeHttpSignatureTest**](docs/FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -114,7 +116,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**TestBodyWithFileSchema**](docs/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**TestBodyWithQueryParams**](docs/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**TestClientModel**](docs/FakeApi.md#testclientmodel) | **PATCH** /fake | To test \"client\" model
-*FakeApi* | [**TestEndpointParameters**](docs/FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+*FakeApi* | [**TestEndpointParameters**](docs/FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**TestEnumParameters**](docs/FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
 *FakeApi* | [**TestGroupParameters**](docs/FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**TestInlineAdditionalProperties**](docs/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
@@ -146,21 +148,12 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
- - [Model.AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
- - [Model.AdditionalPropertiesArray](docs/AdditionalPropertiesArray.md)
- - [Model.AdditionalPropertiesBoolean](docs/AdditionalPropertiesBoolean.md)
  - [Model.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
- - [Model.AdditionalPropertiesInteger](docs/AdditionalPropertiesInteger.md)
- - [Model.AdditionalPropertiesNumber](docs/AdditionalPropertiesNumber.md)
- - [Model.AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
- - [Model.AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
  - [Model.Animal](docs/Animal.md)
  - [Model.ApiResponse](docs/ApiResponse.md)
  - [Model.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [Model.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [Model.ArrayTest](docs/ArrayTest.md)
- - [Model.BigCat](docs/BigCat.md)
- - [Model.BigCatAllOf](docs/BigCatAllOf.md)
  - [Model.Capitalization](docs/Capitalization.md)
  - [Model.Cat](docs/Cat.md)
  - [Model.CatAllOf](docs/CatAllOf.md)
@@ -173,27 +166,37 @@ Class | Method | HTTP request | Description
  - [Model.EnumTest](docs/EnumTest.md)
  - [Model.File](docs/File.md)
  - [Model.FileSchemaTestClass](docs/FileSchemaTestClass.md)
+ - [Model.Foo](docs/Foo.md)
  - [Model.FormatTest](docs/FormatTest.md)
  - [Model.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
+ - [Model.HealthCheckResult](docs/HealthCheckResult.md)
+ - [Model.InlineObject](docs/InlineObject.md)
+ - [Model.InlineObject1](docs/InlineObject1.md)
+ - [Model.InlineObject2](docs/InlineObject2.md)
+ - [Model.InlineObject3](docs/InlineObject3.md)
+ - [Model.InlineObject4](docs/InlineObject4.md)
+ - [Model.InlineObject5](docs/InlineObject5.md)
+ - [Model.InlineResponseDefault](docs/InlineResponseDefault.md)
  - [Model.List](docs/List.md)
  - [Model.MapTest](docs/MapTest.md)
  - [Model.MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model.Model200Response](docs/Model200Response.md)
  - [Model.ModelClient](docs/ModelClient.md)
  - [Model.Name](docs/Name.md)
+ - [Model.NullableClass](docs/NullableClass.md)
  - [Model.NumberOnly](docs/NumberOnly.md)
  - [Model.Order](docs/Order.md)
  - [Model.OuterComposite](docs/OuterComposite.md)
  - [Model.OuterEnum](docs/OuterEnum.md)
+ - [Model.OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
+ - [Model.OuterEnumInteger](docs/OuterEnumInteger.md)
+ - [Model.OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [Model.Pet](docs/Pet.md)
  - [Model.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Model.Return](docs/Return.md)
  - [Model.SpecialModelName](docs/SpecialModelName.md)
  - [Model.Tag](docs/Tag.md)
- - [Model.TypeHolderDefault](docs/TypeHolderDefault.md)
- - [Model.TypeHolderExample](docs/TypeHolderExample.md)
  - [Model.User](docs/User.md)
- - [Model.XmlItem](docs/XmlItem.md)
 
 
 ## Documentation for Authorization
@@ -215,10 +218,20 @@ Class | Method | HTTP request | Description
 - **Location**: URL query string
 
 
+### bearer_test
+
+
+- **Type**: HTTP bearer authentication
+
+
 ### http_basic_test
 
 
 - **Type**: HTTP basic authentication
+
+
+### http_signature_test
+
 
 
 ### petstore_auth

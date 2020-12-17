@@ -26,16 +26,10 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -58,12 +52,14 @@ public interface StoreApi {
      * @return Invalid ID supplied (status code 400)
      *         or Order not found (status code 404)
      */
-    @Operation(summary = "Delete purchase order by ID", operationId = "deleteOrder" , tags={ "store", })
+    @Operation(summary = "Delete purchase order by ID", operationId = "deleteOrder", tags={ "store", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid ID supplied" ),
        @ApiResponse(responseCode = "404", description = "Order not found" ) })
-    @RequestMapping(value = "/store/order/{order_id}",
-        method = RequestMethod.DELETE)
+
+    @DeleteMapping(
+        value = "/store/order/{order_id}"
+    )
     default ResponseEntity<Void> deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId) {
         return getDelegate().deleteOrder(orderId);
     }
@@ -75,14 +71,17 @@ public interface StoreApi {
      *
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Returns pet inventories by status", operationId = "getInventory" , security = {
-        @SecurityRequirement(name = "api_key")
-    }, tags={ "store", })
+    @Operation(summary = "Returns pet inventories by status", operationId = "getInventory", security = {
+        @SecurityRequirement(name = "api_key"
+        @Authorization(value = "api_key")
+         }, tags={ "store", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( mediaType = "Map",  schema = @Schema(implementation = Map.class)) }) })
-    @RequestMapping(value = "/store/inventory",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
+
+    @GetMapping(
+        value = "/store/inventory",
+        produces = { "application/json" }
+    )
     default ResponseEntity<Map<String, Integer>> getInventory() {
         return getDelegate().getInventory();
     }
@@ -97,14 +96,16 @@ public interface StoreApi {
      *         or Invalid ID supplied (status code 400)
      *         or Order not found (status code 404)
      */
-    @Operation(summary = "Find purchase order by ID", operationId = "getOrderById" , tags={ "store", })
+    @Operation(summary = "Find purchase order by ID", operationId = "getOrderById", tags={ "store", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Order.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid ID supplied" ),
        @ApiResponse(responseCode = "404", description = "Order not found" ) })
-    @RequestMapping(value = "/store/order/{order_id}",
-        produces = { "application/xml", "application/json" }, 
-        method = RequestMethod.GET)
+
+    @GetMapping(
+        value = "/store/order/{order_id}",
+        produces = { "application/xml", "application/json" }
+    )
     default ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId) {
         return getDelegate().getOrderById(orderId);
     }
@@ -117,14 +118,16 @@ public interface StoreApi {
      * @return successful operation (status code 200)
      *         or Invalid Order (status code 400)
      */
-    @Operation(summary = "Place an order for a pet", operationId = "placeOrder" , tags={ "store", })
+    @Operation(summary = "Place an order for a pet", operationId = "placeOrder", tags={ "store", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Order.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid Order" ) })
-    @RequestMapping(value = "/store/order",
-        produces = { "application/xml", "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
+
+    @PostMapping(
+        value = "/store/order",
+        produces = { "application/xml", "application/json" },
+        consumes = { "application/json" }
+    )
     default ResponseEntity<Order> placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order) {
         return getDelegate().placeOrder(order);
     }

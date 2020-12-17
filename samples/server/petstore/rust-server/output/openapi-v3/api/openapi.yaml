@@ -606,6 +606,7 @@ components:
       properties:
         foo:
           type: string
+      type: object
   securitySchemes:
     authScheme:
       flows:

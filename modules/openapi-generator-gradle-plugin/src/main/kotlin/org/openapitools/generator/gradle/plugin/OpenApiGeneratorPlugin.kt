@@ -55,9 +55,9 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
             )
 
             val generators = extensions.create(
-                "openApiGenerators",
-                OpenApiGeneratorGeneratorsExtension::class.java,
-                project
+                    "openApiGenerators",
+                    OpenApiGeneratorGeneratorsExtension::class.java,
+                    project
             )
 
             generate.outputDir.set("$buildDir/generate-resources/main")

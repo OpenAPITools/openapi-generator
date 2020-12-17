@@ -148,7 +148,7 @@ impl<T, A, B, C, D, ReqBody> Service<Request<ReqBody>> for AddContext<T, A, B, C
         {{#isKeyInQuery}}
         {
             let key = form_urlencoded::parse(request.uri().query().unwrap_or_default().as_bytes())
-                .filter(|e| e.0 == "api_key_query")
+                .filter(|e| e.0 == "{{{keyParamName}}}")
                 .map(|e| e.1.clone().into_owned())
                 .nth(0);
             if let Some(key) = key {

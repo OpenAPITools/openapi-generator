@@ -11,6 +11,7 @@ OpenAPI Generator version: 5.0.0-SNAPSHOT
 =end
 
 require 'date'
+require 'time'
 
 module Petstore
   class EnumTest
@@ -64,6 +65,11 @@ module Petstore
         :'outer_enum_default_value' => :'outerEnumDefaultValue',
         :'outer_enum_integer_default_value' => :'outerEnumIntegerDefaultValue'
       }
+    end
+
+    # Returns all the JSON keys this model knows about
+    def self.acceptable_attributes
+      attribute_map.values
     end
 
     # Attribute type mapping.
@@ -128,10 +134,14 @@ module Petstore
 
       if attributes.key?(:'outer_enum_default_value')
         self.outer_enum_default_value = attributes[:'outer_enum_default_value']
+      else
+        self.outer_enum_default_value = 'placed'
       end
 
       if attributes.key?(:'outer_enum_integer_default_value')
         self.outer_enum_integer_default_value = attributes[:'outer_enum_integer_default_value']
+      else
+        self.outer_enum_integer_default_value = OuterEnumIntegerDefaultValue::N0
       end
     end
 
@@ -241,7 +251,9 @@ module Petstore
     def build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
       self.class.openapi_types.each_pair do |key, type|
-        if type =~ /\AArray<(.*)>/i
+        if attributes[self.class.attribute_map[key]].nil? && self.class.openapi_nullable.include?(key)
+          self.send("#{key}=", nil)
+        elsif type =~ /\AArray<(.*)>/i
           # check to ensure the input is an array given that the attribute
           # is documented as an array but the input is not
           if attributes[self.class.attribute_map[key]].is_a?(Array)
@@ -249,8 +261,6 @@ module Petstore
           end
         elsif !attributes[self.class.attribute_map[key]].nil?
           self.send("#{key}=", _deserialize(type, attributes[self.class.attribute_map[key]]))
-        elsif attributes[self.class.attribute_map[key]].nil? && self.class.openapi_nullable.include?(key)
-          self.send("#{key}=", nil)
         end
       end
 
@@ -263,8 +273,8 @@ module Petstore
     # @return [Object] Deserialized data
     def _deserialize(type, value)
       case type.to_sym
-      when :DateTime
-        DateTime.parse(value)
+      when :Time
+        Time.parse(value)
       when :Date
         Date.parse(value)
       when :String
@@ -294,7 +304,9 @@ module Petstore
           end
         end
       else # model
-        Petstore.const_get(type).build_from_hash(value)
+        # models (e.g. Pet) or oneOf
+        klass = Petstore.const_get(type)
+        klass.respond_to?(:openapi_one_of) ? klass.build(value) : klass.build_from_hash(value)
       end
     end
 
@@ -320,7 +332,7 @@ module Petstore
           is_nullable = self.class.openapi_nullable.include?(attr)
           next if !is_nullable || (is_nullable && !instance_variable_defined?(:"@#{attr}"))
         end
-        
+
         hash[param] = _to_hash(value)
       end
       hash
@@ -343,5 +355,7 @@ module Petstore
         value
       end
     end
+
   end
+
 end

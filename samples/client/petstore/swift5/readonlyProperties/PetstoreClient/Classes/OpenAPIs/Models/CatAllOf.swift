@@ -11,7 +11,7 @@ public struct CatAllOf: Codable {
 
     public private(set) var declawed: Bool?
 
-    public init(declawed: Bool?) {
+    public init(declawed: Bool? = nil) {
         self.declawed = declawed
     }
 

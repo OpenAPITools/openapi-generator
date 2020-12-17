@@ -1,5 +1,7 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -33,10 +35,12 @@ public enum KindEnum {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return String.valueOf(value);
     }
 
+    @JsonCreator
     public static KindEnum fromValue(String value) {
         for (KindEnum b : KindEnum.values()) {
             if (b.value.equals(value)) {
@@ -85,7 +89,7 @@ public enum KindEnum {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

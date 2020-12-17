@@ -3,6 +3,8 @@ title: Config Options for python
 sidebar_label: python
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |generateSourceCodeOnly|Specifies that only a library source code is to be generated.| |false|
@@ -12,7 +14,8 @@ sidebar_label: python
 |packageUrl|python package URL.| |null|
 |packageVersion|python package version.| |1.0.0|
 |projectName|python project name in setup.py (e.g. petstore-api).| |null|
-|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|pythonAttrNoneIfUnset|when accessing unset attribute, return `None` instead of raising `ApiAttributeError`| |false|
+|recursionLimit|Set the recursion limit. If not set, use the system default value.| |null|
 |useNose|use the nose test framework| |false|
 
 ## IMPORT MAPPING
@@ -25,6 +28,7 @@ sidebar_label: python
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
+|map|dict|
 
 
 ## LANGUAGE PRIMITIVES
@@ -36,9 +40,11 @@ sidebar_label: python
 <li>datetime</li>
 <li>dict</li>
 <li>file</li>
+<li>file_type</li>
 <li>float</li>
 <li>int</li>
 <li>list</li>
+<li>none_type</li>
 <li>object</li>
 <li>str</li>
 </ul>
@@ -161,7 +167,7 @@ sidebar_label: python
 |Examples|✓|OAS2,OAS3
 |XMLStructureDefinitions|✗|OAS2,OAS3
 |MultiServer|✗|OAS3
-|ParameterizedServer|✗|OAS3
+|ParameterizedServer|✓|OAS3
 |ParameterStyling|✗|OAS3
 |Callbacks|✗|OAS3
 |LinkObjects|✗|OAS3

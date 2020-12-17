@@ -1,0 +1,81 @@
+{{#description}}/// {{{description}}}{{/description}}
+class {{{classname}}}{{{enumName}}} {
+  /// Instantiate a new enum with the provided [value].
+  const {{{classname}}}{{{enumName}}}._(this.value);
+
+  /// The underlying value of this enum member.
+  final {{{dataType}}} value;
+
+  @override
+  bool operator ==(Object other) => identical(this, other) ||
+      other is {{{classname}}}{{{enumName}}} && other.value == value;
+
+  @override
+  int get hashCode => toString().hashCode;
+
+  @override
+  String toString() => value{{^isString}}.toString(){{/isString}};
+
+  {{{dataType}}} toJson() => value;
+
+  {{#allowableValues}}
+    {{#enumVars}}
+  static const {{{name}}} = {{{classname}}}{{{enumName}}}._({{#isString}}r{{/isString}}{{{value}}});
+    {{/enumVars}}
+  {{/allowableValues}}
+
+  /// List of all possible values in this [enum][{{{classname}}}{{{enumName}}}].
+  static const values = <{{{classname}}}{{{enumName}}}>[
+  {{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}},
+    {{/enumVars}}
+  {{/allowableValues}}
+  ];
+
+  static {{{classname}}}{{{enumName}}} fromJson(dynamic value) =>
+    {{{classname}}}{{{enumName}}}TypeTransformer().decode(value);
+
+  static List<{{{classname}}}{{{enumName}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+    json == null || json.isEmpty
+      ? true == emptyIsNull ? null : <{{{classname}}}{{{enumName}}}>[]
+      : json
+          .map((value) => {{{classname}}}{{{enumName}}}.fromJson(value))
+          .toList(growable: true == growable);
+}
+
+/// Transformation class that can [encode] an instance of [{{{classname}}}{{{enumName}}}] to {{{dataType}}},
+/// and [decode] dynamic data back to [{{{classname}}}{{{enumName}}}].
+class {{{classname}}}{{{enumName}}}TypeTransformer {
+  const {{{classname}}}{{{enumName}}}TypeTransformer._();
+
+  factory {{{classname}}}{{{enumName}}}TypeTransformer() => _instance ??= {{{classname}}}{{{enumName}}}TypeTransformer._();
+
+  {{{dataType}}} encode({{{classname}}}{{{enumName}}} data) => data.value;
+
+  /// Decodes a [dynamic value][data] to a {{{classname}}}{{{enumName}}}.
+  ///
+  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
+  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
+  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  ///
+  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
+  /// and users are still using an old app with the old code.
+  {{{classname}}}{{{enumName}}} decode(dynamic data, {bool allowNull}) {
+    switch (data) {
+      {{#allowableValues}}
+        {{#enumVars}}
+      case {{#isString}}r{{/isString}}{{{value}}}: return {{{classname}}}{{{enumName}}}.{{{name}}};
+        {{/enumVars}}
+      {{/allowableValues}}
+      default:
+        if (allowNull == false) {
+          throw ArgumentError('Unknown enum value to decode: $data');
+        }
+    }
+    return null;
+  }
+
+  /// Singleton [{{{classname}}}{{{enumName}}}TypeTransformer] instance.
+  static {{{classname}}}{{{enumName}}}TypeTransformer _instance;
+}

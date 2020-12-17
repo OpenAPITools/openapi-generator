@@ -72,7 +72,7 @@
   </profiles>
 
   <properties>
-    <slf4j-version>1.7.12</slf4j-version>
+    <slf4j-version>1.7.29</slf4j-version>
     <guava-version>26.0-jre</guava-version>
   </properties>
 </project>

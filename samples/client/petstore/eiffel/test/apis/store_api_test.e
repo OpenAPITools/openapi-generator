@@ -16,14 +16,14 @@ feature -- Test routines
     test_delete_order
             -- Delete purchase order by ID
             -- 
-            -- For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors 
+            -- For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors 
         local
-            l_orderid: INTEGER_64
+            l_order_id: STRING_32
         do
             -- TODO: Initialize required params.
-            -- l_orderid
+            -- l_order_id
                       
-            -- api.delete_order(l_orderid)
+            -- api.delete_order(l_order_id)
             assert ("not_implemented", False)
         end
     
@@ -43,15 +43,15 @@ feature -- Test routines
     test_order_by_id
             -- Find purchase order by ID
             -- 
-            -- For valid response try integer IDs with value &gt;&#x3D; 1 and &lt;&#x3D; 10. Other values will generated exceptions 
+            -- For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions 
         local
             l_response: ORDER
-            l_orderid: INTEGER_64
+            l_order_id: INTEGER_64
         do
             -- TODO: Initialize required params.
-            -- l_orderid
+            -- l_order_id
                       
-            -- l_response := api.order_by_id(l_orderid)
+            -- l_response := api.order_by_id(l_order_id)
             assert ("not_implemented", False)
         end
     
@@ -61,12 +61,12 @@ feature -- Test routines
             --  
         local
             l_response: ORDER
-            l_body: ORDER
+            l_order: ORDER
         do
             -- TODO: Initialize required params.
-            -- l_body
+            -- l_order
                       
-            -- l_response := api.place_order(l_body)
+            -- l_response := api.place_order(l_order)
             assert ("not_implemented", False)
         end
 

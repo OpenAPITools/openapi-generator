@@ -140,6 +140,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         typeMapping.put("file", "File");
         typeMapping.put("binary", "File");
         typeMapping.put("number", "Double");
+        typeMapping.put("decimal", "BigDecimal");
 
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "Map");
@@ -252,13 +253,6 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
                 it.remove();
             }
         }
-        // Adapt 'hasMore'
-        it = codegenSecurities.iterator();
-        while (it.hasNext()) {
-            final CodegenSecurity security = it.next();
-            security.hasMore = it.hasNext();
-        }
-
         if (codegenSecurities.isEmpty()) {
             return null;
         }

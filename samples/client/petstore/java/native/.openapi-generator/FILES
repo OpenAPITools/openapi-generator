@@ -69,7 +69,9 @@ src/main/java/org/openapitools/client/ApiClient.java
 src/main/java/org/openapitools/client/ApiException.java
 src/main/java/org/openapitools/client/ApiResponse.java
 src/main/java/org/openapitools/client/Configuration.java
+src/main/java/org/openapitools/client/JSON.java
 src/main/java/org/openapitools/client/Pair.java
+src/main/java/org/openapitools/client/RFC3339DateFormat.java
 src/main/java/org/openapitools/client/ServerConfiguration.java
 src/main/java/org/openapitools/client/ServerVariable.java
 src/main/java/org/openapitools/client/api/AnotherFakeApi.java
@@ -78,6 +80,7 @@ src/main/java/org/openapitools/client/api/FakeClassnameTags123Api.java
 src/main/java/org/openapitools/client/api/PetApi.java
 src/main/java/org/openapitools/client/api/StoreApi.java
 src/main/java/org/openapitools/client/api/UserApi.java
+src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesAnyType.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesArray.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesBoolean.java

@@ -13,7 +13,7 @@ public struct ArrayTest: Codable {
     public var arrayArrayOfInteger: [[Int64]]?
     public var arrayArrayOfModel: [[ReadOnlyFirst]]?
 
-    public init(arrayOfString: [String]?, arrayArrayOfInteger: [[Int64]]?, arrayArrayOfModel: [[ReadOnlyFirst]]?) {
+    public init(arrayOfString: [String]? = nil, arrayArrayOfInteger: [[Int64]]? = nil, arrayArrayOfModel: [[ReadOnlyFirst]]? = nil) {
         self.arrayOfString = arrayOfString
         self.arrayArrayOfInteger = arrayArrayOfInteger
         self.arrayArrayOfModel = arrayArrayOfModel

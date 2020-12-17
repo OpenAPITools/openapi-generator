@@ -42,6 +42,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     protected boolean withXml = false;
     protected boolean enumClassPrefix = false;
     protected boolean structPrefix = false;
+    protected boolean generateInterfaces = false;
 
     protected String packageName = "openapi";
     protected Set<String> numberTypes;
@@ -106,7 +107,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("number", "float32");
         typeMapping.put("float", "float32");
         typeMapping.put("double", "float64");
-        typeMapping.put("BigDecimal", "float64");
+        typeMapping.put("decimal", "float64");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "string");
         typeMapping.put("UUID", "string");
@@ -630,7 +631,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     }
                 }
 
-                if (this instanceof GoClientExperimentalCodegen && model.isEnum) {
+                if (this instanceof GoClientCodegen && model.isEnum) {
                     imports.add(createMapping("import", "fmt"));
                 }
 
@@ -778,6 +779,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     public void setStructPrefix(boolean structPrefix) {
         this.structPrefix = structPrefix;
+    }
+
+    public void setGenerateInterfaces(boolean generateInterfaces) {
+        this.generateInterfaces = generateInterfaces;
     }
 
     @Override

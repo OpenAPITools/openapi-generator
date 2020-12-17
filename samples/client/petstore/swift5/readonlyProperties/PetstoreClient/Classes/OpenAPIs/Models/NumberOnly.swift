@@ -11,7 +11,7 @@ public struct NumberOnly: Codable {
 
     public private(set) var justNumber: Double?
 
-    public init(justNumber: Double?) {
+    public init(justNumber: Double? = nil) {
         self.justNumber = justNumber
     }
 

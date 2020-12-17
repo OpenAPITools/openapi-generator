@@ -25,19 +25,14 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import org.springframework.http.codec.multipart.Part;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -59,14 +54,16 @@ public interface AnotherFakeApi {
      * @param client client model (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "To test special tags", operationId = "call123testSpecialTags" , tags={ "$another-fake?", })
+    @Operation(summary = "To test special tags", operationId = "call123testSpecialTags", tags={ "$another-fake?", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Client.class)) }) })
-    @RequestMapping(value = "/another-fake/dummy",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.PATCH)
-    default Mono<ResponseEntity<Client>> call123testSpecialTags(@Parameter(description = "client model" ,required=true )  @Valid @RequestBody Mono<Client> client, ServerWebExchange exchange) {
+
+    @PatchMapping(
+        value = "/another-fake/dummy",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    default Mono<ResponseEntity<Client>> call123testSpecialTags(@Parameter(description = "client model" ,required=true )  @Valid @RequestBody Mono<Client> client, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().call123testSpecialTags(client, exchange);
     }
 

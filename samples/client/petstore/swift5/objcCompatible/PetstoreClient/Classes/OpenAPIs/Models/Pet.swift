@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public class Pet: NSObject, Codable {
+@objc public class Pet: NSObject, Codable, Hashable {
 
     public enum Status: String, Codable, CaseIterable {
         case available = "available"
@@ -27,7 +27,7 @@ import Foundation
     /** pet status in the store */
     public var status: Status?
 
-    public init(_id: Int64?, category: Category?, name: String, photoUrls: [String], tags: [Tag]?, status: Status?) {
+    public init(_id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: Status? = nil) {
         self._id = _id
         self.category = category
         self.name = name

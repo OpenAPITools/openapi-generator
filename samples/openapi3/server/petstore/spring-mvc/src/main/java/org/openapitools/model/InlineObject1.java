@@ -4,7 +4,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.springframework.core.io.Resource;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -12,13 +11,15 @@ import javax.validation.constraints.*;
 /**
  * InlineObject1
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
 public class InlineObject1   {
   @JsonProperty("additionalMetadata")
   private String additionalMetadata;
 
   @JsonProperty("file")
-  private Resource file;
+  private org.springframework.core.io.Resource file;
 
   public InlineObject1 additionalMetadata(String additionalMetadata) {
     this.additionalMetadata = additionalMetadata;
@@ -40,7 +41,7 @@ public class InlineObject1   {
     this.additionalMetadata = additionalMetadata;
   }
 
-  public InlineObject1 file(Resource file) {
+  public InlineObject1 file(org.springframework.core.io.Resource file) {
     this.file = file;
     return this;
   }
@@ -53,17 +54,17 @@ public class InlineObject1   {
 
   @Valid
 
-  public Resource getFile() {
+  public org.springframework.core.io.Resource getFile() {
     return file;
   }
 
-  public void setFile(Resource file) {
+  public void setFile(org.springframework.core.io.Resource file) {
     this.file = file;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -95,7 +96,7 @@ public class InlineObject1   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

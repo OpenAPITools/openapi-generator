@@ -94,8 +94,8 @@ val ApplicationAuthProviders: Map<String, OAuthServerSettings> = listOf<OAuthSer
             {{! TODO: flow, doesn't seem to be supported yet by ktor }}
             clientId = settings.property("auth.oauth.{{name}}.clientId").getString(),
             clientSecret = settings.property("auth.oauth.{{name}}.clientSecret").getString(),
-            defaultScopes = listOf({{#scopes}}"{{scope}}"{{#hasMore}}, {{/hasMore}}{{/scopes}})
-        ){{#hasMore}},{{/hasMore}}
+            defaultScopes = listOf({{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}})
+        ){{^-last}},{{/-last}}
     {{/isOAuth}}
 {{/authMethods}}
 //        OAuthServerSettings.OAuth2ServerSettings(

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -68,12 +68,12 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="">Home</a>
+                        <a href="{{ url('/home') }}">Home</a>
                     @else
-                        <a href="">Login</a>
+                        <a href="{{ route('login') }}">Login</a>
 
                         @if (Route::has('register'))
-                            <a href="">Register</a>
+                            <a href="{{ route('register') }}">Register</a>
                         @endif
                     @endauth
                 </div>
