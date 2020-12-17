@@ -20,6 +20,8 @@ abstract class ApiResponse implements Built<ApiResponse, ApiResponseBuilder> {
     // Boilerplate code needed to wire-up generated code
     ApiResponse._();
 
+    static void _initializeBuilder(ApiResponseBuilder b) => b;
+
     factory ApiResponse([updates(ApiResponseBuilder b)]) = _$ApiResponse;
     static Serializer<ApiResponse> get serializer => _$apiResponseSerializer;
 }

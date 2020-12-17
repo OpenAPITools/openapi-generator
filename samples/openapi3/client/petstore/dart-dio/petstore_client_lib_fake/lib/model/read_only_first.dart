@@ -16,6 +16,8 @@ abstract class ReadOnlyFirst implements Built<ReadOnlyFirst, ReadOnlyFirstBuilde
     // Boilerplate code needed to wire-up generated code
     ReadOnlyFirst._();
 
+    static void _initializeBuilder(ReadOnlyFirstBuilder b) => b;
+
     factory ReadOnlyFirst([updates(ReadOnlyFirstBuilder b)]) = _$ReadOnlyFirst;
     static Serializer<ReadOnlyFirst> get serializer => _$readOnlyFirstSerializer;
 }

@@ -8,12 +8,12 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**smallCamel** | **String** |  | [optional] [default to null]
-**capitalCamel** | **String** |  | [optional] [default to null]
-**smallSnake** | **String** |  | [optional] [default to null]
-**capitalSnake** | **String** |  | [optional] [default to null]
-**sCAETHFlowPoints** | **String** |  | [optional] [default to null]
-**ATT_NAME** | **String** | Name of the pet  | [optional] [default to null]
+**smallCamel** | **String** |  | [optional] 
+**capitalCamel** | **String** |  | [optional] 
+**smallSnake** | **String** |  | [optional] 
+**capitalSnake** | **String** |  | [optional] 
+**sCAETHFlowPoints** | **String** |  | [optional] 
+**ATT_NAME** | **String** | Name of the pet  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

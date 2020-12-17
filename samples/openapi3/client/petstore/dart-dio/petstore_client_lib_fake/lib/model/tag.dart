@@ -16,6 +16,8 @@ abstract class Tag implements Built<Tag, TagBuilder> {
     // Boilerplate code needed to wire-up generated code
     Tag._();
 
+    static void _initializeBuilder(TagBuilder b) => b;
+
     factory Tag([updates(TagBuilder b)]) = _$Tag;
     static Serializer<Tag> get serializer => _$tagSerializer;
 }

@@ -19,6 +19,8 @@ abstract class EnumArrays implements Built<EnumArrays, EnumArraysBuilder> {
     // Boilerplate code needed to wire-up generated code
     EnumArrays._();
 
+    static void _initializeBuilder(EnumArraysBuilder b) => b;
+
     factory EnumArrays([updates(EnumArraysBuilder b)]) = _$EnumArrays;
     static Serializer<EnumArrays> get serializer => _$enumArraysSerializer;
 }

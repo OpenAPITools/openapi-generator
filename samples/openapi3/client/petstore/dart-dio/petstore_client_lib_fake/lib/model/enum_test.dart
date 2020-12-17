@@ -53,6 +53,8 @@ abstract class EnumTest implements Built<EnumTest, EnumTestBuilder> {
     // Boilerplate code needed to wire-up generated code
     EnumTest._();
 
+    static void _initializeBuilder(EnumTestBuilder b) => b;
+
     factory EnumTest([updates(EnumTestBuilder b)]) = _$EnumTest;
     static Serializer<EnumTest> get serializer => _$enumTestSerializer;
 }

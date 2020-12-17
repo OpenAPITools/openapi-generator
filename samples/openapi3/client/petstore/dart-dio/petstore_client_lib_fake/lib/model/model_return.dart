@@ -12,6 +12,8 @@ abstract class ModelReturn implements Built<ModelReturn, ModelReturnBuilder> {
     // Boilerplate code needed to wire-up generated code
     ModelReturn._();
 
+    static void _initializeBuilder(ModelReturnBuilder b) => b;
+
     factory ModelReturn([updates(ModelReturnBuilder b)]) = _$ModelReturn;
     static Serializer<ModelReturn> get serializer => _$modelReturnSerializer;
 }

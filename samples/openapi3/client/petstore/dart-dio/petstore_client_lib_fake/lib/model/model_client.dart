@@ -12,6 +12,8 @@ abstract class ModelClient implements Built<ModelClient, ModelClientBuilder> {
     // Boilerplate code needed to wire-up generated code
     ModelClient._();
 
+    static void _initializeBuilder(ModelClientBuilder b) => b;
+
     factory ModelClient([updates(ModelClientBuilder b)]) = _$ModelClient;
     static Serializer<ModelClient> get serializer => _$modelClientSerializer;
 }

@@ -26,6 +26,8 @@ abstract class MapTest implements Built<MapTest, MapTestBuilder> {
     // Boilerplate code needed to wire-up generated code
     MapTest._();
 
+    static void _initializeBuilder(MapTestBuilder b) => b;
+
     factory MapTest([updates(MapTestBuilder b)]) = _$MapTest;
     static Serializer<MapTest> get serializer => _$mapTestSerializer;
 }
