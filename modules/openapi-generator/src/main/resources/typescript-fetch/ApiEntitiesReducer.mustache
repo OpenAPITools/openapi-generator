@@ -1,8 +1,8 @@
 import {ApiEntitiesRecord} from "./ApiEntitiesRecord";
 import {ReducerBuilder} from "redux-ts-simple";
-import {normalizedEntities} from "../runtimeSagasAndRecords";
+import {normalizedEntities} from "./runtimeSagasAndRecords";
 
-export default new ReducerBuilder(ApiEntitiesRecord())
+export const ApiEntitiesReducer = new ReducerBuilder(ApiEntitiesRecord())
 	.on(normalizedEntities, (state, action): ApiEntitiesRecord => {
 		const {entities} = action.payload;
 		return state.withMutations(mutableState => {

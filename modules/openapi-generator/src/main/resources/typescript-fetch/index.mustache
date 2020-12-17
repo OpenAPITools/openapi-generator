@@ -1,6 +1,9 @@
 export * from './runtime';
 {{#useSagaAndRecords}}
 export * from './runtimeSagasAndRecords';
+export * from './ApiEntitiesRecord';
+export * from './ApiEntitiesReducer';
+export * from './ApiEntitiesSelectors';
 {{/useSagaAndRecords}}
 {{#apiInfo}}
 {{#apis.0}}

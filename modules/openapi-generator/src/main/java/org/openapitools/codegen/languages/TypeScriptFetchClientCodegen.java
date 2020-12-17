@@ -228,6 +228,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 apiTemplateFiles.put("sagas.mustache", "Sagas.ts");
                 modelTemplateFiles.put("records.mustache", "Record.ts");
                 supportingFiles.add(new SupportingFile("runtimeSagasAndRecords.mustache", sourceDir, "runtimeSagasAndRecords.ts"));
+                supportingFiles.add(new SupportingFile("ApiEntitiesRecord.mustache", sourceDir, "ApiEntitiesRecord.ts"));
+                supportingFiles.add(new SupportingFile("ApiEntitiesReducer.mustache", sourceDir, "ApiEntitiesReducer.ts"));
+                supportingFiles.add(new SupportingFile("ApiEntitiesSelectors.mustache", sourceDir, "ApiEntitiesSelectors.ts"));
+
                 if (additionalProperties.containsKey(DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD)) {
                     this.setDetectPassthroughModelsWithSuffixAndField((String)additionalProperties.get(DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD));
                 }
@@ -237,7 +241,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 if (additionalProperties.containsKey(INFER_ENTITY_FROM_UNIQUE_ID_WITH_NAME)) {
                     this.setInferEntityFromUniqueIdWithName((String)additionalProperties.get(INFER_ENTITY_FROM_UNIQUE_ID_WITH_NAME));
                 }
-
                 this.addExtraReservedWordsForSagasAndRecords();
             }
         }
@@ -540,11 +543,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         if (allModels.size() > 0 && !addedModelIndex) {
             addedModelIndex = true;
             supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
-            if (this.getSagasAndRecords()) {
-                supportingFiles.add(new SupportingFile("ApiEntitiesRecord.mustache", modelPackage().replace('.', File.separatorChar), "ApiEntitiesRecord.ts"));
-                supportingFiles.add(new SupportingFile("ApiEntitiesReducer.mustache", modelPackage().replace('.', File.separatorChar), "ApiEntitiesReducer.ts"));
-                supportingFiles.add(new SupportingFile("ApiEntitiesSelectors.mustache", modelPackage().replace('.', File.separatorChar), "ApiEntitiesSelectors.ts"));
-            }
         }
 
         this.addOperationModelImportInfomation(operations);
