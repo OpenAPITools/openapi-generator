@@ -10,7 +10,9 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <swagger-core-version>2.1.2</swagger-core-version>
+        {{#useSpringdoc}}
         <springdoc-ui.version>1.2.32</springdoc-ui.version>
+        {{/useSpringdoc}}
     </properties>
 {{#parentOverridden}}
     <parent>
@@ -55,11 +57,13 @@
             <artifactId>swagger-models</artifactId>
             <version>${swagger-core-version}</version>
         </dependency>
+        {{#useSpringdoc}}
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>${springdoc-ui.version}</version>
         </dependency>
+        {{/useSpringdoc}}
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>

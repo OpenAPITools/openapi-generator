@@ -10,10 +10,15 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <swagger-core-version>2.1.2</swagger-core-version>
+        {{#useSpringfox}}
+        <springfox-version>2.8.0</springfox-version>
+        {{/useSpringfox}}
+        {{#useSpringdoc}}
         <springdoc-ui.version>1.2.32</springdoc-ui.version>
         {{#reactive}}
         <springdoc-webflux-ui.version>1.3.9</springdoc-webflux-ui.version>
         {{/reactive}}
+        {{/useSpringdoc}}
     </properties>
 {{#parentOverridden}}
     <parent>
@@ -26,7 +31,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>{{#java8}}{{{springBootVersion}}}{{/java8}}{{^java8}}1.5.12.RELEASE{{/java8}}</version>
+        <version>{{#java8}}2.3.0.RELEASE{{/java8}}{{^java8}}1.5.12.RELEASE{{/java8}}</version>
     </parent>
 {{/parentOverridden}}
     <build>
@@ -84,18 +89,25 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web{{#reactive}}flux{{/reactive}}</artifactId>
         </dependency>
-
+        {{#useSpringfox}}
+        <!--SpringFox dependencies -->
         <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-core-version}</version>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox-version}</version>
         </dependency>
         <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-models</artifactId>
-            <version>${swagger-core-version}</version>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox-version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.2.11</version>
+        </dependency>
+        {{/useSpringfox}}
+        {{#useSpringdoc}}
         {{#reactive}}
         <dependency>
             <groupId>org.springdoc</groupId>
@@ -110,7 +122,24 @@
             <version>${springdoc-ui.version}</version>
         </dependency>
         {{/reactive}}
-
+        {{/useSpringdoc}}
+        {{^useSpringdoc}}
+        {{^useSpringfox}}
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger-core-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-models</artifactId>
+            <version>${swagger-core-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>swagger-ui</artifactId>
+            <version>3.14.2</version>
+        </dependency>
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -121,7 +150,8 @@
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
         </dependency>
-
+        {{/useSpringfox}}
+        {{/useSpringdoc}}
         {{#withXml}}
         <!-- XML processing: Jackson -->
         <dependency>

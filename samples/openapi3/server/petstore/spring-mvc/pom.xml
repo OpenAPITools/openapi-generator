@@ -105,23 +105,11 @@
             <artifactId>jaxb-api</artifactId>
             <version>2.2.11</version>
         </dependency>
-
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>2.1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-models</artifactId>
-            <version>${swagger-annotations-version}</version>
-        </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>${springdoc-ui.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.github.joschi.jackson</groupId>
             <artifactId>jackson-datatype-threetenbp</artifactId>
@@ -159,7 +147,6 @@
         <slf4j-version>1.7.21</slf4j-version>
         <junit-version>4.13</junit-version>
         <servlet-api-version>2.5</servlet-api-version>
-        <swagger-core-version>2.1.2</swagger-core-version>
         <springdoc-ui.version>1.2.32</springdoc-ui.version>
         <jackson-version>2.9.9</jackson-version>
         <jackson-threetenbp-version>2.8.4</jackson-threetenbp-version>

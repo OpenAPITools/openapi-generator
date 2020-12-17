@@ -72,7 +72,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
-    public static final String SPRING_BOOT_VERSION = "springBootVersion";
 
     public static final String OPEN_BRACE = "{";
     public static final String CLOSE_BRACE = "}";
@@ -100,7 +99,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean hateoas = false;
     protected boolean returnSuccessCode = false;
     protected boolean unhandledException = false;
-    protected String springBootVersion = "2.3.0.RELEASE";
 
     public SpringCodegen() {
         super();
@@ -183,7 +181,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         library.setEnum(supportedLibraries);
         cliOptions.add(library);
 
-        cliOptions.add(new CliOption(SPRING_BOOT_VERSION, "Spring-boot version (will be used if library=spring-boot specified)").defaultValue(this.getSpringBootVersion()));
     }
 
     private void updateJava8CliOptions() {
@@ -366,14 +363,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
-        if (library.equals(SPRING_BOOT)) {
-            if (additionalProperties.containsKey(SPRING_BOOT_VERSION)) {
-                this.setSpringBootVersion((String) additionalProperties.get(SPRING_BOOT_VERSION));
-            } else {
-                additionalProperties.put(SPRING_BOOT_VERSION, this.getSpringBootVersion());
-            }
-        }
-
         if (!this.interfaceOnly) {
             if (library.equals(SPRING_BOOT)) {
                 supportingFiles.add(new SupportingFile("openapi2SpringBoot.mustache",
@@ -466,6 +455,12 @@ public class SpringCodegen extends AbstractJavaCodegen
             }
         } else if (this.async) {
             additionalProperties.put(RESPONSE_WRAPPER, "Callable");
+        }
+
+        if (!this.apiFirst && !this.reactive) {
+            additionalProperties.put("useSpringdoc", true);
+            // TODO support springfox as an option later
+            //additionalProperties.put("useSpringfox", true); 
         }
 
         // Some well-known Spring or Spring-Cloud response wrappers
@@ -829,14 +824,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setUnhandledException(boolean unhandledException) {
         this.unhandledException = unhandledException;
-    }
-
-    public String getSpringBootVersion() {
-        return springBootVersion;
-    }
-
-    public void setSpringBootVersion(String springBootVersion) {
-        this.springBootVersion = springBootVersion;
     }
 
     @Override
