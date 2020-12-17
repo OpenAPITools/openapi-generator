@@ -50,7 +50,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.springframework.http.codec.multipart.Part;
 {{/reactive}}
+{{#useSpringfox}}
 import springfox.documentation.annotations.ApiIgnore;
+{{/useSpringfox}}
 
 {{#useBeanValidation}}
 import javax.validation.Valid;
@@ -122,9 +124,9 @@ public interface {{classname}} {
     @Operation(summary = "{{{summary}}}", operationId = "{{{operationId}}}"{{#hasAuthMethods}}, security = {
         {{#authMethods}}@SecurityRequirement(name = "{{name}}"{{#isOAuth}}, scopes = {
             {{#scopes}}"{{scope}}"{{^-last}},
-            {{/-last}}{{/scopes}} }){{^-last}},{{/-last}}{{/isOAuth}}
-        {{^isOAuth}}@Authorization(value = "{{name}}"){{^-last}},{{/-last}}
-        {{/isOAuth}}{{/authMethods}} }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} })
+            {{/-last}}{{/scopes}} }{{^-last}},{{/-last}}{{/isOAuth}}
+        {{^isOAuth}}/*(TODO non OAuth auth), @Authorization(value = "{{name}}"){{^-last}},{{/-last}} */
+        {{/isOAuth}}){{/authMethods}} }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} })
     @ApiResponses(value = { {{#responses}}
        @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}" {{#baseType}}, content = { @Content({{#containerType}} mediaType = "{{{containerType}}}", {{/containerType}} schema = @Schema(implementation = {{{baseType}}}.class)) }{{/baseType}}){{^-last}},{{/-last}}{{/responses}} })
 

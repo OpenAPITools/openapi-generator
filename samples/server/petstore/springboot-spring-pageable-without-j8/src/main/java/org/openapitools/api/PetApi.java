@@ -29,7 +29,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -50,8 +49,8 @@ public interface PetApi {
     @Operation(summary = "Add a new pet to the store", operationId = "addPet", security = {
         @SecurityRequirement(name = "petstore_auth", scopes = {
             "write:pets",
-            "read:pets" })
-         }, tags={ "pet", })
+            "read:pets" }
+        ) }, tags={ "pet", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ),
        @ApiResponse(responseCode = "405", description = "Invalid input" ) })
@@ -74,8 +73,8 @@ public interface PetApi {
     @Operation(summary = "Deletes a pet", operationId = "deletePet", security = {
         @SecurityRequirement(name = "petstore_auth", scopes = {
             "write:pets",
-            "read:pets" })
-         }, tags={ "pet", })
+            "read:pets" }
+        ) }, tags={ "pet", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ),
        @ApiResponse(responseCode = "400", description = "Invalid pet value" ) })
@@ -97,8 +96,8 @@ public interface PetApi {
     @Operation(summary = "Finds Pets by status", operationId = "findPetsByStatus", security = {
         @SecurityRequirement(name = "petstore_auth", scopes = {
             "write:pets",
-            "read:pets" })
-         }, tags={ "pet", })
+            "read:pets" }
+        ) }, tags={ "pet", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( mediaType = "List",  schema = @Schema(implementation = Pet.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid status value" ) })
@@ -107,7 +106,7 @@ public interface PetApi {
         value = "/pet/findByStatus",
         produces = { "application/xml", "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @Parameter(description = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status, @ApiIgnore final Pageable pageable);
+    ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @Parameter(description = "Status values that need to be considered for filter", required = true) @Valid @RequestParam(value = "status", required = true) List<String> status, @ApiIgnore final Pageable pageable);
 
 
     /**
@@ -122,8 +121,8 @@ public interface PetApi {
     @Operation(summary = "Finds Pets by tags", operationId = "findPetsByTags", security = {
         @SecurityRequirement(name = "petstore_auth", scopes = {
             "write:pets",
-            "read:pets" })
-         }, tags={ "pet", })
+            "read:pets" }
+        ) }, tags={ "pet", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( mediaType = "List",  schema = @Schema(implementation = Pet.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid tag value" ) })
@@ -146,8 +145,8 @@ public interface PetApi {
      */
     @Operation(summary = "Find pet by ID", operationId = "getPetById", security = {
         @SecurityRequirement(name = "api_key"
-        @Authorization(value = "api_key")
-         }, tags={ "pet", })
+        /*(TODO non OAuth auth), @Authorization(value = "api_key") */
+        ) }, tags={ "pet", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Pet.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid ID supplied" ),
@@ -172,8 +171,8 @@ public interface PetApi {
     @Operation(summary = "Update an existing pet", operationId = "updatePet", security = {
         @SecurityRequirement(name = "petstore_auth", scopes = {
             "write:pets",
-            "read:pets" })
-         }, tags={ "pet", })
+            "read:pets" }
+        ) }, tags={ "pet", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ),
        @ApiResponse(responseCode = "400", description = "Invalid ID supplied" ),
@@ -198,8 +197,8 @@ public interface PetApi {
     @Operation(summary = "Updates a pet in the store with form data", operationId = "updatePetWithForm", security = {
         @SecurityRequirement(name = "petstore_auth", scopes = {
             "write:pets",
-            "read:pets" })
-         }, tags={ "pet", })
+            "read:pets" }
+        ) }, tags={ "pet", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "405", description = "Invalid input" ) })
 
@@ -221,8 +220,8 @@ public interface PetApi {
     @Operation(summary = "uploads an image", operationId = "uploadFile", security = {
         @SecurityRequirement(name = "petstore_auth", scopes = {
             "write:pets",
-            "read:pets" })
-         }, tags={ "pet", })
+            "read:pets" }
+        ) }, tags={ "pet", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = ModelApiResponse.class)) }) })
 

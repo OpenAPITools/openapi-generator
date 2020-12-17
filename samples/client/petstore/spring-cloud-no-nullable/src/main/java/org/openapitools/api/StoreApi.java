@@ -32,7 +32,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -71,8 +70,8 @@ public interface StoreApi {
      */
     @Operation(summary = "Returns pet inventories by status", operationId = "getInventory", security = {
         @SecurityRequirement(name = "api_key"
-        @Authorization(value = "api_key")
-         }, tags={ "store", })
+        /*(TODO non OAuth auth), @Authorization(value = "api_key") */
+        ) }, tags={ "store", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( mediaType = "Map",  schema = @Schema(implementation = Map.class)) }) })
 

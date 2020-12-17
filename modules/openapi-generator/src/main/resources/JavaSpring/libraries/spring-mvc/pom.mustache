@@ -200,11 +200,6 @@
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-yaml</artifactId>
-            <version>${jackson-version}</version>
-        </dependency>
         {{/useSpringfox}}
         {{/useSpringdoc}}
         {{#useSpringdoc}}
@@ -214,6 +209,11 @@
             <version>${springdoc-ui.version}</version>
         </dependency>
         {{/useSpringdoc}}
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
         {{#withXml}}
         <!-- XML processing: Jackson -->
         <dependency>

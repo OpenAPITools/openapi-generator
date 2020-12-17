@@ -33,7 +33,6 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.springframework.http.codec.multipart.Part;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -77,8 +76,8 @@ public interface StoreApi {
      */
     @Operation(summary = "Returns pet inventories by status", operationId = "getInventory", security = {
         @SecurityRequirement(name = "api_key"
-        @Authorization(value = "api_key")
-         }, tags={ "store", })
+        /*(TODO non OAuth auth), @Authorization(value = "api_key") */
+        ) }, tags={ "store", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( mediaType = "Map",  schema = @Schema(implementation = Map.class)) }) })
 

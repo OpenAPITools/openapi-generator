@@ -41,7 +41,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -95,8 +94,8 @@ public interface FakeApi {
      */
     @Operation(summary = "test http signature authentication", operationId = "fakeHttpSignatureTest", security = {
         @SecurityRequirement(name = "http_signature_test"
-        @Authorization(value = "http_signature_test")
-         }, tags={ "fake", })
+        /*(TODO non OAuth auth), @Authorization(value = "http_signature_test") */
+        ) }, tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "The instance started successfully" ) })
 
@@ -303,8 +302,8 @@ public interface FakeApi {
      */
     @Operation(summary = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", operationId = "testEndpointParameters", security = {
         @SecurityRequirement(name = "http_basic_test"
-        @Authorization(value = "http_basic_test")
-         }, tags={ "fake", })
+        /*(TODO non OAuth auth), @Authorization(value = "http_basic_test") */
+        ) }, tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid username supplied" ),
        @ApiResponse(responseCode = "404", description = "User not found" ) })
@@ -343,7 +342,7 @@ public interface FakeApi {
         value = "/fake",
         consumes = { "application/x-www-form-urlencoded" }
     )
-    default ResponseEntity<Void> testEnumParameters(@Parameter(description = "Header parameter enum test (string array)" ) @RequestHeader(value="enum_header_string_array" , defaultValue="new ArrayList<>()", required=false) List<String> enumHeaderStringArray,@Parameter(description = "Header parameter enum test (string)" ) @RequestHeader(value="enum_header_string" , defaultValue="-efg", required=false) String enumHeaderString,@Parameter(description = "Query parameter enum test (string array)", allowableValues = ">, $") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,@Parameter(description = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue="-efg") String enumQueryString,@Parameter(description = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,@Parameter(description = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,@Parameter(description = "Form parameter enum test (string array)", allowableValues=">, $") @Valid @RequestPart(value = "enum_form_string_array", required = false)  List<String> enumFormStringArray,@Parameter(description = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @Valid @RequestPart(value = "enum_form_string", required = false)  String enumFormString) {
+    default ResponseEntity<Void> testEnumParameters(@Parameter(description = "Header parameter enum test (string array)" ) @RequestHeader(value="enum_header_string_array" , defaultValue="new ArrayList<>()", required=false) List<String> enumHeaderStringArray,@Parameter(description = "Header parameter enum test (string)" ) @RequestHeader(value="enum_header_string" , defaultValue="-efg", required=false) String enumHeaderString,@Parameter(description = "Query parameter enum test (string array)") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,@Parameter(description = "Query parameter enum test (string)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue="-efg") String enumQueryString,@Parameter(description = "Query parameter enum test (double)") @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,@Parameter(description = "Query parameter enum test (double)") @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,@Parameter(description = "Form parameter enum test (string array)") @Valid @RequestPart(value = "enum_form_string_array", required = false)  List<String> enumFormStringArray,@Parameter(description = "Form parameter enum test (string)", defaultValue="-efg") @Valid @RequestPart(value = "enum_form_string", required = false)  String enumFormString) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -363,8 +362,8 @@ public interface FakeApi {
      */
     @Operation(summary = "Fake endpoint to test group parameters (optional)", operationId = "testGroupParameters", security = {
         @SecurityRequirement(name = "bearer_test"
-        @Authorization(value = "bearer_test")
-         }, tags={ "fake", })
+        /*(TODO non OAuth auth), @Authorization(value = "bearer_test") */
+        ) }, tags={ "fake", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Someting wrong" ) })
 
@@ -453,8 +452,8 @@ public interface FakeApi {
     @Operation(summary = "uploads an image (required)", operationId = "uploadFileWithRequiredFile", security = {
         @SecurityRequirement(name = "petstore_auth", scopes = {
             "write:pets",
-            "read:pets" })
-         }, tags={ "pet", })
+            "read:pets" }
+        ) }, tags={ "pet", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = ModelApiResponse.class)) }) })
 

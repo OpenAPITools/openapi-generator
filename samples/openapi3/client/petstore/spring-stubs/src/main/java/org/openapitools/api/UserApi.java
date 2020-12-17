@@ -32,7 +32,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -57,8 +56,8 @@ public interface UserApi {
      */
     @Operation(summary = "Create user", operationId = "createUser", security = {
         @SecurityRequirement(name = "api_key"
-        @Authorization(value = "api_key")
-         }, tags={ "user", })
+        /*(TODO non OAuth auth), @Authorization(value = "api_key") */
+        ) }, tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
 
@@ -80,8 +79,8 @@ public interface UserApi {
      */
     @Operation(summary = "Creates list of users with given input array", operationId = "createUsersWithArrayInput", security = {
         @SecurityRequirement(name = "api_key"
-        @Authorization(value = "api_key")
-         }, tags={ "user", })
+        /*(TODO non OAuth auth), @Authorization(value = "api_key") */
+        ) }, tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
 
@@ -103,8 +102,8 @@ public interface UserApi {
      */
     @Operation(summary = "Creates list of users with given input array", operationId = "createUsersWithListInput", security = {
         @SecurityRequirement(name = "api_key"
-        @Authorization(value = "api_key")
-         }, tags={ "user", })
+        /*(TODO non OAuth auth), @Authorization(value = "api_key") */
+        ) }, tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
 
@@ -128,8 +127,8 @@ public interface UserApi {
      */
     @Operation(summary = "Delete user", operationId = "deleteUser", security = {
         @SecurityRequirement(name = "api_key"
-        @Authorization(value = "api_key")
-         }, tags={ "user", })
+        /*(TODO non OAuth auth), @Authorization(value = "api_key") */
+        ) }, tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid username supplied" ),
        @ApiResponse(responseCode = "404", description = "User not found" ) })
@@ -211,8 +210,8 @@ public interface UserApi {
      */
     @Operation(summary = "Logs out current logged in user session", operationId = "logoutUser", security = {
         @SecurityRequirement(name = "api_key"
-        @Authorization(value = "api_key")
-         }, tags={ "user", })
+        /*(TODO non OAuth auth), @Authorization(value = "api_key") */
+        ) }, tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
 
@@ -236,8 +235,8 @@ public interface UserApi {
      */
     @Operation(summary = "Updated user", operationId = "updateUser", security = {
         @SecurityRequirement(name = "api_key"
-        @Authorization(value = "api_key")
-         }, tags={ "user", })
+        /*(TODO non OAuth auth), @Authorization(value = "api_key") */
+        ) }, tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid user supplied" ),
        @ApiResponse(responseCode = "404", description = "User not found" ) })

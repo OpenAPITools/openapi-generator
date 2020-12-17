@@ -84,7 +84,7 @@ public class PetApiController implements PetApi {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    public ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @Parameter(description = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status, @ApiIgnore final Pageable pageable) {
+    public ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @Parameter(description = "Status values that need to be considered for filter", required = true) @Valid @RequestParam(value = "status", required = true) List<String> status, @ApiIgnore final Pageable pageable) {
         return delegate.findPetsByStatus(status, pageable);
     }
 

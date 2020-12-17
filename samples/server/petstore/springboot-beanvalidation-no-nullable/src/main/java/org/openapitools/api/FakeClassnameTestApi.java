@@ -28,7 +28,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -48,8 +47,8 @@ public interface FakeClassnameTestApi {
      */
     @Operation(summary = "To test class name in snake case", operationId = "testClassname", security = {
         @SecurityRequirement(name = "api_key_query"
-        @Authorization(value = "api_key_query")
-         }, tags={ "fake_classname_tags 123#$%^", })
+        /*(TODO non OAuth auth), @Authorization(value = "api_key_query") */
+        ) }, tags={ "fake_classname_tags 123#$%^", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Client.class)) }) })
 
