@@ -38,6 +38,10 @@ void PFXPetApi::initializeServerConfigs(){
 QList<PFXServerConfiguration> defaultConf = QList<PFXServerConfiguration>();
 //varying endpoint server 
 QList<PFXServerConfiguration> serverConf = QList<PFXServerConfiguration>();
+defaultConf.append(PFXServerConfiguration(
+    "http://petstore.swagger.io/v2",
+    "No description provided",
+    QMap<QString, PFXServerVariable>()));
 _serverConfigs.insert("addPet",defaultConf);
 _serverIndices.insert("addPet",0);
 
