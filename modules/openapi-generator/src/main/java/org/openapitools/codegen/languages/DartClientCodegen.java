@@ -73,6 +73,10 @@ public class DartClientCodegen extends DefaultCodegen {
     protected String apiTestPath = "test" + File.separator;
     protected String modelTestPath = "test" + File.separator;
 
+    // Names that must not be used as model names because they clash with existing
+    // default imports (dart:io, dart:async, package:http etc.) but are not basic dataTypes.
+    protected Set<String> additionalReservedWords;
+
     public DartClientCodegen() {
         super();
 
@@ -131,7 +135,8 @@ public class DartClientCodegen extends DefaultCodegen {
             "bool",
             "int",
             "num",
-            "double"
+            "double",
+            "dynamic"
         );
         instantiationTypes.put("array", "List");
         instantiationTypes.put("map", "Map");
@@ -155,7 +160,7 @@ public class DartClientCodegen extends DefaultCodegen {
         typeMapping.put("Date", "DateTime");
         typeMapping.put("date", "DateTime");
         typeMapping.put("DateTime", "DateTime");
-        typeMapping.put("File", "MultipartFile");
+        typeMapping.put("file", "MultipartFile");
         typeMapping.put("binary", "MultipartFile");
         typeMapping.put("UUID", "String");
         typeMapping.put("URI", "String");
@@ -163,21 +168,29 @@ public class DartClientCodegen extends DefaultCodegen {
         typeMapping.put("object", "Object");
         typeMapping.put("AnyType", "Object");
 
-        // These are needed as they prevent models from being generated
-        // which would clash with existing types, e.g. List
-        importMapping.put("dynamic", "dart:core");
-        importMapping.put("Object", "dart:core");
-        importMapping.put("String", "dart:core");
-        importMapping.put("bool", "dart:core");
-        importMapping.put("num", "dart:core");
-        importMapping.put("int", "dart:core");
-        importMapping.put("double", "dart:core");
-        importMapping.put("List", "dart:core");
-        importMapping.put("Map", "dart:core");
-        importMapping.put("Set", "dart:core");
-        importMapping.put("DateTime", "dart:core");
+        // DataTypes of the above values which are automatically imported.
+        // They are also not allowed to be model names.
+        defaultIncludes = Sets.newHashSet(
+                "String",
+                "bool",
+                "int",
+                "num",
+                "double",
+                "dynamic",
+                "List",
+                "Set",
+                "Map",
+                "DateTime",
+                "Object",
+                "MultipartFile"
+        );
 
-        defaultIncludes = new HashSet<>(Collections.singletonList("dart:core"));
+        additionalReservedWords = Sets.newHashSet(
+                "File",
+                "Client",
+                "Future",
+                "Response"
+        );
 
         cliOptions.add(new CliOption(PUB_LIBRARY, "Library name in generated code"));
         cliOptions.add(new CliOption(PUB_NAME, "Name in generated pubspec"));
@@ -307,6 +320,15 @@ public class DartClientCodegen extends DefaultCodegen {
     }
 
     @Override
+    protected boolean isReservedWord(String word) {
+        // consider everything as reserved that is either a keyword,
+        // a default included type, or a type include through some library
+        return super.isReservedWord(word) ||
+                defaultIncludes().contains(word) ||
+                additionalReservedWords.contains(word);
+    }
+
+    @Override
     public String escapeReservedWord(String name) {
         return name + "_";
     }
@@ -370,7 +392,7 @@ public class DartClientCodegen extends DefaultCodegen {
             name = "n" + name;
         }
 
-        if (isReservedWord(name) || importMapping().containsKey(name)) {
+        if (isReservedWord(name)) {
             name = escapeReservedWord(name);
         }
 
@@ -385,10 +407,6 @@ public class DartClientCodegen extends DefaultCodegen {
 
     @Override
     public String toModelName(final String name) {
-        if (importMapping().containsKey(name)) {
-            return name;
-        }
-
         String nameWithPrefixSuffix = sanitizeName(name);
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             // add '_' so that model name can be camelized correctly

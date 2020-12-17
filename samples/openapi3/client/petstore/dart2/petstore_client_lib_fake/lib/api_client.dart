@@ -186,8 +186,6 @@ class ApiClient {
           return Category.fromJson(value);
         case 'ClassModel':
           return ClassModel.fromJson(value);
-        case 'Client':
-          return Client.fromJson(value);
         case 'Dog':
           return Dog.fromJson(value);
         case 'DogAllOf':
@@ -198,8 +196,6 @@ class ApiClient {
           return EnumClassTypeTransformer().decode(value);
         case 'EnumTest':
           return EnumTest.fromJson(value);
-        case 'File':
-          return File.fromJson(value);
         case 'FileSchemaTestClass':
           return FileSchemaTestClass.fromJson(value);
         case 'Foo':
@@ -230,6 +226,12 @@ class ApiClient {
           return MixedPropertiesAndAdditionalPropertiesClass.fromJson(value);
         case 'Model200Response':
           return Model200Response.fromJson(value);
+        case 'ModelClient':
+          return ModelClient.fromJson(value);
+        case 'ModelFile':
+          return ModelFile.fromJson(value);
+        case 'ModelList':
+          return ModelList.fromJson(value);
         case 'ModelReturn':
           return ModelReturn.fromJson(value);
         case 'Name':

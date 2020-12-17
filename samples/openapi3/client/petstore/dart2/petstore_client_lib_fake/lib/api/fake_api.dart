@@ -555,17 +555,17 @@ class FakeApi {
   ///
   /// Parameters:
   ///
-  /// * [Client] client (required):
+  /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<Response> testClientModelWithHttpInfo(Client client) async {
+  Future<Response> testClientModelWithHttpInfo(ModelClient modelClient) async {
     // Verify required params are set.
-    if (client == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: client');
+    if (modelClient == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: modelClient');
     }
 
     final path = '/fake'.replaceAll('{format}', 'json');
 
-    Object postBody = client;
+    Object postBody = modelClient;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -605,10 +605,10 @@ class FakeApi {
   ///
   /// Parameters:
   ///
-  /// * [Client] client (required):
+  /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<Client> testClientModel(Client client) async {
-    final response = await testClientModelWithHttpInfo(client);
+  Future<ModelClient> testClientModel(ModelClient modelClient) async {
+    final response = await testClientModelWithHttpInfo(modelClient);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
@@ -616,7 +616,7 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Client') as Client;
+      return apiClient.deserialize(_decodeBodyBytes(response), 'ModelClient') as ModelClient;
     }
     return null;
   }
