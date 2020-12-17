@@ -369,7 +369,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                 }
                 CodegenServerList.add(s);
             }
-        this.additionalProperties.put("globalServerList", CodegenServerList);
+            this.vendorExtensions.put("x-codegen-globalServerList", CodegenServerList);
         }
     }
 

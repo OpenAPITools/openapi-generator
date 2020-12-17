@@ -1,7 +1,7 @@
 {{>licenseInfo}}
 #include "{{classname}}.h"
 #include "{{prefix}}Helpers.h"
-#include "ServerConfiguration.h"
+#include "{{prefix}}ServerConfiguration.h"
 #include <QJsonArray>
 #include <QJsonDocument>
 
@@ -27,42 +27,46 @@ namespace {{this}} {
 void {{classname}}::initializeServerConfigs(){
 
 //Default server
-QList<ServerConfiguration> defaultConf = QList<ServerConfiguration>();
+QList<{{prefix}}ServerConfiguration> defaultConf = QList<{{prefix}}ServerConfiguration>();
 //varying endpoint server 
-QList<ServerConfiguration> serverConf = QList<ServerConfiguration>();
-{{#globalServerList}}
-defaultConf.append(ServerConfiguration(
+QList<{{prefix}}ServerConfiguration> serverConf = QList<{{prefix}}ServerConfiguration>();
+{{#x-codegen-globalServerList}}
+defaultConf.append({{prefix}}ServerConfiguration(
     "{{{url}}}",
     "{{{description}}}{{^description}}No description provided{{/description}}",
-    {{#variables}}{{#-first}}QMap<QString, ServerVariable>{ {{/-first}}
-    {"{{{name}}}", ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
+    {{#variables}}{{#-first}}QMap<QString, {{prefix}}ServerVariable>{ {{/-first}}
+    {"{{{name}}}", {{prefix}}ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
     QSet<QString>{ {{#enumValues}}{"{{{.}}}"}{{#-last}} })},{{/-last}}{{^-last}},{{/-last}}{{/enumValues}}{{^enumValues}}{"{{defaultValue}}"} })},{{/enumValues}}{{#-last}} }));{{/-last}}
-    {{/variables}}{{^variables}}QMap<QString, ServerVariable>()));{{/variables}}
-{{/globalServerList}}
+    {{/variables}}{{^variables}}QMap<QString, {{prefix}}ServerVariable>()));{{/variables}}
+{{/x-codegen-globalServerList}}
 {{#operations}}
   {{#operation}}
   {{^servers}}
 _serverConfigs.insert("{{nickname}}",defaultConf);
 _serverIndices.insert("{{nickname}}",0);
+
 {{/servers}}
 {{#servers}}
-serverConf.append(ServerConfiguration(
+serverConf.append({{prefix}}ServerConfiguration(
     "{{{url}}}",
     "{{{description}}}{{^description}}No description provided{{/description}}",
-    {{#variables}}{{#-first}}QMap<QString, ServerVariable>{ {{/-first}}
-    {"{{{name}}}", ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
+    {{#variables}}{{#-first}}QMap<QString, {{prefix}}ServerVariable>{ {{/-first}}
+    {"{{{name}}}", {{prefix}}ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
     QSet<QString>{ {{#enumValues}}{"{{{.}}}"}{{#-last}} })}, {{/-last}}{{^-last}},{{/-last}}{{/enumValues}}{{^enumValues}}{"{{defaultValue}}"} })},{{/enumValues}}{{#-last}} }));{{/-last}}
-    {{/variables}}{{^variables}}QMap<QString, ServerVariable>()));{{/variables}}
+    {{/variables}}{{^variables}}QMap<QString, {{prefix}}ServerVariable>()));{{/variables}}
 {{#-last}}_serverConfigs.insert("{{nickname}}",serverConf);
 _serverIndices.insert("{{nickname}}",0);{{/-last}}
+
 {{/servers}}
 {{/operation}}
 {{/operations}}
+
 }
-    /**
-     * returns 0 on success and -1, -2 or -3 on failure.
-     * -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found 
-     */
+
+/**
+* returns 0 on success and -1, -2 or -3 on failure.
+* -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found 
+*/
 int {{classname}}::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value){
     auto it = _serverConfigs.find(operation);
     if(it != _serverConfigs.end() && serverIndex < it.value().size() ){

@@ -3,7 +3,7 @@
 #define {{prefix}}_{{classname}}_H
 
 #include "{{prefix}}HttpRequest.h"
-#include "ServerConfiguration.h"
+#include "{{prefix}}ServerConfiguration.h"
 
 {{#imports}}{{{import}}}
 {{/imports}}
@@ -51,7 +51,7 @@ private:
     int _port;
     QString _basePath;
     QMap<QString,int> _serverIndices;
-    QMap<QString,QList<ServerConfiguration>> _serverConfigs;
+    QMap<QString,QList<{{prefix}}ServerConfiguration>> _serverConfigs;
     QMap<QString, QString> _apiKeys;
     QString _bearerToken;
     QString _username;

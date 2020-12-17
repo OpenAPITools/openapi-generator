@@ -2,27 +2,30 @@
 /**
  * Representing a Server configuration.
  */
-#ifndef SERVERVCONFIGURATION_H
-#define SERVERVCONFIGURATION_H
+#ifndef {{prefix}}_SERVERVCONFIGURATION_H
+#define {{prefix}}_SERVERVCONFIGURATION_H
 #include <QString>
 #include <QMap>
-#include <stdexcept>
 #include <QRegularExpression>
-#include "ServerVariable.h"
+#include "{{prefix}}ServerVariable.h"
 
-class ServerConfiguration {
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+class {{prefix}}ServerConfiguration {
 public:
     /**
      * @param URL A URL to the target host.
      * @param description A description of the host designated by the URL.
      * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
      */
-    ServerConfiguration(const QString& URL, const QString& description, const QMap<QString, ServerVariable>& variables)
+    {{prefix}}ServerConfiguration(const QString& URL, const QString& description, const QMap<QString, {{prefix}}ServerVariable>& variables)
     : _description(description),
       _variables(variables),
       _URL(URL){}
-    ServerConfiguration(){}
-    ~ServerConfiguration(){}
+    {{prefix}}ServerConfiguration(){}
+    ~{{prefix}}ServerConfiguration(){}
 
     /**
      * Format URL template using given variables.
@@ -36,7 +39,7 @@ public:
             // go through variables and replace placeholders
             for (auto const& v : _variables.keys()) {
                 QString name = v;
-                ServerVariable serverVariable = _variables.value(v);
+                {{prefix}}ServerVariable serverVariable = _variables.value(v);
                 QString value = serverVariable._defaultValue;
 
                 if (!serverVariable._enumValues.empty() && !serverVariable._enumValues.contains(value)) {
@@ -58,8 +61,13 @@ public:
     }
 
     QString _description;
-    QMap<QString, ServerVariable> _variables;
+    QMap<QString, {{prefix}}ServerVariable> _variables;
     QString _URL;
 
 };
-#endif
+
+{{#cppNamespaceDeclarations}}
+} // namespace {{this}}
+{{/cppNamespaceDeclarations}}
+
+#endif // {{prefix}}_SERVERVCONFIGURATION_H

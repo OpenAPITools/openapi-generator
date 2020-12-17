@@ -89,8 +89,8 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
         supportingFiles.add(new SupportingFile("HttpFileElement.cpp.mustache", sourceFolder, PREFIX + "HttpFileElement.cpp"));
         supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, PREFIX + "Object.h"));
         supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder, PREFIX + "Enum.h"));
-        supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", sourceFolder,"ServerConfiguration.h"));
-        supportingFiles.add(new SupportingFile("ServerVariable.mustache", sourceFolder,"ServerVariable.h"));
+        supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", sourceFolder, PREFIX +"ServerConfiguration.h"));
+        supportingFiles.add(new SupportingFile("ServerVariable.mustache", sourceFolder, PREFIX +"ServerVariable.h"));
         supportingFiles.add(new SupportingFile("README.mustache", "","README.md"));
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));       
         if (optionalProjectFileFlag) {
@@ -120,8 +120,8 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
             supportingFiles.add(new SupportingFile("HttpFileElement.cpp.mustache", sourceFolder, modelNamePrefix + "HttpFileElement.cpp"));           
             supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, modelNamePrefix + "Object.h"));
             supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder, modelNamePrefix + "Enum.h"));
-            supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", sourceFolder,"ServerConfiguration.h"));
-            supportingFiles.add(new SupportingFile("ServerVariable.mustache", sourceFolder,"ServerVariable.h"));
+            supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", sourceFolder, modelNamePrefix + "ServerConfiguration.h"));
+            supportingFiles.add(new SupportingFile("ServerVariable.mustache", sourceFolder, modelNamePrefix + "ServerVariable.h"));
             supportingFiles.add(new SupportingFile("README.mustache", "","README.md"));
             supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
            
