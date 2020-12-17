@@ -68,6 +68,8 @@ before_install:
   - curl https://sh.rustup.rs -sSf | sh -s -- -y -v
   # required when sudo: required for the Ruby petstore tests
   - gem install bundler
+  - nvm install 12.20.0
+  - nvm use 12.20.0
   - npm install -g typescript
   - npm install -g npm
   - npm config set registry http://registry.npmjs.org/
