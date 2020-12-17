@@ -184,9 +184,7 @@ public class ExampleGenerator {
         }
 
         if (output.size() == 0) {
-            Map<String, String> kv = new HashMap<>();
-            kv.put(OUTPUT, NONE);
-            output.add(kv);
+            createDefaultExamples(output);
         }
         return output;
     }
@@ -212,11 +210,15 @@ public class ExampleGenerator {
         }
 
         if (output.size() == 0) {
-            Map<String, String> kv = new HashMap<>();
-            kv.put(OUTPUT, NONE);
-            output.add(kv);
+            createDefaultExamples(output);
         }
         return output;
+    }
+
+    protected void createDefaultExamples(List<Map<String, String>> examples) {
+        Map<String, String> example = new HashMap<>();
+        example.put(OUTPUT, NONE);
+        examples.add(example);
     }
 
     private Object resolvePropertyToExample(String propertyName, String mediaType, Schema property, Set<String> processedModels) {
