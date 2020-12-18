@@ -192,7 +192,7 @@ class {{{classname}}} {
       {{/isArray}}
       {{^isArray}}
         {{#isMap}}
-      return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
+      return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as Map<dynamic, dynamic>);
         {{/isMap}}
         {{^isMap}}
       return apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}};
