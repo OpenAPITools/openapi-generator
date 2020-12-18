@@ -413,14 +413,14 @@ void {{prefix}}HttpRequestWorker::on_reply_timeout(QNetworkReply *reply) {
 
 void {{prefix}}HttpRequestWorker::process_response(QNetworkReply *reply) {
     if (getResponseHeaders().contains(QString("Content-Disposition"))) {
-        auto contentDisposition = getResponseHeaders().value(QString("Content-Disposition").toUtf8()).split(QString(";"), Qt::SkipEmptyParts);
+        auto contentDisposition = getResponseHeaders().value(QString("Content-Disposition").toUtf8()).split(QString(";"), SKIP_EMPTY_PARTS);
         auto contentType =
-            getResponseHeaders().contains(QString("Content-Type")) ? getResponseHeaders().value(QString("Content-Type").toUtf8()).split(QString(";"), Qt::SkipEmptyParts).first() : QString();
+            getResponseHeaders().contains(QString("Content-Type")) ? getResponseHeaders().value(QString("Content-Type").toUtf8()).split(QString(";"), SKIP_EMPTY_PARTS).first() : QString();
         if ((contentDisposition.count() > 0) && (contentDisposition.first() == QString("attachment"))) {
             QString filename = QUuid::createUuid().toString();
             for (const auto &file : contentDisposition) {
                 if (file.contains(QString("filename"))) {
-                    filename = file.split(QString("="), Qt::SkipEmptyParts).at(1);
+                    filename = file.split(QString("="), SKIP_EMPTY_PARTS).at(1);
                     break;
                 }
             }
@@ -430,14 +430,14 @@ void {{prefix}}HttpRequestWorker::process_response(QNetworkReply *reply) {
         }
 
     } else if (getResponseHeaders().contains(QString("Content-Type"))) {
-        auto contentType = getResponseHeaders().value(QString("Content-Type").toUtf8()).split(QString(";"), Qt::SkipEmptyParts);
+        auto contentType = getResponseHeaders().value(QString("Content-Type").toUtf8()).split(QString(";"), SKIP_EMPTY_PARTS);
         if ((contentType.count() > 0) && (contentType.first() == QString("multipart/form-data"))) {
             // TODO : Handle Multipart responses
         } else {
             if(headers.contains("Content-Encoding")){
-                auto encoding = headers.value("Content-Encoding").split(QString(";"), Qt::SkipEmptyParts);
+                auto encoding = headers.value("Content-Encoding").split(QString(";"), SKIP_EMPTY_PARTS);
                 if(encoding.count() > 0){
-                    auto compressionTypes = encoding.first().split(',', Qt::SkipEmptyParts);
+                    auto compressionTypes = encoding.first().split(',', SKIP_EMPTY_PARTS);
                     if(compressionTypes.contains("gzip", Qt::CaseInsensitive) || compressionTypes.contains("deflate", Qt::CaseInsensitive)){
                         response = decompress(reply->readAll());
                     } else if(compressionTypes.contains("identity", Qt::CaseInsensitive)){

@@ -65,7 +65,7 @@ QJsonValue PFXHttpFileElement::asJsonValue() const {
     if (!result) {
         qDebug() << "Error opening file " << local_filename;
     }
-    return QJsonDocument::fromBinaryData(bArray.data()).object();
+    return QJsonDocument::fromJson(bArray.data()).object();
 }
 
 bool PFXHttpFileElement::fromStringValue(const QString &instr) {
@@ -90,7 +90,7 @@ bool PFXHttpFileElement::fromJsonValue(const QJsonValue &jval) {
         file.remove();
     }
     result = file.open(QIODevice::WriteOnly);
-    file.write(QJsonDocument(jval.toObject()).toBinaryData());
+    file.write(QJsonDocument(jval.toObject()).toJson());
     file.close();
     if (!result) {
         qDebug() << "Error creating file " << local_filename;
