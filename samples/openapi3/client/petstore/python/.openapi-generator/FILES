@@ -114,6 +114,7 @@ petstore_api/api_client.py
 petstore_api/apis/__init__.py
 petstore_api/configuration.py
 petstore_api/exceptions.py
+petstore_api/model/__init__.py
 petstore_api/model/additional_properties_class.py
 petstore_api/model/additional_properties_with_array_of_enums.py
 petstore_api/model/address.py
