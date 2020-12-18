@@ -14,6 +14,7 @@
 #include <QObject>
 #include <QString>
 #include <QTimer>
+#include <QRandomGenerator>
 
 #include "{{prefix}}HttpFileElement.h"
 
@@ -86,6 +87,7 @@ private:
     bool isResponseCompressionEnabled;
     bool isRequestCompressionEnabled;
     int  httpResponseCode;
+    QRandomGenerator randomGenerator;
 
     void on_reply_timeout(QNetworkReply *reply);
     void on_reply_finished(QNetworkReply *reply);
