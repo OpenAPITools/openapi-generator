@@ -14,13 +14,13 @@ class BasicAuthInterceptor extends AuthInterceptor {
     Map<String, BasicAuthInfo> authInfo = {};
 
     @override
-    Future onRequest(RequestOptions options) {
+    Future<dynamic> onRequest(RequestOptions options) {
         final metadataAuthInfo = getAuthInfo(options, 'basic');
-        for (var info in metadataAuthInfo) {
-            final authName = info['name'];
+        for (final info in metadataAuthInfo) {
+            final String authName = info['name'];
             final basicAuthInfo = authInfo[authName];
-            if(basicAuthInfo != null) {
-                String basicAuth = 'Basic ' + base64Encode(utf8.encode('${basicAuthInfo.username}:${basicAuthInfo.password}'));
+            if (basicAuthInfo != null) {
+                final basicAuth = 'Basic ' + base64Encode(utf8.encode('${basicAuthInfo.username}:${basicAuthInfo.password}'));
                 options.headers['Authorization'] = basicAuth;
                 break;
             }

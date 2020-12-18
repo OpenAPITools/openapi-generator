@@ -15,7 +15,7 @@ abstract class Foo implements Built<Foo, FooBuilder> {
     static void _initializeBuilder(FooBuilder b) => b
         ..bar = 'bar';
 
-    factory Foo([updates(FooBuilder b)]) = _$Foo;
+    factory Foo([void updates(FooBuilder b)]) = _$Foo;
     static Serializer<Foo> get serializer => _$fooSerializer;
 }
 

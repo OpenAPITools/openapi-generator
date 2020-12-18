@@ -28,7 +28,7 @@ abstract class MapTest implements Built<MapTest, MapTestBuilder> {
 
     static void _initializeBuilder(MapTestBuilder b) => b;
 
-    factory MapTest([updates(MapTestBuilder b)]) = _$MapTest;
+    factory MapTest([void updates(MapTestBuilder b)]) = _$MapTest;
     static Serializer<MapTest> get serializer => _$mapTestSerializer;
 }
 

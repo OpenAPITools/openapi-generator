@@ -20,7 +20,7 @@ abstract class FileSchemaTestClass implements Built<FileSchemaTestClass, FileSch
 
     static void _initializeBuilder(FileSchemaTestClassBuilder b) => b;
 
-    factory FileSchemaTestClass([updates(FileSchemaTestClassBuilder b)]) = _$FileSchemaTestClass;
+    factory FileSchemaTestClass([void updates(FileSchemaTestClassBuilder b)]) = _$FileSchemaTestClass;
     static Serializer<FileSchemaTestClass> get serializer => _$fileSchemaTestClassSerializer;
 }
 

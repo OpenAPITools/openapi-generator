@@ -22,7 +22,7 @@ abstract class ApiResponse implements Built<ApiResponse, ApiResponseBuilder> {
 
     static void _initializeBuilder(ApiResponseBuilder b) => b;
 
-    factory ApiResponse([updates(ApiResponseBuilder b)]) = _$ApiResponse;
+    factory ApiResponse([void updates(ApiResponseBuilder b)]) = _$ApiResponse;
     static Serializer<ApiResponse> get serializer => _$apiResponseSerializer;
 }
 

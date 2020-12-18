@@ -60,7 +60,7 @@ abstract class NullableClass implements Built<NullableClass, NullableClassBuilde
 
     static void _initializeBuilder(NullableClassBuilder b) => b;
 
-    factory NullableClass([updates(NullableClassBuilder b)]) = _$NullableClass;
+    factory NullableClass([void updates(NullableClassBuilder b)]) = _$NullableClass;
     static Serializer<NullableClass> get serializer => _$nullableClassSerializer;
 }
 

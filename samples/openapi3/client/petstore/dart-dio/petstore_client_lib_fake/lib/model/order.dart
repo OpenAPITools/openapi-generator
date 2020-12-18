@@ -38,7 +38,7 @@ abstract class Order implements Built<Order, OrderBuilder> {
     static void _initializeBuilder(OrderBuilder b) => b
         ..complete = false;
 
-    factory Order([updates(OrderBuilder b)]) = _$Order;
+    factory Order([void updates(OrderBuilder b)]) = _$Order;
     static Serializer<Order> get serializer => _$orderSerializer;
 }
 

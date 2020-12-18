@@ -14,7 +14,7 @@ abstract class ModelList implements Built<ModelList, ModelListBuilder> {
 
     static void _initializeBuilder(ModelListBuilder b) => b;
 
-    factory ModelList([updates(ModelListBuilder b)]) = _$ModelList;
+    factory ModelList([void updates(ModelListBuilder b)]) = _$ModelList;
     static Serializer<ModelList> get serializer => _$modelListSerializer;
 }
 

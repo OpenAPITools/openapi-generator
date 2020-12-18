@@ -25,7 +25,7 @@ abstract class Dog implements Built<Dog, DogBuilder> {
     static void _initializeBuilder(DogBuilder b) => b
         ..color = 'red';
 
-    factory Dog([updates(DogBuilder b)]) = _$Dog;
+    factory Dog([void updates(DogBuilder b)]) = _$Dog;
     static Serializer<Dog> get serializer => _$dogSerializer;
 }
 

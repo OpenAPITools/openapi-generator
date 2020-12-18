@@ -8,11 +8,11 @@ abstract class AuthInterceptor extends Interceptor {
      * Can return null if type is not present on auth data or if route doesn't need authentication
      */
     List<Map<String, dynamic>> getAuthInfo(RequestOptions route, String type) {
-        if (route.extra.containsKey("secure")) {
-            final auth = route.extra["secure"];
-            List<Map<String, dynamic>> results = [];
-            for (var info in auth) {
-                if(info["type"] == type) {
+        if (route.extra.containsKey('secure')) {
+            final List<Map<String, String>> auth = route.extra['secure'];
+            final List<Map<String, dynamic>> results = [];
+            for (final info in auth) {
+                if (info['type'] == type) {
                     results.add(info);
                 }
             }

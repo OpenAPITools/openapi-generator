@@ -22,7 +22,7 @@ abstract class OuterComposite implements Built<OuterComposite, OuterCompositeBui
 
     static void _initializeBuilder(OuterCompositeBuilder b) => b;
 
-    factory OuterComposite([updates(OuterCompositeBuilder b)]) = _$OuterComposite;
+    factory OuterComposite([void updates(OuterCompositeBuilder b)]) = _$OuterComposite;
     static Serializer<OuterComposite> get serializer => _$outerCompositeSerializer;
 }
 

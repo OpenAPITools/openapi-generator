@@ -18,7 +18,7 @@ abstract class Model200Response implements Built<Model200Response, Model200Respo
 
     static void _initializeBuilder(Model200ResponseBuilder b) => b;
 
-    factory Model200Response([updates(Model200ResponseBuilder b)]) = _$Model200Response;
+    factory Model200Response([void updates(Model200ResponseBuilder b)]) = _$Model200Response;
     static Serializer<Model200Response> get serializer => _$model200ResponseSerializer;
 }
 

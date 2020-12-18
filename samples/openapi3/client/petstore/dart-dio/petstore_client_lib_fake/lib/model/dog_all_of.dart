@@ -14,7 +14,7 @@ abstract class DogAllOf implements Built<DogAllOf, DogAllOfBuilder> {
 
     static void _initializeBuilder(DogAllOfBuilder b) => b;
 
-    factory DogAllOf([updates(DogAllOfBuilder b)]) = _$DogAllOf;
+    factory DogAllOf([void updates(DogAllOfBuilder b)]) = _$DogAllOf;
     static Serializer<DogAllOf> get serializer => _$dogAllOfSerializer;
 }
 

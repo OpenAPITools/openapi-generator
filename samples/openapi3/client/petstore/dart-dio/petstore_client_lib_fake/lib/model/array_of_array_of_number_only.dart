@@ -15,7 +15,7 @@ abstract class ArrayOfArrayOfNumberOnly implements Built<ArrayOfArrayOfNumberOnl
 
     static void _initializeBuilder(ArrayOfArrayOfNumberOnlyBuilder b) => b;
 
-    factory ArrayOfArrayOfNumberOnly([updates(ArrayOfArrayOfNumberOnlyBuilder b)]) = _$ArrayOfArrayOfNumberOnly;
+    factory ArrayOfArrayOfNumberOnly([void updates(ArrayOfArrayOfNumberOnlyBuilder b)]) = _$ArrayOfArrayOfNumberOnly;
     static Serializer<ArrayOfArrayOfNumberOnly> get serializer => _$arrayOfArrayOfNumberOnlySerializer;
 }
 

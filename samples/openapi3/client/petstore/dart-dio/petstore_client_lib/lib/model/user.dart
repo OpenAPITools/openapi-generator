@@ -43,7 +43,7 @@ abstract class User implements Built<User, UserBuilder> {
 
     static void _initializeBuilder(UserBuilder b) => b;
 
-    factory User([updates(UserBuilder b)]) = _$User;
+    factory User([void updates(UserBuilder b)]) = _$User;
     static Serializer<User> get serializer => _$userSerializer;
 }
 

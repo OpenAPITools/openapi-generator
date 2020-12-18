@@ -21,7 +21,7 @@ abstract class InlineObject5 implements Built<InlineObject5, InlineObject5Builde
 
     static void _initializeBuilder(InlineObject5Builder b) => b;
 
-    factory InlineObject5([updates(InlineObject5Builder b)]) = _$InlineObject5;
+    factory InlineObject5([void updates(InlineObject5Builder b)]) = _$InlineObject5;
     static Serializer<InlineObject5> get serializer => _$inlineObject5Serializer;
 }
 

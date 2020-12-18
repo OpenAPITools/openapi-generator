@@ -14,7 +14,7 @@ abstract class NumberOnly implements Built<NumberOnly, NumberOnlyBuilder> {
 
     static void _initializeBuilder(NumberOnlyBuilder b) => b;
 
-    factory NumberOnly([updates(NumberOnlyBuilder b)]) = _$NumberOnly;
+    factory NumberOnly([void updates(NumberOnlyBuilder b)]) = _$NumberOnly;
     static Serializer<NumberOnly> get serializer => _$numberOnlySerializer;
 }
 

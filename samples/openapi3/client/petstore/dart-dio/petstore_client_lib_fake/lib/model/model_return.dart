@@ -14,7 +14,7 @@ abstract class ModelReturn implements Built<ModelReturn, ModelReturnBuilder> {
 
     static void _initializeBuilder(ModelReturnBuilder b) => b;
 
-    factory ModelReturn([updates(ModelReturnBuilder b)]) = _$ModelReturn;
+    factory ModelReturn([void updates(ModelReturnBuilder b)]) = _$ModelReturn;
     static Serializer<ModelReturn> get serializer => _$modelReturnSerializer;
 }
 

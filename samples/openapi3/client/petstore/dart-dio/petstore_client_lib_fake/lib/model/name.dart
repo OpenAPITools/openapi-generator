@@ -26,7 +26,7 @@ abstract class Name implements Built<Name, NameBuilder> {
 
     static void _initializeBuilder(NameBuilder b) => b;
 
-    factory Name([updates(NameBuilder b)]) = _$Name;
+    factory Name([void updates(NameBuilder b)]) = _$Name;
     static Serializer<Name> get serializer => _$nameSerializer;
 }
 

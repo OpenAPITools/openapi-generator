@@ -31,8 +31,8 @@ class {{classname}} {
     }) async {
         final String _path = '{{{path}}}'{{#pathParams}}.replaceAll('{' r'{{baseName}}' '}', {{{paramName}}}.toString()){{/pathParams}};
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -43,15 +43,15 @@ class {{classname}} {
         {{#queryParams}}
         queryParams[r'{{baseName}}'] = {{paramName}};
         {{/queryParams}}
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [{{^hasConsumes}}];{{/hasConsumes}}{{#hasConsumes}}{{#consumes}}
+        final contentTypes = <String>[{{^hasConsumes}}];{{/hasConsumes}}{{#hasConsumes}}{{#consumes}}
             '{{{mediaType}}}',{{/consumes}}
         ];{{/hasConsumes}}
         {{#hasFormParams}}
 
-        final Map<String, dynamic> formData = {};
+        final formData = <String, dynamic>{};
         {{#isMultipart}}
         {{#formParams}}
         {{^isFile}}
@@ -87,7 +87,7 @@ class {{classname}} {
         bodyData = json{{paramName}};
         {{/bodyParam}}
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
@@ -97,8 +97,8 @@ class {{classname}} {
                 responseType: ResponseType.bytes,
                 {{/isResponseFile}}
                 headers: headerParams,
-                extra: {
-                    'secure': [{{^hasAuthMethods}}],{{/hasAuthMethods}}{{#hasAuthMethods}}
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[{{^hasAuthMethods}}],{{/hasAuthMethods}}{{#hasAuthMethods}}
                         {{#authMethods}}{
                             'type': '{{type}}',
                             'name': '{{name}}',{{#isApiKey}}

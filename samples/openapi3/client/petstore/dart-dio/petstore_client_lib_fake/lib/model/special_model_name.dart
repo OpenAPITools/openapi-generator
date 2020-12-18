@@ -14,7 +14,7 @@ abstract class SpecialModelName implements Built<SpecialModelName, SpecialModelN
 
     static void _initializeBuilder(SpecialModelNameBuilder b) => b;
 
-    factory SpecialModelName([updates(SpecialModelNameBuilder b)]) = _$SpecialModelName;
+    factory SpecialModelName([void updates(SpecialModelNameBuilder b)]) = _$SpecialModelName;
     static Serializer<SpecialModelName> get serializer => _$specialModelNameSerializer;
 }
 

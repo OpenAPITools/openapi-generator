@@ -19,7 +19,7 @@ abstract class AdditionalPropertiesClass implements Built<AdditionalPropertiesCl
 
     static void _initializeBuilder(AdditionalPropertiesClassBuilder b) => b;
 
-    factory AdditionalPropertiesClass([updates(AdditionalPropertiesClassBuilder b)]) = _$AdditionalPropertiesClass;
+    factory AdditionalPropertiesClass([void updates(AdditionalPropertiesClassBuilder b)]) = _$AdditionalPropertiesClass;
     static Serializer<AdditionalPropertiesClass> get serializer => _$additionalPropertiesClassSerializer;
 }
 

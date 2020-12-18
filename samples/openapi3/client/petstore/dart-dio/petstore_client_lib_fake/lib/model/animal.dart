@@ -19,7 +19,7 @@ abstract class Animal implements Built<Animal, AnimalBuilder> {
     static void _initializeBuilder(AnimalBuilder b) => b
         ..color = 'red';
 
-    factory Animal([updates(AnimalBuilder b)]) = _$Animal;
+    factory Animal([void updates(AnimalBuilder b)]) = _$Animal;
     static Serializer<Animal> get serializer => _$animalSerializer;
 }
 

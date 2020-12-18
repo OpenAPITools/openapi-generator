@@ -55,7 +55,7 @@ abstract class EnumTest implements Built<EnumTest, EnumTestBuilder> {
 
     static void _initializeBuilder(EnumTestBuilder b) => b;
 
-    factory EnumTest([updates(EnumTestBuilder b)]) = _$EnumTest;
+    factory EnumTest([void updates(EnumTestBuilder b)]) = _$EnumTest;
     static Serializer<EnumTest> get serializer => _$enumTestSerializer;
 }
 

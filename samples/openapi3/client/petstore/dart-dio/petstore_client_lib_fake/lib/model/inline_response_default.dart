@@ -15,7 +15,7 @@ abstract class InlineResponseDefault implements Built<InlineResponseDefault, Inl
 
     static void _initializeBuilder(InlineResponseDefaultBuilder b) => b;
 
-    factory InlineResponseDefault([updates(InlineResponseDefaultBuilder b)]) = _$InlineResponseDefault;
+    factory InlineResponseDefault([void updates(InlineResponseDefaultBuilder b)]) = _$InlineResponseDefault;
     static Serializer<InlineResponseDefault> get serializer => _$inlineResponseDefaultSerializer;
 }
 

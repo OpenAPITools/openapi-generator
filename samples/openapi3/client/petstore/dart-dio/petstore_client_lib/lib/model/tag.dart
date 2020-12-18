@@ -18,7 +18,7 @@ abstract class Tag implements Built<Tag, TagBuilder> {
 
     static void _initializeBuilder(TagBuilder b) => b;
 
-    factory Tag([updates(TagBuilder b)]) = _$Tag;
+    factory Tag([void updates(TagBuilder b)]) = _$Tag;
     static Serializer<Tag> get serializer => _$tagSerializer;
 }
 

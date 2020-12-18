@@ -39,7 +39,7 @@ abstract class Pet implements Built<Pet, PetBuilder> {
 
     static void _initializeBuilder(PetBuilder b) => b;
 
-    factory Pet([updates(PetBuilder b)]) = _$Pet;
+    factory Pet([void updates(PetBuilder b)]) = _$Pet;
     static Serializer<Pet> get serializer => _$petSerializer;
 }
 

@@ -24,7 +24,7 @@ abstract class ArrayTest implements Built<ArrayTest, ArrayTestBuilder> {
 
     static void _initializeBuilder(ArrayTestBuilder b) => b;
 
-    factory ArrayTest([updates(ArrayTestBuilder b)]) = _$ArrayTest;
+    factory ArrayTest([void updates(ArrayTestBuilder b)]) = _$ArrayTest;
     static Serializer<ArrayTest> get serializer => _$arrayTestSerializer;
 }
 

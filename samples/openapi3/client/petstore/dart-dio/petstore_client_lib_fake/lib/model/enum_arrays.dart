@@ -21,7 +21,7 @@ abstract class EnumArrays implements Built<EnumArrays, EnumArraysBuilder> {
 
     static void _initializeBuilder(EnumArraysBuilder b) => b;
 
-    factory EnumArrays([updates(EnumArraysBuilder b)]) = _$EnumArrays;
+    factory EnumArrays([void updates(EnumArraysBuilder b)]) = _$EnumArrays;
     static Serializer<EnumArrays> get serializer => _$enumArraysSerializer;
 }
 

@@ -14,7 +14,7 @@ abstract class ClassModel implements Built<ClassModel, ClassModelBuilder> {
 
     static void _initializeBuilder(ClassModelBuilder b) => b;
 
-    factory ClassModel([updates(ClassModelBuilder b)]) = _$ClassModel;
+    factory ClassModel([void updates(ClassModelBuilder b)]) = _$ClassModel;
     static Serializer<ClassModel> get serializer => _$classModelSerializer;
 }
 

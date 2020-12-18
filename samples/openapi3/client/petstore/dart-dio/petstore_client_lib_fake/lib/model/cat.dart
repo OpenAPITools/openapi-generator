@@ -25,7 +25,7 @@ abstract class Cat implements Built<Cat, CatBuilder> {
     static void _initializeBuilder(CatBuilder b) => b
         ..color = 'red';
 
-    factory Cat([updates(CatBuilder b)]) = _$Cat;
+    factory Cat([void updates(CatBuilder b)]) = _$Cat;
     static Serializer<Cat> get serializer => _$catSerializer;
 }
 

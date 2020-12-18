@@ -35,7 +35,7 @@ abstract class Capitalization implements Built<Capitalization, CapitalizationBui
 
     static void _initializeBuilder(CapitalizationBuilder b) => b;
 
-    factory Capitalization([updates(CapitalizationBuilder b)]) = _$Capitalization;
+    factory Capitalization([void updates(CapitalizationBuilder b)]) = _$Capitalization;
     static Serializer<Capitalization> get serializer => _$capitalizationSerializer;
 }
 

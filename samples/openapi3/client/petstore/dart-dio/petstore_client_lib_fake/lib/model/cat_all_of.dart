@@ -14,7 +14,7 @@ abstract class CatAllOf implements Built<CatAllOf, CatAllOfBuilder> {
 
     static void _initializeBuilder(CatAllOfBuilder b) => b;
 
-    factory CatAllOf([updates(CatAllOfBuilder b)]) = _$CatAllOf;
+    factory CatAllOf([void updates(CatAllOfBuilder b)]) = _$CatAllOf;
     static Serializer<CatAllOf> get serializer => _$catAllOfSerializer;
 }
 
