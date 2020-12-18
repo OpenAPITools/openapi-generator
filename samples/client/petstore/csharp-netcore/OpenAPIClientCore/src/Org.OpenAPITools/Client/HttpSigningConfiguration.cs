@@ -123,6 +123,7 @@ namespace Org.OpenAPITools.Client
             var httpValues = HttpUtility.ParseQueryString(String.Empty);
             foreach (var parameter in requestOptions.QueryParameters)
             {
+#if (NETCOREAPP)
                 if (parameter.Value.Count > 1)
                 { // array
                     foreach (var value in parameter.Value)
@@ -132,13 +133,25 @@ namespace Org.OpenAPITools.Client
                 }
                 else
                 {
-                    httpValues.Add(HttpUtility.UrlEncode(parameter.Key), parameter.Value[0]);
-
+                httpValues.Add(HttpUtility.UrlEncode(parameter.Key), parameter.Value[0]);
                 }
+#else
+                if (parameter.Value.Count > 1)
+                    { // array
+                    foreach (var value in parameter.Value)
+                    {
+                        httpValues.Add(parameter.Key + "[]", value);
+                    }
+                    }
+                    else
+                    {
+                        httpValues.Add(parameter.Key, parameter.Value[0]);
+                    }
+#endif
             }
             var uriBuilder = new UriBuilder(string.Concat(basePath, path));
-            uriBuilder.Query = httpValues.ToString();
-
+            uriBuilder.Query = httpValues.ToString().Replace("+", "%20");
+            
             var dateTime = DateTime.Now;
             String Digest = String.Empty;
 
