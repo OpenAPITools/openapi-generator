@@ -1,0 +1,20 @@
+language: php
+dist: trusty
+php:
+    - 7.1.3
+    - 7.2
+
+install:
+  - composer install --dev --no-interaction
+script:
+  - mkdir -p report/logs
+  - php vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover=report/logs/clover.xml
+  - php vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v --dry-run --stop-on-violation --using-cache=no
+
+before_script:
+  - composer require --dev php-coveralls/php-coveralls --no-interaction
+
+after_success:
+  - travis_retry php vendor/bin/php-coveralls
+  # or enable logging
+  - travis_retry php vendor/bin/php-coveralls -v

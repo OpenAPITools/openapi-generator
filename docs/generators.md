@@ -111,6 +111,7 @@ The following generators are available:
 * [php-slim-deprecated (deprecated)](generators/php-slim-deprecated.md)  
 * [php-slim4](generators/php-slim4.md)  
 * [php-symfony](generators/php-symfony.md)  
+* [php-symfony5](generators/php-symfony5.md)  
 * [php-ze-ph](generators/php-ze-ph.md)  
 * [python-aiohttp](generators/python-aiohttp.md)  
 * [python-blueplanet](generators/python-blueplanet.md)  

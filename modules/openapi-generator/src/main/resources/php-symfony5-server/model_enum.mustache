@@ -1,0 +1,19 @@
+class {{classname}}
+{
+    /**
+     * Possible values of this enum
+     */
+    {{#allowableValues}}{{#enumVars}}const {{{name}}} = {{{value}}};
+    {{/enumVars}}{{/allowableValues}}
+    /**
+     * Gets allowable values of the enum
+     * @return string[]
+     */
+    public static function getAllowableEnumValues()
+    {
+        return [
+            {{#allowableValues}}{{#enumVars}}self::{{{name}}},{{^-last}}
+            {{/-last}}{{/enumVars}}{{/allowableValues}}
+        ];
+    }
+}

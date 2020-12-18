@@ -1,0 +1,94 @@
+{{#allParams}}
+        $asserts = [];
+{{#required}}
+        $asserts[] = new Assert\NotNull();
+{{/required}}
+{{#isEnum}}
+    {{#isContainer}}
+        $asserts[] = new Assert\All([
+    {{#items}}
+            new Assert\Choice([ {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}} ])
+    {{/items}}
+        ]);
+    {{/isContainer}}
+    {{^isContainer}}
+        $asserts[] = new Assert\Choice([ {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}} ]);
+    {{/isContainer}}
+{{/isEnum}}
+{{#isContainer}}
+    {{#items}}
+        $asserts[] = new Assert\All([
+            new Assert\Type("{{dataType}}"),
+            {{^isPrimitiveType}}
+            new Assert\Valid(),
+            {{/isPrimitiveType}}
+        ]);
+    {{/items}}
+{{/isContainer}}
+{{^isContainer}}
+    {{#isDate}}
+        $asserts[] = new Assert\Date();
+    {{/isDate}}
+    {{#isDateTime}}
+        $asserts[] = new Assert\DateTime();
+    {{/isDateTime}}
+    {{^isDate}}
+    {{^isDateTime}}
+    {{#isFile}}
+        $asserts[] = new Assert\File();
+    {{/isFile}}
+    {{^isFile}}
+        $asserts[] = new Assert\Type("{{dataType}}");
+        {{^isPrimitiveType}}
+        $asserts[] = new Assert\Valid();
+        {{/isPrimitiveType}}
+    {{/isFile}}
+    {{/isDateTime}}
+    {{/isDate}}
+{{/isContainer}}
+{{#hasValidation}}
+    {{#maxLength}}
+        $asserts[] = new Assert\Length([
+            'max' => {{maxLength}}
+        ]);
+    {{/maxLength}}
+    {{#minLength}}
+        $asserts[] = new Assert\Length([
+            'min' => {{minLength}}
+        ]);
+    {{/minLength}}
+    {{#minimum}}
+    {{#exclusiveMinimum}}
+        $asserts[] = new Assert\GreaterThan({{minimum}});
+    {{/exclusiveMinimum}}
+    {{^exclusiveMinimum}}
+        $asserts[] = new Assert\GreaterThanOrEqual({{minimum}});
+    {{/exclusiveMinimum}}
+    {{/minimum}}
+    {{#maximum}}
+    {{#exclusiveMaximum}}
+        $asserts[] = new Assert\LessThan({{maximum}});
+    {{/exclusiveMaximum}}
+    {{^exclusiveMaximum}}
+        $asserts[] = new Assert\LessThanOrEqual({{maximum}});
+    {{/exclusiveMaximum}}
+    {{/maximum}}
+    {{#pattern}}
+        $asserts[] = new Assert\Regex("/{{pattern}}/");
+    {{/pattern}}
+    {{#maxItems}}
+        $asserts[] = new Assert\Count([
+            'max' => {{maxItems}}
+        ]);
+    {{/maxItems}}
+    {{#minItems}}
+        $asserts[] = new Assert\Count([
+            'min' => {{minItems}}
+        ]);
+    {{/minItems}}
+{{/hasValidation}}
+        $response = $this->validate(${{paramName}}, $asserts);
+        if ($response instanceof Response) {
+            return $response;
+        }
+{{/allParams}}

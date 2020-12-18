@@ -1,0 +1,45 @@
+class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
+{
+    {{#vars}}{{>model_variables}}
+    {{/vars}}
+    /**
+     * Constructor
+     * @param mixed[] $data Associated array of property values initializing the model
+     */
+    public function __construct(array $data = null)
+    {
+        {{#parentSchema}}
+        parent::__construct($data);
+
+        {{/parentSchema}}
+        {{#vars}}
+        $this->{{name}} = isset($data['{{name}}']) ? $data['{{name}}'] : {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}};
+        {{/vars}}
+    }
+    {{#vars}}
+
+    /**
+     * Gets {{name}}.
+     *
+     * @return {{{vendorExtensions.x-comment-type}}}{{^required}}|null{{/required}}
+     */
+    public function {{getter}}(){{#vendorExtensions.x-parameter-type}}: {{^required}}?{{/required}}{{vendorExtensions.x-parameter-type}}{{/vendorExtensions.x-parameter-type}}
+    {
+        return $this->{{name}};
+    }
+
+    /**
+     * Sets {{name}}.
+     *
+     * @param {{{vendorExtensions.x-comment-type}}}{{^required}}|null{{/required}} ${{name}}{{#description}}  {{{description}}}{{/description}}
+     *
+     * @return $this
+     */
+    public function {{setter}}({{#vendorExtensions.x-parameter-type}}{{vendorExtensions.x-parameter-type}} {{/vendorExtensions.x-parameter-type}}${{name}}{{^required}} = null{{/required}})
+    {
+        $this->{{name}} = ${{name}};
+
+        return $this;
+    }
+    {{/vars}}
+}
