@@ -8,8 +8,6 @@ import 'package:built_value/standard_json_plugin.dart';
 
 import 'package:openapi/model/api_response.dart';
 import 'package:openapi/model/category.dart';
-import 'package:openapi/model/inline_object.dart';
-import 'package:openapi/model/inline_object1.dart';
 import 'package:openapi/model/order.dart';
 import 'package:openapi/model/pet.dart';
 import 'package:openapi/model/tag.dart';
@@ -21,8 +19,6 @@ part 'serializers.g.dart';
 @SerializersFor(const [
 ApiResponse,
 Category,
-InlineObject,
-InlineObject1,
 Order,
 Pet,
 Tag,
@@ -38,12 +34,6 @@ const FullType(BuiltList, const [const FullType(ApiResponse)]),
 ..addBuilderFactory(
 const FullType(BuiltList, const [const FullType(Category)]),
 () => new ListBuilder<Category>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(InlineObject)]),
-() => new ListBuilder<InlineObject>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(InlineObject1)]),
-() => new ListBuilder<InlineObject1>())
 ..addBuilderFactory(
 const FullType(BuiltList, const [const FullType(Order)]),
 () => new ListBuilder<Order>())

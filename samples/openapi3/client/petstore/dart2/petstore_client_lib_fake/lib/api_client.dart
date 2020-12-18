@@ -206,18 +206,6 @@ class ApiClient {
           return HasOnlyReadOnly.fromJson(value);
         case 'HealthCheckResult':
           return HealthCheckResult.fromJson(value);
-        case 'InlineObject':
-          return InlineObject.fromJson(value);
-        case 'InlineObject1':
-          return InlineObject1.fromJson(value);
-        case 'InlineObject2':
-          return InlineObject2.fromJson(value);
-        case 'InlineObject3':
-          return InlineObject3.fromJson(value);
-        case 'InlineObject4':
-          return InlineObject4.fromJson(value);
-        case 'InlineObject5':
-          return InlineObject5.fromJson(value);
         case 'InlineResponseDefault':
           return InlineResponseDefault.fromJson(value);
         case 'MapTest':

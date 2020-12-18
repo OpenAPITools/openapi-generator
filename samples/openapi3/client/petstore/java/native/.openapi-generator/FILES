@@ -44,12 +44,6 @@ docs/GmFruit.md
 docs/GrandparentAnimal.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineObject.md
-docs/InlineObject1.md
-docs/InlineObject2.md
-docs/InlineObject3.md
-docs/InlineObject4.md
-docs/InlineObject5.md
 docs/InlineResponseDefault.md
 docs/IsoscelesTriangle.md
 docs/Mammal.md
@@ -151,12 +145,6 @@ src/main/java/org/openapitools/client/model/GmFruit.java
 src/main/java/org/openapitools/client/model/GrandparentAnimal.java
 src/main/java/org/openapitools/client/model/HasOnlyReadOnly.java
 src/main/java/org/openapitools/client/model/HealthCheckResult.java
-src/main/java/org/openapitools/client/model/InlineObject.java
-src/main/java/org/openapitools/client/model/InlineObject1.java
-src/main/java/org/openapitools/client/model/InlineObject2.java
-src/main/java/org/openapitools/client/model/InlineObject3.java
-src/main/java/org/openapitools/client/model/InlineObject4.java
-src/main/java/org/openapitools/client/model/InlineObject5.java
 src/main/java/org/openapitools/client/model/InlineResponseDefault.java
 src/main/java/org/openapitools/client/model/IsoscelesTriangle.java
 src/main/java/org/openapitools/client/model/Mammal.java
