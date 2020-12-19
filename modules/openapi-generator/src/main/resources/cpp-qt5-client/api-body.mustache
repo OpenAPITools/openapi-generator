@@ -1,7 +1,7 @@
 {{>licenseInfo}}
 #include "{{classname}}.h"
 #include "{{prefix}}Helpers.h"
-
+#include "{{prefix}}ServerConfiguration.h"
 #include <QJsonArray>
 #include <QJsonDocument>
 
@@ -17,9 +17,68 @@ namespace {{this}} {
       _timeOut(timeOut),
       _manager(nullptr),
       isResponseCompressionEnabled(false),
-      isRequestCompressionEnabled(false) {}
+      isRequestCompressionEnabled(false) {
+      initializeServerConfigs();
+      }
 
 {{classname}}::~{{classname}}() {
+}
+
+void {{classname}}::initializeServerConfigs(){
+
+//Default server
+QList<{{prefix}}ServerConfiguration> defaultConf = QList<{{prefix}}ServerConfiguration>();
+//varying endpoint server 
+QList<{{prefix}}ServerConfiguration> serverConf = QList<{{prefix}}ServerConfiguration>();
+{{#vendorExtensions}}
+{{#x-codegen-globalServerList}}
+defaultConf.append({{prefix}}ServerConfiguration(
+    "{{{url}}}",
+    "{{{description}}}{{^description}}No description provided{{/description}}",
+    {{#variables}}{{#-first}}QMap<QString, {{prefix}}ServerVariable>{ {{/-first}}
+    {"{{{name}}}", {{prefix}}ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
+    QSet<QString>{ {{#enumValues}}{"{{{.}}}"}{{#-last}} })},{{/-last}}{{^-last}},{{/-last}}{{/enumValues}}{{^enumValues}}{"{{defaultValue}}"} })},{{/enumValues}}{{#-last}} }));{{/-last}}
+    {{/variables}}{{^variables}}QMap<QString, {{prefix}}ServerVariable>()));{{/variables}}
+{{/x-codegen-globalServerList}}
+{{/vendorExtensions}}
+{{#operations}}
+  {{#operation}}
+  {{^servers}}
+_serverConfigs.insert("{{nickname}}",defaultConf);
+_serverIndices.insert("{{nickname}}",0);
+
+{{/servers}}
+{{#servers}}
+serverConf.append({{prefix}}ServerConfiguration(
+    "{{{url}}}",
+    "{{{description}}}{{^description}}No description provided{{/description}}",
+    {{#variables}}{{#-first}}QMap<QString, {{prefix}}ServerVariable>{ {{/-first}}
+    {"{{{name}}}", {{prefix}}ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
+    QSet<QString>{ {{#enumValues}}{"{{{.}}}"}{{#-last}} })}, {{/-last}}{{^-last}},{{/-last}}{{/enumValues}}{{^enumValues}}{"{{defaultValue}}"} })},{{/enumValues}}{{#-last}} }));{{/-last}}
+    {{/variables}}{{^variables}}QMap<QString, {{prefix}}ServerVariable>()));{{/variables}}
+{{#-last}}_serverConfigs.insert("{{nickname}}",serverConf);
+_serverIndices.insert("{{nickname}}",0);{{/-last}}
+
+{{/servers}}
+{{/operation}}
+{{/operations}}
+
+}
+
+/**
+* returns 0 on success and -1, -2 or -3 on failure.
+* -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found 
+*/
+int {{classname}}::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value){
+    auto it = _serverConfigs.find(operation);
+    if(it != _serverConfigs.end() && serverIndex < it.value().size() ){
+      return _serverConfigs[operation][serverIndex].setDefaultValue(variable,value);
+    }
+    return -3;
+}
+void {{classname}}::setServerIndex(const QString &operation, int serverIndex){
+    if(_serverIndices.contains(operation) && serverIndex < _serverConfigs.find(operation).value().size() )
+        _serverIndices[operation] = serverIndex;
 }
 
 void {{classname}}::setScheme(const QString &scheme) {
@@ -85,12 +144,7 @@ void {{classname}}::abortRequests(){
 {{#operations}}
 {{#operation}}
 void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("{{{path}}}");
+    QString fullPath = QString(_serverConfigs["{{nickname}}"][_serverIndices.value("{{nickname}}")].URL()+"{{{path}}}");
     {{#pathParams}}
     QString {{paramName}}PathParam("{");
     {{paramName}}PathParam.append("{{baseName}}").append("}");

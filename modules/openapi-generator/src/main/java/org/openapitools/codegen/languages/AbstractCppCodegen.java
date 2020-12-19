@@ -19,8 +19,14 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap.Builder;
 import com.samskivert.mustache.Mustache.Lambda;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.servers.ServerVariables;
+import io.swagger.v3.oas.models.servers.ServerVariable;
+import org.openapitools.codegen.CodegenServer;
+import org.openapitools.codegen.CodegenServerVariable;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
@@ -327,6 +333,8 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
+        List<Server> serverList = openAPI.getServers();
+        List<CodegenServer> CodegenServerList = new ArrayList<CodegenServer>();
         URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
         String port = URLPathUtils.getPort(url, "");
         String host = url.getHost();
@@ -340,6 +348,28 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         }
         if (!scheme.isEmpty()) {
             this.additionalProperties.put("scheme", scheme);
+        }
+        if (!serverList.isEmpty()) {
+            for (Server server : serverList) {
+                CodegenServer s = new CodegenServer();
+                s.description = server.getDescription();
+                s.url = server.getUrl();
+                s.variables = new ArrayList<CodegenServerVariable>();
+                ServerVariables serverVars = server.getVariables();
+                if(serverVars != null){
+                serverVars.forEach((key,value) -> {
+                    CodegenServerVariable codegenServerVar= new CodegenServerVariable();
+                    ServerVariable ServerVar = value;
+                    codegenServerVar.name = key;
+                    codegenServerVar.description = ServerVar.getDescription();
+                    codegenServerVar.defaultValue = ServerVar.getDefault();
+                    codegenServerVar.enumValues = ServerVar.getEnum();
+                    s.variables.add(codegenServerVar);
+                    });
+                }
+                CodegenServerList.add(s);
+            }
+            this.vendorExtensions.put("x-codegen-globalServerList", CodegenServerList);
         }
     }
 
