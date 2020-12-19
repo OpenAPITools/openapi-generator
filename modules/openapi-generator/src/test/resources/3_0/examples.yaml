@@ -123,11 +123,10 @@ components:
       properties:
         name:
           type: string
-          pattern: '^[a-z\s]+$'
+          pattern: '/^[a-z\s]+$/'
         number:
           type: string
-          pattern: '^[0-9]{10}$'
+          pattern: '/[0-9]{10}/g'
         address:
           type: string
-          pattern: '^[a-z0-9\s]+$'
-
+          pattern: '/^[a-z0-9\s]+$/i'
