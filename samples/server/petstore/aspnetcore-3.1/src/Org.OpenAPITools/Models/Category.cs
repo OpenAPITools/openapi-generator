@@ -1,4 +1,3 @@
-dlfka;kdfjas;ldfka - to break the build
 /*
  * OpenAPI Petstore
  *
