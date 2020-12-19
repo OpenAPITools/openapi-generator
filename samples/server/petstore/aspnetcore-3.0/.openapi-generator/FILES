@@ -19,7 +19,6 @@ src/Org.OpenAPITools/Models/Pet.cs
 src/Org.OpenAPITools/Models/Tag.cs
 src/Org.OpenAPITools/Models/User.cs
 src/Org.OpenAPITools/OpenApi/TypeExtensions.cs
-src/Org.OpenAPITools/Org.OpenAPITools.csproj
 src/Org.OpenAPITools/Program.cs
 src/Org.OpenAPITools/Properties/launchSettings.json
 src/Org.OpenAPITools/Startup.cs
