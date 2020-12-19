@@ -65,7 +65,11 @@ void OpenAPIPetApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceede
 		FString ContentType = HttpResponse->GetContentType();
 		FString Content;
 
-		if (ContentType == TEXT("application/json"))
+		if (ContentType.IsEmpty())
+		{
+			return; // Nothing to parse
+		}
+		else if (ContentType.StartsWith(TEXT("application/json")) || ContentType.StartsWith("text/json"))
 		{
 			Content = HttpResponse->GetContentAsString();
 
@@ -78,7 +82,7 @@ void OpenAPIPetApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceede
 					return; // Successfully parsed
 			}
 		}
-		else if(ContentType == TEXT("text/plain"))
+		else if(ContentType.StartsWith(TEXT("text/plain")))
 		{
 			Content = HttpResponse->GetContentAsString();
 			InOutResponse.SetResponseString(Content);

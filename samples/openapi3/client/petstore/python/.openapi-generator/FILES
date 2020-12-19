@@ -49,12 +49,6 @@ docs/GmFruit.md
 docs/GrandparentAnimal.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineObject.md
-docs/InlineObject1.md
-docs/InlineObject2.md
-docs/InlineObject3.md
-docs/InlineObject4.md
-docs/InlineObject5.md
 docs/InlineResponseDefault.md
 docs/IntegerEnum.md
 docs/IntegerEnumOneValue.md
@@ -158,12 +152,6 @@ petstore_api/model/gm_fruit.py
 petstore_api/model/grandparent_animal.py
 petstore_api/model/has_only_read_only.py
 petstore_api/model/health_check_result.py
-petstore_api/model/inline_object.py
-petstore_api/model/inline_object1.py
-petstore_api/model/inline_object2.py
-petstore_api/model/inline_object3.py
-petstore_api/model/inline_object4.py
-petstore_api/model/inline_object5.py
 petstore_api/model/inline_response_default.py
 petstore_api/model/integer_enum.py
 petstore_api/model/integer_enum_one_value.py

@@ -81,8 +81,6 @@ Class | Method | HTTP request | Description
 
  - [PSPetstore/Model.ApiResponse](docs/ApiResponse.md)
  - [PSPetstore/Model.Category](docs/Category.md)
- - [PSPetstore/Model.InlineObject](docs/InlineObject.md)
- - [PSPetstore/Model.InlineObject1](docs/InlineObject1.md)
  - [PSPetstore/Model.Order](docs/Order.md)
  - [PSPetstore/Model.Pet](docs/Pet.md)
  - [PSPetstore/Model.Tag](docs/Tag.md)
