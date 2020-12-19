@@ -30,8 +30,7 @@ void {{classname}}::initializeServerConfigs(){
 QList<{{prefix}}ServerConfiguration> defaultConf = QList<{{prefix}}ServerConfiguration>();
 //varying endpoint server 
 QList<{{prefix}}ServerConfiguration> serverConf = QList<{{prefix}}ServerConfiguration>();
-{{#vendorExtensions}}
-{{#x-codegen-globalServerList}}
+{{#vendorExtensions.x-cpp-global-server-list}}
 defaultConf.append({{prefix}}ServerConfiguration(
     "{{{url}}}",
     "{{{description}}}{{^description}}No description provided{{/description}}",
@@ -39,8 +38,7 @@ defaultConf.append({{prefix}}ServerConfiguration(
     {"{{{name}}}", {{prefix}}ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
     QSet<QString>{ {{#enumValues}}{"{{{.}}}"}{{#-last}} })},{{/-last}}{{^-last}},{{/-last}}{{/enumValues}}{{^enumValues}}{"{{defaultValue}}"} })},{{/enumValues}}{{#-last}} }));{{/-last}}
     {{/variables}}{{^variables}}QMap<QString, {{prefix}}ServerVariable>()));{{/variables}}
-{{/x-codegen-globalServerList}}
-{{/vendorExtensions}}
+{{/vendorExtensions.x-cpp-global-server-list}}
 {{#operations}}
   {{#operation}}
   {{^servers}}
