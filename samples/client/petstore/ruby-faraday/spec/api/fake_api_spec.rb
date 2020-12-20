@@ -148,7 +148,7 @@ describe 'FakeApi' do
   # @option opts [String] :string None
   # @option opts [File] :binary None
   # @option opts [Date] :date None
-  # @option opts [DateTime] :date_time None
+  # @option opts [Time] :date_time None
   # @option opts [String] :password None
   # @option opts [String] :callback None
   # @return [nil]
