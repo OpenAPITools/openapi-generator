@@ -16,10 +16,8 @@ class Category {
     this.name = 'default-name',
   });
 
-  
   int id;
 
-  
   String name;
 
   @override

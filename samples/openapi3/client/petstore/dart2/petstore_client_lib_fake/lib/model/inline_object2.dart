@@ -13,7 +13,7 @@ class InlineObject2 {
   /// Returns a new [InlineObject2] instance.
   InlineObject2({
     this.enumFormStringArray = const [],
-    this.enumFormString = '-efg',
+    this.enumFormString = const InlineObject2EnumFormStringEnum._('-efg'),
   });
 
   /// Form parameter enum test (string array)
@@ -80,7 +80,7 @@ class InlineObject2 {
   }
 }
 
-/// Form parameter enum test (string array)
+
 class InlineObject2EnumFormStringArrayEnum {
   /// Instantiate a new enum with the provided [value].
   const InlineObject2EnumFormStringArrayEnum._(this.value);
@@ -90,19 +90,18 @@ class InlineObject2EnumFormStringArrayEnum {
 
   @override
   bool operator ==(Object other) => identical(this, other) ||
-      other is InlineObject2EnumFormStringArrayEnum && other.value == value ||
-      other is String && other == value;
+      other is InlineObject2EnumFormStringArrayEnum && other.value == value;
 
   @override
   int get hashCode => toString().hashCode;
 
   @override
-  String toString() => value.toString();
+  String toString() => value;
 
   String toJson() => value;
 
-  static const greaterThan = InlineObject2EnumFormStringArrayEnum._('>');
-  static const dollar = InlineObject2EnumFormStringArrayEnum._('$');
+  static const greaterThan = InlineObject2EnumFormStringArrayEnum._(r'>');
+  static const dollar = InlineObject2EnumFormStringArrayEnum._(r'$');
 
   /// List of all possible values in this [enum][InlineObject2EnumFormStringArrayEnum].
   static const values = <InlineObject2EnumFormStringArrayEnum>[
@@ -121,7 +120,7 @@ class InlineObject2EnumFormStringArrayEnum {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [InlineObject2EnumFormStringArrayEnum] to List<String>,
+/// Transformation class that can [encode] an instance of [InlineObject2EnumFormStringArrayEnum] to String,
 /// and [decode] dynamic data back to [InlineObject2EnumFormStringArrayEnum].
 class InlineObject2EnumFormStringArrayEnumTypeTransformer {
   const InlineObject2EnumFormStringArrayEnumTypeTransformer._();
@@ -140,8 +139,8 @@ class InlineObject2EnumFormStringArrayEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   InlineObject2EnumFormStringArrayEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case '>': return InlineObject2EnumFormStringArrayEnum.greaterThan;
-      case '$': return InlineObject2EnumFormStringArrayEnum.dollar;
+      case r'>': return InlineObject2EnumFormStringArrayEnum.greaterThan;
+      case r'$': return InlineObject2EnumFormStringArrayEnum.dollar;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
@@ -164,8 +163,7 @@ class InlineObject2EnumFormStringEnum {
 
   @override
   bool operator ==(Object other) => identical(this, other) ||
-      other is InlineObject2EnumFormStringEnum && other.value == value ||
-      other is String && other == value;
+      other is InlineObject2EnumFormStringEnum && other.value == value;
 
   @override
   int get hashCode => toString().hashCode;
@@ -175,9 +173,9 @@ class InlineObject2EnumFormStringEnum {
 
   String toJson() => value;
 
-  static const abc = InlineObject2EnumFormStringEnum._('_abc');
-  static const efg = InlineObject2EnumFormStringEnum._('-efg');
-  static const leftParenthesisXyzRightParenthesis = InlineObject2EnumFormStringEnum._('(xyz)');
+  static const abc = InlineObject2EnumFormStringEnum._(r'_abc');
+  static const efg = InlineObject2EnumFormStringEnum._(r'-efg');
+  static const leftParenthesisXyzRightParenthesis = InlineObject2EnumFormStringEnum._(r'(xyz)');
 
   /// List of all possible values in this [enum][InlineObject2EnumFormStringEnum].
   static const values = <InlineObject2EnumFormStringEnum>[
@@ -216,9 +214,9 @@ class InlineObject2EnumFormStringEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   InlineObject2EnumFormStringEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case '_abc': return InlineObject2EnumFormStringEnum.abc;
-      case '-efg': return InlineObject2EnumFormStringEnum.efg;
-      case '(xyz)': return InlineObject2EnumFormStringEnum.leftParenthesisXyzRightParenthesis;
+      case r'_abc': return InlineObject2EnumFormStringEnum.abc;
+      case r'-efg': return InlineObject2EnumFormStringEnum.efg;
+      case r'(xyz)': return InlineObject2EnumFormStringEnum.leftParenthesisXyzRightParenthesis;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

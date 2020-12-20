@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 
-import 'package:openapi/model/client.dart';
+import 'package:openapi/model/model_client.dart';
 
 class FakeClassnameTags123Api {
     final Dio _dio;
@@ -13,48 +11,66 @@ class FakeClassnameTags123Api {
 
     FakeClassnameTags123Api(this._dio, this._serializers);
 
-        /// To test class name in snake case
-        ///
-        /// To test class name in snake case
-        Future<Response<Client>>testClassname(Client client,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
+    /// To test class name in snake case
+    ///
+    /// To test class name in snake case
+    Future<Response<ModelClient>> testClassname(
+        ModelClient modelClient, { 
+        CancelToken cancelToken,
+        Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
+        ProgressCallback onSendProgress,
+        ProgressCallback onReceiveProgress,
+    }) async {
+        final String _path = '/fake_classname_test';
 
-        String _path = "/fake_classname_test";
-
-        Map<String, dynamic> queryParams = {};
-        Map<String, String> headerParams = Map.from(headers ?? {});
+        final Map<String, dynamic> queryParams = {};
+        final Map<String, dynamic> headerParams = {
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
         headerParams.removeWhere((key, value) => value == null);
 
-        List<String> contentTypes = ["application/json"];
+        final List<String> contentTypes = [
+            'application/json',
+        ];
 
+        final serializedBody = _serializers.serialize(modelClient);
+        final jsonmodelClient = json.encode(serializedBody);
+        bodyData = jsonmodelClient;
 
-            var serializedBody = _serializers.serialize(client);
-            var jsonclient = json.encode(serializedBody);
-            bodyData = jsonclient;
-
-            return _dio.request(
+        return _dio.request(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
-            method: 'patch'.toUpperCase(),
-            headers: headerParams,
-            extra: {
-                'secure': [ {"type": "apiKey", "name": "api_key_query", "keyName": "api_key_query", "where": "query" }],
-            },
-            contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
+                method: 'patch'.toUpperCase(),
+                headers: headerParams,
+                extra: {
+                    'secure': [
+                        {
+                            'type': 'apiKey',
+                            'name': 'api_key_query',
+                            'keyName': 'api_key_query',
+                            'where': 'query',
+                        },
+                    ],
+                    if (extra != null) ...extra,
+                },
+                validateStatus: validateStatus,
+                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
-            ).then((response) {
+        ).then((response) {
+            final serializer = _serializers.serializerForType(ModelClient);
+            final data = _serializers.deserializeWith<ModelClient>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
-            final serializer = _serializers.serializerForType(Client);
-            final data = _serializers.deserializeWith<Client>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
-
-            return Response<Client>(
+            return Response<ModelClient>(
                 data: data,
                 headers: response.headers,
                 request: response.request,
@@ -63,6 +79,7 @@ class FakeClassnameTags123Api {
                 statusMessage: response.statusMessage,
                 extra: response.extra,
             );
-            });
-            }
-        }
+        });
+    }
+
+}

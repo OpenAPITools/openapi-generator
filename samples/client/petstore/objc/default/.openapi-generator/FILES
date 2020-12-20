@@ -31,10 +31,6 @@ SwaggerClient/Core/SWGSanitizer.h
 SwaggerClient/Core/SWGSanitizer.m
 SwaggerClient/Model/SWGCategory.h
 SwaggerClient/Model/SWGCategory.m
-SwaggerClient/Model/SWGInlineObject.h
-SwaggerClient/Model/SWGInlineObject.m
-SwaggerClient/Model/SWGInlineObject1.h
-SwaggerClient/Model/SWGInlineObject1.m
 SwaggerClient/Model/SWGOrder.h
 SwaggerClient/Model/SWGOrder.m
 SwaggerClient/Model/SWGPet.h
@@ -44,8 +40,6 @@ SwaggerClient/Model/SWGTag.m
 SwaggerClient/Model/SWGUser.h
 SwaggerClient/Model/SWGUser.m
 docs/SWGCategory.md
-docs/SWGInlineObject.md
-docs/SWGInlineObject1.md
 docs/SWGOrder.md
 docs/SWGPet.md
 docs/SWGPetApi.md

@@ -6,17 +6,18 @@ part 'additional_properties_class.g.dart';
 
 abstract class AdditionalPropertiesClass implements Built<AdditionalPropertiesClass, AdditionalPropertiesClassBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'map_property')
     BuiltMap<String, String> get mapProperty;
-    
+
     @nullable
     @BuiltValueField(wireName: r'map_of_map_property')
     BuiltMap<String, BuiltMap<String, String>> get mapOfMapProperty;
 
     // Boilerplate code needed to wire-up generated code
     AdditionalPropertiesClass._();
+
+    static void _initializeBuilder(AdditionalPropertiesClassBuilder b) => b;
 
     factory AdditionalPropertiesClass([updates(AdditionalPropertiesClassBuilder b)]) = _$AdditionalPropertiesClass;
     static Serializer<AdditionalPropertiesClass> get serializer => _$additionalPropertiesClassSerializer;

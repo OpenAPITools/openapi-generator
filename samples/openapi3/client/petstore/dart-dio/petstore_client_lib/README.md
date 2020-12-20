@@ -84,8 +84,6 @@ Class | Method | HTTP request | Description
 
  - [ApiResponse](doc//ApiResponse.md)
  - [Category](doc//Category.md)
- - [InlineObject](doc//InlineObject.md)
- - [InlineObject1](doc//InlineObject1.md)
  - [Order](doc//Order.md)
  - [Pet](doc//Pet.md)
  - [Tag](doc//Tag.md)

@@ -15,7 +15,6 @@ class ArrayOfNumberOnly {
     this.arrayNumber = const [],
   });
 
-  
   List<num> arrayNumber;
 
   @override

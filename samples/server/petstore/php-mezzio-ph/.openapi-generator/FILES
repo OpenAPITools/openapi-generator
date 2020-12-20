@@ -11,8 +11,6 @@ src/App/DTO/ApiResponse.php
 src/App/DTO/Category.php
 src/App/DTO/FindPetsByStatusQueryData.php
 src/App/DTO/FindPetsByTagsQueryData.php
-src/App/DTO/InlineObject.php
-src/App/DTO/InlineObject1.php
 src/App/DTO/LoginUserQueryData.php
 src/App/DTO/Order.php
 src/App/DTO/Pet.php

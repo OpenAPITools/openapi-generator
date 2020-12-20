@@ -23,17 +23,17 @@ class AnotherFakeApi {
   ///
   /// Parameters:
   ///
-  /// * [Client] client (required):
+  /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<Response> call123testSpecialTagsWithHttpInfo(Client client) async {
+  Future<Response> call123testSpecialTagsWithHttpInfo(ModelClient modelClient) async {
     // Verify required params are set.
-    if (client == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: client');
+    if (modelClient == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: modelClient');
     }
 
     final path = '/another-fake/dummy'.replaceAll('{format}', 'json');
 
-    Object postBody = client;
+    Object postBody = modelClient;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -73,10 +73,10 @@ class AnotherFakeApi {
   ///
   /// Parameters:
   ///
-  /// * [Client] client (required):
+  /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<Client> call123testSpecialTags(Client client) async {
-    final response = await call123testSpecialTagsWithHttpInfo(client);
+  Future<ModelClient> call123testSpecialTags(ModelClient modelClient) async {
+    final response = await call123testSpecialTagsWithHttpInfo(modelClient);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
@@ -84,7 +84,7 @@ class AnotherFakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Client') as Client;
+      return apiClient.deserialize(_decodeBodyBytes(response), 'ModelClient') as ModelClient;
     }
     return null;
   }

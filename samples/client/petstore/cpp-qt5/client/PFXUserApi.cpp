@@ -11,7 +11,7 @@
 
 #include "PFXUserApi.h"
 #include "PFXHelpers.h"
-
+#include "PFXServerConfiguration.h"
 #include <QJsonArray>
 #include <QJsonDocument>
 
@@ -25,9 +25,64 @@ PFXUserApi::PFXUserApi(const QString &scheme, const QString &host, int port, con
       _timeOut(timeOut),
       _manager(nullptr),
       isResponseCompressionEnabled(false),
-      isRequestCompressionEnabled(false) {}
+      isRequestCompressionEnabled(false) {
+      initializeServerConfigs();
+      }
 
 PFXUserApi::~PFXUserApi() {
+}
+
+void PFXUserApi::initializeServerConfigs(){
+
+//Default server
+QList<PFXServerConfiguration> defaultConf = QList<PFXServerConfiguration>();
+//varying endpoint server 
+QList<PFXServerConfiguration> serverConf = QList<PFXServerConfiguration>();
+defaultConf.append(PFXServerConfiguration(
+    "http://petstore.swagger.io/v2",
+    "No description provided",
+    QMap<QString, PFXServerVariable>()));
+_serverConfigs.insert("createUser",defaultConf);
+_serverIndices.insert("createUser",0);
+
+_serverConfigs.insert("createUsersWithArrayInput",defaultConf);
+_serverIndices.insert("createUsersWithArrayInput",0);
+
+_serverConfigs.insert("createUsersWithListInput",defaultConf);
+_serverIndices.insert("createUsersWithListInput",0);
+
+_serverConfigs.insert("deleteUser",defaultConf);
+_serverIndices.insert("deleteUser",0);
+
+_serverConfigs.insert("getUserByName",defaultConf);
+_serverIndices.insert("getUserByName",0);
+
+_serverConfigs.insert("loginUser",defaultConf);
+_serverIndices.insert("loginUser",0);
+
+_serverConfigs.insert("logoutUser",defaultConf);
+_serverIndices.insert("logoutUser",0);
+
+_serverConfigs.insert("updateUser",defaultConf);
+_serverIndices.insert("updateUser",0);
+
+
+}
+
+/**
+* returns 0 on success and -1, -2 or -3 on failure.
+* -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found 
+*/
+int PFXUserApi::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value){
+    auto it = _serverConfigs.find(operation);
+    if(it != _serverConfigs.end() && serverIndex < it.value().size() ){
+      return _serverConfigs[operation][serverIndex].setDefaultValue(variable,value);
+    }
+    return -3;
+}
+void PFXUserApi::setServerIndex(const QString &operation, int serverIndex){
+    if(_serverIndices.contains(operation) && serverIndex < _serverConfigs.find(operation).value().size() )
+        _serverIndices[operation] = serverIndex;
 }
 
 void PFXUserApi::setScheme(const QString &scheme) {
@@ -91,12 +146,7 @@ void PFXUserApi::abortRequests(){
 }
 
 void PFXUserApi::createUser(const PFXUser &body) {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/user");
+    QString fullPath = QString(_serverConfigs["createUser"][_serverIndices.value("createUser")].URL()+"/user");
 
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -137,12 +187,7 @@ void PFXUserApi::createUserCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/user/createWithArray");
+    QString fullPath = QString(_serverConfigs["createUsersWithArrayInput"][_serverIndices.value("createUsersWithArrayInput")].URL()+"/user/createWithArray");
 
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -184,12 +229,7 @@ void PFXUserApi::createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker)
 }
 
 void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/user/createWithList");
+    QString fullPath = QString(_serverConfigs["createUsersWithListInput"][_serverIndices.value("createUsersWithListInput")].URL()+"/user/createWithList");
 
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -231,12 +271,7 @@ void PFXUserApi::createUsersWithListInputCallback(PFXHttpRequestWorker *worker) 
 }
 
 void PFXUserApi::deleteUser(const QString &username) {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/user/{username}");
+    QString fullPath = QString(_serverConfigs["deleteUser"][_serverIndices.value("deleteUser")].URL()+"/user/{username}");
     QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
@@ -277,12 +312,7 @@ void PFXUserApi::deleteUserCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXUserApi::getUserByName(const QString &username) {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/user/{username}");
+    QString fullPath = QString(_serverConfigs["getUserByName"][_serverIndices.value("getUserByName")].URL()+"/user/{username}");
     QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
@@ -324,12 +354,7 @@ void PFXUserApi::getUserByNameCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXUserApi::loginUser(const QString &username, const QString &password) {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/user/login");
+    QString fullPath = QString(_serverConfigs["loginUser"][_serverIndices.value("loginUser")].URL()+"/user/login");
 
 
     if (fullPath.indexOf("?") > 0)
@@ -381,12 +406,7 @@ void PFXUserApi::loginUserCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXUserApi::logoutUser() {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/user/logout");
+    QString fullPath = QString(_serverConfigs["logoutUser"][_serverIndices.value("logoutUser")].URL()+"/user/logout");
 
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -424,12 +444,7 @@ void PFXUserApi::logoutUserCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/user/{username}");
+    QString fullPath = QString(_serverConfigs["updateUser"][_serverIndices.value("updateUser")].URL()+"/user/{username}");
     QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));

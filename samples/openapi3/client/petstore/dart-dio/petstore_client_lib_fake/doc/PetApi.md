@@ -37,7 +37,7 @@ var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 try { 
     api_instance.addPet(pet);
 } catch (e) {
-    print("Exception when calling PetApi->addPet: $e\n");
+    print('Exception when calling PetApi->addPet: $e\n');
 }
 ```
 
@@ -80,7 +80,7 @@ var apiKey = apiKey_example; // String |
 try { 
     api_instance.deletePet(petId, apiKey);
 } catch (e) {
-    print("Exception when calling PetApi->deletePet: $e\n");
+    print('Exception when calling PetApi->deletePet: $e\n');
 }
 ```
 
@@ -88,8 +88,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| Pet id to delete | [default to null]
- **apiKey** | **String**|  | [optional] [default to null]
+ **petId** | **int**| Pet id to delete | 
+ **apiKey** | **String**|  | [optional] 
 
 ### Return type
 
@@ -107,7 +107,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **findPetsByStatus**
-> List<Pet> findPetsByStatus(status)
+> BuiltList<Pet> findPetsByStatus(status)
 
 Finds Pets by status
 
@@ -120,13 +120,13 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
-var status = []; // List<String> | Status values that need to be considered for filter
+var status = []; // BuiltList<String> | Status values that need to be considered for filter
 
 try { 
     var result = api_instance.findPetsByStatus(status);
     print(result);
 } catch (e) {
-    print("Exception when calling PetApi->findPetsByStatus: $e\n");
+    print('Exception when calling PetApi->findPetsByStatus: $e\n');
 }
 ```
 
@@ -134,11 +134,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [default to const []]
+ **status** | [**BuiltList<String>**](String.md)| Status values that need to be considered for filter | 
 
 ### Return type
 
-[**List<Pet>**](Pet.md)
+[**BuiltList<Pet>**](Pet.md)
 
 ### Authorization
 
@@ -152,7 +152,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **findPetsByTags**
-> List<Pet> findPetsByTags(tags)
+> BuiltList<Pet> findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -165,13 +165,13 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
-var tags = []; // List<String> | Tags to filter by
+var tags = []; // BuiltList<String> | Tags to filter by
 
 try { 
     var result = api_instance.findPetsByTags(tags);
     print(result);
 } catch (e) {
-    print("Exception when calling PetApi->findPetsByTags: $e\n");
+    print('Exception when calling PetApi->findPetsByTags: $e\n');
 }
 ```
 
@@ -179,11 +179,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | [default to const []]
+ **tags** | [**BuiltList<String>**](String.md)| Tags to filter by | 
 
 ### Return type
 
-[**List<Pet>**](Pet.md)
+[**BuiltList<Pet>**](Pet.md)
 
 ### Authorization
 
@@ -218,7 +218,7 @@ try {
     var result = api_instance.getPetById(petId);
     print(result);
 } catch (e) {
-    print("Exception when calling PetApi->getPetById: $e\n");
+    print('Exception when calling PetApi->getPetById: $e\n');
 }
 ```
 
@@ -226,7 +226,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| ID of pet to return | [default to null]
+ **petId** | **int**| ID of pet to return | 
 
 ### Return type
 
@@ -260,7 +260,7 @@ var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 try { 
     api_instance.updatePet(pet);
 } catch (e) {
-    print("Exception when calling PetApi->updatePet: $e\n");
+    print('Exception when calling PetApi->updatePet: $e\n');
 }
 ```
 
@@ -304,7 +304,7 @@ var status = status_example; // String | Updated status of the pet
 try { 
     api_instance.updatePetWithForm(petId, name, status);
 } catch (e) {
-    print("Exception when calling PetApi->updatePetWithForm: $e\n");
+    print('Exception when calling PetApi->updatePetWithForm: $e\n');
 }
 ```
 
@@ -312,9 +312,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| ID of pet that needs to be updated | [default to null]
- **name** | **String**| Updated name of the pet | [optional] [default to null]
- **status** | **String**| Updated status of the pet | [optional] [default to null]
+ **petId** | **int**| ID of pet that needs to be updated | 
+ **name** | **String**| Updated name of the pet | [optional] 
+ **status** | **String**| Updated status of the pet | [optional] 
 
 ### Return type
 
@@ -351,7 +351,7 @@ try {
     var result = api_instance.uploadFile(petId, additionalMetadata, file);
     print(result);
 } catch (e) {
-    print("Exception when calling PetApi->uploadFile: $e\n");
+    print('Exception when calling PetApi->uploadFile: $e\n');
 }
 ```
 
@@ -359,9 +359,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| ID of pet to update | [default to null]
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
- **file** | **Uint8List**| file to upload | [optional] [default to null]
+ **petId** | **int**| ID of pet to update | 
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
+ **file** | **Uint8List**| file to upload | [optional] 
 
 ### Return type
 
@@ -398,7 +398,7 @@ try {
     var result = api_instance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
     print(result);
 } catch (e) {
-    print("Exception when calling PetApi->uploadFileWithRequiredFile: $e\n");
+    print('Exception when calling PetApi->uploadFileWithRequiredFile: $e\n');
 }
 ```
 
@@ -406,9 +406,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| ID of pet to update | [default to null]
- **requiredFile** | **Uint8List**| file to upload | [default to null]
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
+ **petId** | **int**| ID of pet to update | 
+ **requiredFile** | **Uint8List**| file to upload | 
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
 
 ### Return type
 
