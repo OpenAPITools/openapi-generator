@@ -204,7 +204,7 @@ defmodule OpenapiPetstore.Api.User do
   ## Parameters
 
   - connection (OpenapiPetstore.Connection): Connection to server
-  - username (String.t): name that need to be deleted
+  - username (String.t): name of the user that needs to be updated
   - body (User): Updated user object
   - opts (KeywordList): [optional] Optional parameters
   ## Returns

@@ -78,5 +78,5 @@ import javax.validation.Valid;
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-    Response updateUser(@PathParam("username") @ApiParam("name that need to be deleted") String username,@Valid User body);
+    Response updateUser(@PathParam("username") @ApiParam("name of the user that needs to be updated") String username,@Valid User body);
 }

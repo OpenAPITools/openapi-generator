@@ -147,7 +147,7 @@ const logoutUser = () => new Promise(
 * Updated user
 * This can only be done by the logged in user.
 *
-* username String name that need to be deleted
+* username String name of the user that needs to be updated
 * body User Updated user object
 * no response value expected for this operation
 * */

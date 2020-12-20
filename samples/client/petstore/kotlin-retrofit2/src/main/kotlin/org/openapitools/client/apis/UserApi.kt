@@ -103,7 +103,7 @@ interface UserApi {
      *  - 400: Invalid user supplied
      *  - 404: User not found
      * 
-     * @param username name that need to be deleted 
+     * @param username name of the user that needs to be updated 
      * @param body Updated user object 
      * @return [Call]<[Unit]>
      */

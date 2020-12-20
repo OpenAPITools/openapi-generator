@@ -311,7 +311,7 @@ API.Client.UserApi.prototype.logoutUser = function(opt_extraHttpRequestParams) {
 /**
  * Updated user
  * This can only be done by the logged in user.
- * @param {!string} username name that need to be deleted
+ * @param {!string} username name of the user that needs to be updated
  * @param {!User} user Updated user object
  * @param {!angular.$http.Config=} opt_extraHttpRequestParams Extra HTTP parameters to send.
  * @return {!angular.$q.Promise}

@@ -577,7 +577,7 @@ Updated user
 No description available.
 
 .PARAMETER Username
-name that need to be deleted
+name of the user that needs to be updated
 
 .PARAMETER User
 Updated user object

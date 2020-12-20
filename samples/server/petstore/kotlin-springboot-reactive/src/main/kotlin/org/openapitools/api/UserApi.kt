@@ -147,7 +147,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @PutMapping(
         value = ["/user/{username}"]
     )
-    suspend fun updateUser(@ApiParam(value = "name that need to be deleted", required=true) @PathVariable("username") username: kotlin.String
+    suspend fun updateUser(@ApiParam(value = "name of the user that needs to be updated", required=true) @PathVariable("username") username: kotlin.String
 ,@ApiParam(value = "Updated user object" ,required=true ) @Valid @RequestBody body: User
 ): ResponseEntity<Unit> {
         return ResponseEntity(service.updateUser(username, body), HttpStatus.valueOf(400))

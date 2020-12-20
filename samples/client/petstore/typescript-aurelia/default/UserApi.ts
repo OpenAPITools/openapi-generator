@@ -294,7 +294,7 @@ export class UserApi extends Api {
   /**
    * Updated user
    * This can only be done by the logged in user.
-   * @param params.username name that need to be deleted
+   * @param params.username name of the user that needs to be updated
    * @param params.body Updated user object
    */
   async updateUser(params: IUpdateUserParams): Promise<any> {

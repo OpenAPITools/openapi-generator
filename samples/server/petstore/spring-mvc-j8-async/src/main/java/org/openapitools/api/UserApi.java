@@ -191,7 +191,7 @@ public interface UserApi {
      * PUT /user/{username} : Updated user
      * This can only be done by the logged in user.
      *
-     * @param username name that need to be deleted (required)
+     * @param username name of the user that needs to be updated (required)
      * @param body Updated user object (required)
      * @return Invalid user supplied (status code 400)
      *         or User not found (status code 404)
@@ -203,7 +203,7 @@ public interface UserApi {
     @PutMapping(
         value = "/user/{username}"
     )
-    default CompletableFuture<ResponseEntity<Void>> updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body) {
+    default CompletableFuture<ResponseEntity<Void>> updateUser(@ApiParam(value = "name of the user that needs to be updated",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }

@@ -225,7 +225,7 @@ updateUser
   :: (Consumes UpdateUser contentType, MimeRender contentType User)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> User -- ^ "body" -  Updated user object
-  -> Username -- ^ "username" -  name that need to be deleted
+  -> Username -- ^ "username" -  name of the user that needs to be updated
   -> OpenAPIPetstoreRequest UpdateUser contentType NoContent MimeNoContent
 updateUser _ body (Username username) =
   _mkRequest "PUT" ["/user/",toPath username]

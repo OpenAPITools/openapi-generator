@@ -486,7 +486,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io/v2");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        String username = "username_example"; // String | name that need to be deleted
+        String username = "username_example"; // String | name of the user that needs to be updated
         User body = new User(); // User | Updated user object
         try {
             void result = apiInstance.updateUser(username, body);
@@ -507,7 +507,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be deleted |
+ **username** | **String**| name of the user that needs to be updated |
  **body** | [**User**](User.md)| Updated user object |
 
 ### Return type

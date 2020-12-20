@@ -492,13 +492,13 @@ sub logout_user {
 #
 # Updated user
 # 
-# @param string $username name that need to be deleted (required)
+# @param string $username name of the user that needs to be updated (required)
 # @param User $user Updated user object (required)
 {
     my $params = {
     'username' => {
         data_type => 'string',
-        description => 'name that need to be deleted',
+        description => 'name of the user that needs to be updated',
         required => '1',
     },
     'user' => {

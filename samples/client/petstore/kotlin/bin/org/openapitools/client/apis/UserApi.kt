@@ -239,7 +239,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     /**
     * Updated user
     * This can only be done by the logged in user.
-    * @param username name that need to be deleted 
+    * @param username name of the user that needs to be updated 
     * @param body Updated user object 
     * @return void
     */

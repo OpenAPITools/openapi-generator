@@ -622,7 +622,7 @@ public class UserApi {
      * Updated user
      * This can only be done by the logged in user.
      *
-     * @see #usernamePath name that need to be deleted (required)
+     * @see #usernamePath name of the user that needs to be updated (required)
      * @see #body Updated user object (required)
      */
     public static class UpdateUserOper implements Oper {
@@ -663,7 +663,7 @@ public class UserApi {
         public static final String USERNAME_PATH = "username";
 
         /**
-         * @param username (String) name that need to be deleted (required)
+         * @param username (String) name of the user that needs to be updated (required)
          * @return operation
          */
         public UpdateUserOper usernamePath(Object username) {

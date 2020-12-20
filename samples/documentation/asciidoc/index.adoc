@@ -1732,7 +1732,7 @@ This can only be done by the logged in user.
 |Name| Description| Required| Default| Pattern
 
 | username 
-| name that need to be deleted  
+| name of the user that needs to be updated  
 | X 
 | null 
 |  

@@ -216,7 +216,7 @@ feature -- API Access
 			-- Updated user
 			-- This can only be done by the logged in user.
 			-- 
-			-- argument: username name that need to be deleted (required)
+			-- argument: username name of the user that needs to be updated (required)
 			-- 
 			-- argument: body Updated user object (required)
 			-- 

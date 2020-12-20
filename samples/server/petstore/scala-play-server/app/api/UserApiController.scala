@@ -116,7 +116,7 @@ class UserApiController @Inject()(cc: ControllerComponents, api: UserApi) extend
 
   /**
     * PUT /v2/user/:username
-    * @param username name that need to be deleted
+    * @param username name of the user that needs to be updated
     */
   def updateUser(username: String): Action[AnyContent] = Action { request =>
     def executeApi(): Unit = {

@@ -495,7 +495,7 @@ export class UserApi {
     /**
      * This can only be done by the logged in user.
      * @summary Updated user
-     * @param username name that need to be deleted
+     * @param username name of the user that needs to be updated
      * @param body Updated user object
      */
     public updateUser(username: string, body: models.User, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<

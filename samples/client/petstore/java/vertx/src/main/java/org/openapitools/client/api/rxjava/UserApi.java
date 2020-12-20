@@ -340,7 +340,7 @@ public class UserApi {
     /**
     * Updated user
     * This can only be done by the logged in user.
-    * @param username name that need to be deleted (required)
+    * @param username name of the user that needs to be updated (required)
     * @param body Updated user object (required)
     * @param resultHandler Asynchronous result handler
     */
@@ -351,7 +351,7 @@ public class UserApi {
     /**
     * Updated user
     * This can only be done by the logged in user.
-    * @param username name that need to be deleted (required)
+    * @param username name of the user that needs to be updated (required)
     * @param body Updated user object (required)
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
@@ -363,7 +363,7 @@ public class UserApi {
     /**
     * Updated user
     * This can only be done by the logged in user.
-    * @param username name that need to be deleted (required)
+    * @param username name of the user that needs to be updated (required)
     * @param body Updated user object (required)
     * @return Asynchronous result handler (RxJava Single)
     */
@@ -376,7 +376,7 @@ public class UserApi {
     /**
     * Updated user
     * This can only be done by the logged in user.
-    * @param username name that need to be deleted (required)
+    * @param username name of the user that needs to be updated (required)
     * @param body Updated user object (required)
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)

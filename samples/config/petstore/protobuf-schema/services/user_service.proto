@@ -77,7 +77,7 @@ message LoginUserResponse {
 }
 
 message UpdateUserRequest {
-  // name that need to be deleted
+  // name of the user that needs to be updated
   string username = 1;
   // Updated user object
   User user = 2;

@@ -333,7 +333,7 @@ export default class UserApi {
     /**
      * Updated user
      * This can only be done by the logged in user.
-     * @param {String} username name that need to be deleted
+     * @param {String} username name of the user that needs to be updated
      * @param {module:model/User} user Updated user object
      * @param {module:api/UserApi~updateUserCallback} callback The callback function, accepting three arguments: error, data, response
      */

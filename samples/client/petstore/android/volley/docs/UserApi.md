@@ -312,7 +312,7 @@ This can only be done by the logged in user.
 //import org.openapitools.client.api.UserApi;
 
 UserApi apiInstance = new UserApi();
-String username = null; // String | name that need to be deleted
+String username = null; // String | name of the user that needs to be updated
 User user = new User(); // User | Updated user object
 try {
     apiInstance.updateUser(username, user);
@@ -326,7 +326,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be deleted | [default to null]
+ **username** | **String**| name of the user that needs to be updated | [default to null]
  **user** | [**User**](User.md)| Updated user object |
 
 ### Return type

@@ -197,7 +197,7 @@ This can only be done by the logged in user.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **STRING_32**| name that need to be deleted | [default to null]
+ **username** | **STRING_32**| name of the user that needs to be updated | [default to null]
  **body** | [**USER**](USER.md)| Updated user object | 
 
 ### Return type

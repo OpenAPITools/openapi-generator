@@ -1894,7 +1894,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * This can only be done by the logged in user.
          * @summary Updated user
-         * @param {string} username name that need to be deleted
+         * @param {string} username name of the user that needs to be updated
          * @param {User} body Updated user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2058,7 +2058,7 @@ export const UserApiFp = function(configuration?: Configuration) {
         /**
          * This can only be done by the logged in user.
          * @summary Updated user
-         * @param {string} username name that need to be deleted
+         * @param {string} username name of the user that needs to be updated
          * @param {User} body Updated user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2152,7 +2152,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
         /**
          * This can only be done by the logged in user.
          * @summary Updated user
-         * @param {string} username name that need to be deleted
+         * @param {string} username name of the user that needs to be updated
          * @param {User} body Updated user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2242,7 +2242,7 @@ export interface UserApiInterface {
     /**
      * This can only be done by the logged in user.
      * @summary Updated user
-     * @param {string} username name that need to be deleted
+     * @param {string} username name of the user that needs to be updated
      * @param {User} body Updated user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2346,7 +2346,7 @@ export class UserApi extends BaseAPI implements UserApiInterface {
     /**
      * This can only be done by the logged in user.
      * @summary Updated user
-     * @param {string} username name that need to be deleted
+     * @param {string} username name of the user that needs to be updated
      * @param {User} body Updated user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

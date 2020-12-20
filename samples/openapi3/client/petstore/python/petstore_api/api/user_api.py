@@ -859,7 +859,7 @@ class UserApi(object):
             >>> result = thread.get()
 
             Args:
-                username (str): name that need to be deleted
+                username (str): name of the user that needs to be updated
                 user (User): Updated user object
 
             Keyword Args:

@@ -552,7 +552,7 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(Configuration.Default);
-            var username = username_example;  // string | name that need to be deleted
+            var username = username_example;  // string | name of the user that needs to be updated
             var user = new User(); // User | Updated user object
 
             try
@@ -576,7 +576,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| name that need to be deleted | 
+ **username** | **string**| name of the user that needs to be updated | 
  **user** | [**User**](User.md)| Updated user object | 
 
 ### Return type

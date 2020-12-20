@@ -217,7 +217,7 @@ bool logoutUserAsync(char * accessToken,
 /*! \brief Updated user. *Synchronous*
  *
  * This can only be done by the logged in user.
- * \param username name that need to be deleted *Required*
+ * \param username name of the user that needs to be updated *Required*
  * \param body Updated user object *Required*
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*
@@ -231,7 +231,7 @@ bool updateUserSync(char * accessToken,
 /*! \brief Updated user. *Asynchronous*
  *
  * This can only be done by the logged in user.
- * \param username name that need to be deleted *Required*
+ * \param username name of the user that needs to be updated *Required*
  * \param body Updated user object *Required*
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*

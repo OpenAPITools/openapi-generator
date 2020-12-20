@@ -531,7 +531,7 @@ paths:
       parameters:
       - name: "username"
         in: "path"
-        description: "name that need to be deleted"
+        description: "name of the user that needs to be updated"
         required: true
         type: "string"
       - in: "body"

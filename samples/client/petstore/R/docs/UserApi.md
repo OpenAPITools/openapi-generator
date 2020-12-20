@@ -313,7 +313,7 @@ This can only be done by the logged in user.
 ```R
 library(petstore)
 
-var.username <- 'username_example' # character | name that need to be deleted
+var.username <- 'username_example' # character | name of the user that needs to be updated
 var.body <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Updated user object
 
 #Updated user
@@ -325,7 +325,7 @@ api.instance$UpdateUser(var.username, var.body)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **character**| name that need to be deleted | 
+ **username** | **character**| name of the user that needs to be updated | 
  **body** | [**User**](User.md)| Updated user object | 
 
 ### Return type

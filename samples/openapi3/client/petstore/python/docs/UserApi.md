@@ -508,7 +508,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = user_api.UserApi(api_client)
-    username = "username_example" # str | name that need to be deleted
+    username = "username_example" # str | name of the user that needs to be updated
     user = User(
         id=1,
         username="username_example",
@@ -536,7 +536,7 @@ with petstore_api.ApiClient() as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **str**| name that need to be deleted |
+ **username** | **str**| name of the user that needs to be updated |
  **user** | [**User**](User.md)| Updated user object |
 
 ### Return type

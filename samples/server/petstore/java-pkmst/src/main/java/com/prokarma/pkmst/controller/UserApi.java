@@ -100,6 +100,6 @@ public interface UserApi {
     @PutMapping(
         value = "/user/{username}"
     )
-    ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true ) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )   @RequestBody User body, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
+    ResponseEntity<Void> updateUser(@ApiParam(value = "name of the user that needs to be updated",required=true ) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )   @RequestBody User body, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
 
 }

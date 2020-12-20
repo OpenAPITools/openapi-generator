@@ -317,7 +317,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * This can only be done by the logged in user.
      * Updated user
-     * @param username name that need to be deleted
+     * @param username name of the user that needs to be updated
      * @param user Updated user object
      */
     public async updateUser(username: string, user: User, options?: Configuration): Promise<RequestContext> {

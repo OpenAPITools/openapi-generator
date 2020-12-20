@@ -266,7 +266,7 @@
 #' ####################  UpdateUser  ####################
 #'
 #' library(petstore)
-#' var.username <- 'username_example' # character | name that need to be deleted
+#' var.username <- 'username_example' # character | name of the user that needs to be updated
 #' var.body <- User$new() # User | Updated user object
 #'
 #' #Updated user

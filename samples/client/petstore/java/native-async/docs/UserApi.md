@@ -1023,7 +1023,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        String username = "username_example"; // String | name that need to be deleted
+        String username = "username_example"; // String | name of the user that needs to be updated
         User body = new User(); // User | Updated user object
         try {
             CompletableFuture<Void> result = apiInstance.updateUser(username, body);
@@ -1043,7 +1043,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be deleted |
+ **username** | **String**| name of the user that needs to be updated |
  **body** | [**User**](User.md)| Updated user object |
 
 ### Return type
@@ -1092,7 +1092,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        String username = "username_example"; // String | name that need to be deleted
+        String username = "username_example"; // String | name of the user that needs to be updated
         User body = new User(); // User | Updated user object
         try {
             CompletableFuture<ApiResponse<Void>> response = apiInstance.updateUserWithHttpInfo(username, body);
@@ -1121,7 +1121,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be deleted |
+ **username** | **String**| name of the user that needs to be updated |
  **body** | [**User**](User.md)| Updated user object |
 
 ### Return type

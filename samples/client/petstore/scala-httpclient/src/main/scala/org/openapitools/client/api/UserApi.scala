@@ -260,7 +260,7 @@ class UserApi(
    * Updated user
    * This can only be done by the logged in user.
    *
-   * @param username name that need to be deleted 
+   * @param username name of the user that needs to be updated 
    * @param user Updated user object 
    * @return void
    */
@@ -276,7 +276,7 @@ class UserApi(
    * Updated user asynchronously
    * This can only be done by the logged in user.
    *
-   * @param username name that need to be deleted 
+   * @param username name of the user that needs to be updated 
    * @param user Updated user object 
    * @return Future(void)
    */

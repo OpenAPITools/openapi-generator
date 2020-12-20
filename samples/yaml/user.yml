@@ -61,7 +61,7 @@ apis:
         nickname: updateUser
         parameters: 
           - name: username
-            description: name that need to be deleted
+            description: name of the user that needs to be updated
             required: true
             allowMultiple: false
             type: string

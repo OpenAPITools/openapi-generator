@@ -61,7 +61,7 @@ pub struct LoginUserParams {
 /// struct for passing parameters to the method `update_user`
 #[derive(Clone, Debug)]
 pub struct UpdateUserParams {
-    /// name that need to be deleted
+    /// name of the user that needs to be updated
     pub username: String,
     /// Updated user object
     pub body: crate::models::User

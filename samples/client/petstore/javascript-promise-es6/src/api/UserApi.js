@@ -361,7 +361,7 @@ export default class UserApi {
     /**
      * Updated user
      * This can only be done by the logged in user.
-     * @param {String} username name that need to be deleted
+     * @param {String} username name of the user that needs to be updated
      * @param {module:model/User} user Updated user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
@@ -400,7 +400,7 @@ export default class UserApi {
     /**
      * Updated user
      * This can only be done by the logged in user.
-     * @param {String} username name that need to be deleted
+     * @param {String} username name of the user that needs to be updated
      * @param {module:model/User} user Updated user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
