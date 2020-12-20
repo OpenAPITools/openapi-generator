@@ -59,12 +59,6 @@ require 'petstore/models/pet'
 require 'petstore/models/read_only_first'
 require 'petstore/models/special_model_name'
 require 'petstore/models/tag'
-require 'petstore/models/test_endpoint_parameters_body'
-require 'petstore/models/test_enum_parameters_body'
-require 'petstore/models/test_json_form_data_body'
-require 'petstore/models/update_pet_with_form_body'
-require 'petstore/models/upload_file_body'
-require 'petstore/models/upload_file_with_required_file_body'
 require 'petstore/models/user'
 
 # APIs
