@@ -1221,8 +1221,7 @@
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
                 <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
                 <module>samples/client/petstore/typescript-fetch/tests/default</module>
-                <!-- comment out due to CI failure, e.g. https://travis-ci.org/OpenAPITools/openapi-generator/builds/574865730
-                <module>samples/client/petstore/typescript-axios/tests/default</module>-->
+                <module>samples/client/petstore/typescript-axios/tests/default</module>
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <module>samples/client/petstore/typescript-rxjs/builds/with-npm-version</module>
                 <!-- comment out due to error `npm run build`
@@ -1349,8 +1348,13 @@
                 <module>samples/client/petstore/javascript-promise-es6</module>
                 <module>samples/server/petstore/go-api-server</module>
                 <module>samples/server/petstore/go-gin-api-server</module>
+                <module>samples/client/petstore/dart2/petstore_client_lib</module>
                 <module>samples/client/petstore/dart2/petstore</module>
-                <module>samples/client/petstore/dart-dio</module>
+                <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
+                <module>samples/openapi3/client/petstore/dart2/petstore</module>
+                <module>samples/client/petstore/dart-dio/petstore_client_lib</module>
+                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib</module>
+                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake</module>
                 <module>samples/client/petstore/dart-jaguar/openapi</module>
                 <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>
             </modules>
@@ -1512,7 +1516,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <swagger-core-version>2.1.2</swagger-core-version>
         <swagger-parser-groupid>io.swagger.parser.v3</swagger-parser-groupid>
-        <swagger-parser-version>2.0.20</swagger-parser-version>
+        <swagger-parser-version>2.0.23</swagger-parser-version>
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
@@ -1527,7 +1531,7 @@
         <testng-version>7.1.0</testng-version>
         <surefire-version>3.0.0-M3</surefire-version>
         <reflections-version>0.9.10</reflections-version>
-        <mockito-version>3.2.0</mockito-version>
+        <mockito-version>3.6.28</mockito-version>
         <jacoco.version>0.8.5</jacoco.version>
         <spotbugs.plugin.version>3.1.12.2</spotbugs.plugin.version>
         <pmd.plugin.version>3.12.0</pmd.plugin.version>

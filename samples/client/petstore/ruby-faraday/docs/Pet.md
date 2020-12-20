@@ -11,7 +11,7 @@
 | **tags** | [**Array&lt;Tag&gt;**](Tag.md) |  | [optional] |
 | **status** | **String** | pet status in the store | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

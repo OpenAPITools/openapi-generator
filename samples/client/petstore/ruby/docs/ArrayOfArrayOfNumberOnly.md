@@ -6,7 +6,7 @@
 | ---- | ---- | ----------- | ----- |
 | **array_array_number** | **Array&lt;Array&lt;Float&gt;&gt;** |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

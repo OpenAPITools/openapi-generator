@@ -7,7 +7,7 @@
 | **bar** | **String** |  | [optional][readonly] |
 | **foo** | **String** |  | [optional][readonly] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

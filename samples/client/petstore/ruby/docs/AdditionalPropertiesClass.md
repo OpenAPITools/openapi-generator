@@ -7,7 +7,7 @@
 | **map_property** | **Hash&lt;String, String&gt;** |  | [optional] |
 | **map_of_map_property** | **Hash&lt;String, Hash&lt;String, String&gt;&gt;** |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

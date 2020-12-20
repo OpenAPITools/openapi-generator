@@ -558,7 +558,7 @@ public class ApiClient extends JavaTimeFormatter {
             builder.queryParams(queryParams);
         }
 
-        final WebClient.RequestBodySpec requestBuilder = webClient.method(method).uri(builder.build(false).toUriString(), pathParams);
+        final WebClient.RequestBodySpec requestBuilder = webClient.method(method).uri(builder.encode().toUriString(), pathParams);
         if(accept != null) {
             requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
         }

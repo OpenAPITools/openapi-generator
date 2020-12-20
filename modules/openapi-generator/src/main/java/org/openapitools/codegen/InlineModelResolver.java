@@ -116,7 +116,7 @@ public class InlineModelResolver {
         if (resolveInlineEnums && schema.getEnum() != null && schema.getEnum().size() > 0) {
             return true;
         }
-        if (schema.getType() == null || "object".equals(schema.getType())) {
+        if (schemaIsOfType(schema, "object")) {
             // object or undeclared type with properties
             if (schema.getProperties() != null && schema.getProperties().size() > 0) {
                 return true;
@@ -148,7 +148,7 @@ public class InlineModelResolver {
         if (schema.get$ref() != null) {
             // if ref already, no inline schemas should be present but check for
             // any to catch OpenAPI violations
-            if (isModelNeeded(schema) || "object".equals(schema.getType()) ||
+            if (isModelNeeded(schema) || schemaIsOfType(schema, "object")) ||
                     schema.getProperties() != null || schema.getAdditionalProperties() != null ||
                     schema instanceof ComposedSchema) {
                 LOGGER.error("Illegal schema found with $ref combined with other properties," +
@@ -159,7 +159,7 @@ public class InlineModelResolver {
         // Check object models / any type models / composed models for properties,
         // if the schema has a type defined that is not "object" it should not define
         // any properties
-        if (schema.getType() == null || "object".equals(schema.getType())) {
+        if (schemaIsOfType(schema, "object")) {
             // Check properties and recurse, each property could be its own inline model
             Map<String, Schema> props = schema.getProperties();
             if (props != null) {
@@ -397,6 +397,14 @@ public class InlineModelResolver {
             // Recursively gather/make inline models within this schema if any
             gatherInlineModels(schema, schemaName);
         }
+    }
+
+    private boolean schemaIsOfType(Schema m, String type) {
+        return m.getType() != null && m.getType().equals(type);
+    }
+
+    private boolean schemaContainsExample(Schema m) {
+        return m.getExample() != null && m.getExample() != "";
     }
 
     /**

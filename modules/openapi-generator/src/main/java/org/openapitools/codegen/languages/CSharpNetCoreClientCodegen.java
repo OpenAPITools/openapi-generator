@@ -200,10 +200,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         disallowAdditionalPropertiesIfNotPresentOpts.put("false",
                 "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
         disallowAdditionalPropertiesIfNotPresentOpts.put("true",
-                "when the 'additionalProperties' keyword is not present in a schema, " +
-                        "the value of 'additionalProperties' is automatically set to false, i.e. no additional properties are allowed. " +
-                        "Note: this mode is not compliant with the JSON schema specification. " +
-                        "This is the original openapi-generator behavior.");
+                "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.");
         disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
         this.setDisallowAdditionalPropertiesIfNotPresent(true);

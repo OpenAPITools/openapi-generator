@@ -2199,4 +2199,5 @@ components:
     http_basic_test:
       scheme: basic
       type: http
+x-original-swagger-version: "2.0"
 

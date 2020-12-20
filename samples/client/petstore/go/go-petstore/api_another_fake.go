@@ -11,6 +11,7 @@
 package petstore
 
 import (
+	"bytes"
 	_context "context"
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
@@ -36,7 +37,7 @@ type AnotherFakeApi interface {
 	 * Call123TestSpecialTagsExecute executes the request
 	 * @return Client
 	 */
-	Call123TestSpecialTagsExecute(r ApiCall123TestSpecialTagsRequest) (Client, *_nethttp.Response, error)
+	Call123TestSpecialTagsExecute(r ApiCall123TestSpecialTagsRequest) (Client, *_nethttp.Response, GenericOpenAPIError)
 }
 
 // AnotherFakeApiService AnotherFakeApi service
@@ -53,7 +54,7 @@ func (r ApiCall123TestSpecialTagsRequest) Body(body Client) ApiCall123TestSpecia
 	return r
 }
 
-func (r ApiCall123TestSpecialTagsRequest) Execute() (Client, *_nethttp.Response, error) {
+func (r ApiCall123TestSpecialTagsRequest) Execute() (Client, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.Call123TestSpecialTagsExecute(r)
 }
 
@@ -74,19 +75,21 @@ func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context) Api
  * Execute executes the request
  * @return Client
  */
-func (a *AnotherFakeApiService) Call123TestSpecialTagsExecute(r ApiCall123TestSpecialTagsRequest) (Client, *_nethttp.Response, error) {
+func (a *AnotherFakeApiService) Call123TestSpecialTagsExecute(r ApiCall123TestSpecialTagsRequest) (Client, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  Client
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnotherFakeApiService.Call123TestSpecialTags")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/another-fake/dummy"
@@ -95,7 +98,8 @@ func (a *AnotherFakeApiService) Call123TestSpecialTagsExecute(r ApiCall123TestSp
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	if r.body == nil {
-		return localVarReturnValue, nil, reportError("body is required and must be specified")
+		executionError.error = "body is required and must be specified"
+		return localVarReturnValue, nil, executionError
 	}
 
 	// to determine the Content-Type header
@@ -119,18 +123,22 @@ func (a *AnotherFakeApiService) Call123TestSpecialTagsExecute(r ApiCall123TestSp
 	localVarPostBody = r.body
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -150,5 +158,5 @@ func (a *AnotherFakeApiService) Call123TestSpecialTagsExecute(r ApiCall123TestSp
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }

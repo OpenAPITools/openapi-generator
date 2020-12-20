@@ -8,7 +8,7 @@
 | **date_time** | **Time** |  | [optional] |
 | **map** | [**Hash&lt;String, Animal&gt;**](Animal.md) |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

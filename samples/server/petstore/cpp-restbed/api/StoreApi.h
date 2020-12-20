@@ -38,21 +38,6 @@ namespace api {
 
 using namespace org::openapitools::server::model;
 
-class  StoreApi: public restbed::Service
-{
-public:
-	StoreApi();
-	~StoreApi();
-	void startService(int const& port);
-	void stopService();
-	
-protected:
-	std::shared_ptr<StoreApiStoreOrderOrderIdResource> m_spStoreApiStoreOrderOrderIdResource;
-	std::shared_ptr<StoreApiStoreInventoryResource> m_spStoreApiStoreInventoryResource;
-	std::shared_ptr<StoreApiStoreOrderResource> m_spStoreApiStoreOrderResource;
-};
-
-
 /// <summary>
 /// Delete purchase order by ID
 /// </summary>
@@ -146,6 +131,24 @@ private:
 
 
 	std::shared_ptr<Order> body{};
+};
+
+
+//
+// The restbed service to actually implement the REST server
+//
+class  StoreApi: public restbed::Service
+{
+public:
+	StoreApi();
+	~StoreApi();
+	void startService(int const& port);
+	void stopService();
+	
+protected:
+	std::shared_ptr<StoreApiStoreOrderOrderIdResource> m_spStoreApiStoreOrderOrderIdResource;
+	std::shared_ptr<StoreApiStoreInventoryResource> m_spStoreApiStoreInventoryResource;
+	std::shared_ptr<StoreApiStoreOrderResource> m_spStoreApiStoreOrderResource;
 };
 
 

@@ -10,10 +10,10 @@ inherit
 feature -- Access
 
 	user_name: detachable STRING_32
-			-- user name.
+			-- User name.
 
 	password: detachable STRING_32
-			-- password.
+			-- Password.
 
 feature -- Element Change	
 
@@ -35,14 +35,15 @@ feature -- Element Change
 
 feature -- Access
 
-	apply_to_params(a_query_params: LIST [TUPLE [name:STRING; value:STRING]]; a_header_params: STRING_TABLE [STRING])
+	apply_to_params(a_query_params: LIST [TUPLE [name:READABLE_STRING_8; value:READABLE_STRING_8]]; a_header_params: STRING_TABLE [READABLE_STRING_8])
    			-- <Precursor>.
 		do
 			if
 				attached user_name as l_username and then
 				attached password as l_password
 			then
-				a_header_params.force ("Basic " + (create {BASE64}).encoded_string (l_username + ":" + l_password) , "Authorization")
+					-- TODO check if this convertion it's ok.
+				a_header_params.force ("Basic " + (create {BASE64}).encoded_string (l_username.to_string_8 + ":" + l_password.to_string_8) , "Authorization")
 			end
    		end
 

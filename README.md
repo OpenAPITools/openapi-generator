@@ -644,6 +644,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [TravelTime platform](https://www.traveltimeplatform.com/)
 - [TribalScale](https://www.tribalscale.com)
 - [TUI InfoTec GmbH](http://www.tui-infotec.com/)
+- [Twitter](https://twitter.com)
 - [unblu inc.](https://www.unblu.com/)
 - [Veamly](https://www.veamly.com/)
 - [wbt-solutions](https://www.wbt-solutions.de/)
@@ -767,6 +768,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-05-22 - [TypeScript REST API Client](https://dev.to/unhurried/typescript-rest-api-client-4in3) by ["unhurried"](https://dev.to/unhurried)
 - 2020-05-28 - [【使用 lotify + Swagger 建置可共用的 LINE Notify bot】 - #NiJia @ Chatbot Developer Taiwan 第 #19 小聚](https://www.youtube.com/watch?v=agYVz6dzh1I) by [Chatbot Developer Taiwan](https://www.youtube.com/channel/UCxeYUyZNnHmpX23YNF-ewvw)
 - 2020-05-28 - [Building APIs with Laravel using OpenAPI](https://www.youtube.com/watch?v=xexLvQqAhiA) by [Chris Tankersley](https://github.com/dragonmantank) at [Laracon EU](https://laracon.eu/)
+- 2020-06-12 - [Interoperability by construction: code generation for Arrowhead Clients](https://ieeexplore.ieee.org/document/9274746) by Michele Albano, Brian Nielsen at [2020 IEEE Conference on Industrial Cyberphysical Systems (ICPS)](https://ieeexplore.ieee.org/xpl/conhome/9274544/proceeding)
 - 2020-06-23 - [新規サーバーアプリケーションにTypeScriptを採用してみた](https://www.cam-inc.co.jp/news/20200623) at [CAM Tech Blog](https://www.cam-inc.co.jp/news/tech-blog/)
 - 2020-06-29 - [Artifact Abstract: Deployment of APIs on Android Mobile Devices and Microcontrollers](https://ieeexplore.ieee.org/document/9127353) by [Sergio Laso ; Marino Linaje ; Jose Garcia-Alonso ; Juan M. Murillo ; Javier Berrocal](https://ieeexplore.ieee.org/document/9127353/authors#authors) at [2020 IEEE International Conference on Pervasive Computing and Communications (PerCom)](https://ieeexplore.ieee.org/xpl/conhome/9125449/proceeding)
 - 2020-07-07 - [5 Best API Documentation Tools](https://blog.dreamfactory.com/5-best-api-documentation-tools/) by Susanna Bouse at [DreamFactory Blog](https://blog.dreamfactory.com/)
@@ -824,7 +826,7 @@ Here is a list of template creators:
    * Dart (refactor): @joernahrens
    * Dart 2: @swipesight
    * Dart (Jaguar): @jaumard
-   * Dart (Dio): @athornz
+   * Dart (Dio): @josh-burton
    * Elixir: @niku
    * Elm: @eriktim
    * Eiffel: @jvelilla
@@ -980,7 +982,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | C++               | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) @muttleyxd (2019/08)                                                                                                                     |
 | C#                | @mandrean (2017/08) @frankyjuang (2019/09) @shibayan (2020/02)                                                                                             |
 | Clojure           |                                                                                                                                                                                                                                   |
-| Dart              | @ircecho (2017/07) @swipesight (2018/09) @jaumard (2018/09) @athornz (2019/12) @amondnet (2019/12)                                                                                                        |
+| Dart              | @swipesight (2018/09) @jaumard (2018/09) @josh-burton (2019/12) @amondnet (2019/12) @sbu-WBT (2020/12) @kuhnroyal (2020/12) @agilob (2020/12)                                                                                                      |
 | Eiffel            | @jvelilla (2017/09)                                                                                                                                                                                                               |
 | Elixir            | @mrmstn (2018/12)                                                                                                                                                                                                                 |
 | Elm               | @eriktim (2018/09)                                                                                                                                                                                                                |
@@ -1028,7 +1030,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 - [Daniel](https://github.com/Danielku15)
 - [Emiliano Bonassi](https://github.com/emilianobonassi)
 - [Erik Timmers](https://github.com/eriktim)
-- [Esteban Marin](https://github.com/macjohnny)
+- [Esteban Gehring](https://github.com/macjohnny)
 - [Gustavo Paz](https://github.com/gustavoapaz)
 - [Javier Velilla](https://github.com/jvelilla)
 - [Jean-François Côté](https://github.com/JFCote)

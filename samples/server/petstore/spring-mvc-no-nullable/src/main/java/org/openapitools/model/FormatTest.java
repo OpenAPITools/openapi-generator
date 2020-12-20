@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
-import org.springframework.core.io.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -43,7 +42,7 @@ public class FormatTest   {
   private byte[] _byte;
 
   @JsonProperty("binary")
-  private Resource binary;
+  private org.springframework.core.io.Resource binary;
 
   @JsonProperty("date")
   @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)
@@ -235,7 +234,7 @@ public class FormatTest   {
     this._byte = _byte;
   }
 
-  public FormatTest binary(Resource binary) {
+  public FormatTest binary(org.springframework.core.io.Resource binary) {
     this.binary = binary;
     return this;
   }
@@ -248,11 +247,11 @@ public class FormatTest   {
 
   @Valid
 
-  public Resource getBinary() {
+  public org.springframework.core.io.Resource getBinary() {
     return binary;
   }
 
-  public void setBinary(Resource binary) {
+  public void setBinary(org.springframework.core.io.Resource binary) {
     this.binary = binary;
   }
 

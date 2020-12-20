@@ -68,6 +68,8 @@ before_install:
   - curl https://sh.rustup.rs -sSf | sh -s -- -y -v
   # required when sudo: required for the Ruby petstore tests
   - gem install bundler
+  - nvm install 12.20.0
+  - nvm use 12.20.0
   - npm install -g typescript
   - npm install -g npm
   - npm config set registry http://registry.npmjs.org/
@@ -122,7 +124,7 @@ before_install:
     fi;
   - pushd .; cd website; yarn install; popd
   # install Deno
-  - curl -fsSL https://deno.land/x/install/install.sh | sh -s v1.1.2
+  - sh -s v1.1.2 < ./CI/deno_install.sh
   - export PATH="$HOME/.deno/bin:$PATH"
 
 install:

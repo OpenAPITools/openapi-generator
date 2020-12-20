@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -164,10 +162,10 @@ class User(ModelNormal):
             password (str): [optional]  # noqa: E501
             phone (str): [optional]  # noqa: E501
             user_status (int): User Status. [optional]  # noqa: E501
-            object_with_no_declared_props ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.. [optional]  # noqa: E501
-            object_with_no_declared_props_nullable ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type): test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.. [optional]  # noqa: E501
-            any_type_prop (bool, date, datetime, dict, float, int, list, str, none_type): test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389. [optional]  # noqa: E501
-            any_type_prop_nullable (bool, date, datetime, dict, float, int, list, str, none_type): test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.. [optional]  # noqa: E501
+            object_with_no_declared_props ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): test code generation for objects Value must be a map of strings to values. It cannot be the 'null' value.. [optional]  # noqa: E501
+            object_with_no_declared_props_nullable ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type): test code generation for nullable objects. Value must be a map of strings to values or the 'null' value.. [optional]  # noqa: E501
+            any_type_prop (bool, date, datetime, dict, float, int, list, str, none_type): test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389. [optional]  # noqa: E501
+            any_type_prop_nullable (bool, date, datetime, dict, float, int, list, str, none_type): test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The 'nullable' attribute does not change the allowed values.. [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

@@ -519,7 +519,7 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void updateCodegenPropertyEnumWithExtention() {
+    public void updateCodegenPropertyEnumWithExtension() {
         {
             CodegenProperty enumProperty = codegenPropertyWithXEnumVarName(Arrays.asList("dog", "cat"), Arrays.asList("DOGVAR", "CATVAR"));
             (new DefaultCodegen()).updateCodegenPropertyEnum(enumProperty);

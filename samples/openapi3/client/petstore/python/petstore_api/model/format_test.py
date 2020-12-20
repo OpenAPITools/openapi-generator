@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -224,7 +222,7 @@ class FormatTest(ModelNormal):
             uuid (str): [optional]  # noqa: E501
             uuid_no_example (str): [optional]  # noqa: E501
             pattern_with_digits (str): A string that is a 10 digit number. Can have leading zeros.. [optional]  # noqa: E501
-            pattern_with_digits_and_delimiter (str): A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.. [optional]  # noqa: E501
+            pattern_with_digits_and_delimiter (str): A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.. [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

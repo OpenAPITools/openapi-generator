@@ -6,7 +6,7 @@
 | ---- | ---- | ----------- | ----- |
 | **just_number** | **Float** |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

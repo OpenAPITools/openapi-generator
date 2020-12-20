@@ -7,7 +7,7 @@
 | **file** | **File** |  | [optional] |
 | **files** | **Array&lt;File&gt;** |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'
