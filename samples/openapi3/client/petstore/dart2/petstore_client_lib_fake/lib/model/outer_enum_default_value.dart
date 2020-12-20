@@ -69,7 +69,7 @@ class OuterEnumDefaultValueTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   OuterEnumDefaultValue decode(dynamic data, {bool allowNull}) {
-    switch (data) {
+    switch (data as ) {
       case r'placed': return OuterEnumDefaultValue.placed;
       case r'approved': return OuterEnumDefaultValue.approved;
       case r'delivered': return OuterEnumDefaultValue.delivered;
@@ -84,3 +84,4 @@ class OuterEnumDefaultValueTypeTransformer {
   /// Singleton [OuterEnumDefaultValueTypeTransformer] instance.
   static OuterEnumDefaultValueTypeTransformer _instance;
 }
+

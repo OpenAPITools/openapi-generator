@@ -63,7 +63,7 @@ class ApiClient {
   Future<Response> invokeAPI(
     String path,
     String method,
-    Iterable<QueryParam> queryParams,
+    List<QueryParam> queryParams,
     Object body,
     Map<String, String> headerParams,
     Map<String, String> formParams,
@@ -162,17 +162,17 @@ class ApiClient {
         case 'double':
           return value is double ? value : double.parse('$value');
         case 'ApiResponse':
-          return ApiResponse.fromJson(value);
+          return ApiResponse.fromJson(value as Map<String, dynamic>);
         case 'Category':
-          return Category.fromJson(value);
+          return Category.fromJson(value as Map<String, dynamic>);
         case 'Order':
-          return Order.fromJson(value);
+          return Order.fromJson(value as Map<String, dynamic>);
         case 'Pet':
-          return Pet.fromJson(value);
+          return Pet.fromJson(value as Map<String, dynamic>);
         case 'Tag':
-          return Tag.fromJson(value);
+          return Tag.fromJson(value as Map<String, dynamic>);
         case 'User':
-          return User.fromJson(value);
+          return User.fromJson(value as Map<String, dynamic>);
         default:
           Match match;
           if (value is List && (match = _regList.firstMatch(targetType)) != null) {
@@ -203,12 +203,12 @@ class ApiClient {
     List<QueryParam> queryParams,
     Map<String, String> headerParams,
   ) {
-    authNames.forEach((authName) {
+    for(final authName in authNames) {
       final auth = _authentications[authName];
       if (auth == null) {
         throw ArgumentError('Authentication undefined: $authName');
       }
       auth.applyToParams(queryParams, headerParams);
-    });
+    }
   }
 }

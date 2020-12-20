@@ -98,25 +98,25 @@ class User {
   static User fromJson(Map<String, dynamic> json) => json == null
     ? null
     : User(
-        id: json[r'id'],
-        username: json[r'username'],
-        firstName: json[r'firstName'],
-        lastName: json[r'lastName'],
-        email: json[r'email'],
-        password: json[r'password'],
-        phone: json[r'phone'],
-        userStatus: json[r'userStatus'],
+        id: json[r'id'] as int,
+        username: json[r'username'] as String,
+        firstName: json[r'firstName'] as String,
+        lastName: json[r'lastName'] as String,
+        email: json[r'email'] as String,
+        password: json[r'password'] as String,
+        phone: json[r'phone'] as String,
+        userStatus: json[r'userStatus'] as int,
     );
 
   static List<User> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <User>[]
-      : json.map((v) => User.fromJson(v)).toList(growable: true == growable);
+      : (json as List<Map<String, dynamic>>).map(User.fromJson).toList(growable: true == growable);
 
   static Map<String, User> mapFromJson(Map<String, dynamic> json) {
     final map = <String, User>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = User.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = User.fromJson(value as Map<String, dynamic>));
     }
     return map;
   }
@@ -124,9 +124,9 @@ class User {
   // maps a json object with a list of User-objects as value to a dart map
   static Map<String, List<User>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<User>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = User.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = User.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

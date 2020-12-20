@@ -41,18 +41,18 @@ class ModelClient {
   static ModelClient fromJson(Map<String, dynamic> json) => json == null
     ? null
     : ModelClient(
-        client: json[r'client'],
+        client: json[r'client'] as String,
     );
 
   static List<ModelClient> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ModelClient>[]
-      : json.map((v) => ModelClient.fromJson(v)).toList(growable: true == growable);
+      : (json as List<Map<String, dynamic>>).map(ModelClient.fromJson).toList(growable: true == growable);
 
   static Map<String, ModelClient> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ModelClient>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = ModelClient.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = ModelClient.fromJson(value as Map<String, dynamic>));
     }
     return map;
   }
@@ -60,9 +60,9 @@ class ModelClient {
   // maps a json object with a list of ModelClient-objects as value to a dart map
   static Map<String, List<ModelClient>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ModelClient>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = ModelClient.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = ModelClient.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

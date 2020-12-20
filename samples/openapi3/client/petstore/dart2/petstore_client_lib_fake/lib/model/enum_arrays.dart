@@ -56,12 +56,12 @@ class EnumArrays {
   static List<EnumArrays> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <EnumArrays>[]
-      : json.map((v) => EnumArrays.fromJson(v)).toList(growable: true == growable);
+      : (json as List<Map<String, dynamic>>).map(EnumArrays.fromJson).toList(growable: true == growable);
 
   static Map<String, EnumArrays> mapFromJson(Map<String, dynamic> json) {
     final map = <String, EnumArrays>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = EnumArrays.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = EnumArrays.fromJson(value as Map<String, dynamic>));
     }
     return map;
   }
@@ -69,9 +69,9 @@ class EnumArrays {
   // maps a json object with a list of EnumArrays-objects as value to a dart map
   static Map<String, List<EnumArrays>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<EnumArrays>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = EnumArrays.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = EnumArrays.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;
@@ -136,7 +136,7 @@ class EnumArraysJustSymbolEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumArraysJustSymbolEnum decode(dynamic data, {bool allowNull}) {
-    switch (data) {
+    switch (data as String) {
       case r'>=': return EnumArraysJustSymbolEnum.greaterThanEqual;
       case r'$': return EnumArraysJustSymbolEnum.dollar;
       default:
@@ -150,6 +150,7 @@ class EnumArraysJustSymbolEnumTypeTransformer {
   /// Singleton [EnumArraysJustSymbolEnumTypeTransformer] instance.
   static EnumArraysJustSymbolEnumTypeTransformer _instance;
 }
+
 
 
 class EnumArraysArrayEnumEnum {
@@ -209,7 +210,7 @@ class EnumArraysArrayEnumEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumArraysArrayEnumEnum decode(dynamic data, {bool allowNull}) {
-    switch (data) {
+    switch (data as String) {
       case r'fish': return EnumArraysArrayEnumEnum.fish;
       case r'crab': return EnumArraysArrayEnumEnum.crab;
       default:
@@ -223,4 +224,5 @@ class EnumArraysArrayEnumEnumTypeTransformer {
   /// Singleton [EnumArraysArrayEnumEnumTypeTransformer] instance.
   static EnumArraysArrayEnumEnumTypeTransformer _instance;
 }
+
 

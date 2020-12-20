@@ -82,25 +82,25 @@ class Order {
   static Order fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Order(
-        id: json[r'id'],
-        petId: json[r'petId'],
-        quantity: json[r'quantity'],
+        id: json[r'id'] as int,
+        petId: json[r'petId'] as int,
+        quantity: json[r'quantity'] as int,
         shipDate: json[r'shipDate'] == null
           ? null
-          : DateTime.parse(json[r'shipDate']),
+          : DateTime.parse(json[r'shipDate'] as String),
         status: OrderStatusEnum.fromJson(json[r'status']),
-        complete: json[r'complete'],
+        complete: json[r'complete'] as bool,
     );
 
   static List<Order> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Order>[]
-      : json.map((v) => Order.fromJson(v)).toList(growable: true == growable);
+      : (json as List<Map<String, dynamic>>).map(Order.fromJson).toList(growable: true == growable);
 
   static Map<String, Order> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Order>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = Order.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = Order.fromJson(value as Map<String, dynamic>));
     }
     return map;
   }
@@ -108,9 +108,9 @@ class Order {
   // maps a json object with a list of Order-objects as value to a dart map
   static Map<String, List<Order>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Order>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = Order.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = Order.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;
@@ -177,7 +177,7 @@ class OrderStatusEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   OrderStatusEnum decode(dynamic data, {bool allowNull}) {
-    switch (data) {
+    switch (data as String) {
       case r'placed': return OrderStatusEnum.placed;
       case r'approved': return OrderStatusEnum.approved;
       case r'delivered': return OrderStatusEnum.delivered;
@@ -192,4 +192,5 @@ class OrderStatusEnumTypeTransformer {
   /// Singleton [OrderStatusEnumTypeTransformer] instance.
   static OrderStatusEnumTypeTransformer _instance;
 }
+
 

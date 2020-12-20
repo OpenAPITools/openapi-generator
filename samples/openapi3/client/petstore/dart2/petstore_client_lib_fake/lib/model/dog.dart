@@ -57,20 +57,20 @@ class Dog {
   static Dog fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Dog(
-        className: json[r'className'],
-        color: json[r'color'],
-        breed: json[r'breed'],
+        className: json[r'className'] as String,
+        color: json[r'color'] as String,
+        breed: json[r'breed'] as String,
     );
 
   static List<Dog> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Dog>[]
-      : json.map((v) => Dog.fromJson(v)).toList(growable: true == growable);
+      : (json as List<Map<String, dynamic>>).map(Dog.fromJson).toList(growable: true == growable);
 
   static Map<String, Dog> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Dog>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = Dog.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = Dog.fromJson(value as Map<String, dynamic>));
     }
     return map;
   }
@@ -78,9 +78,9 @@ class Dog {
   // maps a json object with a list of Dog-objects as value to a dart map
   static Map<String, List<Dog>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Dog>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = Dog.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = Dog.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

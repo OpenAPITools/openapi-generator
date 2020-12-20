@@ -65,9 +65,7 @@ class MapTest {
   static MapTest fromJson(Map<String, dynamic> json) => json == null
     ? null
     : MapTest(
-        mapMapOfString: json[r'map_map_of_string'] == null
-          ? null
-          : Map.mapFromJson(json[r'map_map_of_string']),
+        mapMapOfString: json[r'map_map_of_string'] as Map<String, Map<String, String>>,
         mapOfEnumString: json[r'map_of_enum_string'] == null ?
           null :
           (json[r'map_of_enum_string'] as Map).cast<String, String>(),
@@ -82,12 +80,12 @@ class MapTest {
   static List<MapTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <MapTest>[]
-      : json.map((v) => MapTest.fromJson(v)).toList(growable: true == growable);
+      : (json as List<Map<String, dynamic>>).map(MapTest.fromJson).toList(growable: true == growable);
 
   static Map<String, MapTest> mapFromJson(Map<String, dynamic> json) {
     final map = <String, MapTest>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = MapTest.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = MapTest.fromJson(value as Map<String, dynamic>));
     }
     return map;
   }
@@ -95,9 +93,9 @@ class MapTest {
   // maps a json object with a list of MapTest-objects as value to a dart map
   static Map<String, List<MapTest>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<MapTest>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = MapTest.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = MapTest.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;
@@ -162,7 +160,7 @@ class MapTestInnerEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   MapTestInnerEnum decode(dynamic data, {bool allowNull}) {
-    switch (data) {
+    switch (data as String) {
       case r'UPPER': return MapTestInnerEnum.UPPER;
       case r'lower': return MapTestInnerEnum.lower;
       default:
@@ -176,4 +174,5 @@ class MapTestInnerEnumTypeTransformer {
   /// Singleton [MapTestInnerEnumTypeTransformer] instance.
   static MapTestInnerEnumTypeTransformer _instance;
 }
+
 

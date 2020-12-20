@@ -43,18 +43,18 @@ class NumberOnly {
     : NumberOnly(
         justNumber: json[r'JustNumber'] == null ?
           null :
-          json[r'JustNumber'].toDouble(),
+          (json[r'JustNumber'] as num).toDouble(),
     );
 
   static List<NumberOnly> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <NumberOnly>[]
-      : json.map((v) => NumberOnly.fromJson(v)).toList(growable: true == growable);
+      : (json as List<Map<String, dynamic>>).map(NumberOnly.fromJson).toList(growable: true == growable);
 
   static Map<String, NumberOnly> mapFromJson(Map<String, dynamic> json) {
     final map = <String, NumberOnly>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = NumberOnly.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = NumberOnly.fromJson(value as Map<String, dynamic>));
     }
     return map;
   }
@@ -62,9 +62,9 @@ class NumberOnly {
   // maps a json object with a list of NumberOnly-objects as value to a dart map
   static Map<String, List<NumberOnly>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<NumberOnly>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = NumberOnly.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = NumberOnly.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

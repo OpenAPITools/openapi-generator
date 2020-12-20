@@ -42,18 +42,18 @@ class ModelFile {
   static ModelFile fromJson(Map<String, dynamic> json) => json == null
     ? null
     : ModelFile(
-        sourceURI: json[r'sourceURI'],
+        sourceURI: json[r'sourceURI'] as String,
     );
 
   static List<ModelFile> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ModelFile>[]
-      : json.map((v) => ModelFile.fromJson(v)).toList(growable: true == growable);
+      : (json as List<Map<String, dynamic>>).map(ModelFile.fromJson).toList(growable: true == growable);
 
   static Map<String, ModelFile> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ModelFile>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = ModelFile.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = ModelFile.fromJson(value as Map<String, dynamic>));
     }
     return map;
   }
@@ -61,9 +61,9 @@ class ModelFile {
   // maps a json object with a list of ModelFile-objects as value to a dart map
   static Map<String, List<ModelFile>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ModelFile>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = ModelFile.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = ModelFile.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

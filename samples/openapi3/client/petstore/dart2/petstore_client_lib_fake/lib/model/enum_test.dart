@@ -101,21 +101,21 @@ class EnumTest {
         enumStringRequired: EnumTestEnumStringRequiredEnum.fromJson(json[r'enum_string_required']),
         enumInteger: EnumTestEnumIntegerEnum.fromJson(json[r'enum_integer']),
         enumNumber: EnumTestEnumNumberEnum.fromJson(json[r'enum_number']),
-        outerEnum: OuterEnum.fromJson(json[r'outerEnum']),
-        outerEnumInteger: OuterEnumInteger.fromJson(json[r'outerEnumInteger']),
-        outerEnumDefaultValue: OuterEnumDefaultValue.fromJson(json[r'outerEnumDefaultValue']),
-        outerEnumIntegerDefaultValue: OuterEnumIntegerDefaultValue.fromJson(json[r'outerEnumIntegerDefaultValue']),
+        outerEnum: OuterEnum.fromJson(json[r'outerEnum'] as Map<String, dynamic>),
+        outerEnumInteger: OuterEnumInteger.fromJson(json[r'outerEnumInteger'] as Map<String, dynamic>),
+        outerEnumDefaultValue: OuterEnumDefaultValue.fromJson(json[r'outerEnumDefaultValue'] as Map<String, dynamic>),
+        outerEnumIntegerDefaultValue: OuterEnumIntegerDefaultValue.fromJson(json[r'outerEnumIntegerDefaultValue'] as Map<String, dynamic>),
     );
 
   static List<EnumTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <EnumTest>[]
-      : json.map((v) => EnumTest.fromJson(v)).toList(growable: true == growable);
+      : (json as List<Map<String, dynamic>>).map(EnumTest.fromJson).toList(growable: true == growable);
 
   static Map<String, EnumTest> mapFromJson(Map<String, dynamic> json) {
     final map = <String, EnumTest>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = EnumTest.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = EnumTest.fromJson(value as Map<String, dynamic>));
     }
     return map;
   }
@@ -123,9 +123,9 @@ class EnumTest {
   // maps a json object with a list of EnumTest-objects as value to a dart map
   static Map<String, List<EnumTest>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<EnumTest>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = EnumTest.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = EnumTest.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;
@@ -192,7 +192,7 @@ class EnumTestEnumStringEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumTestEnumStringEnum decode(dynamic data, {bool allowNull}) {
-    switch (data) {
+    switch (data as String) {
       case r'UPPER': return EnumTestEnumStringEnum.UPPER;
       case r'lower': return EnumTestEnumStringEnum.lower;
       case r'': return EnumTestEnumStringEnum.empty;
@@ -207,6 +207,7 @@ class EnumTestEnumStringEnumTypeTransformer {
   /// Singleton [EnumTestEnumStringEnumTypeTransformer] instance.
   static EnumTestEnumStringEnumTypeTransformer _instance;
 }
+
 
 
 class EnumTestEnumStringRequiredEnum {
@@ -268,7 +269,7 @@ class EnumTestEnumStringRequiredEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumTestEnumStringRequiredEnum decode(dynamic data, {bool allowNull}) {
-    switch (data) {
+    switch (data as String) {
       case r'UPPER': return EnumTestEnumStringRequiredEnum.UPPER;
       case r'lower': return EnumTestEnumStringRequiredEnum.lower;
       case r'': return EnumTestEnumStringRequiredEnum.empty;
@@ -283,6 +284,7 @@ class EnumTestEnumStringRequiredEnumTypeTransformer {
   /// Singleton [EnumTestEnumStringRequiredEnumTypeTransformer] instance.
   static EnumTestEnumStringRequiredEnumTypeTransformer _instance;
 }
+
 
 
 class EnumTestEnumIntegerEnum {
@@ -342,7 +344,7 @@ class EnumTestEnumIntegerEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumTestEnumIntegerEnum decode(dynamic data, {bool allowNull}) {
-    switch (data) {
+    switch (data as int) {
       case 1: return EnumTestEnumIntegerEnum.number1;
       case -1: return EnumTestEnumIntegerEnum.numberNegative1;
       default:
@@ -356,6 +358,7 @@ class EnumTestEnumIntegerEnumTypeTransformer {
   /// Singleton [EnumTestEnumIntegerEnumTypeTransformer] instance.
   static EnumTestEnumIntegerEnumTypeTransformer _instance;
 }
+
 
 
 class EnumTestEnumNumberEnum {
@@ -415,7 +418,7 @@ class EnumTestEnumNumberEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumTestEnumNumberEnum decode(dynamic data, {bool allowNull}) {
-    switch (data) {
+    switch (data as double) {
       case '1.1': return EnumTestEnumNumberEnum.number1Period1;
       case '-1.2': return EnumTestEnumNumberEnum.numberNegative1Period2;
       default:
@@ -429,4 +432,5 @@ class EnumTestEnumNumberEnumTypeTransformer {
   /// Singleton [EnumTestEnumNumberEnumTypeTransformer] instance.
   static EnumTestEnumNumberEnumTypeTransformer _instance;
 }
+
 
