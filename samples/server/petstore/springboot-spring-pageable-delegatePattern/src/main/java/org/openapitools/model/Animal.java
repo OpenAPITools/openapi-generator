@@ -5,8 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -37,7 +36,7 @@ public class Animal   {
    * Get className
    * @return className
   */
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @NotNull
 
 
@@ -58,7 +57,7 @@ public class Animal   {
    * Get color
    * @return color
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public String getColor() {

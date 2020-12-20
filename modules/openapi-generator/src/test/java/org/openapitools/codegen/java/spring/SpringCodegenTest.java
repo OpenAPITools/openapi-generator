@@ -484,7 +484,7 @@ public class SpringCodegenTest {
         // Check that the api handles the array
         final File multipartArrayApi = files.get("MultipartArrayApi.java");
         assertFileContains(multipartArrayApi.toPath(), "List<MultipartFile> files",
-                "@ApiParam(value = \"Many files\")",
+                "@Parameter(description = \"Many files\")",
                 "@RequestPart(value = \"files\", required = false)");
 
         // Check that the delegate handles the single file
@@ -494,7 +494,7 @@ public class SpringCodegenTest {
         // Check that the api handles the single file
         final File multipartSingleApi = files.get("MultipartSingleApi.java");
         assertFileContains(multipartSingleApi.toPath(), "MultipartFile file",
-                "@ApiParam(value = \"One file\")",
+                "@Parameter(description = \"One file\")",
                 "@RequestPart(value = \"file\", required = false)");
 
         // Check that api validates mixed multipart request
@@ -652,5 +652,54 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApiDelegate.java"), "Mono<Map<String, DummyRequest>>");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApi.java"), "Mono<DummyRequest>");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApiDelegate.java"), "Mono<DummyRequest>");
+    }
+
+    @Test
+    public void shouldGenerateOas3AnnotationsInApi_5803() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_5803-oas3-api-annotations.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java"),
+                "@Tag(name = ");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java"),
+                "@Operation(summary = ");
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java"),
+                "exampleClientQueryGet(@Parameter(description = \"\") @Valid @RequestParam(value = \"requestId\"");
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java"),
+                "exampleClientFormTestnameGet(@Parameter(description = \"Updated name of the pet\",required=true) @PathVariable(\"testname\") ");
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java"),
+                "exampleClientHeaderGet(@Parameter(description = \"\" ) @RequestHeader(value=\"api_key\"");
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java"),
+                "exampleClientCookieGet(@Parameter(description = \"\") @CookieValue(\"cookieId\")");
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java"),
+                "@ApiResponse(responseCode = ");
+
     }
 }

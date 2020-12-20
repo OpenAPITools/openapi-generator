@@ -1,6 +1,6 @@
 generatorName: spring
-outputDir: samples/client/petstore/spring-stubs
-inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+outputDir: samples/openapi3/client/petstore/spring-stubs
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 additionalProperties:
   artifactId: spring-stubs
   interfaceOnly: "true"

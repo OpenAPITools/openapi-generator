@@ -3,8 +3,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +40,7 @@ public class TypeHolderDefault   {
    * Get stringItem
    * @return stringItem
   */
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @NotNull
 
 
@@ -62,7 +61,7 @@ public class TypeHolderDefault   {
    * Get numberItem
    * @return numberItem
   */
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @NotNull
 
   @Valid
@@ -84,7 +83,7 @@ public class TypeHolderDefault   {
    * Get integerItem
    * @return integerItem
   */
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @NotNull
 
 
@@ -105,7 +104,7 @@ public class TypeHolderDefault   {
    * Get boolItem
    * @return boolItem
   */
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @NotNull
 
 
@@ -134,7 +133,7 @@ public class TypeHolderDefault   {
    * Get arrayItem
    * @return arrayItem
   */
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @NotNull
 
 

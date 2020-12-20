@@ -73,14 +73,14 @@ public class HomeController {
     RouterFunction<ServerResponse> index() {
         return route(
             GET("/"),
-            req -> ServerResponse.temporaryRedirect(URI.create("{{#useSpringfox}}swagger-ui.html{{/useSpringfox}}{{^useSpringfox}}swagger-ui/index.html?url=../openapi.json{{/useSpringfox}}")).build()
+            req -> ServerResponse.temporaryRedirect(URI.create("{{#useSpringdoc}}/v3/api-docs{{/useSpringdoc}}{{^useSpringdoc}}{{#useSpringfox}}swagger-ui.html{{/useSpringfox}}{{^useSpringfox}}swagger-ui/index.html?url=../openapi.json{{/useSpringfox}}{{/useSpringdoc}}")).build()
         );
     }
 {{/reactive}}
 {{^reactive}}
     @RequestMapping("/")
     public String index() {
-        return "redirect:{{#useSpringfox}}swagger-ui.html{{/useSpringfox}}{{^useSpringfox}}swagger-ui/index.html?url=../openapi.json{{/useSpringfox}}";
+        return "redirect:{{#useSpringdoc}}/v3/api-docs{{/useSpringdoc}}{{^useSpringdoc}}{{#useSpringfox}}swagger-ui.html{{/useSpringfox}}{{^useSpringfox}}swagger-ui/index.html?url=../openapi.json{{/useSpringfox}}{{/useSpringdoc}}";
     }
 {{/reactive}}
 

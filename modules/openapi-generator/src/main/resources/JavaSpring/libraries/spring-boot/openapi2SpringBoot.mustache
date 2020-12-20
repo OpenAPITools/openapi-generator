@@ -64,11 +64,13 @@ public class OpenAPI2SpringBoot implements CommandLineRunner {
                         .allowedHeaders("Content-Type");
             }*/
 {{^useSpringfox}}
+{{^useSpringdoc}}
 
             @Override
             public void addResourceHandlers(ResourceHandlerRegistry registry) {
                 registry.addResourceHandler("/swagger-ui/**").addResourceLocations("classpath:/META-INF/resources/webjars/swagger-ui/3.14.2/");
             }
+{{/useSpringdoc}}
 {{/useSpringfox}}
         };
     }

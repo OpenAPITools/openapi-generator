@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -172,8 +173,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
         cliOptions.add(CliOption.newBoolean(UNHANDLED_EXCEPTION_HANDLING, "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).", unhandledException));
 
-        supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
-        supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
+        supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
+        supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY, "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
         setLibrary(SPRING_BOOT);
         CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(SPRING_BOOT);
@@ -201,7 +202,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public String getHelp() {
-        return "Generates a Java SpringBoot Server application using the SpringFox integration.";
+        return "Generates a Java SpringBoot Server application.";
     }
 
     @Override
@@ -343,6 +344,11 @@ public class SpringCodegen extends AbstractJavaCodegen
             writePropertyBack(USE_OPTIONAL, useOptional);
         }
 
+        // Replacing OAS2 annotation imports (used by the underlying AbstractJavaCodegen)
+        importMapping.remove("ApiModelProperty");
+        importMapping.remove("ApiModel");
+        importMapping.put("Schema", "io.swagger.v3.oas.annotations.media.Schema");
+
         if (this.interfaceOnly && this.delegatePattern) {
             if (this.java8) {
                 this.delegateMethod = true;
@@ -451,11 +457,11 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put(RESPONSE_WRAPPER, "Callable");
         }
 
-
         if (!this.apiFirst && !this.reactive) {
-            additionalProperties.put("useSpringfox", true);
+            additionalProperties.put("useSpringdoc", true);
+            // TODO support springfox as an option later
+            //additionalProperties.put("useSpringfox", true); 
         }
-
 
         // Some well-known Spring or Spring-Cloud response wrappers
         if (isNotEmpty(this.responseWrapper)) {
@@ -833,6 +839,20 @@ public class SpringCodegen extends AbstractJavaCodegen
                 model.imports.add("JsonCreator");
             }
         }
+
+        // Replacing OAS2 annotation imports (used by the underlying AbstractJavaCodegen)
+        model.imports.remove("ApiModelProperty");
+        model.imports.remove("ApiModel");
+        model.imports.add("Schema");
+    }
+
+    @Override
+    public CodegenModel fromModel(String name, Schema model) {
+        final CodegenModel result = super.fromModel(name, model);
+
+        result.imports.remove("ApiModel");
+
+        return result;
     }
 
     @Override

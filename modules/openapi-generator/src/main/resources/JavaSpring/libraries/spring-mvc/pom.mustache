@@ -166,6 +166,7 @@
             <version>${springfox-version}</version>
         </dependency>
         {{/useSpringfox}}
+        {{^useSpringdoc}}
         {{^useSpringfox}}
         <dependency>
             <groupId>io.springfox</groupId>
@@ -186,7 +187,12 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>1.5.14</version>
+            <version>${swagger-annotations-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-models</artifactId>
+            <version>${swagger-annotations-version}</version>
         </dependency>
         <!-- @Nullable annotation -->
         <dependency>
@@ -194,12 +200,20 @@
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
         </dependency>
+        {{/useSpringfox}}
+        {{/useSpringdoc}}
+        {{#useSpringdoc}}
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc-ui.version}</version>
+        </dependency>
+        {{/useSpringdoc}}
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
             <version>${jackson-version}</version>
         </dependency>
-        {{/useSpringfox}}
         {{#withXml}}
         <!-- XML processing: Jackson -->
         <dependency>
@@ -283,7 +297,12 @@
         <slf4j-version>1.7.21</slf4j-version>
         <junit-version>4.13.1</junit-version>
         <servlet-api-version>2.5</servlet-api-version>
+        {{#useSpringfox}}
         <springfox-version>2.8.0</springfox-version>
+        {{/useSpringfox}}
+        {{#useSpringdoc}}
+        <springdoc-ui.version>1.2.32</springdoc-ui.version>
+        {{/useSpringdoc}}
         <jackson-version>2.9.9</jackson-version>
         <jackson-threetenbp-version>2.8.4</jackson-threetenbp-version>
 {{#useBeanValidation}}

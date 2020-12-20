@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -25,7 +24,6 @@ import java.util.List;
 @ComponentScan(basePackages = {"org.openapitools.api", "org.openapitools.configuration"})
 @EnableWebMvc
 @PropertySource("classpath:application.properties")
-@Import(OpenAPIDocumentationConfig.class)
 public class OpenAPIUiConfiguration extends WebMvcConfigurerAdapter {
   private static final String[] SERVLET_RESOURCE_LOCATIONS = { "/" };
 

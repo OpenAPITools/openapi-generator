@@ -6,13 +6,28 @@
 package org.openapitools.api;
 
 import org.openapitools.model.Client;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.Explode;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.enums.ParameterStyle;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.OAuthFlow;
+import io.swagger.v3.oas.annotations.security.OAuthFlows;
+import io.swagger.v3.oas.annotations.security.OAuthScope;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -20,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
-@Api(value = "another-fake", description = "the another-fake API")
+@Tag(name = "another-fake", description = "the another-fake API")
 public interface AnotherFakeApi {
 
     /**
@@ -30,14 +45,15 @@ public interface AnotherFakeApi {
      * @param body client model (required)
      * @return successful operation (status code 200)
      */
-    @ApiOperation(value = "To test special tags", nickname = "call123testSpecialTags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?", })
+    @Operation(summary = "To test special tags", operationId = "call123testSpecialTags", tags={ "$another-fake?", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
+       @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Client.class)) }) })
+
     @PatchMapping(
         value = "/another-fake/dummy",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    ResponseEntity<Client> call123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body);
+    ResponseEntity<Client> call123testSpecialTags(@Parameter(description = "client model" ,required=true )  @Valid @RequestBody Client body);
 
 }

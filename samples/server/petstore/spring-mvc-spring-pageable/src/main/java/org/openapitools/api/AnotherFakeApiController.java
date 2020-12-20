@@ -1,5 +1,6 @@
 package org.openapitools.api;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -11,7 +12,7 @@ public class AnotherFakeApiController implements AnotherFakeApi {
 
     private final NativeWebRequest request;
 
-    @org.springframework.beans.factory.annotation.Autowired
+    @Autowired
     public AnotherFakeApiController(NativeWebRequest request) {
         this.request = request;
     }

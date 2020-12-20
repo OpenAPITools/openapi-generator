@@ -1,7 +1,7 @@
 /**
  * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
  */{{#description}}
-@ApiModel(description = "{{{description}}}"){{/description}}
+@Schema(description = "{{{description}}}"){{/description}}
 {{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}{{>additionalModelTypeAnnotations}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}{{#hateoas}}extends RepresentationModel<{{classname}}> {{/hateoas}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
 {{#serializableModel}}
@@ -67,7 +67,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
     {{#openApiNullable}}
     {{^required}}
     if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent(){{/isNullable}}) {
-      this.{{name}} = {{#isNullable}}JsonNullable.of({{{defaultValue}}}){{/isNullable}}{{^isNullable}}{{{defaultValue}}}{{/isNullable}};
+      this.{{name}} = {{#isNullable}}JsonNullable.of((List<{{{items.datatypeWithEnum}}}>) {{{defaultValue}}}){{/isNullable}}{{^isNullable}}{{{defaultValue}}}{{/isNullable}};
     }
     {{/required}}
     this.{{name}}{{#isNullable}}.get(){{/isNullable}}.add({{name}}Item);
@@ -85,11 +85,11 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
 
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{^required}}
-    if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}};
+    if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent(){{/isNullable}}) {
+      this.{{name}} = {{#isNullable}}JsonNullable.of((Map<String, {{{items.datatypeWithEnum}}}>) new HashMap<String, {{{items.datatypeWithEnum}}}>()){{/isNullable}}{{^isNullable}}{{{defaultValue}}}{{/isNullable}};
     }
     {{/required}}
-    this.{{name}}.put(key, {{name}}Item);
+    this.{{name}}{{#isNullable}}.get(){{/isNullable}}.put(key, {{name}}Item);
     return this;
   }
   {{/isMap}}
@@ -112,7 +112,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
  {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
   {{/vendorExtensions.x-extra-annotation}}
-  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}")
+  @Schema({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}accessMode = Schema.AccessMode.READ_ONLY, {{/isReadOnly}}description = "{{{description}}}")
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{>nullableDataType}} {{getter}}() {
     return {{name}};
   }

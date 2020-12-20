@@ -2,10 +2,27 @@ package org.openapitools.api;
 
 import java.util.Map;
 import org.openapitools.model.Order;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.Explode;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.enums.ParameterStyle;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.OAuthFlow;
+import io.swagger.v3.oas.annotations.security.OAuthFlows;
+import io.swagger.v3.oas.annotations.security.OAuthScope;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +47,7 @@ public class StoreApiController implements StoreApi {
 
     private final NativeWebRequest request;
 
-    @org.springframework.beans.factory.annotation.Autowired
+    @Autowired
     public StoreApiController(NativeWebRequest request) {
         this.request = request;
     }
@@ -44,7 +61,7 @@ public class StoreApiController implements StoreApi {
      *         or Order not found (status code 404)
      * @see StoreApi#deleteOrder
      */
-    public ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId) {
+    public ResponseEntity<Void> deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -71,7 +88,7 @@ public class StoreApiController implements StoreApi {
      *         or Order not found (status code 404)
      * @see StoreApi#getOrderById
      */
-    public ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId) {
+    public ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
@@ -96,7 +113,7 @@ public class StoreApiController implements StoreApi {
      *         or Invalid Order (status code 400)
      * @see StoreApi#placeOrder
      */
-    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body) {
+    public ResponseEntity<Order> placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";

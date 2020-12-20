@@ -6,13 +6,28 @@
 package org.openapitools.api;
 
 import org.openapitools.model.Client;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.Explode;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.enums.ParameterStyle;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.OAuthFlow;
+import io.swagger.v3.oas.annotations.security.OAuthFlows;
+import io.swagger.v3.oas.annotations.security.OAuthScope;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -20,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
-@Api(value = "fake_classname_test", description = "the fake_classname_test API")
+@Tag(name = "fake_classname_test", description = "the fake_classname_test API")
 public interface FakeClassnameTestApi {
 
     /**
@@ -30,17 +45,18 @@ public interface FakeClassnameTestApi {
      * @param body client model (required)
      * @return successful operation (status code 200)
      */
-    @ApiOperation(value = "To test class name in snake case", nickname = "testClassname", notes = "To test class name in snake case", response = Client.class, authorizations = {
-        
-        @Authorization(value = "api_key_query")
-         }, tags={ "fake_classname_tags 123#$%^", })
+    @Operation(summary = "To test class name in snake case", operationId = "testClassname", security = {
+        @SecurityRequirement(name = "api_key_query"
+        /*(TODO non OAuth auth), @Authorization(value = "api_key_query") */
+        ) }, tags={ "fake_classname_tags 123#$%^", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
+       @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Client.class)) }) })
+
     @PatchMapping(
         value = "/fake_classname_test",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body);
+    ResponseEntity<Client> testClassname(@Parameter(description = "client model" ,required=true )  @Valid @RequestBody Client body);
 
 }

@@ -3,8 +3,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.model.Animal;
 import org.openapitools.model.CatAllOf;
 import javax.validation.Valid;
@@ -27,7 +26,7 @@ public class Cat extends Animal  {
    * Get declawed
    * @return declawed
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public Boolean getDeclawed() {

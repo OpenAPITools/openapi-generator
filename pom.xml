@@ -1073,7 +1073,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/spring-mvc</module>
+                <module>samples/openapi3/server/petstore/spring-mvc</module>
             </modules>
         </profile>
         <profile>
@@ -1085,7 +1085,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/springboot-beanvalidation</module>
+                <module>samples/openapi3/server/petstore/springboot-beanvalidation</module>
             </modules>
         </profile>
         <profile>
@@ -1097,7 +1097,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/springboot-reactive</module>
+                <module>samples/openapi3/server/petstore/springboot-reactive</module>
             </modules>
         </profile>
         <profile>
@@ -1109,7 +1109,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/springboot</module>
+                <module>samples/openapi3/server/petstore/springboot</module>
             </modules>
         </profile>
         <profile>
@@ -1121,7 +1121,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/springboot-virtualan</module>
+                <module>samples/openapi3/server/petstore/springboot-virtualan</module>
             </modules>
         </profile>
         <profile>
@@ -1133,7 +1133,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/spring-cloud</module>
+                <module>samples/openapi3/client/petstore/spring-cloud</module>
             </modules>
         </profile>
         <profile>
@@ -1248,9 +1248,9 @@
                 <module>samples/server/petstore/kotlin-springboot</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
-                <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/server/petstore/spring-mvc-j8-async</module>
-                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
+                <module>samples/openapi3/server/petstore/spring-mvc</module>
+                <module>samples/openapi3/server/petstore/spring-mvc-j8-async</module>
+                <module>samples/openapi3/server/petstore/spring-mvc-j8-localdatetime</module>
                 <!-- servers -->
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
@@ -1283,13 +1283,13 @@
                 <module>samples/server/petstore/jaxrs-resteasy/joda</module>
                 <!--<module>samples/server/petstore/kotlin-server/ktor</module>-->
                 <!-- move to other CI as the following fails often in CircleCI
-                <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/server/petstore/spring-mvc-j8-async</module>
-                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>-->
-                <module>samples/client/petstore/spring-cloud</module>
-                <module>samples/server/petstore/springboot</module>
-                <module>samples/server/petstore/springboot-beanvalidation</module>
-                <module>samples/server/petstore/springboot-useoptional</module>
+                <module>samples/openapi3/server/petstore/spring-mvc</module>
+                <module>samples/openapi3/server/petstore/spring-mvc-j8-async</module>
+                <module>samples/openapi3/server/petstore/spring-mvc-j8-localdatetime</module>-->
+                <module>samples/openapi3/client/petstore/spring-cloud</module>
+                <module>samples/openapi3/server/petstore/springboot</module>
+                <module>samples/openapi3/server/petstore/springboot-beanvalidation</module>
+                <module>samples/openapi3/server/petstore/springboot-useoptional</module>
                 <module>samples/server/petstore/jaxrs-cxf</module>
                 <module>samples/server/petstore/jaxrs-cxf-annotated-base-path</module>
                 <module>samples/server/petstore/jaxrs-cxf-cdi</module>

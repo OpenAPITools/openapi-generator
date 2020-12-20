@@ -4,8 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -65,7 +64,7 @@ public class BigCatAllOf   {
    * Get kind
    * @return kind
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public KindEnum getKind() {

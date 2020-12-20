@@ -7,13 +7,28 @@ package org.openapitools.api;
 
 import java.util.Map;
 import org.openapitools.model.Order;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.Explode;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.enums.ParameterStyle;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.OAuthFlow;
+import io.swagger.v3.oas.annotations.security.OAuthFlows;
+import io.swagger.v3.oas.annotations.security.OAuthScope;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -21,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
-@Api(value = "store", description = "the store API")
+@Tag(name = "store", description = "the store API")
 public interface StoreApi {
 
     /**
@@ -32,14 +47,15 @@ public interface StoreApi {
      * @return Invalid ID supplied (status code 400)
      *         or Order not found (status code 404)
      */
-    @ApiOperation(value = "Delete purchase order by ID", nickname = "deleteOrder", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", tags={ "store", })
+    @Operation(summary = "Delete purchase order by ID", operationId = "deleteOrder", tags={ "store", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid ID supplied"),
-        @ApiResponse(code = 404, message = "Order not found") })
+       @ApiResponse(responseCode = "400", description = "Invalid ID supplied" ),
+       @ApiResponse(responseCode = "404", description = "Order not found" ) })
+
     @DeleteMapping(
         value = "/store/order/{order_id}"
     )
-    ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId);
+    ResponseEntity<Void> deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId);
 
 
     /**
@@ -48,12 +64,13 @@ public interface StoreApi {
      *
      * @return successful operation (status code 200)
      */
-    @ApiOperation(value = "Returns pet inventories by status", nickname = "getInventory", notes = "Returns a map of status codes to quantities", response = Integer.class, responseContainer = "Map", authorizations = {
-        
-        @Authorization(value = "api_key")
-         }, tags={ "store", })
+    @Operation(summary = "Returns pet inventories by status", operationId = "getInventory", security = {
+        @SecurityRequirement(name = "api_key"
+        /*(TODO non OAuth auth), @Authorization(value = "api_key") */
+        ) }, tags={ "store", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map") })
+       @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( mediaType = "Map",  schema = @Schema(implementation = Map.class)) }) })
+
     @GetMapping(
         value = "/store/inventory",
         produces = { "application/json" }
@@ -70,16 +87,17 @@ public interface StoreApi {
      *         or Invalid ID supplied (status code 400)
      *         or Order not found (status code 404)
      */
-    @ApiOperation(value = "Find purchase order by ID", nickname = "getOrderById", notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions", response = Order.class, tags={ "store", })
+    @Operation(summary = "Find purchase order by ID", operationId = "getOrderById", tags={ "store", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Order.class),
-        @ApiResponse(code = 400, message = "Invalid ID supplied"),
-        @ApiResponse(code = 404, message = "Order not found") })
+       @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Order.class)) }),
+       @ApiResponse(responseCode = "400", description = "Invalid ID supplied" ),
+       @ApiResponse(responseCode = "404", description = "Order not found" ) })
+
     @GetMapping(
         value = "/store/order/{order_id}",
         produces = { "application/xml", "application/json" }
     )
-    ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId);
+    ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId);
 
 
     /**
@@ -89,14 +107,15 @@ public interface StoreApi {
      * @return successful operation (status code 200)
      *         or Invalid Order (status code 400)
      */
-    @ApiOperation(value = "Place an order for a pet", nickname = "placeOrder", notes = "", response = Order.class, tags={ "store", })
+    @Operation(summary = "Place an order for a pet", operationId = "placeOrder", tags={ "store", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Order.class),
-        @ApiResponse(code = 400, message = "Invalid Order") })
+       @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Order.class)) }),
+       @ApiResponse(responseCode = "400", description = "Invalid Order" ) })
+
     @PostMapping(
         value = "/store/order",
         produces = { "application/xml", "application/json" }
     )
-    ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body);
+    ResponseEntity<Order> placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body);
 
 }

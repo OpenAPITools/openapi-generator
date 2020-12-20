@@ -3,8 +3,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -31,7 +30,7 @@ public class ModelApiResponse   {
    * Get code
    * @return code
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public Integer getCode() {
@@ -51,7 +50,7 @@ public class ModelApiResponse   {
    * Get type
    * @return type
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public String getType() {
@@ -71,7 +70,7 @@ public class ModelApiResponse   {
    * Get message
    * @return message
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public String getMessage() {
