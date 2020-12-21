@@ -55,6 +55,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     protected HashSet methodNames; // store a list of method names to detect duplicates
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected boolean discardReadOnly = false; // Discard the readonly property in initialize cmdlet
+    protected boolean skipVerbParsing = false; // Attempt to parse cmdlets from operation names
     protected String projectUri;
     protected String licenseUri;
     protected String releaseNotes;
@@ -511,6 +512,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption("licenseUri","A URL to the license for the generated PowerShell module"));
         cliOptions.add(new CliOption("iconUri","A URL to an icon representing the generated PowerShell module"));
         cliOptions.add(new CliOption("releaseNotes","Release notes of the generated PowerShell module"));
+        cliOptions.add(new CliOption("skipVerbParsing", "Set skipVerbParsing to not try get powershell verbs of operation names"));
+
         // option to change how we process + set the data in the 'additionalProperties' keyword.
         CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
                 CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
@@ -601,6 +604,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
        this.iconUri = iconUri;
    }
 
+   public void setSkipVerbParsing(boolean skipVerbParsing) { this.skipVerbParsing = skipVerbParsing; };
 
     @Override
     public void processOpts() {
@@ -628,7 +632,13 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             setDiscardReadOnly(convertPropertyToBooleanAndWriteBack("discardReadOnly"));
         } else {
             additionalProperties.put("discardReadOnly", discardReadOnly);
-        } 
+        }
+
+        if (additionalProperties.containsKey("skipVerbParsing")) {
+            setSkipVerbParsing(convertPropertyToBoolean("skipVerbParsing"));
+        } else {
+            additionalProperties.put("skipVerbParsing", skipVerbParsing);
+        }
         
         if (additionalProperties.containsKey("tags")) {
             String[] entries = ((String) additionalProperties.get("tags")).split(",");
@@ -1212,20 +1222,22 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     private String toMethodName(String operationId) {
         String methodName = camelize(operationId);
 
-        // check if method name starts with powershell verbs
-        for (String verb : (HashSet<String>) powershellVerbs) {
-            if (methodName.startsWith(verb)) {
-                methodName = verb + "-" + apiNamePrefix + methodName.substring(verb.length());
-                LOGGER.info("Naming the method using the PowerShell verb: {} => {}", operationId, methodName);
-                return methodName;
+        if (!skipVerbParsing) {
+            // check if method name starts with powershell verbs
+            for (String verb : (HashSet<String>) powershellVerbs) {
+                if (methodName.startsWith(verb)) {
+                    methodName = verb + "-" + apiNamePrefix + methodName.substring(verb.length());
+                    LOGGER.info("Naming the method using the PowerShell verb: {} => {}", operationId, methodName);
+                    return methodName;
+                }
             }
-        }
 
-        for (Map.Entry<String, String> entry : commonVerbs.entrySet()) {
-            if (methodName.startsWith(entry.getKey())) {
-                methodName = entry.getValue() + "-" + apiNamePrefix + methodName.substring(entry.getKey().length());
-                LOGGER.info("Naming the method by mapping the common verbs (e.g. Create, Change) to PS verbs: {} => {}", operationId, methodName);
-                return methodName;
+            for (Map.Entry<String, String> entry : commonVerbs.entrySet()) {
+                if (methodName.startsWith(entry.getKey())) {
+                    methodName = entry.getValue() + "-" + apiNamePrefix + methodName.substring(entry.getKey().length());
+                    LOGGER.info("Naming the method by mapping the common verbs (e.g. Create, Change) to PS verbs: {} => {}", operationId, methodName);
+                    return methodName;
+                }
             }
         }
 
