@@ -52,12 +52,6 @@ docs/Model/Pet.md
 docs/Model/ReadOnlyFirst.md
 docs/Model/SpecialModelName.md
 docs/Model/Tag.md
-docs/Model/TestEndpointParametersBody.md
-docs/Model/TestEnumParametersBody.md
-docs/Model/TestJsonFormDataBody.md
-docs/Model/UpdatePetWithFormBody.md
-docs/Model/UploadFileBody.md
-docs/Model/UploadFileWithRequiredFileBody.md
 docs/Model/User.md
 git_push.sh
 lib/Api/AnotherFakeApi.php
@@ -113,12 +107,6 @@ lib/Model/Pet.php
 lib/Model/ReadOnlyFirst.php
 lib/Model/SpecialModelName.php
 lib/Model/Tag.php
-lib/Model/TestEndpointParametersBody.php
-lib/Model/TestEnumParametersBody.php
-lib/Model/TestJsonFormDataBody.php
-lib/Model/UpdatePetWithFormBody.php
-lib/Model/UploadFileBody.php
-lib/Model/UploadFileWithRequiredFileBody.php
 lib/Model/User.php
 lib/ObjectSerializer.php
 phpunit.xml.dist

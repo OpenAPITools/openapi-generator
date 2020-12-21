@@ -155,12 +155,6 @@ Class | Method | HTTP request | Description
 - [ReadOnlyFirst](docs/Model/ReadOnlyFirst.md)
 - [SpecialModelName](docs/Model/SpecialModelName.md)
 - [Tag](docs/Model/Tag.md)
-- [TestEndpointParametersBody](docs/Model/TestEndpointParametersBody.md)
-- [TestEnumParametersBody](docs/Model/TestEnumParametersBody.md)
-- [TestJsonFormDataBody](docs/Model/TestJsonFormDataBody.md)
-- [UpdatePetWithFormBody](docs/Model/UpdatePetWithFormBody.md)
-- [UploadFileBody](docs/Model/UploadFileBody.md)
-- [UploadFileWithRequiredFileBody](docs/Model/UploadFileWithRequiredFileBody.md)
 - [User](docs/Model/User.md)
 
 ## Authorization

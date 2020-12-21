@@ -153,8 +153,6 @@ Class | Method | HTTP request | Description
  - [Order](Resources/docs/Model/Order.md)
  - [Pet](Resources/docs/Model/Pet.md)
  - [Tag](Resources/docs/Model/Tag.md)
- - [UpdatePetWithFormBody](Resources/docs/Model/UpdatePetWithFormBody.md)
- - [UploadFileBody](Resources/docs/Model/UploadFileBody.md)
  - [User](Resources/docs/Model/User.md)
 
 

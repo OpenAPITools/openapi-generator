@@ -5,8 +5,6 @@ app/apimodels/ModelApiResponse.java
 app/apimodels/Order.java
 app/apimodels/Pet.java
 app/apimodels/Tag.java
-app/apimodels/UpdatePetWithFormBody.java
-app/apimodels/UploadFileBody.java
 app/apimodels/User.java
 app/controllers/ApiDocController.java
 app/controllers/PetApiController.java

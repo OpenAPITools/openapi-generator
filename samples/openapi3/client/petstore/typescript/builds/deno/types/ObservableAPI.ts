@@ -9,8 +9,6 @@ import { Category } from '../models/Category.ts';
 import { Order } from '../models/Order.ts';
 import { Pet } from '../models/Pet.ts';
 import { Tag } from '../models/Tag.ts';
-import { UpdatePetWithFormBody } from '../models/UpdatePetWithFormBody.ts';
-import { UploadFileBody } from '../models/UploadFileBody.ts';
 import { User } from '../models/User.ts';
 
 import { PetApiRequestFactory, PetApiResponseProcessor} from "../apis/PetApi.ts";

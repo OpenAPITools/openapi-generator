@@ -93,10 +93,10 @@ CREATE TABLE IF NOT EXISTS `Cat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Table structure for table `Cat_allOf` generated from model 'CatUnderscoreallOf'
+-- Table structure for table `CatAllOf` generated from model 'CatAllOf'
 --
 
-CREATE TABLE IF NOT EXISTS `Cat_allOf` (
+CREATE TABLE IF NOT EXISTS `CatAllOf` (
   `declawed` TINYINT(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -137,10 +137,10 @@ CREATE TABLE IF NOT EXISTS `Dog` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Table structure for table `Dog_allOf` generated from model 'DogUnderscoreallOf'
+-- Table structure for table `DogAllOf` generated from model 'DogAllOf'
 --
 
-CREATE TABLE IF NOT EXISTS `Dog_allOf` (
+CREATE TABLE IF NOT EXISTS `DogAllOf` (
   `breed` TEXT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -236,10 +236,10 @@ CREATE TABLE IF NOT EXISTS `HealthCheckResult` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.';
 
 --
--- Table structure for table `inline_response_default` generated from model 'inlineUnderscoreresponseUnderscoredefault'
+-- Table structure for table `InlineResponseDefault` generated from model 'InlineResponseDefault'
 --
 
-CREATE TABLE IF NOT EXISTS `inline_response_default` (
+CREATE TABLE IF NOT EXISTS `InlineResponseDefault` (
   `string` TEXT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

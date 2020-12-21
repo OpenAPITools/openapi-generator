@@ -190,12 +190,6 @@ Class | Method | HTTP request | Description
  - [Model.Return](docs/Return.md)
  - [Model.SpecialModelName](docs/SpecialModelName.md)
  - [Model.Tag](docs/Tag.md)
- - [Model.TestEndpointParametersBody](docs/TestEndpointParametersBody.md)
- - [Model.TestEnumParametersBody](docs/TestEnumParametersBody.md)
- - [Model.TestJsonFormDataBody](docs/TestJsonFormDataBody.md)
- - [Model.UpdatePetWithFormBody](docs/UpdatePetWithFormBody.md)
- - [Model.UploadFileBody](docs/UploadFileBody.md)
- - [Model.UploadFileWithRequiredFileBody](docs/UploadFileWithRequiredFileBody.md)
  - [Model.User](docs/User.md)
 
 

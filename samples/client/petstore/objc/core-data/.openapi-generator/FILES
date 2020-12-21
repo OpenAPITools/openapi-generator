@@ -55,18 +55,6 @@ SwaggerClient/Model/SWGTagManagedObject.h
 SwaggerClient/Model/SWGTagManagedObject.m
 SwaggerClient/Model/SWGTagManagedObjectBuilder.h
 SwaggerClient/Model/SWGTagManagedObjectBuilder.m
-SwaggerClient/Model/SWGUpdatePetWithFormBody.h
-SwaggerClient/Model/SWGUpdatePetWithFormBody.m
-SwaggerClient/Model/SWGUpdatePetWithFormBodyManagedObject.h
-SwaggerClient/Model/SWGUpdatePetWithFormBodyManagedObject.m
-SwaggerClient/Model/SWGUpdatePetWithFormBodyManagedObjectBuilder.h
-SwaggerClient/Model/SWGUpdatePetWithFormBodyManagedObjectBuilder.m
-SwaggerClient/Model/SWGUploadFileBody.h
-SwaggerClient/Model/SWGUploadFileBody.m
-SwaggerClient/Model/SWGUploadFileBodyManagedObject.h
-SwaggerClient/Model/SWGUploadFileBodyManagedObject.m
-SwaggerClient/Model/SWGUploadFileBodyManagedObjectBuilder.h
-SwaggerClient/Model/SWGUploadFileBodyManagedObjectBuilder.m
 SwaggerClient/Model/SWGUser.h
 SwaggerClient/Model/SWGUser.m
 SwaggerClient/Model/SWGUserManagedObject.h
@@ -79,8 +67,6 @@ docs/SWGPet.md
 docs/SWGPetApi.md
 docs/SWGStoreApi.md
 docs/SWGTag.md
-docs/SWGUpdatePetWithFormBody.md
-docs/SWGUploadFileBody.md
 docs/SWGUser.md
 docs/SWGUserApi.md
 git_push.sh

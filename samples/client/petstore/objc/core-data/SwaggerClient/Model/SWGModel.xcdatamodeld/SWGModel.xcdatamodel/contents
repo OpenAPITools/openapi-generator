@@ -25,14 +25,6 @@
         <attribute name="_id" optional="YES" attributeType="Double" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="SWGUpdatePetWithFormBodyManagedObject" representedClassName="SWGUpdatePetWithFormBodyManagedObject" syncable="YES">
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
-    <entity name="SWGUploadFileBodyManagedObject" representedClassName="SWGUploadFileBodyManagedObject" syncable="YES">
-        <attribute name="additionalMetadata" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="file" optional="YES" attributeType="Binary" syncable="YES"/>
-    </entity>
     <entity name="SWGUserManagedObject" representedClassName="SWGUserManagedObject" syncable="YES">
         <attribute name="_id" optional="YES" attributeType="Double" syncable="YES"/>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>

@@ -662,7 +662,7 @@ func main() {
     enumQueryInteger := openapiclient.enum_query_integer("1") // EnumQueryInteger | Query parameter enum test (double) (optional)
     enumQueryDouble := openapiclient.enum_query_double("1.1") // EnumQueryDouble | Query parameter enum test (double) (optional)
     enumFormStringArray := []openapiclient.TestEnumParametersBodyEnumFormStringArrayItems{openapiclient.testEnumParametersBodyEnumFormStringArrayItems(">")} // []TestEnumParametersBodyEnumFormStringArrayItems | Form parameter enum test (string array) (optional) (default to "$")
-    enumFormString := openapiclient.testEnumParametersBodyEnumFormString("_abc") // TestEnumParametersBodyEnumFormString |  (optional) (default to "-efg")
+    enumFormString := TODO // TestEnumParametersBodyEnumFormString |  (optional) (default to "-efg")
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)

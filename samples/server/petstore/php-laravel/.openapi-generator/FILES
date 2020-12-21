@@ -64,12 +64,6 @@ lib/app/Models/Pet.php
 lib/app/Models/ReadOnlyFirst.php
 lib/app/Models/SpecialModelName.php
 lib/app/Models/Tag.php
-lib/app/Models/TestEndpointParametersBody.php
-lib/app/Models/TestEnumParametersBody.php
-lib/app/Models/TestJsonFormDataBody.php
-lib/app/Models/UpdatePetWithFormBody.php
-lib/app/Models/UploadFileBody.php
-lib/app/Models/UploadFileWithRequiredFileBody.php
 lib/app/Models/User.php
 lib/app/Providers/AppServiceProvider.php
 lib/app/Providers/AuthServiceProvider.php

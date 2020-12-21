@@ -203,12 +203,6 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
- - [OpenApiPetstore.TestEndpointParametersBody](docs/TestEndpointParametersBody.md)
- - [OpenApiPetstore.TestEnumParametersBody](docs/TestEnumParametersBody.md)
- - [OpenApiPetstore.TestJsonFormDataBody](docs/TestJsonFormDataBody.md)
- - [OpenApiPetstore.UpdatePetWithFormBody](docs/UpdatePetWithFormBody.md)
- - [OpenApiPetstore.UploadFileBody](docs/UploadFileBody.md)
- - [OpenApiPetstore.UploadFileWithRequiredFileBody](docs/UploadFileWithRequiredFileBody.md)
  - [OpenApiPetstore.User](docs/User.md)
 
 

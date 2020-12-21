@@ -20,8 +20,6 @@ go/model_pet.go
 go/model_pet_status.go
 go/model_status_items.go
 go/model_tag.go
-go/model_update_pet_with_form_body.go
-go/model_upload_file_body.go
 go/model_user.go
 go/routers.go
 main.go

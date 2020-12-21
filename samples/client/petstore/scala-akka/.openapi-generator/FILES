@@ -15,6 +15,4 @@ src/main/scala/org/openapitools/client/model/Category.scala
 src/main/scala/org/openapitools/client/model/Order.scala
 src/main/scala/org/openapitools/client/model/Pet.scala
 src/main/scala/org/openapitools/client/model/Tag.scala
-src/main/scala/org/openapitools/client/model/UpdatePetWithFormBody.scala
-src/main/scala/org/openapitools/client/model/UploadFileBody.scala
 src/main/scala/org/openapitools/client/model/User.scala

@@ -160,12 +160,6 @@ Class | Method | HTTP request | Description
  - [Petstore::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)
  - [Petstore::Tag](docs/Tag.md)
- - [Petstore::TestEndpointParametersBody](docs/TestEndpointParametersBody.md)
- - [Petstore::TestEnumParametersBody](docs/TestEnumParametersBody.md)
- - [Petstore::TestJsonFormDataBody](docs/TestJsonFormDataBody.md)
- - [Petstore::UpdatePetWithFormBody](docs/UpdatePetWithFormBody.md)
- - [Petstore::UploadFileBody](docs/UploadFileBody.md)
- - [Petstore::UploadFileWithRequiredFileBody](docs/UploadFileWithRequiredFileBody.md)
  - [Petstore::User](docs/User.md)
 
 

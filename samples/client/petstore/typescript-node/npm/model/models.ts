@@ -5,8 +5,6 @@ export * from './category';
 export * from './order';
 export * from './pet';
 export * from './tag';
-export * from './updatePetWithFormBody';
-export * from './uploadFileBody';
 export * from './user';
 
 import * as fs from 'fs';
@@ -27,8 +25,6 @@ import { Category } from './category';
 import { Order } from './order';
 import { Pet } from './pet';
 import { Tag } from './tag';
-import { UpdatePetWithFormBody } from './updatePetWithFormBody';
-import { UploadFileBody } from './uploadFileBody';
 import { User } from './user';
 
 /* tslint:disable:no-unused-variable */
@@ -54,8 +50,6 @@ let typeMap: {[index: string]: any} = {
     "Order": Order,
     "Pet": Pet,
     "Tag": Tag,
-    "UpdatePetWithFormBody": UpdatePetWithFormBody,
-    "UploadFileBody": UploadFileBody,
     "User": User,
 }
 

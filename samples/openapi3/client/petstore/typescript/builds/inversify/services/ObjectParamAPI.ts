@@ -7,8 +7,6 @@ import type { Category } from '../models/Category';
 import type { Order } from '../models/Order';
 import type { Pet } from '../models/Pet';
 import type { Tag } from '../models/Tag';
-import type { UpdatePetWithFormBody } from '../models/UpdatePetWithFormBody';
-import type { UploadFileBody } from '../models/UploadFileBody';
 import type { User } from '../models/User';
 
 

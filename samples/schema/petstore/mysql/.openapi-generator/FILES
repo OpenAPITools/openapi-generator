@@ -40,12 +40,6 @@ Model/ReadOnlyFirst.sql
 Model/Return.sql
 Model/SpecialModelName.sql
 Model/Tag.sql
-Model/TestEndpointParametersBody.sql
-Model/TestEnumParametersBody.sql
-Model/TestJsonFormDataBody.sql
-Model/UpdatePetWithFormBody.sql
-Model/UploadFileBody.sql
-Model/UploadFileWithRequiredFileBody.sql
 Model/User.sql
 README.md
 mysql_schema.sql

@@ -11,8 +11,6 @@ export(ModelApiResponse)
 export(Order)
 export(Pet)
 export(Tag)
-export(UpdatePetWithFormBody)
-export(UploadFileBody)
 export(User)
 
 # APIs

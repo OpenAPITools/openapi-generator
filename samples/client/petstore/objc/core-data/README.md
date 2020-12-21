@@ -45,8 +45,6 @@ Import the following:
 #import <SwaggerClient/SWGOrder.h>
 #import <SwaggerClient/SWGPet.h>
 #import <SwaggerClient/SWGTag.h>
-#import <SwaggerClient/SWGUpdatePetWithFormBody.h>
-#import <SwaggerClient/SWGUploadFileBody.h>
 #import <SwaggerClient/SWGUser.h>
 // load API classes for accessing endpoints
 #import <SwaggerClient/SWGPetApi.h>
@@ -119,8 +117,6 @@ Class | Method | HTTP request | Description
  - [SWGOrder](docs/SWGOrder.md)
  - [SWGPet](docs/SWGPet.md)
  - [SWGTag](docs/SWGTag.md)
- - [SWGUpdatePetWithFormBody](docs/SWGUpdatePetWithFormBody.md)
- - [SWGUploadFileBody](docs/SWGUploadFileBody.md)
  - [SWGUser](docs/SWGUser.md)
 
 

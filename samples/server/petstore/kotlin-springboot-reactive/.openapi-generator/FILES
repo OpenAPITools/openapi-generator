@@ -18,7 +18,5 @@ src/main/kotlin/org/openapitools/model/ModelApiResponse.kt
 src/main/kotlin/org/openapitools/model/Order.kt
 src/main/kotlin/org/openapitools/model/Pet.kt
 src/main/kotlin/org/openapitools/model/Tag.kt
-src/main/kotlin/org/openapitools/model/UpdatePetWithFormBody.kt
-src/main/kotlin/org/openapitools/model/UploadFileBody.kt
 src/main/kotlin/org/openapitools/model/User.kt
 src/main/resources/application.yaml

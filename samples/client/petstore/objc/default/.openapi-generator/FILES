@@ -37,10 +37,6 @@ SwaggerClient/Model/SWGPet.h
 SwaggerClient/Model/SWGPet.m
 SwaggerClient/Model/SWGTag.h
 SwaggerClient/Model/SWGTag.m
-SwaggerClient/Model/SWGUpdatePetWithFormBody.h
-SwaggerClient/Model/SWGUpdatePetWithFormBody.m
-SwaggerClient/Model/SWGUploadFileBody.h
-SwaggerClient/Model/SWGUploadFileBody.m
 SwaggerClient/Model/SWGUser.h
 SwaggerClient/Model/SWGUser.m
 docs/SWGCategory.md
@@ -49,8 +45,6 @@ docs/SWGPet.md
 docs/SWGPetApi.md
 docs/SWGStoreApi.md
 docs/SWGTag.md
-docs/SWGUpdatePetWithFormBody.md
-docs/SWGUploadFileBody.md
 docs/SWGUser.md
 docs/SWGUserApi.md
 git_push.sh

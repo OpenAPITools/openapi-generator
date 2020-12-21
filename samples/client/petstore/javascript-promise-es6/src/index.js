@@ -55,12 +55,6 @@ import Pet from './model/Pet';
 import ReadOnlyFirst from './model/ReadOnlyFirst';
 import SpecialModelName from './model/SpecialModelName';
 import Tag from './model/Tag';
-import TestEndpointParametersBody from './model/TestEndpointParametersBody';
-import TestEnumParametersBody from './model/TestEnumParametersBody';
-import TestJsonFormDataBody from './model/TestJsonFormDataBody';
-import UpdatePetWithFormBody from './model/UpdatePetWithFormBody';
-import UploadFileBody from './model/UploadFileBody';
-import UploadFileWithRequiredFileBody from './model/UploadFileWithRequiredFileBody';
 import User from './model/User';
 import AnotherFakeApi from './api/AnotherFakeApi';
 import DefaultApi from './api/DefaultApi';
@@ -360,42 +354,6 @@ export {
      * @property {module:model/Tag}
      */
     Tag,
-
-    /**
-     * The TestEndpointParametersBody model constructor.
-     * @property {module:model/TestEndpointParametersBody}
-     */
-    TestEndpointParametersBody,
-
-    /**
-     * The TestEnumParametersBody model constructor.
-     * @property {module:model/TestEnumParametersBody}
-     */
-    TestEnumParametersBody,
-
-    /**
-     * The TestJsonFormDataBody model constructor.
-     * @property {module:model/TestJsonFormDataBody}
-     */
-    TestJsonFormDataBody,
-
-    /**
-     * The UpdatePetWithFormBody model constructor.
-     * @property {module:model/UpdatePetWithFormBody}
-     */
-    UpdatePetWithFormBody,
-
-    /**
-     * The UploadFileBody model constructor.
-     * @property {module:model/UploadFileBody}
-     */
-    UploadFileBody,
-
-    /**
-     * The UploadFileWithRequiredFileBody model constructor.
-     * @property {module:model/UploadFileWithRequiredFileBody}
-     */
-    UploadFileWithRequiredFileBody,
 
     /**
      * The User model constructor.

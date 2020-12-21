@@ -3,8 +3,6 @@ export * from './Category';
 export * from './Order';
 export * from './Pet';
 export * from './Tag';
-export * from './UpdatePetWithFormBody';
-export * from './UploadFileBody';
 export * from './User';
 
 import { ApiResponse } from './ApiResponse';
@@ -12,8 +10,6 @@ import { Category } from './Category';
 import { Order    , OrderStatusEnum    } from './Order';
 import { Pet     , PetStatusEnum   } from './Pet';
 import { Tag } from './Tag';
-import { UpdatePetWithFormBody } from './UpdatePetWithFormBody';
-import { UploadFileBody } from './UploadFileBody';
 import { User } from './User';
 
 /* tslint:disable:no-unused-variable */
@@ -45,8 +41,6 @@ let typeMap: {[index: string]: any} = {
     "Order": Order,
     "Pet": Pet,
     "Tag": Tag,
-    "UpdatePetWithFormBody": UpdatePetWithFormBody,
-    "UploadFileBody": UploadFileBody,
     "User": User,
 }
 

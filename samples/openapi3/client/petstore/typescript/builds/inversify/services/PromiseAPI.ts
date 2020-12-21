@@ -6,8 +6,6 @@ import { Category } from "../models/Category";
 import { Order } from "../models/Order";
 import { Pet } from "../models/Pet";
 import { Tag } from "../models/Tag";
-import { UpdatePetWithFormBody } from "../models/UpdatePetWithFormBody";
-import { UploadFileBody } from "../models/UploadFileBody";
 import { User } from "../models/User";
 
 

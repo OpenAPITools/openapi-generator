@@ -84,8 +84,6 @@ Class | Method | HTTP request | Description
  - [PSPetstore/Model.Order](docs/Order.md)
  - [PSPetstore/Model.Pet](docs/Pet.md)
  - [PSPetstore/Model.Tag](docs/Tag.md)
- - [PSPetstore/Model.UpdatePetWithFormBody](docs/UpdatePetWithFormBody.md)
- - [PSPetstore/Model.UploadFileBody](docs/UploadFileBody.md)
  - [PSPetstore/Model.User](docs/User.md)
 
 

@@ -94,8 +94,6 @@ Class | Method | HTTP request | Description
  - [Order](Order.md)
  - [Pet](Pet.md)
  - [Tag](Tag.md)
- - [UpdatePetWithFormBody](UpdatePetWithFormBody.md)
- - [UploadFileBody](UploadFileBody.md)
  - [User](User.md)
 
 
