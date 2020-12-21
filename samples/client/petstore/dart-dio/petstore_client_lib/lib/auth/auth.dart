@@ -1,4 +1,9 @@
-import 'dart:async';
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
 
 import 'package:dio/dio.dart';
 

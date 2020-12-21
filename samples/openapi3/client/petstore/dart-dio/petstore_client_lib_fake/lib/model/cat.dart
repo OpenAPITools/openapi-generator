@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:openapi/model/animal.dart';
 import 'package:openapi/model/cat_all_of.dart';
 import 'package:built_value/built_value.dart';
