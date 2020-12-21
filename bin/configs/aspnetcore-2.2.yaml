@@ -1,0 +1,7 @@
+generatorName: aspnetcore
+outputDir: samples/server/petstore/aspnetcore
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/aspnetcore/2.1
+additionalProperties:
+  packageGuid: '{3C799344-F285-4669-8FD5-7ED9B795D5C5}'
+  aspnetCoreVersion: "2.2"

@@ -29,12 +29,6 @@ docs/Foo.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineObject.md
-docs/InlineObject1.md
-docs/InlineObject2.md
-docs/InlineObject3.md
-docs/InlineObject4.md
-docs/InlineObject5.md
 docs/InlineResponseDefault.md
 docs/List.md
 docs/MapTest.md
@@ -93,12 +87,6 @@ src/model/Foo.js
 src/model/FormatTest.js
 src/model/HasOnlyReadOnly.js
 src/model/HealthCheckResult.js
-src/model/InlineObject.js
-src/model/InlineObject1.js
-src/model/InlineObject2.js
-src/model/InlineObject3.js
-src/model/InlineObject4.js
-src/model/InlineObject5.js
 src/model/InlineResponseDefault.js
 src/model/List.js
 src/model/MapTest.js
