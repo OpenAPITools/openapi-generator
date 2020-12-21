@@ -17,7 +17,7 @@ class BasicAuthInterceptor extends AuthInterceptor {
     Future<dynamic> onRequest(RequestOptions options) {
         final metadataAuthInfo = getAuthInfo(options, 'basic');
         for (final info in metadataAuthInfo) {
-            final String authName = info['name'];
+            final authName = info['name'] as String;
             final basicAuthInfo = authInfo[authName];
             if (basicAuthInfo != null) {
                 final basicAuth = 'Basic ' + base64Encode(utf8.encode('${basicAuthInfo.username}:${basicAuthInfo.password}'));

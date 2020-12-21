@@ -9,8 +9,8 @@ abstract class AuthInterceptor extends Interceptor {
      */
     List<Map<String, dynamic>> getAuthInfo(RequestOptions route, String type) {
         if (route.extra.containsKey('secure')) {
-            final List<Map<String, String>> auth = route.extra['secure'];
-            final List<Map<String, dynamic>> results = [];
+            final auth = route.extra['secure'] as List<Map<String, String>>;
+            final results = <Map<String, dynamic>>[];
             for (final info in auth) {
                 if (info['type'] == type) {
                     results.add(info);

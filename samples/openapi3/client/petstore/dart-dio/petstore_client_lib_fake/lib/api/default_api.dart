@@ -53,8 +53,11 @@ class DefaultApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            final serializer = _serializers.serializerForType(InlineResponseDefault);
-            final data = _serializers.deserializeWith<InlineResponseDefault>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            final serializer = _serializers.serializerForType(InlineResponseDefault) as Serializer<InlineResponseDefault>;
+            final data = _serializers.deserializeWith<InlineResponseDefault>(
+                serializer,
+                response.data is String ? jsonDecode(response.data as String) : response.data,
+            );
 
             return Response<InlineResponseDefault>(
                 data: data,

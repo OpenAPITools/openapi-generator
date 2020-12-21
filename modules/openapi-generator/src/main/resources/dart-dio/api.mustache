@@ -124,14 +124,22 @@ class {{classname}} {
             final data = response.data as {{{returnType}}};
         {{/returnTypeIsPrimitive}}
         {{^returnTypeIsPrimitive}}
-            final serializer = _serializers.serializerForType({{{returnType}}});
-            final data = _serializers.deserializeWith<{{{returnType}}}>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            final serializer = _serializers.serializerForType({{{returnType}}}) as Serializer<{{{returnType}}}>;
+            final data = _serializers.deserializeWith<{{{returnType}}}>(
+                serializer,
+                response.data is String ? jsonDecode(response.data as String) : response.data,
+            );
         {{/returnTypeIsPrimitive}}
         {{/returnSimpleType}}
         {{^returnSimpleType}}
             const collectionType = {{#isMap}}BuiltMap{{/isMap}}{{^isMap}}BuiltList{{/isMap}};
             const type = FullType(collectionType, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{returnBaseType}}})]);
-            final {{{returnType}}} data = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
+            final data = _serializers.deserialize(
+                response.data is String
+                ? jsonDecode(response.data as String)
+                : response.data,
+                specifiedType: type,
+            ) as {{{returnType}}};
         {{/returnSimpleType}}
         {{/isResponseFile}}
 

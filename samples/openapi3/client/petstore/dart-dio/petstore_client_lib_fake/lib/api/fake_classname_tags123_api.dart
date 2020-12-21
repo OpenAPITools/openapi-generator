@@ -67,8 +67,11 @@ class FakeClassnameTags123Api {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            final serializer = _serializers.serializerForType(ModelClient);
-            final data = _serializers.deserializeWith<ModelClient>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            final serializer = _serializers.serializerForType(ModelClient) as Serializer<ModelClient>;
+            final data = _serializers.deserializeWith<ModelClient>(
+                serializer,
+                response.data is String ? jsonDecode(response.data as String) : response.data,
+            );
 
             return Response<ModelClient>(
                 data: data,

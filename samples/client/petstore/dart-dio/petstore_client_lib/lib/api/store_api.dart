@@ -108,7 +108,12 @@ class StoreApi {
         ).then((response) {
             const collectionType = BuiltMap;
             const type = FullType(collectionType, [FullType(String), FullType(int)]);
-            final BuiltMap<String, int> data = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
+            final data = _serializers.deserialize(
+                response.data is String
+                ? jsonDecode(response.data as String)
+                : response.data,
+                specifiedType: type,
+            ) as BuiltMap<String, int>;
 
             return Response<BuiltMap<String, int>>(
                 data: data,
@@ -165,8 +170,11 @@ class StoreApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            final serializer = _serializers.serializerForType(Order);
-            final data = _serializers.deserializeWith<Order>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            final serializer = _serializers.serializerForType(Order) as Serializer<Order>;
+            final data = _serializers.deserializeWith<Order>(
+                serializer,
+                response.data is String ? jsonDecode(response.data as String) : response.data,
+            );
 
             return Response<Order>(
                 data: data,
@@ -227,8 +235,11 @@ class StoreApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            final serializer = _serializers.serializerForType(Order);
-            final data = _serializers.deserializeWith<Order>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            final serializer = _serializers.serializerForType(Order) as Serializer<Order>;
+            final data = _serializers.deserializeWith<Order>(
+                serializer,
+                response.data is String ? jsonDecode(response.data as String) : response.data,
+            );
 
             return Response<Order>(
                 data: data,
