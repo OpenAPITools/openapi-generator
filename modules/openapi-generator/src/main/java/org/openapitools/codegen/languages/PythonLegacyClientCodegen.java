@@ -797,9 +797,7 @@ public class PythonLegacyClientCodegen extends DefaultCodegen implements Codegen
             if ("Number".equalsIgnoreCase(schema.getFormat())) {return "1";}
             if (StringUtils.isNotBlank(schema.getPattern())) {
                 String pattern = schema.getPattern();
-                while (pattern.startsWith("/")) pattern = pattern.substring(0, pattern.length()-1);
-                while (pattern.endsWith("/")) pattern = pattern.substring(1);
-                RgxGen rgxGen = new RgxGen(pattern);
+                RgxGen rgxGen = new RgxGen(patternCorrection(pattern));
                 // this seed makes it so if we have [a-z] we pick a
                 Random random = new Random(18);
                 String sample = rgxGen.generate(random);
@@ -1051,5 +1049,15 @@ public class PythonLegacyClientCodegen extends DefaultCodegen implements Codegen
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
         }
+    }
+
+    public String patternCorrection(String pattern){
+        // Java does not recognize starting and ending forward slashes and mode modifiers
+        // It considers them as characters with no special meaning and tries to find them in the match string
+        boolean checkEnding = pattern.endsWith("/i") || pattern.endsWith("/g") || pattern.endsWith("/m");
+        if (checkEnding) pattern = pattern.substring(0, pattern.length()-2);
+        if (pattern.endsWith("/")) pattern = pattern.substring(0, pattern.length()-1);
+        if (pattern.startsWith("/")) pattern = pattern.substring(1);
+        return pattern;
     }
 }

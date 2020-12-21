@@ -6,8 +6,6 @@ import {mergeMap, map} from  '../rxjsStub';
 
 import { ApiResponse } from '../models/ApiResponse';
 import { Category } from '../models/Category';
-import { InlineObject } from '../models/InlineObject';
-import { InlineObject1 } from '../models/InlineObject1';
 import { Order } from '../models/Order';
 import { Pet } from '../models/Pet';
 import { Tag } from '../models/Tag';

@@ -18,6 +18,8 @@ client/PFXPet.cpp
 client/PFXPet.h
 client/PFXPetApi.cpp
 client/PFXPetApi.h
+client/PFXServerConfiguration.h
+client/PFXServerVariable.h
 client/PFXStoreApi.cpp
 client/PFXStoreApi.h
 client/PFXTag.cpp

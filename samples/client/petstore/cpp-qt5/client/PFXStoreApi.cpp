@@ -11,7 +11,7 @@
 
 #include "PFXStoreApi.h"
 #include "PFXHelpers.h"
-
+#include "PFXServerConfiguration.h"
 #include <QJsonArray>
 #include <QJsonDocument>
 
@@ -25,9 +25,52 @@ PFXStoreApi::PFXStoreApi(const QString &scheme, const QString &host, int port, c
       _timeOut(timeOut),
       _manager(nullptr),
       isResponseCompressionEnabled(false),
-      isRequestCompressionEnabled(false) {}
+      isRequestCompressionEnabled(false) {
+      initializeServerConfigs();
+      }
 
 PFXStoreApi::~PFXStoreApi() {
+}
+
+void PFXStoreApi::initializeServerConfigs(){
+
+//Default server
+QList<PFXServerConfiguration> defaultConf = QList<PFXServerConfiguration>();
+//varying endpoint server 
+QList<PFXServerConfiguration> serverConf = QList<PFXServerConfiguration>();
+defaultConf.append(PFXServerConfiguration(
+    "http://petstore.swagger.io/v2",
+    "No description provided",
+    QMap<QString, PFXServerVariable>()));
+_serverConfigs.insert("deleteOrder",defaultConf);
+_serverIndices.insert("deleteOrder",0);
+
+_serverConfigs.insert("getInventory",defaultConf);
+_serverIndices.insert("getInventory",0);
+
+_serverConfigs.insert("getOrderById",defaultConf);
+_serverIndices.insert("getOrderById",0);
+
+_serverConfigs.insert("placeOrder",defaultConf);
+_serverIndices.insert("placeOrder",0);
+
+
+}
+
+/**
+* returns 0 on success and -1, -2 or -3 on failure.
+* -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found 
+*/
+int PFXStoreApi::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value){
+    auto it = _serverConfigs.find(operation);
+    if(it != _serverConfigs.end() && serverIndex < it.value().size() ){
+      return _serverConfigs[operation][serverIndex].setDefaultValue(variable,value);
+    }
+    return -3;
+}
+void PFXStoreApi::setServerIndex(const QString &operation, int serverIndex){
+    if(_serverIndices.contains(operation) && serverIndex < _serverConfigs.find(operation).value().size() )
+        _serverIndices[operation] = serverIndex;
 }
 
 void PFXStoreApi::setScheme(const QString &scheme) {
@@ -91,12 +134,7 @@ void PFXStoreApi::abortRequests(){
 }
 
 void PFXStoreApi::deleteOrder(const QString &order_id) {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/store/order/{orderId}");
+    QString fullPath = QString(_serverConfigs["deleteOrder"][_serverIndices.value("deleteOrder")].URL()+"/store/order/{orderId}");
     QString order_idPathParam("{");
     order_idPathParam.append("orderId").append("}");
     fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
@@ -137,12 +175,7 @@ void PFXStoreApi::deleteOrderCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXStoreApi::getInventory() {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/store/inventory");
+    QString fullPath = QString(_serverConfigs["getInventory"][_serverIndices.value("getInventory")].URL()+"/store/inventory");
 
     if(_apiKeys.contains("api_key")){
         addHeaders("api_key",_apiKeys.find("api_key").value());
@@ -194,12 +227,7 @@ void PFXStoreApi::getInventoryCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXStoreApi::getOrderById(const qint64 &order_id) {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/store/order/{orderId}");
+    QString fullPath = QString(_serverConfigs["getOrderById"][_serverIndices.value("getOrderById")].URL()+"/store/order/{orderId}");
     QString order_idPathParam("{");
     order_idPathParam.append("orderId").append("}");
     fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
@@ -241,12 +269,7 @@ void PFXStoreApi::getOrderByIdCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXStoreApi::placeOrder(const PFXOrder &body) {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/store/order");
+    QString fullPath = QString(_serverConfigs["placeOrder"][_serverIndices.value("placeOrder")].URL()+"/store/order");
 
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);

@@ -25,12 +25,6 @@ doc/Foo.md
 doc/FormatTest.md
 doc/HasOnlyReadOnly.md
 doc/HealthCheckResult.md
-doc/InlineObject.md
-doc/InlineObject1.md
-doc/InlineObject2.md
-doc/InlineObject3.md
-doc/InlineObject4.md
-doc/InlineObject5.md
 doc/InlineResponseDefault.md
 doc/MapTest.md
 doc/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -90,12 +84,6 @@ lib/model/foo.dart
 lib/model/format_test.dart
 lib/model/has_only_read_only.dart
 lib/model/health_check_result.dart
-lib/model/inline_object.dart
-lib/model/inline_object1.dart
-lib/model/inline_object2.dart
-lib/model/inline_object3.dart
-lib/model/inline_object4.dart
-lib/model/inline_object5.dart
 lib/model/inline_response_default.dart
 lib/model/map_test.dart
 lib/model/mixed_properties_and_additional_properties_class.dart
