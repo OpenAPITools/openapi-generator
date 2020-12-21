@@ -82,10 +82,10 @@ class {{{classname}}} {
     {{#pattern}}
           : _dateEpochMarker == '{{{pattern}}}'
             ? DateTime.fromMillisecondsSinceEpoch(json[r'{{{baseName}}}'] as int, isUtc: true)
-            : DateTime.parse(json[r'{{{baseName}}}'] as String),
+            : DateTime.parse(json[r'{{{baseName}}}']),
 	{{/pattern}}
     {{^pattern}}
-          : DateTime.parse(json[r'{{{baseName}}}'] as String),
+          : DateTime.parse(json[r'{{{baseName}}}']),
 	{{/pattern}}
   {{/isDateTime}}
   {{#isDate}}
@@ -94,10 +94,10 @@ class {{{classname}}} {
     {{#pattern}}
           : _dateEpochMarker == '{{{pattern}}}'
             ? DateTime.fromMillisecondsSinceEpoch(json[r'{{{baseName}}}'] as int, isUtc: true)
-            : DateTime.parse(json[r'{{{baseName}}}'] as String),
+            : DateTime.parse(json[r'{{{baseName}}}']),
 	{{/pattern}}
     {{^pattern}}
-          : DateTime.parse(json[r'{{{baseName}}}'] as String),
+          : DateTime.parse(json[r'{{{baseName}}}']),
 	{{/pattern}}
   {{/isDate}}
   {{^isDateTime}}
@@ -109,7 +109,7 @@ class {{{classname}}} {
           ? null
           : (json[r'{{{baseName}}}'] as List).map(
       {{#items.complexType}}
-              {{items.complexType}}.listFromJson(json[r'{{{baseName}}}'] as List<dynamic>)
+              {{items.complexType}}.listFromJson(json[r'{{{baseName}}}'])
       {{/items.complexType}}
       {{^items.complexType}}
               (e) => e == null ? null : (e as List).cast<{{items.items.dataType}}>()
@@ -117,7 +117,7 @@ class {{{classname}}} {
             ).toList(growable: false),
         {{/items.isArray}}
         {{^items.isArray}}
-        {{{name}}}: {{{complexType}}}.listFromJson(json[r'{{{baseName}}}'] as List<dynamic>),
+        {{{name}}}: {{{complexType}}}.listFromJson(json[r'{{{baseName}}}']),
         {{/items.isArray}}
       {{/isArray}}
       {{^isArray}}
@@ -133,7 +133,19 @@ class {{{classname}}} {
   	          {{/items.complexType}}
           {{/items.isArray}}
           {{^items.isArray}}
-        {{{name}}}: json[r'{{{baseName}}}'] as {{{datatype}}},
+              {{#items.isMap}}
+        {{{name}}}: json[r'{{{baseName}}}'] == null
+          ? null
+            {{#items.complexType}}
+          : {{items.complexType}}.mapFromJson(json[r'{{{baseName}}}']),
+            {{/items.complexType}}
+            {{^items.complexType}}
+          : (json[r'{{{baseName}}}'] as Map).cast<String, Map>(),
+            {{/items.complexType}}
+          {{/items.isMap}}
+          {{^items.isMap}}
+            {{{name}}}: json[r'{{{baseName}}}']
+          {{/items.isMap}}
           {{/items.isArray}}
         {{/isMap}}
         {{^isMap}}
@@ -141,7 +153,7 @@ class {{{classname}}} {
         {{{name}}}: null, // No support for decoding binary content from JSON
             {{/isBinary}}
             {{^isBinary}}
-        {{{name}}}: {{{complexType}}}.fromJson(json[r'{{{baseName}}}'] as Map<String, dynamic>),
+        {{{name}}}: {{{complexType}}}.fromJson(json[r'{{{baseName}}}']),
             {{/isBinary}}
         {{/isMap}}
       {{/isArray}}
@@ -167,11 +179,11 @@ class {{{classname}}} {
           {{#isNumber}}
         {{{name}}}: json[r'{{{baseName}}}'] == null ?
           null :
-          (json[r'{{{baseName}}}'] as num).toDouble(),
+          json[r'{{{baseName}}}'].toDouble(),
           {{/isNumber}}
           {{^isNumber}}
     {{^isEnum}}
-        {{{name}}}: json[r'{{{baseName}}}'] as {{datatype}},
+        {{{name}}}: json[r'{{{baseName}}}'],
     {{/isEnum}}
     {{#isEnum}}
         {{{name}}}: {{{classname}}}{{{enumName}}}.fromJson(json[r'{{{baseName}}}']),
@@ -188,12 +200,12 @@ class {{{classname}}} {
   static List<{{{classname}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <{{{classname}}}>[]
-      : (json as List<Map<String, dynamic>>).map({{{classname}}}.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => {{{classname}}}.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, {{{classname}}}> mapFromJson(Map<String, dynamic> json) {
     final map = <String, {{{classname}}}>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = {{{classname}}}.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = {{{classname}}}.fromJson(value));
     }
     return map;
   }
@@ -203,7 +215,7 @@ class {{{classname}}} {
     final map = <String, List<{{{classname}}}>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = {{{classname}}}.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = {{{classname}}}.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

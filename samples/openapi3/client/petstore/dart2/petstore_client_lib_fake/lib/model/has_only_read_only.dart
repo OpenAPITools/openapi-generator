@@ -49,19 +49,19 @@ class HasOnlyReadOnly {
   static HasOnlyReadOnly fromJson(Map<String, dynamic> json) => json == null
     ? null
     : HasOnlyReadOnly(
-        bar: json[r'bar'] as String,
-        foo: json[r'foo'] as String,
+        bar: json[r'bar'],
+        foo: json[r'foo'],
     );
 
   static List<HasOnlyReadOnly> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <HasOnlyReadOnly>[]
-      : (json as List<Map<String, dynamic>>).map(HasOnlyReadOnly.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => HasOnlyReadOnly.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, HasOnlyReadOnly> mapFromJson(Map<String, dynamic> json) {
     final map = <String, HasOnlyReadOnly>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = HasOnlyReadOnly.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = HasOnlyReadOnly.fromJson(value));
     }
     return map;
   }
@@ -71,7 +71,7 @@ class HasOnlyReadOnly {
     final map = <String, List<HasOnlyReadOnly>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = HasOnlyReadOnly.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = HasOnlyReadOnly.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

@@ -65,21 +65,21 @@ class Name {
   static Name fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Name(
-        name: json[r'name'] as int,
-        snakeCase: json[r'snake_case'] as int,
-        property: json[r'property'] as String,
-        n123number: json[r'123Number'] as int,
+        name: json[r'name'],
+        snakeCase: json[r'snake_case'],
+        property: json[r'property'],
+        n123number: json[r'123Number'],
     );
 
   static List<Name> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Name>[]
-      : (json as List<Map<String, dynamic>>).map(Name.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => Name.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, Name> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Name>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = Name.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = Name.fromJson(value));
     }
     return map;
   }
@@ -89,7 +89,7 @@ class Name {
     final map = <String, List<Name>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = Name.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = Name.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

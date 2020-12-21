@@ -82,25 +82,25 @@ class Order {
   static Order fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Order(
-        id: json[r'id'] as int,
-        petId: json[r'petId'] as int,
-        quantity: json[r'quantity'] as int,
+        id: json[r'id'],
+        petId: json[r'petId'],
+        quantity: json[r'quantity'],
         shipDate: json[r'shipDate'] == null
           ? null
-          : DateTime.parse(json[r'shipDate'] as String),
+          : DateTime.parse(json[r'shipDate']),
         status: OrderStatusEnum.fromJson(json[r'status']),
-        complete: json[r'complete'] as bool,
+        complete: json[r'complete'],
     );
 
   static List<Order> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Order>[]
-      : (json as List<Map<String, dynamic>>).map(Order.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => Order.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, Order> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Order>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = Order.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = Order.fromJson(value));
     }
     return map;
   }
@@ -110,7 +110,7 @@ class Order {
     final map = <String, List<Order>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = Order.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = Order.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;
@@ -177,7 +177,7 @@ class OrderStatusEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   OrderStatusEnum decode(dynamic data, {bool allowNull}) {
-    switch (data as String) {
+    switch (data) {
       case r'placed': return OrderStatusEnum.placed;
       case r'approved': return OrderStatusEnum.approved;
       case r'delivered': return OrderStatusEnum.delivered;

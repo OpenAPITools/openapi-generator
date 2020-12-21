@@ -51,12 +51,12 @@ class ArrayOfArrayOfNumberOnly {
   static List<ArrayOfArrayOfNumberOnly> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ArrayOfArrayOfNumberOnly>[]
-      : (json as List<Map<String, dynamic>>).map(ArrayOfArrayOfNumberOnly.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => ArrayOfArrayOfNumberOnly.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, ArrayOfArrayOfNumberOnly> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ArrayOfArrayOfNumberOnly>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = ArrayOfArrayOfNumberOnly.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = ArrayOfArrayOfNumberOnly.fromJson(value));
     }
     return map;
   }
@@ -66,7 +66,7 @@ class ArrayOfArrayOfNumberOnly {
     final map = <String, List<ArrayOfArrayOfNumberOnly>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = ArrayOfArrayOfNumberOnly.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = ArrayOfArrayOfNumberOnly.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

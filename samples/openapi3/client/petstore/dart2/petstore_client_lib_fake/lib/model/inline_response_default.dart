@@ -41,18 +41,18 @@ class InlineResponseDefault {
   static InlineResponseDefault fromJson(Map<String, dynamic> json) => json == null
     ? null
     : InlineResponseDefault(
-        string: Foo.fromJson(json[r'string'] as Map<String, dynamic>),
+        string: Foo.fromJson(json[r'string']),
     );
 
   static List<InlineResponseDefault> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <InlineResponseDefault>[]
-      : (json as List<Map<String, dynamic>>).map(InlineResponseDefault.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => InlineResponseDefault.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, InlineResponseDefault> mapFromJson(Map<String, dynamic> json) {
     final map = <String, InlineResponseDefault>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = InlineResponseDefault.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = InlineResponseDefault.fromJson(value));
     }
     return map;
   }
@@ -62,7 +62,7 @@ class InlineResponseDefault {
     final map = <String, List<InlineResponseDefault>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = InlineResponseDefault.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = InlineResponseDefault.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

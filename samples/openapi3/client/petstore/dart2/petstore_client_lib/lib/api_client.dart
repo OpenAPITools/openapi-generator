@@ -162,17 +162,17 @@ class ApiClient {
         case 'double':
           return value is double ? value : double.parse('$value');
         case 'ApiResponse':
-          return ApiResponse.fromJson(value as Map<String, dynamic>);
+          return ApiResponse.fromJson(value);
         case 'Category':
-          return Category.fromJson(value as Map<String, dynamic>);
+          return Category.fromJson(value);
         case 'Order':
-          return Order.fromJson(value as Map<String, dynamic>);
+          return Order.fromJson(value);
         case 'Pet':
-          return Pet.fromJson(value as Map<String, dynamic>);
+          return Pet.fromJson(value);
         case 'Tag':
-          return Tag.fromJson(value as Map<String, dynamic>);
+          return Tag.fromJson(value);
         case 'User':
-          return User.fromJson(value as Map<String, dynamic>);
+          return User.fromJson(value);
         default:
           Match match;
           if (value is List && (match = _regList.firstMatch(targetType)) != null) {

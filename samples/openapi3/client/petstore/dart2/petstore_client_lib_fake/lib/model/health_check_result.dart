@@ -41,18 +41,18 @@ class HealthCheckResult {
   static HealthCheckResult fromJson(Map<String, dynamic> json) => json == null
     ? null
     : HealthCheckResult(
-        nullableMessage: json[r'NullableMessage'] as String,
+        nullableMessage: json[r'NullableMessage'],
     );
 
   static List<HealthCheckResult> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <HealthCheckResult>[]
-      : (json as List<Map<String, dynamic>>).map(HealthCheckResult.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => HealthCheckResult.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, HealthCheckResult> mapFromJson(Map<String, dynamic> json) {
     final map = <String, HealthCheckResult>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = HealthCheckResult.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = HealthCheckResult.fromJson(value));
     }
     return map;
   }
@@ -62,7 +62,7 @@ class HealthCheckResult {
     final map = <String, List<HealthCheckResult>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = HealthCheckResult.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = HealthCheckResult.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

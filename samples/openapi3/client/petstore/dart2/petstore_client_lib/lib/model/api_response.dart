@@ -57,20 +57,20 @@ class ApiResponse {
   static ApiResponse fromJson(Map<String, dynamic> json) => json == null
     ? null
     : ApiResponse(
-        code: json[r'code'] as int,
-        type: json[r'type'] as String,
-        message: json[r'message'] as String,
+        code: json[r'code'],
+        type: json[r'type'],
+        message: json[r'message'],
     );
 
   static List<ApiResponse> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ApiResponse>[]
-      : (json as List<Map<String, dynamic>>).map(ApiResponse.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => ApiResponse.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, ApiResponse> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ApiResponse>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = ApiResponse.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = ApiResponse.fromJson(value));
     }
     return map;
   }
@@ -80,7 +80,7 @@ class ApiResponse {
     final map = <String, List<ApiResponse>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = ApiResponse.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = ApiResponse.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

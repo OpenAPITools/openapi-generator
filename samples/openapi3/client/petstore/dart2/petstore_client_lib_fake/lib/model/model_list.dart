@@ -41,18 +41,18 @@ class ModelList {
   static ModelList fromJson(Map<String, dynamic> json) => json == null
     ? null
     : ModelList(
-        n123list: json[r'123-list'] as String,
+        n123list: json[r'123-list'],
     );
 
   static List<ModelList> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ModelList>[]
-      : (json as List<Map<String, dynamic>>).map(ModelList.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => ModelList.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, ModelList> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ModelList>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = ModelList.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = ModelList.fromJson(value));
     }
     return map;
   }
@@ -62,7 +62,7 @@ class ModelList {
     final map = <String, List<ModelList>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = ModelList.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = ModelList.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

@@ -56,12 +56,12 @@ class EnumArrays {
   static List<EnumArrays> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <EnumArrays>[]
-      : (json as List<Map<String, dynamic>>).map(EnumArrays.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => EnumArrays.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, EnumArrays> mapFromJson(Map<String, dynamic> json) {
     final map = <String, EnumArrays>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = EnumArrays.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = EnumArrays.fromJson(value));
     }
     return map;
   }
@@ -71,7 +71,7 @@ class EnumArrays {
     final map = <String, List<EnumArrays>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = EnumArrays.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = EnumArrays.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;
@@ -136,7 +136,7 @@ class EnumArraysJustSymbolEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumArraysJustSymbolEnum decode(dynamic data, {bool allowNull}) {
-    switch (data as String) {
+    switch (data) {
       case r'>=': return EnumArraysJustSymbolEnum.greaterThanEqual;
       case r'$': return EnumArraysJustSymbolEnum.dollar;
       default:
@@ -210,7 +210,7 @@ class EnumArraysArrayEnumEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumArraysArrayEnumEnum decode(dynamic data, {bool allowNull}) {
-    switch (data as String) {
+    switch (data) {
       case r'fish': return EnumArraysArrayEnumEnum.fish;
       case r'crab': return EnumArraysArrayEnumEnum.crab;
       default:

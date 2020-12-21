@@ -49,19 +49,19 @@ class Category {
   static Category fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Category(
-        id: json[r'id'] as int,
-        name: json[r'name'] as String,
+        id: json[r'id'],
+        name: json[r'name'],
     );
 
   static List<Category> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Category>[]
-      : (json as List<Map<String, dynamic>>).map(Category.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => Category.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, Category> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Category>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = Category.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = Category.fromJson(value));
     }
     return map;
   }
@@ -71,7 +71,7 @@ class Category {
     final map = <String, List<Category>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = Category.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = Category.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

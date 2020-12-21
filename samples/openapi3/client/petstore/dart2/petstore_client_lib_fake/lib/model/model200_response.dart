@@ -49,19 +49,19 @@ class Model200Response {
   static Model200Response fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Model200Response(
-        name: json[r'name'] as int,
-        class_: json[r'class'] as String,
+        name: json[r'name'],
+        class_: json[r'class'],
     );
 
   static List<Model200Response> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Model200Response>[]
-      : (json as List<Map<String, dynamic>>).map(Model200Response.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => Model200Response.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, Model200Response> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Model200Response>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = Model200Response.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = Model200Response.fromJson(value));
     }
     return map;
   }
@@ -71,7 +71,7 @@ class Model200Response {
     final map = <String, List<Model200Response>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = Model200Response.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = Model200Response.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

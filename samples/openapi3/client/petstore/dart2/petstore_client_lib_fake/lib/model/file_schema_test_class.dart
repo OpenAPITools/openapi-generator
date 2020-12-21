@@ -49,19 +49,19 @@ class FileSchemaTestClass {
   static FileSchemaTestClass fromJson(Map<String, dynamic> json) => json == null
     ? null
     : FileSchemaTestClass(
-        file: ModelFile.fromJson(json[r'file'] as Map<String, dynamic>),
-        files: ModelFile.listFromJson(json[r'files'] as List<dynamic>),
+        file: ModelFile.fromJson(json[r'file']),
+        files: ModelFile.listFromJson(json[r'files']),
     );
 
   static List<FileSchemaTestClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <FileSchemaTestClass>[]
-      : (json as List<Map<String, dynamic>>).map(FileSchemaTestClass.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => FileSchemaTestClass.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, FileSchemaTestClass> mapFromJson(Map<String, dynamic> json) {
     final map = <String, FileSchemaTestClass>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = FileSchemaTestClass.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = FileSchemaTestClass.fromJson(value));
     }
     return map;
   }
@@ -71,7 +71,7 @@ class FileSchemaTestClass {
     final map = <String, List<FileSchemaTestClass>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = FileSchemaTestClass.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = FileSchemaTestClass.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

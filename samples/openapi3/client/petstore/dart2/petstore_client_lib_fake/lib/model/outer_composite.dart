@@ -59,20 +59,20 @@ class OuterComposite {
     : OuterComposite(
         myNumber: json[r'my_number'] == null ?
           null :
-          (json[r'my_number'] as num).toDouble(),
-        myString: json[r'my_string'] as String,
-        myBoolean: json[r'my_boolean'] as bool,
+          json[r'my_number'].toDouble(),
+        myString: json[r'my_string'],
+        myBoolean: json[r'my_boolean'],
     );
 
   static List<OuterComposite> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <OuterComposite>[]
-      : (json as List<Map<String, dynamic>>).map(OuterComposite.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => OuterComposite.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, OuterComposite> mapFromJson(Map<String, dynamic> json) {
     final map = <String, OuterComposite>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = OuterComposite.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = OuterComposite.fromJson(value));
     }
     return map;
   }
@@ -82,7 +82,7 @@ class OuterComposite {
     final map = <String, List<OuterComposite>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = OuterComposite.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = OuterComposite.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

@@ -42,18 +42,18 @@ class ModelFile {
   static ModelFile fromJson(Map<String, dynamic> json) => json == null
     ? null
     : ModelFile(
-        sourceURI: json[r'sourceURI'] as String,
+        sourceURI: json[r'sourceURI'],
     );
 
   static List<ModelFile> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ModelFile>[]
-      : (json as List<Map<String, dynamic>>).map(ModelFile.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => ModelFile.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, ModelFile> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ModelFile>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = ModelFile.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = ModelFile.fromJson(value));
     }
     return map;
   }
@@ -63,7 +63,7 @@ class ModelFile {
     final map = <String, List<ModelFile>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = ModelFile.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = ModelFile.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

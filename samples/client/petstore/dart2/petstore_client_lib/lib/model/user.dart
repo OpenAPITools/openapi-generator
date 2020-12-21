@@ -98,25 +98,25 @@ class User {
   static User fromJson(Map<String, dynamic> json) => json == null
     ? null
     : User(
-        id: json[r'id'] as int,
-        username: json[r'username'] as String,
-        firstName: json[r'firstName'] as String,
-        lastName: json[r'lastName'] as String,
-        email: json[r'email'] as String,
-        password: json[r'password'] as String,
-        phone: json[r'phone'] as String,
-        userStatus: json[r'userStatus'] as int,
+        id: json[r'id'],
+        username: json[r'username'],
+        firstName: json[r'firstName'],
+        lastName: json[r'lastName'],
+        email: json[r'email'],
+        password: json[r'password'],
+        phone: json[r'phone'],
+        userStatus: json[r'userStatus'],
     );
 
   static List<User> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <User>[]
-      : (json as List<Map<String, dynamic>>).map(User.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => User.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, User> mapFromJson(Map<String, dynamic> json) {
     final map = <String, User>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = User.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = User.fromJson(value));
     }
     return map;
   }
@@ -126,7 +126,7 @@ class User {
     final map = <String, List<User>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = User.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = User.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

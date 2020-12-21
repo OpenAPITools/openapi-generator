@@ -173,39 +173,39 @@ class FormatTest {
   static FormatTest fromJson(Map<String, dynamic> json) => json == null
     ? null
     : FormatTest(
-        integer: json[r'integer'] as int,
-        int32: json[r'int32'] as int,
-        int64: json[r'int64'] as int,
+        integer: json[r'integer'],
+        int32: json[r'int32'],
+        int64: json[r'int64'],
         number: json[r'number'] == null ?
           null :
-          (json[r'number'] as num).toDouble(),
-        float: json[r'float'] as double,
-        double_: json[r'double'] as double,
-        decimal: json[r'decimal'] as double,
-        string: json[r'string'] as String,
-        byte: json[r'byte'] as String,
+          json[r'number'].toDouble(),
+        float: json[r'float'],
+        double_: json[r'double'],
+        decimal: json[r'decimal'],
+        string: json[r'string'],
+        byte: json[r'byte'],
         binary: null, // No support for decoding binary content from JSON
         date: json[r'date'] == null
           ? null
-          : DateTime.parse(json[r'date'] as String),
+          : DateTime.parse(json[r'date']),
         dateTime: json[r'dateTime'] == null
           ? null
-          : DateTime.parse(json[r'dateTime'] as String),
-        uuid: json[r'uuid'] as String,
-        password: json[r'password'] as String,
-        patternWithDigits: json[r'pattern_with_digits'] as String,
-        patternWithDigitsAndDelimiter: json[r'pattern_with_digits_and_delimiter'] as String,
+          : DateTime.parse(json[r'dateTime']),
+        uuid: json[r'uuid'],
+        password: json[r'password'],
+        patternWithDigits: json[r'pattern_with_digits'],
+        patternWithDigitsAndDelimiter: json[r'pattern_with_digits_and_delimiter'],
     );
 
   static List<FormatTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <FormatTest>[]
-      : (json as List<Map<String, dynamic>>).map(FormatTest.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => FormatTest.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, FormatTest> mapFromJson(Map<String, dynamic> json) {
     final map = <String, FormatTest>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = FormatTest.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = FormatTest.fromJson(value));
     }
     return map;
   }
@@ -215,7 +215,7 @@ class FormatTest {
     final map = <String, List<FormatTest>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = FormatTest.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = FormatTest.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

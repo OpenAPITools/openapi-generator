@@ -41,18 +41,18 @@ class ClassModel {
   static ClassModel fromJson(Map<String, dynamic> json) => json == null
     ? null
     : ClassModel(
-        class_: json[r'_class'] as String,
+        class_: json[r'_class'],
     );
 
   static List<ClassModel> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ClassModel>[]
-      : (json as List<Map<String, dynamic>>).map(ClassModel.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => ClassModel.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, ClassModel> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ClassModel>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = ClassModel.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = ClassModel.fromJson(value));
     }
     return map;
   }
@@ -62,7 +62,7 @@ class ClassModel {
     final map = <String, List<ClassModel>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = ClassModel.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = ClassModel.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

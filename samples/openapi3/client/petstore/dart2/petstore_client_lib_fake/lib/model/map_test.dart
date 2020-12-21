@@ -65,7 +65,9 @@ class MapTest {
   static MapTest fromJson(Map<String, dynamic> json) => json == null
     ? null
     : MapTest(
-        mapMapOfString: json[r'map_map_of_string'] as Map<String, Map<String, String>>,
+        mapMapOfString: json[r'map_map_of_string'] == null
+          ? null
+          : (json[r'map_map_of_string'] as Map).cast<String, Map>(),
         mapOfEnumString: json[r'map_of_enum_string'] == null ?
           null :
           (json[r'map_of_enum_string'] as Map).cast<String, String>(),
@@ -80,12 +82,12 @@ class MapTest {
   static List<MapTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <MapTest>[]
-      : (json as List<Map<String, dynamic>>).map(MapTest.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => MapTest.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, MapTest> mapFromJson(Map<String, dynamic> json) {
     final map = <String, MapTest>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = MapTest.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = MapTest.fromJson(value));
     }
     return map;
   }
@@ -95,7 +97,7 @@ class MapTest {
     final map = <String, List<MapTest>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = MapTest.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = MapTest.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;
@@ -160,7 +162,7 @@ class MapTestInnerEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   MapTestInnerEnum decode(dynamic data, {bool allowNull}) {
-    switch (data as String) {
+    switch (data) {
       case r'UPPER': return MapTestInnerEnum.UPPER;
       case r'lower': return MapTestInnerEnum.lower;
       default:

@@ -68,19 +68,19 @@ class ArrayTest {
         arrayArrayOfModel: json[r'array_array_of_model'] == null
           ? null
           : (json[r'array_array_of_model'] as List).map(
-              ReadOnlyFirst.listFromJson(json[r'array_array_of_model'] as List<dynamic>)
+              ReadOnlyFirst.listFromJson(json[r'array_array_of_model'])
             ).toList(growable: false),
     );
 
   static List<ArrayTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ArrayTest>[]
-      : (json as List<Map<String, dynamic>>).map(ArrayTest.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => ArrayTest.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, ArrayTest> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ArrayTest>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = ArrayTest.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = ArrayTest.fromJson(value));
     }
     return map;
   }
@@ -90,7 +90,7 @@ class ArrayTest {
     final map = <String, List<ArrayTest>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = ArrayTest.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = ArrayTest.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

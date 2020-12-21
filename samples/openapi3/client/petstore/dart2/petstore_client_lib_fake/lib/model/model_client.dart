@@ -41,18 +41,18 @@ class ModelClient {
   static ModelClient fromJson(Map<String, dynamic> json) => json == null
     ? null
     : ModelClient(
-        client: json[r'client'] as String,
+        client: json[r'client'],
     );
 
   static List<ModelClient> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ModelClient>[]
-      : (json as List<Map<String, dynamic>>).map(ModelClient.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => ModelClient.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, ModelClient> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ModelClient>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = ModelClient.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = ModelClient.fromJson(value));
     }
     return map;
   }
@@ -62,7 +62,7 @@ class ModelClient {
     final map = <String, List<ModelClient>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = ModelClient.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = ModelClient.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

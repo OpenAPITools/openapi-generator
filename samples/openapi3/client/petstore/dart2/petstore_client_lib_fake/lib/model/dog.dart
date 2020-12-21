@@ -57,20 +57,20 @@ class Dog {
   static Dog fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Dog(
-        className: json[r'className'] as String,
-        color: json[r'color'] as String,
-        breed: json[r'breed'] as String,
+        className: json[r'className'],
+        color: json[r'color'],
+        breed: json[r'breed'],
     );
 
   static List<Dog> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Dog>[]
-      : (json as List<Map<String, dynamic>>).map(Dog.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => Dog.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, Dog> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Dog>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = Dog.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = Dog.fromJson(value));
     }
     return map;
   }
@@ -80,7 +80,7 @@ class Dog {
     final map = <String, List<Dog>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = Dog.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = Dog.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

@@ -49,19 +49,19 @@ class Animal {
   static Animal fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Animal(
-        className: json[r'className'] as String,
-        color: json[r'color'] as String,
+        className: json[r'className'],
+        color: json[r'color'],
     );
 
   static List<Animal> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Animal>[]
-      : (json as List<Map<String, dynamic>>).map(Animal.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => Animal.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, Animal> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Animal>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = Animal.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = Animal.fromJson(value));
     }
     return map;
   }
@@ -71,7 +71,7 @@ class Animal {
     final map = <String, List<Animal>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = Animal.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = Animal.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

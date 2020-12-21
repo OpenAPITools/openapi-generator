@@ -82,25 +82,25 @@ class Pet {
   static Pet fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Pet(
-        id: json[r'id'] as int,
-        category: Category.fromJson(json[r'category'] as Map<String, dynamic>),
-        name: json[r'name'] as String,
+        id: json[r'id'],
+        category: Category.fromJson(json[r'category']),
+        name: json[r'name'],
         photoUrls: json[r'photoUrls'] == null
           ? null
           : (json[r'photoUrls'] as List).cast<String>(),
-        tags: Tag.listFromJson(json[r'tags'] as List<dynamic>),
+        tags: Tag.listFromJson(json[r'tags']),
         status: PetStatusEnum.fromJson(json[r'status']),
     );
 
   static List<Pet> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Pet>[]
-      : (json as List<Map<String, dynamic>>).map(Pet.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => Pet.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, Pet> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Pet>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = Pet.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = Pet.fromJson(value));
     }
     return map;
   }
@@ -110,7 +110,7 @@ class Pet {
     final map = <String, List<Pet>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = Pet.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = Pet.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;
@@ -177,7 +177,7 @@ class PetStatusEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   PetStatusEnum decode(dynamic data, {bool allowNull}) {
-    switch (data as String) {
+    switch (data) {
       case r'available': return PetStatusEnum.available;
       case r'pending': return PetStatusEnum.pending;
       case r'sold': return PetStatusEnum.sold;

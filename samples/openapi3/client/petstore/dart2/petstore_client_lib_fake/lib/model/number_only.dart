@@ -43,18 +43,18 @@ class NumberOnly {
     : NumberOnly(
         justNumber: json[r'JustNumber'] == null ?
           null :
-          (json[r'JustNumber'] as num).toDouble(),
+          json[r'JustNumber'].toDouble(),
     );
 
   static List<NumberOnly> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <NumberOnly>[]
-      : (json as List<Map<String, dynamic>>).map(NumberOnly.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => NumberOnly.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, NumberOnly> mapFromJson(Map<String, dynamic> json) {
     final map = <String, NumberOnly>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = NumberOnly.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = NumberOnly.fromJson(value));
     }
     return map;
   }
@@ -64,7 +64,7 @@ class NumberOnly {
     final map = <String, List<NumberOnly>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = NumberOnly.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = NumberOnly.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

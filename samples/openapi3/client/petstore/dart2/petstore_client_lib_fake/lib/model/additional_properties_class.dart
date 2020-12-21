@@ -52,18 +52,20 @@ class AdditionalPropertiesClass {
         mapProperty: json[r'map_property'] == null ?
           null :
           (json[r'map_property'] as Map).cast<String, String>(),
-        mapOfMapProperty: json[r'map_of_map_property'] as Map<String, Map<String, String>>,
+        mapOfMapProperty: json[r'map_of_map_property'] == null
+          ? null
+          : (json[r'map_of_map_property'] as Map).cast<String, Map>(),
     );
 
   static List<AdditionalPropertiesClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <AdditionalPropertiesClass>[]
-      : (json as List<Map<String, dynamic>>).map(AdditionalPropertiesClass.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => AdditionalPropertiesClass.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, AdditionalPropertiesClass> mapFromJson(Map<String, dynamic> json) {
     final map = <String, AdditionalPropertiesClass>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = AdditionalPropertiesClass.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = AdditionalPropertiesClass.fromJson(value));
     }
     return map;
   }
@@ -73,7 +75,7 @@ class AdditionalPropertiesClass {
     final map = <String, List<AdditionalPropertiesClass>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = AdditionalPropertiesClass.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = AdditionalPropertiesClass.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

@@ -57,22 +57,22 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   static MixedPropertiesAndAdditionalPropertiesClass fromJson(Map<String, dynamic> json) => json == null
     ? null
     : MixedPropertiesAndAdditionalPropertiesClass(
-        uuid: json[r'uuid'] as String,
+        uuid: json[r'uuid'],
         dateTime: json[r'dateTime'] == null
           ? null
-          : DateTime.parse(json[r'dateTime'] as String),
-        map: json[r'map'] as Map<String, Animal>,
+          : DateTime.parse(json[r'dateTime']),
+            map: json[r'map']
     );
 
   static List<MixedPropertiesAndAdditionalPropertiesClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <MixedPropertiesAndAdditionalPropertiesClass>[]
-      : (json as List<Map<String, dynamic>>).map(MixedPropertiesAndAdditionalPropertiesClass.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => MixedPropertiesAndAdditionalPropertiesClass.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, MixedPropertiesAndAdditionalPropertiesClass> mapFromJson(Map<String, dynamic> json) {
     final map = <String, MixedPropertiesAndAdditionalPropertiesClass>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = MixedPropertiesAndAdditionalPropertiesClass.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = MixedPropertiesAndAdditionalPropertiesClass.fromJson(value));
     }
     return map;
   }
@@ -82,7 +82,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     final map = <String, List<MixedPropertiesAndAdditionalPropertiesClass>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = MixedPropertiesAndAdditionalPropertiesClass.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = MixedPropertiesAndAdditionalPropertiesClass.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

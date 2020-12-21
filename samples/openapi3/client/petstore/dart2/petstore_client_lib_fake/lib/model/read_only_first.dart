@@ -49,19 +49,19 @@ class ReadOnlyFirst {
   static ReadOnlyFirst fromJson(Map<String, dynamic> json) => json == null
     ? null
     : ReadOnlyFirst(
-        bar: json[r'bar'] as String,
-        baz: json[r'baz'] as String,
+        bar: json[r'bar'],
+        baz: json[r'baz'],
     );
 
   static List<ReadOnlyFirst> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ReadOnlyFirst>[]
-      : (json as List<Map<String, dynamic>>).map(ReadOnlyFirst.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => ReadOnlyFirst.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, ReadOnlyFirst> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ReadOnlyFirst>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = ReadOnlyFirst.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = ReadOnlyFirst.fromJson(value));
     }
     return map;
   }
@@ -71,7 +71,7 @@ class ReadOnlyFirst {
     final map = <String, List<ReadOnlyFirst>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = ReadOnlyFirst.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = ReadOnlyFirst.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

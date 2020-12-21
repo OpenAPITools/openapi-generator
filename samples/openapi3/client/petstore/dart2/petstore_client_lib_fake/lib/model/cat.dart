@@ -57,20 +57,20 @@ class Cat {
   static Cat fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Cat(
-        className: json[r'className'] as String,
-        color: json[r'color'] as String,
-        declawed: json[r'declawed'] as bool,
+        className: json[r'className'],
+        color: json[r'color'],
+        declawed: json[r'declawed'],
     );
 
   static List<Cat> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Cat>[]
-      : (json as List<Map<String, dynamic>>).map(Cat.fromJson).toList(growable: true == growable);
+      : json.map((dynamic value) => Cat.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, Cat> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Cat>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = Cat.fromJson(value as Map<String, dynamic>));
+      json.forEach((key, value) => map[key] = Cat.fromJson(value));
     }
     return map;
   }
@@ -80,7 +80,7 @@ class Cat {
     final map = <String, List<Cat>>{};
     if (json?.isNotEmpty == true) {
       json.forEach((key, value) {
-        map[key] = Cat.listFromJson(value as List<dynamic>, emptyIsNull: emptyIsNull, growable: growable,);
+        map[key] = Cat.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;
