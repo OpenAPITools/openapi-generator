@@ -57,7 +57,13 @@ void PFXHttpRequestInput::add_file(QString variable_name, QString local_filename
 }
 
 PFXHttpRequestWorker::PFXHttpRequestWorker(QObject *parent, QNetworkAccessManager *_manager)
-    : QObject(parent), manager(_manager), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false), httpResponseCode(-1), randomGenerator(QDateTime::currentDateTime().toSecsSinceEpoch()) {
+    : QObject(parent), manager(_manager), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false), httpResponseCode(-1) {
+
+#if QT_VERSION >= 0x060000
+    randomGenerator = QRandomGenerator(QDateTime::currentDateTime().toSecsSinceEpoch());
+#else
+    qsrand(QDateTime::currentDateTime().toTime_t());
+#endif
 
     if (manager == nullptr) {
         manager = new QNetworkAccessManager(this);
@@ -217,8 +223,13 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         // variable layout is MULTIPART
 
         boundary = QString("__-----------------------%1%2")
-                       .arg(QDateTime::currentDateTime().toSecsSinceEpoch())
-                       .arg(randomGenerator.generate());
+                    #if QT_VERSION >= 0x060000
+                            .arg(QDateTime::currentDateTime().toSecsSinceEpoch())
+                            .arg(randomGenerator.generate());
+                    #else
+                            .arg(QDateTime::currentDateTime().toTime_t())
+                            .arg(qrand());
+                    #endif
         QString boundary_delimiter = "--";
         QString new_line = "\r\n";
 
