@@ -789,7 +789,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-11-05 - [Automated REST-Api Code Generation: Wie IT-Systeme miteinander sprechen](https://www.massiveart.com/blog/automated-rest-api-code-generation-wie-it-systeme-miteinander-sprechen) by Stefan Rottensteiner at [MASSIVE ART Blog](https://www.massiveart.com/blog)
 - 2020-12-01 - [OpenAPI GeneratorでGoのAPIサーバー/クライアントコードを自動生成する](https://qiita.com/saki-engineering/items/b20d8b6074c4da9664a5) by [@saki-engineering](https://qiita.com/saki-engineering)
 - 2020-12-09 - [プロジェクトにOpenAPI Generatorで自動生成された型付きAPI Clientを導入した話](https://qiita.com/yoshifujiT/items/905c18700ede23f40840) by [@yoshifujiT](https://github.com/yoshifujiT)
-
+- 2020-12-15 - [Next.js + NestJS + GraphQLで変化に追従するフロントエンドへ 〜 ショッピングクーポンの事例紹介](https://techblog.yahoo.co.jp/entry/2020121530052952/) by [小倉 陸](https://github.com/ogugu9) at [Yahoo! JAPAN Tech Blog](https://techblog.yahoo.co.jp/)
 
 ## [6 - About Us](#table-of-contents)
 
