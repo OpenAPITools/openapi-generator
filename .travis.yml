@@ -124,7 +124,7 @@ before_install:
     fi;
   - pushd .; cd website; yarn install; popd
   # install Deno
-  - sh -s v1.1.2 < ./CI/deno_install.sh
+  - sh -s v1.6.2 < ./CI/deno_install.sh
   - export PATH="$HOME/.deno/bin:$PATH"
 
 install:
