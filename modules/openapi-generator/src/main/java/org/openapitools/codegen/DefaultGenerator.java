@@ -806,6 +806,9 @@ public class DefaultGenerator implements Generator {
 
         List<CodegenServer> servers = config.fromServers(openAPI.getServers());
         if (servers != null && !servers.isEmpty()) {
+            for (CodegenServer server : servers) {
+                server.url = server.url.replaceAll("/$", "");
+            }
             bundle.put("servers", servers);
             bundle.put("hasServers", true);
         }

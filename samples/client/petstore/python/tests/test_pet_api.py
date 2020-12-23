@@ -120,6 +120,8 @@ class PetApiTests(unittest.TestCase):
 
     def test_config(self):
         config = Configuration(host=HOST)
+        host = config.host
+
         self.assertIsNotNone(config.get_host_settings())
         self.assertEqual(config.get_basic_auth_token(),
                           urllib3.util.make_headers(basic_auth=":").get('authorization'))
@@ -142,6 +144,10 @@ class PetApiTests(unittest.TestCase):
         config.password = None
         self.assertEqual(len(config.auth_settings()), 1)
         self.assertIn("petstore_auth", config.auth_settings().keys())
+
+    def test_config_host_settings(self):
+        config = Configuration(server_index=0)
+        self.assertEqual(config.host.endswith('/'), False)
 
     def test_timeout(self):
         mock_pool = MockPoolManager(self)
