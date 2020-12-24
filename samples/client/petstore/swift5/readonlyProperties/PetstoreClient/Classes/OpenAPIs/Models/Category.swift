@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Category: Codable {
+public struct Category: Codable, Hashable {
 
     public private(set) var id: Int64?
     public private(set) var name: String = "default-name"
