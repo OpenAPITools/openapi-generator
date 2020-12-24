@@ -120,8 +120,6 @@ class PetApiTests(unittest.TestCase):
 
     def test_config(self):
         config = Configuration(host=HOST)
-        host = config.host
-
         self.assertIsNotNone(config.get_host_settings())
         self.assertEqual(config.get_basic_auth_token(),
                           urllib3.util.make_headers(basic_auth=":").get('authorization'))
