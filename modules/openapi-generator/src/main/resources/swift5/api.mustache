@@ -251,15 +251,18 @@ extension {{projectName}}API {
             {{> _param}}{{^-last}}, {{/-last}}
             {{/queryParams}}
         ]){{/hasQueryParams}}{{^hasQueryParams}}
-        let url = URLComponents(string: URLString){{/hasQueryParams}}{{#headerParams}}{{#-first}}
-        let nillableHeaders: [String: Any?] = [{{/-first}}
-            {{> _param}}{{^-last}},{{/-last}}{{#-last}}
+        let url = URLComponents(string: URLString){{/hasQueryParams}}
+        
+        let nillableHeaders: [String: Any?] = [
+            {{^headerParams}}{{^hasFormParams}}:{{/hasFormParams}}{{/headerParams}}{{#hasFormParams}}"Content-Type": {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}},{{/hasFormParams}}{{#headerParams}}
+            {{> _param}},{{/headerParams}}
         ]
-        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders){{/-last}}{{/headerParams}}
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
         let requestBuilder: RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.Type = {{projectName}}API.requestBuilderFactory.{{#returnType}}getBuilder(){{/returnType}}{{^returnType}}getNonDecodableBuilder(){{/returnType}}
 
-        return requestBuilder.init(method: "{{httpMethod}}", URLString: (url?.string ?? URLString), parameters: parameters, isBody: {{hasBodyParam}}{{#headerParams}}{{#-first}}, headers: headerParameters{{/-first}}{{/headerParams}})
+        return requestBuilder.init(method: "{{httpMethod}}", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
 {{/operation}}
