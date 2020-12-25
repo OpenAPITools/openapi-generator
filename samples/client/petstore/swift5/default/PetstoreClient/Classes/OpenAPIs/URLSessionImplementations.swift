@@ -46,8 +46,8 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      */
     public var taskCompletionShouldRetry: ((Data?, URLResponse?, Error?, @escaping (Bool) -> Void) -> Void)?
 
-    required public init(method: String, URLString: String, parameters: [String: Any]?, isBody: Bool, headers: [String: String] = [:]) {
-        super.init(method: method, URLString: URLString, parameters: parameters, isBody: isBody, headers: headers)
+    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:]) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers)
     }
 
     /**
@@ -106,22 +106,28 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         let urlSession = createURLSession()
         urlSessionStore[urlSessionId] = urlSession
 
-        let parameters: [String: Any] = self.parameters ?? [:]
-
-        let fileKeys = parameters.filter { $1 is URL }
-            .map { $0.0 }
-
-        let encoding: ParameterEncoding
-        if fileKeys.count > 0 {
-            encoding = FileUploadEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
-        } else if isBody {
-            encoding = JSONDataEncoding()
-        } else {
-            encoding = URLEncoding()
-        }
-
         guard let xMethod = HTTPMethod(rawValue: method) else {
             fatalError("Unsuported Http method - \(method)")
+        }
+
+        let encoding: ParameterEncoding
+
+        switch xMethod {
+        case .get, .head:
+            encoding = URLEncoding()
+
+        case .options, .post, .put, .patch, .delete, .trace, .connect:
+            guard let contentType = headers["Content-Type"] else {
+                fatalError("Unspecified Content-Type!")
+            }
+
+            if contentType == "application/json" {
+                encoding = JSONDataEncoding()
+            } else if contentType == "multipart/form-data" {
+                encoding = FormDataEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
+            } else {
+                fatalError("Unsuported Media Type - \(contentType)")
+            }
         }
 
         let cleanupRequest = {
@@ -425,7 +431,7 @@ private class URLEncoding: ParameterEncoding {
     }
 }
 
-private class FileUploadEncoding: ParameterEncoding {
+private class FormDataEncoding: ParameterEncoding {
 
     let contentTypeForFormPart: (_ fileURL: URL) -> String?
 
