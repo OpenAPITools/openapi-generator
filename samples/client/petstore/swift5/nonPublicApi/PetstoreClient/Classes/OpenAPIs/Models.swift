@@ -6,6 +6,8 @@
 
 import Foundation
 
+let breakBuild: Int = "sfdg"
+
 protocol JSONEncodable {
     func encodeToJSON() -> Any
 }

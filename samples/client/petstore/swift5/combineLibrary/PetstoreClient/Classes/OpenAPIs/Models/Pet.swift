@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Pet: Codable, Hashable {
+public struct Pet: Codable {
 
     public enum Status: String, Codable, CaseIterable {
         case available = "available"
