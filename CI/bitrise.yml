@@ -47,5 +47,5 @@ workflows:
 
             set -e
 
-            ./samples/client/test/swift5/swift5_test_all.sh
+            ./samples/client/petstore/swift5/swift5_test_all.sh
 
