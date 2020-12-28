@@ -1441,7 +1441,6 @@
                 <module>samples/client/petstore/swift5/resultLibrary</module>
                 <module>samples/client/petstore/swift5/rxswiftLibrary</module>
                 <module>samples/client/petstore/swift5/urlsessionLibrary</module>
-                <module>samples/client/test/swift5/default</module>
                 <!-- swift 5 tests -->
                 <module>samples/client/petstore/swift5/alamofireLibrary/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift5/combineLibrary/SwaggerClientTests</module>
@@ -1449,7 +1448,6 @@
                 <module>samples/client/petstore/swift5/promisekitLibrary/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift5/rxswiftLibrary/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift5/urlsessionLibrary/SwaggerClientTests</module>
-                <module>samples/client/test/swift5/default/TestClientApp</module>
                 <!-- swift 4 tests -->
                 <module>samples/client/petstore/swift4/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/promisekit/SwaggerClientTests</module>
