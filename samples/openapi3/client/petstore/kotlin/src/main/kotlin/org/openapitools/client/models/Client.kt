@@ -26,6 +26,7 @@ data class Client (
 ) : Serializable {
     companion object {
         private const val serialVersionUID: Long = 123
+        private const val breakBuild: Long = "123"
     }
 
 }

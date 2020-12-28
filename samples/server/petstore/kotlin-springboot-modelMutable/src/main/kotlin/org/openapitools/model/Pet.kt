@@ -12,6 +12,7 @@ import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
+import javax.validation.Valid
 import io.swagger.annotations.ApiModelProperty
 
 /**
@@ -25,20 +26,22 @@ import io.swagger.annotations.ApiModelProperty
  */
 data class Pet(
 
-    @get:NotNull 
+    @get:NotNull  
     @ApiModelProperty(example = "doggie", required = true, value = "")
     @field:JsonProperty("name") var name: kotlin.String,
 
-    @get:NotNull 
+    @get:NotNull  
     @ApiModelProperty(example = "null", required = true, value = "")
     @field:JsonProperty("photoUrls") var photoUrls: kotlin.collections.List<kotlin.String>,
 
     @ApiModelProperty(example = "null", value = "")
     @field:JsonProperty("id") var id: kotlin.Long? = null,
 
+    @field:Valid
     @ApiModelProperty(example = "null", value = "")
     @field:JsonProperty("category") var category: Category? = null,
 
+    @field:Valid
     @ApiModelProperty(example = "null", value = "")
     @field:JsonProperty("tags") var tags: kotlin.collections.List<Tag>? = null,
 

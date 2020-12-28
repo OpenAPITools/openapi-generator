@@ -51,6 +51,7 @@ import java.io.Serializable
 {{#serializableModel}}
     {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
         private const val serialVersionUID: Long = 123
+        private const val breakBuild: Long = "123"
     }
 {{/serializableModel}}
 {{#discriminator}}{{#vars}}{{#required}}

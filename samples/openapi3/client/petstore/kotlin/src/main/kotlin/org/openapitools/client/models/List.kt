@@ -17,15 +17,16 @@ import java.io.Serializable
 
 /**
  * 
- * @param `123minusList` 
+ * @param `123list` 
  */
 
 data class List (
     @Json(name = "123-list")
-    val `123minusList`: kotlin.String? = null
+    val `123list`: kotlin.String? = null
 ) : Serializable {
     companion object {
         private const val serialVersionUID: Long = 123
+        private const val breakBuild: Long = "123"
     }
 
 }
