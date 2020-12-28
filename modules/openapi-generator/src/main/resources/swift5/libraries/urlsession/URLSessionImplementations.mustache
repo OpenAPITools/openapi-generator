@@ -124,7 +124,7 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
             if contentType == "application/json" {
                 encoding = JSONDataEncoding()
             } else if contentType == "multipart/form-data" {
-                encoding = FormDataEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
+                encoding = MultipartFormDataEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
             } else {
                 fatalError("Unsuported Media Type - \(contentType)")
             }
@@ -431,7 +431,7 @@ fileprivate class URLEncoding: ParameterEncoding {
     }
 }
 
-fileprivate class FormDataEncoding: ParameterEncoding {
+fileprivate class MultipartFormDataEncoding: ParameterEncoding {
 
     let contentTypeForFormPart: (_ fileURL: URL) -> String?
 

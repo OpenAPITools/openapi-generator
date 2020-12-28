@@ -124,7 +124,7 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
             if contentType == "application/json" {
                 encoding = JSONDataEncoding()
             } else if contentType == "multipart/form-data" {
-                encoding = FormDataEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
+                encoding = MultipartFormDataEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
             } else {
                 fatalError("Unsuported Media Type - \(contentType)")
             }
@@ -431,7 +431,7 @@ private class URLEncoding: ParameterEncoding {
     }
 }
 
-private class FormDataEncoding: ParameterEncoding {
+private class MultipartFormDataEncoding: ParameterEncoding {
 
     let contentTypeForFormPart: (_ fileURL: URL) -> String?
 
