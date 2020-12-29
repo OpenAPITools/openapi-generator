@@ -68,6 +68,8 @@ before_install:
   - curl https://sh.rustup.rs -sSf | sh -s -- -y -v
   # required when sudo: required for the Ruby petstore tests
   - gem install bundler
+  - nvm install 12.20.0
+  - nvm use 12.20.0
   - npm install -g typescript
   - npm install -g npm
   - npm config set registry http://registry.npmjs.org/
@@ -77,11 +79,13 @@ before_install:
   - docker pull swaggerapi/petstore
   - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
   - docker ps -a
+  # -- skip bash test to shorten build time
   # Add bats test framework and cURL for Bash script integration tests
-  - sudo add-apt-repository ppa:duggan/bats --yes
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq bats
-  - sudo apt-get install -qq curl
+  #- sudo add-apt-repository ppa:duggan/bats --yes
+  #- sudo apt-get update -qq
+  #- sudo apt-get install -qq bats
+  #- sudo apt-get install -qq curl
+  # -- skip bash test end
   # install dart
   #- sudo apt-get update
   #- sudo apt-get install apt-transport-https
@@ -93,9 +97,6 @@ before_install:
   - phpenv versions
   - phpenv global 7.2.15
   - php -v
-  # install perl module
-  #- cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
-  #- cpanm Test::Exception Test::More Log::Any LWP::UserAgent JSON URI:Query Module::Runtime DateTime Module::Find Moose::Role
   # comment out below as installation failed in travis
   # Add rebar3 build tool and recent Erlang/OTP for Erlang petstore server tests.
   # - Travis CI does not support rebar3 [yet](https://github.com/travis-ci/travis-ci/issues/6506#issuecomment-275189490).
@@ -107,9 +108,11 @@ before_install:
   # install Qt5
   - sudo apt install -y --no-install-recommends qt5-default 
   - cmake --version
+  # -- skip perl test to shorten build time
   # perl dep
-  - cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
-  - cpanm --quiet --no-interactive Test::Exception Test::More Log::Any LWP::UserAgent URI::Query Module::Runtime DateTime Module::Find Moose::Role JSON || echo "Igorned failure from cpanm"
+  #- cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+  #- cpanm --quiet --no-interactive Test::Exception Test::More Log::Any LWP::UserAgent URI::Query Module::Runtime DateTime Module::Find Moose::Role JSON || echo "Igorned failure from cpanm"
+  # -- skip perl test end
   # show host table to confirm petstore.swagger.io is mapped to localhost
   - cat /etc/hosts
   # show java version
@@ -121,7 +124,7 @@ before_install:
     fi;
   - pushd .; cd website; yarn install; popd
   # install Deno
-  - curl -fsSL https://deno.land/x/install/install.sh | sh -s v1.1.2
+  - sh -s v1.6.2 < ./CI/deno_install.sh
   - export PATH="$HOME/.deno/bin:$PATH"
 
 install:
@@ -139,6 +142,8 @@ install:
 script:
   # fail fast
   - set -e
+  # fail if the test files have changes
+  - bin/utils/detect_test_file_changes.rb bin/utils/test_file_list.yaml
   # fail if templates/generators contain carriage return '\r'
   - /bin/bash ./bin/utils/detect_carriage_return.sh
   # fail if generators contain merge conflicts
@@ -147,16 +152,8 @@ script:
   - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
-  - mvn --no-snapshot-updates --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  - mvn --no-snapshot-updates --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  # test maven plugin
-  - mvn --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/java-client.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  - mvn --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/multi-module/pom.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  - mvn --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/kotlin.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  - mvn --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/spring.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  # test gradle plugin
-  - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew buildGoSdk)
-  - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew openApiGenerate)
+  - mvn -e --no-snapshot-updates --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - mvn -e --no-snapshot-updates --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 after_success:
   # push to maven repo
   - if [ $SONATYPE_USERNAME ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then

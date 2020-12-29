@@ -48,7 +48,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
     public static final String ROUTES_FILE_NAME = "routesFileName";
     public static final String BASE_PACKAGE = "basePackage";
 
-    static Logger LOGGER = LoggerFactory.getLogger(ScalaPlayFrameworkServerCodegen.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(ScalaPlayFrameworkServerCodegen.class);
 
     protected boolean skipStubs = false;
     protected boolean supportAsync = false;
@@ -97,10 +97,11 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         typeMapping.put("ByteArray", "Array[Byte]");
         typeMapping.put("object", "JsObject");
         typeMapping.put("file", "TemporaryFile");
+        typeMapping.put("number", "BigDecimal");
+        typeMapping.put("decimal", "BigDecimal");
 
         importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
         importMapping.put("LocalDate", "java.time.LocalDate");
-        importMapping.remove("BigDecimal");
         importMapping.put("TemporaryFile", "play.api.libs.Files.TemporaryFile");
 
         cliOptions.removeIf(opt -> DATE_LIBRARY.equals(opt.getOpt()));
@@ -421,7 +422,8 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         StringBuilder defaultValue = new StringBuilder();
         defaultValue.append(cm.classname).append('(');
 
-        for (CodegenProperty var : cm.vars) {
+        for(int i = 0; i < cm.vars.size(); i++) {
+            CodegenProperty var = cm.vars.get(i);
             if (!var.required) {
                 defaultValue.append("None");
             } else if (models.containsKey(var.dataType)) {
@@ -435,12 +437,12 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
                 defaultValue.append("null");
             }
 
-            if (var.hasMore) {
+            if (i < cm.vars.size()-1) {
                 defaultValue.append(", ");
             }
         }
 
-        if (cm.isMapModel) {
+        if (cm.isMap) {
             defaultValue.append(", Map.empty");
         }
 

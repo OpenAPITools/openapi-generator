@@ -46,8 +46,10 @@ components:
       properties:
         prop1:
           type: string
+      type: object
     MySchemaName___Characters_allOf:
       properties:
         prop2:
           type: string
+      type: object
 

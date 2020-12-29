@@ -236,7 +236,8 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
 
     @Override
     public String modelDocFileFolder() {
-        return (outputFolder + File.separator + modelDocPath).replace('.', File.separatorChar);
+        // character replaces should _only_ occur on paths we define. Don't replace on outputFolder (which is supplied by the user and should always be considered correct)
+        return outputFolder + File.separator + modelDocPath.replace('.', File.separatorChar);
     }
 
     @Override

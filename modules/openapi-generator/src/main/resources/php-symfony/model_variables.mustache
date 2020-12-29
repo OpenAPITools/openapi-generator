@@ -26,16 +26,16 @@
      *   @Assert\Type("{{dataType}}")
     {{/items}}
      * })
-     {{#isMapContainer}}
+     {{#isMap}}
      {{#items}}
      * @Type("array<string, {{dataType}}>")
      {{/items}}
-     {{/isMapContainer}}
-     {{^isMapContainer}}
+     {{/isMap}}
+     {{^isMap}}
      {{#items}}
      * @Type("array<{{dataType}}>")
      {{/items}}
-     {{/isMapContainer}}
+     {{/isMap}}
 {{/isContainer}}
 {{^isContainer}}
     {{#isDate}}

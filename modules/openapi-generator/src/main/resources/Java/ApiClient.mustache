@@ -12,6 +12,7 @@ import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
 {{#java8}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import java.time.OffsetDateTime;
 {{/java8}}
 {{#threetenbp}}
 import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
@@ -67,7 +68,7 @@ import {{invokerPackage}}.auth.OAuth;
 {{/hasOAuthMethods}}
 
 {{>generatedAnnotation}}
-public class ApiClient {
+public class ApiClient{{#java8}} extends JavaTimeFormatter{{/java8}} {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private Map<String, String> defaultCookieMap = new HashMap<String, String>();
   private String basePath = "{{{basePath}}}";
@@ -499,7 +500,9 @@ public class ApiClient {
       return "";
     } else if (param instanceof Date) {
       return formatDate((Date) param);
-    } else if (param instanceof Collection) {
+    } {{#java8}}else if (param instanceof OffsetDateTime) {
+      return formatOffsetDateTime((OffsetDateTime) param);
+    } {{/java8}}else if (param instanceof Collection) {
       StringBuilder b = new StringBuilder();
       for(Object o : (Collection<?>)param) {
         if(b.length() > 0) {

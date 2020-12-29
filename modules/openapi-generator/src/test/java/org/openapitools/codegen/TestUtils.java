@@ -172,7 +172,7 @@ public class TestUtils {
         }
     }
 
-    private static String linearize(String target) {
+    public static String linearize(String target) {
         return target.replaceAll("\r?\n", "").replaceAll("\\s+", "\\s");
     }
 

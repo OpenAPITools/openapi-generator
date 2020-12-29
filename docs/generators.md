@@ -27,9 +27,9 @@ The following generators are available:
 * [elm](generators/elm.md)  
 * [erlang-client](generators/erlang-client.md)  
 * [erlang-proper](generators/erlang-proper.md)  
-* [flash](generators/flash.md)  
+* [flash-deprecated (deprecated)](generators/flash-deprecated.md)  
 * [go](generators/go.md)  
-* [go-experimental (experimental)](generators/go-experimental.md)  
+* [go-deprecated (deprecated)](generators/go-deprecated.md)  
 * [groovy](generators/groovy.md)  
 * [haskell-http-client](generators/haskell-http-client.md)  
 * [java](generators/java.md)  
@@ -48,8 +48,8 @@ The following generators are available:
 * [perl](generators/perl.md)  
 * [php](generators/php.md)  
 * [powershell (beta)](generators/powershell.md)  
-* [python](generators/python.md)  
-* [python-experimental (experimental)](generators/python-experimental.md)  
+* [python (experimental)](generators/python.md)  
+* [python-legacy](generators/python-legacy.md)  
 * [r](generators/r.md)  
 * [ruby](generators/ruby.md)  
 * [rust](generators/rust.md)  
@@ -107,11 +107,11 @@ The following generators are available:
 * [nodejs-express-server (beta)](generators/nodejs-express-server.md)  
 * [php-laravel](generators/php-laravel.md)  
 * [php-lumen](generators/php-lumen.md)  
+* [php-mezzio-ph](generators/php-mezzio-ph.md)  
 * [php-silex-deprecated (deprecated)](generators/php-silex-deprecated.md)  
 * [php-slim-deprecated (deprecated)](generators/php-slim-deprecated.md)  
 * [php-slim4](generators/php-slim4.md)  
 * [php-symfony](generators/php-symfony.md)  
-* [php-ze-ph](generators/php-ze-ph.md)  
 * [python-aiohttp](generators/python-aiohttp.md)  
 * [python-blueplanet](generators/python-blueplanet.md)  
 * [python-flask](generators/python-flask.md)  
@@ -140,13 +140,13 @@ The following generators are available:
 
 ## SCHEMA generators
 * [avro-schema (beta)](generators/avro-schema.md)  
+* [graphql-schema](generators/graphql-schema.md)  
 * [mysql-schema](generators/mysql-schema.md)  
+* [protobuf-schema (beta)](generators/protobuf-schema.md)  
 
 
 ## CONFIG generators
 * [apache2](generators/apache2.md)  
-* [graphql-schema](generators/graphql-schema.md)  
-* [protobuf-schema (beta)](generators/protobuf-schema.md)  
 
 
 

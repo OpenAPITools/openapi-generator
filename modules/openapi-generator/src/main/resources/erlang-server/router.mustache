@@ -59,7 +59,7 @@ get_operations() ->
             path => "{{{basePathWithoutHost}}}{{{path}}}",
             method => <<"{{httpMethod}}">>,
             handler => '{{classname}}'
-        }{{#hasMore}},{{/hasMore}}{{/operation}}{{#hasMore}},{{/hasMore}}{{/operations}}{{/apis}}{{/apiInfo}}
+        }{{^-last}},{{/-last}}{{/operation}}{{^-last}},{{/-last}}{{/operations}}{{/apis}}{{/apiInfo}}
     }.
 
 prepare_validator() ->

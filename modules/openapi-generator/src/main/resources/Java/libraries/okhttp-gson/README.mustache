@@ -114,7 +114,7 @@ public class Example {
     {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
     {{/allParams}}
     try {
-      {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}{{^vendorExtensions.x-group-parameters}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}({{#requiredParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}){{#optionalParams}}
+      {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}{{^vendorExtensions.x-group-parameters}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}){{#optionalParams}}
             .{{{paramName}}}({{{paramName}}}){{/optionalParams}}
             .execute();{{/vendorExtensions.x-group-parameters}}{{#returnType}}
       System.out.println(result);{{/returnType}}
@@ -172,5 +172,5 @@ It's recommended to create an instance of `ApiClient` per thread in a multithrea
 
 ## Author
 
-{{#apiInfo}}{{#apis}}{{^hasMore}}{{infoEmail}}
-{{/hasMore}}{{/apis}}{{/apiInfo}}
+{{#apiInfo}}{{#apis}}{{#-last}}{{infoEmail}}
+{{/-last}}{{/apis}}{{/apiInfo}}

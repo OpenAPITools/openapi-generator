@@ -1,4 +1,9 @@
-import _classCallCheck from "@babel/runtime/helpers/esm/classCallCheck";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Configuration = void 0;
 
 /**
  * OpenAPI Petstore
@@ -10,62 +15,62 @@ import _classCallCheck from "@babel/runtime/helpers/esm/classCallCheck";
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-export var Configuration =
-/**
- * parameter for apiKey security
- * @param name security name
- * @memberof Configuration
- */
+class Configuration {
+  /**
+   * parameter for apiKey security
+   * @param name security name
+   * @memberof Configuration
+   */
 
-/**
- * parameter for basic security
- *
- * @type {string}
- * @memberof Configuration
- */
+  /**
+   * parameter for basic security
+   *
+   * @type {string}
+   * @memberof Configuration
+   */
 
-/**
- * parameter for basic security
- *
- * @type {string}
- * @memberof Configuration
- */
+  /**
+   * parameter for basic security
+   *
+   * @type {string}
+   * @memberof Configuration
+   */
 
-/**
- * parameter for oauth2 security
- * @param name security name
- * @param scopes oauth2 scope
- * @memberof Configuration
- */
+  /**
+   * parameter for oauth2 security
+   * @param name security name
+   * @param scopes oauth2 scope
+   * @memberof Configuration
+   */
 
-/**
- * override base path
- *
- * @type {string}
- * @memberof Configuration
- */
-function Configuration() {
-  var param = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  /**
+   * override base path
+   *
+   * @type {string}
+   * @memberof Configuration
+   */
+  constructor(param = {}) {
+    if (param.apiKey) {
+      this.apiKey = param.apiKey;
+    }
 
-  _classCallCheck(this, Configuration);
+    if (param.username) {
+      this.username = param.username;
+    }
 
-  if (param.apiKey) {
-    this.apiKey = param.apiKey;
+    if (param.password) {
+      this.password = param.password;
+    }
+
+    if (param.accessToken) {
+      this.accessToken = param.accessToken;
+    }
+
+    if (param.basePath) {
+      this.basePath = param.basePath;
+    }
   }
 
-  if (param.username) {
-    this.username = param.username;
-  }
+}
 
-  if (param.password) {
-    this.password = param.password;
-  }
-
-  if (param.accessToken) {
-    this.accessToken = param.accessToken;
-  }
-
-  if (param.basePath) {
-    this.basePath = param.basePath;
-  }
-};
+exports.Configuration = Configuration;

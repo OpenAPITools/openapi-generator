@@ -6,7 +6,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/antihax/optional"
 	"github.com/stretchr/testify/assert"
 
 	sw "./go-petstore"
@@ -28,12 +27,13 @@ func TestMain(m *testing.M) {
 }
 
 func TestAddPet(t *testing.T) {
-	newPet := (sw.Pet{Id: 12830, Name: "gopher",
-		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "pending", Tags: []sw.Tag{sw.Tag{Id: 1, Name: "tag2"}}})
+	newPet := (sw.Pet{Id: sw.PtrInt64(12830), Name: "gopher",
+		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
-	r, err := client.PetApi.AddPet(context.Background(), newPet)
+	r, err := client.PetApi.AddPet(context.Background()).Pet(newPet).Execute()
 
-	if err != nil {
+	if err.Error() != "" {
 		t.Fatalf("Error while adding pet: %v", err)
 	}
 	if r.StatusCode != 200 {
@@ -42,9 +42,9 @@ func TestAddPet(t *testing.T) {
 }
 
 func TestFindPetsByStatusWithMissingParam(t *testing.T) {
-	_, r, err := client.PetApi.FindPetsByStatus(context.Background(), nil)
+	_, r, err := client.PetApi.FindPetsByStatus(context.Background()).Status(nil).Execute()
 
-	if err != nil {
+	if err.Error() != "" {
 		t.Fatalf("Error while testing TestFindPetsByStatusWithMissingParam: %v", err)
 	}
 	if r.StatusCode != 200 {
@@ -57,15 +57,14 @@ func TestGetPetById(t *testing.T) {
 }
 
 func TestGetPetByIdWithInvalidID(t *testing.T) {
-	resp, r, err := client.PetApi.GetPetById(context.Background(), 999999999)
+	resp, r, err := client.PetApi.GetPetById(context.Background(), 999999999).Execute()
 	if r != nil && r.StatusCode == 404 {
-		assertedError, ok := err.(sw.GenericOpenAPIError)
+		assertedError:= err
 		a := assert.New(t)
-		a.True(ok)
 		a.Contains(string(assertedError.Body()), "type")
 
 		a.Contains(assertedError.Error(), "Not Found")
-	} else if err != nil {
+	} else if err.Error() != "" {
 		t.Fatalf("Error while getting pet by invalid id: %v", err)
 		t.Log(r)
 	} else {
@@ -74,11 +73,8 @@ func TestGetPetByIdWithInvalidID(t *testing.T) {
 }
 
 func TestUpdatePetWithForm(t *testing.T) {
-	r, err := client.PetApi.UpdatePetWithForm(context.Background(), 12830, &sw.UpdatePetWithFormOpts{
-		Name:   optional.NewString("golang"),
-		Status: optional.NewString("available"),
-	})
-	if err != nil {
+	r, err := client.PetApi.UpdatePetWithForm(context.Background(), 12830).Name("golang").Status("available").Execute()
+	if err.Error() != "" {
 		t.Fatalf("Error while updating pet by id: %v", err)
 		t.Log(r)
 	}
@@ -86,14 +82,14 @@ func TestUpdatePetWithForm(t *testing.T) {
 		t.Log(r)
 	}
 
-    // get the pet with id 12830 from server to verify the update
-    isPetCorrect(t, 12830, "golang", "available")
+	// get the pet with id 12830 from server to verify the update
+	isPetCorrect(t, 12830, "golang", "available")
 }
 
 func TestFindPetsByTag(t *testing.T) {
 	var found = false
-	resp, r, err := client.PetApi.FindPetsByTags(context.Background(), []string{"tag2"})
-	if err != nil {
+	resp, r, err := client.PetApi.FindPetsByTags(context.Background()).Tags([]string{"tag2"}).Execute()
+	if err.Error() != "" {
 		t.Fatalf("Error while getting pet by tag: %v", err)
 		t.Log(r)
 	} else {
@@ -103,8 +99,8 @@ func TestFindPetsByTag(t *testing.T) {
 
 			assert := assert.New(t)
 			for i := 0; i < len(resp); i++ {
-				if resp[i].Id == 12830 {
-					assert.Equal(resp[i].Status, "available", "Pet status should be `pending`")
+				if *resp[i].Id == 12830 {
+					assert.Equal(*resp[i].Status, "available", "Pet status should be `pending`")
 					found = true
 				}
 			}
@@ -121,8 +117,8 @@ func TestFindPetsByTag(t *testing.T) {
 }
 
 func TestFindPetsByStatus(t *testing.T) {
-	resp, r, err := client.PetApi.FindPetsByStatus(context.Background(), []string{"available"})
-	if err != nil {
+	resp, r, err := client.PetApi.FindPetsByStatus(context.Background()).Status([]string{"available"}).Execute()
+	if err.Error() != "" {
 		t.Fatalf("Error while getting pet by id: %v", err)
 		t.Log(r)
 	} else {
@@ -131,7 +127,7 @@ func TestFindPetsByStatus(t *testing.T) {
 		} else {
 			assert := assert.New(t)
 			for i := 0; i < len(resp); i++ {
-				assert.Equal(resp[i].Status, "available", "Pet status should be `available`")
+				assert.Equal(*resp[i].Status, "available", "Pet status should be `available`")
 			}
 		}
 
@@ -147,12 +143,9 @@ func TestUploadFile(t *testing.T) {
 		t.Fatalf("Error opening file: %v", err1)
 	}
 
-	_, r, err := client.PetApi.UploadFile(context.Background(), 12830, &sw.UploadFileOpts{
-		AdditionalMetadata: optional.NewString("golang"),
-		File:               optional.NewInterface(file),
-	})
+	_, r, err := client.PetApi.UploadFile(context.Background(), 12830).AdditionalMetadata("golang").File(file).Execute()
 
-	if err != nil {
+	if err.Error() != "" {
 		t.Fatalf("Error while uploading file: %v", err)
 	}
 
@@ -168,13 +161,9 @@ func TestUploadFileRequired(t *testing.T) {
 		t.Fatalf("Error opening file: %v", err1)
 	}
 
-	_, r, err := client.PetApi.UploadFileWithRequiredFile(context.Background(), 12830,
-		file,
-		&sw.UploadFileWithRequiredFileOpts{
-			AdditionalMetadata: optional.NewString("golang"),
-		})
+	_, r, err := client.PetApi.UploadFileWithRequiredFile(context.Background(), 12830).RequiredFile(file).AdditionalMetadata("golang").Execute()
 
-	if err != nil {
+	if err.Error() != "" {
 		t.Fatalf("Error while uploading file: %v", err)
 	}
 
@@ -184,9 +173,9 @@ func TestUploadFileRequired(t *testing.T) {
 }
 
 func TestDeletePet(t *testing.T) {
-	r, err := client.PetApi.DeletePet(context.Background(), 12830, nil)
+	r, err := client.PetApi.DeletePet(context.Background(), 12830).Execute()
 
-	if err != nil {
+	if err.Error() != "" {
 		t.Fatalf("Error while deleting pet by id: %v", err)
 	}
 	if r.StatusCode != 200 {
@@ -274,9 +263,9 @@ func waitOnFunctions(t *testing.T, errc chan error, n int) {
 }
 
 func deletePet(t *testing.T, id int64) {
-	r, err := client.PetApi.DeletePet(context.Background(), id, nil)
+	r, err := client.PetApi.DeletePet(context.Background(), id).Execute()
 
-	if err != nil {
+	if err.Error() != "" {
 		t.Fatalf("Error while deleting pet by id: %v", err)
 	}
 	if r.StatusCode != 200 {
@@ -286,13 +275,13 @@ func deletePet(t *testing.T, id int64) {
 
 func isPetCorrect(t *testing.T, id int64, name string, status string) {
 	assert := assert.New(t)
-	resp, r, err := client.PetApi.GetPetById(context.Background(), id)
-	if err != nil {
+	resp, r, err := client.PetApi.GetPetById(context.Background(), id).Execute()
+	if err.Error() != "" {
 		t.Fatalf("Error while getting pet by id: %v", err)
 	} else {
-		assert.Equal(resp.Id, int64(id), "Pet id should be equal")
+		assert.Equal(*resp.Id, int64(id), "Pet id should be equal")
 		assert.Equal(resp.Name, name, fmt.Sprintf("Pet name should be %s", name))
-		assert.Equal(resp.Status, status, fmt.Sprintf("Pet status should be %s", status))
+		assert.Equal(*resp.Status, status, fmt.Sprintf("Pet status should be %s", status))
 
 		//t.Log(resp)
 	}
@@ -300,4 +289,3 @@ func isPetCorrect(t *testing.T, id int64, name string, status string) {
 		t.Log(r)
 	}
 }
-

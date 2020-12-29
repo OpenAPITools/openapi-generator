@@ -17,18 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
@@ -44,6 +39,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String THORNTAIL_LIBRARY = "thorntail";
     public static final String OPEN_LIBERTY_LIBRARY = "openliberty";
     public static final String HELIDON_LIBRARY = "helidon";
+    public static final String KUMULUZEE_LIBRARY = "kumuluzee";
 
     private boolean interfaceOnly = false;
     private boolean returnResponse = false;
@@ -52,8 +48,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean useSwaggerAnnotations = true;
     private boolean useJackson = false;
     private String openApiSpecFileLocation = "src/main/openapi/openapi.yaml";
-
-    private String primaryResourceName;
 
     public JavaJAXRSSpecServerCodegen() {
         super();
@@ -99,6 +93,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         supportedLibraries.put(THORNTAIL_LIBRARY, "Server using Thorntail");
         supportedLibraries.put(OPEN_LIBERTY_LIBRARY, "Server using Open Liberty");
         supportedLibraries.put(HELIDON_LIBRARY, "Server using Helidon");
+        supportedLibraries.put(KUMULUZEE_LIBRARY, "Server using KumuluzEE");
         library.setEnum(supportedLibraries);
 
         cliOptions.add(library);
@@ -127,12 +122,15 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 additionalProperties.remove(RETURN_RESPONSE);
             }
         }
-        if (QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || OPEN_LIBERTY_LIBRARY.equals(library)) {
+        if (QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || OPEN_LIBERTY_LIBRARY.equals(library) || KUMULUZEE_LIBRARY.equals(library)) {
             useSwaggerAnnotations = false;
         } else {
             if (additionalProperties.containsKey(USE_SWAGGER_ANNOTATIONS)) {
                 useSwaggerAnnotations = Boolean.valueOf(additionalProperties.get(USE_SWAGGER_ANNOTATIONS).toString());
             }
+        }
+        if (KUMULUZEE_LIBRARY.equals(library)){
+            super.setSourceFolder("src/main/java");
         }
         writePropertyBack(USE_SWAGGER_ANNOTATIONS, useSwaggerAnnotations);
 
@@ -143,7 +141,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         if (additionalProperties.containsKey(OPEN_API_SPEC_FILE_LOCATION)) {
             openApiSpecFileLocation = additionalProperties.get(OPEN_API_SPEC_FILE_LOCATION).toString();
-        } else if(QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library)) {
+        } else if(QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || KUMULUZEE_LIBRARY.equals(library)) {
             openApiSpecFileLocation = "src/main/resources/META-INF/openapi.yaml";
         } else if(OPEN_LIBERTY_LIBRARY.equals(library)) {
             openApiSpecFileLocation = "src/main/webapp/META-INF/openapi.yaml";
@@ -213,7 +211,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("beans.xml.mustache", "src/main/webapp/META-INF", "beans.xml")
                     .doNotOverwrite());
-        } 
+        } else if(KUMULUZEE_LIBRARY.equals(library)) {
+            supportingFiles.add(new SupportingFile("config.yaml.mustache", "src/main/resources", "config.yaml"));
+        }
     }
 
     @Override
@@ -231,41 +231,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
      */
     public void setOpenApiSpecFileLocation(String location) {
         this.openApiSpecFileLocation = location;
-    }
-
-    @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        String basePath = resourcePath;
-        if (basePath.startsWith("/")) {
-            basePath = basePath.substring(1);
-        }
-        int pos = basePath.indexOf("/");
-        if (pos > 0) {
-            basePath = basePath.substring(0, pos);
-        }
-
-        String operationKey = basePath;
-        if (StringUtils.isEmpty(basePath)) {
-            basePath = tag;
-            operationKey = "";
-            primaryResourceName = tag;
-        } else if (basePath.matches("\\{.*\\}")) {
-            basePath = tag;
-            operationKey = "";
-            co.subresourceOperation = true;
-        } else {
-            if (co.path.startsWith("/" + basePath)) {
-                co.path = co.path.substring(("/" + basePath).length());
-            }
-            co.subresourceOperation = !co.path.isEmpty();
-        }
-        List<CodegenOperation> opList = operations.get(operationKey);
-        if (opList == null || opList.isEmpty()) {
-            opList = new ArrayList<CodegenOperation>();
-            operations.put(operationKey, opList);
-        }
-        opList.add(co);
-        co.baseName = basePath;
     }
 
     @Override
@@ -295,16 +260,4 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         return "Generates a Java JAXRS Server according to JAXRS 2.0 specification.";
     }
 
-    @Override
-    public String toApiName(final String name) {
-        String computed = name;
-        if (computed.length() == 0) {
-            if (primaryResourceName == null) {
-                return "DefaultApi";
-            }
-            return primaryResourceName + "Api";
-        }
-        computed = sanitizeName(computed);
-        return camelize(computed) + "Api";
-    }
 }

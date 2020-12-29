@@ -66,7 +66,7 @@ public class DartClientCodegenTest {
         final DartClientCodegen codegen = new DartClientCodegen();
 
         List<String> reservedWordsList = new ArrayList<String>();
-        try {                                                                                   
+        try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("src/main/resources/dart/dart-keywords.txt"), Charset.forName("UTF-8")));
             while(reader.ready()) { reservedWordsList.add(reader.readLine()); }
             reader.close();
@@ -74,11 +74,11 @@ public class DartClientCodegenTest {
             String errorString = String.format(Locale.ROOT, "Error reading dart keywords: %s", e);
             Assert.fail(errorString, e);
         }
-        
+
         Assert.assertEquals(reservedWordsList.size() > 20, true);
         Assert.assertEquals(codegen.reservedWords().size() == reservedWordsList.size(), true);
         for(String keyword : reservedWordsList) {
-            // reserved words are stored in lowercase 
+            // reserved words are stored in lowercase
             Assert.assertEquals(codegen.reservedWords().contains(keyword.toLowerCase(Locale.ROOT)), true, String.format(Locale.ROOT, "%s, part of %s, was not found in %s", keyword, reservedWordsList, codegen.reservedWords().toString()));
         }
     }

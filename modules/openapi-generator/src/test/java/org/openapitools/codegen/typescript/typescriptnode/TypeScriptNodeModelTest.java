@@ -70,7 +70,6 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, "undefined");
         Assert.assertEquals(property1.baseType, "number");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
 
         final CodegenProperty property2 = cm.vars.get(1);
@@ -79,7 +78,6 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property2.name, "name");
         Assert.assertEquals(property2.defaultValue, "undefined");
         Assert.assertEquals(property2.baseType, "string");
-        Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
 
         final CodegenProperty property3 = cm.vars.get(2);
@@ -88,7 +86,6 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property3.dataType, "Date");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, "undefined");
-        Assert.assertTrue(property3.hasMore);
         Assert.assertFalse(property3.required);
 
         final CodegenProperty property4 = cm.vars.get(3);
@@ -97,7 +94,6 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property4.dataType, "string");
         Assert.assertEquals(property4.name, "birthDate");
         Assert.assertEquals(property4.defaultValue, "undefined");
-        Assert.assertTrue(property4.hasMore);
         Assert.assertFalse(property4.required);
 
         final CodegenProperty property5 = cm.vars.get(4);
@@ -106,7 +102,6 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property5.dataType, "boolean");
         Assert.assertEquals(property5.name, "active");
         Assert.assertEquals(property5.defaultValue, "undefined");
-        Assert.assertFalse(property5.hasMore);
         Assert.assertFalse(property5.required);
         Assert.assertFalse(property5.isContainer);
     }
@@ -194,7 +189,6 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, "undefined");
         Assert.assertEquals(property1.baseType, "number");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
 
         final CodegenProperty property2 = cm.vars.get(1);
@@ -202,7 +196,6 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property2.dataType, "Array<string>");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertEquals(property2.baseType, "Array");
-        Assert.assertFalse(property2.hasMore);
         Assert.assertFalse(property2.required);
     }
 

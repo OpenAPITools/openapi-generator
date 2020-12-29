@@ -9,7 +9,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+{{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
+{{/openApiNullable}}
 
 import play.libs.Json;
 import play.libs.ws.WSClient;
@@ -72,8 +74,10 @@ public class ApiClient {
         }
 
         ObjectMapper mapper = Json.mapper();
+        {{#openApiNullable}}
         JsonNullableModule jnm = new JsonNullableModule();
         mapper.registerModule(jnm);
+        {{/openApiNullable}}
 
         return new Retrofit.Builder()
                        .baseUrl(basePath)

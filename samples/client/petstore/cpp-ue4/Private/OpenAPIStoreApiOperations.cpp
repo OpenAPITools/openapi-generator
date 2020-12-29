@@ -110,7 +110,6 @@ void OpenAPIStoreApi::GetInventoryResponse::SetHttpResponseCode(EHttpResponseCod
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-	default:
 		SetResponseString(TEXT("successful operation"));
 		break;
 	}
@@ -160,7 +159,6 @@ void OpenAPIStoreApi::GetOrderByIdResponse::SetHttpResponseCode(EHttpResponseCod
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-	default:
 		SetResponseString(TEXT("successful operation"));
 		break;
 	case 400:
@@ -223,7 +221,6 @@ void OpenAPIStoreApi::PlaceOrderResponse::SetHttpResponseCode(EHttpResponseCodes
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-	default:
 		SetResponseString(TEXT("successful operation"));
 		break;
 	case 400:

@@ -55,7 +55,7 @@ public class {{classname}} {
 {{#allParams}}   * @param {{paramName}} {{description}}
 {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
   */
-  public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+  public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
     Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#allParams}}
     {{#required}}
@@ -84,7 +84,7 @@ public class {{classname}} {
     {{/headerParams}}
     String[] contentTypes = {
       {{#consumes}}
-      "{{{mediaType}}}"{{#hasMore}},{{/hasMore}}
+      "{{{mediaType}}}"{{^-last}},{{/-last}}
       {{/consumes}}
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -115,7 +115,7 @@ public class {{classname}} {
       {{/formParams}}
     }
 
-    String[] authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
+    String[] authNames = new String[] { {{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
 
     try {
       String localVarResponse = apiInvoker.invokeAPI (basePath, path, "{{httpMethod}}", queryParams, postBody, headerParams, formParams, contentType, authNames);
@@ -146,7 +146,7 @@ public class {{classname}} {
    * {{notes}}
 {{#allParams}}   * @param {{paramName}} {{description}}{{/allParams}}
   */
-  public void {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}, {{/hasMore}}{{/allParams}}final Response.Listener<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}String{{/returnType}}> responseListener, final Response.ErrorListener errorListener) {
+  public void {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{#-last}}, {{/-last}}{{/allParams}}final Response.Listener<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}String{{/returnType}}> responseListener, final Response.ErrorListener errorListener) {
     Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
 
     {{#allParams}}
@@ -178,7 +178,7 @@ public class {{classname}} {
     {{/headerParams}}
 
     String[] contentTypes = {
-      {{#consumes}}"{{{mediaType}}}"{{#hasMore}},{{/hasMore}}{{/consumes}}
+      {{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}}
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
@@ -203,7 +203,7 @@ public class {{classname}} {
       {{/formParams}}
     }
 
-    String[] authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
+    String[] authNames = new String[] { {{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
 
     try {
       apiInvoker.invokeAPI(basePath, path, "{{httpMethod}}", queryParams, postBody, headerParams, formParams, contentType, authNames,

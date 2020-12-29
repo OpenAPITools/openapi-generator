@@ -13,7 +13,7 @@
 /**
  * Describes the result of uploading an image resource
  */
-public class OASApiResponse implements OAS.MappedProperties {
+public class OASApiResponse {
     /**
      * Get code
      * @return code
@@ -21,10 +21,10 @@ public class OASApiResponse implements OAS.MappedProperties {
     public Integer code { get; set; }
 
     /**
-     * Get r_type
-     * @return r_type
+     * Get type
+     * @return type
      */
-    public String r_type { get; set; }
+    public String type { get; set; }
 
     /**
      * Get message
@@ -32,18 +32,10 @@ public class OASApiResponse implements OAS.MappedProperties {
      */
     public String message { get; set; }
 
-    private static final Map<String, String> propertyMappings = new Map<String, String>{
-        'type' => 'r_type'
-    };
-
-    public Map<String, String> getPropertyMappings() {
-        return propertyMappings;
-    }
-
     public static OASApiResponse getExample() {
         OASApiResponse apiResponse = new OASApiResponse();
           apiResponse.code = 0;
-          apiResponse.r_type = '';
+          apiResponse.type = '';
           apiResponse.message = '';
         return apiResponse;
     }
@@ -52,7 +44,7 @@ public class OASApiResponse implements OAS.MappedProperties {
         if (obj instanceof OASApiResponse) {           
             OASApiResponse apiResponse = (OASApiResponse) obj;
             return this.code == apiResponse.code
-                && this.r_type == apiResponse.r_type
+                && this.type == apiResponse.type
                 && this.message == apiResponse.message;
         }
         return false;
@@ -61,7 +53,7 @@ public class OASApiResponse implements OAS.MappedProperties {
     public Integer hashCode() {
         Integer hashCode = 43;
         hashCode = (17 * hashCode) + (code == null ? 0 : System.hashCode(code));
-        hashCode = (17 * hashCode) + (r_type == null ? 0 : System.hashCode(r_type));
+        hashCode = (17 * hashCode) + (type == null ? 0 : System.hashCode(type));
         hashCode = (17 * hashCode) + (message == null ? 0 : System.hashCode(message));
         return hashCode;
     }

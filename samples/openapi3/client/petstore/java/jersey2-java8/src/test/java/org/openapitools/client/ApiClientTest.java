@@ -10,6 +10,10 @@ import java.security.spec.AlgorithmParameterSpec;
 import java.util.*;
 import java.net.URI;
 import org.junit.*;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
+
+import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.tomitribe.auth.signatures.Algorithm;
 import org.tomitribe.auth.signatures.Signer;
 import org.tomitribe.auth.signatures.SigningAlgorithm;
@@ -42,6 +46,17 @@ public class ApiClientTest {
         } catch(NoSuchAlgorithmException e) {
             fail("No such algorithm: " + e.toString());
         }
+    }
+
+    @Test
+    public void testClientConfig() {
+        ApiClient testClient = new ApiClient();
+        ClientConfig config = testClient.getDefaultClientConfig();
+        config.connectorProvider(new ApacheConnectorProvider());
+        config.property(ClientProperties.PROXY_URI, "http://localhost:8080");
+        config.property(ClientProperties.PROXY_USERNAME,"proxy_user");
+        config.property(ClientProperties.PROXY_PASSWORD,"proxy_password");
+        testClient.setClientConfig(config);
     }
 
     @Test

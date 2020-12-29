@@ -212,33 +212,33 @@ pub async fn add_pet(configuration: &configuration::Configuration, params: AddPe
     let body = params.body;
 
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/pet", configuration.base_path);
-    let mut req_builder = client.post(uri_str.as_str());
+    let local_var_uri_str = format!("{}/pet", configuration.base_path);
+    let mut local_var_req_builder = local_var_client.post(local_var_uri_str.as_str());
 
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    if let Some(ref token) = configuration.oauth_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
+    if let Some(ref local_var_token) = configuration.oauth_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
-    req_builder = req_builder.json(&body);
+    local_var_req_builder = local_var_req_builder.json(&body);
 
-    let req = req_builder.build()?;
-    let resp = client.execute(req).await?;
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let status = resp.status();
-    let content = resp.text().await?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
 
-    if status.is_success() {
-        let entity: Option<AddPetSuccess> = serde_json::from_str(&content).ok();
-        let result = ResponseContent { status, content, entity };
-        Ok(result)
+    if local_var_status.is_success() {
+        let local_var_entity: Option<AddPetSuccess> = serde_json::from_str(&local_var_content).ok();
+        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Ok(local_var_result)
     } else {
-        let entity: Option<AddPetError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<AddPetError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 
@@ -248,35 +248,35 @@ pub async fn delete_pet(configuration: &configuration::Configuration, params: De
     let api_key = params.api_key;
 
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
-    let mut req_builder = client.delete(uri_str.as_str());
+    let local_var_uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
+    let mut local_var_req_builder = local_var_client.delete(local_var_uri_str.as_str());
 
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    if let Some(param_value) = api_key {
-        req_builder = req_builder.header("api_key", param_value.to_string());
+    if let Some(local_var_param_value) = api_key {
+        local_var_req_builder = local_var_req_builder.header("api_key", local_var_param_value.to_string());
     }
-    if let Some(ref token) = configuration.oauth_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
+    if let Some(ref local_var_token) = configuration.oauth_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
 
-    let req = req_builder.build()?;
-    let resp = client.execute(req).await?;
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let status = resp.status();
-    let content = resp.text().await?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
 
-    if status.is_success() {
-        let entity: Option<DeletePetSuccess> = serde_json::from_str(&content).ok();
-        let result = ResponseContent { status, content, entity };
-        Ok(result)
+    if local_var_status.is_success() {
+        let local_var_entity: Option<DeletePetSuccess> = serde_json::from_str(&local_var_content).ok();
+        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Ok(local_var_result)
     } else {
-        let entity: Option<DeletePetError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<DeletePetError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 
@@ -286,33 +286,33 @@ pub async fn find_pets_by_status(configuration: &configuration::Configuration, p
     let status = params.status;
 
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/pet/findByStatus", configuration.base_path);
-    let mut req_builder = client.get(uri_str.as_str());
+    let local_var_uri_str = format!("{}/pet/findByStatus", configuration.base_path);
+    let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
 
-    req_builder = req_builder.query(&[("status", &status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    local_var_req_builder = local_var_req_builder.query(&[("status", &status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    if let Some(ref token) = configuration.oauth_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
+    if let Some(ref local_var_token) = configuration.oauth_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
 
-    let req = req_builder.build()?;
-    let resp = client.execute(req).await?;
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let status = resp.status();
-    let content = resp.text().await?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
 
-    if status.is_success() {
-        let entity: Option<FindPetsByStatusSuccess> = serde_json::from_str(&content).ok();
-        let result = ResponseContent { status, content, entity };
-        Ok(result)
+    if local_var_status.is_success() {
+        let local_var_entity: Option<FindPetsByStatusSuccess> = serde_json::from_str(&local_var_content).ok();
+        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Ok(local_var_result)
     } else {
-        let entity: Option<FindPetsByStatusError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<FindPetsByStatusError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 
@@ -322,33 +322,33 @@ pub async fn find_pets_by_tags(configuration: &configuration::Configuration, par
     let tags = params.tags;
 
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/pet/findByTags", configuration.base_path);
-    let mut req_builder = client.get(uri_str.as_str());
+    let local_var_uri_str = format!("{}/pet/findByTags", configuration.base_path);
+    let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
 
-    req_builder = req_builder.query(&[("tags", &tags.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    local_var_req_builder = local_var_req_builder.query(&[("tags", &tags.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    if let Some(ref token) = configuration.oauth_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
+    if let Some(ref local_var_token) = configuration.oauth_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
 
-    let req = req_builder.build()?;
-    let resp = client.execute(req).await?;
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let status = resp.status();
-    let content = resp.text().await?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
 
-    if status.is_success() {
-        let entity: Option<FindPetsByTagsSuccess> = serde_json::from_str(&content).ok();
-        let result = ResponseContent { status, content, entity };
-        Ok(result)
+    if local_var_status.is_success() {
+        let local_var_entity: Option<FindPetsByTagsSuccess> = serde_json::from_str(&local_var_content).ok();
+        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Ok(local_var_result)
     } else {
-        let entity: Option<FindPetsByTagsError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<FindPetsByTagsError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 
@@ -358,37 +358,37 @@ pub async fn get_pet_by_id(configuration: &configuration::Configuration, params:
     let pet_id = params.pet_id;
 
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
-    let mut req_builder = client.get(uri_str.as_str());
+    let local_var_uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
+    let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
 
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    if let Some(ref apikey) = configuration.api_key {
-        let key = apikey.key.clone();
-        let val = match apikey.prefix {
-            Some(ref prefix) => format!("{} {}", prefix, key),
-            None => key,
+    if let Some(ref local_var_apikey) = configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
         };
-        req_builder = req_builder.header("api_key", val);
+        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
     };
 
-    let req = req_builder.build()?;
-    let resp = client.execute(req).await?;
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let status = resp.status();
-    let content = resp.text().await?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
 
-    if status.is_success() {
-        let entity: Option<GetPetByIdSuccess> = serde_json::from_str(&content).ok();
-        let result = ResponseContent { status, content, entity };
-        Ok(result)
+    if local_var_status.is_success() {
+        let local_var_entity: Option<GetPetByIdSuccess> = serde_json::from_str(&local_var_content).ok();
+        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Ok(local_var_result)
     } else {
-        let entity: Option<GetPetByIdError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<GetPetByIdError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 
@@ -397,33 +397,33 @@ pub async fn update_pet(configuration: &configuration::Configuration, params: Up
     let body = params.body;
 
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/pet", configuration.base_path);
-    let mut req_builder = client.put(uri_str.as_str());
+    let local_var_uri_str = format!("{}/pet", configuration.base_path);
+    let mut local_var_req_builder = local_var_client.put(local_var_uri_str.as_str());
 
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    if let Some(ref token) = configuration.oauth_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
+    if let Some(ref local_var_token) = configuration.oauth_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
-    req_builder = req_builder.json(&body);
+    local_var_req_builder = local_var_req_builder.json(&body);
 
-    let req = req_builder.build()?;
-    let resp = client.execute(req).await?;
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let status = resp.status();
-    let content = resp.text().await?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
 
-    if status.is_success() {
-        let entity: Option<UpdatePetSuccess> = serde_json::from_str(&content).ok();
-        let result = ResponseContent { status, content, entity };
-        Ok(result)
+    if local_var_status.is_success() {
+        let local_var_entity: Option<UpdatePetSuccess> = serde_json::from_str(&local_var_content).ok();
+        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Ok(local_var_result)
     } else {
-        let entity: Option<UpdatePetError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<UpdatePetError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 
@@ -434,40 +434,40 @@ pub async fn update_pet_with_form(configuration: &configuration::Configuration, 
     let status = params.status;
 
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
-    let mut req_builder = client.post(uri_str.as_str());
+    let local_var_uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
+    let mut local_var_req_builder = local_var_client.post(local_var_uri_str.as_str());
 
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    if let Some(ref token) = configuration.oauth_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
+    if let Some(ref local_var_token) = configuration.oauth_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
-    let mut form_params = std::collections::HashMap::new();
-    if let Some(param_value) = name {
-        form_params.insert("name", param_value.to_string());
+    let mut local_var_form_params = std::collections::HashMap::new();
+    if let Some(local_var_param_value) = name {
+        local_var_form_params.insert("name", local_var_param_value.to_string());
     }
-    if let Some(param_value) = status {
-        form_params.insert("status", param_value.to_string());
+    if let Some(local_var_param_value) = status {
+        local_var_form_params.insert("status", local_var_param_value.to_string());
     }
-    req_builder = req_builder.form(&form_params);
+    local_var_req_builder = local_var_req_builder.form(&local_var_form_params);
 
-    let req = req_builder.build()?;
-    let resp = client.execute(req).await?;
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let status = resp.status();
-    let content = resp.text().await?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
 
-    if status.is_success() {
-        let entity: Option<UpdatePetWithFormSuccess> = serde_json::from_str(&content).ok();
-        let result = ResponseContent { status, content, entity };
-        Ok(result)
+    if local_var_status.is_success() {
+        let local_var_entity: Option<UpdatePetWithFormSuccess> = serde_json::from_str(&local_var_content).ok();
+        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Ok(local_var_result)
     } else {
-        let entity: Option<UpdatePetWithFormError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<UpdatePetWithFormError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 
@@ -478,38 +478,38 @@ pub async fn upload_file(configuration: &configuration::Configuration, params: U
     let file = params.file;
 
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/pet/{petId}/uploadImage", configuration.base_path, petId=pet_id);
-    let mut req_builder = client.post(uri_str.as_str());
+    let local_var_uri_str = format!("{}/pet/{petId}/uploadImage", configuration.base_path, petId=pet_id);
+    let mut local_var_req_builder = local_var_client.post(local_var_uri_str.as_str());
 
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    if let Some(ref token) = configuration.oauth_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
+    if let Some(ref local_var_token) = configuration.oauth_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
-    let mut form = reqwest::multipart::Form::new();
-    if let Some(param_value) = additional_metadata {
-        form = form.text("additionalMetadata", param_value.to_string());
+    let mut local_var_form = reqwest::multipart::Form::new();
+    if let Some(local_var_param_value) = additional_metadata {
+        local_var_form = local_var_form.text("additionalMetadata", local_var_param_value.to_string());
     }
     // TODO: support file upload for 'file' parameter
-    req_builder = req_builder.multipart(form);
+    local_var_req_builder = local_var_req_builder.multipart(local_var_form);
 
-    let req = req_builder.build()?;
-    let resp = client.execute(req).await?;
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let status = resp.status();
-    let content = resp.text().await?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
 
-    if status.is_success() {
-        let entity: Option<UploadFileSuccess> = serde_json::from_str(&content).ok();
-        let result = ResponseContent { status, content, entity };
-        Ok(result)
+    if local_var_status.is_success() {
+        let local_var_entity: Option<UploadFileSuccess> = serde_json::from_str(&local_var_content).ok();
+        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Ok(local_var_result)
     } else {
-        let entity: Option<UploadFileError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<UploadFileError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 

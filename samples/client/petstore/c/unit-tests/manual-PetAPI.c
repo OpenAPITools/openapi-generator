@@ -139,4 +139,6 @@ int main() {
 		fclose(file);
 	}
 	apiClient_free(apiClient3);
+
+	apiClient_unsetupGlobalEnv();
 }

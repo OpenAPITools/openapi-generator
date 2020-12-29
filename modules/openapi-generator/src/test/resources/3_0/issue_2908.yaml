@@ -1,0 +1,20 @@
+openapi: 3.0.1
+info:
+  title: Issue 2908 - Cookie parameters
+  description: "Cookie parameters for JAX-RS Spec generator"
+  version: 0.0.1
+
+paths:
+  /something:
+    post:
+      operationId: withCookieParam
+      parameters:
+        - name: myCookieParam
+          in: cookie
+          required: true
+          description: cookie param
+          schema:
+            type: string
+      responses:
+        200:
+          description: success

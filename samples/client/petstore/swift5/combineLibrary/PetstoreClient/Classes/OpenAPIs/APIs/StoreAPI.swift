@@ -18,13 +18,13 @@ open class StoreAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        return Future<Void, Error>.init { promisse in
+        return Future<Void, Error>.init { promise in
             deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
-                    promisse(.success(()))
+                    promise(.success(()))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -60,13 +60,13 @@ open class StoreAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<[String: Int], Error> {
-        return Future<[String: Int], Error>.init { promisse in
+        return Future<[String: Int], Error>.init { promise in
             getInventoryWithRequestBuilder().execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
-                    promisse(.success(response.body!))
+                    promise(.success(response.body!))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -102,13 +102,13 @@ open class StoreAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Order, Error> {
-        return Future<Order, Error>.init { promisse in
+        return Future<Order, Error>.init { promise in
             getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
-                    promisse(.success(response.body!))
+                    promise(.success(response.body!))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -145,13 +145,13 @@ open class StoreAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Order, Error> {
-        return Future<Order, Error>.init { promisse in
+        return Future<Order, Error>.init { promise in
             placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
-                    promisse(.success(response.body!))
+                    promise(.success(response.body!))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()

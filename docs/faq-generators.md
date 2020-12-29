@@ -39,7 +39,7 @@ config.templateDir = 'src/openapi-generator-templates/Java/libraries/feign
 ```
 mvn clean package
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
-  -i https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.json \
+  -i https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.json \
   -l java --library=okhttp-gson \
   --additional-properties hideGenerationTimestamp=true \
   -o /var/tmp/java/okhttp-gson/ 
@@ -55,7 +55,7 @@ To generate the Android SDK with [`volley`](https://github.com/mcxiaoke/android-
 ```
 mvn clean package
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
-  -i https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.json \
+  -i https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.json \
   -l android --library=volley \
   -o /var/tmp/android/volley/ 
 ```

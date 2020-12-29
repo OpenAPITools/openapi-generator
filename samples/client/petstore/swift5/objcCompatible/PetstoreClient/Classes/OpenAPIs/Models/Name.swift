@@ -8,7 +8,6 @@
 import Foundation
 
 /** Model for testing model name same as property name */
-
 @objc public class Name: NSObject, Codable {
 
     public var name: Int

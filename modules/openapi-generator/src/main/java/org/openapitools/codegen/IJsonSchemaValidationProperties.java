@@ -1,5 +1,7 @@
 package org.openapitools.codegen;
 
+import java.util.List;
+
 public interface IJsonSchemaValidationProperties {
     String getPattern();
 
@@ -52,4 +54,40 @@ public interface IJsonSchemaValidationProperties {
     Number getMultipleOf();
 
     void setMultipleOf(Number multipleOf);
+
+    CodegenProperty getItems();
+
+    void setItems(CodegenProperty items);
+
+    boolean getIsModel();
+
+    void setIsModel(boolean isModel);
+
+    boolean getIsDate();
+
+    void setIsDate(boolean isDate);
+
+    boolean getIsDateTime();
+
+    void setIsDateTime(boolean isDateTime);
+
+    boolean getIsMap();
+
+    void setIsMap(boolean isMap);
+
+    boolean getIsArray();
+
+    void setIsArray(boolean isArray);
+
+    CodegenProperty getAdditionalProperties();
+
+    void setAdditionalProperties(CodegenProperty additionalProperties);
+
+    List<CodegenProperty> getVars();
+
+    void setVars(List<CodegenProperty> vars);
+
+    List<CodegenProperty> getRequiredVars();
+
+    void setRequiredVars(List<CodegenProperty> requiredVars);
 }

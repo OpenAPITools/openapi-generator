@@ -21,13 +21,11 @@ import java.util.*;
 
 public class CodegenCallback {
     public String name;
-    public boolean hasMore;
     public List<Url> urls = new ArrayList<>();
     public Map<String, Object> vendorExtensions = new HashMap<>();
 
     public static class Url {
         public String expression;
-        public boolean hasMore;
         public List<CodegenOperation> requests = new ArrayList<>();
         public Map<String, Object> vendorExtensions = new HashMap<>();
 
@@ -37,12 +35,12 @@ public class CodegenCallback {
             if (o == null || getClass() != o.getClass()) return false;
 
             Url that = (Url) o;
-            return Objects.equals(that.expression, expression) && Objects.equals(that.hasMore, hasMore) &&
+            return Objects.equals(that.expression, expression) &&
                     Objects.equals(that.requests, requests) && Objects.equals(that.vendorExtensions, vendorExtensions);
         }
         @Override
         public int hashCode() {
-            return Objects.hash(expression, hasMore, requests, vendorExtensions);
+            return Objects.hash(expression, requests, vendorExtensions);
         }
 
         @Override
@@ -62,13 +60,13 @@ public class CodegenCallback {
         if (o == null || getClass() != o.getClass()) return false;
 
         CodegenCallback that = (CodegenCallback) o;
-        return Objects.equals(that.name, name) && Objects.equals(that.hasMore, hasMore) &&
+        return Objects.equals(that.name, name) &&
                 Objects.equals(that.urls, urls) && Objects.equals(that.vendorExtensions, vendorExtensions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, hasMore, urls, vendorExtensions);
+        return Objects.hash(name, urls, vendorExtensions);
     }
 
     @Override

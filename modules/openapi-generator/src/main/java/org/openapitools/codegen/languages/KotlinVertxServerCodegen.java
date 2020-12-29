@@ -37,7 +37,7 @@ public class KotlinVertxServerCodegen extends AbstractKotlinCodegen {
 
     public static final String PROJECT_NAME = "projectName";
 
-    static Logger LOGGER = LoggerFactory.getLogger(KotlinVertxServerCodegen.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(KotlinVertxServerCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.SERVER;
