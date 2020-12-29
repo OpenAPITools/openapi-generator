@@ -762,7 +762,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         // Determine the types that this operation produces. `getProducesInfo`
         // simply lists all the types, and then we add the correct imports to
         // the generated library.
-        List<String> produces = new ArrayList<String>(getProducesInfo(openAPI, operation));
+        List<String> produces = new ArrayList<String>(getProducesInfo(operation));
         boolean producesXml = false;
         boolean producesPlainText = false;
         if (produces != null && !produces.isEmpty()) {

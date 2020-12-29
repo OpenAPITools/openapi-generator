@@ -1213,13 +1213,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
                 for (Operation operation : path.readOperations()) {
                     LOGGER.info("Processing operation " + operation.getOperationId());
-                    if (hasBodyParameter(openAPI, operation) || hasFormParameter(openAPI, operation)) {
-                        String defaultContentType = hasFormParameter(openAPI, operation) ? "application/x-www-form-urlencoded" : "application/json";
-                        List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
+                    if (hasBodyParameter(operation) || hasFormParameter(operation)) {
+                        String defaultContentType = hasFormParameter(operation) ? "application/x-www-form-urlencoded" : "application/json";
+                        List<String> consumes = new ArrayList<>(getConsumesInfo(operation));
                         String contentType = consumes == null || consumes.isEmpty() ? defaultContentType : consumes.get(0);
                         operation.addExtension("x-contentType", contentType);
                     }
-                    String accepts = getAccept(openAPI, operation);
+                    String accepts = getAccept(operation);
                     operation.addExtension("x-accepts", accepts);
 
                 }
@@ -1271,10 +1271,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
-    private static String getAccept(OpenAPI openAPI, Operation operation) {
+    private String getAccept(Operation operation) {
         String accepts = null;
         String defaultContentType = "application/json";
-        Set<String> producesInfo = getProducesInfo(openAPI, operation);
+        Set<String> producesInfo = getProducesInfo(operation);
         if (producesInfo != null && !producesInfo.isEmpty()) {
             ArrayList<String> produces = new ArrayList<>(producesInfo);
             StringBuilder sb = new StringBuilder();
@@ -1777,7 +1777,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         if (!supportsAdditionalPropertiesWithComposedSchema) {
             // The additional (undeclared) propertiees are modeled in Java as a HashMap.
-            // 
+            //
             // 1. supportsAdditionalPropertiesWithComposedSchema is set to false:
             //    The generated model class extends from the HashMap. That does not work
             //    with composed schemas that also use a discriminator because the model class

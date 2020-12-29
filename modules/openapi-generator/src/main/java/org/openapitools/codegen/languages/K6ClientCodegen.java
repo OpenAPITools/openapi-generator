@@ -325,9 +325,9 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                     }
                 }
 
-                if (hasBodyParameter(openAPI, operation) || hasFormParameter(openAPI, operation)) {
-                    String defaultContentType = hasFormParameter(openAPI, operation) ? "application/x-www-form-urlencoded" : "application/json";
-                    List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
+                if (hasBodyParameter(operation) || hasFormParameter(operation)) {
+                    String defaultContentType = hasFormParameter(operation) ? "application/x-www-form-urlencoded" : "application/json";
+                    List<String> consumes = new ArrayList<>(getConsumesInfo(operation));
                     String contentTypeValue = consumes == null || consumes.isEmpty() ? defaultContentType : consumes.get(0);
                     if (contentTypeValue.equals("*/*"))
                         contentTypeValue = "application/json";
@@ -369,7 +369,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                         bodyOrFormParams.add(k6Parameter);
                     }
                 }
-                String accepts = getAccept(openAPI, operation);
+                String accepts = getAccept(operation);
                 String responseType = getDoubleQuotedString(accepts);
 
                 try {
@@ -602,10 +602,10 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
-    private static String getAccept(OpenAPI openAPI, Operation operation) {
+    protected String getAccept(Operation operation) {
         String accepts = null;
         String defaultContentType = "application/json";
-        Set<String> producesInfo = getProducesInfo(openAPI, operation);
+        Set<String> producesInfo = getProducesInfo(operation);
         if (producesInfo != null && !producesInfo.isEmpty()) {
             ArrayList<String> produces = new ArrayList<>(producesInfo);
             StringBuilder sb = new StringBuilder();

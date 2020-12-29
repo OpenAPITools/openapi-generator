@@ -77,6 +77,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
+@SuppressWarnings({"static-method","rawtypes"})
 public class DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
@@ -452,7 +453,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Return a map from model name to Schema for efficient lookup.
-     * 
+     *
      * @return map from model name to Schema.
      */
     protected Map<String, Schema> getModelNameToSchemaCache() {
@@ -839,7 +840,7 @@ public class DefaultCodegen implements CodegenConfig {
                     if (e.getKey().contains("/")) {
                         // if this is property schema, we also need to generate the oneOf interface model
                         addOneOfNameExtension((ComposedSchema) s, nOneOf);
-                        addOneOfInterfaceModel((ComposedSchema) s, nOneOf, openAPI);
+                        addOneOfInterfaceModel((ComposedSchema) s, nOneOf);
                     } else {
                         // else this is a component schema, so we will just use that as the oneOf interface model
                         addOneOfNameExtension((ComposedSchema) s, n);
@@ -848,13 +849,13 @@ public class DefaultCodegen implements CodegenConfig {
                     Schema items = ((ArraySchema) s).getItems();
                     if (ModelUtils.isComposedSchema(items)) {
                         addOneOfNameExtension((ComposedSchema) items, nOneOf);
-                        addOneOfInterfaceModel((ComposedSchema) items, nOneOf, openAPI);
+                        addOneOfInterfaceModel((ComposedSchema) items, nOneOf);
                     }
                 } else if (ModelUtils.isMapSchema(s)) {
                     Schema addProps = getAdditionalProperties(s);
                     if (addProps != null && ModelUtils.isComposedSchema(addProps)) {
                         addOneOfNameExtension((ComposedSchema) addProps, nOneOf);
-                        addOneOfInterfaceModel((ComposedSchema) addProps, nOneOf, openAPI);
+                        addOneOfInterfaceModel((ComposedSchema) addProps, nOneOf);
                     }
                 }
             }
@@ -2626,7 +2627,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param sc                 The Schema that may contain the discriminator
      * @param discPropName       The String that is the discriminator propertyName in the schema
      */
-    private CodegenProperty discriminatorFound(String composedSchemaName, Schema sc, String discPropName, OpenAPI openAPI) {
+    private CodegenProperty discriminatorFound(String composedSchemaName, Schema sc, String discPropName) {
         Schema refSchema = ModelUtils.getReferencedSchema(openAPI, sc);
         if (refSchema.getProperties() != null && refSchema.getProperties().get(discPropName) != null) {
             Schema discSchema = (Schema) refSchema.getProperties().get(discPropName);
@@ -2645,7 +2646,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (composedSchema.getAllOf() != null) {
                 // If our discriminator is in one of the allOf schemas break when we find it
                 for (Schema allOf : composedSchema.getAllOf()) {
-                    CodegenProperty cp = discriminatorFound(composedSchemaName, allOf, discPropName, openAPI);
+                    CodegenProperty cp = discriminatorFound(composedSchemaName, allOf, discPropName);
                     if (cp != null) {
                         return cp;
                     }
@@ -2656,7 +2657,7 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenProperty cp = new CodegenProperty();
                 for (Schema oneOf : composedSchema.getOneOf()) {
                     String modelName = ModelUtils.getSimpleRef(oneOf.get$ref());
-                    CodegenProperty thisCp = discriminatorFound(composedSchemaName, oneOf, discPropName, openAPI);
+                    CodegenProperty thisCp = discriminatorFound(composedSchemaName, oneOf, discPropName);
                     if (thisCp == null) {
                         throw new RuntimeException("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the referenced OneOf schema '" + modelName + "' is missing " + discPropName);
                     }
@@ -2675,7 +2676,7 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenProperty cp = new CodegenProperty();
                 for (Schema anyOf : composedSchema.getAnyOf()) {
                     String modelName = ModelUtils.getSimpleRef(anyOf.get$ref());
-                    CodegenProperty thisCp = discriminatorFound(composedSchemaName, anyOf, discPropName, openAPI);
+                    CodegenProperty thisCp = discriminatorFound(composedSchemaName, anyOf, discPropName);
                     if (thisCp == null) {
                         throw new RuntimeException("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the referenced AnyOf schema '" + modelName + "' is missing " + discPropName);
                     }
@@ -2798,10 +2799,9 @@ public class DefaultCodegen implements CodegenConfig {
      * @param composedSchemaName The String model name of the composed schema where we are setting the discriminator map
      * @param discPropName       The String that is the discriminator propertyName in the schema
      * @param c                  The ComposedSchema that contains the discriminator and oneOf/anyOf schemas
-     * @param openAPI            The OpenAPI spec that we are using
      * @return the list of oneOf and anyOf MappedModel that need to be added to the discriminator map
      */
-    protected List<MappedModel> getOneOfAnyOfDescendants(String composedSchemaName, String discPropName, ComposedSchema c, OpenAPI openAPI) {
+    protected List<MappedModel> getOneOfAnyOfDescendants(String composedSchemaName, String discPropName, ComposedSchema c) {
         ArrayList<List<Schema>> listOLists = new ArrayList<List<Schema>>();
         listOLists.add(c.getOneOf());
         listOLists.add(c.getAnyOf());
@@ -2824,7 +2824,7 @@ public class DefaultCodegen implements CodegenConfig {
                     // schema and make it a $ref schema in the oneOf/anyOf location
                     throw new RuntimeException("Invalid inline schema defined in oneOf/anyOf in '" + composedSchemaName + "'. Per the OpenApi spec, for this case when a composed schema defines a discriminator, the oneOf/anyOf schemas must use $ref. Change this inline definition to a $ref definition");
                 }
-                CodegenProperty df = discriminatorFound(composedSchemaName, sc, discPropName, openAPI);
+                CodegenProperty df = discriminatorFound(composedSchemaName, sc, discPropName);
                 String modelName = ModelUtils.getSimpleRef(ref);
                 if (df == null || !df.isString || df.required != true) {
                     String msgSuffix = "";
@@ -2959,7 +2959,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         // if there are composed oneOf/anyOf schemas, add them to this discriminator
         if (ModelUtils.isComposedSchema(schema) && !this.getLegacyDiscriminatorBehavior()) {
-            List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discPropName, (ComposedSchema) schema, openAPI);
+            List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discPropName, (ComposedSchema) schema);
             for (MappedModel otherDescendant : otherDescendants) {
                 if (!uniqueDescendants.contains(otherDescendant)) {
                     uniqueDescendants.add(otherDescendant);
@@ -3048,7 +3048,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Convert OAS Property object to Codegen Property object.
-     * 
+     *
      * The return value is cached. An internal cache is looked up to determine
      * if the CodegenProperty return value has already been instantiated for
      * the (String name, Schema p) arguments.
@@ -3634,7 +3634,7 @@ public class DefaultCodegen implements CodegenConfig {
                     exampleStatusCode = key;
                 }
             }
-            op.examples = new ExampleGenerator(schemas, this.openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(this.openAPI, operation));
+            op.examples = new ExampleGenerator(schemas, this.openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(operation));
             op.defaultResponse = toDefaultValue(responseSchema);
             op.returnType = cm.dataType;
             op.returnFormat = cm.dataFormat;
@@ -3835,7 +3835,7 @@ public class DefaultCodegen implements CodegenConfig {
 
                 // add example
                 if (schemas != null) {
-                    op.requestBodyExamples = new ExampleGenerator(schemas, this.openAPI).generate(null, new ArrayList<String>(getConsumesInfo(this.openAPI, operation)), bodyParam.baseType);
+                    op.requestBodyExamples = new ExampleGenerator(schemas, this.openAPI).generate(null, new ArrayList<String>(getConsumesInfo(operation)), bodyParam.baseType);
                 }
             }
         }
@@ -4736,13 +4736,13 @@ public class DefaultCodegen implements CodegenConfig {
      * of the 'additionalProperties' keyword. Some language generator use class inheritance
      * to implement additional properties. For example, in Java the generated model class
      * has 'extends HashMap' to represent the additional properties.
-     * 
+     *
      * TODO: it's not a good idea to use single class inheritance to implement
      * additionalProperties. That may work for non-composed schemas, but that does not
      * work for composed 'allOf' schemas. For example, in Java, if additionalProperties
      * is set to true (which it should be by default, per OAS spec), then the generated
      * code has extends HashMap. That wouldn't work for composed 'allOf' schemas.
-     * 
+     *
      * @param model the codegen representation of the OAS schema.
      * @param name the name of the model.
      * @param schema the input OAS schema.
@@ -5642,7 +5642,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    public static Set<String> getConsumesInfo(OpenAPI openAPI, Operation operation) {
+    public Set<String> getConsumesInfo(Operation operation) {
         RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
 
         if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
@@ -5651,8 +5651,8 @@ public class DefaultCodegen implements CodegenConfig {
         return requestBody.getContent().keySet();
     }
 
-    public boolean hasFormParameter(OpenAPI openAPI, Operation operation) {
-        Set<String> consumesInfo = getConsumesInfo(openAPI, operation);
+    public boolean hasFormParameter(Operation operation) {
+        Set<String> consumesInfo = getConsumesInfo(operation);
 
         if (consumesInfo == null || consumesInfo.isEmpty()) {
             return false;
@@ -5669,7 +5669,7 @@ public class DefaultCodegen implements CodegenConfig {
         return false;
     }
 
-    public boolean hasBodyParameter(OpenAPI openAPI, Operation operation) {
+    public boolean hasBodyParameter(Operation operation) {
         RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
         if (requestBody == null) {
             return false;
@@ -5712,11 +5712,10 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * returns the list of MIME types the APIs can produce
      *
-     * @param openAPI   current specification instance
      * @param operation Operation
      * @return a set of MIME types
      */
-    public static Set<String> getProducesInfo(final OpenAPI openAPI, final Operation operation) {
+    public Set<String> getProducesInfo(final Operation operation) {
         if (operation.getResponses() == null || operation.getResponses().isEmpty()) {
             return null;
         }
@@ -6461,9 +6460,8 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param cs      ComposedSchema object to create as interface model
      * @param type    name to use for the generated interface model
-     * @param openAPI OpenAPI spec that we are using
      */
-    public void addOneOfInterfaceModel(ComposedSchema cs, String type, OpenAPI openAPI) {
+    public void addOneOfInterfaceModel(ComposedSchema cs, String type) {
         if (cs.getOneOf() == null) {
             return;
         }
@@ -6630,7 +6628,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Returns the additionalProperties Schema for the specified input schema.
-     * 
+     *
      * The additionalProperties keyword is used to control the handling of additional, undeclared
      * properties, that is, properties whose names are not listed in the properties keyword.
      * The additionalProperties keyword may be either a boolean or an object.
@@ -6638,7 +6636,7 @@ public class DefaultCodegen implements CodegenConfig {
      * By default when the additionalProperties keyword is not specified in the input schema,
      * any additional properties are allowed. This is equivalent to setting additionalProperties
      * to the boolean value True or setting additionalProperties: {}
-     * 
+     *
      * @param schema the input schema that may or may not have the additionalProperties keyword.
      * @return the Schema of the additionalProperties. The null value is returned if no additional
      *         properties are allowed.
