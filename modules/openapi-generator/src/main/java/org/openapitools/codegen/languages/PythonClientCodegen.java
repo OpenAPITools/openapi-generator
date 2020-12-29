@@ -16,7 +16,6 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.Sets;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -880,7 +879,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
     public String toExampleValue(Schema schema, Object objExample) {
         String modelName = getModelName(schema);
-        return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0, Sets.newHashSet());
+        return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0);
     }
 
     private Boolean simpleStringSchema(Schema schema) {
@@ -926,12 +925,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
      *                    ModelName( line 0
      *                        some_property='some_property_example' line 1
      *                    ) line 2
-     * @param seenSchemas This set contains all the schemas passed into the recursive function. It is used to check
-     *                    if a schema was already passed into the function and breaks the infinite recursive loop. The
-     *                    only schemas that are not added are ones that contain $ref != null
      * @return the string example
      */
-    private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine, Set<Schema> seenSchemas) {
+    private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine) {
         final String indentionConst = "    ";
         String currentIndentation = "";
         String closingIndentation = "";
@@ -955,27 +951,6 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if (objExample != null) {
             example = objExample.toString();
         }
-        // checks if the current schema has already been passed in. If so, breaks the current recursive pass
-        if (seenSchemas.contains(schema)){
-            if (modelName != null) {
-                return fullPrefix + modelName + closeChars;
-            } else {
-                // this is a recursive schema
-                // need to add a reasonable example to avoid
-                // infinite recursion
-                if(ModelUtils.isNullable(schema)) {
-                    // if the schema is nullable, then 'None' is a valid value
-                    return fullPrefix + "None" + closeChars;
-                } else if(ModelUtils.isArraySchema(schema)) {
-                    // the schema is an array, add an empty array
-                    return fullPrefix + "[]" + closeChars;
-                } else {
-                    // the schema is an object, make an empty object
-                    return fullPrefix + "{}" + closeChars;
-                }
-            }
-        }
-
         if (null != schema.get$ref()) {
             Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
             String ref = ModelUtils.getSimpleRef(schema.get$ref());
@@ -985,7 +960,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 return fullPrefix + "None" + closeChars;
             }
             String refModelName = getModelName(schema);
-            return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine, seenSchemas);
+            return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine);
         } else if (ModelUtils.isNullType(schema) || isAnyTypeSchema(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
@@ -1083,8 +1058,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             ArraySchema arrayschema = (ArraySchema) schema;
             Schema itemSchema = arrayschema.getItems();
             String itemModelName = getModelName(itemSchema);
-            seenSchemas.add(schema);
-            example = fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, seenSchemas) + ",\n" + closingIndentation + "]" + closeChars;
+            example = fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1) + ",\n" + closingIndentation + "]" + closeChars;
             return example;
         } else if (ModelUtils.isMapSchema(schema)) {
             if (modelName == null) {
@@ -1106,8 +1080,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     addPropPrefix = ensureQuotes(key) + ": ";
                 }
                 String addPropsModelName = getModelName(addPropsSchema);
-                seenSchemas.add(schema);
-                example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, seenSchemas) + ",\n" + closingIndentation + closeChars;
+                example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1) + ",\n" + closingIndentation + closeChars;
             } else {
                 example = fullPrefix + closeChars;
             }
@@ -1130,12 +1103,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     return fullPrefix + closeChars;
                 }
             }
-            // Adds schema to seenSchemas before running example model function. romoves schema after running
-            // the function. It also doesnt keep track of any schemas within the ObjectModel.
-            seenSchemas.add(schema);
-            String exampleForObjectModel = exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, seenSchemas);
-            seenSchemas.remove(schema);
-            return exampleForObjectModel;
+            return exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation);
         } else if (ModelUtils.isComposedSchema(schema)) {
             // TODO add examples for composed schema models without discriminators
 
@@ -1149,12 +1117,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     CodegenProperty cp = new CodegenProperty();
                     cp.setName(disc.getPropertyName());
                     cp.setExample(discPropNameValue);
-                    // Adds schema to seenSchemas before running example model function. romoves schema after running
-                    // the function. It also doesnt keep track of any schemas within the ObjectModel.
-                    seenSchemas.add(modelSchema);
-                    String exampleForObjectModel = exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation, seenSchemas);
-                    seenSchemas.remove(modelSchema);
-                    return exampleForObjectModel;
+                    return exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation);
                 } else {
                     return fullPrefix + closeChars;
                 }
@@ -1167,7 +1130,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         return example;
     }
 
-    private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation, Set<Schema> seenSchemas) {
+    private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation) {
         Map<String, Schema> requiredAndOptionalProps = schema.getProperties();
         if (requiredAndOptionalProps == null || requiredAndOptionalProps.isEmpty()) {
             return fullPrefix + closeChars;
@@ -1187,7 +1150,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 propModelName = getModelName(propSchema);
                 propExample = exampleFromStringOrArraySchema(propSchema, null, propName);
             }
-            example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1, seenSchemas) + ",\n";
+            example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1) + ",\n";
         }
         // TODO handle additionalProperties also
         example += closingIndentation + closeChars;
