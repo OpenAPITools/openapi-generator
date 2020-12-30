@@ -100,6 +100,12 @@ class StoreApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['order_id'] = \
                 order_id
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.delete_order = Endpoint(
@@ -210,6 +216,12 @@ class StoreApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index')
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.get_inventory = Endpoint(
@@ -322,6 +334,12 @@ class StoreApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['order_id'] = \
                 order_id
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.get_order_by_id = Endpoint(
@@ -445,6 +463,12 @@ class StoreApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['body'] = \
                 body
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.place_order = Endpoint(

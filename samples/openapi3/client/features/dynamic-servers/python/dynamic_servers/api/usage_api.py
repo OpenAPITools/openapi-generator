@@ -94,6 +94,12 @@ class UsageApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index')
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.custom_server = Endpoint(
@@ -248,6 +254,12 @@ class UsageApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index')
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.default_server = Endpoint(

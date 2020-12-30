@@ -103,6 +103,12 @@ class FakeApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index')
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.array_model = Endpoint(
@@ -213,6 +219,12 @@ class FakeApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index')
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.boolean = Endpoint(
@@ -327,6 +339,12 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['xml_item'] = \
                 xml_item
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.create_xml_item = Endpoint(
@@ -444,6 +462,12 @@ class FakeApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index')
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.number_with_validations = Endpoint(
@@ -554,6 +578,12 @@ class FakeApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index')
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.object_model_with_ref_props = Endpoint(
@@ -664,6 +694,12 @@ class FakeApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index')
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.string = Endpoint(
@@ -774,6 +810,12 @@ class FakeApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index')
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.string_enum = Endpoint(
@@ -888,6 +930,12 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['body'] = \
                 body
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.test_body_with_file_schema = Endpoint(
@@ -1007,6 +1055,12 @@ class FakeApi(object):
                 query
             kwargs['body'] = \
                 body
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.test_body_with_query_params = Endpoint(
@@ -1129,6 +1183,12 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['body'] = \
                 body
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.test_client_model = Endpoint(
@@ -1263,6 +1323,12 @@ class FakeApi(object):
                 path_integer
             kwargs['header_number'] = \
                 header_number
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.test_endpoint_enums_length_one = Endpoint(
@@ -1449,6 +1515,12 @@ class FakeApi(object):
                 pattern_without_delimiter
             kwargs['byte'] = \
                 byte
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.test_endpoint_parameters = Endpoint(
@@ -1688,6 +1760,12 @@ class FakeApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index')
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.test_enum_parameters = Endpoint(
@@ -1903,6 +1981,12 @@ class FakeApi(object):
                 required_boolean_group
             kwargs['required_int64_group'] = \
                 required_int64_group
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.test_group_parameters = Endpoint(
@@ -2044,6 +2128,12 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['param'] = \
                 param
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.test_inline_additional_properties = Endpoint(
@@ -2163,6 +2253,12 @@ class FakeApi(object):
                 param
             kwargs['param2'] = \
                 param2
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.test_json_form_data = Endpoint(

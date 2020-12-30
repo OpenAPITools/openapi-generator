@@ -100,6 +100,12 @@ class PetApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['body'] = \
                 body
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.add_pet = Endpoint(
@@ -219,6 +225,12 @@ class PetApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['pet_id'] = \
                 pet_id
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.delete_pet = Endpoint(
@@ -341,6 +353,12 @@ class PetApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['status'] = \
                 status
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.find_pets_by_status = Endpoint(
@@ -469,6 +487,12 @@ class PetApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['tags'] = \
                 tags
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.find_pets_by_tags = Endpoint(
@@ -590,6 +614,12 @@ class PetApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['pet_id'] = \
                 pet_id
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.get_pet_by_id = Endpoint(
@@ -709,6 +739,12 @@ class PetApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['body'] = \
                 body
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.update_pet = Endpoint(
@@ -829,6 +865,12 @@ class PetApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['pet_id'] = \
                 pet_id
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.update_pet_with_form = Endpoint(
@@ -960,6 +1002,12 @@ class PetApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['pet_id'] = \
                 pet_id
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.upload_file = Endpoint(
@@ -1101,6 +1149,12 @@ class PetApi(object):
                 pet_id
             kwargs['required_file'] = \
                 required_file
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.upload_file_with_required_file = Endpoint(

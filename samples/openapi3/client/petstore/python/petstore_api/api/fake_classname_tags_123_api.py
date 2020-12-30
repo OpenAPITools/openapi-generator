@@ -100,6 +100,12 @@ class FakeClassnameTags123Api(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['client'] = \
                 client
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.test_classname = Endpoint(

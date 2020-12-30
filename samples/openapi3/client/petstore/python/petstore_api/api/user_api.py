@@ -100,6 +100,12 @@ class UserApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['user'] = \
                 user
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.create_user = Endpoint(
@@ -215,6 +221,12 @@ class UserApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['user'] = \
                 user
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.create_users_with_array_input = Endpoint(
@@ -330,6 +342,12 @@ class UserApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['user'] = \
                 user
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.create_users_with_list_input = Endpoint(
@@ -446,6 +464,12 @@ class UserApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['username'] = \
                 username
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.delete_user = Endpoint(
@@ -560,6 +584,12 @@ class UserApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['username'] = \
                 username
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.get_user_by_name = Endpoint(
@@ -681,6 +711,12 @@ class UserApi(object):
                 username
             kwargs['password'] = \
                 password
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.login_user = Endpoint(
@@ -799,6 +835,12 @@ class UserApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index')
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.logout_user = Endpoint(
@@ -911,6 +953,12 @@ class UserApi(object):
                 username
             kwargs['user'] = \
                 user
+
+            if 'body' not in kwargs:
+                body = 'body' in self.params_map['all']
+                body_nullable = 'body' in self.params_map['nullable']
+                if body and not body_nullable:
+                    kwargs['body'] = ''
             return self.call_with_http_info(**kwargs)
 
         self.update_user = Endpoint(
