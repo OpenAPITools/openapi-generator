@@ -368,7 +368,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile(infraSrc + "HttpResponse.kt.mustache", infraDest, "HttpResponse.kt"));
         supportingFiles.add(new SupportingFile(infraSrc + "OctetByteArray.kt.mustache", infraDest, "OctetByteArray.kt"));
         if (dateLibrary == Options.DateLibrary.KOTLINX) {
-            supportingFiles.add(new SupportingFile(infraSrc + "dateTime.kt.mustache", infraDest, "dateTime.kt"));
+            supportingFiles.add(new SupportingFile(infraSrc + "DateTime.kt.mustache", infraDest, "DateTime.kt"));
         }
 
         // Auth
