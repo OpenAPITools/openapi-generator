@@ -496,24 +496,17 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
 
     public boolean platformOption(Options.Platform platform, boolean defaultValue) {
         String option = platform.value + "Enabled";
-        if (additionalProperties.containsKey(option)) {
-            return (boolean) additionalProperties.get(option);
-        }
-        additionalProperties.put(option, defaultValue);
-        return defaultValue;
+        return booleanOption(option, defaultValue);
     }
 
     private String stringOption(String option, String defaultValue) {
-        if (additionalProperties.containsKey(option)) {
-            return (String) additionalProperties.get(option);
-        }
-        additionalProperties.put(option, defaultValue);
-        return defaultValue;
+        String value = (String) additionalProperties.putIfAbsent(option, defaultValue);
+        return value != null ? value : defaultValue;
     }
 
     private boolean booleanOption(String option, boolean defaultValue) {
         if (additionalProperties.containsKey(option)) {
-            return (boolean) additionalProperties.get(option);
+            return convertPropertyToBooleanAndWriteBack(option);
         }
         additionalProperties.put(option, defaultValue);
         return defaultValue;
