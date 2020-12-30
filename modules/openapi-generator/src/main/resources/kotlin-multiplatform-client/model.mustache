@@ -1,18 +1,20 @@
 {{>licenseInfo}}
-@file:UseSerializers(InstantSerializer::class, LocalDateTimeSerializer::class, LocalDateSerializer::class)
+{{#dateLibraryKotlinx}}@file:UseSerializers(InstantSerializer::class, LocalDateTimeSerializer::class, LocalDateSerializer::class){{/dateLibraryKotlinx}}
 @file:Suppress("UnusedImport", "RemoveRedundantQualifierName")
 
 package {{modelPackage}}
 
-import kotlinx.serialization.UseSerializers
-import {{packageName}}.infrastructure.LocalDateTimeSerializer
-import {{packageName}}.infrastructure.InstantSerializer
-import {{packageName}}.infrastructure.LocalDateSerializer
+{{#dateLibraryKotlinx}}
+    import kotlinx.serialization.UseSerializers
+    import {{packageName}}.infrastructure.LocalDateTimeSerializer
+    import {{packageName}}.infrastructure.InstantSerializer
+    import {{packageName}}.infrastructure.LocalDateSerializer
+{{/dateLibraryKotlinx}}
 {{#imports}}import {{import}}
 {{/imports}}
 
 {{#models}}
-{{#model}}
-{{#isEnum}}{{>enum_class}}{{/isEnum}}{{^isEnum}}{{#isAlias}}typealias {{classname}} = {{{dataType}}}{{/isAlias}}{{^isAlias}}{{>data_class}}{{/isAlias}}{{/isEnum}}
-{{/model}}
+    {{#model}}
+        {{#isEnum}}{{>enum_class}}{{/isEnum}}{{^isEnum}}{{#isAlias}}typealias {{classname}} = {{{dataType}}}{{/isAlias}}{{^isAlias}}{{>data_class}}{{/isAlias}}{{/isEnum}}
+    {{/model}}
 {{/models}}
