@@ -183,7 +183,7 @@ export class Configuration {
         return undefined;
     }
 
-    get headers():  HTTPHeaders | undefined {
+    get headers(): HTTPHeaders | undefined {
         return this.configuration.headers;
     }
 
