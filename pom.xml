@@ -1429,9 +1429,26 @@
                 </property>
             </activation>
             <modules>
+                <!-- swift 5 samples -->
+                <module>samples/client/petstore/swift5/alamofireLibrary</module>
+                <module>samples/client/petstore/swift5/combineLibrary</module>
+                <module>samples/client/petstore/swift5/default</module>
+                <module>samples/client/petstore/swift5/deprecated</module>
+                <module>samples/client/petstore/swift5/nonPublicApi</module>
+                <module>samples/client/petstore/swift5/objcCompatible</module>
+                <module>samples/client/petstore/swift5/promisekitLibrary</module>
+                <module>samples/client/petstore/swift5/readonlyProperties</module>
+                <module>samples/client/petstore/swift5/resultLibrary</module>
+                <module>samples/client/petstore/swift5/rxswiftLibrary</module>
+                <module>samples/client/petstore/swift5/urlsessionLibrary</module>
+                <!-- swift 5 tests -->
+                <module>samples/client/petstore/swift5/alamofireLibrary/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/combineLibrary/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift5/default/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift5/promisekit/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift5/rxswift/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/promisekitLibrary/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/rxswiftLibrary/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/urlsessionLibrary/SwaggerClientTests</module>
+                <!-- swift 4 tests -->
                 <module>samples/client/petstore/swift4/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/promisekit/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/rxswift/SwaggerClientTests</module>

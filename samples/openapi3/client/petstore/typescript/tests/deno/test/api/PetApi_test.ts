@@ -2,7 +2,7 @@ import {
   assertEquals,
   assert,
   fail,
-} from "https://deno.land/std@0.58.0/testing/asserts.ts";
+} from "https://deno.land/std@0.82.0/testing/asserts.ts";
 import * as petstore from "../../../../builds/deno/index.ts";
 
 const configuration = petstore.createConfiguration();
