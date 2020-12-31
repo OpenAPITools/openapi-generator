@@ -24,9 +24,9 @@ class BearerRequestBuilder<T>: AlamofireRequestBuilder<T> {
     override func createSessionManager() -> SessionManager {
         let sessionManager = super.createSessionManager()
         
-        let jwtHandler = BearerTokenHandler()
-        sessionManager.adapter = jwtHandler
-        sessionManager.retrier = jwtHandler
+        let bearerTokenHandler = BearerTokenHandler()
+        sessionManager.adapter = bearerTokenHandler
+        sessionManager.retrier = bearerTokenHandler
         
         return sessionManager
     }
@@ -36,9 +36,9 @@ class BearerDecodableRequestBuilder<T: Decodable>: AlamofireDecodableRequestBuil
     override func createSessionManager() -> SessionManager {
         let sessionManager = super.createSessionManager()
         
-        let jwtHandler = BearerTokenHandler()
-        sessionManager.adapter = jwtHandler
-        sessionManager.retrier = jwtHandler
+        let bearerTokenHandler = BearerTokenHandler()
+        sessionManager.adapter = bearerTokenHandler
+        sessionManager.retrier = bearerTokenHandler
         
         return sessionManager
     }
