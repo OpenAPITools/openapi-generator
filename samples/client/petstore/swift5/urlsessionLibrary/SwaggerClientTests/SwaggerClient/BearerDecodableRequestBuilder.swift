@@ -124,12 +124,7 @@ class BearerTokenHandler {
     }
     
     static func refreshTokenIfUnauthorizedRequestResponse(data: Data?, response: URLResponse?, error: Error?, completionHandler: @escaping (Bool) -> Void) {
-        guard let response = response as? HTTPURLResponse else {
-            completionHandler(false)
-            return
-        }
-
-        if response.statusCode == 401 {
+        if let response = response as? HTTPURLResponse, response.statusCode == 401 {
             startRefreshingToken {
                 completionHandler(true)
             }
