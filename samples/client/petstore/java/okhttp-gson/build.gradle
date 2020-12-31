@@ -108,7 +108,7 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
     compile 'org.threeten:threetenbp:1.4.3'
     compile 'javax.annotation:javax.annotation-api:1.3.2'
-    testCompile 'junit:junit:4.13'
+    testCompile 'junit:junit:4.13.1'
 }
 
 javadoc {

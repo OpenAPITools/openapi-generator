@@ -66,6 +66,31 @@ Then manually install the following JARs:
 - `target/petstore-openapi3-jersey2-java8-1.0.0.jar`
 - `target/lib/*.jar`
 
+## Usage
+
+To add a HTTP proxy for the API client, use `ClientConfig`:
+```java
+
+import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
+import org.openapitools.client.*;
+import org.openapitools.client.api.AnotherFakeApi;
+
+...
+
+ApiClient defaultClient = Configuration.getDefaultApiClient();
+ClientConfig clientConfig = defaultClient.getClientConfig();
+clientConfig.connectorProvider(new ApacheConnectorProvider());
+clientConfig.property(ClientProperties.PROXY_URI, "http://proxy_url_here");
+clientConfig.property(ClientProperties.PROXY_USERNAME, "proxy_username");
+clientConfig.property(ClientProperties.PROXY_PASSWORD, "proxy_password");
+defaultClient.setClientConfig(clientConfig);
+
+AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
+
+```
+
 ## Getting Started
 
 Please follow the [installation](#installation) instruction and execute the following Java code:
@@ -185,12 +210,6 @@ Class | Method | HTTP request | Description
  - [GrandparentAnimal](docs/GrandparentAnimal.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
- - [InlineObject](docs/InlineObject.md)
- - [InlineObject1](docs/InlineObject1.md)
- - [InlineObject2](docs/InlineObject2.md)
- - [InlineObject3](docs/InlineObject3.md)
- - [InlineObject4](docs/InlineObject4.md)
- - [InlineObject5](docs/InlineObject5.md)
  - [InlineResponseDefault](docs/InlineResponseDefault.md)
  - [IsoscelesTriangle](docs/IsoscelesTriangle.md)
  - [Mammal](docs/Mammal.md)

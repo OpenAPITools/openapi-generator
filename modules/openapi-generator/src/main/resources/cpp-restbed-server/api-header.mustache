@@ -25,16 +25,6 @@ namespace {{this}} {
 
 using namespace {{modelNamespace}};
 
-class {{declspec}} {{classname}}: public restbed::Service
-{
-public:
-	{{classname}}();
-	~{{classname}}();
-	void startService(int const& port);
-	void stopService();
-};
-
-
 {{#operation}}
 /// <summary>
 /// {{summary}}
@@ -54,26 +44,26 @@ public:
 
 	void set_handler_{{httpMethod}}(
 		std::function<std::pair<int, std::string>(
-			{{#allParams}}{{{dataType}}} const &{{#hasMore}}, {{/hasMore}}{{/allParams}}
+			{{#allParams}}{{{dataType}}} const &{{^-last}}, {{/-last}}{{/allParams}}
 		)> handler
 	);
 
 	{{#vendorExtensions.x-codegen-other-methods}}
 	void set_handler_{{httpMethod}}(
 		std::function<std::pair<int, std::string>(
-			{{#allParams}}{{{dataType}}} const &{{#hasMore}}, {{/hasMore}}{{/allParams}}
+			{{#allParams}}{{{dataType}}} const &{{^-last}}, {{/-last}}{{/allParams}}
 		)> handler
 	);
 	{{/vendorExtensions.x-codegen-other-methods}}
 
 private:
 	std::function<std::pair<int, std::string>(
-		{{#allParams}}{{{dataType}}} const &{{#hasMore}}, {{/hasMore}}{{/allParams}}
+		{{#allParams}}{{{dataType}}} const &{{^-last}}, {{/-last}}{{/allParams}}
 	)> handler_{{httpMethod}}_;
 
 	{{#vendorExtensions.x-codegen-other-methods}}
 	std::function<std::pair<int, std::string>(
-		{{#allParams}}{{{dataType}}} const &{{#hasMore}}, {{/hasMore}}{{/allParams}}
+		{{#allParams}}{{{dataType}}} const &{{^-last}}, {{/-last}}{{/allParams}}
 	)> handler_{{httpMethod}}_;
 	{{/vendorExtensions.x-codegen-other-methods}}
 
@@ -83,6 +73,24 @@ private:
 };
 
 {{/operation}}
+
+//
+// The restbed service to actually implement the REST server
+//
+class {{declspec}} {{classname}}: public restbed::Service
+{
+public:
+	{{classname}}();
+	~{{classname}}();
+	void startService(int const& port);
+	void stopService();
+	
+protected:
+	{{#operation}}
+	std::shared_ptr<{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource> m_sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource;
+	{{/operation}}	
+};
+
 
 {{#apiNamespaceDeclarations}}
 }

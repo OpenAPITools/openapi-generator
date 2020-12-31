@@ -27,7 +27,7 @@ $OrderId = "OrderId_example" # String | ID of the order that needs to be deleted
 
 # Delete purchase order by ID
 try {
-    Remove-PSOrder -OrderId $OrderId
+     $Result = Remove-PSOrder -OrderId $OrderId
 } catch {
     Write-Host ("Exception occured when calling Remove-PSOrder: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -41,7 +41,7 @@ Name | Type | Description  | Notes
  **OrderId** | **String**| ID of the order that needs to be deleted | 
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 void (empty response body)
 
 ### Authorization
@@ -74,9 +74,10 @@ $Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
 #$Configuration["ApiKeyPrefix"]["api_key"] = "Bearer"
 
 
+
 # Returns pet inventories by status
 try {
-    System.Collections.Hashtable $Result = Get-PSInventory
+     $Result = Get-PSInventory
 } catch {
     Write-Host ("Exception occured when calling Get-PSInventory: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -87,7 +88,7 @@ try {
 This endpoint does not need any parameter.
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 **System.Collections.Hashtable**
 
 ### Authorization
@@ -118,7 +119,7 @@ $OrderId = 987 # Int64 | ID of pet that needs to be fetched
 
 # Find purchase order by ID
 try {
-    Order $Result = Get-PSOrderById -OrderId $OrderId
+     $Result = Get-PSOrderById -OrderId $OrderId
 } catch {
     Write-Host ("Exception occured when calling Get-PSOrderById: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -132,7 +133,7 @@ Name | Type | Description  | Notes
  **OrderId** | **Int64**| ID of pet that needs to be fetched | 
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 [**Order**](Order.md)
 
 ### Authorization
@@ -161,7 +162,7 @@ $Order = (Initialize-Order-Id 123 -PetId 123 -Quantity 123 -ShipDate Get-Date -S
 
 # Place an order for a pet
 try {
-    Order $Result = Invoke-PSPlaceOrder -Order $Order
+     $Result = Invoke-PSPlaceOrder -Order $Order
 } catch {
     Write-Host ("Exception occured when calling Invoke-PSPlaceOrder: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -175,7 +176,7 @@ Name | Type | Description  | Notes
  **Order** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 [**Order**](Order.md)
 
 ### Authorization

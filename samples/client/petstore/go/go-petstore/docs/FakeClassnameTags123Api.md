@@ -29,12 +29,12 @@ import (
 )
 
 func main() {
-    body := openapiclient.Client{Client: "Client_example"} // Client | client model
+    body := *openapiclient.NewClient() // Client | client model
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.FakeClassnameTags123Api.TestClassname(context.Background(), body).Execute()
-    if err != nil {
+    resp, r, err := api_client.FakeClassnameTags123Api.TestClassname(context.Background()).Body(body).Execute()
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeClassnameTags123Api.TestClassname``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }

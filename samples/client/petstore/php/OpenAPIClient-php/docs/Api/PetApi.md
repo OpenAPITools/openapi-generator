@@ -1,24 +1,25 @@
 # OpenAPI\Client\PetApi
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to http://petstore.swagger.io:80/v2.
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
-[**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
-[**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
-[**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
-[**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
-[**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
-[**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
-[**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
+[**addPet()**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
+[**deletePet()**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
+[**findPetsByStatus()**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
+[**findPetsByTags()**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
+[**getPetById()**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
+[**updatePet()**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
+[**updatePetWithForm()**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
+[**uploadFile()**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**uploadFileWithRequiredFile()**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
+## `addPet()`
 
-## addPet
-
-> addPet($pet)
+```php
+addPet($pet)
+```
 
 Add a new pet to the store
 
@@ -46,11 +47,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->addPet: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -66,17 +65,18 @@ void (empty response body)
 
 ### HTTP request headers
 
-- **Content-Type**: application/json, application/xml
+- **Content-Type**: `application/json`, `application/xml`
 - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `deletePet()`
 
-## deletePet
-
-> deletePet($pet_id, $api_key)
+```php
+deletePet($pet_id, $api_key)
+```
 
 Deletes a pet
 
@@ -98,18 +98,16 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
     $config
 );
 $pet_id = 56; // int | Pet id to delete
-$api_key = 'api_key_example'; // string | 
+$api_key = 'api_key_example'; // string
 
 try {
     $apiInstance->deletePet($pet_id, $api_key);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->deletePet: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -129,14 +127,15 @@ void (empty response body)
 - **Content-Type**: Not defined
 - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `findPetsByStatus()`
 
-## findPetsByStatus
-
-> \OpenAPI\Client\Model\Pet[] findPetsByStatus($status)
+```php
+findPetsByStatus($status): \OpenAPI\Client\Model\Pet[]
+```
 
 Finds Pets by status
 
@@ -167,11 +166,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->findPetsByStatus: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -188,16 +185,17 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/xml, application/json
+- **Accept**: `application/xml`, `application/json`
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `findPetsByTags()`
 
-## findPetsByTags
-
-> \OpenAPI\Client\Model\Pet[] findPetsByTags($tags)
+```php
+findPetsByTags($tags): \OpenAPI\Client\Model\Pet[]
+```
 
 Finds Pets by tags
 
@@ -228,11 +226,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->findPetsByTags: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -249,16 +245,17 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/xml, application/json
+- **Accept**: `application/xml`, `application/json`
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `getPetById()`
 
-## getPetById
-
-> \OpenAPI\Client\Model\Pet getPetById($pet_id)
+```php
+getPetById($pet_id): \OpenAPI\Client\Model\Pet
+```
 
 Find pet by ID
 
@@ -291,11 +288,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->getPetById: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -312,16 +307,17 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/xml, application/json
+- **Accept**: `application/xml`, `application/json`
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `updatePet()`
 
-## updatePet
-
-> updatePet($pet)
+```php
+updatePet($pet)
+```
 
 Update an existing pet
 
@@ -349,11 +345,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->updatePet: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -369,17 +363,18 @@ void (empty response body)
 
 ### HTTP request headers
 
-- **Content-Type**: application/json, application/xml
+- **Content-Type**: `application/json`, `application/xml`
 - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `updatePetWithForm()`
 
-## updatePetWithForm
-
-> updatePetWithForm($pet_id, $name, $status)
+```php
+updatePetWithForm($pet_id, $name, $status)
+```
 
 Updates a pet in the store with form data
 
@@ -409,11 +404,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->updatePetWithForm: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -431,17 +424,18 @@ void (empty response body)
 
 ### HTTP request headers
 
-- **Content-Type**: application/x-www-form-urlencoded
+- **Content-Type**: `application/x-www-form-urlencoded`
 - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `uploadFile()`
 
-## uploadFile
-
-> \OpenAPI\Client\Model\ApiResponse uploadFile($pet_id, $additional_metadata, $file)
+```php
+uploadFile($pet_id, $additional_metadata, $file): \OpenAPI\Client\Model\ApiResponse
+```
 
 uploads an image
 
@@ -472,11 +466,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->uploadFile: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -494,17 +486,18 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: multipart/form-data
-- **Accept**: application/json
+- **Content-Type**: `multipart/form-data`
+- **Accept**: `application/json`
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `uploadFileWithRequiredFile()`
 
-## uploadFileWithRequiredFile
-
-> \OpenAPI\Client\Model\ApiResponse uploadFileWithRequiredFile($pet_id, $required_file, $additional_metadata)
+```php
+uploadFileWithRequiredFile($pet_id, $required_file, $additional_metadata): \OpenAPI\Client\Model\ApiResponse
+```
 
 uploads an image (required)
 
@@ -535,11 +528,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->uploadFileWithRequiredFile: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -557,10 +548,9 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: multipart/form-data
-- **Accept**: application/json
+- **Content-Type**: `multipart/form-data`
+- **Accept**: `application/json`
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
-

@@ -32,7 +32,7 @@ export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterIn
 {{/description}}
 export interface {{classname}}Interface {
     defaultHeaders: HttpHeaders;
-    configuration: Configuration;
+    configuration: {{configurationClassName}};
 
 {{#operation}}
     /**

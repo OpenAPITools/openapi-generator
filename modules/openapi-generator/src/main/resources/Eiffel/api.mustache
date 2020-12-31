@@ -13,7 +13,7 @@ feature -- API Access
 
 {{#operation}}
 
-	{{operationId}} {{#hasParams}}({{#allParams}}{{paramName}}: {{#required}}{{{dataType}}}{{/required}}{{^required}}{{#isPrimitiveType}}{{{dataType}}}{{/isPrimitiveType}}{{^isPrimitiveType}}detachable {{{dataType}}}{{/isPrimitiveType}}{{/required}}{{#hasMore}}; {{/hasMore}}{{/allParams}}){{/hasParams}}{{#returnType}}: detachable {{{returnType}}}{{/returnType}}{{^returnType}}{{/returnType}}
+	{{operationId}} {{#hasParams}}({{#allParams}}{{paramName}}: {{#required}}{{{dataType}}}{{/required}}{{^required}}{{#isPrimitiveType}}{{{dataType}}}{{/isPrimitiveType}}{{^isPrimitiveType}}detachable {{{dataType}}}{{/isPrimitiveType}}{{/required}}{{^-last}}; {{/-last}}{{/allParams}}){{/hasParams}}{{#returnType}}: detachable {{{returnType}}}{{/returnType}}{{^returnType}}{{/returnType}}
 			-- {{summary}}
 			-- {{notes}}
 			-- {{#allParams}}
@@ -59,11 +59,11 @@ feature -- API Access
 			end
 			{{/formParams}}
 
-			if attached {STRING} api_client.select_header_accept (<<{{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}>>)  as l_accept then
+			if attached {STRING} api_client.select_header_accept ({ARRAY [STRING]}<<{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
-			l_request.add_header(api_client.select_header_content_type (<<{{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}>>),"Content-Type")
-			l_request.set_auth_names (<<{{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}>>)
+			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}>>),"Content-Type")
+			l_request.set_auth_names ({ARRAY [STRING]}<<{{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}}>>)
 			l_response := api_client.call_api (l_path, "{{httpMethod}}", l_request, {{#returnType}}Void{{/returnType}}{{^returnType}}agent serializer{{/returnType}}, {{#returnType}}agent deserializer{{/returnType}}{{^returnType}}Void{{/returnType}})
 			{{#returnType}}	
 			if l_response.has_error then

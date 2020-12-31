@@ -623,7 +623,7 @@ public class ApiClient{{#java8}} extends JavaTimeFormatter{{/java8}} {
             builder.queryParams(queryParams);
         }
 
-		URI uri;
+        URI uri;
         try {
             uri = new URI(builder.build().toUriString());
         } catch(URISyntaxException ex)  {

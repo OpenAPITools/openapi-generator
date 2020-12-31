@@ -15,6 +15,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+
 import java.util.List;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
@@ -46,6 +49,12 @@ public class OpenAPIUiConfiguration extends WebMvcConfigurerAdapter {
     for (int i = 0; i < STATIC_INDEX_HTML_RESOURCES.length; i++) {
       STATIC_INDEX_HTML_RESOURCES[i] = RESOURCE_LOCATIONS[i] + "index.html";
     }
+  }
+
+  @Override
+  public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+    argumentResolvers.add(new PageableHandlerMethodArgumentResolver());
+    super.addArgumentResolvers(argumentResolvers);
   }
 
   @Override

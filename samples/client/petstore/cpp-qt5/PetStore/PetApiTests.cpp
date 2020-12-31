@@ -37,6 +37,7 @@ void PetApiTests::findPetsByStatusTest() {
 
 void PetApiTests::createAndGetPetTest() {
     PFXPetApi api;
+    api.setApiKey("api_key","special-key");
     QEventLoop loop;
     bool petCreated = false;
 

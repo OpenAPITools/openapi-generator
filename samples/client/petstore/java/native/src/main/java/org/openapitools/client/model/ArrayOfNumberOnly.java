@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -26,6 +28,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * ArrayOfNumberOnly
@@ -33,7 +37,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
-@JsonTypeName("ArrayOfNumberOnly")
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
@@ -41,7 +44,6 @@ public class ArrayOfNumberOnly {
 
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
-    
     this.arrayNumber = arrayNumber;
     return this;
   }
@@ -73,6 +75,9 @@ public class ArrayOfNumberOnly {
   }
 
 
+  /**
+   * Return true if this ArrayOfNumberOnly object is equal to o.
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -89,7 +94,6 @@ public class ArrayOfNumberOnly {
   public int hashCode() {
     return Objects.hash(arrayNumber);
   }
-
 
   @Override
   public String toString() {

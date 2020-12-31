@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 
 - Prepare the resource
 ```powershell
-Initialize-PSPetstoreUser  -Id null `
+$User = Initialize-PSPetstoreUser  -Id null `
  -Username null `
  -FirstName null `
  -LastName null `
@@ -28,7 +28,7 @@ Initialize-PSPetstoreUser  -Id null `
 
 - Convert the resource to JSON
 ```powershell
-$ | Convert-ToJSON
+$User | ConvertTo-JSON
 ```
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

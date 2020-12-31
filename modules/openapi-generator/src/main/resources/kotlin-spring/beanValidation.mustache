@@ -1,0 +1,4 @@
+{{#isContainer}}{{^isPrimitiveType}}{{^isEnum}}
+    @field:Valid{{/isEnum}}{{/isPrimitiveType}}{{/isContainer}}{{!
+}}{{^isContainer}}{{^isPrimitiveType}}{{^isNumber}}{{^isUuid}}{{^isDateTime}}
+    @field:Valid{{/isDateTime}}{{/isUuid}}{{/isNumber}}{{/isPrimitiveType}}{{/isContainer}}

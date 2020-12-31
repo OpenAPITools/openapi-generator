@@ -38,4 +38,5 @@ void listEntry_printAsInt(listEntry_t* listEntry, void *additionalData);
 void listEntry_free(listEntry_t *listEntry, void *additionalData);
 
 char* findStrInStrList(list_t* strList, const char* str);
+void clear_and_free_string_list(list_t * list);
 #endif // INCLUDE_LIST_H

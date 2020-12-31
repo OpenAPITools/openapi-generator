@@ -15,13 +15,13 @@ package petstore;
 
 message Order {
 
-  int64 id = 1;
+  int64 id = 3355;
 
-  int64 petId = 2;
+  int64 petId = 106557082;
 
-  int32 quantity = 3;
+  int32 quantity = 211262327;
 
-  string shipDate = 4;
+  string shipDate = 517554166;
 
   // Order Status
   enum StatusEnum {
@@ -30,8 +30,8 @@ message Order {
     DELIVERED = 2;
   }
 
-  StatusEnum status = 5;
+  StatusEnum status = 355610639;
 
-  bool complete = 6;
+  bool complete = 62574280;
 
 }

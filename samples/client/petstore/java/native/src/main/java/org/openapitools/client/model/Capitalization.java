@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -23,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * Capitalization
@@ -35,7 +39,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
   Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
 })
-@JsonTypeName("Capitalization")
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Capitalization {
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
@@ -58,7 +61,6 @@ public class Capitalization {
 
 
   public Capitalization smallCamel(String smallCamel) {
-    
     this.smallCamel = smallCamel;
     return this;
   }
@@ -83,7 +85,6 @@ public class Capitalization {
 
 
   public Capitalization capitalCamel(String capitalCamel) {
-    
     this.capitalCamel = capitalCamel;
     return this;
   }
@@ -108,7 +109,6 @@ public class Capitalization {
 
 
   public Capitalization smallSnake(String smallSnake) {
-    
     this.smallSnake = smallSnake;
     return this;
   }
@@ -133,7 +133,6 @@ public class Capitalization {
 
 
   public Capitalization capitalSnake(String capitalSnake) {
-    
     this.capitalSnake = capitalSnake;
     return this;
   }
@@ -158,7 +157,6 @@ public class Capitalization {
 
 
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
-    
     this.scAETHFlowPoints = scAETHFlowPoints;
     return this;
   }
@@ -183,7 +181,6 @@ public class Capitalization {
 
 
   public Capitalization ATT_NAME(String ATT_NAME) {
-    
     this.ATT_NAME = ATT_NAME;
     return this;
   }
@@ -207,6 +204,9 @@ public class Capitalization {
   }
 
 
+  /**
+   * Return true if this Capitalization object is equal to o.
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -228,7 +228,6 @@ public class Capitalization {
   public int hashCode() {
     return Objects.hash(smallCamel, capitalCamel, smallSnake, capitalSnake, scAETHFlowPoints, ATT_NAME);
   }
-
 
   @Override
   public String toString() {

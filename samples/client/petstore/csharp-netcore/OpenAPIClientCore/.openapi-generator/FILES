@@ -43,12 +43,6 @@ docs/GmFruit.md
 docs/GrandparentAnimal.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineObject.md
-docs/InlineObject1.md
-docs/InlineObject2.md
-docs/InlineObject3.md
-docs/InlineObject4.md
-docs/InlineObject5.md
 docs/InlineResponseDefault.md
 docs/IsoscelesTriangle.md
 docs/List.md
@@ -105,6 +99,7 @@ src/Org.OpenAPITools/Client/Configuration.cs
 src/Org.OpenAPITools/Client/ExceptionFactory.cs
 src/Org.OpenAPITools/Client/GlobalConfiguration.cs
 src/Org.OpenAPITools/Client/HttpMethod.cs
+src/Org.OpenAPITools/Client/HttpSigningConfiguration.cs
 src/Org.OpenAPITools/Client/IApiAccessor.cs
 src/Org.OpenAPITools/Client/IAsynchronousClient.cs
 src/Org.OpenAPITools/Client/IReadableConfiguration.cs
@@ -113,6 +108,7 @@ src/Org.OpenAPITools/Client/Multimap.cs
 src/Org.OpenAPITools/Client/OpenAPIDateConverter.cs
 src/Org.OpenAPITools/Client/RequestOptions.cs
 src/Org.OpenAPITools/Client/RetryConfiguration.cs
+src/Org.OpenAPITools/Model/AbstractOpenAPISchema.cs
 src/Org.OpenAPITools/Model/AdditionalPropertiesClass.cs
 src/Org.OpenAPITools/Model/Animal.cs
 src/Org.OpenAPITools/Model/ApiResponse.cs
@@ -150,12 +146,6 @@ src/Org.OpenAPITools/Model/GmFruit.cs
 src/Org.OpenAPITools/Model/GrandparentAnimal.cs
 src/Org.OpenAPITools/Model/HasOnlyReadOnly.cs
 src/Org.OpenAPITools/Model/HealthCheckResult.cs
-src/Org.OpenAPITools/Model/InlineObject.cs
-src/Org.OpenAPITools/Model/InlineObject1.cs
-src/Org.OpenAPITools/Model/InlineObject2.cs
-src/Org.OpenAPITools/Model/InlineObject3.cs
-src/Org.OpenAPITools/Model/InlineObject4.cs
-src/Org.OpenAPITools/Model/InlineObject5.cs
 src/Org.OpenAPITools/Model/InlineResponseDefault.cs
 src/Org.OpenAPITools/Model/IsoscelesTriangle.cs
 src/Org.OpenAPITools/Model/List.cs

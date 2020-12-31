@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Uuid** | Pointer to **string** |  | [optional] 
-**DateTime** | Pointer to [**time.Time**](time.Time.md) |  | [optional] 
+**DateTime** | Pointer to **time.Time** |  | [optional] 
 **Map** | Pointer to [**map[string]Animal**](Animal.md) |  | [optional] 
 
 ## Methods

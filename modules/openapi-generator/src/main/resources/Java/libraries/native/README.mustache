@@ -99,7 +99,7 @@ public class {{{classname}}}Example {
         {{/allParams}}
         try {
             {{^vendorExtensions.x-group-parameters}}
-            {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}} result = {{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void> result = {{/asyncNative}}{{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+            {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}} result = {{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void> result = {{/asyncNative}}{{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
             {{/vendorExtensions.x-group-parameters}}
             {{#vendorExtensions.x-group-parameters}}
             {{#hasParams}}
@@ -174,5 +174,5 @@ However, the instances of the api clients created from the `ApiClient` are threa
 
 ## Author
 
-{{#apiInfo}}{{#apis}}{{^hasMore}}{{infoEmail}}
-{{/hasMore}}{{/apis}}{{/apiInfo}}
+{{#apiInfo}}{{#apis}}{{#-last}}{{infoEmail}}
+{{/-last}}{{/apis}}{{/apiInfo}}

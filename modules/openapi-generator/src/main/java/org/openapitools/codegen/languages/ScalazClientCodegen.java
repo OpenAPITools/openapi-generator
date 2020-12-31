@@ -121,6 +121,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         typeMapping.put("file", "File");
         typeMapping.put("binary", "File");
         typeMapping.put("number", "BigDecimal");
+        typeMapping.put("decimal", "BigDecimal");
         typeMapping.put("date-time", "DateTime");
         typeMapping.put("date", "DateTime");
 

@@ -36,15 +36,15 @@ proc {{{operationId}}}*(httpClient: HttpClient{{#allParams}}, {{{paramName}}}: {
   httpClient.headers["Content-Type"] = "application/json"{{/hasBodyParam}}{{#hasFormParams}}{{^isMultipart}}
   httpClient.headers["Content-Type"] = "application/x-www-form-urlencoded"{{/isMultipart}}{{#isMultipart}}
   httpClient.headers["Content-Type"] = "multipart/form-data"{{/isMultipart}}{{/hasFormParams}}{{#hasHeaderParams}}{{#headerParams}}
-  httpClient.headers["{{{baseName}}}"] = {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}{{/headerParams}}{{#description}} ## {{{description}}}{{/description}}{{/hasHeaderParams}}{{#hasQueryParams}}
+  httpClient.headers["{{{baseName}}}"] = {{{paramName}}}{{#isArray}}.join(","){{/isArray}}{{/headerParams}}{{#description}} ## {{{description}}}{{/description}}{{/hasHeaderParams}}{{#hasQueryParams}}
   let query_for_api_call = encodeQuery([{{#queryParams}}
-    ("{{{baseName}}}", ${{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}), # {{{description}}}{{/queryParams}}
+    ("{{{baseName}}}", ${{{paramName}}}{{#isArray}}.join(","){{/isArray}}), # {{{description}}}{{/queryParams}}
   ]){{/hasQueryParams}}{{#hasFormParams}}{{^isMultipart}}
   let query_for_api_call = encodeQuery([{{#formParams}}
-    ("{{{baseName}}}", ${{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}), # {{{description}}}{{/formParams}}
+    ("{{{baseName}}}", ${{{paramName}}}{{#isArray}}.join(","){{/isArray}}), # {{{description}}}{{/formParams}}
   ]){{/isMultipart}}{{#isMultipart}}
   let query_for_api_call = newMultipartData({
-{{#formParams}}    "{{{baseName}}}": ${{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}, # {{{description}}}
+{{#formParams}}    "{{{baseName}}}": ${{{paramName}}}{{#isArray}}.join(","){{/isArray}}, # {{{description}}}
 {{/formParams}}
   }){{/isMultipart}}{{/hasFormParams}}{{#returnType}}
 

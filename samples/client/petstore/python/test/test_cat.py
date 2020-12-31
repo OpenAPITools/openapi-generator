@@ -11,13 +11,22 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
-import datetime
 
 import petstore_api
-from petstore_api.models.cat import Cat  # noqa: E501
-from petstore_api.rest import ApiException
+try:
+    from petstore_api.model import animal
+except ImportError:
+    animal = sys.modules[
+        'petstore_api.model.animal']
+try:
+    from petstore_api.model import cat_all_of
+except ImportError:
+    cat_all_of = sys.modules[
+        'petstore_api.model.cat_all_of']
+from petstore_api.model.cat import Cat
+
 
 class TestCat(unittest.TestCase):
     """Cat unit test stubs"""
@@ -28,24 +37,11 @@ class TestCat(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional):
-        """Test Cat
-            include_option is a boolean, when False only required
-            params are included, when True both required and
-            optional params are included """
-        # model = petstore_api.models.cat.Cat()  # noqa: E501
-        if include_optional :
-            return Cat(
-                declawed = True
-            )
-        else :
-            return Cat(
-        )
-
     def testCat(self):
         """Test Cat"""
-        inst_req_only = self.make_instance(include_optional=False)
-        inst_req_and_optional = self.make_instance(include_optional=True)
+        # FIXME: construct object with mandatory attributes with example values
+        # model = Cat()  # noqa: E501
+        pass
 
 
 if __name__ == '__main__':

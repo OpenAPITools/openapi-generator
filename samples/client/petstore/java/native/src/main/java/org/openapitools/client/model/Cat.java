@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -28,6 +30,8 @@ import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.BigCat;
 import org.openapitools.client.model.CatAllOf;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * Cat
@@ -35,7 +39,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   Cat.JSON_PROPERTY_DECLAWED
 })
-@JsonTypeName("Cat")
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
@@ -48,7 +51,6 @@ public class Cat extends Animal {
 
 
   public Cat declawed(Boolean declawed) {
-    
     this.declawed = declawed;
     return this;
   }
@@ -72,6 +74,9 @@ public class Cat extends Animal {
   }
 
 
+  /**
+   * Return true if this Cat object is equal to o.
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -89,7 +94,6 @@ public class Cat extends Animal {
   public int hashCode() {
     return Objects.hash(declawed, super.hashCode());
   }
-
 
   @Override
   public String toString() {
@@ -112,5 +116,12 @@ public class Cat extends Animal {
     return o.toString().replace("\n", "\n    ");
   }
 
+static {
+  // Initialize and register the discriminator mappings.
+  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+  mappings.put("BigCat", BigCat.class);
+  mappings.put("Cat", Cat.class);
+  JSON.registerDiscriminator(Cat.class, "className", mappings);
+}
 }
 

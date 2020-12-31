@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return this;
   }
 
-  {{#generateBuilders}}public {{classname}}({{#vars}}{{{datatypeWithEnum}}} {{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}) {
+  {{#generateBuilders}}public {{classname}}({{#vars}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vars}}) {
     {{#vars}}
     this.{{name}} = {{name}};
     {{/vars}}
@@ -60,15 +60,15 @@ import com.fasterxml.jackson.annotation.JsonValue;
       return false;
     }{{#hasVars}}
     {{classname}} {{classVarName}} = ({{classname}}) o;
-    return {{#vars}}Objects.equals(this.{{name}}, {{classVarName}}.{{name}}){{#hasMore}} &&
-        {{/hasMore}}{{/vars}}{{#parent}} &&
+    return {{#vars}}Objects.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+        {{/-last}}{{/vars}}{{#parent}} &&
         super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
     return {{#parent}}super.equals(o){{/parent}}{{^parent}}true{{/parent}};{{/hasVars}}
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+    return Objects.hash({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
   }
 
   @Override
@@ -121,7 +121,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     {{/vars}}
 
     public {{classname}} build() {
-      return new {{classname}}({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}});
+      return new {{classname}}({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}});
     }
   }{{/generateBuilders}}
 }

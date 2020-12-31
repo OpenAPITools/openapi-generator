@@ -10,7 +10,11 @@ if [[ "true" == "${SKIP_EXPORT_DOCS}" ]]; then
   exit 0
 fi
 
+N=4
+(
 for GENERATOR in $(java -jar ${executable} list --short --include all | sed -e 's/,/\'$'\n''/g')
 do
-    ./bin/utils/export_generator.sh ${GENERATOR}
+    ((i=i%N)); ((i++==0)) && wait
+    ./bin/utils/export_generator.sh ${GENERATOR} &
 done
+)

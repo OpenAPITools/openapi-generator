@@ -16,9 +16,9 @@ package petstore;
 message InlineObject {
 
   // Updated name of the pet
-  string name = 1;
+  string name = 3373707;
 
   // Updated status of the pet
-  string status = 2;
+  string status = 355610639;
 
 }
