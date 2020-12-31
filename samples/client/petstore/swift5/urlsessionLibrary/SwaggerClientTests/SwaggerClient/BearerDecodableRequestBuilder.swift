@@ -113,7 +113,6 @@ class BearerTokenHandler {
     private static var bearerToken: String? = nil
     
     static func refreshTokenIfDoesntExist(completionHandler: @escaping () -> Void) {
-        
         if bearerToken != nil {
             completionHandler()
         } else {
