@@ -132,6 +132,8 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                         }
                     }
                 })
+            } else if contentType == "application/x-www-form-urlencoded" {
+                encoding = URLEncoding(destination: .httpBody)
             } else {
                 fatalError("Unsuported Media Type - \(contentType)")
             }
