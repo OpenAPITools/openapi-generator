@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct Category: Codable {
+internal struct Category: Codable, Hashable {
 
     internal var id: Int64?
     internal var name: String = "default-name"
