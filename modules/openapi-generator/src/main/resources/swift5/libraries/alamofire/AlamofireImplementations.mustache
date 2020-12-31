@@ -132,6 +132,8 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManag
                         }
                     }
                 })
+            } else if contentType == "application/x-www-form-urlencoded" {
+                encoding = URLEncoding(destination: .httpBody)
             } else {
                 fatalError("Unsuported Media Type - \(contentType)")
             }

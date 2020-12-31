@@ -24,12 +24,6 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
 
 open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
-    private var observation: NSKeyValueObservation?
-
-    deinit {
-        observation?.invalidate()
-    }
-
     // swiftlint:disable:next weak_delegate
     fileprivate let sessionDelegate = SessionDelegate()
 
@@ -124,7 +118,9 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
             if contentType == "application/json" {
                 encoding = JSONDataEncoding()
             } else if contentType == "multipart/form-data" {
-                encoding = MultipartFormDataEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
+                encoding = FormDataEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
+            } else if contentType == "application/x-www-form-urlencoded" {
+                encoding = FormURLEncoding()
             } else {
                 fatalError("Unsuported Media Type - \(contentType)")
             }
@@ -132,7 +128,6 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
         let cleanupRequest = {
             urlSessionStore[urlSessionId] = nil
-            self.observation?.invalidate()
         }
 
         do {
@@ -431,7 +426,7 @@ private class URLEncoding: ParameterEncoding {
     }
 }
 
-private class MultipartFormDataEncoding: ParameterEncoding {
+private class FormDataEncoding: ParameterEncoding {
 
     let contentTypeForFormPart: (_ fileURL: URL) -> String?
 
@@ -575,7 +570,25 @@ private class MultipartFormDataEncoding: ParameterEncoding {
 
 }
 
-fileprivate extension Data {
+private class FormURLEncoding: ParameterEncoding {
+    func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest {
+
+        var urlRequest = urlRequest
+
+        var requestBodyComponents = URLComponents()
+        requestBodyComponents.queryItems = APIHelper.mapValuesToQueryItems(parameters ?? [:])
+
+        if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
+            urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        }
+
+        urlRequest.httpBody = requestBodyComponents.query?.data(using: .utf8)
+
+        return urlRequest
+    }
+}
+
+private extension Data {
     /// Append string to Data
     ///
     /// Rather than littering my code with calls to `dataUsingEncoding` to convert strings to Data, and then add that data to the Data, this wraps it in a nice convenient little extension to Data. This converts using UTF-8.
@@ -589,7 +602,7 @@ fileprivate extension Data {
     }
 }
 
-fileprivate extension Optional where Wrapped == Data {
+private extension Optional where Wrapped == Data {
     var orEmpty: Data {
         self ?? Data()
     }
