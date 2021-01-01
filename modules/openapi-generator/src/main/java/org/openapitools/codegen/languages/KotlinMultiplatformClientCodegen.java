@@ -392,6 +392,9 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         typeMapping.put("binary", "OctetByteArray");
         typeMapping.put("ByteArray", "Base64ByteArray");
         typeMapping.put("object", "kotlin.String");  // kotlin.Any not serializable
+        typeMapping.put("array", "kotlin.collections.List"); // prefer lists to arrays
+
+        instantiationTypes.put("array", "kotlin.collections.ArrayList"); // prefer lists to arrays
 
         // Multiplatform import mapping
         importMapping.put("BigDecimal", "kotlin.Double");
