@@ -26,9 +26,9 @@ module Petstore
     # @option config [Configuration] Configuration for initializing the object, default to Configuration.default
     def initialize(config = Configuration.default)
       @config = config
-      # TODO @user_agent = "OpenAPI-Generator/#{VERSION}/ruby"
+      # TODO @user_agent = "OpenAPI-Generator/#{VERSION}/crystal"
       @default_headers = {
-        "Content-Type" => "application/json"
+        #"Content-Type" => "application/json"
         #TODO: "User-Agent" => @user_agent
       }
     end
