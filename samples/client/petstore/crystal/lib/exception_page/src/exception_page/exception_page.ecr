@@ -1,0 +1,857 @@
+<!-- Copyright (c) 2013 Plataformatec.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. -->
+<%-
+monospace_font = "menlo, consolas, monospace"
+-%>
+<!DOCTYPE html>
+<html>
+<head>
+    <%
+        details = @message.lines
+        headline = details.first? || "Error"
+    %>
+    <meta charset="utf-8">
+    <title><%= @title %> at <%= @method %> <%= @path %> - <%= headline %></title>
+    <meta name="viewport" content="width=device-width">
+    <style>/*! normalize.css v4.2.0 | MIT License | github.com/necolas/normalize.css */html{font-family:sans-serif;line-height:1.15;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block}audio:not([controls]){display:none;height:0}progress{vertical-align:baseline}template,[hidden]{display:none}a{background-color:transparent;-webkit-text-decoration-skip:objects}a:active,a:hover{outline-width:0}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:inherit}b,strong{font-weight:bolder}dfn{font-style:italic}h1{font-size:2em;margin:0.67em 0}mark{background-color:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-0.25em}sup{top:-0.5em}img{border-style:none}svg:not(:root){overflow:hidden}code,kbd,pre,samp{font-family:monospace, monospace;font-size:1em}figure{margin:1em 40px}hr{box-sizing:content-box;height:0;overflow:visible}button,input,optgroup,select,textarea{font:inherit;margin:0}optgroup{font-weight:bold}button,input{overflow:visible}button,select{text-transform:none}button,html [type="button"],[type="reset"],[type="submit"]{-webkit-appearance:button}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner{border-style:none;padding:0}button:-moz-focusring,[type="button"]:-moz-focusring,[type="reset"]:-moz-focusring,[type="submit"]:-moz-focusring{outline:1px dotted ButtonText}fieldset{border:1px solid #c0c0c0;margin:0 2px;padding:0.35em 0.625em 0.75em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}textarea{overflow:auto}[type="checkbox"],[type="radio"]{box-sizing:border-box;padding:0}[type="number"]::-webkit-inner-spin-button,[type="number"]::-webkit-outer-spin-button{height:auto}[type="search"]{-webkit-appearance:textfield;outline-offset:-2px}[type="search"]::-webkit-search-cancel-button,[type="search"]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-input-placeholder{color:inherit;opacity:0.54}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}</style>
+    <style>
+    html, body, td, input {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html {
+        font-size: 15px;
+        line-height: 1.6;
+        background: #fff;
+        color: #271708;
+    }
+
+    @media (max-width: 768px) {
+        html {
+             font-size: 14px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        html {
+             font-size: 13px;
+        }
+    }
+
+    button:focus,
+    summary:focus {
+        outline: 0;
+    }
+
+    summary {
+        cursor: pointer;
+    }
+
+    pre {
+        font-family: <%= monospace_font %>;
+        overflow: auto;
+        max-width: 100%;
+    }
+
+    .top-details {
+        padding: 48px;
+        background: #f9f9fa;
+    }
+
+    .top-details,
+    .conn-info {
+        padding: 48px;
+    }
+
+
+    @media (max-width: 768px) {
+        .top-details,
+        .conn-info {
+            padding: 32px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .top-details,
+        .conn-info {
+            padding: 16px;
+        }
+    }
+
+    /*
+     * Exception logo
+     */
+
+    .exception-logo {
+        position: absolute;
+        right: 48px;
+        top: 48px;
+        width: 64px;
+    }
+
+    .exception-logo:before {
+        content: '';
+        display: block;
+        height: 64px;
+        width: 100%;
+        background-size: auto 100%;
+        <%- if styles.logo_uri -%>
+        background-image: url("<%= styles.logo_uri %>");
+        <%- end -%>
+        background-position: right 0;
+        background-repeat: no-repeat;
+    }
+
+    @media (max-width: 768px) {
+        .exception-logo {
+            position: static;
+        }
+
+        .exception-logo:before {
+            height: 32px;
+            background-position: left 0;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .exception-logo {
+            display: none;
+        }
+    }
+
+    /*
+     * Exception info
+     */
+
+    /* Compensate for logo placement */
+    @media (min-width: 769px) {
+        .exception-info {
+            max-width: 90%;
+        }
+    }
+
+    .exception-info > .struct,
+    .exception-info > .title,
+    .exception-info > .detail {
+        margin: 0;
+        padding: 0;
+    }
+
+    .exception-info > .struct {
+        font-size: 1em;
+        font-weight: 700;
+        color: <%= styles.accent %>;
+    }
+
+    .exception-info > .struct > small {
+        font-size: 1em;
+        color: #a0a0a0;
+        font-weight: 400;
+    }
+
+    .exception-info > .title {
+        font-size: <%= 1.2 ** 4 %>em;
+        line-height: 1.4;
+        font-weight: 300;
+        color: <%= styles.accent %>;
+    }
+
+    @media (max-width: 768px) {
+        .exception-info > .title {
+            font-size: <%= 1.15 **  4 %>em;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .exception-info > .title {
+            font-size: <%= 1.1 ** 4 %>em;
+        }
+    }
+
+    .exception-info > .detail {
+        margin-top: 1.3em;
+        white-space: pre;
+    }
+
+    /*
+     * Code explorer
+     */
+
+    .code-explorer {
+      margin: 32px 0 0 0;
+    }
+
+    @media (max-width: 768px) {
+        .code-explorer {
+            margin-top: 16px;
+        }
+    }
+
+    .code-explorer:after {
+        content: '';
+        display: table;
+        clear: both;
+        zoom: 1;
+    }
+
+    .code-explorer > .code-snippets {
+        float: left;
+        width: 45%;
+    }
+
+    .code-explorer > .stack-trace {
+        float: right;
+        width: 55%;
+        padding-left: 32px;
+    }
+
+    /* Collapse to single-column */
+    @media (max-width: 960px) {
+        .code-explorer > .code-snippets {
+            float: none;
+            width: auto;
+            margin-bottom: 16px;
+        }
+
+        .code-explorer > .stack-trace {
+            float: none;
+            width: auto;
+            padding-left: 0;
+        }
+    }
+
+    /*
+     * Snippets
+     */
+
+    .code-snippets {
+    }
+
+    /*
+     * Frame info:
+     * Holds the code (code-block) and more
+     */
+
+    .frame-info {
+        background: white;
+        box-shadow:
+            0 1px 3px rgba(80, 100, 140, .1),
+            0 8px 15px rgba(80, 100, 140, .05);
+    }
+
+    .frame-info > .meta,
+    .frame-info > .file {
+        padding: 12px 16px;
+        white-space: no-wrap;
+        font-size: <%= 1.2 ** -1 %>em;
+    }
+
+    @media (max-width: 480px) {
+        .frame-info > .meta,
+        .frame-info > .file {
+            padding: 6px 16px;
+            font-size: <%= 1.1 ** -1 %>em;
+        }
+    }
+
+    .frame-info > .file > a {
+        text-decoration: none;
+        color: #271708;
+        font-weight: 700;
+    }
+
+    .frame-info > .code {
+        border-top: solid 1px #eee;
+        border-bottom: solid 1px #eee;
+    }
+
+    /* Hiding */
+    .frame-info {
+        display: none;
+    }
+
+    .frame-info.-active {
+        display: block;
+    }
+
+    .frame-info > details.meta {
+        padding: 0;
+    }
+
+    .frame-info > details.meta > summary {
+        padding: 12px 16px;
+    }
+
+    /*
+     * Frame details
+     */
+
+    .frame-summary.-short {
+        color: #a0a0a0;
+    }
+
+    .frame-summary > .app {
+        color: <%= styles.accent %>;
+        font-weight: 700;
+    }
+
+    .frame-summary > .app:after {
+        content: '·';
+        margin: 0 .2em;
+    }
+
+    /*
+     * Code block:
+     * The `pre` that holds the code
+     */
+
+    .code-block {
+        margin: 0;
+        padding: 12px 0;
+        font-size: .8em;
+        line-height: 1.4;
+        white-space: normal;
+    }
+
+    .code-block > .line {
+        white-space: pre;
+        display: block;
+        padding: 0 16px;
+    }
+
+    /* Line highlight */
+    .code-block > .line.-highlight {
+        background-color: <%= styles.highlight %>;
+        -webkit-animation: line-highlight 750ms linear;
+        animation: line-highlight 750ms linear;
+    }
+
+    @-webkit-keyframes line-highlight {
+        0% { background-color: <%= styles.highlight %>; }
+        25% { background-color: <%= styles.flash_highlight %>; }
+        50% { background-color: <%= styles.highlight %>; }
+        75% { background-color: <%= styles.flash_highlight %>; }
+    }
+
+    @keyframes line-highlight {
+        0% { background-color: <%= styles.highlight %>; }
+        25% { background-color: <%= styles.flash_highlight %>; }
+        50% { background-color: <%= styles.highlight %>; }
+        75% { background-color: <%= styles.flash_highlight %>; }
+    }
+
+    .code-block > .line > .ln {
+        color: #a0a0a0;
+        margin-right: 1.5em;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .code-block > .line > .code {
+        font-family: <%= monospace_font %>;
+    }
+
+    /*
+     * Empty code
+     */
+
+    .code-block-empty {
+        text-align: center;
+        color: #a0a0a0;
+        padding-top: 48px;
+        padding-bottom: 48px;
+    }
+
+    /*
+     * Stack trace heading
+     */
+
+    .stack-trace-heading {
+        padding-top: 8px;
+    }
+
+    .stack-trace-heading:after {
+        content: '';
+        display: block;
+        clear: both;
+        zoom: 1;
+        border-bottom: solid 1px #eee;
+        padding-top: 12px;
+        margin-bottom: 16px;
+    }
+
+    .stack-trace-heading > h3 {
+        display: none;
+    }
+
+    .stack-trace-heading > label {
+        display: block;
+        padding-left: 8px;
+        line-height: 1.9;
+        font-size: <%= 1.2 ** -1 %>em;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .stack-trace-heading > label > input {
+        margin-right: .3em;
+    }
+
+    @media (max-width: 480px) {
+        .stack-trace-heading > label {
+            font-size: <%= 1.1 ** -1 %>em;
+        }
+    }
+
+    /*
+     * Stack trace
+     */
+
+    .stack-trace-list,
+    .stack-trace-list > li {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+
+    .stack-trace-list > li > .stack-trace-item.-all {
+        display: none;
+    }
+
+    .stack-trace-list.-show-all > li > .stack-trace-item.-all {
+        display: block;
+    }
+
+    /*
+     * Stack trace item:
+     * The clickable line to inspect a stack trace
+     */
+
+    .stack-trace-item {
+        font-size: <%= 1.2 ** -1 %>em;
+        display: block;
+        width: 100%;
+        border: 0;
+        margin: 0;
+        padding: 4px 8px;
+        background: transparent;
+        cursor: pointer;
+        text-align: left;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .stack-trace-item:hover,
+    .stack-trace-item:focus {
+        background-color: rgba(80, 100, 140, 0.05);
+    }
+
+    .stack-trace-item,
+    .stack-trace-item:active {
+        color: #271708;
+    }
+
+    .stack-trace-item:active {
+        background-color: rgba(80, 100, 140, 0.1);
+    }
+
+    .stack-trace-item.-active {
+        background-color: white;
+    }
+
+    /* Circle */
+    .stack-trace-item > .left:before {
+        content: '';
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background: #a0a0a0;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+
+    .stack-trace-item.-app > .left:before {
+        background: <%= styles.accent %>;
+        opacity: 1;
+    }
+
+    .stack-trace-item.-app > .left > .app {
+        display: none;
+    }
+
+    .stack-trace-item > .left {
+        float: left;
+        max-width: 55%;
+    }
+
+    .stack-trace-item > .info {
+        color: #a0a0a0;
+        float: right;
+        max-width: 45%;
+    }
+
+    .stack-trace-item > .left,
+    .stack-trace-item > .info {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .stack-trace-item > .left > .filename > .line {
+        color: #a0a0a0;
+    }
+
+    /* App name */
+    .stack-trace-item > .left > .app {
+        color: #a0a0a0;
+    }
+
+    .stack-trace-item > .left > .app:after {
+        content: '·';
+        margin: 0 .2em;
+    }
+
+    /*
+     * Code as a blockquote:
+     * Like `pre` but with wrapping
+     */
+
+    .code-quote {
+        font-family: <%= monospace_font %>;
+        font-size: <%= 1.2 ** -1 %>em;
+        margin: 0;
+        overflow: auto;
+        max-width: 100%;
+        word-wrap: break-word;
+        white-space: normal;
+    }
+
+    .code-quote.-padded {
+        padding: 0 16px 16px 16px;
+    }
+
+    /*
+     * Conn info
+     */
+
+    .conn-info {
+        border-top: solid 1px #eee;
+    }
+
+    /*
+     * Conn details
+     */
+
+    .conn-details {
+    }
+
+    .conn-details + .conn-details {
+        margin-top: 16px;
+    }
+
+    .conn-details > summary {
+    }
+
+    .conn-details > dl {
+        display: block;
+        overflow: hidden;
+        margin: 0;
+        padding: 4px 0;
+        border-bottom: solid 1px #eee;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .conn-details > dl:first-of-type {
+        margin-top: 16px;
+        border-top: solid 1px #eee;
+    }
+
+    /* Term */
+    .conn-details > dl > dt {
+        width: 20%;
+        float: left;
+        font-size: <%= 1.2 ** -1 %>em;
+        color: #a0a0a0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        position: relative;
+        top: -1px; /* Compensate for font metrics */
+    }
+
+    /* Definition */
+    .conn-details > dl > dd {
+        width: 80%;
+        float: left;
+    }
+
+    @media (max-width: 480px) {
+        .conn-details > dl > dt {
+            font-size: <%= 1.1 ** -1 %>em;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="top-details">
+        <%- if project_url -%>
+        <a class="exception-logo" href="<%= project_url %>" target="_blank"></a>
+        <%- else %>
+        <div class="exception-logo"></div>
+        <%- end %>
+        <header class="exception-info" flow-id="exception-title">
+            <h5 class="struct">
+                <%= @title %>
+                <small>at <%= @method %> <%= @path %></small>
+            </h5>
+            <h1 class="title"><%= HTML.escape(headline).gsub("&#39;", '\'').gsub("&quot;", '"') %></h1>
+            <details class="meta">
+                <summary class="frame-summary" flow-id="see-raw-error-message">
+                See raw message
+                </summary>
+                <pre class="code code-block" flow-id="raw-error-message">
+                    <%- details.each do |detail| -%>
+                        <span class="line"><span class="code"><%= HTML.escape(detail).gsub("&#39;", '\'').gsub("&quot;", '"') %></span>
+                    <%- end -%>
+                </pre>
+            </details>
+        </header>
+        <% if !@frames.empty? %>
+        <div class="code-explorer">
+            <div class="code-snippets" flow-id="code-frames">
+                <% @frames.each do |frame| %>
+                  <div class="frame-info" data-index="<%= frame.index %>" role="stack-trace-details">
+                    <div class="file">
+                        <a href="#"><%= frame.file %></a>
+                    </div>
+
+                    <%- if !frame.snippets.empty? -%>
+                      <pre class="code code-block">
+                        <%- frame.snippets.each do |snippet| -%>
+                          <span class="line <% if snippet.highlight %>-highlight<% end %>"><span class="ln"><%= snippet.line %></span><span class="code"><%= HTML.escape(snippet.code.rstrip).gsub("&#39;", '\'').gsub("&quot;", '"') %></span></span>
+                        <%- end -%>
+                      </pre>
+                    <%- else -%>
+                      <div class="code code-block-empty">No code available.</div>
+                    <%- end -%>
+
+                    <% if !frame.args.blank? %>
+                    <details class="meta">
+                        <summary class="frame-summary" flow-id="code-frame-summary">
+                            <span class="app"><%= frame.label %></span>
+                            <%= frame.filename %>
+                        </summary>
+                        <blockquote class="code-quote -padded"><%= HTML.escape(frame.args).gsub("&#39;", '\'').gsub("&quot;", '"') %></blockquote>
+                    </details>
+                    <% else %>
+                    <div class="meta">
+                        <div class="frame-summary -short">
+                            <span class="app"><%= frame.label %></span>
+                            <%= frame.filename %>
+                        </div>
+                    </div>
+                    <% end %>
+                </div>
+                <% end %>
+            </div>
+
+            <div class="stack-trace">
+                <div class="stack-trace-heading">
+                    <%= stack_trace_heading_html %>
+                    <label><input type="checkbox" role="show-all-toggle" flow-id="show-all-frames"> Show all frames</label>
+                </div>
+
+                <ul class="stack-trace-list" role="stack-trace-list">
+                    <% @frames.each do |frame| %>
+                    <li>
+                        <button flow-id="code-frame-file" class="stack-trace-item -<%= frame.context %>" role="stack-trace-item" data-index="<%= frame.index %>">
+                            <span class="left">
+                                <span class="app"><%= frame.label %></span>
+
+                                <span class="filename">
+                                    <%= frame.file %><% if frame.line %><span class="line">:<%= frame.line %></span><% end %>
+                                </span>
+                            </span>
+
+                            <span class="info"><%= frame.filename %></span>
+                        </button>
+                    </li>
+                    <% end %>
+                </ul>
+            </div>
+        </div>
+        <% end %>
+    </div>
+
+    <div class="conn-info">
+        <% if @params && !@params.empty? %>
+        <details class="conn-details" open>
+            <summary>Params</summary>
+            <% @params.each do |key, value| %>
+            <dl>
+                <dt><%= HTML.escape(key) %></dt>
+                <dd><pre><%= HTML.escape(value.inspect) %></pre></dd>
+            </dl>
+            <% end %>
+        </details>
+        <% end %>
+
+        <details class="conn-details">
+            <summary>Request info</summary>
+
+            <dl>
+                <dt>URI:</dt>
+                <dd class="code-quote"><%= HTML.escape(@url) %></dd>
+            </dl>
+
+            <dl>
+                <dt>Query string:</dt>
+                <dd class="code-quote"><%= HTML.escape(@query) %></dd>
+            </dl>
+        </details>
+
+        <details class="conn-details">
+            <summary>Headers</summary>
+            <% @headers.each do |key, value| %>
+            <dl>
+                <dt><%= HTML.escape(key) %></dt>
+                <dd class="code-quote"><%= HTML.escape(value.inspect) %></dd>
+            </dl>
+            <% end %>
+        </details>
+
+        <% if (session = @session) && !session.empty? %>
+        <details class="conn-details">
+            <summary>Session</summary>
+            <% session.each do |key, value| %>
+            <dl>
+                <dt><%= HTML.escape(key) %></dt>
+                <dd><pre><%= HTML.escape(value.inspect) %></pre></dd>
+            </dl>
+            <% end %>
+        </details>
+        <% end %>
+    </div>
+
+    <script>
+    (function () {
+        var items = document.querySelectorAll('[role~="stack-trace-item"]');
+        var toggle = document.querySelector('[role~="show-all-toggle"]');
+
+        var list = document.querySelector('[role~="stack-trace-list"]');
+
+
+        each(items, function (item) {
+            on(item, 'click', itemOnclick);
+        })
+
+        on(toggle, 'click', toggleOnclick);
+
+        // Auto-check "show all" if there are no app frames.
+        if (document.querySelectorAll('[role~="stack-trace-list"] .-app').length === 0) {
+            toggle.checked = true;
+            toggleOnclick.call(toggle);
+        }
+
+        function toggleOnclick() {
+            if (this.checked) {
+                addClass(list, '-show-all');
+            } else {
+                removeClass(list, '-show-all');
+            }
+        }
+
+        function itemOnclick() {
+            var idx = this.getAttribute('data-index')
+
+            var detail = document.querySelector('[role~="stack-trace-details"].-active');
+            if (detail) {
+                removeClass(detail, '-active');
+            }
+
+            detail = document.querySelector('[role~="stack-trace-details"][data-index="' + idx + '"]')
+            if (detail) {
+                addClass(detail, '-active')
+            }
+
+            var item = document.querySelector('[role~="stack-trace-item"].-active')
+            if (item) {
+                removeClass(item, '-active')
+            }
+
+            item = document.querySelector('[role~="stack-trace-item"][data-index="' + idx + '"]')
+            if (item) {
+                addClass(item, '-active')
+            }
+        }
+
+        var first =
+            document.querySelector('[role~="stack-trace-item"].-app:first-of-type') ||
+            document.querySelector('[role~="stack-trace-item"]:first-of-type');
+
+        if (first) {
+            itemOnclick.call(first);
+        }
+
+        /*
+        * Helpers
+        */
+
+        function each(list, fn) {
+            for (var i = 0, len = list.length; i < len; i++) {
+                var item = list[i];
+                fn(item);
+            }
+        }
+
+        function addClass(el, className) {
+            if (el.classList) {
+                el.classList.add(className);
+            } else {
+                el.className += ' ' + className;
+            }
+        }
+
+        function removeClass(el, className) {
+            if (el.classList) {
+                el.classList.remove(className);
+            } else {
+                var expr = new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi');
+                el.className = el.className.replace(expr, ' ');
+            }
+        }
+
+        function on(el, event, handler) {
+            if (el.addEventListener) {
+                el.addEventListener(event, handler);
+            } else {
+                el.attachEvent('on' + event, function () {
+                    handler.call(el);
+                });
+            }
+        }
+
+        <%= extra_javascript %>
+    }());
+    </script>
+</body>
+</html>

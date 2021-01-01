@@ -1,0 +1,3 @@
+require "./server"
+
+Kemal.run

@@ -1,0 +1,14 @@
+language: crystal
+crystal:
+  - latest
+  - nightly
+
+script:
+  - crystal spec
+  - crystal spec --release --no-debug
+  - crystal tool format --check
+  - bin/ameba src
+
+matrix:
+  allow_failures:
+    - crystal: nightly

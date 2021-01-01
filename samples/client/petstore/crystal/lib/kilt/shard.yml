@@ -1,0 +1,15 @@
+name: kilt
+version: 0.4.0
+
+authors:
+  - Jerome Gravel-Niquet <jeromegn@gmail.com>
+
+license: MIT
+
+development_dependencies:
+  slang:
+    github: jeromegn/slang
+  crustache:
+    github: MakeNowJust/crustache
+  temel:
+    github: f/temel

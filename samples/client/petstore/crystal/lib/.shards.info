@@ -1,0 +1,27 @@
+---
+version: 1.0
+shards:
+  http-client-digest_auth:
+    git: https://github.com/mamantoha/http-client-digest_auth.git
+    version: 0.4.0
+  http_proxy:
+    git: https://github.com/mamantoha/http_proxy.git
+    version: 0.7.2
+  crest:
+    git: https://github.com/mamantoha/crest.git
+    version: 0.26.1
+  radix:
+    git: https://github.com/luislavena/radix.git
+    version: 0.3.9
+  kilt:
+    git: https://github.com/jeromegn/kilt.git
+    version: 0.4.0
+  exception_page:
+    git: https://github.com/crystal-loot/exception_page.git
+    version: 0.1.4
+  kemal:
+    git: https://github.com/kemalcr/kemal.git
+    version: 0.27.0
+  ameba:
+    git: https://github.com/crystal-ameba/ameba.git
+    version: 0.13.3

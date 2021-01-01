@@ -1,0 +1,28 @@
+language: crystal
+
+crystal:
+  - latest
+  - nightly
+
+jobs:
+  allow_failures:
+    - crystal: nightly
+
+install:
+  - shards install
+
+script:
+  - make test
+  - crystal tool format --check
+  - sed -i -e 's:<.*>::g' README.md
+  - crystal docs
+
+deploy:
+  provider: pages
+  github_token: $GITHUB_TOKEN
+  project_name: ameba
+  skip_cleanup: true
+  on:
+    branch: master
+  local_dir: docs
+  verbose: true

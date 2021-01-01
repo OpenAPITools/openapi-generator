@@ -1,0 +1,20 @@
+name: ameba
+version: 0.13.3
+
+authors:
+  - Vitalii Elenhaupt <velenhaupt@gmail.com>
+
+targets:
+  ameba:
+    main: src/cli.cr
+
+scripts:
+  # TODO: remove pre-compiled executable in future releases
+  postinstall: make bin && make run_file
+
+executables:
+  - ameba
+
+crystal: ">= 0.35.0"
+
+license: MIT

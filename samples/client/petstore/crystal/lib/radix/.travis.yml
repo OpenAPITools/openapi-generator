@@ -1,0 +1,11 @@
+language: crystal
+crystal:
+  - latest
+  - nightly
+matrix:
+  allow_failures:
+    - crystal: nightly
+
+notifications:
+  email:
+    on_success: never

@@ -1,0 +1,18 @@
+name: exception_page
+version: 0.1.4
+
+authors:
+  - Paul Smith <paulcsmith0218@gmail.com>
+  - Faustino Aguilar
+
+development_dependencies:
+  lucky_flow:
+    github: luckyframework/lucky_flow
+    version: ~> 0.6.1
+  ameba:
+    github: crystal-ameba/ameba
+    version: ~> 0.11.0
+
+crystal: 0.33.0
+
+license: MIT

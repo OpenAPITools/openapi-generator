@@ -1,0 +1,25 @@
+name: kemal
+version: 0.27.0
+
+authors:
+  - Serdar Dogruyol <dogruyolserdar@gmail.com>
+
+dependencies:
+  radix:
+    github: luislavena/radix
+    version: ~> 0.3.8
+  kilt:
+    github: jeromegn/kilt
+    version: ~> 0.4.0
+  exception_page:
+    github: crystal-loot/exception_page
+    version: ~> 0.1.1
+
+development_dependencies:
+  ameba:
+    github: crystal-ameba/ameba
+    version: ~> 0.12.0
+
+crystal: 0.35.0
+
+license: MIT
