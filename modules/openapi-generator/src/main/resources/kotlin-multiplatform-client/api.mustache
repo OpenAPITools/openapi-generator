@@ -33,7 +33,7 @@ import kotlinx.serialization.encoding.Encoder
     "DuplicatedCode",
     "UnnecessaryVariable",
 )
-public class {{classname}} : ApiClientBase {
+public open class {{classname}} : ApiClientBase {
     public constructor(
         baseUrl: String = "{{{basePath}}}",
         httpClientEngine: HttpClientEngine? = null,
@@ -58,7 +58,7 @@ public class {{classname}} : ApiClientBase {
     {{/returnType}}
     public suspend fun {{operationId}}(
         {{#allParams}}
-        {{{paramName}}}: {{{dataType}}}{{^required}}? = null{{/required}}{{#hasMore}},{{/hasMore}}
+        {{{paramName}}}: {{{dataType}}}{{^required}}? = null{{/required}},
         {{/allParams}}
     ): HttpResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> {
         {{! TODO: Optimize all the ?.let to only the places where it's needed }}
