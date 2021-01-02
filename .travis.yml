@@ -62,6 +62,12 @@ addons:
     - petstore.swagger.io
 
 before_install:
+  # install crystal
+  - curl -sSL https://dist.crystal-lang.org/apt/setup.sh | sudo bash
+  - curl -sL "https://keybase.io/crystal/pgp_keys.asc" | sudo apt-key add -
+  - echo "deb https://dist.crystal-lang.org/apt crystal main" | sudo tee /etc/apt/sources.list.d/crystal.list
+  - sudo apt-get update
+  - sudo apt install crystal
   - git clone https://github.com/wing328/swagger-samples
   - mvn jetty:run -f swagger-samples/java/java-jersey-jaxrs-ci/pom.xml &
   - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.0
@@ -81,12 +87,6 @@ before_install:
   #- docker pull swaggerapi/petstore
   #- docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
   #- docker ps -a
-  # install crystal
-  - curl -sSL https://dist.crystal-lang.org/apt/setup.sh | sudo bash
-  - curl -sL "https://keybase.io/crystal/pgp_keys.asc" | sudo apt-key add -
-  - echo "deb https://dist.crystal-lang.org/apt crystal main" | sudo tee /etc/apt/sources.list.d/crystal.list
-  - sudo apt-get update
-  - sudo apt install crystal
   # -- skip bash test to shorten build time
   # Add bats test framework and cURL for Bash script integration tests
   #- sudo add-apt-repository ppa:duggan/bats --yes
