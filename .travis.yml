@@ -86,6 +86,7 @@ before_install:
   - curl -sL "https://keybase.io/crystal/pgp_keys.asc" | sudo apt-key add -
   - echo "deb https://dist.crystal-lang.org/apt crystal main" | sudo tee /etc/apt/sources.list.d/crystal.list
   - sudo apt-get update
+  - sudo apt install crystal
   # -- skip bash test to shorten build time
   # Add bats test framework and cURL for Bash script integration tests
   #- sudo add-apt-repository ppa:duggan/bats --yes
