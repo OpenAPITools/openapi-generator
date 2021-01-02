@@ -81,14 +81,19 @@ describe "PetApi" do
       # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
       api_instance = Petstore::PetApi.new
       # create a pet to start with
-      pet = Petstore::Pet.new()
-      result = api_instance.get_pet_by_id(pet_id: 29)
-      result.id.should eq 29
-      result.category.id.should eq 13
-      result.category.name.should eq "Cainine"
-      result.name.should eq "Wolf"
-      result.photo_urls.should eq ["http://pathtoimage1"]
+      pet_id = Int64.new(91829)
+      pet = Petstore::Pet.new(id: pet_id, category: Petstore::Category.new(id: pet_id + 10, name: "crystal category"), name: "crystal", photo_urls: ["https://crystal-lang.org"], tags: [Petstore::Tag.new(id: pet_id + 100, name: "crystal tag")], status: "available")
+
+      api_instance.add_pet(pet)
+
+      result = api_instance.get_pet_by_id(pet_id: pet_id)
+      result.id.should eq pet_id
+      result.category.id.should eq pet_id + 10
+      result.category.name.should eq "crystal category"
+      result.name.should eq "category"
+      result.photo_urls.should eq ["https://crystal-lang.org"]
       result.status.should eq "available" 
+      result.tags[0].id.should eq pet_id + 100
     end
   end
 

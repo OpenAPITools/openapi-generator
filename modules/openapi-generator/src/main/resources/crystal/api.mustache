@@ -154,7 +154,7 @@ module {{moduleName}}
       {{/formParams}}
 
       # http body (model)
-      post_body = {{#bodyParam}}@api_client.object_to_http_body({{{paramName}}}){{/bodyParam}}{{^bodyParam}}nil{{/bodyParam}}
+      post_body = {{#bodyParam}}{{{paramName}}}.to_json{{/bodyParam}}{{^bodyParam}}nil{{/bodyParam}}
 
       # return_type
       return_type = {{#returnType}}"{{{.}}}"{{/returnType}}{{^returnType}}nil{{/returnType}}

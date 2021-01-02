@@ -2,7 +2,6 @@
 
 require "json"
 require "time"
-require "crest"
 
 module {{moduleName}}
   class ApiClient
@@ -17,10 +16,10 @@ module {{moduleName}}
     # Initializes the ApiClient
     # @option config [Configuration] Configuration for initializing the object, default to Configuration.default
     def initialize(@config = Configuration.default)
-      # TODO @user_agent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/#{VERSION}/crystal{{/httpUserAgent}}"
+      @user_agent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/#{VERSION}/crystal{{/httpUserAgent}}"
       @default_headers = {
-        #TODO: "User-Agent" => @user_agent
-      } of String  => String
+        "User-Agent" => @user_agent
+      }
     end
 
     def self.default
@@ -274,6 +273,15 @@ module {{moduleName}}
       #  end
       #  conn.adapter(Faraday.default_adapter)
       #end
+
+      if !post_body.nil? && !post_body.empty?
+        # use JSON string in the payload
+        form = post_body
+      else
+        # use HTTP forms in the payload
+        # TDOD use HTTP form encoding
+        form = form_params
+      end
 
       request = Crest::Request.new(http_method,
         build_request_url(path, operation),

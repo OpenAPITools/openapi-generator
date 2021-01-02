@@ -10,7 +10,6 @@
 
 require "json"
 require "time"
-require "crest"
 
 module Petstore
   class ApiClient
@@ -24,12 +23,10 @@ module Petstore
 
     # Initializes the ApiClient
     # @option config [Configuration] Configuration for initializing the object, default to Configuration.default
-    def initialize(config = Configuration.default)
-      @config = config
-      # TODO @user_agent = "OpenAPI-Generator/#{VERSION}/crystal"
+    def initialize(@config = Configuration.default)
+      @user_agent = "OpenAPI-Generator/#{VERSION}/crystal"
       @default_headers = {
-        #"Content-Type" => "application/json"
-        #TODO: "User-Agent" => @user_agent
+        "User-Agent" => @user_agent
       }
     end
 
@@ -284,6 +281,15 @@ module Petstore
       #  end
       #  conn.adapter(Faraday.default_adapter)
       #end
+
+      if !post_body.nil? && !post_body.empty?
+        # use JSON string in the payload
+        form = post_body
+      else
+        # use HTTP forms in the payload
+        # TDOD use HTTP form encoding
+        form = form_params
+      end
 
       request = Crest::Request.new(http_method,
         build_request_url(path, operation),

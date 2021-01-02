@@ -15,6 +15,8 @@ require "log"
 module Petstore
   Log = ::Log.for("Petstore") # => Log for Petstore source
 
+  VERSION = {{ `shards version #{__DIR__}`.chomp.stringify }}
+
   # Customize default settings for the SDK using block.
   #   Petstore.configure do |config|
   #     config.username = "xxx"

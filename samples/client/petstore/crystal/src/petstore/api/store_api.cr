@@ -230,7 +230,7 @@ module Petstore
       form_params = Hash(Symbol, String).new
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(order)
+      post_body = order.to_json
 
       # return_type
       return_type = "Order"

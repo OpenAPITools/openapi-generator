@@ -53,7 +53,7 @@ module Petstore
       form_params = Hash(Symbol, String).new
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(user)
+      post_body = user.to_json
 
       # return_type
       return_type = nil
@@ -110,7 +110,7 @@ module Petstore
       form_params = Hash(Symbol, String).new
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(user)
+      post_body = user.to_json
 
       # return_type
       return_type = nil
@@ -167,7 +167,7 @@ module Petstore
       form_params = Hash(Symbol, String).new
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(user)
+      post_body = user.to_json
 
       # return_type
       return_type = nil
@@ -465,7 +465,7 @@ module Petstore
       form_params = Hash(Symbol, String).new
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(user)
+      post_body = user.to_json
 
       # return_type
       return_type = nil
