@@ -41,13 +41,22 @@ elif [ "$NODE_INDEX" = "2" ]; then
   curl -sSL https://get.haskellstack.org/ | sh
   stack upgrade
   stack --version
-  # install r
+  # prepare crystal
+  curl -sSL https://dist.crystal-lang.org/apt/setup.sh | sudo bash
+  curl -sL "https://keybase.io/crystal/pgp_keys.asc" | sudo apt-key add -
+  echo "deb https://dist.crystal-lang.org/apt crystal main" | sudo tee /etc/apt/sources.list.d/crystal.list
+  # prepare r
   sudo sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list'
   gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
   gpg -a --export E084DAB9 | sudo apt-key add -
+
+  # installation (crystal, curl)
   sudo apt-get update
+  sudo apt install crystal
+  crystal version
   sudo apt-get -y install r-base
   R --version
+
   # install curl
   sudo apt-get -y build-dep libcurl4-gnutls-dev
   sudo apt-get -y install libcurl4-gnutls-dev
