@@ -49,7 +49,7 @@ class FileSchemaTestClass {
   static FileSchemaTestClass fromJson(Map<String, dynamic> json) => json == null
     ? null
     : FileSchemaTestClass(
-        file: ModelFile.fromJson(json[r'file']),
+        file: _$enumDecode(_$ModelFileEnumMap, json[r'file']),
         files: ModelFile.listFromJson(json[r'files']),
     );
 

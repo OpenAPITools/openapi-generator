@@ -143,7 +143,7 @@ class {{{classname}}} {
         {{{name}}}: null, // No support for decoding binary content from JSON
             {{/isBinary}}
             {{^isBinary}}
-        {{{name}}}: {{{complexType}}}.fromJson(json[r'{{{baseName}}}']),
+        {{{name}}}: _$enumDecode(_${{{complexType}}}EnumMap, json[r'{{{baseName}}}']),
             {{/isBinary}}
         {{/isMap}}
       {{/isArray}}
@@ -151,7 +151,7 @@ class {{{classname}}} {
     {{^complexType}}
       {{#isArray}}
         {{#isEnum}}
-        {{{name}}}: {{{classname}}}{{{items.datatypeWithEnum}}}.listFromJson(json[r'{{{baseName}}}']),
+        {{{name}}}: _$enumsDecode(_${{{classname}}}{{{items.datatypeWithEnum}}}, json[r'{{{baseName}}}']),
         {{/isEnum}}
         {{^isEnum}}
         {{{name}}}: json[r'{{{baseName}}}'] == null
@@ -163,7 +163,12 @@ class {{{classname}}} {
         {{#isMap}}
         {{{name}}}: json[r'{{{baseName}}}'] == null ?
           null :
-          (json[r'{{{baseName}}}'] as Map).cast<String, {{{items.datatype}}}>(),
+        {{#isEnum}}
+        (json[r'{{{baseName}}}'] as {{{datatypeWithEnum}}}),
+        {{/isEnum}}
+        {{^isEnum}}
+        (json[r'{{{baseName}}}'] as Map).cast<String, {{{items.datatype}}}>(),
+        {{/isEnum}}
         {{/isMap}}
         {{^isMap}}
           {{#isNumber}}
@@ -176,7 +181,7 @@ class {{{classname}}} {
         {{{name}}}: json[r'{{{baseName}}}'],
     {{/isEnum}}
     {{#isEnum}}
-        {{{name}}}: {{{classname}}}{{{enumName}}}.fromJson(json[r'{{{baseName}}}']),
+        {{{name}}}: _$enumDecode(_${{{classname}}}{{{enumName}}}, json[r'{{{baseName}}}']),
     {{/isEnum}}
           {{/isNumber}}
         {{/isMap}}

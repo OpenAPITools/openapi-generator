@@ -88,7 +88,7 @@ class Order {
         shipDate: json[r'shipDate'] == null
           ? null
           : DateTime.parse(json[r'shipDate']),
-        status: OrderStatusEnum.fromJson(json[r'status']),
+        status: _$enumDecode(_$OrderStatusEnum, json[r'status']),
         complete: json[r'complete'],
     );
 
@@ -118,78 +118,16 @@ class Order {
 }
 
 /// Order Status
-class OrderStatusEnum {
-  /// Instantiate a new enum with the provided [value].
-  const OrderStatusEnum._(this.value);
-
-  /// The underlying value of this enum member.
-  final String value;
-
-  @override
-  bool operator ==(Object other) => identical(this, other) ||
-      other is OrderStatusEnum && other.value == value;
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() => value;
-
-  String toJson() => value;
-
-  static const placed = OrderStatusEnum._(r'placed');
-  static const approved = OrderStatusEnum._(r'approved');
-  static const delivered = OrderStatusEnum._(r'delivered');
-
-  /// List of all possible values in this [enum][OrderStatusEnum].
-  static const values = <OrderStatusEnum>[
-    placed,
-    approved,
-    delivered,
-  ];
-
-  static OrderStatusEnum fromJson(dynamic value) =>
-    OrderStatusEnumTypeTransformer().decode(value);
-
-  static List<OrderStatusEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <OrderStatusEnum>[]
-      : json
-          .map((value) => OrderStatusEnum.fromJson(value))
-          .toList(growable: true == growable);
+enum OrderStatusEnum {
+        placed,
+        approved,
+        delivered,
 }
 
-/// Transformation class that can [encode] an instance of [OrderStatusEnum] to String,
-/// and [decode] dynamic data back to [OrderStatusEnum].
-class OrderStatusEnumTypeTransformer {
-  const OrderStatusEnumTypeTransformer._();
+const _$OrderStatusEnum = <OrderStatusEnum, dynamic>{
+        OrderStatusEnum.placed: 'placed',
+        OrderStatusEnum.approved: 'approved',
+        OrderStatusEnum.delivered: 'delivered',
+};
 
-  factory OrderStatusEnumTypeTransformer() => _instance ??= OrderStatusEnumTypeTransformer._();
-
-  String encode(OrderStatusEnum data) => data.value;
-
-  /// Decodes a [dynamic value][data] to a OrderStatusEnum.
-  ///
-  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
-  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
-  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
-  ///
-  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
-  /// and users are still using an old app with the old code.
-  OrderStatusEnum decode(dynamic data, {bool allowNull}) {
-    switch (data) {
-      case r'placed': return OrderStatusEnum.placed;
-      case r'approved': return OrderStatusEnum.approved;
-      case r'delivered': return OrderStatusEnum.delivered;
-      default:
-        if (allowNull == false) {
-          throw ArgumentError('Unknown enum value to decode: $data');
-        }
-    }
-    return null;
-  }
-
-  /// Singleton [OrderStatusEnumTypeTransformer] instance.
-  static OrderStatusEnumTypeTransformer _instance;
-}
 

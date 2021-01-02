@@ -85,3 +85,33 @@ final _regList = RegExp(r'^List<(.*)>$');
 final _regMap = RegExp(r'^Map<String,(.*)>$');
 
 ApiClient defaultApiClient = ApiClient();
+
+dynamic _$enumDecode<T>(Map<T, dynamic> enumValues, dynamic source, {
+        T unknownValue, bool allowsNull}) {
+    if (allowsNull == false && source == null) {
+        throw ArgumentError('A value must be provided. Supported values: ' '${enumValues.values.join(', ')}');
+    }
+
+    final value = enumValues.entries
+        .singleWhere((e) => e.value == source, orElse: () => null)
+        ?.key;
+
+    if (value == null && unknownValue == null) {
+        throw ArgumentError('`$source` is not one of the supported values: ${enumValues.values.join(', ')}');
+    }
+    return value ?? unknownValue;
+}
+
+Iterable<dynamic> _$enumsDecode<T>(Map<T, dynamic> enumValues, Iterable<dynamic> listOfEnums, {bool allowsNull}) {
+    if (allowsNull == false && listOfEnums == null) {
+        throw ArgumentError('A value must be provided. Supported values: ' '${enumValues.values.join(', ')}');
+    }
+
+    final values = enumValues.entries
+        .where((e) => listOfEnums.contains(e.value))
+        .takeWhile((e) => e != null)
+        .map((e) => e.key);
+
+    return values;
+}
+

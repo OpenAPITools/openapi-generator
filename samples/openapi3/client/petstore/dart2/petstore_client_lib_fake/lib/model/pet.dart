@@ -83,13 +83,13 @@ class Pet {
     ? null
     : Pet(
         id: json[r'id'],
-        category: Category.fromJson(json[r'category']),
+        category: _$enumDecode(_$CategoryEnumMap, json[r'category']),
         name: json[r'name'],
         photoUrls: json[r'photoUrls'] == null
           ? null
           : (json[r'photoUrls'] as List).cast<String>(),
         tags: Tag.listFromJson(json[r'tags']),
-        status: PetStatusEnum.fromJson(json[r'status']),
+        status: _$enumDecode(_$PetStatusEnum, json[r'status']),
     );
 
   static List<Pet> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
@@ -118,78 +118,16 @@ class Pet {
 }
 
 /// pet status in the store
-class PetStatusEnum {
-  /// Instantiate a new enum with the provided [value].
-  const PetStatusEnum._(this.value);
-
-  /// The underlying value of this enum member.
-  final String value;
-
-  @override
-  bool operator ==(Object other) => identical(this, other) ||
-      other is PetStatusEnum && other.value == value;
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() => value;
-
-  String toJson() => value;
-
-  static const available = PetStatusEnum._(r'available');
-  static const pending = PetStatusEnum._(r'pending');
-  static const sold = PetStatusEnum._(r'sold');
-
-  /// List of all possible values in this [enum][PetStatusEnum].
-  static const values = <PetStatusEnum>[
-    available,
-    pending,
-    sold,
-  ];
-
-  static PetStatusEnum fromJson(dynamic value) =>
-    PetStatusEnumTypeTransformer().decode(value);
-
-  static List<PetStatusEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <PetStatusEnum>[]
-      : json
-          .map((value) => PetStatusEnum.fromJson(value))
-          .toList(growable: true == growable);
+enum PetStatusEnum {
+        available,
+        pending,
+        sold,
 }
 
-/// Transformation class that can [encode] an instance of [PetStatusEnum] to String,
-/// and [decode] dynamic data back to [PetStatusEnum].
-class PetStatusEnumTypeTransformer {
-  const PetStatusEnumTypeTransformer._();
+const _$PetStatusEnum = <PetStatusEnum, dynamic>{
+        PetStatusEnum.available: 'available',
+        PetStatusEnum.pending: 'pending',
+        PetStatusEnum.sold: 'sold',
+};
 
-  factory PetStatusEnumTypeTransformer() => _instance ??= PetStatusEnumTypeTransformer._();
-
-  String encode(PetStatusEnum data) => data.value;
-
-  /// Decodes a [dynamic value][data] to a PetStatusEnum.
-  ///
-  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
-  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
-  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
-  ///
-  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
-  /// and users are still using an old app with the old code.
-  PetStatusEnum decode(dynamic data, {bool allowNull}) {
-    switch (data) {
-      case r'available': return PetStatusEnum.available;
-      case r'pending': return PetStatusEnum.pending;
-      case r'sold': return PetStatusEnum.sold;
-      default:
-        if (allowNull == false) {
-          throw ArgumentError('Unknown enum value to decode: $data');
-        }
-    }
-    return null;
-  }
-
-  /// Singleton [PetStatusEnumTypeTransformer] instance.
-  static PetStatusEnumTypeTransformer _instance;
-}
 

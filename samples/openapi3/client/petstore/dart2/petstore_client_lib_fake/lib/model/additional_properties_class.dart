@@ -51,7 +51,7 @@ class AdditionalPropertiesClass {
     : AdditionalPropertiesClass(
         mapProperty: json[r'map_property'] == null ?
           null :
-          (json[r'map_property'] as Map).cast<String, String>(),
+        (json[r'map_property'] as Map).cast<String, String>(),
         mapOfMapProperty: json[r'map_of_map_property'] == null
           ? null
           : Map.mapFromJson(json[r'map_of_map_property']),
