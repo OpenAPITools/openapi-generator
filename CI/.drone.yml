@@ -2,14 +2,6 @@ kind: pipeline
 name: default
 
 steps:
-# test crystal petstore
-- name: crystal-test
-  image: crystallang/crystal
-  commands:
-  - crystal version
-  - cd samples/client/petstore/crystal
-  - shards
-  - crystal spec
 # test protobuf schema generator
 - name: protobuf-schema-test
   image: nanoservice/protobuf-go
