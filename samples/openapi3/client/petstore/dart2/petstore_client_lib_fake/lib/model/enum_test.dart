@@ -101,10 +101,14 @@ class EnumTest {
         enumStringRequired: _$enumDecode(_$EnumTestEnumStringRequiredEnum, json[r'enum_string_required']),
         enumInteger: _$enumDecode(_$EnumTestEnumIntegerEnum, json[r'enum_integer']),
         enumNumber: _$enumDecode(_$EnumTestEnumNumberEnum, json[r'enum_number']),
-        outerEnum: _$enumDecode(_$OuterEnumEnumMap, json[r'outerEnum']),
-        outerEnumInteger: _$enumDecode(_$OuterEnumIntegerEnumMap, json[r'outerEnumInteger']),
-        outerEnumDefaultValue: _$enumDecode(_$OuterEnumDefaultValueEnumMap, json[r'outerEnumDefaultValue']),
-        outerEnumIntegerDefaultValue: _$enumDecode(_$OuterEnumIntegerDefaultValueEnumMap, json[r'outerEnumIntegerDefaultValue']),
+        not enum
+        outerEnum: OuterEnum.fromJson(json[r'outerEnum']),
+        not enum
+        outerEnumInteger: OuterEnumInteger.fromJson(json[r'outerEnumInteger']),
+        not enum
+        outerEnumDefaultValue: OuterEnumDefaultValue.fromJson(json[r'outerEnumDefaultValue']),
+        not enum
+        outerEnumIntegerDefaultValue: OuterEnumIntegerDefaultValue.fromJson(json[r'outerEnumIntegerDefaultValue']),
     );
 
   static List<EnumTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

@@ -41,7 +41,8 @@ class InlineResponseDefault {
   static InlineResponseDefault fromJson(Map<String, dynamic> json) => json == null
     ? null
     : InlineResponseDefault(
-        string: _$enumDecode(_$FooEnumMap, json[r'string']),
+        not enum
+        string: Foo.fromJson(json[r'string']),
     );
 
   static List<InlineResponseDefault> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

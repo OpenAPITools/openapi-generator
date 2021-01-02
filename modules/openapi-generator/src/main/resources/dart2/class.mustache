@@ -143,7 +143,14 @@ class {{{classname}}} {
         {{{name}}}: null, // No support for decoding binary content from JSON
             {{/isBinary}}
             {{^isBinary}}
+            {{#isEnum}}
+        enum
         {{{name}}}: _$enumDecode(_${{{complexType}}}EnumMap, json[r'{{{baseName}}}']),
+            {{/isEnum}}
+            {{^isEnum}}
+        not enum
+        {{{name}}}: {{{complexType}}}.fromJson(json[r'{{{baseName}}}']),
+            {{/isEnum}}
             {{/isBinary}}
         {{/isMap}}
       {{/isArray}}

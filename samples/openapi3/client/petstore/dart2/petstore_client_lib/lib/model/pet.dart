@@ -83,7 +83,8 @@ class Pet {
     ? null
     : Pet(
         id: json[r'id'],
-        category: _$enumDecode(_$CategoryEnumMap, json[r'category']),
+        not enum
+        category: Category.fromJson(json[r'category']),
         name: json[r'name'],
         photoUrls: json[r'photoUrls'] == null
           ? null
