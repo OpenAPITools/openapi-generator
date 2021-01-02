@@ -79,6 +79,16 @@ describe "PetApi" do
   describe "get_pet_by_id test" do
     it "should work" do
       # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
+      api_instance = Petstore::PetApi.new
+      # create a pet to start with
+      pet = Petstore::Pet.new()
+      result = api_instance.get_pet_by_id(pet_id: 29)
+      result.id.should eq 29
+      result.category.id.should eq 13
+      result.category.name.should eq "Cainine"
+      result.name.should eq "Wolf"
+      result.photo_urls.should eq ["http://pathtoimage1"]
+      result.status.should eq "available" 
     end
   end
 

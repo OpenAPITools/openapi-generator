@@ -16,13 +16,11 @@ module {{moduleName}}
 
     # Initializes the ApiClient
     # @option config [Configuration] Configuration for initializing the object, default to Configuration.default
-    def initialize(config = Configuration.default)
-      @config = config
+    def initialize(@config = Configuration.default)
       # TODO @user_agent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/#{VERSION}/crystal{{/httpUserAgent}}"
       @default_headers = {
-        #"Content-Type" => "application/json"
         #TODO: "User-Agent" => @user_agent
-      }
+      } of String  => String
     end
 
     def self.default
