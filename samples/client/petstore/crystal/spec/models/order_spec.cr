@@ -25,31 +25,31 @@ describe Petstore::Order do
   end
   describe "test attribute 'id'" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 
   describe "test attribute 'pet_id'" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 
   describe "test attribute 'quantity'" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 
   describe "test attribute 'ship_date'" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 
   describe "test attribute 'status'" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
       # validator = Petstore::EnumTest::EnumAttributeValidator.new("String", ["placed", "approved", "delivered"])
       # validator.allowable_values.each do |value|
       #   expect { instance.status = value }.not_to raise_error
@@ -59,7 +59,7 @@ describe Petstore::Order do
 
   describe "test attribute 'complete'" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 

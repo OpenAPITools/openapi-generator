@@ -19,19 +19,19 @@ describe Petstore::Tag do
 
   describe "test an instance of Tag" do
     it "should create an instance of Tag" do
-      instance = Petstore::Tag.new(id: 123, name: "tag 1")
+      #instance = Petstore::Tag.new
       #expect(instance).to be_instance_of(Petstore::Tag)
     end
   end
   describe "test attribute 'id'" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 
   describe "test attribute 'name'" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 

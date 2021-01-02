@@ -31,7 +31,7 @@ describe "UserApi" do
   # @return [nil]
   describe "create_user test" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 
@@ -42,7 +42,7 @@ describe "UserApi" do
   # @return [nil]
   describe "create_users_with_array_input test" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 
@@ -53,7 +53,7 @@ describe "UserApi" do
   # @return [nil]
   describe "create_users_with_list_input test" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 
@@ -65,7 +65,7 @@ describe "UserApi" do
   # @return [nil]
   describe "delete_user test" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 
@@ -76,7 +76,7 @@ describe "UserApi" do
   # @return [User]
   describe "get_user_by_name test" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 
@@ -88,7 +88,7 @@ describe "UserApi" do
   # @return [String]
   describe "login_user test" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 
@@ -98,7 +98,7 @@ describe "UserApi" do
   # @return [nil]
   describe "logout_user test" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 
@@ -111,7 +111,7 @@ describe "UserApi" do
   # @return [nil]
   describe "update_user test" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 

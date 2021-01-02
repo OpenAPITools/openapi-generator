@@ -31,7 +31,7 @@ describe "StoreApi" do
   # @return [nil]
   describe "delete_order test" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 
@@ -42,7 +42,7 @@ describe "StoreApi" do
   # @return [Hash(String, Int32)]
   describe "get_inventory test" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 
@@ -54,7 +54,7 @@ describe "StoreApi" do
   # @return [Order]
   describe "get_order_by_id test" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 
@@ -65,7 +65,7 @@ describe "StoreApi" do
   # @return [Order]
   describe "place_order test" do
     it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 
