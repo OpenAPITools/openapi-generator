@@ -63,7 +63,7 @@ addons:
 
 before_install:
   - git clone https://github.com/wing328/swagger-samples
-  - sudo mvn jetty:run -f swagger-samples/java/java-jersey-jaxrs-ci/pom.xml
+  - sudo ./mvnw jetty:run -f swagger-samples/java/java-jersey-jaxrs-ci/pom.xml &
   # install crystal
   - curl -sSL https://dist.crystal-lang.org/apt/setup.sh | sudo bash
   - curl -sL "https://keybase.io/crystal/pgp_keys.asc" | sudo apt-key add -
