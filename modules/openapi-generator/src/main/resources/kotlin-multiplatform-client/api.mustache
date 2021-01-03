@@ -64,7 +64,7 @@ public open class {{classname}} : ApiClientBase {
         {{! TODO: Optimize all the ?.let to only the places where it's needed }}
         val authNamesOag = listOf<String>({{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}})
 
-        val bodyOag = {{#hasBodyParam}}{{#bodyParam}}{{#isListContainer}}{{^required}}{{{paramName}}}?.let { {{/required}}{{operationIdCamelCase}}Request({{{paramName}}}{{^isList}}.asList(){{/isList}}){{^required}} }{{/required}}{{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}{{^required}}{{{paramName}}}?.let { {{/required}}{{operationIdCamelCase}}Request({{{paramName}}}){{^required}} }{{/required}}{{/isMapContainer}}{{^isMapContainer}}{{{paramName}}}{{/isMapContainer}}{{/isListContainer}}{{/bodyParam}}{{/hasBodyParam}}
+        val bodyOag = {{#hasBodyParam}}{{#bodyParam}}{{#isListContainer}}{{^required}}{{{paramName}}}?.let { {{/required}}{{operationIdCamelCase}}Request({{{paramName}}}{{^isList}}.asList(){{/isList}}){{^required}} }{{/required}}{{/isListContainer}}{{^isListContainer}}{{#isMap}}{{^required}}{{{paramName}}}?.let { {{/required}}{{operationIdCamelCase}}Request({{{paramName}}}){{^required}} }{{/required}}{{/isMap}}{{^isMap}}{{{paramName}}}{{/isMap}}{{/isListContainer}}{{/bodyParam}}{{/hasBodyParam}}
             {{^hasBodyParam}}
             {{#hasFormParams}}
             {{#isMultipart}}
@@ -90,12 +90,12 @@ public open class {{classname}} : ApiClientBase {
         val queriesOag = Queries {
             {{#queryParams}}
             {{#isContainer}}
-            {{#isMapContainer}}
+            {{#isMap}}
             {{^required}}if ({{{paramName}}} != null) {{/required}}addMap({{{paramName}}})
-            {{/isMapContainer}}
-            {{^isMapContainer}}
+            {{/isMap}}
+            {{^isMap}}
             {{^required}}if ({{{paramName}}} != null) {{/required}}addMulti("{{baseName}}", {{{paramName}}}, "{{collectionFormat}}")
-            {{/isMapContainer}}
+            {{/isMap}}
             {{/isContainer}}
             {{^isContainer}}
             add("{{baseName}}", {{{paramName}}})
@@ -120,20 +120,20 @@ public open class {{classname}} : ApiClientBase {
             configOag,
             bodyOag,
             authNamesOag
-        ).{{#isListContainer}}wrap<{{operationIdCamelCase}}Response>().map { value{{^isList}}.toTypedArray(){{/isList}} }{{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}wrap<{{operationIdCamelCase}}Response>().map { value }{{/isMapContainer}}{{^isMapContainer}}wrap(){{/isMapContainer}}{{/isListContainer}}
+        ).{{#isListContainer}}wrap<{{operationIdCamelCase}}Response>().map { value{{^isList}}.toTypedArray(){{/isList}} }{{/isListContainer}}{{^isListContainer}}{{#isMap}}wrap<{{operationIdCamelCase}}Response>().map { value }{{/isMap}}{{^isMap}}wrap(){{/isMap}}{{/isListContainer}}
     }
 {{#hasBodyParam}}
 
 {{#bodyParam}}
-{{#isListContainer}}{{>serial_wrapper_request_list}}{{/isListContainer}}{{#isMapContainer}}{{>serial_wrapper_request_map}}{{/isMapContainer}}
+{{#isListContainer}}{{>serial_wrapper_request_list}}{{/isListContainer}}{{#isMap}}{{>serial_wrapper_request_map}}{{/isMap}}
 {{/bodyParam}}
 {{/hasBodyParam}}
 {{#isListContainer}}
 {{>serial_wrapper_response_list}}
 {{/isListContainer}}
-{{#isMapContainer}}
+{{#isMap}}
 {{>serial_wrapper_response_map}}
-{{/isMapContainer}}
+{{/isMap}}
 {{/operation}}
 }
 {{/operations}}
