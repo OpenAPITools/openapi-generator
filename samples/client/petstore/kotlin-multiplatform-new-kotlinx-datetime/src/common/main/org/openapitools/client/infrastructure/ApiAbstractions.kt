@@ -46,9 +46,6 @@ public class Queries(public val queries: MutableMap<String, QueryParam> = mutabl
         addMulti(name, values.asIterable(), collectionFormat)
 
     // For Maps
-    public fun addMulti(name: String, values: Map<String, *>, collectionFormat: String): Unit =
-        queries.putAll(values.filterValues { it != null }.mapValues { QueryParam.Single(it.value.toString()) })
-
     public fun addMap(values: Map<String, *>): Unit =
         queries.putAll(values.filterValues { it != null }.mapValues { QueryParam.Single(it.value.toString()) })
 }

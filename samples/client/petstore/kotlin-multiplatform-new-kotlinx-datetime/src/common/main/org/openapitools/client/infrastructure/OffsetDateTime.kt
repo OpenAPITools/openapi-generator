@@ -10,39 +10,31 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
 /**
- * Represents a [LocalDateTime] and the respective [TimeZone] of it.
+ * Represents a [LocalDateTime] and the respective [ZoneOffset] of it.
  */
 @Serializable(with = OffsetDateTime.Companion::class)
-public data class OffsetDateTime(val dateTime: LocalDateTime, val timeZone: TimeZone) {
+public data class OffsetDateTime(val dateTime: LocalDateTime, val offset: ZoneOffset) {
     override fun toString(): String {
-        return if (timeZone == TimeZone.UTC) {
+        return if (offset.totalSeconds == 0) {
             "${dateTime}Z"
         } else {
-            "$dateTime$timeZone"
+            "$dateTime$offset"
         }
     }
 
     /**
-     * Converts the [OffsetDateTime] to an [Instant]. This looses the [TimeZone] information, because the date and time
+     * Converts the [OffsetDateTime] to an [Instant]. This looses the [ZoneOffset] information, because the date and time
      * is converted to UTC in the process.
      */
-    public fun toInstant(): Instant = dateTime.toInstant(timeZone)
-
-    /**
-     * Creates an [OffsetDateTime] from an [Instant] in a given [TimeZone] ([TimeZone.UTC] by default).
-     */
-    public fun fromInstant(instant: Instant, timeZone: TimeZone = TimeZone.UTC): OffsetDateTime = OffsetDateTime(
-        instant.toLocalDateTime(timeZone),
-        timeZone,
-    )
+    public fun toInstant(): Instant = dateTime.toInstant(offset)
 
     /**
      * Returns a new [OffsetDateTime] with the given [TimeZone].
      */
     public fun inTimeZone(newTimeZone: TimeZone): OffsetDateTime {
-        val instant = dateTime.toInstant(timeZone)
+        val instant = dateTime.toInstant(offset)
         val newDateTime = instant.toLocalDateTime(newTimeZone)
-        return OffsetDateTime(newDateTime, newTimeZone)
+        return OffsetDateTime(newDateTime, newTimeZone.offsetAt(instant))
     }
 
     /**
@@ -64,18 +56,32 @@ public data class OffsetDateTime(val dateTime: LocalDateTime, val timeZone: Time
         public fun parse(string: String): OffsetDateTime = when {
             string.contains('Z') -> OffsetDateTime(
                 LocalDateTime.parse(string.substringBefore('Z')),
-                TimeZone.UTC,
+                TimeZone.UTC.offsetAt(Instant.fromEpochMilliseconds(0)),
             )
             string.contains('z') -> OffsetDateTime(
                 LocalDateTime.parse(string.substringBefore('z')),
-                TimeZone.UTC,
+                TimeZone.UTC.offsetAt(Instant.fromEpochMilliseconds(0)),
             )
-            zoneRegex.matches(string) -> OffsetDateTime(
-                LocalDateTime.parse(string.substring(0, string.length - 6)),
-                TimeZone.of(string.substring(string.length - 6)),
-            )
+            zoneRegex.matches(string) -> {
+                val dateTime = LocalDateTime.parse(string.substring(0, string.length - 6))
+                val tz = TimeZone.of(string.substring(string.length - 6))
+                val instant = dateTime.toInstant(tz)
+                val offset = tz.offsetAt(instant)
+                OffsetDateTime(
+                    dateTime,
+                    offset,
+                )
+            }
             else -> throw IllegalArgumentException("Date \"$string\" is not RFC3339 compatible")
         }
+
+        /**
+         * Creates an [OffsetDateTime] from an [Instant] in a given [TimeZone] ([TimeZone.UTC] by default).
+         */
+        public fun fromInstant(instant: Instant, offset: TimeZone = TimeZone.UTC): OffsetDateTime = OffsetDateTime(
+            instant.toLocalDateTime(offset),
+            offset.offsetAt(instant),
+        )
 
         override fun deserialize(decoder: Decoder): OffsetDateTime {
             val string = decoder.decodeString()

@@ -1,6 +1,6 @@
 plugins {
-    kotlin("multiplatform") version "{{kotlinVersion}}"
-    kotlin("plugin.serialization") version "{{kotlinVersion}}"
+    kotlin("multiplatform"){{^subproject}} version "{{kotlinVersion}}"{{/subproject}}
+    kotlin("plugin.serialization"){{^subproject}} version "{{kotlinVersion}}"{{/subproject}}
     {{#androidEnabled}}
     id("com.android.application")
     id("kotlin-android-extensions")

@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **id** | **kotlin.Long** |  |  [optional]
 **petId** | **kotlin.Long** |  |  [optional]
 **quantity** | **kotlin.Int** |  |  [optional]
-**shipDate** | [**kotlinx.datetime.LocalDateTime**](kotlinx.datetime.LocalDateTime.md) |  |  [optional]
+**shipDate** | [**org.openapitools.client.infrastructure.OffsetDateTime**](org.openapitools.client.infrastructure.OffsetDateTime.md) |  |  [optional]
 **status** | [**inline**](#StatusEnum) | Order Status |  [optional]
 **complete** | **kotlin.Boolean** |  |  [optional]
 

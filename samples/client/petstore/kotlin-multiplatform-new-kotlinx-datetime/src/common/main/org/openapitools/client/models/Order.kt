@@ -43,7 +43,7 @@ public data class Order(
     @SerialName(value = "quantity")
     val quantity: kotlin.Int? = null,
     @SerialName(value = "shipDate")
-    val shipDate: kotlinx.datetime.LocalDateTime? = null,
+    val shipDate: org.openapitools.client.infrastructure.OffsetDateTime? = null,
     /**
      * Order Status
      */
