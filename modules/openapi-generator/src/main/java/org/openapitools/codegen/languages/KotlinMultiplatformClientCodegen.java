@@ -436,6 +436,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
                 importMapping.put("LocalDateTime", "kotlin.String");
                 importMapping.put("LocalDate", "kotlin.String");
                 importMapping.put("LocalTime", "kotlin.String");
+                break;
             }
             case KOTLINX: {
                 typeMapping.put("date-time", "LocalDateTime");
@@ -449,6 +450,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
                 defaultIncludes.add("kotlinx.datetime.Instant");
                 defaultIncludes.add("kotlinx.datetime.LocalDateTime");
                 defaultIncludes.add("kotlinx.datetime.LocalDate");
+                break;
             }
         }
     }
