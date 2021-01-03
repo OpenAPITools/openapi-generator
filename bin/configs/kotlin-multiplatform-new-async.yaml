@@ -8,5 +8,6 @@ jvmEnabled: true
 jvmAsync: jdk8
 androidEnabled: true
 androidAsync: jdk8
+dateLibrary: string
 additionalProperties:
   hideGenerationTimestamp: "true"

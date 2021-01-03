@@ -117,7 +117,17 @@ public open class StoreApi : ApiClientBase {
             configOag,
             bodyOag,
             authNamesOag
-        ).wrap()
+        ).wrap<GetInventoryResponse>().map { value }
+    }
+    @Serializable
+    private class GetInventoryResponse(val value: Map<kotlin.String, kotlin.Int>) {
+        @Serializer(GetInventoryResponse::class)
+        companion object : KSerializer<GetInventoryResponse> {
+            private val serializer: KSerializer<Map<kotlin.String, kotlin.Int>> = (kotlin.String.serializer() to kotlin.Int.serializer()).map
+                override val descriptor = PrimitiveDescriptor("GetInventoryResponse", PrimitiveKind.STRING)
+                override fun serialize(encoder: Encoder, value: GetInventoryResponse) = serializer.serialize(encoder, value.value)
+                override fun deserialize(decoder: Decoder) = GetInventoryResponse(serializer.deserialize(decoder))
+        }
     }
     /**
      * Find purchase order by ID

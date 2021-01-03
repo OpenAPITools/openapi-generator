@@ -12,14 +12,14 @@ import org.openapitools.client.apis.*
 import org.openapitools.client.infrastructure.ApiClientBase
 
 @Suppress("RemoveRedundantBackticks", "MemberVisibilityCanBePrivate", "unused")
-public class ApiClientAsync(
+public open class ApiClientAsync(
     baseUrl: String = "http://petstore.swagger.io/v2",
     httpClientEngine: HttpClientEngine? = null,
     json: Json = Json {},
     coroutineScope: CoroutineScope = GlobalScope,
 ) {
-    private val serializer = KotlinxSerializer(json)
-    private val client: HttpClient
+    protected val serializer = KotlinxSerializer(json)
+    protected val client: HttpClient
 
     init {
         val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = this@ApiClientAsync.serializer }

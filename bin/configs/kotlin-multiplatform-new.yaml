@@ -9,5 +9,6 @@ jvmAsync: none
 androidEnabled: true
 iosEnabled: true
 nativeEnabled: true
+dateLibrary: string
 additionalProperties:
   hideGenerationTimestamp: "true"
