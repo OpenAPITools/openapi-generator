@@ -68,7 +68,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
             public static final boolean JS_NODE = false;
 
             // Other options
-            public static final DateLibrary DATE_LIBRARY = DateLibrary.STRING;
+            public static final DateLibrary DATE_LIBRARY = DateLibrary.KOTLINX;
             public static final boolean SUBPROJECT = false;
         }
 
