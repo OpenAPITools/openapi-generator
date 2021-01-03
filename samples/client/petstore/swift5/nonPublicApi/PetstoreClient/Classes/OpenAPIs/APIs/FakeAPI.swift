@@ -244,7 +244,7 @@ internal class FakeAPI {
 
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "query": query.encodeToJSON()
+            "query": query.encodeToJSON(),
         ])
 
         let nillableHeaders: [String: Any?] = [
@@ -372,7 +372,7 @@ internal class FakeAPI {
             "date": date?.encodeToJSON(),
             "dateTime": dateTime?.encodeToJSON(),
             "password": password?.encodeToJSON(),
-            "callback": callback?.encodeToJSON()
+            "callback": callback?.encodeToJSON(),
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
@@ -381,7 +381,7 @@ internal class FakeAPI {
         let url = URLComponents(string: URLString)
 
         let nillableHeaders: [String: Any?] = [
-            "Content-Type": "application/x-www-form-urlencoded"
+            "Content-Type": "application/x-www-form-urlencoded",
         ]
 
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
@@ -502,7 +502,7 @@ internal class FakeAPI {
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String: Any?] = [
             "enum_form_string_array": enumFormStringArray?.encodeToJSON(),
-            "enum_form_string": enumFormString?.encodeToJSON()
+            "enum_form_string": enumFormString?.encodeToJSON(),
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
@@ -513,13 +513,13 @@ internal class FakeAPI {
             "enum_query_string_array": enumQueryStringArray?.encodeToJSON(),
             "enum_query_string": enumQueryString?.encodeToJSON(),
             "enum_query_integer": enumQueryInteger?.encodeToJSON(),
-            "enum_query_double": enumQueryDouble?.encodeToJSON()
+            "enum_query_double": enumQueryDouble?.encodeToJSON(),
         ])
 
         let nillableHeaders: [String: Any?] = [
             "Content-Type": "application/x-www-form-urlencoded",
             "enum_header_string_array": enumHeaderStringArray?.encodeToJSON(),
-            "enum_header_string": enumHeaderString?.encodeToJSON()
+            "enum_header_string": enumHeaderString?.encodeToJSON(),
         ]
 
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
@@ -574,12 +574,12 @@ internal class FakeAPI {
             "required_string_group": requiredStringGroup.encodeToJSON(),
             "required_int64_group": requiredInt64Group.encodeToJSON(),
             "string_group": stringGroup?.encodeToJSON(),
-            "int64_group": int64Group?.encodeToJSON()
+            "int64_group": int64Group?.encodeToJSON(),
         ])
 
         let nillableHeaders: [String: Any?] = [
             "required_boolean_group": requiredBooleanGroup.encodeToJSON(),
-            "boolean_group": booleanGroup?.encodeToJSON()
+            "boolean_group": booleanGroup?.encodeToJSON(),
         ]
 
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
@@ -662,7 +662,7 @@ internal class FakeAPI {
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String: Any?] = [
             "param": param.encodeToJSON(),
-            "param2": param2.encodeToJSON()
+            "param2": param2.encodeToJSON(),
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
@@ -671,7 +671,7 @@ internal class FakeAPI {
         let url = URLComponents(string: URLString)
 
         let nillableHeaders: [String: Any?] = [
-            "Content-Type": "application/x-www-form-urlencoded"
+            "Content-Type": "application/x-www-form-urlencoded",
         ]
 
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)

@@ -62,7 +62,7 @@ open class StoreAPI {
      Returns pet inventories by status
      
      - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - returns: AnyPublisher<[String:Int], Error>
+     - returns: AnyPublisher<[String: Int], Error>
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<[String: Int], Error> {
@@ -85,7 +85,7 @@ open class StoreAPI {
      - API Key:
        - type: apiKey api_key 
        - name: api_key
-     - returns: RequestBuilder<[String:Int]> 
+     - returns: RequestBuilder<[String: Int]> 
      */
     open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String: Int]> {
         let path = "/store/inventory"

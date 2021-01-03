@@ -61,7 +61,7 @@ open class StoreAPI {
      Returns pet inventories by status
      
      - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - returns: Promise<[String:Int]>
+     - returns: Promise<[String: Int]>
      */
     open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<[String: Int]> {
         let deferred = Promise<[String: Int]>.pending()
@@ -83,7 +83,7 @@ open class StoreAPI {
      - API Key:
        - type: apiKey api_key 
        - name: api_key
-     - returns: RequestBuilder<[String:Int]> 
+     - returns: RequestBuilder<[String: Int]> 
      */
     open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String: Int]> {
         let path = "/store/inventory"

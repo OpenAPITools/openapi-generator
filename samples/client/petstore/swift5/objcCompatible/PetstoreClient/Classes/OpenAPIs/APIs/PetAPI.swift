@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc open class PetAPI: NSObject {
+@objc open class PetAPI : NSObject {
     /**
      Add a new pet to the store
      
@@ -93,7 +93,7 @@ import Foundation
         let url = URLComponents(string: URLString)
 
         let nillableHeaders: [String: Any?] = [
-            "api_key": apiKey?.encodeToJSON()
+            "api_key": apiKey?.encodeToJSON(),
         ]
 
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
@@ -147,7 +147,7 @@ import Foundation
 
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "status": status.encodeToJSON()
+            "status": status.encodeToJSON(),
         ])
 
         let nillableHeaders: [String: Any?] = [
@@ -198,7 +198,7 @@ import Foundation
 
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "tags": tags.encodeToJSON()
+            "tags": tags.encodeToJSON(),
         ])
 
         let nillableHeaders: [String: Any?] = [
@@ -345,7 +345,7 @@ import Foundation
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String: Any?] = [
             "name": name?.encodeToJSON(),
-            "status": status?.encodeToJSON()
+            "status": status?.encodeToJSON(),
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
@@ -354,7 +354,7 @@ import Foundation
         let url = URLComponents(string: URLString)
 
         let nillableHeaders: [String: Any?] = [
-            "Content-Type": "application/x-www-form-urlencoded"
+            "Content-Type": "application/x-www-form-urlencoded",
         ]
 
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
@@ -403,7 +403,7 @@ import Foundation
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String: Any?] = [
             "additionalMetadata": additionalMetadata?.encodeToJSON(),
-            "file": file?.encodeToJSON()
+            "file": file?.encodeToJSON(),
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
@@ -412,7 +412,7 @@ import Foundation
         let url = URLComponents(string: URLString)
 
         let nillableHeaders: [String: Any?] = [
-            "Content-Type": "multipart/form-data"
+            "Content-Type": "multipart/form-data",
         ]
 
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
@@ -461,7 +461,7 @@ import Foundation
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String: Any?] = [
             "additionalMetadata": additionalMetadata?.encodeToJSON(),
-            "requiredFile": requiredFile.encodeToJSON()
+            "requiredFile": requiredFile.encodeToJSON(),
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
@@ -470,7 +470,7 @@ import Foundation
         let url = URLComponents(string: URLString)
 
         let nillableHeaders: [String: Any?] = [
-            "Content-Type": "multipart/form-data"
+            "Content-Type": "multipart/form-data",
         ]
 
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)

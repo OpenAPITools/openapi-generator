@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc open class StoreAPI: NSObject {
+@objc open class StoreAPI : NSObject {
     /**
      Delete purchase order by ID
      
@@ -78,7 +78,7 @@ import Foundation
      - API Key:
        - type: apiKey api_key 
        - name: api_key
-     - returns: RequestBuilder<[String:Int]> 
+     - returns: RequestBuilder<[String: Int]> 
      */
     open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String: Int]> {
         let path = "/store/inventory"

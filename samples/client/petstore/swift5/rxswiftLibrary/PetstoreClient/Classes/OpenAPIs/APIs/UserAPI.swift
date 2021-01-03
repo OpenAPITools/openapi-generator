@@ -286,7 +286,7 @@ open class UserAPI {
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
             "username": username.encodeToJSON(),
-            "password": password.encodeToJSON()
+            "password": password.encodeToJSON(),
         ])
 
         let nillableHeaders: [String: Any?] = [
