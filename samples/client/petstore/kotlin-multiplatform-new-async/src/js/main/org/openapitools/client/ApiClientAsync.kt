@@ -18,7 +18,7 @@ public open class ApiClientAsync(
     json: Json = Json {},
     coroutineScope: CoroutineScope = GlobalScope,
 ) {
-    protected val serializer: KotlinxSerializer = KotlinxSerializer(json)
+    protected val serializer = KotlinxSerializer(json)
     protected val client: HttpClient
 
     init {

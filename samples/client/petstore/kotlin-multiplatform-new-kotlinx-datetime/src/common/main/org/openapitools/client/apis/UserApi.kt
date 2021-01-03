@@ -87,6 +87,7 @@ public open class UserApi : ApiClientBase {
         ).wrap()
     }
 
+
     /**
      * Creates list of users with given input array
      * 
@@ -94,7 +95,7 @@ public open class UserApi : ApiClientBase {
      * @return void
      */
     public suspend fun createUsersWithArrayInput(
-        body: kotlin.collections.List<User>,
+        body: kotlin.Array<User>,
     ): HttpResponse<Unit> {
         val authNamesOag = listOf<String>()
 
@@ -120,6 +121,7 @@ public open class UserApi : ApiClientBase {
         ).wrap()
     }
 
+
     /**
      * Creates list of users with given input array
      * 
@@ -127,7 +129,7 @@ public open class UserApi : ApiClientBase {
      * @return void
      */
     public suspend fun createUsersWithListInput(
-        body: kotlin.collections.List<User>,
+        body: kotlin.Array<User>,
     ): HttpResponse<Unit> {
         val authNamesOag = listOf<String>()
 
@@ -152,6 +154,7 @@ public open class UserApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
 
     /**
      * Delete user
@@ -186,7 +189,6 @@ public open class UserApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
-
     /**
      * Get user by user name
      * 
@@ -221,7 +223,6 @@ public open class UserApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
-
     /**
      * Logs user into the system
      * 
@@ -260,7 +261,6 @@ public open class UserApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
-
     /**
      * Logs out current logged in user session
      * 
@@ -292,7 +292,6 @@ public open class UserApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
-
     /**
      * Updated user
      * This can only be done by the logged in user.
@@ -327,5 +326,6 @@ public open class UserApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
 
 }

@@ -88,11 +88,11 @@ public open class PetApiAsync : PetApi {
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter 
-     * @return kotlin.collections.List<Pet>
+     * @return kotlin.Array<Pet>
      */
     public fun findPetsByStatusAsync(
-        status: kotlin.collections.List<kotlin.String>,
-    ): Promise<HttpResponse<kotlin.collections.List<Pet>>> {
+        status: kotlin.Array<kotlin.String>,
+    ): Promise<HttpResponse<kotlin.Array<Pet>>> {
         return coroutineScope.promise {
             findPetsByStatus(
                 status = status,
@@ -103,11 +103,11 @@ public open class PetApiAsync : PetApi {
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by 
-     * @return kotlin.collections.List<Pet>
+     * @return kotlin.Array<Pet>
      */
     public fun findPetsByTagsAsync(
-        tags: kotlin.collections.List<kotlin.String>,
-    ): Promise<HttpResponse<kotlin.collections.List<Pet>>> {
+        tags: kotlin.Array<kotlin.String>,
+    ): Promise<HttpResponse<kotlin.Array<Pet>>> {
         return coroutineScope.promise {
             findPetsByTags(
                 tags = tags,

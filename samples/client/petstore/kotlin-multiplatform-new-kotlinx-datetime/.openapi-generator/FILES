@@ -30,7 +30,6 @@ src/common/main/org/openapitools/client/infrastructure/Bytes.kt
 src/common/main/org/openapitools/client/infrastructure/DateTime.kt
 src/common/main/org/openapitools/client/infrastructure/HttpResponse.kt
 src/common/main/org/openapitools/client/infrastructure/OctetByteArray.kt
-src/common/main/org/openapitools/client/infrastructure/OffsetDateTime.kt
 src/common/main/org/openapitools/client/infrastructure/RequestConfig.kt
 src/common/main/org/openapitools/client/infrastructure/RequestMethod.kt
 src/common/main/org/openapitools/client/models/ApiResponse.kt
