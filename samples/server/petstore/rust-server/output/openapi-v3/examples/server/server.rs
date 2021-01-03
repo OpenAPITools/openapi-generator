@@ -7,6 +7,7 @@ use futures::{future, Stream, StreamExt, TryFutureExt, TryStreamExt};
 use hyper::server::conn::Http;
 use hyper::service::Service;
 use log::info;
+#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
 use openssl::ssl::SslAcceptorBuilder;
 use std::future::Future;
 use std::marker::PhantomData;
@@ -23,7 +24,6 @@ use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 
 use openapi_v3::models;
 
-#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
 /// Builds an SSL implementation for Simple HTTPS from some hard-coded file names
 pub async fn create(addr: &str, https: bool) {
     let addr = addr.parse().expect("Failed to parse bind address");

@@ -21,7 +21,8 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
     private static final String[] optionExcludes = new String[]{
             CodegenConstants.PARCELIZE_MODELS,
             CodegenConstants.SERIALIZABLE_MODEL,
-            CodegenConstants.SERIALIZATION_LIBRARY
+            CodegenConstants.SERIALIZATION_LIBRARY,
+            CodegenConstants.NON_PUBLIC_API,
     };
 
     public static final class Options {
@@ -45,11 +46,11 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
 
         public static final class Defaults {
             // Versions
-            public static final String KOTLIN_VERSION = "1.4.10";
-            public static final String KTOR_VERSION = "1.4.0";
-            public static final String GRADLE_VERSION = "6.6.1";
-            public static final String ANDROID_GRADLE_VERSION = "4.0.1";
-            public static final String KOTLINX_DATETIME_VERSION = "0.1.0";
+            public static final String KOTLIN_VERSION = "1.4.21";
+            public static final String KTOR_VERSION = "1.4.1";
+            public static final String GRADLE_VERSION = "6.7.1";
+            public static final String ANDROID_GRADLE_VERSION = "4.1.0";
+            public static final String KOTLINX_DATETIME_VERSION = "0.1.1";
 
             // Platforms specific options
             // Default choices: https://www.jetbrains.com/lp/devecosystem-2020/kotlin/
@@ -67,7 +68,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
             public static final boolean JS_NODE = false;
 
             // Other options
-            public static final DateLibrary DATE_LIBRARY = DateLibrary.STRING;
+            public static final DateLibrary DATE_LIBRARY = DateLibrary.KOTLINX;
             public static final boolean SUBPROJECT = false;
         }
 
@@ -328,14 +329,31 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         boolean iosEnabled = platformOption(Options.Platform.IOS, Options.Defaults.IOS_ENABLED);
         boolean nativeEnabled = platformOption(Options.Platform.NATIVE, Options.Defaults.NATIVE_ENABLED);
 
-        Options.JavaAsync jvmAsync = Options.JavaAsync.fromName(stringOption(Options.JVM_ASYNC, Options.Defaults.JVM_ASYNC.value));
+        Options.JavaAsync jvmAsync;
+        if (jvmEnabled) {
+            jvmAsync = Options.JavaAsync.fromName(stringOption(Options.JVM_ASYNC, Options.Defaults.JVM_ASYNC.value));
+        } else {
+            jvmAsync = Options.JavaAsync.NONE;
+        }
         setJvmAsync(jvmAsync);
 
-        Options.JavaAsync androidAsync = Options.JavaAsync.fromName(stringOption(Options.ANDROID_ASYNC, Options.Defaults.ANDROID_ASYNC.value));
+        Options.JavaAsync androidAsync;
+        if (androidEnabled) {
+            androidAsync = Options.JavaAsync.fromName(stringOption(Options.ANDROID_ASYNC, Options.Defaults.ANDROID_ASYNC.value));
+        } else {
+            androidAsync = Options.JavaAsync.NONE;
+        }
         setAndroidAsync(androidAsync);
 
-        Options.JsAsync jsAsync = Options.JsAsync.fromName(stringOption(Options.JS_ASYNC, Options.Defaults.JS_ASYNC.value));
+        Options.JsAsync jsAsync;
+        if (jsEnabled) {
+            jsAsync = Options.JsAsync.fromName(stringOption(Options.JS_ASYNC, Options.Defaults.JS_ASYNC.value));
+        } else {
+            jsAsync = Options.JsAsync.NONE;
+        }
         setJsAsync(jsAsync);
+
+        additionalProperties.put("anyAsync", jvmAsync != Options.JavaAsync.NONE || androidAsync != Options.JavaAsync.NONE || jsAsync != Options.JsAsync.NONE);
 
         boolean jsBrowser = booleanOption(Options.JS_BROWSER, Options.Defaults.JS_BROWSER);
         boolean jsNode = booleanOption(Options.JS_NODE, Options.Defaults.JS_NODE);
@@ -354,11 +372,16 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         }
 
         final String srcDir = sourceFolder + File.separator + packageName.replace(".", File.separator);
+        final String jsSrcDir = "src/js/main" + File.separator + packageName.replace(".", File.separator);
 
         // Infra
         final String infraDest = srcDir + File.separator + "infrastructure";
         final String infraSrc = "common/main/infrastructure/";
         supportingFiles.add(new SupportingFile("ApiClient.kt.mustache", srcDir, "ApiClient.kt"));
+        if (jsAsync != Options.JsAsync.NONE) {
+            apiTemplateFiles.put("js/main/api-async.mustache", ".kt");
+            supportingFiles.add(new SupportingFile("js/main/ApiClientAsync.kt.mustache", jsSrcDir, "ApiClientAsync.kt"));
+        }
         supportingFiles.add(new SupportingFile(infraSrc + "ApiClientBase.kt.mustache", infraDest, "ApiClientBase.kt"));
         supportingFiles.add(new SupportingFile(infraSrc + "ApiAbstractions.kt.mustache", infraDest, "ApiAbstractions.kt"));
         supportingFiles.add(new SupportingFile(infraSrc + "RequestConfig.kt.mustache", infraDest, "RequestConfig.kt"));
@@ -368,7 +391,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile(infraSrc + "HttpResponse.kt.mustache", infraDest, "HttpResponse.kt"));
         supportingFiles.add(new SupportingFile(infraSrc + "OctetByteArray.kt.mustache", infraDest, "OctetByteArray.kt"));
         if (dateLibrary == Options.DateLibrary.KOTLINX) {
-            supportingFiles.add(new SupportingFile(infraSrc + "dateTime.kt.mustache", infraDest, "dateTime.kt"));
+            supportingFiles.add(new SupportingFile(infraSrc + "DateTime.kt.mustache", infraDest, "DateTime.kt"));
         }
 
         // Auth
@@ -391,10 +414,11 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         typeMapping.put("file", "OctetByteArray");
         typeMapping.put("binary", "OctetByteArray");
         typeMapping.put("ByteArray", "Base64ByteArray");
-        typeMapping.put("object", "kotlin.String");  // kotlin.Any not serializable
-        typeMapping.put("array", "kotlin.collections.List"); // prefer lists to arrays
+        typeMapping.put("object", "kotlinx.serialization.json.JsonObject");
+        typeMapping.put("AnyType", "kotlinx.serialization.json.JsonElement");
+        typeMapping.put("array", "kotlin.collections.List"); // Prefer lists to arrays
 
-        instantiationTypes.put("array", "kotlin.collections.ArrayList"); // prefer lists to arrays
+        instantiationTypes.put("array", "kotlin.collections.ArrayList"); // Prefer lists to arrays
 
         // Multiplatform import mapping
         importMapping.put("BigDecimal", "kotlin.Double");
@@ -416,6 +440,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
                 importMapping.put("LocalDateTime", "kotlin.String");
                 importMapping.put("LocalDate", "kotlin.String");
                 importMapping.put("LocalTime", "kotlin.String");
+                break;
             }
             case KOTLINX: {
                 typeMapping.put("date-time", "LocalDateTime");
@@ -429,8 +454,18 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
                 defaultIncludes.add("kotlinx.datetime.Instant");
                 defaultIncludes.add("kotlinx.datetime.LocalDateTime");
                 defaultIncludes.add("kotlinx.datetime.LocalDate");
+                break;
             }
         }
+    }
+
+    @Override
+    public String apiFilename(String templateName, String tag) {
+        if (templateName.equals("js/main/api-async.mustache")) {
+            String suffix = apiTemplateFiles().get(templateName);
+            return outputFolder + "/src/js/main/" + packageName.replace('.', '/') + "/apis/" + toApiFilename(tag) + "Async" + suffix;
+        }
+        return super.apiFilename(templateName, tag);
     }
 
     @Override
@@ -499,24 +534,17 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
 
     public boolean platformOption(Options.Platform platform, boolean defaultValue) {
         String option = platform.value + "Enabled";
-        if (additionalProperties.containsKey(option)) {
-            return (boolean) additionalProperties.get(option);
-        }
-        additionalProperties.put(option, defaultValue);
-        return defaultValue;
+        return booleanOption(option, defaultValue);
     }
 
     private String stringOption(String option, String defaultValue) {
-        if (additionalProperties.containsKey(option)) {
-            return (String) additionalProperties.get(option);
-        }
-        additionalProperties.put(option, defaultValue);
-        return defaultValue;
+        String value = (String) additionalProperties.putIfAbsent(option, defaultValue);
+        return value != null ? value : defaultValue;
     }
 
     private boolean booleanOption(String option, boolean defaultValue) {
         if (additionalProperties.containsKey(option)) {
-            return (boolean) additionalProperties.get(option);
+            return convertPropertyToBooleanAndWriteBack(option);
         }
         additionalProperties.put(option, defaultValue);
         return defaultValue;

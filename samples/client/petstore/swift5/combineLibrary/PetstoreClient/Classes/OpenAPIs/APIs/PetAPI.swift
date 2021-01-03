@@ -18,13 +18,13 @@ open class PetAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func addPet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        return Future<Void, Error>.init { promisse in
+        return Future<Void, Error>.init { promise in
             addPetWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
-                    promisse(.success(()))
+                    promise(.success(()))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -61,13 +61,13 @@ open class PetAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deletePet(petId: Int64, apiKey: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        return Future<Void, Error>.init { promisse in
+        return Future<Void, Error>.init { promise in
             deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
-                    promisse(.success(()))
+                    promise(.success(()))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -120,13 +120,13 @@ open class PetAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func findPetsByStatus(status: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<[Pet], Error> {
-        return Future<[Pet], Error>.init { promisse in
+        return Future<[Pet], Error>.init { promise in
             findPetsByStatusWithRequestBuilder(status: status).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
-                    promisse(.success(response.body!))
+                    promise(.success(response.body!))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -167,13 +167,13 @@ open class PetAPI {
     @available(*, deprecated, message: "This operation is deprecated.")
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func findPetsByTags(tags: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<[Pet], Error> {
-        return Future<[Pet], Error>.init { promisse in
+        return Future<[Pet], Error>.init { promise in
             findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
-                    promisse(.success(response.body!))
+                    promise(.success(response.body!))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -214,13 +214,13 @@ open class PetAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getPetById(petId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Pet, Error> {
-        return Future<Pet, Error>.init { promisse in
+        return Future<Pet, Error>.init { promise in
             getPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
-                    promisse(.success(response.body!))
+                    promise(.success(response.body!))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -260,13 +260,13 @@ open class PetAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updatePet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        return Future<Void, Error>.init { promisse in
+        return Future<Void, Error>.init { promise in
             updatePetWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
-                    promisse(.success(()))
+                    promise(.success(()))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -304,13 +304,13 @@ open class PetAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        return Future<Void, Error>.init { promisse in
+        return Future<Void, Error>.init { promise in
             updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
-                    promisse(.success(()))
+                    promise(.success(()))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -359,13 +359,13 @@ open class PetAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<ApiResponse, Error> {
-        return Future<ApiResponse, Error>.init { promisse in
+        return Future<ApiResponse, Error>.init { promise in
             uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
-                    promisse(.success(response.body!))
+                    promise(.success(response.body!))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -414,13 +414,13 @@ open class PetAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<ApiResponse, Error> {
-        return Future<ApiResponse, Error>.init { promisse in
+        return Future<ApiResponse, Error>.init { promise in
             uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
-                    promisse(.success(response.body!))
+                    promise(.success(response.body!))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()

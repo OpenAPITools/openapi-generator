@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -59,7 +60,7 @@ namespace Org.OpenAPITools.Model
         /// file to upload
         /// </summary>
         /// <value>file to upload</value>
-        [DataMember(Name = "requiredFile", EmitDefaultValue = false)]
+        [DataMember(Name = "requiredFile", IsRequired = true, EmitDefaultValue = false)]
         public System.IO.Stream RequiredFile { get; set; }
 
         /// <summary>
@@ -82,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>

@@ -6,7 +6,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 namespace Org.OpenAPITools.Filters
 {
     /// <summary>
-    /// BasePath Document Filter sets BasePath property of Swagger and removes it from the individual URL paths
+    /// BasePath Document Filter sets BasePath property of OpenAPI and removes it from the individual URL paths
     /// </summary>
     public class BasePathFilter : IDocumentFilter
     {
@@ -20,29 +20,29 @@ namespace Org.OpenAPITools.Filters
         }
 
         /// <summary>
-        /// Gets the BasePath of the Swagger Doc
+        /// Gets the BasePath of the OpenAPI Doc
         /// </summary>
-        /// <returns>The BasePath of the Swagger Doc</returns>
+        /// <returns>The BasePath of the OpenAPI Doc</returns>
         public string BasePath { get; }
 
         /// <summary>
         /// Apply the filter
         /// </summary>
-        /// <param name="swaggerDoc">OpenApiDocument</param>
+        /// <param name="openapiDoc">OpenApiDocument</param>
         /// <param name="context">FilterContext</param>
-        public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+        public void Apply(OpenApiDocument openapiDoc, DocumentFilterContext context)
         {
-            //swaggerDoc.BasePath = BasePath;
+            //openapiDoc.BasePath = BasePath;
 
-            var pathsToModify = swaggerDoc.Paths.Where(p => p.Key.StartsWith(BasePath)).ToList();
+            var pathsToModify = openapiDoc.Paths.Where(p => p.Key.StartsWith(BasePath)).ToList();
 
             foreach (var (key, value) in pathsToModify)
             {
                 if (key.StartsWith(BasePath))
                 {
                     var newKey = Regex.Replace(key, $"^{BasePath}", string.Empty);
-                    swaggerDoc.Paths.Remove(key);
-                    swaggerDoc.Paths.Add(newKey, value);
+                    openapiDoc.Paths.Remove(key);
+                    openapiDoc.Paths.Add(newKey, value);
                 }
             }
         }

@@ -1,16 +1,17 @@
 # OpenAPI\Client\FakeClassnameTags123Api
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to http://petstore.swagger.io:80/v2.
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**testClassname**](FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
+[**testClassname()**](FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 
 
+## `testClassname()`
 
-## testClassname
-
-> \OpenAPI\Client\Model\Client testClassname($client)
+```php
+testClassname($client): \OpenAPI\Client\Model\Client
+```
 
 To test class name in snake case
 
@@ -43,11 +44,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling FakeClassnameTags123Api->testClassname: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -63,10 +62,9 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
-- **Accept**: application/json
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
-

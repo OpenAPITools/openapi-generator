@@ -35,9 +35,11 @@ lib/openapi_petstore/model/dog_all_of.ex
 lib/openapi_petstore/model/enum_arrays.ex
 lib/openapi_petstore/model/enum_class.ex
 lib/openapi_petstore/model/enum_test.ex
+lib/openapi_petstore/model/file.ex
 lib/openapi_petstore/model/file_schema_test_class.ex
 lib/openapi_petstore/model/format_test.ex
 lib/openapi_petstore/model/has_only_read_only.ex
+lib/openapi_petstore/model/list.ex
 lib/openapi_petstore/model/map_test.ex
 lib/openapi_petstore/model/mixed_properties_and_additional_properties_class.ex
 lib/openapi_petstore/model/model_200_response.ex

@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -23,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * Model for testing reserved words
@@ -31,7 +35,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   ModelReturn.JSON_PROPERTY_RETURN
 })
-@JsonTypeName("Return")
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelReturn {
   public static final String JSON_PROPERTY_RETURN = "return";
@@ -39,7 +42,6 @@ public class ModelReturn {
 
 
   public ModelReturn _return(Integer _return) {
-    
     this._return = _return;
     return this;
   }
@@ -63,6 +65,9 @@ public class ModelReturn {
   }
 
 
+  /**
+   * Return true if this Return object is equal to o.
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -79,7 +84,6 @@ public class ModelReturn {
   public int hashCode() {
     return Objects.hash(_return);
   }
-
 
   @Override
   public String toString() {

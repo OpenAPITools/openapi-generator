@@ -1,6 +1,14 @@
 {{>partial_header}}
 #region Import functions
 
+# define the following classes in PowerShell
+try {
+    Add-Type -AssemblyName System.Web -ErrorAction Ignore | Out-Null
+    Add-Type -AssemblyName System.Net -ErrorAction Ignore | Out-Null
+} catch {
+    Write-Verbose $_
+}
+
 # set $ErrorActionPreference to 'Stop' globally
 $ErrorActionPreference = 'Stop'
 

@@ -17,15 +17,15 @@ import public "models/tag.proto";
 
 message Pet {
 
-  int64 id = 1;
+  int64 id = 3355;
 
-  Category category = 2;
+  Category category = 50511102;
 
-  string name = 3;
+  string name = 3373707;
 
-  repeated string photoUrls = 4;
+  repeated string photoUrls = 311086539;
 
-  repeated Tag tags = 5;
+  repeated Tag tags = 3552281;
 
   // pet status in the store
   enum StatusEnum {
@@ -34,6 +34,6 @@ message Pet {
     SOLD = 2;
   }
 
-  StatusEnum status = 6;
+  StatusEnum status = 355610639;
 
 }

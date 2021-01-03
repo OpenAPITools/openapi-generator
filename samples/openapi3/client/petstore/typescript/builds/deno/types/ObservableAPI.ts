@@ -6,8 +6,6 @@ import {mergeMap, map} from  '../rxjsStub.ts';
 
 import { ApiResponse } from '../models/ApiResponse.ts';
 import { Category } from '../models/Category.ts';
-import { InlineObject } from '../models/InlineObject.ts';
-import { InlineObject1 } from '../models/InlineObject1.ts';
 import { Order } from '../models/Order.ts';
 import { Pet } from '../models/Pet.ts';
 import { Tag } from '../models/Tag.ts';

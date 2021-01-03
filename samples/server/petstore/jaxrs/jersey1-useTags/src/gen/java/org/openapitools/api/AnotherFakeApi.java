@@ -15,8 +15,8 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
-import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
+import com.sun.jersey.multipart.FormDataBodyPart;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -25,7 +25,7 @@ import javax.ws.rs.*;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-@Path("/AnotherFake")
+@Path("/another-fake/dummy")
 
 
 @io.swagger.annotations.Api(description = "the AnotherFake API")
@@ -34,7 +34,7 @@ public class AnotherFakeApi  {
    private final AnotherFakeApiService delegate = AnotherFakeApiServiceFactory.getAnotherFakeApi();
 
     @PATCH
-    @Path("/another-fake/dummy")
+    
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "To test special tags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?" })

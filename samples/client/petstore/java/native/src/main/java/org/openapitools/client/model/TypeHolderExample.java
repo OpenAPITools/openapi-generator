@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -26,6 +28,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * TypeHolderExample
@@ -38,7 +42,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   TypeHolderExample.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
 })
-@JsonTypeName("TypeHolderExample")
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TypeHolderExample {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
@@ -61,7 +64,6 @@ public class TypeHolderExample {
 
 
   public TypeHolderExample stringItem(String stringItem) {
-    
     this.stringItem = stringItem;
     return this;
   }
@@ -85,7 +87,6 @@ public class TypeHolderExample {
 
 
   public TypeHolderExample numberItem(BigDecimal numberItem) {
-    
     this.numberItem = numberItem;
     return this;
   }
@@ -109,7 +110,6 @@ public class TypeHolderExample {
 
 
   public TypeHolderExample floatItem(Float floatItem) {
-    
     this.floatItem = floatItem;
     return this;
   }
@@ -133,7 +133,6 @@ public class TypeHolderExample {
 
 
   public TypeHolderExample integerItem(Integer integerItem) {
-    
     this.integerItem = integerItem;
     return this;
   }
@@ -157,7 +156,6 @@ public class TypeHolderExample {
 
 
   public TypeHolderExample boolItem(Boolean boolItem) {
-    
     this.boolItem = boolItem;
     return this;
   }
@@ -181,7 +179,6 @@ public class TypeHolderExample {
 
 
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
-    
     this.arrayItem = arrayItem;
     return this;
   }
@@ -209,6 +206,9 @@ public class TypeHolderExample {
   }
 
 
+  /**
+   * Return true if this TypeHolderExample object is equal to o.
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -230,7 +230,6 @@ public class TypeHolderExample {
   public int hashCode() {
     return Objects.hash(stringItem, numberItem, floatItem, integerItem, boolItem, arrayItem);
   }
-
 
   @Override
   public String toString() {

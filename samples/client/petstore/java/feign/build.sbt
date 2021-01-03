@@ -22,7 +22,7 @@ lazy val root = (project in file(".")).
       "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.client" % "1.0.1" % "compile",
       "com.brsanthu" % "migbase64" % "2.2" % "compile",
       "javax.annotation" % "javax.annotation-api" % "1.3.2" % "compile",
-      "junit" % "junit" % "4.13" % "test",
+      "junit" % "junit" % "4.13.1" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"
     )
   )

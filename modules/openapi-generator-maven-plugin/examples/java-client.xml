@@ -13,7 +13,7 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <!-- RELEASE_VERSION -->
-                <version>5.0.0-SNAPSHOT</version>
+                <version>5.0.1-SNAPSHOT</version>
                 <!-- /RELEASE_VERSION -->
                 <executions>
                     <execution>
@@ -53,8 +53,7 @@
                             <!-- target to generate java client code -->
                             <generatorName>java</generatorName>
 
-                            <!-- hint: if you want to generate java server code, e.g. based on Spring Boot,
-                                 you can use the following target: <generatorName>spring</generatorName> -->
+                            <templateDirectory>${project.basedir}/templates</templateDirectory>
 
                             <!-- pass any necessary config options -->
                             <configOptions>

@@ -13,7 +13,7 @@ libraryDependencies ++= Seq(
   "de.heikoseeberger" %% "akka-http-json4s" % "1.25.2",
   // test dependencies
   "org.scalatest" %% "scalatest" % "3.0.5" % "test",
-  "junit" % "junit" % "4.13" % "test"
+  "junit" % "junit" % "4.13.1" % "test"
 )
 
 resolvers ++= Seq(Resolver.mavenLocal)

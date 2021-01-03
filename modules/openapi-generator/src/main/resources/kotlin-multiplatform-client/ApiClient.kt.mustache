@@ -6,18 +6,18 @@ import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import kotlinx.serialization.json.Json
-import {{packageName}}.apis.*
+import {{apiPackage}}.*
 import {{packageName}}.infrastructure.ApiClientBase
 
 {{! TODO: Remove when backticks problems are resolved }}
 @Suppress("RemoveRedundantBackticks", "MemberVisibilityCanBePrivate", "unused")
-public class ApiClient(
+public open class ApiClient(
     baseUrl: String = "{{{basePath}}}",
     httpClientEngine: HttpClientEngine? = null,
     json: Json = Json {}
 ) {
-    private val serializer = KotlinxSerializer(json)
-    private val client: HttpClient
+    protected val serializer = KotlinxSerializer(json)
+    protected val client: HttpClient
 
     init {
         val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = this@ApiClient.serializer }

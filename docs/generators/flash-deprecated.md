@@ -3,6 +3,8 @@ title: Config Options for flash-deprecated
 sidebar_label: flash-deprecated
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |invokerPackage|root package for generated code| |null|

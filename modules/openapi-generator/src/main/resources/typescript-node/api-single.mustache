@@ -5,7 +5,7 @@ import http from 'http';
 
 /* tslint:disable:no-unused-locals */
 {{#imports}}
-import { {{classname}} } from '../{{filename}}';
+import { {{classname}} } from '{{filename}}';
 {{/imports}}
 
 import { ObjectSerializer, Authentication, VoidAuth, Interceptor } from '../model/models';
@@ -160,7 +160,7 @@ export class {{classname}} {
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
 {{#hasProduces}}
-        const produces = [{{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}}];
+        const produces = [{{#produces}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}];
         // give precedence to 'application/json'
         if (produces.indexOf('application/json') >= 0) {
             localVarHeaderParams.Accept = 'application/json';

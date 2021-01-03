@@ -147,7 +147,7 @@ public class Generator {
 
         codegenConfig.setOutputDir(outputFolder);
 
-        clientOptInput.setConfig(codegenConfig);
+        clientOptInput.config(codegenConfig);
 
         try {
             List<File> files = new DefaultGenerator().opts(clientOptInput).generate();

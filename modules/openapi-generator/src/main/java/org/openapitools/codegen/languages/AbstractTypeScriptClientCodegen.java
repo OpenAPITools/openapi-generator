@@ -690,13 +690,13 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             case original:
                 return name;
             case camelCase:
-                return camelize(name, true);
+                return camelize(underscore(name), true);
             case PascalCase:
-                return camelize(name);
+                return camelize(underscore(name));
             case snake_case:
                 return underscore(name);
             case UPPERCASE:
-                return name.toUpperCase(Locale.ROOT);
+                return underscore(name).toUpperCase(Locale.ROOT);
             default:
                 throw new IllegalArgumentException("Unsupported enum property naming: '" + name);
         }

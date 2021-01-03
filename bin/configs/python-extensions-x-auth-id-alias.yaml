@@ -1,0 +1,6 @@
+generatorName: python
+outputDir: samples/openapi3/client/extensions/x-auth-id-alias/python/
+inputSpec: modules/openapi-generator/src/test/resources/3_0/extensions/x-auth-id-alias.yaml
+templateDir: modules/openapi-generator/src/main/resources/python
+additionalProperties:
+  packageName: x_auth_id_alias

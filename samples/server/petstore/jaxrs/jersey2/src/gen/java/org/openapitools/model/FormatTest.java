@@ -384,7 +384,7 @@ public class FormatTest   {
    **/
   @JsonProperty("BigDecimal")
   @ApiModelProperty(value = "")
-  
+  @Valid 
   public BigDecimal getBigDecimal() {
     return bigDecimal;
   }

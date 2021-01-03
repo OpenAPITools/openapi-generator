@@ -50,16 +50,28 @@ void pet_free(pet_t *pet) {
         return ;
     }
     listEntry_t *listEntry;
-    category_free(pet->category);
-    free(pet->name);
-    list_ForEach(listEntry, pet->photo_urls) {
-        free(listEntry->data);
+    if (pet->category) {
+        category_free(pet->category);
+        pet->category = NULL;
     }
-    list_free(pet->photo_urls);
-    list_ForEach(listEntry, pet->tags) {
-        tag_free(listEntry->data);
+    if (pet->name) {
+        free(pet->name);
+        pet->name = NULL;
     }
-    list_free(pet->tags);
+    if (pet->photo_urls) {
+        list_ForEach(listEntry, pet->photo_urls) {
+            free(listEntry->data);
+        }
+        list_free(pet->photo_urls);
+        pet->photo_urls = NULL;
+    }
+    if (pet->tags) {
+        list_ForEach(listEntry, pet->tags) {
+            tag_free(listEntry->data);
+        }
+        list_free(pet->tags);
+        pet->tags = NULL;
+    }
     free(pet);
 }
 

@@ -9,31 +9,34 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.io.FileInputStream;
+import play.libs.Files.TemporaryFile;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.CompletableFuture;
 import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
-public class UserApiControllerImp implements UserApiControllerImpInterface {
+public class UserApiControllerImp extends UserApiControllerImpInterface {
     @Override
-    public void createUser(User body) throws Exception {
+    public void createUser(Http.Request request, User body) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void createUsersWithArrayInput(List<User> body) throws Exception {
+    public void createUsersWithArrayInput(Http.Request request, List<User> body) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void createUsersWithListInput(List<User> body) throws Exception {
+    public void createUsersWithListInput(Http.Request request, List<User> body) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void deleteUser(String username) throws Exception {
+    public void deleteUser(Http.Request request, String username) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public CompletionStage<User> getUserByName(String username) throws Exception {
+    public CompletionStage<User> getUserByName(Http.Request request, String username) throws Exception {
         //Do your magic!!!
         return CompletableFuture.supplyAsync(() -> {
            return new User();
@@ -41,7 +44,7 @@ public class UserApiControllerImp implements UserApiControllerImpInterface {
     }
 
     @Override
-    public CompletionStage<String> loginUser( @NotNull String username,  @NotNull String password) throws Exception {
+    public CompletionStage<String> loginUser(Http.Request request, @NotNull String username, @NotNull String password) throws Exception {
         //Do your magic!!!
         return CompletableFuture.supplyAsync(() -> {
            return new String();
@@ -49,12 +52,12 @@ public class UserApiControllerImp implements UserApiControllerImpInterface {
     }
 
     @Override
-    public void logoutUser() throws Exception {
+    public void logoutUser(Http.Request request) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void updateUser(String username, User body) throws Exception {
+    public void updateUser(Http.Request request, String username, User body) throws Exception {
         //Do your magic!!!
     }
 

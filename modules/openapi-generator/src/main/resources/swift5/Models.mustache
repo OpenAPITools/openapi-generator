@@ -11,7 +11,7 @@ protocol JSONEncodable {
 }
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum ErrorResponse : Error {
-    case error(Int, Data?, Error)
+    case error(Int, Data?, URLResponse?, Error)
 }
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum DownloadException : Error {

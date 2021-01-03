@@ -26,10 +26,10 @@ public open class ApiClientBase {
     {{#hasAuthMethods}}
     private val authentications: Map<String, Authentication> by lazy {
         mapOf({{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-            "{{name}}" to HttpBasicAuth(){{/isBasicBasic}}{{^isBasicBasic}}
-            "{{name}}" to HttpBearerAuth("{{scheme}}"){{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
-            "{{name}}" to ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}
-            "{{name}}" to OAuth(){{/isOAuth}}{{#hasMore}}, {{/hasMore}}{{/authMethods}}
+            "{{name}}" to HttpBasicAuth(),{{/isBasicBasic}}{{^isBasicBasic}}
+            "{{name}}" to HttpBearerAuth("{{scheme}}"),{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+            "{{name}}" to ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"),{{/isApiKey}}{{#isOAuth}}
+            "{{name}}" to OAuth(),{{/isOAuth}}{{/authMethods}}
         )
     }
     {{/hasAuthMethods}}

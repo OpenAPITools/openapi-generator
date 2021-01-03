@@ -11,11 +11,11 @@ git_push.sh
 index.ts
 model/apiResponse.ts
 model/category.ts
+model/models.ts
 model/order.ts
 model/pet.ts
 model/tag.ts
 model/user.ts
-model/models.ts
 ng-package.json
 package.json
 tsconfig.json

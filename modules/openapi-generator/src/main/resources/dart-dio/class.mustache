@@ -6,22 +6,27 @@ part '{{classFilename}}.g.dart';
 abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builder> {
 
 {{#vars}}
-    {{#description}}/* {{{description}}} */{{/description}}
+    {{#description}}
+    /// {{{description}}}
+    {{/description}}
     {{#isNullable}}
-        @nullable
+    @nullable
     {{/isNullable}}
     @BuiltValueField(wireName: r'{{baseName}}')
-    {{#isEnum}}{{classname}}{{{nameInCamelCase}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}} get {{name}};
+    {{{datatypeWithEnum}}} get {{name}};
     {{#allowableValues}}
-        {{#min}} // range from {{min}} to {{max}}{{/min}}//{{^min}}enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}
+    // {{#min}}range from {{{min}}} to {{{max}}}{{/min}}{{^min}}enum {{name}}Enum { {{#values}} {{{.}}}, {{/values}} };{{/min}}
     {{/allowableValues}}
-{{/vars}}
 
+{{/vars}}
     // Boilerplate code needed to wire-up generated code
     {{classname}}._();
 
+    static void _initializeBuilder({{{classname}}}Builder b) => b{{#vars}}{{#defaultValue}}
+        ..{{{name}}} = {{#isEnum}}{{^isContainer}}const {{{classname}}}{{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/vars}};
+
     factory {{classname}}([updates({{classname}}Builder b)]) = _${{classname}};
-    static Serializer<{{classname}}> get serializer => _${{classVarName}}Serializer;
+    static Serializer<{{classname}}> get serializer => _${{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Serializer;
 }
 {{!
     Generate an enum for any variables that are declared as inline enums
@@ -31,8 +36,15 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
 }}
 {{#vars}}
     {{#isEnum}}
+        {{^isContainer}}
 
 {{>enum_inline}}
+        {{/isContainer}}
+        {{#isContainer}}
+            {{#mostInnerItems}}
 
+{{>enum_inline}}
+            {{/mostInnerItems}}
+        {{/isContainer}}
     {{/isEnum}}
 {{/vars}}

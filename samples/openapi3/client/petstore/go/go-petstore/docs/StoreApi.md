@@ -37,7 +37,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.StoreApi.DeleteOrder(context.Background(), orderId).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.DeleteOrder``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -103,8 +103,8 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.StoreApi.GetInventory(context.Background(), ).Execute()
-    if err != nil {
+    resp, r, err := api_client.StoreApi.GetInventory(context.Background()).Execute()
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.GetInventory``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -161,12 +161,12 @@ import (
 )
 
 func main() {
-    orderId := 987 // int64 | ID of pet that needs to be fetched
+    orderId := int64(789) // int64 | ID of pet that needs to be fetched
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.StoreApi.GetOrderById(context.Background(), orderId).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.GetOrderById``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -229,12 +229,12 @@ import (
 )
 
 func main() {
-    order := openapiclient.Order{Id: int64(123), PetId: int64(123), Quantity: 123, ShipDate: "TODO", Status: "Status_example", Complete: false} // Order | order placed for purchasing the pet
+    order := *openapiclient.NewOrder() // Order | order placed for purchasing the pet
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.StoreApi.PlaceOrder(context.Background(), order).Execute()
-    if err != nil {
+    resp, r, err := api_client.StoreApi.PlaceOrder(context.Background()).Order(order).Execute()
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.PlaceOrder``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }

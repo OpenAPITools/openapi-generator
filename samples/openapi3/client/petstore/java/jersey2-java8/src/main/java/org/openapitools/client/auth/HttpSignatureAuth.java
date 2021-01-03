@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-  
+
 package org.openapitools.client.auth;
 
 import org.openapitools.client.Pair;
@@ -62,7 +62,7 @@ public class HttpSignatureAuth implements Authentication {
   // The digest algorithm which is used to calculate a cryptographic digest of the HTTP request body.
   private String digestAlgorithm;
 
-  // The maximum validity duration of the HTTP signature. 
+  // The maximum validity duration of the HTTP signature.
   private Long maxSignatureValidity;
 
   /**

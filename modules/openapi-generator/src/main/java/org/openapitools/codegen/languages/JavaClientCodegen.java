@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
@@ -61,6 +62,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String CASE_INSENSITIVE_RESPONSE_HEADERS = "caseInsensitiveResponseHeaders";
     public static final String MICROPROFILE_FRAMEWORK = "microprofileFramework";
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
+    public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
 
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
@@ -106,6 +108,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean useReflectionEqualsHashCode = false;
     protected boolean caseInsensitiveResponseHeaders = false;
     protected boolean useAbstractionForFiles = false;
+    protected boolean dynamicOperations = false;
     protected String authFolder;
     protected String serializationLibrary = null;
 
@@ -149,6 +152,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
         cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values \"kumuluzee\""));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on " + RESTTEMPLATE + " library"));
+        cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
@@ -307,6 +311,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setUseAbstractionForFiles(convertPropertyToBooleanAndWriteBack(USE_ABSTRACTION_FOR_FILES));
         }
 
+        if (additionalProperties.containsKey(DYNAMIC_OPERATIONS)) {
+            this.setDynamicOperations(Boolean.valueOf(additionalProperties.get(DYNAMIC_OPERATIONS).toString()));
+        }
+        additionalProperties.put(DYNAMIC_OPERATIONS, dynamicOperations);
+
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
         authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
@@ -323,7 +332,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
         supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", invokerFolder, "ServerConfiguration.java"));
         supportingFiles.add(new SupportingFile("ServerVariable.mustache", invokerFolder, "ServerVariable.java"));
-        supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
+        if (dynamicOperations) {
+            supportingFiles.add(new SupportingFile("openapi.mustache", projectFolder + "/resources/openapi", "openapi.yaml"));
+            supportingFiles.add(new SupportingFile("apiOperation.mustache", invokerFolder, "ApiOperation.java"));
+        } else {
+            supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
+        }
 
         if (dateLibrary.equals("java8") && (isLibrary(WEBCLIENT) || isLibrary(VERTX) || isLibrary(RESTTEMPLATE) || isLibrary(RESTEASY) || isLibrary(MICROPROFILE) || isLibrary(JERSEY2))) {
             supportingFiles.add(new SupportingFile("JavaTimeFormatter.mustache", invokerFolder, "JavaTimeFormatter.java"));
@@ -399,6 +413,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             }
         } else if (JERSEY2.equals(getLibrary())) {
+            additionalProperties.put("jersey2", true);
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
             if (ProcessUtils.hasHttpSignatureMethods(openAPI)) {
@@ -418,6 +433,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             setJava8Mode(true);
             additionalProperties.put("java8", "true");
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
+            supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
+            supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", (sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar), "AbstractOpenApiSchema.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (RESTEASY.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
@@ -481,7 +498,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             Iterator<SupportingFile> iter = supportingFiles.iterator();
             while (iter.hasNext()) {
                 SupportingFile sf = iter.next();
-                if (sf.templateFile.startsWith("auth/")) {
+                if (sf.getTemplateFile().startsWith("auth/")) {
                     iter.remove();
                 }
             }
@@ -536,8 +553,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
             additionalProperties.put(SERIALIZATION_LIBRARY_JACKSON, "true");
             additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
+            supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
             if (!NATIVE.equals(getLibrary())) {
-                supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
                 if ("threetenbp".equals(dateLibrary) && !usePlayWS) {
                     supportingFiles.add(new SupportingFile("CustomInstantDeserializer.mustache", invokerFolder, "CustomInstantDeserializer.java"));
                 }
@@ -605,11 +622,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                                 return 0;
                             }
                         });
-                        Iterator<CodegenParameter> iterator = operation.allParams.iterator();
-                        while (iterator.hasNext()) {
-                            CodegenParameter param = iterator.next();
-                            param.hasMore = iterator.hasNext();
-                        }
                     }
                 }
             }
@@ -620,8 +632,18 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (FEIGN.equals(getLibrary())) {
             Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
             List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+            Pattern methodPattern = Pattern.compile("^(.*):([^:]*)$");
             for (CodegenOperation op : operationList) {
                 String path = op.path;
+                String method = "";
+
+                // if a custom method is found at the end of the path, cut it off for later
+                Matcher m = methodPattern.matcher(path);
+                if (m.find()) {
+                    path = m.group(1);
+                    method = m.group(2);
+                }
+
                 String[] items = path.split("/", -1);
 
                 for (int i = 0; i < items.length; ++i) {
@@ -631,6 +653,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     }
                 }
                 op.path = StringUtils.join(items, "/");
+                // Replace the custom method on the path if one was found earlier
+                if (!method.isEmpty()) {
+                    op.path += ":" + method;
+                }
             }
         }
 
@@ -679,15 +705,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 jsonMimeTypes.add(consume);
             } else
                 prioritizedContentTypes.add(consume);
-
-            consume.put("hasMore", "true");
         }
 
         prioritizedContentTypes.addAll(0, jsonMimeTypes);
         prioritizedContentTypes.addAll(0, jsonVendorMimeTypes);
-
-        prioritizedContentTypes.get(prioritizedContentTypes.size() - 1).put("hasMore", null);
-
         return prioritizedContentTypes;
     }
 
@@ -818,11 +839,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 }
 
                 if (addImports) {
-                    Map<String, String> imports2Classnames = new HashMap<String, String>() {{
-                        put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
-                        put("NoSuchElementException", "java.util.NoSuchElementException");
-                        put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
-                    }};
+                    Map<String, String> imports2Classnames = new HashMap<>();
+                    imports2Classnames.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
+                    imports2Classnames.put("NoSuchElementException", "java.util.NoSuchElementException");
+                    imports2Classnames.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
                     for (Map.Entry<String, String> entry : imports2Classnames.entrySet()) {
                         cm.imports.add(entry.getKey());
                         Map<String, String> importsItem = new HashMap<String, String>();
@@ -838,7 +858,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 CodegenModel cm = (CodegenModel) mo.get("model");
 
                 cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
-                if (JERSEY2.equals(getLibrary())) {
+                if (JERSEY2.equals(getLibrary()) || NATIVE.equals(getLibrary())) {
                     cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
 
                     if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
@@ -932,6 +952,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         this.useAbstractionForFiles = useAbstractionForFiles;
     }
 
+    public void setDynamicOperations(final boolean dynamicOperations) {
+        this.dynamicOperations = dynamicOperations;
+    }
+
     /**
      * Serialization library.
      *
@@ -976,9 +1000,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Override
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
         for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
-            Map<String, String> oneImport = new HashMap<String, String>() {{
-                put("import", importMapping.get(i));
-            }};
+            Map<String, String> oneImport = new HashMap<>();
+            oneImport.put("import", importMapping.get(i));
             if (!imports.contains(oneImport)) {
                 imports.add(oneImport);
             }
