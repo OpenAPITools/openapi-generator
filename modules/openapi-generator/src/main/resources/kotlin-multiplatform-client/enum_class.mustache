@@ -8,8 +8,8 @@ import kotlinx.serialization.*
 @Serializable
 @Suppress("unused")
 public enum class {{classname}}(public val value: {{{dataType}}}) {
-
-{{#allowableValues}}{{#enumVars}}
+    {{#allowableValues}}
+    {{#enumVars}}
     @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
     {{#isListContainer}}
     {{#isList}}
@@ -22,8 +22,8 @@ public enum class {{classname}}(public val value: {{{dataType}}}) {
     {{^isListContainer}}
     {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
     {{/isListContainer}}
-
-{{/enumVars}}{{/allowableValues}}
+    {{/enumVars}}
+    {{/allowableValues}}
 
     /**
      * This override toString avoids using the enum var name and uses the actual api value instead.

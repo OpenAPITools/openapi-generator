@@ -62,7 +62,22 @@ public data class Pet(
      *
      * Values: Available,Pending,Sold
      */
+    @Serializable
     enum class Status(val value: kotlin.String){
+        @SerialName(value = "available")
+        Available("available"),
+        @SerialName(value = "pending")
+        Pending("pending"),
+        @SerialName(value = "sold")
+        Sold("sold");
+
+        /**
+         * This override toString avoids using the enum var name and uses the actual api value instead.
+         * In cases the var name and value are different, the client would send incorrect enums to the server.
+         */
+        override fun toString(): String {
+            return value
+        }
     }
 }
 

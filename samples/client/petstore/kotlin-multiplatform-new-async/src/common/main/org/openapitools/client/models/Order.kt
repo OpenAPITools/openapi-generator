@@ -54,7 +54,22 @@ public data class Order(
      *
      * Values: Placed,Approved,Delivered
      */
+    @Serializable
     enum class Status(val value: kotlin.String){
+        @SerialName(value = "placed")
+        Placed("placed"),
+        @SerialName(value = "approved")
+        Approved("approved"),
+        @SerialName(value = "delivered")
+        Delivered("delivered");
+
+        /**
+         * This override toString avoids using the enum var name and uses the actual api value instead.
+         * In cases the var name and value are different, the client would send incorrect enums to the server.
+         */
+        override fun toString(): String {
+            return value
+        }
     }
 }
 
