@@ -90,12 +90,12 @@ public open class {{classname}} : ApiClientBase {
         val queriesOag = Queries {
             {{#queryParams}}
             {{#isContainer}}
-            {{#isMapContainer}}
+            {{#isMap}}
             {{^required}}if ({{{paramName}}} != null) {{/required}}addMap({{{paramName}}})
-            {{/isMapContainer}}
-            {{^isMapContainer}}
+            {{/isMap}}
+            {{^isMap}}
             {{^required}}if ({{{paramName}}} != null) {{/required}}addMulti("{{baseName}}", {{{paramName}}}, "{{collectionFormat}}")
-            {{/isMapContainer}}
+            {{/isMap}}
             {{/isContainer}}
             {{^isContainer}}
             add("{{baseName}}", {{{paramName}}})
