@@ -446,7 +446,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
                 typeMapping.put("date-time", "OffsetDateTime");
                 typeMapping.put("date", "LocalDate");
                 typeMapping.put("Date", "LocalDate");
-                typeMapping.put("DateTime", "LocalDateTime");
+                typeMapping.put("DateTime", "OffsetDateTime");
                 importMapping.put("OffsetDateTime", packageName + ".infrastructure.OffsetDateTime");
                 importMapping.put("LocalDateTime", "kotlinx.datetime.LocalDateTime");
                 importMapping.put("LocalDate", "kotlinx.datetime.LocalDate");
