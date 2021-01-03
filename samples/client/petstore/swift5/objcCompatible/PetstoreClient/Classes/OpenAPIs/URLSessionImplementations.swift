@@ -95,7 +95,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
     }
 
     override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
-        let urlSessionId: String = UUID().uuidString
+        let urlSessionId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let urlSession = createURLSession()
         urlSessionStore[urlSessionId] = urlSession
@@ -171,7 +171,6 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
                 completion(.failure(ErrorResponse.error(415, nil, nil, error)))
             }
         }
-
     }
 
     fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
@@ -535,7 +534,7 @@ private class FormDataEncoding: ParameterEncoding {
         var body = urlRequest.httpBody.orEmpty
 
         // If we already added something then we need an additional newline.
-        if body.count > 0 {
+        if (body.count > 0) {
             body.append("\r\n")
         }
 

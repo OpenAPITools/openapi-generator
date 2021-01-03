@@ -77,7 +77,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
     }
 
     override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
-        let managerId: String = UUID().uuidString
+        let managerId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let manager = createSessionManager()
         managerStore[managerId] = manager
@@ -146,7 +146,6 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
             }
             processRequest(request: request, managerId, apiResponseQueue, completion)
         }
-
     }
 
     fileprivate func processRequest(request: DataRequest, _ managerId: String, _ apiResponseQueue: DispatchQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
