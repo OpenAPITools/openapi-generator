@@ -392,6 +392,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile(infraSrc + "OctetByteArray.kt.mustache", infraDest, "OctetByteArray.kt"));
         if (dateLibrary == Options.DateLibrary.KOTLINX) {
             supportingFiles.add(new SupportingFile(infraSrc + "DateTime.kt.mustache", infraDest, "DateTime.kt"));
+            supportingFiles.add(new SupportingFile(infraSrc + "OffsetDateTime.kt.mustache", infraDest, "OffsetDateTime.kt"));
         }
 
         // Auth
@@ -414,8 +415,11 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         typeMapping.put("file", "OctetByteArray");
         typeMapping.put("binary", "OctetByteArray");
         typeMapping.put("ByteArray", "Base64ByteArray");
-        typeMapping.put("object", "kotlinx.serialization.json.JsonObject");
-        typeMapping.put("AnyType", "kotlinx.serialization.json.JsonElement");
+        typeMapping.put("object", "JsonObject");
+        typeMapping.put("AnyType", "JsonElement");
+        typeMapping.put("array", "List"); // Prefer lists to arrays
+
+        instantiationTypes.put("array", "kotlin.collections.ArrayList"); // Prefer lists to arrays
 
         // Multiplatform import mapping
         importMapping.put("BigDecimal", "kotlin.Double");
@@ -426,6 +430,9 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         importMapping.put("File", "io.ktor.client.statement.HttpResponse");
         importMapping.put("Base64ByteArray", packageName + ".infrastructure.Base64ByteArray");
         importMapping.put("OctetByteArray", packageName + ".infrastructure.OctetByteArray");
+        importMapping.put("List", "kotlin.collections.List");
+        importMapping.put("JsonObject", "kotlinx.serialization.json.JsonObject");
+        importMapping.put("JsonElement", "kotlinx.serialization.json.JsonElement");
 
         switch (dateLibrary) {
             case STRING: {
@@ -433,18 +440,14 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
                 typeMapping.put("date", "String");
                 typeMapping.put("Date", "String");
                 typeMapping.put("DateTime", "String");
-                importMapping.put("Timestamp", "kotlin.String");
-                importMapping.put("LocalDateTime", "kotlin.String");
-                importMapping.put("LocalDate", "kotlin.String");
-                importMapping.put("LocalTime", "kotlin.String");
                 break;
             }
             case KOTLINX: {
-                typeMapping.put("date-time", "LocalDateTime");
+                typeMapping.put("date-time", "OffsetDateTime");
                 typeMapping.put("date", "LocalDate");
                 typeMapping.put("Date", "LocalDate");
                 typeMapping.put("DateTime", "LocalDateTime");
-                importMapping.put("Timestamp", "kotlinx.datetime.Instant");
+                importMapping.put("OffsetDateTime", packageName + ".infrastructure.OffsetDateTime");
                 importMapping.put("LocalDateTime", "kotlinx.datetime.LocalDateTime");
                 importMapping.put("LocalDate", "kotlinx.datetime.LocalDate");
                 importMapping.put("LocalTime", "kotlin.String");

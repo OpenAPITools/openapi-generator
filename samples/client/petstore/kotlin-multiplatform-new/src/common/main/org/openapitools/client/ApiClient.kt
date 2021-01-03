@@ -15,7 +15,7 @@ public open class ApiClient(
     httpClientEngine: HttpClientEngine? = null,
     json: Json = Json {}
 ) {
-    protected val serializer = KotlinxSerializer(json)
+    protected val serializer: KotlinxSerializer = KotlinxSerializer(json)
     protected val client: HttpClient
 
     init {
