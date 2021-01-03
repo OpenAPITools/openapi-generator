@@ -88,7 +88,6 @@ public open class PetApi : ApiClientBase {
         ).wrap()
     }
 
-
     /**
      * Deletes a pet
      * 
@@ -125,16 +124,17 @@ public open class PetApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter 
-     * @return kotlin.Array<Pet>
+     * @return kotlin.collections.List<Pet>
      */
     @Suppress("UNCHECKED_CAST")
     public suspend fun findPetsByStatus(
-        status: kotlin.Array<kotlin.String>,
-    ): HttpResponse<kotlin.Array<Pet>> {
+        status: kotlin.collections.List<kotlin.String>,
+    ): HttpResponse<kotlin.collections.List<Pet>> {
         val authNamesOag = listOf<String>("petstore_auth")
 
         val bodyOag = 
@@ -160,16 +160,17 @@ public open class PetApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by 
-     * @return kotlin.Array<Pet>
+     * @return kotlin.collections.List<Pet>
      */
     @Suppress("UNCHECKED_CAST")
     public suspend fun findPetsByTags(
-        tags: kotlin.Array<kotlin.String>,
-    ): HttpResponse<kotlin.Array<Pet>> {
+        tags: kotlin.collections.List<kotlin.String>,
+    ): HttpResponse<kotlin.collections.List<Pet>> {
         val authNamesOag = listOf<String>("petstore_auth")
 
         val bodyOag = 
@@ -195,6 +196,7 @@ public open class PetApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
     /**
      * Find pet by ID
      * Returns a single pet
@@ -229,6 +231,7 @@ public open class PetApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
     /**
      * Update an existing pet
      * 
@@ -261,7 +264,6 @@ public open class PetApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
-
 
     /**
      * Updates a pet in the store with form data
@@ -303,6 +305,7 @@ public open class PetApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
     /**
      * uploads an image
      * 
@@ -344,4 +347,5 @@ public open class PetApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
 }

@@ -43,13 +43,13 @@ public data class Pet(
     val name: kotlin.String,
     @SerialName(value = "photoUrls")
     @Required
-    val photoUrls: kotlin.Array<kotlin.String>,
+    val photoUrls: kotlin.collections.List<kotlin.String>,
     @SerialName(value = "id")
     val id: kotlin.Long? = null,
     @SerialName(value = "category")
     val category: Category? = null,
     @SerialName(value = "tags")
-    val tags: kotlin.Array<Tag>? = null,
+    val tags: kotlin.collections.List<Tag>? = null,
     /**
      * pet status in the store
      */

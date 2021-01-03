@@ -87,6 +87,7 @@ public open class StoreApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
@@ -117,18 +118,9 @@ public open class StoreApi : ApiClientBase {
             configOag,
             bodyOag,
             authNamesOag
-        ).wrap<GetInventoryResponse>().map { value }
+        ).wrap()
     }
-    @Serializable
-    private class GetInventoryResponse(val value: Map<kotlin.String, kotlin.Int>) {
-        @Serializer(GetInventoryResponse::class)
-        companion object : KSerializer<GetInventoryResponse> {
-            private val serializer: KSerializer<Map<kotlin.String, kotlin.Int>> = (kotlin.String.serializer() to kotlin.Int.serializer()).map
-                override val descriptor = PrimitiveDescriptor("GetInventoryResponse", PrimitiveKind.STRING)
-                override fun serialize(encoder: Encoder, value: GetInventoryResponse) = serializer.serialize(encoder, value.value)
-                override fun deserialize(decoder: Decoder) = GetInventoryResponse(serializer.deserialize(decoder))
-        }
-    }
+
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
@@ -163,6 +155,7 @@ public open class StoreApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
     /**
      * Place an order for a pet
      * 
@@ -196,6 +189,5 @@ public open class StoreApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
-
 
 }

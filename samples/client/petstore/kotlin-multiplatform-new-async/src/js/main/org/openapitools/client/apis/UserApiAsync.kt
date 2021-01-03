@@ -72,7 +72,7 @@ public open class UserApiAsync : UserApi {
      * @return void
      */
     public fun createUsersWithArrayInputAsync(
-        body: kotlin.Array<User>,
+        body: kotlin.collections.List<User>,
     ): Promise<HttpResponse<Unit>> {
         return coroutineScope.promise {
             createUsersWithArrayInput(
@@ -87,7 +87,7 @@ public open class UserApiAsync : UserApi {
      * @return void
      */
     public fun createUsersWithListInputAsync(
-        body: kotlin.Array<User>,
+        body: kotlin.collections.List<User>,
     ): Promise<HttpResponse<Unit>> {
         return coroutineScope.promise {
             createUsersWithListInput(
