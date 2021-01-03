@@ -95,7 +95,7 @@ public open class UserApi : ApiClientBase {
      * @return void
      */
     public suspend fun createUsersWithArrayInput(
-        body: kotlin.Array<User>,
+        body: kotlin.collections.List<User>,
     ): HttpResponse<Unit> {
         val authNamesOag = listOf<String>()
 
@@ -129,7 +129,7 @@ public open class UserApi : ApiClientBase {
      * @return void
      */
     public suspend fun createUsersWithListInput(
-        body: kotlin.Array<User>,
+        body: kotlin.collections.List<User>,
     ): HttpResponse<Unit> {
         val authNamesOag = listOf<String>()
 

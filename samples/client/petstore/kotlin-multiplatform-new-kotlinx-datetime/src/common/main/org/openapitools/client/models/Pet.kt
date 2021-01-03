@@ -43,13 +43,13 @@ public data class Pet(
     val name: kotlin.String,
     @SerialName(value = "photoUrls")
     @Required
-    val photoUrls: kotlin.Array<kotlin.String>,
+    val photoUrls: kotlin.collections.List<kotlin.String>,
     @SerialName(value = "id")
     val id: kotlin.Long? = null,
     @SerialName(value = "category")
     val category: Category? = null,
     @SerialName(value = "tags")
-    val tags: kotlin.Array<Tag>? = null,
+    val tags: kotlin.collections.List<Tag>? = null,
     /**
      * pet status in the store
      */
@@ -62,7 +62,22 @@ public data class Pet(
      *
      * Values: Available,Pending,Sold
      */
+    @Serializable
     enum class Status(val value: kotlin.String){
+        @SerialName(value = "available")
+        Available("available"),
+        @SerialName(value = "pending")
+        Pending("pending"),
+        @SerialName(value = "sold")
+        Sold("sold");
+
+        /**
+         * This override toString avoids using the enum var name and uses the actual api value instead.
+         * In cases the var name and value are different, the client would send incorrect enums to the server.
+         */
+        override fun toString(): String {
+            return value
+        }
     }
 }
 
