@@ -9,6 +9,11 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class Order {
   /// Returns a new [Order] instance.
   Order({
@@ -20,17 +25,53 @@ class Order {
     this.complete = false,
   });
 
+  @JsonKey(
+    name: r'id',
+    
+    
+    
+  )
   int id;
 
+  @JsonKey(
+    name: r'petId',
+    
+    
+    
+  )
   int petId;
 
+  @JsonKey(
+    name: r'quantity',
+    
+    
+    
+  )
   int quantity;
 
+  @JsonKey(
+    name: r'shipDate',
+    
+    
+    
+  )
   DateTime shipDate;
 
   /// Order Status
+  @JsonKey(
+    name: r'status',
+    
+    
+    
+  )
   OrderStatusEnum status;
 
+  @JsonKey(
+    name: r'complete',
+    
+    defaultValue: false,
+    
+  )
   bool complete;
 
   @override
@@ -52,144 +93,25 @@ class Order {
     (complete == null ? 0 : complete.hashCode);
 
   @override
-  String toString() => 'Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (id != null) {
-      json[r'id'] = id;
-    }
-    if (petId != null) {
-      json[r'petId'] = petId;
-    }
-    if (quantity != null) {
-      json[r'quantity'] = quantity;
-    }
-    if (shipDate != null) {
-      json[r'shipDate'] = shipDate.toUtc().toIso8601String();
-    }
-    if (status != null) {
-      json[r'status'] = status;
-    }
-    if (complete != null) {
-      json[r'complete'] = complete;
-    }
-    return json;
-  }
-
-  /// Returns a new [Order] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static Order fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : Order(
-        id: json[r'id'],
-        petId: json[r'petId'],
-        quantity: json[r'quantity'],
-        shipDate: json[r'shipDate'] == null
-          ? null
-          : DateTime.parse(json[r'shipDate']),
-        status: OrderStatusEnum.fromJson(json[r'status']),
-        complete: json[r'complete'],
-    );
-
-  static List<Order> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <Order>[]
-      : json.map((v) => Order.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, Order> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, Order>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = Order.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of Order-objects as value to a dart map
-  static Map<String, List<Order>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<Order>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = Order.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
+  Map<String, dynamic> toJson() => _$OrderToJson(this);
 }
 
 /// Order Status
-class OrderStatusEnum {
-  /// Instantiate a new enum with the provided [value].
-  const OrderStatusEnum._(this.value);
+enum OrderStatusEnum {
 
-  /// The underlying value of this enum member.
-  final String value;
-
-  @override
-  bool operator ==(Object other) => identical(this, other) ||
-      other is OrderStatusEnum && other.value == value;
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() => value;
-
-  String toJson() => value;
-
-  static const placed = OrderStatusEnum._(r'placed');
-  static const approved = OrderStatusEnum._(r'approved');
-  static const delivered = OrderStatusEnum._(r'delivered');
-
-  /// List of all possible values in this [enum][OrderStatusEnum].
-  static const values = <OrderStatusEnum>[
+    @JsonValue(r'placed')
+    
     placed,
+    @JsonValue(r'approved')
+    
     approved,
+    @JsonValue(r'delivered')
+    
     delivered,
-  ];
 
-  static OrderStatusEnum fromJson(dynamic value) =>
-    OrderStatusEnumTypeTransformer().decode(value);
-
-  static List<OrderStatusEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <OrderStatusEnum>[]
-      : json
-          .map((value) => OrderStatusEnum.fromJson(value))
-          .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [OrderStatusEnum] to String,
-/// and [decode] dynamic data back to [OrderStatusEnum].
-class OrderStatusEnumTypeTransformer {
-  const OrderStatusEnumTypeTransformer._();
-
-  factory OrderStatusEnumTypeTransformer() => _instance ??= OrderStatusEnumTypeTransformer._();
-
-  String encode(OrderStatusEnum data) => data.value;
-
-  /// Decodes a [dynamic value][data] to a OrderStatusEnum.
-  ///
-  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
-  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
-  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
-  ///
-  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
-  /// and users are still using an old app with the old code.
-  OrderStatusEnum decode(dynamic data, {bool allowNull}) {
-    switch (data) {
-      case r'placed': return OrderStatusEnum.placed;
-      case r'approved': return OrderStatusEnum.approved;
-      case r'delivered': return OrderStatusEnum.delivered;
-      default:
-        if (allowNull == false) {
-          throw ArgumentError('Unknown enum value to decode: $data');
-        }
-    }
-    return null;
-  }
-
-  /// Singleton [OrderStatusEnumTypeTransformer] instance.
-  static OrderStatusEnumTypeTransformer _instance;
-}
 

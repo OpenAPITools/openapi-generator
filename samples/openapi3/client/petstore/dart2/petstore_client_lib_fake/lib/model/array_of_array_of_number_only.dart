@@ -9,12 +9,23 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class ArrayOfArrayOfNumberOnly {
   /// Returns a new [ArrayOfArrayOfNumberOnly] instance.
   ArrayOfArrayOfNumberOnly({
     this.arrayArrayNumber = const [],
   });
 
+  @JsonKey(
+    name: r'arrayArrayNumber',
+    
+    defaultValue: const [],
+    
+  )
   List<List<num>> arrayArrayNumber;
 
   @override
@@ -26,50 +37,9 @@ class ArrayOfArrayOfNumberOnly {
     (arrayArrayNumber == null ? 0 : arrayArrayNumber.hashCode);
 
   @override
-  String toString() => 'ArrayOfArrayOfNumberOnly[arrayArrayNumber=$arrayArrayNumber]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (arrayArrayNumber != null) {
-      json[r'ArrayArrayNumber'] = arrayArrayNumber;
-    }
-    return json;
-  }
-
-  /// Returns a new [ArrayOfArrayOfNumberOnly] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static ArrayOfArrayOfNumberOnly fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : ArrayOfArrayOfNumberOnly(
-        arrayArrayNumber: json[r'ArrayArrayNumber'] == null
-          ? null
-          : (json[r'ArrayArrayNumber'] as List).map(
-              (e) => e == null ? null : (e as List).cast<num>()
-            ).toList(growable: false),
-    );
-
-  static List<ArrayOfArrayOfNumberOnly> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <ArrayOfArrayOfNumberOnly>[]
-      : json.map((v) => ArrayOfArrayOfNumberOnly.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, ArrayOfArrayOfNumberOnly> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, ArrayOfArrayOfNumberOnly>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = ArrayOfArrayOfNumberOnly.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of ArrayOfArrayOfNumberOnly-objects as value to a dart map
-  static Map<String, List<ArrayOfArrayOfNumberOnly>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<ArrayOfArrayOfNumberOnly>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = ArrayOfArrayOfNumberOnly.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory ArrayOfArrayOfNumberOnly.fromJson(Map<String, dynamic> json) => _$ArrayOfArrayOfNumberOnlyFromJson(json);
+  Map<String, dynamic> toJson() => _$ArrayOfArrayOfNumberOnlyToJson(this);
 }
 

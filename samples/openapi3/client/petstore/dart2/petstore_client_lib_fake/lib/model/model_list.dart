@@ -9,12 +9,23 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class ModelList {
   /// Returns a new [ModelList] instance.
   ModelList({
     this.n123list,
   });
 
+  @JsonKey(
+    name: r'n123list',
+    
+    
+    
+  )
   String n123list;
 
   @override
@@ -26,46 +37,9 @@ class ModelList {
     (n123list == null ? 0 : n123list.hashCode);
 
   @override
-  String toString() => 'ModelList[n123list=$n123list]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (n123list != null) {
-      json[r'123-list'] = n123list;
-    }
-    return json;
-  }
-
-  /// Returns a new [ModelList] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static ModelList fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : ModelList(
-        n123list: json[r'123-list'],
-    );
-
-  static List<ModelList> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <ModelList>[]
-      : json.map((v) => ModelList.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, ModelList> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, ModelList>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = ModelList.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of ModelList-objects as value to a dart map
-  static Map<String, List<ModelList>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<ModelList>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = ModelList.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory ModelList.fromJson(Map<String, dynamic> json) => _$ModelListFromJson(json);
+  Map<String, dynamic> toJson() => _$ModelListToJson(this);
 }
 

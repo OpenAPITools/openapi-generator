@@ -9,12 +9,23 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class CatAllOf {
   /// Returns a new [CatAllOf] instance.
   CatAllOf({
     this.declawed,
   });
 
+  @JsonKey(
+    name: r'declawed',
+    
+    
+    
+  )
   bool declawed;
 
   @override
@@ -26,46 +37,9 @@ class CatAllOf {
     (declawed == null ? 0 : declawed.hashCode);
 
   @override
-  String toString() => 'CatAllOf[declawed=$declawed]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (declawed != null) {
-      json[r'declawed'] = declawed;
-    }
-    return json;
-  }
-
-  /// Returns a new [CatAllOf] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static CatAllOf fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : CatAllOf(
-        declawed: json[r'declawed'],
-    );
-
-  static List<CatAllOf> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <CatAllOf>[]
-      : json.map((v) => CatAllOf.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, CatAllOf> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, CatAllOf>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = CatAllOf.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of CatAllOf-objects as value to a dart map
-  static Map<String, List<CatAllOf>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<CatAllOf>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = CatAllOf.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory CatAllOf.fromJson(Map<String, dynamic> json) => _$CatAllOfFromJson(json);
+  Map<String, dynamic> toJson() => _$CatAllOfToJson(this);
 }
 

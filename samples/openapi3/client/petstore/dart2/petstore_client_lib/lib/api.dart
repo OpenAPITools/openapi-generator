@@ -16,6 +16,7 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'api_client.dart';
 part 'api_helper.dart';
@@ -25,6 +26,7 @@ part 'auth/api_key_auth.dart';
 part 'auth/oauth.dart';
 part 'auth/http_basic_auth.dart';
 part 'auth/http_bearer_auth.dart';
+part 'api.g.dart';
 
 part 'api/pet_api.dart';
 part 'api/store_api.dart';

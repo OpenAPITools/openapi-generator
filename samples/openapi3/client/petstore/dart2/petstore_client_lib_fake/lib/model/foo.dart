@@ -9,12 +9,23 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class Foo {
   /// Returns a new [Foo] instance.
   Foo({
     this.bar = 'bar',
   });
 
+  @JsonKey(
+    name: r'bar',
+    
+    defaultValue: 'bar',
+    
+  )
   String bar;
 
   @override
@@ -26,46 +37,9 @@ class Foo {
     (bar == null ? 0 : bar.hashCode);
 
   @override
-  String toString() => 'Foo[bar=$bar]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (bar != null) {
-      json[r'bar'] = bar;
-    }
-    return json;
-  }
-
-  /// Returns a new [Foo] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static Foo fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : Foo(
-        bar: json[r'bar'],
-    );
-
-  static List<Foo> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <Foo>[]
-      : json.map((v) => Foo.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, Foo> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, Foo>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = Foo.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of Foo-objects as value to a dart map
-  static Map<String, List<Foo>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<Foo>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = Foo.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory Foo.fromJson(Map<String, dynamic> json) => _$FooFromJson(json);
+  Map<String, dynamic> toJson() => _$FooToJson(this);
 }
 

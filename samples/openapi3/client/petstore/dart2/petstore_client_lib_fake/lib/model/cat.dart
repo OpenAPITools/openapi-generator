@@ -9,6 +9,11 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class Cat {
   /// Returns a new [Cat] instance.
   Cat({
@@ -17,10 +22,28 @@ class Cat {
     this.declawed,
   });
 
+  @JsonKey(
+    name: r'className',
+    required: true,
+    
+    
+  )
   String className;
 
+  @JsonKey(
+    name: r'color',
+    
+    defaultValue: 'red',
+    
+  )
   String color;
 
+  @JsonKey(
+    name: r'declawed',
+    
+    
+    
+  )
   bool declawed;
 
   @override
@@ -36,54 +59,9 @@ class Cat {
     (declawed == null ? 0 : declawed.hashCode);
 
   @override
-  String toString() => 'Cat[className=$className, color=$color, declawed=$declawed]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (className != null) {
-      json[r'className'] = className;
-    }
-    if (color != null) {
-      json[r'color'] = color;
-    }
-    if (declawed != null) {
-      json[r'declawed'] = declawed;
-    }
-    return json;
-  }
-
-  /// Returns a new [Cat] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static Cat fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : Cat(
-        className: json[r'className'],
-        color: json[r'color'],
-        declawed: json[r'declawed'],
-    );
-
-  static List<Cat> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <Cat>[]
-      : json.map((v) => Cat.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, Cat> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, Cat>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = Cat.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of Cat-objects as value to a dart map
-  static Map<String, List<Cat>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<Cat>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = Cat.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory Cat.fromJson(Map<String, dynamic> json) => _$CatFromJson(json);
+  Map<String, dynamic> toJson() => _$CatToJson(this);
 }
 

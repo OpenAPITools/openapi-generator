@@ -9,12 +9,23 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class ClassModel {
   /// Returns a new [ClassModel] instance.
   ClassModel({
     this.class_,
   });
 
+  @JsonKey(
+    name: r'class_',
+    
+    
+    
+  )
   String class_;
 
   @override
@@ -26,46 +37,9 @@ class ClassModel {
     (class_ == null ? 0 : class_.hashCode);
 
   @override
-  String toString() => 'ClassModel[class_=$class_]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (class_ != null) {
-      json[r'_class'] = class_;
-    }
-    return json;
-  }
-
-  /// Returns a new [ClassModel] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static ClassModel fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : ClassModel(
-        class_: json[r'_class'],
-    );
-
-  static List<ClassModel> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <ClassModel>[]
-      : json.map((v) => ClassModel.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, ClassModel> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, ClassModel>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = ClassModel.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of ClassModel-objects as value to a dart map
-  static Map<String, List<ClassModel>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<ClassModel>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = ClassModel.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory ClassModel.fromJson(Map<String, dynamic> json) => _$ClassModelFromJson(json);
+  Map<String, dynamic> toJson() => _$ClassModelToJson(this);
 }
 

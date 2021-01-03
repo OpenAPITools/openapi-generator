@@ -9,6 +9,11 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class Category {
   /// Returns a new [Category] instance.
   Category({
@@ -16,8 +21,20 @@ class Category {
     this.name = 'default-name',
   });
 
+  @JsonKey(
+    name: r'id',
+    
+    
+    
+  )
   int id;
 
+  @JsonKey(
+    name: r'name',
+    required: true,
+    defaultValue: 'default-name',
+    
+  )
   String name;
 
   @override
@@ -31,50 +48,9 @@ class Category {
     (name == null ? 0 : name.hashCode);
 
   @override
-  String toString() => 'Category[id=$id, name=$name]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (id != null) {
-      json[r'id'] = id;
-    }
-    if (name != null) {
-      json[r'name'] = name;
-    }
-    return json;
-  }
-
-  /// Returns a new [Category] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static Category fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : Category(
-        id: json[r'id'],
-        name: json[r'name'],
-    );
-
-  static List<Category> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <Category>[]
-      : json.map((v) => Category.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, Category> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, Category>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = Category.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of Category-objects as value to a dart map
-  static Map<String, List<Category>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<Category>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = Category.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
+  Map<String, dynamic> toJson() => _$CategoryToJson(this);
 }
 

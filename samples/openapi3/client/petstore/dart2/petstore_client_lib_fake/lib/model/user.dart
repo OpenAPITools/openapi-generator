@@ -9,6 +9,11 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class User {
   /// Returns a new [User] instance.
   User({
@@ -22,21 +27,69 @@ class User {
     this.userStatus,
   });
 
+  @JsonKey(
+    name: r'id',
+    
+    
+    
+  )
   int id;
 
+  @JsonKey(
+    name: r'username',
+    
+    
+    
+  )
   String username;
 
+  @JsonKey(
+    name: r'firstName',
+    
+    
+    
+  )
   String firstName;
 
+  @JsonKey(
+    name: r'lastName',
+    
+    
+    
+  )
   String lastName;
 
+  @JsonKey(
+    name: r'email',
+    
+    
+    
+  )
   String email;
 
+  @JsonKey(
+    name: r'password',
+    
+    
+    
+  )
   String password;
 
+  @JsonKey(
+    name: r'phone',
+    
+    
+    
+  )
   String phone;
 
   /// User Status
+  @JsonKey(
+    name: r'userStatus',
+    
+    
+    
+  )
   int userStatus;
 
   @override
@@ -62,74 +115,9 @@ class User {
     (userStatus == null ? 0 : userStatus.hashCode);
 
   @override
-  String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (id != null) {
-      json[r'id'] = id;
-    }
-    if (username != null) {
-      json[r'username'] = username;
-    }
-    if (firstName != null) {
-      json[r'firstName'] = firstName;
-    }
-    if (lastName != null) {
-      json[r'lastName'] = lastName;
-    }
-    if (email != null) {
-      json[r'email'] = email;
-    }
-    if (password != null) {
-      json[r'password'] = password;
-    }
-    if (phone != null) {
-      json[r'phone'] = phone;
-    }
-    if (userStatus != null) {
-      json[r'userStatus'] = userStatus;
-    }
-    return json;
-  }
-
-  /// Returns a new [User] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static User fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : User(
-        id: json[r'id'],
-        username: json[r'username'],
-        firstName: json[r'firstName'],
-        lastName: json[r'lastName'],
-        email: json[r'email'],
-        password: json[r'password'],
-        phone: json[r'phone'],
-        userStatus: json[r'userStatus'],
-    );
-
-  static List<User> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <User>[]
-      : json.map((v) => User.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, User> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, User>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = User.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of User-objects as value to a dart map
-  static Map<String, List<User>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<User>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = User.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 }
 

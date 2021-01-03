@@ -9,6 +9,11 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class MixedPropertiesAndAdditionalPropertiesClass {
   /// Returns a new [MixedPropertiesAndAdditionalPropertiesClass] instance.
   MixedPropertiesAndAdditionalPropertiesClass({
@@ -17,10 +22,28 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     this.map = const {},
   });
 
+  @JsonKey(
+    name: r'uuid',
+    
+    
+    
+  )
   String uuid;
 
+  @JsonKey(
+    name: r'dateTime',
+    
+    
+    
+  )
   DateTime dateTime;
 
+  @JsonKey(
+    name: r'map',
+    
+    defaultValue: const {},
+    
+  )
   Map<String, Animal> map;
 
   @override
@@ -36,58 +59,9 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     (map == null ? 0 : map.hashCode);
 
   @override
-  String toString() => 'MixedPropertiesAndAdditionalPropertiesClass[uuid=$uuid, dateTime=$dateTime, map=$map]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (uuid != null) {
-      json[r'uuid'] = uuid;
-    }
-    if (dateTime != null) {
-      json[r'dateTime'] = dateTime.toUtc().toIso8601String();
-    }
-    if (map != null) {
-      json[r'map'] = map;
-    }
-    return json;
-  }
-
-  /// Returns a new [MixedPropertiesAndAdditionalPropertiesClass] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static MixedPropertiesAndAdditionalPropertiesClass fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : MixedPropertiesAndAdditionalPropertiesClass(
-        uuid: json[r'uuid'],
-        dateTime: json[r'dateTime'] == null
-          ? null
-          : DateTime.parse(json[r'dateTime']),
-        map: json[r'map'] == null
-          ? null
-          : Animal.mapFromJson(json[r'map']),
-    );
-
-  static List<MixedPropertiesAndAdditionalPropertiesClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <MixedPropertiesAndAdditionalPropertiesClass>[]
-      : json.map((v) => MixedPropertiesAndAdditionalPropertiesClass.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, MixedPropertiesAndAdditionalPropertiesClass> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, MixedPropertiesAndAdditionalPropertiesClass>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = MixedPropertiesAndAdditionalPropertiesClass.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of MixedPropertiesAndAdditionalPropertiesClass-objects as value to a dart map
-  static Map<String, List<MixedPropertiesAndAdditionalPropertiesClass>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<MixedPropertiesAndAdditionalPropertiesClass>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = MixedPropertiesAndAdditionalPropertiesClass.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory MixedPropertiesAndAdditionalPropertiesClass.fromJson(Map<String, dynamic> json) => _$MixedPropertiesAndAdditionalPropertiesClassFromJson(json);
+  Map<String, dynamic> toJson() => _$MixedPropertiesAndAdditionalPropertiesClassToJson(this);
 }
 

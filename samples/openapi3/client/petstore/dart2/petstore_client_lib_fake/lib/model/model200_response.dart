@@ -9,6 +9,11 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class Model200Response {
   /// Returns a new [Model200Response] instance.
   Model200Response({
@@ -16,8 +21,20 @@ class Model200Response {
     this.class_,
   });
 
+  @JsonKey(
+    name: r'name',
+    
+    
+    
+  )
   int name;
 
+  @JsonKey(
+    name: r'class_',
+    
+    
+    
+  )
   String class_;
 
   @override
@@ -31,50 +48,9 @@ class Model200Response {
     (class_ == null ? 0 : class_.hashCode);
 
   @override
-  String toString() => 'Model200Response[name=$name, class_=$class_]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (name != null) {
-      json[r'name'] = name;
-    }
-    if (class_ != null) {
-      json[r'class'] = class_;
-    }
-    return json;
-  }
-
-  /// Returns a new [Model200Response] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static Model200Response fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : Model200Response(
-        name: json[r'name'],
-        class_: json[r'class'],
-    );
-
-  static List<Model200Response> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <Model200Response>[]
-      : json.map((v) => Model200Response.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, Model200Response> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, Model200Response>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = Model200Response.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of Model200Response-objects as value to a dart map
-  static Map<String, List<Model200Response>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<Model200Response>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = Model200Response.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory Model200Response.fromJson(Map<String, dynamic> json) => _$Model200ResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$Model200ResponseToJson(this);
 }
 

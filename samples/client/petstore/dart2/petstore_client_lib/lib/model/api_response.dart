@@ -9,6 +9,11 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class ApiResponse {
   /// Returns a new [ApiResponse] instance.
   ApiResponse({
@@ -17,10 +22,28 @@ class ApiResponse {
     this.message,
   });
 
+  @JsonKey(
+    name: r'code',
+    
+    
+    
+  )
   int code;
 
+  @JsonKey(
+    name: r'type',
+    
+    
+    
+  )
   String type;
 
+  @JsonKey(
+    name: r'message',
+    
+    
+    
+  )
   String message;
 
   @override
@@ -36,54 +59,9 @@ class ApiResponse {
     (message == null ? 0 : message.hashCode);
 
   @override
-  String toString() => 'ApiResponse[code=$code, type=$type, message=$message]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (code != null) {
-      json[r'code'] = code;
-    }
-    if (type != null) {
-      json[r'type'] = type;
-    }
-    if (message != null) {
-      json[r'message'] = message;
-    }
-    return json;
-  }
-
-  /// Returns a new [ApiResponse] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static ApiResponse fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : ApiResponse(
-        code: json[r'code'],
-        type: json[r'type'],
-        message: json[r'message'],
-    );
-
-  static List<ApiResponse> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <ApiResponse>[]
-      : json.map((v) => ApiResponse.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, ApiResponse> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, ApiResponse>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = ApiResponse.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of ApiResponse-objects as value to a dart map
-  static Map<String, List<ApiResponse>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<ApiResponse>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = ApiResponse.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory ApiResponse.fromJson(Map<String, dynamic> json) => _$ApiResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$ApiResponseToJson(this);
 }
 

@@ -9,12 +9,23 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class ModelClient {
   /// Returns a new [ModelClient] instance.
   ModelClient({
     this.client,
   });
 
+  @JsonKey(
+    name: r'client',
+    
+    
+    
+  )
   String client;
 
   @override
@@ -26,46 +37,9 @@ class ModelClient {
     (client == null ? 0 : client.hashCode);
 
   @override
-  String toString() => 'ModelClient[client=$client]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (client != null) {
-      json[r'client'] = client;
-    }
-    return json;
-  }
-
-  /// Returns a new [ModelClient] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static ModelClient fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : ModelClient(
-        client: json[r'client'],
-    );
-
-  static List<ModelClient> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <ModelClient>[]
-      : json.map((v) => ModelClient.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, ModelClient> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, ModelClient>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = ModelClient.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of ModelClient-objects as value to a dart map
-  static Map<String, List<ModelClient>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<ModelClient>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = ModelClient.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory ModelClient.fromJson(Map<String, dynamic> json) => _$ModelClientFromJson(json);
+  Map<String, dynamic> toJson() => _$ModelClientToJson(this);
 }
 

@@ -9,6 +9,11 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class FormatTest {
   /// Returns a new [FormatTest] instance.
   FormatTest({
@@ -32,46 +37,143 @@ class FormatTest {
 
   // minimum: 10
   // maximum: 100
+  @JsonKey(
+    name: r'integer',
+    
+    
+    
+  )
   int integer;
 
   // minimum: 20
   // maximum: 200
+  @JsonKey(
+    name: r'int32',
+    
+    
+    
+  )
   int int32;
 
+  @JsonKey(
+    name: r'int64',
+    
+    
+    
+  )
   int int64;
 
   // minimum: 32.1
   // maximum: 543.2
+  @JsonKey(
+    name: r'number',
+    required: true,
+    
+    
+  )
   num number;
 
   // minimum: 54.3
   // maximum: 987.6
+  @JsonKey(
+    name: r'float',
+    
+    
+    
+  )
   double float;
 
   // minimum: 67.8
   // maximum: 123.4
+  @JsonKey(
+    name: r'double_',
+    
+    
+    
+  )
   double double_;
 
+  @JsonKey(
+    name: r'decimal',
+    
+    
+    
+  )
   double decimal;
 
+  @JsonKey(
+    name: r'string',
+    
+    
+    
+  )
   String string;
 
+  @JsonKey(
+    name: r'byte',
+    required: true,
+    
+    
+  )
   String byte;
 
+  @JsonKey(ignore: true)
+  @JsonKey(
+    name: r'binary',
+    
+    
+    
+  )
   MultipartFile binary;
 
+  @JsonKey(
+    name: r'date',
+    required: true,
+    
+    
+  )
   DateTime date;
 
+  @JsonKey(
+    name: r'dateTime',
+    
+    
+    
+  )
   DateTime dateTime;
 
+  @JsonKey(
+    name: r'uuid',
+    
+    
+    
+  )
   String uuid;
 
+  @JsonKey(
+    name: r'password',
+    required: true,
+    
+    
+  )
   String password;
 
   /// A string that is a 10 digit number. Can have leading zeros.
+  @JsonKey(
+    name: r'patternWithDigits',
+    
+    
+    
+  )
   String patternWithDigits;
 
   /// A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
+  @JsonKey(
+    name: r'patternWithDigitsAndDelimiter',
+    
+    
+    
+  )
   String patternWithDigitsAndDelimiter;
 
   @override
@@ -113,112 +215,9 @@ class FormatTest {
     (patternWithDigitsAndDelimiter == null ? 0 : patternWithDigitsAndDelimiter.hashCode);
 
   @override
-  String toString() => 'FormatTest[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double_=$double_, decimal=$decimal, string=$string, byte=$byte, binary=$binary, date=$date, dateTime=$dateTime, uuid=$uuid, password=$password, patternWithDigits=$patternWithDigits, patternWithDigitsAndDelimiter=$patternWithDigitsAndDelimiter]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (integer != null) {
-      json[r'integer'] = integer;
-    }
-    if (int32 != null) {
-      json[r'int32'] = int32;
-    }
-    if (int64 != null) {
-      json[r'int64'] = int64;
-    }
-    if (number != null) {
-      json[r'number'] = number;
-    }
-    if (float != null) {
-      json[r'float'] = float;
-    }
-    if (double_ != null) {
-      json[r'double'] = double_;
-    }
-    if (decimal != null) {
-      json[r'decimal'] = decimal;
-    }
-    if (string != null) {
-      json[r'string'] = string;
-    }
-    if (byte != null) {
-      json[r'byte'] = byte;
-    }
-    if (binary != null) {
-      json[r'binary'] = binary;
-    }
-    if (date != null) {
-      json[r'date'] = _dateFormatter.format(date.toUtc());
-    }
-    if (dateTime != null) {
-      json[r'dateTime'] = dateTime.toUtc().toIso8601String();
-    }
-    if (uuid != null) {
-      json[r'uuid'] = uuid;
-    }
-    if (password != null) {
-      json[r'password'] = password;
-    }
-    if (patternWithDigits != null) {
-      json[r'pattern_with_digits'] = patternWithDigits;
-    }
-    if (patternWithDigitsAndDelimiter != null) {
-      json[r'pattern_with_digits_and_delimiter'] = patternWithDigitsAndDelimiter;
-    }
-    return json;
-  }
-
-  /// Returns a new [FormatTest] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static FormatTest fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : FormatTest(
-        integer: json[r'integer'],
-        int32: json[r'int32'],
-        int64: json[r'int64'],
-        number: json[r'number'] == null ?
-          null :
-          json[r'number'].toDouble(),
-        float: json[r'float'],
-        double_: json[r'double'],
-        decimal: json[r'decimal'],
-        string: json[r'string'],
-        byte: json[r'byte'],
-        binary: null, // No support for decoding binary content from JSON
-        date: json[r'date'] == null
-          ? null
-          : DateTime.parse(json[r'date']),
-        dateTime: json[r'dateTime'] == null
-          ? null
-          : DateTime.parse(json[r'dateTime']),
-        uuid: json[r'uuid'],
-        password: json[r'password'],
-        patternWithDigits: json[r'pattern_with_digits'],
-        patternWithDigitsAndDelimiter: json[r'pattern_with_digits_and_delimiter'],
-    );
-
-  static List<FormatTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <FormatTest>[]
-      : json.map((v) => FormatTest.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, FormatTest> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, FormatTest>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = FormatTest.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of FormatTest-objects as value to a dart map
-  static Map<String, List<FormatTest>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<FormatTest>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = FormatTest.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory FormatTest.fromJson(Map<String, dynamic> json) => _$FormatTestFromJson(json);
+  Map<String, dynamic> toJson() => _$FormatTestToJson(this);
 }
 

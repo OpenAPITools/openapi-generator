@@ -192,8 +192,6 @@ class ApiClient {
           return DogAllOf.fromJson(value);
         case 'EnumArrays':
           return EnumArrays.fromJson(value);
-        case 'EnumClass':
-          return EnumClassTypeTransformer().decode(value);
         case 'EnumTest':
           return EnumTest.fromJson(value);
         case 'FileSchemaTestClass':
@@ -233,13 +231,13 @@ class ApiClient {
         case 'OuterComposite':
           return OuterComposite.fromJson(value);
         case 'OuterEnum':
-          return OuterEnumTypeTransformer().decode(value);
+          return _$OuterEnumEnumMap[value];
         case 'OuterEnumDefaultValue':
-          return OuterEnumDefaultValueTypeTransformer().decode(value);
+          return _$OuterEnumDefaultValueEnumMap[value];
         case 'OuterEnumInteger':
-          return OuterEnumIntegerTypeTransformer().decode(value);
+          return _$OuterEnumIntegerEnumMap[value];
         case 'OuterEnumIntegerDefaultValue':
-          return OuterEnumIntegerDefaultValueTypeTransformer().decode(value);
+          return _$OuterEnumIntegerDefaultValueEnumMap[value];
         case 'Pet':
           return Pet.fromJson(value);
         case 'ReadOnlyFirst':

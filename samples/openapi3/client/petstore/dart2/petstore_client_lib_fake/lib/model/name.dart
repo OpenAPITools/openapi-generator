@@ -9,6 +9,11 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class Name {
   /// Returns a new [Name] instance.
   Name({
@@ -18,12 +23,36 @@ class Name {
     this.n123number,
   });
 
+  @JsonKey(
+    name: r'name',
+    required: true,
+    
+    
+  )
   int name;
 
+  @JsonKey(
+    name: r'snakeCase',
+    
+    
+    
+  )
   int snakeCase;
 
+  @JsonKey(
+    name: r'property',
+    
+    
+    
+  )
   String property;
 
+  @JsonKey(
+    name: r'n123number',
+    
+    
+    
+  )
   int n123number;
 
   @override
@@ -41,58 +70,9 @@ class Name {
     (n123number == null ? 0 : n123number.hashCode);
 
   @override
-  String toString() => 'Name[name=$name, snakeCase=$snakeCase, property=$property, n123number=$n123number]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (name != null) {
-      json[r'name'] = name;
-    }
-    if (snakeCase != null) {
-      json[r'snake_case'] = snakeCase;
-    }
-    if (property != null) {
-      json[r'property'] = property;
-    }
-    if (n123number != null) {
-      json[r'123Number'] = n123number;
-    }
-    return json;
-  }
-
-  /// Returns a new [Name] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static Name fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : Name(
-        name: json[r'name'],
-        snakeCase: json[r'snake_case'],
-        property: json[r'property'],
-        n123number: json[r'123Number'],
-    );
-
-  static List<Name> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <Name>[]
-      : json.map((v) => Name.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, Name> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, Name>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = Name.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of Name-objects as value to a dart map
-  static Map<String, List<Name>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<Name>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = Name.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory Name.fromJson(Map<String, dynamic> json) => _$NameFromJson(json);
+  Map<String, dynamic> toJson() => _$NameToJson(this);
 }
 

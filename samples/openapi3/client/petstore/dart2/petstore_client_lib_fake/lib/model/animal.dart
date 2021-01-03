@@ -9,6 +9,11 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class Animal {
   /// Returns a new [Animal] instance.
   Animal({
@@ -16,8 +21,20 @@ class Animal {
     this.color = 'red',
   });
 
+  @JsonKey(
+    name: r'className',
+    required: true,
+    
+    
+  )
   String className;
 
+  @JsonKey(
+    name: r'color',
+    
+    defaultValue: 'red',
+    
+  )
   String color;
 
   @override
@@ -31,50 +48,9 @@ class Animal {
     (color == null ? 0 : color.hashCode);
 
   @override
-  String toString() => 'Animal[className=$className, color=$color]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (className != null) {
-      json[r'className'] = className;
-    }
-    if (color != null) {
-      json[r'color'] = color;
-    }
-    return json;
-  }
-
-  /// Returns a new [Animal] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static Animal fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : Animal(
-        className: json[r'className'],
-        color: json[r'color'],
-    );
-
-  static List<Animal> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <Animal>[]
-      : json.map((v) => Animal.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, Animal> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, Animal>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = Animal.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of Animal-objects as value to a dart map
-  static Map<String, List<Animal>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<Animal>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = Animal.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory Animal.fromJson(Map<String, dynamic> json) => _$AnimalFromJson(json);
+  Map<String, dynamic> toJson() => _$AnimalToJson(this);
 }
 

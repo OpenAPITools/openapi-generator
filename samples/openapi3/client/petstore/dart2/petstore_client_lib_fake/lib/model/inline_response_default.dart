@@ -9,12 +9,23 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class InlineResponseDefault {
   /// Returns a new [InlineResponseDefault] instance.
   InlineResponseDefault({
     this.string,
   });
 
+  @JsonKey(
+    name: r'string',
+    
+    
+    
+  )
   Foo string;
 
   @override
@@ -26,46 +37,9 @@ class InlineResponseDefault {
     (string == null ? 0 : string.hashCode);
 
   @override
-  String toString() => 'InlineResponseDefault[string=$string]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (string != null) {
-      json[r'string'] = string;
-    }
-    return json;
-  }
-
-  /// Returns a new [InlineResponseDefault] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static InlineResponseDefault fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : InlineResponseDefault(
-        string: Foo.fromJson(json[r'string']),
-    );
-
-  static List<InlineResponseDefault> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <InlineResponseDefault>[]
-      : json.map((v) => InlineResponseDefault.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, InlineResponseDefault> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, InlineResponseDefault>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = InlineResponseDefault.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of InlineResponseDefault-objects as value to a dart map
-  static Map<String, List<InlineResponseDefault>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<InlineResponseDefault>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = InlineResponseDefault.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory InlineResponseDefault.fromJson(Map<String, dynamic> json) => _$InlineResponseDefaultFromJson(json);
+  Map<String, dynamic> toJson() => _$InlineResponseDefaultToJson(this);
 }
 

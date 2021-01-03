@@ -9,6 +9,11 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class ModelFile {
   /// Returns a new [ModelFile] instance.
   ModelFile({
@@ -16,6 +21,12 @@ class ModelFile {
   });
 
   /// Test capitalization
+  @JsonKey(
+    name: r'sourceURI',
+    
+    
+    
+  )
   String sourceURI;
 
   @override
@@ -27,46 +38,9 @@ class ModelFile {
     (sourceURI == null ? 0 : sourceURI.hashCode);
 
   @override
-  String toString() => 'ModelFile[sourceURI=$sourceURI]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (sourceURI != null) {
-      json[r'sourceURI'] = sourceURI;
-    }
-    return json;
-  }
-
-  /// Returns a new [ModelFile] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static ModelFile fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : ModelFile(
-        sourceURI: json[r'sourceURI'],
-    );
-
-  static List<ModelFile> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <ModelFile>[]
-      : json.map((v) => ModelFile.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, ModelFile> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, ModelFile>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = ModelFile.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of ModelFile-objects as value to a dart map
-  static Map<String, List<ModelFile>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<ModelFile>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = ModelFile.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory ModelFile.fromJson(Map<String, dynamic> json) => _$ModelFileFromJson(json);
+  Map<String, dynamic> toJson() => _$ModelFileToJson(this);
 }
 

@@ -9,6 +9,11 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class NullableClass {
   /// Returns a new [NullableClass] instance.
   NullableClass({
@@ -26,28 +31,100 @@ class NullableClass {
     this.objectItemsNullable = const {},
   });
 
+  @JsonKey(
+    name: r'integerProp',
+    
+    
+    
+  )
   int integerProp;
 
+  @JsonKey(
+    name: r'numberProp',
+    
+    
+    
+  )
   num numberProp;
 
+  @JsonKey(
+    name: r'booleanProp',
+    
+    
+    
+  )
   bool booleanProp;
 
+  @JsonKey(
+    name: r'stringProp',
+    
+    
+    
+  )
   String stringProp;
 
+  @JsonKey(
+    name: r'dateProp',
+    
+    
+    
+  )
   DateTime dateProp;
 
+  @JsonKey(
+    name: r'datetimeProp',
+    
+    
+    
+  )
   DateTime datetimeProp;
 
+  @JsonKey(
+    name: r'arrayNullableProp',
+    
+    defaultValue: const [],
+    
+  )
   List<Object> arrayNullableProp;
 
+  @JsonKey(
+    name: r'arrayAndItemsNullableProp',
+    
+    defaultValue: const [],
+    
+  )
   List<Object> arrayAndItemsNullableProp;
 
+  @JsonKey(
+    name: r'arrayItemsNullable',
+    
+    defaultValue: const [],
+    
+  )
   List<Object> arrayItemsNullable;
 
+  @JsonKey(
+    name: r'objectNullableProp',
+    
+    defaultValue: const {},
+    
+  )
   Map<String, Object> objectNullableProp;
 
+  @JsonKey(
+    name: r'objectAndItemsNullableProp',
+    
+    defaultValue: const {},
+    
+  )
   Map<String, Object> objectAndItemsNullableProp;
 
+  @JsonKey(
+    name: r'objectItemsNullable',
+    
+    defaultValue: const {},
+    
+  )
   Map<String, Object> objectItemsNullable;
 
   @override
@@ -81,102 +158,9 @@ class NullableClass {
     (objectItemsNullable == null ? 0 : objectItemsNullable.hashCode);
 
   @override
-  String toString() => 'NullableClass[integerProp=$integerProp, numberProp=$numberProp, booleanProp=$booleanProp, stringProp=$stringProp, dateProp=$dateProp, datetimeProp=$datetimeProp, arrayNullableProp=$arrayNullableProp, arrayAndItemsNullableProp=$arrayAndItemsNullableProp, arrayItemsNullable=$arrayItemsNullable, objectNullableProp=$objectNullableProp, objectAndItemsNullableProp=$objectAndItemsNullableProp, objectItemsNullable=$objectItemsNullable]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (integerProp != null) {
-      json[r'integer_prop'] = integerProp;
-    }
-    if (numberProp != null) {
-      json[r'number_prop'] = numberProp;
-    }
-    if (booleanProp != null) {
-      json[r'boolean_prop'] = booleanProp;
-    }
-    if (stringProp != null) {
-      json[r'string_prop'] = stringProp;
-    }
-    if (dateProp != null) {
-      json[r'date_prop'] = _dateFormatter.format(dateProp.toUtc());
-    }
-    if (datetimeProp != null) {
-      json[r'datetime_prop'] = datetimeProp.toUtc().toIso8601String();
-    }
-    if (arrayNullableProp != null) {
-      json[r'array_nullable_prop'] = arrayNullableProp;
-    }
-    if (arrayAndItemsNullableProp != null) {
-      json[r'array_and_items_nullable_prop'] = arrayAndItemsNullableProp;
-    }
-    if (arrayItemsNullable != null) {
-      json[r'array_items_nullable'] = arrayItemsNullable;
-    }
-    if (objectNullableProp != null) {
-      json[r'object_nullable_prop'] = objectNullableProp;
-    }
-    if (objectAndItemsNullableProp != null) {
-      json[r'object_and_items_nullable_prop'] = objectAndItemsNullableProp;
-    }
-    if (objectItemsNullable != null) {
-      json[r'object_items_nullable'] = objectItemsNullable;
-    }
-    return json;
-  }
-
-  /// Returns a new [NullableClass] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static NullableClass fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : NullableClass(
-        integerProp: json[r'integer_prop'],
-        numberProp: json[r'number_prop'] == null ?
-          null :
-          json[r'number_prop'].toDouble(),
-        booleanProp: json[r'boolean_prop'],
-        stringProp: json[r'string_prop'],
-        dateProp: json[r'date_prop'] == null
-          ? null
-          : DateTime.parse(json[r'date_prop']),
-        datetimeProp: json[r'datetime_prop'] == null
-          ? null
-          : DateTime.parse(json[r'datetime_prop']),
-        arrayNullableProp: Object.listFromJson(json[r'array_nullable_prop']),
-        arrayAndItemsNullableProp: Object.listFromJson(json[r'array_and_items_nullable_prop']),
-        arrayItemsNullable: Object.listFromJson(json[r'array_items_nullable']),
-        objectNullableProp: json[r'object_nullable_prop'] == null
-          ? null
-          : Object.mapFromJson(json[r'object_nullable_prop']),
-        objectAndItemsNullableProp: json[r'object_and_items_nullable_prop'] == null
-          ? null
-          : Object.mapFromJson(json[r'object_and_items_nullable_prop']),
-        objectItemsNullable: json[r'object_items_nullable'] == null
-          ? null
-          : Object.mapFromJson(json[r'object_items_nullable']),
-    );
-
-  static List<NullableClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <NullableClass>[]
-      : json.map((v) => NullableClass.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, NullableClass> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, NullableClass>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = NullableClass.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of NullableClass-objects as value to a dart map
-  static Map<String, List<NullableClass>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<NullableClass>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = NullableClass.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory NullableClass.fromJson(Map<String, dynamic> json) => _$NullableClassFromJson(json);
+  Map<String, dynamic> toJson() => _$NullableClassToJson(this);
 }
 

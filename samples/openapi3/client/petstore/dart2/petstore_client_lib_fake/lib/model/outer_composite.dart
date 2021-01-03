@@ -9,6 +9,11 @@
 
 part of openapi.api;
 
+@JsonSerializable(
+  checked: true,
+  includeIfNull: false,
+  disallowUnrecognizedKeys: true,
+)
 class OuterComposite {
   /// Returns a new [OuterComposite] instance.
   OuterComposite({
@@ -17,10 +22,28 @@ class OuterComposite {
     this.myBoolean,
   });
 
+  @JsonKey(
+    name: r'myNumber',
+    
+    
+    
+  )
   num myNumber;
 
+  @JsonKey(
+    name: r'myString',
+    
+    
+    
+  )
   String myString;
 
+  @JsonKey(
+    name: r'myBoolean',
+    
+    
+    
+  )
   bool myBoolean;
 
   @override
@@ -36,56 +59,9 @@ class OuterComposite {
     (myBoolean == null ? 0 : myBoolean.hashCode);
 
   @override
-  String toString() => 'OuterComposite[myNumber=$myNumber, myString=$myString, myBoolean=$myBoolean]';
+  String toString() => toJson().toString();
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (myNumber != null) {
-      json[r'my_number'] = myNumber;
-    }
-    if (myString != null) {
-      json[r'my_string'] = myString;
-    }
-    if (myBoolean != null) {
-      json[r'my_boolean'] = myBoolean;
-    }
-    return json;
-  }
-
-  /// Returns a new [OuterComposite] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static OuterComposite fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : OuterComposite(
-        myNumber: json[r'my_number'] == null ?
-          null :
-          json[r'my_number'].toDouble(),
-        myString: json[r'my_string'],
-        myBoolean: json[r'my_boolean'],
-    );
-
-  static List<OuterComposite> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <OuterComposite>[]
-      : json.map((v) => OuterComposite.fromJson(v)).toList(growable: true == growable);
-
-  static Map<String, OuterComposite> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, OuterComposite>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = OuterComposite.fromJson(v));
-    }
-    return map;
-  }
-
-  // maps a json object with a list of OuterComposite-objects as value to a dart map
-  static Map<String, List<OuterComposite>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<OuterComposite>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = OuterComposite.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
-    }
-    return map;
-  }
+  factory OuterComposite.fromJson(Map<String, dynamic> json) => _$OuterCompositeFromJson(json);
+  Map<String, dynamic> toJson() => _$OuterCompositeToJson(this);
 }
 
