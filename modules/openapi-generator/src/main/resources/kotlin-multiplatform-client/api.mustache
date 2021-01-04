@@ -40,10 +40,9 @@ public open class {{classname}} : ApiClientBase {
         json: Json = Json {}
     ) : super(baseUrl, httpClientEngine, json)
 
-    internal constructor(baseUrl: String, client: HttpClient, serializer: KotlinxSerializer) : super(
+    internal constructor(baseUrl: String, client: HttpClient) : super(
         baseUrl,
-        client,
-        serializer
+        client
     )
 
     {{#operation}}
