@@ -15,28 +15,17 @@ import {{packageName}}.infrastructure.ApiClientBase
 @Suppress("RemoveRedundantBackticks", "MemberVisibilityCanBePrivate", "unused")
 public open class ApiClientAsync(
     baseUrl: String = "{{{basePath}}}",
-    httpClientEngine: HttpClientEngine? = null,
-    json: Json = Json {},
+    client: HttpClient,
     coroutineScope: CoroutineScope = GlobalScope,
 ) {
-    protected val serializer: KotlinxSerializer = KotlinxSerializer(json)
-    protected val client: HttpClient
-
-    init {
-        val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = this@ApiClientAsync.serializer }
-        val clientConfig: (HttpClientConfig<*>) -> Unit = { it.install(JsonFeature, jsonConfig) }
-        client = if (httpClientEngine == null) {
-            HttpClient(clientConfig)
-        } else {
-            HttpClient(httpClientEngine, clientConfig)
-        }
-    }
+    public constructor(baseUrl: String, httpClientEngine: HttpClientEngine? = null, json: Json = Json {}, coroutineScope: CoroutineScope = GlobalScope) :
+        this(baseUrl, createHttpClient(httpClientEngine, KotlinxSerializer(json)), coroutineScope)
 
     {{! TODO: Remove backticks when conflicts are resolved }}
     {{#apiInfo}}
     {{#apis}}
     public val `{{{classVarName}}}`: {{{classFilename}}}Async by lazy {
-        {{{classFilename}}}Async(baseUrl, client, serializer, coroutineScope)
+        {{{classFilename}}}Async(baseUrl, client, coroutineScope)
     }
     {{/apis}}
     {{/apiInfo}}
@@ -118,5 +107,15 @@ public open class ApiClientAsync(
         for (client in allClients) {
             client.setBearerToken(bearerToken)
         }
+    }
+}
+
+private fun createHttpClient(httpClientEngine: HttpClientEngine? = null, serializer: KotlinxSerializer): HttpClient {
+    val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = serializer }
+    val clientConfig: (HttpClientConfig<*>) -> Unit = { it.install(JsonFeature, jsonConfig) }
+    return if (httpClientEngine == null) {
+        HttpClient(clientConfig)
+    } else {
+        HttpClient(httpClientEngine, clientConfig)
     }
 }

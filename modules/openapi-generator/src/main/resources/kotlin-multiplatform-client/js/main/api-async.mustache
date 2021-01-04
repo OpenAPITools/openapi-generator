@@ -32,12 +32,10 @@ public open class {{{classname}}}Async : {{{classname}}} {
     internal constructor(
         baseUrl: String,
         client: HttpClient,
-        serializer: KotlinxSerializer,
         coroutineScope: CoroutineScope,
     ) : super(
         baseUrl,
         client,
-        serializer,
     ) {
         this.coroutineScope = coroutineScope
     }
