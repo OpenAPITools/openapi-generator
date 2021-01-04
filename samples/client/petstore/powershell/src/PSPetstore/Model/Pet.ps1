@@ -59,11 +59,11 @@ function Initialize-PSPet {
         'Creating PSCustomObject: PSPetstore => PSPet' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        if (!$Name) {
+        if ($Name -eq $null) {
             throw "invalid value for 'Name', 'Name' cannot be null."
         }
 
-        if (!$PhotoUrls) {
+        if ($PhotoUrls -eq $null) {
             throw "invalid value for 'PhotoUrls', 'PhotoUrls' cannot be null."
         }
 
