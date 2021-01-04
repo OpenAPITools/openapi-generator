@@ -32,6 +32,28 @@ After the client library is installed/deployed, you can use it in your Maven pro
 
 ```
 
+And to use the api you can follow the examples bellow:
+
+```java
+        //Oauth client credentials flow
+        ApiClient apiClient = new ApiClient("name_of_the_client_credentials_auth");
+        apiClient.setClientCredentials("client_id", "client_secret");
+
+        //Set bearer token manually
+        //ApiClient apiClient = new ApiClient("petstore_auth_client");
+        //apiClient.setAccessToken("access token", 10000);
+
+        //Use api key
+        //ApiClient apiClient = new ApiClient("api_key", "api key");
+
+        //Use http basic authentication
+        //ApiClient apiClient = new ApiClient("basicAuth");
+        //apiClient.setCredentials("username", "password");
+
+
+        SomeApi api = apiClient.buildClient(SomeApi.class);
+```
+
 ## Recommendation
 
 It's recommended to create an instance of `ApiClient` per thread in a multithreaded environment to avoid any potential issues.
