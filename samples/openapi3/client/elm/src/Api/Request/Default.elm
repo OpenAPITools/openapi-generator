@@ -14,10 +14,10 @@
 
 
 module Api.Request.Default exposing
-    ( headerPost, HeaderType(..), headerTypeVariants
+    ( headerPost, HeaderType(..), stringFromHeaderType, headerTypeVariants
     , maybeGet
-    , pathStringIntegerEnumerationGet, Enumeration(..), enumerationVariants
-    , queryGet, Enum(..), enumVariants
+    , pathStringIntegerEnumerationGet, Enumeration(..), stringFromEnumeration, enumerationVariants
+    , queryGet, Enum(..), stringFromEnum, enumVariants
     , securedPost
     , uuidGet
     )
@@ -190,3 +190,4 @@ uuidGet value_query =
         []
         Nothing
         Uuid.decoder
+

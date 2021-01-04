@@ -21,8 +21,8 @@ module Api.Data exposing
     , Discriminated(..)
     , DiscriminatedA
     , DiscriminatedB
-    , Enum(..), enumVariants
-    , Enumeric(..), enumericVariants
+    , Enum(..), stringFromEnum, enumVariants
+    , Enumeric(..), stringFromEnumeric, enumericVariants
     , Maybe_
     , OneOf(..)
     , OneOfA
