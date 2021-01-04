@@ -11,14 +11,15 @@ import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.features.json.serializer.*
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.promise
+import kotlinx.coroutines.async
 import kotlinx.serialization.json.Json
-import kotlin.js.Promise
 
 {{#operations}}
-public open class {{{classname}}}Async : {{{classname}}} {
+public open class {{{classname}}}Async : ApiClientBase {
     public val coroutineScope: CoroutineScope
+    protected val client: {{{classname}}}
 
     public constructor(
         baseUrl: String = "{{{basePath}}}",
@@ -27,6 +28,7 @@ public open class {{{classname}}}Async : {{{classname}}} {
         coroutineScope: CoroutineScope = GlobalScope,
     ) : super(baseUrl, httpClientEngine, json) {
         this.coroutineScope = coroutineScope
+        this.client = {{{classname}}}(baseUrl, httpClientEngine, json)
     }
 
     internal constructor(
@@ -40,6 +42,7 @@ public open class {{{classname}}}Async : {{{classname}}} {
         serializer,
     ) {
         this.coroutineScope = coroutineScope
+        this.client = {{{classname}}}(baseUrl, client, serializer)
     }
 
     {{#operation}}
@@ -53,9 +56,9 @@ public open class {{{classname}}}Async : {{{classname}}} {
         {{#allParams}}
         {{{paramName}}}: {{{dataType}}}{{^required}}? = null{{/required}},
         {{/allParams}}
-    ): Promise<HttpResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}>> {
-        return coroutineScope.promise {
-            {{operationId}}(
+    ): Deferred<HttpResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}>> {
+        return coroutineScope.async {
+            this@{{{classname}}}Async.client.{{operationId}}(
                 {{#allParams}}
                 {{{paramName}}} = {{{paramName}}},
                 {{/allParams}}

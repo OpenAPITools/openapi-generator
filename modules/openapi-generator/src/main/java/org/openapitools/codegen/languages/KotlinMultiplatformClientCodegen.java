@@ -34,9 +34,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         public static final String KOTLINX_DATETIME_VERSION = "kotlinxDatetimeVersion";
 
         // Platforms specific options
-        public static final String JVM_ASYNC = "jvmAsync";
-        public static final String ANDROID_ASYNC = "androidAsync";
-        public static final String JS_ASYNC = "jsAsync";
+        public static final String GENERATE_ASYNC = "async";
         public static final String JS_BROWSER = "jsBrowser";
         public static final String JS_NODE = "jsNode";
 
@@ -61,9 +59,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
             public static final boolean IOS_ENABLED = false;
             public static final boolean NATIVE_ENABLED = false;
 
-            public static final JavaAsync JVM_ASYNC = JavaAsync.JDK8;
-            public static final JavaAsync ANDROID_ASYNC = JavaAsync.NONE;
-            public static final JsAsync JS_ASYNC = JsAsync.PROMISE;
+            public static final boolean GENERATE_ASYNC = false;
             public static final boolean JS_BROWSER = true;
             public static final boolean JS_NODE = false;
 
@@ -113,55 +109,6 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
                         .filter(v -> v.value.equals(name))
                         .findAny()
                         .orElseThrow(() -> new InvalidEnumNameException(name, "DateLibrary", Arrays.stream(values()).map(DateLibrary::value)));
-            }
-
-            public String value() {
-                return value;
-            }
-        }
-
-        public enum JavaAsync {
-            NONE("none"),
-            // https://github.com/Kotlin/kotlinx.coroutines/blob/master/integration/kotlinx-coroutines-jdk8/README.md
-            JDK8("jdk8");
-            /*
-            More possibilities:
-            https://github.com/Kotlin/kotlinx.coroutines/blob/master/integration/README.md
-             */
-
-            public final String value;
-
-            JavaAsync(String value) {
-                this.value = value;
-            }
-
-            public static JavaAsync fromName(String name) {
-                return Arrays.stream(values())
-                        .filter(v -> v.value.equals(name))
-                        .findAny()
-                        .orElseThrow(() -> new InvalidEnumNameException(name, "JavaAsync", Arrays.stream(values()).map(JavaAsync::value)));
-            }
-
-            public String value() {
-                return value;
-            }
-        }
-
-        public enum JsAsync {
-            NONE("none"),
-            PROMISE("promise");
-
-            public final String value;
-
-            JsAsync(String value) {
-                this.value = value;
-            }
-
-            public static JsAsync fromName(String name) {
-                return Arrays.stream(values())
-                        .filter(v -> v.value.equals(name))
-                        .findAny()
-                        .orElseThrow(() -> new InvalidEnumNameException(name, "JsAsync", Arrays.stream(values()).map(JsAsync::value)));
             }
 
             public String value() {
@@ -278,31 +225,11 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
                 "Add nodejs support to js module",
                 Options.Defaults.JS_NODE
         ));
-
-        CliOption jvmAsync = new CliOption(Options.JVM_ASYNC, "Option. Date library to use");
-        Map<String, String> jvmAsyncOptions = new HashMap<>();
-        jvmAsyncOptions.put(Options.JavaAsync.NONE.value, "Only supports coroutines on jvm");
-        jvmAsyncOptions.put(Options.JavaAsync.JDK8.value, "Adds additional support for java 8 `CompletableFuture` on jvm");
-        jvmAsync.setEnum(jvmAsyncOptions);
-        jvmAsync.setDefault(Options.Defaults.DATE_LIBRARY.value);
-        cliOptions.add(jvmAsync);
-
-        // Disabled due to incomplete build
-        //CliOption androidAsync = new CliOption(Options.ANDROID_ASYNC, "Option. Date library to use");
-        //Map<String, String> androidAsyncOptions = new HashMap<>();
-        //androidAsyncOptions.put(Options.JavaAsync.NONE.value, "Only supports coroutines on android");
-        //androidAsyncOptions.put(Options.JavaAsync.JDK8.value, "Adds additional support for java 8 `CompletableFuture` on android");
-        //androidAsync.setEnum(androidAsyncOptions);
-        //androidAsync.setDefault(Options.Defaults.ANDROID_ASYNC.value);
-        //cliOptions.add(androidAsync);
-
-        CliOption jsAsync = new CliOption(Options.JS_ASYNC, "Option. Date library to use");
-        Map<String, String> jsAsyncOptions = new HashMap<>();
-        jsAsyncOptions.put(Options.JsAsync.NONE.value, "Only supports coroutines in javascript");
-        jsAsyncOptions.put(Options.JsAsync.PROMISE.value, "Adds additional support for Promises in javascript");
-        jsAsync.setEnum(jsAsyncOptions);
-        jsAsync.setDefault(Options.Defaults.JS_ASYNC.value);
-        cliOptions.add(jsAsync);
+        cliOptions.add(CliOption.newBoolean(
+                Options.GENERATE_ASYNC,
+                "Add asynchronous methods for each endpoint with the help of Deferred<T>",
+                Options.Defaults.GENERATE_ASYNC
+        ));
     }
 
     @Override
@@ -322,38 +249,13 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         Options.DateLibrary dateLibrary = Options.DateLibrary.fromName(stringOption(Options.DATE_LIBRARY, Options.Defaults.DATE_LIBRARY.value));
         setDateLibrary(dateLibrary);
         boolean subproject = booleanOption(Options.SUBPROJECT, Options.Defaults.SUBPROJECT);
+        boolean async = booleanOption(Options.GENERATE_ASYNC, Options.Defaults.GENERATE_ASYNC);
 
         boolean jvmEnabled = platformOption(Options.Platform.JVM, Options.Defaults.JVM_ENABLED);
         boolean androidEnabled = platformOption(Options.Platform.ANDROID, Options.Defaults.ANDROID_ENABLED);
         boolean jsEnabled = platformOption(Options.Platform.JS, Options.Defaults.JS_ENABLED);
         boolean iosEnabled = platformOption(Options.Platform.IOS, Options.Defaults.IOS_ENABLED);
         boolean nativeEnabled = platformOption(Options.Platform.NATIVE, Options.Defaults.NATIVE_ENABLED);
-
-        Options.JavaAsync jvmAsync;
-        if (jvmEnabled) {
-            jvmAsync = Options.JavaAsync.fromName(stringOption(Options.JVM_ASYNC, Options.Defaults.JVM_ASYNC.value));
-        } else {
-            jvmAsync = Options.JavaAsync.NONE;
-        }
-        setJvmAsync(jvmAsync);
-
-        Options.JavaAsync androidAsync;
-        if (androidEnabled) {
-            androidAsync = Options.JavaAsync.fromName(stringOption(Options.ANDROID_ASYNC, Options.Defaults.ANDROID_ASYNC.value));
-        } else {
-            androidAsync = Options.JavaAsync.NONE;
-        }
-        setAndroidAsync(androidAsync);
-
-        Options.JsAsync jsAsync;
-        if (jsEnabled) {
-            jsAsync = Options.JsAsync.fromName(stringOption(Options.JS_ASYNC, Options.Defaults.JS_ASYNC.value));
-        } else {
-            jsAsync = Options.JsAsync.NONE;
-        }
-        setJsAsync(jsAsync);
-
-        additionalProperties.put("anyAsync", jvmAsync != Options.JavaAsync.NONE || androidAsync != Options.JavaAsync.NONE || jsAsync != Options.JsAsync.NONE);
 
         boolean jsBrowser = booleanOption(Options.JS_BROWSER, Options.Defaults.JS_BROWSER);
         boolean jsNode = booleanOption(Options.JS_NODE, Options.Defaults.JS_NODE);
@@ -378,9 +280,9 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         final String infraDest = srcDir + File.separator + "infrastructure";
         final String infraSrc = "common/main/infrastructure/";
         supportingFiles.add(new SupportingFile("ApiClient.kt.mustache", srcDir, "ApiClient.kt"));
-        if (jsAsync != Options.JsAsync.NONE) {
-            apiTemplateFiles.put("js/main/api-async.mustache", ".kt");
-            supportingFiles.add(new SupportingFile("js/main/ApiClientAsync.kt.mustache", jsSrcDir, "ApiClientAsync.kt"));
+        if (async) {
+            apiTemplateFiles.put("api-async.mustache", ".kt");
+            supportingFiles.add(new SupportingFile("common/main/ApiClientAsync.kt.mustache", srcDir, "ApiClientAsync.kt"));
         }
         supportingFiles.add(new SupportingFile(infraSrc + "ApiClientBase.kt.mustache", infraDest, "ApiClientBase.kt"));
         supportingFiles.add(new SupportingFile(infraSrc + "ApiAbstractions.kt.mustache", infraDest, "ApiAbstractions.kt"));
@@ -461,9 +363,9 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
 
     @Override
     public String apiFilename(String templateName, String tag) {
-        if (templateName.equals("js/main/api-async.mustache")) {
+        if (templateName.equals("api-async.mustache")) {
             String suffix = apiTemplateFiles().get(templateName);
-            return outputFolder + "/src/js/main/" + packageName.replace('.', '/') + "/apis/" + toApiFilename(tag) + "Async" + suffix;
+            return apiFileFolder() + File.separator + toApiFilename(tag) + "Async" + suffix;
         }
         return super.apiFilename(templateName, tag);
     }
@@ -560,54 +462,6 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
             case KOTLINX: {
                 additionalProperties.put("dateLibraryKotlinx", true);
                 additionalProperties.put("dateLibraryString", false);
-                break;
-            }
-            default: {
-                throw new IllegalStateException();
-            }
-        }
-    }
-
-    private void setJsAsync(Options.JsAsync jsAsync) {
-        switch (jsAsync) {
-            case NONE: {
-                additionalProperties.put("jsAsyncPromise", false);
-                break;
-            }
-            case PROMISE: {
-                additionalProperties.put("jsAsyncPromise", true);
-                break;
-            }
-            default: {
-                throw new IllegalStateException();
-            }
-        }
-    }
-
-    private void setAndroidAsync(Options.JavaAsync androidAsync) {
-        switch (androidAsync) {
-            case NONE: {
-                additionalProperties.put("androidAsyncJdk8", false);
-                break;
-            }
-            case JDK8: {
-                additionalProperties.put("androidAsyncJdk8", true);
-                break;
-            }
-            default: {
-                throw new IllegalStateException();
-            }
-        }
-    }
-
-    private void setJvmAsync(Options.JavaAsync jvmAsync) {
-        switch (jvmAsync) {
-            case NONE: {
-                additionalProperties.put("jvmAsyncJdk8", false);
-                break;
-            }
-            case JDK8: {
-                additionalProperties.put("jvmAsyncJdk8", true);
                 break;
             }
             default: {
