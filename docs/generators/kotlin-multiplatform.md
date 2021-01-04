@@ -11,16 +11,15 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |apiSuffix|suffix for api classes| |Api|
 |artifactId|Generated artifact id (name of jar).| |kotlin-multiplatform-client|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
+|async|Add asynchronous methods for each endpoint with the help of Deferred&lt;T&gt;| |false|
 |dateLibrary|Option. Date library to use|<dl><dt>**string**</dt><dd>String returns dates and times as string</dd><dt>**kotlinx**</dt><dd>Kotlinx multi-platform datetime library (experimental)</dd></dl>|string|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |PascalCase|
 |gradleVersion|Sets the gradle version used| |6.7.1|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |iosEnabled|Enables generation of core for ios in the multiplatform project| |false|
-|jsAsync|Option. Date library to use|<dl><dt>**promise**</dt><dd>Adds additional support for Promises in javascript</dd><dt>**none**</dt><dd>Only supports coroutines in javascript</dd></dl>|promise|
 |jsBrowser|Add browser support to js module| |true|
 |jsEnabled|Enables generation of core for js in the multiplatform project| |false|
 |jsNode|Add nodejs support to js module| |false|
-|jvmAsync|Option. Date library to use|<dl><dt>**jdk8**</dt><dd>Adds additional support for java 8 `CompletableFuture` on jvm</dd><dt>**none**</dt><dd>Only supports coroutines on jvm</dd></dl>|string|
 |jvmEnabled|Enables generation of core for jvm in the multiplatform project| |true|
 |kotlinVersion|Sets the kotlin version used| |1.4.21|
 |ktorVersion|Sets the ktor version used| |1.4.1|
