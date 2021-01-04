@@ -33,7 +33,7 @@ public {{#discriminator}}interface{{/discriminator}}{{^discriminator}}data class
      * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
      */
     @Serializable
-    public enum class {{{nameInCamelCase}}}(val value: {{{dataType}}}){
+    public enum class {{{nameInCamelCase}}}(public val value: {{{dataType}}}){
         {{#allowableValues}}
         {{#enumVars}}
         @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})

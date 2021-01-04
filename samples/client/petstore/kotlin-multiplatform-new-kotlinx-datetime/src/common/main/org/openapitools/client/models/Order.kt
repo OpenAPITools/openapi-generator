@@ -59,7 +59,7 @@ public data class Order(
      * Values: Placed,Approved,Delivered
      */
     @Serializable
-    public enum class Status(val value: kotlin.String){
+    public enum class Status(public val value: kotlin.String){
         @SerialName(value = "placed")
         Placed("placed"),
         @SerialName(value = "approved")
