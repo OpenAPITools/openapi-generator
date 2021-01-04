@@ -5,10 +5,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-{{#hasOAuthMethods}}
-
-{{/hasOAuthMethods}}
-
 {{#threetenbp}}
 import org.threeten.bp.*;
 {{/threetenbp}}
@@ -79,7 +75,7 @@ public class ApiClient {
         auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}");
       {{/isApiKey}}
       {{#isOAuth}}
-        auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}");
+        auth = buildOauthRequestInterceptor(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}");
       {{/isOAuth}}
       } else {{/authMethods}}{
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
@@ -164,6 +160,17 @@ public class ApiClient {
     return objectMapper;
   }
 
+  private RequestInterceptor buildOauthRequestInterceptor(OAuthFlow flow, String authorizationUrl, String tokenUrl, String scopes) {
+    switch (flow) {
+      case password:
+        return new OauthPasswordGrant(tokenUrl, scopes);
+      case application:
+        return new OauthClientCredentialsGrant(authorizationUrl, tokenUrl, scopes);
+      default:
+        throw new RuntimeException("Oauth flow \"" + flow + "\" is not implemented");
+    }
+  }
+
   public ObjectMapper getObjectMapper(){
     return objectMapper;
   }
@@ -218,14 +225,6 @@ public class ApiClient {
     return contentTypes[0];
   }
 
-  {{#hasOAuthMethods}}
-  public void setClientCredentials(String clientId, String clientSecret) {
-    OAuth authorization = getAuthorization(OAuth.class);
-    authorization.configureClientCredentialsFlow(clientId, clientSecret);
-  }
-
-  {{/hasOAuthMethods}}
-
   /**
    * Helper method to configure the bearer token.
    * @param bearerToken the bearer token.
@@ -256,13 +255,23 @@ public class ApiClient {
 
   {{#hasOAuthMethods}}
   /**
+   * Helper method to configure the client credentials for Oauth 
+   * @param username Username
+   * @param password Password
+   */
+  public void setClientCredentials(String clientId, String clientSecret) {
+    OauthClientCredentialsGrant authorization = getAuthorization(OauthClientCredentialsGrant.class);
+    authorization.configure(clientId, clientSecret);
+  }
+
+  /**
    * Helper method to configure the username/password for Oauth password grant
    * @param username Username
    * @param password Password
    */
   public void setOauthPassword(String username, String password, String clientId, String clientSecret) {
-    OAuth apiAuthorization = getAuthorization(OAuth.class);
-    apiAuthorization.configurePasswordGrant(username,password,clientId,clientSecret);
+    OauthPasswordGrant apiAuthorization = getAuthorization(OauthPasswordGrant.class);
+    apiAuthorization.configure(username, password, clientId, clientSecret);
   }
 
   /**

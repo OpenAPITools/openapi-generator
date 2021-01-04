@@ -1,6 +1,5 @@
 package {{invokerPackage}}.auth;
 
-import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import feign.Request.HttpMethod;
@@ -8,11 +7,8 @@ import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import feign.RetryableException;
 
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-
 {{>generatedAnnotation}}
-public class OAuth implements RequestInterceptor {
+public abstract class OAuth implements RequestInterceptor {
 
   static final int MILLIS_PER_SECOND = 1000;
 
@@ -23,20 +19,13 @@ public class OAuth implements RequestInterceptor {
   private volatile String accessToken;
   private Long expirationTimeMillis;
   private AccessTokenListener accessTokenListener;
-  private OAuth20Service service;
-  private OAuthFlow flow;
-  private String scopes;
-  private String authorizationUrl;
-  private String tokenUrl;
 
-  /**
-   * For password grant
-   */
-  private String username;
-  private String password;
+  protected OAuth20Service service;
+  protected String scopes;
+  protected String authorizationUrl;
+  protected String tokenUrl;
 
-  public OAuth(OAuthFlow flow, String authorizationUrl, String tokenUrl, String scopes) {
-    this.flow = flow;
+  public OAuth(String authorizationUrl, String tokenUrl, String scopes) {
     this.scopes = scopes;
     this.authorizationUrl = authorizationUrl;
     this.tokenUrl = tokenUrl;
@@ -57,37 +46,6 @@ public class OAuth implements RequestInterceptor {
     }
   }
 
-  /**
-   * Configures the client credentials flow
-   * @param clientId
-   * @param clientSecret
-   */
-  public void configureClientCredentialsFlow(String clientId, String clientSecret) {
-    service = new ServiceBuilder(clientId)
-        .apiSecret(clientSecret)
-        .defaultScope(scopes)
-        .build(new DefaultApi20Impl(authorizationUrl, tokenUrl));
-  }
-
-  /**
-  * Configures Oauth password grant flow
-  * Note: this flow is deprecated.
-  *
-  * @param username
-  * @param password
-  * @param clientId
-  * @param clientSecret
-  */
-  public void configurePasswordGrant(String username, String password, String clientId, String clientSecret) {
-    this.username = username;
-    this.password = password;
-    //TODO the clientId and secret are optional according with the RFC
-    service = new ServiceBuilder(clientId)
-                  .apiSecret(clientSecret)
-                  .defaultScope(scopes)
-                  .build(new DefaultApi20Impl(authorizationUrl, tokenUrl));
-  }
-
   private synchronized void updateAccessToken(RequestTemplate template) {
     OAuth2AccessToken accessTokenResponse;
     try {
@@ -103,18 +61,9 @@ public class OAuth implements RequestInterceptor {
     }
   }
 
-  private OAuth2AccessToken getOAuth2AccessToken() throws IOException, InterruptedException, ExecutionException {
-    switch (flow) {
-      case application:
-        //CLIENT Credentials grant
-        //TODO validate required parameters
-        return service.getAccessTokenClientCredentialsGrant(scopes);
-      case password:
-        return service.getAccessTokenPasswordGrant(username, password, scopes);
-      default:
-        throw new RuntimeException("Flow not implemented");
-    }
-  }
+  abstract OAuth2AccessToken getOAuth2AccessToken();
+
+  abstract OAuthFlow getFlow();
 
   public synchronized void registerAccessTokenListener(AccessTokenListener accessTokenListener) {
     this.accessTokenListener = accessTokenListener;
