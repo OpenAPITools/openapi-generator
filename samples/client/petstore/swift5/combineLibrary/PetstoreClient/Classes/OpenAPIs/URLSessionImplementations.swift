@@ -111,9 +111,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
             encoding = URLEncoding()
 
         case .options, .post, .put, .patch, .delete, .trace, .connect:
-            guard let contentType = headers["Content-Type"] else {
-                fatalError("Unspecified Content-Type!")
-            }
+            let contentType = headers["Content-Type"] ?? "application/json"
 
             if contentType == "application/json" {
                 encoding = JSONDataEncoding()
@@ -534,7 +532,7 @@ private class FormDataEncoding: ParameterEncoding {
         var body = urlRequest.httpBody.orEmpty
 
         // If we already added something then we need an additional newline.
-        if (body.count > 0) {
+        if body.count > 0 {
             body.append("\r\n")
         }
 

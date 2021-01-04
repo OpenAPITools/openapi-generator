@@ -32,10 +32,6 @@ internal class RequestBuilder<T> {
         self.parameters = parameters
         self.headers = headers
 
-        if self.headers["Content-Type"] == nil {
-            self.headers["Content-Type"] = "application/json"
-        }
-
         addHeaders(PetstoreClientAPI.customHeaders)
     }
 

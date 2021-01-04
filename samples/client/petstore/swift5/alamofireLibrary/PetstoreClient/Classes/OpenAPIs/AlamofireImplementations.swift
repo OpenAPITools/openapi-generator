@@ -93,9 +93,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
             encoding = URLEncoding()
 
         case .options, .post, .put, .patch, .delete, .trace, .connect:
-            guard let contentType = headers["Content-Type"] else {
-                fatalError("Unspecified Content-Type!")
-            }
+            let contentType = headers["Content-Type"] ?? "application/json"
 
             if contentType == "application/json" {
                 encoding = JSONDataEncoding()

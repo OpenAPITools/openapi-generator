@@ -33,10 +33,6 @@ import Foundation
         self.parameters = parameters
         self.headers = headers
 
-        if self.headers["Content-Type"] == nil {
-            self.headers["Content-Type"] = "application/json"
-        }
-
         addHeaders({{projectName}}API.customHeaders)
     }
 
