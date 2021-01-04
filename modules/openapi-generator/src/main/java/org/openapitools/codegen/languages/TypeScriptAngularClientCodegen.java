@@ -41,6 +41,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
 
     public static enum QUERY_PARAM_OBJECT_FORMAT_TYPE {dot, json, key};
+    public static enum PROVIDED_IN_LEVEL {none, root, any, platform}; 
 
     private static final String DEFAULT_IMPORT_PREFIX = "./";
 
@@ -50,6 +51,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String TAGGED_UNIONS = "taggedUnions";
     public static final String NG_VERSION = "ngVersion";
     public static final String PROVIDED_IN_ROOT = "providedInRoot";
+    public static final String PROVIDED_IN = "providedIn";
     public static final String ENFORCE_GENERIC_MODULE_WITH_PROVIDERS = "enforceGenericModuleWithProviders";
     public static final String API_MODULE_PREFIX = "apiModulePrefix";
     public static final String CONFIGURATION_PREFIX = "configurationPrefix";
@@ -72,6 +74,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     protected String fileNaming = "camelCase";
     protected Boolean stringEnums = false;
     protected QUERY_PARAM_OBJECT_FORMAT_TYPE queryParamObjectFormat = QUERY_PARAM_OBJECT_FORMAT_TYPE.dot;
+    protected PROVIDED_IN_LEVEL providedIn = PROVIDED_IN_LEVEL.root;
 
     private boolean taggedUnions = false;
 
@@ -106,6 +109,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(CliOption.newBoolean(PROVIDED_IN_ROOT,
                 "Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).",
                 false));
+        this.cliOptions.add(new CliOption(PROVIDED_IN,
+                "Use this property to provide Injectables in wanted level (it is only valid in angular version greater or equal to 9.0.0).").defaultValue("root"));
         this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. (At least 6.0.0)").defaultValue(this.ngVersion));
         this.cliOptions.add(new CliOption(API_MODULE_PREFIX, "The prefix of the generated ApiModule."));
         this.cliOptions.add(new CliOption(CONFIGURATION_PREFIX, "The prefix of the generated Configuration."));
@@ -188,13 +193,28 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             taggedUnions = Boolean.parseBoolean(additionalProperties.get(TAGGED_UNIONS).toString());
         }
 
-        if (!additionalProperties.containsKey(PROVIDED_IN_ROOT)) {
-            additionalProperties.put(PROVIDED_IN_ROOT, true);
+        if (ngVersion.atLeast("9.0.0") && additionalProperties.containsKey(PROVIDED_IN)) {
+            setProvidedIn(additionalProperties.get(PROVIDED_IN).toString());
         } else {
-            additionalProperties.put(PROVIDED_IN_ROOT, Boolean.parseBoolean(
-                additionalProperties.get(PROVIDED_IN_ROOT).toString()
-            ));
+            // Keep for backward compatibility
+            if (!additionalProperties.containsKey(PROVIDED_IN_ROOT)) {
+                additionalProperties.put(PROVIDED_IN_ROOT, true);
+            } else {
+                if (ngVersion.atLeast("9.0.0")) {
+                    LOGGER.warn("{} will be deprecated, use {} {} instead", PROVIDED_IN_ROOT, PROVIDED_IN, PROVIDED_IN_LEVEL.values());
+                }
+                additionalProperties.put(PROVIDED_IN_ROOT, Boolean.parseBoolean(
+                        additionalProperties.get(PROVIDED_IN_ROOT).toString()
+                        ));
+            }
+            if ((Boolean) additionalProperties.get(PROVIDED_IN_ROOT)) {
+                providedIn = PROVIDED_IN_LEVEL.root;
+            } else {
+                providedIn = PROVIDED_IN_LEVEL.none;
+            }
         }
+        additionalProperties.put("providedIn", providedIn);
+        additionalProperties.put("isProvidedInNone", getIsProvidedInNone());
 
         if (ngVersion.atLeast("9.0.0")) {                
             additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, true);
@@ -714,5 +734,29 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
         return name;
     }
+    
+    /**
+     * Set the Injectable level
+     * 
+     * @param level the wanted level
+     */
+    public void setProvidedIn (String level) {
+        try {
+            providedIn = PROVIDED_IN_LEVEL.valueOf(level);
+        } catch (IllegalArgumentException e) {
+            String values = Stream.of(PROVIDED_IN_LEVEL.values())
+                    .map(value -> "'" + value.name() + "'")
+                    .collect(Collectors.joining(", "));
 
+            String msg = String.format(Locale.ROOT, "Invalid providedIn level '%s'. Must be one of %s.", level, values);
+            throw new IllegalArgumentException(msg);
+        }
+    }
+    
+    /**
+     * 
+     */
+    private boolean getIsProvidedInNone() {
+        return PROVIDED_IN_LEVEL.none.equals(providedIn);
+    }
 }
