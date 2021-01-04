@@ -284,11 +284,11 @@ module Petstore
 
       if !post_body.nil? && !post_body.empty?
         # use JSON string in the payload
-        form = post_body
+        form_or_body = post_body
       else
         # use HTTP forms in the payload
         # TDOD use HTTP form encoding
-        form = form_params
+        form_or_body = form_params
       end
 
       request = Crest::Request.new(http_method,
@@ -296,7 +296,7 @@ module Petstore
         params: query_params,
         headers: header_params,
         #cookies: cookie_params, # TODO add cookies support
-        form: form_params,
+        form: form_or_body,
         logging: @config.debugging,
         handle_errors: false
       )
