@@ -34,12 +34,10 @@ public open class {{{classname}}}Async : ApiClientBase {
     internal constructor(
         baseUrl: String,
         client: HttpClient,
-        serializer: KotlinxSerializer,
         coroutineScope: CoroutineScope,
     ) : super(
         baseUrl,
         client,
-        serializer,
     ) {
         this.coroutineScope = coroutineScope
         this.client = {{{classname}}}(baseUrl, client, serializer)
