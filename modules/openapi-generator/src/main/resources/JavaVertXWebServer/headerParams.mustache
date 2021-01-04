@@ -1,13 +1,13 @@
 {{#isHeaderParam}}
-{{^isListContainer}}
+{{^isArray}}
 {{#isModel}}
         {{{dataType}}} {{paramName}} = requestParameters.headerParameter("{{baseName}}") != null ? DatabindCodec.mapper().convertValue(requestParameters.headerParameter("{{baseName}}").get(), new TypeReference<{{{dataType}}}>(){}) : null;
 {{/isModel}}
 {{^isModel}}
         {{{dataType}}} {{paramName}} = requestParameters.headerParameter("{{baseName}}") != null ? requestParameters.headerParameter("{{baseName}}").get{{dataType}}() : null;
 {{/isModel}}
-{{/isListContainer}}
-{{#isListContainer}}
+{{/isArray}}
+{{#isArray}}
         {{{dataType}}} {{paramName}} = requestParameters.headerParameter("{{baseName}}") != null ? DatabindCodec.mapper().convertValue(requestParameters.headerParameter("{{baseName}}").get(), new TypeReference<{{{dataType}}}>(){}) : null;
-{{/isListContainer}}
+{{/isArray}}
 {{/isHeaderParam}}

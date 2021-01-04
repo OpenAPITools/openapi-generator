@@ -85,7 +85,7 @@ func (c *UserApiController) Routes() Routes {
 func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) { 
 	user := &User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	
@@ -104,7 +104,7 @@ func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) { 
 	user := &[]User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	
@@ -123,7 +123,7 @@ func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) { 
 	user := &[]User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	
@@ -203,7 +203,7 @@ func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	username := params["username"]
 	user := &User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	

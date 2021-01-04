@@ -1,19 +1,12 @@
-{{#models}}{{#model}}# {{moduleName}}::{{classname}}
-
-## Properties
-
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-{{#vars}}**{{name}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
-{{/vars}}
-
-## Code Sample
-
-```ruby
-require '{{moduleName}}'
-
-instance = {{moduleName}}::{{classname}}.new({{#vars}}{{name}}: {{example}}{{^-last}},
-                                 {{/-last}}{{/vars}})
-```
-
-{{/model}}{{/models}}
+{{#models}}
+{{#model}}
+{{#oneOf}}
+{{#-first}}
+{{>partial_oneof_module_doc}}
+{{/-first}}
+{{/oneOf}}
+{{^oneOf}}
+{{>partial_model_generic_doc}}
+{{/oneOf}}
+{{/model}}
+{{/models}}

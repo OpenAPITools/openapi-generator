@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **BooleanProp** | Pointer to **NullableBool** |  | [optional] 
 **StringProp** | Pointer to **NullableString** |  | [optional] 
 **DateProp** | Pointer to **NullableString** |  | [optional] 
-**DatetimeProp** | Pointer to [**NullableTime**](time.Time.md) |  | [optional] 
+**DatetimeProp** | Pointer to **NullableTime** |  | [optional] 
 **ArrayNullableProp** | Pointer to **[]map[string]interface{}** |  | [optional] 
 **ArrayAndItemsNullableProp** | Pointer to **[]map[string]interface{}** |  | [optional] 
 **ArrayItemsNullable** | Pointer to **[]map[string]interface{}** |  | [optional] 

@@ -407,11 +407,11 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         super.postProcessParameter(parameter);
 
         boolean isPrimitiveType = parameter.isPrimitiveType == Boolean.TRUE;
-        boolean isListContainer = parameter.isListContainer == Boolean.TRUE;
+        boolean isArray = parameter.isArray == Boolean.TRUE;
         boolean isMap = parameter.isMap == Boolean.TRUE;
         boolean isString = parameter.isString == Boolean.TRUE;
 
-        if (!isPrimitiveType && !isListContainer && !isMap && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
+        if (!isPrimitiveType && !isArray && !isMap && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
             parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";
         }
     }

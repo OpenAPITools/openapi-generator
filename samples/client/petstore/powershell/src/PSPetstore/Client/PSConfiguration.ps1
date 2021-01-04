@@ -55,6 +55,10 @@ function Get-PSConfiguration {
         $Configuration["SkipCertificateCheck"] = $false
     }
 
+    if (!$Configuration.containsKey("Proxy")) {
+        $Configuration["Proxy"] = $null
+    }
+
     Return $Configuration
 
 }
@@ -95,6 +99,12 @@ Skip certificate verification
 .PARAMETER DefaultHeaders
 Default HTTP headers to be included in the HTTP request
 
+.PARAMETER Proxy
+Proxy setting in the HTTP request, e.g.
+
+$proxy = [System.Net.WebRequest]::GetSystemWebProxy()
+$proxy.Credentials = [System.Net.CredentialCache]::DefaultCredentials
+
 .PARAMETER PassThru
 Return an object of the Configuration
 
@@ -119,6 +129,7 @@ function Set-PSConfiguration {
         [string]$AccessToken,
         [switch]$SkipCertificateCheck,
         [hashtable]$DefaultHeaders,
+        [System.Object]$Proxy,
         [switch]$PassThru
     )
 
@@ -165,6 +176,15 @@ function Set-PSConfiguration {
 
         If ($DefaultHeaders) {
             $Script:Configuration['DefaultHeaders'] = $DefaultHeaders
+        }
+
+        If ($Proxy -ne $null) {
+            If ($Proxy.GetType().FullName -ne "System.Net.SystemWebProxy" -and $Proxy.GetType().FullName -ne "System.Net.WebRequest+WebProxyWrapperOpaque") {
+                throw "Incorrect Proxy type '$($Proxy.GetType().FullName)'. Must be System.Net.SystemWebProxy or System.Net.WebRequest+WebProxyWrapperOpaque."
+            }
+            $Script:Configuration['Proxy'] = $Proxy
+        } else {
+            $Script:Configuration['Proxy'] = $null
         }
 
         If ($PassThru.IsPresent) {

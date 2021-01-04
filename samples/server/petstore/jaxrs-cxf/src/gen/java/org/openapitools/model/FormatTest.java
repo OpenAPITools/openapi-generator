@@ -61,6 +61,7 @@ public class FormatTest  {
   private String password;
 
   @ApiModelProperty(value = "")
+  @Valid
   private BigDecimal bigDecimal;
  /**
    * Get integer

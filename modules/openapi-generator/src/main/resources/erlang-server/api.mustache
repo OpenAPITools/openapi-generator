@@ -18,7 +18,7 @@
 request_params('{{operationId}}') ->
     [{{#allParams}}{{^isBodyParam}}
         '{{baseName}}'{{/isBodyParam}}{{#isBodyParam}}
-        '{{dataType}}'{{/isBodyParam}}{{#hasMore}},{{/hasMore}}{{/allParams}}
+        '{{dataType}}'{{/isBodyParam}}{{^-last}},{{/-last}}{{/allParams}}
     ];
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 request_params(_) ->

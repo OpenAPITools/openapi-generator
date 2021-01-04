@@ -30,7 +30,7 @@ import javax.validation.Valid;
     @POST
     @Path("/create_xml_item")
     @Consumes({ "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" })
-    @ApiOperation(value = "creates an XmlItem", notes = "this route creates an XmlItem", response = Void.class, tags={ "fake",  })
+    @ApiOperation(value = "creates an XmlItem", notes = "this route creates an XmlItem", response = Void.class, tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
@@ -41,7 +41,7 @@ import javax.validation.Valid;
     @POST
     @Path("/outer/boolean")
     @Produces({ "*/*" })
-    @ApiOperation(value = "", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake",  })
+    @ApiOperation(value = "", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class)
     })
@@ -52,7 +52,7 @@ import javax.validation.Valid;
     @POST
     @Path("/outer/composite")
     @Produces({ "*/*" })
-    @ApiOperation(value = "", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake",  })
+    @ApiOperation(value = "", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class)
     })
@@ -63,7 +63,7 @@ import javax.validation.Valid;
     @POST
     @Path("/outer/number")
     @Produces({ "*/*" })
-    @ApiOperation(value = "", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake",  })
+    @ApiOperation(value = "", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class)
     })
@@ -74,7 +74,7 @@ import javax.validation.Valid;
     @POST
     @Path("/outer/string")
     @Produces({ "*/*" })
-    @ApiOperation(value = "", notes = "Test serialization of outer string types", response = String.class, tags={ "fake",  })
+    @ApiOperation(value = "", notes = "Test serialization of outer string types", response = String.class, tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output string", response = String.class)
     })
@@ -85,7 +85,7 @@ import javax.validation.Valid;
     @PUT
     @Path("/body-with-file-schema")
     @Consumes({ "application/json" })
-    @ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", response = Void.class, tags={ "fake",  })
+    @ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", response = Void.class, tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class)
     })
@@ -96,7 +96,7 @@ import javax.validation.Valid;
     @PUT
     @Path("/body-with-query-params")
     @Consumes({ "application/json" })
-    @ApiOperation(value = "", notes = "", response = Void.class, tags={ "fake",  })
+    @ApiOperation(value = "", notes = "", response = Void.class, tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class)
     })
@@ -107,7 +107,7 @@ import javax.validation.Valid;
     @PATCH
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", response = Client.class, tags={ "fake",  })
+    @ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", response = Client.class, tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })
@@ -120,7 +120,7 @@ import javax.validation.Valid;
     @ApiOperation(value = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", notes = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", response = Void.class, authorizations = {
         
         @Authorization(value = "http_basic_test")
-         }, tags={ "fake",  })
+         }, tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class)
@@ -131,7 +131,7 @@ import javax.validation.Valid;
 
     @GET
     @Consumes({ "application/x-www-form-urlencoded" })
-    @ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", response = Void.class, tags={ "fake",  })
+    @ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", response = Void.class, tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid request", response = Void.class),
         @ApiResponse(code = 404, message = "Not found", response = Void.class)
@@ -141,7 +141,7 @@ import javax.validation.Valid;
     }
 
     @DELETE
-    @ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", response = Void.class, tags={ "fake",  })
+    @ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", response = Void.class, tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Someting wrong", response = Void.class)
     })
@@ -152,7 +152,7 @@ import javax.validation.Valid;
     @POST
     @Path("/inline-additionalProperties")
     @Consumes({ "application/json" })
-    @ApiOperation(value = "test inline additionalProperties", notes = "", response = Void.class, tags={ "fake",  })
+    @ApiOperation(value = "test inline additionalProperties", notes = "", response = Void.class, tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
@@ -163,7 +163,7 @@ import javax.validation.Valid;
     @GET
     @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
-    @ApiOperation(value = "test json serialization of form data", notes = "", response = Void.class, tags={ "fake",  })
+    @ApiOperation(value = "test json serialization of form data", notes = "", response = Void.class, tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
@@ -173,7 +173,7 @@ import javax.validation.Valid;
 
     @PUT
     @Path("/test-query-paramters")
-    @ApiOperation(value = "", notes = "To test the collection format in query parameters", response = Void.class, tags={ "fake",  })
+    @ApiOperation(value = "", notes = "To test the collection format in query parameters", response = Void.class, tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class)
     })

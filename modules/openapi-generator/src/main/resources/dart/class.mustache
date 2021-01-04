@@ -28,25 +28,25 @@ class {{classname}} {
   {{^isDateTime}}
   {{^isDate}}
     {{#complexType}}
-      {{#isListContainer}}
+      {{#isArray}}
       {{name}} = {{complexType}}.listFromJson(json['{{baseName}}']);
-      {{/isListContainer}}
-      {{^isListContainer}}
+      {{/isArray}}
+      {{^isArray}}
       {{#isMap}}
       {{name}} = {{complexType}}.mapFromJson(json['{{baseName}}']);
       {{/isMap}}
       {{^isMap}}
       {{name}} = new {{complexType}}.fromJson(json['{{baseName}}']);
       {{/isMap}}
-      {{/isListContainer}}
+      {{/isArray}}
     {{/complexType}}
     {{^complexType}}
-      {{#isListContainer}}
+      {{#isArray}}
       {{name}} = (json['{{baseName}}'] as List).map((item) => item as {{items.datatype}}).toList();
-      {{/isListContainer}}
-      {{^isListContainer}}
+      {{/isArray}}
+      {{^isArray}}
       {{name}} = json['{{baseName}}'];
-      {{/isListContainer}}
+      {{/isArray}}
     {{/complexType}}
   {{/isDate}}
   {{/isDateTime}}
@@ -66,12 +66,12 @@ class {{classname}} {
       {{^isDateTime}}
       {{^isDate}}
         {{#complexType}}
-          {{#isListContainer}}
+          {{#isArray}}
             '{{baseName}}': {{name}} == null ? null : {{name}}.map((item) => item.toJson()).toList(){{^-last}},{{/-last}}
-          {{/isListContainer}}
-          {{^isListContainer}}
+          {{/isArray}}
+          {{^isArray}}
             '{{baseName}}': {{name}} == null ? null : {{name}}.toJson(){{^-last}},{{/-last}}
-          {{/isListContainer}}
+          {{/isArray}}
         {{/complexType}}
         {{^complexType}}
           '{{baseName}}': {{name}}{{^-last}},{{/-last}}

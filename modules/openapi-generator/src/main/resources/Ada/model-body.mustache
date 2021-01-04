@@ -5,7 +5,7 @@ package body {{package}}.Models is
    use Swagger.Streams;
 
 {{#orderedModels}}
-{{#model}}{{^isArrayModel}}
+{{#model}}{{^isArray}}
 
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
@@ -53,7 +53,7 @@ package body {{package}}.Models is
       end loop;
    end Deserialize;
 
-{{/isArrayModel}}{{/model}}
+{{/isArray}}{{/model}}
 {{/orderedModels}}
 
 end {{package}}.Models;

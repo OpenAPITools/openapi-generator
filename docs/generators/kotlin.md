@@ -49,7 +49,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
-|array|kotlin.Array|
+|array|kotlin.collections.ArrayList|
 |list|kotlin.collections.ArrayList|
 |map|kotlin.collections.HashMap|
 

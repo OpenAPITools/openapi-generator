@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **_number** | **Number** |  | 
 **_float** | **Number** |  | [optional] 
 **_double** | **Number** |  | [optional] 
+**decimal** | **Number** |  | [optional] 
 **_string** | **String** |  | [optional] 
 **_byte** | **Blob** |  | 
 **binary** | **File** |  | [optional] 

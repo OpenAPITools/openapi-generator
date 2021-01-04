@@ -33,17 +33,17 @@ import kotlinx.serialization.internal.CommonEnumSerializer
     @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
     {{/jackson}}
     {{/multiplatform}}
-    {{#isListContainer}}
+    {{#isArray}}
     {{#isList}}
     {{&name}}(listOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
     {{/isList}}
     {{^isList}}
     {{&name}}(arrayOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
     {{/isList}}
-    {{/isListContainer}}
-    {{^isListContainer}}
+    {{/isArray}}
+    {{^isArray}}
     {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
-    {{/isListContainer}}
+    {{/isArray}}
 
 {{/enumVars}}{{/allowableValues}}
 

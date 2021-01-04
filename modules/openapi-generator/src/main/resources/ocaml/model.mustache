@@ -27,7 +27,7 @@ type t = {
 {{#description}}
 (** {{{description}}} *)
 {{/description}}
-let create {{#requiredVars}}({{{name}}} : {{#isEnum}}Enums.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}option{{/isNullable}}){{^-last}} {{/-last}}{{/requiredVars}}{{^hasRequired}}(){{/hasRequired}} : t = {
+let create {{#requiredVars}}({{{name}}} : {{#isEnum}}Enums.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}} option{{/isNullable}}){{^-last}} {{/-last}}{{/requiredVars}}{{^hasRequired}}(){{/hasRequired}} : t = {
     {{#vars}}
     {{{name}}} = {{#required}}{{{name}}}{{/required}}{{^required}}{{#isContainer}}[]{{/isContainer}}{{^isContainer}}None{{/isContainer}}{{/required}};
     {{/vars}}

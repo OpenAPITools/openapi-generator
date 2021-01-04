@@ -26,7 +26,7 @@ public class CodegenOperation {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
     public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
             returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
-            isListContainer, isMultipart, hasMore = true,
+            isArray, isMultipart,
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
             isRestful, isDeprecated, isCallbackRequest, uniqueItems;
@@ -256,9 +256,8 @@ public class CodegenOperation {
         sb.append(", returnSimpleType=").append(returnSimpleType);
         sb.append(", subresourceOperation=").append(subresourceOperation);
         sb.append(", isMap=").append(isMap);
-        sb.append(", isListContainer=").append(isListContainer);
+        sb.append(", isArray=").append(isArray);
         sb.append(", isMultipart=").append(isMultipart);
-        sb.append(", hasMore=").append(hasMore);
         sb.append(", isResponseBinary=").append(isResponseBinary);
         sb.append(", isResponseFile=").append(isResponseFile);
         sb.append(", hasReference=").append(hasReference);
@@ -330,9 +329,8 @@ public class CodegenOperation {
                 returnSimpleType == that.returnSimpleType &&
                 subresourceOperation == that.subresourceOperation &&
                 isMap == that.isMap &&
-                isListContainer == that.isListContainer &&
+                isArray == that.isArray &&
                 isMultipart == that.isMultipart &&
-                hasMore == that.hasMore &&
                 isResponseBinary == that.isResponseBinary &&
                 isResponseFile == that.isResponseFile &&
                 hasReference == that.hasReference &&
@@ -393,7 +391,7 @@ public class CodegenOperation {
 
         return Objects.hash(responseHeaders, hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams,
                 hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
-                isListContainer, isMultipart, hasMore, isResponseBinary, isResponseFile, hasReference, isRestfulIndex,
+                isArray, isMultipart, isResponseBinary, isResponseFile, hasReference, isRestfulIndex,
                 isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy, isRestful, isDeprecated,
                 isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod, returnBaseType,
                 returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, consumes,

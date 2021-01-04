@@ -1611,6 +1611,9 @@ components:
           maximum: 123.4
           minimum: 67.8
           type: number
+        decimal:
+          format: number
+          type: string
         string:
           pattern: /[a-z]/i
           type: string

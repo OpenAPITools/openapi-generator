@@ -508,7 +508,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // container
-        if (Boolean.TRUE.equals(p.isListContainer)) {
+        if (Boolean.TRUE.equals(p.isArray)) {
             example = setPropertyExampleValue(p.items);
             example = "(" + example + ")";
         } else if (Boolean.TRUE.equals(p.isMap)) {

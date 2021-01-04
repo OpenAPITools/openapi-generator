@@ -251,7 +251,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
             for (CodegenProperty p : cm.vars) {
                 String protoType = protoTypeMapping.get(p.openApiType);
-                if (p.isListContainer) {
+                if (p.isArray) {
                     String innerType = protoTypeMapping.get(p.mostInnerItems.openApiType);
                     protoType = protoType + " " + (innerType == null ? p.mostInnerItems.openApiType : innerType);
                 }

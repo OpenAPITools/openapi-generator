@@ -52,13 +52,13 @@ export function {{classname}}FromJSON(json: any): {{classname}} {
         {{/isDate}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        {{#isListContainer}}
+        {{#isArray}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}(json['{{baseName}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}FromJSON),
-        {{/isListContainer}}
+        {{/isArray}}
         {{#isMap}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}mapValues(json['{{baseName}}'], {{#items}}{{datatype}}{{/items}}FromJSON),
         {{/isMap}}
-        {{^isListContainer}}
+        {{^isArray}}
         {{^isMap}}
         {{^isFreeFormObject}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}{{datatype}}FromJSON(json['{{baseName}}']),
@@ -67,7 +67,7 @@ export function {{classname}}FromJSON(json: any): {{classname}} {
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}json['{{baseName}}'],
         {{/isFreeFormObject}}
         {{/isMap}}
-        {{/isListContainer}}
+        {{/isArray}}
         {{/isPrimitiveType}}
         {{/vars}}
     };
@@ -95,13 +95,13 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
         '{{baseName}}': {{#isDate}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString().substr(0,10){{/isDate}}{{#isDateTime}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString(){{/isDateTime}}{{^isDate}}{{^isDateTime}}value.{{name}}{{/isDateTime}}{{/isDate}},
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        {{#isListContainer}}
+        {{#isArray}}
         '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}(value.{{name}} as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON),
-        {{/isListContainer}}
+        {{/isArray}}
         {{#isMap}}
         '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}mapValues(value.{{name}}, {{#items}}{{datatype}}{{/items}}ToJSON),
         {{/isMap}}
-        {{^isListContainer}}
+        {{^isArray}}
         {{^isMap}}
         {{^isFreeFormObject}}
         '{{baseName}}': {{datatype}}ToJSON(value.{{name}}),
@@ -110,7 +110,7 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
         '{{baseName}}': value.{{name}},
         {{/isFreeFormObject}}
         {{/isMap}}
-        {{/isListContainer}}        
+        {{/isArray}}
         {{/isPrimitiveType}}
         {{/isReadOnly}}
         {{/vars}}

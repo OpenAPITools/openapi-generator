@@ -52,7 +52,7 @@ import {{packageName}}.auth.*
                 "{{name}}" to HttpBasicAuth(){{/isBasicBasic}}{{^isBasicBasic}}
                 "{{name}}" to HttpBearerAuth("{{scheme}}"){{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
                 "{{name}}" to ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}
-                "{{name}}" to OAuth(){{/isOAuth}}{{#hasMore}}, {{/hasMore}}{{/authMethods}})
+                "{{name}}" to OAuth(){{/isOAuth}}{{^-last}}, {{/-last}}{{/authMethods}})
     }
     {{/hasAuthMethods}}
     {{^hasAuthMethods}}

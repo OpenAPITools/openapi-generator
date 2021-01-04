@@ -9,7 +9,6 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <jackson-databind-version>2.9.8</jackson-databind-version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -83,7 +82,6 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson-databind-version}</version>
         </dependency>
     </dependencies>
 </project>

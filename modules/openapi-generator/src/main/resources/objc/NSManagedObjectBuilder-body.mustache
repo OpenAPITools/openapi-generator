@@ -13,8 +13,8 @@
 -(instancetype)init {
     self = [super init];
     if (self != nil) {
-{{#isArrayModel}}    _entriesBuilder = [[{{arrayModelType}}ManagedObjectBuilder alloc] init];
-{{/isArrayModel}}{{#vars}}{{#complexType}}{{^isMap}}       _{{name}}Builder = [[{{complexType}}ManagedObjectBuilder alloc] init];
+{{#isArray}}    _entriesBuilder = [[{{arrayModelType}}ManagedObjectBuilder alloc] init];
+{{/isArray}}{{#vars}}{{#complexType}}{{^isMap}}       _{{name}}Builder = [[{{complexType}}ManagedObjectBuilder alloc] init];
 {{/isMap}}{{/complexType}}{{/vars}}    }
     return self;
 }
@@ -35,7 +35,7 @@
         return;
     }
     NSManagedObjectContext* context = managedObject.managedObjectContext;
-{{#vars}}{{^complexType}}    managedObject.{{name}} = [object.{{name}} copy];{{/complexType}}{{#complexType}}{{#isListContainer}}    if(managedObject.{{name}}) {
+{{#vars}}{{^complexType}}    managedObject.{{name}} = [object.{{name}} copy];{{/complexType}}{{#complexType}}{{#isArray}}    if(managedObject.{{name}}) {
         for (id object in managedObject.{{name}}) {
             [context deleteObject:object];
         }
@@ -47,18 +47,18 @@
             [convertedObjs addObject:convertedObj];
         }
         managedObject.{{name}} = convertedObjs;
-    }{{/isListContainer}}{{^isListContainer}}{{^isMap}}
+    }{{/isArray}}{{^isArray}}{{^isMap}}
     if(!managedObject.{{name}}) {
         managedObject.{{name}} = [self.{{name}}Builder {{complexType}}ManagedObjectFrom{{complexType}}:object.{{name}} context:managedObject.managedObjectContext];
     } else {
         [self.{{name}}Builder update{{complexType}}ManagedObject:managedObject.{{name}} with{{complexType}}:object.{{name}}];
-    }{{/isMap}}{{#isMap}}managedObject.{{name}} = [object.{{name}} copy];{{/isMap}}{{/isListContainer}}{{/complexType}}
-{{/vars}}{{#isArrayModel}}    NSMutableOrderedSet * convertedObjs = [NSMutableOrderedSet orderedSet];
+    }{{/isMap}}{{#isMap}}managedObject.{{name}} = [object.{{name}} copy];{{/isMap}}{{/isArray}}{{/complexType}}
+{{/vars}}{{#isArray}}    NSMutableOrderedSet * convertedObjs = [NSMutableOrderedSet orderedSet];
     for (id innerObject in object) {
         id convertedObj = [self.entriesBuilder {{arrayModelType}}ManagedObjectFrom{{arrayModelType}}:innerObject context:managedObject.managedObjectContext];
         [convertedObjs addObject:convertedObj];
     }
-    managedObject.entries = convertedObjs;{{/isArrayModel}}
+    managedObject.entries = convertedObjs;{{/isArray}}
 }
 
 -({{classname}}*){{classname}}From{{classname}}ManagedObject:({{classname}}ManagedObject*)obj {
@@ -71,14 +71,14 @@
 }
 
 -(void)update{{classname}}:({{classname}}*)new{{classname}} with{{classname}}ManagedObject:({{classname}}ManagedObject*)obj {
-{{#isArrayModel}}        [new{{classname}} removeAllObjects];
+{{#isArray}}        [new{{classname}} removeAllObjects];
         NSMutableArray* convertedObjs = [NSMutableArray array];
         for (id innerObject in obj.entries) {
             id convertedObj = [self.entriesBuilder {{arrayModelType}}From{{arrayModelType}}ManagedObject:innerObject];
             [convertedObjs addObject:convertedObj];
         }
         [new{{classname}} addObjectsFromArray:convertedObjs];
-{{/isArrayModel}}{{#vars}}{{^complexType}}    new{{classname}}.{{name}} = [obj.{{name}} copy];{{/complexType}}{{#complexType}}{{#isListContainer}}    if(obj.{{name}} != nil) {
+{{/isArray}}{{#vars}}{{^complexType}}    new{{classname}}.{{name}} = [obj.{{name}} copy];{{/complexType}}{{#complexType}}{{#isArray}}    if(obj.{{name}} != nil) {
         NSMutableArray* convertedObjs = [NSMutableArray array];
         for (id innerObject in obj.{{name}}) {
             id convertedObj = [self.{{name}}Builder {{complexType}}From{{complexType}}ManagedObject:innerObject];
@@ -86,7 +86,7 @@
         }
         new{{classname}}.{{name}} = ({{{ datatype }}})convertedObjs;
     }
-    {{/isListContainer}}{{^isListContainer}}    new{{classname}}.{{name}} = [self.{{name}}Builder {{complexType}}From{{complexType}}ManagedObject:obj.{{name}}];{{/isListContainer}}{{/complexType}}
+    {{/isArray}}{{^isArray}}    new{{classname}}.{{name}} = [self.{{name}}Builder {{complexType}}From{{complexType}}ManagedObject:obj.{{name}}];{{/isArray}}{{/complexType}}
     {{/vars}}
 }
 

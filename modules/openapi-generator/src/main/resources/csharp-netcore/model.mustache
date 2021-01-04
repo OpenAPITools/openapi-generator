@@ -28,10 +28,20 @@ using OpenAPIClientUtils = {{packageName}}.Client.ClientUtils;
 {{/useCompareNetObjects}}
 {{#models}}
 {{#model}}
+{{#oneOf}}
+{{#-first}}
+using System.Reflection;
+{{/-first}}
+{{/oneOf}}
+{{#aneOf}}
+{{#-first}}
+using System.Reflection;
+{{/-first}}
+{{/aneOf}}
 
 namespace {{packageName}}.{{modelPackage}}
 {
-{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}{{^oneOf}}{{>modelGeneric}}{{/oneOf}}{{/isEnum}}
+{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}{{#anyOf}}{{#-first}}{{>modelAnyOf}}{{/-first}}{{/anyOf}}{{^oneOf}}{{^anyOf}}{{>modelGeneric}}{{/anyOf}}{{/oneOf}}{{/isEnum}}
 {{/model}}
 {{/models}}
 }

@@ -2,18 +2,19 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**bar** | **String** |  | [optional] [readonly] 
-**foo** | **String** |  | [optional] [readonly] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **bar** | **String** |  | [optional][readonly] |
+| **foo** | **String** |  | [optional][readonly] |
 
-## Code Sample
+## Example
 
 ```ruby
-require 'Petstore'
+require 'petstore'
 
-instance = Petstore::HasOnlyReadOnly.new(bar: null,
-                                 foo: null)
+instance = Petstore::HasOnlyReadOnly.new(
+  bar: null,
+  foo: null
+)
 ```
-
 

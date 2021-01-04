@@ -15,8 +15,8 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
 import javax.servlet.ServletConfig;
 import javax.ws.rs.core.Context;
@@ -62,8 +62,7 @@ public class AnotherFakeApi  {
     @io.swagger.annotations.ApiOperation(value = "To test special tags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Response call123testSpecialTags(@ApiParam(value = "client model", required = true) @NotNull @Valid  Client body
-,@Context SecurityContext securityContext)
+    public Response call123testSpecialTags(@ApiParam(value = "client model", required = true) @NotNull @Valid  Client body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.call123testSpecialTags(body, securityContext);
     }

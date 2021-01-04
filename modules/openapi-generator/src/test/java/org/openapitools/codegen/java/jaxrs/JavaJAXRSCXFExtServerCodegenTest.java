@@ -381,8 +381,8 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.additionalProperties().put(CXFExtServerFeatures.GENERATE_OPERATION_BODY, "true");
 
         ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        input.openAPI(openAPI);
+        input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
@@ -426,8 +426,8 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
         ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        input.openAPI(openAPI);
+        input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();

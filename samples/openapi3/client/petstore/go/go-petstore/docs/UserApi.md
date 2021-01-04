@@ -41,7 +41,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.UserApi.CreateUser(context.Background()).User(user).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.CreateUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -98,12 +98,12 @@ import (
 )
 
 func main() {
-    user := []User{*openapiclient.NewUser()} // []User | List of user object
+    user := []openapiclient.User{*openapiclient.NewUser()} // []User | List of user object
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.UserApi.CreateUsersWithArrayInput(context.Background()).User(user).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.CreateUsersWithArrayInput``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -160,12 +160,12 @@ import (
 )
 
 func main() {
-    user := []User{} // []User | List of user object
+    user := []openapiclient.User{*openapiclient.NewUser()} // []User | List of user object
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.UserApi.CreateUsersWithListInput(context.Background()).User(user).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.CreateUsersWithListInput``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -229,7 +229,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.UserApi.DeleteUser(context.Background(), username).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.DeleteUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -295,7 +295,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.UserApi.GetUserByName(context.Background(), username).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.GetUserByName``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -364,7 +364,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.UserApi.LoginUser(context.Background()).Username(username).Password(password).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.LoginUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -428,7 +428,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.UserApi.LogoutUser(context.Background()).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.LogoutUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -484,12 +484,12 @@ import (
 
 func main() {
     username := "username_example" // string | name that need to be deleted
-    user :=  // User | Updated user object
+    user := *openapiclient.NewUser() // User | Updated user object
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.UserApi.UpdateUser(context.Background(), username).User(user).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.UpdateUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }

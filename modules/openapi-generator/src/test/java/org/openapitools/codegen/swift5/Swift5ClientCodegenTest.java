@@ -37,7 +37,6 @@ import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class Swift5ClientCodegenTest {
 
     Swift5ClientCodegen swiftCodegen = new Swift5ClientCodegen();
@@ -129,6 +128,32 @@ public class Swift5ClientCodegenTest {
         Assert.assertEquals(op.bodyParam.dataType, "Date");
     }
 
+    @Test(enabled = true)
+    public void testDefaultPodAuthors() throws Exception {
+        // Given
+
+        // When
+        swiftCodegen.processOpts();
+
+        // Then
+        final String podAuthors = (String) swiftCodegen.additionalProperties().get(Swift5ClientCodegen.POD_AUTHORS);
+        Assert.assertEquals(podAuthors, Swift5ClientCodegen.DEFAULT_POD_AUTHORS);
+    }
+
+    @Test(enabled = true)
+    public void testPodAuthors() throws Exception {
+        // Given
+        final String openAPIDevs = "OpenAPI Devs";
+        swiftCodegen.additionalProperties().put(Swift5ClientCodegen.POD_AUTHORS, openAPIDevs);
+
+        // When
+        swiftCodegen.processOpts();
+
+        // Then
+        final String podAuthors = (String) swiftCodegen.additionalProperties().get(Swift5ClientCodegen.POD_AUTHORS);
+        Assert.assertEquals(podAuthors, openAPIDevs);
+    }
+
     @Test(description = "Bug example code generation", enabled = true)
     public void crashSwift5ExampleCodeGenerationStackOverflowTest() throws IOException {
         //final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/Swift5CodeGenerationStackOverflow#2966.yaml");
@@ -158,33 +183,6 @@ public class Swift5ClientCodegenTest {
         } finally {
            output.delete();
         }
-    }
-
-
-    @Test(enabled = true)
-    public void testDefaultPodAuthors() throws Exception {
-        // Given
-
-        // When
-        swiftCodegen.processOpts();
-
-        // Then
-        final String podAuthors = (String) swiftCodegen.additionalProperties().get(Swift5ClientCodegen.POD_AUTHORS);
-        Assert.assertEquals(podAuthors, Swift5ClientCodegen.DEFAULT_POD_AUTHORS);
-    }
-
-    @Test(enabled = true)
-    public void testPodAuthors() throws Exception {
-        // Given
-        final String openAPIDevs = "OpenAPI Devs";
-        swiftCodegen.additionalProperties().put(Swift5ClientCodegen.POD_AUTHORS, openAPIDevs);
-
-        // When
-        swiftCodegen.processOpts();
-
-        // Then
-        final String podAuthors = (String) swiftCodegen.additionalProperties().get(Swift5ClientCodegen.POD_AUTHORS);
-        Assert.assertEquals(podAuthors, openAPIDevs);
     }
 
 }

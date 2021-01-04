@@ -431,6 +431,18 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
+  public NullableClass putObjectNullablePropItem(String key, Object objectNullablePropItem) {
+    if (this.objectNullableProp == null || !this.objectNullableProp.isPresent()) {
+      this.objectNullableProp = JsonNullable.<Map<String, Object>>of(new HashMap<>());
+    }
+    try {
+      this.objectNullableProp.get().put(key, objectNullablePropItem);
+    } catch (java.util.NoSuchElementException e) {
+      // this can never happen, as we make sure above that the value is present
+    }
+    return this;
+  }
+
    /**
    * Get objectNullableProp
    * @return objectNullableProp
@@ -465,6 +477,18 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
+  public NullableClass putObjectAndItemsNullablePropItem(String key, Object objectAndItemsNullablePropItem) {
+    if (this.objectAndItemsNullableProp == null || !this.objectAndItemsNullableProp.isPresent()) {
+      this.objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>of(new HashMap<>());
+    }
+    try {
+      this.objectAndItemsNullableProp.get().put(key, objectAndItemsNullablePropItem);
+    } catch (java.util.NoSuchElementException e) {
+      // this can never happen, as we make sure above that the value is present
+    }
+    return this;
+  }
+
    /**
    * Get objectAndItemsNullableProp
    * @return objectAndItemsNullableProp
@@ -496,6 +520,14 @@ public class NullableClass extends HashMap<String, Object> {
 
   public NullableClass objectItemsNullable(Map<String, Object> objectItemsNullable) {
     this.objectItemsNullable = objectItemsNullable;
+    return this;
+  }
+
+  public NullableClass putObjectItemsNullableItem(String key, Object objectItemsNullableItem) {
+    if (this.objectItemsNullable == null) {
+      this.objectItemsNullable = new HashMap<>();
+    }
+    this.objectItemsNullable.put(key, objectItemsNullableItem);
     return this;
   }
 

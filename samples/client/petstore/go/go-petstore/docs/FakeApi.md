@@ -47,7 +47,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.CreateXmlItem(context.Background()).XmlItem(xmlItem).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.CreateXmlItem``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -111,7 +111,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.FakeOuterBooleanSerialize(context.Background()).Body(body).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterBooleanSerialize``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -177,7 +177,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.FakeOuterCompositeSerialize(context.Background()).Body(body).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterCompositeSerialize``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -238,12 +238,12 @@ import (
 )
 
 func main() {
-    body := 987 // float32 | Input number as post body (optional)
+    body := float32(8.14) // float32 | Input number as post body (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.FakeOuterNumberSerialize(context.Background()).Body(body).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterNumberSerialize``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -309,7 +309,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.FakeOuterStringSerialize(context.Background()).Body(body).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterStringSerialize``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -375,7 +375,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.TestBodyWithFileSchema(context.Background()).Body(body).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestBodyWithFileSchema``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -438,7 +438,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.TestBodyWithQueryParams(context.Background()).Query(query).Body(body).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestBodyWithQueryParams``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -503,7 +503,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.TestClientModel(context.Background()).Body(body).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestClientModel``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -560,20 +560,21 @@ import (
     "context"
     "fmt"
     "os"
+    "time"
     openapiclient "./openapi"
 )
 
 func main() {
-    number := 987 // float32 | None
-    double := 987 // float64 | None
+    number := float32(8.14) // float32 | None
+    double := float64(1.2) // float64 | None
     patternWithoutDelimiter := "patternWithoutDelimiter_example" // string | None
-    byte_ := 987 // string | None
-    integer := 987 // int32 | None (optional)
-    int32_ := 987 // int32 | None (optional)
-    int64_ := 987 // int64 | None (optional)
-    float := 987 // float32 | None (optional)
+    byte_ := string(BYTE_ARRAY_DATA_HERE) // string | None
+    integer := int32(56) // int32 | None (optional)
+    int32_ := int32(56) // int32 | None (optional)
+    int64_ := int64(789) // int64 | None (optional)
+    float := float32(3.4) // float32 | None (optional)
     string_ := "string__example" // string | None (optional)
-    binary := 987 // *os.File | None (optional)
+    binary := os.NewFile(1234, "some_file") // *os.File | None (optional)
     date := time.Now() // string | None (optional)
     dateTime := time.Now() // time.Time | None (optional)
     password := "password_example" // string | None (optional)
@@ -582,7 +583,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.TestEndpointParameters(context.Background()).Number(number).Double(double).PatternWithoutDelimiter(patternWithoutDelimiter).Byte_(byte_).Integer(integer).Int32_(int32_).Int64_(int64_).Float(float).String_(string_).Binary(binary).Date(date).DateTime(dateTime).Password(password).Callback(callback).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestEndpointParameters``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -658,15 +659,15 @@ func main() {
     enumHeaderString := "enumHeaderString_example" // string | Header parameter enum test (string) (optional) (default to "-efg")
     enumQueryStringArray := []string{"EnumQueryStringArray_example"} // []string | Query parameter enum test (string array) (optional)
     enumQueryString := "enumQueryString_example" // string | Query parameter enum test (string) (optional) (default to "-efg")
-    enumQueryInteger := 987 // int32 | Query parameter enum test (double) (optional)
-    enumQueryDouble := 987 // float64 | Query parameter enum test (double) (optional)
+    enumQueryInteger := int32(56) // int32 | Query parameter enum test (double) (optional)
+    enumQueryDouble := float64(1.2) // float64 | Query parameter enum test (double) (optional)
     enumFormStringArray := []string{"Inner_example"} // []string | Form parameter enum test (string array) (optional) (default to "$")
     enumFormString := "enumFormString_example" // string | Form parameter enum test (string) (optional) (default to "-efg")
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.TestEnumParameters(context.Background()).EnumHeaderStringArray(enumHeaderStringArray).EnumHeaderString(enumHeaderString).EnumQueryStringArray(enumQueryStringArray).EnumQueryString(enumQueryString).EnumQueryInteger(enumQueryInteger).EnumQueryDouble(enumQueryDouble).EnumFormStringArray(enumFormStringArray).EnumFormString(enumFormString).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestEnumParameters``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -684,13 +685,13 @@ Other parameters are passed through a pointer to a apiTestEnumParametersRequest 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**[]string**](string.md) | Header parameter enum test (string array) | 
+ **enumHeaderStringArray** | **[]string** | Header parameter enum test (string array) | 
  **enumHeaderString** | **string** | Header parameter enum test (string) | [default to &quot;-efg&quot;]
- **enumQueryStringArray** | [**[]string**](string.md) | Query parameter enum test (string array) | 
+ **enumQueryStringArray** | **[]string** | Query parameter enum test (string array) | 
  **enumQueryString** | **string** | Query parameter enum test (string) | [default to &quot;-efg&quot;]
  **enumQueryInteger** | **int32** | Query parameter enum test (double) | 
  **enumQueryDouble** | **float64** | Query parameter enum test (double) | 
- **enumFormStringArray** | [**[]string**](string.md) | Form parameter enum test (string array) | [default to &quot;$&quot;]
+ **enumFormStringArray** | **[]string** | Form parameter enum test (string array) | [default to &quot;$&quot;]
  **enumFormString** | **string** | Form parameter enum test (string) | [default to &quot;-efg&quot;]
 
 ### Return type
@@ -732,17 +733,17 @@ import (
 )
 
 func main() {
-    requiredStringGroup := 987 // int32 | Required String in group parameters
+    requiredStringGroup := int32(56) // int32 | Required String in group parameters
     requiredBooleanGroup := true // bool | Required Boolean in group parameters
-    requiredInt64Group := 987 // int64 | Required Integer in group parameters
-    stringGroup := 987 // int32 | String in group parameters (optional)
+    requiredInt64Group := int64(789) // int64 | Required Integer in group parameters
+    stringGroup := int32(56) // int32 | String in group parameters (optional)
     booleanGroup := true // bool | Boolean in group parameters (optional)
-    int64Group := 987 // int64 | Integer in group parameters (optional)
+    int64Group := int64(789) // int64 | Integer in group parameters (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.TestGroupParameters(context.Background()).RequiredStringGroup(requiredStringGroup).RequiredBooleanGroup(requiredBooleanGroup).RequiredInt64Group(requiredInt64Group).StringGroup(stringGroup).BooleanGroup(booleanGroup).Int64Group(int64Group).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestGroupParameters``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -804,12 +805,12 @@ import (
 )
 
 func main() {
-    param := map[string]string{ "key": "Inner_example"} // map[string]string | request body
+    param := map[string]string{"key": "Inner_example"} // map[string]string | request body
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.TestInlineAdditionalProperties(context.Background()).Param(param).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestInlineAdditionalProperties``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -827,7 +828,7 @@ Other parameters are passed through a pointer to a apiTestInlineAdditionalProper
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | [**map[string]string**](string.md) | request body | 
+ **param** | **map[string]string** | request body | 
 
 ### Return type
 
@@ -872,7 +873,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.TestJsonFormData(context.Background()).Param(param).Param2(param2).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestJsonFormData``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -941,7 +942,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.TestQueryParameterCollectionFormat(context.Background()).Pipe(pipe).Ioutil(ioutil).Http(http).Url(url).Context(context).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestQueryParameterCollectionFormat``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -959,11 +960,11 @@ Other parameters are passed through a pointer to a apiTestQueryParameterCollecti
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pipe** | [**[]string**](string.md) |  | 
- **ioutil** | [**[]string**](string.md) |  | 
- **http** | [**[]string**](string.md) |  | 
- **url** | [**[]string**](string.md) |  | 
- **context** | [**[]string**](string.md) |  | 
+ **pipe** | **[]string** |  | 
+ **ioutil** | **[]string** |  | 
+ **http** | **[]string** |  | 
+ **url** | **[]string** |  | 
+ **context** | **[]string** |  | 
 
 ### Return type
 

@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
+import play.libs.Files.TemporaryFile;
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -26,7 +27,6 @@ import openapitools.OpenAPIUtils.ApiAction;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class PetApiController extends Controller {
-
     private final PetApiControllerImp imp;
     private final ObjectMapper mapper;
     private final Config configuration;
@@ -37,7 +37,6 @@ public class PetApiController extends Controller {
         mapper = new ObjectMapper();
         this.configuration = configuration;
     }
-
 
     @ApiAction
     public Result addPet(Http.Request request) throws Exception {
@@ -52,7 +51,8 @@ public class PetApiController extends Controller {
             throw new IllegalArgumentException("'body' parameter is required");
         }
         imp.addPet(request, body);
-        return ok();
+return ok();
+
     }
 
     @ApiAction
@@ -65,7 +65,8 @@ public class PetApiController extends Controller {
             apiKey = null;
         }
         imp.deletePet(request, petId, apiKey);
-        return ok();
+return ok();
+
     }
 
     @ApiAction
@@ -83,13 +84,14 @@ public class PetApiController extends Controller {
             }
         }
         List<Pet> obj = imp.findPetsByStatus(request, status);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            for (Pet curItem : obj) {
-                OpenAPIUtils.validate(curItem);
-            }
+    if (configuration.getBoolean("useOutputBeanValidation")) {
+        for (Pet curItem : obj) {
+            OpenAPIUtils.validate(curItem);
         }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+    }
+JsonNode result = mapper.valueToTree(obj);
+return ok(result);
+
     }
 
     @ApiAction
@@ -107,23 +109,25 @@ public class PetApiController extends Controller {
             }
         }
         List<Pet> obj = imp.findPetsByTags(request, tags);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            for (Pet curItem : obj) {
-                OpenAPIUtils.validate(curItem);
-            }
+    if (configuration.getBoolean("useOutputBeanValidation")) {
+        for (Pet curItem : obj) {
+            OpenAPIUtils.validate(curItem);
         }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+    }
+JsonNode result = mapper.valueToTree(obj);
+return ok(result);
+
     }
 
     @ApiAction
     public Result getPetById(Http.Request request, Long petId) throws Exception {
         Pet obj = imp.getPetById(request, petId);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
+    if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+    }
+JsonNode result = mapper.valueToTree(obj);
+return ok(result);
+
     }
 
     @ApiAction
@@ -139,7 +143,8 @@ public class PetApiController extends Controller {
             throw new IllegalArgumentException("'body' parameter is required");
         }
         imp.updatePet(request, body);
-        return ok();
+return ok();
+
     }
 
     @ApiAction
@@ -159,7 +164,8 @@ public class PetApiController extends Controller {
             status = null;
         }
         imp.updatePetWithForm(request, petId, name, status);
-        return ok();
+return ok();
+
     }
 
     @ApiAction
@@ -171,12 +177,15 @@ public class PetApiController extends Controller {
         } else {
             additionalMetadata = null;
         }
-        Http.MultipartFormData.FilePart file = request.body().asMultipartFormData().getFile("file");
+        Http.MultipartFormData<TemporaryFile> bodyfile = request.body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<TemporaryFile> file = bodyfile.getFile("file");
         ModelApiResponse obj = imp.uploadFile(request, petId, additionalMetadata, file);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
+    if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
     }
+JsonNode result = mapper.valueToTree(obj);
+return ok(result);
+
+    }
+
 }

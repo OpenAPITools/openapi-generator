@@ -14,11 +14,28 @@ namespace {{packageName}}.{{modelPackage}}
         /// <summary>
         ///  Custom JSON serializer
         /// </summary>
-        protected readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
+        static public readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
         {
             // OpenAPI generated types generally hide default constructors.
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
             MissingMemberHandling = MissingMemberHandling.Error,
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy
+                {
+                    OverrideSpecifiedNames = false
+                }
+            }
+        };
+
+        /// <summary>
+        ///  Custom JSON serializer for objects with additional properties
+        /// </summary>
+        static public readonly JsonSerializerSettings AdditionalPropertiesSerializerSettings = new JsonSerializerSettings
+        {
+            // OpenAPI generated types generally hide default constructors.
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+            MissingMemberHandling = MissingMemberHandling.Ignore,
             ContractResolver = new DefaultContractResolver
             {
                 NamingStrategy = new CamelCaseNamingStrategy

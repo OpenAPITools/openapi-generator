@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Org.OpenAPITools.Client
@@ -73,6 +74,12 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <value>HTTP connection timeout.</value>
         int Timeout { get; }
+
+        /// <summary>
+        /// Gets the proxy.
+        /// </summary>
+        /// <value>Proxy.</value>
+        WebProxy Proxy { get; }
 
         /// <summary>
         /// Gets the user agent.

@@ -46,6 +46,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>DateTime?</li>
 <li>DateTimeOffset</li>
 <li>DateTimeOffset?</li>
+<li>Decimal</li>
 <li>Dictionary</li>
 <li>Double</li>
 <li>Float</li>

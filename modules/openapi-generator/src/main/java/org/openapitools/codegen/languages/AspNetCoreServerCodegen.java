@@ -190,7 +190,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         aspnetCoreVersion.addEnum("2.2", "ASP.NET Core 2.2");
         aspnetCoreVersion.addEnum("3.0", "ASP.NET Core 3.0");
         aspnetCoreVersion.addEnum("3.1", "ASP.NET Core 3.1");
-        aspnetCoreVersion.setDefault("2.2");
+        aspnetCoreVersion.setDefault("3.1");
         aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
         addOption(aspnetCoreVersion.getOpt(), aspnetCoreVersion.getDescription(), aspnetCoreVersion.getOptValue());
 

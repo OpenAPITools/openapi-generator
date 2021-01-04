@@ -154,7 +154,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("int", "Number");
         typeMapping.put("float", "Number");
         typeMapping.put("number", "Number");
-        typeMapping.put("BigDecimal", "Number");
+        typeMapping.put("decimal", "Number");
         typeMapping.put("DateTime", "Date");
         typeMapping.put("date", "Date");
         typeMapping.put("long", "Number");
@@ -730,7 +730,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         // container
-        if (Boolean.TRUE.equals(p.isListContainer)) {
+        if (Boolean.TRUE.equals(p.isArray)) {
             example = setPropertyExampleValue(p.items);
             example = "[" + example + "]";
         } else if (Boolean.TRUE.equals(p.isMap)) {
@@ -943,7 +943,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         String dataType = trimBrackets(cp.dataType);
         if (isModelledType(cp))
             dataType = getModelledType(dataType);
-        if (Boolean.TRUE.equals(cp.isListContainer)) {
+        if (Boolean.TRUE.equals(cp.isArray)) {
             return "Array.<" + dataType + ">";
         } else if (Boolean.TRUE.equals(cp.isMap)) {
             return "Object.<String, " + dataType + ">";
@@ -961,7 +961,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (returnType != null) {
             if (isModelledType(co))
                 returnType = getModelledType(returnType);
-            if (Boolean.TRUE.equals(co.isListContainer)) {
+            if (Boolean.TRUE.equals(co.isArray)) {
                 return "Array.<" + returnType + ">";
             } else if (Boolean.TRUE.equals(co.isMap)) {
                 return "Object.<String, " + returnType + ">";
@@ -1140,12 +1140,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             }
 
             if (removedChildEnum) {
-                // If we removed an entry from this model's vars, we need to ensure hasMore is updated
-                int count = 0, numVars = codegenProperties.size();
-                for (CodegenProperty codegenProperty : codegenProperties) {
-                    count += 1;
-                    codegenProperty.hasMore = (count < numVars) ? true : false;
-                }
                 codegenModel.vars = codegenProperties;
             }
         }
@@ -1225,5 +1219,17 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
         }
+    }
+
+    @Override
+    protected String getCollectionFormat(CodegenParameter codegenParameter) {
+        // This method will return `passthrough` when the parameter data format is binary and an array.
+        // `passthrough` is not part of the OAS spec. However, this will act like a flag that we should
+        // not do any processing on the collection type (i.e. convert to tsv, csv, etc..). This is
+        // critical to support multi file uploads correctly.
+        if (codegenParameter.isArray && Objects.equals(codegenParameter.dataFormat, "binary")) {
+            return "passthrough";
+        }
+        return super.getCollectionFormat(codegenParameter);
     }
 }

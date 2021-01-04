@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
+import play.libs.Files.TemporaryFile;
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -28,7 +29,6 @@ import openapitools.OpenAPIUtils.ApiAction;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class StoreApiController extends Controller {
-
     private final StoreApiControllerImpInterface imp;
     private final ObjectMapper mapper;
     private final Config configuration;
@@ -40,38 +40,19 @@ public class StoreApiController extends Controller {
         this.configuration = configuration;
     }
 
-
     @ApiAction
     public CompletionStage<Result> deleteOrder(Http.Request request, String orderId) throws Exception {
-        return CompletableFuture.supplyAsync(() -> {
-            imp.deleteOrder(request, orderId);
-            return ok();
-        });
+        return imp.deleteOrderHttp(request, orderId);
     }
 
     @ApiAction
     public CompletionStage<Result> getInventory(Http.Request request) throws Exception {
-        CompletionStage<Map<String, Integer>> stage = imp.getInventory(request).thenApply(obj -> { 
-            return obj;
-        });
-        stage.thenApply(obj -> {
-            JsonNode result = mapper.valueToTree(obj);
-            return ok(result);
-        });
+        return imp.getInventoryHttp(request);
     }
 
     @ApiAction
     public CompletionStage<Result> getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId) throws Exception {
-        CompletionStage<Order> stage = imp.getOrderById(request, orderId).thenApply(obj -> { 
-            if (configuration.getBoolean("useOutputBeanValidation")) {
-                OpenAPIUtils.validate(obj);
-            }
-            return obj;
-        });
-        stage.thenApply(obj -> {
-            JsonNode result = mapper.valueToTree(obj);
-            return ok(result);
-        });
+        return imp.getOrderByIdHttp(request, orderId);
     }
 
     @ApiAction
@@ -86,15 +67,7 @@ public class StoreApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        CompletionStage<Order> stage = imp.placeOrder(request, body).thenApply(obj -> { 
-            if (configuration.getBoolean("useOutputBeanValidation")) {
-                OpenAPIUtils.validate(obj);
-            }
-            return obj;
-        });
-        stage.thenApply(obj -> {
-            JsonNode result = mapper.valueToTree(obj);
-            return ok(result);
-        });
+        return imp.placeOrderHttp(request, body);
     }
+
 }

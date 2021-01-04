@@ -25,7 +25,7 @@ class UserApi {
   ///
   /// * [User] body (required):
   ///   Created user object
-  Future createUserWithHttpInfo(User body) async {
+  Future<Response> createUserWithHttpInfo(User body) async {
     // Verify required params are set.
     if (body == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
@@ -38,7 +38,6 @@ class UserApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
-
 
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -76,7 +75,7 @@ class UserApi {
   ///
   /// * [User] body (required):
   ///   Created user object
-  Future createUser(User body) async {
+  Future<void> createUser(User body) async {
     final response = await createUserWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
@@ -91,7 +90,7 @@ class UserApi {
   ///
   /// * [List<User>] body (required):
   ///   List of user object
-  Future createUsersWithArrayInputWithHttpInfo(List<User> body) async {
+  Future<Response> createUsersWithArrayInputWithHttpInfo(List<User> body) async {
     // Verify required params are set.
     if (body == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
@@ -104,7 +103,6 @@ class UserApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
-
 
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -140,7 +138,7 @@ class UserApi {
   ///
   /// * [List<User>] body (required):
   ///   List of user object
-  Future createUsersWithArrayInput(List<User> body) async {
+  Future<void> createUsersWithArrayInput(List<User> body) async {
     final response = await createUsersWithArrayInputWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
@@ -155,7 +153,7 @@ class UserApi {
   ///
   /// * [List<User>] body (required):
   ///   List of user object
-  Future createUsersWithListInputWithHttpInfo(List<User> body) async {
+  Future<Response> createUsersWithListInputWithHttpInfo(List<User> body) async {
     // Verify required params are set.
     if (body == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
@@ -168,7 +166,6 @@ class UserApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
-
 
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -204,7 +201,7 @@ class UserApi {
   ///
   /// * [List<User>] body (required):
   ///   List of user object
-  Future createUsersWithListInput(List<User> body) async {
+  Future<void> createUsersWithListInput(List<User> body) async {
     final response = await createUsersWithListInputWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
@@ -221,7 +218,7 @@ class UserApi {
   ///
   /// * [String] username (required):
   ///   The name that needs to be deleted
-  Future deleteUserWithHttpInfo(String username) async {
+  Future<Response> deleteUserWithHttpInfo(String username) async {
     // Verify required params are set.
     if (username == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
@@ -235,7 +232,6 @@ class UserApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
-
 
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -273,7 +269,7 @@ class UserApi {
   ///
   /// * [String] username (required):
   ///   The name that needs to be deleted
-  Future deleteUser(String username) async {
+  Future<void> deleteUser(String username) async {
     final response = await deleteUserWithHttpInfo(username);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
@@ -302,7 +298,6 @@ class UserApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
-
 
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -437,7 +432,7 @@ class UserApi {
   /// Logs out current logged in user session
   ///
   /// Note: This method returns the HTTP [Response].
-  Future logoutUserWithHttpInfo() async {
+  Future<Response> logoutUserWithHttpInfo() async {
     final path = '/user/logout'.replaceAll('{format}', 'json');
 
     Object postBody;
@@ -445,7 +440,6 @@ class UserApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
-
 
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -476,7 +470,7 @@ class UserApi {
   }
 
   /// Logs out current logged in user session
-  Future logoutUser() async {
+  Future<void> logoutUser() async {
     final response = await logoutUserWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
@@ -496,7 +490,7 @@ class UserApi {
   ///
   /// * [User] body (required):
   ///   Updated user object
-  Future updateUserWithHttpInfo(String username, User body) async {
+  Future<Response> updateUserWithHttpInfo(String username, User body) async {
     // Verify required params are set.
     if (username == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
@@ -513,7 +507,6 @@ class UserApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
-
 
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -554,7 +547,7 @@ class UserApi {
   ///
   /// * [User] body (required):
   ///   Updated user object
-  Future updateUser(String username, User body) async {
+  Future<void> updateUser(String username, User body) async {
     final response = await updateUserWithHttpInfo(username, body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));

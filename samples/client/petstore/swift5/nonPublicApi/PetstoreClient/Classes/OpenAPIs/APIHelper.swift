@@ -23,7 +23,7 @@ internal struct APIHelper {
     internal static func rejectNilHeaders(_ source: [String: Any?]) -> [String: String] {
         return source.reduce(into: [String: String]()) { (result, item) in
             if let collection = item.value as? [Any?] {
-                result[item.key] = collection.filter({ $0 != nil }).map { "\($0!)" }.joined(separator: ",")
+                result[item.key] = collection.filter { $0 != nil }.map { "\($0!)" }.joined(separator: ",")
             } else if let value: Any = item.value {
                 result[item.key] = "\(value)"
             }
@@ -47,7 +47,7 @@ internal struct APIHelper {
 
     internal static func mapValueToPathItem(_ source: Any) -> Any {
         if let collection = source as? [Any?] {
-            return collection.filter({ $0 != nil }).map({"\($0!)"}).joined(separator: ",")
+            return collection.filter { $0 != nil }.map {"\($0!)"}.joined(separator: ",")
         }
         return source
     }
@@ -55,7 +55,7 @@ internal struct APIHelper {
     internal static func mapValuesToQueryItems(_ source: [String: Any?]) -> [URLQueryItem]? {
         let destination = source.filter({ $0.value != nil}).reduce(into: [URLQueryItem]()) { (result, item) in
             if let collection = item.value as? [Any?] {
-                collection.filter({ $0 != nil }).map({"\($0!)"}).forEach { value in
+                collection.filter { $0 != nil }.map {"\($0!)"}.forEach { value in
                     result.append(URLQueryItem(name: item.key, value: value))
                 }
             } else if let value = item.value {

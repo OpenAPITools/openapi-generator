@@ -18,12 +18,12 @@ feature -- Test routines
             -- 
             -- This can only be done by the logged in user. 
         local
-            l_body: USER
+            l_user: USER
         do
             -- TODO: Initialize required params.
-            -- l_body
+            -- l_user
                       
-            -- api.create_user(l_body)
+            -- api.create_user(l_user)
             assert ("not_implemented", False)
         end
     
@@ -32,12 +32,12 @@ feature -- Test routines
             -- 
             --  
         local
-            l_body: LIST [USER]
+            l_user: LIST [USER]
         do
             -- TODO: Initialize required params.
-            -- create {ARRAYED_LIST [USER]} l_body.make (2)
+            -- create {ARRAYED_LIST [USER]} l_user.make (2)
                       
-            -- api.create_users_with_array_input(l_body)
+            -- api.create_users_with_array_input(l_user)
             assert ("not_implemented", False)
         end
     
@@ -46,12 +46,12 @@ feature -- Test routines
             -- 
             --  
         local
-            l_body: LIST [USER]
+            l_user: LIST [USER]
         do
             -- TODO: Initialize required params.
-            -- create {ARRAYED_LIST [USER]} l_body.make (2)
+            -- create {ARRAYED_LIST [USER]} l_user.make (2)
                       
-            -- api.create_users_with_list_input(l_body)
+            -- api.create_users_with_list_input(l_user)
             assert ("not_implemented", False)
         end
     
@@ -104,13 +104,13 @@ feature -- Test routines
             -- This can only be done by the logged in user. 
         local
             l_username: STRING_32
-            l_body: USER
+            l_user: USER
         do
             -- TODO: Initialize required params.
             -- l_username
-            -- l_body
+            -- l_user
                       
-            -- api.update_user(l_username, l_body)
+            -- api.update_user(l_username, l_user)
             assert ("not_implemented", False)
         end
     

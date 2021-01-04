@@ -60,7 +60,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         languageSpecificPrimitives.add("Integer");
         languageSpecificPrimitives.add("Float");
         languageSpecificPrimitives.add("Date");
-        languageSpecificPrimitives.add("DateTime");
+        languageSpecificPrimitives.add("Time");
         languageSpecificPrimitives.add("Array");
         languageSpecificPrimitives.add("Hash");
         languageSpecificPrimitives.add("File");
@@ -78,7 +78,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         typeMapping.put("double", "Float");
         typeMapping.put("number", "Float");
         typeMapping.put("date", "Date");
-        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("DateTime", "Time");
         typeMapping.put("array", "Array");
         typeMapping.put("set", "Array");
         typeMapping.put("List", "Array");
@@ -150,18 +150,15 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                String _default;
                 if (p.getDefault() instanceof Date) {
                     Date date = (Date) p.getDefault();
                     LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     return "Date.parse(\"" + String.format(Locale.ROOT, localDate.toString(), "") + "\")";
                 } else if (p.getDefault() instanceof java.time.OffsetDateTime) {
-                    return "DateTime.parse(\"" + String.format(Locale.ROOT, ((java.time.OffsetDateTime) p.getDefault()).atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\")";
+                    return "Time.parse(\"" + String.format(Locale.ROOT, ((java.time.OffsetDateTime) p.getDefault()).atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\")";
                 } else {
-                    _default = (String) p.getDefault();
+                    return "'" + escapeText((String) p.getDefault()) + "'";
                 }
-
-                return "'" + escapeText(_default) + "'";
             }
         }
 

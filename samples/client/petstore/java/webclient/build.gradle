@@ -111,11 +111,14 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    swagger_annotations_version = "1.5.22"
-    jackson_version = "2.10.3"
-    jackson_databind_version = "2.10.4"
+    swagger_annotations_version = "1.6.2"
+    spring_web_version = "5.0.16.RELEASE"
+    jackson_version = "2.11.3"
+    jackson_databind_version = "2.11.3"
     jackson_databind_nullable_version = "0.2.1"
-    jersey_version = "1.19.4"
+    javax_annotation_version = "1.3.2"
+    reactor_version = "3.3.10.RELEASE"
+    reactor_netty_version = "0.7.15.RELEASE"
     jodatime_version = "2.9.9"
     junit_version = "4.13.1"
 }
@@ -123,15 +126,16 @@ ext {
 dependencies {
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "com.google.code.findbugs:jsr305:3.0.2"
-    compile "com.sun.jersey:jersey-client:$jersey_version"
-    compile "com.sun.jersey.contribs:jersey-multipart:$jersey_version"
+    compile "io.projectreactor:reactor-core:$reactor_version"
+    compile "org.springframework:spring-webflux:$spring_web_version"
+    compile "io.projectreactor.ipc:reactor-netty:$reactor_netty_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
     compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
-    compile 'javax.annotation:javax.annotation-api:1.3.2'
+    compile "javax.annotation:javax.annotation-api:$javax_annotation_version"
     testCompile "junit:junit:$junit_version"
 }
 

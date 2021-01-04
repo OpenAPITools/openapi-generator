@@ -15,23 +15,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Type/Alias | Imports |
 | ---------- | ------- |
-|Array|java.util.List|
-|ArrayList|java.util.ArrayList|
-|BigDecimal|java.math.BigDecimal|
-|Date|java.util.Date|
-|DateTime|org.joda.time.*|
-|File|java.io.File|
-|HashMap|java.util.HashMap|
-|LinkedHashSet|java.util.LinkedHashSet|
-|List|java.util.*|
-|LocalDate|org.joda.time.*|
-|LocalDateTime|org.joda.time.*|
-|LocalTime|org.joda.time.*|
-|Map|java.util.Map|
-|Set|java.util.*|
-|Timestamp|java.sql.Timestamp|
-|URI|java.net.URI|
-|UUID|java.util.UUID|
+|File|FILE|
+|List|LIST|
+|Map|STRING_TABLE|
+|Set|SET|
+|file|FILE|
 
 
 ## INSTANTIATION TYPES
@@ -69,6 +57,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>and</li>
 <li>as</li>
 <li>assign</li>
+<li>attached</li>
 <li>attribute</li>
 <li>check</li>
 <li>class</li>
@@ -77,6 +66,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>current</li>
 <li>debug</li>
 <li>deferred</li>
+<li>detachable</li>
 <li>do</li>
 <li>else</li>
 <li>elseif</li>

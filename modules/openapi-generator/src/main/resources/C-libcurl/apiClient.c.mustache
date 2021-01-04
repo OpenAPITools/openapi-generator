@@ -7,13 +7,14 @@
 size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp);
 
 apiClient_t *apiClient_create() {
-    curl_global_init(CURL_GLOBAL_ALL);
     apiClient_t *apiClient = malloc(sizeof(apiClient_t));
     apiClient->basePath = strdup("{{{basePath}}}");
     apiClient->sslConfig = NULL;
     apiClient->dataReceived = NULL;
     apiClient->dataReceivedLen = 0;
     apiClient->data_callback_func = NULL;
+    apiClient->progress_func = NULL;
+    apiClient->progress_data = NULL;
     apiClient->response_code = 0;
     {{#hasAuthMethods}}
     {{#authMethods}}
@@ -43,7 +44,6 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
 {{/authMethods}}
 {{/hasAuthMethods}}
 ) {
-    curl_global_init(CURL_GLOBAL_ALL);
     apiClient_t *apiClient = malloc(sizeof(apiClient_t));
     if(basePath){
         apiClient->basePath = strdup(basePath);
@@ -60,6 +60,8 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
     apiClient->dataReceived = NULL;
     apiClient->dataReceivedLen = 0;
     apiClient->data_callback_func = NULL;
+    apiClient->progress_func = NULL;
+    apiClient->progress_data = NULL;
     apiClient->response_code = 0;
     {{#hasAuthMethods}}
     {{#authMethods}}
@@ -94,6 +96,8 @@ void apiClient_free(apiClient_t *apiClient) {
         free(apiClient->basePath);
     }
     apiClient->data_callback_func = NULL;
+    apiClient->progress_func = NULL;
+    apiClient->progress_data = NULL;
     {{#hasAuthMethods}}
     {{#authMethods}}
     {{#isBasic}}
@@ -128,7 +132,6 @@ void apiClient_free(apiClient_t *apiClient) {
     {{/authMethods}}
     {{/hasAuthMethods}}
     free(apiClient);
-    curl_global_cleanup();
 }
 
 sslConfig_t *sslConfig_create(const char *clientCertFile, const char *clientKeyFile, const char *CACertFile, int insecureSkipTlsVerify) {
@@ -437,6 +440,14 @@ void apiClient_invoke(apiClient_t    *apiClient,
             }
         }
 
+        if (apiClient->progress_func != NULL) {
+            curl_easy_setopt(handle, CURLOPT_XFERINFOFUNCTION, apiClient->progress_func);
+            if (apiClient->progress_data != NULL) {
+                curl_easy_setopt(handle, CURLOPT_XFERINFODATA, apiClient->progress_data);
+            }
+            curl_easy_setopt(handle, CURLOPT_NOPROGRESS, 0L);
+        }
+
         {{#hasAuthMethods}}
         {{#authMethods}}
         {{#isApiKey}}
@@ -620,3 +631,10 @@ char *strReplace(char *orig, char *rep, char *with) {
     return result;
 }
 
+void apiClient_setupGlobalEnv() {
+    curl_global_init(CURL_GLOBAL_ALL);
+}
+
+void apiClient_unsetupGlobalEnv() {
+    curl_global_cleanup();
+}

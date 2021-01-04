@@ -7,7 +7,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|aspnetCoreVersion|ASP.NET Core version: 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)| |2.2|
+|aspnetCoreVersion|ASP.NET Core version: 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)| |3.1|
 |buildTarget|Target to build an application or library| |program|
 |classModifier|Class Modifier for controller classes: Empty string or abstract.| ||
 |compatibilityVersion|ASP.Net Core CompatibilityVersion| |Version_2_2|
@@ -63,6 +63,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>DateTime?</li>
 <li>DateTimeOffset</li>
 <li>DateTimeOffset?</li>
+<li>Decimal</li>
 <li>Dictionary</li>
 <li>Double</li>
 <li>Float</li>

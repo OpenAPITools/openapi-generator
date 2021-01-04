@@ -689,6 +689,14 @@ public class ModelUtils {
         return false;
     }
 
+    public static boolean isDecimalSchema(Schema schema) {
+        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType()) // type: string
+                && "number".equals(schema.getFormat())) { // format: number
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Check to see if the schema is a model
      *
@@ -1308,14 +1316,12 @@ public class ModelUtils {
             }
         }
 
-        // parent name only makes sense when there is a single obvious parent
-        if (refedWithoutDiscriminator.size() == 1) {
-            if (hasAmbiguousParents) {
-                LOGGER.warn("[deprecated] inheritance without use of 'discriminator.propertyName' is deprecated " +
-                                "and will be removed in a future release. Generating model for composed schema name: {}. Title: {}",
-                        composedSchema.getName(), composedSchema.getTitle());
-            }
-            return refedWithoutDiscriminator.get(0);
+        if (refedWithoutDiscriminator.size() == 1 && hasAmbiguousParents) {
+            // allOf with a single $ref (no discriminator)
+            // TODO to be removed in 5.x or 6.x release
+            LOGGER.info("[deprecated] inheritance without use of 'discriminator.propertyName' has been deprecated" +
+                    " in the 5.x release. Composed schema name: {}. Title: {}",
+                    composedSchema.getName(), composedSchema.getTitle());
         }
 
         return null;

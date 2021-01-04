@@ -39,6 +39,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String PREFIX_PARAMETER_INTERFACES = "prefixParameterInterfaces";
     public static final String TYPESCRIPT_THREE_PLUS = "typescriptThreePlus";
+    public static final String WITHOUT_RUNTIME_CHECKS = "withoutRuntimeChecks";
 
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = true;
@@ -46,6 +47,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     protected boolean addedApiIndex = false;
     protected boolean addedModelIndex = false;
     protected boolean typescriptThreePlus = false;
+    protected boolean withoutRuntimeChecks = false;
 
 
     public TypeScriptFetchClientCodegen() {
@@ -61,7 +63,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         embeddedTemplateDir = templateDir = "typescript-fetch";
 
         this.apiTemplateFiles.put("apis.mustache", ".ts");
-        this.modelTemplateFiles.put("models.mustache", ".ts");
+
         this.addExtraReservedWords();
 
         typeMapping.put("date", "Date");
@@ -73,6 +75,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, CodegenConstants.USE_SINGLE_REQUEST_PARAMETER_DESC, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.TRUE.toString()));
         this.cliOptions.add(new CliOption(PREFIX_PARAMETER_INTERFACES, "Setting this property to true will generate parameter interface declarations prefixed with API class name to avoid name conflicts.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(TYPESCRIPT_THREE_PLUS, "Setting this property to true will generate TypeScript 3.6+ compatible code.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(WITHOUT_RUNTIME_CHECKS, "Setting this property to true will remove any runtime checks on the request and response payloads. Payloads will be casted to their expected types.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -99,6 +102,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     public void setTypescriptThreePlus(Boolean typescriptThreePlus) {
         this.typescriptThreePlus = typescriptThreePlus;
+    }
+
+    public Boolean getWithoutRuntimeChecks(){
+        return withoutRuntimeChecks;
+    }
+
+    public void setWithoutRuntimeChecks(Boolean withoutRuntimeChecks){
+        this.withoutRuntimeChecks = withoutRuntimeChecks;
     }
 
     @Override
@@ -134,6 +145,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         if (additionalProperties.containsKey(TYPESCRIPT_THREE_PLUS)) {
             this.setTypescriptThreePlus(convertPropertyToBoolean(TYPESCRIPT_THREE_PLUS));
+        }
+
+        if (additionalProperties.containsKey(WITHOUT_RUNTIME_CHECKS)) {
+            this.setWithoutRuntimeChecks(convertPropertyToBoolean(WITHOUT_RUNTIME_CHECKS));
+        }
+
+        if(!withoutRuntimeChecks){
+            this.modelTemplateFiles.put("models.mustache", ".ts");
         }
     }
 

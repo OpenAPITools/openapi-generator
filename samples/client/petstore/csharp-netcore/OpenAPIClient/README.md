@@ -44,6 +44,17 @@ using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 ```
+<a name="usage"></a>
+## Usage
+
+To use the API client with a HTTP proxy, setup a `System.Net.WebProxy`
+```csharp
+Configuration c = new Configuration();
+System.Net.WebProxy webProxy = new System.Net.WebProxy("http://myProxyUrl:80/");
+webProxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+c.Proxy = webProxy;
+```
+
 <a name="getting-started"></a>
 ## Getting Started
 
@@ -172,12 +183,6 @@ Class | Method | HTTP request | Description
  - [Model.GrandparentAnimal](docs/GrandparentAnimal.md)
  - [Model.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [Model.HealthCheckResult](docs/HealthCheckResult.md)
- - [Model.InlineObject](docs/InlineObject.md)
- - [Model.InlineObject1](docs/InlineObject1.md)
- - [Model.InlineObject2](docs/InlineObject2.md)
- - [Model.InlineObject3](docs/InlineObject3.md)
- - [Model.InlineObject4](docs/InlineObject4.md)
- - [Model.InlineObject5](docs/InlineObject5.md)
  - [Model.InlineResponseDefault](docs/InlineResponseDefault.md)
  - [Model.IsoscelesTriangle](docs/IsoscelesTriangle.md)
  - [Model.List](docs/List.md)

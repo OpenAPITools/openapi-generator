@@ -14,8 +14,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageUrl|python package URL.| |null|
 |packageVersion|python package version.| |1.0.0|
 |projectName|python project name in setup.py (e.g. petstore-api).| |null|
+|pythonAttrNoneIfUnset|when accessing unset attribute, return `None` instead of raising `ApiAttributeError`| |false|
 |recursionLimit|Set the recursion limit. If not set, use the system default value.| |null|
-|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |useNose|use the nose test framework| |false|
 
 ## IMPORT MAPPING
@@ -28,6 +28,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
+|map|dict|
 
 
 ## LANGUAGE PRIMITIVES
@@ -39,9 +40,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>datetime</li>
 <li>dict</li>
 <li>file</li>
+<li>file_type</li>
 <li>float</li>
 <li>int</li>
 <li>list</li>
+<li>none_type</li>
 <li>object</li>
 <li>str</li>
 </ul>
@@ -164,7 +167,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Examples|✓|OAS2,OAS3
 |XMLStructureDefinitions|✗|OAS2,OAS3
 |MultiServer|✗|OAS3
-|ParameterizedServer|✗|OAS3
+|ParameterizedServer|✓|OAS3
 |ParameterStyling|✗|OAS3
 |Callbacks|✗|OAS3
 |LinkObjects|✗|OAS3
