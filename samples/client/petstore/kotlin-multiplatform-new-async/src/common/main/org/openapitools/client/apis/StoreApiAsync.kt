@@ -20,13 +20,14 @@ import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.features.json.serializer.*
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.promise
+import kotlinx.coroutines.async
 import kotlinx.serialization.json.Json
-import kotlin.js.Promise
 
-public open class StoreApiAsync : StoreApi {
+public open class StoreApiAsync : ApiClientBase {
     public val coroutineScope: CoroutineScope
+    protected val client: StoreApi
 
     public constructor(
         baseUrl: String = "http://petstore.swagger.io/v2",
@@ -35,6 +36,7 @@ public open class StoreApiAsync : StoreApi {
         coroutineScope: CoroutineScope = GlobalScope,
     ) : super(baseUrl, httpClientEngine, json) {
         this.coroutineScope = coroutineScope
+        this.client = StoreApi(baseUrl, httpClientEngine, json)
     }
 
     internal constructor(
@@ -48,6 +50,7 @@ public open class StoreApiAsync : StoreApi {
         serializer,
     ) {
         this.coroutineScope = coroutineScope
+        this.client = StoreApi(baseUrl, client, serializer)
     }
 
     /**
@@ -58,9 +61,9 @@ public open class StoreApiAsync : StoreApi {
      */
     public fun deleteOrderAsync(
         orderId: kotlin.String,
-    ): Promise<HttpResponse<Unit>> {
-        return coroutineScope.promise {
-            deleteOrder(
+    ): Deferred<HttpResponse<Unit>> {
+        return coroutineScope.async {
+            this@StoreApiAsync.client.deleteOrder(
                 orderId = orderId,
             )
         }
@@ -71,9 +74,9 @@ public open class StoreApiAsync : StoreApi {
      * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
      */
     public fun getInventoryAsync(
-    ): Promise<HttpResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>>> {
-        return coroutineScope.promise {
-            getInventory(
+    ): Deferred<HttpResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>>> {
+        return coroutineScope.async {
+            this@StoreApiAsync.client.getInventory(
             )
         }
     }
@@ -85,9 +88,9 @@ public open class StoreApiAsync : StoreApi {
      */
     public fun getOrderByIdAsync(
         orderId: kotlin.Long,
-    ): Promise<HttpResponse<Order>> {
-        return coroutineScope.promise {
-            getOrderById(
+    ): Deferred<HttpResponse<Order>> {
+        return coroutineScope.async {
+            this@StoreApiAsync.client.getOrderById(
                 orderId = orderId,
             )
         }
@@ -100,9 +103,9 @@ public open class StoreApiAsync : StoreApi {
      */
     public fun placeOrderAsync(
         body: Order,
-    ): Promise<HttpResponse<Order>> {
-        return coroutineScope.promise {
-            placeOrder(
+    ): Deferred<HttpResponse<Order>> {
+        return coroutineScope.async {
+            this@StoreApiAsync.client.placeOrder(
                 body = body,
             )
         }

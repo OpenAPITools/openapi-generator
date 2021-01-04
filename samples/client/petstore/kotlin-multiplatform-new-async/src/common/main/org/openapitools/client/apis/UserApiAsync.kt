@@ -20,13 +20,14 @@ import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.features.json.serializer.*
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.promise
+import kotlinx.coroutines.async
 import kotlinx.serialization.json.Json
-import kotlin.js.Promise
 
-public open class UserApiAsync : UserApi {
+public open class UserApiAsync : ApiClientBase {
     public val coroutineScope: CoroutineScope
+    protected val client: UserApi
 
     public constructor(
         baseUrl: String = "http://petstore.swagger.io/v2",
@@ -35,6 +36,7 @@ public open class UserApiAsync : UserApi {
         coroutineScope: CoroutineScope = GlobalScope,
     ) : super(baseUrl, httpClientEngine, json) {
         this.coroutineScope = coroutineScope
+        this.client = UserApi(baseUrl, httpClientEngine, json)
     }
 
     internal constructor(
@@ -48,6 +50,7 @@ public open class UserApiAsync : UserApi {
         serializer,
     ) {
         this.coroutineScope = coroutineScope
+        this.client = UserApi(baseUrl, client, serializer)
     }
 
     /**
@@ -58,9 +61,9 @@ public open class UserApiAsync : UserApi {
      */
     public fun createUserAsync(
         body: User,
-    ): Promise<HttpResponse<Unit>> {
-        return coroutineScope.promise {
-            createUser(
+    ): Deferred<HttpResponse<Unit>> {
+        return coroutineScope.async {
+            this@UserApiAsync.client.createUser(
                 body = body,
             )
         }
@@ -73,9 +76,9 @@ public open class UserApiAsync : UserApi {
      */
     public fun createUsersWithArrayInputAsync(
         body: kotlin.collections.List<User>,
-    ): Promise<HttpResponse<Unit>> {
-        return coroutineScope.promise {
-            createUsersWithArrayInput(
+    ): Deferred<HttpResponse<Unit>> {
+        return coroutineScope.async {
+            this@UserApiAsync.client.createUsersWithArrayInput(
                 body = body,
             )
         }
@@ -88,9 +91,9 @@ public open class UserApiAsync : UserApi {
      */
     public fun createUsersWithListInputAsync(
         body: kotlin.collections.List<User>,
-    ): Promise<HttpResponse<Unit>> {
-        return coroutineScope.promise {
-            createUsersWithListInput(
+    ): Deferred<HttpResponse<Unit>> {
+        return coroutineScope.async {
+            this@UserApiAsync.client.createUsersWithListInput(
                 body = body,
             )
         }
@@ -103,9 +106,9 @@ public open class UserApiAsync : UserApi {
      */
     public fun deleteUserAsync(
         username: kotlin.String,
-    ): Promise<HttpResponse<Unit>> {
-        return coroutineScope.promise {
-            deleteUser(
+    ): Deferred<HttpResponse<Unit>> {
+        return coroutineScope.async {
+            this@UserApiAsync.client.deleteUser(
                 username = username,
             )
         }
@@ -118,9 +121,9 @@ public open class UserApiAsync : UserApi {
      */
     public fun getUserByNameAsync(
         username: kotlin.String,
-    ): Promise<HttpResponse<User>> {
-        return coroutineScope.promise {
-            getUserByName(
+    ): Deferred<HttpResponse<User>> {
+        return coroutineScope.async {
+            this@UserApiAsync.client.getUserByName(
                 username = username,
             )
         }
@@ -135,9 +138,9 @@ public open class UserApiAsync : UserApi {
     public fun loginUserAsync(
         username: kotlin.String,
         password: kotlin.String,
-    ): Promise<HttpResponse<kotlin.String>> {
-        return coroutineScope.promise {
-            loginUser(
+    ): Deferred<HttpResponse<kotlin.String>> {
+        return coroutineScope.async {
+            this@UserApiAsync.client.loginUser(
                 username = username,
                 password = password,
             )
@@ -149,9 +152,9 @@ public open class UserApiAsync : UserApi {
      * @return void
      */
     public fun logoutUserAsync(
-    ): Promise<HttpResponse<Unit>> {
-        return coroutineScope.promise {
-            logoutUser(
+    ): Deferred<HttpResponse<Unit>> {
+        return coroutineScope.async {
+            this@UserApiAsync.client.logoutUser(
             )
         }
     }
@@ -165,9 +168,9 @@ public open class UserApiAsync : UserApi {
     public fun updateUserAsync(
         username: kotlin.String,
         body: User,
-    ): Promise<HttpResponse<Unit>> {
-        return coroutineScope.promise {
-            updateUser(
+    ): Deferred<HttpResponse<Unit>> {
+        return coroutineScope.async {
+            this@UserApiAsync.client.updateUser(
                 username = username,
                 body = body,
             )

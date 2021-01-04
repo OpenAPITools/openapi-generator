@@ -1,3 +1,4 @@
+.openapi-generator-ignore
 README.md
 build.gradle.kts
 docs/ApiResponse.md
@@ -15,9 +16,13 @@ gradlew
 gradlew.bat
 settings.gradle.kts
 src/common/main/org/openapitools/client/ApiClient.kt
+src/common/main/org/openapitools/client/ApiClientAsync.kt
 src/common/main/org/openapitools/client/apis/PetApi.kt
+src/common/main/org/openapitools/client/apis/PetApiAsync.kt
 src/common/main/org/openapitools/client/apis/StoreApi.kt
+src/common/main/org/openapitools/client/apis/StoreApiAsync.kt
 src/common/main/org/openapitools/client/apis/UserApi.kt
+src/common/main/org/openapitools/client/apis/UserApiAsync.kt
 src/common/main/org/openapitools/client/auth/ApiKeyAuth.kt
 src/common/main/org/openapitools/client/auth/Authentication.kt
 src/common/main/org/openapitools/client/auth/HttpBasicAuth.kt
@@ -37,7 +42,3 @@ src/common/main/org/openapitools/client/models/Order.kt
 src/common/main/org/openapitools/client/models/Pet.kt
 src/common/main/org/openapitools/client/models/Tag.kt
 src/common/main/org/openapitools/client/models/User.kt
-src/js/main/org/openapitools/client/ApiClientAsync.kt
-src/js/main/org/openapitools/client/apis/PetApiAsync.kt
-src/js/main/org/openapitools/client/apis/StoreApiAsync.kt
-src/js/main/org/openapitools/client/apis/UserApiAsync.kt

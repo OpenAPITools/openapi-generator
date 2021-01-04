@@ -3,11 +3,9 @@ outputDir: samples/client/petstore/kotlin-multiplatform-new-async
 inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/kotlin-multiplatform-client
 jsEnabled: true
-jsAsync: promise
 jvmEnabled: true
-jvmAsync: jdk8
 androidEnabled: true
-androidAsync: jdk8
+async: true
 dateLibrary: string
 additionalProperties:
   hideGenerationTimestamp: "true"

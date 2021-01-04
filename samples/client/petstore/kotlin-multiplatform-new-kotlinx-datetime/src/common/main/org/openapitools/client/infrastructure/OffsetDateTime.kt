@@ -8,6 +8,7 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import kotlin.jvm.JvmStatic
 
 /**
  * Represents a [LocalDateTime] and the respective [ZoneOffset] of it.
@@ -53,6 +54,7 @@ public data class OffsetDateTime(val dateTime: LocalDateTime, val offset: ZoneOf
         /**
          * Parses an [OffsetDateTime] from a RFC3339 compatible string.
          */
+        @JvmStatic
         public fun parse(string: String): OffsetDateTime = when {
             string.contains('Z') -> OffsetDateTime(
                 LocalDateTime.parse(string.substringBefore('Z')),
@@ -78,6 +80,7 @@ public data class OffsetDateTime(val dateTime: LocalDateTime, val offset: ZoneOf
         /**
          * Creates an [OffsetDateTime] from an [Instant] in a given [TimeZone] ([TimeZone.UTC] by default).
          */
+        @JvmStatic
         public fun fromInstant(instant: Instant, offset: TimeZone = TimeZone.UTC): OffsetDateTime = OffsetDateTime(
             instant.toLocalDateTime(offset),
             offset.offsetAt(instant),
