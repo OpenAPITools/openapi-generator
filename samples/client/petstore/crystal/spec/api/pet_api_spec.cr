@@ -90,7 +90,7 @@ describe "PetApi" do
       result.id.should eq pet_id
       result.category.id.should eq pet_id + 10
       result.category.name.should eq "crystal category"
-      result.name.should eq "category"
+      result.name.should eq "crystal"
       result.photo_urls.should eq ["https://crystal-lang.org"]
       result.status.should eq "available" 
       result.tags[0].id.should eq pet_id + 100
