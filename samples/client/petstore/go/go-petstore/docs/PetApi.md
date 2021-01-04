@@ -167,7 +167,7 @@ import (
 )
 
 func main() {
-    status := []string{"Status_example"} // []string | Status values that need to be considered for filter
+    status := []openapiclient.StatusItems{openapiclient.statusItems("available")} // []StatusItems | Status values that need to be considered for filter
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -192,7 +192,7 @@ Other parameters are passed through a pointer to a apiFindPetsByStatusRequest st
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | **[]string** | Status values that need to be considered for filter | 
+ **status** | [**[]StatusItems**](statusItems.md) | Status values that need to be considered for filter | 
 
 ### Return type
 

@@ -16,7 +16,7 @@ import (
 
 // Zebra struct for Zebra
 type Zebra struct {
-	Type *string `json:"type,omitempty"`
+	Type *ZebraType `json:"type,omitempty"`
 	ClassName string `json:"className"`
 	AdditionalProperties map[string]interface{}
 }
@@ -42,9 +42,9 @@ func NewZebraWithDefaults() *Zebra {
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
-func (o *Zebra) GetType() string {
+func (o *Zebra) GetType() ZebraType {
 	if o == nil || o.Type == nil {
-		var ret string
+		var ret ZebraType
 		return ret
 	}
 	return *o.Type
@@ -52,7 +52,7 @@ func (o *Zebra) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Zebra) GetTypeOk() (*string, bool) {
+func (o *Zebra) GetTypeOk() (*ZebraType, bool) {
 	if o == nil || o.Type == nil {
 		return nil, false
 	}
@@ -68,8 +68,8 @@ func (o *Zebra) HasType() bool {
 	return false
 }
 
-// SetType gets a reference to the given string and assigns it to the Type field.
-func (o *Zebra) SetType(v string) {
+// SetType gets a reference to the given ZebraType and assigns it to the Type field.
+func (o *Zebra) SetType(v ZebraType) {
 	o.Type = &v
 }
 

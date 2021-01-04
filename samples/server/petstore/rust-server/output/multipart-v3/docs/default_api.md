@@ -26,7 +26,7 @@ Optional parameters are passed through a map[string]interface{}.
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **required_binary_field** | **swagger::ByteArray**|  | 
- **object_field** | [**multipart_request_object_field**](multipart_request_object_field.md)|  | 
+ **object_field** | [**multipart_requestObjectField**](multipart_requestObjectField.md)|  | 
  **optional_binary_field** | **swagger::ByteArray**|  | 
 
 ### Return type
@@ -64,7 +64,7 @@ Name | Type | Description  | Notes
  **string_field** | **String**|  | 
  **binary_field** | **swagger::ByteArray**|  | 
  **optional_string_field** | **String**|  | 
- **object_field** | [**multipart_request_object_field**](multipart_request_object_field.md)|  | 
+ **object_field** | [**multipart_requestObjectField**](multipart_requestObjectField.md)|  | 
 
 ### Return type
 

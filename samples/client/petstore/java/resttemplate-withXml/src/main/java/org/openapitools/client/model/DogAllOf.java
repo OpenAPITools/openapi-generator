@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   DogAllOf.JSON_PROPERTY_BREED
 })
-@JsonTypeName("Dog_allOf")
+@JsonTypeName("DogAllOf")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "DogAllOf")
 @XmlAccessorType(XmlAccessType.FIELD)

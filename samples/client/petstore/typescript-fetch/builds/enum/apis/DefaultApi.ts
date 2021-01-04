@@ -18,12 +18,21 @@ import {
     EnumPatternObject,
     EnumPatternObjectFromJSON,
     EnumPatternObjectToJSON,
-    InlineObject,
-    InlineObjectFromJSON,
-    InlineObjectToJSON,
-    InlineResponse200,
-    InlineResponse200FromJSON,
-    InlineResponse200ToJSON,
+    FakeEnumRequestGetInlineResponse,
+    FakeEnumRequestGetInlineResponseFromJSON,
+    FakeEnumRequestGetInlineResponseToJSON,
+    NullableNumberEnum,
+    NullableNumberEnumFromJSON,
+    NullableNumberEnumToJSON,
+    NullableNumberEnum1,
+    NullableNumberEnum1FromJSON,
+    NullableNumberEnum1ToJSON,
+    NullableStringEnum,
+    NullableStringEnumFromJSON,
+    NullableStringEnumToJSON,
+    NullableStringEnum1,
+    NullableStringEnum1FromJSON,
+    NullableStringEnum1ToJSON,
     NumberEnum,
     NumberEnumFromJSON,
     NumberEnumToJSON,
@@ -34,20 +43,20 @@ import {
 
 export interface FakeEnumRequestGetInlineRequest {
     stringEnum?: FakeEnumRequestGetInlineStringEnumEnum;
-    nullableStringEnum?: string | null;
+    nullableStringEnum?: NullableStringEnum1;
     numberEnum?: FakeEnumRequestGetInlineNumberEnumEnum;
-    nullableNumberEnum?: number | null;
+    nullableNumberEnum?: NullableNumberEnum1;
 }
 
 export interface FakeEnumRequestGetRefRequest {
     stringEnum?: StringEnum;
-    nullableStringEnum?: StringEnum | null;
+    nullableStringEnum?: NullableStringEnum;
     numberEnum?: NumberEnum;
-    nullableNumberEnum?: NumberEnum | null;
+    nullableNumberEnum?: NullableNumberEnum;
 }
 
 export interface FakeEnumRequestPostInlineRequest {
-    inlineObject?: InlineObject;
+    fakeEnumRequestGetInlineResponse?: FakeEnumRequestGetInlineResponse;
 }
 
 export interface FakeEnumRequestPostRefRequest {
@@ -61,7 +70,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async fakeEnumRequestGetInlineRaw(requestParameters: FakeEnumRequestGetInlineRequest): Promise<runtime.ApiResponse<InlineResponse200>> {
+    async fakeEnumRequestGetInlineRaw(requestParameters: FakeEnumRequestGetInlineRequest): Promise<runtime.ApiResponse<FakeEnumRequestGetInlineResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters.stringEnum !== undefined) {
@@ -89,12 +98,12 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse200FromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => FakeEnumRequestGetInlineResponseFromJSON(jsonValue));
     }
 
     /**
      */
-    async fakeEnumRequestGetInline(requestParameters: FakeEnumRequestGetInlineRequest): Promise<InlineResponse200> {
+    async fakeEnumRequestGetInline(requestParameters: FakeEnumRequestGetInlineRequest): Promise<FakeEnumRequestGetInlineResponse> {
         const response = await this.fakeEnumRequestGetInlineRaw(requestParameters);
         return await response.value();
     }
@@ -141,7 +150,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async fakeEnumRequestPostInlineRaw(requestParameters: FakeEnumRequestPostInlineRequest): Promise<runtime.ApiResponse<InlineObject>> {
+    async fakeEnumRequestPostInlineRaw(requestParameters: FakeEnumRequestPostInlineRequest): Promise<runtime.ApiResponse<FakeEnumRequestGetInlineResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -153,15 +162,15 @@ export class DefaultApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: InlineObjectToJSON(requestParameters.inlineObject),
+            body: FakeEnumRequestGetInlineResponseToJSON(requestParameters.fakeEnumRequestGetInlineResponse),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => InlineObjectFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => FakeEnumRequestGetInlineResponseFromJSON(jsonValue));
     }
 
     /**
      */
-    async fakeEnumRequestPostInline(requestParameters: FakeEnumRequestPostInlineRequest): Promise<InlineObject> {
+    async fakeEnumRequestPostInline(requestParameters: FakeEnumRequestPostInlineRequest): Promise<FakeEnumRequestGetInlineResponse> {
         const response = await this.fakeEnumRequestPostInlineRaw(requestParameters);
         return await response.value();
     }

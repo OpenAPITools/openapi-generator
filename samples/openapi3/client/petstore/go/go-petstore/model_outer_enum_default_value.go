@@ -20,9 +20,9 @@ type OuterEnumDefaultValue string
 
 // List of OuterEnumDefaultValue
 const (
-	OUTERENUMDEFAULTVALUE_PLACED OuterEnumDefaultValue = "placed"
-	OUTERENUMDEFAULTVALUE_APPROVED OuterEnumDefaultValue = "approved"
-	OUTERENUMDEFAULTVALUE_DELIVERED OuterEnumDefaultValue = "delivered"
+	OUTER_ENUM_DEFAULT_VALUE_PLACED OuterEnumDefaultValue = "placed"
+	OUTER_ENUM_DEFAULT_VALUE_APPROVED OuterEnumDefaultValue = "approved"
+	OUTER_ENUM_DEFAULT_VALUE_DELIVERED OuterEnumDefaultValue = "delivered"
 )
 
 func (v *OuterEnumDefaultValue) UnmarshalJSON(src []byte) error {

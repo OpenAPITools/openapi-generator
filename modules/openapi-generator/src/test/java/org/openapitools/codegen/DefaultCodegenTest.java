@@ -219,8 +219,9 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
 
         Schema requestBodySchema = ModelUtils.getSchemaFromRequestBody(openAPI.getPaths().get("/fake").getGet().getRequestBody());
-        CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<String>());
-
+        Assert.assertEquals(requestBodySchema.get$ref(), "#/components/schemas/testEnumParametersBody");
+        Schema testParamSchema = openAPI.getComponents().getSchemas().get("testEnumParametersBody");
+        CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) testParamSchema.getProperties().get("enum_form_string"), new HashSet<String>());
         Assert.assertEquals(codegenParameter.defaultValue, "-efg");
     }
 
@@ -430,7 +431,9 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
 
         Operation operation = openAPI.getPaths().get("/state").getPost();
-        Schema schema = ModelUtils.getSchemaFromRequestBody(operation.getRequestBody());
+        Schema bodySchema = ModelUtils.getSchemaFromRequestBody(operation.getRequestBody());
+        Assert.assertEquals(bodySchema.get$ref(), "#/components/schemas/createStateBody");
+        Schema schema = openAPI.getComponents().getSchemas().get("createStateBody");
         String type = codegen.getSchemaType(schema);
 
         Assert.assertNotNull(type);
@@ -1092,16 +1095,11 @@ public class DefaultCodegenTest {
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         hs = new java.util.LinkedHashSet();
-        mn = "FruitInlineDisc_anyOf";
+        mn = "FruitInlineDiscAnyOf";
         hs.add(new CodegenDiscriminator.MappedModel(mn, codegen.toModelName(mn)));
-        mn = "FruitInlineDisc_anyOf_1";
+        mn = "FruitInlineDiscAnyOf1";
         hs.add(new CodegenDiscriminator.MappedModel(mn, codegen.toModelName(mn)));
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
-
-        // inline anyOf with inline anyOf model doesn't work because we have null $refs and we throw an exception
-        final String fmodelName = "FruitInlineInlineDisc";
-        final Schema fsc = openAPI.getComponents().getSchemas().get(fmodelName);
-        Assert.assertThrows(() -> codegen.fromModel(fmodelName, fsc));
 
         // ref anyOf models with discriminator in properties in those models
         modelName = "FruitReqDisc";
@@ -1177,16 +1175,11 @@ public class DefaultCodegenTest {
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         hs = new java.util.LinkedHashSet();
-        mn = "FruitInlineDisc_oneOf";
+        mn = "FruitInlineDiscOneOf";
         hs.add(new CodegenDiscriminator.MappedModel(mn, codegen.toModelName(mn)));
-        mn = "FruitInlineDisc_oneOf_1";
+        mn = "FruitInlineDiscOneOf1";
         hs.add(new CodegenDiscriminator.MappedModel(mn, codegen.toModelName(mn)));
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
-
-        // inline oneOf with inline oneOf model doesn't work because we have null $refs and we throw an exception
-        final String fmodelName = "FruitInlineInlineDisc";
-        final Schema fsc = openAPI.getComponents().getSchemas().get(fmodelName);
-        Assert.assertThrows(() -> codegen.fromModel(fmodelName, fsc));
 
         // ref oneOf models with discriminator in properties in those models
         modelName = "FruitReqDisc";
@@ -1858,10 +1851,9 @@ public class DefaultCodegenTest {
         Set<String> imports = new HashSet<>();
         CodegenParameter parameter = codegen.fromParameter(openAPI.getPaths().get("/pony").getGet().getParameters().get(0), imports);
 
-        // TODO: This must be updated to work with flattened inline models
-        Assert.assertEquals(parameter.dataType, "PageQuery1");
+        Assert.assertEquals(parameter.dataType, "pageQuery");
         Assert.assertEquals(imports.size(), 1);
-        Assert.assertEquals(imports.iterator().next(), "PageQuery1");
+        Assert.assertEquals(imports.iterator().next(), "pageQuery");
     }
 
     @Test
@@ -2151,26 +2143,36 @@ public class DefaultCodegenTest {
                         .getContent()
                         .get("application/json")
                         .getSchema()
-                        .getExtensions()
-                        .get("x-one-of-name"),
-                "CreateState"
+                        .get$ref(),
+                "#/components/schemas/createStateBody"
         );
         Assert.assertEquals(
-                openAPI.getPaths()
-                        .get("/state")
-                        .getGet()
-                        .getResponses()
-                        .get("200")
-                        .getContent()
-                        .get("application/json")
-                        .getSchema()
+                openAPI.getComponents()
+                        .getSchemas()
+                        .get("createStateBody")
                         .getExtensions()
                         .get("x-one-of-name"),
-                "GetState200"
+                "CreateStateBody"
+        );
+        Assert.assertEquals(
+                openAPI.getComponents()
+                        .getSchemas()
+                        .get("getStateResponse")
+                        .getExtensions()
+                        .get("x-one-of-name"),
+                "GetStateResponse"
         );
         // for the array schema, assert that a oneOf interface was added to schema map
         Schema items = ((ArraySchema) openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema")).getItems();
-        Assert.assertEquals(items.getExtensions().get("x-one-of-name"), "CustomOneOfArraySchemaOneOf");
+        Assert.assertEquals(items.get$ref(), "#/components/schemas/CustomOneOfArraySchemaItems");
+        Assert.assertEquals(
+                openAPI.getComponents()
+                    .getSchemas()
+                    .get("CustomOneOfArraySchemaItems")
+                    .getExtensions()
+                    .get("x-one-of-name"),
+                "CustomOneOfArraySchemaItems"
+        );
     }
 
     @Test
@@ -2653,15 +2655,19 @@ public class DefaultCodegenTest {
         path = "/object_with_optional_and_required_props/{objectData}";
         operation = openAPI.getPaths().get(path).getPost();
         co = codegen.fromOperation(path, "POST", operation, null);
-        assertEquals(co.pathParams.get(0).vars, vars);
-        assertEquals(co.pathParams.get(0).requiredVars, requiredVars);
-        assertEquals(co.bodyParams.get(0).vars, vars);
-        assertEquals(co.bodyParams.get(0).requiredVars, requiredVars);
+        // CodegenOperation puts the inline parameter schema into schemas and refs it
+        assertEquals(co.pathParams.get(0).isModel, true);
+        assertEquals(co.pathParams.get(0).dataType, "objectWithOptionalAndRequiredPropsBody");
+        modelName = "objectWithOptionalAndRequiredPropsBody";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.vars, vars);
+        assertEquals(cm.requiredVars, requiredVars);
 
         // CodegenOperation puts the inline schema into schemas and refs it
         assertEquals(co.responses.get(0).isModel, true);
-        assertEquals(co.responses.get(0).baseType, "objectData");
-        modelName = "objectData";
+        assertEquals(co.responses.get(0).baseType, "objectWithOptionalAndRequiredPropsBody");
+        modelName = "objectWithOptionalAndRequiredPropsBody";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         assertEquals(cm.vars, vars);
@@ -2673,6 +2679,6 @@ public class DefaultCodegenTest {
         cm = codegen.fromModel(modelName, sc);
         CodegenProperty cp = cm.getVars().get(0);
         assertEquals(cp.isModel, true);
-        assertEquals(cp.complexType, "objectData");
+        assertEquals(cp.complexType, "objectWithOptionalAndRequiredPropsBody");
     }
 }

@@ -859,6 +859,7 @@ public class DefaultGenerator implements Generator {
 
         // resolve inline models
         InlineModelResolver inlineModelResolver = new InlineModelResolver();
+        inlineModelResolver.resolveInlineEnums = config.isResolveInlineEnums();
         inlineModelResolver.flatten(openAPI);
 
         configureGeneratorProperties();

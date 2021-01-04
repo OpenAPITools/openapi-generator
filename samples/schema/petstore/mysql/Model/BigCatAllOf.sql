@@ -1,26 +1,26 @@
 --
 -- OpenAPI Petstore.
--- Prepared SQL queries for 'BigCat_allOf' definition.
+-- Prepared SQL queries for 'BigCatAllOf' definition.
 --
 
 
 --
--- SELECT template for table `BigCat_allOf`
+-- SELECT template for table `BigCatAllOf`
 --
-SELECT `kind` FROM `BigCat_allOf` WHERE 1;
+SELECT `kind` FROM `BigCatAllOf` WHERE 1;
 
 --
--- INSERT template for table `BigCat_allOf`
+-- INSERT template for table `BigCatAllOf`
 --
-INSERT INTO `BigCat_allOf`(`kind`) VALUES (?);
+INSERT INTO `BigCatAllOf`(`kind`) VALUES (?);
 
 --
--- UPDATE template for table `BigCat_allOf`
+-- UPDATE template for table `BigCatAllOf`
 --
-UPDATE `BigCat_allOf` SET `kind` = ? WHERE 1;
+UPDATE `BigCatAllOf` SET `kind` = ? WHERE 1;
 
 --
--- DELETE template for table `BigCat_allOf`
+-- DELETE template for table `BigCatAllOf`
 --
-DELETE FROM `BigCat_allOf` WHERE 0;
+DELETE FROM `BigCatAllOf` WHERE 0;
 

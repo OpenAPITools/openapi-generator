@@ -24,8 +24,7 @@ type Order struct {
 
 	ShipDate time.Time `json:"shipDate,omitempty"`
 
-	// Order Status
-	Status string `json:"status,omitempty"`
+	Status OrderStatus `json:"status,omitempty"`
 
 	Complete bool `json:"complete,omitempty"`
 }

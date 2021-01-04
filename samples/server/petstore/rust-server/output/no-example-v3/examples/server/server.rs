@@ -107,11 +107,11 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
 {
     async fn op_get(
         &self,
-        inline_object: models::InlineObject,
+        inline_body: models::InlineBody,
         context: &C) -> Result<OpGetResponse, ApiError>
     {
         let context = context.clone();
-        info!("op_get({:?}) - X-Span-ID: {:?}", inline_object, context.get().0.clone());
+        info!("op_get({:?}) - X-Span-ID: {:?}", inline_body, context.get().0.clone());
         Err("Generic failuare".into())
     }
 

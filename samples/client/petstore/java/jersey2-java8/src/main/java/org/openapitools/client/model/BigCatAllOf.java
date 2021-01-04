@@ -104,7 +104,7 @@ public class BigCatAllOf {
 
 
   /**
-   * Return true if this BigCat_allOf object is equal to o.
+   * Return true if this BigCatAllOf object is equal to o.
    */
   @Override
   public boolean equals(Object o) {

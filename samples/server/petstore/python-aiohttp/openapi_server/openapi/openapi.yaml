@@ -1,7 +1,10 @@
 openapi: 3.0.1
 info:
   description: This is a sample server Petstore server. For this sample, you can use
-    the api key `special-key` to test the authorization filters.
+    the api key `special-key` to test the authorization filters. NOTE - this spec
+    differs from petstore.yaml in order to circumvent this known issue - https://github.com/OpenAPITools/openapi-generator/issues/3870
+    When the issue is resolved the bin/configs/python-aiohttp.yaml can be reverted
+    to use petstore.yaml and this spec can be removed.
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -237,13 +240,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                name:
-                  description: Updated name of the pet
-                  type: string
-                status:
-                  description: Updated status of the pet
-                  type: string
+              $ref: '#/components/schemas/updatePetWithFormBody'
         x-body-name: body
       responses:
         "405":
@@ -273,14 +270,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                file:
-                  description: file to upload
-                  format: binary
-                  type: string
+              $ref: '#/components/schemas/uploadFileBody'
         x-body-name: body
       responses:
         "200":
@@ -778,6 +768,19 @@ components:
           type: string
       title: An uploaded response
       type: object
+    updatePetWithFormBody:
+      properties:
+        name:
+          description: Updated name of the pet
+          type: string
+        status:
+          description: Updated status of the pet
+          type: string
+    uploadFileBody:
+      properties:
+        additionalMetadata:
+          description: Additional data to pass to server
+          type: string
   securitySchemes:
     petstore_auth:
       flows:

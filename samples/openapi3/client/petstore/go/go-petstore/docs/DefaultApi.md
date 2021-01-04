@@ -51,7 +51,7 @@ Other parameters are passed through a pointer to a apiFooGetRequest struct via t
 
 ### Return type
 
-[**InlineResponseDefault**](inline_response_default.md)
+[**InlineResponseDefault**](InlineResponseDefault.md)
 
 ### Authorization
 

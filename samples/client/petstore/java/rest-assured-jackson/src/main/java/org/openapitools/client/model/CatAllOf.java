@@ -33,7 +33,7 @@ import org.hibernate.validator.constraints.*;
 @JsonPropertyOrder({
   CatAllOf.JSON_PROPERTY_DECLAWED
 })
-@JsonTypeName("Cat_allOf")
+@JsonTypeName("CatAllOf")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class CatAllOf {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";

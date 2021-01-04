@@ -52,7 +52,7 @@ class InlineResponseDefault implements ModelInterface, ArrayAccess, \JsonSeriali
       *
       * @var string
       */
-    protected static $openAPIModelName = 'inline_response_default';
+    protected static $openAPIModelName = 'InlineResponseDefault';
 
     /**
       * Array of property to type mappings. Used for (de)serialization

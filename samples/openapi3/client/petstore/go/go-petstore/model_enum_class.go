@@ -20,9 +20,9 @@ type EnumClass string
 
 // List of EnumClass
 const (
-	ENUMCLASS_ABC EnumClass = "_abc"
-	ENUMCLASS_EFG EnumClass = "-efg"
-	ENUMCLASS_XYZ EnumClass = "(xyz)"
+	ENUM_CLASS_ABC EnumClass = "_abc"
+	ENUM_CLASS_EFG EnumClass = "-efg"
+	ENUM_CLASS_XYZ EnumClass = "(xyz)"
 )
 
 func (v *EnumClass) UnmarshalJSON(src []byte) error {

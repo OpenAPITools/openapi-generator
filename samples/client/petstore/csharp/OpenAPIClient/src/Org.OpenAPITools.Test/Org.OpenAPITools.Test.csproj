@@ -85,8 +85,5 @@ The version of the OpenAPI document: 1.0.0
           <Name>Org.OpenAPITools</Name>
       </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="linux-logo.png" />
-  </ItemGroup>
 </Project>
 

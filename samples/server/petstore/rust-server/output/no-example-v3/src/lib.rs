@@ -26,7 +26,7 @@ pub trait Api<C: Send + Sync> {
 
     async fn op_get(
         &self,
-        inline_object: models::InlineObject,
+        inline_body: models::InlineBody,
         context: &C) -> Result<OpGetResponse, ApiError>;
 
 }
@@ -41,7 +41,7 @@ pub trait ApiNoContext<C: Send + Sync> {
 
     async fn op_get(
         &self,
-        inline_object: models::InlineObject,
+        inline_body: models::InlineBody,
         ) -> Result<OpGetResponse, ApiError>;
 
 }
@@ -71,11 +71,11 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
 
     async fn op_get(
         &self,
-        inline_object: models::InlineObject,
+        inline_body: models::InlineBody,
         ) -> Result<OpGetResponse, ApiError>
     {
         let context = self.context().clone();
-        self.api().op_get(inline_object, &context).await
+        self.api().op_get(inline_body, &context).await
     }
 
 }

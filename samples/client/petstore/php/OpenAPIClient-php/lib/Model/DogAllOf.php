@@ -52,7 +52,7 @@ class DogAllOf implements ModelInterface, ArrayAccess, \JsonSerializable
       *
       * @var string
       */
-    protected static $openAPIModelName = 'Dog_allOf';
+    protected static $openAPIModelName = 'DogAllOf';
 
     /**
       * Array of property to type mappings. Used for (de)serialization

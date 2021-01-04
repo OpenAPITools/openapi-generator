@@ -1,26 +1,26 @@
 --
 -- OpenAPI Petstore.
--- Prepared SQL queries for 'Cat_allOf' definition.
+-- Prepared SQL queries for 'CatAllOf' definition.
 --
 
 
 --
--- SELECT template for table `Cat_allOf`
+-- SELECT template for table `CatAllOf`
 --
-SELECT `declawed` FROM `Cat_allOf` WHERE 1;
+SELECT `declawed` FROM `CatAllOf` WHERE 1;
 
 --
--- INSERT template for table `Cat_allOf`
+-- INSERT template for table `CatAllOf`
 --
-INSERT INTO `Cat_allOf`(`declawed`) VALUES (?);
+INSERT INTO `CatAllOf`(`declawed`) VALUES (?);
 
 --
--- UPDATE template for table `Cat_allOf`
+-- UPDATE template for table `CatAllOf`
 --
-UPDATE `Cat_allOf` SET `declawed` = ? WHERE 1;
+UPDATE `CatAllOf` SET `declawed` = ? WHERE 1;
 
 --
--- DELETE template for table `Cat_allOf`
+-- DELETE template for table `CatAllOf`
 --
-DELETE FROM `Cat_allOf` WHERE 0;
+DELETE FROM `CatAllOf` WHERE 0;
 

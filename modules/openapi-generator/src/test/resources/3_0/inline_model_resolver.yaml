@@ -52,7 +52,7 @@ paths:
               properties:
                 name:
                   type: string
-      operationId: resolveInlineRequestBodyWithRequired
+      operationId: resolveInlineRequestBodyWithTitle
       responses:
         '200':
           description: OK
@@ -94,14 +94,14 @@ paths:
             schema:
               type: array
               items:
-                title: resolveInlineArrayRequestBodyWithTitleItems
+                title: InlineArrayItemsTitle
                 type: object
                 properties:
                   street_2:
                     type: string
                   city_2:
                     type: string
-      operationId: resolveInlineArrayRequestBodyWithTitle
+      operationId: resolveInlineArrayRequestBodyOperationId
       responses:
         '200':
           description: OK
@@ -122,7 +122,7 @@ paths:
                       type: string
   /resolve_inline_array_response_with_title:
     get:
-      operationId: resolveInlineArrayResponseWithTitle
+      operationId: resolveInlineArrayResponseWithTitleOperation
       responses:
         '200':
           description: OK
@@ -131,7 +131,7 @@ paths:
               schema:
                 type: array
                 items:
-                  title: resolveInlineArrayResponseWithTitleItems
+                  title: InlineArrayItemsTitle
                   type: object
                   properties:
                     array_response_with_title_property:
@@ -289,10 +289,20 @@ paths:
                   properties:
                     nullable_request_body_property_name:
                       type: string
-      operationId: arbitraryObjectRequestBodyProperty
+      operationId: nullableProperties
       responses:
         '200':
           description: OK
+  /cats:
+    get:
+      operationId: getCats
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cat'
   /callback:
     post:
       requestBody:
@@ -396,3 +406,85 @@ components:
           properties:
             nullable_property_name:
               type: string
+    Cat:
+      description: Complex model with many inline models defined within it.
+      type: object
+      properties:
+        myFood:
+          oneOf: # inline oneOf
+            - type: object
+              properties:
+                ingredients:
+                  type: array
+                  items:
+                    type: string
+            - type: object
+              properties:
+                pounds:
+                  type: integer
+        myHabitat:
+          allOf: # inline allOf
+            - type: object
+              title: Geography
+              properties:
+                lat:
+                  type: number
+                  format: float
+                long:
+                  type: number
+                  format: float
+                continent:
+                  type: string
+                  enum:
+                    - Africa
+                    - Antarctica
+                    - Asia
+                    - Europe
+                    - North America
+                    - Oceania
+                    - South America
+              required: [lat,long]
+            - type: object
+              description: Weather of the habitat defined here
+              properties:
+                rainfallInches:
+                  type: number
+                averageTemperatureCelsius:
+                  type: number
+        myTaxonomy:
+          anyOf: # inline anyOf
+            - description: Species inline anyOf schema
+              type: object
+              title: Species
+              properties:
+                name:
+                  type: string
+                genus:
+                  type: string
+                karyotype:
+                  type: string
+            - description: Order inline anyOf schema
+              type: object
+              title: Order
+              properties:
+                name:
+                  type: string
+                class:
+                  type: string
+        cuteness: # inline enum
+          type: integer
+          enum: [1,3,5]
+        kittens:
+          type: array
+          items: # inline array where the items are inline models
+            allOf:
+              - $ref: '#/components/schemas/Cat'
+        preferences:
+          type: object
+          properties:
+            favoriteToy: # inline object with properties defined
+              type: string
+          additionalProperties: # inline object with additionalProperties containing inline models
+            title: Metadata
+            type: string
+            enum: [hidden,createdOn,createdBy,modifiedOn,modifiedBy]

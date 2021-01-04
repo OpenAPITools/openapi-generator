@@ -1,26 +1,26 @@
 --
 -- OpenAPI Petstore.
--- Prepared SQL queries for 'Dog_allOf' definition.
+-- Prepared SQL queries for 'DogAllOf' definition.
 --
 
 
 --
--- SELECT template for table `Dog_allOf`
+-- SELECT template for table `DogAllOf`
 --
-SELECT `breed` FROM `Dog_allOf` WHERE 1;
+SELECT `breed` FROM `DogAllOf` WHERE 1;
 
 --
--- INSERT template for table `Dog_allOf`
+-- INSERT template for table `DogAllOf`
 --
-INSERT INTO `Dog_allOf`(`breed`) VALUES (?);
+INSERT INTO `DogAllOf`(`breed`) VALUES (?);
 
 --
--- UPDATE template for table `Dog_allOf`
+-- UPDATE template for table `DogAllOf`
 --
-UPDATE `Dog_allOf` SET `breed` = ? WHERE 1;
+UPDATE `DogAllOf` SET `breed` = ? WHERE 1;
 
 --
--- DELETE template for table `Dog_allOf`
+-- DELETE template for table `DogAllOf`
 --
-DELETE FROM `Dog_allOf` WHERE 0;
+DELETE FROM `DogAllOf` WHERE 0;
 
