@@ -1,0 +1,24 @@
+{{#isMap}}
+{{indent}}class {{#nameInSnakeCase}}{{name}}{{/nameInSnakeCase}}{{^nameInSnakeCase}}{{baseName}}{{/nameInSnakeCase}}({{#isNullable}}Nullable{{/isNullable}}DictSchema):
+{{^required}}
+{{^vars}}
+{{^hasValidation}}
+{{^discriminator}}
+{{#additionalProperties}}
+{{^complexType}}
+{{#isAnyType}}
+{{indent}}pass
+{{/isAnyType}}
+{{/complexType}}
+{{/additionalProperties}}
+{{/discriminator}}
+{{/hasValidation}}
+{{/vars}}
+{{/required}}
+{{> model_templates/schema_dict }}{{/isMap}}{{#isArray}}
+
+
+{{indent}}class {{#nameInSnakeCase}}{{name}}{{/nameInSnakeCase}}{{^nameInSnakeCase}}{{baseName}}{{/nameInSnakeCase}}(ListSchema):
+{{> model_templates/schema_list }}{{/isArray}}{{^isMap}}{{^isArray}}{{^isEnum}}{{^hasValidation}}{{#indent}}{{indent}}{{#nameInSnakeCase}}{{name}}{{/nameInSnakeCase}}{{^nameInSnakeCase}}{{baseName}}{{/nameInSnakeCase}}{{/indent}}{{^indent}}{{classname}}{{/indent}} = {{#isNullable}}Nullable{{/isNullable}}{{#isNull}}None{{/isNull}}{{#isString}}Str{{/isString}}{{#isByteArray}}Str{{/isByteArray}}{{#isUnboundedInteger}}Int{{/isUnboundedInteger}}{{#isShort}}Int32{{/isShort}}{{#isLong}}Int64{{/isLong}}{{#isFloat}}Float32{{/isFloat}}{{#isDouble}}Float64{{/isDouble}}{{#isNumber}}IntOrFloat{{/isNumber}}{{#isDate}}Date{{/isDate}}{{#isDateTime}}DateTime{{/isDateTime}}{{#isBoolean}}Bool{{/isBoolean}}{{#isBinary}}File{{/isBinary}}Schema{{/hasValidation}}{{/isEnum}}{{> model_templates/class_simple_cases }}{{/isArray}}{{/isMap}}{{#nameInSnakeCase}}
+{{indent}}locals()['{{baseName}}'] = {{name}}
+{{indent}}del locals()['{{name}}']{{/nameInSnakeCase}}

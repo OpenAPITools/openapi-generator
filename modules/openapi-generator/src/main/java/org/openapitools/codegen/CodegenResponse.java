@@ -32,6 +32,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public String dataType;
     public String baseType;
     public String containerType;
+    public String indent;
     public boolean hasHeaders;
     public boolean isString;
     public boolean isNumeric;
@@ -84,6 +85,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     private boolean additionalPropertiesIsAnyType;
     private boolean hasVars;
     private boolean hasRequired;
+    private CodegenComposedSchemas composedSchemas = null;
 
     @Override
     public int hashCode() {
@@ -91,7 +93,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
                 isMap, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
-                vars, requiredVars, isNull, hasValidation, isShort, isUnboundedInteger,
+                vars, requiredVars, isNull, hasValidation, isShort, isUnboundedInteger, indent, composedSchemas,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(),
                 is1xx, is2xx, is3xx, is4xx, is5xx, additionalPropertiesIsAnyType, hasVars, hasRequired);
@@ -131,6 +133,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isFile == that.isFile &&
                 items == that.items &&
                 additionalProperties == that.additionalProperties &&
+                indent == that.indent &&
                 isNull == that.isNull &&
                 hasValidation == that.hasValidation &&
                 is1xx == that.is1xx &&
@@ -141,6 +144,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getHasVars() == that.getHasVars() &&
                 getHasRequired() == that.getHasRequired() &&
+                Objects.equals(composedSchemas, that.composedSchemas) &&
                 Objects.equals(vars, that.vars) &&
                 Objects.equals(requiredVars, that.requiredVars) &&
                 Objects.equals(headers, that.headers) &&
@@ -411,6 +415,23 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         this.hasRequired = hasRequired;
     }
 
+    public String getIndent() {
+        return indent;
+    }
+
+    @Override
+    public void setIndent(String indent) {
+        this.indent = indent;
+    }
+
+    public void setComposedSchemas(CodegenComposedSchemas composedSchemas) {
+        this.composedSchemas = composedSchemas;
+    }
+
+    public CodegenComposedSchemas getComposedSchemas() {
+        return composedSchemas;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenResponse{");
@@ -478,6 +499,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", getAdditionalPropertiesIsAnyType=").append(additionalPropertiesIsAnyType);
         sb.append(", getHasVars=").append(hasVars);
         sb.append(", getHasRequired=").append(hasRequired);
+        sb.append(", indent='").append(indent);
+        sb.append(", composedSchemas='").append(composedSchemas);
         sb.append('}');
         return sb.toString();
     }

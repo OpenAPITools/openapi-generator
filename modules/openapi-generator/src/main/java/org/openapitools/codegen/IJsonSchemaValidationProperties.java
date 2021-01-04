@@ -122,4 +122,12 @@ public interface IJsonSchemaValidationProperties {
     boolean getHasRequired();
 
     void setHasRequired(boolean hasRequired);
+
+    String getIndent();
+
+    void setIndent(String indent);
+
+    CodegenComposedSchemas getComposedSchemas();
+
+    void setComposedSchemas(CodegenComposedSchemas composedSchemas);
 }

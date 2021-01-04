@@ -587,7 +587,7 @@ public class DefaultCodegen implements CodegenConfig {
     private List<CodegenProperty> getModelDependencies(CodegenModel model) {
         return model.getAllVars().stream()
                 .map(prop -> {
-                    if (prop.isContainer) {
+                    if (prop.isContainer && prop.items != null) {
                         return prop.items.dataType == null ? null : prop;
                     }
                     return prop.dataType == null ? null : prop;
@@ -601,7 +601,7 @@ public class DefaultCodegen implements CodegenConfig {
         dependencyMap.getOrDefault(root, new ArrayList<>())
                 .forEach(prop -> {
                     final List<String> unvisited =
-                            Collections.singletonList(prop.isContainer ? prop.items.dataType : prop.dataType);
+                            Collections.singletonList(prop.isContainer && prop.items != null ? prop.items.dataType : prop.dataType);
                     prop.isCircularReference = isCircularReference(root,
                             new HashSet<>(),
                             new ArrayList<>(unvisited),
@@ -2348,6 +2348,11 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    protected void accumulatePropertiesAndRequiredPropertiesFromComposedSchema(Map<String, Schema> properties, List<String> required, Schema refSchema, Map<String, Schema> allProperties, List<String> allRequired) {
+        addProperties(properties, required, refSchema);
+        addProperties(allProperties, allRequired, refSchema);
+    }
+
     Map<NamedSchema, CodegenProperty> schemaCodegenPropertyCache = new HashMap<NamedSchema, CodegenProperty>();
 
     /**
@@ -2536,8 +2541,7 @@ public class DefaultCodegen implements CodegenConfig {
                             addProperties(allProperties, allRequired, refSchema);
                         } else {
                             // composition
-                            addProperties(properties, required, refSchema);
-                            addProperties(allProperties, allRequired, refSchema);
+                            accumulatePropertiesAndRequiredPropertiesFromComposedSchema(properties, required, refSchema, allProperties, allRequired);
                         }
                     }
 
@@ -2718,10 +2722,12 @@ public class DefaultCodegen implements CodegenConfig {
                 postProcessModelProperty(m, prop);
             }
         }
+
+        m.setComposedSchemas(getComposedSchemas(schema));
         return m;
     }
 
-    private void setAddProps(Schema schema, IJsonSchemaValidationProperties property){
+    protected void setAddProps(Schema schema, IJsonSchemaValidationProperties property){
         if (schema.equals(new Schema())) {
             // if we are trying to set additionalProperties on an empty schema stop recursing
             return;
@@ -2765,16 +2771,46 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    private CodegenComposedSchemas getComposedSchemas(Schema schema) {
+        if (schema instanceof ComposedSchema) {
+            // TODO if the schema has a ref then use it as the name
+            // TODO if it does not then number it oneof_1, etc
+            ComposedSchema cs = (ComposedSchema) schema;
+            CodegenComposedSchemas composedSchemas = new CodegenComposedSchemas();
+            if (cs.getAllOf() != null) {
+                composedSchemas.allOf = getComposedProperties(cs.getAllOf(), "allOf");
+            }
+            if (cs.getOneOf() != null) {
+                composedSchemas.oneOf = getComposedProperties(cs.getOneOf(), "oneOf");
+            }
+            if (cs.getAnyOf() != null) {
+                composedSchemas.anyOf = getComposedProperties(cs.getAnyOf(), "anyOf");
+            }
+            return composedSchemas;
+        }
+        return null;
+    }
 
-        /**
-         * Recursively look in Schema sc for the discriminator discPropName
-         * and return a CodegenProperty with the dataType and required params set
-         * the returned CodegenProperty may not be required and it may not be of type string
-         *
-         * @param composedSchemaName The name of the sc Schema
-         * @param sc                 The Schema that may contain the discriminator
-         * @param discPropName       The String that is the discriminator propertyName in the schema
-         */
+    private List<IJsonSchemaValidationProperties> getComposedProperties(List<Schema> xOfCollection, String collectionName) {
+        List<IJsonSchemaValidationProperties> xOf = new ArrayList<>();
+        int i = 0;
+        for (Schema xOfSchema: xOfCollection) {
+            CodegenProperty cp = fromProperty(collectionName + "_" + String.valueOf(i), xOfSchema);
+            xOf.add(cp);
+            i += 1;
+        }
+        return xOf;
+    }
+
+    /**
+     * Recursively look in Schema sc for the discriminator discPropName
+     * and return a CodegenProperty with the dataType and required params set
+     * the returned CodegenProperty may not be required and it may not be of type string
+     *
+     * @param composedSchemaName The name of the sc Schema
+     * @param sc                 The Schema that may contain the discriminator
+     * @param discPropName       The String that is the discriminator propertyName in the schema
+     */
     private CodegenProperty discriminatorFound(String composedSchemaName, Schema sc, String discPropName, OpenAPI openAPI) {
         Schema refSchema = ModelUtils.getReferencedSchema(openAPI, sc);
         if (refSchema.getProperties() != null && refSchema.getProperties().get(discPropName) != null) {
@@ -3262,6 +3298,7 @@ public class DefaultCodegen implements CodegenConfig {
         property.defaultValue = toDefaultValue(p);
         property.defaultValueWithParam = toDefaultValueWithParam(name, p);
         property.jsonSchema = Json.pretty(p);
+        property.setComposedSchemas(getComposedSchemas(p));
 
         if (p.getDeprecated() != null) {
             property.deprecated = p.getDeprecated();
@@ -3323,10 +3360,13 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isDateSchema(p)) { // date format
             property.isString = false; // for backward compatibility with 2.x
             property.isDate = true;
-
+            if (property.pattern != null || property.minLength != null || property.maxLength != null)
+                property.hasValidation = true;
         } else if (ModelUtils.isDateTimeSchema(p)) { // date-time format
             property.isString = false; // for backward compatibility with 2.x
             property.isDateTime = true;
+            if (property.pattern != null || property.minLength != null || property.maxLength != null)
+                property.hasValidation = true;
         } else if (ModelUtils.isDecimalSchema(p)) { // type: string, format: number
             property.isDecimal = true;
         } else if (ModelUtils.isStringSchema(p)) {
@@ -3364,6 +3404,9 @@ public class DefaultCodegen implements CodegenConfig {
 
         } else if (isFreeFormObject(p)) {
             property.isFreeFormObject = true;
+            if (property.getMaxProperties() != null || property.getMinProperties() != null)
+                property.hasValidation = true;
+
         } else if (isAnyTypeSchema(p)) {
             // The 'null' value is allowed when the OAS schema is 'any type'.
             // See https://github.com/OAI/OpenAPI-Specification/issues/1389
@@ -4992,7 +5035,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param properties a map of properties (schema)
      * @param mandatory  a set of required properties' name
      */
-    private void addVars(IJsonSchemaValidationProperties m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory) {
+    protected void addVars(IJsonSchemaValidationProperties m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory) {
         if (properties == null) {
             return;
         }
@@ -6373,7 +6416,7 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenParameter;
     }
 
-    private void addVarsRequiredVarsAdditionalProps(Schema schema, IJsonSchemaValidationProperties property){
+    protected void addVarsRequiredVarsAdditionalProps(Schema schema, IJsonSchemaValidationProperties property){
         setAddProps(schema, property);
         if (!"object".equals(schema.getType())) {
             return;
