@@ -13,26 +13,15 @@ import {{packageName}}.infrastructure.ApiClientBase
 @Suppress("RemoveRedundantBackticks", "MemberVisibilityCanBePrivate", "unused")
 public open class ApiClient(
     baseUrl: String = "{{{basePath}}}",
-    httpClientEngine: HttpClientEngine? = null,
-    json: Json = Json {}
+    client: HttpClient
 ) {
-    protected val serializer: KotlinxSerializer = KotlinxSerializer(json)
-    protected val client: HttpClient
-
-    init {
-        val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = this@ApiClient.serializer }
-        val clientConfig: (HttpClientConfig<*>) -> Unit = { it.install(JsonFeature, jsonConfig) }
-        client = if (httpClientEngine == null) {
-            HttpClient(clientConfig)
-        } else {
-            HttpClient(httpClientEngine, clientConfig)
-        }
-    }
+    public constructor(baseUrl: String, httpClientEngine: HttpClientEngine? = null, json: Json = Json {}) :
+        this(baseUrl, createHttpClient(httpClientEngine, KotlinxSerializer(json)))
 
     {{! TODO: Remove backticks when conflicts are resolved }}
     {{#apiInfo}}
     {{#apis}}
-    public val `{{{classVarName}}}`: {{{classFilename}}} by lazy { {{{classFilename}}}(baseUrl, client, serializer) }
+    public val `{{{classVarName}}}`: {{{classFilename}}} by lazy { {{{classFilename}}}(baseUrl, client) }
     {{/apis}}
     {{/apiInfo}}
 
@@ -113,5 +102,15 @@ public open class ApiClient(
         for (client in allClients) {
             client.setBearerToken(bearerToken)
         }
+    }
+}
+
+private fun createHttpClient(httpClientEngine: HttpClientEngine? = null, serializer: KotlinxSerializer): HttpClient {
+    val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = serializer }
+    val clientConfig: (HttpClientConfig<*>) -> Unit = { it.install(JsonFeature, jsonConfig) }
+    return if (httpClientEngine == null) {
+        HttpClient(clientConfig)
+    } else {
+        HttpClient(httpClientEngine, clientConfig)
     }
 }
