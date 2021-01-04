@@ -274,7 +274,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         }
 
         final String srcDir = sourceFolder + File.separator + packageName.replace(".", File.separator);
-        final String jsSrcDir = "src/js/main" + File.separator + packageName.replace(".", File.separator);
+        final String jvmDest = "src/jvm/main" + File.separator + packageName.replace(".", File.separator);
 
         // Infra
         final String infraDest = srcDir + File.separator + "infrastructure";
@@ -295,6 +295,9 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         if (dateLibrary == Options.DateLibrary.KOTLINX) {
             supportingFiles.add(new SupportingFile(infraSrc + "DateTime.kt.mustache", infraDest, "DateTime.kt"));
             supportingFiles.add(new SupportingFile(infraSrc + "OffsetDateTime.kt.mustache", infraDest, "OffsetDateTime.kt"));
+            if (jvmEnabled) {
+                supportingFiles.add(new SupportingFile("jvm/main/infrastructure/extensions.kt.mustache", jvmDest, "infrastructure/extensions.kt"));
+            }
         }
 
         // Auth

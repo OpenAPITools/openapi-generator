@@ -42,15 +42,13 @@ public open class StoreApiAsync : ApiClientBase {
     internal constructor(
         baseUrl: String,
         client: HttpClient,
-        serializer: KotlinxSerializer,
         coroutineScope: CoroutineScope,
     ) : super(
         baseUrl,
         client,
-        serializer,
     ) {
         this.coroutineScope = coroutineScope
-        this.client = StoreApi(baseUrl, client, serializer)
+        this.client = StoreApi(baseUrl, client)
     }
 
     /**

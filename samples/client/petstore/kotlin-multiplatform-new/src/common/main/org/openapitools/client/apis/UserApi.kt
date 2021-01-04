@@ -48,10 +48,9 @@ public open class UserApi : ApiClientBase {
         json: Json = Json {}
     ) : super(baseUrl, httpClientEngine, json)
 
-    internal constructor(baseUrl: String, client: HttpClient, serializer: KotlinxSerializer) : super(
+    internal constructor(baseUrl: String, client: HttpClient) : super(
         baseUrl,
-        client,
-        serializer
+        client
     )
 
     /**
@@ -87,7 +86,6 @@ public open class UserApi : ApiClientBase {
         ).wrap()
     }
 
-
     /**
      * Creates list of users with given input array
      * 
@@ -120,7 +118,6 @@ public open class UserApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
-
 
     /**
      * Creates list of users with given input array
@@ -155,7 +152,6 @@ public open class UserApi : ApiClientBase {
         ).wrap()
     }
 
-
     /**
      * Delete user
      * This can only be done by the logged in user.
@@ -189,6 +185,7 @@ public open class UserApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
     /**
      * Get user by user name
      * 
@@ -223,6 +220,7 @@ public open class UserApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
     /**
      * Logs user into the system
      * 
@@ -261,6 +259,7 @@ public open class UserApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
     /**
      * Logs out current logged in user session
      * 
@@ -292,6 +291,7 @@ public open class UserApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
     /**
      * Updated user
      * This can only be done by the logged in user.
@@ -326,6 +326,5 @@ public open class UserApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
-
 
 }

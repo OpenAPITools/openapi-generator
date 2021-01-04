@@ -42,15 +42,13 @@ public open class UserApiAsync : ApiClientBase {
     internal constructor(
         baseUrl: String,
         client: HttpClient,
-        serializer: KotlinxSerializer,
         coroutineScope: CoroutineScope,
     ) : super(
         baseUrl,
         client,
-        serializer,
     ) {
         this.coroutineScope = coroutineScope
-        this.client = UserApi(baseUrl, client, serializer)
+        this.client = UserApi(baseUrl, client)
     }
 
     /**

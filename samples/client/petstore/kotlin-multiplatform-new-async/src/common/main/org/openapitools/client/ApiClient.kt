@@ -12,25 +12,14 @@ import org.openapitools.client.infrastructure.ApiClientBase
 @Suppress("RemoveRedundantBackticks", "MemberVisibilityCanBePrivate", "unused")
 public open class ApiClient(
     baseUrl: String = "http://petstore.swagger.io/v2",
-    httpClientEngine: HttpClientEngine? = null,
-    json: Json = Json {}
+    client: HttpClient
 ) {
-    protected val serializer: KotlinxSerializer = KotlinxSerializer(json)
-    protected val client: HttpClient
+    public constructor(baseUrl: String, httpClientEngine: HttpClientEngine? = null, json: Json = Json {}) :
+        this(baseUrl, createHttpClient(httpClientEngine, KotlinxSerializer(json)))
 
-    init {
-        val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = this@ApiClient.serializer }
-        val clientConfig: (HttpClientConfig<*>) -> Unit = { it.install(JsonFeature, jsonConfig) }
-        client = if (httpClientEngine == null) {
-            HttpClient(clientConfig)
-        } else {
-            HttpClient(httpClientEngine, clientConfig)
-        }
-    }
-
-    public val `pet`: PetApi by lazy { PetApi(baseUrl, client, serializer) }
-    public val `store`: StoreApi by lazy { StoreApi(baseUrl, client, serializer) }
-    public val `user`: UserApi by lazy { UserApi(baseUrl, client, serializer) }
+    public val `pet`: PetApi by lazy { PetApi(baseUrl, client) }
+    public val `store`: StoreApi by lazy { StoreApi(baseUrl, client) }
+    public val `user`: UserApi by lazy { UserApi(baseUrl, client) }
 
     public val allClients: Set<ApiClientBase> by lazy {
         setOf(
@@ -106,5 +95,15 @@ public open class ApiClient(
         for (client in allClients) {
             client.setBearerToken(bearerToken)
         }
+    }
+}
+
+internal fun createHttpClient(httpClientEngine: HttpClientEngine? = null, serializer: KotlinxSerializer): HttpClient {
+    val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = serializer }
+    val clientConfig: (HttpClientConfig<*>) -> Unit = { it.install(JsonFeature, jsonConfig) }
+    return if (httpClientEngine == null) {
+        HttpClient(clientConfig)
+    } else {
+        HttpClient(httpClientEngine, clientConfig)
     }
 }

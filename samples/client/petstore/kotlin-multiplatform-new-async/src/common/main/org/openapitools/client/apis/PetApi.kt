@@ -49,10 +49,9 @@ public open class PetApi : ApiClientBase {
         json: Json = Json {}
     ) : super(baseUrl, httpClientEngine, json)
 
-    internal constructor(baseUrl: String, client: HttpClient, serializer: KotlinxSerializer) : super(
+    internal constructor(baseUrl: String, client: HttpClient) : super(
         baseUrl,
-        client,
-        serializer
+        client
     )
 
     /**
@@ -87,7 +86,6 @@ public open class PetApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
-
 
     /**
      * Deletes a pet
@@ -125,6 +123,7 @@ public open class PetApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
@@ -160,6 +159,7 @@ public open class PetApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -195,6 +195,7 @@ public open class PetApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
     /**
      * Find pet by ID
      * Returns a single pet
@@ -229,6 +230,7 @@ public open class PetApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
     /**
      * Update an existing pet
      * 
@@ -261,7 +263,6 @@ public open class PetApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
-
 
     /**
      * Updates a pet in the store with form data
@@ -303,6 +304,7 @@ public open class PetApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
     /**
      * uploads an image
      * 
@@ -344,4 +346,5 @@ public open class PetApi : ApiClientBase {
             authNamesOag
         ).wrap()
     }
+
 }

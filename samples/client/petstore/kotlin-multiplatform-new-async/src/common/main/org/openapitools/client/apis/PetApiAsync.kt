@@ -43,15 +43,13 @@ public open class PetApiAsync : ApiClientBase {
     internal constructor(
         baseUrl: String,
         client: HttpClient,
-        serializer: KotlinxSerializer,
         coroutineScope: CoroutineScope,
     ) : super(
         baseUrl,
         client,
-        serializer,
     ) {
         this.coroutineScope = coroutineScope
-        this.client = PetApi(baseUrl, client, serializer)
+        this.client = PetApi(baseUrl, client)
     }
 
     /**

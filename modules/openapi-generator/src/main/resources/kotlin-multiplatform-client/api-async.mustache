@@ -40,7 +40,7 @@ public open class {{{classname}}}Async : ApiClientBase {
         client,
     ) {
         this.coroutineScope = coroutineScope
-        this.client = {{{classname}}}(baseUrl, client, serializer)
+        this.client = {{{classname}}}(baseUrl, client)
     }
 
     {{#operation}}

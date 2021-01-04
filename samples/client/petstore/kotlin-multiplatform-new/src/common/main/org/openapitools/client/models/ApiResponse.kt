@@ -36,4 +36,3 @@ public data class ApiResponse(
     @SerialName(value = "message")
     val message: kotlin.String? = null
 )
-

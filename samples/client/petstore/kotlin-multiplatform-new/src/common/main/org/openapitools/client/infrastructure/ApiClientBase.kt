@@ -13,15 +13,14 @@ import io.ktor.client.request.request
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.utils.EmptyContent
 import io.ktor.http.*
-import io.ktor.http.content.OutgoingContent
 import io.ktor.http.content.PartData
 import kotlinx.serialization.json.Json
+import io.ktor.client.features.json.*
 
 import org.openapitools.client.auth.*
 
 public open class ApiClientBase {
     private val baseUrl: String
-    private val serializer: KotlinxSerializer
     private val client: HttpClient
     private val authentications: Map<String, Authentication> by lazy {
         mapOf(
@@ -32,8 +31,8 @@ public open class ApiClientBase {
 
     internal constructor(baseUrl: String, httpClientEngine: HttpClientEngine?, json: Json = Json {}) {
         this.baseUrl = baseUrl
-        this.serializer = KotlinxSerializer(json)
-        val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = this@ApiClientBase.serializer }
+        val serializer = KotlinxSerializer(json)
+        val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = serializer }
         val clientConfig: (HttpClientConfig<*>) -> Unit = { it.install(JsonFeature, jsonConfig) }
         client = if (httpClientEngine == null) {
             HttpClient(clientConfig)
@@ -42,15 +41,14 @@ public open class ApiClientBase {
         }
     }
 
-    internal constructor(baseUrl: String, client: HttpClient, serializer: KotlinxSerializer) {
+    internal constructor(baseUrl: String, client: HttpClient) {
         this.baseUrl = baseUrl
-        this.serializer = serializer
         this.client = client
     }
 
 
     public companion object {
-        protected val UNSAFE_HEADERS: List<String> = listOf(HttpHeaders.ContentType)
+        protected val UNSAFE_HEADERS: List<String> = listOf()
     }
 
     /**
@@ -130,13 +128,13 @@ public open class ApiClientBase {
     }
 
     protected suspend fun jsonRequest(requestConfig: RequestConfig, body: Any? = null, authNames: List<String>): HttpResponse {
-        val contentType = (requestConfig.headers[HttpHeaders.ContentType]?.let { ContentType.parse(it) }
-                ?: ContentType.Application.Json)
-        return if (body != null) request(requestConfig, serializer.write(body, contentType), authNames)
+        if (HttpHeaders.ContentType !in requestConfig.headers)
+        requestConfig.headers[HttpHeaders.ContentType] = ContentType.Application.Json.toString()
+        return if (body != null) request(requestConfig, body, authNames)
         else request(requestConfig, authNames = authNames)
     }
 
-    protected suspend fun request(requestConfig: RequestConfig, body: OutgoingContent = EmptyContent, authNames: List<String>): HttpResponse {
+    protected suspend fun request(requestConfig: RequestConfig, body: Any = EmptyContent, authNames: List<String>): HttpResponse {
         requestConfig.updateForAuth(authNames)
         val headers = requestConfig.headers
 

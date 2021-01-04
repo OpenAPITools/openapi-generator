@@ -14,7 +14,7 @@ import kotlin.jvm.JvmStatic
  * Represents a [LocalDateTime] and the respective [ZoneOffset] of it.
  */
 @Serializable(with = OffsetDateTime.Companion::class)
-public data class OffsetDateTime(val dateTime: LocalDateTime, val offset: ZoneOffset) {
+public class OffsetDateTime private constructor(public val dateTime: LocalDateTime, public val offset: ZoneOffset) {
     override fun toString(): String {
         return if (offset.totalSeconds == 0) {
             "${dateTime}Z"
@@ -32,16 +32,11 @@ public data class OffsetDateTime(val dateTime: LocalDateTime, val offset: ZoneOf
     /**
      * Returns a new [OffsetDateTime] with the given [TimeZone].
      */
-    public fun inTimeZone(newTimeZone: TimeZone): OffsetDateTime {
+    public fun atZoneSameInstant(newTimeZone: TimeZone): OffsetDateTime {
         val instant = dateTime.toInstant(offset)
         val newDateTime = instant.toLocalDateTime(newTimeZone)
         return OffsetDateTime(newDateTime, newTimeZone.offsetAt(instant))
     }
-
-    /**
-     * Returns a new [OffsetDateTime] with the time zone [TimeZone.UTC].
-     */
-    public fun utc(): OffsetDateTime = inTimeZone(TimeZone.UTC)
 
     public companion object : KSerializer<OffsetDateTime> {
         private val zoneRegex by lazy {
@@ -81,10 +76,16 @@ public data class OffsetDateTime(val dateTime: LocalDateTime, val offset: ZoneOf
          * Creates an [OffsetDateTime] from an [Instant] in a given [TimeZone] ([TimeZone.UTC] by default).
          */
         @JvmStatic
-        public fun fromInstant(instant: Instant, offset: TimeZone = TimeZone.UTC): OffsetDateTime = OffsetDateTime(
+        public fun ofInstant(instant: Instant, offset: TimeZone = TimeZone.UTC): OffsetDateTime = OffsetDateTime(
             instant.toLocalDateTime(offset),
             offset.offsetAt(instant),
         )
+
+        /**
+         *
+         */
+        @JvmStatic
+        public fun of(dateTime: LocalDateTime, offset: ZoneOffset): OffsetDateTime = OffsetDateTime(dateTime, offset)
 
         override fun deserialize(decoder: Decoder): OffsetDateTime {
             val string = decoder.decodeString()

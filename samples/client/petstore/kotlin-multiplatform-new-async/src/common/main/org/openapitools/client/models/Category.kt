@@ -33,4 +33,3 @@ public data class Category(
     @SerialName(value = "name")
     val name: kotlin.String? = null
 )
-
