@@ -64,7 +64,7 @@ public open class {{classname}} : ApiClientBase {
         {{! TODO: Optimize all the ?.let to only the places where it's needed }}
         val authNamesOag = listOf<String>({{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}})
 
-        val bodyOag = {{#hasBodyParam}}{{#bodyParam}}{{#isListContainer}}{{^required}}{{{paramName}}}?.let { {{/required}}{{operationIdCamelCase}}Request({{{paramName}}}{{^isList}}.asList(){{/isList}}){{^required}} }{{/required}}{{/isListContainer}}{{^isListContainer}}{{#isMap}}{{^required}}{{{paramName}}}?.let { {{/required}}{{operationIdCamelCase}}Request({{{paramName}}}){{^required}} }{{/required}}{{/isMap}}{{^isMap}}{{{paramName}}}{{/isMap}}{{/isListContainer}}{{/bodyParam}}{{/hasBodyParam}}
+        val bodyOag = {{#hasBodyParam}}{{#bodyParam}}{{{paramName}}}{{/bodyParam}}{{/hasBodyParam}}
             {{^hasBodyParam}}
             {{#hasFormParams}}
             {{#isMultipart}}
@@ -120,20 +120,9 @@ public open class {{classname}} : ApiClientBase {
             configOag,
             bodyOag,
             authNamesOag
-        ).{{#isListContainer}}wrap<{{operationIdCamelCase}}Response>().map { value{{^isList}}.toTypedArray(){{/isList}} }{{/isListContainer}}{{^isListContainer}}{{#isMap}}wrap<{{operationIdCamelCase}}Response>().map { value }{{/isMap}}{{^isMap}}wrap(){{/isMap}}{{/isListContainer}}
+        ).wrap()
     }
-{{#hasBodyParam}}
 
-{{#bodyParam}}
-{{#isListContainer}}{{>serial_wrapper_request_list}}{{/isListContainer}}{{#isMap}}{{>serial_wrapper_request_map}}{{/isMap}}
-{{/bodyParam}}
-{{/hasBodyParam}}
-{{#isListContainer}}
-{{>serial_wrapper_response_list}}
-{{/isListContainer}}
-{{#isMap}}
-{{>serial_wrapper_response_map}}
-{{/isMap}}
 {{/operation}}
 }
 {{/operations}}
