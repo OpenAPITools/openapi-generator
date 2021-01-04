@@ -70,14 +70,14 @@ object Pets : BaseTable<Pet>("Pet") {
 }
 
 
-object PetPhotoUrls : BaseTable<Pair<Long, Long>>("PetPhotoUrls") {
+object PetPhotoUrls : BaseTable<Pair<kotlin.Long, kotlin.String>>("PetPhotoUrls") {
     val pet = long("pet")
-    val photoUrls = long("photoUrls")
+    val photoUrls = text("photoUrls")
 
-    override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean): Pair<Long, Long> =
-        Pair(row[pet] ?: 0, row[photoUrls] ?: 0)
+    override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean): Pair<kotlin.Long, kotlin.String> =
+        Pair(row[pet] ?: 0, row[photoUrls] ?: "")
 
-    fun AssignmentsBuilder.assignFrom(entity: Pair<Long, Long>) {
+    fun AssignmentsBuilder.assignFrom(entity: Pair<kotlin.Long, kotlin.String>) {
         this.apply {
             set(PetPhotoUrls.pet, entity.first)
             set(PetPhotoUrls.photoUrls, entity.second)
@@ -86,14 +86,14 @@ object PetPhotoUrls : BaseTable<Pair<Long, Long>>("PetPhotoUrls") {
 
 }
 
-object PetTag : BaseTable<Pair<Long, Long>>("PetTag") {
+object PetTag : BaseTable<Pair<kotlin.Long, kotlin.Long>>("PetTag") {
     val pet = long("pet")
     val tag = long("tag")
 
-    override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean): Pair<Long, Long> =
+    override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean): Pair<kotlin.Long, kotlin.Long> =
         Pair(row[pet] ?: 0, row[tag] ?: 0)
 
-    fun AssignmentsBuilder.assignFrom(entity: Pair<Long, Long>) {
+    fun AssignmentsBuilder.assignFrom(entity: Pair<kotlin.Long, kotlin.Long>) {
         this.apply {
             set(PetTag.pet, entity.first)
             set(PetTag.tag, entity.second)

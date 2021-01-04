@@ -20,8 +20,8 @@ Name | Mapping | SQL Type | Default | Type | Description | Notes
 ## Properties
 Name | Mapping | SQL Type | Default | Type | Description | Notes
 ---- | ------- | -------- | ------- | ---- | ----------- | -----
-pet | pet | long | | long | Primary Key | *one*
-photoUrls | photoUrls | long | | long | Foreign Key | *many*
+pet | pet | long | | kotlin.Long | Primary Key | *one*
+photoUrls | photoUrls | text | | kotlin.String | Foreign Key | *many*
 
 
 
@@ -33,8 +33,8 @@ photoUrls | photoUrls | long | | long | Foreign Key | *many*
 ## Properties
 Name | Mapping | SQL Type | Default | Type | Description | Notes
 ---- | ------- | -------- | ------- | ---- | ----------- | -----
-pet | pet | long | | long | Primary Key | *one*
-tag | tag | long | | long | Foreign Key | *many*
+pet | pet | long | | kotlin.Long | Primary Key | *one*
+tag | tag | long | | kotlin.Long | Foreign Key | *many*
 
 
 

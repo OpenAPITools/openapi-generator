@@ -1,7 +1,6 @@
 
--- --------------------------------------------------------
 
---
+-- --------------------------------------------------------------------------
 -- Table structure for table `ApiResponse` generated from model 'apiResponse'
 -- Describes the result of uploading an image resource
 --
@@ -10,9 +9,10 @@ CREATE TABLE IF NOT EXISTS `ApiResponse` (
   `code` int,
   `type` text,
   `message` text
-)  /*Describes the result of uploading an image resource*/;
+);  /*Describes the result of uploading an image resource*/
 
---
+
+-- --------------------------------------------------------------------------
 -- Table structure for table `Category` generated from model 'category'
 -- A category for a pet
 --
@@ -20,9 +20,10 @@ CREATE TABLE IF NOT EXISTS `ApiResponse` (
 CREATE TABLE IF NOT EXISTS `Category` (
   `id` long PRIMARY KEY AUTOINCREMENT,
   `name` text
-)  /*A category for a pet*/;
+);  /*A category for a pet*/
 
---
+
+-- --------------------------------------------------------------------------
 -- Table structure for table `Order` generated from model 'order'
 -- An order for a pets from the pet store
 --
@@ -34,23 +35,39 @@ CREATE TABLE IF NOT EXISTS `Order` (
   `shipDate` datetime,
   `status` text /*Order Status*/,
   `complete` boolean
-)  /*An order for a pets from the pet store*/;
+);  /*An order for a pets from the pet store*/
 
---
+
+-- --------------------------------------------------------------------------
 -- Table structure for table `Pet` generated from model 'pet'
 -- A pet for sale in the pet store
 --
 
 CREATE TABLE IF NOT EXISTS `Pet` (
   `name` text NOT NULL,
-  `photoUrls` blob NOT NULL,
   `id` long PRIMARY KEY AUTOINCREMENT,
   `category` long,
-  `tags` blob,
   `status` text /*pet status in the store*/
-)  /*A pet for sale in the pet store*/;
+);  /*A pet for sale in the pet store*/
 
---
+-- --------------------------------------------------------------------------
+-- Table structure for table `PetPhotoUrls` generated from model 'PetPhotoUrls'
+
+CREATE TABLE IF NOT EXISTS `PetPhotoUrls` (
+  `pet` long NOT NULL
+  `photoUrls` text NOT NULL
+);
+
+-- --------------------------------------------------------------------------
+-- Table structure for table `PetTag` generated from model 'PetTag'
+
+CREATE TABLE IF NOT EXISTS `PetTag` (
+  `pet` long NOT NULL
+  `tag` long NOT NULL
+);
+
+
+-- --------------------------------------------------------------------------
 -- Table structure for table `Tag` generated from model 'tag'
 -- A tag for a pet
 --
@@ -58,9 +75,10 @@ CREATE TABLE IF NOT EXISTS `Pet` (
 CREATE TABLE IF NOT EXISTS `Tag` (
   `id` long PRIMARY KEY AUTOINCREMENT,
   `name` text
-)  /*A tag for a pet*/;
+);  /*A tag for a pet*/
 
---
+
+-- --------------------------------------------------------------------------
 -- Table structure for table `User` generated from model 'user'
 -- A User who is purchasing from the pet store
 --
@@ -74,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `User` (
   `password` text,
   `phone` text,
   `userStatus` int /*User Status*/
-)  /*A User who is purchasing from the pet store*/;
+);  /*A User who is purchasing from the pet store*/
 
 
 --
