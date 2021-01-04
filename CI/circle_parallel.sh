@@ -49,14 +49,6 @@ elif [ "$NODE_INDEX" = "2" ]; then
   sudo apt-get -y install r-base
   R --version
 
-  # prepare crystal
-  curl -sSL https://dist.crystal-lang.org/apt/setup.sh | sudo bash
-  curl -sL "https://keybase.io/crystal/pgp_keys.asc" | sudo apt-key add -
-  echo "deb https://dist.crystal-lang.org/apt crystal main" | sudo tee /etc/apt/sources.list.d/crystal.list
-  sudo apt-get update
-  sudo apt install crystal
-  crystal version
-
   # install curl
   sudo apt-get -y build-dep libcurl4-gnutls-dev
   sudo apt-get -y install libcurl4-gnutls-dev
