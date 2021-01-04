@@ -109,13 +109,3 @@ public open class ApiClientAsync(
         }
     }
 }
-
-private fun createHttpClient(httpClientEngine: HttpClientEngine? = null, serializer: KotlinxSerializer): HttpClient {
-    val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = serializer }
-    val clientConfig: (HttpClientConfig<*>) -> Unit = { it.install(JsonFeature, jsonConfig) }
-    return if (httpClientEngine == null) {
-        HttpClient(clientConfig)
-    } else {
-        HttpClient(httpClientEngine, clientConfig)
-    }
-}

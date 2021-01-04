@@ -105,7 +105,7 @@ public open class ApiClient(
     }
 }
 
-private fun createHttpClient(httpClientEngine: HttpClientEngine? = null, serializer: KotlinxSerializer): HttpClient {
+internal fun createHttpClient(httpClientEngine: HttpClientEngine? = null, serializer: KotlinxSerializer): HttpClient {
     val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = serializer }
     val clientConfig: (HttpClientConfig<*>) -> Unit = { it.install(JsonFeature, jsonConfig) }
     return if (httpClientEngine == null) {
