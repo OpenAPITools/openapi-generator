@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:built_collection/built_collection.dart';
 import 'package:openapi/model/read_only_first.dart';
 import 'package:built_value/built_value.dart';
@@ -24,7 +31,7 @@ abstract class ArrayTest implements Built<ArrayTest, ArrayTestBuilder> {
 
     static void _initializeBuilder(ArrayTestBuilder b) => b;
 
-    factory ArrayTest([updates(ArrayTestBuilder b)]) = _$ArrayTest;
+    factory ArrayTest([void updates(ArrayTestBuilder b)]) = _$ArrayTest;
     static Serializer<ArrayTest> get serializer => _$arrayTestSerializer;
 }
 

@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -14,7 +21,7 @@ abstract class HealthCheckResult implements Built<HealthCheckResult, HealthCheck
 
     static void _initializeBuilder(HealthCheckResultBuilder b) => b;
 
-    factory HealthCheckResult([updates(HealthCheckResultBuilder b)]) = _$HealthCheckResult;
+    factory HealthCheckResult([void updates(HealthCheckResultBuilder b)]) = _$HealthCheckResult;
     static Serializer<HealthCheckResult> get serializer => _$healthCheckResultSerializer;
 }
 

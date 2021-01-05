@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
@@ -29,16 +36,16 @@ class PetApi {
     }) async {
         final String _path = '/pet';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'application/json',
             'application/xml',
         ];
@@ -48,15 +55,15 @@ class PetApi {
         final jsonpet = json.encode(serializedBody);
         bodyData = jsonpet;
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'post'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[
                         {
                             'type': 'oauth2',
                             'name': 'petstore_auth',
@@ -71,8 +78,11 @@ class PetApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            final serializer = _serializers.serializerForType(Pet);
-            final data = _serializers.deserializeWith<Pet>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            final serializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
+            final data = _serializers.deserializeWith<Pet>(
+                serializer,
+                response.data is String ? jsonDecode(response.data as String) : response.data,
+            );
 
             return Response<Pet>(
                 data: data,
@@ -101,27 +111,27 @@ class PetApi {
     }) async {
         final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
         headerParams[r'api_key'] = apiKey;
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [];
+        final contentTypes = <String>[];
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'delete'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[
                         {
                             'type': 'oauth2',
                             'name': 'petstore_auth',
@@ -152,27 +162,27 @@ class PetApi {
     }) async {
         final String _path = '/pet/findByStatus';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
         queryParams[r'status'] = status;
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [];
+        final contentTypes = <String>[];
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'get'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[
                         {
                             'type': 'oauth2',
                             'name': 'petstore_auth',
@@ -189,7 +199,12 @@ class PetApi {
         ).then((response) {
             const collectionType = BuiltList;
             const type = FullType(collectionType, [FullType(Pet)]);
-            final BuiltList<Pet> data = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
+            final data = _serializers.deserialize(
+                response.data is String
+                ? jsonDecode(response.data as String)
+                : response.data,
+                specifiedType: type,
+            ) as BuiltList<Pet>;
 
             return Response<BuiltList<Pet>>(
                 data: data,
@@ -217,27 +232,27 @@ class PetApi {
     }) async {
         final String _path = '/pet/findByTags';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
         queryParams[r'tags'] = tags;
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [];
+        final contentTypes = <String>[];
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'get'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[
                         {
                             'type': 'oauth2',
                             'name': 'petstore_auth',
@@ -254,7 +269,12 @@ class PetApi {
         ).then((response) {
             const collectionType = BuiltList;
             const type = FullType(collectionType, [FullType(Pet)]);
-            final BuiltList<Pet> data = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
+            final data = _serializers.deserialize(
+                response.data is String
+                ? jsonDecode(response.data as String)
+                : response.data,
+                specifiedType: type,
+            ) as BuiltList<Pet>;
 
             return Response<BuiltList<Pet>>(
                 data: data,
@@ -282,26 +302,26 @@ class PetApi {
     }) async {
         final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [];
+        final contentTypes = <String>[];
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'get'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[
                         {
                             'type': 'apiKey',
                             'name': 'api_key',
@@ -318,8 +338,11 @@ class PetApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            final serializer = _serializers.serializerForType(Pet);
-            final data = _serializers.deserializeWith<Pet>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            final serializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
+            final data = _serializers.deserializeWith<Pet>(
+                serializer,
+                response.data is String ? jsonDecode(response.data as String) : response.data,
+            );
 
             return Response<Pet>(
                 data: data,
@@ -347,16 +370,16 @@ class PetApi {
     }) async {
         final String _path = '/pet';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'application/json',
             'application/xml',
         ];
@@ -366,15 +389,15 @@ class PetApi {
         final jsonpet = json.encode(serializedBody);
         bodyData = jsonpet;
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'put'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[
                         {
                             'type': 'oauth2',
                             'name': 'petstore_auth',
@@ -389,8 +412,11 @@ class PetApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            final serializer = _serializers.serializerForType(Pet);
-            final data = _serializers.deserializeWith<Pet>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            final serializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
+            final data = _serializers.deserializeWith<Pet>(
+                serializer,
+                response.data is String ? jsonDecode(response.data as String) : response.data,
+            );
 
             return Response<Pet>(
                 data: data,
@@ -420,33 +446,33 @@ class PetApi {
     }) async {
         final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'application/x-www-form-urlencoded',
         ];
 
-        final Map<String, dynamic> formData = {};
+        final formData = <String, dynamic>{};
         formData['name'] = parameterToString(_serializers, name);
         formData['status'] = parameterToString(_serializers, status);
         bodyData = formData;
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'post'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[
                         {
                             'type': 'oauth2',
                             'name': 'petstore_auth',
@@ -479,20 +505,20 @@ class PetApi {
     }) async {
         final String _path = '/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', petId.toString());
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'multipart/form-data',
         ];
 
-        final Map<String, dynamic> formData = {};
+        final formData = <String, dynamic>{};
         if (additionalMetadata != null) {
             formData[r'additionalMetadata'] = parameterToString(_serializers, additionalMetadata);
         }
@@ -501,15 +527,15 @@ class PetApi {
         }
         bodyData = FormData.fromMap(formData);
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'post'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[
                         {
                             'type': 'oauth2',
                             'name': 'petstore_auth',
@@ -524,8 +550,11 @@ class PetApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            final serializer = _serializers.serializerForType(ApiResponse);
-            final data = _serializers.deserializeWith<ApiResponse>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            final serializer = _serializers.serializerForType(ApiResponse) as Serializer<ApiResponse>;
+            final data = _serializers.deserializeWith<ApiResponse>(
+                serializer,
+                response.data is String ? jsonDecode(response.data as String) : response.data,
+            );
 
             return Response<ApiResponse>(
                 data: data,

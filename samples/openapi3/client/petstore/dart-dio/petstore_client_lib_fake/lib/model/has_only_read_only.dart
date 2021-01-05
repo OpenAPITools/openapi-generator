@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -18,7 +25,7 @@ abstract class HasOnlyReadOnly implements Built<HasOnlyReadOnly, HasOnlyReadOnly
 
     static void _initializeBuilder(HasOnlyReadOnlyBuilder b) => b;
 
-    factory HasOnlyReadOnly([updates(HasOnlyReadOnlyBuilder b)]) = _$HasOnlyReadOnly;
+    factory HasOnlyReadOnly([void updates(HasOnlyReadOnlyBuilder b)]) = _$HasOnlyReadOnly;
     static Serializer<HasOnlyReadOnly> get serializer => _$hasOnlyReadOnlySerializer;
 }
 

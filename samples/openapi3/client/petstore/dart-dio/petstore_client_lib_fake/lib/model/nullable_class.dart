@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
@@ -60,7 +67,7 @@ abstract class NullableClass implements Built<NullableClass, NullableClassBuilde
 
     static void _initializeBuilder(NullableClassBuilder b) => b;
 
-    factory NullableClass([updates(NullableClassBuilder b)]) = _$NullableClass;
+    factory NullableClass([void updates(NullableClassBuilder b)]) = _$NullableClass;
     static Serializer<NullableClass> get serializer => _$nullableClassSerializer;
 }
 

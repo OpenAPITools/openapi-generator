@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
@@ -26,16 +33,16 @@ class UserApi {
     }) async {
         final String _path = '/user';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'application/json',
         ];
 
@@ -44,15 +51,15 @@ class UserApi {
         final jsonuser = json.encode(serializedBody);
         bodyData = jsonuser;
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'post'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[
                         {
                             'type': 'apiKey',
                             'name': 'api_key',
@@ -85,16 +92,16 @@ class UserApi {
     }) async {
         final String _path = '/user/createWithArray';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'application/json',
         ];
 
@@ -103,15 +110,15 @@ class UserApi {
         final jsonuser = json.encode(serializedBody);
         bodyData = jsonuser;
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'post'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[
                         {
                             'type': 'apiKey',
                             'name': 'api_key',
@@ -144,16 +151,16 @@ class UserApi {
     }) async {
         final String _path = '/user/createWithList';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'application/json',
         ];
 
@@ -162,15 +169,15 @@ class UserApi {
         final jsonuser = json.encode(serializedBody);
         bodyData = jsonuser;
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'post'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[
                         {
                             'type': 'apiKey',
                             'name': 'api_key',
@@ -203,26 +210,26 @@ class UserApi {
     }) async {
         final String _path = '/user/{username}'.replaceAll('{' r'username' '}', username.toString());
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [];
+        final contentTypes = <String>[];
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'delete'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[
                         {
                             'type': 'apiKey',
                             'name': 'api_key',
@@ -255,26 +262,26 @@ class UserApi {
     }) async {
         final String _path = '/user/{username}'.replaceAll('{' r'username' '}', username.toString());
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [];
+        final contentTypes = <String>[];
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'get'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [],
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[],
                     if (extra != null) ...extra,
                 },
                 validateStatus: validateStatus,
@@ -284,8 +291,11 @@ class UserApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            final serializer = _serializers.serializerForType(User);
-            final data = _serializers.deserializeWith<User>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            final serializer = _serializers.serializerForType(User) as Serializer<User>;
+            final data = _serializers.deserializeWith<User>(
+                serializer,
+                response.data is String ? jsonDecode(response.data as String) : response.data,
+            );
 
             return Response<User>(
                 data: data,
@@ -314,28 +324,28 @@ class UserApi {
     }) async {
         final String _path = '/user/login';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
         queryParams[r'username'] = username;
         queryParams[r'password'] = password;
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [];
+        final contentTypes = <String>[];
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'get'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [],
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[],
                     if (extra != null) ...extra,
                 },
                 validateStatus: validateStatus,
@@ -372,26 +382,26 @@ class UserApi {
     }) async {
         final String _path = '/user/logout';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [];
+        final contentTypes = <String>[];
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'get'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[
                         {
                             'type': 'apiKey',
                             'name': 'api_key',
@@ -425,16 +435,16 @@ class UserApi {
     }) async {
         final String _path = '/user/{username}'.replaceAll('{' r'username' '}', username.toString());
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'application/json',
         ];
 
@@ -443,15 +453,15 @@ class UserApi {
         final jsonuser = json.encode(serializedBody);
         bodyData = jsonuser;
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'put'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[
                         {
                             'type': 'apiKey',
                             'name': 'api_key',
