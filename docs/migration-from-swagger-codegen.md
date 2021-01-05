@@ -122,7 +122,7 @@ All languages of `swagger-codegen` have been migrated to `openapi-generator`, bu
 | `akka-scala` | `scala-akka` |
 | `scala` | `scala-httpclient` |
 | `jaxrs` | `jaxrs-jersey` |
-| `qt5cpp` | `cpp-qt5` |
+| `qt5cpp` | `cpp-qt` |
 | `cpprest` | `cpp-restsdk` |
 | `tizen` | `cpp-tizen` |
 | `sinatra` | `ruby-sinatra` |

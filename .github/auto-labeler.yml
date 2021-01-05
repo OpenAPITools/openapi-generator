@@ -112,8 +112,8 @@ labels:
       - '\s*?\[python\]\s*?'
       - '\s*?-[gl] python(?!-)\b'
     'Client: QT':
-      - '\s*?\[cpp-qt5-client\]\s*?'
-      - '\s*?-[gl] cpp-qt5-client\s*?'
+      - '\s*?\[cpp-qt-client\]\s*?'
+      - '\s*?-[gl] cpp-qt-client\s*?'
     'Client: R':
       - '\s*?\[[rR]\]\s*?'
       - '\s*?-[gl] r(?!-)\b'

@@ -28,13 +28,13 @@ import java.io.File;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
-public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements CodegenConfig {
+public class CppQtClientCodegen extends CppQt5AbstractCodegen implements CodegenConfig {
     public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate client.pri.";
     // source folder where to write the files
     protected String sourceFolder = "client";
     protected boolean optionalProjectFileFlag = true;
 
-    public CppQt5ClientCodegen() {
+    public CppQtClientCodegen() {
         super();
 
 
@@ -45,7 +45,7 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
         );
 
         // set the output folder here
-        outputFolder = "generated-code/qt5cpp";
+        outputFolder = "generated-code/qtcpp";
 
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
@@ -78,7 +78,7 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
-        embeddedTemplateDir = templateDir = "cpp-qt5-client";
+        embeddedTemplateDir = templateDir = "cpp-qt-client";
 
         addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE, OPTIONAL_PROJECT_FILE_DESC, this.optionalProjectFileFlag);
         supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder, PREFIX + "Helpers.h"));
@@ -153,7 +153,7 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
      */
     @Override
     public String getName() {
-        return "cpp-qt5-client";
+        return "cpp-qt-client";
     }
 
     /**
@@ -164,7 +164,7 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
      */
     @Override
     public String getHelp() {
-        return "Generates a Qt5 C++ client library.";
+        return "Generates a Qt C++ client library.";
     }
 
     /**

@@ -61,7 +61,7 @@
       ]
     },
     {
-      "input": "cpp-qt5-petstore.sh",
+      "input": "cpp-qt-petstore.sh",
       "matches": [
         "Client: C++",
         "Client: QT"

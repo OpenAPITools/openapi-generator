@@ -91,9 +91,9 @@
         "title": "Config Options for cpp-pistache-server",
         "sidebar_label": "cpp-pistache-server"
       },
-      "generators/cpp-qt5-client": {
-        "title": "Config Options for cpp-qt5-client",
-        "sidebar_label": "cpp-qt5-client"
+      "generators/cpp-qt-client": {
+        "title": "Config Options for cpp-qt-client",
+        "sidebar_label": "cpp-qt-client"
       },
       "generators/cpp-qt5-qhttpengine-server": {
         "title": "Config Options for cpp-qt5-qhttpengine-server",
