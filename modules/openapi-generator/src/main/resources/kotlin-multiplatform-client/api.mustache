@@ -11,8 +11,10 @@ import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.request.*
 import io.ktor.client.request.forms.FormPart
 import io.ktor.client.utils.EmptyContent
+import io.ktor.http.*
 import kotlinx.serialization.json.Json
 import io.ktor.http.ParametersBuilder
 import kotlinx.serialization.Serializable
@@ -44,8 +46,8 @@ public open class {{classname}} : ApiClientBase {
         baseUrl,
         client
     )
-
     {{#operation}}
+
     /**
      * {{summary}}
      * {{notes}}
@@ -53,75 +55,144 @@ public open class {{classname}} : ApiClientBase {
     {{/allParams}} * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
      */
     {{#returnType}}
-    @Suppress("UNCHECKED_CAST")
     {{/returnType}}
     public suspend fun {{operationId}}(
         {{#allParams}}
-        {{{paramName}}}: {{{dataType}}}{{^required}}? = null{{/required}},
+        {{#required}}
+        {{{paramName}}}: {{{dataType}}},
+        {{/required}}
         {{/allParams}}
-    ): HttpResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> {
-        {{! TODO: Optimize all the ?.let to only the places where it's needed }}
-        val authNamesOag = listOf<String>({{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}})
-
-        val bodyOag = {{#hasBodyParam}}{{#bodyParam}}{{{paramName}}}{{/bodyParam}}{{/hasBodyParam}}
-            {{^hasBodyParam}}
-            {{#hasFormParams}}
-            {{#isMultipart}}
-            formData {
-                {{#formParams}}
-                {{^required}}{{{paramName}}}?.let { {{/required}}append(FormPart("{{{baseName}}}", {{{paramName}}})){{^required}} }{{/required}}
-                {{/formParams}}
+        {{#allParams}}
+        {{^required}}
+        {{{paramName}}}: {{{dataType}}}? = null,
+        {{/required}}
+        {{/allParams}}
+    ){{#returnType}}: {{{returnType}}}{{/returnType}} {
+        return this.client.request {
+            this.method = HttpMethod.parse("{{httpMethod}}")
+            url {
+                this.takeFrom(this@{{classname}}.baseUrl)
+                {{=<% %>=}}
+                appendPath("<%path%>"<%#pathParams%>.replace("{<%baseName%>}", <%paramName%>.toString())<%/pathParams%>)
+                <%={{ }}=%>
             }
-            {{/isMultipart}}
-            {{^isMultipart}}
-            ParametersBuilder().also {
-                {{#formParams}}
-                {{^required}}{{{paramName}}}?.apply { {{/required}}it.append("{{{baseName}}}", {{{paramName}}}.toString()){{^required}} }{{/required}}
-                {{/formParams}}
-            }.build()
-            {{/isMultipart}}
-            {{/hasFormParams}}
-            {{^hasFormParams}}
-            EmptyContent
-            {{/hasFormParams}}
-            {{/hasBodyParam}}
+            {{#authMethods}}
+            {{#-first}}
 
-        val queriesOag = Queries {
+            {{!TODO: Implement}}
+            //addAuthentication({{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}})
+            {{/-first}}
+            {{/authMethods}}
             {{#queryParams}}
+            {{#-first}}
+
+            // Query parameters
+            {{/-first}}
             {{#isContainer}}
             {{#isMap}}
-            {{^required}}if ({{{paramName}}} != null) {{/required}}addMap({{{paramName}}})
+            {{#required}}
+            for ((key, value) in {{{paramName}}}) {
+                parameter(key, value)
+            }
+            {{/required}}
+            {{^required}}
+            if ({{{paramName}}} != null) {
+                for ((key, value) in {{{paramName}}}) {
+                    parameter(key, value)
+                }
+            }
+            {{/required}}
             {{/isMap}}
             {{^isMap}}
-            {{^required}}if ({{{paramName}}} != null) {{/required}}addMulti("{{baseName}}", {{{paramName}}}, "{{collectionFormat}}")
+            {{#required}}
+            {{#isCollectionFormatMulti}}
+            this.url.parameters.appendAll("{{baseName}}", {{{paramName}}}{{#items.isNullable}}.filterNotNull(){{/items.isNullable}}){{^items.isString}}.map({{{items.dataType}}}::toString){{/items.isString}})
+            {{/isCollectionFormatMulti}}
+            {{^isCollectionFormatMulti}}
+            parameter("{{baseName}}", {{{paramName}}}{{#items.isNullable}}.filterNotNull(){{/items.isNullable}}{{^items.isString}}.map({{{items.dataType}}}::toString){{/items.isString}}.joinToString(separator = collectionDelimiter("{{collectionFormat}}")))
+            {{/isCollectionFormatMulti}}
+            {{/required}}
+            {{^required}}
+            if ({{{paramName}}} != null) {
+                {{#isCollectionFormatMulti}}
+                this.url.parameters.appendAll("{{baseName}}", {{{paramName}}}{{#items.isNullable}}.filterNotNull(){{/items.isNullable}}{{^items.isString}}.map({{{items.dataType}}}::toString){{/items.isString}})
+                {{/isCollectionFormatMulti}}
+                {{^isCollectionFormatMulti}}
+                parameter("{{baseName}}", {{{paramName}}}{{#items.isNullable}}.filterNotNull(){{/items.isNullable}}{{^items.isString}}.map({{{items.dataType}}}::toString){{/items.isString}}.joinToString(separator = collectionDelimiter("{{collectionFormat}}")))
+                {{/isCollectionFormatMulti}}
+            }
+            {{/required}}
             {{/isMap}}
             {{/isContainer}}
             {{^isContainer}}
-            add("{{baseName}}", {{{paramName}}})
+            parameter("{{baseName}}", {{{paramName}}})
             {{/isContainer}}
             {{/queryParams}}
-        }
-
-        val headersOag = mutableMapOf<String, String?>(
             {{#headerParams}}
-            "{{baseName}}" to {{#isContainer}}{{{paramName}}}?.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this?.toString(){{/isContainer}}{{#hasMore}},{{/hasMore}}
+            {{#-first}}
+
+            // Headers
+            {{/-first}}
+            {{#isContainer}}
+             header("{{baseName}}", {{{paramName}}}{{^required}}?{{/required}}.joinToString(separator = collectionDelimiter("{{collectionFormat}}")))
+            {{/isContainer}}
+            {{^isContainer}}
+            header("{{baseName}}", {{{paramName}}}{{^isString}}{{^required}}?{{/required}}.toString(){{/isString}})
+            {{/isContainer}}
             {{/headerParams}}
-        )
+            {{#hasBodyParam}}
+            {{#bodyParam}}
 
-        val configOag = RequestConfig(
-            RequestMethod.{{httpMethod}},
-            "{{path}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{{paramName}}}.toString()){{/pathParams}},
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return {{#hasBodyParam}}jsonRequest{{/hasBodyParam}}{{^hasBodyParam}}{{#hasFormParams}}{{#isMultipart}}multipartFormRequest{{/isMultipart}}{{^isMultipart}}urlEncodedFormRequest{{/isMultipart}}{{/hasFormParams}}{{^hasFormParams}}request{{/hasFormParams}}{{/hasBodyParam}}(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
+            // Body
+            {{#required}}
+            this.body = {{{paramName}}}
+            {{/required}}
+            {{^required}}
+            if ({{{paramName}}} != null) {
+                this.body = {{{paramName}}}
+            }
+            {{/required}}
+            {{/bodyParam}}
+            {{/hasBodyParam}}
+            {{^hasBodyParam}}
+            {{#hasFormParams}}
+            // Formdata
+            {{#isMultipart}}
+            this.body = MultiPartFormDataContent(
+                formData {
+                    {{#formParams}}
+                    {{#required}}
+                    append(FormPart("{{{baseName}}}", {{{paramName}}}))
+                    {{/required}}
+                    {{^required}}
+                    if ({{{paramName}}} != null) {
+                        append(FormPart("{{{baseName}}}", {{{paramName}}}))
+                    }
+                    {{/required}}
+                    {{/formParams}}
+                }
+            )
+            {{/isMultipart}}
+            {{^isMultipart}}
+            this.body = FormDataContent(
+                ParametersBuilder({{#formParams}}{{#-last}}{{-index}}{{/-last}}{{/formParams}}).apply {
+                    {{#formParams}}
+                    {{#required}}
+                    it.append("{{{baseName}}}", {{{paramName}}}{{^isString}}.toString(){{/isString}})
+                    {{/required}}
+                    {{^required}}
+                    if ({{{paramName}}} != null) {
+                        it.append("{{{baseName}}}", {{{paramName}}}{{^isString}}.toString(){{/isString}})
+                    }
+                    {{/required}}
+                    {{/formParams}}
+                }.build()
+            )
+            {{/isMultipart}}
+            {{/hasFormParams}}
+            {{/hasBodyParam}}
+        }
     }
-
 {{/operation}}
 }
 {{/operations}}

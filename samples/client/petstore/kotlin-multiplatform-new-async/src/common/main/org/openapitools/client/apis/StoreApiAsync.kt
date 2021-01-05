@@ -27,7 +27,7 @@ import kotlinx.serialization.json.Json
 
 public open class StoreApiAsync : ApiClientBase {
     public val coroutineScope: CoroutineScope
-    protected val client: StoreApi
+    protected val coroutineClient: StoreApi
 
     public constructor(
         baseUrl: String = "http://petstore.swagger.io/v2",
@@ -36,7 +36,7 @@ public open class StoreApiAsync : ApiClientBase {
         coroutineScope: CoroutineScope = GlobalScope,
     ) : super(baseUrl, httpClientEngine, json) {
         this.coroutineScope = coroutineScope
-        this.client = StoreApi(baseUrl, httpClientEngine, json)
+        this.coroutineClient = StoreApi(baseUrl, httpClientEngine, json)
     }
 
     internal constructor(
@@ -48,7 +48,7 @@ public open class StoreApiAsync : ApiClientBase {
         client,
     ) {
         this.coroutineScope = coroutineScope
-        this.client = StoreApi(baseUrl, client)
+        this.coroutineClient = StoreApi(baseUrl, client)
     }
 
     /**
@@ -61,7 +61,7 @@ public open class StoreApiAsync : ApiClientBase {
         orderId: kotlin.String,
     ): Deferred<HttpResponse<Unit>> {
         return coroutineScope.async {
-            this@StoreApiAsync.client.deleteOrder(
+            this@StoreApiAsync.coroutineClient.deleteOrder(
                 orderId = orderId,
             )
         }
@@ -74,7 +74,7 @@ public open class StoreApiAsync : ApiClientBase {
     public fun getInventoryAsync(
     ): Deferred<HttpResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>>> {
         return coroutineScope.async {
-            this@StoreApiAsync.client.getInventory(
+            this@StoreApiAsync.coroutineClient.getInventory(
             )
         }
     }
@@ -88,7 +88,7 @@ public open class StoreApiAsync : ApiClientBase {
         orderId: kotlin.Long,
     ): Deferred<HttpResponse<Order>> {
         return coroutineScope.async {
-            this@StoreApiAsync.client.getOrderById(
+            this@StoreApiAsync.coroutineClient.getOrderById(
                 orderId = orderId,
             )
         }
@@ -103,7 +103,7 @@ public open class StoreApiAsync : ApiClientBase {
         body: Order,
     ): Deferred<HttpResponse<Order>> {
         return coroutineScope.async {
-            this@StoreApiAsync.client.placeOrder(
+            this@StoreApiAsync.coroutineClient.placeOrder(
                 body = body,
             )
         }

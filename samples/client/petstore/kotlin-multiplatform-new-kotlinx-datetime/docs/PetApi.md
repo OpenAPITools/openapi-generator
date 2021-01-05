@@ -1,20 +1,19 @@
 # PetApi
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are by default relative to `http://petstore.swagger.io/v2`
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
-[**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
-[**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
-[**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
-[**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
-[**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
-[**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
+[`addPet`](#addPet) | `POST` /pet | Add a new pet to the store
+[`deletePet`](#deletePet) | `DELETE` /pet/{petId} | Deletes a pet
+[`findPetsByStatus`](#findPetsByStatus) | `GET` /pet/findByStatus | Finds Pets by status
+[`findPetsByTags`](#findPetsByTags) | `GET` /pet/findByTags | Finds Pets by tags
+[`getPetById`](#getPetById) | `GET` /pet/{petId} | Find pet by ID
+[`updatePet`](#updatePet) | `PUT` /pet | Update an existing pet
+[`updatePetWithForm`](#updatePetWithForm) | `POST` /pet/{petId} | Updates a pet in the store with form data
+[`uploadFile`](#uploadFile) | `POST` /pet/{petId}/uploadImage | uploads an image
 
 
-<a name="addPet"></a>
 # **addPet**
 > addPet(body)
 
@@ -23,13 +22,16 @@ Add a new pet to the store
 ### Example
 ```kotlin
 // Import classes:
-//import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+import org.openapitools.client.apis.PetApi
+import org.openapitools.client.infrastructure.*
+import org.openapitools.client.models.*
 
-val apiInstance = PetApi()
-val body : Pet =  // Pet | Pet object that needs to be added to the store
+val petApi = PetApi()
+val body: Pet =  
 try {
-    apiInstance.addPet(body)
+    petApi.addPet(
+        body,
+    )
 } catch (e: ClientException) {
     println("4xx response calling PetApi#addPet")
     e.printStackTrace()
@@ -47,36 +49,41 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+`Unit`
 
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth (OAuth):
+```kotlin
+apiClient.oAuth["petstore_auth"].accessToken = ""
+```
 
 ### HTTP request headers
 
  - **Content-Type**: application/jsonapplication/xml
  - **Accept**: Not defined
 
-<a name="deletePet"></a>
 # **deletePet**
-> deletePet(petIdapiKey)
+> deletePet(petId, apiKey)
 
 Deletes a pet
 
 ### Example
 ```kotlin
 // Import classes:
-//import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+import org.openapitools.client.apis.PetApi
+import org.openapitools.client.infrastructure.*
+import org.openapitools.client.models.*
 
-val apiInstance = PetApi()
-val petId : kotlin.Long = 789 // kotlin.Long | Pet id to delete
-val apiKey : kotlin.String = apiKey_example // kotlin.String | 
+val petApi = PetApi()
+val petId: kotlin.Long = 789 
+val apiKey: kotlin.String = apiKey_example // Optional
 try {
-    apiInstance.deletePet(petIdapiKey)
+    petApi.deletePet(
+        petId,
+        apiKey = apiKey,
+    )
 } catch (e: ClientException) {
     println("4xx response calling PetApi#deletePet")
     e.printStackTrace()
@@ -95,20 +102,21 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+`Unit`
 
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth (OAuth):
+```kotlin
+apiClient.oAuth["petstore_auth"].accessToken = ""
+```
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="findPetsByStatus"></a>
 # **findPetsByStatus**
 > kotlin.collections.List&lt;Pet&gt; findPetsByStatus(status)
 
@@ -119,13 +127,16 @@ Multiple status values can be provided with comma separated strings
 ### Example
 ```kotlin
 // Import classes:
-//import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+import org.openapitools.client.apis.PetApi
+import org.openapitools.client.infrastructure.*
+import org.openapitools.client.models.*
 
-val apiInstance = PetApi()
-val status : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | Status values that need to be considered for filter
+val petApi = PetApi()
+val status: kotlin.collections.List<kotlin.String> =  
 try {
-    val result : kotlin.collections.List<Pet> = apiInstance.findPetsByStatus(status)
+    val result: kotlin.collections.List<Pet> = petApi.findPetsByStatus(
+        status,
+    )
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#findPetsByStatus")
@@ -144,20 +155,21 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**kotlin.collections.List&lt;Pet&gt;**](Pet.md)
+[`kotlin.collections.List&lt;Pet&gt;`](Pet.md)
 
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth (OAuth):
+```kotlin
+apiClient.oAuth["petstore_auth"].accessToken = ""
+```
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/xmlapplication/json
 
-<a name="findPetsByTags"></a>
 # **findPetsByTags**
 > kotlin.collections.List&lt;Pet&gt; findPetsByTags(tags)
 
@@ -168,13 +180,16 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ### Example
 ```kotlin
 // Import classes:
-//import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+import org.openapitools.client.apis.PetApi
+import org.openapitools.client.infrastructure.*
+import org.openapitools.client.models.*
 
-val apiInstance = PetApi()
-val tags : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | Tags to filter by
+val petApi = PetApi()
+val tags: kotlin.collections.List<kotlin.String> =  
 try {
-    val result : kotlin.collections.List<Pet> = apiInstance.findPetsByTags(tags)
+    val result: kotlin.collections.List<Pet> = petApi.findPetsByTags(
+        tags,
+    )
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#findPetsByTags")
@@ -193,20 +208,21 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**kotlin.collections.List&lt;Pet&gt;**](Pet.md)
+[`kotlin.collections.List&lt;Pet&gt;`](Pet.md)
 
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth (OAuth):
+```kotlin
+apiClient.oAuth["petstore_auth"].accessToken = ""
+```
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/xmlapplication/json
 
-<a name="getPetById"></a>
 # **getPetById**
 > Pet getPetById(petId)
 
@@ -217,13 +233,16 @@ Returns a single pet
 ### Example
 ```kotlin
 // Import classes:
-//import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+import org.openapitools.client.apis.PetApi
+import org.openapitools.client.infrastructure.*
+import org.openapitools.client.models.*
 
-val apiInstance = PetApi()
-val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to return
+val petApi = PetApi()
+val petId: kotlin.Long = 789 
 try {
-    val result : Pet = apiInstance.getPetById(petId)
+    val result: Pet = petApi.getPetById(
+        petId,
+    )
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#getPetById")
@@ -242,21 +261,25 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Pet**](Pet.md)
+[`Pet`](Pet.md)
 
 ### Authorization
 
 
-Configure api_key:
-    ApiClient.apiKey["api_key"] = ""
-    ApiClient.apiKeyPrefix["api_key"] = ""
+CodegenSecurity{name&#x3D;&#39;api_key&#39;, type&#x3D;&#39;apiKey&#39;, scheme&#x3D;&#39;null&#39;, isBasic&#x3D;false, isOAuth&#x3D;false, isApiKey&#x3D;true, isBasicBasic&#x3D;false, isHttpSignature&#x3D;false, isBasicBearer&#x3D;false, bearerFormat&#x3D;&#39;null&#39;, vendorExtensions&#x3D;{}, keyParamName&#x3D;&#39;api_key&#39;, isKeyInQuery&#x3D;false, isKeyInHeader&#x3D;true, isKeyInCookie&#x3D;false, flow&#x3D;&#39;null&#39;, authorizationUrl&#x3D;&#39;null&#39;, tokenUrl&#x3D;&#39;null&#39;, scopes&#x3D;null, isCode&#x3D;false, isPassword&#x3D;false, isApplication&#x3D;false, isImplicit&#x3D;false}
+Configure api_key (API key):
+```kotlin
+apiClient.apiKeyAuth["api_key"].apply {
+    key = ""
+    keyPrefix = ""
+}
+```
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/xmlapplication/json
 
-<a name="updatePet"></a>
 # **updatePet**
 > updatePet(body)
 
@@ -265,13 +288,16 @@ Update an existing pet
 ### Example
 ```kotlin
 // Import classes:
-//import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+import org.openapitools.client.apis.PetApi
+import org.openapitools.client.infrastructure.*
+import org.openapitools.client.models.*
 
-val apiInstance = PetApi()
-val body : Pet =  // Pet | Pet object that needs to be added to the store
+val petApi = PetApi()
+val body: Pet =  
 try {
-    apiInstance.updatePet(body)
+    petApi.updatePet(
+        body,
+    )
 } catch (e: ClientException) {
     println("4xx response calling PetApi#updatePet")
     e.printStackTrace()
@@ -289,37 +315,43 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+`Unit`
 
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth (OAuth):
+```kotlin
+apiClient.oAuth["petstore_auth"].accessToken = ""
+```
 
 ### HTTP request headers
 
  - **Content-Type**: application/jsonapplication/xml
  - **Accept**: Not defined
 
-<a name="updatePetWithForm"></a>
 # **updatePetWithForm**
-> updatePetWithForm(petIdnamestatus)
+> updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
 
 ### Example
 ```kotlin
 // Import classes:
-//import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+import org.openapitools.client.apis.PetApi
+import org.openapitools.client.infrastructure.*
+import org.openapitools.client.models.*
 
-val apiInstance = PetApi()
-val petId : kotlin.Long = 789 // kotlin.Long | ID of pet that needs to be updated
-val name : kotlin.String = name_example // kotlin.String | Updated name of the pet
-val status : kotlin.String = status_example // kotlin.String | Updated status of the pet
+val petApi = PetApi()
+val petId: kotlin.Long = 789 
+val name: kotlin.String = name_example // Optional
+val status: kotlin.String = status_example // Optional
 try {
-    apiInstance.updatePetWithForm(petIdnamestatus)
+    petApi.updatePetWithForm(
+        petId,
+        name = name,
+        status = status,
+    )
 } catch (e: ClientException) {
     println("4xx response calling PetApi#updatePetWithForm")
     e.printStackTrace()
@@ -339,37 +371,43 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+`Unit`
 
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth (OAuth):
+```kotlin
+apiClient.oAuth["petstore_auth"].accessToken = ""
+```
 
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
-<a name="uploadFile"></a>
 # **uploadFile**
-> ApiResponse uploadFile(petIdadditionalMetadatafile)
+> ApiResponse uploadFile(petId, additionalMetadata, file)
 
 uploads an image
 
 ### Example
 ```kotlin
 // Import classes:
-//import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+import org.openapitools.client.apis.PetApi
+import org.openapitools.client.infrastructure.*
+import org.openapitools.client.models.*
 
-val apiInstance = PetApi()
-val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to update
-val additionalMetadata : kotlin.String = additionalMetadata_example // kotlin.String | Additional data to pass to server
-val file : io.ktor.client.request.forms.InputProvider = BINARY_DATA_HERE // io.ktor.client.request.forms.InputProvider | file to upload
+val petApi = PetApi()
+val petId: kotlin.Long = 789 
+val additionalMetadata: kotlin.String = additionalMetadata_example // Optional
+val file: io.ktor.client.request.forms.InputProvider = BINARY_DATA_HERE // Optional
 try {
-    val result : ApiResponse = apiInstance.uploadFile(petIdadditionalMetadatafile)
+    val result: ApiResponse = petApi.uploadFile(
+        petId,
+        additionalMetadata = additionalMetadata,
+        file = file,
+    )
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#uploadFile")
@@ -390,13 +428,15 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ApiResponse**](ApiResponse.md)
+[`ApiResponse`](ApiResponse.md)
 
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth (OAuth):
+```kotlin
+apiClient.oAuth["petstore_auth"].accessToken = ""
+```
 
 ### HTTP request headers
 

@@ -27,7 +27,7 @@ import kotlinx.serialization.json.Json
 
 public open class UserApiAsync : ApiClientBase {
     public val coroutineScope: CoroutineScope
-    protected val client: UserApi
+    protected val coroutineClient: UserApi
 
     public constructor(
         baseUrl: String = "http://petstore.swagger.io/v2",
@@ -36,7 +36,7 @@ public open class UserApiAsync : ApiClientBase {
         coroutineScope: CoroutineScope = GlobalScope,
     ) : super(baseUrl, httpClientEngine, json) {
         this.coroutineScope = coroutineScope
-        this.client = UserApi(baseUrl, httpClientEngine, json)
+        this.coroutineClient = UserApi(baseUrl, httpClientEngine, json)
     }
 
     internal constructor(
@@ -48,7 +48,7 @@ public open class UserApiAsync : ApiClientBase {
         client,
     ) {
         this.coroutineScope = coroutineScope
-        this.client = UserApi(baseUrl, client)
+        this.coroutineClient = UserApi(baseUrl, client)
     }
 
     /**
@@ -61,7 +61,7 @@ public open class UserApiAsync : ApiClientBase {
         body: User,
     ): Deferred<HttpResponse<Unit>> {
         return coroutineScope.async {
-            this@UserApiAsync.client.createUser(
+            this@UserApiAsync.coroutineClient.createUser(
                 body = body,
             )
         }
@@ -76,7 +76,7 @@ public open class UserApiAsync : ApiClientBase {
         body: kotlin.collections.List<User>,
     ): Deferred<HttpResponse<Unit>> {
         return coroutineScope.async {
-            this@UserApiAsync.client.createUsersWithArrayInput(
+            this@UserApiAsync.coroutineClient.createUsersWithArrayInput(
                 body = body,
             )
         }
@@ -91,7 +91,7 @@ public open class UserApiAsync : ApiClientBase {
         body: kotlin.collections.List<User>,
     ): Deferred<HttpResponse<Unit>> {
         return coroutineScope.async {
-            this@UserApiAsync.client.createUsersWithListInput(
+            this@UserApiAsync.coroutineClient.createUsersWithListInput(
                 body = body,
             )
         }
@@ -106,7 +106,7 @@ public open class UserApiAsync : ApiClientBase {
         username: kotlin.String,
     ): Deferred<HttpResponse<Unit>> {
         return coroutineScope.async {
-            this@UserApiAsync.client.deleteUser(
+            this@UserApiAsync.coroutineClient.deleteUser(
                 username = username,
             )
         }
@@ -121,7 +121,7 @@ public open class UserApiAsync : ApiClientBase {
         username: kotlin.String,
     ): Deferred<HttpResponse<User>> {
         return coroutineScope.async {
-            this@UserApiAsync.client.getUserByName(
+            this@UserApiAsync.coroutineClient.getUserByName(
                 username = username,
             )
         }
@@ -138,7 +138,7 @@ public open class UserApiAsync : ApiClientBase {
         password: kotlin.String,
     ): Deferred<HttpResponse<kotlin.String>> {
         return coroutineScope.async {
-            this@UserApiAsync.client.loginUser(
+            this@UserApiAsync.coroutineClient.loginUser(
                 username = username,
                 password = password,
             )
@@ -152,7 +152,7 @@ public open class UserApiAsync : ApiClientBase {
     public fun logoutUserAsync(
     ): Deferred<HttpResponse<Unit>> {
         return coroutineScope.async {
-            this@UserApiAsync.client.logoutUser(
+            this@UserApiAsync.coroutineClient.logoutUser(
             )
         }
     }
@@ -168,7 +168,7 @@ public open class UserApiAsync : ApiClientBase {
         body: User,
     ): Deferred<HttpResponse<Unit>> {
         return coroutineScope.async {
-            this@UserApiAsync.client.updateUser(
+            this@UserApiAsync.coroutineClient.updateUser(
                 username = username,
                 body = body,
             )

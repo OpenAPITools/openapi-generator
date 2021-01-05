@@ -285,12 +285,9 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
             supportingFiles.add(new SupportingFile("common/main/ApiClientAsync.kt.mustache", srcDir, "ApiClientAsync.kt"));
         }
         supportingFiles.add(new SupportingFile(infraSrc + "ApiClientBase.kt.mustache", infraDest, "ApiClientBase.kt"));
-        supportingFiles.add(new SupportingFile(infraSrc + "ApiAbstractions.kt.mustache", infraDest, "ApiAbstractions.kt"));
-        supportingFiles.add(new SupportingFile(infraSrc + "RequestConfig.kt.mustache", infraDest, "RequestConfig.kt"));
-        supportingFiles.add(new SupportingFile(infraSrc + "RequestMethod.kt.mustache", infraDest, "RequestMethod.kt"));
+        supportingFiles.add(new SupportingFile(infraSrc + "requestHelpers.kt.mustache", infraDest, "requestHelpers.kt"));
         supportingFiles.add(new SupportingFile(infraSrc + "Base64ByteArray.kt.mustache", infraDest, "Base64ByteArray.kt"));
-        supportingFiles.add(new SupportingFile(infraSrc + "Bytes.kt.mustache", infraDest, "Bytes.kt"));
-        supportingFiles.add(new SupportingFile(infraSrc + "HttpResponse.kt.mustache", infraDest, "HttpResponse.kt"));
+        supportingFiles.add(new SupportingFile(infraSrc + "bytes.kt.mustache", infraDest, "bytes.kt"));
         supportingFiles.add(new SupportingFile(infraSrc + "OctetByteArray.kt.mustache", infraDest, "OctetByteArray.kt"));
         if (dateLibrary == Options.DateLibrary.KOTLINX) {
             supportingFiles.add(new SupportingFile(infraSrc + "DateTime.kt.mustache", infraDest, "DateTime.kt"));

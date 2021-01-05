@@ -20,8 +20,10 @@ import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.request.*
 import io.ktor.client.request.forms.FormPart
 import io.ktor.client.utils.EmptyContent
+import io.ktor.http.*
 import kotlinx.serialization.json.Json
 import io.ktor.http.ParametersBuilder
 import kotlinx.serialization.Serializable
@@ -61,29 +63,17 @@ public open class UserApi : ApiClientBase {
      */
     public suspend fun createUser(
         body: User,
-    ): HttpResponse<Unit> {
-        val authNamesOag = listOf<String>()
+    ) {
+        return this.client.request {
+            this.method = HttpMethod.parse("POST")
+            url {
+                this.takeFrom(this@UserApi.baseUrl)
+                appendPath("/user")
+            }
 
-        val bodyOag = body
-
-        val queriesOag = Queries {
+            // Body
+            this.body = body
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.POST,
-            "/user",
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return jsonRequest(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
 
     /**
@@ -94,29 +84,17 @@ public open class UserApi : ApiClientBase {
      */
     public suspend fun createUsersWithArrayInput(
         body: kotlin.collections.List<User>,
-    ): HttpResponse<Unit> {
-        val authNamesOag = listOf<String>()
+    ) {
+        return this.client.request {
+            this.method = HttpMethod.parse("POST")
+            url {
+                this.takeFrom(this@UserApi.baseUrl)
+                appendPath("/user/createWithArray")
+            }
 
-        val bodyOag = body
-
-        val queriesOag = Queries {
+            // Body
+            this.body = body
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.POST,
-            "/user/createWithArray",
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return jsonRequest(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
 
     /**
@@ -127,29 +105,17 @@ public open class UserApi : ApiClientBase {
      */
     public suspend fun createUsersWithListInput(
         body: kotlin.collections.List<User>,
-    ): HttpResponse<Unit> {
-        val authNamesOag = listOf<String>()
+    ) {
+        return this.client.request {
+            this.method = HttpMethod.parse("POST")
+            url {
+                this.takeFrom(this@UserApi.baseUrl)
+                appendPath("/user/createWithList")
+            }
 
-        val bodyOag = body
-
-        val queriesOag = Queries {
+            // Body
+            this.body = body
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.POST,
-            "/user/createWithList",
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return jsonRequest(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
 
     /**
@@ -160,30 +126,14 @@ public open class UserApi : ApiClientBase {
      */
     public suspend fun deleteUser(
         username: kotlin.String,
-    ): HttpResponse<Unit> {
-        val authNamesOag = listOf<String>()
-
-        val bodyOag = 
-            EmptyContent
-
-        val queriesOag = Queries {
+    ) {
+        return this.client.request {
+            this.method = HttpMethod.parse("DELETE")
+            url {
+                this.takeFrom(this@UserApi.baseUrl)
+                appendPath("/user/{username}".replace("{username}", username.toString()))
+            }
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.DELETE,
-            "/user/{username}".replace("{" + "username" + "}", username.toString()),
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return request(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
 
     /**
@@ -192,33 +142,16 @@ public open class UserApi : ApiClientBase {
      * @param username The name that needs to be fetched. Use user1 for testing. 
      * @return User
      */
-    @Suppress("UNCHECKED_CAST")
     public suspend fun getUserByName(
         username: kotlin.String,
-    ): HttpResponse<User> {
-        val authNamesOag = listOf<String>()
-
-        val bodyOag = 
-            EmptyContent
-
-        val queriesOag = Queries {
+    ): User {
+        return this.client.request {
+            this.method = HttpMethod.parse("GET")
+            url {
+                this.takeFrom(this@UserApi.baseUrl)
+                appendPath("/user/{username}".replace("{username}", username.toString()))
+            }
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.GET,
-            "/user/{username}".replace("{" + "username" + "}", username.toString()),
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return request(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
 
     /**
@@ -228,36 +161,21 @@ public open class UserApi : ApiClientBase {
      * @param password The password for login in clear text 
      * @return kotlin.String
      */
-    @Suppress("UNCHECKED_CAST")
     public suspend fun loginUser(
         username: kotlin.String,
         password: kotlin.String,
-    ): HttpResponse<kotlin.String> {
-        val authNamesOag = listOf<String>()
+    ): kotlin.String {
+        return this.client.request {
+            this.method = HttpMethod.parse("GET")
+            url {
+                this.takeFrom(this@UserApi.baseUrl)
+                appendPath("/user/login")
+            }
 
-        val bodyOag = 
-            EmptyContent
-
-        val queriesOag = Queries {
-            add("username", username)
-            add("password", password)
+            // Query parameters
+            parameter("username", username)
+            parameter("password", password)
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.GET,
-            "/user/login",
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return request(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
 
     /**
@@ -266,30 +184,14 @@ public open class UserApi : ApiClientBase {
      * @return void
      */
     public suspend fun logoutUser(
-    ): HttpResponse<Unit> {
-        val authNamesOag = listOf<String>()
-
-        val bodyOag = 
-            EmptyContent
-
-        val queriesOag = Queries {
+    ) {
+        return this.client.request {
+            this.method = HttpMethod.parse("GET")
+            url {
+                this.takeFrom(this@UserApi.baseUrl)
+                appendPath("/user/logout")
+            }
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.GET,
-            "/user/logout",
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return request(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
 
     /**
@@ -302,29 +204,16 @@ public open class UserApi : ApiClientBase {
     public suspend fun updateUser(
         username: kotlin.String,
         body: User,
-    ): HttpResponse<Unit> {
-        val authNamesOag = listOf<String>()
+    ) {
+        return this.client.request {
+            this.method = HttpMethod.parse("PUT")
+            url {
+                this.takeFrom(this@UserApi.baseUrl)
+                appendPath("/user/{username}".replace("{username}", username.toString()))
+            }
 
-        val bodyOag = body
-
-        val queriesOag = Queries {
+            // Body
+            this.body = body
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.PUT,
-            "/user/{username}".replace("{" + "username" + "}", username.toString()),
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return jsonRequest(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
-
 }

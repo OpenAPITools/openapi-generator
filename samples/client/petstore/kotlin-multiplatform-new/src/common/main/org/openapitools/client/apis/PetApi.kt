@@ -21,8 +21,10 @@ import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.request.*
 import io.ktor.client.request.forms.FormPart
 import io.ktor.client.utils.EmptyContent
+import io.ktor.http.*
 import kotlinx.serialization.json.Json
 import io.ktor.http.ParametersBuilder
 import kotlinx.serialization.Serializable
@@ -62,29 +64,19 @@ public open class PetApi : ApiClientBase {
      */
     public suspend fun addPet(
         body: Pet,
-    ): HttpResponse<Unit> {
-        val authNamesOag = listOf<String>("petstore_auth")
+    ) {
+        return this.client.request {
+            this.method = HttpMethod.parse("POST")
+            url {
+                this.takeFrom(this@PetApi.baseUrl)
+                appendPath("/pet")
+            }
 
-        val bodyOag = body
+            //addAuthentication("petstore_auth")
 
-        val queriesOag = Queries {
+            // Body
+            this.body = body
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.POST,
-            "/pet",
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return jsonRequest(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
 
     /**
@@ -97,31 +89,19 @@ public open class PetApi : ApiClientBase {
     public suspend fun deletePet(
         petId: kotlin.Long,
         apiKey: kotlin.String? = null,
-    ): HttpResponse<Unit> {
-        val authNamesOag = listOf<String>("petstore_auth")
+    ) {
+        return this.client.request {
+            this.method = HttpMethod.parse("DELETE")
+            url {
+                this.takeFrom(this@PetApi.baseUrl)
+                appendPath("/pet/{petId}".replace("{petId}", petId.toString()))
+            }
 
-        val bodyOag = 
-            EmptyContent
+            //addAuthentication("petstore_auth")
 
-        val queriesOag = Queries {
+            // Headers
+            header("api_key", apiKey)
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-            "api_key" to this?.toString()
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.DELETE,
-            "/pet/{petId}".replace("{" + "petId" + "}", petId.toString()),
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return request(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
 
     /**
@@ -130,34 +110,21 @@ public open class PetApi : ApiClientBase {
      * @param status Status values that need to be considered for filter 
      * @return kotlin.collections.List<Pet>
      */
-    @Suppress("UNCHECKED_CAST")
     public suspend fun findPetsByStatus(
         status: kotlin.collections.List<kotlin.String>,
-    ): HttpResponse<kotlin.collections.List<Pet>> {
-        val authNamesOag = listOf<String>("petstore_auth")
+    ): kotlin.collections.List<Pet> {
+        return this.client.request {
+            this.method = HttpMethod.parse("GET")
+            url {
+                this.takeFrom(this@PetApi.baseUrl)
+                appendPath("/pet/findByStatus")
+            }
 
-        val bodyOag = 
-            EmptyContent
+            //addAuthentication("petstore_auth")
 
-        val queriesOag = Queries {
-            addMulti("status", status, "csv")
+            // Query parameters
+            parameter("status", status.joinToString(separator = collectionDelimiter("csv")))
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.GET,
-            "/pet/findByStatus",
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return request(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
 
     /**
@@ -166,34 +133,21 @@ public open class PetApi : ApiClientBase {
      * @param tags Tags to filter by 
      * @return kotlin.collections.List<Pet>
      */
-    @Suppress("UNCHECKED_CAST")
     public suspend fun findPetsByTags(
         tags: kotlin.collections.List<kotlin.String>,
-    ): HttpResponse<kotlin.collections.List<Pet>> {
-        val authNamesOag = listOf<String>("petstore_auth")
+    ): kotlin.collections.List<Pet> {
+        return this.client.request {
+            this.method = HttpMethod.parse("GET")
+            url {
+                this.takeFrom(this@PetApi.baseUrl)
+                appendPath("/pet/findByTags")
+            }
 
-        val bodyOag = 
-            EmptyContent
+            //addAuthentication("petstore_auth")
 
-        val queriesOag = Queries {
-            addMulti("tags", tags, "csv")
+            // Query parameters
+            parameter("tags", tags.joinToString(separator = collectionDelimiter("csv")))
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.GET,
-            "/pet/findByTags",
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return request(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
 
     /**
@@ -202,33 +156,18 @@ public open class PetApi : ApiClientBase {
      * @param petId ID of pet to return 
      * @return Pet
      */
-    @Suppress("UNCHECKED_CAST")
     public suspend fun getPetById(
         petId: kotlin.Long,
-    ): HttpResponse<Pet> {
-        val authNamesOag = listOf<String>("api_key")
+    ): Pet {
+        return this.client.request {
+            this.method = HttpMethod.parse("GET")
+            url {
+                this.takeFrom(this@PetApi.baseUrl)
+                appendPath("/pet/{petId}".replace("{petId}", petId.toString()))
+            }
 
-        val bodyOag = 
-            EmptyContent
-
-        val queriesOag = Queries {
+            //addAuthentication("api_key")
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.GET,
-            "/pet/{petId}".replace("{" + "petId" + "}", petId.toString()),
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return request(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
 
     /**
@@ -239,29 +178,19 @@ public open class PetApi : ApiClientBase {
      */
     public suspend fun updatePet(
         body: Pet,
-    ): HttpResponse<Unit> {
-        val authNamesOag = listOf<String>("petstore_auth")
+    ) {
+        return this.client.request {
+            this.method = HttpMethod.parse("PUT")
+            url {
+                this.takeFrom(this@PetApi.baseUrl)
+                appendPath("/pet")
+            }
 
-        val bodyOag = body
+            //addAuthentication("petstore_auth")
 
-        val queriesOag = Queries {
+            // Body
+            this.body = body
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.PUT,
-            "/pet",
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return jsonRequest(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
 
     /**
@@ -276,33 +205,27 @@ public open class PetApi : ApiClientBase {
         petId: kotlin.Long,
         name: kotlin.String? = null,
         status: kotlin.String? = null,
-    ): HttpResponse<Unit> {
-        val authNamesOag = listOf<String>("petstore_auth")
+    ) {
+        return this.client.request {
+            this.method = HttpMethod.parse("POST")
+            url {
+                this.takeFrom(this@PetApi.baseUrl)
+                appendPath("/pet/{petId}".replace("{petId}", petId.toString()))
+            }
 
-        val bodyOag = 
-            ParametersBuilder().also {
-                name?.apply { it.append("name", name.toString()) }
-                status?.apply { it.append("status", status.toString()) }
-            }.build()
-
-        val queriesOag = Queries {
+            //addAuthentication("petstore_auth")
+            // Formdata
+            this.body = FormDataContent(
+                ParametersBuilder(2).apply {
+                    if (name != null) {
+                        it.append("name", name)
+                    }
+                    if (status != null) {
+                        it.append("status", status)
+                    }
+                }.build()
+            )
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.POST,
-            "/pet/{petId}".replace("{" + "petId" + "}", petId.toString()),
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return urlEncodedFormRequest(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
 
     /**
@@ -313,38 +236,30 @@ public open class PetApi : ApiClientBase {
      * @param file file to upload (optional)
      * @return ApiResponse
      */
-    @Suppress("UNCHECKED_CAST")
     public suspend fun uploadFile(
         petId: kotlin.Long,
         additionalMetadata: kotlin.String? = null,
         file: io.ktor.client.request.forms.InputProvider? = null,
-    ): HttpResponse<ApiResponse> {
-        val authNamesOag = listOf<String>("petstore_auth")
-
-        val bodyOag = 
-            formData {
-                additionalMetadata?.let { append(FormPart("additionalMetadata", additionalMetadata)) }
-                file?.let { append(FormPart("file", file)) }
+    ): ApiResponse {
+        return this.client.request {
+            this.method = HttpMethod.parse("POST")
+            url {
+                this.takeFrom(this@PetApi.baseUrl)
+                appendPath("/pet/{petId}/uploadImage".replace("{petId}", petId.toString()))
             }
 
-        val queriesOag = Queries {
+            //addAuthentication("petstore_auth")
+            // Formdata
+            this.body = MultiPartFormDataContent(
+                formData {
+                    if (additionalMetadata != null) {
+                        append(FormPart("additionalMetadata", additionalMetadata))
+                    }
+                    if (file != null) {
+                        append(FormPart("file", file))
+                    }
+                }
+            )
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.POST,
-            "/pet/{petId}/uploadImage".replace("{" + "petId" + "}", petId.toString()),
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return multipartFormRequest(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
-
 }

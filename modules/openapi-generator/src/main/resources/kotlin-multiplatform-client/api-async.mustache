@@ -19,7 +19,7 @@ import kotlinx.serialization.json.Json
 {{#operations}}
 public open class {{{classname}}}Async : ApiClientBase {
     public val coroutineScope: CoroutineScope
-    protected val client: {{{classname}}}
+    protected val coroutineClient: {{{classname}}}
 
     public constructor(
         baseUrl: String = "{{{basePath}}}",
@@ -28,7 +28,7 @@ public open class {{{classname}}}Async : ApiClientBase {
         coroutineScope: CoroutineScope = GlobalScope,
     ) : super(baseUrl, httpClientEngine, json) {
         this.coroutineScope = coroutineScope
-        this.client = {{{classname}}}(baseUrl, httpClientEngine, json)
+        this.coroutineClient = {{{classname}}}(baseUrl, httpClientEngine, json)
     }
 
     internal constructor(
@@ -40,7 +40,7 @@ public open class {{{classname}}}Async : ApiClientBase {
         client,
     ) {
         this.coroutineScope = coroutineScope
-        this.client = {{{classname}}}(baseUrl, client)
+        this.coroutineClient = {{{classname}}}(baseUrl, client)
     }
 
     {{#operation}}
@@ -56,7 +56,7 @@ public open class {{{classname}}}Async : ApiClientBase {
         {{/allParams}}
     ): Deferred<HttpResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}>> {
         return coroutineScope.async {
-            this@{{{classname}}}Async.client.{{operationId}}(
+            this@{{{classname}}}Async.coroutineClient.{{operationId}}(
                 {{#allParams}}
                 {{{paramName}}} = {{{paramName}}},
                 {{/allParams}}

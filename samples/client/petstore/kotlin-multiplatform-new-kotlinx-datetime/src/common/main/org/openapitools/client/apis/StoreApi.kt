@@ -20,8 +20,10 @@ import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.request.*
 import io.ktor.client.request.forms.FormPart
 import io.ktor.client.utils.EmptyContent
+import io.ktor.http.*
 import kotlinx.serialization.json.Json
 import io.ktor.http.ParametersBuilder
 import kotlinx.serialization.Serializable
@@ -61,30 +63,14 @@ public open class StoreApi : ApiClientBase {
      */
     public suspend fun deleteOrder(
         orderId: kotlin.String,
-    ): HttpResponse<Unit> {
-        val authNamesOag = listOf<String>()
-
-        val bodyOag = 
-            EmptyContent
-
-        val queriesOag = Queries {
+    ) {
+        return this.client.request {
+            this.method = HttpMethod.parse("DELETE")
+            url {
+                this.takeFrom(this@StoreApi.baseUrl)
+                appendPath("/store/order/{orderId}".replace("{orderId}", orderId.toString()))
+            }
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.DELETE,
-            "/store/order/{orderId}".replace("{" + "orderId" + "}", orderId.toString()),
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return request(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
 
     /**
@@ -92,32 +78,17 @@ public open class StoreApi : ApiClientBase {
      * Returns a map of status codes to quantities
      * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
      */
-    @Suppress("UNCHECKED_CAST")
     public suspend fun getInventory(
-    ): HttpResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>> {
-        val authNamesOag = listOf<String>("api_key")
+    ): kotlin.collections.Map<kotlin.String, kotlin.Int> {
+        return this.client.request {
+            this.method = HttpMethod.parse("GET")
+            url {
+                this.takeFrom(this@StoreApi.baseUrl)
+                appendPath("/store/inventory")
+            }
 
-        val bodyOag = 
-            EmptyContent
-
-        val queriesOag = Queries {
+            //addAuthentication("api_key")
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.GET,
-            "/store/inventory",
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return request(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
 
     /**
@@ -126,33 +97,16 @@ public open class StoreApi : ApiClientBase {
      * @param orderId ID of pet that needs to be fetched 
      * @return Order
      */
-    @Suppress("UNCHECKED_CAST")
     public suspend fun getOrderById(
         orderId: kotlin.Long,
-    ): HttpResponse<Order> {
-        val authNamesOag = listOf<String>()
-
-        val bodyOag = 
-            EmptyContent
-
-        val queriesOag = Queries {
+    ): Order {
+        return this.client.request {
+            this.method = HttpMethod.parse("GET")
+            url {
+                this.takeFrom(this@StoreApi.baseUrl)
+                appendPath("/store/order/{orderId}".replace("{orderId}", orderId.toString()))
+            }
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.GET,
-            "/store/order/{orderId}".replace("{" + "orderId" + "}", orderId.toString()),
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return request(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
 
     /**
@@ -161,32 +115,18 @@ public open class StoreApi : ApiClientBase {
      * @param body order placed for purchasing the pet 
      * @return Order
      */
-    @Suppress("UNCHECKED_CAST")
     public suspend fun placeOrder(
         body: Order,
-    ): HttpResponse<Order> {
-        val authNamesOag = listOf<String>()
+    ): Order {
+        return this.client.request {
+            this.method = HttpMethod.parse("POST")
+            url {
+                this.takeFrom(this@StoreApi.baseUrl)
+                appendPath("/store/order")
+            }
 
-        val bodyOag = body
-
-        val queriesOag = Queries {
+            // Body
+            this.body = body
         }
-
-        val headersOag = mutableMapOf<String, String?>(
-        )
-
-        val configOag = RequestConfig(
-            RequestMethod.POST,
-            "/store/order",
-            queries = queriesOag,
-            headers = headersOag
-        )
-
-        return jsonRequest(
-            configOag,
-            bodyOag,
-            authNamesOag
-        ).wrap()
     }
-
 }

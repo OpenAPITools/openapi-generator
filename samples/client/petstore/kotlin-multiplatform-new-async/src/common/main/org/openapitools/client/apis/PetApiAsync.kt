@@ -28,7 +28,7 @@ import kotlinx.serialization.json.Json
 
 public open class PetApiAsync : ApiClientBase {
     public val coroutineScope: CoroutineScope
-    protected val client: PetApi
+    protected val coroutineClient: PetApi
 
     public constructor(
         baseUrl: String = "http://petstore.swagger.io/v2",
@@ -37,7 +37,7 @@ public open class PetApiAsync : ApiClientBase {
         coroutineScope: CoroutineScope = GlobalScope,
     ) : super(baseUrl, httpClientEngine, json) {
         this.coroutineScope = coroutineScope
-        this.client = PetApi(baseUrl, httpClientEngine, json)
+        this.coroutineClient = PetApi(baseUrl, httpClientEngine, json)
     }
 
     internal constructor(
@@ -49,7 +49,7 @@ public open class PetApiAsync : ApiClientBase {
         client,
     ) {
         this.coroutineScope = coroutineScope
-        this.client = PetApi(baseUrl, client)
+        this.coroutineClient = PetApi(baseUrl, client)
     }
 
     /**
@@ -62,7 +62,7 @@ public open class PetApiAsync : ApiClientBase {
         body: Pet,
     ): Deferred<HttpResponse<Unit>> {
         return coroutineScope.async {
-            this@PetApiAsync.client.addPet(
+            this@PetApiAsync.coroutineClient.addPet(
                 body = body,
             )
         }
@@ -79,7 +79,7 @@ public open class PetApiAsync : ApiClientBase {
         apiKey: kotlin.String? = null,
     ): Deferred<HttpResponse<Unit>> {
         return coroutineScope.async {
-            this@PetApiAsync.client.deletePet(
+            this@PetApiAsync.coroutineClient.deletePet(
                 petId = petId,
                 apiKey = apiKey,
             )
@@ -95,7 +95,7 @@ public open class PetApiAsync : ApiClientBase {
         status: kotlin.collections.List<kotlin.String>,
     ): Deferred<HttpResponse<kotlin.collections.List<Pet>>> {
         return coroutineScope.async {
-            this@PetApiAsync.client.findPetsByStatus(
+            this@PetApiAsync.coroutineClient.findPetsByStatus(
                 status = status,
             )
         }
@@ -110,7 +110,7 @@ public open class PetApiAsync : ApiClientBase {
         tags: kotlin.collections.List<kotlin.String>,
     ): Deferred<HttpResponse<kotlin.collections.List<Pet>>> {
         return coroutineScope.async {
-            this@PetApiAsync.client.findPetsByTags(
+            this@PetApiAsync.coroutineClient.findPetsByTags(
                 tags = tags,
             )
         }
@@ -125,7 +125,7 @@ public open class PetApiAsync : ApiClientBase {
         petId: kotlin.Long,
     ): Deferred<HttpResponse<Pet>> {
         return coroutineScope.async {
-            this@PetApiAsync.client.getPetById(
+            this@PetApiAsync.coroutineClient.getPetById(
                 petId = petId,
             )
         }
@@ -140,7 +140,7 @@ public open class PetApiAsync : ApiClientBase {
         body: Pet,
     ): Deferred<HttpResponse<Unit>> {
         return coroutineScope.async {
-            this@PetApiAsync.client.updatePet(
+            this@PetApiAsync.coroutineClient.updatePet(
                 body = body,
             )
         }
@@ -159,7 +159,7 @@ public open class PetApiAsync : ApiClientBase {
         status: kotlin.String? = null,
     ): Deferred<HttpResponse<Unit>> {
         return coroutineScope.async {
-            this@PetApiAsync.client.updatePetWithForm(
+            this@PetApiAsync.coroutineClient.updatePetWithForm(
                 petId = petId,
                 name = name,
                 status = status,
@@ -180,7 +180,7 @@ public open class PetApiAsync : ApiClientBase {
         file: io.ktor.client.request.forms.InputProvider? = null,
     ): Deferred<HttpResponse<ApiResponse>> {
         return coroutineScope.async {
-            this@PetApiAsync.client.uploadFile(
+            this@PetApiAsync.coroutineClient.uploadFile(
                 petId = petId,
                 additionalMetadata = additionalMetadata,
                 file = file,

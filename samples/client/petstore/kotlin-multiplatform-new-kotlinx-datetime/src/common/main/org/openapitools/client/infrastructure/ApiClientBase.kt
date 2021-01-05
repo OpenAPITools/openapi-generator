@@ -20,9 +20,9 @@ import io.ktor.client.features.json.*
 import org.openapitools.client.auth.*
 
 public open class ApiClientBase {
-    private val baseUrl: String
-    private val client: HttpClient
-    private val authentications: Map<String, Authentication> by lazy {
+    protected val baseUrl: String
+    protected val client: HttpClient
+    protected val authentications: Map<String, Authentication> by lazy {
         mapOf(
             "api_key" to ApiKeyAuth("header", "api_key"),
             "petstore_auth" to OAuth(),
@@ -119,65 +119,10 @@ public open class ApiClientBase {
         auth.bearerToken = bearerToken
     }
 
-    protected suspend fun multipartFormRequest(requestConfig: RequestConfig, body: List<PartData>?, authNames: List<String>): HttpResponse {
-        return request(requestConfig, MultiPartFormDataContent(body ?: listOf()), authNames)
-    }
-
-    protected suspend fun urlEncodedFormRequest(requestConfig: RequestConfig, body: Parameters?, authNames: List<String>): HttpResponse {
-        return request(requestConfig, FormDataContent(body ?: Parameters.Empty), authNames)
-    }
-
-    protected suspend fun jsonRequest(requestConfig: RequestConfig, body: Any? = null, authNames: List<String>): HttpResponse {
-        if (HttpHeaders.ContentType !in requestConfig.headers)
-        requestConfig.headers[HttpHeaders.ContentType] = ContentType.Application.Json.toString()
-        return if (body != null) request(requestConfig, body, authNames)
-        else request(requestConfig, authNames = authNames)
-    }
-
-    protected suspend fun request(requestConfig: RequestConfig, body: Any = EmptyContent, authNames: List<String>): HttpResponse {
-        requestConfig.updateForAuth(authNames)
-        val headers = requestConfig.headers
-
-        return client.request {
-            this.url {
-                this.takeFrom(URLBuilder(baseUrl))
-                appendPath(requestConfig.path.trimStart('/').split('/'))
-                for ((name, value) in requestConfig.queries.queries) {
-                    when (value) {
-                        is QueryParam.Single -> parameter(name, value.value)
-                        is QueryParam.Multi -> value.values.forEach {
-                            parameter(name, it)
-                        }
-                    }
-                }
-            }
-            this.method = requestConfig.method.httpMethod
-            headers.filter { header -> !UNSAFE_HEADERS.contains(header.key) }.forEach { header -> this.header(header.key, header.value) }
-            if (requestConfig.method in listOf(RequestMethod.PUT, RequestMethod.POST, RequestMethod.PATCH))
-                this.body = body
-
-        }
-    }
-
     private fun RequestConfig.updateForAuth(authNames: List<String>) {
         for (authName in authNames) {
             val auth = authentications[authName] ?: throw Exception("Authentication undefined: $authName")
             auth.apply(queries, headers)
         }
     }
-
-    private fun URLBuilder.appendPath(components: List<String>): URLBuilder = apply {
-        encodedPath = encodedPath.trimEnd('/') + components.joinToString("/", prefix = "/") { it.encodeURLQueryComponent() }
-    }
-
-    private val RequestMethod.httpMethod: HttpMethod
-        get() = when (this) {
-            RequestMethod.DELETE -> HttpMethod.Delete
-            RequestMethod.GET -> HttpMethod.Get
-            RequestMethod.HEAD -> HttpMethod.Head
-            RequestMethod.PATCH -> HttpMethod.Patch
-            RequestMethod.PUT -> HttpMethod.Put
-            RequestMethod.POST -> HttpMethod.Post
-            RequestMethod.OPTIONS -> HttpMethod.Options
-        }
 }
