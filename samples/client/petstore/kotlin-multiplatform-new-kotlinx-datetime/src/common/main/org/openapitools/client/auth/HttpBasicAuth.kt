@@ -1,16 +1,22 @@
 package org.openapitools.client.auth
 
-import org.openapitools.client.infrastructure.Queries
+import io.ktor.client.request.*
+import io.ktor.http.*
 import org.openapitools.client.infrastructure.toBase64
 
 public class HttpBasicAuth : Authentication {
     public var username: String? = null
     public var password: String? = null
 
-    override fun apply(queries: Queries, headers: MutableMap<String, String?>) {
-        if (username == null && password == null) return
-        val str = (username ?: "") + ":" + (password ?: "")
+    override val isConfigured: Boolean
+        get() = username != null || password != null
+
+    override fun configure(builder: HttpRequestBuilder) {
+        if (username == null && password == null) {
+            throw IllegalStateException("HttpBasicAuth not configured")
+        }
+        val str = "${username ?: ""}:${password ?: ""}"
         val auth = str.toBase64()
-        headers["Authorization"] = "Basic $auth"
+        builder.header(HttpHeaders.Authorization, "Basic $auth")
     }
 }

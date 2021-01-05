@@ -59,7 +59,7 @@ public open class StoreApiAsync : ApiClientBase {
      */
     public fun deleteOrderAsync(
         orderId: kotlin.String,
-    ): Deferred<HttpResponse<Unit>> {
+    ): Deferred<Unit> {
         return coroutineScope.async {
             this@StoreApiAsync.coroutineClient.deleteOrder(
                 orderId = orderId,
@@ -72,7 +72,7 @@ public open class StoreApiAsync : ApiClientBase {
      * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
      */
     public fun getInventoryAsync(
-    ): Deferred<HttpResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>>> {
+    ): Deferred<kotlin.collections.Map<kotlin.String, kotlin.Int>> {
         return coroutineScope.async {
             this@StoreApiAsync.coroutineClient.getInventory(
             )
@@ -86,7 +86,7 @@ public open class StoreApiAsync : ApiClientBase {
      */
     public fun getOrderByIdAsync(
         orderId: kotlin.Long,
-    ): Deferred<HttpResponse<Order>> {
+    ): Deferred<Order> {
         return coroutineScope.async {
             this@StoreApiAsync.coroutineClient.getOrderById(
                 orderId = orderId,
@@ -101,7 +101,7 @@ public open class StoreApiAsync : ApiClientBase {
      */
     public fun placeOrderAsync(
         body: Order,
-    ): Deferred<HttpResponse<Order>> {
+    ): Deferred<Order> {
         return coroutineScope.async {
             this@StoreApiAsync.coroutineClient.placeOrder(
                 body = body,

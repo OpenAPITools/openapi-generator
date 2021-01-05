@@ -1,19 +1,26 @@
 package {{packageName}}.auth
 
-import {{packageName}}.infrastructure.Queries
+import io.ktor.client.request.*
 
 @Suppress("MemberVisibilityCanBePrivate")
-public class ApiKeyAuth(public val location: String, public val paramName: String) : Authentication {
+public class ApiKeyAuth(public val location: Location, public val paramName: String) : Authentication {
     public var apiKey: String? = null
     public var apiKeyPrefix: String? = null
 
-    override fun apply(queries: Queries, headers: MutableMap<String, String?>) {
-            val key: String = apiKey ?: return
+    override val isConfigured: Boolean
+        get() = apiKey != null
+
+    override fun configure(builder: HttpRequestBuilder) {
+            val key: String = apiKey ?: throw IllegalStateException("ApiKeyAuth not configured")
             val prefix: String? = apiKeyPrefix
             val value: String = if (prefix != null) "$prefix $key" else key
             when (location) {
-                "query" -> queries.add(paramName, value)
-                "header" -> headers[paramName] = value
+                Location.Query -> builder.parameter(paramName, value)
+                Location.Header -> builder.header(paramName, value)
             }
         }
+
+    public enum class Location {
+        Query, Header;
+    }
 }

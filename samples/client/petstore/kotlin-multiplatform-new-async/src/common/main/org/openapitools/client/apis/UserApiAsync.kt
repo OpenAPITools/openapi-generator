@@ -59,7 +59,7 @@ public open class UserApiAsync : ApiClientBase {
      */
     public fun createUserAsync(
         body: User,
-    ): Deferred<HttpResponse<Unit>> {
+    ): Deferred<Unit> {
         return coroutineScope.async {
             this@UserApiAsync.coroutineClient.createUser(
                 body = body,
@@ -74,7 +74,7 @@ public open class UserApiAsync : ApiClientBase {
      */
     public fun createUsersWithArrayInputAsync(
         body: kotlin.collections.List<User>,
-    ): Deferred<HttpResponse<Unit>> {
+    ): Deferred<Unit> {
         return coroutineScope.async {
             this@UserApiAsync.coroutineClient.createUsersWithArrayInput(
                 body = body,
@@ -89,7 +89,7 @@ public open class UserApiAsync : ApiClientBase {
      */
     public fun createUsersWithListInputAsync(
         body: kotlin.collections.List<User>,
-    ): Deferred<HttpResponse<Unit>> {
+    ): Deferred<Unit> {
         return coroutineScope.async {
             this@UserApiAsync.coroutineClient.createUsersWithListInput(
                 body = body,
@@ -104,7 +104,7 @@ public open class UserApiAsync : ApiClientBase {
      */
     public fun deleteUserAsync(
         username: kotlin.String,
-    ): Deferred<HttpResponse<Unit>> {
+    ): Deferred<Unit> {
         return coroutineScope.async {
             this@UserApiAsync.coroutineClient.deleteUser(
                 username = username,
@@ -119,7 +119,7 @@ public open class UserApiAsync : ApiClientBase {
      */
     public fun getUserByNameAsync(
         username: kotlin.String,
-    ): Deferred<HttpResponse<User>> {
+    ): Deferred<User> {
         return coroutineScope.async {
             this@UserApiAsync.coroutineClient.getUserByName(
                 username = username,
@@ -136,7 +136,7 @@ public open class UserApiAsync : ApiClientBase {
     public fun loginUserAsync(
         username: kotlin.String,
         password: kotlin.String,
-    ): Deferred<HttpResponse<kotlin.String>> {
+    ): Deferred<kotlin.String> {
         return coroutineScope.async {
             this@UserApiAsync.coroutineClient.loginUser(
                 username = username,
@@ -150,7 +150,7 @@ public open class UserApiAsync : ApiClientBase {
      * @return void
      */
     public fun logoutUserAsync(
-    ): Deferred<HttpResponse<Unit>> {
+    ): Deferred<Unit> {
         return coroutineScope.async {
             this@UserApiAsync.coroutineClient.logoutUser(
             )
@@ -166,7 +166,7 @@ public open class UserApiAsync : ApiClientBase {
     public fun updateUserAsync(
         username: kotlin.String,
         body: User,
-    ): Deferred<HttpResponse<Unit>> {
+    ): Deferred<Unit> {
         return coroutineScope.async {
             this@UserApiAsync.coroutineClient.updateUser(
                 username = username,

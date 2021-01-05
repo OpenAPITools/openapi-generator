@@ -54,7 +54,7 @@ public open class {{{classname}}}Async : ApiClientBase {
         {{#allParams}}
         {{{paramName}}}: {{{dataType}}}{{^required}}? = null{{/required}},
         {{/allParams}}
-    ): Deferred<HttpResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}>> {
+    ): Deferred<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> {
         return coroutineScope.async {
             this@{{{classname}}}Async.coroutineClient.{{operationId}}(
                 {{#allParams}}

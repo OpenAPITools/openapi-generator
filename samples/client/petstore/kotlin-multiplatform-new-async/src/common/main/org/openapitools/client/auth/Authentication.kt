@@ -1,13 +1,15 @@
 package org.openapitools.client.auth
 
-import org.openapitools.client.infrastructure.Queries
+import io.ktor.client.request.*
 
 public interface Authentication {
     /**
      * Apply authentication settings to header and query params.
-     *
-     * @param queries Query parameters.
-     * @param headers Header parameters.
      */
-    public fun apply(queries: Queries, headers: MutableMap<String, String?>)
+    public fun configure(builder: HttpRequestBuilder)
+
+    /**
+     * Signals if the [Authentication] is configured and can be used to configure the HTTP request
+     */
+    public val isConfigured: Boolean
 }

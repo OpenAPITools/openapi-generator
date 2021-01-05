@@ -270,8 +270,8 @@ CodegenSecurity{name&#x3D;&#39;api_key&#39;, type&#x3D;&#39;apiKey&#39;, scheme&
 Configure api_key (API key):
 ```kotlin
 apiClient.apiKeyAuth["api_key"].apply {
-    key = ""
-    keyPrefix = ""
+    apiKey = ""
+    apiKeyPrefix = ""
 }
 ```
 

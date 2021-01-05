@@ -1,12 +1,17 @@
 package {{packageName}}.auth
 
-import {{packageName}}.infrastructure.Queries
+import io.ktor.client.request.*
+import io.ktor.http.*
 
 public class OAuth : Authentication {
+    @Suppress("MemberVisibilityCanBePrivate")
     public var accessToken: String? = null
 
-    override fun apply(queries: Queries, headers: MutableMap<String, String?>) {
-        val token: String = accessToken ?: return
-        headers["Authorization"] = "Bearer $token"
+    public override val isConfigured: Boolean
+        get() = accessToken != null
+
+    override fun configure(builder: HttpRequestBuilder) {
+        val token = accessToken ?: throw IllegalStateException("OAuth not configured")
+        builder.header(HttpHeaders.Authorization, "Bearer $token")
     }
 }
