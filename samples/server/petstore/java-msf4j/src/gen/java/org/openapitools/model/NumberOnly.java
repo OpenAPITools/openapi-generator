@@ -34,22 +34,6 @@ public class NumberOnly   {
   }
 
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    NumberOnly numberOnly = (NumberOnly) o;
-    return Objects.equals(this.justNumber, numberOnly.justNumber);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(justNumber);
-  }
 
   @Override
   public String toString() {

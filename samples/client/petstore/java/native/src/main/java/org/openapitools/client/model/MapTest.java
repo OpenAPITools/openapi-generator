@@ -218,51 +218,9 @@ public class MapTest {
   }
 
 
-  /**
-   * Return true if this MapTest object is equal to o.
-   */
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    MapTest mapTest = (MapTest) o;
-    return Objects.equals(this.mapMapOfString, mapTest.mapMapOfString) &&
-        Objects.equals(this.mapOfEnumString, mapTest.mapOfEnumString) &&
-        Objects.equals(this.directMap, mapTest.directMap) &&
-        Objects.equals(this.indirectMap, mapTest.indirectMap);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(mapMapOfString, mapOfEnumString, directMap, indirectMap);
-  }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class MapTest {\n");
-    sb.append("    mapMapOfString: ").append(toIndentedString(mapMapOfString)).append("\n");
-    sb.append("    mapOfEnumString: ").append(toIndentedString(mapOfEnumString)).append("\n");
-    sb.append("    directMap: ").append(toIndentedString(directMap)).append("\n");
-    sb.append("    indirectMap: ").append(toIndentedString(indirectMap)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
 
 }
 

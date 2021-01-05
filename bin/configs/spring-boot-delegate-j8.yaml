@@ -6,3 +6,4 @@ additionalProperties:
   artifactId: springboot-delegate-j8
   hideGenerationTimestamp: "true"
   delegatePattern: "true"
+  skipDefaultToString: true

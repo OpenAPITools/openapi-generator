@@ -376,35 +376,6 @@ public class AdditionalPropertiesClass   {
     return Objects.hash(mapString, mapNumber, mapInteger, mapBoolean, mapArrayInteger, mapArrayAnytype, mapMapString, mapMapAnytype, anytype1, anytype2, anytype3);
   }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class AdditionalPropertiesClass {\n");
-    
-    sb.append("    mapString: ").append(toIndentedString(mapString)).append("\n");
-    sb.append("    mapNumber: ").append(toIndentedString(mapNumber)).append("\n");
-    sb.append("    mapInteger: ").append(toIndentedString(mapInteger)).append("\n");
-    sb.append("    mapBoolean: ").append(toIndentedString(mapBoolean)).append("\n");
-    sb.append("    mapArrayInteger: ").append(toIndentedString(mapArrayInteger)).append("\n");
-    sb.append("    mapArrayAnytype: ").append(toIndentedString(mapArrayAnytype)).append("\n");
-    sb.append("    mapMapString: ").append(toIndentedString(mapMapString)).append("\n");
-    sb.append("    mapMapAnytype: ").append(toIndentedString(mapMapAnytype)).append("\n");
-    sb.append("    anytype1: ").append(toIndentedString(anytype1)).append("\n");
-    sb.append("    anytype2: ").append(toIndentedString(anytype2)).append("\n");
-    sb.append("    anytype3: ").append(toIndentedString(anytype3)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
 }
 

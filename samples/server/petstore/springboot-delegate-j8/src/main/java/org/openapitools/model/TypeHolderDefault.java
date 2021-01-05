@@ -166,29 +166,6 @@ public class TypeHolderDefault   {
     return Objects.hash(stringItem, numberItem, integerItem, boolItem, arrayItem);
   }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class TypeHolderDefault {\n");
-    
-    sb.append("    stringItem: ").append(toIndentedString(stringItem)).append("\n");
-    sb.append("    numberItem: ").append(toIndentedString(numberItem)).append("\n");
-    sb.append("    integerItem: ").append(toIndentedString(integerItem)).append("\n");
-    sb.append("    boolItem: ").append(toIndentedString(boolItem)).append("\n");
-    sb.append("    arrayItem: ").append(toIndentedString(arrayItem)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
 }
 

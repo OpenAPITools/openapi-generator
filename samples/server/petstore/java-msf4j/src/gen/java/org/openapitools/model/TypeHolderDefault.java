@@ -125,26 +125,6 @@ public class TypeHolderDefault   {
   }
 
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    TypeHolderDefault typeHolderDefault = (TypeHolderDefault) o;
-    return Objects.equals(this.stringItem, typeHolderDefault.stringItem) &&
-        Objects.equals(this.numberItem, typeHolderDefault.numberItem) &&
-        Objects.equals(this.integerItem, typeHolderDefault.integerItem) &&
-        Objects.equals(this.boolItem, typeHolderDefault.boolItem) &&
-        Objects.equals(this.arrayItem, typeHolderDefault.arrayItem);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(stringItem, numberItem, integerItem, boolItem, arrayItem);
-  }
 
   @Override
   public String toString() {

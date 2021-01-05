@@ -299,29 +299,6 @@ public class EnumTest   {
     return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum);
   }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class EnumTest {\n");
-    
-    sb.append("    enumString: ").append(toIndentedString(enumString)).append("\n");
-    sb.append("    enumStringRequired: ").append(toIndentedString(enumStringRequired)).append("\n");
-    sb.append("    enumInteger: ").append(toIndentedString(enumInteger)).append("\n");
-    sb.append("    enumNumber: ").append(toIndentedString(enumNumber)).append("\n");
-    sb.append("    outerEnum: ").append(toIndentedString(outerEnum)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
 }
 

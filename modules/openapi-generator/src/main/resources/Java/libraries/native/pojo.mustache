@@ -251,7 +251,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
 
   {{/vars}}
 {{>libraries/native/additional_properties}}
-  /**
+{{^skipDefaultEqualsAndHashCode}}  /**
    * Return true if this {{name}} object is equal to o.
    */
   @Override
@@ -283,9 +283,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
   {{^useReflectionEqualsHashCode}}
     return Objects.hash({{#vars}}{{^isByteArray}}{{name}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{name}}){{/isByteArray}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}}{{#additionalPropertiesType}}, additionalProperties{{/additionalPropertiesType}});
   {{/useReflectionEqualsHashCode}}
-  }
+  }{{/skipDefaultEqualsAndHashCode}}
 
-  @Override
+{{^skipDefaultToString}}  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class {{classname}} {\n");
@@ -311,7 +311,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
+  }{{/skipDefaultToString}}
 
 {{#parcelableModel}}
 

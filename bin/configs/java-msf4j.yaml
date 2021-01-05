@@ -5,3 +5,4 @@ templateDir: modules/openapi-generator/src/main/resources/java-msf4j-server
 additionalProperties:
   hideGenerationTimestamp: "true"
   artifactId: java-msf4j-server
+  skipDefaultEqualsAndHashCode: true

@@ -56,23 +56,6 @@ public class Animal   {
   }
 
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Animal animal = (Animal) o;
-    return Objects.equals(this.className, animal.className) &&
-        Objects.equals(this.color, animal.color);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(className, color);
-  }
 
   @Override
   public String toString() {

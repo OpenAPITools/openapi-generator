@@ -121,7 +121,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
 
   {{/vars}}
 
-  /**
+{{^skipDefaultToString}}  /**
     * Create a string representation of this pojo.
   **/
   @Override
@@ -143,5 +143,5 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
+  }{{/skipDefaultToString}}
 }

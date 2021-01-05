@@ -816,53 +816,6 @@ public class XmlItem   {
     return Objects.hash(attributeString, attributeNumber, attributeInteger, attributeBoolean, wrappedArray, nameString, nameNumber, nameInteger, nameBoolean, nameArray, nameWrappedArray, prefixString, prefixNumber, prefixInteger, prefixBoolean, prefixArray, prefixWrappedArray, namespaceString, namespaceNumber, namespaceInteger, namespaceBoolean, namespaceArray, namespaceWrappedArray, prefixNsString, prefixNsNumber, prefixNsInteger, prefixNsBoolean, prefixNsArray, prefixNsWrappedArray);
   }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class XmlItem {\n");
-    
-    sb.append("    attributeString: ").append(toIndentedString(attributeString)).append("\n");
-    sb.append("    attributeNumber: ").append(toIndentedString(attributeNumber)).append("\n");
-    sb.append("    attributeInteger: ").append(toIndentedString(attributeInteger)).append("\n");
-    sb.append("    attributeBoolean: ").append(toIndentedString(attributeBoolean)).append("\n");
-    sb.append("    wrappedArray: ").append(toIndentedString(wrappedArray)).append("\n");
-    sb.append("    nameString: ").append(toIndentedString(nameString)).append("\n");
-    sb.append("    nameNumber: ").append(toIndentedString(nameNumber)).append("\n");
-    sb.append("    nameInteger: ").append(toIndentedString(nameInteger)).append("\n");
-    sb.append("    nameBoolean: ").append(toIndentedString(nameBoolean)).append("\n");
-    sb.append("    nameArray: ").append(toIndentedString(nameArray)).append("\n");
-    sb.append("    nameWrappedArray: ").append(toIndentedString(nameWrappedArray)).append("\n");
-    sb.append("    prefixString: ").append(toIndentedString(prefixString)).append("\n");
-    sb.append("    prefixNumber: ").append(toIndentedString(prefixNumber)).append("\n");
-    sb.append("    prefixInteger: ").append(toIndentedString(prefixInteger)).append("\n");
-    sb.append("    prefixBoolean: ").append(toIndentedString(prefixBoolean)).append("\n");
-    sb.append("    prefixArray: ").append(toIndentedString(prefixArray)).append("\n");
-    sb.append("    prefixWrappedArray: ").append(toIndentedString(prefixWrappedArray)).append("\n");
-    sb.append("    namespaceString: ").append(toIndentedString(namespaceString)).append("\n");
-    sb.append("    namespaceNumber: ").append(toIndentedString(namespaceNumber)).append("\n");
-    sb.append("    namespaceInteger: ").append(toIndentedString(namespaceInteger)).append("\n");
-    sb.append("    namespaceBoolean: ").append(toIndentedString(namespaceBoolean)).append("\n");
-    sb.append("    namespaceArray: ").append(toIndentedString(namespaceArray)).append("\n");
-    sb.append("    namespaceWrappedArray: ").append(toIndentedString(namespaceWrappedArray)).append("\n");
-    sb.append("    prefixNsString: ").append(toIndentedString(prefixNsString)).append("\n");
-    sb.append("    prefixNsNumber: ").append(toIndentedString(prefixNsNumber)).append("\n");
-    sb.append("    prefixNsInteger: ").append(toIndentedString(prefixNsInteger)).append("\n");
-    sb.append("    prefixNsBoolean: ").append(toIndentedString(prefixNsBoolean)).append("\n");
-    sb.append("    prefixNsArray: ").append(toIndentedString(prefixNsArray)).append("\n");
-    sb.append("    prefixNsWrappedArray: ").append(toIndentedString(prefixNsWrappedArray)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
 }
 

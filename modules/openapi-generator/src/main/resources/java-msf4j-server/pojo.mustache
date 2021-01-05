@@ -91,6 +91,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   {{/isReadOnly}}
 
   {{/vars}}
+{{^skipDefaultEqualsAndHashCode}}
 
   @Override
   public boolean equals(Object o) {
@@ -110,9 +111,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   @Override
   public int hashCode() {
     return Objects.hash({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
-  }
+  }{{/skipDefaultEqualsAndHashCode}}
 
-  @Override
+{{^skipDefaultToString}}  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class {{classname}} {\n");
@@ -131,5 +132,5 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
+  }{{/skipDefaultToString}}
 }

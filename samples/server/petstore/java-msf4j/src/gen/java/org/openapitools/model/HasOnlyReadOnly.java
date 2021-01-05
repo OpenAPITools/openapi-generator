@@ -36,23 +36,6 @@ public class HasOnlyReadOnly   {
   }
 
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    HasOnlyReadOnly hasOnlyReadOnly = (HasOnlyReadOnly) o;
-    return Objects.equals(this.bar, hasOnlyReadOnly.bar) &&
-        Objects.equals(this.foo, hasOnlyReadOnly.foo);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(bar, foo);
-  }
 
   @Override
   public String toString() {

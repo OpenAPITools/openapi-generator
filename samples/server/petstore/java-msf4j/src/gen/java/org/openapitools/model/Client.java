@@ -33,22 +33,6 @@ public class Client   {
   }
 
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Client client = (Client) o;
-    return Objects.equals(this.client, client.client);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(client);
-  }
 
   @Override
   public String toString() {

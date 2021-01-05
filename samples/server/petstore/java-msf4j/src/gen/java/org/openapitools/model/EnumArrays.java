@@ -127,23 +127,6 @@ public class EnumArrays   {
   }
 
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    EnumArrays enumArrays = (EnumArrays) o;
-    return Objects.equals(this.justSymbol, enumArrays.justSymbol) &&
-        Objects.equals(this.arrayEnum, enumArrays.arrayEnum);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(justSymbol, arrayEnum);
-  }
 
   @Override
   public String toString() {

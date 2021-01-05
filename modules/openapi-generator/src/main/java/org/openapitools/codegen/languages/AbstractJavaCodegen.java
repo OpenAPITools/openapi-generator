@@ -63,6 +63,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
     public static final String IGNORE_ANYOF_IN_ENUM = "ignoreAnyOfInEnum";
     public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
+    public static final String SKIP_DEFAULT_TO_STRING = "skipDefaultToString";
+    public static final String SKIP_DEFAULT_EQUALS_AND_HASHCODE = "skipDefaultEqualsAndHashCode";
     public static final String DISCRIMINATOR_CASE_SENSITIVE = "discriminatorCaseSensitive";
     public static final String OPENAPI_NULLABLE = "openApiNullable";
 
@@ -101,6 +103,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean disableHtmlEscaping = false;
     protected String booleanGetterPrefix = "get";
     protected boolean ignoreAnyOfInEnum = false;
+    protected boolean skipDefaultToString = false;
+    protected boolean skipDefaultEqualsAndHashCode = false;
     protected String parentGroupId = "";
     protected String parentArtifactId = "";
     protected String parentVersion = "";
@@ -245,6 +249,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(IGNORE_ANYOF_IN_ENUM, "Ignore anyOf keyword in enum", ignoreAnyOfInEnum));
         cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "Additional annotations for model type(class level annotations)"));
         cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE, "Enable OpenAPI Jackson Nullable library", this.openApiNullable));
+        cliOptions.add(CliOption.newBoolean(SKIP_DEFAULT_EQUALS_AND_HASHCODE, "Skip default equals and hashCode(won't be generated)", this.skipDefaultEqualsAndHashCode));
+        cliOptions.add(CliOption.newBoolean(SKIP_DEFAULT_TO_STRING, "Skip default toString(won't be generated)", this.skipDefaultToString));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
@@ -292,6 +298,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             this.setAdditionalModelTypeAnnotations(Arrays.asList(additionalAnnotationsList.split(";")));
         }
+        if (additionalProperties.containsKey(SKIP_DEFAULT_TO_STRING)) {
+            this.setSkipDefaultToString(Boolean.parseBoolean(additionalProperties.get(SKIP_DEFAULT_TO_STRING).toString()));
+        }
+        additionalProperties.put(SKIP_DEFAULT_TO_STRING, skipDefaultToString);
+
+        if (additionalProperties.containsKey(SKIP_DEFAULT_EQUALS_AND_HASHCODE)) {
+            this.setSkipDefaultEqualsAndHashCode(Boolean.parseBoolean(additionalProperties.get(SKIP_DEFAULT_EQUALS_AND_HASHCODE).toString()));
+        }
+        additionalProperties.put(SKIP_DEFAULT_EQUALS_AND_HASHCODE, skipDefaultEqualsAndHashCode);
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
@@ -1670,6 +1685,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setSupportJava6(boolean value) {
         this.supportJava6 = value;
+    }
+
+    public void setSkipDefaultEqualsAndHashCode(final boolean skipDefaultEqualsAndHashCode) {
+        this.skipDefaultEqualsAndHashCode = skipDefaultEqualsAndHashCode;
+    }
+
+    public void setSkipDefaultToString(final boolean skipDefaultToString) {
+        this.skipDefaultToString = skipDefaultToString;
     }
 
     @Override

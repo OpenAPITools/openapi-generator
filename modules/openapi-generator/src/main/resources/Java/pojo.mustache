@@ -228,8 +228,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
 
   {{/vars}}
 
-{{^supportJava6}}
-  @Override
+{{^skipDefaultEqualsAndHashCode}}{{^supportJava6}}  @Override
   public boolean equals(Object o) {
   {{#useReflectionEqualsHashCode}}
     return EqualsBuilder.reflectionEquals(this, o, false, null, true);
@@ -283,7 +282,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
 
 {{/supportJava6}}
 
-  @Override
+{{/skipDefaultEqualsAndHashCode}}{{^skipDefaultToString}}  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class {{classname}} {\n");
@@ -306,7 +305,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
+  }{{/skipDefaultToString}}
 
 {{#parcelableModel}}
 

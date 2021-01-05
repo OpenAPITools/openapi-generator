@@ -95,7 +95,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
   {{/vars}}
 
-  @Override
+{{^skipDefaultToString}}  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class {{classname}} {\n");
@@ -114,5 +114,5 @@ import com.fasterxml.jackson.annotation.JsonProperty;
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
+  }{{/skipDefaultToString}}
 }

@@ -51,7 +51,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.{{name}} = {{name}};
   }{{/vars}}
 
-  @Override
+{{^skipDefaultEqualsAndHashCode}}  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
@@ -69,9 +69,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
   @Override
   public int hashCode() {
     return Objects.hash({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
-  }
+  }{{/skipDefaultEqualsAndHashCode}}
 
-  @Override
+{{^skipDefaultToString}}  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class {{classname}} {\n");
@@ -90,7 +90,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
+  }{{/skipDefaultToString}}
 
   {{#generateBuilders}}
   public static Builder builder() {

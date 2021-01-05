@@ -206,55 +206,9 @@ public class TypeHolderExample {
   }
 
 
-  /**
-   * Return true if this TypeHolderExample object is equal to o.
-   */
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    TypeHolderExample typeHolderExample = (TypeHolderExample) o;
-    return Objects.equals(this.stringItem, typeHolderExample.stringItem) &&
-        Objects.equals(this.numberItem, typeHolderExample.numberItem) &&
-        Objects.equals(this.floatItem, typeHolderExample.floatItem) &&
-        Objects.equals(this.integerItem, typeHolderExample.integerItem) &&
-        Objects.equals(this.boolItem, typeHolderExample.boolItem) &&
-        Objects.equals(this.arrayItem, typeHolderExample.arrayItem);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(stringItem, numberItem, floatItem, integerItem, boolItem, arrayItem);
-  }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class TypeHolderExample {\n");
-    sb.append("    stringItem: ").append(toIndentedString(stringItem)).append("\n");
-    sb.append("    numberItem: ").append(toIndentedString(numberItem)).append("\n");
-    sb.append("    floatItem: ").append(toIndentedString(floatItem)).append("\n");
-    sb.append("    integerItem: ").append(toIndentedString(integerItem)).append("\n");
-    sb.append("    boolItem: ").append(toIndentedString(boolItem)).append("\n");
-    sb.append("    arrayItem: ").append(toIndentedString(arrayItem)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
 
 }
 

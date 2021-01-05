@@ -65,6 +65,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{#interfac
         return {{classVarName}};
     }
 
+{{^skipDefaultEqualsAndHashCode}}
     public Boolean equals(Object obj) {
         if (obj instanceof {{classname}}) {           {{#hasVars}}
             {{classname}} {{classVarName}} = ({{classname}}) obj;
@@ -81,5 +82,5 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{#interfac
         hashCode = (17 * hashCode) + ({{name}} == null ? 0 : System.hashCode({{name}}));
       {{/vars}}
         return hashCode;
-    }
+    }{{/skipDefaultEqualsAndHashCode}}
 }

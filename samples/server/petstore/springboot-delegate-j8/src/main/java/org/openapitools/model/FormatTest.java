@@ -393,38 +393,6 @@ public class FormatTest   {
     return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password, bigDecimal);
   }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class FormatTest {\n");
-    
-    sb.append("    integer: ").append(toIndentedString(integer)).append("\n");
-    sb.append("    int32: ").append(toIndentedString(int32)).append("\n");
-    sb.append("    int64: ").append(toIndentedString(int64)).append("\n");
-    sb.append("    number: ").append(toIndentedString(number)).append("\n");
-    sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
-    sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
-    sb.append("    string: ").append(toIndentedString(string)).append("\n");
-    sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
-    sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
-    sb.append("    date: ").append(toIndentedString(date)).append("\n");
-    sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
-    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
 }
 

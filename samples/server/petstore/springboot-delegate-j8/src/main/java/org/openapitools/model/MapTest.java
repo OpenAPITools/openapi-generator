@@ -203,28 +203,6 @@ public class MapTest   {
     return Objects.hash(mapMapOfString, mapOfEnumString, directMap, indirectMap);
   }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class MapTest {\n");
-    
-    sb.append("    mapMapOfString: ").append(toIndentedString(mapMapOfString)).append("\n");
-    sb.append("    mapOfEnumString: ").append(toIndentedString(mapOfEnumString)).append("\n");
-    sb.append("    directMap: ").append(toIndentedString(directMap)).append("\n");
-    sb.append("    indirectMap: ").append(toIndentedString(indirectMap)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
 }
 

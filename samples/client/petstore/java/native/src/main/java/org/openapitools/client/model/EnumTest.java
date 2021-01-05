@@ -320,53 +320,9 @@ public class EnumTest {
   }
 
 
-  /**
-   * Return true if this Enum_Test object is equal to o.
-   */
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    EnumTest enumTest = (EnumTest) o;
-    return Objects.equals(this.enumString, enumTest.enumString) &&
-        Objects.equals(this.enumStringRequired, enumTest.enumStringRequired) &&
-        Objects.equals(this.enumInteger, enumTest.enumInteger) &&
-        Objects.equals(this.enumNumber, enumTest.enumNumber) &&
-        Objects.equals(this.outerEnum, enumTest.outerEnum);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum);
-  }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class EnumTest {\n");
-    sb.append("    enumString: ").append(toIndentedString(enumString)).append("\n");
-    sb.append("    enumStringRequired: ").append(toIndentedString(enumStringRequired)).append("\n");
-    sb.append("    enumInteger: ").append(toIndentedString(enumInteger)).append("\n");
-    sb.append("    enumNumber: ").append(toIndentedString(enumNumber)).append("\n");
-    sb.append("    outerEnum: ").append(toIndentedString(outerEnum)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
 
 }
 

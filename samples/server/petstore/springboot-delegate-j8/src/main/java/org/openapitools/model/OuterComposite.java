@@ -105,27 +105,6 @@ public class OuterComposite   {
     return Objects.hash(myNumber, myString, myBoolean);
   }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class OuterComposite {\n");
-    
-    sb.append("    myNumber: ").append(toIndentedString(myNumber)).append("\n");
-    sb.append("    myString: ").append(toIndentedString(myString)).append("\n");
-    sb.append("    myBoolean: ").append(toIndentedString(myBoolean)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
 }
 

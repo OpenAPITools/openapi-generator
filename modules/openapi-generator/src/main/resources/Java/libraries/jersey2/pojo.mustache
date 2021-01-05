@@ -251,8 +251,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
 
   {{/vars}}
 {{>libraries/jersey2/additional_properties}}
-{{^supportJava6}}
-  /**
+{{^skipDefaultEqualsAndHashCode}}{{^supportJava6}}  /**
    * Return true if this {{name}} object is equal to o.
    */
   @Override
@@ -308,9 +307,8 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
     return ObjectUtils.hashCodeMulti({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
   }
 
-{{/supportJava6}}
-
-  @Override
+{{/supportJava6}}{{/skipDefaultEqualsAndHashCode}}
+{{^skipDefaultToString}}  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class {{classname}} {\n");
@@ -336,7 +334,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
+  }{{/skipDefaultToString}}
 
 {{#parcelableModel}}
 
