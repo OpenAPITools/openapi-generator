@@ -534,7 +534,7 @@ No authorization required
 
 # **testInlineAdditionalProperties**
 ```swift
-    open class func testInlineAdditionalProperties( param: [String:String]) -> Promise<Void>
+    open class func testInlineAdditionalProperties( param: [String: String]) -> Promise<Void>
 ```
 
 test inline additionalProperties
@@ -544,7 +544,7 @@ test inline additionalProperties
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let param = "TODO" // [String:String] | request body
+let param = "TODO" // [String: String] | request body
 
 // test inline additionalProperties
 FakeAPI.testInlineAdditionalProperties(param: param).then {
@@ -560,7 +560,7 @@ FakeAPI.testInlineAdditionalProperties(param: param).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | [**[String:String]**](String.md) | request body | 
+ **param** | [**[String: String]**](String.md) | request body | 
 
 ### Return type
 
