@@ -1,34 +1,94 @@
+{{>licenseInfo}}
 package org.openapitools.handler;
 
-import com.networknt.config.Config;
 import com.networknt.server.HandlerProvider;
 import io.undertow.Handlers;
 import io.undertow.server.HttpHandler;
-import io.undertow.server.HttpServerExchange;
+import io.undertow.server.RoutingHandler;
+import io.undertow.server.handlers.PathHandler;
 import io.undertow.util.Methods;
 
-public class PathHandlerProvider implements HandlerProvider {
+import {{modelPackage}}.*;
 
-    public HttpHandler getHandler() {
-        HttpHandler handler = Handlers.routing()
-
+@SuppressWarnings("TooManyFunctions")
+abstract public class PathHandlerProvider implements HandlerProvider {
+    /**
+     * Returns the default base path to access this server.
+     */
+    @javax.annotation.Nonnull
+    public String getBasePath() {
+        return "{{{basePathWithoutHost}}}";
+    }
 {{#apiInfo}}
-{{#apis}}
-{{#operations}}
-{{#operation}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
 
-            .add(Methods.{{httpMethod}}, "{{{basePathWithoutHost}}}{{{path}}}", new HttpHandler() {
-                        public void handleRequest(HttpServerExchange exchange) throws Exception {
-                            exchange.getResponseSender().send("{{operationId}}");
-                        }
-                    })
-
-{{/operation}}
-{{/operations}}
-{{/apis}}
+    /**
+{{#summary}}     * <p>{{{summary}}}</p>
+     *
+{{/summary}}
+{{#notes}}     * <p>{{{notes}}}</p>
+     *
+{{/notes}}
+     * <p><b>Endpoint</b>: {@link Methods#{{{httpMethod}}}} "{{{basePathWithoutHost}}}{{{path}}}" (privileged: {{hasAuthMethods}})</p>
+     * <p><b>Response headers</b>: [{{#responseHeaders}}{{.}}{{^-last}}, {{/-last}}{{/responseHeaders}}]</p>
+{{#hasConsumes}}
+     *
+     * <p><b>Consumes</b>: {{{consumes}}}</p>
+{{/hasConsumes}}
+{{#hasBodyParam}}{{#bodyParam}}     * <p><b>Expects</b>: {{>isContainerDoc}}{{#isModel}}{@link {{dataType}}}{{/isModel}}{{^isModel}}{{#isFile}}{{#isBinary}}Binary {{/isBinary}}File{{/isFile}}{{^isFile}}{@link {{baseType}}}{{/isFile}}{{/isModel}} (required: {{{required}}}{{/bodyParam}})</p>
+{{#hasProduces}}     *
+{{/hasProduces}}
+{{/hasBodyParam}}
+{{#hasProduces}}     * <p><b>Produces</b>: {{{produces}}}</p>
+{{/hasProduces}}
+{{#returnBaseType}}     * <p><b>Returns</b>: {{>isContainerDoc}}{@link {{returnBaseType}}}</p>
+{{/returnBaseType}}
+     */
+    @javax.annotation.Nonnull
+{{#isDeprecated}}    @Deprecated
+{{/isDeprecated}}
+    abstract protected HttpHandler {{operationId}}();
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
 {{/apiInfo}}
-        ;
-        return handler;
+
+    /**
+     * Returns an Undertow {@link HttpHandler} that configures all endpoints in this server.
+     *
+     * @param withBasePath if true, all endpoints would start with "{{{basePathWithoutHost}}}"
+     * @return an {@link HttpHandler} of type {@link RoutingHandler}
+     */
+    @javax.annotation.Nonnull
+    public HttpHandler getHandler(final boolean withBasePath) {
+        final String basePath = withBasePath ? getBasePath() : "";
+        return Handlers.routing()
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+            .add(Methods.{{httpMethod}}, basePath + "{{{path}}}", {{operationId}}()){{#-last}};{{/-last}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+    }
+
+    /**
+     * Returns an Undertow {@link HttpHandler} that configures all endpoints in this server.
+     * Endpoints bound in this method do NOT start with "{{{basePathWithoutHost}}}", and
+     * it's your responsibility to configure a {@link PathHandler} with a prefix path
+     * by calling {@link PathHandler#addPrefixPath} like so:
+     *
+     * <code>pathHandler.addPrefixPath("{{{basePathWithoutHost}}}", handler)</code>
+     *
+     * @return an {@link HttpHandler} of type {@link RoutingHandler}
+     */
+    @javax.annotation.Nonnull
+    @Override
+    public HttpHandler getHandler() {
+        return getHandler(false);
     }
 }
-

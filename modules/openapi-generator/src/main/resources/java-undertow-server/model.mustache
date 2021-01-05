@@ -1,3 +1,4 @@
+{{>licenseInfo}}
 package {{package}};
 
 import java.util.Objects;
@@ -9,7 +10,7 @@ import java.util.Objects;
 {{#model}}{{#description}}
 /**
  * {{description}}
- **/{{/description}}
+ */{{/description}}
 {{#isEnum}}{{>enumOuterClass}}{{/isEnum}}
 {{^isEnum}}{{>pojo}}{{/isEnum}}
 {{/model}}
