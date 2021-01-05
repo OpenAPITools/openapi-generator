@@ -18,7 +18,6 @@ internal class RequestBuilder<T> {
     var credential: URLCredential?
     var headers: [String: String]
     internal let parameters: [String: Any]?
-    internal let isBody: Bool
     internal let method: String
     internal let URLString: String
 
@@ -27,11 +26,10 @@ internal class RequestBuilder<T> {
     /// If you need to get the request's progress in older OS versions, please use Alamofire http client.
     internal var onProgressReady: ((Progress) -> Void)?
 
-    required internal init(method: String, URLString: String, parameters: [String: Any]?, isBody: Bool, headers: [String: String] = [:]) {
+    required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:]) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
-        self.isBody = isBody
         self.headers = headers
 
         addHeaders(PetstoreClientAPI.customHeaders)

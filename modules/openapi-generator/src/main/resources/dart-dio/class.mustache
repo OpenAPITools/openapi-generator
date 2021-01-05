@@ -25,7 +25,7 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
     static void _initializeBuilder({{{classname}}}Builder b) => b{{#vars}}{{#defaultValue}}
         ..{{{name}}} = {{#isEnum}}{{^isContainer}}const {{{classname}}}{{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/vars}};
 
-    factory {{classname}}([updates({{classname}}Builder b)]) = _${{classname}};
+    factory {{classname}}([void updates({{classname}}Builder b)]) = _${{classname}};
     static Serializer<{{classname}}> get serializer => _${{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Serializer;
 }
 {{!

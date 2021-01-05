@@ -472,13 +472,16 @@ public class DartClientCodegen extends DefaultCodegen {
         }
 
         if (schema.getDefault() != null) {
+            if (ModelUtils.isDateSchema(schema) || ModelUtils.isDateTimeSchema(schema)) {
+                // this is currently not supported and would create compile errors
+                return null;
+            }
             if (ModelUtils.isStringSchema(schema)) {
                 return "'" + schema.getDefault().toString().replace("'", "\\'") + "'";
             }
             return schema.getDefault().toString();
-        } else {
-            return null;
         }
+        return null;
     }
 
     @Override

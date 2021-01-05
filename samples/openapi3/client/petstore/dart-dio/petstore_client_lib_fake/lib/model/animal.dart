@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -19,7 +26,7 @@ abstract class Animal implements Built<Animal, AnimalBuilder> {
     static void _initializeBuilder(AnimalBuilder b) => b
         ..color = 'red';
 
-    factory Animal([updates(AnimalBuilder b)]) = _$Animal;
+    factory Animal([void updates(AnimalBuilder b)]) = _$Animal;
     static Serializer<Animal> get serializer => _$animalSerializer;
 }
 

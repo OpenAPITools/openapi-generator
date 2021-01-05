@@ -81,7 +81,7 @@ abstract class InlineObject3 implements Built<InlineObject3, InlineObject3Builde
 
     static void _initializeBuilder(InlineObject3Builder b) => b;
 
-    factory InlineObject3([updates(InlineObject3Builder b)]) = _$InlineObject3;
+    factory InlineObject3([void updates(InlineObject3Builder b)]) = _$InlineObject3;
     static Serializer<InlineObject3> get serializer => _$inlineObject3Serializer;
 }
 

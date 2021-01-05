@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 library serializers;
 
 import 'package:built_value/iso_8601_date_time_serializer.dart';
