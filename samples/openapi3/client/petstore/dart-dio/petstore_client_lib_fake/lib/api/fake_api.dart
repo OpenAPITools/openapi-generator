@@ -118,7 +118,7 @@ class FakeApi {
             'application/xml',
         ];
 
-        final bodySerializer = _serializers.serializerForType(Pet);
+        final bodySerializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
         final serializedBody = _serializers.serializeWith(bodySerializer, pet);
         final jsonpet = json.encode(serializedBody);
         bodyData = jsonpet;
@@ -238,7 +238,7 @@ class FakeApi {
             'application/json',
         ];
 
-        final bodySerializer = _serializers.serializerForType(OuterComposite);
+        final bodySerializer = _serializers.serializerForType(OuterComposite) as Serializer<OuterComposite>;
         final serializedBody = _serializers.serializeWith(bodySerializer, outerComposite);
         final jsonouterComposite = json.encode(serializedBody);
         bodyData = jsonouterComposite;
@@ -432,7 +432,7 @@ class FakeApi {
             'application/json',
         ];
 
-        final bodySerializer = _serializers.serializerForType(FileSchemaTestClass);
+        final bodySerializer = _serializers.serializerForType(FileSchemaTestClass) as Serializer<FileSchemaTestClass>;
         final serializedBody = _serializers.serializeWith(bodySerializer, fileSchemaTestClass);
         final jsonfileSchemaTestClass = json.encode(serializedBody);
         bodyData = jsonfileSchemaTestClass;
@@ -486,7 +486,7 @@ class FakeApi {
             'application/json',
         ];
 
-        final bodySerializer = _serializers.serializerForType(User);
+        final bodySerializer = _serializers.serializerForType(User) as Serializer<User>;
         final serializedBody = _serializers.serializeWith(bodySerializer, user);
         final jsonuser = json.encode(serializedBody);
         bodyData = jsonuser;
@@ -538,7 +538,7 @@ class FakeApi {
             'application/json',
         ];
 
-        final bodySerializer = _serializers.serializerForType(ModelClient);
+        final bodySerializer = _serializers.serializerForType(ModelClient) as Serializer<ModelClient>;
         final serializedBody = _serializers.serializeWith(bodySerializer, modelClient);
         final jsonmodelClient = json.encode(serializedBody);
         bodyData = jsonmodelClient;
@@ -814,7 +814,7 @@ class FakeApi {
             'application/json',
         ];
 
-        final bodySerializer = _serializers.serializerForType(String);
+        final bodySerializer = _serializers.serializerForType(String) as Serializer<String>;
         final serializedBody = _serializers.serializeWith(bodySerializer, requestBody);
         final jsonrequestBody = json.encode(serializedBody);
         bodyData = jsonrequestBody;

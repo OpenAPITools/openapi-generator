@@ -86,7 +86,7 @@ class {{classname}} {
         var serializedBody = {{paramName}};
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        final bodySerializer = _serializers.serializerForType({{baseType}});
+        final bodySerializer = _serializers.serializerForType({{{baseType}}}) as Serializer<{{{baseType}}}>;
         final serializedBody = _serializers.serializeWith(bodySerializer, {{paramName}});
         {{/isPrimitiveType}}
         {{/isArray}}

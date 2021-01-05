@@ -222,7 +222,7 @@ class StoreApi {
             'application/json',
         ];
 
-        final bodySerializer = _serializers.serializerForType(Order);
+        final bodySerializer = _serializers.serializerForType(Order) as Serializer<Order>;
         final serializedBody = _serializers.serializeWith(bodySerializer, order);
         final jsonorder = json.encode(serializedBody);
         bodyData = jsonorder;

@@ -46,7 +46,7 @@ class UserApi {
             'application/json',
         ];
 
-        final bodySerializer = _serializers.serializerForType(User);
+        final bodySerializer = _serializers.serializerForType(User) as Serializer<User>;
         final serializedBody = _serializers.serializeWith(bodySerializer, user);
         final jsonuser = json.encode(serializedBody);
         bodyData = jsonuser;
@@ -448,7 +448,7 @@ class UserApi {
             'application/json',
         ];
 
-        final bodySerializer = _serializers.serializerForType(User);
+        final bodySerializer = _serializers.serializerForType(User) as Serializer<User>;
         final serializedBody = _serializers.serializeWith(bodySerializer, user);
         final jsonuser = json.encode(serializedBody);
         bodyData = jsonuser;
