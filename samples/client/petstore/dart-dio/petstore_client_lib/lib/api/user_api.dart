@@ -37,7 +37,8 @@ class UserApi {
 
         final List<String> contentTypes = [];
 
-        final serializedBody = _serializers.serialize(body);
+        final bodySerializer = _serializers.serializerForType(User);
+        final serializedBody = _serializers.serializeWith(bodySerializer, body);
         final jsonbody = json.encode(serializedBody);
         bodyData = jsonbody;
 
@@ -394,7 +395,8 @@ class UserApi {
 
         final List<String> contentTypes = [];
 
-        final serializedBody = _serializers.serialize(body);
+        final bodySerializer = _serializers.serializerForType(User);
+        final serializedBody = _serializers.serializeWith(bodySerializer, body);
         final jsonbody = json.encode(serializedBody);
         bodyData = jsonbody;
 

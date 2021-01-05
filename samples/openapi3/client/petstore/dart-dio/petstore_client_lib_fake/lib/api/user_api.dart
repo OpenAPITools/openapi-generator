@@ -39,7 +39,8 @@ class UserApi {
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(user);
+        final bodySerializer = _serializers.serializerForType(User);
+        final serializedBody = _serializers.serializeWith(bodySerializer, user);
         final jsonuser = json.encode(serializedBody);
         bodyData = jsonuser;
 
@@ -402,7 +403,8 @@ class UserApi {
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(user);
+        final bodySerializer = _serializers.serializerForType(User);
+        final serializedBody = _serializers.serializeWith(bodySerializer, user);
         final jsonuser = json.encode(serializedBody);
         bodyData = jsonuser;
 

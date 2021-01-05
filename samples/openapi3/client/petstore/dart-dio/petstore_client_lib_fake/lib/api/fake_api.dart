@@ -108,7 +108,8 @@ class FakeApi {
             'application/xml',
         ];
 
-        final serializedBody = _serializers.serialize(pet);
+        final bodySerializer = _serializers.serializerForType(Pet);
+        final serializedBody = _serializers.serializeWith(bodySerializer, pet);
         final jsonpet = json.encode(serializedBody);
         bodyData = jsonpet;
 
@@ -164,7 +165,7 @@ class FakeApi {
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(body);
+        var serializedBody = body;
         final jsonbody = json.encode(serializedBody);
         bodyData = jsonbody;
 
@@ -227,7 +228,8 @@ class FakeApi {
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(outerComposite);
+        final bodySerializer = _serializers.serializerForType(OuterComposite);
+        final serializedBody = _serializers.serializeWith(bodySerializer, outerComposite);
         final jsonouterComposite = json.encode(serializedBody);
         bodyData = jsonouterComposite;
 
@@ -291,7 +293,7 @@ class FakeApi {
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(body);
+        var serializedBody = body;
         final jsonbody = json.encode(serializedBody);
         bodyData = jsonbody;
 
@@ -354,7 +356,7 @@ class FakeApi {
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(body);
+        var serializedBody = body;
         final jsonbody = json.encode(serializedBody);
         bodyData = jsonbody;
 
@@ -417,7 +419,8 @@ class FakeApi {
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(fileSchemaTestClass);
+        final bodySerializer = _serializers.serializerForType(FileSchemaTestClass);
+        final serializedBody = _serializers.serializeWith(bodySerializer, fileSchemaTestClass);
         final jsonfileSchemaTestClass = json.encode(serializedBody);
         bodyData = jsonfileSchemaTestClass;
 
@@ -470,7 +473,8 @@ class FakeApi {
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(user);
+        final bodySerializer = _serializers.serializerForType(User);
+        final serializedBody = _serializers.serializeWith(bodySerializer, user);
         final jsonuser = json.encode(serializedBody);
         bodyData = jsonuser;
 
@@ -521,7 +525,8 @@ class FakeApi {
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(modelClient);
+        final bodySerializer = _serializers.serializerForType(ModelClient);
+        final serializedBody = _serializers.serializeWith(bodySerializer, modelClient);
         final jsonmodelClient = json.encode(serializedBody);
         bodyData = jsonmodelClient;
 
@@ -793,7 +798,8 @@ class FakeApi {
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(requestBody);
+        final bodySerializer = _serializers.serializerForType(String);
+        final serializedBody = _serializers.serializeWith(bodySerializer, requestBody);
         final jsonrequestBody = json.encode(serializedBody);
         bodyData = jsonrequestBody;
 

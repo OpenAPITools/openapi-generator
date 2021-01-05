@@ -43,7 +43,8 @@ class PetApi {
             'application/xml',
         ];
 
-        final serializedBody = _serializers.serialize(body);
+        final bodySerializer = _serializers.serializerForType(Pet);
+        final serializedBody = _serializers.serializeWith(bodySerializer, body);
         final jsonbody = json.encode(serializedBody);
         bodyData = jsonbody;
 
@@ -347,7 +348,8 @@ class PetApi {
             'application/xml',
         ];
 
-        final serializedBody = _serializers.serialize(body);
+        final bodySerializer = _serializers.serializerForType(Pet);
+        final serializedBody = _serializers.serializeWith(bodySerializer, body);
         final jsonbody = json.encode(serializedBody);
         bodyData = jsonbody;
 

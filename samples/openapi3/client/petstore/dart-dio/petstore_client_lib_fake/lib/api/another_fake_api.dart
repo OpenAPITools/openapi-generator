@@ -38,7 +38,8 @@ class AnotherFakeApi {
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(modelClient);
+        final bodySerializer = _serializers.serializerForType(ModelClient);
+        final serializedBody = _serializers.serializeWith(bodySerializer, modelClient);
         final jsonmodelClient = json.encode(serializedBody);
         bodyData = jsonmodelClient;
 
