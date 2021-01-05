@@ -23,6 +23,7 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 
 import java.io.File;
 
@@ -42,6 +43,9 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
         .includeDocumentationFeatures(DocumentationFeature.Readme)
         .includeGlobalFeatures(GlobalFeature.ParameterizedServer)
         .includeGlobalFeatures(GlobalFeature.MultiServer)
+        .includeSecurityFeatures(SecurityFeature.BasicAuth)
+        .includeSecurityFeatures(SecurityFeature.ApiKey)
+        .includeSecurityFeatures(SecurityFeature.BearerToken)
         );
 
         // set the output folder here
