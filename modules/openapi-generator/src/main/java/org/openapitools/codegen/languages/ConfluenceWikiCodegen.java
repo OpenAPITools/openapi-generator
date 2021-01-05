@@ -124,6 +124,11 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        return postProcessModelsEnum(objs);
+    }
+    
+    @Override
     public String escapeQuotationMark(String input) {
         // just return the original string
         return input;
