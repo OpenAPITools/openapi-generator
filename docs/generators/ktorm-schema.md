@@ -7,6 +7,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|addSurrogateKey|Adds the surrogate key for all models that don't already have a primary key (named by the above convention)| |false|
 |artifactId|Generated artifact id (name of jar).| |ktorm|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
 |defaultDatabaseName|Default database name for all queries| |sqlite.db|
@@ -16,9 +17,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |importModelPackageName|Package name of the imported models| |org.openapitools.database.models|
 |modelMutable|Create mutable models| |false|
 |packageName|Generated artifact package name.| |org.openapitools.database|
-|parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
-|serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
-|serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson' or 'jackson'| |moshi|
+|primaryKeyConvention|Primary key naming convention| |id|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
