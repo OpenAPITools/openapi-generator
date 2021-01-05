@@ -31,6 +31,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     orderId := "orderId_example" // string | ID of the order that needs to be deleted
 
@@ -40,6 +45,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.DeleteOrder``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
 }
 ```
@@ -63,7 +72,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+ (empty response body), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -99,6 +110,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
 
     configuration := openapiclient.NewConfiguration()
@@ -107,6 +123,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.GetInventory``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
     // response from `GetInventory`: map[string]int32
     fmt.Fprintf(os.Stdout, "Response from `StoreApi.GetInventory`: %v\n", resp)
@@ -124,7 +144,9 @@ Other parameters are passed through a pointer to a apiGetInventoryRequest struct
 
 ### Return type
 
-**map[string]int32**
+**map[string]int32**, http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -160,6 +182,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     orderId := int64(789) // int64 | ID of pet that needs to be fetched
 
@@ -169,6 +196,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.GetOrderById``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
     // response from `GetOrderById`: Order
     fmt.Fprintf(os.Stdout, "Response from `StoreApi.GetOrderById`: %v\n", resp)
@@ -194,7 +225,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Order**](Order.md)
+[**Order**](Order.md), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -228,6 +261,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     body := *openapiclient.NewOrder() // Order | order placed for purchasing the pet
 
@@ -237,6 +275,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.PlaceOrder``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
     // response from `PlaceOrder`: Order
     fmt.Fprintf(os.Stdout, "Response from `StoreApi.PlaceOrder`: %v\n", resp)
@@ -258,7 +300,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Order**](Order.md)
+[**Order**](Order.md), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 

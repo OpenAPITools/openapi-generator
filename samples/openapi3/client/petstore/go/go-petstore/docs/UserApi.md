@@ -35,6 +35,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     user := *openapiclient.NewUser() // User | Created user object
 
@@ -44,6 +49,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.CreateUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
 }
 ```
@@ -63,7 +72,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+ (empty response body), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -97,6 +108,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     user := []openapiclient.User{*openapiclient.NewUser()} // []User | List of user object
 
@@ -106,6 +122,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.CreateUsersWithArrayInput``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
 }
 ```
@@ -125,7 +145,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+ (empty response body), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -159,6 +181,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     user := []openapiclient.User{*openapiclient.NewUser()} // []User | List of user object
 
@@ -168,6 +195,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.CreateUsersWithListInput``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
 }
 ```
@@ -187,7 +218,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+ (empty response body), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -223,6 +256,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     username := "username_example" // string | The name that needs to be deleted
 
@@ -232,6 +270,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.DeleteUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
 }
 ```
@@ -255,7 +297,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+ (empty response body), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -289,6 +333,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     username := "username_example" // string | The name that needs to be fetched. Use user1 for testing.
 
@@ -298,6 +347,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.GetUserByName``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
     // response from `GetUserByName`: User
     fmt.Fprintf(os.Stdout, "Response from `UserApi.GetUserByName`: %v\n", resp)
@@ -323,7 +376,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**User**](User.md)
+[**User**](User.md), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -357,6 +412,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     username := "username_example" // string | The user name for login
     password := "password_example" // string | The password for login in clear text
@@ -367,6 +427,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.LoginUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
     // response from `LoginUser`: string
     fmt.Fprintf(os.Stdout, "Response from `UserApi.LoginUser`: %v\n", resp)
@@ -389,7 +453,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**string**
+**string**, http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -423,6 +489,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
 
     configuration := openapiclient.NewConfiguration()
@@ -431,6 +502,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.LogoutUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
 }
 ```
@@ -446,7 +521,9 @@ Other parameters are passed through a pointer to a apiLogoutUserRequest struct v
 
 ### Return type
 
- (empty response body)
+ (empty response body), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -482,6 +559,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     username := "username_example" // string | name that need to be deleted
     user := *openapiclient.NewUser() // User | Updated user object
@@ -492,6 +574,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UserApi.UpdateUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
 }
 ```
@@ -516,7 +602,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+ (empty response body), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 

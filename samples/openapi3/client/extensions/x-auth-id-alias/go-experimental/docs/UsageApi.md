@@ -31,6 +31,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
 
     configuration := openapiclient.NewConfiguration()
@@ -39,6 +44,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UsageApi.AnyKey``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
     // response from `AnyKey`: map[string]interface{}
     fmt.Fprintf(os.Stdout, "Response from `UsageApi.AnyKey`: %v\n", resp)
@@ -56,7 +65,9 @@ Other parameters are passed through a pointer to a apiAnyKeyRequest struct via t
 
 ### Return type
 
-**map[string]interface{}**
+**map[string]interface{}**, http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -92,6 +103,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
 
     configuration := openapiclient.NewConfiguration()
@@ -100,6 +116,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UsageApi.BothKeys``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
     // response from `BothKeys`: map[string]interface{}
     fmt.Fprintf(os.Stdout, "Response from `UsageApi.BothKeys`: %v\n", resp)
@@ -117,7 +137,9 @@ Other parameters are passed through a pointer to a apiBothKeysRequest struct via
 
 ### Return type
 
-**map[string]interface{}**
+**map[string]interface{}**, http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -153,6 +175,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
 
     configuration := openapiclient.NewConfiguration()
@@ -161,6 +188,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UsageApi.KeyInHeader``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
     // response from `KeyInHeader`: map[string]interface{}
     fmt.Fprintf(os.Stdout, "Response from `UsageApi.KeyInHeader`: %v\n", resp)
@@ -178,7 +209,9 @@ Other parameters are passed through a pointer to a apiKeyInHeaderRequest struct 
 
 ### Return type
 
-**map[string]interface{}**
+**map[string]interface{}**, http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -214,6 +247,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
 
     configuration := openapiclient.NewConfiguration()
@@ -222,6 +260,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UsageApi.KeyInQuery``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
     // response from `KeyInQuery`: map[string]interface{}
     fmt.Fprintf(os.Stdout, "Response from `UsageApi.KeyInQuery`: %v\n", resp)
@@ -239,7 +281,9 @@ Other parameters are passed through a pointer to a apiKeyInQueryRequest struct v
 
 ### Return type
 
-**map[string]interface{}**
+**map[string]interface{}**, http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 

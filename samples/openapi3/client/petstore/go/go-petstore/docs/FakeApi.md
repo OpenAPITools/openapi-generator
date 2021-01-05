@@ -39,6 +39,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
 
     configuration := openapiclient.NewConfiguration()
@@ -47,6 +52,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeHealthGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
     // response from `FakeHealthGet`: HealthCheckResult
     fmt.Fprintf(os.Stdout, "Response from `FakeApi.FakeHealthGet`: %v\n", resp)
@@ -64,7 +73,9 @@ Other parameters are passed through a pointer to a apiFakeHealthGetRequest struc
 
 ### Return type
 
-[**HealthCheckResult**](HealthCheckResult.md)
+[**HealthCheckResult**](HealthCheckResult.md), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -100,6 +111,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     body := true // bool | Input boolean as post body (optional)
 
@@ -109,6 +125,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterBooleanSerialize``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
     // response from `FakeOuterBooleanSerialize`: bool
     fmt.Fprintf(os.Stdout, "Response from `FakeApi.FakeOuterBooleanSerialize`: %v\n", resp)
@@ -130,7 +150,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**bool**
+**bool**, http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -166,6 +188,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     outerComposite := *openapiclient.NewOuterComposite() // OuterComposite | Input composite as post body (optional)
 
@@ -175,6 +202,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterCompositeSerialize``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
     // response from `FakeOuterCompositeSerialize`: OuterComposite
     fmt.Fprintf(os.Stdout, "Response from `FakeApi.FakeOuterCompositeSerialize`: %v\n", resp)
@@ -196,7 +227,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**OuterComposite**](OuterComposite.md)
+[**OuterComposite**](OuterComposite.md), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -232,6 +265,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     body := float32(8.14) // float32 | Input number as post body (optional)
 
@@ -241,6 +279,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterNumberSerialize``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
     // response from `FakeOuterNumberSerialize`: float32
     fmt.Fprintf(os.Stdout, "Response from `FakeApi.FakeOuterNumberSerialize`: %v\n", resp)
@@ -262,7 +304,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**float32**
+**float32**, http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -298,6 +342,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     body := "body_example" // string | Input string as post body (optional)
 
@@ -307,6 +356,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterStringSerialize``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
     // response from `FakeOuterStringSerialize`: string
     fmt.Fprintf(os.Stdout, "Response from `FakeApi.FakeOuterStringSerialize`: %v\n", resp)
@@ -328,7 +381,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**string**
+**string**, http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -364,6 +419,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     fileSchemaTestClass := *openapiclient.NewFileSchemaTestClass() // FileSchemaTestClass | 
 
@@ -373,6 +433,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestBodyWithFileSchema``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
 }
 ```
@@ -392,7 +456,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+ (empty response body), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -426,6 +492,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     query := "query_example" // string | 
     user := *openapiclient.NewUser() // User | 
@@ -436,6 +507,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestBodyWithQueryParams``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
 }
 ```
@@ -456,7 +531,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+ (empty response body), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -492,6 +569,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     client := *openapiclient.NewClient() // Client | client model
 
@@ -501,6 +583,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestClientModel``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
     // response from `TestClientModel`: Client
     fmt.Fprintf(os.Stdout, "Response from `FakeApi.TestClientModel`: %v\n", resp)
@@ -522,7 +608,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Client**](Client.md)
+[**Client**](Client.md), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -559,6 +647,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     number := float32(8.14) // float32 | None
     double := float64(1.2) // float64 | None
@@ -581,6 +674,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestEndpointParameters``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
 }
 ```
@@ -613,7 +710,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+ (empty response body), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -649,6 +748,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     enumHeaderStringArray := []string{"EnumHeaderStringArray_example"} // []string | Header parameter enum test (string array) (optional)
     enumHeaderString := "enumHeaderString_example" // string | Header parameter enum test (string) (optional) (default to "-efg")
@@ -665,6 +769,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestEnumParameters``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
 }
 ```
@@ -691,7 +799,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+ (empty response body), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -727,6 +837,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     requiredStringGroup := int32(56) // int32 | Required String in group parameters
     requiredBooleanGroup := true // bool | Required Boolean in group parameters
@@ -741,6 +856,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestGroupParameters``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
 }
 ```
@@ -765,7 +884,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+ (empty response body), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -799,6 +920,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     requestBody := map[string]string{"key": "Inner_example"} // map[string]string | request body
 
@@ -808,6 +934,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestInlineAdditionalProperties``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
 }
 ```
@@ -827,7 +957,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+ (empty response body), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -861,6 +993,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     param := "param_example" // string | field1
     param2 := "param2_example" // string | field2
@@ -871,6 +1008,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestJsonFormData``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
 }
 ```
@@ -891,7 +1032,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+ (empty response body), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
@@ -927,6 +1070,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
     pipe := []string{"Inner_example"} // []string | 
     ioutil := []string{"Inner_example"} // []string | 
@@ -940,6 +1088,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestQueryParameterCollectionFormat``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
 }
 ```
@@ -963,7 +1115,9 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+ (empty response body), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 

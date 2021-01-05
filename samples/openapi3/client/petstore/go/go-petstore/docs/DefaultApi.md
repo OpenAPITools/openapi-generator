@@ -26,6 +26,11 @@ import (
     openapiclient "./openapi"
 )
 
+type openapiError interface {
+    Model() interface{}
+    Body() []byte 
+}
+
 func main() {
 
     configuration := openapiclient.NewConfiguration()
@@ -34,6 +39,10 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.FooGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+        if openapiErr, ok := err.(openapiError); ok {
+            fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
+            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+        }
     }
     // response from `FooGet`: InlineResponseDefault
     fmt.Fprintf(os.Stdout, "Response from `DefaultApi.FooGet`: %v\n", resp)
@@ -51,7 +60,9 @@ Other parameters are passed through a pointer to a apiFooGetRequest struct via t
 
 ### Return type
 
-[**InlineResponseDefault**](inline_response_default.md)
+[**InlineResponseDefault**](inline_response_default.md), http.Response and error
+
+The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
 
 ### Authorization
 
