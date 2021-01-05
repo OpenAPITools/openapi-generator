@@ -37,7 +37,7 @@ type FakeClassnameTags123Api interface {
 	 * TestClassnameExecute executes the request
 	 * @return Client
 	 */
-	TestClassnameExecute(r ApiTestClassnameRequest) (Client, *_nethttp.Response, GenericOpenAPIError)
+	TestClassnameExecute(r ApiTestClassnameRequest) (Client, *_nethttp.Response, error)
 }
 
 // FakeClassnameTags123ApiService FakeClassnameTags123Api service
@@ -54,7 +54,7 @@ func (r ApiTestClassnameRequest) Body(body Client) ApiTestClassnameRequest {
 	return r
 }
 
-func (r ApiTestClassnameRequest) Execute() (Client, *_nethttp.Response, GenericOpenAPIError) {
+func (r ApiTestClassnameRequest) Execute() (Client, *_nethttp.Response, error) {
 	return r.ApiService.TestClassnameExecute(r)
 }
 
@@ -75,21 +75,19 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context) Api
  * Execute executes the request
  * @return Client
  */
-func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassnameRequest) (Client, *_nethttp.Response, GenericOpenAPIError) {
+func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassnameRequest) (Client, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		executionError       GenericOpenAPIError
 		localVarReturnValue  Client
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeClassnameTags123ApiService.TestClassname")
 	if err != nil {
-		executionError.error = err.Error()
-		return localVarReturnValue, nil, executionError
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/fake_classname_test"
@@ -98,8 +96,7 @@ func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassname
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	if r.body == nil {
-		executionError.error = "body is required and must be specified"
-		return localVarReturnValue, nil, executionError
+		return localVarReturnValue, nil, reportError("body is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -137,22 +134,19 @@ func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassname
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		executionError.error = err.Error()
-		return localVarReturnValue, nil, executionError
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		executionError.error = err.Error()
-		return localVarReturnValue, localVarHTTPResponse, executionError
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		executionError.error = err.Error()
-		return localVarReturnValue, localVarHTTPResponse, executionError
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -172,5 +166,5 @@ func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassname
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, executionError
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
