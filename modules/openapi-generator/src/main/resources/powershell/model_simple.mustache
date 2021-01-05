@@ -73,7 +73,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{#vars}}
         {{^isNullable}}
         {{#required}}
-        if (!${{{name}}}) {
+        if (${{{name}}} -eq $null) {
             throw "invalid value for '{{{name}}}', '{{{name}}}' cannot be null."
         }
 
