@@ -22,7 +22,7 @@ import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.*
-import io.ktor.client.request.forms.FormPart
+import io.ktor.client.request.forms.*
 import io.ktor.client.utils.EmptyContent
 import io.ktor.http.*
 import kotlinx.serialization.json.Json
@@ -39,10 +39,7 @@ import kotlinx.serialization.encoding.Encoder
 @Suppress(
     "unused",
     "RemoveRedundantQualifierName",
-    "RemoveExplicitTypeArguments",
-    "RemoveRedundantCallsOfConversionMethods",
     "DuplicatedCode",
-    "UnnecessaryVariable",
 )
 public open class PetApi : ApiClientBase {
     public constructor(
@@ -218,10 +215,10 @@ public open class PetApi : ApiClientBase {
             this.body = FormDataContent(
                 ParametersBuilder(2).apply {
                     if (name != null) {
-                        it.append("name", name)
+                        append("name", name)
                     }
                     if (status != null) {
-                        it.append("status", status)
+                        append("status", status)
                     }
                 }.build()
             )
