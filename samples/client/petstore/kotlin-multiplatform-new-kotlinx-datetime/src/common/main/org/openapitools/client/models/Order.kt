@@ -33,7 +33,6 @@ import kotlinx.serialization.Serializable
  * @param status Order Status
  * @param complete 
  */
-@Suppress("ArrayInDataClass")
 @Serializable
 public data class Order(
     @SerialName(value = "id")

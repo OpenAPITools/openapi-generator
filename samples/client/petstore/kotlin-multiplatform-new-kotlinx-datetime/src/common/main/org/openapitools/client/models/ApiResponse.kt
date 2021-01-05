@@ -30,7 +30,6 @@ import kotlinx.serialization.Serializable
  * @param type 
  * @param message 
  */
-@Suppress("ArrayInDataClass")
 @Serializable
 public data class ApiResponse(
     @SerialName(value = "code")

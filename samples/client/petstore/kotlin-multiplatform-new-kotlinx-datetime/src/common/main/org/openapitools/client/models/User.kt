@@ -35,7 +35,6 @@ import kotlinx.serialization.Serializable
  * @param phone 
  * @param userStatus User Status
  */
-@Suppress("ArrayInDataClass")
 @Serializable
 public data class User(
     @SerialName(value = "id")

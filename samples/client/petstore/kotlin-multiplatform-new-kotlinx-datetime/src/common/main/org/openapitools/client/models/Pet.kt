@@ -35,7 +35,6 @@ import kotlinx.serialization.Serializable
  * @param tags 
  * @param status pet status in the store
  */
-@Suppress("ArrayInDataClass")
 @Serializable
 public data class Pet(
     @SerialName(value = "name")

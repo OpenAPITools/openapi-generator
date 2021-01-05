@@ -22,7 +22,7 @@ All URIs are relative to *{{{basePath}}}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{{summary}}}{{/summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{{summary}}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 {{/generateApiDocs}}
 
@@ -46,9 +46,9 @@ No model defined in this package
 All endpoints do not require authorization.
 {{/authMethods}}
 {{#authMethods}}
-{{#last}}
+{{#-last}}
 Authentication schemes defined for the API:
-{{/last}}
+{{/-last}}
 {{/authMethods}}
 {{#authMethods}}
 <a id="{{name}}"></a>

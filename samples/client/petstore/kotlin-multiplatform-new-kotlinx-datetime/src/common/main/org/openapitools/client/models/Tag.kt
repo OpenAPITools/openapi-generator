@@ -29,7 +29,6 @@ import kotlinx.serialization.Serializable
  * @param id 
  * @param name 
  */
-@Suppress("ArrayInDataClass")
 @Serializable
 public data class Tag(
     @SerialName(value = "id")
