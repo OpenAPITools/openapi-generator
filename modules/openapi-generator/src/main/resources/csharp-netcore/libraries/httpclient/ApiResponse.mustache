@@ -105,9 +105,20 @@ namespace {{packageName}}.Client
         /// </summary>
         public string RawContent { get; }
 
+        /// <summary>
+        /// The servers response to our request.
+        /// </summary>
+        public System.Net.Http.HttpResponseMessage Response { get; }
+
         #endregion Properties
 
         #region Constructors
+
+        public ApiResponse(System.Net.Http.HttpResponseMessage response, string rawContent)
+        {
+            Response = response;
+            RawContent = rawContent;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiResponse{T}" /> class.
