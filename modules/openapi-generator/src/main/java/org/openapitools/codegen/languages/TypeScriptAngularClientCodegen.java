@@ -107,10 +107,17 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 this.taggedUnions));
         this.cliOptions.add(CliOption.newBoolean(PROVIDED_IN_ROOT,
-                "Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).",
+                "Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0). IMPORTANT: Deprecated for angular version greater or equal to 9.0.0, use **providedIn** instead.",
                 false));
-        this.cliOptions.add(new CliOption(PROVIDED_IN,
-                "Use this property to provide Injectables in wanted level (it is only valid in angular version greater or equal to 9.0.0).").defaultValue("root"));
+        CliOption providedInCliOpt = new CliOption(PROVIDED_IN,
+                "Use this property to provide Injectables in wanted level (it is only valid in angular version greater or equal to 9.0.0).").defaultValue("root");
+        Map<String, String> providedInOptions = new HashMap<>();
+        providedInOptions.put(PROVIDED_IN_LEVEL.none.toString(), "No providedIn (same as providedInRoot=false)");
+        providedInOptions.put(PROVIDED_IN_LEVEL.root.toString(), "The application-level injector in most apps.");
+        providedInOptions.put(PROVIDED_IN_LEVEL.platform.toString(), "A special singleton platform injector shared by all applications on the page.");
+        providedInOptions.put(PROVIDED_IN_LEVEL.any.toString(), "Provides a unique instance in each lazy loaded module while all eagerly loaded modules share one instance.");
+        providedInCliOpt.setEnum(providedInOptions);
+        this.cliOptions.add(providedInCliOpt);
         this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. (At least 6.0.0)").defaultValue(this.ngVersion));
         this.cliOptions.add(new CliOption(API_MODULE_PREFIX, "The prefix of the generated ApiModule."));
         this.cliOptions.add(new CliOption(CONFIGURATION_PREFIX, "The prefix of the generated Configuration."));
