@@ -53,16 +53,18 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-
 Configure petstore_auth (OAuth):
 ```kotlin
-apiClient.oAuth["petstore_auth"].accessToken = ""
+apiClient.configureOAuth("petstore_auth") {
+    token("your-OAuth-token")
+}
 ```
 
 ### HTTP request headers
 
- - **Content-Type**: application/jsonapplication/xml
- - **Accept**: Not defined
+```
+Content-Type: application/json, application/xml
+```
 
 # **deletePet**
 > deletePet(petId, apiKey)
@@ -106,16 +108,17 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-
 Configure petstore_auth (OAuth):
 ```kotlin
-apiClient.oAuth["petstore_auth"].accessToken = ""
+apiClient.configureOAuth("petstore_auth") {
+    token("your-OAuth-token")
+}
 ```
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+```
+```
 
 # **findPetsByStatus**
 > kotlin.collections.List&lt;Pet&gt; findPetsByStatus(status)
@@ -159,16 +162,18 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-
 Configure petstore_auth (OAuth):
 ```kotlin
-apiClient.oAuth["petstore_auth"].accessToken = ""
+apiClient.configureOAuth("petstore_auth") {
+    token("your-OAuth-token")
+}
 ```
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xmlapplication/json
+```
+Accept: application/xml, application/json
+```
 
 # **findPetsByTags**
 > kotlin.collections.List&lt;Pet&gt; findPetsByTags(tags)
@@ -212,16 +217,18 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-
 Configure petstore_auth (OAuth):
 ```kotlin
-apiClient.oAuth["petstore_auth"].accessToken = ""
+apiClient.configureOAuth("petstore_auth") {
+    token("your-OAuth-token")
+}
 ```
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xmlapplication/json
+```
+Accept: application/xml, application/json
+```
 
 # **getPetById**
 > Pet getPetById(petId)
@@ -265,20 +272,19 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-
-CodegenSecurity{name&#x3D;&#39;api_key&#39;, type&#x3D;&#39;apiKey&#39;, scheme&#x3D;&#39;null&#39;, isBasic&#x3D;false, isOAuth&#x3D;false, isApiKey&#x3D;true, isBasicBasic&#x3D;false, isHttpSignature&#x3D;false, isBasicBearer&#x3D;false, bearerFormat&#x3D;&#39;null&#39;, vendorExtensions&#x3D;{}, keyParamName&#x3D;&#39;api_key&#39;, isKeyInQuery&#x3D;false, isKeyInHeader&#x3D;true, isKeyInCookie&#x3D;false, flow&#x3D;&#39;null&#39;, authorizationUrl&#x3D;&#39;null&#39;, tokenUrl&#x3D;&#39;null&#39;, scopes&#x3D;null, isCode&#x3D;false, isPassword&#x3D;false, isApplication&#x3D;false, isImplicit&#x3D;false}
 Configure api_key (API key):
 ```kotlin
-apiClient.apiKeyAuth["api_key"].apply {
-    apiKey = ""
-    apiKeyPrefix = ""
+apiClient.configureApiKey("api_key") {
+    key("your-api-key")
+    keyPrefix("YourPrefix ") // Optional
 }
 ```
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xmlapplication/json
+```
+Accept: application/xml, application/json
+```
 
 # **updatePet**
 > updatePet(body)
@@ -319,16 +325,18 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-
 Configure petstore_auth (OAuth):
 ```kotlin
-apiClient.oAuth["petstore_auth"].accessToken = ""
+apiClient.configureOAuth("petstore_auth") {
+    token("your-OAuth-token")
+}
 ```
 
 ### HTTP request headers
 
- - **Content-Type**: application/jsonapplication/xml
- - **Accept**: Not defined
+```
+Content-Type: application/json, application/xml
+```
 
 # **updatePetWithForm**
 > updatePetWithForm(petId, name, status)
@@ -375,16 +383,18 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-
 Configure petstore_auth (OAuth):
 ```kotlin
-apiClient.oAuth["petstore_auth"].accessToken = ""
+apiClient.configureOAuth("petstore_auth") {
+    token("your-OAuth-token")
+}
 ```
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+```
+Content-Type: application/x-www-form-urlencoded
+```
 
 # **uploadFile**
 > ApiResponse uploadFile(petId, additionalMetadata, file)
@@ -432,14 +442,17 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-
 Configure petstore_auth (OAuth):
 ```kotlin
-apiClient.oAuth["petstore_auth"].accessToken = ""
+apiClient.configureOAuth("petstore_auth") {
+    token("your-OAuth-token")
+}
 ```
 
 ### HTTP request headers
 
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
+```
+Content-Type: multipart/form-data
+Accept: application/json
+```
 

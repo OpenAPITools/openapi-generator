@@ -23,4 +23,9 @@ public class ApiKeyAuth(public val location: Location, public val paramName: Str
     public enum class Location {
         Query, Header;
     }
+
+    public interface Configurer {
+        public fun key(value: String)
+        public fun keyPrefix(value: String?)
+    }
 }

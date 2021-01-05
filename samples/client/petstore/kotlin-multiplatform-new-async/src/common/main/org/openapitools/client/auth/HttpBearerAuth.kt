@@ -17,4 +17,8 @@ public class HttpBearerAuth(public val scheme: String?) : Authentication {
     private fun upperCaseBearer(scheme: String): String {
         return if ("bearer".equals(scheme, ignoreCase = true)) "Bearer" else scheme
     }
+
+    public interface Configurer {
+        public fun token(value: String)
+    }
 }

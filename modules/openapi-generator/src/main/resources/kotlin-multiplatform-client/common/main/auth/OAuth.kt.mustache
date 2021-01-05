@@ -14,4 +14,8 @@ public class OAuth : Authentication {
         val token = accessToken ?: throw IllegalStateException("OAuth not configured")
         builder.header(HttpHeaders.Authorization, "Bearer $token")
     }
+
+    public interface Configurer {
+        public fun token(value: String)
+    }
 }

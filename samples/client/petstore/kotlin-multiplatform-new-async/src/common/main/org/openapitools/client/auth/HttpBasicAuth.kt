@@ -19,4 +19,9 @@ public class HttpBasicAuth : Authentication {
         val auth = str.toBase64()
         builder.header(HttpHeaders.Authorization, "Basic $auth")
     }
+
+    public interface Configurer {
+        public fun username(value: String?)
+        public fun password(value: String?)
+    }
 }

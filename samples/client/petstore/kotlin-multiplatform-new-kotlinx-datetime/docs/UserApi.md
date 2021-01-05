@@ -59,8 +59,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+```
+```
 
 # **createUsersWithArrayInput**
 > createUsersWithArrayInput(body)
@@ -105,8 +105,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+```
+```
 
 # **createUsersWithListInput**
 > createUsersWithListInput(body)
@@ -151,8 +151,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+```
+```
 
 # **deleteUser**
 > deleteUser(username)
@@ -199,8 +199,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+```
+```
 
 # **getUserByName**
 > User getUserByName(username)
@@ -246,8 +246,9 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xmlapplication/json
+```
+Accept: application/xml, application/json
+```
 
 # **loginUser**
 > kotlin.String loginUser(username, password)
@@ -296,8 +297,9 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xmlapplication/json
+```
+Accept: application/xml, application/json
+```
 
 # **logoutUser**
 > logoutUser()
@@ -337,8 +339,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+```
+```
 
 # **updateUser**
 > updateUser(username, body)
@@ -388,6 +390,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+```
+```
 

@@ -65,47 +65,63 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-{{^authMethods}}No authorization required{{/authMethods}}
+{{^authMethods}}
+No authorization required
+{{/authMethods}}
 {{#authMethods}}
 {{#isApiKey}}
-{{.}}
 Configure {{name}} (API key):
 ```kotlin
-apiClient.apiKeyAuth["{{name}}"].apply {
-    apiKey = ""
-    apiKeyPrefix = ""
+apiClient.configureApiKey("{{name}}") {
+    key("your-api-key")
+    keyPrefix("YourPrefix ") // Optional
 }
 ```
 {{/isApiKey}}
 {{#isBasic}}
-{{#isBasicBasic}}
-Configure {{name}} (Basic with username & password):
-```kotlin
-apiClient.basicAuth["{{name}}"].apply {
-    username = ""
-    password = ""
-}
-```
-{{/isBasicBasic}}
 {{#isBasicBearer}}
 Configure {{name}} (Basic with `Bearer`):
 ```kotlin
-apiClient.bearerAuth["{{name}}"].accessToken = ""
+apiClient.configureBearer("{{name}}") {
+    token("your-token")
+}
 ```
 {{/isBasicBearer}}
+{{#isBasicBasic}}
+Configure {{name}} (Basic with username & password):
+```kotlin
+apiClient.configureBasic("{{name}}") {
+    // At minimum one has to be specified
+    username("your-username")
+    password("your-password")
+}
+```
+{{/isBasicBasic}}
 {{/isBasic}}
 {{#isOAuth}}
 Configure {{name}} (OAuth):
 ```kotlin
-apiClient.oAuth["{{name}}"].accessToken = ""
+apiClient.configureOAuth("{{name}}") {
+    token("your-OAuth-token")
+}
 ```
 {{/isOAuth}}
 {{/authMethods}}
 
 ### HTTP request headers
 
- - **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
- - **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
+```
+{{#consumes}}
+{{#-first}}
+Content-Type: {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}
+{{/-first}}
+{{/consumes}}
+{{#produces}}
+{{#-first}}
+Accept: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}
+{{/-first}}
+{{/produces}}
+```
 
 {{/operation}}
 {{/operations}}
