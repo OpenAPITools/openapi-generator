@@ -26,7 +26,7 @@ public class Model200Response   {
    * Get name
    * @return name
   **/
-    public Integer getName() {
+  public Integer getName() {
     return name;
   }
 
@@ -43,7 +43,7 @@ public class Model200Response   {
    * Get propertyClass
    * @return propertyClass
   **/
-    public String getPropertyClass() {
+  public String getPropertyClass() {
     return propertyClass;
   }
 

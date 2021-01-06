@@ -18,7 +18,8 @@ public class XmlItem   {
   private String attributeString;
 
   @JsonProperty("attribute_number")
-  private BigDecimal attributeNumber;
+  @Valid
+private BigDecimal attributeNumber;
 
   @JsonProperty("attribute_integer")
   private Integer attributeInteger;
@@ -33,7 +34,8 @@ public class XmlItem   {
   private String nameString;
 
   @JsonProperty("name_number")
-  private BigDecimal nameNumber;
+  @Valid
+private BigDecimal nameNumber;
 
   @JsonProperty("name_integer")
   private Integer nameInteger;
@@ -51,7 +53,8 @@ public class XmlItem   {
   private String prefixString;
 
   @JsonProperty("prefix_number")
-  private BigDecimal prefixNumber;
+  @Valid
+private BigDecimal prefixNumber;
 
   @JsonProperty("prefix_integer")
   private Integer prefixInteger;
@@ -69,7 +72,8 @@ public class XmlItem   {
   private String namespaceString;
 
   @JsonProperty("namespace_number")
-  private BigDecimal namespaceNumber;
+  @Valid
+private BigDecimal namespaceNumber;
 
   @JsonProperty("namespace_integer")
   private Integer namespaceInteger;
@@ -87,7 +91,8 @@ public class XmlItem   {
   private String prefixNsString;
 
   @JsonProperty("prefix_ns_number")
-  private BigDecimal prefixNsNumber;
+  @Valid
+private BigDecimal prefixNsNumber;
 
   @JsonProperty("prefix_ns_integer")
   private Integer prefixNsInteger;
@@ -110,7 +115,7 @@ public class XmlItem   {
    * Get attributeString
    * @return attributeString
   **/
-    public String getAttributeString() {
+  public String getAttributeString() {
     return attributeString;
   }
 
@@ -127,7 +132,6 @@ public class XmlItem   {
    * Get attributeNumber
    * @return attributeNumber
   **/
-  @Valid
   public BigDecimal getAttributeNumber() {
     return attributeNumber;
   }
@@ -145,7 +149,7 @@ public class XmlItem   {
    * Get attributeInteger
    * @return attributeInteger
   **/
-    public Integer getAttributeInteger() {
+  public Integer getAttributeInteger() {
     return attributeInteger;
   }
 
@@ -162,7 +166,7 @@ public class XmlItem   {
    * Get attributeBoolean
    * @return attributeBoolean
   **/
-    public Boolean getAttributeBoolean() {
+  public Boolean getAttributeBoolean() {
     return attributeBoolean;
   }
 
@@ -187,7 +191,7 @@ public class XmlItem   {
    * Get wrappedArray
    * @return wrappedArray
   **/
-    public List<Integer> getWrappedArray() {
+  public List<Integer> getWrappedArray() {
     return wrappedArray;
   }
 
@@ -204,7 +208,7 @@ public class XmlItem   {
    * Get nameString
    * @return nameString
   **/
-    public String getNameString() {
+  public String getNameString() {
     return nameString;
   }
 
@@ -221,7 +225,6 @@ public class XmlItem   {
    * Get nameNumber
    * @return nameNumber
   **/
-  @Valid
   public BigDecimal getNameNumber() {
     return nameNumber;
   }
@@ -239,7 +242,7 @@ public class XmlItem   {
    * Get nameInteger
    * @return nameInteger
   **/
-    public Integer getNameInteger() {
+  public Integer getNameInteger() {
     return nameInteger;
   }
 
@@ -256,7 +259,7 @@ public class XmlItem   {
    * Get nameBoolean
    * @return nameBoolean
   **/
-    public Boolean getNameBoolean() {
+  public Boolean getNameBoolean() {
     return nameBoolean;
   }
 
@@ -281,7 +284,7 @@ public class XmlItem   {
    * Get nameArray
    * @return nameArray
   **/
-    public List<Integer> getNameArray() {
+  public List<Integer> getNameArray() {
     return nameArray;
   }
 
@@ -306,7 +309,7 @@ public class XmlItem   {
    * Get nameWrappedArray
    * @return nameWrappedArray
   **/
-    public List<Integer> getNameWrappedArray() {
+  public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
   }
 
@@ -323,7 +326,7 @@ public class XmlItem   {
    * Get prefixString
    * @return prefixString
   **/
-    public String getPrefixString() {
+  public String getPrefixString() {
     return prefixString;
   }
 
@@ -340,7 +343,6 @@ public class XmlItem   {
    * Get prefixNumber
    * @return prefixNumber
   **/
-  @Valid
   public BigDecimal getPrefixNumber() {
     return prefixNumber;
   }
@@ -358,7 +360,7 @@ public class XmlItem   {
    * Get prefixInteger
    * @return prefixInteger
   **/
-    public Integer getPrefixInteger() {
+  public Integer getPrefixInteger() {
     return prefixInteger;
   }
 
@@ -375,7 +377,7 @@ public class XmlItem   {
    * Get prefixBoolean
    * @return prefixBoolean
   **/
-    public Boolean getPrefixBoolean() {
+  public Boolean getPrefixBoolean() {
     return prefixBoolean;
   }
 
@@ -400,7 +402,7 @@ public class XmlItem   {
    * Get prefixArray
    * @return prefixArray
   **/
-    public List<Integer> getPrefixArray() {
+  public List<Integer> getPrefixArray() {
     return prefixArray;
   }
 
@@ -425,7 +427,7 @@ public class XmlItem   {
    * Get prefixWrappedArray
    * @return prefixWrappedArray
   **/
-    public List<Integer> getPrefixWrappedArray() {
+  public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
   }
 
@@ -442,7 +444,7 @@ public class XmlItem   {
    * Get namespaceString
    * @return namespaceString
   **/
-    public String getNamespaceString() {
+  public String getNamespaceString() {
     return namespaceString;
   }
 
@@ -459,7 +461,6 @@ public class XmlItem   {
    * Get namespaceNumber
    * @return namespaceNumber
   **/
-  @Valid
   public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
   }
@@ -477,7 +478,7 @@ public class XmlItem   {
    * Get namespaceInteger
    * @return namespaceInteger
   **/
-    public Integer getNamespaceInteger() {
+  public Integer getNamespaceInteger() {
     return namespaceInteger;
   }
 
@@ -494,7 +495,7 @@ public class XmlItem   {
    * Get namespaceBoolean
    * @return namespaceBoolean
   **/
-    public Boolean getNamespaceBoolean() {
+  public Boolean getNamespaceBoolean() {
     return namespaceBoolean;
   }
 
@@ -519,7 +520,7 @@ public class XmlItem   {
    * Get namespaceArray
    * @return namespaceArray
   **/
-    public List<Integer> getNamespaceArray() {
+  public List<Integer> getNamespaceArray() {
     return namespaceArray;
   }
 
@@ -544,7 +545,7 @@ public class XmlItem   {
    * Get namespaceWrappedArray
    * @return namespaceWrappedArray
   **/
-    public List<Integer> getNamespaceWrappedArray() {
+  public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
   }
 
@@ -561,7 +562,7 @@ public class XmlItem   {
    * Get prefixNsString
    * @return prefixNsString
   **/
-    public String getPrefixNsString() {
+  public String getPrefixNsString() {
     return prefixNsString;
   }
 
@@ -578,7 +579,6 @@ public class XmlItem   {
    * Get prefixNsNumber
    * @return prefixNsNumber
   **/
-  @Valid
   public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
   }
@@ -596,7 +596,7 @@ public class XmlItem   {
    * Get prefixNsInteger
    * @return prefixNsInteger
   **/
-    public Integer getPrefixNsInteger() {
+  public Integer getPrefixNsInteger() {
     return prefixNsInteger;
   }
 
@@ -613,7 +613,7 @@ public class XmlItem   {
    * Get prefixNsBoolean
    * @return prefixNsBoolean
   **/
-    public Boolean getPrefixNsBoolean() {
+  public Boolean getPrefixNsBoolean() {
     return prefixNsBoolean;
   }
 
@@ -638,7 +638,7 @@ public class XmlItem   {
    * Get prefixNsArray
    * @return prefixNsArray
   **/
-    public List<Integer> getPrefixNsArray() {
+  public List<Integer> getPrefixNsArray() {
     return prefixNsArray;
   }
 
@@ -663,7 +663,7 @@ public class XmlItem   {
    * Get prefixNsWrappedArray
    * @return prefixNsWrappedArray
   **/
-    public List<Integer> getPrefixNsWrappedArray() {
+  public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;
   }
 

@@ -14,10 +14,12 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class FileSchemaTestClass   {
   @JsonProperty("file")
-  private java.io.File file;
+  @Valid
+private java.io.File file;
 
   @JsonProperty("files")
-  private List<java.io.File> files = null;
+  @Valid
+private List<java.io.File> files = null;
 
   public FileSchemaTestClass file(java.io.File file) {
     this.file = file;
@@ -28,7 +30,6 @@ public class FileSchemaTestClass   {
    * Get file
    * @return file
   **/
-  @Valid
   public java.io.File getFile() {
     return file;
   }
@@ -54,7 +55,6 @@ public class FileSchemaTestClass   {
    * Get files
    * @return files
   **/
-  @Valid
   public List<java.io.File> getFiles() {
     return files;
   }

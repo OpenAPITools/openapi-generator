@@ -12,7 +12,8 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Name   {
   @JsonProperty("name")
-  private Integer name;
+  @NotNull
+private Integer name;
 
   @JsonProperty("snake_case")
   private Integer snakeCase;
@@ -32,7 +33,6 @@ public class Name   {
    * Get name
    * @return name
   **/
-  @NotNull
   public Integer getName() {
     return name;
   }
@@ -50,7 +50,7 @@ public class Name   {
    * Get snakeCase
    * @return snakeCase
   **/
-    public Integer getSnakeCase() {
+  public Integer getSnakeCase() {
     return snakeCase;
   }
 
@@ -67,7 +67,7 @@ public class Name   {
    * Get property
    * @return property
   **/
-    public String getProperty() {
+  public String getProperty() {
     return property;
   }
 
@@ -84,7 +84,7 @@ public class Name   {
    * Get _123number
    * @return _123number
   **/
-    public Integer get123number() {
+  public Integer get123number() {
     return _123number;
   }
 

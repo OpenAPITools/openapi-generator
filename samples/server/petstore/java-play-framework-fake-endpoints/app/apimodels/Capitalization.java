@@ -38,7 +38,7 @@ public class Capitalization   {
    * Get smallCamel
    * @return smallCamel
   **/
-    public String getSmallCamel() {
+  public String getSmallCamel() {
     return smallCamel;
   }
 
@@ -55,7 +55,7 @@ public class Capitalization   {
    * Get capitalCamel
    * @return capitalCamel
   **/
-    public String getCapitalCamel() {
+  public String getCapitalCamel() {
     return capitalCamel;
   }
 
@@ -72,7 +72,7 @@ public class Capitalization   {
    * Get smallSnake
    * @return smallSnake
   **/
-    public String getSmallSnake() {
+  public String getSmallSnake() {
     return smallSnake;
   }
 
@@ -89,7 +89,7 @@ public class Capitalization   {
    * Get capitalSnake
    * @return capitalSnake
   **/
-    public String getCapitalSnake() {
+  public String getCapitalSnake() {
     return capitalSnake;
   }
 
@@ -106,7 +106,7 @@ public class Capitalization   {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
   **/
-    public String getScAETHFlowPoints() {
+  public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
 
@@ -123,7 +123,7 @@ public class Capitalization   {
    * Name of the pet 
    * @return ATT_NAME
   **/
-    public String getATTNAME() {
+  public String getATTNAME() {
     return ATT_NAME;
   }
 

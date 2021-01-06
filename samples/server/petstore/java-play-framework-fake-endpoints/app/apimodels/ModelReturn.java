@@ -23,7 +23,7 @@ public class ModelReturn   {
    * Get _return
    * @return _return
   **/
-    public Integer getReturn() {
+  public Integer getReturn() {
     return _return;
   }
 

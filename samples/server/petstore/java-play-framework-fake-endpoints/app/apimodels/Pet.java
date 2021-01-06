@@ -21,16 +21,20 @@ public class Pet   {
   private Long id;
 
   @JsonProperty("category")
-  private Category category;
+  @Valid
+private Category category;
 
   @JsonProperty("name")
-  private String name;
+  @NotNull
+private String name;
 
   @JsonProperty("photoUrls")
-  private Set<String> photoUrls = new LinkedHashSet<>();
+  @NotNull
+private Set<String> photoUrls = new LinkedHashSet<>();
 
   @JsonProperty("tags")
-  private List<Tag> tags = null;
+  @Valid
+private List<Tag> tags = null;
 
   /**
    * pet status in the store
@@ -77,7 +81,7 @@ public class Pet   {
    * Get id
    * @return id
   **/
-    public Long getId() {
+  public Long getId() {
     return id;
   }
 
@@ -94,7 +98,6 @@ public class Pet   {
    * Get category
    * @return category
   **/
-  @Valid
   public Category getCategory() {
     return category;
   }
@@ -112,7 +115,6 @@ public class Pet   {
    * Get name
    * @return name
   **/
-  @NotNull
   public String getName() {
     return name;
   }
@@ -135,7 +137,6 @@ public class Pet   {
    * Get photoUrls
    * @return photoUrls
   **/
-  @NotNull
   public Set<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -161,7 +162,6 @@ public class Pet   {
    * Get tags
    * @return tags
   **/
-  @Valid
   public List<Tag> getTags() {
     return tags;
   }
@@ -179,7 +179,7 @@ public class Pet   {
    * pet status in the store
    * @return status
   **/
-    public StatusEnum getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
 

@@ -90,7 +90,7 @@ public class EnumArrays   {
    * Get justSymbol
    * @return justSymbol
   **/
-    public JustSymbolEnum getJustSymbol() {
+  public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
 
@@ -115,7 +115,7 @@ public class EnumArrays   {
    * Get arrayEnum
    * @return arrayEnum
   **/
-    public List<ArrayEnumEnum> getArrayEnum() {
+  public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
 

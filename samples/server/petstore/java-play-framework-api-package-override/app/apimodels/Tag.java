@@ -26,7 +26,7 @@ public class Tag   {
    * Get id
    * @return id
   **/
-    public Long getId() {
+  public Long getId() {
     return id;
   }
 
@@ -43,7 +43,7 @@ public class Tag   {
    * Get name
    * @return name
   **/
-    public String getName() {
+  public String getName() {
     return name;
   }
 

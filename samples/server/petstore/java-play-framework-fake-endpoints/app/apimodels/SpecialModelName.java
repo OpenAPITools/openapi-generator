@@ -23,7 +23,7 @@ public class SpecialModelName   {
    * Get $specialPropertyName
    * @return $specialPropertyName
   **/
-    public Long get$SpecialPropertyName() {
+  public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
 

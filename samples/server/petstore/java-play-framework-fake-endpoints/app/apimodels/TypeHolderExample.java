@@ -15,22 +15,29 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class TypeHolderExample   {
   @JsonProperty("string_item")
-  private String stringItem;
+  @NotNull
+private String stringItem;
 
   @JsonProperty("number_item")
-  private BigDecimal numberItem;
+  @NotNull
+@Valid
+private BigDecimal numberItem;
 
   @JsonProperty("float_item")
-  private Float floatItem;
+  @NotNull
+private Float floatItem;
 
   @JsonProperty("integer_item")
-  private Integer integerItem;
+  @NotNull
+private Integer integerItem;
 
   @JsonProperty("bool_item")
-  private Boolean boolItem;
+  @NotNull
+private Boolean boolItem;
 
   @JsonProperty("array_item")
-  private List<Integer> arrayItem = new ArrayList<>();
+  @NotNull
+private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderExample stringItem(String stringItem) {
     this.stringItem = stringItem;
@@ -41,7 +48,6 @@ public class TypeHolderExample   {
    * Get stringItem
    * @return stringItem
   **/
-  @NotNull
   public String getStringItem() {
     return stringItem;
   }
@@ -59,8 +65,6 @@ public class TypeHolderExample   {
    * Get numberItem
    * @return numberItem
   **/
-  @NotNull
-@Valid
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -78,7 +82,6 @@ public class TypeHolderExample   {
    * Get floatItem
    * @return floatItem
   **/
-  @NotNull
   public Float getFloatItem() {
     return floatItem;
   }
@@ -96,7 +99,6 @@ public class TypeHolderExample   {
    * Get integerItem
    * @return integerItem
   **/
-  @NotNull
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -114,7 +116,6 @@ public class TypeHolderExample   {
    * Get boolItem
    * @return boolItem
   **/
-  @NotNull
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -137,7 +138,6 @@ public class TypeHolderExample   {
    * Get arrayItem
    * @return arrayItem
   **/
-  @NotNull
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

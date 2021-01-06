@@ -13,7 +13,8 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class NumberOnly   {
   @JsonProperty("JustNumber")
-  private BigDecimal justNumber;
+  @Valid
+private BigDecimal justNumber;
 
   public NumberOnly justNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
@@ -24,7 +25,6 @@ public class NumberOnly   {
    * Get justNumber
    * @return justNumber
   **/
-  @Valid
   public BigDecimal getJustNumber() {
     return justNumber;
   }

@@ -26,7 +26,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
    * Get name
    * @return name
   **/
-    public String getName() {
+  public String getName() {
     return name;
   }
 

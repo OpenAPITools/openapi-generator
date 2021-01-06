@@ -25,7 +25,7 @@ public class Dog extends Animal  {
    * Get breed
    * @return breed
   **/
-    public String getBreed() {
+  public String getBreed() {
     return breed;
   }
 

@@ -23,7 +23,7 @@ public class CatAllOf   {
    * Get declawed
    * @return declawed
   **/
-    public Boolean getDeclawed() {
+  public Boolean getDeclawed() {
     return declawed;
   }
 

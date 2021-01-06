@@ -15,7 +15,8 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ArrayOfNumberOnly   {
   @JsonProperty("ArrayNumber")
-  private List<BigDecimal> arrayNumber = null;
+  @Valid
+private List<BigDecimal> arrayNumber = null;
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
@@ -34,7 +35,6 @@ public class ArrayOfNumberOnly   {
    * Get arrayNumber
    * @return arrayNumber
   **/
-  @Valid
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }

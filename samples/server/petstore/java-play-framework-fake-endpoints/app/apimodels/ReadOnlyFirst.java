@@ -26,7 +26,7 @@ public class ReadOnlyFirst   {
    * Get bar
    * @return bar
   **/
-    public String getBar() {
+  public String getBar() {
     return bar;
   }
 
@@ -43,7 +43,7 @@ public class ReadOnlyFirst   {
    * Get baz
    * @return baz
   **/
-    public String getBaz() {
+  public String getBaz() {
     return baz;
   }
 

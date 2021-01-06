@@ -25,7 +25,7 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
    * Get name
    * @return name
   **/
-    public String getName() {
+  public String getName() {
     return name;
   }
 

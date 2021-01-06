@@ -58,7 +58,7 @@ public class BigCatAllOf   {
    * Get kind
    * @return kind
   **/
-    public KindEnum getKind() {
+  public KindEnum getKind() {
     return kind;
   }
 

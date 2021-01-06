@@ -23,7 +23,7 @@ public class ClassModel   {
    * Get propertyClass
    * @return propertyClass
   **/
-    public String getPropertyClass() {
+  public String getPropertyClass() {
     return propertyClass;
   }
 

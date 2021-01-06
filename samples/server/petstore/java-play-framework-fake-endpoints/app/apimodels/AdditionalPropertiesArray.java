@@ -26,7 +26,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List>  {
    * Get name
    * @return name
   **/
-    public String getName() {
+  public String getName() {
     return name;
   }
 

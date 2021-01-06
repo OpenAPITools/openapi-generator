@@ -26,7 +26,7 @@ public class HasOnlyReadOnly   {
    * Get bar
    * @return bar
   **/
-    public String getBar() {
+  public String getBar() {
     return bar;
   }
 
@@ -43,7 +43,7 @@ public class HasOnlyReadOnly   {
    * Get foo
    * @return foo
   **/
-    public String getFoo() {
+  public String getFoo() {
     return foo;
   }
 

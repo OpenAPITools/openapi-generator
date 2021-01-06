@@ -22,7 +22,8 @@ public class Order   {
   private Integer quantity;
 
   @JsonProperty("shipDate")
-  private OffsetDateTime shipDate;
+  @Valid
+private OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -72,7 +73,7 @@ public class Order   {
    * Get id
    * @return id
   **/
-    public Long getId() {
+  public Long getId() {
     return id;
   }
 
@@ -89,7 +90,7 @@ public class Order   {
    * Get petId
    * @return petId
   **/
-    public Long getPetId() {
+  public Long getPetId() {
     return petId;
   }
 
@@ -106,7 +107,7 @@ public class Order   {
    * Get quantity
    * @return quantity
   **/
-    public Integer getQuantity() {
+  public Integer getQuantity() {
     return quantity;
   }
 
@@ -123,7 +124,6 @@ public class Order   {
    * Get shipDate
    * @return shipDate
   **/
-  @Valid
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -141,7 +141,7 @@ public class Order   {
    * Order Status
    * @return status
   **/
-    public StatusEnum getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
 
@@ -158,7 +158,7 @@ public class Order   {
    * Get complete
    * @return complete
   **/
-    public Boolean getComplete() {
+  public Boolean getComplete() {
     return complete;
   }
 

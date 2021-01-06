@@ -60,7 +60,7 @@ public class BigCat extends Cat  {
    * Get kind
    * @return kind
   **/
-    public KindEnum getKind() {
+  public KindEnum getKind() {
     return kind;
   }
 

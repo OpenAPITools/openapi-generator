@@ -23,7 +23,7 @@ public class Client   {
    * Get client
    * @return client
   **/
-    public String getClient() {
+  public String getClient() {
     return client;
   }
 

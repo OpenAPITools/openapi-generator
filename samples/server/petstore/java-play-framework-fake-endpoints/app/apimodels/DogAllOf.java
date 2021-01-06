@@ -23,7 +23,7 @@ public class DogAllOf   {
    * Get breed
    * @return breed
   **/
-    public String getBreed() {
+  public String getBreed() {
     return breed;
   }
 

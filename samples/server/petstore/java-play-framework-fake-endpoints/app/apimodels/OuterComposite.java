@@ -13,7 +13,8 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class OuterComposite   {
   @JsonProperty("my_number")
-  private BigDecimal myNumber;
+  @Valid
+private BigDecimal myNumber;
 
   @JsonProperty("my_string")
   private String myString;
@@ -30,7 +31,6 @@ public class OuterComposite   {
    * Get myNumber
    * @return myNumber
   **/
-  @Valid
   public BigDecimal getMyNumber() {
     return myNumber;
   }
@@ -48,7 +48,7 @@ public class OuterComposite   {
    * Get myString
    * @return myString
   **/
-    public String getMyString() {
+  public String getMyString() {
     return myString;
   }
 
@@ -65,7 +65,7 @@ public class OuterComposite   {
    * Get myBoolean
    * @return myBoolean
   **/
-    public Boolean getMyBoolean() {
+  public Boolean getMyBoolean() {
     return myBoolean;
   }
 
