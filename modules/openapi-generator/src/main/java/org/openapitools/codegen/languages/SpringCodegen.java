@@ -835,9 +835,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         // Add imports for java.util.Arrays
-		if (property.isBinary || property.isByteArray) {
-			model.imports.add("Arrays");
-		}
+        if (property.isBinary || property.isByteArray) {
+            model.imports.add("Arrays");
+        }
     }
 
     @Override
