@@ -463,6 +463,14 @@ public class ApiClient{{#java8}} extends JavaTimeFormatter{{/java8}} {
             collectionFormat = CollectionFormat.CSV;
         }
 
+        if( value instanceof Map) {
+            Map<String, Object> valuesMap = (Map<String, Object>) value;
+            for(Entry<String,Object> entry : valuesMap.entrySet()) {
+                params.add(entry.getKey(), parameterToString(entry.getValue()));
+            }
+            return params;
+        }
+
         Collection<?> valueCollection = null;
         if (value instanceof Collection) {
             valueCollection = (Collection<?>) value;
