@@ -10,7 +10,13 @@
   ```
   mvn clean package
   ./bin/generate-samples.sh
+  ./bin/utils/export_docs_generators.sh
   ``` 
-  to update all Petstore samples related to your fix. This is important, as CI jobs will verify _all_ generator outputs of your HEAD commit as it would merge with master. These must match the expectations made by your contribution. You may regenerate an individual generator by passing the relevant config(s) as an argument to the script, for example `./bin/generate-samples.sh bin/configs/java*`. For Windows users, please run the script in [Git BASH](https://gitforwindows.org/).
+  to update all Petstore samples related to your fix. 
+  Commit all changed files. 
+  This is important, as CI jobs will verify _all_ generator outputs of your HEAD commit as it would merge with master. 
+  These must match the expectations made by your contribution. 
+  You may regenerate an individual generator by passing the relevant config(s) as an argument to the script, for example `./bin/generate-samples.sh bin/configs/java*`. 
+  For Windows users, please run the script in [Git BASH](https://gitforwindows.org/).
 - [ ] File the PR against the [correct branch](https://github.com/OpenAPITools/openapi-generator/wiki/Git-Branches): `master`, `5.1.x`, `6.0.x`
 - [ ] Copy the [technical committee](https://github.com/openapitools/openapi-generator/#62---openapi-generator-technical-committee) to review the pull request if your PR is targeting a particular programming language.
