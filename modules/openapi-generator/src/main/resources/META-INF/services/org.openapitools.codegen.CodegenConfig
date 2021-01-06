@@ -44,6 +44,7 @@ org.openapitools.codegen.languages.KotlinClientCodegen
 org.openapitools.codegen.languages.KotlinServerCodegen
 org.openapitools.codegen.languages.KotlinSpringServerCodegen
 org.openapitools.codegen.languages.KotlinVertxServerCodegen
+org.openapitools.codegen.languages.KtormSchemaCodegen
 org.openapitools.codegen.languages.HaskellHttpClientCodegen
 org.openapitools.codegen.languages.HaskellServantCodegen
 org.openapitools.codegen.languages.JavaClientCodegen
