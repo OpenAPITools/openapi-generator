@@ -257,11 +257,11 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind-version}</version>
         </dependency>
-            <dependency>
-                <groupId>com.github.joschi.jackson</groupId>
-                <artifactId>jackson-datatype-threetenbp</artifactId>
-                <version>${jackson-threetenbp-version}</version>
-            </dependency>
+        <dependency>
+          <groupId>com.github.joschi.jackson</groupId>
+          <artifactId>jackson-datatype-threetenbp</artifactId>
+          <version>${jackson-threetenbp-version}</version>
+        </dependency>
         <dependency>
             <groupId>com.github.scribejava</groupId>
             <artifactId>scribejava-core</artifactId>

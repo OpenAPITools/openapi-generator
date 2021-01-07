@@ -272,35 +272,33 @@
         </dependency>
         {{/openApiNullable}}
         {{#withXml}}
-
-            <!-- XML Support -->
-            <dependency>
-                <groupId>com.fasterxml.jackson.dataformat</groupId>
-                <artifactId>jackson-dataformat-xml</artifactId>
-                <version>${jackson-version}</version>
-            </dependency>
-
+        <!-- XML Support -->
+        <dependency>
+          <groupId>com.fasterxml.jackson.dataformat</groupId>
+          <artifactId>jackson-dataformat-xml</artifactId>
+          <version>${jackson-version}</version>
+        </dependency>
         {{/withXml}}
         {{#joda}}
-            <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-joda</artifactId>
-                <version>${jackson-version}</version>
-            </dependency>
+        <dependency>
+          <groupId>com.fasterxml.jackson.datatype</groupId>
+          <artifactId>jackson-datatype-joda</artifactId>
+          <version>${jackson-version}</version>
+        </dependency>
         {{/joda}}
         {{#java8}}
-            <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>${jackson-version}</version>
-            </dependency>
+        <dependency>
+          <groupId>com.fasterxml.jackson.datatype</groupId>
+          <artifactId>jackson-datatype-jsr310</artifactId>
+          <version>${jackson-version}</version>
+        </dependency>
         {{/java8}}
         {{#threetenbp}}
-            <dependency>
-                <groupId>com.github.joschi.jackson</groupId>
-                <artifactId>jackson-datatype-threetenbp</artifactId>
-                <version>${jackson-threetenbp-version}</version>
-            </dependency>
+        <dependency>
+          <groupId>com.github.joschi.jackson</groupId>
+          <artifactId>jackson-datatype-threetenbp</artifactId>
+          <version>${jackson-threetenbp-version}</version>
+        </dependency>
         {{/threetenbp}}
         <dependency>
             <groupId>com.github.scribejava</groupId>
