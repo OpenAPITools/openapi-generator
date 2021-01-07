@@ -289,6 +289,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
 
+        Set<Map<String, Object>> serializers = new HashSet<>();
         Set<String> modelImports = new HashSet<>();
         Set<String> fullImports = new HashSet<>();
 
@@ -314,6 +315,13 @@ public class DartDioClientCodegen extends DartClientCodegen {
                     param.baseType = "MultipartFile";
                     param.dataType = "MultipartFile";
                 }
+                if (param.isContainer) {
+                    final Map<String, Object> serializer = new HashMap<>();
+                    serializer.put("isArray", param.isArray);
+                    serializer.put("isMap", param.isMap);
+                    serializer.put("baseType", param.baseType);
+                    serializers.add(serializer);
+                }
             }
 
             op.vendorExtensions.put("x-is-json", isJson);
@@ -336,10 +344,19 @@ public class DartDioClientCodegen extends DartClientCodegen {
             }
             modelImports.addAll(imports);
             op.imports = imports;
+
+            if (op.returnContainer != null) {
+                final Map<String, Object> serializer = new HashMap<>();
+                serializer.put("isArray", Objects.equals("array", op.returnContainer));
+                serializer.put("isMap", Objects.equals("map", op.returnContainer));
+                serializer.put("baseType", op.returnBaseType);
+                serializers.add(serializer);
+            }
         }
 
         objs.put("modelImports", modelImports);
         objs.put("fullImports", fullImports);
+        objs.put("serializers", serializers);
 
         return objs;
     }
