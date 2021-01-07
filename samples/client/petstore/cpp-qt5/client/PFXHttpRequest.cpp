@@ -17,7 +17,7 @@
 #include <QUrl>
 #include <QUuid>
 #include <QtGlobal>
-#if QT_VERSION >= 0x060000
+#if QT_VERSION >= 0x051500
     #define SKIP_EMPTY_PARTS Qt::SkipEmptyParts
 #else
     #define SKIP_EMPTY_PARTS QString::SkipEmptyParts
@@ -59,7 +59,7 @@ void PFXHttpRequestInput::add_file(QString variable_name, QString local_filename
 PFXHttpRequestWorker::PFXHttpRequestWorker(QObject *parent, QNetworkAccessManager *_manager)
     : QObject(parent), manager(_manager), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false), httpResponseCode(-1) {
 
-#if QT_VERSION >= 0x060000
+#if QT_VERSION >= 0x051500
     randomGenerator = QRandomGenerator(QDateTime::currentDateTime().toSecsSinceEpoch());
 #else
     qsrand(QDateTime::currentDateTime().toTime_t());
@@ -223,7 +223,7 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         // variable layout is MULTIPART
 
         boundary = QString("__-----------------------%1%2")
-                    #if QT_VERSION >= 0x060000
+                    #if QT_VERSION >= 0x051500
                             .arg(QDateTime::currentDateTime().toSecsSinceEpoch())
                             .arg(randomGenerator.generate());
                     #else

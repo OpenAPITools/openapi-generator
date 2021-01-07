@@ -24,7 +24,7 @@
 #include <QObject>
 #include <QString>
 #include <QTimer>
-#if QT_VERSION >= 0x060000
+#if QT_VERSION >= 0x051500
     #include <QRandomGenerator>
 #endif
 
@@ -97,7 +97,7 @@ private:
     bool isResponseCompressionEnabled;
     bool isRequestCompressionEnabled;
     int  httpResponseCode;
-#if QT_VERSION >= 0x060000
+#if QT_VERSION >= 0x051500
     QRandomGenerator randomGenerator;
 #endif
 
