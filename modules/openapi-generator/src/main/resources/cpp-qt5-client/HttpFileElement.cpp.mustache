@@ -57,7 +57,7 @@ QJsonValue {{prefix}}HttpFileElement::asJsonValue() const {
     if (!result) {
         qDebug() << "Error opening file " << local_filename;
     }
-#if QT_VERSION >= 0x060000
+#if QT_VERSION >= 0x051500
     return QJsonDocument::fromJson(bArray.data()).object();
 #else
     return QJsonDocument::fromBinaryData(bArray.data()).object(); 
