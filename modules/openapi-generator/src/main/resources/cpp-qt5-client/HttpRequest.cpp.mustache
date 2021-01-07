@@ -52,7 +52,7 @@ void {{prefix}}HttpRequestInput::add_file(QString variable_name, QString local_f
 {{prefix}}HttpRequestWorker::{{prefix}}HttpRequestWorker(QObject *parent, QNetworkAccessManager *_manager)
     : QObject(parent), manager(_manager), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false), httpResponseCode(-1) {
 
-#if QT_VERSION >= 0x060000
+#if QT_VERSION >= 0x051500
     randomGenerator = QRandomGenerator(QDateTime::currentDateTime().toSecsSinceEpoch());
 #else
     qsrand(QDateTime::currentDateTime().toTime_t());
