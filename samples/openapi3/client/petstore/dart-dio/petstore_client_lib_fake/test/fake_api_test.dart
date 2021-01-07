@@ -66,7 +66,7 @@ void main() {
     //
     // To test \"client\" model
     //
-    //Future<Client> testClientModel(Client client) async
+    //Future<ModelClient> testClientModel(ModelClient modelClient) async
     test('test testClientModel', () async {
       // TODO
     });

@@ -6,7 +6,7 @@ void main() {
   final instance = HealthCheckResult();
 
   group(HealthCheckResult, () {
-    // String nullableMessage (default value: null)
+    // String nullableMessage
     test('to test the property `nullableMessage`', () async {
       // TODO
     });
