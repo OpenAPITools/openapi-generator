@@ -12,9 +12,11 @@ part 'read_only_first.g.dart';
 
 abstract class ReadOnlyFirst implements Built<ReadOnlyFirst, ReadOnlyFirstBuilder> {
 
+    @nullable
     @BuiltValueField(wireName: r'bar')
     String get bar;
 
+    @nullable
     @BuiltValueField(wireName: r'baz')
     String get baz;
 

@@ -12,6 +12,7 @@ part 'number_only.g.dart';
 
 abstract class NumberOnly implements Built<NumberOnly, NumberOnlyBuilder> {
 
+    @nullable
     @BuiltValueField(wireName: r'JustNumber')
     num get justNumber;
 

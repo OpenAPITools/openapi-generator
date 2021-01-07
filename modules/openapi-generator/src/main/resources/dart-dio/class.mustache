@@ -12,6 +12,11 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
     {{#isNullable}}
     @nullable
     {{/isNullable}}
+    {{^isNullable}}
+    {{^required}}
+    @nullable
+    {{/required}}
+    {{/isNullable}}
     @BuiltValueField(wireName: r'{{baseName}}')
     {{{datatypeWithEnum}}} get {{name}};
     {{#allowableValues}}

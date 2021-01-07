@@ -13,6 +13,7 @@ part 'inline_response_default.g.dart';
 
 abstract class InlineResponseDefault implements Built<InlineResponseDefault, InlineResponseDefaultBuilder> {
 
+    @nullable
     @BuiltValueField(wireName: r'string')
     Foo get string;
 

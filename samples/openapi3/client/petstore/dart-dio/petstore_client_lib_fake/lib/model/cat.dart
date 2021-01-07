@@ -17,9 +17,11 @@ abstract class Cat implements Built<Cat, CatBuilder> {
     @BuiltValueField(wireName: r'className')
     String get className;
 
+    @nullable
     @BuiltValueField(wireName: r'color')
     String get color;
 
+    @nullable
     @BuiltValueField(wireName: r'declawed')
     bool get declawed;
 
