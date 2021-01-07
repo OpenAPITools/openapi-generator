@@ -175,7 +175,7 @@ class FakeApi {
             'application/json',
         ];
 
-        var serializedBody = body;
+        final serializedBody = body;
         final jsonbody = json.encode(serializedBody);
         bodyData = jsonbody;
 
@@ -306,7 +306,7 @@ class FakeApi {
             'application/json',
         ];
 
-        var serializedBody = body;
+        final serializedBody = body;
         final jsonbody = json.encode(serializedBody);
         bodyData = jsonbody;
 
@@ -369,7 +369,7 @@ class FakeApi {
             'application/json',
         ];
 
-        var serializedBody = body;
+        final serializedBody = body;
         final jsonbody = json.encode(serializedBody);
         bodyData = jsonbody;
 
@@ -619,21 +619,22 @@ class FakeApi {
             'application/x-www-form-urlencoded',
         ];
 
-        final formData = <String, dynamic>{};
-        formData['integer'] = parameterToString(_serializers, integer);
-        formData['int32'] = parameterToString(_serializers, int32);
-        formData['int64'] = parameterToString(_serializers, int64);
-        formData['number'] = parameterToString(_serializers, number);
-        formData['float'] = parameterToString(_serializers, float);
-        formData['double'] = parameterToString(_serializers, double_);
-        formData['string'] = parameterToString(_serializers, string);
-        formData['pattern_without_delimiter'] = parameterToString(_serializers, patternWithoutDelimiter);
-        formData['byte'] = parameterToString(_serializers, byte);
-        formData['binary'] = parameterToString(_serializers, binary);
-        formData['date'] = parameterToString(_serializers, date);
-        formData['dateTime'] = parameterToString(_serializers, dateTime);
-        formData['password'] = parameterToString(_serializers, password);
-        formData['callback'] = parameterToString(_serializers, callback);
+        final formData = <String, dynamic>{
+            if (integer != null) r'integer': parameterToString(_serializers, integer),
+            if (int32 != null) r'int32': parameterToString(_serializers, int32),
+            if (int64 != null) r'int64': parameterToString(_serializers, int64),
+            r'number': parameterToString(_serializers, number),
+            if (float != null) r'float': parameterToString(_serializers, float),
+            r'double': parameterToString(_serializers, double_),
+            if (string != null) r'string': parameterToString(_serializers, string),
+            r'pattern_without_delimiter': parameterToString(_serializers, patternWithoutDelimiter),
+            r'byte': parameterToString(_serializers, byte),
+            if (binary != null) r'binary': MultipartFile.fromBytes(binary, filename: r'binary'),
+            if (date != null) r'date': parameterToString(_serializers, date),
+            if (dateTime != null) r'dateTime': parameterToString(_serializers, dateTime),
+            if (password != null) r'password': parameterToString(_serializers, password),
+            if (callback != null) r'callback': parameterToString(_serializers, callback),
+        };
         bodyData = formData;
 
         return _dio.request<dynamic>(
@@ -701,9 +702,10 @@ class FakeApi {
             'application/x-www-form-urlencoded',
         ];
 
-        final formData = <String, dynamic>{};
-        formData['enum_form_string_array'] = parameterToString(_serializers, enumFormStringArray);
-        formData['enum_form_string'] = parameterToString(_serializers, enumFormString);
+        final formData = <String, dynamic>{
+            if (enumFormStringArray != null) r'enum_form_string_array': parameterToString(_serializers, enumFormStringArray),
+            if (enumFormString != null) r'enum_form_string': parameterToString(_serializers, enumFormString),
+        };
         bodyData = formData;
 
         return _dio.request<dynamic>(
@@ -867,9 +869,10 @@ class FakeApi {
             'application/x-www-form-urlencoded',
         ];
 
-        final formData = <String, dynamic>{};
-        formData['param'] = parameterToString(_serializers, param);
-        formData['param2'] = parameterToString(_serializers, param2);
+        final formData = <String, dynamic>{
+            r'param': parameterToString(_serializers, param),
+            r'param2': parameterToString(_serializers, param2),
+        };
         bodyData = formData;
 
         return _dio.request<dynamic>(
