@@ -86,7 +86,7 @@ bool {{prefix}}HttpFileElement::fromJsonValue(const QJsonValue &jval) {
         file.remove();
     }
     result = file.open(QIODevice::WriteOnly);
-#if QT_VERSION >= 0x060000
+#if QT_VERSION >= 0x051500
     file.write(QJsonDocument(jval.toObject()).toJson());
 #else
     file.write(QJsonDocument(jval.toObject()).toBinaryData());
