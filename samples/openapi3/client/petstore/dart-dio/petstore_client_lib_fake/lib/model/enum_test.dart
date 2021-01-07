@@ -17,6 +17,7 @@ part 'enum_test.g.dart';
 
 abstract class EnumTest implements Built<EnumTest, EnumTestBuilder> {
 
+    @nullable
     @BuiltValueField(wireName: r'enum_string')
     EnumTestEnumStringEnum get enumString;
     // enum enumStringEnum {  UPPER,  lower,  ,  };
@@ -25,10 +26,12 @@ abstract class EnumTest implements Built<EnumTest, EnumTestBuilder> {
     EnumTestEnumStringRequiredEnum get enumStringRequired;
     // enum enumStringRequiredEnum {  UPPER,  lower,  ,  };
 
+    @nullable
     @BuiltValueField(wireName: r'enum_integer')
     EnumTestEnumIntegerEnum get enumInteger;
     // enum enumIntegerEnum {  1,  -1,  };
 
+    @nullable
     @BuiltValueField(wireName: r'enum_number')
     EnumTestEnumNumberEnum get enumNumber;
     // enum enumNumberEnum {  1.1,  -1.2,  };
@@ -38,14 +41,17 @@ abstract class EnumTest implements Built<EnumTest, EnumTestBuilder> {
     OuterEnum get outerEnum;
     // enum outerEnumEnum {  placed,  approved,  delivered,  };
 
+    @nullable
     @BuiltValueField(wireName: r'outerEnumInteger')
     OuterEnumInteger get outerEnumInteger;
     // enum outerEnumIntegerEnum {  0,  1,  2,  };
 
+    @nullable
     @BuiltValueField(wireName: r'outerEnumDefaultValue')
     OuterEnumDefaultValue get outerEnumDefaultValue;
     // enum outerEnumDefaultValueEnum {  placed,  approved,  delivered,  };
 
+    @nullable
     @BuiltValueField(wireName: r'outerEnumIntegerDefaultValue')
     OuterEnumIntegerDefaultValue get outerEnumIntegerDefaultValue;
     // enum outerEnumIntegerDefaultValueEnum {  0,  1,  2,  };

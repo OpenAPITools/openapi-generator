@@ -12,6 +12,7 @@ part 'model_list.g.dart';
 
 abstract class ModelList implements Built<ModelList, ModelListBuilder> {
 
+    @nullable
     @BuiltValueField(wireName: r'123-list')
     String get n123list;
 

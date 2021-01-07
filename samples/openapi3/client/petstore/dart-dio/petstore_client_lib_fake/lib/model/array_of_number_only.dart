@@ -13,6 +13,7 @@ part 'array_of_number_only.g.dart';
 
 abstract class ArrayOfNumberOnly implements Built<ArrayOfNumberOnly, ArrayOfNumberOnlyBuilder> {
 
+    @nullable
     @BuiltValueField(wireName: r'ArrayNumber')
     BuiltList<num> get arrayNumber;
 

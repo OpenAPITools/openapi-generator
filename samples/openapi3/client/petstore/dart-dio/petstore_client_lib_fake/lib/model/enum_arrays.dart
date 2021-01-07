@@ -13,10 +13,12 @@ part 'enum_arrays.g.dart';
 
 abstract class EnumArrays implements Built<EnumArrays, EnumArraysBuilder> {
 
+    @nullable
     @BuiltValueField(wireName: r'just_symbol')
     EnumArraysJustSymbolEnum get justSymbol;
     // enum justSymbolEnum {  >=,  $,  };
 
+    @nullable
     @BuiltValueField(wireName: r'array_enum')
     BuiltList<EnumArraysArrayEnumEnum> get arrayEnum;
     // enum arrayEnumEnum {  fish,  crab,  };

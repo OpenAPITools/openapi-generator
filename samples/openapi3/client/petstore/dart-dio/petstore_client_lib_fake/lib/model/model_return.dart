@@ -12,6 +12,7 @@ part 'model_return.g.dart';
 
 abstract class ModelReturn implements Built<ModelReturn, ModelReturnBuilder> {
 
+    @nullable
     @BuiltValueField(wireName: r'return')
     int get return_;
 

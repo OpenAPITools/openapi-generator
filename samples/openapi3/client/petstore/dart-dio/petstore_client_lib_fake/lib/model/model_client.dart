@@ -12,6 +12,7 @@ part 'model_client.g.dart';
 
 abstract class ModelClient implements Built<ModelClient, ModelClientBuilder> {
 
+    @nullable
     @BuiltValueField(wireName: r'client')
     String get client;
 

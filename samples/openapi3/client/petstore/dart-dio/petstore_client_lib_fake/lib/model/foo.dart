@@ -12,6 +12,7 @@ part 'foo.g.dart';
 
 abstract class Foo implements Built<Foo, FooBuilder> {
 
+    @nullable
     @BuiltValueField(wireName: r'bar')
     String get bar;
 
