@@ -6,7 +6,7 @@ void main() {
   final instance = ModelList();
 
   group(ModelList, () {
-    // String n123list (default value: null)
+    // String n123list
     test('to test the property `n123list`', () async {
       // TODO
     });

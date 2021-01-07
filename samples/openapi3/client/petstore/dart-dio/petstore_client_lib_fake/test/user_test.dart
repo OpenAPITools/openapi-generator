@@ -6,43 +6,43 @@ void main() {
   final instance = User();
 
   group(User, () {
-    // int id (default value: null)
+    // int id
     test('to test the property `id`', () async {
       // TODO
     });
 
-    // String username (default value: null)
+    // String username
     test('to test the property `username`', () async {
       // TODO
     });
 
-    // String firstName (default value: null)
+    // String firstName
     test('to test the property `firstName`', () async {
       // TODO
     });
 
-    // String lastName (default value: null)
+    // String lastName
     test('to test the property `lastName`', () async {
       // TODO
     });
 
-    // String email (default value: null)
+    // String email
     test('to test the property `email`', () async {
       // TODO
     });
 
-    // String password (default value: null)
+    // String password
     test('to test the property `password`', () async {
       // TODO
     });
 
-    // String phone (default value: null)
+    // String phone
     test('to test the property `phone`', () async {
       // TODO
     });
 
     // User Status
-    // int userStatus (default value: null)
+    // int userStatus
     test('to test the property `userStatus`', () async {
       // TODO
     });

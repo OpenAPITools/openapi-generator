@@ -6,7 +6,7 @@ void main() {
   final instance = NumberOnly();
 
   group(NumberOnly, () {
-    // num justNumber (default value: null)
+    // num justNumber
     test('to test the property `justNumber`', () async {
       // TODO
     });
