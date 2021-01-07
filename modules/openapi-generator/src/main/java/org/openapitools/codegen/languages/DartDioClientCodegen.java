@@ -327,7 +327,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
             Set<String> imports = new HashSet<>();
             for (String item : op.imports) {
                 if (needToImport(item)) {
-                    if (importMapping().containsKey(item) && needToImport(item)) {
+                    if (importMapping().containsKey(item)) {
                         fullImports.add(importMapping().get(item));
                     } else {
                         imports.add(underscore(item));
