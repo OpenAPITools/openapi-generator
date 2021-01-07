@@ -130,6 +130,7 @@ paths:
             type: array
             items:
               type: string
+            uniqueItems: true
       responses:
         '200':
           description: successful operation
@@ -139,11 +140,13 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pet'
+                uniqueItems: true
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pet'
+                uniqueItems: true
         '400':
           description: Invalid tag value
       security:
@@ -1305,6 +1308,7 @@ components:
             wrapped: true
           items:
             type: string
+          uniqueItems: true
         tags:
           type: array
           xml:

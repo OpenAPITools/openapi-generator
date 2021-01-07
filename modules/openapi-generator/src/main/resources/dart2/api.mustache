@@ -186,9 +186,8 @@ class {{{classname}}} {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       {{#isArray}}
-      return (apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as List)
-        .map((item) => item as {{{returnBaseType}}})
-        .toList(growable: false);
+      return (apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}})
+        .{{#uniqueItems}}toSet(){{/uniqueItems}}{{^uniqueItems}}toList(growable: false){{/uniqueItems}};
       {{/isArray}}
       {{^isArray}}
         {{#isMap}}

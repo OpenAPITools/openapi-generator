@@ -35,7 +35,7 @@ void main() {
     //
     // Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     //
-    //Future<BuiltList<Pet>> findPetsByTags(BuiltList<String> tags) async
+    //Future<BuiltSet<Pet>> findPetsByTags(BuiltSet<String> tags) async
     test('test findPetsByTags', () async {
       // TODO
     });

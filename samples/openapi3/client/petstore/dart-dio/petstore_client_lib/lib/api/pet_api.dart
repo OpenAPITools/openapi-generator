@@ -197,8 +197,7 @@ class PetApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            const collectionType = BuiltList;
-            const type = FullType(collectionType, [FullType(Pet)]);
+            const type = FullType(BuiltList, [FullType(Pet)]);
             final data = _serializers.deserialize(
                 response.data is String
                 ? jsonDecode(response.data as String)
@@ -267,8 +266,7 @@ class PetApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            const collectionType = BuiltList;
-            const type = FullType(collectionType, [FullType(Pet)]);
+            const type = FullType(BuiltList, [FullType(Pet)]);
             final data = _serializers.deserialize(
                 response.data is String
                 ? jsonDecode(response.data as String)

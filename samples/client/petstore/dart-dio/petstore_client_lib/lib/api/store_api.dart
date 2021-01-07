@@ -113,8 +113,7 @@ class StoreApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            const collectionType = BuiltMap;
-            const type = FullType(collectionType, [FullType(String), FullType(int)]);
+            const type = FullType(BuiltMap, [FullType(String), FullType(int)]);
             final data = _serializers.deserialize(
                 response.data is String
                 ? jsonDecode(response.data as String)

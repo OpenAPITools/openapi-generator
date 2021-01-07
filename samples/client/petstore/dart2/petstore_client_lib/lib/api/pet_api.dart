@@ -221,8 +221,7 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
-        .map((item) => item as Pet)
+      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List<Pet>)
         .toList(growable: false);
     }
     return null;
@@ -299,8 +298,7 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
-        .map((item) => item as Pet)
+      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List<Pet>)
         .toList(growable: false);
     }
     return null;
