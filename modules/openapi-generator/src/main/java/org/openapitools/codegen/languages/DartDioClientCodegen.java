@@ -284,6 +284,34 @@ public class DartDioClientCodegen extends DartClientCodegen {
             // enums are generated with built_value and make use of BuiltSet
             model.imports.add("BuiltSet");
         }
+
+        property.getVendorExtensions().put("x-built-value-serializer-type", createBuiltValueSerializerType(property));
+    }
+
+    private String createBuiltValueSerializerType(CodegenProperty property) {
+        final StringBuilder sb = new StringBuilder("const FullType(");
+        if (property.isContainer) {
+            appendCollection(sb, property);
+        } else {
+            sb.append(property.datatypeWithEnum);
+        }
+        sb.append(")");
+        return sb.toString();
+    }
+
+    private void appendCollection(StringBuilder sb, CodegenProperty property) {
+        sb.append(property.baseType);
+        sb.append(", [FullType(");
+        if (property.isMap) {
+            // a map always has string keys
+            sb.append("String), FullType(");
+        }
+        if (property.items.isContainer) {
+            appendCollection(sb, property.items);
+        } else {
+            sb.append(property.items.datatypeWithEnum);
+        }
+        sb.append(")]");
     }
 
     @Override

@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for ModelReturn
 void main() {
-  final instance = ModelReturn();
+  final instance = ModelReturnBuilder();
+  // TODO add properties to the builder and call build()
 
   group(ModelReturn, () {
     // int return_

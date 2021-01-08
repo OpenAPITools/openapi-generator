@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for Animal
 void main() {
-  final instance = Animal();
+  final instance = AnimalBuilder();
+  // TODO add properties to the builder and call build()
 
   group(Animal, () {
     // String className

@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for Order
 void main() {
-  final instance = Order();
+  final instance = OrderBuilder();
+  // TODO add properties to the builder and call build()
 
   group(Order, () {
     // int id

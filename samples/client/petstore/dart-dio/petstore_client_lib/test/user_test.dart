@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for User
 void main() {
-  final instance = User();
+  final instance = UserBuilder();
+  // TODO add properties to the builder and call build()
 
   group(User, () {
     // int id

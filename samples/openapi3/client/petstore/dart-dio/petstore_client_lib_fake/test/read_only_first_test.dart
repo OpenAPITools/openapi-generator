@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for ReadOnlyFirst
 void main() {
-  final instance = ReadOnlyFirst();
+  final instance = ReadOnlyFirstBuilder();
+  // TODO add properties to the builder and call build()
 
   group(ReadOnlyFirst, () {
     // String bar
