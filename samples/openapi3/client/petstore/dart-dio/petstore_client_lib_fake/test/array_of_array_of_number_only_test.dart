@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for ArrayOfArrayOfNumberOnly
 void main() {
-  final instance = ArrayOfArrayOfNumberOnly();
+  final instance = ArrayOfArrayOfNumberOnlyBuilder();
+  // TODO add properties to the builder and call build()
 
   group(ArrayOfArrayOfNumberOnly, () {
     // BuiltList<BuiltList<num>> arrayArrayNumber

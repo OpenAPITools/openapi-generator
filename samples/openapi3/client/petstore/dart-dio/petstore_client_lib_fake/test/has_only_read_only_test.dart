@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for HasOnlyReadOnly
 void main() {
-  final instance = HasOnlyReadOnly();
+  final instance = HasOnlyReadOnlyBuilder();
+  // TODO add properties to the builder and call build()
 
   group(HasOnlyReadOnly, () {
     // String bar
