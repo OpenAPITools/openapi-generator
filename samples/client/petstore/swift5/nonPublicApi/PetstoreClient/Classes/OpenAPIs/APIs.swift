@@ -51,7 +51,7 @@ internal class RequestBuilder<T> {
     }
 
     internal func addCredential() -> Self {
-        self.credential = PetstoreClientAPI.credential
+        credential = PetstoreClientAPI.credential
         return self
     }
 }
