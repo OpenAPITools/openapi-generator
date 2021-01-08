@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:openapi/model/tag.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:openapi/model/category.dart';
@@ -39,7 +46,7 @@ abstract class Pet implements Built<Pet, PetBuilder> {
 
     static void _initializeBuilder(PetBuilder b) => b;
 
-    factory Pet([updates(PetBuilder b)]) = _$Pet;
+    factory Pet([void updates(PetBuilder b)]) = _$Pet;
     static Serializer<Pet> get serializer => _$petSerializer;
 }
 

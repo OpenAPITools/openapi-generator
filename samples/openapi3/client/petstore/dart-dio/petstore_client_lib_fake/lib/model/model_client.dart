@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -14,7 +21,7 @@ abstract class ModelClient implements Built<ModelClient, ModelClientBuilder> {
 
     static void _initializeBuilder(ModelClientBuilder b) => b;
 
-    factory ModelClient([updates(ModelClientBuilder b)]) = _$ModelClient;
+    factory ModelClient([void updates(ModelClientBuilder b)]) = _$ModelClient;
     static Serializer<ModelClient> get serializer => _$modelClientSerializer;
 }
 

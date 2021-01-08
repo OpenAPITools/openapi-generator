@@ -8,9 +8,8 @@
 import Foundation{{#usePromiseKit}}
 import PromiseKit{{/usePromiseKit}}{{#useRxSwift}}
 import RxSwift{{/useRxSwift}}{{#useCombine}}
-import Combine{{/useCombine}}
+import Combine{{/useCombine}}{{#swiftUseApiNamespace}}
 
-{{#swiftUseApiNamespace}}
 extension {{projectName}}API {
 {{/swiftUseApiNamespace}}
 
@@ -48,7 +47,7 @@ extension {{projectName}}API {
     {{#isDeprecated}}
     @available(*, deprecated, message: "This operation is deprecated.")
     {{/isDeprecated}}
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, completion: @escaping ((_ data: {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}?,_ error: Error?) -> Void)) {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, completion: @escaping ((_ data: {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}?, _ error: Error?) -> Void)) {
         {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result -> Void in
             switch result {
             {{#returnType}}
@@ -232,9 +231,9 @@ extension {{projectName}}API {
         {{/bodyParam}}
         {{^bodyParam}}
             {{#hasFormParams}}
-        let formParams: [String:Any?] = [
+        let formParams: [String: Any?] = [
                 {{#formParams}}
-            {{> _param}}{{^-last}},{{/-last}}
+            {{> _param}},
                 {{/formParams}}
         ]
 
@@ -242,24 +241,28 @@ extension {{projectName}}API {
         let parameters = APIHelper.convertBoolToString(nonNullParameters)
             {{/hasFormParams}}
             {{^hasFormParams}}
-        let parameters: [String:Any]? = nil
+        let parameters: [String: Any]? = nil
             {{/hasFormParams}}
-        {{/bodyParam}}{{#hasQueryParams}}
+{{/bodyParam}}{{#hasQueryParams}}
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([{{^queryParams}}:{{/queryParams}}
             {{#queryParams}}
-            {{> _param}}{{^-last}}, {{/-last}}
+            {{> _param}},
             {{/queryParams}}
         ]){{/hasQueryParams}}{{^hasQueryParams}}
-        let url = URLComponents(string: URLString){{/hasQueryParams}}{{#headerParams}}{{#-first}}
-        let nillableHeaders: [String: Any?] = [{{/-first}}
-            {{> _param}}{{^-last}},{{/-last}}{{#-last}}
+        let url = URLComponents(string: URLString){{/hasQueryParams}}
+
+        let nillableHeaders: [String: Any?] = [{{^headerParams}}{{^hasFormParams}}
+            :{{/hasFormParams}}{{/headerParams}}{{#hasFormParams}}
+            "Content-Type": {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}},{{/hasFormParams}}{{#headerParams}}
+            {{> _param}},{{/headerParams}}
         ]
-        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders){{/-last}}{{/headerParams}}
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
         let requestBuilder: RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.Type = {{projectName}}API.requestBuilderFactory.{{#returnType}}getBuilder(){{/returnType}}{{^returnType}}getNonDecodableBuilder(){{/returnType}}
 
-        return requestBuilder.init(method: "{{httpMethod}}", URLString: (url?.string ?? URLString), parameters: parameters, isBody: {{hasBodyParam}}{{#headerParams}}{{#-first}}, headers: headerParameters{{/-first}}{{/headerParams}})
+        return requestBuilder.init(method: "{{httpMethod}}", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
 {{/operation}}

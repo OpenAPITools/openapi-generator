@@ -6,7 +6,7 @@ void main() {
   final instance = ModelClient();
 
   group(ModelClient, () {
-    // String client (default value: null)
+    // String client
     test('to test the property `client`', () async {
       // TODO
     });

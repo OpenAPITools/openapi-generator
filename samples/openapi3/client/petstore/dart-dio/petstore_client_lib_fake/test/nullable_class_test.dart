@@ -6,62 +6,62 @@ void main() {
   final instance = NullableClass();
 
   group(NullableClass, () {
-    // int integerProp (default value: null)
+    // int integerProp
     test('to test the property `integerProp`', () async {
       // TODO
     });
 
-    // num numberProp (default value: null)
+    // num numberProp
     test('to test the property `numberProp`', () async {
       // TODO
     });
 
-    // bool booleanProp (default value: null)
+    // bool booleanProp
     test('to test the property `booleanProp`', () async {
       // TODO
     });
 
-    // String stringProp (default value: null)
+    // String stringProp
     test('to test the property `stringProp`', () async {
       // TODO
     });
 
-    // DateTime dateProp (default value: null)
+    // DateTime dateProp
     test('to test the property `dateProp`', () async {
       // TODO
     });
 
-    // DateTime datetimeProp (default value: null)
+    // DateTime datetimeProp
     test('to test the property `datetimeProp`', () async {
       // TODO
     });
 
-    // BuiltList<JsonObject> arrayNullableProp (default value: const [])
+    // BuiltList<JsonObject> arrayNullableProp
     test('to test the property `arrayNullableProp`', () async {
       // TODO
     });
 
-    // BuiltList<JsonObject> arrayAndItemsNullableProp (default value: const [])
+    // BuiltList<JsonObject> arrayAndItemsNullableProp
     test('to test the property `arrayAndItemsNullableProp`', () async {
       // TODO
     });
 
-    // BuiltList<JsonObject> arrayItemsNullable (default value: const [])
+    // BuiltList<JsonObject> arrayItemsNullable
     test('to test the property `arrayItemsNullable`', () async {
       // TODO
     });
 
-    // BuiltMap<String, JsonObject> objectNullableProp (default value: const {})
+    // BuiltMap<String, JsonObject> objectNullableProp
     test('to test the property `objectNullableProp`', () async {
       // TODO
     });
 
-    // BuiltMap<String, JsonObject> objectAndItemsNullableProp (default value: const {})
+    // BuiltMap<String, JsonObject> objectAndItemsNullableProp
     test('to test the property `objectAndItemsNullableProp`', () async {
       // TODO
     });
 
-    // BuiltMap<String, JsonObject> objectItemsNullable (default value: const {})
+    // BuiltMap<String, JsonObject> objectItemsNullable
     test('to test the property `objectItemsNullable`', () async {
       // TODO
     });

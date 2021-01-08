@@ -20,7 +20,7 @@ void main() {
     //
     // To test class name in snake case
     //
-    //Future<Client> testClassname(Client client) async
+    //Future<ModelClient> testClassname(ModelClient modelClient) async
     test('test testClassname', () async {
       // TODO
     });

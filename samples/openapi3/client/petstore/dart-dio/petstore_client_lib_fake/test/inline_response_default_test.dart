@@ -6,7 +6,7 @@ void main() {
   final instance = InlineResponseDefault();
 
   group(InlineResponseDefault, () {
-    // Foo string (default value: null)
+    // Foo string
     test('to test the property `string`', () async {
       // TODO
     });

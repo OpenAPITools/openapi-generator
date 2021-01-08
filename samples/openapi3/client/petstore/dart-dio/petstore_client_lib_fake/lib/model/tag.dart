@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -18,7 +25,7 @@ abstract class Tag implements Built<Tag, TagBuilder> {
 
     static void _initializeBuilder(TagBuilder b) => b;
 
-    factory Tag([updates(TagBuilder b)]) = _$Tag;
+    factory Tag([void updates(TagBuilder b)]) = _$Tag;
     static Serializer<Tag> get serializer => _$tagSerializer;
 }
 

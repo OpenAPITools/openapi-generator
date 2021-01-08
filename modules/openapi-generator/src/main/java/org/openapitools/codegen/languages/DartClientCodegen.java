@@ -472,13 +472,16 @@ public class DartClientCodegen extends DefaultCodegen {
         }
 
         if (schema.getDefault() != null) {
+            if (ModelUtils.isDateSchema(schema) || ModelUtils.isDateTimeSchema(schema)) {
+                // this is currently not supported and would create compile errors
+                return null;
+            }
             if (ModelUtils.isStringSchema(schema)) {
                 return "'" + schema.getDefault().toString().replace("'", "\\'") + "'";
             }
             return schema.getDefault().toString();
-        } else {
-            return null;
         }
+        return null;
     }
 
     @Override
@@ -552,6 +555,18 @@ public class DartClientCodegen extends DefaultCodegen {
                 final String value = typeMapping().get(r.containerType);
                 if (needToImport(value)) {
                     op.imports.add(value);
+                }
+            }
+        }
+        for (CodegenParameter p : op.allParams) {
+            if (p.isContainer) {
+                final String type = p.isArray ? "array" : "map";
+                if (typeMapping().containsKey(type)) {
+                    final String value = typeMapping().get(type);
+                    // Also add container imports for parameters.
+                    if (needToImport(value)) {
+                        op.imports.add(value);
+                    }
                 }
             }
         }

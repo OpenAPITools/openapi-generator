@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -14,7 +21,7 @@ abstract class ModelList implements Built<ModelList, ModelListBuilder> {
 
     static void _initializeBuilder(ModelListBuilder b) => b;
 
-    factory ModelList([updates(ModelListBuilder b)]) = _$ModelList;
+    factory ModelList([void updates(ModelListBuilder b)]) = _$ModelList;
     static Serializer<ModelList> get serializer => _$modelListSerializer;
 }
 

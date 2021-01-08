@@ -6,7 +6,7 @@ void main() {
   final instance = CatAllOf();
 
   group(CatAllOf, () {
-    // bool declawed (default value: null)
+    // bool declawed
     test('to test the property `declawed`', () async {
       // TODO
     });
