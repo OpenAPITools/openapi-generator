@@ -6,7 +6,7 @@ void main() {
   final instance = ModelReturn();
 
   group(ModelReturn, () {
-    // int return_ (default value: null)
+    // int return_
     test('to test the property `return_`', () async {
       // TODO
     });

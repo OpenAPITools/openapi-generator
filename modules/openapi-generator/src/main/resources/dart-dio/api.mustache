@@ -1,3 +1,4 @@
+{{>header}}
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
@@ -31,8 +32,8 @@ class {{classname}} {
     }) async {
         final String _path = '{{{path}}}'{{#pathParams}}.replaceAll('{' r'{{baseName}}' '}', {{{paramName}}}.toString()){{/pathParams}};
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -43,15 +44,15 @@ class {{classname}} {
         {{#queryParams}}
         queryParams[r'{{baseName}}'] = {{paramName}};
         {{/queryParams}}
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [{{^hasConsumes}}];{{/hasConsumes}}{{#hasConsumes}}{{#consumes}}
+        final contentTypes = <String>[{{^hasConsumes}}];{{/hasConsumes}}{{#hasConsumes}}{{#consumes}}
             '{{{mediaType}}}',{{/consumes}}
         ];{{/hasConsumes}}
         {{#hasFormParams}}
 
-        final Map<String, dynamic> formData = {};
+        final formData = <String, dynamic>{};
         {{#isMultipart}}
         {{#formParams}}
         {{^isFile}}
@@ -76,18 +77,30 @@ class {{classname}} {
         {{/hasFormParams}}
         {{#bodyParam}}
 
-            {{#isArray}}
+        {{#isContainer}}
+        {{#isArray}}
         const type = FullType(BuiltList, [FullType({{baseType}})]);
         final serializedBody = _serializers.serialize({{paramName}}, specifiedType: type);
-            {{/isArray}}
-            {{^isArray}}
-        final serializedBody = _serializers.serialize({{paramName}});
-            {{/isArray}}
+        {{/isArray}}
+        {{#isMap}}
+        const type = FullType(BuiltMap, [FullType(String), FullType({{baseType}})]);
+        final serializedBody = _serializers.serialize({{paramName}}, specifiedType: type);
+        {{/isMap}}
+        {{/isContainer}}
+        {{^isContainer}}
+        {{#isPrimitiveType}}
+        var serializedBody = {{paramName}};
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        final bodySerializer = _serializers.serializerForType({{{baseType}}}) as Serializer<{{{baseType}}}>;
+        final serializedBody = _serializers.serializeWith(bodySerializer, {{paramName}});
+        {{/isPrimitiveType}}
+        {{/isContainer}}
         final json{{paramName}} = json.encode(serializedBody);
         bodyData = json{{paramName}};
         {{/bodyParam}}
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
@@ -97,8 +110,8 @@ class {{classname}} {
                 responseType: ResponseType.bytes,
                 {{/isResponseFile}}
                 headers: headerParams,
-                extra: {
-                    'secure': [{{^hasAuthMethods}}],{{/hasAuthMethods}}{{#hasAuthMethods}}
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[{{^hasAuthMethods}}],{{/hasAuthMethods}}{{#hasAuthMethods}}
                         {{#authMethods}}{
                             'type': '{{type}}',
                             'name': '{{name}}',{{#isApiKey}}
@@ -124,14 +137,22 @@ class {{classname}} {
             final data = response.data as {{{returnType}}};
         {{/returnTypeIsPrimitive}}
         {{^returnTypeIsPrimitive}}
-            final serializer = _serializers.serializerForType({{{returnType}}});
-            final data = _serializers.deserializeWith<{{{returnType}}}>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            final serializer = _serializers.serializerForType({{{returnType}}}) as Serializer<{{{returnType}}}>;
+            final data = _serializers.deserializeWith<{{{returnType}}}>(
+                serializer,
+                response.data is String ? jsonDecode(response.data as String) : response.data,
+            );
         {{/returnTypeIsPrimitive}}
         {{/returnSimpleType}}
         {{^returnSimpleType}}
             const collectionType = {{#isMap}}BuiltMap{{/isMap}}{{^isMap}}BuiltList{{/isMap}};
             const type = FullType(collectionType, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{returnBaseType}}})]);
-            final {{{returnType}}} data = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
+            final data = _serializers.deserialize(
+                response.data is String
+                ? jsonDecode(response.data as String)
+                : response.data,
+                specifiedType: type,
+            ) as {{{returnType}}};
         {{/returnSimpleType}}
         {{/isResponseFile}}
 

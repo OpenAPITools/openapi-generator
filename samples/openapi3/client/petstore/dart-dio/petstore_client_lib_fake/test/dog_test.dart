@@ -6,7 +6,7 @@ void main() {
   final instance = Dog();
 
   group(Dog, () {
-    // String className (default value: null)
+    // String className
     test('to test the property `className`', () async {
       // TODO
     });
@@ -16,7 +16,7 @@ void main() {
       // TODO
     });
 
-    // String breed (default value: null)
+    // String breed
     test('to test the property `breed`', () async {
       // TODO
     });

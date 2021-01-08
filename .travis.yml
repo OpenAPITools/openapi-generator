@@ -62,6 +62,17 @@ addons:
     - petstore.swagger.io
 
 before_install:
+  # to run petstore server locally via docker
+  - echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin || true
+  - docker pull swaggerapi/petstore
+  - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+  - docker ps -a
+  # install crystal
+  - curl -sSL https://dist.crystal-lang.org/apt/setup.sh | sudo bash
+  - curl -sL "https://keybase.io/crystal/pgp_keys.asc" | sudo apt-key add -
+  - echo "deb https://dist.crystal-lang.org/apt crystal main" | sudo tee /etc/apt/sources.list.d/crystal.list
+  - sudo apt-get update
+  - sudo apt install crystal
   - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.0
   - export PATH="$HOME/.yarn/bin:$PATH"
   # install rust
@@ -75,10 +86,6 @@ before_install:
   - npm config set registry http://registry.npmjs.org/
   # set python 3.6.3 as default
   - source ~/virtualenv/python3.6/bin/activate
-  # to run petstore server locally via docker
-  - docker pull swaggerapi/petstore
-  - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
-  - docker ps -a
   # -- skip bash test to shorten build time
   # Add bats test framework and cURL for Bash script integration tests
   #- sudo add-apt-repository ppa:duggan/bats --yes
@@ -124,7 +131,7 @@ before_install:
     fi;
   - pushd .; cd website; yarn install; popd
   # install Deno
-  - sh -s v1.1.2 < ./CI/deno_install.sh
+  - sh -s v1.6.2 < ./CI/deno_install.sh
   - export PATH="$HOME/.deno/bin:$PATH"
 
 install:

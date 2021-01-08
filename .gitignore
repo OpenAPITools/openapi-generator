@@ -258,3 +258,6 @@ samples/client/petstore/c/*.so
 # Ruby
 samples/openapi3/client/petstore/ruby/Gemfile.lock
 samples/openapi3/client/petstore/ruby-faraday/Gemfile.lock
+
+# Crystal
+samples/client/petstore/crystal/lib

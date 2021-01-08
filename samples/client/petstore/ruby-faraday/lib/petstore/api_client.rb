@@ -313,7 +313,7 @@ module Petstore
         case auth_setting[:in]
         when 'header' then header_params[auth_setting[:key]] = auth_setting[:value]
         when 'query'  then query_params[auth_setting[:key]] = auth_setting[:value]
-        else fail ArgumentError, 'Authentication token must be in `query` of `header`'
+        else fail ArgumentError, 'Authentication token must be in `query` or `header`'
         end
       end
     end

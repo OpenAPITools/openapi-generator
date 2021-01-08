@@ -16,6 +16,7 @@ The following generators are available:
 * [cpp-restsdk](generators/cpp-restsdk.md)  
 * [cpp-tizen](generators/cpp-tizen.md)  
 * [cpp-ue4 (beta)](generators/cpp-ue4.md)  
+* [crystal (beta)](generators/crystal.md)  
 * [csharp](generators/csharp.md)  
 * [csharp-dotnet2 (deprecated)](generators/csharp-dotnet2.md)  
 * [csharp-netcore](generators/csharp-netcore.md)  
@@ -141,6 +142,7 @@ The following generators are available:
 ## SCHEMA generators
 * [avro-schema (beta)](generators/avro-schema.md)  
 * [graphql-schema](generators/graphql-schema.md)  
+* [ktorm-schema (beta)](generators/ktorm-schema.md)  
 * [mysql-schema](generators/mysql-schema.md)  
 * [protobuf-schema (beta)](generators/protobuf-schema.md)  
 
