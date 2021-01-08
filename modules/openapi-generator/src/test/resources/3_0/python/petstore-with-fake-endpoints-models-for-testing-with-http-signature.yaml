@@ -1008,6 +1008,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
+  /fake/refs/enum-test:
+    post:
+      tags:
+        - fake
+      summary: Object contains enum properties and array properties containing enums
+      operationId: EnumTest
+      requestBody:
+        description: Input object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Enum_Test'
+        required: false
+      responses:
+        200:
+          description: Got object containing enums
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enum_Test'
   /fake/additional-properties-with-array-of-enums:
     get:
       tags:
@@ -1671,6 +1691,12 @@ components:
           $ref: '#/components/schemas/IntegerEnumWithDefaultValue'
         IntegerEnumOneValue:
           $ref: '#/components/schemas/IntegerEnumOneValue'
+        InlineArrayOfStrEnum:
+          type: array
+          items:
+            $ref: '#/components/schemas/StringEnum'
+        ArrayOfStrEnum:
+          $ref: '#/components/schemas/ArrayOfEnums'
     AdditionalPropertiesClass:
       type: object
       properties:

@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**array_of_enums**](FakeApi.md#array_of_enums) | **POST** /fake/refs/array-of-enums | Array of Enums
 [**boolean**](FakeApi.md#boolean) | **POST** /fake/refs/boolean | 
 [**composed_one_of_number_with_validations**](FakeApi.md#composed_one_of_number_with_validations) | **POST** /fake/refs/composed_one_of_number_with_validations | 
+[**enum_test**](FakeApi.md#enum_test) | **POST** /fake/refs/enum-test | Object contains enum properties and array properties containing enums
 [**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 [**mammal**](FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
 [**number_with_validations**](FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
@@ -343,6 +344,84 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output model |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **enum_test**
+> EnumTest enum_test()
+
+Object contains enum properties and array properties containing enums
+
+### Example
+
+```python
+import time
+import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model.enum_test import EnumTest
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+    enum_test = EnumTest(
+        enum_string="UPPER",
+        enum_string_required="UPPER",
+        enum_integer=1,
+        enum_number=1.1,
+        string_enum=StringEnum("placed"),
+        integer_enum=IntegerEnum(0),
+        string_enum_with_default_value=StringEnumWithDefaultValue("placed"),
+        integer_enum_with_default_value=IntegerEnumWithDefaultValue(0),
+        integer_enum_one_value=IntegerEnumOneValue(0),
+        inline_array_of_str_enum=[
+            StringEnum("placed"),
+        ],
+        array_of_str_enum=ArrayOfEnums([
+            StringEnum("placed"),
+        ]),
+    ) # EnumTest | Input object (optional)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        # Object contains enum properties and array properties containing enums
+        api_response = api_instance.enum_test(enum_test=enum_test)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->enum_test: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **enum_test** | [**EnumTest**](EnumTest.md)| Input object | [optional]
+
+### Return type
+
+[**EnumTest**](EnumTest.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Got object containing enums |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
