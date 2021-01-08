@@ -6,12 +6,12 @@ void main() {
   final instance = EnumArrays();
 
   group(EnumArrays, () {
-    // String justSymbol (default value: null)
+    // String justSymbol
     test('to test the property `justSymbol`', () async {
       // TODO
     });
 
-    // BuiltList<String> arrayEnum (default value: const [])
+    // BuiltList<String> arrayEnum
     test('to test the property `arrayEnum`', () async {
       // TODO
     });

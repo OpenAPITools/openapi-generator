@@ -6,7 +6,7 @@ void main() {
   final instance = DogAllOf();
 
   group(DogAllOf, () {
-    // String breed (default value: null)
+    // String breed
     test('to test the property `breed`', () async {
       // TODO
     });

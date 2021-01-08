@@ -19,6 +19,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |powershellGalleryUrl|URL to the module in PowerShell Gallery (e.g. https://www.powershellgallery.com/packages/PSTwitter/).| |null|
 |projectUri|A URL to the main website for this project| |null|
 |releaseNotes|Release notes of the generated PowerShell module| |null|
+|skipVerbParsing|Set skipVerbParsing to not try get powershell verbs of operation names| |null|
 |tags|Tags applied to the generated PowerShell module. These help with module discovery in online galleries| |null|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and onlye one match in oneOf's schemas) will be skipped.| |null|
 

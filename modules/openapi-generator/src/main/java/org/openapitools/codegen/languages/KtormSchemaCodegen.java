@@ -640,10 +640,10 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     /**
      * Processes each model's property type arguments definitions
      *
-     * @param dataType   the choosen sql type
-     * @param dataFormat the choosen sql format
-     * @param min        the minimum value, if specified, in the target type
-     * @param max        the maximum value, if specified, in the target type
+     * @param dataType         the choosen sql type
+     * @param dataFormat       the choosen sql format
+     * @param min              the minimum value, if specified, in the target type
+     * @param max              the maximum value, if specified, in the target type
      * @param columnDefinition resulting column definition dictionary
      */
     public void processTypeArgs(String dataType, String dataFormat, Object min, Object max, Map<String, Object> columnDefinition) {
@@ -670,9 +670,9 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     /**
      * Processes each model's property null/default definitions
      *
-     * @param model       model's name
-     * @param property    model's property
-     * @param description property's customized description
+     * @param model            model's name
+     * @param property         model's property
+     * @param description      property's customized description
      * @param columnDefinition resulting column definition dictionary
      */
     public void processNullAndDefault(CodegenModel model, CodegenProperty property, String description, Map<String, Object> columnDefinition) {
@@ -700,8 +700,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     /**
      * Processes each model's property that relates to another model
      *
-     * @param model       model's name
-     * @param property    model's property
+     * @param model              model's name
+     * @param property           model's property
      * @param relationDefinition resulting relation definition dictionary
      * @return did we create the foreign key section.
      */
@@ -715,9 +715,9 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         Boolean isPrimitive = (tryDataType.startsWith("kotlin.") || tryDataType.startsWith("java."));
         String propName = isPrimitive ? property.getName() : tryDataType;
 
-        String pkName = titleCase(toModelName(modelName));
+        String pkName = toTitleCase(toModelName(modelName));
         String pkColName = toColumnName(pkName);
-        String fkName = titleCase(toModelName(propName));
+        String fkName = toTitleCase(toModelName(propName));
         String fkColName = toColumnName(fkName);
         String relName = toModelName(camelize(modelName) + camelize(propName));
         String relTblName = toTableName(relName);
@@ -759,7 +759,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         return true;
     }
 
-    private String titleCase(final String input) {
+    private String toTitleCase(final String input) {
         return input.substring(0, 1).toLowerCase(Locale.ROOT) + input.substring(1);
     }
 
@@ -795,7 +795,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     /**
      * Checks if the model type should be a relationship instead.
      *
-     * @param dataType   type name
+     * @param dataType type name
      * @return is a relation
      */
     private boolean isRelation(String dataType) {
@@ -939,9 +939,9 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * Generates codegen default value mapping between ktor and sqlite
      * Ref: http://www.sqlite.org/draft/lang_createtable.html, sec3.2
      *
-     * @param defaultValue  value
-     * @param dataType      type name
-     * @param dataFormat    type format
+     * @param defaultValue value
+     * @param dataType     type name
+     * @param dataFormat   type format
      * @return generated codegen default
      */
     private Map<String, Object> toColumnTypeDefault(String defaultValue, String dataType, String dataFormat) {
@@ -1205,15 +1205,14 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * Slightly modified version of AbstractPhpCodegen.toSrcPath method.
      *
      * @param packageName package name
-     *
      * @return path
      */
     public String toSrcPath(String packageName) {
         // Trim prefix file separators from package path
         String packagePath = StringUtils.removeStart(
-            // Replace period, backslash, forward slash with file separator in package name
-            packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
-            File.separator
+                // Replace period, backslash, forward slash with file separator in package name
+                packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
+                File.separator
         );
 
         // Trim trailing file separators from the overall path

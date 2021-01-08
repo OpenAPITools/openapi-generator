@@ -43,14 +43,14 @@ export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterIn
  * {{&description}}
  */
 {{/description}}
-{{^providedInRoot}}
+{{#isProvidedInNone}}
 @Injectable()
-{{/providedInRoot}}
-{{#providedInRoot}}
+{{/isProvidedInNone}}
+{{^isProvidedInNone}}
 @Injectable({
-  providedIn: 'root'
+  providedIn: '{{providedIn}}'
 })
-{{/providedInRoot}}
+{{/isProvidedInNone}}
 {{#withInterfaces}}
 export class {{classname}} implements {{classname}}Interface {
 {{/withInterfaces}}
