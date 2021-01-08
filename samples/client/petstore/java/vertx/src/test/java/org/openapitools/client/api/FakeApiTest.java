@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
@@ -214,7 +214,7 @@ public class FakeApiTest {
         String string = null;
         AsyncFile binary = null;
         LocalDate date = null;
-        OffsetDateTime dateTime = null;
+        LocalDateTime dateTime = null;
         String password = null;
         String paramCallback = null;
         api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, result -> {

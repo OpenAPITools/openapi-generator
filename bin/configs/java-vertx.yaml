@@ -6,4 +6,4 @@ templateDir: modules/openapi-generator/src/main/resources/Java
 additionalProperties:
   artifactId: petstore-vertx
   hideGenerationTimestamp: "true"
-  dateLibrary: java8
+  dateLibrary: java8-localdatetime

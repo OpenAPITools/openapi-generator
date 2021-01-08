@@ -29,7 +29,6 @@ import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
 
-import java.time.OffsetDateTime;
 import java.text.DateFormat;
 import java.util.*;
 import java.util.function.Consumer;
@@ -39,7 +38,7 @@ import java.util.regex.Pattern;
 import static java.util.stream.Collectors.toMap;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class ApiClient extends JavaTimeFormatter {
+public class ApiClient {
 
     private static final Pattern CONTENT_DISPOSITION_PATTERN = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
     private static final OpenOptions FILE_DOWNLOAD_OPTIONS = new OpenOptions().setCreate(true).setTruncateExisting(true);
@@ -288,8 +287,6 @@ public class ApiClient extends JavaTimeFormatter {
             return "";
         } else if (param instanceof Date) {
             return formatDate((Date) param);
-        } else if (param instanceof OffsetDateTime) {
-            return formatOffsetDateTime((OffsetDateTime) param);
         } else if (param instanceof Collection) {
             StringBuilder b = new StringBuilder();
             for (Object o : (Collection) param) {

@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -82,7 +82,7 @@ public class FormatTest {
   private LocalDate date;
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
-  private OffsetDateTime dateTime;
+  private LocalDateTime dateTime;
 
   public static final String JSON_PROPERTY_UUID = "uuid";
   private UUID uuid;
@@ -351,7 +351,7 @@ public class FormatTest {
   }
 
 
-  public FormatTest dateTime(OffsetDateTime dateTime) {
+  public FormatTest dateTime(LocalDateTime dateTime) {
     
     this.dateTime = dateTime;
     return this;
@@ -366,12 +366,12 @@ public class FormatTest {
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public OffsetDateTime getDateTime() {
+  public LocalDateTime getDateTime() {
     return dateTime;
   }
 
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  public void setDateTime(LocalDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
