@@ -175,7 +175,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                         "Map",
                         "Tuple",
                         "PID",
-                        "DateTime"
+                        "DateTime",
+                        "map()" // This is a workaround, since the DefaultCodeGen uses our elixir TypeSpec datetype to evaluate the primitive
                 )
         );
 
@@ -510,7 +511,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         } else if (ModelUtils.isDateTimeSchema(p)) {
             return "DateTime.t";
         } else if (ModelUtils.isObjectSchema(p)) {
-            return super.getTypeDeclaration(p) + ".t";
+            return "map()";
         } else if (ModelUtils.isIntegerSchema(p)) {
             return "integer()";
         } else if (ModelUtils.isNumberSchema(p)) {
