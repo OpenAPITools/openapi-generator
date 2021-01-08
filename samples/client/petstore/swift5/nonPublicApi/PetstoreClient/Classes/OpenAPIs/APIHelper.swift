@@ -21,7 +21,7 @@ internal struct APIHelper {
     }
 
     internal static func rejectNilHeaders(_ source: [String: Any?]) -> [String: String] {
-        source.reduce(into: [String: String]()) { result, item in
+        return source.reduce(into: [String: String]()) { result, item in
             if let collection = item.value as? [Any?] {
                 result[item.key] = collection.filter { $0 != nil }.map { "\($0!)" }.joined(separator: ",")
             } else if let value: Any = item.value {
