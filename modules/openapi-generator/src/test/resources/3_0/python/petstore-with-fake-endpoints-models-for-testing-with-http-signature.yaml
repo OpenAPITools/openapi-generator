@@ -1696,9 +1696,7 @@ components:
           items:
             $ref: '#/components/schemas/StringEnum'
         ArrayOfStrEnum:
-          type: array
-          items:
-            $ref: '#/components/schemas/ArrayOfEnums'
+          $ref: '#/components/schemas/ArrayOfEnums'
     AdditionalPropertiesClass:
       type: object
       properties:

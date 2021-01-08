@@ -117,7 +117,7 @@ class EnumTest(ModelNormal):
             'integer_enum_with_default_value': (IntegerEnumWithDefaultValue,),  # noqa: E501
             'integer_enum_one_value': (IntegerEnumOneValue,),  # noqa: E501
             'inline_array_of_str_enum': ([StringEnum],),  # noqa: E501
-            'array_of_str_enum': ([ArrayOfEnums],),  # noqa: E501
+            'array_of_str_enum': (ArrayOfEnums,),  # noqa: E501
         }
 
     @cached_property
@@ -197,7 +197,7 @@ class EnumTest(ModelNormal):
             integer_enum_with_default_value (IntegerEnumWithDefaultValue): [optional]  # noqa: E501
             integer_enum_one_value (IntegerEnumOneValue): [optional]  # noqa: E501
             inline_array_of_str_enum ([StringEnum]): [optional]  # noqa: E501
-            array_of_str_enum ([ArrayOfEnums]): [optional]  # noqa: E501
+            array_of_str_enum (ArrayOfEnums): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

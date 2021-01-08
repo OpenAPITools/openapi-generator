@@ -126,17 +126,35 @@ class TestFakeApi(unittest.TestCase):
         """
         from petstore_api.model.enum_test import EnumTest
         from petstore_api.model.string_enum import StringEnum
+        from petstore_api.model.array_of_enums import ArrayOfEnums
+
         endpoint = self.api.enum_test
         assert endpoint.openapi_types['enum_test'] == (EnumTest,)
         assert endpoint.settings['response_type'] == (EnumTest,)
 
-        # serialization + deserialization works
+        # serialization + deserialization works w/ inline array
         with patch.object(RESTClientObject, 'request') as mock_method:
             body = EnumTest(
                 enum_string_required='lower',
                 inline_array_of_str_enum=[StringEnum('approved')]
             )
             json_value = {'enum_string_required': 'lower', 'InlineArrayOfStrEnum': ['approved']}
+            mock_method.return_value = self.mock_response(json_value)
+
+            response = endpoint(enum_test=body)
+            self.assert_request_called_with(
+                mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/enum-test', json_value)
+
+            assert isinstance(response, EnumTest)
+            assert response == body
+
+        # serialization + deserialization works w/ refed array
+        with patch.object(RESTClientObject, 'request') as mock_method:
+            body = EnumTest(
+                enum_string_required='lower',
+                array_of_str_enum=ArrayOfEnums([StringEnum('approved')])
+            )
+            json_value = {'enum_string_required': 'lower', 'ArrayOfStrEnum': ['approved']}
             mock_method.return_value = self.mock_response(json_value)
 
             response = endpoint(enum_test=body)

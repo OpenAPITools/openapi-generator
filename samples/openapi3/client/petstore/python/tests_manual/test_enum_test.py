@@ -16,6 +16,7 @@ import unittest
 import petstore_api
 from petstore_api.model.enum_test import EnumTest
 from petstore_api.model.string_enum import StringEnum
+from petstore_api.model.array_of_enums import ArrayOfEnums
 
 
 class TestEnumTest(unittest.TestCase):
@@ -29,11 +30,16 @@ class TestEnumTest(unittest.TestCase):
 
     def testEnumTest(self):
         """Test EnumTest"""
+        # inline array of enums
         model = EnumTest(
             enum_string_required='lower',
             inline_array_of_str_enum=[StringEnum('approved')]
         )
-        # TODO fix data_type in array_of_str_enum (refed array model) it contains [] when it should not have that
+        # refed array of enums
+        model = EnumTest(
+            enum_string_required='lower',
+            array_of_str_enum=ArrayOfEnums([StringEnum('approved')])
+        )
 
 
 if __name__ == '__main__':

@@ -384,11 +384,9 @@ with petstore_api.ApiClient() as api_client:
         inline_array_of_str_enum=[
             StringEnum("placed"),
         ],
-        array_of_str_enum=[
-            ArrayOfEnums([
-                StringEnum("string_example"),
-            ]),
-        ],
+        array_of_str_enum=ArrayOfEnums([
+            StringEnum("placed"),
+        ]),
     ) # EnumTest | Input object (optional)
 
     # example passing only required values which don't have defaults set
