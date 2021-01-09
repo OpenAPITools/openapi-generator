@@ -2,21 +2,33 @@
 package org.openapitools.handler;
 
 import com.networknt.server.HandlerProvider;
-
 import io.undertow.Handlers;
-import io.undertow.attribute.QueryParameterAttribute;
 import io.undertow.server.HttpHandler;
-import io.undertow.server.HttpServerExchange;
 import io.undertow.server.RoutingHandler;
 import io.undertow.server.handlers.PathHandler;
-import io.undertow.server.handlers.form.FormDataParser;
-import io.undertow.util.Headers;
 import io.undertow.util.Methods;
 
-import {{modelPackage}}.*;
-
+/**
+ * The default implementation for {@link HandlerProvider} and {@link PathHandlerInterface}.
+ *
+* <p>There are two flavors of {@link HttpHandler}s to choose from, depending on your needs:</p>
+ *
+ * <ul>
+ * <li>
+ * <b>Stateless</b>: if a specific endpoint is called more than once from multiple sessions,
+ * its state is not retained – a different {@link HttpHandler} is instantiated for every new
+ * session. This is the default behavior.
+ * </li>
+ * <li>
+ * <b>Stateful</b>: if a specific endpoint is called more than once from multiple sessions,
+ * its state is retained properly. For example, if you want to keep a class property that counts
+ * the number of requests or the last time a request was received.
+ * </li>
+ * </ul>
+ * <p>Note: <b>Stateful</b> flavor is more performant than <b>Stateless</b>.</p>
+ */
 @SuppressWarnings("TooManyFunctions")
-abstract public class PathHandlerProvider implements HandlerProvider {
+abstract public class PathHandlerProvider implements HandlerProvider, PathHandlerInterface {
     /**
      * Returns the default base path to access this server.
      */
@@ -24,80 +36,18 @@ abstract public class PathHandlerProvider implements HandlerProvider {
     public String getBasePath() {
         return "{{{basePathWithoutHost}}}";
     }
-{{#apiInfo}}
-  {{#apis}}
-    {{#operations}}
-      {{#operation}}
 
     /**
-{{#summary}}     * <p>{{{summary}}}</p>
-     *
-{{/summary}}
-{{#notes}}     * <p>{{{notes}}}</p>
-     *
-{{/notes}}
-     * <p><b>Endpoint</b>: {@link Methods#{{{httpMethod}}} {{{httpMethod}}}} "{{{basePathWithoutHost}}}{{{path}}}" (<i>privileged: {{hasAuthMethods}}</i>)</p>
-{{#hasParams}}
-     *
-     * <p><b>Request parameters</b>:</p>
-     * <ul>
-  {{#allParams}}
-    {{^isBodyParam}}
-     * <li>
-     * <p>"<b>{{{baseName}}}</b>"
-{{#description}}     * <p>{{{description}}}</p>
-{{/description}}
-     * <p>
-     * - Parameter type: <b>{{>isContainerDoc}}{{#isModel}}{@link {{dataType}}}{{/isModel}}{{^isModel}}{{#isFile}}{{#isBinary}}Binary{{/isBinary}}File{{/isFile}}{{^isFile}}{@link {{dataType}}}{{/isFile}}{{/isModel}}</b><br/>
-     * - Appears in: <b>{{#isFormParam}}{@link FormDataParser Form}{{/isFormParam}}{{#isQueryParam}}{@link HttpServerExchange#getQueryParameters Query}{{/isQueryParam}}{{#isPathParam}}{@link HttpServerExchange#getPathParameters Path}{{/isPathParam}}{{#isHeaderParam}}{@link Headers Header}{{/isHeaderParam}}{{#isCookieParam}}{@link HttpServerExchange#getRequestCookie Cookie}{{/isCookieParam}}{{#isBodyParam}}{@link HttpServerExchange#getRequestChannel Body}{{/isBodyParam}}</b><br/>
-{{#defaultValue}}     * - Default value: <b>{{{defaultValue}}}</b><br/>
-{{/defaultValue}}
-     * - Required: <b>{{{required}}}</b>
-     * </p>
-     * </li>
-    {{/isBodyParam}}
-  {{/allParams}}
-     * </ul>
-{{/hasParams}}
-{{#hasResponseHeaders}}
-     * <p><b>Response headers</b>: [{{#responseHeaders}}{{.}}{{^-last}}, {{/-last}}{{/responseHeaders}}]</p>
-{{/hasResponseHeaders}}
-{{#hasConsumes}}
-     *
-     * <p><b>Consumes</b>: {{{consumes}}}</p>
-{{#hasBodyParam}}{{#bodyParam}}     * <p><b>Payload</b>: {{>isContainerDoc}}{{#isModel}}{@link {{dataType}}}{{/isModel}}{{^isModel}}{{#isFile}}{{#isBinary}}Binary {{/isBinary}}File{{/isFile}}{{^isFile}}{@link {{baseType}}}{{/isFile}}{{/isModel}} (<i>required: {{{required}}}</i>{{/bodyParam}})</p>
-{{/hasBodyParam}}
-{{/hasConsumes}}
-     *
-{{#hasProduces}}     * <p><b>Produces</b>: {{{produces}}}</p>
-{{/hasProduces}}
-{{#returnBaseType}}     * <p><b>Returns</b>: {{>isContainerDoc}}{@link {{returnBaseType}}}</p>
-{{/returnBaseType}}
-     *
-     * <p><b>Responses</b>:</p>
-     * <ul>
-{{#responses}}
-     * <li><b>{{#isDefault}}Default{{/isDefault}}{{^isDefault}}{{{code}}} ({{#is1xx}}informative{{/is1xx}}{{#is2xx}}success{{/is2xx}}{{#is3xx}}redirection{{/is3xx}}{{#is4xx}}client error{{/is4xx}}{{#is5xx}}server error{{/is5xx}}){{/isDefault}}</b>{{#message}}: {{{message}}}{{/message}}</li>
-{{/responses}}
-     * </ul>
-     */
-    @javax.annotation.Nonnull
-{{#isDeprecated}}    @Deprecated
-{{/isDeprecated}}
-    abstract protected HttpHandler {{operationId}}();
-      {{/operation}}
-    {{/operations}}
-  {{/apis}}
-{{/apiInfo}}
-
-    /**
-     * Returns an Undertow {@link HttpHandler} that configures all endpoints in this server.
+     * Returns an {@link HttpHandler} that configures all endpoints in this server.
      *
      * <p>Endpoints bound in this method do NOT start with "{{{basePathWithoutHost}}}", and
      * it's your responsibility to configure a {@link PathHandler} with a prefix path
-     * by calling {@link PathHandler#addPrefixPath} like so:</p>p>
+     * by calling {@link PathHandler#addPrefixPath} like so:</p>
      *
      * <code>pathHandler.addPrefixPath("{{{basePathWithoutHost}}}", handler)</code>
+     *
+     * <p>Note: the endpoints bound to the returned {@link HttpHandler} are stateless and won't
+    * retain any state between multiple sessions.</p>
      *
      * @return an {@link HttpHandler} of type {@link RoutingHandler}
      */
@@ -108,7 +58,10 @@ abstract public class PathHandlerProvider implements HandlerProvider {
     }
 
     /**
-     * Returns an Undertow {@link HttpHandler} that configures all endpoints in this server.
+     * Returns an {@link HttpHandler} that configures all endpoints in this server.
+     *
+     * <p>Note: the endpoints bound to the returned {@link HttpHandler} are stateless and won't
+     * retain any state between multiple sessions.</p>
      *
      * @param withBasePath if true, all endpoints would start with "{{{basePathWithoutHost}}}"
      * @return an {@link HttpHandler} of type {@link RoutingHandler}
@@ -119,7 +72,10 @@ abstract public class PathHandlerProvider implements HandlerProvider {
     }
 
     /**
-     * Returns an Undertow {@link HttpHandler} that configures all endpoints in this server.
+     * Returns an {@link HttpHandler} that configures all endpoints in this server.
+     *
+     * <p>Note: the endpoints bound to the returned {@link HttpHandler} are stateless and won't
+     * retain any state between multiple sessions.</p>
      *
      * @param basePath base path to set for all endpoints
      * @return an {@link HttpHandler} of type {@link RoutingHandler}
@@ -131,9 +87,68 @@ abstract public class PathHandlerProvider implements HandlerProvider {
   {{#apis}}
     {{#operations}}
       {{#operation}}
-            .add(Methods.{{httpMethod}}, basePath + "{{{path}}}", {{operationId}}()){{#-last}};{{/-last}}
+            .add(Methods.{{httpMethod}}, basePath + "{{{path}}}", (exchange -> {{operationId}}().handleRequest(exchange)))
       {{/operation}}
     {{/operations}}
+        ;
+  {{/apis}}
+{{/apiInfo}}
+    }
+
+    /**
+     * Returns an {@link HttpHandler} that configures all endpoints in this server.
+     *
+     * <p>Endpoints bound in this method do NOT start with "{{{basePathWithoutHost}}}", and
+     * it's your responsibility to configure a {@link PathHandler} with a prefix path
+     * by calling {@link PathHandler#addPrefixPath} like so:</p>
+     *
+     * <code>pathHandler.addPrefixPath("{{{basePathWithoutHost}}}", handler)</code>
+     *
+     * <p>Note: the endpoints bound to the returned {@link HttpHandler} are stateful and will
+     * retain any state between multiple sessions.</p>
+     *
+     * @return an {@link HttpHandler} of type {@link RoutingHandler}
+     */
+    @javax.annotation.Nonnull
+    @Override
+    public HttpHandler getStatefulHandler() {
+        return getStatefulHandler(false);
+    }
+
+    /**
+     * Returns an {@link HttpHandler} that configures all endpoints in this server.
+     *
+     * <p>Note: the endpoints bound to the returned {@link HttpHandler} are stateful and will
+     * retain any state between multiple sessions.</p>
+     *
+     * @param withBasePath if true, all endpoints would start with "{{{basePathWithoutHost}}}"
+     * @return an {@link HttpHandler} of type {@link RoutingHandler}
+     */
+    @javax.annotation.Nonnull
+    public HttpHandler getStatefulHandler(final boolean withBasePath) {
+        return getStatefulHandler(withBasePath ? getBasePath() : "");
+    }
+
+    /**
+     * Returns an {@link HttpHandler} that configures all endpoints in this server.
+     *
+     * <p>Note: the endpoints bound to the returned {@link HttpHandler} are stateful and will
+     * retain any state between multiple sessions.</p>
+     *
+     * @param basePath base path to set for all endpoints
+     * @return an {@link HttpHandler} of type {@link RoutingHandler}
+     */
+    @javax.annotation.Nonnull
+    public HttpHandler getStatefulHandler(final String basePath) {
+        return Handlers.routing()
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+            .add(Methods.{{httpMethod}}, basePath + "{{{path}}}", {{operationId}}())
+      {{/operation}}
+    {{/operations}}
+        ;
   {{/apis}}
 {{/apiInfo}}
     }
