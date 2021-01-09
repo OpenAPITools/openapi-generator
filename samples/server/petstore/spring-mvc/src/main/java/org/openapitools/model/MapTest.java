@@ -27,7 +27,8 @@ public class MapTest   {
   /**
    * Gets or Sets inner
    */
-  public enum InnerEnum {
+  @com.fasterxml.jackson.annotation.JsonTypeName("myName")
+public enum InnerEnum {
     UPPER("UPPER"),
     
     LOWER("lower");

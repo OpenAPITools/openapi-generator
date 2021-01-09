@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 /**
  * Gets or Sets EnumClass
  */
+@com.fasterxml.jackson.annotation.JsonTypeName("myName")
 public enum EnumClass {
   
   _ABC("_abc"),

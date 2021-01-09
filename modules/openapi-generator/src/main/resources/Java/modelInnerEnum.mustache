@@ -4,7 +4,7 @@
 {{#gson}}
   @JsonAdapter({{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.Adapter.class)
 {{/gson}}
-  public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} {
+  {{>additionalEnumTypeAnnotations}}public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} {
     {{#allowableValues}}
       {{#enumVars}}
     {{#enumDescription}}
