@@ -814,8 +814,8 @@ class FakeApi {
             'application/json',
         ];
 
-        final bodySerializer = _serializers.serializerForType(String) as Serializer<String>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, requestBody);
+        const type = FullType(BuiltMap, [FullType(String), FullType(String)]);
+        final serializedBody = _serializers.serialize(requestBody, specifiedType: type);
         final jsonrequestBody = json.encode(serializedBody);
         bodyData = jsonrequestBody;
 

@@ -558,6 +558,18 @@ public class DartClientCodegen extends DefaultCodegen {
                 }
             }
         }
+        for (CodegenParameter p : op.allParams) {
+            if (p.isContainer) {
+                final String type = p.isArray ? "array" : "map";
+                if (typeMapping().containsKey(type)) {
+                    final String value = typeMapping().get(type);
+                    // Also add container imports for parameters.
+                    if (needToImport(value)) {
+                        op.imports.add(value);
+                    }
+                }
+            }
+        }
         return op;
     }
 

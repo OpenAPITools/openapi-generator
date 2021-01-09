@@ -77,11 +77,17 @@ class {{classname}} {
         {{/hasFormParams}}
         {{#bodyParam}}
 
+        {{#isContainer}}
         {{#isArray}}
         const type = FullType(BuiltList, [FullType({{baseType}})]);
         final serializedBody = _serializers.serialize({{paramName}}, specifiedType: type);
         {{/isArray}}
-        {{^isArray}}
+        {{#isMap}}
+        const type = FullType(BuiltMap, [FullType(String), FullType({{baseType}})]);
+        final serializedBody = _serializers.serialize({{paramName}}, specifiedType: type);
+        {{/isMap}}
+        {{/isContainer}}
+        {{^isContainer}}
         {{#isPrimitiveType}}
         var serializedBody = {{paramName}};
         {{/isPrimitiveType}}
@@ -89,7 +95,7 @@ class {{classname}} {
         final bodySerializer = _serializers.serializerForType({{{baseType}}}) as Serializer<{{{baseType}}}>;
         final serializedBody = _serializers.serializeWith(bodySerializer, {{paramName}});
         {{/isPrimitiveType}}
-        {{/isArray}}
+        {{/isContainer}}
         final json{{paramName}} = json.encode(serializedBody);
         bodyData = json{{paramName}};
         {{/bodyParam}}
