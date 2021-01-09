@@ -38,7 +38,7 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
     }
 
     /**
-     * Returns an {@link HttpHandler} that configures all endpoints in this server.
+     * Returns a stateless {@link HttpHandler} that configures all endpoints in this server.
      *
      * <p>Endpoints bound in this method do NOT start with "{{{basePathWithoutHost}}}", and
      * it's your responsibility to configure a {@link PathHandler} with a prefix path
@@ -58,7 +58,7 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
     }
 
     /**
-     * Returns an {@link HttpHandler} that configures all endpoints in this server.
+     * Returns a stateless {@link HttpHandler} that configures all endpoints in this server.
      *
      * <p>Note: the endpoints bound to the returned {@link HttpHandler} are stateless and won't
      * retain any state between multiple sessions.</p>
@@ -72,7 +72,7 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
     }
 
     /**
-     * Returns an {@link HttpHandler} that configures all endpoints in this server.
+     * Returns a stateless {@link HttpHandler} that configures all endpoints in this server.
      *
      * <p>Note: the endpoints bound to the returned {@link HttpHandler} are stateless and won't
      * retain any state between multiple sessions.</p>
@@ -96,7 +96,7 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
     }
 
     /**
-     * Returns an {@link HttpHandler} that configures all endpoints in this server.
+     * Returns a stateful {@link HttpHandler} that configures all endpoints in this server.
      *
      * <p>Endpoints bound in this method do NOT start with "{{{basePathWithoutHost}}}", and
      * it's your responsibility to configure a {@link PathHandler} with a prefix path
@@ -116,7 +116,7 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
     }
 
     /**
-     * Returns an {@link HttpHandler} that configures all endpoints in this server.
+     * Returns a stateful {@link HttpHandler} that configures all endpoints in this server.
      *
      * <p>Note: the endpoints bound to the returned {@link HttpHandler} are stateful and will
      * retain any state between multiple sessions.</p>
@@ -130,7 +130,7 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
     }
 
     /**
-     * Returns an {@link HttpHandler} that configures all endpoints in this server.
+     * Returns a stateful {@link HttpHandler} that configures all endpoints in this server.
      *
      * <p>Note: the endpoints bound to the returned {@link HttpHandler} are stateful and will
      * retain any state between multiple sessions.</p>
