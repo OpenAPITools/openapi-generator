@@ -391,4 +391,56 @@ public class DartDioModelTest {
         Assert.assertEquals(cm.name, name);
         Assert.assertEquals(cm.classname, expectedName);
     }
+
+    @Test(description = "correctly generate collection default values")
+    public void collectionDefaultValues() {
+        final ArraySchema array = new ArraySchema();
+        array.setDefault("[]");
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("arrayNoDefault", new ArraySchema())
+                .addProperties("arrayEmptyDefault", array)
+                .addProperties("mapNoDefault", new MapSchema());
+        final DefaultCodegen codegen = new DartDioClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        final CodegenProperty arrayNoDefault = cm.vars.get(0);
+        Assert.assertEquals(arrayNoDefault.name, "arrayNoDefault");
+        Assert.assertNull(arrayNoDefault.defaultValue);
+
+        final CodegenProperty arrayEmptyDefault = cm.vars.get(1);
+        Assert.assertEquals(arrayEmptyDefault.name, "arrayEmptyDefault");
+        Assert.assertEquals(arrayEmptyDefault.defaultValue, "ListBuilder()");
+
+        final CodegenProperty mapNoDefault = cm.vars.get(2);
+        Assert.assertEquals(mapNoDefault.name, "mapNoDefault");
+        Assert.assertNull(mapNoDefault.defaultValue);
+    }
+
+    @Test(description = "correctly generate date/datetime default values, currently null")
+    public void dateDefaultValues() {
+        final DateSchema date = new DateSchema();
+        date.setDefault("2021-01-01");
+        final DateTimeSchema dateTime = new DateTimeSchema();
+        dateTime.setDefault("2021-01-01T14:00:00Z");
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("date", date)
+                .addProperties("dateTime", dateTime)
+                .addProperties("mapNoDefault", new MapSchema());
+        final DefaultCodegen codegen = new DartDioClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        final CodegenProperty dateDefault = cm.vars.get(0);
+        Assert.assertEquals(dateDefault.name, "date");
+        Assert.assertNull(dateDefault.defaultValue);
+
+        final CodegenProperty dateTimeDefault = cm.vars.get(1);
+        Assert.assertEquals(dateTimeDefault.name, "dateTime");
+        Assert.assertNull(dateTimeDefault.defaultValue);
+    }
 }

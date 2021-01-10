@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <!--<TargetFramework>{{targetFramework}}</TargetFramework>--><TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>{{targetFramework}}</TargetFramework>
     <AssemblyName>{{packageName}}</AssemblyName>
     <PackageId>{{packageName}}</PackageId>
     <OutputType>Library</OutputType>
@@ -18,8 +18,7 @@
     <RepositoryUrl>https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>{{#releaseNote}}
     <PackageReleaseNotes>{{releaseNote}}</PackageReleaseNotes>{{/releaseNote}}{{#packageTags}}
-    <PackageTags>{{{packageTags}}}</PackageTags>{{/packageTags}}    
-    <Nullable>enable</Nullable>
+    <PackageTags>{{{packageTags}}}</PackageTags>{{/packageTags}}
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,7 +29,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="RestSharp" Version="106.11.4" />
     <PackageReference Include="Polly" Version="7.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />    
     {{#validatable}}
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
     {{/validatable}}

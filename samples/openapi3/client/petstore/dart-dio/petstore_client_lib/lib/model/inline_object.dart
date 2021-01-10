@@ -20,7 +20,7 @@ abstract class InlineObject implements Built<InlineObject, InlineObjectBuilder> 
 
     static void _initializeBuilder(InlineObjectBuilder b) => b;
 
-    factory InlineObject([updates(InlineObjectBuilder b)]) = _$InlineObject;
+    factory InlineObject([void updates(InlineObjectBuilder b)]) = _$InlineObject;
     static Serializer<InlineObject> get serializer => _$inlineObjectSerializer;
 }
 

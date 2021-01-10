@@ -18,18 +18,16 @@ open class RequestBuilder<T> {
     var credential: URLCredential?
     var headers: [String: String]
     public let parameters: [String: Any]?
-    public let isBody: Bool
     public let method: String
     public let URLString: String
 
     /// Optional block to obtain a reference to the request's progress instance when available.
     public var onProgressReady: ((Progress) -> Void)?
 
-    required public init(method: String, URLString: String, parameters: [String: Any]?, isBody: Bool, headers: [String: String] = [:]) {
+    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:]) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
-        self.isBody = isBody
         self.headers = headers
 
         addHeaders(PetstoreClientAPI.customHeaders)

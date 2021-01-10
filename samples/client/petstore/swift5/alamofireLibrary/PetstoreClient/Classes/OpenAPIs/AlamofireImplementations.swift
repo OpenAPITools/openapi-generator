@@ -21,8 +21,8 @@ class AlamofireRequestBuilderFactory: RequestBuilderFactory {
 private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManager>()
 
 open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
-    required public init(method: String, URLString: String, parameters: [String: Any]?, isBody: Bool, headers: [String: String] = [:]) {
-        super.init(method: method, URLString: URLString, parameters: parameters, isBody: isBody, headers: headers)
+    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:]) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers)
     }
 
     /**
@@ -39,7 +39,20 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
      May be overridden by a subclass if you want to custom request constructor.
      */
     open func createURLRequest() -> URLRequest? {
-        let encoding: ParameterEncoding = isBody ? JSONDataEncoding() : URLEncoding()
+        guard let xMethod = Alamofire.HTTPMethod(rawValue: method) else {
+            fatalError("Unsuported Http method - \(method)")
+        }
+
+        let encoding: ParameterEncoding
+
+        switch xMethod {
+        case .get, .head:
+            encoding = URLEncoding()
+
+        case .options, .post, .put, .patch, .delete, .trace, .connect:
+            encoding = JSONDataEncoding()
+        }
+
         guard let originalRequest = try? URLRequest(url: URLString, method: HTTPMethod(rawValue: method)!, headers: buildHeaders()) else { return nil }
         return try? encoding.encode(originalRequest, with: parameters)
     }
@@ -64,56 +77,73 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
     }
 
     override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
-        let managerId: String = UUID().uuidString
+        let managerId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let manager = createSessionManager()
         managerStore[managerId] = manager
 
-        let encoding: ParameterEncoding = isBody ? JSONDataEncoding() : URLEncoding()
+        guard let xMethod = Alamofire.HTTPMethod(rawValue: method) else {
+            fatalError("Unsuported Http method - \(method)")
+        }
 
-        let xMethod = Alamofire.HTTPMethod(rawValue: method)
-        let fileKeys = parameters == nil ? [] : parameters!.filter { $1 is NSURL }
-                                                           .map { $0.0 }
+        let encoding: ParameterEncoding?
 
-        if fileKeys.count > 0 {
-            manager.upload(multipartFormData: { mpForm in
-                for (k, v) in self.parameters! {
-                    switch v {
-                    case let fileURL as URL:
-                        if let mimeType = self.contentTypeForFormPart(fileURL: fileURL) {
-                            mpForm.append(fileURL, withName: k, fileName: fileURL.lastPathComponent, mimeType: mimeType)
-                        } else {
-                            mpForm.append(fileURL, withName: k)
+        switch xMethod {
+        case .get, .head:
+            encoding = URLEncoding()
+
+        case .options, .post, .put, .patch, .delete, .trace, .connect:
+            let contentType = headers["Content-Type"] ?? "application/json"
+
+            if contentType == "application/json" {
+                encoding = JSONDataEncoding()
+            } else if contentType == "multipart/form-data" {
+                encoding = nil
+
+                manager.upload(multipartFormData: { mpForm in
+                    for (k, v) in self.parameters! {
+                        switch v {
+                        case let fileURL as URL:
+                            if let mimeType = self.contentTypeForFormPart(fileURL: fileURL) {
+                                mpForm.append(fileURL, withName: k, fileName: fileURL.lastPathComponent, mimeType: mimeType)
+                            } else {
+                                mpForm.append(fileURL, withName: k)
+                            }
+                        case let string as String:
+                            mpForm.append(string.data(using: String.Encoding.utf8)!, withName: k)
+                        case let number as NSNumber:
+                            mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
+                        default:
+                            fatalError("Unprocessable value \(v) with key \(k)")
                         }
-                    case let string as String:
-                        mpForm.append(string.data(using: String.Encoding.utf8)!, withName: k)
-                    case let number as NSNumber:
-                        mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
-                    default:
-                        fatalError("Unprocessable value \(v) with key \(k)")
                     }
-                }
-                }, to: URLString, method: xMethod!, headers: nil, encodingCompletion: { encodingResult in
-                switch encodingResult {
-                case .success(let upload, _, _):
-                    if let onProgressReady = self.onProgressReady {
-                        onProgressReady(upload.uploadProgress)
+                    }, to: URLString, method: xMethod, headers: nil, encodingCompletion: { encodingResult in
+                    switch encodingResult {
+                    case .success(let upload, _, _):
+                        if let onProgressReady = self.onProgressReady {
+                            onProgressReady(upload.uploadProgress)
+                        }
+                        self.processRequest(request: upload, managerId, apiResponseQueue, completion)
+                    case .failure(let encodingError):
+                        apiResponseQueue.async {
+                            completion(.failure(ErrorResponse.error(415, nil, nil, encodingError)))
+                        }
                     }
-                    self.processRequest(request: upload, managerId, apiResponseQueue, completion)
-                case .failure(let encodingError):
-                    apiResponseQueue.async {
-                        completion(.failure(ErrorResponse.error(415, nil, nil, encodingError)))
-                    }
-                }
-            })
-        } else {
-            let request = makeRequest(manager: manager, method: xMethod!, encoding: encoding, headers: headers)
+                })
+            } else if contentType == "application/x-www-form-urlencoded" {
+                encoding = URLEncoding(destination: .httpBody)
+            } else {
+                fatalError("Unsuported Media Type - \(contentType)")
+            }
+        }
+
+        if let encoding = encoding {
+            let request = makeRequest(manager: manager, method: xMethod, encoding: encoding, headers: headers)
             if let onProgressReady = self.onProgressReady {
                 onProgressReady(request.progress)
             }
             processRequest(request: request, managerId, apiResponseQueue, completion)
         }
-
     }
 
     fileprivate func processRequest(request: DataRequest, _ managerId: String, _ apiResponseQueue: DispatchQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {

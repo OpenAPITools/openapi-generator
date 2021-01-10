@@ -7,7 +7,7 @@ namespace {{packageName}}.Client
     /// <summary>
     /// API Exception
     /// </summary>
-    {{>visibility}} class ApiException<T> : Exception
+    {{>visibility}} class ApiException : Exception
     {
         /// <summary>
         /// Gets or sets the error code (HTTP status code)
@@ -26,16 +26,6 @@ namespace {{packageName}}.Client
         /// </summary>
         /// <value>HTTP headers</value>
         public Multimap<string, string> Headers { get; private set; }
-
-        /// <summary>
-        /// The unsuccessful server request.
-        /// </summary>
-        public ApiResponse<T> ApiResponse;
-
-        public ApiException(ApiResponse<T> apiResponse)
-        {
-            ApiResponse = apiResponse;
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiException"/> class.
