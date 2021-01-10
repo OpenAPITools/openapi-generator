@@ -6,14 +6,12 @@ import * as FormData from "form-data";
 import {ObjectSerializer} from '../models/ObjectSerializer';
 import {ApiException} from './exception';
 import {isCodeInRange} from '../util';
-import { injectable } from "inversify";
 
 import { User } from '../models/User';
 
 /**
  * no description
  */
-@injectable()
 export class UserApiRequestFactory extends BaseAPIRequestFactory {
 	
     /**
@@ -377,7 +375,6 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 
 
-@injectable()
 export class UserApiResponseProcessor {
 
     /**
