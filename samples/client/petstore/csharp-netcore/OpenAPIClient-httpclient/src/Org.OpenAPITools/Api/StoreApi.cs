@@ -19,113 +19,11 @@ using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Api
 {
-
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IStoreApiSync : IApiAccessor
+    public interface IStoreApi
     {
-        #region Synchronous Operations
-        /// <summary>
-        /// Delete purchase order by ID
-        /// </summary>
-        /// <remarks>
-        /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orderId">ID of the order that needs to be deleted</param>
-        /// <returns></returns>
-        void DeleteOrder(string orderId);
-
-        /// <summary>
-        /// Delete purchase order by ID
-        /// </summary>
-        /// <remarks>
-        /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orderId">ID of the order that needs to be deleted</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> DeleteOrderResponse(string orderId);
-        /// <summary>
-        /// Returns pet inventories by status
-        /// </summary>
-        /// <remarks>
-        /// Returns a map of status codes to quantities
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Dictionary&lt;string, int&gt;</returns>
-        Dictionary<string, int> GetInventory();
-
-        /// <summary>
-        /// Returns pet inventories by status
-        /// </summary>
-        /// <remarks>
-        /// Returns a map of status codes to quantities
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of Dictionary&lt;string, int&gt;</returns>
-        ApiResponse<Dictionary<string, int>> GetInventoryResponse();
-        /// <summary>
-        /// Find purchase order by ID
-        /// </summary>
-        /// <remarks>
-        /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>Order</returns>
-        Order GetOrderById(long orderId);
-
-        /// <summary>
-        /// Find purchase order by ID
-        /// </summary>
-        /// <remarks>
-        /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>ApiResponse of Order</returns>
-        ApiResponse<Order> GetOrderByIdResponse(long orderId);
-        /// <summary>
-        /// Place an order for a pet
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="order">order placed for purchasing the pet</param>
-        /// <returns>Order</returns>
-        Order PlaceOrder(Order order);
-
-        /// <summary>
-        /// Place an order for a pet
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="order">order placed for purchasing the pet</param>
-        /// <returns>ApiResponse of Order</returns>
-        ApiResponse<Order> PlaceOrderResponse(Order order);
-        #endregion Synchronous Operations
-    }
-
-    /// <summary>
-    /// Represents a collection of functions to interact with the API endpoints
-    /// </summary>
-    public interface IStoreApiAsync : IApiAccessor
-    {
-        #region Asynchronous Operations
-        /// <summary>
-        /// Delete purchase order by ID
-        /// </summary>
-        /// <remarks>
-        /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orderId">ID of the order that needs to be deleted</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task DeleteOrderAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Delete purchase order by ID
         /// </summary>
@@ -136,18 +34,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> DeleteOrderResponseAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> DeleteOrderWithHttpInfoAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null);
+        
         /// <summary>
-        /// Returns pet inventories by status
+        /// Delete purchase order by ID
         /// </summary>
         /// <remarks>
-        /// Returns a map of status codes to quantities
+        /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Dictionary&lt;string, int&gt;</returns>
-        System.Threading.Tasks.Task<Dictionary<string, int>> GetInventoryAsync(System.Threading.CancellationToken? cancellationToken = null);
-
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<Object> DeleteOrderAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null);
+        
         /// <summary>
         /// Returns pet inventories by status
         /// </summary>
@@ -157,7 +57,28 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Dictionary&lt;string, int&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int>>> GetInventoryResponseAsync(System.Threading.CancellationToken? cancellationToken = null);
+        System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int>>> GetInventoryWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null);
+        
+        /// <summary>
+        /// Returns pet inventories by status
+        /// </summary>
+        /// <remarks>
+        /// Returns a map of status codes to quantities
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (Dictionary&lt;string, int&gt;)</returns>
+        System.Threading.Tasks.Task<Dictionary<string, int>> GetInventoryAsync(System.Threading.CancellationToken? cancellationToken = null);
+        
+        /// <summary>
+        /// Returns pet inventories by status
+        /// </summary>
+        /// <remarks>
+        /// Returns a map of status codes to quantities
+        /// </remarks>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (Dictionary&lt;string, int&gt;?)</returns>
+        System.Threading.Tasks.Task<Dictionary<string, int>?> GetInventoryOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null);
         /// <summary>
         /// Find purchase order by ID
         /// </summary>
@@ -167,20 +88,31 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Order</returns>
+        /// <returns>Task of ApiResponse (Order)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdWithHttpInfoAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null);
+        
+        /// <summary>
+        /// Find purchase order by ID
+        /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (Order)</returns>
         System.Threading.Tasks.Task<Order> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null);
-
+        
         /// <summary>
         /// Find purchase order by ID
         /// </summary>
         /// <remarks>
         /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Order)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdResponseAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task of ApiResponse (Order?)</returns>
+        System.Threading.Tasks.Task<Order?> GetOrderByIdOrDefaultAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null);
         /// <summary>
         /// Place an order for a pet
         /// </summary>
@@ -190,29 +122,31 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Order</returns>
+        /// <returns>Task of ApiResponse (Order)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderWithHttpInfoAsync(Order order, System.Threading.CancellationToken? cancellationToken = null);
+        
+        /// <summary>
+        /// Place an order for a pet
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="order">order placed for purchasing the pet</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (Order)</returns>
         System.Threading.Tasks.Task<Order> PlaceOrderAsync(Order order, System.Threading.CancellationToken? cancellationToken = null);
-
+        
         /// <summary>
         /// Place an order for a pet
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Order)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderResponseAsync(Order order, System.Threading.CancellationToken? cancellationToken = null);
-        #endregion Asynchronous Operations
-    }
-
-    /// <summary>
-    /// Represents a collection of functions to interact with the API endpoints
-    /// </summary>
-    public interface IStoreApi : IStoreApiSync, IStoreApiAsync
-    {
-
+        /// <returns>Task of ApiResponse (Order?)</returns>
+        System.Threading.Tasks.Task<Order?> PlaceOrderOrDefaultAsync(Order order, System.Threading.CancellationToken? cancellationToken = null);
     }
 
     /// <summary>
@@ -220,193 +154,32 @@ namespace Org.OpenAPITools.Api
     /// </summary>
     public partial class StoreApi : IStoreApi
     {
-        private Org.OpenAPITools.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
         private readonly System.Net.Http.HttpClient _httpClient;
-        private readonly Newtonsoft.Json.JsonConverter[] _jsonConverters;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StoreApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public StoreApi() : this((string)null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StoreApi"/> class.
-        /// </summary>
-        /// <returns></returns>
-        public StoreApi(System.Net.Http.HttpClient httpClient, Newtonsoft.Json.JsonConverter[] jsonConverters) : this((string)null)
+        public StoreApi(System.Net.Http.HttpClient httpClient)
         {
             _httpClient = httpClient;
-
-            _jsonConverters = jsonConverters;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StoreApi"/> class.
+        /// Returns the token to be used in the api query
         /// </summary>
-        /// <returns></returns>
-        public StoreApi(String basePath)
-        {
-            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
-                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
-                new Org.OpenAPITools.Client.Configuration { BasePath = basePath }
-            );
-            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
-        }
+        public Func<System.Threading.Tasks.ValueTask<string>>? GetTokenAsync { get; set; }  
+
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StoreApi"/> class
-        /// using Configuration object
+        /// Validate the input before sending the request
         /// </summary>
-        /// <param name="configuration">An instance of Configuration</param>
-        /// <returns></returns>
-        public StoreApi(Org.OpenAPITools.Client.Configuration configuration)
-        {
-            if (configuration == null) throw new ArgumentNullException("configuration");
-
-            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
-                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
-                configuration
-            );
-            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StoreApi"/> class
-        /// using a Configuration object and client instance.
-        /// </summary>
-        /// <param name="client">The client interface for synchronous API access.</param>
-        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
-        /// <param name="configuration">The configuration object.</param>
-        public StoreApi(Org.OpenAPITools.Client.ISynchronousClient client, Org.OpenAPITools.Client.IAsynchronousClient asyncClient, Org.OpenAPITools.Client.IReadableConfiguration configuration)
-        {
-            if (client == null) throw new ArgumentNullException("client");
-            if (asyncClient == null) throw new ArgumentNullException("asyncClient");
-            if (configuration == null) throw new ArgumentNullException("configuration");
-
-            this.Client = client;
-            this.AsynchronousClient = asyncClient;
-            this.Configuration = configuration;
-            this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
-        }
-
-        /// <summary>
-        /// The client for accessing this underlying API asynchronously.
-        /// </summary>
-        public Org.OpenAPITools.Client.IAsynchronousClient AsynchronousClient { get; set; }
-
-        /// <summary>
-        /// The client for accessing this underlying API synchronously.
-        /// </summary>
-        public Org.OpenAPITools.Client.ISynchronousClient Client { get; set; }
-
-        /// <summary>
-        /// Gets the base path of the API client.
-        /// </summary>
-        /// <value>The base path</value>
-        public String GetBasePath()
-        {
-            return this.Configuration.BasePath;
-        }
-
-        /// <summary>
-        /// Gets or sets the configuration object
-        /// </summary>
-        /// <value>An instance of the Configuration</value>
-        public Org.OpenAPITools.Client.IReadableConfiguration Configuration { get; set; }
-
-        /// <summary>
-        /// Provides a factory method hook for the creation of exceptions.
-        /// </summary>
-        public Org.OpenAPITools.Client.ExceptionFactory ExceptionFactory
-        {
-            get
-            {
-                if (_exceptionFactory != null && _exceptionFactory.GetInvocationList().Length > 1)
-                {
-                    throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
-                }
-                return _exceptionFactory;
-            }
-            set { _exceptionFactory = value; }
-        }
-
-        /// <summary>
-        /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orderId">ID of the order that needs to be deleted</param>
-        /// <returns></returns>
-        public void DeleteOrder(string orderId)
-        {
-            DeleteOrderResponse(orderId);
-        }
-
-        /// <summary>
-        /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orderId">ID of the order that needs to be deleted</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> DeleteOrderResponse(string orderId)
-        {
-            // verify the required parameter 'orderId' is set
-            if (orderId == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'orderId' when calling StoreApi->DeleteOrder");
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
-
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Delete<Object>("/store/order/{order_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("DeleteOrder", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task DeleteOrderAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            await DeleteOrderResponseAsync(orderId, cancellationToken).ConfigureAwait(false);
-        }
+        protected virtual System.Threading.Tasks.ValueTask ValidateDeleteOrderRequestAsync(string orderId, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
-        private System.Threading.Tasks.ValueTask ValidateDeleteOrderRequestAsync(string orderId, System.Threading.CancellationToken? cancellationToken)
-        {
-            // todo
-            return new System.Threading.Tasks.ValueTask();
-        }
+
 
         /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -415,139 +188,61 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> DeleteOrderResponseAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> DeleteOrderWithHttpInfoAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
-            // verify the required parameter 'orderId' is set
             if (orderId == null)
-                throw new Org.OpenAPITools.Client.ApiException<Object>(400, "Missing required parameter 'orderId' when calling StoreApi->DeleteOrder");
+                throw new ArgumentNullException(nameof(orderId)); 
 
-            await ValidateDeleteOrderRequestAsync(orderId, cancellationToken);
+            await ValidateDeleteOrderRequestAsync(orderId, cancellationToken).ConfigureAwait(false);
 
-            if (_httpClient != null)
-            {
-                using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
-                request.Headers.Add("authorization", $"Bearer {Environment.GetEnvironmentVariable("TOKEN_0", EnvironmentVariableTarget.Machine)}");
-
-
-                string path = "/store/order/{order_id}";
-                path = path.Replace("{order_id}", Uri.EscapeDataString(orderId));
-
-                path = $"{path}?";
-                
-
-                if (path.EndsWith("&"))
-                    path = path[..^1];
-
-                if (path.EndsWith("?"))
-                    path = path[..^1];
-
-                request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+            string path = "/store/order/{order_id}";
+            path = path.Replace("{order_id}", Uri.EscapeDataString(orderId));
 
 
 
-                string[] contentTypes = new string[] {
-                };
+            path = $"{path}?";
+            
 
-                if (contentTypes.Length > 0)
-                    request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
+            if (path.EndsWith("&"))
+                path = path[..^1];
+
+            if (path.EndsWith("?"))
+                path = path[..^1];
+
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
 
 
-                System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault());
 
-                string responseContent = await responseMessage.Content.ReadAsStringAsync();
 
-                ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
 
-                if (!responseMessage.IsSuccessStatusCode)
-                    throw new ApiException<Object>(apiResponse);
 
-                return apiResponse;
-            }
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
+            string[] contentTypes = new string[] {
             };
 
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
 
-            // make the HTTP request
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/store/order/{order_id}", localVarRequestOptions, this.Configuration, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("DeleteOrder", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
+            ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
 
-            return localVarResponse;
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+
+            return apiResponse;
         }
 
         /// <summary>
-        /// Returns pet inventories by status Returns a map of status codes to quantities
+        /// Validate the input before sending the request
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Dictionary&lt;string, int&gt;</returns>
-        public Dictionary<string, int> GetInventory()
-        {
-            Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int>> localVarResponse = GetInventoryResponse();
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Returns pet inventories by status Returns a map of status codes to quantities
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of Dictionary&lt;string, int&gt;</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int>> GetInventoryResponse()
-        {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-
-            // authentication (api_key) required
-            if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
-            {
-                localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<Dictionary<string, int>>("/store/inventory", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetInventory", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateGetInventoryRequestAsync(System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
@@ -557,14 +252,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of Dictionary&lt;string, int&gt;</returns>
         public async System.Threading.Tasks.Task<Dictionary<string, int>> GetInventoryAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
-            Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int>> localVarResponse = await GetInventoryResponseAsync(cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
-
-        private System.Threading.Tasks.ValueTask ValidateGetInventoryRequestAsync(System.Threading.CancellationToken? cancellationToken)
-        {
-            // todo
-            return new System.Threading.Tasks.ValueTask();
+            Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int>> result = await GetInventoryWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+            return result.Data ?? throw new NullReferenceException();
         }
 
         /// <summary>
@@ -572,141 +261,83 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of Dictionary&lt;string, int&gt;</returns>
+        public async System.Threading.Tasks.Task<Dictionary<string, int>?> GetInventoryOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null)
+        {
+            Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int>> result = await GetInventoryWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+            
+            return result.IsSuccessStatusCode
+                ? result.Data
+                : null;
+        } 
+
+        /// <summary>
+        /// Returns pet inventories by status Returns a map of status codes to quantities
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Dictionary&lt;string, int&gt;)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int>>> GetInventoryResponseAsync(System.Threading.CancellationToken? cancellationToken = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int>>> GetInventoryWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
 
-            await ValidateGetInventoryRequestAsync(cancellationToken);
+            await ValidateGetInventoryRequestAsync(cancellationToken).ConfigureAwait(false);
 
-            if (_httpClient != null)
-            {
-                using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
-                request.Headers.Add("authorization", $"Bearer {Environment.GetEnvironmentVariable("TOKEN_0", EnvironmentVariableTarget.Machine)}");
+            string path = "/store/inventory";
 
 
-                string path = "/store/inventory";
+            path = $"{path}?";
+            
 
-                path = $"{path}?";
-                
+            if (path.EndsWith("&"))
+                path = path[..^1];
 
-                if (path.EndsWith("&"))
-                    path = path[..^1];
+            if (path.EndsWith("?"))
+                path = path[..^1];
 
-                if (path.EndsWith("?"))
-                    path = path[..^1];
-
-                request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
 
 
-
-                string[] contentTypes = new string[] {
-                };
-
-                if (contentTypes.Length > 0)
-                    request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-                System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault());
-
-                string responseContent = await responseMessage.Content.ReadAsStringAsync();
-
-                ApiResponse<Dictionary<string, int>> apiResponse = new(responseMessage, responseContent);
-
-                if (!responseMessage.IsSuccessStatusCode)
-                    throw new ApiException<Dictionary<string, int>>(apiResponse);
-
-                return apiResponse;
-            }
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
 
             // authentication (api_key) required
-            if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
-            {
-                localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
-            }
+            //isKeyInHeader
+            string? token = GetTokenAsync != null
+                ? await GetTokenAsync().ConfigureAwait(false)
+                : null;
 
-            // make the HTTP request
+            if (token != null)
+                request.Headers.Add("authorization", $"Bearer {token}");            
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Dictionary<string, int>>("/store/inventory", localVarRequestOptions, this.Configuration, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetInventory", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
+            string[] contentTypes = new string[] {
+            };
 
-            return localVarResponse;
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
+
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            ApiResponse<Dictionary<string, int>> apiResponse = new(responseMessage, responseContent);
+
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, int>>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+
+            return apiResponse;
         }
 
         /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// Validate the input before sending the request
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>Order</returns>
-        public Order GetOrderById(long orderId)
-        {
-            Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = GetOrderByIdResponse(orderId);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>ApiResponse of Order</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Order> GetOrderByIdResponse(long orderId)
-        {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-                "application/xml",
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
-
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<Order>("/store/order/{order_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetOrderById", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateGetOrderByIdRequestAsync(long orderId, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
@@ -717,14 +348,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of Order</returns>
         public async System.Threading.Tasks.Task<Order> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
-            Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = await GetOrderByIdResponseAsync(orderId, cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
-
-        private System.Threading.Tasks.ValueTask ValidateGetOrderByIdRequestAsync(long orderId, System.Threading.CancellationToken? cancellationToken)
-        {
-            // todo
-            return new System.Threading.Tasks.ValueTask();
+            Org.OpenAPITools.Client.ApiResponse<Order> result = await GetOrderByIdWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
+            return result.Data ?? throw new NullReferenceException();
         }
 
         /// <summary>
@@ -733,145 +358,79 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of Order</returns>
+        public async System.Threading.Tasks.Task<Order?> GetOrderByIdOrDefaultAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
+        {
+            Org.OpenAPITools.Client.ApiResponse<Order> result = await GetOrderByIdWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
+            
+            return result.IsSuccessStatusCode
+                ? result.Data
+                : null;
+        } 
+
+        /// <summary>
+        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Order)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Order>> GetOrderByIdResponseAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Order>> GetOrderByIdWithHttpInfoAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
 
-            await ValidateGetOrderByIdRequestAsync(orderId, cancellationToken);
+            await ValidateGetOrderByIdRequestAsync(orderId, cancellationToken).ConfigureAwait(false);
 
-            if (_httpClient != null)
-            {
-                using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
-                request.Headers.Add("authorization", $"Bearer {Environment.GetEnvironmentVariable("TOKEN_0", EnvironmentVariableTarget.Machine)}");
-
-
-                string path = "/store/order/{order_id}";
-                path = path.Replace("{order_id}", Uri.EscapeDataString(orderId));
-
-                path = $"{path}?";
-                
-
-                if (path.EndsWith("&"))
-                    path = path[..^1];
-
-                if (path.EndsWith("?"))
-                    path = path[..^1];
-
-                request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+            string path = "/store/order/{order_id}";
+            path = path.Replace("{order_id}", Uri.EscapeDataString(orderId));
 
 
 
-                string[] contentTypes = new string[] {
-                };
+            path = $"{path}?";
+            
 
-                if (contentTypes.Length > 0)
-                    request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
+            if (path.EndsWith("&"))
+                path = path[..^1];
 
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            if (path.EndsWith("?"))
+                path = path[..^1];
 
-                System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault());
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
 
-                string responseContent = await responseMessage.Content.ReadAsStringAsync();
 
-                ApiResponse<Order> apiResponse = new(responseMessage, responseContent);
 
-                if (!responseMessage.IsSuccessStatusCode)
-                    throw new ApiException<Order>(apiResponse);
 
-                return apiResponse;
-            }
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
+            string[] contentTypes = new string[] {
             };
 
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/xml",
-                "application/json"
-            };
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-            localVarRequestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
+            ApiResponse<Order> apiResponse = new(responseMessage, responseContent);
 
-            // make the HTTP request
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<Order>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Order>("/store/order/{order_id}", localVarRequestOptions, this.Configuration, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetOrderById", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            return apiResponse;
         }
 
         /// <summary>
-        /// Place an order for a pet 
+        /// Validate the input before sending the request
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="order">order placed for purchasing the pet</param>
-        /// <returns>Order</returns>
-        public Order PlaceOrder(Order order)
-        {
-            Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = PlaceOrderResponse(order);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Place an order for a pet 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="order">order placed for purchasing the pet</param>
-        /// <returns>ApiResponse of Order</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Order> PlaceOrderResponse(Order order)
-        {
-            // verify the required parameter 'order' is set
-            if (order == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'order' when calling StoreApi->PlaceOrder");
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-                "application/xml",
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.Data = order;
-
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<Order>("/store/order", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("PlaceOrder", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidatePlaceOrderRequestAsync(Order order, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// Place an order for a pet 
@@ -882,14 +441,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of Order</returns>
         public async System.Threading.Tasks.Task<Order> PlaceOrderAsync(Order order, System.Threading.CancellationToken? cancellationToken = null)
         {
-            Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = await PlaceOrderResponseAsync(order, cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
-
-        private System.Threading.Tasks.ValueTask ValidatePlaceOrderRequestAsync(Order order, System.Threading.CancellationToken? cancellationToken)
-        {
-            // todo
-            return new System.Threading.Tasks.ValueTask();
+            Org.OpenAPITools.Client.ApiResponse<Order> result = await PlaceOrderWithHttpInfoAsync(order, cancellationToken).ConfigureAwait(false);
+            return result.Data ?? throw new NullReferenceException();
         }
 
         /// <summary>
@@ -898,93 +451,73 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Order)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Order>> PlaceOrderResponseAsync(Order order, System.Threading.CancellationToken? cancellationToken = null)
+        /// <returns>Task of Order</returns>
+        public async System.Threading.Tasks.Task<Order?> PlaceOrderOrDefaultAsync(Order order, System.Threading.CancellationToken? cancellationToken = null)
         {
-            // verify the required parameter 'order' is set
+            Org.OpenAPITools.Client.ApiResponse<Order> result = await PlaceOrderWithHttpInfoAsync(order, cancellationToken).ConfigureAwait(false);
+            
+            return result.IsSuccessStatusCode
+                ? result.Data
+                : null;
+        } 
+
+        /// <summary>
+        /// Place an order for a pet 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="order">order placed for purchasing the pet</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (Order)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Order>> PlaceOrderWithHttpInfoAsync(Order order, System.Threading.CancellationToken? cancellationToken = null)
+        {
             if (order == null)
-                throw new Org.OpenAPITools.Client.ApiException<Order>(400, "Missing required parameter 'order' when calling StoreApi->PlaceOrder");
+                throw new ArgumentNullException(nameof(order)); 
 
-            await ValidatePlaceOrderRequestAsync(order, cancellationToken);
+            await ValidatePlaceOrderRequestAsync(order, cancellationToken).ConfigureAwait(false);
 
-            if (_httpClient != null)
-            {
-                using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
-                request.Headers.Add("authorization", $"Bearer {Environment.GetEnvironmentVariable("TOKEN_0", EnvironmentVariableTarget.Machine)}");
+            string path = "/store/order";
 
 
-                string path = "/store/order";
+            path = $"{path}?";
+            
 
-                path = $"{path}?";
-                
+            if (path.EndsWith("&"))
+                path = path[..^1];
 
-                if (path.EndsWith("&"))
-                    path = path[..^1];
+            if (path.EndsWith("?"))
+                path = path[..^1];
 
-                if (path.EndsWith("?"))
-                    path = path[..^1];
-
-                request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
 
 
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-                string[] contentTypes = new string[] {
-                    "application/json"
-                };
+            // todo localVarRequestOptions.Data = order;
 
-                if (contentTypes.Length > 0)
-                    request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-                System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault());
-
-                string responseContent = await responseMessage.Content.ReadAsStringAsync();
-
-                ApiResponse<Order> apiResponse = new(responseMessage, responseContent);
-
-                if (!responseMessage.IsSuccessStatusCode)
-                    throw new ApiException<Order>(apiResponse);
-
-                return apiResponse;
-            }
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
+            string[] contentTypes = new string[] {
                 "application/json"
             };
 
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/xml",
-                "application/json"
-            };
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-            localVarRequestOptions.Data = order;
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
+            ApiResponse<Order> apiResponse = new(responseMessage, responseContent);
 
-            // make the HTTP request
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<Order>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Order>("/store/order", localVarRequestOptions, this.Configuration, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("PlaceOrder", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            return apiResponse;
         }
-
     }
 }

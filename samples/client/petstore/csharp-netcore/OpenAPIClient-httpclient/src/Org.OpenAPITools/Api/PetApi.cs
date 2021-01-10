@@ -19,219 +19,11 @@ using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Api
 {
-
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IPetApiSync : IApiAccessor
+    public interface IPetApi
     {
-        #region Synchronous Operations
-        /// <summary>
-        /// Add a new pet to the store
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <returns></returns>
-        void AddPet(Pet pet);
-
-        /// <summary>
-        /// Add a new pet to the store
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> AddPetResponse(Pet pet);
-        /// <summary>
-        /// Deletes a pet
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">Pet id to delete</param>
-        /// <param name="apiKey"> (optional)</param>
-        /// <returns></returns>
-        void DeletePet(long petId, string apiKey = default(string));
-
-        /// <summary>
-        /// Deletes a pet
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">Pet id to delete</param>
-        /// <param name="apiKey"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> DeletePetResponse(long petId, string apiKey = default(string));
-        /// <summary>
-        /// Finds Pets by status
-        /// </summary>
-        /// <remarks>
-        /// Multiple status values can be provided with comma separated strings
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
-        /// <returns>List&lt;Pet&gt;</returns>
-        List<Pet> FindPetsByStatus(List<string> status);
-
-        /// <summary>
-        /// Finds Pets by status
-        /// </summary>
-        /// <remarks>
-        /// Multiple status values can be provided with comma separated strings
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
-        /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
-        ApiResponse<List<Pet>> FindPetsByStatusResponse(List<string> status);
-        /// <summary>
-        /// Finds Pets by tags
-        /// </summary>
-        /// <remarks>
-        /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tags">Tags to filter by</param>
-        /// <returns>List&lt;Pet&gt;</returns>
-        List<Pet> FindPetsByTags(List<string> tags);
-
-        /// <summary>
-        /// Finds Pets by tags
-        /// </summary>
-        /// <remarks>
-        /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tags">Tags to filter by</param>
-        /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
-        ApiResponse<List<Pet>> FindPetsByTagsResponse(List<string> tags);
-        /// <summary>
-        /// Find pet by ID
-        /// </summary>
-        /// <remarks>
-        /// Returns a single pet
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to return</param>
-        /// <returns>Pet</returns>
-        Pet GetPetById(long petId);
-
-        /// <summary>
-        /// Find pet by ID
-        /// </summary>
-        /// <remarks>
-        /// Returns a single pet
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to return</param>
-        /// <returns>ApiResponse of Pet</returns>
-        ApiResponse<Pet> GetPetByIdResponse(long petId);
-        /// <summary>
-        /// Update an existing pet
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <returns></returns>
-        void UpdatePet(Pet pet);
-
-        /// <summary>
-        /// Update an existing pet
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> UpdatePetResponse(Pet pet);
-        /// <summary>
-        /// Updates a pet in the store with form data
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet that needs to be updated</param>
-        /// <param name="name">Updated name of the pet (optional)</param>
-        /// <param name="status">Updated status of the pet (optional)</param>
-        /// <returns></returns>
-        void UpdatePetWithForm(long petId, string name = default(string), string status = default(string));
-
-        /// <summary>
-        /// Updates a pet in the store with form data
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet that needs to be updated</param>
-        /// <param name="name">Updated name of the pet (optional)</param>
-        /// <param name="status">Updated status of the pet (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> UpdatePetWithFormResponse(long petId, string name = default(string), string status = default(string));
-        /// <summary>
-        /// uploads an image
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
-        /// <param name="file">file to upload (optional)</param>
-        /// <returns>ApiResponse</returns>
-        ApiResponse UploadFile(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream));
-
-        /// <summary>
-        /// uploads an image
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
-        /// <param name="file">file to upload (optional)</param>
-        /// <returns>ApiResponse of ApiResponse</returns>
-        ApiResponse<ApiResponse> UploadFileResponse(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream));
-        /// <summary>
-        /// uploads an image (required)
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param>
-        /// <param name="requiredFile">file to upload</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
-        /// <returns>ApiResponse</returns>
-        ApiResponse UploadFileWithRequiredFile(long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string));
-
-        /// <summary>
-        /// uploads an image (required)
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param>
-        /// <param name="requiredFile">file to upload</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
-        /// <returns>ApiResponse of ApiResponse</returns>
-        ApiResponse<ApiResponse> UploadFileWithRequiredFileResponse(long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string));
-        #endregion Synchronous Operations
-    }
-
-    /// <summary>
-    /// Represents a collection of functions to interact with the API endpoints
-    /// </summary>
-    public interface IPetApiAsync : IApiAccessor
-    {
-        #region Asynchronous Operations
-        /// <summary>
-        /// Add a new pet to the store
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task AddPetAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Add a new pet to the store
         /// </summary>
@@ -242,20 +34,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> AddPetResponseAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> AddPetWithHttpInfoAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
+        
         /// <summary>
-        /// Deletes a pet
+        /// Add a new pet to the store
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">Pet id to delete</param>
-        /// <param name="apiKey"> (optional)</param>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task DeletePetAsync(long petId, string??? apiKey = null, System.Threading.CancellationToken? cancellationToken = null);
-
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<Object> AddPetAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
+        
         /// <summary>
         /// Deletes a pet
         /// </summary>
@@ -267,7 +59,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiKey"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> DeletePetResponseAsync(long petId, string??? apiKey = null, System.Threading.CancellationToken? cancellationToken = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> DeletePetWithHttpInfoAsync(long petId, string??? apiKey = null, System.Threading.CancellationToken? cancellationToken = null);
+        
+        /// <summary>
+        /// Deletes a pet
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">Pet id to delete</param>
+        /// <param name="apiKey"> (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<Object> DeletePetAsync(long petId, string??? apiKey = null, System.Threading.CancellationToken? cancellationToken = null);
+        
         /// <summary>
         /// Finds Pets by status
         /// </summary>
@@ -277,20 +83,31 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of List&lt;Pet&gt;</returns>
+        /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
+        System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByStatusWithHttpInfoAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null);
+        
+        /// <summary>
+        /// Finds Pets by status
+        /// </summary>
+        /// <remarks>
+        /// Multiple status values can be provided with comma separated strings
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
         System.Threading.Tasks.Task<List<Pet>> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null);
-
+        
         /// <summary>
         /// Finds Pets by status
         /// </summary>
         /// <remarks>
         /// Multiple status values can be provided with comma separated strings
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByStatusResponseAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task of ApiResponse (List&lt;Pet&gt;?)</returns>
+        System.Threading.Tasks.Task<List<Pet>?> FindPetsByStatusOrDefaultAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null);
         /// <summary>
         /// Finds Pets by tags
         /// </summary>
@@ -300,32 +117,31 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of List&lt;Pet&gt;</returns>
+        /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
+        System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByTagsWithHttpInfoAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null);
+        
+        /// <summary>
+        /// Finds Pets by tags
+        /// </summary>
+        /// <remarks>
+        /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="tags">Tags to filter by</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
         System.Threading.Tasks.Task<List<Pet>> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null);
-
+        
         /// <summary>
         /// Finds Pets by tags
         /// </summary>
         /// <remarks>
         /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByTagsResponseAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null);
-        /// <summary>
-        /// Find pet by ID
-        /// </summary>
-        /// <remarks>
-        /// Returns a single pet
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to return</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Pet</returns>
-        System.Threading.Tasks.Task<Pet> GetPetByIdAsync(long petId, System.Threading.CancellationToken? cancellationToken = null);
-
+        /// <returns>Task of ApiResponse (List&lt;Pet&gt;?)</returns>
+        System.Threading.Tasks.Task<List<Pet>?> FindPetsByTagsOrDefaultAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null);
         /// <summary>
         /// Find pet by ID
         /// </summary>
@@ -336,19 +152,30 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Pet)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Pet>> GetPetByIdResponseAsync(long petId, System.Threading.CancellationToken? cancellationToken = null);
+        System.Threading.Tasks.Task<ApiResponse<Pet>> GetPetByIdWithHttpInfoAsync(long petId, System.Threading.CancellationToken? cancellationToken = null);
+        
         /// <summary>
-        /// Update an existing pet
+        /// Find pet by ID
         /// </summary>
         /// <remarks>
-        /// 
+        /// Returns a single pet
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task UpdatePetAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
-
+        /// <returns>Task of ApiResponse (Pet)</returns>
+        System.Threading.Tasks.Task<Pet> GetPetByIdAsync(long petId, System.Threading.CancellationToken? cancellationToken = null);
+        
+        /// <summary>
+        /// Find pet by ID
+        /// </summary>
+        /// <remarks>
+        /// Returns a single pet
+        /// </remarks>
+        /// <param name="petId">ID of pet to return</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (Pet?)</returns>
+        System.Threading.Tasks.Task<Pet?> GetPetByIdOrDefaultAsync(long petId, System.Threading.CancellationToken? cancellationToken = null);
         /// <summary>
         /// Update an existing pet
         /// </summary>
@@ -359,7 +186,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetResponseAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetWithHttpInfoAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
+        
+        /// <summary>
+        /// Update an existing pet
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<Object> UpdatePetAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
+        
         /// <summary>
         /// Updates a pet in the store with form data
         /// </summary>
@@ -371,9 +211,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task UpdatePetWithFormAsync(long petId, string??? name = null, string??? status = null, System.Threading.CancellationToken? cancellationToken = null);
-
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetWithFormWithHttpInfoAsync(long petId, string??? name = null, string??? status = null, System.Threading.CancellationToken? cancellationToken = null);
+        
         /// <summary>
         /// Updates a pet in the store with form data
         /// </summary>
@@ -386,7 +226,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetWithFormResponseAsync(long petId, string??? name = null, string??? status = null, System.Threading.CancellationToken? cancellationToken = null);
+        System.Threading.Tasks.Task<Object> UpdatePetWithFormAsync(long petId, string??? name = null, string??? status = null, System.Threading.CancellationToken? cancellationToken = null);
+        
         /// <summary>
         /// uploads an image
         /// </summary>
@@ -398,22 +239,35 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
+        /// <returns>Task of ApiResponse (ApiResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithHttpInfoAsync(long petId, string??? additionalMetadata = null, System.IO.Stream??? file = null, System.Threading.CancellationToken? cancellationToken = null);
+        
+        /// <summary>
+        /// uploads an image
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <param name="file">file to upload (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (ApiResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse> UploadFileAsync(long petId, string??? additionalMetadata = null, System.IO.Stream??? file = null, System.Threading.CancellationToken? cancellationToken = null);
-
+        
         /// <summary>
         /// uploads an image
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileResponseAsync(long petId, string??? additionalMetadata = null, System.IO.Stream??? file = null, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task of ApiResponse (ApiResponse?)</returns>
+        System.Threading.Tasks.Task<ApiResponse?> UploadFileOrDefaultAsync(long petId, string??? additionalMetadata = null, System.IO.Stream??? file = null, System.Threading.CancellationToken? cancellationToken = null);
         /// <summary>
         /// uploads an image (required)
         /// </summary>
@@ -425,31 +279,35 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
+        /// <returns>Task of ApiResponse (ApiResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync(long petId, System.IO.Stream requiredFile, string??? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);
+        
+        /// <summary>
+        /// uploads an image (required)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="requiredFile">file to upload</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (ApiResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync(long petId, System.IO.Stream requiredFile, string??? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);
-
+        
         /// <summary>
         /// uploads an image (required)
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileResponseAsync(long petId, System.IO.Stream requiredFile, string??? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);
-        #endregion Asynchronous Operations
-    }
-
-    /// <summary>
-    /// Represents a collection of functions to interact with the API endpoints
-    /// </summary>
-    public interface IPetApi : IPetApiSync, IPetApiAsync
-    {
-
+        /// <returns>Task of ApiResponse (ApiResponse?)</returns>
+        System.Threading.Tasks.Task<ApiResponse?> UploadFileWithRequiredFileOrDefaultAsync(long petId, System.IO.Stream requiredFile, string??? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);
     }
 
     /// <summary>
@@ -457,166 +315,70 @@ namespace Org.OpenAPITools.Api
     /// </summary>
     public partial class PetApi : IPetApi
     {
-        private Org.OpenAPITools.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
         private readonly System.Net.Http.HttpClient _httpClient;
-        private readonly Newtonsoft.Json.JsonConverter[] _jsonConverters;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PetApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public PetApi() : this((string)null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PetApi"/> class.
-        /// </summary>
-        /// <returns></returns>
-        public PetApi(System.Net.Http.HttpClient httpClient, Newtonsoft.Json.JsonConverter[] jsonConverters) : this((string)null)
+        public PetApi(System.Net.Http.HttpClient httpClient)
         {
             _httpClient = httpClient;
-
-            _jsonConverters = jsonConverters;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PetApi"/> class.
+        /// Returns the token to be used in the api query
         /// </summary>
-        /// <returns></returns>
-        public PetApi(String basePath)
-        {
-            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
-                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
-                new Org.OpenAPITools.Client.Configuration { BasePath = basePath }
-            );
-            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
-        }
+        public Func<System.Threading.Tasks.ValueTask<string>>? GetTokenAsync { get; set; }  
+
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PetApi"/> class
-        /// using Configuration object
+        /// Validate the input before sending the request
         /// </summary>
-        /// <param name="configuration">An instance of Configuration</param>
-        /// <returns></returns>
-        public PetApi(Org.OpenAPITools.Client.Configuration configuration)
-        {
-            if (configuration == null) throw new ArgumentNullException("configuration");
+        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateAddPetRequestAsync(Pet pet, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
-            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
-                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
-                configuration
-            );
-            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
-        }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PetApi"/> class
-        /// using a Configuration object and client instance.
-        /// </summary>
-        /// <param name="client">The client interface for synchronous API access.</param>
-        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
-        /// <param name="configuration">The configuration object.</param>
-        public PetApi(Org.OpenAPITools.Client.ISynchronousClient client, Org.OpenAPITools.Client.IAsynchronousClient asyncClient, Org.OpenAPITools.Client.IReadableConfiguration configuration)
-        {
-            if (client == null) throw new ArgumentNullException("client");
-            if (asyncClient == null) throw new ArgumentNullException("asyncClient");
-            if (configuration == null) throw new ArgumentNullException("configuration");
-
-            this.Client = client;
-            this.AsynchronousClient = asyncClient;
-            this.Configuration = configuration;
-            this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
-        }
-
-        /// <summary>
-        /// The client for accessing this underlying API asynchronously.
-        /// </summary>
-        public Org.OpenAPITools.Client.IAsynchronousClient AsynchronousClient { get; set; }
-
-        /// <summary>
-        /// The client for accessing this underlying API synchronously.
-        /// </summary>
-        public Org.OpenAPITools.Client.ISynchronousClient Client { get; set; }
-
-        /// <summary>
-        /// Gets the base path of the API client.
-        /// </summary>
-        /// <value>The base path</value>
-        public String GetBasePath()
-        {
-            return this.Configuration.BasePath;
-        }
-
-        /// <summary>
-        /// Gets or sets the configuration object
-        /// </summary>
-        /// <value>An instance of the Configuration</value>
-        public Org.OpenAPITools.Client.IReadableConfiguration Configuration { get; set; }
-
-        /// <summary>
-        /// Provides a factory method hook for the creation of exceptions.
-        /// </summary>
-        public Org.OpenAPITools.Client.ExceptionFactory ExceptionFactory
-        {
-            get
-            {
-                if (_exceptionFactory != null && _exceptionFactory.GetInvocationList().Length > 1)
-                {
-                    throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
-                }
-                return _exceptionFactory;
-            }
-            set { _exceptionFactory = value; }
-        }
 
         /// <summary>
         /// Add a new pet to the store 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <returns></returns>
-        public void AddPet(Pet pet)
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> AddPetWithHttpInfoAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null)
         {
-            AddPetResponse(pet);
-        }
-
-        /// <summary>
-        /// Add a new pet to the store 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> AddPetResponse(Pet pet)
-        {
-            // verify the required parameter 'pet' is set
             if (pet == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pet' when calling PetApi->AddPet");
+                throw new ArgumentNullException(nameof(pet)); 
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            await ValidateAddPetRequestAsync(pet, cancellationToken).ConfigureAwait(false);
 
-            String[] _contentTypes = new String[] {
-                "application/json",
-                "application/xml"
-            };
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-            };
+            string path = "/pet";
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            path = $"{path}?";
+            
 
-            localVarRequestOptions.Data = pet;
+            if (path.EndsWith("&"))
+                path = path[..^1];
+
+            if (path.EndsWith("?"))
+                path = path[..^1];
+
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+
+
+
+            // todo localVarRequestOptions.Data = pet;
 
             // authentication (http_signature_test) required
+                        //todo 
+            /*
             if (this.Configuration.HttpSigningConfiguration != null)
             {
                 var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "POST", "/pet", localVarRequestOptions);
@@ -632,237 +394,46 @@ namespace Org.OpenAPITools.Api
                     }
                 }
             }
+            */
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
+            //todo if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                //todo localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
 
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<Object>("/pet", localVarRequestOptions, this.Configuration);
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
 
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("AddPet", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// Add a new pet to the store 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task AddPetAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            await AddPetResponseAsync(pet, cancellationToken).ConfigureAwait(false);
-        }
-
-        private System.Threading.Tasks.ValueTask ValidateAddPetRequestAsync(Pet pet, System.Threading.CancellationToken? cancellationToken)
-        {
-            // todo
-            return new System.Threading.Tasks.ValueTask();
-        }
-
-        /// <summary>
-        /// Add a new pet to the store 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> AddPetResponseAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            // verify the required parameter 'pet' is set
-            if (pet == null)
-                throw new Org.OpenAPITools.Client.ApiException<Object>(400, "Missing required parameter 'pet' when calling PetApi->AddPet");
-
-            await ValidateAddPetRequestAsync(pet, cancellationToken);
-
-            if (_httpClient != null)
-            {
-                using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
-
-                request.Headers.Add("authorization", $"Bearer {Environment.GetEnvironmentVariable("TOKEN_0", EnvironmentVariableTarget.Machine)}");
-
-
-                string path = "/pet";
-
-                path = $"{path}?";
-                
-
-                if (path.EndsWith("&"))
-                    path = path[..^1];
-
-                if (path.EndsWith("?"))
-                    path = path[..^1];
-
-                request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
-
-
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
-
-                string[] contentTypes = new string[] {
-                    "application/json", 
-                    "application/xml"
-                };
-
-                if (contentTypes.Length > 0)
-                    request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
-
-                System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault());
-
-                string responseContent = await responseMessage.Content.ReadAsStringAsync();
-
-                ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
-
-                if (!responseMessage.IsSuccessStatusCode)
-                    throw new ApiException<Object>(apiResponse);
-
-                return apiResponse;
-            }
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
+            string[] contentTypes = new string[] {
                 "application/json", 
                 "application/xml"
             };
 
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-            };
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-            localVarRequestOptions.Data = pet;
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            // authentication (http_signature_test) required
-            if (this.Configuration.HttpSigningConfiguration != null)
-            {
-                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "POST", "/pet", localVarRequestOptions);
-                foreach (var headerItem in HttpSigningHeaders)
-                {
-                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
-                    {
-                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
-                    }
-                    else
-                    {
-                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
-                    }
-                }
-            }
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
+            ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
 
-            // make the HTTP request
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/pet", localVarRequestOptions, this.Configuration, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("AddPet", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            return apiResponse;
         }
 
         /// <summary>
-        /// Deletes a pet 
+        /// Validate the input before sending the request
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">Pet id to delete</param>
-        /// <param name="apiKey"> (optional)</param>
-        /// <returns></returns>
-        public void DeletePet(long petId, string apiKey = default(string))
-        {
-            DeletePetResponse(petId, apiKey);
-        }
-
-        /// <summary>
-        /// Deletes a pet 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">Pet id to delete</param>
-        /// <param name="apiKey"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> DeletePetResponse(long petId, string apiKey = default(string))
-        {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
-            if (apiKey != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("api_key", Org.OpenAPITools.Client.ClientUtils.ParameterToString(apiKey)); // header parameter
-            }
-
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Delete<Object>("/pet/{petId}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("DeletePet", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// Deletes a pet 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task DeletePetAsync(long petId, string??? apiKey = null, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            await DeletePetResponseAsync(petId, apiKey, cancellationToken).ConfigureAwait(false);
-        }
+        protected virtual System.Threading.Tasks.ValueTask ValidateDeletePetRequestAsync(long petId, string??? apiKey, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
-        private System.Threading.Tasks.ValueTask ValidateDeletePetRequestAsync(long petId, string??? apiKey, System.Threading.CancellationToken? cancellationToken)
-        {
-            // todo
-            return new System.Threading.Tasks.ValueTask();
-        }
+
 
         /// <summary>
         /// Deletes a pet 
@@ -872,173 +443,66 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiKey"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> DeletePetResponseAsync(long petId, string??? apiKey = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> DeletePetWithHttpInfoAsync(long petId, string??? apiKey = null, System.Threading.CancellationToken? cancellationToken = null)
         {
 
-            await ValidateDeletePetRequestAsync(petId, apiKey, cancellationToken);
+            await ValidateDeletePetRequestAsync(petId, apiKey, cancellationToken).ConfigureAwait(false);
 
-            if (_httpClient != null)
-            {
-                using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
-                request.Headers.Add("authorization", $"Bearer {Environment.GetEnvironmentVariable("TOKEN_0", EnvironmentVariableTarget.Machine)}");
-
-
-                string path = "/pet/{petId}";
-                path = path.Replace("{petId}", Uri.EscapeDataString(petId));
-
-                path = $"{path}?";
-                
-
-                if (path.EndsWith("&"))
-                    path = path[..^1];
-
-                if (path.EndsWith("?"))
-                    path = path[..^1];
-
-                request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
-
-                if (apiKey != null)                
-                    request.Headers.Add(api_key, apiKey);                
+            string path = "/pet/{petId}";
+            path = path.Replace("{petId}", Uri.EscapeDataString(petId));
 
 
-                string[] contentTypes = new string[] {
-                };
 
-                if (contentTypes.Length > 0)
-                    request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
+            path = $"{path}?";
+            
+
+            if (path.EndsWith("&"))
+                path = path[..^1];
+
+            if (path.EndsWith("?"))
+                path = path[..^1];
+
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+
+            if (apiKey != null)                
+                request.Headers.Add(api_key, apiKey);                
 
 
-                System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault());
-
-                string responseContent = await responseMessage.Content.ReadAsStringAsync();
-
-                ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
-
-                if (!responseMessage.IsSuccessStatusCode)
-                    throw new ApiException<Object>(apiResponse);
-
-                return apiResponse;
-            }
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
-            if (apiKey != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("api_key", Org.OpenAPITools.Client.ClientUtils.ParameterToString(apiKey)); // header parameter
-            }
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
+            //todo if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                //todo localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
 
-            // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/pet/{petId}", localVarRequestOptions, this.Configuration, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+            string[] contentTypes = new string[] {
+            };
 
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("DeletePet", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
-            return localVarResponse;
+
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
+
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+
+            return apiResponse;
         }
 
         /// <summary>
-        /// Finds Pets by status Multiple status values can be provided with comma separated strings
+        /// Validate the input before sending the request
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="status">Status values that need to be considered for filter</param>
-        /// <returns>List&lt;Pet&gt;</returns>
-        public List<Pet> FindPetsByStatus(List<string> status)
-        {
-            Org.OpenAPITools.Client.ApiResponse<List<Pet>> localVarResponse = FindPetsByStatusResponse(status);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Finds Pets by status Multiple status values can be provided with comma separated strings
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
-        /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
-        public Org.OpenAPITools.Client.ApiResponse<List<Pet>> FindPetsByStatusResponse(List<string> status)
-        {
-            // verify the required parameter 'status' is set
-            if (status == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'status' when calling PetApi->FindPetsByStatus");
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-                "application/xml",
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "status", status));
-
-            // authentication (http_signature_test) required
-            if (this.Configuration.HttpSigningConfiguration != null)
-            {
-                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByStatus", localVarRequestOptions);
-                foreach (var headerItem in HttpSigningHeaders)
-                {
-                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
-                    {
-                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
-                    }
-                    else
-                    {
-                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
-                    }
-                }
-            }
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<List<Pet>>("/pet/findByStatus", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("FindPetsByStatus", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateFindPetsByStatusRequestAsync(List<string> status, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// Finds Pets by status Multiple status values can be provided with comma separated strings
@@ -1049,14 +513,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of List&lt;Pet&gt;</returns>
         public async System.Threading.Tasks.Task<List<Pet>> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null)
         {
-            Org.OpenAPITools.Client.ApiResponse<List<Pet>> localVarResponse = await FindPetsByStatusResponseAsync(status, cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
-
-        private System.Threading.Tasks.ValueTask ValidateFindPetsByStatusRequestAsync(List<string> status, System.Threading.CancellationToken? cancellationToken)
-        {
-            // todo
-            return new System.Threading.Tasks.ValueTask();
+            Org.OpenAPITools.Client.ApiResponse<List<Pet>> result = await FindPetsByStatusWithHttpInfoAsync(status, cancellationToken).ConfigureAwait(false);
+            return result.Data ?? throw new NullReferenceException();
         }
 
         /// <summary>
@@ -1065,80 +523,54 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<Pet>>> FindPetsByStatusResponseAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null)
+        /// <returns>Task of List&lt;Pet&gt;</returns>
+        public async System.Threading.Tasks.Task<List<Pet>?> FindPetsByStatusOrDefaultAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null)
         {
-            // verify the required parameter 'status' is set
+            Org.OpenAPITools.Client.ApiResponse<List<Pet>> result = await FindPetsByStatusWithHttpInfoAsync(status, cancellationToken).ConfigureAwait(false);
+            
+            return result.IsSuccessStatusCode
+                ? result.Data
+                : null;
+        } 
+
+        /// <summary>
+        /// Finds Pets by status Multiple status values can be provided with comma separated strings
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<Pet>>> FindPetsByStatusWithHttpInfoAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null)
+        {
             if (status == null)
-                throw new Org.OpenAPITools.Client.ApiException<List<Pet>>(400, "Missing required parameter 'status' when calling PetApi->FindPetsByStatus");
+                throw new ArgumentNullException(nameof(status)); 
 
-            await ValidateFindPetsByStatusRequestAsync(status, cancellationToken);
+            await ValidateFindPetsByStatusRequestAsync(status, cancellationToken).ConfigureAwait(false);
 
-            if (_httpClient != null)
-            {
-                using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
-                request.Headers.Add("authorization", $"Bearer {Environment.GetEnvironmentVariable("TOKEN_0", EnvironmentVariableTarget.Machine)}");
+            string path = "/pet/findByStatus";
 
 
-                string path = "/pet/findByStatus";
-
-                path = $"{path}?";
-                
-                path = $"{path}status={Uri.EscapeDataString(status.ToString())&";
+            path = $"{path}?";
+            
+            path = $"{path}status={Uri.EscapeDataString(status.ToString()!)&";
 
 
-                if (path.EndsWith("&"))
-                    path = path[..^1];
+            if (path.EndsWith("&"))
+                path = path[..^1];
 
-                if (path.EndsWith("?"))
-                    path = path[..^1];
+            if (path.EndsWith("?"))
+                path = path[..^1];
 
-                request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
 
 
 
-                string[] contentTypes = new string[] {
-                };
-
-                if (contentTypes.Length > 0)
-                    request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-                System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault());
-
-                string responseContent = await responseMessage.Content.ReadAsStringAsync();
-
-                ApiResponse<List<Pet>> apiResponse = new(responseMessage, responseContent);
-
-                if (!responseMessage.IsSuccessStatusCode)
-                    throw new ApiException<List<Pet>>(apiResponse);
-
-                return apiResponse;
-            }
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/xml",
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "status", status));
 
             // authentication (http_signature_test) required
+                        //todo 
+            /*
             if (this.Configuration.HttpSigningConfiguration != null)
             {
                 var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByStatus", localVarRequestOptions);
@@ -1154,103 +586,41 @@ namespace Org.OpenAPITools.Api
                     }
                 }
             }
+            */
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
+            //todo if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                //todo localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
 
-            // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<List<Pet>>("/pet/findByStatus", localVarRequestOptions, this.Configuration, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+            string[] contentTypes = new string[] {
+            };
 
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("FindPetsByStatus", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
-            return localVarResponse;
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            ApiResponse<List<Pet>> apiResponse = new(responseMessage, responseContent);
+
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Pet>>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+
+            return apiResponse;
         }
 
         /// <summary>
-        /// Finds Pets by tags Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+        /// Validate the input before sending the request
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
-        /// <returns>List&lt;Pet&gt;</returns>
-        public List<Pet> FindPetsByTags(List<string> tags)
-        {
-            Org.OpenAPITools.Client.ApiResponse<List<Pet>> localVarResponse = FindPetsByTagsResponse(tags);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Finds Pets by tags Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tags">Tags to filter by</param>
-        /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
-        public Org.OpenAPITools.Client.ApiResponse<List<Pet>> FindPetsByTagsResponse(List<string> tags)
-        {
-            // verify the required parameter 'tags' is set
-            if (tags == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'tags' when calling PetApi->FindPetsByTags");
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-                "application/xml",
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "tags", tags));
-
-            // authentication (http_signature_test) required
-            if (this.Configuration.HttpSigningConfiguration != null)
-            {
-                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByTags", localVarRequestOptions);
-                foreach (var headerItem in HttpSigningHeaders)
-                {
-                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
-                    {
-                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
-                    }
-                    else
-                    {
-                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
-                    }
-                }
-            }
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<List<Pet>>("/pet/findByTags", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("FindPetsByTags", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateFindPetsByTagsRequestAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// Finds Pets by tags Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -1261,14 +631,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of List&lt;Pet&gt;</returns>
         public async System.Threading.Tasks.Task<List<Pet>> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null)
         {
-            Org.OpenAPITools.Client.ApiResponse<List<Pet>> localVarResponse = await FindPetsByTagsResponseAsync(tags, cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
-
-        private System.Threading.Tasks.ValueTask ValidateFindPetsByTagsRequestAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken)
-        {
-            // todo
-            return new System.Threading.Tasks.ValueTask();
+            Org.OpenAPITools.Client.ApiResponse<List<Pet>> result = await FindPetsByTagsWithHttpInfoAsync(tags, cancellationToken).ConfigureAwait(false);
+            return result.Data ?? throw new NullReferenceException();
         }
 
         /// <summary>
@@ -1277,80 +641,54 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<Pet>>> FindPetsByTagsResponseAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null)
+        /// <returns>Task of List&lt;Pet&gt;</returns>
+        public async System.Threading.Tasks.Task<List<Pet>?> FindPetsByTagsOrDefaultAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null)
         {
-            // verify the required parameter 'tags' is set
+            Org.OpenAPITools.Client.ApiResponse<List<Pet>> result = await FindPetsByTagsWithHttpInfoAsync(tags, cancellationToken).ConfigureAwait(false);
+            
+            return result.IsSuccessStatusCode
+                ? result.Data
+                : null;
+        } 
+
+        /// <summary>
+        /// Finds Pets by tags Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="tags">Tags to filter by</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<Pet>>> FindPetsByTagsWithHttpInfoAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null)
+        {
             if (tags == null)
-                throw new Org.OpenAPITools.Client.ApiException<List<Pet>>(400, "Missing required parameter 'tags' when calling PetApi->FindPetsByTags");
+                throw new ArgumentNullException(nameof(tags)); 
 
-            await ValidateFindPetsByTagsRequestAsync(tags, cancellationToken);
+            await ValidateFindPetsByTagsRequestAsync(tags, cancellationToken).ConfigureAwait(false);
 
-            if (_httpClient != null)
-            {
-                using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
-                request.Headers.Add("authorization", $"Bearer {Environment.GetEnvironmentVariable("TOKEN_0", EnvironmentVariableTarget.Machine)}");
+            string path = "/pet/findByTags";
 
 
-                string path = "/pet/findByTags";
-
-                path = $"{path}?";
-                
-                path = $"{path}tags={Uri.EscapeDataString(tags.ToString())&";
+            path = $"{path}?";
+            
+            path = $"{path}tags={Uri.EscapeDataString(tags.ToString()!)&";
 
 
-                if (path.EndsWith("&"))
-                    path = path[..^1];
+            if (path.EndsWith("&"))
+                path = path[..^1];
 
-                if (path.EndsWith("?"))
-                    path = path[..^1];
+            if (path.EndsWith("?"))
+                path = path[..^1];
 
-                request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
 
 
 
-                string[] contentTypes = new string[] {
-                };
-
-                if (contentTypes.Length > 0)
-                    request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-                System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault());
-
-                string responseContent = await responseMessage.Content.ReadAsStringAsync();
-
-                ApiResponse<List<Pet>> apiResponse = new(responseMessage, responseContent);
-
-                if (!responseMessage.IsSuccessStatusCode)
-                    throw new ApiException<List<Pet>>(apiResponse);
-
-                return apiResponse;
-            }
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/xml",
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "tags", tags));
 
             // authentication (http_signature_test) required
+                        //todo 
+            /*
             if (this.Configuration.HttpSigningConfiguration != null)
             {
                 var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByTags", localVarRequestOptions);
@@ -1366,82 +704,41 @@ namespace Org.OpenAPITools.Api
                     }
                 }
             }
+            */
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
+            //todo if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                //todo localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
 
-            // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<List<Pet>>("/pet/findByTags", localVarRequestOptions, this.Configuration, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+            string[] contentTypes = new string[] {
+            };
 
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("FindPetsByTags", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
-            return localVarResponse;
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            ApiResponse<List<Pet>> apiResponse = new(responseMessage, responseContent);
+
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Pet>>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+
+            return apiResponse;
         }
 
         /// <summary>
-        /// Find pet by ID Returns a single pet
+        /// Validate the input before sending the request
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
-        /// <returns>Pet</returns>
-        public Pet GetPetById(long petId)
-        {
-            Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = GetPetByIdResponse(petId);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Find pet by ID Returns a single pet
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to return</param>
-        /// <returns>ApiResponse of Pet</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Pet> GetPetByIdResponse(long petId)
-        {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-                "application/xml",
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
-
-            // authentication (api_key) required
-            if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
-            {
-                localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<Pet>("/pet/{petId}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetPetById", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateGetPetByIdRequestAsync(long petId, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// Find pet by ID Returns a single pet
@@ -1452,14 +749,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of Pet</returns>
         public async System.Threading.Tasks.Task<Pet> GetPetByIdAsync(long petId, System.Threading.CancellationToken? cancellationToken = null)
         {
-            Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = await GetPetByIdResponseAsync(petId, cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
-
-        private System.Threading.Tasks.ValueTask ValidateGetPetByIdRequestAsync(long petId, System.Threading.CancellationToken? cancellationToken)
-        {
-            // todo
-            return new System.Threading.Tasks.ValueTask();
+            Org.OpenAPITools.Client.ApiResponse<Pet> result = await GetPetByIdWithHttpInfoAsync(petId, cancellationToken).ConfigureAwait(false);
+            return result.Data ?? throw new NullReferenceException();
         }
 
         /// <summary>
@@ -1468,137 +759,127 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of Pet</returns>
+        public async System.Threading.Tasks.Task<Pet?> GetPetByIdOrDefaultAsync(long petId, System.Threading.CancellationToken? cancellationToken = null)
+        {
+            Org.OpenAPITools.Client.ApiResponse<Pet> result = await GetPetByIdWithHttpInfoAsync(petId, cancellationToken).ConfigureAwait(false);
+            
+            return result.IsSuccessStatusCode
+                ? result.Data
+                : null;
+        } 
+
+        /// <summary>
+        /// Find pet by ID Returns a single pet
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet to return</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Pet)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Pet>> GetPetByIdResponseAsync(long petId, System.Threading.CancellationToken? cancellationToken = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Pet>> GetPetByIdWithHttpInfoAsync(long petId, System.Threading.CancellationToken? cancellationToken = null)
         {
 
-            await ValidateGetPetByIdRequestAsync(petId, cancellationToken);
+            await ValidateGetPetByIdRequestAsync(petId, cancellationToken).ConfigureAwait(false);
 
-            if (_httpClient != null)
-            {
-                using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
-                request.Headers.Add("authorization", $"Bearer {Environment.GetEnvironmentVariable("TOKEN_0", EnvironmentVariableTarget.Machine)}");
-
-
-                string path = "/pet/{petId}";
-                path = path.Replace("{petId}", Uri.EscapeDataString(petId));
-
-                path = $"{path}?";
-                
-
-                if (path.EndsWith("&"))
-                    path = path[..^1];
-
-                if (path.EndsWith("?"))
-                    path = path[..^1];
-
-                request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+            string path = "/pet/{petId}";
+            path = path.Replace("{petId}", Uri.EscapeDataString(petId));
 
 
 
-                string[] contentTypes = new string[] {
-                };
+            path = $"{path}?";
+            
 
-                if (contentTypes.Length > 0)
-                    request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
+            if (path.EndsWith("&"))
+                path = path[..^1];
 
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            if (path.EndsWith("?"))
+                path = path[..^1];
 
-                System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault());
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
 
-                string responseContent = await responseMessage.Content.ReadAsStringAsync();
 
-                ApiResponse<Pet> apiResponse = new(responseMessage, responseContent);
 
-                if (!responseMessage.IsSuccessStatusCode)
-                    throw new ApiException<Pet>(apiResponse);
-
-                return apiResponse;
-            }
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/xml",
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
 
             // authentication (api_key) required
-            if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
-            {
-                localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
-            }
+            //isKeyInHeader
+            string? token = GetTokenAsync != null
+                ? await GetTokenAsync().ConfigureAwait(false)
+                : null;
 
-            // make the HTTP request
+            if (token != null)
+                request.Headers.Add("authorization", $"Bearer {token}");            
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Pet>("/pet/{petId}", localVarRequestOptions, this.Configuration, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetPetById", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
+            string[] contentTypes = new string[] {
+            };
 
-            return localVarResponse;
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
+
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            ApiResponse<Pet> apiResponse = new(responseMessage, responseContent);
+
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<Pet>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+
+            return apiResponse;
         }
+
+        /// <summary>
+        /// Validate the input before sending the request
+        /// </summary>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateUpdatePetRequestAsync(Pet pet, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
+
+
 
         /// <summary>
         /// Update an existing pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <returns></returns>
-        public void UpdatePet(Pet pet)
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdatePetWithHttpInfoAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null)
         {
-            UpdatePetResponse(pet);
-        }
-
-        /// <summary>
-        /// Update an existing pet 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> UpdatePetResponse(Pet pet)
-        {
-            // verify the required parameter 'pet' is set
             if (pet == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pet' when calling PetApi->UpdatePet");
+                throw new ArgumentNullException(nameof(pet)); 
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            await ValidateUpdatePetRequestAsync(pet, cancellationToken).ConfigureAwait(false);
 
-            String[] _contentTypes = new String[] {
-                "application/json",
-                "application/xml"
-            };
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-            };
+            string path = "/pet";
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            path = $"{path}?";
+            
 
-            localVarRequestOptions.Data = pet;
+            if (path.EndsWith("&"))
+                path = path[..^1];
+
+            if (path.EndsWith("?"))
+                path = path[..^1];
+
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+
+
+
+            // todo localVarRequestOptions.Data = pet;
 
             // authentication (http_signature_test) required
+                        //todo 
+            /*
             if (this.Configuration.HttpSigningConfiguration != null)
             {
                 var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "PUT", "/pet", localVarRequestOptions);
@@ -1614,245 +895,47 @@ namespace Org.OpenAPITools.Api
                     }
                 }
             }
+            */
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
+            //todo if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                //todo localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
 
-            // make the HTTP request
-            var localVarResponse = this.Client.Put<Object>("/pet", localVarRequestOptions, this.Configuration);
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
 
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("UpdatePet", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// Update an existing pet 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task UpdatePetAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            await UpdatePetResponseAsync(pet, cancellationToken).ConfigureAwait(false);
-        }
-
-        private System.Threading.Tasks.ValueTask ValidateUpdatePetRequestAsync(Pet pet, System.Threading.CancellationToken? cancellationToken)
-        {
-            // todo
-            return new System.Threading.Tasks.ValueTask();
-        }
-
-        /// <summary>
-        /// Update an existing pet 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdatePetResponseAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            // verify the required parameter 'pet' is set
-            if (pet == null)
-                throw new Org.OpenAPITools.Client.ApiException<Object>(400, "Missing required parameter 'pet' when calling PetApi->UpdatePet");
-
-            await ValidateUpdatePetRequestAsync(pet, cancellationToken);
-
-            if (_httpClient != null)
-            {
-                using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
-
-                request.Headers.Add("authorization", $"Bearer {Environment.GetEnvironmentVariable("TOKEN_0", EnvironmentVariableTarget.Machine)}");
-
-
-                string path = "/pet";
-
-                path = $"{path}?";
-                
-
-                if (path.EndsWith("&"))
-                    path = path[..^1];
-
-                if (path.EndsWith("?"))
-                    path = path[..^1];
-
-                request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
-
-
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
-
-                string[] contentTypes = new string[] {
-                    "application/json", 
-                    "application/xml"
-                };
-
-                if (contentTypes.Length > 0)
-                    request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
-
-                System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault());
-
-                string responseContent = await responseMessage.Content.ReadAsStringAsync();
-
-                ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
-
-                if (!responseMessage.IsSuccessStatusCode)
-                    throw new ApiException<Object>(apiResponse);
-
-                return apiResponse;
-            }
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
+            string[] contentTypes = new string[] {
                 "application/json", 
                 "application/xml"
             };
 
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-            };
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-            localVarRequestOptions.Data = pet;
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            // authentication (http_signature_test) required
-            if (this.Configuration.HttpSigningConfiguration != null)
-            {
-                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "PUT", "/pet", localVarRequestOptions);
-                foreach (var headerItem in HttpSigningHeaders)
-                {
-                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
-                    {
-                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
-                    }
-                    else
-                    {
-                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
-                    }
-                }
-            }
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
+            ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
 
-            // make the HTTP request
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
 
-            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/pet", localVarRequestOptions, this.Configuration, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("UpdatePet", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            return apiResponse;
         }
 
         /// <summary>
-        /// Updates a pet in the store with form data 
+        /// Validate the input before sending the request
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet that needs to be updated</param>
-        /// <param name="name">Updated name of the pet (optional)</param>
-        /// <param name="status">Updated status of the pet (optional)</param>
-        /// <returns></returns>
-        public void UpdatePetWithForm(long petId, string name = default(string), string status = default(string))
-        {
-            UpdatePetWithFormResponse(petId, name, status);
-        }
-
-        /// <summary>
-        /// Updates a pet in the store with form data 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet that needs to be updated</param>
-        /// <param name="name">Updated name of the pet (optional)</param>
-        /// <param name="status">Updated status of the pet (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> UpdatePetWithFormResponse(long petId, string name = default(string), string status = default(string))
-        {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-                "application/x-www-form-urlencoded"
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
-            if (name != null)
-            {
-                localVarRequestOptions.FormParameters.Add("name", Org.OpenAPITools.Client.ClientUtils.ParameterToString(name)); // form parameter
-            }
-            if (status != null)
-            {
-                localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
-            }
-
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<Object>("/pet/{petId}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("UpdatePetWithForm", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// Updates a pet in the store with form data 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet that needs to be updated</param>
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task UpdatePetWithFormAsync(long petId, string??? name = null, string??? status = null, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            await UpdatePetWithFormResponseAsync(petId, name, status, cancellationToken).ConfigureAwait(false);
-        }
+        protected virtual System.Threading.Tasks.ValueTask ValidateUpdatePetWithFormRequestAsync(long petId, string??? name, string??? status, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
-        private System.Threading.Tasks.ValueTask ValidateUpdatePetWithFormRequestAsync(long petId, string??? name, string??? status, System.Threading.CancellationToken? cancellationToken)
-        {
-            // todo
-            return new System.Threading.Tasks.ValueTask();
-        }
+
 
         /// <summary>
         /// Updates a pet in the store with form data 
@@ -1863,170 +946,76 @@ namespace Org.OpenAPITools.Api
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdatePetWithFormResponseAsync(long petId, string??? name = null, string??? status = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdatePetWithFormWithHttpInfoAsync(long petId, string??? name = null, string??? status = null, System.Threading.CancellationToken? cancellationToken = null)
         {
 
-            await ValidateUpdatePetWithFormRequestAsync(petId, name, status, cancellationToken);
+            await ValidateUpdatePetWithFormRequestAsync(petId, name, status, cancellationToken).ConfigureAwait(false);
 
-            if (_httpClient != null)
-            {
-                using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
-                request.Headers.Add("authorization", $"Bearer {Environment.GetEnvironmentVariable("TOKEN_0", EnvironmentVariableTarget.Machine)}");
-
-
-                string path = "/pet/{petId}";
-                path = path.Replace("{petId}", Uri.EscapeDataString(petId));
-
-                path = $"{path}?";
-                
-
-                if (path.EndsWith("&"))
-                    path = path[..^1];
-
-                if (path.EndsWith("?"))
-                    path = path[..^1];
-
-                request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+            string path = "/pet/{petId}";
+            path = path.Replace("{petId}", Uri.EscapeDataString(petId));
 
 
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
 
-                string[] contentTypes = new string[] {
-                    "application/x-www-form-urlencoded"
-                };
+            path = $"{path}?";
+            
 
-                if (contentTypes.Length > 0)
-                    request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
+            if (path.EndsWith("&"))
+                path = path[..^1];
+
+            if (path.EndsWith("?"))
+                path = path[..^1];
+
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
 
 
-                System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault());
-
-                string responseContent = await responseMessage.Content.ReadAsStringAsync();
-
-                ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
-
-                if (!responseMessage.IsSuccessStatusCode)
-                    throw new ApiException<Object>(apiResponse);
-
-                return apiResponse;
-            }
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/x-www-form-urlencoded"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
             if (name != null)
             {
-                localVarRequestOptions.FormParameters.Add("name", Org.OpenAPITools.Client.ClientUtils.ParameterToString(name)); // form parameter
+                // todo localVarRequestOptions.FormParameters.Add("name", Org.OpenAPITools.Client.ClientUtils.ParameterToString(name)); // form parameter
             }
             if (status != null)
             {
-                localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
+                // todo localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
             }
+
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
+            //todo if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                //todo localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
 
-            // make the HTTP request
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/pet/{petId}", localVarRequestOptions, this.Configuration, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+            string[] contentTypes = new string[] {
+                "application/x-www-form-urlencoded"
+            };
 
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("UpdatePetWithForm", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
-            return localVarResponse;
+
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
+
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+
+            return apiResponse;
         }
 
         /// <summary>
-        /// uploads an image 
+        /// Validate the input before sending the request
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
-        /// <returns>ApiResponse</returns>
-        public ApiResponse UploadFile(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream))
-        {
-            Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = UploadFileResponse(petId, additionalMetadata, file);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// uploads an image 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
-        /// <param name="file">file to upload (optional)</param>
-        /// <returns>ApiResponse of ApiResponse</returns>
-        public Org.OpenAPITools.Client.ApiResponse<ApiResponse> UploadFileResponse(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream))
-        {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-                "multipart/form-data"
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
-            if (additionalMetadata != null)
-            {
-                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
-            }
-            if (file != null)
-            {
-                localVarRequestOptions.FileParameters.Add("file", file);
-            }
-
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<ApiResponse>("/pet/{petId}/uploadImage", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("UploadFile", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateUploadFileRequestAsync(long petId, string??? additionalMetadata, System.IO.Stream??? file, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// uploads an image 
@@ -2039,14 +1028,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<ApiResponse> UploadFileAsync(long petId, string??? additionalMetadata = null, System.IO.Stream??? file = null, System.Threading.CancellationToken? cancellationToken = null)
         {
-            Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = await UploadFileResponseAsync(petId, additionalMetadata, file, cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
-
-        private System.Threading.Tasks.ValueTask ValidateUploadFileRequestAsync(long petId, string??? additionalMetadata, System.IO.Stream??? file, System.Threading.CancellationToken? cancellationToken)
-        {
-            // todo
-            return new System.Threading.Tasks.ValueTask();
+            Org.OpenAPITools.Client.ApiResponse<ApiResponse> result = await UploadFileWithHttpInfoAsync(petId, additionalMetadata, file, cancellationToken).ConfigureAwait(false);
+            return result.Data ?? throw new NullReferenceException();
         }
 
         /// <summary>
@@ -2057,174 +1040,96 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<ApiResponse?> UploadFileOrDefaultAsync(long petId, string??? additionalMetadata = null, System.IO.Stream??? file = null, System.Threading.CancellationToken? cancellationToken = null)
+        {
+            Org.OpenAPITools.Client.ApiResponse<ApiResponse> result = await UploadFileWithHttpInfoAsync(petId, additionalMetadata, file, cancellationToken).ConfigureAwait(false);
+            
+            return result.IsSuccessStatusCode
+                ? result.Data
+                : null;
+        } 
+
+        /// <summary>
+        /// uploads an image 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <param name="file">file to upload (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileResponseAsync(long petId, string??? additionalMetadata = null, System.IO.Stream??? file = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileWithHttpInfoAsync(long petId, string??? additionalMetadata = null, System.IO.Stream??? file = null, System.Threading.CancellationToken? cancellationToken = null)
         {
 
-            await ValidateUploadFileRequestAsync(petId, additionalMetadata, file, cancellationToken);
+            await ValidateUploadFileRequestAsync(petId, additionalMetadata, file, cancellationToken).ConfigureAwait(false);
 
-            if (_httpClient != null)
-            {
-                using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
-                request.Headers.Add("authorization", $"Bearer {Environment.GetEnvironmentVariable("TOKEN_0", EnvironmentVariableTarget.Machine)}");
-
-
-                string path = "/pet/{petId}/uploadImage";
-                path = path.Replace("{petId}", Uri.EscapeDataString(petId));
-
-                path = $"{path}?";
-                
-
-                if (path.EndsWith("&"))
-                    path = path[..^1];
-
-                if (path.EndsWith("?"))
-                    path = path[..^1];
-
-                request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+            string path = "/pet/{petId}/uploadImage";
+            path = path.Replace("{petId}", Uri.EscapeDataString(petId));
 
 
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("multipart/form-data"));
 
-                string[] contentTypes = new string[] {
-                    "multipart/form-data"
-                };
+            path = $"{path}?";
+            
 
-                if (contentTypes.Length > 0)
-                    request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
+            if (path.EndsWith("&"))
+                path = path[..^1];
 
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            if (path.EndsWith("?"))
+                path = path[..^1];
 
-                System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault());
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
 
-                string responseContent = await responseMessage.Content.ReadAsStringAsync();
 
-                ApiResponse<ApiResponse> apiResponse = new(responseMessage, responseContent);
-
-                if (!responseMessage.IsSuccessStatusCode)
-                    throw new ApiException<ApiResponse>(apiResponse);
-
-                return apiResponse;
-            }
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "multipart/form-data"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
             if (additionalMetadata != null)
             {
-                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
+                // todo localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
             }
             if (file != null)
             {
-                localVarRequestOptions.FileParameters.Add("file", file);
+                // todo localVarRequestOptions.FileParameters.Add("file", file);
             }
+
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
+            //todo if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                //todo localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
 
-            // make the HTTP request
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("multipart/form-data"));
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<ApiResponse>("/pet/{petId}/uploadImage", localVarRequestOptions, this.Configuration, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("UploadFile", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// uploads an image (required) 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param>
-        /// <param name="requiredFile">file to upload</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
-        /// <returns>ApiResponse</returns>
-        public ApiResponse UploadFileWithRequiredFile(long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string))
-        {
-            Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = UploadFileWithRequiredFileResponse(petId, requiredFile, additionalMetadata);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// uploads an image (required) 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param>
-        /// <param name="requiredFile">file to upload</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
-        /// <returns>ApiResponse of ApiResponse</returns>
-        public Org.OpenAPITools.Client.ApiResponse<ApiResponse> UploadFileWithRequiredFileResponse(long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string))
-        {
-            // verify the required parameter 'requiredFile' is set
-            if (requiredFile == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredFile' when calling PetApi->UploadFileWithRequiredFile");
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
+            string[] contentTypes = new string[] {
                 "multipart/form-data"
             };
 
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-                "application/json"
-            };
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
-            if (additionalMetadata != null)
-            {
-                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
-            }
-            localVarRequestOptions.FileParameters.Add("requiredFile", requiredFile);
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
+            ApiResponse<ApiResponse> apiResponse = new(responseMessage, responseContent);
 
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<ApiResponse>("/fake/{petId}/uploadImageWithRequiredFile", localVarRequestOptions, this.Configuration);
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiResponse>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
 
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("UploadFileWithRequiredFile", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            return apiResponse;
         }
+
+        /// <summary>
+        /// Validate the input before sending the request
+        /// </summary>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="requiredFile">file to upload</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateUploadFileWithRequiredFileRequestAsync(long petId, System.IO.Stream requiredFile, string??? additionalMetadata, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// uploads an image (required) 
@@ -2237,14 +1142,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync(long petId, System.IO.Stream requiredFile, string??? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
         {
-            Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = await UploadFileWithRequiredFileResponseAsync(petId, requiredFile, additionalMetadata, cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
-
-        private System.Threading.Tasks.ValueTask ValidateUploadFileWithRequiredFileRequestAsync(long petId, System.IO.Stream requiredFile, string??? additionalMetadata, System.Threading.CancellationToken? cancellationToken)
-        {
-            // todo
-            return new System.Threading.Tasks.ValueTask();
+            Org.OpenAPITools.Client.ApiResponse<ApiResponse> result = await UploadFileWithRequiredFileWithHttpInfoAsync(petId, requiredFile, additionalMetadata, cancellationToken).ConfigureAwait(false);
+            return result.Data ?? throw new NullReferenceException();
         }
 
         /// <summary>
@@ -2255,103 +1154,84 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileWithRequiredFileResponseAsync(long petId, System.IO.Stream requiredFile, string??? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<ApiResponse?> UploadFileWithRequiredFileOrDefaultAsync(long petId, System.IO.Stream requiredFile, string??? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
         {
-            // verify the required parameter 'requiredFile' is set
+            Org.OpenAPITools.Client.ApiResponse<ApiResponse> result = await UploadFileWithRequiredFileWithHttpInfoAsync(petId, requiredFile, additionalMetadata, cancellationToken).ConfigureAwait(false);
+            
+            return result.IsSuccessStatusCode
+                ? result.Data
+                : null;
+        } 
+
+        /// <summary>
+        /// uploads an image (required) 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="requiredFile">file to upload</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (ApiResponse)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync(long petId, System.IO.Stream requiredFile, string??? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
+        {
             if (requiredFile == null)
-                throw new Org.OpenAPITools.Client.ApiException<ApiResponse>(400, "Missing required parameter 'requiredFile' when calling PetApi->UploadFileWithRequiredFile");
+                throw new ArgumentNullException(nameof(requiredFile)); 
 
-            await ValidateUploadFileWithRequiredFileRequestAsync(petId, requiredFile, additionalMetadata, cancellationToken);
+            await ValidateUploadFileWithRequiredFileRequestAsync(petId, requiredFile, additionalMetadata, cancellationToken).ConfigureAwait(false);
 
-            if (_httpClient != null)
-            {
-                using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
-                request.Headers.Add("authorization", $"Bearer {Environment.GetEnvironmentVariable("TOKEN_0", EnvironmentVariableTarget.Machine)}");
-
-
-                string path = "/fake/{petId}/uploadImageWithRequiredFile";
-                path = path.Replace("{petId}", Uri.EscapeDataString(petId));
-
-                path = $"{path}?";
-                
-
-                if (path.EndsWith("&"))
-                    path = path[..^1];
-
-                if (path.EndsWith("?"))
-                    path = path[..^1];
-
-                request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+            string path = "/fake/{petId}/uploadImageWithRequiredFile";
+            path = path.Replace("{petId}", Uri.EscapeDataString(petId));
 
 
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("multipart/form-data"));
 
-                string[] contentTypes = new string[] {
-                    "multipart/form-data"
-                };
+            path = $"{path}?";
+            
 
-                if (contentTypes.Length > 0)
-                    request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
+            if (path.EndsWith("&"))
+                path = path[..^1];
 
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            if (path.EndsWith("?"))
+                path = path[..^1];
 
-                System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault());
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
 
-                string responseContent = await responseMessage.Content.ReadAsStringAsync();
 
-                ApiResponse<ApiResponse> apiResponse = new(responseMessage, responseContent);
-
-                if (!responseMessage.IsSuccessStatusCode)
-                    throw new ApiException<ApiResponse>(apiResponse);
-
-                return apiResponse;
-            }
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "multipart/form-data"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
             if (additionalMetadata != null)
             {
-                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
+                // todo localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
             }
-            localVarRequestOptions.FileParameters.Add("requiredFile", requiredFile);
+            // todo  localVarRequestOptions.FileParameters.Add("requiredFile", requiredFile);
+
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
+            //todo if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                //todo localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
 
-            // make the HTTP request
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("multipart/form-data"));
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<ApiResponse>("/fake/{petId}/uploadImageWithRequiredFile", localVarRequestOptions, this.Configuration, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+            string[] contentTypes = new string[] {
+                "multipart/form-data"
+            };
 
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("UploadFileWithRequiredFile", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
-            return localVarResponse;
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            ApiResponse<ApiResponse> apiResponse = new(responseMessage, responseContent);
+
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiResponse>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+
+            return apiResponse;
         }
-
     }
 }

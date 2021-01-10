@@ -44,6 +44,8 @@ build_script:
   # build C# API client (netcore)
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient\Org.OpenAPITools.sln
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClientCore\Org.OpenAPITools.sln
+  # build C# API client (netcore httpclient)
+  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-httpclient\Org.OpenAPITools.sln
   # build C# API client (.net framework 4.7)
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net47\Org.OpenAPITools.sln
   # build C# API client
@@ -63,6 +65,8 @@ test_script:
   # test c# API client (netcore)
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClientCore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  # test c# API client (netcore httpclient)
+  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-httpclient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API client (.net framework 4.7)
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-net47\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test c# API client
