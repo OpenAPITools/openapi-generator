@@ -143,10 +143,6 @@ class PetApiTests(unittest.TestCase):
         self.assertEqual(len(config.auth_settings()), 1)
         self.assertIn("petstore_auth", config.auth_settings().keys())
 
-    def test_config_host_settings(self):
-        config = Configuration(server_index=0)
-        self.assertEqual(config.host.endswith('/'), False)
-
     def test_timeout(self):
         mock_pool = MockPoolManager(self)
         self.api_client.rest_client.pool_manager = mock_pool
