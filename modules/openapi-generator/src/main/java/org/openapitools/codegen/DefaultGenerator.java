@@ -552,7 +552,7 @@ public class DefaultGenerator implements Generator {
     }
 
     @SuppressWarnings("unchecked")
-    private void generateApis(List<File> files, List<Object> allOperations, List<Object> allModels) {
+    void generateApis(List<File> files, List<Object> allOperations, List<Object> allModels) {
         if (!generateApis) {
             // TODO: Process these anyway and present info via dryRun?
             LOGGER.info("Skipping generation of APIs.");
@@ -756,7 +756,7 @@ public class DefaultGenerator implements Generator {
     }
 
     @SuppressWarnings("unchecked")
-    private Map<String, Object> buildSupportFileBundle(List<Object> allOperations, List<Object> allModels) {
+    Map<String, Object> buildSupportFileBundle(List<Object> allOperations, List<Object> allModels) {
 
         Map<String, Object> bundle = new HashMap<>(config.additionalProperties());
         bundle.put("apiPackage", config.apiPackage());
