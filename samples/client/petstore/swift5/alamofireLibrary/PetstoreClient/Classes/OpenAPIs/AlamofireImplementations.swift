@@ -9,11 +9,11 @@ import Alamofire
 
 class AlamofireRequestBuilderFactory: RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
-        return AlamofireRequestBuilder<T>.self
+        AlamofireRequestBuilder<T>.self
     }
 
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
-        return AlamofireDecodableRequestBuilder<T>.self
+        AlamofireDecodableRequestBuilder<T>.self
     }
 }
 
@@ -65,7 +65,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
      the file extension).  Return the desired Content-Type otherwise.
      */
     open func contentTypeForFormPart(fileURL: URL) -> String? {
-        return nil
+        nil
     }
 
     /**
@@ -73,7 +73,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
      configuration (e.g. to override the cache policy).
      */
     open func makeRequest(manager: SessionManager, method: HTTPMethod, encoding: ParameterEncoding, headers: [String: String]) -> DataRequest {
-        return manager.request(URLString, method: method, parameters: parameters, encoding: encoding, headers: headers)
+        manager.request(URLString, method: method, parameters: parameters, encoding: encoding, headers: headers)
     }
 
     override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
@@ -117,14 +117,14 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                             fatalError("Unprocessable value \(v) with key \(k)")
                         }
                     }
-                    }, to: URLString, method: xMethod, headers: nil, encodingCompletion: { encodingResult in
+                }, to: URLString, method: xMethod, headers: nil, encodingCompletion: { encodingResult in
                     switch encodingResult {
-                    case .success(let upload, _, _):
+                    case let .success(upload, _, _):
                         if let onProgressReady = self.onProgressReady {
                             onProgressReady(upload.uploadProgress)
                         }
                         self.processRequest(request: upload, managerId, apiResponseQueue, completion)
-                    case .failure(let encodingError):
+                    case let .failure(encodingError):
                         apiResponseQueue.async {
                             completion(.failure(ErrorResponse.error(415, nil, nil, encodingError)))
                         }
@@ -159,7 +159,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
         switch T.self {
         case is String.Type:
-            validatedRequest.responseString(queue: apiResponseQueue, completionHandler: { (stringResponse) in
+            validatedRequest.responseString(queue: apiResponseQueue, completionHandler: { stringResponse in
                 cleanupRequest()
 
                 switch stringResponse.result {
@@ -171,7 +171,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
             })
         case is URL.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { (dataResponse) in
+            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
                 cleanupRequest()
 
                 do {
@@ -209,13 +209,13 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
                 } catch let requestParserError as DownloadException {
                     completion(.failure(ErrorResponse.error(400, dataResponse.data, dataResponse.response, requestParserError)))
-                } catch let error {
+                } catch {
                     completion(.failure(ErrorResponse.error(400, dataResponse.data, dataResponse.response, error)))
                 }
                 return
             })
         case is Void.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { (voidResponse) in
+            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { voidResponse in
                 cleanupRequest()
 
                 switch voidResponse.result {
@@ -227,7 +227,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
             })
         default:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { (dataResponse) in
+            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
                 cleanupRequest()
 
                 switch dataResponse.result {
@@ -243,7 +243,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
     open func buildHeaders() -> [String: String] {
         var httpHeaders = SessionManager.defaultHTTPHeaders
-        for (key, value) in self.headers {
+        for (key, value) in headers {
             httpHeaders[key] = value
         }
         return httpHeaders
@@ -317,7 +317,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
         switch T.self {
         case is String.Type:
-            validatedRequest.responseString(queue: apiResponseQueue, completionHandler: { (stringResponse) in
+            validatedRequest.responseString(queue: apiResponseQueue, completionHandler: { stringResponse in
                 cleanupRequest()
 
                 switch stringResponse.result {
@@ -329,7 +329,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
             })
         case is Void.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { (voidResponse) in
+            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { voidResponse in
                 cleanupRequest()
 
                 switch voidResponse.result {
@@ -341,7 +341,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
             })
         case is Data.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { (dataResponse) in
+            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
                 cleanupRequest()
 
                 switch dataResponse.result {
@@ -402,6 +402,6 @@ extension JSONDataEncoding: ParameterEncoding {
     public func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
         let urlRequest = try urlRequest.asURLRequest()
 
-        return self.encode(urlRequest, with: parameters)
+        return encode(urlRequest, with: parameters)
     }
 }
