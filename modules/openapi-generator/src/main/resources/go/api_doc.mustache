@@ -53,7 +53,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
         if openapiErr, ok := err.(openapiError); ok {
             fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
-            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+            fmt.Fprintf(os.Stderr, "Raw response body: %s\n", openapiErr.Body())
         }
     }
     {{#returnType}}
