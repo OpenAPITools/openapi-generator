@@ -1485,6 +1485,11 @@ public class DefaultGenerator implements Generator {
     }
 
     private String removeTrailingSlash(String value) {
+        if (value.length() < 2) {
+            // do not modify the value if it is length one, "/" because
+            // that value indicates that the spec is also served from this url
+            return value;
+        }
         return StringUtils.removeEnd(value, "/");
     }
 
