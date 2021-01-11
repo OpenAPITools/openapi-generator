@@ -11,7 +11,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-from petstore_api.api_client import ApiClient, Endpoint
+from petstore_api.api_client import ApiClient, Endpoint as _Endpoint
 from petstore_api.model_utils import (  # noqa: F401
     check_allowed_values,
     check_validations,
@@ -102,7 +102,7 @@ class PetApi(object):
                 body
             return self.call_with_http_info(**kwargs)
 
-        self.add_pet = Endpoint(
+        self.add_pet = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [
@@ -221,7 +221,7 @@ class PetApi(object):
                 pet_id
             return self.call_with_http_info(**kwargs)
 
-        self.delete_pet = Endpoint(
+        self.delete_pet = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [
@@ -343,7 +343,7 @@ class PetApi(object):
                 status
             return self.call_with_http_info(**kwargs)
 
-        self.find_pets_by_status = Endpoint(
+        self.find_pets_by_status = _Endpoint(
             settings={
                 'response_type': ([Pet],),
                 'auth': [
@@ -471,7 +471,7 @@ class PetApi(object):
                 tags
             return self.call_with_http_info(**kwargs)
 
-        self.find_pets_by_tags = Endpoint(
+        self.find_pets_by_tags = _Endpoint(
             settings={
                 'response_type': ([Pet],),
                 'auth': [
@@ -592,7 +592,7 @@ class PetApi(object):
                 pet_id
             return self.call_with_http_info(**kwargs)
 
-        self.get_pet_by_id = Endpoint(
+        self.get_pet_by_id = _Endpoint(
             settings={
                 'response_type': (Pet,),
                 'auth': [
@@ -711,7 +711,7 @@ class PetApi(object):
                 body
             return self.call_with_http_info(**kwargs)
 
-        self.update_pet = Endpoint(
+        self.update_pet = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [
@@ -831,7 +831,7 @@ class PetApi(object):
                 pet_id
             return self.call_with_http_info(**kwargs)
 
-        self.update_pet_with_form = Endpoint(
+        self.update_pet_with_form = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [
@@ -962,7 +962,7 @@ class PetApi(object):
                 pet_id
             return self.call_with_http_info(**kwargs)
 
-        self.upload_file = Endpoint(
+        self.upload_file = _Endpoint(
             settings={
                 'response_type': (ApiResponse,),
                 'auth': [
@@ -1103,7 +1103,7 @@ class PetApi(object):
                 required_file
             return self.call_with_http_info(**kwargs)
 
-        self.upload_file_with_required_file = Endpoint(
+        self.upload_file_with_required_file = _Endpoint(
             settings={
                 'response_type': (ApiResponse,),
                 'auth': [
