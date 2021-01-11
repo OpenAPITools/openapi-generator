@@ -34,11 +34,6 @@ import (
     openapiclient "./openapi"
 )
 
-type openapiError interface {
-    Model() interface{}
-    Body() []byte 
-}
-
 func main() {
     body := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet | Pet object that needs to be added to the store
 
@@ -48,9 +43,9 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PetApi.AddPet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-        if openapiErr, ok := err.(openapiError); ok {
+        if openapiErr, ok := err.(openapiclient.GenericOpenAPIError); ok {
             fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
-            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+            fmt.Fprintf(os.Stderr, "Raw response body: %s\n", openapiErr.Body())
         }
     }
 }
@@ -73,7 +68,7 @@ Name | Type | Description  | Notes
 
  (empty response body), http.Response and error
 
-The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
+The returned error provides `Body()` and `Model()` methods that can be accessed through type-asserting to the `openapiclient.GenericOpenAPIError` type or by using a custom interface.
 
 ### Authorization
 
@@ -107,11 +102,6 @@ import (
     openapiclient "./openapi"
 )
 
-type openapiError interface {
-    Model() interface{}
-    Body() []byte 
-}
-
 func main() {
     petId := int64(789) // int64 | Pet id to delete
     apiKey := "apiKey_example" // string |  (optional)
@@ -122,9 +112,9 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PetApi.DeletePet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-        if openapiErr, ok := err.(openapiError); ok {
+        if openapiErr, ok := err.(openapiclient.GenericOpenAPIError); ok {
             fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
-            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+            fmt.Fprintf(os.Stderr, "Raw response body: %s\n", openapiErr.Body())
         }
     }
 }
@@ -152,7 +142,7 @@ Name | Type | Description  | Notes
 
  (empty response body), http.Response and error
 
-The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
+The returned error provides `Body()` and `Model()` methods that can be accessed through type-asserting to the `openapiclient.GenericOpenAPIError` type or by using a custom interface.
 
 ### Authorization
 
@@ -188,11 +178,6 @@ import (
     openapiclient "./openapi"
 )
 
-type openapiError interface {
-    Model() interface{}
-    Body() []byte 
-}
-
 func main() {
     status := []string{"Status_example"} // []string | Status values that need to be considered for filter
 
@@ -202,9 +187,9 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PetApi.FindPetsByStatus``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-        if openapiErr, ok := err.(openapiError); ok {
+        if openapiErr, ok := err.(openapiclient.GenericOpenAPIError); ok {
             fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
-            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+            fmt.Fprintf(os.Stderr, "Raw response body: %s\n", openapiErr.Body())
         }
     }
     // response from `FindPetsByStatus`: []Pet
@@ -229,7 +214,7 @@ Name | Type | Description  | Notes
 
 [**[]Pet**](Pet.md), http.Response and error
 
-The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
+The returned error provides `Body()` and `Model()` methods that can be accessed through type-asserting to the `openapiclient.GenericOpenAPIError` type or by using a custom interface.
 
 ### Authorization
 
@@ -265,11 +250,6 @@ import (
     openapiclient "./openapi"
 )
 
-type openapiError interface {
-    Model() interface{}
-    Body() []byte 
-}
-
 func main() {
     tags := []string{"Inner_example"} // []string | Tags to filter by
 
@@ -279,9 +259,9 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PetApi.FindPetsByTags``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-        if openapiErr, ok := err.(openapiError); ok {
+        if openapiErr, ok := err.(openapiclient.GenericOpenAPIError); ok {
             fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
-            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+            fmt.Fprintf(os.Stderr, "Raw response body: %s\n", openapiErr.Body())
         }
     }
     // response from `FindPetsByTags`: []Pet
@@ -306,7 +286,7 @@ Name | Type | Description  | Notes
 
 [**[]Pet**](Pet.md), http.Response and error
 
-The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
+The returned error provides `Body()` and `Model()` methods that can be accessed through type-asserting to the `openapiclient.GenericOpenAPIError` type or by using a custom interface.
 
 ### Authorization
 
@@ -342,11 +322,6 @@ import (
     openapiclient "./openapi"
 )
 
-type openapiError interface {
-    Model() interface{}
-    Body() []byte 
-}
-
 func main() {
     petId := int64(789) // int64 | ID of pet to return
 
@@ -356,9 +331,9 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PetApi.GetPetById``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-        if openapiErr, ok := err.(openapiError); ok {
+        if openapiErr, ok := err.(openapiclient.GenericOpenAPIError); ok {
             fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
-            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+            fmt.Fprintf(os.Stderr, "Raw response body: %s\n", openapiErr.Body())
         }
     }
     // response from `GetPetById`: Pet
@@ -387,7 +362,7 @@ Name | Type | Description  | Notes
 
 [**Pet**](Pet.md), http.Response and error
 
-The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
+The returned error provides `Body()` and `Model()` methods that can be accessed through type-asserting to the `openapiclient.GenericOpenAPIError` type or by using a custom interface.
 
 ### Authorization
 
@@ -421,11 +396,6 @@ import (
     openapiclient "./openapi"
 )
 
-type openapiError interface {
-    Model() interface{}
-    Body() []byte 
-}
-
 func main() {
     body := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet | Pet object that needs to be added to the store
 
@@ -435,9 +405,9 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PetApi.UpdatePet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-        if openapiErr, ok := err.(openapiError); ok {
+        if openapiErr, ok := err.(openapiclient.GenericOpenAPIError); ok {
             fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
-            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+            fmt.Fprintf(os.Stderr, "Raw response body: %s\n", openapiErr.Body())
         }
     }
 }
@@ -460,7 +430,7 @@ Name | Type | Description  | Notes
 
  (empty response body), http.Response and error
 
-The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
+The returned error provides `Body()` and `Model()` methods that can be accessed through type-asserting to the `openapiclient.GenericOpenAPIError` type or by using a custom interface.
 
 ### Authorization
 
@@ -494,11 +464,6 @@ import (
     openapiclient "./openapi"
 )
 
-type openapiError interface {
-    Model() interface{}
-    Body() []byte 
-}
-
 func main() {
     petId := int64(789) // int64 | ID of pet that needs to be updated
     name := "name_example" // string | Updated name of the pet (optional)
@@ -510,9 +475,9 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PetApi.UpdatePetWithForm``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-        if openapiErr, ok := err.(openapiError); ok {
+        if openapiErr, ok := err.(openapiclient.GenericOpenAPIError); ok {
             fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
-            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+            fmt.Fprintf(os.Stderr, "Raw response body: %s\n", openapiErr.Body())
         }
     }
 }
@@ -541,7 +506,7 @@ Name | Type | Description  | Notes
 
  (empty response body), http.Response and error
 
-The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
+The returned error provides `Body()` and `Model()` methods that can be accessed through type-asserting to the `openapiclient.GenericOpenAPIError` type or by using a custom interface.
 
 ### Authorization
 
@@ -575,11 +540,6 @@ import (
     openapiclient "./openapi"
 )
 
-type openapiError interface {
-    Model() interface{}
-    Body() []byte 
-}
-
 func main() {
     petId := int64(789) // int64 | ID of pet to update
     additionalMetadata := "additionalMetadata_example" // string | Additional data to pass to server (optional)
@@ -591,9 +551,9 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PetApi.UploadFile``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-        if openapiErr, ok := err.(openapiError); ok {
+        if openapiErr, ok := err.(openapiclient.GenericOpenAPIError); ok {
             fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
-            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+            fmt.Fprintf(os.Stderr, "Raw response body: %s\n", openapiErr.Body())
         }
     }
     // response from `UploadFile`: ApiResponse
@@ -624,7 +584,7 @@ Name | Type | Description  | Notes
 
 [**ApiResponse**](ApiResponse.md), http.Response and error
 
-The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
+The returned error provides `Body()` and `Model()` methods that can be accessed through type-asserting to the `openapiclient.GenericOpenAPIError` type or by using a custom interface.
 
 ### Authorization
 
@@ -658,11 +618,6 @@ import (
     openapiclient "./openapi"
 )
 
-type openapiError interface {
-    Model() interface{}
-    Body() []byte 
-}
-
 func main() {
     petId := int64(789) // int64 | ID of pet to update
     requiredFile := os.NewFile(1234, "some_file") // *os.File | file to upload
@@ -674,9 +629,9 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PetApi.UploadFileWithRequiredFile``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-        if openapiErr, ok := err.(openapiError); ok {
+        if openapiErr, ok := err.(openapiclient.GenericOpenAPIError); ok {
             fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
-            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+            fmt.Fprintf(os.Stderr, "Raw response body: %s\n", openapiErr.Body())
         }
     }
     // response from `UploadFileWithRequiredFile`: ApiResponse
@@ -707,7 +662,7 @@ Name | Type | Description  | Notes
 
 [**ApiResponse**](ApiResponse.md), http.Response and error
 
-The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
+The returned error provides `Body()` and `Model()` methods that can be accessed through type-asserting to the `openapiclient.GenericOpenAPIError` type or by using a custom interface.
 
 ### Authorization
 

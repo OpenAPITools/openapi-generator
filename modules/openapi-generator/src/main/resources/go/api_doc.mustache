@@ -35,11 +35,6 @@ import (
     {{goImportAlias}} "./openapi"
 )
 
-type openapiError interface {
-    Model() interface{}
-    Body() []byte
-}
-
 func main() {
     {{#allParams}}
     {{paramName}} := {{{vendorExtensions.x-go-example}}} // {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
@@ -51,7 +46,7 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `{{classname}}.{{operationId}}``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-        if openapiErr, ok := err.(openapiError); ok {
+        if openapiErr, ok := err.({{goImportAlias}}.GenericOpenAPIError); ok {
             fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
             fmt.Fprintf(os.Stderr, "Raw response body: %s\n", openapiErr.Body())
         }
@@ -84,7 +79,7 @@ Name | Type | Description  | Notes
 
 {{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{{returnType}}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}} (empty response body){{/returnType}}, http.Response and error
 
-The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
+The returned error provides `Body()` and `Model()` methods that can be accessed through type-asserting to the `{{goImportAlias}}.GenericOpenAPIError` type or by using a custom interface.
 
 ### Authorization
 

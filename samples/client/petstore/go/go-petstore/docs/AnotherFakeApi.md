@@ -28,11 +28,6 @@ import (
     openapiclient "./openapi"
 )
 
-type openapiError interface {
-    Model() interface{}
-    Body() []byte 
-}
-
 func main() {
     body := *openapiclient.NewClient() // Client | client model
 
@@ -42,9 +37,9 @@ func main() {
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AnotherFakeApi.Call123TestSpecialTags``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-        if openapiErr, ok := err.(openapiError); ok {
+        if openapiErr, ok := err.(openapiclient.GenericOpenAPIError); ok {
             fmt.Fprintf(os.Stderr, "Model returned from error response: %v\n", openapiErr.Model())
-            fmt.Fprintf(os.Stderr, "Raw response body: %v\n", openapiErr.Body())
+            fmt.Fprintf(os.Stderr, "Raw response body: %s\n", openapiErr.Body())
         }
     }
     // response from `Call123TestSpecialTags`: Client
@@ -69,7 +64,7 @@ Name | Type | Description  | Notes
 
 [**Client**](Client.md), http.Response and error
 
-The returned error provides `Body()` and `Model()` methods that can be accessed using a custom interface.
+The returned error provides `Body()` and `Model()` methods that can be accessed through type-asserting to the `openapiclient.GenericOpenAPIError` type or by using a custom interface.
 
 ### Authorization
 
