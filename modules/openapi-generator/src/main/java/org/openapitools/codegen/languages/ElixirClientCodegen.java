@@ -168,6 +168,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 Arrays.asList(
                         "Integer",
                         "Float",
+                        "Decimal",
                         "Boolean",
                         "String",
                         "List",
@@ -520,9 +521,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             return "String.t";
         } else if (ModelUtils.isBooleanSchema(p)) {
             return "boolean()";
-        } else if (!StringUtils.isEmpty(p.get$ref())) { // model
-            // How to map it?
-            return super.getTypeDeclaration(p);
+        } else if (!StringUtils.isEmpty(p.get$ref())) {
+            return this.moduleName + ".Model." + super.getTypeDeclaration(p) + ".t";
         } else if (ModelUtils.isFileSchema(p)) {
             return "String.t";
         } else if (ModelUtils.isStringSchema(p)) {
@@ -593,12 +593,12 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.isDefinedDefault = (this.code.equals("0") || this.code.equals("default"));
         }
 
-        public String codeMappingKey(){
-            if(this.isDefinedDefault) {
+        public String codeMappingKey() {
+            if (this.isDefinedDefault) {
                 return ":default";
             }
 
-            if(code.matches("^\\d{3}$")){
+            if (code.matches("^\\d{3}$")) {
                 return code;
             }
 
