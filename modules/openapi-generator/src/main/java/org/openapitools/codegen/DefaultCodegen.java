@@ -6021,6 +6021,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (StringUtils.isNotBlank(schema.get$ref())) {
             name = ModelUtils.getSimpleRef(schema.get$ref());
+        }else {
+            name = getSchemaType(schema);
         }
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
 
