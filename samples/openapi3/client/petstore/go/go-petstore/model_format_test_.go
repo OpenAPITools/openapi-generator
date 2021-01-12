@@ -25,7 +25,7 @@ type FormatTest struct {
 	Float *float32 `json:"float,omitempty"`
 	Double *float64 `json:"double,omitempty"`
 	String *string `json:"string,omitempty"`
-	Byte string `json:"byte"`
+	Byte []byte `json:"byte"`
 	Binary **os.File `json:"binary,omitempty"`
 	Date string `json:"date"`
 	DateTime *time.Time `json:"dateTime,omitempty"`
@@ -44,7 +44,7 @@ type _FormatTest FormatTest
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFormatTest(number float32, byte_ string, date string, password string, ) *FormatTest {
+func NewFormatTest(number float32, byte_ []byte, date string, password string, ) *FormatTest {
 	this := FormatTest{}
 	this.Number = number
 	this.Byte = byte_
@@ -278,9 +278,9 @@ func (o *FormatTest) SetString(v string) {
 }
 
 // GetByte returns the Byte field value
-func (o *FormatTest) GetByte() string {
+func (o *FormatTest) GetByte() []byte {
 	if o == nil  {
-		var ret string
+		var ret []byte
 		return ret
 	}
 
@@ -289,7 +289,7 @@ func (o *FormatTest) GetByte() string {
 
 // GetByteOk returns a tuple with the Byte field value
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetByteOk() (*string, bool) {
+func (o *FormatTest) GetByteOk() (*[]byte, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -297,7 +297,7 @@ func (o *FormatTest) GetByteOk() (*string, bool) {
 }
 
 // SetByte sets field value
-func (o *FormatTest) SetByte(v string) {
+func (o *FormatTest) SetByte(v []byte) {
 	o.Byte = v
 }
 

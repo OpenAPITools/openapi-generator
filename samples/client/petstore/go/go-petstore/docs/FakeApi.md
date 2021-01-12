@@ -568,7 +568,7 @@ func main() {
     number := float32(8.14) // float32 | None
     double := float64(1.2) // float64 | None
     patternWithoutDelimiter := "patternWithoutDelimiter_example" // string | None
-    byte_ := string(BYTE_ARRAY_DATA_HERE) // string | None
+    byte_ := []byte(BYTE_ARRAY_DATA_HERE) // []byte | None
     integer := int32(56) // int32 | None (optional)
     int32_ := int32(56) // int32 | None (optional)
     int64_ := int64(789) // int64 | None (optional)
@@ -604,7 +604,7 @@ Name | Type | Description  | Notes
  **number** | **float32** | None | 
  **double** | **float64** | None | 
  **patternWithoutDelimiter** | **string** | None | 
- **byte_** | **string** | None | 
+ **byte_** | **[]byte** | None | 
  **integer** | **int32** | None | 
  **int32_** | **int32** | None | 
  **int64_** | **int64** | None | 
