@@ -12,9 +12,11 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ReadOnlyFirst   {
   @JsonProperty("bar")
+  
   private String bar;
 
   @JsonProperty("baz")
+  
   private String baz;
 
   public ReadOnlyFirst bar(String bar) {

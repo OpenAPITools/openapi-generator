@@ -12,6 +12,7 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class SpecialModelName   {
   @JsonProperty("$special[property.name]")
+  
   private Long $specialPropertyName;
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {

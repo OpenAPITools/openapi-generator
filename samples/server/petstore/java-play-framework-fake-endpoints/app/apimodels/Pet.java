@@ -18,23 +18,28 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Pet   {
   @JsonProperty("id")
+  
   private Long id;
 
   @JsonProperty("category")
   @Valid
-private Category category;
+
+  private Category category;
 
   @JsonProperty("name")
   @NotNull
-private String name;
+
+  private String name;
 
   @JsonProperty("photoUrls")
   @NotNull
-private Set<String> photoUrls = new LinkedHashSet<>();
+
+  private Set<String> photoUrls = new LinkedHashSet<>();
 
   @JsonProperty("tags")
   @Valid
-private List<Tag> tags = null;
+
+  private List<Tag> tags = null;
 
   /**
    * pet status in the store
@@ -70,6 +75,7 @@ private List<Tag> tags = null;
   }
 
   @JsonProperty("status")
+  
   private StatusEnum status;
 
   public Pet id(Long id) {

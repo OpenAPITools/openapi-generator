@@ -26,10 +26,16 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   @SerializedName("{{baseName}}")
   {{/gson}}
   {{#isContainer}}
-  {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
+  {{#useBeanValidation}}
+  {{>beanValidation}}
+  {{/useBeanValidation}}
+  private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
   {{/isContainer}}
   {{^isContainer}}
-  {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+  {{#useBeanValidation}}
+  {{>beanValidation}}
+  {{/useBeanValidation}}
+  private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
   {{/isContainer}}
 
   {{/vars}}
@@ -78,7 +84,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   {{/maximum}}
    * @return {{name}}
   **/
- {{#vendorExtensions.x-extra-annotation}}
+  {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
   {{/vendorExtensions.x-extra-annotation}}
   public {{{datatypeWithEnum}}} {{getter}}() {

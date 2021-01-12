@@ -19,14 +19,17 @@ public class FormatTest   {
   @JsonProperty("integer")
   @Min(10)
 @Max(100)
-private Integer integer;
+
+  private Integer integer;
 
   @JsonProperty("int32")
   @Min(20)
 @Max(200)
-private Integer int32;
+
+  private Integer int32;
 
   @JsonProperty("int64")
+  
   private Long int64;
 
   @JsonProperty("number")
@@ -34,52 +37,63 @@ private Integer int32;
 @DecimalMin("32.1")
 @DecimalMax("543.2")
 @Valid
-private BigDecimal number;
+
+  private BigDecimal number;
 
   @JsonProperty("float")
   @DecimalMin("54.3")
 @DecimalMax("987.6")
-private Float _float;
+
+  private Float _float;
 
   @JsonProperty("double")
   @DecimalMin("67.8")
 @DecimalMax("123.4")
-private Double _double;
+
+  private Double _double;
 
   @JsonProperty("string")
   @Pattern(regexp="/[a-z]/i")
-private String string;
+
+  private String string;
 
   @JsonProperty("byte")
   @NotNull
 @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
-private byte[] _byte;
+
+  private byte[] _byte;
 
   @JsonProperty("binary")
   @Valid
-private InputStream binary;
+
+  private InputStream binary;
 
   @JsonProperty("date")
   @NotNull
 @Valid
-private LocalDate date;
+
+  private LocalDate date;
 
   @JsonProperty("dateTime")
   @Valid
-private OffsetDateTime dateTime;
+
+  private OffsetDateTime dateTime;
 
   @JsonProperty("uuid")
   @Valid
-private UUID uuid;
+
+  private UUID uuid;
 
   @JsonProperty("password")
   @NotNull
 @Size(min=10,max=64)
-private String password;
+
+  private String password;
 
   @JsonProperty("BigDecimal")
   @Valid
-private BigDecimal bigDecimal;
+
+  private BigDecimal bigDecimal;
 
   public FormatTest integer(Integer integer) {
     this.integer = integer;

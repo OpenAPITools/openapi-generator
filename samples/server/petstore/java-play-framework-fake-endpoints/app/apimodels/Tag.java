@@ -12,9 +12,11 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Tag   {
   @JsonProperty("id")
+  
   private Long id;
 
   @JsonProperty("name")
+  
   private String name;
 
   public Tag id(Long id) {

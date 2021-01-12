@@ -45,6 +45,7 @@ public class EnumArrays   {
   }
 
   @JsonProperty("just_symbol")
+  
   private JustSymbolEnum justSymbol;
 
   /**
@@ -79,6 +80,7 @@ public class EnumArrays   {
   }
  
   @JsonProperty("array_enum")
+  
   private List<ArrayEnumEnum> arrayEnum = null;
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {

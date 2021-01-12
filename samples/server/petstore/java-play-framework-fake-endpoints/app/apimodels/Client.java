@@ -12,6 +12,7 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Client   {
   @JsonProperty("client")
+  
   private String client;
 
   public Client client(String client) {

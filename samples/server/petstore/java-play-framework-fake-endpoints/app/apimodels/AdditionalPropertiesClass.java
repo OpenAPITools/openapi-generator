@@ -16,41 +16,52 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class AdditionalPropertiesClass   {
   @JsonProperty("map_string")
+  
   private Map<String, String> mapString = null;
 
   @JsonProperty("map_number")
   @Valid
-private Map<String, BigDecimal> mapNumber = null;
+
+  private Map<String, BigDecimal> mapNumber = null;
 
   @JsonProperty("map_integer")
+  
   private Map<String, Integer> mapInteger = null;
 
   @JsonProperty("map_boolean")
+  
   private Map<String, Boolean> mapBoolean = null;
 
   @JsonProperty("map_array_integer")
   @Valid
-private Map<String, List<Integer>> mapArrayInteger = null;
+
+  private Map<String, List<Integer>> mapArrayInteger = null;
 
   @JsonProperty("map_array_anytype")
   @Valid
-private Map<String, List<Object>> mapArrayAnytype = null;
+
+  private Map<String, List<Object>> mapArrayAnytype = null;
 
   @JsonProperty("map_map_string")
   @Valid
-private Map<String, Map<String, String>> mapMapString = null;
+
+  private Map<String, Map<String, String>> mapMapString = null;
 
   @JsonProperty("map_map_anytype")
   @Valid
-private Map<String, Map<String, Object>> mapMapAnytype = null;
+
+  private Map<String, Map<String, Object>> mapMapAnytype = null;
 
   @JsonProperty("anytype_1")
+  
   private Object anytype1;
 
   @JsonProperty("anytype_2")
+  
   private Object anytype2;
 
   @JsonProperty("anytype_3")
+  
   private Object anytype3;
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {

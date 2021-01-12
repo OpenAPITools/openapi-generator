@@ -12,12 +12,15 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ModelApiResponse   {
   @JsonProperty("code")
+  
   private Integer code;
 
   @JsonProperty("type")
+  
   private String type;
 
   @JsonProperty("message")
+  
   private String message;
 
   public ModelApiResponse code(Integer code) {

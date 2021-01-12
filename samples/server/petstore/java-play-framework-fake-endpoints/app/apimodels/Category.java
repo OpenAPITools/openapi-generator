@@ -12,11 +12,13 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Category   {
   @JsonProperty("id")
+  
   private Long id;
 
   @JsonProperty("name")
   @NotNull
-private String name = "default-name";
+
+  private String name = "default-name";
 
   public Category id(Long id) {
     this.id = id;

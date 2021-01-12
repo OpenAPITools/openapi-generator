@@ -16,24 +16,29 @@ import javax.validation.constraints.*;
 public class TypeHolderDefault   {
   @JsonProperty("string_item")
   @NotNull
-private String stringItem = "what";
+
+  private String stringItem = "what";
 
   @JsonProperty("number_item")
   @NotNull
 @Valid
-private BigDecimal numberItem;
+
+  private BigDecimal numberItem;
 
   @JsonProperty("integer_item")
   @NotNull
-private Integer integerItem;
+
+  private Integer integerItem;
 
   @JsonProperty("bool_item")
   @NotNull
-private Boolean boolItem = true;
+
+  private Boolean boolItem = true;
 
   @JsonProperty("array_item")
   @NotNull
-private List<Integer> arrayItem = new ArrayList<>();
+
+  private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderDefault stringItem(String stringItem) {
     this.stringItem = stringItem;

@@ -47,6 +47,7 @@ public class BigCatAllOf   {
   }
 
   @JsonProperty("kind")
+  
   private KindEnum kind;
 
   public BigCatAllOf kind(KindEnum kind) {

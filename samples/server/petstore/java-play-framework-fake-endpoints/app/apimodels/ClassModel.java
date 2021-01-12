@@ -12,6 +12,7 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ClassModel   {
   @JsonProperty("_class")
+  
   private String propertyClass;
 
   public ClassModel propertyClass(String propertyClass) {

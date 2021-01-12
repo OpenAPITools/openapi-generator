@@ -14,6 +14,7 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Dog extends Animal  {
   @JsonProperty("breed")
+  
   private String breed;
 
   public Dog breed(String breed) {

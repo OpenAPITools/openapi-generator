@@ -13,17 +13,21 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Order   {
   @JsonProperty("id")
+  
   private Long id;
 
   @JsonProperty("petId")
+  
   private Long petId;
 
   @JsonProperty("quantity")
+  
   private Integer quantity;
 
   @JsonProperty("shipDate")
   @Valid
-private OffsetDateTime shipDate;
+
+  private OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -59,9 +63,11 @@ private OffsetDateTime shipDate;
   }
 
   @JsonProperty("status")
+  
   private StatusEnum status;
 
   @JsonProperty("complete")
+  
   private Boolean complete = false;
 
   public Order id(Long id) {

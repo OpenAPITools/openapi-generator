@@ -19,15 +19,18 @@ import javax.validation.constraints.*;
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
   @Valid
-private UUID uuid;
+
+  private UUID uuid;
 
   @JsonProperty("dateTime")
   @Valid
-private OffsetDateTime dateTime;
+
+  private OffsetDateTime dateTime;
 
   @JsonProperty("map")
   @Valid
-private Map<String, Animal> map = null;
+
+  private Map<String, Animal> map = null;
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     this.uuid = uuid;

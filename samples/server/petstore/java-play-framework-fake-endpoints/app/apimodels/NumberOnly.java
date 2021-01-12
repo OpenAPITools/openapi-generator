@@ -14,7 +14,8 @@ import javax.validation.constraints.*;
 public class NumberOnly   {
   @JsonProperty("JustNumber")
   @Valid
-private BigDecimal justNumber;
+
+  private BigDecimal justNumber;
 
   public NumberOnly justNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;

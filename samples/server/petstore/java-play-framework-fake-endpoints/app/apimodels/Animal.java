@@ -15,9 +15,11 @@ import javax.validation.constraints.*;
 public class Animal   {
   @JsonProperty("className")
   @NotNull
-private String className;
+
+  private String className;
 
   @JsonProperty("color")
+  
   private String color = "red";
 
   public Animal className(String className) {

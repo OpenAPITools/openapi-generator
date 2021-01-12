@@ -14,6 +14,7 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
   @JsonProperty("name")
+  
   private String name;
 
   public AdditionalPropertiesBoolean name(String name) {

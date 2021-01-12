@@ -16,7 +16,8 @@ import javax.validation.constraints.*;
 public class MapTest   {
   @JsonProperty("map_map_of_string")
   @Valid
-private Map<String, Map<String, String>> mapMapOfString = null;
+
+  private Map<String, Map<String, String>> mapMapOfString = null;
 
   /**
    * Gets or Sets inner
@@ -50,12 +51,15 @@ private Map<String, Map<String, String>> mapMapOfString = null;
   }
  
   @JsonProperty("map_of_enum_string")
+  
   private Map<String, InnerEnum> mapOfEnumString = null;
 
   @JsonProperty("direct_map")
+  
   private Map<String, Boolean> directMap = null;
 
   @JsonProperty("indirect_map")
+  
   private Map<String, Boolean> indirectMap = null;
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
