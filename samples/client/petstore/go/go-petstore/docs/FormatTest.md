@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **Float** | Pointer to **float32** |  | [optional] 
 **Double** | Pointer to **float64** |  | [optional] 
 **String** | Pointer to **string** |  | [optional] 
-**Byte** | **string** |  | 
+**Byte** | [**[]byte**]([]byte.md) |  | 
 **Binary** | Pointer to ***os.File** |  | [optional] 
 **Date** | **string** |  | 
 **DateTime** | Pointer to **time.Time** |  | [optional] 
@@ -23,7 +23,7 @@ Name | Type | Description | Notes
 
 ### NewFormatTest
 
-`func NewFormatTest(number float32, byte_ string, date string, password string, ) *FormatTest`
+`func NewFormatTest(number float32, byte_ []byte, date string, password string, ) *FormatTest`
 
 NewFormatTest instantiates a new FormatTest object
 This constructor will assign default values to properties that have it defined,
@@ -210,20 +210,20 @@ HasString returns a boolean if a field has been set.
 
 ### GetByte
 
-`func (o *FormatTest) GetByte() string`
+`func (o *FormatTest) GetByte() []byte`
 
 GetByte returns the Byte field if non-nil, zero value otherwise.
 
 ### GetByteOk
 
-`func (o *FormatTest) GetByteOk() (*string, bool)`
+`func (o *FormatTest) GetByteOk() (*[]byte, bool)`
 
 GetByteOk returns a tuple with the Byte field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetByte
 
-`func (o *FormatTest) SetByte(v string)`
+`func (o *FormatTest) SetByte(v []byte)`
 
 SetByte sets Byte field to given value.
 

@@ -1129,7 +1129,7 @@ type ApiTestEndpointParametersRequest struct {
 	number *float32
 	double *float64
 	patternWithoutDelimiter *string
-	byte_ *string
+	byte_ *[]byte
 	integer *int32
 	int32_ *int32
 	int64_ *int64
@@ -1154,7 +1154,7 @@ func (r ApiTestEndpointParametersRequest) PatternWithoutDelimiter(patternWithout
 	r.patternWithoutDelimiter = &patternWithoutDelimiter
 	return r
 }
-func (r ApiTestEndpointParametersRequest) Byte_(byte_ string) ApiTestEndpointParametersRequest {
+func (r ApiTestEndpointParametersRequest) Byte_(byte_ []byte) ApiTestEndpointParametersRequest {
 	r.byte_ = &byte_
 	return r
 }
