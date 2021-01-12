@@ -4035,9 +4035,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         r.message = escapeText(response.getDescription());
-        // TODO need to revise and test examples in responses
-        // ApiResponse does not support examples at the moment
-        //r.examples = toExamples(response.getExamples());
+        r.examples = toExamples(response.getContent());
         r.jsonSchema = Json.pretty(response);
         if (response.getExtensions() != null && !response.getExtensions().isEmpty()) {
             r.vendorExtensions.putAll(response.getExtensions());
@@ -4664,6 +4662,37 @@ public class DefaultCodegen implements CodegenConfig {
             kv.put("contentType", entry.getKey());
             kv.put("example", entry.getValue());
             output.add(kv);
+        }
+        return output;
+    }
+
+    @SuppressWarnings("static-method")
+    protected List<Map<String, Object>> toExamples(Content content) {
+        if (content == null || content.isEmpty()) {
+            return null;
+        }
+
+        int totalExamples = 0;
+        for (Map.Entry<String, MediaType> entry : content.entrySet()) {
+            if (entry.getValue().getExamples() != null) {
+               totalExamples += entry.getValue().getExamples().size();
+            }
+        }
+
+        if (totalExamples == 0) {
+            return null;
+        }
+
+        final List<Map<String, Object>> output = new ArrayList<Map<String, Object>>(totalExamples);
+        for (Map.Entry<String, MediaType> entry : content.entrySet()) {
+            if (entry.getValue().getExamples() != null) {    
+                for (Map.Entry<String, Example> exampleEntry : entry.getValue().getExamples().entrySet()) {
+                    final Map<String, Object> kv = new HashMap<String, Object>();
+                    kv.put("contentType", entry.getKey());
+                    kv.put("example", exampleEntry.getValue().getValue());
+                    output.add(kv);
+                }
+            }
         }
         return output;
     }
