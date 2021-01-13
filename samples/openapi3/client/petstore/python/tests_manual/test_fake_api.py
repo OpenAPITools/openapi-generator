@@ -11,8 +11,9 @@
 
 import sys
 from collections import namedtuple
-import unittest
+import os
 import json
+import unittest
 from unittest.mock import patch
 
 import petstore_api
@@ -332,6 +333,121 @@ class TestFakeApi(unittest.TestCase):
 
             assert isinstance(response, string_enum.StringEnum)
             assert response.value == value
+
+    def test_upload_file(self):
+
+        # TODO use fake request and response here
+        test_file_dir = os.path.realpath(
+            os.path.join(os.path.dirname(__file__), "..", "testfiles"))
+
+        # upload file with form parameter
+        file_path1 = os.path.join(test_file_dir, "1px_pic1.png")
+        try:
+            file = open(file_path1, "rb")
+            additional_metadata = "special"
+            self.api.upload_file(
+                additional_metadata=additional_metadata,
+                file=file
+            )
+        except petstore_api.ApiException as e:
+            self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
+        finally:
+            file.close()
+
+        # upload only one file
+        try:
+            file = open(file_path1, "rb")
+            self.api.upload_file(file=file)
+        except petstore_api.ApiException as e:
+            self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
+        finally:
+            file.close()
+
+        # passing in an array of files to when file only allows one
+        # raises an exceptions
+        try:
+            file = open(file_path1, "rb")
+            with self.assertRaises(petstore_api.ApiTypeError) as exc:
+                self.api.upload_file(file=[file])
+        finally:
+            file.close()
+
+        # passing in a closed file raises an exception
+        with self.assertRaises(petstore_api.ApiValueError) as exc:
+            file = open(file_path1, "rb")
+            file.close()
+            self.api.upload_file(file=file)
+
+    def test_upload_files(self):
+        test_file_dir = os.path.realpath(
+            os.path.join(os.path.dirname(__file__), "..", "testfiles"))
+        pet_id = 1234
+        file_path1 = os.path.join(test_file_dir, "1px_pic1.png")
+        file_path2 = os.path.join(test_file_dir, "1px_pic2.png")
+
+        # upload multiple files
+        HTTPResponse = namedtuple(
+            'urllib3_response_HTTPResponse',
+            ['status', 'reason', 'data', 'getheaders', 'getheader']
+        )
+        headers = {}
+        def get_headers():
+            return headers
+        def get_header(name, default=None):
+            return headers.get(name, default)
+        api_respponse = {
+            'code': 200,
+            'type': 'blah',
+            'message': 'file upload succeeded'
+        }
+        http_response = HTTPResponse(
+            status=200,
+            reason='OK',
+            data=json.dumps(api_respponse).encode('utf-8'),
+            getheaders=get_headers,
+            getheader=get_header
+        )
+        mock_response = RESTResponse(http_response)
+        file1 = open(file_path1, "rb")
+        file2 = open(file_path2, "rb")
+        try:
+            with patch.object(RESTClientObject, 'request') as mock_method:
+                # TODO wire this into assert called with
+                mock_method.return_value = mock_response
+                res = self.api.upload_files(
+                    files=[file1, file2])
+                mock_method.assert_called_with(
+                    'POST',
+                    'http://petstore.swagger.io:80/v2/fake/uploadFiles',
+                    headers={
+                        'Accept': 'application/json',
+                        'Content-Type': 'multipart/form-data',
+                        'User-Agent': 'OpenAPI-Generator/1.0.0/python',
+                    },
+                    query_params=[],
+                    post_params=[
+                        ('files', ('1px_pic1.png', b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x00\x00\x00\x00:~\x9bU\x00\x00\x00\nIDATx\x9cc\xfa\x0f\x00\x01\x05\x01\x02\xcf\xa0.\xcd\x00\x00\x00\x00IEND\xaeB`\x82', 'image/png')),
+                        ('files', ('1px_pic2.png', b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x00\x00\x00\x00:~\x9bU\x00\x00\x00\nIDATx\x9cc\xfa\x0f\x00\x01\x05\x01\x02\xcf\xa0.\xcd\x00\x00\x00\x00IEND\xaeB`\x82', 'image/png'))
+                    ],
+                    _preload_content=True,
+                    _request_timeout=None,
+                    body=None,
+                )
+        except petstore_api.ApiException as e:
+            self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
+        finally:
+            file1.close()
+            file2.close()
+
+        # passing in a single file when an array of file is required
+        # raises an exception
+        try:
+            file = open(file_path1, "rb")
+            with self.assertRaises(petstore_api.ApiTypeError) as exc:
+                self.api.upload_files(files=file)
+        finally:
+            file.close()
+
 
     def test_test_body_with_file_schema(self):
         """Test case for test_body_with_file_schema

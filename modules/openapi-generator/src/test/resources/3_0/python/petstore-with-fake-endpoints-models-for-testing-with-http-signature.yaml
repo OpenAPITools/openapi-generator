@@ -16,6 +16,8 @@ tags:
     description: Access to Petstore orders
   - name: user
     description: Operations about user
+  - name: fake
+    description: Fake api used for feature testing
 paths:
   /foo:
     get:
@@ -246,45 +248,6 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
-  '/pet/{petId}/uploadImage':
-    post:
-      tags:
-        - pet
-      summary: uploads an image
-      description: ''
-      operationId: uploadFile
-      parameters:
-        - name: petId
-          in: path
-          description: ID of pet to update
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                file:
-                  description: file to upload
-                  type: string
-                  format: binary
   /store/inventory:
     get:
       tags:
@@ -1196,21 +1159,13 @@ paths:
       responses:
         "200":
           description: Success
-  '/fake/{petId}/uploadImageWithRequiredFile':
+  '/fake/uploadFile':
     post:
       tags:
-        - pet
-      summary: uploads an image (required)
+        - fake
+      summary: uploads a file
       description: ''
-      operationId: uploadFileWithRequiredFile
-      parameters:
-        - name: petId
-          in: path
-          description: ID of pet to update
-          required: true
-          schema:
-            type: integer
-            format: int64
+      operationId: uploadFile
       responses:
         '200':
           description: successful operation
@@ -1218,10 +1173,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
       requestBody:
         content:
           multipart/form-data:
@@ -1231,12 +1182,37 @@ paths:
                 additionalMetadata:
                   description: Additional data to pass to server
                   type: string
-                requiredFile:
+                file:
                   description: file to upload
                   type: string
                   format: binary
               required:
-                - requiredFile
+                - file
+  '/fake/uploadFiles':
+    post:
+      tags:
+        - fake
+      summary: uploads files
+      description: ''
+      operationId: uploadFiles
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
   /fake/health:
     get:
       tags:
