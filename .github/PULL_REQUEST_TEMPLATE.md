@@ -5,9 +5,9 @@
  
 - [ ] Read the [contribution guidelines](https://github.com/openapitools/openapi-generator/blob/master/CONTRIBUTING.md).
 - [ ] Pull Request title clearly describes the work in the pull request and Pull Request description provides details about how to validate the work. Missing information here may result in delayed response from the community.
-- [ ] Run the following the [build the project](https://github.com/OpenAPITools/openapi-generator#14---build-projects) and update samples:
+- [ ] Run the following to [build the project](https://github.com/OpenAPITools/openapi-generator#14---build-projects) and update samples:
   ```
-  mvn clean package
+  ./mvnw clean package 
   ./bin/generate-samples.sh
   ./bin/utils/export_docs_generators.sh
   ``` 
