@@ -448,6 +448,52 @@ class TestFakeApi(unittest.TestCase):
         finally:
             file.close()
 
+    def test_download_attachment(self):
+        """Ensures that file deserialization works"""
+        # TODO add an endpoint for this and connect it in here
+
+        """
+        response_types_mixed = (file_type,)
+
+        # sample from http://www.jtricks.com/download-text
+        HTTPResponse = namedtuple(
+            'urllib3_response_HTTPResponse',
+            ['status', 'reason', 'data', 'getheaders', 'getheader']
+        )
+        headers = {'Content-Disposition': 'attachment; filename=content.txt'}
+        def get_headers():
+            return headers
+        def get_header(name, default=None):
+            return headers.get(name, default)
+        file_data = (
+            "You are reading text file that was supposed to be downloaded\r\n"
+            "to your hard disk. If your browser offered to save you the file,"
+            "\r\nthen it handled the Content-Disposition header correctly."
+        )
+        http_response = HTTPResponse(
+            status=200,
+            reason='OK',
+            data=file_data,
+            getheaders=get_headers,
+            getheader=get_header
+        )
+        # response which is deserialized to a file
+        mock_response = RESTResponse(http_response)
+        file_path = None
+        try:
+            file_object = self.deserialize(
+                mock_response, response_types_mixed, True)
+            self.assertTrue(isinstance(file_object, file_type))
+            file_path = file_object.name
+            self.assertFalse(file_object.closed)
+            file_object.close()
+            if six.PY3:
+                file_data = file_data.encode('utf-8')
+            with open(file_path, 'rb') as other_file_object:
+                self.assertEqual(other_file_object.read(), file_data)
+        finally:
+            os.unlink(file_path)
+        """
 
     def test_test_body_with_file_schema(self):
         """Test case for test_body_with_file_schema
