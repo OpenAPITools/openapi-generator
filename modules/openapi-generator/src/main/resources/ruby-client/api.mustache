@@ -187,7 +187,7 @@ module {{moduleName}}
       return_types_map = {
       {{/-first}}
         {{^isWildcard}}
-        {{code}} => '{{dataType}}',
+        {{code}} => {{#dataType}}“{{dataType}}“{{/dataType}}{{^dataType}}nil{{/dataType}},
         {{/isWildcard}}
       {{#-last}}
       }
