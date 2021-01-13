@@ -64,7 +64,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       return_types_map = {
-        200 => 'Object',
+        200 => “Object“,
       }
 
       new_options = opts.merge(
@@ -130,7 +130,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       return_types_map = {
-        200 => 'Object',
+        200 => “Object“,
       }
 
       new_options = opts.merge(

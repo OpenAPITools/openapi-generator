@@ -58,7 +58,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       return_types_map = {
-        200 => 'HealthCheckResult',
+        200 => “HealthCheckResult“,
       }
 
       new_options = opts.merge(
@@ -192,7 +192,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       return_types_map = {
-        200 => 'Boolean',
+        200 => “Boolean“,
       }
 
       new_options = opts.merge(
@@ -256,7 +256,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       return_types_map = {
-        200 => 'OuterComposite',
+        200 => “OuterComposite“,
       }
 
       new_options = opts.merge(
@@ -320,7 +320,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       return_types_map = {
-        200 => 'Float',
+        200 => “Float“,
       }
 
       new_options = opts.merge(
@@ -384,7 +384,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       return_types_map = {
-        200 => 'String',
+        200 => “String“,
       }
 
       new_options = opts.merge(
@@ -587,7 +587,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       return_types_map = {
-        200 => 'Client',
+        200 => “Client“,
       }
 
       new_options = opts.merge(

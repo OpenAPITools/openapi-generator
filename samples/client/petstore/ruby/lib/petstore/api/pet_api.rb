@@ -196,8 +196,8 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       return_types_map = {
-        200 => 'Array&lt;Pet&gt;',
-        400 => '',
+        200 => “Array&lt;Pet&gt;“,
+        400 => nil,
       }
 
       new_options = opts.merge(
@@ -266,8 +266,8 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       return_types_map = {
-        200 => 'Array&lt;Pet&gt;',
-        400 => '',
+        200 => “Array&lt;Pet&gt;“,
+        400 => nil,
       }
 
       new_options = opts.merge(
@@ -335,9 +335,9 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       return_types_map = {
-        200 => 'Pet',
-        400 => '',
-        404 => '',
+        200 => “Pet“,
+        400 => nil,
+        404 => nil,
       }
 
       new_options = opts.merge(
@@ -545,7 +545,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       return_types_map = {
-        200 => 'ApiResponse',
+        200 => “ApiResponse“,
       }
 
       new_options = opts.merge(
@@ -623,7 +623,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       return_types_map = {
-        200 => 'ApiResponse',
+        200 => “ApiResponse“,
       }
 
       new_options = opts.merge(

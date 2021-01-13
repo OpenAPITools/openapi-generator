@@ -322,9 +322,9 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       return_types_map = {
-        200 => 'User',
-        400 => '',
-        404 => '',
+        200 => “User“,
+        400 => nil,
+        404 => nil,
       }
 
       new_options = opts.merge(
@@ -398,8 +398,8 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       return_types_map = {
-        200 => 'String',
-        400 => '',
+        200 => “String“,
+        400 => nil,
       }
 
       new_options = opts.merge(
