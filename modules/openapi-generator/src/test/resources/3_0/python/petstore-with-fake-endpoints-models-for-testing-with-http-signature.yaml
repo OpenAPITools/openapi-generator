@@ -1159,6 +1159,32 @@ paths:
       responses:
         "200":
           description: Success
+  /fake/download_attachment/{fileName}:
+    get:
+      tags:
+        - fake
+      summary: Returns the requested file as "file download" i.e. with content-disposition = attachment
+      operationId: downloadAttachment
+      parameters:
+        - name: fileName
+          in: path
+          description: file name
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: binary
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
+              description: "describes the received file. Looks like: 'attachment; filename=fileName.txt'"
   '/fake/uploadFile':
     post:
       tags:
