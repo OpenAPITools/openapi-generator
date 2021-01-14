@@ -146,6 +146,10 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     {{#pathParams}}
     QString {{paramName}}PathParam("{");
     {{paramName}}PathParam.append("{{baseName}}").append("}");
+    QString pathParamStyle = "{{style}}";
+    bool isExplode = {{isExplode}};
+    bool isArray = {{isArray}};
+    bool isString = {{isString}};
     fullPath.replace({{paramName}}PathParam, QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
     {{/pathParams}}{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
     if(_apiKeys.contains("{{name}}")){
@@ -168,7 +172,12 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
         b64.append(_username.toUtf8() + ":" + _password.toUtf8());
         addHeaders("Authorization","Basic " + b64.toBase64());
     }{{/isBasicBasic}}{{/authMethods}}
-{{#queryParams}}{{^collectionFormat}}
+{{#queryParams}}
+    QString queryParamStyle = "{{style}}";
+    bool isExplode = {{isExplode}};
+    bool isArray = {{isArray}};
+    bool isString = {{isString}};
+{{^collectionFormat}}
     if (fullPath.indexOf("?") > 0)
         fullPath.append("&");
     else
@@ -219,7 +228,12 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     worker->setResponseCompressionEnabled(isResponseCompressionEnabled);
     worker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
     {{prefix}}HttpRequestInput input(fullPath, "{{httpMethod}}");
-{{#formParams}}{{^isFile}}
+{{#formParams}}
+    QString formParamStyle = "{{style}}";
+    bool isExplode = {{isExplode}};
+    bool isArray = {{isArray}};
+    bool isString = {{isString}};
+{{^isFile}}
     input.add_var("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}));{{/isFile}}{{#isFile}}
     input.add_file("{{baseName}}", {{paramName}}.local_filename, {{paramName}}.request_filename, {{paramName}}.mime_type);{{/isFile}}{{/formParams}}{{#bodyParams}}{{#isContainer}}{{#isArray}}
     QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}).toArray());{{/isArray}}{{#isMap}}
@@ -232,6 +246,10 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     QByteArray output = {{paramName}}.asByteArray();{{/isFile}}
     input.request_body.append(output);
 {{/isContainer}}{{/bodyParams}}{{#headerParams}}
+    QString queryParamStyle = "{{style}}";
+    bool isExplode = {{isExplode}};
+    bool isArray = {{isArray}};
+    bool isString = {{isString}};
     if (!::{{cppNamespace}}::toStringValue({{paramName}}).isEmpty()) {
         input.headers.insert("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}));
     }
