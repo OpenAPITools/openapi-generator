@@ -524,6 +524,7 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "true");
+        codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
@@ -533,6 +534,7 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, true);
+        codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
@@ -542,6 +544,7 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "false");
+        codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
@@ -551,6 +554,7 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, false);
+        codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
@@ -560,6 +564,7 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "blibb");
+        codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
@@ -569,6 +574,7 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, 42L);
+        codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }

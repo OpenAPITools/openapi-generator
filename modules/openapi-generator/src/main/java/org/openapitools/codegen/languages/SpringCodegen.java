@@ -39,6 +39,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -136,7 +137,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-spring";
 
-        // clioOptions default redefinition need to be updated
+        // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
@@ -190,6 +191,76 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     @Override
+    protected Object defaultValue(String key) {
+        switch (key) {
+
+            // cliOptions default redefinition need to be updated
+            case CodegenConstants.INVOKER_PACKAGE:
+                return this.getInvokerPackage();
+            case CodegenConstants.ARTIFACT_ID:
+                return this.getArtifactId();
+            case CodegenConstants.API_PACKAGE:
+                return apiPackage;
+            case CodegenConstants.MODEL_PACKAGE:
+                return modelPackage;
+
+            case "jackson":
+                return true;
+            case "openbrace":
+                return OPEN_BRACE;
+            case "closebrace":
+                return CLOSE_BRACE;
+            case TITLE:
+                return title;
+            case CONFIG_PACKAGE:
+                return this.getConfigPackage();
+            case BASE_PACKAGE:
+                return this.getBasePackage();
+            case INTERFACE_ONLY:
+                return interfaceOnly;
+            case DELEGATE_PATTERN:
+                return delegatePattern;
+            case SINGLE_CONTENT_TYPES:
+                return singleContentTypes;
+            case JAVA_8:
+                return java8;
+            case SKIP_DEFAULT_INTERFACE:
+                return skipDefaultInterface;
+            case ASYNC:
+                return async;
+            case REACTIVE:
+                return reactive;
+            case RESPONSE_WRAPPER:
+                return responseWrapper;
+            case VIRTUAL_SERVICE:
+                return virtualService;
+            case USE_TAGS:
+                return useTags;
+            case USE_BEANVALIDATION:
+                return useBeanValidation;
+            case PERFORM_BEANVALIDATION:
+                return performBeanValidation;
+            case IMPLICIT_HEADERS:
+                return implicitHeaders;
+            case OPENAPI_DOCKET_CONFIG:
+                return openapiDocketConfig;
+            case API_FIRST:
+                return apiFirst;
+            case USE_OPTIONAL:
+                return useOptional;
+            case HATEOAS:
+                return hateoas;
+            case RETURN_SUCCESS_CODE:
+                return returnSuccessCode;
+            case UNHANDLED_EXCEPTION_HANDLING:
+                return unhandledException;
+            case CodegenConstants.LIBRARY:
+                return library;
+        }
+        return super.defaultValue(key);
+    }
+
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
@@ -206,9 +277,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public void processOpts() {
-
         List<Pair<String, String>> configOptions = additionalProperties.entrySet().stream()
-                .filter(e -> !Arrays.asList(API_FIRST, "hideGenerationTimestamp").contains(e.getKey()))
+                .filter(e -> !asList(API_FIRST, "hideGenerationTimestamp").contains(e.getKey()))
                 .filter(e -> cliOptions.stream().map(CliOption::getOpt).anyMatch(opt -> opt.equals(e.getKey())))
                 .map(e -> Pair.of(e.getKey(), e.getValue().toString()))
                 .collect(Collectors.toList());
@@ -257,36 +327,35 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (additionalProperties.containsKey(VIRTUAL_SERVICE)) {
-            this.setVirtualService(Boolean.valueOf(additionalProperties.get(VIRTUAL_SERVICE).toString()));
+            this.setVirtualService((boolean) additionalProperties.get(VIRTUAL_SERVICE));
         }
 
         if (additionalProperties.containsKey(INTERFACE_ONLY)) {
-            this.setInterfaceOnly(Boolean.valueOf(additionalProperties.get(INTERFACE_ONLY).toString()));
+            this.setInterfaceOnly((boolean) additionalProperties.get(INTERFACE_ONLY));
         }
 
         if (additionalProperties.containsKey(DELEGATE_PATTERN)) {
-            this.setDelegatePattern(Boolean.valueOf(additionalProperties.get(DELEGATE_PATTERN).toString()));
+            this.setDelegatePattern((boolean) additionalProperties.get(DELEGATE_PATTERN));
         }
 
         if (additionalProperties.containsKey(SINGLE_CONTENT_TYPES)) {
-            this.setSingleContentTypes(Boolean.valueOf(additionalProperties.get(SINGLE_CONTENT_TYPES).toString()));
+            this.setSingleContentTypes((boolean) additionalProperties.get(SINGLE_CONTENT_TYPES));
         }
 
         if (additionalProperties.containsKey(SKIP_DEFAULT_INTERFACE)) {
-            this.setSkipDefaultInterface(Boolean.valueOf(additionalProperties.get(SKIP_DEFAULT_INTERFACE).toString()));
+            this.setSkipDefaultInterface((boolean) additionalProperties.get(SKIP_DEFAULT_INTERFACE));
         }
 
         if (additionalProperties.containsKey(ASYNC)) {
-            this.setAsync(Boolean.valueOf(additionalProperties.get(ASYNC).toString()));
-            //fix for issue/1164
-            convertPropertyToBooleanAndWriteBack(ASYNC);
+            this.setAsync((boolean) additionalProperties.get(ASYNC));
         }
 
         if (additionalProperties.containsKey(REACTIVE)) {
-            if (!SPRING_BOOT.equals(library)) {
+            boolean isReactive = (boolean) additionalProperties.get(REACTIVE);
+            if (!SPRING_BOOT.equals(library) && isReactive) {
                 throw new IllegalArgumentException("Currently, reactive option is only supported with Spring-boot");
             }
-            this.setReactive(Boolean.valueOf(additionalProperties.get(REACTIVE).toString()));
+            this.setReactive((boolean) additionalProperties.get(REACTIVE));
         }
 
         if (additionalProperties.containsKey(RESPONSE_WRAPPER)) {
@@ -294,54 +363,48 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (additionalProperties.containsKey(USE_TAGS)) {
-            this.setUseTags(Boolean.valueOf(additionalProperties.get(USE_TAGS).toString()));
+            this.setUseTags((boolean) additionalProperties.get(USE_TAGS));
         }
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
         if (additionalProperties.containsKey(PERFORM_BEANVALIDATION)) {
             this.setPerformBeanValidation(convertPropertyToBoolean(PERFORM_BEANVALIDATION));
         }
-        writePropertyBack(PERFORM_BEANVALIDATION, performBeanValidation);
 
         if (additionalProperties.containsKey(USE_OPTIONAL)) {
             this.setUseOptional(convertPropertyToBoolean(USE_OPTIONAL));
         }
 
         if (additionalProperties.containsKey(IMPLICIT_HEADERS)) {
-            this.setImplicitHeaders(Boolean.valueOf(additionalProperties.get(IMPLICIT_HEADERS).toString()));
+            this.setImplicitHeaders((boolean) additionalProperties.get(IMPLICIT_HEADERS));
         }
 
         if (additionalProperties.containsKey(OPENAPI_DOCKET_CONFIG)) {
-            this.setOpenapiDocketConfig(Boolean.valueOf(additionalProperties.get(OPENAPI_DOCKET_CONFIG).toString()));
+            this.setOpenapiDocketConfig((boolean) additionalProperties.get(OPENAPI_DOCKET_CONFIG));
         }
 
         if (additionalProperties.containsKey(API_FIRST)) {
-            this.setApiFirst(Boolean.valueOf(additionalProperties.get(API_FIRST).toString()));
+            this.setApiFirst((boolean) additionalProperties.get(API_FIRST));
         }
 
         if (additionalProperties.containsKey(HATEOAS)) {
-            this.setHateoas(Boolean.valueOf(additionalProperties.get(HATEOAS).toString()));
+            this.setHateoas((boolean) additionalProperties.get(HATEOAS));
         }
 
         if (additionalProperties.containsKey(RETURN_SUCCESS_CODE)) {
-            this.setReturnSuccessCode(Boolean.valueOf(additionalProperties.get(RETURN_SUCCESS_CODE).toString()));
+            this.setReturnSuccessCode((boolean) additionalProperties.get(RETURN_SUCCESS_CODE));
         }
 
         if (additionalProperties.containsKey(UNHANDLED_EXCEPTION_HANDLING)) {
-            this.setUnhandledException(Boolean.valueOf(additionalProperties.get(UNHANDLED_EXCEPTION_HANDLING).toString()));
+            this.setUnhandledException((boolean) additionalProperties.get(UNHANDLED_EXCEPTION_HANDLING));
         }
         additionalProperties.put(UNHANDLED_EXCEPTION_HANDLING, this.isUnhandledException());
 
         typeMapping.put("file", "org.springframework.core.io.Resource");
         importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
-
-        if (useOptional) {
-            writePropertyBack(USE_OPTIONAL, useOptional);
-        }
 
         if (this.interfaceOnly && this.delegatePattern) {
             if (this.java8) {
@@ -548,7 +611,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put(TITLE, this.title);
         }
 
-        if(!additionalProperties.containsKey(SERVER_PORT)) {
+        if (!additionalProperties.containsKey(SERVER_PORT)) {
             URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
             this.additionalProperties.put(SERVER_PORT, URLPathUtils.getPort(url, 8080));
         }
@@ -567,7 +630,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                             }
                             if (operation.getTags().size() > 0) {
                                 String tag = operation.getTags().get(0);
-                                operation.setTags(Arrays.asList(tag));
+                                operation.setTags(asList(tag));
                             }
                             operation.addExtension("x-tags", tags);
                         }
@@ -764,9 +827,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.singleContentTypes = singleContentTypes;
     }
 
-    public void setSkipDefaultInterface(boolean skipDefaultInterface) { this.skipDefaultInterface = skipDefaultInterface; }
+    public void setSkipDefaultInterface(boolean skipDefaultInterface) {
+        this.skipDefaultInterface = skipDefaultInterface;
+    }
 
-    public void setJava8(boolean java8) { this.java8 = java8; }
+    public void setJava8(boolean java8) {
+        this.java8 = java8;
+    }
 
     public void setVirtualService(boolean virtualService) {
         this.virtualService = virtualService;
@@ -882,12 +949,37 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (p.defaultValue == null) {
             return;
         }
-        Boolean fixLong = (p.isLong && "l".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
-        Boolean fixDouble = (p.isDouble && "d".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
-        Boolean fixFloat = (p.isFloat && "f".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
+        Boolean fixLong = (p.isLong && "l".equals(p.defaultValue.substring(p.defaultValue.length() - 1)));
+        Boolean fixDouble = (p.isDouble && "d".equals(p.defaultValue.substring(p.defaultValue.length() - 1)));
+        Boolean fixFloat = (p.isFloat && "f".equals(p.defaultValue.substring(p.defaultValue.length() - 1)));
         if (fixLong || fixDouble || fixFloat) {
-            p.defaultValue = p.defaultValue.substring(0, p.defaultValue.length()-1);
+            p.defaultValue = p.defaultValue.substring(0, p.defaultValue.length() - 1);
         }
     }
 
+    @Override
+    protected Set<String> booleanAdditionalProperties() {
+        Set<String> parent = super.booleanAdditionalProperties();
+        Set<String> props = new HashSet<>(parent);
+        props.addAll(asList(
+                INTERFACE_ONLY,
+                DELEGATE_PATTERN,
+                SINGLE_CONTENT_TYPES,
+                SKIP_DEFAULT_INTERFACE,
+                ASYNC,
+                REACTIVE,
+                VIRTUAL_SERVICE,
+                USE_TAGS,
+                USE_BEANVALIDATION,
+                PERFORM_BEANVALIDATION,
+                IMPLICIT_HEADERS,
+                OPENAPI_DOCKET_CONFIG,
+                API_FIRST,
+                USE_OPTIONAL,
+                HATEOAS,
+                RETURN_SUCCESS_CODE,
+                UNHANDLED_EXCEPTION_HANDLING
+        ));
+        return props;
+    }
 }
