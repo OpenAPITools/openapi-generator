@@ -54,22 +54,35 @@ class TestFakeApi(unittest.TestCase):
         return RESTResponse(http_response)
 
     @staticmethod
-    def assert_request_called_with(mock_method, url, body, post_params=[], content_type='application/json'):
-        mock_method.assert_called_with(
-            'POST',
-            url,
+    def assert_request_called_with(
+        mock_method,
+        url,
+        accept='application/json',
+        http_method='POST',
+        **kwargs
+    ):
+        headers = {
+            'Accept': accept,
+            'User-Agent': 'OpenAPI-Generator/1.0.0/python',
+        }
+        if 'content_type' in kwargs:
+            headers['Content-Type'] = kwargs['content_type']
+        used_kwargs = dict(
             _preload_content=True,
             _request_timeout=None,
-            body=body,
-            headers={
-                'Accept': 'application/json',
-                'User-Agent': 'OpenAPI-Generator/1.0.0/python',
-                'Content-Type': content_type
-            },
-            post_params=post_params,
+            headers=headers,
             query_params=[]
         )
-
+        if 'post_params' in kwargs:
+            used_kwargs['post_params'] = kwargs['post_params']
+        if 'body' in kwargs:
+            used_kwargs['body'] = kwargs['body']
+        else:
+            mock_method.assert_called_with(
+                http_method,
+                url,
+                **used_kwargs
+            )
 
     def test_array_model(self):
         """Test case for array_model
@@ -88,7 +101,7 @@ class TestFakeApi(unittest.TestCase):
             mock_method.return_value = self.mock_response(json_data)
 
             response = endpoint(body=body)
-            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/arraymodel', json_data)
+            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/arraymodel', body=json_data)
 
             assert isinstance(response, animal_farm.AnimalFarm)
             assert response == body
@@ -145,7 +158,7 @@ class TestFakeApi(unittest.TestCase):
 
             response = endpoint(enum_test=body)
             self.assert_request_called_with(
-                mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/enum-test', json_value)
+                mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/enum-test', body=json_value)
 
             assert isinstance(response, EnumTest)
             assert response == body
@@ -161,7 +174,7 @@ class TestFakeApi(unittest.TestCase):
 
             response = endpoint(enum_test=body)
             self.assert_request_called_with(
-                mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/enum-test', json_value)
+                mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/enum-test', body=json_value)
 
             assert isinstance(response, EnumTest)
             assert response == body
@@ -185,7 +198,7 @@ class TestFakeApi(unittest.TestCase):
             mock_method.return_value = self.mock_response(value_simple)
 
             response = endpoint(array_of_enums=body)
-            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/array-of-enums', value_simple)
+            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/array-of-enums', body=value_simple)
 
             assert isinstance(response, array_of_enums.ArrayOfEnums)
             assert response.value == value
@@ -206,7 +219,7 @@ class TestFakeApi(unittest.TestCase):
             mock_method.return_value = self.mock_response(value)
 
             response = endpoint(body=body)
-            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/number', value)
+            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/number', body=value)
 
             assert isinstance(response, number_with_validations.NumberWithValidations)
             assert response.value == value
@@ -249,7 +262,7 @@ class TestFakeApi(unittest.TestCase):
                 self.assert_request_called_with(
                     mock_method,
                     'http://petstore.swagger.io:80/v2/fake/refs/object_model_with_ref_props',
-                    json_payload
+                    body=json_payload
                 )
 
                 assert isinstance(response, expected_model.__class__)
@@ -287,7 +300,7 @@ class TestFakeApi(unittest.TestCase):
                 self.assert_request_called_with(
                     mock_method,
                     'http://petstore.swagger.io:80/v2/fake/refs/composed_one_of_number_with_validations',
-                    value_simple
+                    body=value_simple
                 )
 
                 assert isinstance(response, body.__class__)
@@ -308,7 +321,7 @@ class TestFakeApi(unittest.TestCase):
             mock_method.return_value = self.mock_response(value_simple)
 
             response = endpoint(body=body)
-            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/string', value_simple)
+            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/string', body=value_simple)
 
             assert isinstance(response, str)
             assert response == value_simple
@@ -330,7 +343,7 @@ class TestFakeApi(unittest.TestCase):
             mock_method.return_value = self.mock_response(value)
 
             response = endpoint(body=body)
-            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/enum', value)
+            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/enum', body=value)
 
             assert isinstance(response, string_enum.StringEnum)
             assert response.value == value
@@ -477,14 +490,19 @@ class TestFakeApi(unittest.TestCase):
         with patch.object(RESTClientObject, 'request') as mock_method:
             mock_method.return_value = mock_response
             try:
-                file_object = self.api.download_attachment(file_name=file_name)
+                file_object = self.api.download_attachment(file_name='download-text')
+                self.assert_request_called_with(
+                    mock_method,
+                    'http://www.jtricks.com/download-text',
+                    http_method='GET',
+                    accept='text/plain',
+                )
                 self.assertTrue(isinstance(file_object, file_type))
-                file_path = file_object.name
                 self.assertFalse(file_object.closed)
                 self.assertEqual(file_object.read(), file_data.encode('utf-8'))
             finally:
                 file_object.close()
-                os.unlink(file_path)
+                os.unlink(file_object.name)
 
     def test_test_body_with_file_schema(self):
         """Test case for test_body_with_file_schema

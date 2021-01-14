@@ -1159,8 +1159,10 @@ paths:
       responses:
         "200":
           description: Success
-  /fake/download_attachment/{fileName}:
+  /{fileName}:
     get:
+      servers:
+        - url: http://www.jtricks.com
       tags:
         - fake
       summary: Returns the requested file as "file download" i.e. with content-disposition = attachment

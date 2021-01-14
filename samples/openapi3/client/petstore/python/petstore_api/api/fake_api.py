@@ -676,10 +676,15 @@ class FakeApi(object):
             settings={
                 'response_type': (file_type,),
                 'auth': [],
-                'endpoint_path': '/fake/download_attachment/{fileName}',
+                'endpoint_path': '/{fileName}',
                 'operation_id': 'download_attachment',
                 'http_method': 'GET',
-                'servers': None,
+                'servers': [
+                    {
+                        'url': "http://www.jtricks.com",
+                        'description': "No description provided",
+                    },
+                ]
             },
             params_map={
                 'all': [

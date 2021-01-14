@@ -9,7 +9,7 @@ Method | HTTP request | Description
 [**array_of_enums**](FakeApi.md#array_of_enums) | **POST** /fake/refs/array-of-enums | Array of Enums
 [**boolean**](FakeApi.md#boolean) | **POST** /fake/refs/boolean | 
 [**composed_one_of_number_with_validations**](FakeApi.md#composed_one_of_number_with_validations) | **POST** /fake/refs/composed_one_of_number_with_validations | 
-[**download_attachment**](FakeApi.md#download_attachment) | **GET** /fake/download_attachment/{fileName} | Returns the requested file as \&quot;file download\&quot; i.e. with content-disposition &#x3D; attachment
+[**download_attachment**](FakeApi.md#download_attachment) | **GET** /{fileName} | Returns the requested file as \&quot;file download\&quot; i.e. with content-disposition &#x3D; attachment
 [**enum_test**](FakeApi.md#enum_test) | **POST** /fake/refs/enum-test | Object contains enum properties and array properties containing enums
 [**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 [**mammal**](FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
