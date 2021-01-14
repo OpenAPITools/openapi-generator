@@ -150,28 +150,28 @@ ext {
 }
 
 dependencies {
-    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
-    compile "com.google.code.findbugs:jsr305:3.0.2"
-    compile "io.projectreactor:reactor-core:$reactor_version"
-    compile "org.springframework:spring-webflux:$spring_web_version"
-    compile "io.projectreactor.ipc:reactor-netty:$reactor_netty_version"
-    compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
-    compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
+    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    implementation "com.google.code.findbugs:jsr305:3.0.2"
+    implementation "io.projectreactor:reactor-core:$reactor_version"
+    implementation "org.springframework:spring-webflux:$spring_web_version"
+    implementation "io.projectreactor.ipc:reactor-netty:$reactor_netty_version"
+    implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    implementation "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
     {{#openApiNullable}}
-    compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
+    implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     {{/openApiNullable}}
     {{#joda}}
-    compile "joda-time:joda-time:$jodatime_version"
+    implementation "joda-time:joda-time:$jodatime_version"
     {{/joda}}
     {{#java8}}
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/java8}}
     {{^java8}}
-    compile "com.brsanthu:migbase64:2.2"
+    implementation "com.brsanthu:migbase64:2.2"
     {{/java8}}
-    compile "javax.annotation:javax.annotation-api:$javax_annotation_version"
-    testCompile "junit:junit:$junit_version"
+    implementation "javax.annotation:javax.annotation-api:$javax_annotation_version"
+    testImplementation "junit:junit:$junit_version"
 }
 
