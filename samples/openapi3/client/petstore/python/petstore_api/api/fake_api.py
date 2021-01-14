@@ -715,7 +715,7 @@ class FakeApi(object):
             },
             headers_map={
                 'accept': [
-                    '*/*'
+                    'text/plain'
                 ],
                 'content_type': [],
             },

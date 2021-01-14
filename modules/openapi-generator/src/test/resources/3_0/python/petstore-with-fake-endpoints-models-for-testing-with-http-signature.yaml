@@ -1176,7 +1176,7 @@ paths:
         200:
           description: successful operation
           content:
-            '*/*':
+            'text/plain':
               schema:
                 type: string
                 format: binary
@@ -1185,7 +1185,7 @@ paths:
               schema:
                 type: string
               description: "describes the received file. Looks like: 'attachment; filename=fileName.txt'"
-  '/fake/uploadFile':
+  /fake/uploadFile:
     post:
       tags:
         - fake
@@ -1214,7 +1214,7 @@ paths:
                   format: binary
               required:
                 - file
-  '/fake/uploadFiles':
+  /fake/uploadFiles:
     post:
       tags:
         - fake

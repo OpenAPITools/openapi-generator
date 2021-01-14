@@ -401,7 +401,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: text/plain
 
 ### HTTP response details
 | Status code | Description | Response headers |

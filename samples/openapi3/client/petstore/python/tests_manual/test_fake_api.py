@@ -19,6 +19,7 @@ from unittest.mock import patch
 import petstore_api
 from petstore_api.api.fake_api import FakeApi  # noqa: E501
 from petstore_api.rest import RESTClientObject, RESTResponse
+from petstore_api.model_utils import file_type
 
 HTTPResponse = namedtuple(
     'urllib3_response_HTTPResponse',
@@ -451,17 +452,10 @@ class TestFakeApi(unittest.TestCase):
 
     def test_download_attachment(self):
         """Ensures that file deserialization works"""
-        # TODO add an endpoint for this and connect it in here
-
-        """
-        response_types_mixed = (file_type,)
 
         # sample from http://www.jtricks.com/download-text
-        HTTPResponse = namedtuple(
-            'urllib3_response_HTTPResponse',
-            ['status', 'reason', 'data', 'getheaders', 'getheader']
-        )
-        headers = {'Content-Disposition': 'attachment; filename=content.txt'}
+        file_name = 'content.txt'
+        headers = {'Content-Disposition': 'attachment; filename={}'.format(file_name), 'Content-Type': 'text/plain'}
         def get_headers():
             return headers
         def get_header(name, default=None):
@@ -478,23 +472,19 @@ class TestFakeApi(unittest.TestCase):
             getheaders=get_headers,
             getheader=get_header
         )
-        # response which is deserialized to a file
+        # deserialize response to a file
         mock_response = RESTResponse(http_response)
-        file_path = None
-        try:
-            file_object = self.deserialize(
-                mock_response, response_types_mixed, True)
-            self.assertTrue(isinstance(file_object, file_type))
-            file_path = file_object.name
-            self.assertFalse(file_object.closed)
-            file_object.close()
-            if six.PY3:
-                file_data = file_data.encode('utf-8')
-            with open(file_path, 'rb') as other_file_object:
-                self.assertEqual(other_file_object.read(), file_data)
-        finally:
-            os.unlink(file_path)
-        """
+        with patch.object(RESTClientObject, 'request') as mock_method:
+            mock_method.return_value = mock_response
+            try:
+                file_object = self.api.download_attachment(file_name=file_name)
+                self.assertTrue(isinstance(file_object, file_type))
+                file_path = file_object.name
+                self.assertFalse(file_object.closed)
+                self.assertEqual(file_object.read(), file_data.encode('utf-8'))
+            finally:
+                file_object.close()
+                os.unlink(file_path)
 
     def test_test_body_with_file_schema(self):
         """Test case for test_body_with_file_schema
