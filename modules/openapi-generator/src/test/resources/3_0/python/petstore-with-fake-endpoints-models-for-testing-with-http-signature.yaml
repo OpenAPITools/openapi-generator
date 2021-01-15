@@ -1241,6 +1241,30 @@ paths:
                   items:
                     type: string
                     format: binary
+  /fake/uploadDownloadFile:
+    post:
+      tags:
+        - fake
+      summary: uploads a file and downloads a file
+      description: ''
+      operationId: uploadDownloadFile
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+                description: file to download
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+              description: file to upload
   /fake/health:
     get:
       tags:
