@@ -232,7 +232,6 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
      * @return an {@link HttpHandler} of type {@link RoutingHandler}
      */
     @javax.annotation.Nonnull
-    @Override
     public HttpHandler getStatefulHandler() {
         return getStatefulHandler(false);
     }
