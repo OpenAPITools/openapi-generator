@@ -201,8 +201,6 @@ class ApiClient(object):
             e.body = e.body.decode('utf-8')
             raise e
 
-        content_type = response_data.getheader('content-type')
-
         self.last_response = response_data
 
         return_data = response_data
@@ -213,14 +211,14 @@ class ApiClient(object):
 
         # deserialize response data
         if response_type:
-            for one_response_type in response_type:
-                if one_response_type is not file_type:
-                    match = None
-                    if content_type is not None:
-                        match = re.search(r"charset=([a-zA-Z\-\d]+)[\s\;]?", content_type)
-                    encoding = match.group(1) if match else "utf-8"
-                    response_data.data = response_data.data.decode(encoding)
-                    break
+            if response_type != (file_type,):
+                encoding = "utf-8"
+                content_type = response_data.getheader('content-type')
+                if content_type is not None:
+                    match = re.search(r"charset=([a-zA-Z\-\d]+)[\s\;]?", content_type)
+                    if match:
+                        encoding = match.group(1)
+                response_data.data = response_data.data.decode(encoding)
 
             return_data = self.deserialize(
                 response_data,
