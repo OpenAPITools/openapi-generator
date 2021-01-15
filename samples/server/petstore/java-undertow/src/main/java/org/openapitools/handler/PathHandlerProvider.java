@@ -13,6 +13,7 @@ package org.openapitools.handler;
 import com.networknt.server.HandlerProvider;
 import io.undertow.Handlers;
 import io.undertow.server.HttpHandler;
+import io.undertow.server.HttpServerExchange;
 import io.undertow.server.RoutingHandler;
 import io.undertow.server.handlers.PathHandler;
 import io.undertow.util.Methods;
@@ -89,127 +90,128 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
      * @param basePath base path to set for all endpoints
      * @return an {@link HttpHandler} of type {@link RoutingHandler}
      */
+    @SuppressWarnings("Convert2Lambda")
     @javax.annotation.Nonnull
     public HttpHandler getHandler(final String basePath) {
         return Handlers.routing()
             .add(Methods.POST, basePath + "/pet", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    addPet.handleRequest(exchange);
+                    addPet().handleRequest(exchange);
                 }
             })
             .add(Methods.DELETE, basePath + "/pet/{petId}", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    deletePet.handleRequest(exchange);
+                    deletePet().handleRequest(exchange);
                 }
             })
             .add(Methods.GET, basePath + "/pet/findByStatus", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    findPetsByStatus.handleRequest(exchange);
+                    findPetsByStatus().handleRequest(exchange);
                 }
             })
             .add(Methods.GET, basePath + "/pet/findByTags", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    findPetsByTags.handleRequest(exchange);
+                    findPetsByTags().handleRequest(exchange);
                 }
             })
             .add(Methods.GET, basePath + "/pet/{petId}", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    getPetById.handleRequest(exchange);
+                    getPetById().handleRequest(exchange);
                 }
             })
             .add(Methods.PUT, basePath + "/pet", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    updatePet.handleRequest(exchange);
+                    updatePet().handleRequest(exchange);
                 }
             })
             .add(Methods.POST, basePath + "/pet/{petId}", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    updatePetWithForm.handleRequest(exchange);
+                    updatePetWithForm().handleRequest(exchange);
                 }
             })
             .add(Methods.POST, basePath + "/pet/{petId}/uploadImage", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    uploadFile.handleRequest(exchange);
+                    uploadFile().handleRequest(exchange);
                 }
             })
             .add(Methods.DELETE, basePath + "/store/order/{orderId}", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    deleteOrder.handleRequest(exchange);
+                    deleteOrder().handleRequest(exchange);
                 }
             })
             .add(Methods.GET, basePath + "/store/inventory", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    getInventory.handleRequest(exchange);
+                    getInventory().handleRequest(exchange);
                 }
             })
             .add(Methods.GET, basePath + "/store/order/{orderId}", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    getOrderById.handleRequest(exchange);
+                    getOrderById().handleRequest(exchange);
                 }
             })
             .add(Methods.POST, basePath + "/store/order", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    placeOrder.handleRequest(exchange);
+                    placeOrder().handleRequest(exchange);
                 }
             })
             .add(Methods.POST, basePath + "/user", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    createUser.handleRequest(exchange);
+                    createUser().handleRequest(exchange);
                 }
             })
             .add(Methods.POST, basePath + "/user/createWithArray", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    createUsersWithArrayInput.handleRequest(exchange);
+                    createUsersWithArrayInput().handleRequest(exchange);
                 }
             })
             .add(Methods.POST, basePath + "/user/createWithList", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    createUsersWithListInput.handleRequest(exchange);
+                    createUsersWithListInput().handleRequest(exchange);
                 }
             })
             .add(Methods.DELETE, basePath + "/user/{username}", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    deleteUser.handleRequest(exchange);
+                    deleteUser().handleRequest(exchange);
                 }
             })
             .add(Methods.GET, basePath + "/user/{username}", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    getUserByName.handleRequest(exchange);
+                    getUserByName().handleRequest(exchange);
                 }
             })
             .add(Methods.GET, basePath + "/user/login", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    loginUser.handleRequest(exchange);
+                    loginUser().handleRequest(exchange);
                 }
             })
             .add(Methods.GET, basePath + "/user/logout", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    logoutUser.handleRequest(exchange);
+                    logoutUser().handleRequest(exchange);
                 }
             })
             .add(Methods.PUT, basePath + "/user/{username}", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    updateUser.handleRequest(exchange);
+                    updateUser().handleRequest(exchange);
                 }
             })
         ;
