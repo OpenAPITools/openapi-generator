@@ -275,7 +275,7 @@ Use specific imports for apis and models like:
 - `from petstore_api.api.default_api import DefaultApi`
 - `from petstore_api.model.pet import Pet`
 
-Solution 1:
+Solution 2:
 Before importing the package, adjust the maximum recursion limit as shown below:
 ```
 import sys
