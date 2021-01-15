@@ -264,6 +264,10 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
 
     return pet_local_var;
 end:
+    if (category_local_nonprim) {
+        category_free(category_local_nonprim);
+        category_local_nonprim = NULL;
+    }
     return NULL;
 
 }

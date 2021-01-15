@@ -52,7 +52,7 @@ import Foundation
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func addCredential() -> Self {
-        self.credential = {{projectName}}API.credential
+        credential = {{projectName}}API.credential
         return self
     }
 }

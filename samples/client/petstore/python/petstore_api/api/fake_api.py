@@ -11,7 +11,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-from petstore_api.api_client import ApiClient, Endpoint
+from petstore_api.api_client import ApiClient, Endpoint as _Endpoint
 from petstore_api.model_utils import (  # noqa: F401
     check_allowed_values,
     check_validations,
@@ -105,7 +105,7 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.array_model = Endpoint(
+        self.array_model = _Endpoint(
             settings={
                 'response_type': (AnimalFarm,),
                 'auth': [],
@@ -215,7 +215,7 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.boolean = Endpoint(
+        self.boolean = _Endpoint(
             settings={
                 'response_type': (bool,),
                 'auth': [],
@@ -329,7 +329,7 @@ class FakeApi(object):
                 xml_item
             return self.call_with_http_info(**kwargs)
 
-        self.create_xml_item = Endpoint(
+        self.create_xml_item = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -446,7 +446,7 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.number_with_validations = Endpoint(
+        self.number_with_validations = _Endpoint(
             settings={
                 'response_type': (NumberWithValidations,),
                 'auth': [],
@@ -556,7 +556,7 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.object_model_with_ref_props = Endpoint(
+        self.object_model_with_ref_props = _Endpoint(
             settings={
                 'response_type': (ObjectModelWithRefProps,),
                 'auth': [],
@@ -666,7 +666,7 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.string = Endpoint(
+        self.string = _Endpoint(
             settings={
                 'response_type': (str,),
                 'auth': [],
@@ -776,7 +776,7 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.string_enum = Endpoint(
+        self.string_enum = _Endpoint(
             settings={
                 'response_type': (StringEnum,),
                 'auth': [],
@@ -890,7 +890,7 @@ class FakeApi(object):
                 body
             return self.call_with_http_info(**kwargs)
 
-        self.test_body_with_file_schema = Endpoint(
+        self.test_body_with_file_schema = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -1009,7 +1009,7 @@ class FakeApi(object):
                 body
             return self.call_with_http_info(**kwargs)
 
-        self.test_body_with_query_params = Endpoint(
+        self.test_body_with_query_params = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -1131,7 +1131,7 @@ class FakeApi(object):
                 body
             return self.call_with_http_info(**kwargs)
 
-        self.test_client_model = Endpoint(
+        self.test_client_model = _Endpoint(
             settings={
                 'response_type': (Client,),
                 'auth': [],
@@ -1265,7 +1265,7 @@ class FakeApi(object):
                 header_number
             return self.call_with_http_info(**kwargs)
 
-        self.test_endpoint_enums_length_one = Endpoint(
+        self.test_endpoint_enums_length_one = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -1451,7 +1451,7 @@ class FakeApi(object):
                 byte
             return self.call_with_http_info(**kwargs)
 
-        self.test_endpoint_parameters = Endpoint(
+        self.test_endpoint_parameters = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [
@@ -1690,7 +1690,7 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.test_enum_parameters = Endpoint(
+        self.test_enum_parameters = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -1905,7 +1905,7 @@ class FakeApi(object):
                 required_int64_group
             return self.call_with_http_info(**kwargs)
 
-        self.test_group_parameters = Endpoint(
+        self.test_group_parameters = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -2046,7 +2046,7 @@ class FakeApi(object):
                 param
             return self.call_with_http_info(**kwargs)
 
-        self.test_inline_additional_properties = Endpoint(
+        self.test_inline_additional_properties = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -2165,7 +2165,7 @@ class FakeApi(object):
                 param2
             return self.call_with_http_info(**kwargs)
 
-        self.test_json_form_data = Endpoint(
+        self.test_json_form_data = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],

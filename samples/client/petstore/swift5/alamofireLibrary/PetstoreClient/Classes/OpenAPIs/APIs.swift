@@ -49,7 +49,7 @@ open class RequestBuilder<T> {
     }
 
     open func addCredential() -> Self {
-        self.credential = PetstoreClientAPI.credential
+        credential = PetstoreClientAPI.credential
         return self
     }
 }
