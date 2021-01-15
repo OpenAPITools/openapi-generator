@@ -258,7 +258,7 @@ class ApiClient(object):
 
     @classmethod
     def sanitize_for_serialization(cls, obj):
-        """Builds a JSON POST object.
+        """Prepares data for transmission before it is sent with the rest client
         If obj is None, return None.
         If obj is str, int, long, float, bool, return directly.
         If obj is datetime.datetime, datetime.date
@@ -266,9 +266,12 @@ class ApiClient(object):
         If obj is list, sanitize each element in the list.
         If obj is dict, return the dict.
         If obj is OpenAPI model, return the properties dict.
+        If obj is io.IOBase, return the bytes
         :param obj: The data to serialize.
         :return: The serialized form of data.
         """
+        if isinstance(obj, io.IOBase):
+            return cls.get_file_data_and_close_file(obj)
         if isinstance(obj, (ModelNormal, ModelComposed)):
             return {
                 key: cls.sanitize_for_serialization(val) for key, val in model_to_dict(obj, serialize=True).items()
@@ -516,6 +519,12 @@ class ApiClient(object):
                 new_params.append((k, v))
         return new_params
 
+    @staticmethod
+    def get_file_data_and_close_file(file_instance: io.IOBase) -> bytes:
+        file_data = file_instance.read()
+        file_instance.close()
+        return file_data
+
     def files_parameters(self, files: typing.Optional[typing.Dict[str, typing.List[io.IOBase]]] = None):
         """Builds form parameters.
 
@@ -541,12 +550,11 @@ class ApiClient(object):
                         "for %s must be open." % param_name
                     )
                 filename = os.path.basename(file_instance.name)
-                filedata = file_instance.read()
+                filedata = self.get_file_data_and_close_file(file_instance)
                 mimetype = (mimetypes.guess_type(filename)[0] or
                             'application/octet-stream')
                 params.append(
                     tuple([param_name, tuple([filename, filedata, mimetype])]))
-                file_instance.close()
 
         return params
 

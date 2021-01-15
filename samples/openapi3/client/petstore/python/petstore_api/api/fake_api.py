@@ -612,7 +612,7 @@ class FakeApi(object):
             file_name,
             **kwargs
         ):
-            """Returns the requested file as \"file download\" i.e. with content-disposition = attachment  # noqa: E501
+            """downloads a file using Content-Disposition  # noqa: E501
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
@@ -2895,7 +2895,7 @@ class FakeApi(object):
             body,
             **kwargs
         ):
-            """uploads a file and downloads a file  # noqa: E501
+            """uploads a file and downloads a file using application/octet-stream  # noqa: E501
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
@@ -3012,7 +3012,7 @@ class FakeApi(object):
             file,
             **kwargs
         ):
-            """uploads a file  # noqa: E501
+            """uploads a file using multipart/form-data  # noqa: E501
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
@@ -3135,7 +3135,7 @@ class FakeApi(object):
             self,
             **kwargs
         ):
-            """uploads files  # noqa: E501
+            """uploads files using multipart/form-data  # noqa: E501
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True

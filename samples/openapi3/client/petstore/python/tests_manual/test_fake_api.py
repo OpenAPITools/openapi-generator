@@ -438,7 +438,6 @@ class TestFakeApi(unittest.TestCase):
                 mock_method.return_value = mock_response
                 res = self.api.upload_files(
                     files=[file1, file2])
-                body = None
                 post_params=[
                     ('files', ('1px_pic1.png', b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x00\x00\x00\x00:~\x9bU\x00\x00\x00\nIDATx\x9cc\xfa\x0f\x00\x01\x05\x01\x02\xcf\xa0.\xcd\x00\x00\x00\x00IEND\xaeB`\x82', 'image/png')),
                     ('files', ('1px_pic2.png', b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x00\x00\x00\x00:~\x9bU\x00\x00\x00\nIDATx\x9cc\xfa\x0f\x00\x01\x05\x01\x02\xcf\xa0.\xcd\x00\x00\x00\x00IEND\xaeB`\x82', 'image/png'))
@@ -446,7 +445,7 @@ class TestFakeApi(unittest.TestCase):
                 self.assert_request_called_with(
                     mock_method,
                     'http://petstore.swagger.io:80/v2/fake/uploadFiles',
-                    body=body, post_params=post_params, content_type='multipart/form-data'
+                    body=None, post_params=post_params, content_type='multipart/form-data'
                 )
         except petstore_api.ApiException as e:
             self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
@@ -503,6 +502,47 @@ class TestFakeApi(unittest.TestCase):
             finally:
                 file_object.close()
                 os.unlink(file_object.name)
+
+    def test_upload_download_file(self):
+        test_file_dir = os.path.realpath(
+            os.path.join(os.path.dirname(__file__), "..", "testfiles"))
+        file_path1 = os.path.join(test_file_dir, "1px_pic1.png")
+
+        with open(file_path1, "rb") as f:
+            expected_file_data = f.read()
+
+        headers = {'Content-Type': 'application/octet-stream'}
+        def get_headers():
+            return headers
+        def get_header(name, default=None):
+            return headers.get(name, default)
+        http_response = HTTPResponse(
+            status=200,
+            reason='OK',
+            data=expected_file_data,
+            getheaders=get_headers,
+            getheader=get_header
+        )
+        mock_response = RESTResponse(http_response)
+        file1 = open(file_path1, "rb")
+        try:
+            with patch.object(RESTClientObject, 'request') as mock_method:
+                mock_method.return_value = mock_response
+                downloaded_file = self.api.upload_download_file(body=file1)
+                self.assert_request_called_with(
+                    mock_method,
+                    'http://petstore.swagger.io:80/v2/fake/uploadDownloadFile',
+                    body=expected_file_data, content_type='application/octet-stream'
+                )
+                self.assertTrue(isinstance(downloaded_file, file_type))
+                self.assertFalse(downloaded_file.closed)
+                self.assertEqual(downloaded_file.read(), expected_file_data)
+        except petstore_api.ApiException as e:
+            self.fail("upload_download_file() raised {0} unexpectedly".format(type(e)))
+        finally:
+            file1.close()
+            downloaded_file.close()
+            os.unlink(downloaded_file.name)
 
     def test_test_body_with_file_schema(self):
         """Test case for test_body_with_file_schema

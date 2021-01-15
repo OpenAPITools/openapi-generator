@@ -9,7 +9,7 @@ Method | HTTP request | Description
 [**array_of_enums**](FakeApi.md#array_of_enums) | **POST** /fake/refs/array-of-enums | Array of Enums
 [**boolean**](FakeApi.md#boolean) | **POST** /fake/refs/boolean | 
 [**composed_one_of_number_with_validations**](FakeApi.md#composed_one_of_number_with_validations) | **POST** /fake/refs/composed_one_of_number_with_validations | 
-[**download_attachment**](FakeApi.md#download_attachment) | **GET** /{fileName} | Returns the requested file as \&quot;file download\&quot; i.e. with content-disposition &#x3D; attachment
+[**download_attachment**](FakeApi.md#download_attachment) | **GET** /{fileName} | downloads a file using Content-Disposition
 [**enum_test**](FakeApi.md#enum_test) | **POST** /fake/refs/enum-test | Object contains enum properties and array properties containing enums
 [**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 [**mammal**](FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
@@ -26,9 +26,9 @@ Method | HTTP request | Description
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
-[**upload_download_file**](FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file
-[**upload_file**](FakeApi.md#upload_file) | **POST** /fake/uploadFile | uploads a file
-[**upload_files**](FakeApi.md#upload_files) | **POST** /fake/uploadFiles | uploads files
+[**upload_download_file**](FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
+[**upload_file**](FakeApi.md#upload_file) | **POST** /fake/uploadFile | uploads a file using multipart/form-data
+[**upload_files**](FakeApi.md#upload_files) | **POST** /fake/uploadFiles | uploads files using multipart/form-data
 
 
 # **additional_properties_with_array_of_enums**
@@ -354,7 +354,7 @@ No authorization required
 # **download_attachment**
 > file_type download_attachment(file_name)
 
-Returns the requested file as \"file download\" i.e. with content-disposition = attachment
+downloads a file using Content-Disposition
 
 ### Example
 
@@ -378,7 +378,7 @@ with petstore_api.ApiClient() as api_client:
 
     # example passing only required values which don't have defaults set
     try:
-        # Returns the requested file as \"file download\" i.e. with content-disposition = attachment
+        # downloads a file using Content-Disposition
         api_response = api_instance.download_attachment(file_name)
         pprint(api_response)
     except petstore_api.ApiException as e:
@@ -1556,7 +1556,7 @@ No authorization required
 # **upload_download_file**
 > file_type upload_download_file(body)
 
-uploads a file and downloads a file
+uploads a file and downloads a file using application/octet-stream
 
 ### Example
 
@@ -1580,7 +1580,7 @@ with petstore_api.ApiClient() as api_client:
 
     # example passing only required values which don't have defaults set
     try:
-        # uploads a file and downloads a file
+        # uploads a file and downloads a file using application/octet-stream
         api_response = api_instance.upload_download_file(body)
         pprint(api_response)
     except petstore_api.ApiException as e:
@@ -1616,7 +1616,7 @@ No authorization required
 # **upload_file**
 > ApiResponse upload_file(file)
 
-uploads a file
+uploads a file using multipart/form-data
 
 ### Example
 
@@ -1642,7 +1642,7 @@ with petstore_api.ApiClient() as api_client:
 
     # example passing only required values which don't have defaults set
     try:
-        # uploads a file
+        # uploads a file using multipart/form-data
         api_response = api_instance.upload_file(file)
         pprint(api_response)
     except petstore_api.ApiException as e:
@@ -1651,7 +1651,7 @@ with petstore_api.ApiClient() as api_client:
     # example passing only required values which don't have defaults set
     # and optional values
     try:
-        # uploads a file
+        # uploads a file using multipart/form-data
         api_response = api_instance.upload_file(file, additional_metadata=additional_metadata)
         pprint(api_response)
     except petstore_api.ApiException as e:
@@ -1688,7 +1688,7 @@ No authorization required
 # **upload_files**
 > ApiResponse upload_files()
 
-uploads files
+uploads files using multipart/form-data
 
 ### Example
 
@@ -1714,7 +1714,7 @@ with petstore_api.ApiClient() as api_client:
     # example passing only required values which don't have defaults set
     # and optional values
     try:
-        # uploads files
+        # uploads files using multipart/form-data
         api_response = api_instance.upload_files(files=files)
         pprint(api_response)
     except petstore_api.ApiException as e:

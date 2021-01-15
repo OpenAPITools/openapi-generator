@@ -1165,7 +1165,7 @@ paths:
         - url: http://www.jtricks.com
       tags:
         - fake
-      summary: Returns the requested file as "file download" i.e. with content-disposition = attachment
+      summary: downloads a file using Content-Disposition
       operationId: downloadAttachment
       parameters:
         - name: fileName
@@ -1191,7 +1191,7 @@ paths:
     post:
       tags:
         - fake
-      summary: uploads a file
+      summary: uploads a file using multipart/form-data
       description: ''
       operationId: uploadFile
       responses:
@@ -1220,7 +1220,7 @@ paths:
     post:
       tags:
         - fake
-      summary: uploads files
+      summary: uploads files using multipart/form-data
       description: ''
       operationId: uploadFiles
       responses:
@@ -1245,7 +1245,7 @@ paths:
     post:
       tags:
         - fake
-      summary: uploads a file and downloads a file
+      summary: uploads a file and downloads a file using application/octet-stream
       description: ''
       operationId: uploadDownloadFile
       responses:

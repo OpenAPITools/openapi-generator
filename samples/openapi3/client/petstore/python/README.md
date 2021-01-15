@@ -88,7 +88,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**array_of_enums**](docs/FakeApi.md#array_of_enums) | **POST** /fake/refs/array-of-enums | Array of Enums
 *FakeApi* | [**boolean**](docs/FakeApi.md#boolean) | **POST** /fake/refs/boolean | 
 *FakeApi* | [**composed_one_of_number_with_validations**](docs/FakeApi.md#composed_one_of_number_with_validations) | **POST** /fake/refs/composed_one_of_number_with_validations | 
-*FakeApi* | [**download_attachment**](docs/FakeApi.md#download_attachment) | **GET** /{fileName} | Returns the requested file as \&quot;file download\&quot; i.e. with content-disposition &#x3D; attachment
+*FakeApi* | [**download_attachment**](docs/FakeApi.md#download_attachment) | **GET** /{fileName} | downloads a file using Content-Disposition
 *FakeApi* | [**enum_test**](docs/FakeApi.md#enum_test) | **POST** /fake/refs/enum-test | Object contains enum properties and array properties containing enums
 *FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**mammal**](docs/FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
@@ -105,9 +105,9 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
-*FakeApi* | [**upload_download_file**](docs/FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file
-*FakeApi* | [**upload_file**](docs/FakeApi.md#upload_file) | **POST** /fake/uploadFile | uploads a file
-*FakeApi* | [**upload_files**](docs/FakeApi.md#upload_files) | **POST** /fake/uploadFiles | uploads files
+*FakeApi* | [**upload_download_file**](docs/FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
+*FakeApi* | [**upload_file**](docs/FakeApi.md#upload_file) | **POST** /fake/uploadFile | uploads a file using multipart/form-data
+*FakeApi* | [**upload_files**](docs/FakeApi.md#upload_files) | **POST** /fake/uploadFiles | uploads files using multipart/form-data
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
