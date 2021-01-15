@@ -211,15 +211,17 @@ class ApiClient(object):
             return (return_data)
             return return_data
 
-        if response_type not in ["file", "bytes"]:
-            match = None
-            if content_type is not None:
-                match = re.search(r"charset=([a-zA-Z\-\d]+)[\s\;]?", content_type)
-            encoding = match.group(1) if match else "utf-8"
-            response_data.data = response_data.data.decode(encoding)
-
         # deserialize response data
         if response_type:
+            for one_response_type in response_type:
+                if one_response_type is not file_type:
+                    match = None
+                    if content_type is not None:
+                        match = re.search(r"charset=([a-zA-Z\-\d]+)[\s\;]?", content_type)
+                    encoding = match.group(1) if match else "utf-8"
+                    response_data.data = response_data.data.decode(encoding)
+                    break
+
             return_data = self.deserialize(
                 response_data,
                 response_type,
