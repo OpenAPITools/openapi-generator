@@ -270,12 +270,12 @@ class ApiClient(object):
         :param obj: The data to serialize.
         :return: The serialized form of data.
         """
-        if isinstance(obj, io.IOBase):
-            return cls.get_file_data_and_close_file(obj)
         if isinstance(obj, (ModelNormal, ModelComposed)):
             return {
                 key: cls.sanitize_for_serialization(val) for key, val in model_to_dict(obj, serialize=True).items()
             }
+        elif isinstance(obj, io.IOBase):
+            return cls.get_file_data_and_close_file(obj)
         elif isinstance(obj, (str, int, float, none_type, bool)):
             return obj
         elif isinstance(obj, (datetime, date)):
