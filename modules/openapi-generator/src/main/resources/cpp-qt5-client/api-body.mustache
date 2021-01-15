@@ -139,6 +139,56 @@ void {{classname}}::abortRequests(){
     emit abortRequestsSignal();
 }
 
+//maybe do this on mustache level to prevent extra functions?
+
+QString {{classname}}::getParamStylePrefix(QString style){
+
+        if(style == "matrix"){ 
+            return ";";
+        }else if(style == "label"){
+            return ".";
+        }else if(style == "form"){
+            return "";
+        }else if(style == "simple"){
+            return "";
+        }else
+            return "none";
+}
+
+QString {{classname}}::getParamStyleSuffix(QString style){
+
+        if(style == "matrix"){ 
+            return "=";
+        }else if(style == "label"){
+            return "";
+        }else if(style == "form"){
+            return "=";
+        }else if(style == "simple"){
+            return "";
+        }else
+            return "none";
+}
+
+QString {{classname}}::getParamStyleDelimeter(QString style, QString name, bool isExplode){
+
+        if(style == "matrix"){ 
+            if (isExplode)
+                return ";" + name + "=";
+            else
+                return ",";
+        }else if(style == "label"){
+            return ",";
+        }else if(style == "form"){
+            if (isExplode)
+                return "&" + name + "="; 
+            else
+                return ",";
+        }else if(style == "simple"){
+            return ",";
+        }else
+            return "none";
+}
+
 {{#operations}}
 {{#operation}}
 void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
@@ -146,11 +196,15 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     {{#pathParams}}
     QString {{paramName}}PathParam("{");
     {{paramName}}PathParam.append("{{baseName}}").append("}");
-    QString pathParamStyle = "{{style}}";
-    bool isExplode = {{isExplode}};
-    bool isArray = {{isArray}};
-    bool isString = {{isString}};
-    fullPath.replace({{paramName}}PathParam, QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
+    QString pathPrefix, pathSuffix, pathDelimeter;
+    QString pathStyle = "{{style}}";    
+    if(pathStyle == "")  //Path default style = simple
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimeter = getParamStyleDelimeter(pathStyle, "{{baseName}}", {{isExplode}});
+
+    fullPath.replace({{paramName}}PathParam, QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue(pathPrefix+{{paramName}}+pathSuffix)));
     {{/pathParams}}{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
     if(_apiKeys.contains("{{name}}")){
         addHeaders("{{name}}",_apiKeys.find("{{name}}").value());
@@ -172,33 +226,35 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
         b64.append(_username.toUtf8() + ":" + _password.toUtf8());
         addHeaders("Authorization","Basic " + b64.toBase64());
     }{{/isBasicBasic}}{{/authMethods}}
+    {{#hasQueryParams}}
+        QString queryPrefix, querySuffix, queryDelimeter;
+    QString queryStyle = "{{style}}";
+    {{/hasQueryParams}}
 {{#queryParams}}
-    QString queryParamStyle = "{{style}}";
-    bool isExplode = {{isExplode}};
-    bool isArray = {{isArray}};
-    bool isString = {{isString}};
+    if(queryStyle == "")  //query default style = form
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    queryDelimeter = getParamStyleDelimeter(queryStyle, "{{baseName}}", {{isExplode}}); 
 {{^collectionFormat}}
     if (fullPath.indexOf("?") > 0)
-        fullPath.append("&");
+        fullPath.append(queryDelimeter).append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
     else
-        fullPath.append("?");
-    fullPath.append(QUrl::toPercentEncoding("{{baseName}}")).append("=").append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
+        fullPath.append("?").append(queryPrefix).append(QUrl::toPercentEncoding("{{baseName}}")).append(querySuffix).append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
 {{/collectionFormat}}{{#collectionFormat}}
     if ({{{paramName}}}.size() > 0) {
         if (QString("{{collectionFormat}}").indexOf("multi") == 0) {
             foreach ({{{baseType}}} t, {{paramName}}) {
                 if (fullPath.indexOf("?") > 0)
-                    fullPath.append("&");
+                    fullPath.append(queryDelimeter).append(::{{cppNamespace}}::toStringValue(t));
                 else
-                    fullPath.append("?");
-                fullPath.append("{{{baseName}}}=").append(::{{cppNamespace}}::toStringValue(t));
+                    fullPath.append("?").append(queryPrefix).append("{{{baseName}}}").append(queryPrefix).append(::{{cppNamespace}}::toStringValue(t));
             }
         } else if (QString("{{collectionFormat}}").indexOf("ssv") == 0) {
             if (fullPath.indexOf("?") > 0)
-                fullPath.append("&");
+                fullPath.append(queryDelimeter);
             else
-                fullPath.append("?");
-            fullPath.append("{{baseName}}=");
+                fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
             qint32 count = 0;
             foreach ({{{baseType}}} t, {{paramName}}) {
                 if (count > 0) {
@@ -208,10 +264,9 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
             }
         } else if (QString("{{collectionFormat}}").indexOf("tsv") == 0) {
             if (fullPath.indexOf("?") > 0)
-                fullPath.append("&");
+                fullPath.append(queryDelimeter);
             else
-                fullPath.append("?");
-            fullPath.append("{{baseName}}=");
+                fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
             qint32 count = 0;
             foreach ({{{baseType}}} t, {{paramName}}) {
                 if (count > 0) {
@@ -227,12 +282,19 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     worker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
     worker->setResponseCompressionEnabled(isResponseCompressionEnabled);
     worker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
+    qDebug() <<"FullPath = " << fullPath << endl;
     {{prefix}}HttpRequestInput input(fullPath, "{{httpMethod}}");
+
 {{#formParams}}
-    QString formParamStyle = "{{style}}";
-    bool isExplode = {{isExplode}};
-    bool isArray = {{isArray}};
-    bool isString = {{isString}};
+    {{#first}}
+    QString formPrefix,formSuffix, formDelimeter;
+    QString formStyle = "{{style}}";
+    if(formStyle == "")  //query default style = form
+        formStyle = "form";
+    formPrefix = getParamStylePrefix(formStyle);
+    formSuffix = getParamStyleSuffix(formStyle);
+    formDelimeter = getParamStyleDelimeter(formStyle, "{{baseName}}", {{isExplode}});
+    {{/first}}
 {{^isFile}}
     input.add_var("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}));{{/isFile}}{{#isFile}}
     input.add_file("{{baseName}}", {{paramName}}.local_filename, {{paramName}}.request_filename, {{paramName}}.mime_type);{{/isFile}}{{/formParams}}{{#bodyParams}}{{#isContainer}}{{#isArray}}
