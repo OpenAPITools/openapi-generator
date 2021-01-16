@@ -122,6 +122,23 @@ paths:
                 pattern: '^2020.*'
 components:
   schemas:
+    NullModel:
+      type: 'null'
+    ObjectWithTypeNullProperties:
+      type: object
+      properties:
+        nullProp:
+          type: 'null'
+        listOfNulls:
+          type: array
+          items:
+            type: 'null'
+      additionalProperties:
+        type: 'null'
+    ArrayModelOfNulls:
+      type: array
+      items:
+        type: 'null'
     DateWithValidation:
       type: string
       format: date

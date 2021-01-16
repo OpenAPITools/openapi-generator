@@ -2557,6 +2557,11 @@ public class DefaultCodegenTest {
         assertEquals(cm.isString, false);
         assertEquals(cm.isDate, true);
 
+        modelName = "NullModel";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.isNull, true);
+
         modelName = "ObjectWithDateWithValidation";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
