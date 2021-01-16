@@ -787,8 +787,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         // string
-        String var = value.replaceAll("_", " ");
-        //var = WordUtils.capitalizeFully(var);
+        String var = value.replaceAll(" ", "_");
         var = camelize(var);
         var = var.replaceAll("\\W+", "");
 

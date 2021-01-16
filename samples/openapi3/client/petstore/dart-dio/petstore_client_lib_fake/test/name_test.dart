@@ -6,22 +6,22 @@ void main() {
   final instance = Name();
 
   group(Name, () {
-    // int name (default value: null)
+    // int name
     test('to test the property `name`', () async {
       // TODO
     });
 
-    // int snakeCase (default value: null)
+    // int snakeCase
     test('to test the property `snakeCase`', () async {
       // TODO
     });
 
-    // String property (default value: null)
+    // String property
     test('to test the property `property`', () async {
       // TODO
     });
 
-    // int n123number (default value: null)
+    // int n123number
     test('to test the property `n123number`', () async {
       // TODO
     });

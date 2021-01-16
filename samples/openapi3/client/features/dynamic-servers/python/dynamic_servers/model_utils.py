@@ -1493,10 +1493,13 @@ def model_to_dict(model_instance, serialize=True):
                 # exist in attribute_map
                 attr = model_instance.attribute_map.get(attr, attr)
             if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: model_to_dict(x, serialize=serialize)
-                    if hasattr(x, '_data_store') else x, value
-                ))
+                if not value or isinstance(value[0], PRIMITIVE_TYPES):
+                    # empty list or primitive types
+                    result[attr] = value
+                elif isinstance(value[0], ModelSimple):
+                    result[attr] = [x.value for x in value]
+                else:
+                    result[attr] = [model_to_dict(x, serialize=serialize) for x in value]
             elif isinstance(value, dict):
                 result[attr] = dict(map(
                     lambda item: (item[0],

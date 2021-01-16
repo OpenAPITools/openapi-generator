@@ -11,7 +11,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-from dynamic_servers.api_client import ApiClient, Endpoint
+from dynamic_servers.api_client import ApiClient, Endpoint as _Endpoint
 from dynamic_servers.model_utils import (  # noqa: F401
     check_allowed_values,
     check_validations,
@@ -96,7 +96,7 @@ class UsageApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.custom_server = Endpoint(
+        self.custom_server = _Endpoint(
             settings={
                 'response_type': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),
                 'auth': [],
@@ -250,7 +250,7 @@ class UsageApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.default_server = Endpoint(
+        self.default_server = _Endpoint(
             settings={
                 'response_type': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),
                 'auth': [],

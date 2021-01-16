@@ -6,7 +6,7 @@ void main() {
   final instance = ClassModel();
 
   group(ClassModel, () {
-    // String class_ (default value: null)
+    // String class_
     test('to test the property `class_`', () async {
       // TODO
     });

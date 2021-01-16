@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -14,7 +21,7 @@ abstract class SpecialModelName implements Built<SpecialModelName, SpecialModelN
 
     static void _initializeBuilder(SpecialModelNameBuilder b) => b;
 
-    factory SpecialModelName([updates(SpecialModelNameBuilder b)]) = _$SpecialModelName;
+    factory SpecialModelName([void updates(SpecialModelNameBuilder b)]) = _$SpecialModelName;
     static Serializer<SpecialModelName> get serializer => _$specialModelNameSerializer;
 }
 

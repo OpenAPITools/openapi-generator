@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:openapi/model/model_file.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -20,7 +27,7 @@ abstract class FileSchemaTestClass implements Built<FileSchemaTestClass, FileSch
 
     static void _initializeBuilder(FileSchemaTestClassBuilder b) => b;
 
-    factory FileSchemaTestClass([updates(FileSchemaTestClassBuilder b)]) = _$FileSchemaTestClass;
+    factory FileSchemaTestClass([void updates(FileSchemaTestClassBuilder b)]) = _$FileSchemaTestClass;
     static Serializer<FileSchemaTestClass> get serializer => _$fileSchemaTestClassSerializer;
 }
 

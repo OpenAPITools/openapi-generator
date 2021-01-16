@@ -11,11 +11,11 @@ import MobileCoreServices
 
 class URLSessionRequestBuilderFactory: RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
-        return URLSessionRequestBuilder<T>.self
+        URLSessionRequestBuilder<T>.self
     }
 
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
-        return URLSessionDecodableRequestBuilder<T>.self
+        URLSessionDecodableRequestBuilder<T>.self
     }
 }
 
@@ -23,12 +23,6 @@ class URLSessionRequestBuilderFactory: RequestBuilderFactory {
 private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
 
 internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
-
-    private var observation: NSKeyValueObservation?
-
-    deinit {
-        observation?.invalidate()
-    }
 
     // swiftlint:disable:next weak_delegate
     fileprivate let sessionDelegate = SessionDelegate()
@@ -44,10 +38,11 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      - intercept and handle errors like authorization
      - retry the request.
      */
+    @available(*, deprecated, message: "Please override execute() method to intercept and handle errors like authorization or retry the request. Check the Wiki for more info. https://github.com/OpenAPITools/openapi-generator/wiki/FAQ#how-do-i-implement-bearer-token-authentication-with-urlsession-on-the-swift-api-client")
     internal var taskCompletionShouldRetry: ((Data?, URLResponse?, Error?, @escaping (Bool) -> Void) -> Void)?
 
-    required internal init(method: String, URLString: String, parameters: [String: Any]?, isBody: Bool, headers: [String: String] = [:]) {
-        super.init(method: method, URLString: URLString, parameters: parameters, isBody: isBody, headers: headers)
+    required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:]) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers)
     }
 
     /**
@@ -70,7 +65,7 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      the file extension).  Return the desired Content-Type otherwise.
      */
     internal func contentTypeForFormPart(fileURL: URL) -> String? {
-        return nil
+        nil
     }
 
     /**
@@ -101,32 +96,37 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
     }
 
     override internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
-        let urlSessionId: String = UUID().uuidString
+        let urlSessionId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let urlSession = createURLSession()
         urlSessionStore[urlSessionId] = urlSession
-
-        let parameters: [String: Any] = self.parameters ?? [:]
-
-        let fileKeys = parameters.filter { $1 is URL }
-            .map { $0.0 }
-
-        let encoding: ParameterEncoding
-        if fileKeys.count > 0 {
-            encoding = FileUploadEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
-        } else if isBody {
-            encoding = JSONDataEncoding()
-        } else {
-            encoding = URLEncoding()
-        }
 
         guard let xMethod = HTTPMethod(rawValue: method) else {
             fatalError("Unsuported Http method - \(method)")
         }
 
+        let encoding: ParameterEncoding
+
+        switch xMethod {
+        case .get, .head:
+            encoding = URLEncoding()
+
+        case .options, .post, .put, .patch, .delete, .trace, .connect:
+            let contentType = headers["Content-Type"] ?? "application/json"
+
+            if contentType == "application/json" {
+                encoding = JSONDataEncoding()
+            } else if contentType == "multipart/form-data" {
+                encoding = FormDataEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
+            } else if contentType == "application/x-www-form-urlencoded" {
+                encoding = FormURLEncoding()
+            } else {
+                fatalError("Unsuported Media Type - \(contentType)")
+            }
+        }
+
         let cleanupRequest = {
             urlSessionStore[urlSessionId] = nil
-            self.observation?.invalidate()
         }
 
         do {
@@ -170,7 +170,6 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
                 completion(.failure(ErrorResponse.error(415, nil, nil, error)))
             }
         }
-
     }
 
     fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
@@ -210,11 +209,11 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
                 let fileManager = FileManager.default
                 let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                let requestURL = try self.getURL(from: urlRequest)
+                let requestURL = try getURL(from: urlRequest)
 
-                var requestPath = try self.getPath(from: requestURL)
+                var requestPath = try getPath(from: requestURL)
 
-                if let headerFileName = self.getFileName(fromContentDisposition: httpResponse.allHeaderFields["Content-Disposition"] as? String) {
+                if let headerFileName = getFileName(fromContentDisposition: httpResponse.allHeaderFields["Content-Disposition"] as? String) {
                     requestPath = requestPath.appending("/\(headerFileName)")
                 }
 
@@ -228,7 +227,7 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
             } catch let requestParserError as DownloadException {
                 completion(.failure(ErrorResponse.error(400, data, response, requestParserError)))
-            } catch let error {
+            } catch {
                 completion(.failure(ErrorResponse.error(400, data, response, error)))
             }
 
@@ -245,7 +244,7 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
     internal func buildHeaders() -> [String: String] {
         var httpHeaders: [String: String] = [:]
-        for (key, value) in self.headers {
+        for (key, value) in headers {
             httpHeaders[key] = value
         }
         for (key, value) in PetstoreClientAPI.customHeaders {
@@ -391,13 +390,13 @@ private class SessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
 
 internal enum HTTPMethod: String {
     case options = "OPTIONS"
-    case get     = "GET"
-    case head    = "HEAD"
-    case post    = "POST"
-    case put     = "PUT"
-    case patch   = "PATCH"
-    case delete  = "DELETE"
-    case trace   = "TRACE"
+    case get = "GET"
+    case head = "HEAD"
+    case post = "POST"
+    case put = "PUT"
+    case patch = "PATCH"
+    case delete = "DELETE"
+    case trace = "TRACE"
     case connect = "CONNECT"
 }
 
@@ -425,7 +424,7 @@ private class URLEncoding: ParameterEncoding {
     }
 }
 
-private class FileUploadEncoding: ParameterEncoding {
+private class FormDataEncoding: ParameterEncoding {
 
     let contentTypeForFormPart: (_ fileURL: URL) -> String?
 
@@ -500,7 +499,7 @@ private class FileUploadEncoding: ParameterEncoding {
 
         let fileData = try Data(contentsOf: fileURL)
 
-        let mimetype = self.contentTypeForFormPart(fileURL) ?? mimeType(for: fileURL)
+        let mimetype = contentTypeForFormPart(fileURL) ?? mimeType(for: fileURL)
 
         let fileName = fileURL.lastPathComponent
 
@@ -569,7 +568,25 @@ private class FileUploadEncoding: ParameterEncoding {
 
 }
 
-fileprivate extension Data {
+private class FormURLEncoding: ParameterEncoding {
+    func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest {
+
+        var urlRequest = urlRequest
+
+        var requestBodyComponents = URLComponents()
+        requestBodyComponents.queryItems = APIHelper.mapValuesToQueryItems(parameters ?? [:])
+
+        if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
+            urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        }
+
+        urlRequest.httpBody = requestBodyComponents.query?.data(using: .utf8)
+
+        return urlRequest
+    }
+}
+
+private extension Data {
     /// Append string to Data
     ///
     /// Rather than littering my code with calls to `dataUsingEncoding` to convert strings to Data, and then add that data to the Data, this wraps it in a nice convenient little extension to Data. This converts using UTF-8.
@@ -583,7 +600,7 @@ fileprivate extension Data {
     }
 }
 
-fileprivate extension Optional where Wrapped == Data {
+private extension Optional where Wrapped == Data {
     var orEmpty: Data {
         self ?? Data()
     }
