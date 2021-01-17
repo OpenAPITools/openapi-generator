@@ -3281,6 +3281,8 @@ public class DefaultCodegen implements CodegenConfig {
                 innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
                 p.setAdditionalProperties(innerSchema);
             }
+        } else if (ModelUtils.isNullType(p)) {
+            property.isNull = true;
         }
 
         //Inline enum case:
@@ -4046,6 +4048,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (r.schema != null) {
             Map<String, Schema> allSchemas = null;
             CodegenProperty cp = fromProperty("response", responseSchema);
+            r.isNull = cp.isNull;
 
             if (ModelUtils.isArraySchema(responseSchema)) {
                 ArraySchema as = (ArraySchema) responseSchema;
@@ -4319,6 +4322,8 @@ public class DefaultCodegen implements CodegenConfig {
                     imports.add(codegenProperty.baseType);
                     codegenProperty = codegenProperty.items;
                 }
+            } else if (ModelUtils.isNullType(parameterSchema)) {
+                codegenParameter.isNull = true;
             }
 /* TODO revise the logic below
             } else {
@@ -6148,6 +6153,7 @@ public class DefaultCodegen implements CodegenConfig {
                 } else {
                     codegenParameter.baseName = bodyParameterName;
                 }
+                codegenParameter.isNull = codegenProperty.isNull;
                 codegenParameter.isPrimitiveType = true;
                 codegenParameter.baseType = codegenProperty.baseType;
                 codegenParameter.dataType = codegenProperty.dataType;
