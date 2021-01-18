@@ -11,7 +11,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-from petstore_api.api_client import ApiClient, Endpoint
+from petstore_api.api_client import ApiClient, Endpoint as _Endpoint
 from petstore_api.model_utils import (  # noqa: F401
     check_allowed_values,
     check_validations,
@@ -23,9 +23,11 @@ from petstore_api.model_utils import (  # noqa: F401
 )
 from petstore_api.model.additional_properties_with_array_of_enums import AdditionalPropertiesWithArrayOfEnums
 from petstore_api.model.animal_farm import AnimalFarm
+from petstore_api.model.api_response import ApiResponse
 from petstore_api.model.array_of_enums import ArrayOfEnums
 from petstore_api.model.client import Client
 from petstore_api.model.composed_one_of_number_with_validations import ComposedOneOfNumberWithValidations
+from petstore_api.model.enum_test import EnumTest
 from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 from petstore_api.model.health_check_result import HealthCheckResult
 from petstore_api.model.mammal import Mammal
@@ -108,7 +110,7 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.additional_properties_with_array_of_enums = Endpoint(
+        self.additional_properties_with_array_of_enums = _Endpoint(
             settings={
                 'response_type': (AdditionalPropertiesWithArrayOfEnums,),
                 'auth': [],
@@ -220,7 +222,7 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.array_model = Endpoint(
+        self.array_model = _Endpoint(
             settings={
                 'response_type': (AnimalFarm,),
                 'auth': [],
@@ -331,7 +333,7 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.array_of_enums = Endpoint(
+        self.array_of_enums = _Endpoint(
             settings={
                 'response_type': (ArrayOfEnums,),
                 'auth': [],
@@ -443,7 +445,7 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.boolean = Endpoint(
+        self.boolean = _Endpoint(
             settings={
                 'response_type': (bool,),
                 'auth': [],
@@ -555,7 +557,7 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.composed_one_of_number_with_validations = Endpoint(
+        self.composed_one_of_number_with_validations = _Endpoint(
             settings={
                 'response_type': (ComposedOneOfNumberWithValidations,),
                 'auth': [],
@@ -603,6 +605,238 @@ class FakeApi(object):
             },
             api_client=api_client,
             callable=__composed_one_of_number_with_validations
+        )
+
+        def __download_attachment(
+            self,
+            file_name,
+            **kwargs
+        ):
+            """downloads a file using Content-Disposition  # noqa: E501
+
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.download_attachment(file_name, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                file_name (str): file name
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                file_type
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['file_name'] = \
+                file_name
+            return self.call_with_http_info(**kwargs)
+
+        self.download_attachment = _Endpoint(
+            settings={
+                'response_type': (file_type,),
+                'auth': [],
+                'endpoint_path': '/{fileName}',
+                'operation_id': 'download_attachment',
+                'http_method': 'GET',
+                'servers': [
+                    {
+                        'url': "http://www.jtricks.com",
+                        'description': "No description provided",
+                    },
+                ]
+            },
+            params_map={
+                'all': [
+                    'file_name',
+                ],
+                'required': [
+                    'file_name',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'file_name':
+                        (str,),
+                },
+                'attribute_map': {
+                    'file_name': 'fileName',
+                },
+                'location_map': {
+                    'file_name': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'text/plain'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__download_attachment
+        )
+
+        def __enum_test(
+            self,
+            **kwargs
+        ):
+            """Object contains enum properties and array properties containing enums  # noqa: E501
+
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.enum_test(async_req=True)
+            >>> result = thread.get()
+
+
+            Keyword Args:
+                enum_test (EnumTest): Input object. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                EnumTest
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
+
+        self.enum_test = _Endpoint(
+            settings={
+                'response_type': (EnumTest,),
+                'auth': [],
+                'endpoint_path': '/fake/refs/enum-test',
+                'operation_id': 'enum_test',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'enum_test',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'enum_test':
+                        (EnumTest,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'enum_test': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__enum_test
         )
 
         def __fake_health_get(
@@ -665,7 +899,7 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.fake_health_get = Endpoint(
+        self.fake_health_get = _Endpoint(
             settings={
                 'response_type': (HealthCheckResult,),
                 'auth': [],
@@ -775,7 +1009,7 @@ class FakeApi(object):
                 mammal
             return self.call_with_http_info(**kwargs)
 
-        self.mammal = Endpoint(
+        self.mammal = _Endpoint(
             settings={
                 'response_type': (Mammal,),
                 'auth': [],
@@ -889,7 +1123,7 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.number_with_validations = Endpoint(
+        self.number_with_validations = _Endpoint(
             settings={
                 'response_type': (NumberWithValidations,),
                 'auth': [],
@@ -1001,7 +1235,7 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.object_model_with_ref_props = Endpoint(
+        self.object_model_with_ref_props = _Endpoint(
             settings={
                 'response_type': (ObjectModelWithRefProps,),
                 'auth': [],
@@ -1113,7 +1347,7 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.string = Endpoint(
+        self.string = _Endpoint(
             settings={
                 'response_type': (str,),
                 'auth': [],
@@ -1225,7 +1459,7 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.string_enum = Endpoint(
+        self.string_enum = _Endpoint(
             settings={
                 'response_type': (StringEnum,),
                 'auth': [],
@@ -1342,7 +1576,7 @@ class FakeApi(object):
                 file_schema_test_class
             return self.call_with_http_info(**kwargs)
 
-        self.test_body_with_file_schema = Endpoint(
+        self.test_body_with_file_schema = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -1461,7 +1695,7 @@ class FakeApi(object):
                 user
             return self.call_with_http_info(**kwargs)
 
-        self.test_body_with_query_params = Endpoint(
+        self.test_body_with_query_params = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -1583,7 +1817,7 @@ class FakeApi(object):
                 client
             return self.call_with_http_info(**kwargs)
 
-        self.test_client_model = Endpoint(
+        self.test_client_model = _Endpoint(
             settings={
                 'response_type': (Client,),
                 'auth': [],
@@ -1723,7 +1957,7 @@ class FakeApi(object):
                 byte
             return self.call_with_http_info(**kwargs)
 
-        self.test_endpoint_parameters = Endpoint(
+        self.test_endpoint_parameters = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [
@@ -1962,7 +2196,7 @@ class FakeApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.test_enum_parameters = Endpoint(
+        self.test_enum_parameters = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -2177,7 +2411,7 @@ class FakeApi(object):
                 required_int64_group
             return self.call_with_http_info(**kwargs)
 
-        self.test_group_parameters = Endpoint(
+        self.test_group_parameters = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [
@@ -2320,7 +2554,7 @@ class FakeApi(object):
                 request_body
             return self.call_with_http_info(**kwargs)
 
-        self.test_inline_additional_properties = Endpoint(
+        self.test_inline_additional_properties = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -2439,7 +2673,7 @@ class FakeApi(object):
                 param2
             return self.call_with_http_info(**kwargs)
 
-        self.test_json_form_data = Endpoint(
+        self.test_json_form_data = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -2578,7 +2812,7 @@ class FakeApi(object):
                 context
             return self.call_with_http_info(**kwargs)
 
-        self.test_query_parameter_collection_format = Endpoint(
+        self.test_query_parameter_collection_format = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -2654,4 +2888,358 @@ class FakeApi(object):
             },
             api_client=api_client,
             callable=__test_query_parameter_collection_format
+        )
+
+        def __upload_download_file(
+            self,
+            body,
+            **kwargs
+        ):
+            """uploads a file and downloads a file using application/octet-stream  # noqa: E501
+
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.upload_download_file(body, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                body (file_type):
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                file_type
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['body'] = \
+                body
+            return self.call_with_http_info(**kwargs)
+
+        self.upload_download_file = _Endpoint(
+            settings={
+                'response_type': (file_type,),
+                'auth': [],
+                'endpoint_path': '/fake/uploadDownloadFile',
+                'operation_id': 'upload_download_file',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'body',
+                ],
+                'required': [
+                    'body',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'body':
+                        (file_type,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'body': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/octet-stream'
+                ],
+                'content_type': [
+                    'application/octet-stream'
+                ]
+            },
+            api_client=api_client,
+            callable=__upload_download_file
+        )
+
+        def __upload_file(
+            self,
+            file,
+            **kwargs
+        ):
+            """uploads a file using multipart/form-data  # noqa: E501
+
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.upload_file(file, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                file (file_type): file to upload
+
+            Keyword Args:
+                additional_metadata (str): Additional data to pass to server. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                ApiResponse
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['file'] = \
+                file
+            return self.call_with_http_info(**kwargs)
+
+        self.upload_file = _Endpoint(
+            settings={
+                'response_type': (ApiResponse,),
+                'auth': [],
+                'endpoint_path': '/fake/uploadFile',
+                'operation_id': 'upload_file',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'file',
+                    'additional_metadata',
+                ],
+                'required': [
+                    'file',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'file':
+                        (file_type,),
+                    'additional_metadata':
+                        (str,),
+                },
+                'attribute_map': {
+                    'file': 'file',
+                    'additional_metadata': 'additionalMetadata',
+                },
+                'location_map': {
+                    'file': 'form',
+                    'additional_metadata': 'form',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'multipart/form-data'
+                ]
+            },
+            api_client=api_client,
+            callable=__upload_file
+        )
+
+        def __upload_files(
+            self,
+            **kwargs
+        ):
+            """uploads files using multipart/form-data  # noqa: E501
+
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.upload_files(async_req=True)
+            >>> result = thread.get()
+
+
+            Keyword Args:
+                files ([file_type]): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                ApiResponse
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
+
+        self.upload_files = _Endpoint(
+            settings={
+                'response_type': (ApiResponse,),
+                'auth': [],
+                'endpoint_path': '/fake/uploadFiles',
+                'operation_id': 'upload_files',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'files',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'files':
+                        ([file_type],),
+                },
+                'attribute_map': {
+                    'files': 'files',
+                },
+                'location_map': {
+                    'files': 'form',
+                },
+                'collection_format_map': {
+                    'files': 'csv',
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'multipart/form-data'
+                ]
+            },
+            api_client=api_client,
+            callable=__upload_files
         )

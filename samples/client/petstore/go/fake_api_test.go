@@ -19,7 +19,7 @@ func TestPutBodyWithFileSchema(t *testing.T) {
 
 	r, err := client.FakeApi.TestBodyWithFileSchema(context.Background()).Body(schema).Execute()
 
-	if err.Error() != "" {
+	if err != nil {
 		t.Fatalf("Error while adding pet: %v", err)
 	}
 	if r.StatusCode != 200 {

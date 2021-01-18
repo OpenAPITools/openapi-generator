@@ -11,11 +11,11 @@ import MobileCoreServices
 
 class URLSessionRequestBuilderFactory: RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
-        return URLSessionRequestBuilder<T>.self
+        URLSessionRequestBuilder<T>.self
     }
 
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
-        return URLSessionDecodableRequestBuilder<T>.self
+        URLSessionDecodableRequestBuilder<T>.self
     }
 }
 
@@ -65,7 +65,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      the file extension).  Return the desired Content-Type otherwise.
      */
     open func contentTypeForFormPart(fileURL: URL) -> String? {
-        return nil
+        nil
     }
 
     /**
@@ -209,11 +209,11 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
                 let fileManager = FileManager.default
                 let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                let requestURL = try self.getURL(from: urlRequest)
+                let requestURL = try getURL(from: urlRequest)
 
-                var requestPath = try self.getPath(from: requestURL)
+                var requestPath = try getPath(from: requestURL)
 
-                if let headerFileName = self.getFileName(fromContentDisposition: httpResponse.allHeaderFields["Content-Disposition"] as? String) {
+                if let headerFileName = getFileName(fromContentDisposition: httpResponse.allHeaderFields["Content-Disposition"] as? String) {
                     requestPath = requestPath.appending("/\(headerFileName)")
                 }
 
@@ -227,7 +227,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
             } catch let requestParserError as DownloadException {
                 completion(.failure(ErrorResponse.error(400, data, response, requestParserError)))
-            } catch let error {
+            } catch {
                 completion(.failure(ErrorResponse.error(400, data, response, error)))
             }
 
@@ -244,7 +244,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
     open func buildHeaders() -> [String: String] {
         var httpHeaders: [String: String] = [:]
-        for (key, value) in self.headers {
+        for (key, value) in headers {
             httpHeaders[key] = value
         }
         for (key, value) in PetstoreClientAPI.customHeaders {
@@ -390,13 +390,13 @@ private class SessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
 
 public enum HTTPMethod: String {
     case options = "OPTIONS"
-    case get     = "GET"
-    case head    = "HEAD"
-    case post    = "POST"
-    case put     = "PUT"
-    case patch   = "PATCH"
-    case delete  = "DELETE"
-    case trace   = "TRACE"
+    case get = "GET"
+    case head = "HEAD"
+    case post = "POST"
+    case put = "PUT"
+    case patch = "PATCH"
+    case delete = "DELETE"
+    case trace = "TRACE"
     case connect = "CONNECT"
 }
 
@@ -499,7 +499,7 @@ private class FormDataEncoding: ParameterEncoding {
 
         let fileData = try Data(contentsOf: fileURL)
 
-        let mimetype = self.contentTypeForFormPart(fileURL) ?? mimeType(for: fileURL)
+        let mimetype = contentTypeForFormPart(fileURL) ?? mimeType(for: fileURL)
 
         let fileName = fileURL.lastPathComponent
 

@@ -469,9 +469,6 @@ openApiGenerate {
     apiPackage = "org.openapi.example.api"
     invokerPackage = "org.openapi.example.invoker"
     modelPackage = "org.openapi.example.model"
-    modelFilesConstrainedTo = [
-            "Error"
-    ]
     configOptions = [
         dateLibrary: "java8"
     ]
