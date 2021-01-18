@@ -1,3 +1,31 @@
+This library requires some post processing.
+
+```
+cmd /c start /wait java -jar openapi-generator-cli.jar generate `
+    -g csharp-netcore `
+    -i swagger.yml `
+    -o output `
+    --library httpclient | Out-Null
+    # optional parameters you probably want
+    # -t templates
+    # -c generator-config.json
+    # other csharp properties: https://openapi-generator.tech/docs/generators/csharp-netcore
+    # other global properties: https://openapi-generator.tech/docs/globals
+
+$files = Get-ChildItem ..\..\src\CocApi -Recurse
+foreach ($file in $files)
+{    
+    if ($file.PSIsContainer){
+        continue
+    }
+
+    $content=Get-Content $file.PSPath
+    $content=$content -replace "\?\?\?\?", "?"
+    $content=$content -replace "\?\?\?", "?"
+    Set-Content $file.PSPath $content    
+}
+```
+
 # Org.OpenAPITools - the C# library for the OpenAPI Petstore
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
