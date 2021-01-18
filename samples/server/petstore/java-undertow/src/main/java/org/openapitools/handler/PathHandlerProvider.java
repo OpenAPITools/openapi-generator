@@ -21,7 +21,7 @@ import io.undertow.util.Methods;
 /**
  * The default implementation for {@link HandlerProvider} and {@link PathHandlerInterface}.
  *
-* <p>There are two flavors of {@link HttpHandler}s to choose from, depending on your needs:</p>
+ * <p>There are two flavors of {@link HttpHandler}s to choose from, depending on your needs:</p>
  *
  * <ul>
  * <li>
@@ -214,7 +214,7 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
                     updateUser().handleRequest(exchange);
                 }
             })
-        ;
+            ;
     }
 
     /**
@@ -282,6 +282,6 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
             .add(Methods.GET, basePath + "/user/login", loginUser())
             .add(Methods.GET, basePath + "/user/logout", logoutUser())
             .add(Methods.PUT, basePath + "/user/{username}", updateUser())
-        ;
+            ;
     }
 }

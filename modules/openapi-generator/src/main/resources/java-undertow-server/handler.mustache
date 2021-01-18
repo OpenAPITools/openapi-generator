@@ -12,7 +12,7 @@ import io.undertow.util.Methods;
 /**
  * The default implementation for {@link HandlerProvider} and {@link PathHandlerInterface}.
  *
-* <p>There are two flavors of {@link HttpHandler}s to choose from, depending on your needs:</p>
+ * <p>There are two flavors of {@link HttpHandler}s to choose from, depending on your needs:</p>
  *
  * <ul>
  * <li>
@@ -89,16 +89,16 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
   {{#apis}}
     {{#operations}}
       {{#operation}}
-            .add(Methods.{{httpMethod}}, basePath + "{{{path}}}", new HttpHandler() {
+            .add(Methods.{{{httpMethod}}}, basePath + "{{{path}}}", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    {{operationId}}().handleRequest(exchange);
+                    {{{operationId}}}().handleRequest(exchange);
                 }
             })
       {{/operation}}
     {{/operations}}
   {{/apis}}
-        ;
+            ;
 {{/apiInfo}}
     }
 
@@ -151,11 +151,11 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
   {{#apis}}
     {{#operations}}
       {{#operation}}
-            .add(Methods.{{httpMethod}}, basePath + "{{{path}}}", {{operationId}}())
+            .add(Methods.{{{httpMethod}}}, basePath + "{{{path}}}", {{{operationId}}}())
       {{/operation}}
     {{/operations}}
   {{/apis}}
-        ;
+            ;
 {{/apiInfo}}
     }
 }
