@@ -11,7 +11,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-from petstore_api.api_client import ApiClient, Endpoint
+from petstore_api.api_client import ApiClient, Endpoint as _Endpoint
 from petstore_api.model_utils import (  # noqa: F401
     check_allowed_values,
     check_validations,
@@ -102,7 +102,7 @@ class AnotherFakeApi(object):
                 body
             return self.call_with_http_info(**kwargs)
 
-        self.call_123_test_special_tags = Endpoint(
+        self.call_123_test_special_tags = _Endpoint(
             settings={
                 'response_type': (Client,),
                 'auth': [],
