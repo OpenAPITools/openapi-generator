@@ -37,7 +37,7 @@ namespace {{packageName}}.Client
     /// <summary>
     /// API Response
     /// </summary>
-    public class ApiResponse<T> : IApiResponse
+    {{>visibility}} partial class ApiResponse<T> : IApiResponse
     {
         #region Properties
 

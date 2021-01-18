@@ -17,9 +17,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -36,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// pet status in the store
         /// </summary>
         /// <value>pet status in the store</value>
-        [JsonConverter(typeof(StringEnumConverter))]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public enum StatusEnum
         {
             /// <summary>
@@ -65,6 +62,7 @@ namespace Org.OpenAPITools.Model
         /// <value>pet status in the store</value>
         [DataMember(Name = "status", EmitDefaultValue = false)]
         public StatusEnum? Status { get; set; }
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
@@ -73,6 +71,7 @@ namespace Org.OpenAPITools.Model
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
@@ -82,17 +81,19 @@ namespace Org.OpenAPITools.Model
         /// <param name="photoUrls">photoUrls (required).</param>
         /// <param name="tags">tags.</param>
         /// <param name="status">pet status in the store.</param>
-        public Pet(long id = default(long), Category category = default(Category), string name = default(string), List<string> photoUrls = default(List<string>), List<Tag> tags = default(List<Tag>), StatusEnum? status = default(StatusEnum?))
+        public Pet(long id, Category category, string name, List<string> photoUrls, List<Tag> tags, StatusEnum? status)
         {
             // to ensure "name" is required (not null)
-            this.Name = name ?? throw new ArgumentNullException("name is a required property for Pet and cannot be null");
+            Name = name ?? throw new ArgumentNullException("name is a required property for Pet and cannot be null");
+
             // to ensure "photoUrls" is required (not null)
-            this.PhotoUrls = photoUrls ?? throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null");
-            this.Id = id;
-            this.Category = category;
-            this.Tags = tags;
-            this.Status = status;
-            this.AdditionalProperties = new Dictionary<string, object>();
+            PhotoUrls = photoUrls ?? throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null");
+
+            Id = id;
+            Category = category;
+            Tags = tags;
+            Status = status;
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -139,13 +140,13 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Pet {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Category: ").Append(Category).Append("\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  PhotoUrls: ").Append(PhotoUrls).Append("\n");
-            sb.Append("  Tags: ").Append(Tags).Append("\n");
-            sb.Append("  Status: ").Append(Status).Append("\n");
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            sb.Append("  Id: ").Append(Id).Append('\n');
+            sb.Append("  Category: ").Append(Category).Append('\n');
+            sb.Append("  Name: ").Append(Name).Append('\n');
+            sb.Append("  PhotoUrls: ").Append(PhotoUrls).Append('\n');
+            sb.Append("  Tags: ").Append(Tags).Append('\n');
+            sb.Append("  Status: ").Append(Status).Append('\n');
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -154,9 +155,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
         }
 
         /// <summary>
@@ -164,7 +165,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object input)
+        public override bool Equals(object? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as Pet).AreEqual;
         }
@@ -174,34 +175,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of Pet to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Pet input)
+        public bool Equals(Pet? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                hashCode = hashCode * 59 + this.Id.GetHashCode();
-                if (this.Category != null)
-                    hashCode = hashCode * 59 + this.Category.GetHashCode();
-                if (this.Name != null)
-                    hashCode = hashCode * 59 + this.Name.GetHashCode();
-                if (this.PhotoUrls != null)
-                    hashCode = hashCode * 59 + this.PhotoUrls.GetHashCode();
-                if (this.Tags != null)
-                    hashCode = hashCode * 59 + this.Tags.GetHashCode();
-                hashCode = hashCode * 59 + this.Status.GetHashCode();
-                if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
-                return hashCode;
-            }
         }
 
         /// <summary>

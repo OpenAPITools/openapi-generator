@@ -17,9 +17,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -35,7 +32,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Defines Type
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public enum TypeEnum
         {
             /// <summary>
@@ -63,6 +60,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "type", EmitDefaultValue = false)]
         public TypeEnum? Type { get; set; }
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="Zebra" /> class.
         /// </summary>
@@ -71,17 +69,19 @@ namespace Org.OpenAPITools.Model
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Zebra" /> class.
         /// </summary>
         /// <param name="type">type.</param>
         /// <param name="className">className (required).</param>
-        public Zebra(TypeEnum? type = default(TypeEnum?), string className = default(string)) : base()
+        public Zebra(TypeEnum? type, string className) : base()
         {
             // to ensure "className" is required (not null)
-            this.ClassName = className ?? throw new ArgumentNullException("className is a required property for Zebra and cannot be null");
-            this.Type = type;
-            this.AdditionalProperties = new Dictionary<string, object>();
+            ClassName = className ?? throw new ArgumentNullException("className is a required property for Zebra and cannot be null");
+
+            Type = type;
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -104,10 +104,10 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Zebra {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
-            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append('\n');
+            sb.Append("  Type: ").Append(Type).Append('\n');
+            sb.Append("  ClassName: ").Append(ClassName).Append('\n');
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -116,9 +116,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object input)
+        public override bool Equals(object? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as Zebra).AreEqual;
         }
@@ -136,27 +136,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of Zebra to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Zebra input)
+        public bool Equals(Zebra? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = base.GetHashCode();
-                hashCode = hashCode * 59 + this.Type.GetHashCode();
-                if (this.ClassName != null)
-                    hashCode = hashCode * 59 + this.ClassName.GetHashCode();
-                if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
-                return hashCode;
-            }
         }
 
         /// <summary>

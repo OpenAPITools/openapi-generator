@@ -17,9 +17,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -37,11 +34,11 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name.</param>
         /// <param name="_class">_class.</param>
-        public Model200Response(int name = default(int), string _class = default(string))
+        public Model200Response(int name, string _class)
         {
-            this.Name = name;
-            this.Class = _class;
-            this.AdditionalProperties = new Dictionary<string, object>();
+            Name = name;
+            Class = _class;
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -70,9 +67,9 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Model200Response {\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  Class: ").Append(Class).Append("\n");
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append('\n');
+            sb.Append("  Class: ").Append(Class).Append('\n');
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -81,9 +78,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
         }
 
         /// <summary>
@@ -91,7 +88,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object input)
+        public override bool Equals(object? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as Model200Response).AreEqual;
         }
@@ -101,27 +98,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of Model200Response to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Model200Response input)
+        public bool Equals(Model200Response? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                hashCode = hashCode * 59 + this.Name.GetHashCode();
-                if (this.Class != null)
-                    hashCode = hashCode * 59 + this.Class.GetHashCode();
-                if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
-                return hashCode;
-            }
         }
 
         /// <summary>

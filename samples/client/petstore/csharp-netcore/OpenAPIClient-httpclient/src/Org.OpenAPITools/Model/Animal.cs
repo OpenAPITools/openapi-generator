@@ -17,9 +17,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
@@ -31,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// Animal
     /// </summary>
     [DataContract(Name = "Animal")]
-    [JsonConverter(typeof(JsonSubtypes), "ClassName")]
+    [Newtonsoft.Json.JsonConverter(typeof(JsonSubtypes), "ClassName")]
     [JsonSubtypes.KnownSubType(typeof(Cat), "Cat")]
     [JsonSubtypes.KnownSubType(typeof(Dog), "Dog")]
     public partial class Animal : IEquatable<Animal>, IValidatableObject
@@ -44,18 +41,20 @@ namespace Org.OpenAPITools.Model
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Animal" /> class.
         /// </summary>
         /// <param name="className">className (required).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Animal(string className = default(string), string color = "red")
+        public Animal(string className, string color)
         {
             // to ensure "className" is required (not null)
-            this.ClassName = className ?? throw new ArgumentNullException("className is a required property for Animal and cannot be null");
+            ClassName = className ?? throw new ArgumentNullException("className is a required property for Animal and cannot be null");
+
             // use default value if no "color" provided
-            this.Color = color ?? "red";
-            this.AdditionalProperties = new Dictionary<string, object>();
+            Color = color ?? "red";
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -84,9 +83,9 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Animal {\n");
-            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
-            sb.Append("  Color: ").Append(Color).Append("\n");
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            sb.Append("  ClassName: ").Append(ClassName).Append('\n');
+            sb.Append("  Color: ").Append(Color).Append('\n');
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -95,9 +94,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
         }
 
         /// <summary>
@@ -105,7 +104,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object input)
+        public override bool Equals(object? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as Animal).AreEqual;
         }
@@ -115,28 +114,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of Animal to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Animal input)
+        public bool Equals(Animal? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.ClassName != null)
-                    hashCode = hashCode * 59 + this.ClassName.GetHashCode();
-                if (this.Color != null)
-                    hashCode = hashCode * 59 + this.Color.GetHashCode();
-                if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
-                return hashCode;
-            }
         }
 
         /// <summary>

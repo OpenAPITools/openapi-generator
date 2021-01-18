@@ -17,9 +17,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -36,10 +33,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="DogAllOf" /> class.
         /// </summary>
         /// <param name="breed">breed.</param>
-        public DogAllOf(string breed = default(string))
+        public DogAllOf(string breed)
         {
-            this.Breed = breed;
-            this.AdditionalProperties = new Dictionary<string, object>();
+            Breed = breed;
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -62,8 +59,8 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class DogAllOf {\n");
-            sb.Append("  Breed: ").Append(Breed).Append("\n");
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            sb.Append("  Breed: ").Append(Breed).Append('\n');
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -72,9 +69,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
         }
 
         /// <summary>
@@ -82,7 +79,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object input)
+        public override bool Equals(object? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as DogAllOf).AreEqual;
         }
@@ -92,26 +89,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of DogAllOf to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(DogAllOf input)
+        public bool Equals(DogAllOf? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.Breed != null)
-                    hashCode = hashCode * 59 + this.Breed.GetHashCode();
-                if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
-                return hashCode;
-            }
         }
 
         /// <summary>

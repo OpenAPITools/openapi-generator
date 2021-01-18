@@ -25,11 +25,13 @@ namespace {{packageName}}.Test.Api
     /// </remarks>
     public class {{classname}}Tests : IDisposable
     {
-        private {{classname}} instance;
+        private readonly {{classname}} _instance;
+
+        private readonly System.Net.Http.HttpClient _httpClient = new System.Net.Http.HttpClient();
 
         public {{classname}}Tests()
         {
-            //instance = new {{classname}}();
+            //_instance = new {{classname}}(_httpClient);
         }
 
         public void Dispose()
@@ -44,7 +46,7 @@ namespace {{packageName}}.Test.Api
         public void {{operationId}}InstanceTest()
         {
             // TODO uncomment below to test 'IsType' {{classname}}
-            //Assert.IsType<{{classname}}>(instance);
+            //Assert.IsType<{{classname}}>(_instance);
         }
         {{#operations}}
         {{#operation}}
@@ -59,7 +61,7 @@ namespace {{packageName}}.Test.Api
             {{#allParams}}
             //{{{dataType}}} {{paramName}} = null;
             {{/allParams}}
-            //{{#returnType}}var response = {{/returnType}}instance.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+            //{{#returnType}}var response = {{/returnType}}_instance.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
             {{#returnType}}
             //Assert.IsType<{{{returnType}}}>(response);
             {{/returnType}}

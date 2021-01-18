@@ -19,55 +19,11 @@ using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Api
 {
-
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IFakeClassnameTags123ApiSync : IApiAccessor
+    public interface IFakeClassnameTags123Api
     {
-        #region Synchronous Operations
-        /// <summary>
-        /// To test class name in snake case
-        /// </summary>
-        /// <remarks>
-        /// To test class name in snake case
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
-        /// <returns>ModelClient</returns>
-        ModelClient TestClassname(ModelClient modelClient);
-
-        /// <summary>
-        /// To test class name in snake case
-        /// </summary>
-        /// <remarks>
-        /// To test class name in snake case
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
-        /// <returns>ApiResponse of ModelClient</returns>
-        ApiResponse<ModelClient> TestClassnameResponse(ModelClient modelClient);
-        #endregion Synchronous Operations
-    }
-
-    /// <summary>
-    /// Represents a collection of functions to interact with the API endpoints
-    /// </summary>
-    public interface IFakeClassnameTags123ApiAsync : IApiAccessor
-    {
-        #region Asynchronous Operations
-        /// <summary>
-        /// To test class name in snake case
-        /// </summary>
-        /// <remarks>
-        /// To test class name in snake case
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ModelClient</returns>
-        System.Threading.Tasks.Task<ModelClient> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// To test class name in snake case
         /// </summary>
@@ -78,16 +34,30 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClassnameResponseAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
-        #endregion Asynchronous Operations
-    }
-
-    /// <summary>
-    /// Represents a collection of functions to interact with the API endpoints
-    /// </summary>
-    public interface IFakeClassnameTags123Api : IFakeClassnameTags123ApiSync, IFakeClassnameTags123ApiAsync
-    {
-
+        System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClassnameWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
+        
+        /// <summary>
+        /// To test class name in snake case
+        /// </summary>
+        /// <remarks>
+        /// To test class name in snake case
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="modelClient">client model</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (ModelClient)</returns>
+        System.Threading.Tasks.Task<ModelClient> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
+        
+        /// <summary>
+        /// To test class name in snake case
+        /// </summary>
+        /// <remarks>
+        /// To test class name in snake case
+        /// </remarks>
+        /// <param name="modelClient">client model</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (ModelClient?)</returns>
+        System.Threading.Tasks.Task<ModelClient?> TestClassnameOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
     }
 
     /// <summary>
@@ -95,183 +65,30 @@ namespace Org.OpenAPITools.Api
     /// </summary>
     public partial class FakeClassnameTags123Api : IFakeClassnameTags123Api
     {
-        private Org.OpenAPITools.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
         private readonly System.Net.Http.HttpClient _httpClient;
-        private readonly Newtonsoft.Json.JsonConverter[] _jsonConverters;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeClassnameTags123Api"/> class.
         /// </summary>
         /// <returns></returns>
-        public FakeClassnameTags123Api() : this((string)null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FakeClassnameTags123Api"/> class.
-        /// </summary>
-        /// <returns></returns>
-        public FakeClassnameTags123Api(System.Net.Http.HttpClient httpClient, Newtonsoft.Json.JsonConverter[] jsonConverters) : this((string)null)
+        public FakeClassnameTags123Api(System.Net.Http.HttpClient httpClient)
         {
             _httpClient = httpClient;
-
-            _jsonConverters = jsonConverters;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FakeClassnameTags123Api"/> class.
+        /// Returns the token to be used in the api query
         /// </summary>
-        /// <returns></returns>
-        public FakeClassnameTags123Api(String basePath)
-        {
-            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
-                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
-                new Org.OpenAPITools.Client.Configuration { BasePath = basePath }
-            );
-            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
-        }
+        public Func<System.Threading.Tasks.ValueTask<string>>? GetTokenAsync { get; set; }  
+
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FakeClassnameTags123Api"/> class
-        /// using Configuration object
+        /// Validate the input before sending the request
         /// </summary>
-        /// <param name="configuration">An instance of Configuration</param>
-        /// <returns></returns>
-        public FakeClassnameTags123Api(Org.OpenAPITools.Client.Configuration configuration)
-        {
-            if (configuration == null) throw new ArgumentNullException("configuration");
-
-            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
-                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
-                configuration
-            );
-            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FakeClassnameTags123Api"/> class
-        /// using a Configuration object and client instance.
-        /// </summary>
-        /// <param name="client">The client interface for synchronous API access.</param>
-        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
-        /// <param name="configuration">The configuration object.</param>
-        public FakeClassnameTags123Api(Org.OpenAPITools.Client.ISynchronousClient client, Org.OpenAPITools.Client.IAsynchronousClient asyncClient, Org.OpenAPITools.Client.IReadableConfiguration configuration)
-        {
-            if (client == null) throw new ArgumentNullException("client");
-            if (asyncClient == null) throw new ArgumentNullException("asyncClient");
-            if (configuration == null) throw new ArgumentNullException("configuration");
-
-            this.Client = client;
-            this.AsynchronousClient = asyncClient;
-            this.Configuration = configuration;
-            this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
-        }
-
-        /// <summary>
-        /// The client for accessing this underlying API asynchronously.
-        /// </summary>
-        public Org.OpenAPITools.Client.IAsynchronousClient AsynchronousClient { get; set; }
-
-        /// <summary>
-        /// The client for accessing this underlying API synchronously.
-        /// </summary>
-        public Org.OpenAPITools.Client.ISynchronousClient Client { get; set; }
-
-        /// <summary>
-        /// Gets the base path of the API client.
-        /// </summary>
-        /// <value>The base path</value>
-        public String GetBasePath()
-        {
-            return this.Configuration.BasePath;
-        }
-
-        /// <summary>
-        /// Gets or sets the configuration object
-        /// </summary>
-        /// <value>An instance of the Configuration</value>
-        public Org.OpenAPITools.Client.IReadableConfiguration Configuration { get; set; }
-
-        /// <summary>
-        /// Provides a factory method hook for the creation of exceptions.
-        /// </summary>
-        public Org.OpenAPITools.Client.ExceptionFactory ExceptionFactory
-        {
-            get
-            {
-                if (_exceptionFactory != null && _exceptionFactory.GetInvocationList().Length > 1)
-                {
-                    throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
-                }
-                return _exceptionFactory;
-            }
-            set { _exceptionFactory = value; }
-        }
-
-        /// <summary>
-        /// To test class name in snake case To test class name in snake case
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
-        /// <returns>ModelClient</returns>
-        public ModelClient TestClassname(ModelClient modelClient)
-        {
-            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = TestClassnameResponse(modelClient);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// To test class name in snake case To test class name in snake case
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
-        /// <returns>ApiResponse of ModelClient</returns>
-        public Org.OpenAPITools.Client.ApiResponse<ModelClient> TestClassnameResponse(ModelClient modelClient)
-        {
-            // verify the required parameter 'modelClient' is set
-            if (modelClient == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'modelClient' when calling FakeClassnameTags123Api->TestClassname");
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.Data = modelClient;
-
-            // authentication (api_key_query) required
-            if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key_query")))
-            {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "api_key_query", this.Configuration.GetApiKeyWithPrefix("api_key_query")));
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Patch<ModelClient>("/fake_classname_test", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestClassname", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateTestClassnameRequestAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// To test class name in snake case To test class name in snake case
@@ -282,14 +99,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ModelClient</returns>
         public async System.Threading.Tasks.Task<ModelClient> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
         {
-            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await TestClassnameResponseAsync(modelClient, cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
-
-        private System.Threading.Tasks.ValueTask ValidateTestClassnameRequestAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken)
-        {
-            // todo
-            return new System.Threading.Tasks.ValueTask();
+            Org.OpenAPITools.Client.ApiResponse<ModelClient> result = await TestClassnameWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
+            return result.Data ?? throw new NullReferenceException();
         }
 
         /// <summary>
@@ -298,96 +109,75 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ModelClient)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> TestClassnameResponseAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
+        /// <returns>Task of ModelClient</returns>
+        public async System.Threading.Tasks.Task<ModelClient?> TestClassnameOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
         {
-            // verify the required parameter 'modelClient' is set
+            Org.OpenAPITools.Client.ApiResponse<ModelClient> result = await TestClassnameWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
+            
+            return result.IsSuccessStatusCode
+                ? result.Data
+                : null;
+        } 
+
+        /// <summary>
+        /// To test class name in snake case To test class name in snake case
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="modelClient">client model</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (ModelClient)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> TestClassnameWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
+        {
             if (modelClient == null)
-                throw new Org.OpenAPITools.Client.ApiException<ModelClient>(400, "Missing required parameter 'modelClient' when calling FakeClassnameTags123Api->TestClassname");
+                throw new ArgumentNullException(nameof(modelClient)); 
 
-            await ValidateTestClassnameRequestAsync(modelClient, cancellationToken);
+            await ValidateTestClassnameRequestAsync(modelClient, cancellationToken).ConfigureAwait(false);
 
-            if (_httpClient != null)
-            {
-                using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
-                request.Headers.Add("authorization", $"Bearer {Environment.GetEnvironmentVariable("TOKEN_0", EnvironmentVariableTarget.Machine)}");
+            string path = "/fake_classname_test";
 
 
-                string path = "/fake_classname_test";
+            path = $"{path}?";
+            
 
-                path = $"{path}?";
-                
+            if (path.EndsWith("&"))
+                path = path[..^1];
 
-                if (path.EndsWith("&"))
-                    path = path[..^1];
+            if (path.EndsWith("?"))
+                path = path[..^1];
 
-                if (path.EndsWith("?"))
-                    path = path[..^1];
-
-                request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
 
 
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-                string[] contentTypes = new string[] {
-                    "application/json"
-                };
-
-                if (contentTypes.Length > 0)
-                    request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-                System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault());
-
-                string responseContent = await responseMessage.Content.ReadAsStringAsync();
-
-                ApiResponse<ModelClient> apiResponse = new(responseMessage, responseContent);
-
-                if (!responseMessage.IsSuccessStatusCode)
-                    throw new ApiException<ModelClient>(apiResponse);
-
-                return apiResponse;
-            }
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.Data = modelClient;
+            // todo localVarRequestOptions.Data = modelClient;
 
             // authentication (api_key_query) required
-            if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key_query")))
-            {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "api_key_query", this.Configuration.GetApiKeyWithPrefix("api_key_query")));
-            }
+                        //todo if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key_query")))
+                //todo localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "api_key_query", this.Configuration.GetApiKeyWithPrefix("api_key_query")));
 
-            // make the HTTP request
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<ModelClient>("/fake_classname_test", localVarRequestOptions, this.Configuration, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+            string[] contentTypes = new string[] {
+                "application/json"
+            };
 
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestClassname", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
-            return localVarResponse;
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            ApiResponse<ModelClient> apiResponse = new(responseMessage, responseContent);
+
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<ModelClient>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+
+            return apiResponse;
         }
-
     }
 }

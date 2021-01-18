@@ -38,6 +38,23 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
+        ///  Custom JSON serializer
+        /// </summary>
+        public static readonly Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings = new Newtonsoft.Json.JsonSerializerSettings
+        {
+            // OpenAPI generated types generally hide default constructors.
+            ConstructorHandling = Newtonsoft.Json.ConstructorHandling.AllowNonPublicDefaultConstructor,
+            MissingMemberHandling = Newtonsoft.Json.MissingMemberHandling.Error,
+            ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver
+            {
+                NamingStrategy = new Newtonsoft.Json.Serialization.CamelCaseNamingStrategy
+                {
+                    OverrideSpecifiedNames = false
+                }
+            }
+        };
+
+        /// <summary>
         /// Sanitize filename by removing the path
         /// </summary>
         /// <param name="filename">Filename</param>
@@ -85,6 +102,9 @@ namespace Org.OpenAPITools.Client
         /// <returns>Formatted string.</returns>
         public static string ParameterToString(object obj, IReadableConfiguration configuration = null)
         {
+            throw new NotImplementedException();
+
+            /*
             if (obj is DateTime dateTime)
                 // Return a formatted date string - Can be customized with Configuration.DateTimeFormat
                 // Defaults to an ISO 8601, using the known as a Round-trip date/time pattern ("o")
@@ -103,6 +123,7 @@ namespace Org.OpenAPITools.Client
                 return string.Join(",", collection.Cast<object>());
 
             return Convert.ToString(obj, CultureInfo.InvariantCulture);
+            */
         }
 
         /// <summary>

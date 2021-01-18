@@ -17,9 +17,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -41,15 +38,15 @@ namespace Org.OpenAPITools.Model
         /// <param name="capitalSnake">capitalSnake.</param>
         /// <param name="sCAETHFlowPoints">sCAETHFlowPoints.</param>
         /// <param name="aTTNAME">Name of the pet .</param>
-        public Capitalization(string smallCamel = default(string), string capitalCamel = default(string), string smallSnake = default(string), string capitalSnake = default(string), string sCAETHFlowPoints = default(string), string aTTNAME = default(string))
+        public Capitalization(string smallCamel, string capitalCamel, string smallSnake, string capitalSnake, string sCAETHFlowPoints, string aTTNAME)
         {
-            this.SmallCamel = smallCamel;
-            this.CapitalCamel = capitalCamel;
-            this.SmallSnake = smallSnake;
-            this.CapitalSnake = capitalSnake;
-            this.SCAETHFlowPoints = sCAETHFlowPoints;
-            this.ATT_NAME = aTTNAME;
-            this.AdditionalProperties = new Dictionary<string, object>();
+            SmallCamel = smallCamel;
+            CapitalCamel = capitalCamel;
+            SmallSnake = smallSnake;
+            CapitalSnake = capitalSnake;
+            SCAETHFlowPoints = sCAETHFlowPoints;
+            ATT_NAME = aTTNAME;
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -103,13 +100,13 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Capitalization {\n");
-            sb.Append("  SmallCamel: ").Append(SmallCamel).Append("\n");
-            sb.Append("  CapitalCamel: ").Append(CapitalCamel).Append("\n");
-            sb.Append("  SmallSnake: ").Append(SmallSnake).Append("\n");
-            sb.Append("  CapitalSnake: ").Append(CapitalSnake).Append("\n");
-            sb.Append("  SCAETHFlowPoints: ").Append(SCAETHFlowPoints).Append("\n");
-            sb.Append("  ATT_NAME: ").Append(ATT_NAME).Append("\n");
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            sb.Append("  SmallCamel: ").Append(SmallCamel).Append('\n');
+            sb.Append("  CapitalCamel: ").Append(CapitalCamel).Append('\n');
+            sb.Append("  SmallSnake: ").Append(SmallSnake).Append('\n');
+            sb.Append("  CapitalSnake: ").Append(CapitalSnake).Append('\n');
+            sb.Append("  SCAETHFlowPoints: ").Append(SCAETHFlowPoints).Append('\n');
+            sb.Append("  ATT_NAME: ").Append(ATT_NAME).Append('\n');
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -118,9 +115,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
         }
 
         /// <summary>
@@ -128,7 +125,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object input)
+        public override bool Equals(object? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as Capitalization).AreEqual;
         }
@@ -138,36 +135,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of Capitalization to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Capitalization input)
+        public bool Equals(Capitalization? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.SmallCamel != null)
-                    hashCode = hashCode * 59 + this.SmallCamel.GetHashCode();
-                if (this.CapitalCamel != null)
-                    hashCode = hashCode * 59 + this.CapitalCamel.GetHashCode();
-                if (this.SmallSnake != null)
-                    hashCode = hashCode * 59 + this.SmallSnake.GetHashCode();
-                if (this.CapitalSnake != null)
-                    hashCode = hashCode * 59 + this.CapitalSnake.GetHashCode();
-                if (this.SCAETHFlowPoints != null)
-                    hashCode = hashCode * 59 + this.SCAETHFlowPoints.GetHashCode();
-                if (this.ATT_NAME != null)
-                    hashCode = hashCode * 59 + this.ATT_NAME.GetHashCode();
-                if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
-                return hashCode;
-            }
         }
 
         /// <summary>
