@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**array_of_enums**](FakeApi.md#array_of_enums) | **POST** /fake/refs/array-of-enums | Array of Enums
 [**boolean**](FakeApi.md#boolean) | **POST** /fake/refs/boolean | 
 [**composed_one_of_number_with_validations**](FakeApi.md#composed_one_of_number_with_validations) | **POST** /fake/refs/composed_one_of_number_with_validations | 
+[**download_attachment**](FakeApi.md#download_attachment) | **GET** /{fileName} | downloads a file using Content-Disposition
 [**enum_test**](FakeApi.md#enum_test) | **POST** /fake/refs/enum-test | Object contains enum properties and array properties containing enums
 [**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 [**mammal**](FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
@@ -25,6 +26,9 @@ Method | HTTP request | Description
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
+[**upload_download_file**](FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
+[**upload_file**](FakeApi.md#upload_file) | **POST** /fake/uploadFile | uploads a file using multipart/form-data
+[**upload_files**](FakeApi.md#upload_files) | **POST** /fake/uploadFiles | uploads files using multipart/form-data
 
 
 # **additional_properties_with_array_of_enums**
@@ -344,6 +348,66 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output model |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **download_attachment**
+> file_type download_attachment(file_name)
+
+downloads a file using Content-Disposition
+
+### Example
+
+```python
+import time
+import petstore_api
+from petstore_api.api import fake_api
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+    file_name = "fileName_example" # str | file name
+
+    # example passing only required values which don't have defaults set
+    try:
+        # downloads a file using Content-Disposition
+        api_response = api_instance.download_attachment(file_name)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->download_attachment: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **file_name** | **str**| file name |
+
+### Return type
+
+**file_type**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  * Content-Disposition - describes the received file. Looks like: &#39;attachment; filename&#x3D;fileName.txt&#39; <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1486,6 +1550,200 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **upload_download_file**
+> file_type upload_download_file(body)
+
+uploads a file and downloads a file using application/octet-stream
+
+### Example
+
+```python
+import time
+import petstore_api
+from petstore_api.api import fake_api
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+    body = open('/path/to/file', 'rb') # file_type | 
+
+    # example passing only required values which don't have defaults set
+    try:
+        # uploads a file and downloads a file using application/octet-stream
+        api_response = api_instance.upload_download_file(body)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->upload_download_file: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **file_type**|  |
+
+### Return type
+
+**file_type**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/octet-stream
+ - **Accept**: application/octet-stream
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **upload_file**
+> ApiResponse upload_file(file)
+
+uploads a file using multipart/form-data
+
+### Example
+
+```python
+import time
+import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model.api_response import ApiResponse
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+    file = open('/path/to/file', 'rb') # file_type | file to upload
+    additional_metadata = "additional_metadata_example" # str | Additional data to pass to server (optional)
+
+    # example passing only required values which don't have defaults set
+    try:
+        # uploads a file using multipart/form-data
+        api_response = api_instance.upload_file(file)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->upload_file: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        # uploads a file using multipart/form-data
+        api_response = api_instance.upload_file(file, additional_metadata=additional_metadata)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->upload_file: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **file** | **file_type**| file to upload |
+ **additional_metadata** | **str**| Additional data to pass to server | [optional]
+
+### Return type
+
+[**ApiResponse**](ApiResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **upload_files**
+> ApiResponse upload_files()
+
+uploads files using multipart/form-data
+
+### Example
+
+```python
+import time
+import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model.api_response import ApiResponse
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+    files = open('/path/to/file', 'rb') # [file_type] |  (optional)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        # uploads files using multipart/form-data
+        api_response = api_instance.upload_files(files=files)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->upload_files: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **files** | **[file_type]**|  | [optional]
+
+### Return type
+
+[**ApiResponse**](ApiResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

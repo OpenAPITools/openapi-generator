@@ -23,6 +23,7 @@ from petstore_api.model_utils import (  # noqa: F401
 )
 from petstore_api.model.additional_properties_with_array_of_enums import AdditionalPropertiesWithArrayOfEnums
 from petstore_api.model.animal_farm import AnimalFarm
+from petstore_api.model.api_response import ApiResponse
 from petstore_api.model.array_of_enums import ArrayOfEnums
 from petstore_api.model.client import Client
 from petstore_api.model.composed_one_of_number_with_validations import ComposedOneOfNumberWithValidations
@@ -604,6 +605,127 @@ class FakeApi(object):
             },
             api_client=api_client,
             callable=__composed_one_of_number_with_validations
+        )
+
+        def __download_attachment(
+            self,
+            file_name,
+            **kwargs
+        ):
+            """downloads a file using Content-Disposition  # noqa: E501
+
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.download_attachment(file_name, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                file_name (str): file name
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                file_type
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['file_name'] = \
+                file_name
+            return self.call_with_http_info(**kwargs)
+
+        self.download_attachment = _Endpoint(
+            settings={
+                'response_type': (file_type,),
+                'auth': [],
+                'endpoint_path': '/{fileName}',
+                'operation_id': 'download_attachment',
+                'http_method': 'GET',
+                'servers': [
+                    {
+                        'url': "http://www.jtricks.com",
+                        'description': "No description provided",
+                    },
+                ]
+            },
+            params_map={
+                'all': [
+                    'file_name',
+                ],
+                'required': [
+                    'file_name',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'file_name':
+                        (str,),
+                },
+                'attribute_map': {
+                    'file_name': 'fileName',
+                },
+                'location_map': {
+                    'file_name': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'text/plain'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__download_attachment
         )
 
         def __enum_test(
@@ -2766,4 +2888,358 @@ class FakeApi(object):
             },
             api_client=api_client,
             callable=__test_query_parameter_collection_format
+        )
+
+        def __upload_download_file(
+            self,
+            body,
+            **kwargs
+        ):
+            """uploads a file and downloads a file using application/octet-stream  # noqa: E501
+
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.upload_download_file(body, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                body (file_type):
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                file_type
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['body'] = \
+                body
+            return self.call_with_http_info(**kwargs)
+
+        self.upload_download_file = _Endpoint(
+            settings={
+                'response_type': (file_type,),
+                'auth': [],
+                'endpoint_path': '/fake/uploadDownloadFile',
+                'operation_id': 'upload_download_file',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'body',
+                ],
+                'required': [
+                    'body',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'body':
+                        (file_type,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'body': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/octet-stream'
+                ],
+                'content_type': [
+                    'application/octet-stream'
+                ]
+            },
+            api_client=api_client,
+            callable=__upload_download_file
+        )
+
+        def __upload_file(
+            self,
+            file,
+            **kwargs
+        ):
+            """uploads a file using multipart/form-data  # noqa: E501
+
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.upload_file(file, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                file (file_type): file to upload
+
+            Keyword Args:
+                additional_metadata (str): Additional data to pass to server. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                ApiResponse
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['file'] = \
+                file
+            return self.call_with_http_info(**kwargs)
+
+        self.upload_file = _Endpoint(
+            settings={
+                'response_type': (ApiResponse,),
+                'auth': [],
+                'endpoint_path': '/fake/uploadFile',
+                'operation_id': 'upload_file',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'file',
+                    'additional_metadata',
+                ],
+                'required': [
+                    'file',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'file':
+                        (file_type,),
+                    'additional_metadata':
+                        (str,),
+                },
+                'attribute_map': {
+                    'file': 'file',
+                    'additional_metadata': 'additionalMetadata',
+                },
+                'location_map': {
+                    'file': 'form',
+                    'additional_metadata': 'form',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'multipart/form-data'
+                ]
+            },
+            api_client=api_client,
+            callable=__upload_file
+        )
+
+        def __upload_files(
+            self,
+            **kwargs
+        ):
+            """uploads files using multipart/form-data  # noqa: E501
+
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.upload_files(async_req=True)
+            >>> result = thread.get()
+
+
+            Keyword Args:
+                files ([file_type]): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                ApiResponse
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
+
+        self.upload_files = _Endpoint(
+            settings={
+                'response_type': (ApiResponse,),
+                'auth': [],
+                'endpoint_path': '/fake/uploadFiles',
+                'operation_id': 'upload_files',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'files',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'files':
+                        ([file_type],),
+                },
+                'attribute_map': {
+                    'files': 'files',
+                },
+                'location_map': {
+                    'files': 'form',
+                },
+                'collection_format_map': {
+                    'files': 'csv',
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'multipart/form-data'
+                ]
+            },
+            api_client=api_client,
+            callable=__upload_files
         )
