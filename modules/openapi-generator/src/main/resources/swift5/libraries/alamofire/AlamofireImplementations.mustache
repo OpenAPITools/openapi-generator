@@ -117,14 +117,14 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManag
                             fatalError("Unprocessable value \(v) with key \(k)")
                         }
                     }
-                    }, to: URLString, method: xMethod, headers: nil, encodingCompletion: { encodingResult in
+                }, to: URLString, method: xMethod, headers: nil, encodingCompletion: { encodingResult in
                     switch encodingResult {
-                    case .success(let upload, _, _):
+                    case let .success(upload, _, _):
                         if let onProgressReady = self.onProgressReady {
                             onProgressReady(upload.uploadProgress)
                         }
                         self.processRequest(request: upload, managerId, apiResponseQueue, completion)
-                    case .failure(let encodingError):
+                    case let .failure(encodingError):
                         apiResponseQueue.async {
                             completion(.failure(ErrorResponse.error(415, nil, nil, encodingError)))
                         }
@@ -159,7 +159,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManag
 
         switch T.self {
         case is String.Type:
-            validatedRequest.responseString(queue: apiResponseQueue, completionHandler: { (stringResponse) in
+            validatedRequest.responseString(queue: apiResponseQueue, completionHandler: { stringResponse in
                 cleanupRequest()
 
                 switch stringResponse.result {
@@ -171,7 +171,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManag
 
             })
         case is URL.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { (dataResponse) in
+            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
                 cleanupRequest()
 
                 do {
@@ -209,13 +209,13 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManag
 
                 } catch let requestParserError as DownloadException {
                     completion(.failure(ErrorResponse.error(400, dataResponse.data, dataResponse.response, requestParserError)))
-                } catch let error {
+                } catch {
                     completion(.failure(ErrorResponse.error(400, dataResponse.data, dataResponse.response, error)))
                 }
                 return
             })
         case is Void.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { (voidResponse) in
+            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { voidResponse in
                 cleanupRequest()
 
                 switch voidResponse.result {
@@ -227,7 +227,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManag
 
             })
         default:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { (dataResponse) in
+            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
                 cleanupRequest()
 
                 switch dataResponse.result {
@@ -243,7 +243,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManag
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func buildHeaders() -> [String: String] {
         var httpHeaders = SessionManager.defaultHTTPHeaders
-        for (key, value) in self.headers {
+        for (key, value) in headers {
             httpHeaders[key] = value
         }
         return httpHeaders
@@ -317,7 +317,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManag
 
         switch T.self {
         case is String.Type:
-            validatedRequest.responseString(queue: apiResponseQueue, completionHandler: { (stringResponse) in
+            validatedRequest.responseString(queue: apiResponseQueue, completionHandler: { stringResponse in
                 cleanupRequest()
 
                 switch stringResponse.result {
@@ -329,7 +329,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManag
 
             })
         case is Void.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { (voidResponse) in
+            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { voidResponse in
                 cleanupRequest()
 
                 switch voidResponse.result {
@@ -341,7 +341,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManag
 
             })
         case is Data.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { (dataResponse) in
+            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
                 cleanupRequest()
 
                 switch dataResponse.result {
@@ -402,6 +402,6 @@ extension JSONDataEncoding: ParameterEncoding {
     public func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
         let urlRequest = try urlRequest.asURLRequest()
 
-        return self.encode(urlRequest, with: parameters)
+        return encode(urlRequest, with: parameters)
     }
 }

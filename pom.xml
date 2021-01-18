@@ -1189,7 +1189,7 @@
                 <module>samples/server/petstore/php-slim4</module>
                 <module>samples/server/petstore/php-laravel</module>
                 <module>samples/server/petstore/php-lumen</module>
-                <module>samples/server/petstore/rust-server</module>
+                <!--<module>samples/server/petstore/rust-server</module>-->
                 <!-- clients -->
                 <!--<module>samples/client/petstore/perl</module>
                 <module>samples/client/petstore/bash</module>-->

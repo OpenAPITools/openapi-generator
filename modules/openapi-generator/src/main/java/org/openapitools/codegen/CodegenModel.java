@@ -95,6 +95,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public boolean isArray;
     public boolean hasChildren;
     public boolean isMap;
+    public boolean isNull;
     /**
      * Indicates the OAS schema specifies "deprecated: true".
      */
@@ -703,6 +704,16 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public boolean getIsNull() {
+        return isNull;
+    }
+
+    @Override
+    public void setIsNull(boolean isNull) {
+        this.isNull = isNull;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CodegenModel)) return false;
@@ -730,6 +741,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 isMap == that.isMap &&
                 isDeprecated == that.isDeprecated &&
                 hasOnlyReadOnly == that.hasOnlyReadOnly &&
+                isNull == that.isNull &&
                 getUniqueItems() == that.getUniqueItems() &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
                 getExclusiveMaximum() == that.getExclusiveMaximum() &&
@@ -794,7 +806,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getDescription(), getClassVarName(), getModelJson(), getDataType(), getXmlPrefix(), getXmlNamespace(),
                 getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
                 getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
-                isDate, isDateTime,
+                isDate, isDateTime, isNull,
                 getVars(), getAllVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
                 isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArray,
@@ -885,6 +897,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", items='").append(items).append('\'');
         sb.append(", additionalProperties='").append(additionalProperties).append('\'');
         sb.append(", isModel='").append(isModel).append('\'');
+        sb.append(", isNull='").append(isNull);
         sb.append('}');
         return sb.toString();
     }
