@@ -12,7 +12,7 @@ cmd /c start /wait java -jar openapi-generator-cli.jar generate `
     # other csharp properties: https://openapi-generator.tech/docs/generators/csharp-netcore
     # other global properties: https://openapi-generator.tech/docs/globals
 
-$files = Get-ChildItem ..\..\src\CocApi -Recurse
+$files = Get-ChildItem output -Recurse
 foreach ($file in $files)
 {    
     if ($file.PSIsContainer){
