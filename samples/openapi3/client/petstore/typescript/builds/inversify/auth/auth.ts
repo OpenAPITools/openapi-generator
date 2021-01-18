@@ -2,6 +2,8 @@
 //@ts-ignore
 import * as btoa from "btoa";
 import { RequestContext } from "../http/http";
+import { injectable, inject, named } from "inversify";
+import { AbstractTokenProvider } from "../services/configuration";
 
 /**
  * Interface authentication schemes.
@@ -20,6 +22,10 @@ export interface SecurityAuthentication {
     applySecurityAuthentication(context: RequestContext): void | Promise<void>;
 }
 
+export const AuthApiKey = Symbol("auth.api_key");
+export const AuthUsername = Symbol("auth.username");
+export const AuthPassword = Symbol("auth.password");
+
 export interface TokenProvider {
   getToken(): Promise<string> | string;
 }
@@ -27,13 +33,14 @@ export interface TokenProvider {
 /**
  * Applies apiKey authentication to the request context.
  */
+@injectable()
 export class ApiKeyAuthentication implements SecurityAuthentication {
     /**
      * Configures this api key authentication with the necessary properties
      *
      * @param apiKey: The api key to be used for every request
      */
-    public constructor(private apiKey: string) {}
+    public constructor(@inject(AuthApiKey) @named("api_key") private apiKey: string) {}
 
     public getName(): string {
         return "api_key";
@@ -47,6 +54,7 @@ export class ApiKeyAuthentication implements SecurityAuthentication {
 /**
  * Applies oauth2 authentication to the request context.
  */
+@injectable()
 export class PetstoreAuthAuthentication implements SecurityAuthentication {
     // TODO: How to handle oauth2 authentication!
     public constructor() {}
@@ -64,6 +72,11 @@ export class PetstoreAuthAuthentication implements SecurityAuthentication {
 export type AuthMethods = {
     "api_key"?: SecurityAuthentication,
     "petstore_auth"?: SecurityAuthentication
+}
+
+export const authMethodServices = {
+    "api_key": ApiKeyAuthentication,
+    "petstore_auth": PetstoreAuthAuthentication
 }
 
 export type ApiKeyConfiguration = string;

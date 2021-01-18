@@ -6,12 +6,14 @@ import * as FormData from "form-data";
 import {ObjectSerializer} from '../models/ObjectSerializer';
 import {ApiException} from './exception';
 import {isCodeInRange} from '../util';
+import { injectable } from "inversify";
 
 import { Order } from '../models/Order';
 
 /**
  * no description
  */
+@injectable()
 export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 	
     /**
@@ -166,6 +168,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 
 
+@injectable()
 export class StoreApiResponseProcessor {
 
     /**
