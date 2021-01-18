@@ -1,6 +1,4 @@
 import { Configuration } from '../configuration'
-import { injectable, inject } from "inversify";
-import { AbstractConfiguration } from "../services/configuration";
 
 /**
  *
@@ -19,10 +17,9 @@ export const COLLECTION_FORMATS = {
  * @export
  * @class BaseAPI
  */
-@injectable()
 export class BaseAPIRequestFactory {
 
-    constructor(@inject(AbstractConfiguration) protected configuration: Configuration) {
+    constructor(protected configuration: Configuration) {
     }
 };
 
