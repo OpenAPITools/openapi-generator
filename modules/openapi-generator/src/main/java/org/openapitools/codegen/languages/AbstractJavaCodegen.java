@@ -550,7 +550,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             setDateLibrary(additionalProperties.get("dateLibrary").toString());
         }
 
-        additionalProperties.put("dateLibrary_" + dateLibrary, "true");
         if ("threetenbp".equals(dateLibrary)) {
             additionalProperties.put("threetenbp", "true");
             additionalProperties.put("jsr310", "true");

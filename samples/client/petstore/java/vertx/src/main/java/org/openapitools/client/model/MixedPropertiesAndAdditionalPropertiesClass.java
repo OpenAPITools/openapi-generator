@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +45,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   private UUID uuid;
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
-  private LocalDateTime dateTime;
+  private OffsetDateTime dateTime;
 
   public static final String JSON_PROPERTY_MAP = "map";
   private Map<String, Animal> map = null;
@@ -76,7 +76,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
-  public MixedPropertiesAndAdditionalPropertiesClass dateTime(LocalDateTime dateTime) {
+  public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
     
     this.dateTime = dateTime;
     return this;
@@ -91,12 +91,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public LocalDateTime getDateTime() {
+  public OffsetDateTime getDateTime() {
     return dateTime;
   }
 
 
-  public void setDateTime(LocalDateTime dateTime) {
+  public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 

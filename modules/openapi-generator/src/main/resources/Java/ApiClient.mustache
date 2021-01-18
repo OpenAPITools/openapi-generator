@@ -12,9 +12,7 @@ import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
 {{#java8}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-{{#dateLibrary_java8}}
 import java.time.OffsetDateTime;
-{{/dateLibrary_java8}}
 {{/java8}}
 {{#threetenbp}}
 import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
@@ -70,7 +68,7 @@ import {{invokerPackage}}.auth.OAuth;
 {{/hasOAuthMethods}}
 
 {{>generatedAnnotation}}
-public class ApiClient{{#dateLibrary_java8}} extends JavaTimeFormatter{{/dateLibrary_java8}} {
+public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private Map<String, String> defaultCookieMap = new HashMap<String, String>();
   private String basePath = "{{{basePath}}}";
@@ -502,9 +500,9 @@ public class ApiClient{{#dateLibrary_java8}} extends JavaTimeFormatter{{/dateLib
       return "";
     } else if (param instanceof Date) {
       return formatDate((Date) param);
-    } {{#dateLibrary_java8}}else if (param instanceof OffsetDateTime) {
+    } {{#jsr310}}else if (param instanceof OffsetDateTime) {
       return formatOffsetDateTime((OffsetDateTime) param);
-    } {{/dateLibrary_java8}}else if (param instanceof Collection) {
+    } {{/jsr310}}else if (param instanceof Collection) {
       StringBuilder b = new StringBuilder();
       for(Object o : (Collection<?>)param) {
         if(b.length() > 0) {

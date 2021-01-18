@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **id** | **Long** |  |  [optional]
 **petId** | **Long** |  |  [optional]
 **quantity** | **Integer** |  |  [optional]
-**shipDate** | **LocalDateTime** |  |  [optional]
+**shipDate** | **OffsetDateTime** |  |  [optional]
 **status** | [**StatusEnum**](#StatusEnum) | Order Status |  [optional]
 **complete** | **Boolean** |  |  [optional]
 

@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 **_byte** | **byte[]** |  | 
 **binary** | **AsyncFile** |  |  [optional]
 **date** | **LocalDate** |  | 
-**dateTime** | **LocalDateTime** |  |  [optional]
+**dateTime** | **OffsetDateTime** |  |  [optional]
 **uuid** | **UUID** |  |  [optional]
 **password** | **String** |  | 
 **bigDecimal** | **BigDecimal** |  |  [optional]

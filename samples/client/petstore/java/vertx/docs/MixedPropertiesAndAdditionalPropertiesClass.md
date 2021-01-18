@@ -7,7 +7,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **uuid** | **UUID** |  |  [optional]
-**dateTime** | **LocalDateTime** |  |  [optional]
+**dateTime** | **OffsetDateTime** |  |  [optional]
 **map** | [**Map&lt;String, Animal&gt;**](Animal.md) |  |  [optional]
 
 

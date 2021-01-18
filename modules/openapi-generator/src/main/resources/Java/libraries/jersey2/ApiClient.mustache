@@ -55,9 +55,9 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
-{{#dateLibrary_java8}}
+{{#jsr310}}
 import java.time.OffsetDateTime;
-{{/dateLibrary_java8}}
+{{/jsr310}}
 
 import java.net.URLEncoder;
 
@@ -80,7 +80,7 @@ import {{invokerPackage}}.auth.OAuth;
 {{/hasOAuthMethods}}
 
 {{>generatedAnnotation}}
-public class ApiClient{{#dateLibrary_java8}} extends JavaTimeFormatter{{/dateLibrary_java8}} {
+public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
   protected String basePath = "{{{basePath}}}";
@@ -720,9 +720,9 @@ public class ApiClient{{#dateLibrary_java8}} extends JavaTimeFormatter{{/dateLib
       return "";
     } else if (param instanceof Date) {
       return formatDate((Date) param);
-    } {{#dateLibrary_java8}}else if (param instanceof OffsetDateTime) {
+    } {{#jsr310}}else if (param instanceof OffsetDateTime) {
       return formatOffsetDateTime((OffsetDateTime) param);
-    } {{/dateLibrary_java8}}else if (param instanceof Collection) {
+    } {{/jsr310}}else if (param instanceof Collection) {
       StringBuilder b = new StringBuilder();
       for(Object o : (Collection)param) {
         if(b.length() > 0) {
