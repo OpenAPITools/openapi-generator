@@ -39,6 +39,7 @@ import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.Async;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -214,7 +215,7 @@ public class FakeApiTest {
         String string = null;
         AsyncFile binary = null;
         LocalDate date = null;
-        LocalDateTime dateTime = null;
+        OffsetDateTime dateTime = null;
         String password = null;
         String paramCallback = null;
         api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, result -> {
