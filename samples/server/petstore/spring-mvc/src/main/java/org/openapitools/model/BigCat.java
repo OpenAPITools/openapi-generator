@@ -22,7 +22,7 @@ public class BigCat extends Cat  {
   /**
    * Gets or Sets kind
    */
-  @com.fasterxml.jackson.annotation.JsonTypeName("myName")
+  @com.fasterxml.jackson.annotation.JsonFormat
 public enum KindEnum {
     LIONS("lions"),
     

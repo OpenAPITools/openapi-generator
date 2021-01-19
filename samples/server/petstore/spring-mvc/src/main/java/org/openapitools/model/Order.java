@@ -34,7 +34,7 @@ public class Order   {
   /**
    * Order Status
    */
-  @com.fasterxml.jackson.annotation.JsonTypeName("myName")
+  @com.fasterxml.jackson.annotation.JsonFormat
 public enum StatusEnum {
     PLACED("placed"),
     

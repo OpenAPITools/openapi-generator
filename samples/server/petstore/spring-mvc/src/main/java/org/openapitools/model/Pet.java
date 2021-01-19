@@ -43,7 +43,7 @@ public class Pet   {
   /**
    * pet status in the store
    */
-  @com.fasterxml.jackson.annotation.JsonTypeName("myName")
+  @com.fasterxml.jackson.annotation.JsonFormat
 public enum StatusEnum {
     AVAILABLE("available"),
     

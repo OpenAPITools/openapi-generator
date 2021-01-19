@@ -21,7 +21,7 @@ public class EnumTest   {
   /**
    * Gets or Sets enumString
    */
-  @com.fasterxml.jackson.annotation.JsonTypeName("myName")
+  @com.fasterxml.jackson.annotation.JsonFormat
 public enum EnumStringEnum {
     UPPER("UPPER"),
     
@@ -62,7 +62,7 @@ public enum EnumStringEnum {
   /**
    * Gets or Sets enumStringRequired
    */
-  @com.fasterxml.jackson.annotation.JsonTypeName("myName")
+  @com.fasterxml.jackson.annotation.JsonFormat
 public enum EnumStringRequiredEnum {
     UPPER("UPPER"),
     
@@ -103,7 +103,7 @@ public enum EnumStringRequiredEnum {
   /**
    * Gets or Sets enumInteger
    */
-  @com.fasterxml.jackson.annotation.JsonTypeName("myName")
+  @com.fasterxml.jackson.annotation.JsonFormat
 public enum EnumIntegerEnum {
     NUMBER_1(1),
     
@@ -142,7 +142,7 @@ public enum EnumIntegerEnum {
   /**
    * Gets or Sets enumNumber
    */
-  @com.fasterxml.jackson.annotation.JsonTypeName("myName")
+  @com.fasterxml.jackson.annotation.JsonFormat
 public enum EnumNumberEnum {
     NUMBER_1_DOT_1(1.1),
     
