@@ -154,7 +154,7 @@
                 <version>3.1.1</version>
                 <configuration>
                     <doclint>none</doclint>
-                        <source>1.7</source>
+                    <source>1.8</source>
                 </configuration>
                 <executions>
                     <execution>
@@ -262,15 +262,15 @@
             <artifactId>jackson-databind-nullable</artifactId>
             <version>${jackson-databind-nullable-version}</version>
         </dependency>
-            <dependency>
-                <groupId>com.github.joschi.jackson</groupId>
-                <artifactId>jackson-datatype-threetenbp</artifactId>
-                <version>${jackson-threetenbp-version}</version>
-            </dependency>
         <dependency>
-            <groupId>org.apache.oltu.oauth2</groupId>
-            <artifactId>org.apache.oltu.oauth2.client</artifactId>
-            <version>${oltu-version}</version>
+          <groupId>com.github.joschi.jackson</groupId>
+          <artifactId>jackson-datatype-threetenbp</artifactId>
+          <version>${jackson-threetenbp-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.scribejava</groupId>
+            <artifactId>scribejava-core</artifactId>
+            <version>${scribejava-version}</version>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
@@ -301,7 +301,7 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.7</java.version>
+        <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <swagger-annotations-version>1.5.24</swagger-annotations-version>
@@ -314,6 +314,6 @@
         <javax-annotation-version>1.3.2</javax-annotation-version>
         <junit-version>4.13.1</junit-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
-        <oltu-version>1.0.1</oltu-version>
+        <scribejava-version>8.0.0</scribejava-version>
     </properties>
 </project>
