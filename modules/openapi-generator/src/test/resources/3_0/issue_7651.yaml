@@ -246,6 +246,25 @@ components:
       type: number
       format: double
       multipleOf: 2
+    StringWithPattern:
+      type: string
+      pattern: '^2021.+'
+    DateWithPattern:
+      type: string
+      format: date
+      pattern: '^2021.+'
+    DateTimeWithPattern:
+      type: string
+      format: date-time
+      pattern: '^2021.+'
+    ByteWithPattern:
+      type: string
+      format: byte
+      pattern: '^2021.+'
+    BinaryWithPattern:
+      type: string
+      format: binary
+      pattern: '^2021.+'
     NullModel:
       type: 'null'
     ObjectWithTypeNullProperties:
