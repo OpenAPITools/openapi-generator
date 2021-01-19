@@ -180,6 +180,11 @@ components:
       minItems: 2
       items:
         type: string
+    ArrayWithUniqueItems:
+      type: array
+      uniqueItems: true
+      items:
+        type: string
     ObjectWithMinProperties:
       type: object
       minProperties: 2
