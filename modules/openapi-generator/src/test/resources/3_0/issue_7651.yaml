@@ -342,6 +342,34 @@ components:
       format: double
       minimum: 1
       exclusiveMinimum: true
+    IntegerWithExclusiveMaximum:
+      type: integer
+      maximum: 10
+      exclusiveMaximum: true
+    Integer32WithExclusiveMaximum:
+      type: integer
+      format: int32
+      maximum: 10
+      exclusiveMaximum: true
+    Integer64WithExclusiveMaximum:
+      type: integer
+      format: int64
+      maximum: 10
+      exclusiveMaximum: true
+    NumberWithExclusiveMaximum:
+      type: number
+      maximum: 10
+      exclusiveMaximum: true
+    NumberFloatWithExclusiveMaximum:
+      type: number
+      format: float
+      maximum: 10
+      exclusiveMaximum: true
+    NumberDoubleWithExclusiveMaximum:
+      type: number
+      format: double
+      maximum: 10
+      exclusiveMaximum: true
     NullModel:
       type: 'null'
     ObjectWithTypeNullProperties:
