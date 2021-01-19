@@ -5,18 +5,12 @@ import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -75,6 +69,21 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumValue("5", "kotlin.Float"), "5f");
         assertEquals(codegen.toEnumValue("1.0", "kotlin.Float"), "1.0f");
         assertEquals(codegen.toEnumValue("data", "Something"), "\"data\"");
+    }
+
+    @Test
+    public void reservedWordEnumProperty() {
+        codegen.setEnumPropertyNaming(original.name());
+
+        for (String word : AbstractKotlinCodegen.kotlinReservedWords) {
+            assertEquals(codegen.toEnumVarName(word, null), "`" + word + "`");
+        }
+
+        codegen.setEnumPropertyNaming(snake_case.name());
+
+        for (String word : AbstractKotlinCodegen.kotlinReservedWords) {
+            assertEquals(codegen.toEnumVarName(word, null), "`" + word + "`");
+        }
     }
 
     private class P_AbstractKotlinCodegen extends AbstractKotlinCodegen {
