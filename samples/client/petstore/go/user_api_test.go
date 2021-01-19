@@ -22,7 +22,7 @@ func TestCreateUser(t *testing.T) {
 
 	apiResponse, err := client.UserApi.CreateUser(context.Background()).Body(newUser).Execute()
 
-	if err.Error() != "" {
+	if err != nil {
 		t.Fatalf("Error while adding user: %v", err)
 	}
 	if apiResponse.StatusCode != 200 {
@@ -56,7 +56,7 @@ func TestCreateUsersWithArrayInput(t *testing.T) {
 	}
 
 	apiResponse, err := client.UserApi.CreateUsersWithArrayInput(context.Background()).Body(newUsers).Execute()
-	if err.Error() != "" {
+	if err != nil {
 		t.Fatalf("Error while adding users: %v", err)
 	}
 	if apiResponse.StatusCode != 200 {
@@ -82,7 +82,7 @@ func TestGetUserByName(t *testing.T) {
 	assert := assert.New(t)
 
 	resp, apiResponse, err := client.UserApi.GetUserByName(context.Background(), "gopher").Execute()
-	if err.Error() != "" {
+	if err != nil {
 		t.Fatalf("Error while getting user by id: %v", err)
 	} else {
 		assert.Equal(*resp.Id, int64(1000), "User id should be equal")
@@ -99,7 +99,7 @@ func TestGetUserByNameWithInvalidID(t *testing.T) {
 	resp, apiResponse, err := client.UserApi.GetUserByName(context.Background(), "999999999").Execute()
 	if apiResponse != nil && apiResponse.StatusCode == 404 {
 		return // This is a pass condition. API will return with a 404 error.
-	} else if err.Error() != "" {
+	} else if err != nil {
 		t.Fatalf("Error while getting user by invalid id: %v", err)
 		t.Log(apiResponse)
 	} else {
@@ -124,7 +124,7 @@ func TestUpdateUser(t *testing.T) {
 		UserStatus: sw.PtrInt32(1)}
 
 	apiResponse, err := client.UserApi.UpdateUser(context.Background(), "gopher").Body(newUser).Execute()
-	if err.Error() != "" {
+	if err != nil {
 		t.Fatalf("Error while deleting user by id: %v", err)
 	}
 	if apiResponse.StatusCode != 200 {
@@ -133,7 +133,7 @@ func TestUpdateUser(t *testing.T) {
 
 	//verify changings are correct
 	resp, apiResponse, err := client.UserApi.GetUserByName(context.Background(), "gopher").Execute()
-	if err.Error() != "" {
+	if err != nil {
 		t.Fatalf("Error while getting user by id: %v", err)
 	} else {
 		assert.Equal(*resp.Id, int64(1000), "User id should be equal")

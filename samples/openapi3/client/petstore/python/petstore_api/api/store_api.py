@@ -11,7 +11,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-from petstore_api.api_client import ApiClient, Endpoint
+from petstore_api.api_client import ApiClient, Endpoint as _Endpoint
 from petstore_api.model_utils import (  # noqa: F401
     check_allowed_values,
     check_validations,
@@ -102,7 +102,7 @@ class StoreApi(object):
                 order_id
             return self.call_with_http_info(**kwargs)
 
-        self.delete_order = Endpoint(
+        self.delete_order = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -212,7 +212,7 @@ class StoreApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.get_inventory = Endpoint(
+        self.get_inventory = _Endpoint(
             settings={
                 'response_type': ({str: (int,)},),
                 'auth': [
@@ -324,7 +324,7 @@ class StoreApi(object):
                 order_id
             return self.call_with_http_info(**kwargs)
 
-        self.get_order_by_id = Endpoint(
+        self.get_order_by_id = _Endpoint(
             settings={
                 'response_type': (Order,),
                 'auth': [],
@@ -447,7 +447,7 @@ class StoreApi(object):
                 order
             return self.call_with_http_info(**kwargs)
 
-        self.place_order = Endpoint(
+        self.place_order = _Endpoint(
             settings={
                 'response_type': (Order,),
                 'auth': [],

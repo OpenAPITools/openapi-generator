@@ -120,8 +120,73 @@ paths:
                 type: string
                 format: date-time
                 pattern: '^2020.*'
+  /null/{param}:
+    post:
+      tags:
+        - isX
+      operationId: null
+      parameters:
+        - name: param
+          in: path
+          required: true
+          schema:
+            type: 'null'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: 'null'
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: 'null'
+  /ref_null/{param}:
+    post:
+      tags:
+        - isX
+      operationId: null
+      parameters:
+        - name: param
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/NullModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NullModel'
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NullModel'
 components:
   schemas:
+    NullModel:
+      type: 'null'
+    ObjectWithTypeNullProperties:
+      type: object
+      properties:
+        nullProp:
+          type: 'null'
+        listOfNulls:
+          type: array
+          items:
+            type: 'null'
+      additionalProperties:
+        type: 'null'
+    ArrayOfNulls:
+      type: array
+      items:
+        type: 'null'
     DateWithValidation:
       type: string
       format: date

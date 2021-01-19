@@ -133,24 +133,24 @@ ext {
 }
 
 dependencies {
-    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
-    compile "org.glassfish.jersey.core:jersey-client:$jersey_version"
-    compile "org.glassfish.jersey.media:jersey-media-multipart:$jersey_version"
-    compile "org.glassfish.jersey.media:jersey-media-json-jackson:$jersey_version"
-    compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    implementation "org.glassfish.jersey.core:jersey-client:$jersey_version"
+    implementation "org.glassfish.jersey.media:jersey-media-multipart:$jersey_version"
+    implementation "org.glassfish.jersey.media:jersey-media-json-jackson:$jersey_version"
+    implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
     {{#java8}}
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/java8}}
     {{^java8}}
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
-    compile "joda-time:joda-time:$jodatime_version"
-    compile "com.brsanthu:migbase64:2.2"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
+    implementation "joda-time:joda-time:$jodatime_version"
+    implementation "com.brsanthu:migbase64:2.2"
     {{/java8}}
     {{#supportJava6}}
-    compile "commons-io:commons-io:$commons_io_version"
-    compile "org.apache.commons:commons-lang3:$commons_lang3_version"
+    implementation "commons-io:commons-io:$commons_io_version"
+    implementation "org.apache.commons:commons-lang3:$commons_lang3_version"
     {{/supportJava6}}
-    testCompile "junit:junit:$junit_version"
+    testImplementation "junit:junit:$junit_version"
 }
