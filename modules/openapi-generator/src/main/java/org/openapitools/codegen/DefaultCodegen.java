@@ -2616,6 +2616,7 @@ public class DefaultCodegen implements CodegenConfig {
                 postProcessModelProperty(m, prop);
             }
         }
+        m.setHasValidation(null);
         return m;
     }
 

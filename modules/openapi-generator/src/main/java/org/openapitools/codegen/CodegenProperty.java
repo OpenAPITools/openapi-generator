@@ -688,6 +688,19 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     }
 
     @Override
+    public boolean getHasValidation() { return hasValidation; }
+
+    @Override
+    public void setHasValidation(Boolean hasValidation) {
+        if (hasValidation == null) {
+            boolean val = (maxItems != null || minItems != null || minProperties != null || maxProperties != null || minLength != null || maxLength != null || multipleOf != null || pattern != null || minimum != null || maximum != null || Boolean.TRUE.equals(uniqueItems) || Boolean.TRUE.equals(exclusiveMaximum) || Boolean.TRUE.equals(exclusiveMinimum));
+            this.hasValidation = val;
+        } else {
+            this.hasValidation = (boolean) hasValidation;
+        }
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenProperty{");
         sb.append("openApiType='").append(openApiType).append('\'');
