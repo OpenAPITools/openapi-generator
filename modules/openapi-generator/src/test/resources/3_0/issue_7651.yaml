@@ -314,6 +314,34 @@ components:
       type: number
       format: double
       maximum: 10
+    IntegerWithExclusiveMinimum:
+      type: integer
+      minimum: 1
+      exclusiveMinimum: true
+    Integer32WithExclusiveMinimum:
+      type: integer
+      format: int32
+      minimum: 1
+      exclusiveMinimum: true
+    Integer64WithExclusiveMinimum:
+      type: integer
+      format: int364
+      minimum: 1
+      exclusiveMinimum: true
+    NumberWithExclusiveMinimum:
+      type: number
+      minimum: 1
+      exclusiveMinimum: true
+    NumberFloatWithExclusiveMinimum:
+      type: number
+      format: float
+      minimum: 1
+      exclusiveMinimum: true
+    NumberDoubleWithExclusiveMinimum:
+      type: number
+      format: double
+      minimum: 1
+      exclusiveMinimum: true
     NullModel:
       type: 'null'
     ObjectWithTypeNullProperties:
