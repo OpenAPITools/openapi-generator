@@ -60,7 +60,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
 {{#jsr310}}
+{{#threetenbp}}
+import org.threeten.bp.OffsetDateTime;
+{{/threetenbp}}
+{{^threetenbp}}
 import java.time.OffsetDateTime;
+{{/threetenbp}}
 {{/jsr310}}
 
 import {{invokerPackage}}.auth.Authentication;

@@ -22,7 +22,7 @@ import java.util.Map.Entry;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.time.OffsetDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;

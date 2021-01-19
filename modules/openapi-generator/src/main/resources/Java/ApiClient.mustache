@@ -12,7 +12,9 @@ import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
 {{#java8}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+{{^threetenbp}}
 import java.time.OffsetDateTime;
+{{/threetenbp}}
 {{/java8}}
 {{#threetenbp}}
 import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;

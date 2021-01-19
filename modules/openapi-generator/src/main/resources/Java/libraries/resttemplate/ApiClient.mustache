@@ -66,9 +66,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
-{{#jsr310}}
+{{#jsr310}}{{^threetenbp}}
 import java.time.OffsetDateTime;
-{{/jsr310}}
+{{/threetenbp}}{{/jsr310}}
 
 import {{invokerPackage}}.auth.Authentication;
 {{#hasHttpBasicMethods}}
