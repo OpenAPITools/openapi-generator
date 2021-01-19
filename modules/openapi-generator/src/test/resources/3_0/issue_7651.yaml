@@ -265,6 +265,28 @@ components:
       type: string
       format: binary
       pattern: '^2021.+'
+    IntegerWithMinimum:
+      type: integer
+      minimum: 1
+    Integer32WithMinimum:
+      type: integer
+      format: int32
+      multipleOf: 1
+    Integer64WithMinimum:
+      type: integer
+      format: int364
+      minimum: 1
+    NumberWithMinimum:
+      type: number
+      minimum: 1
+    NumberFloatWithMinimum:
+      type: number
+      format: float
+      minimum: 1
+    NumberDoubleWithMinimum:
+      type: number
+      format: double
+      minimum: 1
     NullModel:
       type: 'null'
     ObjectWithTypeNullProperties:
