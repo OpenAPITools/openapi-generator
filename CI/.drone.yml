@@ -2,6 +2,11 @@ kind: pipeline
 name: default
 
 steps:
+# test nim client
+- name: nim-client-test
+  image: nimlang/nim
+  commands:
+  - (cd samples/client/petstore/nim/ && nim c sample_client.nim)
 # test protobuf schema generator
 - name: protobuf-schema-test
   image: nanoservice/protobuf-go
