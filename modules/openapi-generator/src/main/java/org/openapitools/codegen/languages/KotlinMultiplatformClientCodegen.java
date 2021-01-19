@@ -41,6 +41,8 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         // Other options
         public static final String DATE_LIBRARY = "dateLibrary";
         public static final String SUBPROJECT = "subproject";
+        public static final String API_CLIENT_NAME = "apiClientName";
+        public static final String ASYNC_SUFFIX = "asyncSuffix";
 
         public static final class Defaults {
             // Versions
@@ -66,6 +68,8 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
             // Other options
             public static final DateLibrary DATE_LIBRARY = DateLibrary.STRING;
             public static final boolean SUBPROJECT = false;
+            public static final String API_CLIENT_NAME = "ApiClient";
+            public static final String ASYNC_SUFFIX = "Async";
         }
 
         // Enums
@@ -230,6 +234,14 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
                 "Add asynchronous methods for each endpoint with the help of Deferred<T>",
                 Options.Defaults.GENERATE_ASYNC
         ));
+        cliOptions.add(CliOption.newString(
+                Options.API_CLIENT_NAME,
+                "Sets the name for the ApiClient class"
+        ).defaultValue(Options.Defaults.API_CLIENT_NAME));
+        cliOptions.add(CliOption.newString(
+                Options.ASYNC_SUFFIX,
+                "Sets the suffix added to the Deferred<T> based api clients, e.g. SomeApi<suffix>"
+        ).defaultValue(Options.Defaults.ASYNC_SUFFIX));
     }
 
     @Override
@@ -259,6 +271,8 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
 
         boolean jsBrowser = booleanOption(Options.JS_BROWSER, Options.Defaults.JS_BROWSER);
         boolean jsNode = booleanOption(Options.JS_NODE, Options.Defaults.JS_NODE);
+        String apiClientName = stringOption(Options.API_CLIENT_NAME, Options.Defaults.API_CLIENT_NAME);
+        String asyncSuffix = stringOption(Options.ASYNC_SUFFIX, Options.Defaults.ASYNC_SUFFIX);
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         // Build
@@ -279,10 +293,10 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         // Infra
         final String infraDest = srcDir + File.separator + "infrastructure";
         final String infraSrc = "common/main/infrastructure/";
-        supportingFiles.add(new SupportingFile("ApiClient.kt.mustache", srcDir, "ApiClient.kt"));
+        supportingFiles.add(new SupportingFile("ApiClient.kt.mustache", srcDir, apiClientName + ".kt"));
         if (async) {
             apiTemplateFiles.put("api-async.mustache", ".kt");
-            supportingFiles.add(new SupportingFile("common/main/ApiClientAsync.kt.mustache", srcDir, "ApiClientAsync.kt"));
+            supportingFiles.add(new SupportingFile("common/main/ApiClientAsync.kt.mustache", srcDir, apiClientName + asyncSuffix + ".kt"));
         }
         supportingFiles.add(new SupportingFile(infraSrc + "ApiClientBase.kt.mustache", infraDest, "ApiClientBase.kt"));
         supportingFiles.add(new SupportingFile(infraSrc + "requestHelpers.kt.mustache", infraDest, "requestHelpers.kt"));
@@ -365,7 +379,8 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
     public String apiFilename(String templateName, String tag) {
         if (templateName.equals("api-async.mustache")) {
             String suffix = apiTemplateFiles().get(templateName);
-            return apiFileFolder() + File.separator + toApiFilename(tag) + "Async" + suffix;
+            String asyncSuffix = (String) additionalProperties.get("asyncSuffix");
+            return apiFileFolder() + File.separator + toApiFilename(tag) + asyncSuffix + suffix;
         }
         return super.apiFilename(templateName, tag);
     }

@@ -8,10 +8,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |androidGradleVersion|Sets the android gradle plugin version used| |4.1.0|
+|apiClientName|Sets the name for the ApiClient class| |ApiClient|
 |apiSuffix|suffix for api classes| |Api|
 |artifactId|Generated artifact id (name of jar).| |kotlin-multiplatform-client|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
 |async|Add asynchronous methods for each endpoint with the help of Deferred&lt;T&gt;| |false|
+|asyncSuffix|Sets the suffix added to the Deferred&lt;T&gt; based api clients, e.g. SomeApi&lt;suffix&gt;| |Async|
 |dateLibrary|Option. Date library to use|<dl><dt>**string**</dt><dd>String returns dates and times as string</dd><dt>**kotlinx**</dt><dd>Kotlinx multi-platform datetime library (experimental)</dd></dl>|string|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |PascalCase|
 |gradleVersion|Sets the gradle version used| |6.7.1|

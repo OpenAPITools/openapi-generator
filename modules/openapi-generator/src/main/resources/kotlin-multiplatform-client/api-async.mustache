@@ -17,7 +17,7 @@ import kotlinx.coroutines.async
 import kotlinx.serialization.json.Json
 
 {{#operations}}
-public open class {{{classname}}}Async : ApiClientBase {
+public open class {{{classname}}}{{asyncSuffix}} : ApiClientBase {
     public val coroutineScope: CoroutineScope
     protected val coroutineClient: {{{classname}}}
 
@@ -50,13 +50,13 @@ public open class {{{classname}}}Async : ApiClientBase {
     {{#allParams}} * @param {{{paramName}}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
     {{/allParams}} * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
      */
-    public fun {{operationId}}Async(
+    public fun {{operationId}}{{asyncSuffix}}(
         {{#allParams}}
         {{{paramName}}}: {{{dataType}}}{{^required}}? = null{{/required}},
         {{/allParams}}
     ): Deferred<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> {
         return coroutineScope.async {
-            this@{{{classname}}}Async.coroutineClient.{{operationId}}(
+            this@{{{classname}}}{{asyncSuffix}}.coroutineClient.{{operationId}}(
                 {{#allParams}}
                 {{{paramName}}} = {{{paramName}}},
                 {{/allParams}}

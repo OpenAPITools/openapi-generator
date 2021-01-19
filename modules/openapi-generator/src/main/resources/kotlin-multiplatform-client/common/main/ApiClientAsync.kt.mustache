@@ -13,7 +13,7 @@ import {{packageName}}.infrastructure.ApiClientBase
 
 {{! TODO: Remove when backticks problems are resolved }}
 @Suppress("RemoveRedundantBackticks", "MemberVisibilityCanBePrivate", "unused")
-public open class ApiClientAsync(
+public open class {{apiClientName}}{{asyncSuffix}}(
     baseUrl: String = "{{{basePath}}}",
     client: HttpClient,
     coroutineScope: CoroutineScope = GlobalScope,
@@ -24,8 +24,8 @@ public open class ApiClientAsync(
     {{! TODO: Remove backticks when conflicts are resolved }}
     {{#apiInfo}}
     {{#apis}}
-    public val `{{{classVarName}}}`: {{{classFilename}}}Async by lazy {
-        {{{classFilename}}}Async(baseUrl, client, coroutineScope)
+    public val `{{{classVarName}}}`: {{{classFilename}}}{{asyncSuffix}} by lazy {
+        {{{classFilename}}}{{asyncSuffix}}(baseUrl, client, coroutineScope)
     }
     {{/apis}}
     {{/apiInfo}}

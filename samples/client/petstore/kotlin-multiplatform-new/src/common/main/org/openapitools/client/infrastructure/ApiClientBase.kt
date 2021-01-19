@@ -49,7 +49,6 @@ public open class ApiClientBase {
         this.client = client
     }
 
-
     protected fun HttpRequestBuilder.addAuthentication(apiKeyAuths: List<String>, basicAuths: List<String>, bearerAuths: List<String>, oAuths: List<String>) {
         for (name in apiKeyAuths) {
             val auth = apiKeyAuth[name] ?: throw IllegalStateException("ApiKeyAuth \"$name\" was configured, but not found")
