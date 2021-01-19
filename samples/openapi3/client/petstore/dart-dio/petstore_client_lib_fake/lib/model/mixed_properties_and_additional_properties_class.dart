@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:openapi/model/animal.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -24,7 +31,7 @@ abstract class MixedPropertiesAndAdditionalPropertiesClass implements Built<Mixe
 
     static void _initializeBuilder(MixedPropertiesAndAdditionalPropertiesClassBuilder b) => b;
 
-    factory MixedPropertiesAndAdditionalPropertiesClass([updates(MixedPropertiesAndAdditionalPropertiesClassBuilder b)]) = _$MixedPropertiesAndAdditionalPropertiesClass;
+    factory MixedPropertiesAndAdditionalPropertiesClass([void updates(MixedPropertiesAndAdditionalPropertiesClassBuilder b)]) = _$MixedPropertiesAndAdditionalPropertiesClass;
     static Serializer<MixedPropertiesAndAdditionalPropertiesClass> get serializer => _$mixedPropertiesAndAdditionalPropertiesClassSerializer;
 }
 

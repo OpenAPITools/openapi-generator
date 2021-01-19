@@ -2557,6 +2557,23 @@ public class DefaultCodegenTest {
         assertEquals(cm.isString, false);
         assertEquals(cm.isDate, true);
 
+        modelName = "NullModel";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.isNull, true);
+
+        modelName = "ObjectWithTypeNullProperties";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.getVars().get(0).isNull, true);
+        assertEquals(cm.getVars().get(1).getItems().isNull, true);
+        assertEquals(cm.getAdditionalProperties().isNull, true);
+
+        modelName = "ArrayOfNulls";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.getItems().isNull, true);
+
         modelName = "ObjectWithDateWithValidation";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
@@ -2618,6 +2635,20 @@ public class DefaultCodegenTest {
         assertEquals(co.bodyParams.get(0).isDateTime, true);
         assertEquals(co.responses.get(0).isString, false);
         assertEquals(co.responses.get(0).isDateTime, true);
+
+        path = "/null/{param}";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        assertEquals(co.pathParams.get(0).isNull, true);
+        assertEquals(co.bodyParams.get(0).isNull, true);
+        assertEquals(co.responses.get(0).isNull, true);
+
+        path = "/ref_null/{param}";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        assertEquals(co.pathParams.get(0).isNull, true);
+        assertEquals(co.bodyParams.get(0).isNull, true);
+        assertEquals(co.responses.get(0).isNull, true);
     }
 
     @Test

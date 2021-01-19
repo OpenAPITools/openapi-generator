@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:openapi/model/animal.dart';
 import 'package:openapi/model/cat_all_of.dart';
 import 'package:built_value/built_value.dart';
@@ -25,7 +32,7 @@ abstract class Cat implements Built<Cat, CatBuilder> {
     static void _initializeBuilder(CatBuilder b) => b
         ..color = 'red';
 
-    factory Cat([updates(CatBuilder b)]) = _$Cat;
+    factory Cat([void updates(CatBuilder b)]) = _$Cat;
     static Serializer<Cat> get serializer => _$catSerializer;
 }
 

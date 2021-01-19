@@ -6,12 +6,12 @@ void main() {
   final instance = HasOnlyReadOnly();
 
   group(HasOnlyReadOnly, () {
-    // String bar (default value: null)
+    // String bar
     test('to test the property `bar`', () async {
       // TODO
     });
 
-    // String foo (default value: null)
+    // String foo
     test('to test the property `foo`', () async {
       // TODO
     });

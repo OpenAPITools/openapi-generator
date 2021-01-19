@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -19,7 +26,7 @@ abstract class AdditionalPropertiesClass implements Built<AdditionalPropertiesCl
 
     static void _initializeBuilder(AdditionalPropertiesClassBuilder b) => b;
 
-    factory AdditionalPropertiesClass([updates(AdditionalPropertiesClassBuilder b)]) = _$AdditionalPropertiesClass;
+    factory AdditionalPropertiesClass([void updates(AdditionalPropertiesClassBuilder b)]) = _$AdditionalPropertiesClass;
     static Serializer<AdditionalPropertiesClass> get serializer => _$additionalPropertiesClassSerializer;
 }
 

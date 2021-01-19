@@ -65,10 +65,10 @@ namespace {{packageName}}.Client
         /// <returns>A JSON string.</returns>
         public string Serialize(object obj)
         {
-            if (obj != null && obj is {{{packageName}}}.Model.AbstractOpenAPISchema)
+            if (obj != null && obj is {{{packageName}}}.{{modelPackage}}.AbstractOpenAPISchema)
             {
                 // the object to be serialized is an oneOf/anyOf schema
-                return (({{{packageName}}}.Model.AbstractOpenAPISchema)obj).ToJson();
+                return (({{{packageName}}}.{{modelPackage}}.AbstractOpenAPISchema)obj).ToJson();
             }
             else
             {
@@ -576,7 +576,7 @@ namespace {{packageName}}.Client
             }
 
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
-            if (typeof({{{packageName}}}.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
+            if (typeof({{{packageName}}}.{{modelPackage}}.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
             {
                 T instance = (T)Activator.CreateInstance(typeof(T));
                 MethodInfo method = typeof(T).GetMethod("FromJson");

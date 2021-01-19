@@ -49,6 +49,7 @@ Code change should conform to the programming style guide of the respective lang
 - C++: https://google.github.io/styleguide/cppguide.html
 - C++ (Tizen): https://wiki.tizen.org/Native_Platform_Coding_Idiom_and_Style_Guide#C.2B.2B_Coding_Style
 - Clojure: https://github.com/bbatsov/clojure-style-guide
+- Crystal: https://crystal-lang.org/reference/conventions/coding_style.html
 - Dart: https://www.dartlang.org/guides/language/effective-dart/style
 - Elixir: https://github.com/christopheradams/elixir_style_guide
 - Eiffel: https://www.eiffel.org/doc/eiffel/Coding%20Standards
