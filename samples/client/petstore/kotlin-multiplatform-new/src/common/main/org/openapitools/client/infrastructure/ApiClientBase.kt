@@ -10,29 +10,21 @@ import io.ktor.client.request.*
 
 import org.openapitools.client.auth.*
 
-public open class ApiClientBase {
+public abstract class ApiClientBase {
     protected val baseUrl: String
     protected val client: HttpClient
-    protected val apiKeyAuth: Map<String, ApiKeyAuth> by lazy {
-        mapOf(
-            "api_key" to ApiKeyAuth(ApiKeyAuth.Location.Header, "api_key"),
-        )
-    }
-    protected val basicAuth: Map<String, HttpBasicAuth> by lazy {
-        mapOf(
-        )
-    }
-    protected val bearerAuth: Map<String, HttpBearerAuth> by lazy {
-        mapOf(
-        )
-    }
-    protected val oAuth: Map<String, OAuth> by lazy {
-        mapOf(
-            "petstore_auth" to OAuth(),
-        )
-    }
+    protected var apiKeyAuth: Map<String, ApiKeyAuth> = mapOf(
+        "api_key" to ApiKeyAuth(ApiKeyAuth.Location.Header, "api_key"),
+    )
+    protected var basicAuth: Map<String, HttpBasicAuth> = mapOf(
+    )
+    protected var bearerAuth: Map<String, HttpBearerAuth> = mapOf(
+    )
+    protected var oAuth: Map<String, OAuth> = mapOf(
+        "petstore_auth" to OAuth(),
+    )
 
-    internal constructor(baseUrl: String, httpClientEngine: HttpClientEngine?, json: Json = Json {}) {
+    protected constructor(baseUrl: String, httpClientEngine: HttpClientEngine?, json: Json = Json {}) {
         this.baseUrl = baseUrl
         val serializer = KotlinxSerializer(json)
         val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = serializer }
@@ -44,9 +36,25 @@ public open class ApiClientBase {
         }
     }
 
-    internal constructor(baseUrl: String, client: HttpClient) {
+    protected constructor(baseUrl: String, client: HttpClient) {
         this.baseUrl = baseUrl
         this.client = client
+    }
+
+    protected constructor(
+        baseUrl: String,
+        client: HttpClient,
+        apiKeyAuth: Map<String, ApiKeyAuth>,
+        basicAuth: Map<String, HttpBasicAuth>,
+        bearerAuth: Map<String, HttpBearerAuth>,
+        oAuth: Map<String, OAuth>,
+    ) {
+        this.baseUrl = baseUrl
+        this.client = client
+        this.apiKeyAuth = apiKeyAuth
+        this.basicAuth = basicAuth
+        this.bearerAuth = bearerAuth
+        this.oAuth = oAuth
     }
 
     protected fun HttpRequestBuilder.addAuthentication(apiKeyAuths: List<String>, basicAuths: List<String>, bearerAuths: List<String>, oAuths: List<String>) {

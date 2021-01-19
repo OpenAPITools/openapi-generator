@@ -15,7 +15,6 @@ package org.openapitools.client.apis
 
 import org.openapitools.client.models.User
 
-import org.openapitools.client.infrastructure.*
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.features.json.serializer.*
@@ -24,6 +23,9 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.serialization.json.Json
+
+import org.openapitools.client.auth.*
+import org.openapitools.client.infrastructure.*
 
 public open class UserApiAsync : ApiClientBase {
     public val coroutineScope: CoroutineScope
@@ -39,13 +41,33 @@ public open class UserApiAsync : ApiClientBase {
         this.coroutineClient = UserApi(baseUrl, httpClientEngine, json)
     }
 
-    internal constructor(
+    public constructor(
         baseUrl: String,
         client: HttpClient,
         coroutineScope: CoroutineScope,
     ) : super(
         baseUrl,
         client,
+    ) {
+        this.coroutineScope = coroutineScope
+        this.coroutineClient = UserApi(baseUrl, client)
+    }
+
+    internal constructor(
+        baseUrl: String,
+        client: HttpClient,
+        coroutineScope: CoroutineScope,
+        apiKeyAuth: Map<String, ApiKeyAuth>,
+        basicAuth: Map<String, HttpBasicAuth>,
+        bearerAuth: Map<String, HttpBearerAuth>,
+        oAuth: Map<String, OAuth>,
+    ) : super(
+        baseUrl,
+        client,
+        apiKeyAuth,
+        basicAuth,
+        bearerAuth,
+        oAuth,
     ) {
         this.coroutineScope = coroutineScope
         this.coroutineClient = UserApi(baseUrl, client)

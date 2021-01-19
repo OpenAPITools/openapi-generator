@@ -15,7 +15,6 @@ package org.openapitools.client.apis
 
 import org.openapitools.client.models.User
 
-import org.openapitools.client.infrastructure.*
 import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
@@ -35,6 +34,9 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
+import org.openapitools.client.auth.*
+import org.openapitools.client.infrastructure.*
+
 @Suppress(
     "unused",
     "RemoveRedundantQualifierName",
@@ -47,9 +49,25 @@ public open class UserApi : ApiClientBase {
         json: Json = Json {}
     ) : super(baseUrl, httpClientEngine, json)
 
-    internal constructor(baseUrl: String, client: HttpClient) : super(
+    public constructor(baseUrl: String, client: HttpClient) : super(
         baseUrl,
         client
+    )
+
+    internal constructor(
+        baseUrl: String,
+        client: HttpClient,
+        apiKeyAuth: Map<String, ApiKeyAuth>,
+        basicAuth: Map<String, HttpBasicAuth>,
+        bearerAuth: Map<String, HttpBearerAuth>,
+        oAuth: Map<String, OAuth>,
+    ) : super(
+        baseUrl,
+        client,
+        apiKeyAuth,
+        basicAuth,
+        bearerAuth,
+        oAuth,
     )
 
     /**

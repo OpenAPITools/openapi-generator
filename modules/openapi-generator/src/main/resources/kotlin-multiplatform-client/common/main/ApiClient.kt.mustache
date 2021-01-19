@@ -1,4 +1,4 @@
-package {{packageName}}.infrastructure
+package {{packageName}}
 
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
@@ -6,103 +6,56 @@ import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import kotlinx.serialization.json.Json
-import io.ktor.client.request.*
 
+import {{apiPackage}}.*
+{{#hasAuthMethods}}
 import {{packageName}}.auth.*
+{{/hasAuthMethods}}
+import {{packageName}}.infrastructure.ApiClientBase
 
-public abstract class ApiClientBase {
-    protected val baseUrl: String
-    protected val client: HttpClient
+{{! TODO: Remove when backticks problems are resolved }}
+@Suppress("RemoveRedundantBackticks", "MemberVisibilityCanBePrivate", "unused")
+public open class {{apiClientName}}(
+    baseUrl: String = "{{{basePath}}}",
+    client: HttpClient
+) {
+    public constructor(baseUrl: String, httpClientEngine: HttpClientEngine? = null, json: Json = Json {}) :
+        this(baseUrl, createHttpClient(httpClientEngine, KotlinxSerializer(json)))
+
     {{#hasAuthMethods}}
-    protected var apiKeyAuth: Map<String, ApiKeyAuth> = mapOf({{#authMethods}}{{#isApiKey}}
+    protected val apiKeyAuth: Map<String, ApiKeyAuth> = mapOf({{#authMethods}}{{#isApiKey}}
         "{{name}}" to ApiKeyAuth({{#isKeyInHeader}}ApiKeyAuth.Location.Header{{/isKeyInHeader}}{{^isKeyInHeader}}ApiKeyAuth.Location.Query{{/isKeyInHeader}}, "{{keyParamName}}"),{{/isApiKey}}{{/authMethods}}
     )
-    protected var basicAuth: Map<String, HttpBasicAuth> = mapOf({{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+    protected val basicAuth: Map<String, HttpBasicAuth> = mapOf({{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
         "{{name}}" to HttpBasicAuth(),{{/isBasicBasic}}{{/isBasic}}{{/authMethods}}
     )
-    protected var bearerAuth: Map<String, HttpBearerAuth> = mapOf({{#authMethods}}{{#isBasic}}{{^isBasicBasic}}
+    protected val bearerAuth: Map<String, HttpBearerAuth> = mapOf({{#authMethods}}{{#isBasic}}{{^isBasicBasic}}
         "{{name}}" to HttpBearerAuth("{{scheme}}"),{{/isBasicBasic}}{{/isBasic}}{{/authMethods}}
     )
-    protected var oAuth: Map<String, OAuth> = mapOf({{#authMethods}}{{#isOAuth}}
+    protected val oAuth: Map<String, OAuth> = mapOf({{#authMethods}}{{#isOAuth}}
         "{{name}}" to OAuth(),{{/isOAuth}}{{/authMethods}}
     )
+
     {{/hasAuthMethods}}
-
-    protected constructor(baseUrl: String, httpClientEngine: HttpClientEngine?, json: Json = Json {}) {
-        this.baseUrl = baseUrl
-        val serializer = KotlinxSerializer(json)
-        val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = serializer }
-        val clientConfig: (HttpClientConfig<*>) -> Unit = { it.install(JsonFeature, jsonConfig) }
-        client = if (httpClientEngine == null) {
-            HttpClient(clientConfig)
-        } else {
-            HttpClient(httpClientEngine, clientConfig)
-        }
+    {{! TODO: Remove backticks when conflicts are resolved }}
+    {{#apiInfo}}
+    {{#apis}}
+    public val `{{{classVarName}}}`: {{{classFilename}}} by lazy {
+        {{{classFilename}}}(baseUrl, client{{#hasAuthMethods}}, apiKeyAuth, basicAuth, bearerAuth, oAuth{{/hasAuthMethods}})
     }
+    {{/apis}}
+    {{/apiInfo}}
 
-    protected constructor(baseUrl: String, client: HttpClient) {
-        this.baseUrl = baseUrl
-        this.client = client
-    }
-
-    protected constructor(
-        baseUrl: String,
-        client: HttpClient,
-        apiKeyAuth: Map<String, ApiKeyAuth>,
-        basicAuth: Map<String, HttpBasicAuth>,
-        bearerAuth: Map<String, HttpBearerAuth>,
-        oAuth: Map<String, OAuth>,
-    ) {
-        this.baseUrl = baseUrl
-        this.client = client
-        {{#hasAuthMethods}}
-        this.apiKeyAuth = apiKeyAuth
-        this.basicAuth = basicAuth
-        this.bearerAuth = bearerAuth
-        this.oAuth = oAuth
-        {{/hasAuthMethods}}
-    }
-    {{#hasAuthMethods}}
-
-    protected fun HttpRequestBuilder.addAuthentication(apiKeyAuths: List<String>, basicAuths: List<String>, bearerAuths: List<String>, oAuths: List<String>) {
-        for (name in apiKeyAuths) {
-            val auth = apiKeyAuth[name] ?: throw IllegalStateException("ApiKeyAuth \"$name\" was configured, but not found")
-            if (auth.isConfigured) {
-                auth.configure(this)
-                return
-            }
-        }
-        for (name in basicAuths) {
-            val auth = basicAuth[name] ?: throw IllegalStateException("HttpBasicAuth \"$name\" was configured, but not found")
-            if (auth.isConfigured) {
-                auth.configure(this)
-                return
-            }
-        }
-        for (name in bearerAuths) {
-            val auth = bearerAuth[name] ?: throw IllegalStateException("HttpBearerAuth \"$name\" was configured, but not found")
-            if (auth.isConfigured) {
-                auth.configure(this)
-                return
-            }
-        }
-        for (name in oAuths) {
-            val auth = oAuth[name] ?: throw IllegalStateException("OAuth \"$name\" was configured, but not found")
-            if (auth.isConfigured) {
-                auth.configure(this)
-                return
-            }
-        }
-        throw IllegalStateException(
-            """
-            No valid authentication configured, please configure one of the following:
-                API Key Authentication: ${apiKeyAuths.joinToString()}
-                HTTP Bearer Authentication: ${apiKeyAuths.joinToString()}
-                HTTP Basic Authentication: ${apiKeyAuths.joinToString()}
-                OAuth: ${apiKeyAuths.joinToString()}
-            """.trimIndent()
+    public val allClients: Set<ApiClientBase> by lazy {
+        setOf(
+            {{#apiInfo}}
+            {{#apis}}
+            `{{{classVarName}}}`,
+            {{/apis}}
+            {{/apiInfo}}
         )
     }
+    {{#hasAuthMethods}}
 
     /**
      * Allows configuring of a [ApiKeyAuth]. Please look at the documentation to find out which are available.
@@ -289,4 +242,14 @@ public abstract class ApiClientBase {
         }
     }
     {{/hasAuthMethods}}
+}
+
+internal fun createHttpClient(httpClientEngine: HttpClientEngine? = null, serializer: KotlinxSerializer): HttpClient {
+    val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = serializer }
+    val clientConfig: (HttpClientConfig<*>) -> Unit = { it.install(JsonFeature, jsonConfig) }
+    return if (httpClientEngine == null) {
+        HttpClient(clientConfig)
+    } else {
+        HttpClient(httpClientEngine, clientConfig)
+    }
 }

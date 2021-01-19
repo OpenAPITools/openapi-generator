@@ -6,7 +6,6 @@ package {{apiPackage}}
 {{#imports}}import {{import}}
 {{/imports}}
 
-import {{packageName}}.infrastructure.*
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.features.json.serializer.*
@@ -15,6 +14,9 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.serialization.json.Json
+
+import {{packageName}}.auth.*
+import {{packageName}}.infrastructure.*
 
 {{#operations}}
 public open class {{{classname}}}{{asyncSuffix}} : ApiClientBase {
@@ -31,13 +33,33 @@ public open class {{{classname}}}{{asyncSuffix}} : ApiClientBase {
         this.coroutineClient = {{{classname}}}(baseUrl, httpClientEngine, json)
     }
 
-    internal constructor(
+    public constructor(
         baseUrl: String,
         client: HttpClient,
         coroutineScope: CoroutineScope,
     ) : super(
         baseUrl,
         client,
+    ) {
+        this.coroutineScope = coroutineScope
+        this.coroutineClient = {{{classname}}}(baseUrl, client)
+    }
+
+    internal constructor(
+        baseUrl: String,
+        client: HttpClient,
+        coroutineScope: CoroutineScope,
+        apiKeyAuth: Map<String, ApiKeyAuth>,
+        basicAuth: Map<String, HttpBasicAuth>,
+        bearerAuth: Map<String, HttpBearerAuth>,
+        oAuth: Map<String, OAuth>,
+    ) : super(
+        baseUrl,
+        client,
+        apiKeyAuth,
+        basicAuth,
+        bearerAuth,
+        oAuth,
     ) {
         this.coroutineScope = coroutineScope
         this.coroutineClient = {{{classname}}}(baseUrl, client)

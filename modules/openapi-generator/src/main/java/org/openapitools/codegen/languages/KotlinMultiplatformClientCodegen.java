@@ -293,7 +293,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         // Infra
         final String infraDest = srcDir + File.separator + "infrastructure";
         final String infraSrc = "common/main/infrastructure/";
-        supportingFiles.add(new SupportingFile("ApiClient.kt.mustache", srcDir, apiClientName + ".kt"));
+        supportingFiles.add(new SupportingFile("common/main/ApiClient.kt.mustache", srcDir, apiClientName + ".kt"));
         if (async) {
             apiTemplateFiles.put("api-async.mustache", ".kt");
             supportingFiles.add(new SupportingFile("common/main/ApiClientAsync.kt.mustache", srcDir, apiClientName + asyncSuffix + ".kt"));
