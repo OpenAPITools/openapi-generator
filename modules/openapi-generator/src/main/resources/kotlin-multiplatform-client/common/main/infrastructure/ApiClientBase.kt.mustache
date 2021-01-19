@@ -52,7 +52,7 @@ public open class ApiClientBase {
         this.baseUrl = baseUrl
         this.client = client
     }
-
+    {{#hasAuthMethods}}
 
     protected fun HttpRequestBuilder.addAuthentication(apiKeyAuths: List<String>, basicAuths: List<String>, bearerAuths: List<String>, oAuths: List<String>) {
         for (name in apiKeyAuths) {
@@ -278,4 +278,5 @@ public open class ApiClientBase {
             token = value
         }
     }
+    {{/hasAuthMethods}}
 }

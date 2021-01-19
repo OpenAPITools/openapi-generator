@@ -103,7 +103,7 @@ public open class {{classname}} : ApiClientBase {
             {{^isMap}}
             {{#required}}
             {{#isCollectionFormatMulti}}
-            this.url.parameters.appendAll("{{baseName}}", {{{paramName}}}{{#items.isNullable}}.filterNotNull(){{/items.isNullable}}){{^items.isString}}.map({{{items.dataType}}}::toString){{/items.isString}})
+            this.url.parameters.appendAll("{{baseName}}", {{{paramName}}}{{#items.isNullable}}.filterNotNull(){{/items.isNullable}}{{^items.isString}}.map({{{items.dataType}}}::toString){{/items.isString}})
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
             parameter("{{baseName}}", {{{paramName}}}{{#items.isNullable}}.filterNotNull(){{/items.isNullable}}{{^items.isString}}.map({{{items.dataType}}}::toString){{/items.isString}}.joinToString(separator = collectionDelimiter("{{collectionFormat}}")))
