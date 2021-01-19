@@ -233,7 +233,7 @@ components:
       multipleOf: 2
     Integer64WithMultipleOf:
       type: integer
-      format: int364
+      format: int64
       multipleOf: 2
     NumberWithMultipleOf:
       type: number
@@ -271,7 +271,7 @@ components:
     Integer32WithMinimum:
       type: integer
       format: int32
-      multipleOf: 1
+      minimum: 1
     Integer64WithMinimum:
       type: integer
       format: int364
@@ -287,6 +287,28 @@ components:
       type: number
       format: double
       minimum: 1
+    IntegerWithMaximum:
+      type: integer
+      maximum: 10
+    Integer32WithMaximum:
+      type: integer
+      format: int32
+      maximum: 10
+    Integer64WithMaximum:
+      type: integer
+      format: int64
+      maximum: 10
+    NumberWithMaximum:
+      type: number
+      maximum: 10
+    NumberFloatWithMaximum:
+      type: number
+      format: float
+      maximum: 10
+    NumberDoubleWithMaximum:
+      type: number
+      format: double
+      maximum: 10
     NullModel:
       type: 'null'
     ObjectWithTypeNullProperties:
