@@ -16,14 +16,13 @@ package org.openapitools.client.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -36,7 +35,7 @@ public class FileSchemaTestClassTest {
      * Model tests for FileSchemaTestClass
      */
     @Test
-    public void testFileSchemaTestClass() {
+    void testFileSchemaTestClass() {
         // TODO: test FileSchemaTestClass
     }
 
@@ -44,7 +43,7 @@ public class FileSchemaTestClassTest {
      * Test the property 'file'
      */
     @Test
-    public void fileTest() {
+    void fileTest() {
         // TODO: test file
     }
 
@@ -52,7 +51,7 @@ public class FileSchemaTestClassTest {
      * Test the property 'files'
      */
     @Test
-    public void filesTest() {
+    void filesTest() {
         // TODO: test files
     }
 

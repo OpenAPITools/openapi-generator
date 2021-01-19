@@ -13,9 +13,7 @@
 
 package org.openapitools.client.model;
 
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -26,7 +24,7 @@ public class EnumClassTest {
      * Model tests for EnumClass
      */
     @Test
-    public void testEnumClass() {
+    void testEnumClass() {
         // TODO: test EnumClass
     }
 
