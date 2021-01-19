@@ -170,6 +170,82 @@ paths:
                 $ref: '#/components/schemas/NullModel'
 components:
   schemas:
+    ArrayWithMaxItems:
+      type: array
+      maxItems: 2
+      items:
+        type: string
+    ArrayWithMinItems:
+      type: array
+      minItems: 2
+      items:
+        type: string
+    ObjectWithMinProperties:
+      type: object
+      minProperties: 2
+    ObjectWithMaxProperties:
+      type: object
+      maxProperties: 2
+    StringWithMinLength:
+      type: string
+      minLength: 1
+    DateWithMinLength:
+      type: string
+      format: date
+      minLength: 10
+    DateTimeWithMinLength:
+      type: string
+      format: date-time
+      minLength: 20
+    ByteWithMinLength:
+      type: string
+      format: byte
+      minLength: 10
+    BinaryWithMinLength:
+      type: string
+      format: binary
+      minLength: 10
+    StringWithMaxLength:
+      type: string
+      maxLength: 1
+    DateWithMaxLength:
+      type: string
+      format: date
+      maxLength: 10
+    DateTimeWithMaxLength:
+      type: string
+      format: date-time
+      maxLength: 20
+    ByteWithMaxLength:
+      type: string
+      format: byte
+      maxLength: 10
+    BinaryWithMaxLength:
+      type: string
+      format: binary
+      maxLength: 10
+    IntegerWithMultipleOf:
+      type: integer
+      multipleOf: 2
+    Integer32WithMultipleOf:
+      type: integer
+      format: int32
+      multipleOf: 2
+    Integer64WithMultipleOf:
+      type: integer
+      format: int364
+      multipleOf: 2
+    NumberWithMultipleOf:
+      type: number
+      multipleOf: 2
+    NumberFloatWithMultipleOf:
+      type: number
+      format: float
+      multipleOf: 2
+    NumberDoubleWithMultipleOf:
+      type: number
+      format: double
+      multipleOf: 2
     NullModel:
       type: 'null'
     ObjectWithTypeNullProperties:
