@@ -124,7 +124,7 @@ paths:
     post:
       tags:
         - isX
-      operationId: null
+      operationId: 'null'
       parameters:
         - name: param
           in: path
@@ -148,7 +148,7 @@ paths:
     post:
       tags:
         - isX
-      operationId: null
+      operationId: refNull
       parameters:
         - name: param
           in: path

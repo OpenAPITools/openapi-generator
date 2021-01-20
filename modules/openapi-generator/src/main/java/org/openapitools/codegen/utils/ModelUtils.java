@@ -1501,6 +1501,7 @@ public class ModelUtils {
             Boolean uniqueItems = schema.getUniqueItems();
             Integer minProperties = schema.getMinProperties();
             Integer maxProperties = schema.getMaxProperties();
+            BigDecimal multipleOf = schema.getMultipleOf();
 
             if (minimum != null) target.setMinimum(String.valueOf(minimum));
             if (maximum != null) target.setMaximum(String.valueOf(maximum));
@@ -1513,6 +1514,7 @@ public class ModelUtils {
             if (uniqueItems != null) target.setUniqueItems(uniqueItems);
             if (minProperties != null) target.setMinProperties(minProperties);
             if (maxProperties != null) target.setMaxProperties(maxProperties);
+            if (multipleOf != null) target.setMultipleOf((Number) multipleOf);
         }
     }
 

@@ -2652,6 +2652,75 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testModelGetHasValidation() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7651.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema sc;
+        CodegenModel cm;
+
+
+        List<String> modelNames = Arrays.asList(
+                "ArrayWithMaxItems",
+                "ArrayWithMinItems",
+                "ArrayWithUniqueItems",
+                "ObjectWithMinProperties",
+                "ObjectWithMaxProperties",
+                "StringWithMinLength",
+                "DateWithMinLength",
+                "DateTimeWithMinLength",
+                "ByteWithMinLength",
+                "BinaryWithMinLength",
+                "StringWithMaxLength",
+                "DateWithMaxLength",
+                "DateTimeWithMaxLength",
+                "ByteWithMaxLength",
+                "BinaryWithMaxLength",
+                "IntegerWithMultipleOf",
+                "Integer32WithMultipleOf",
+                "Integer64WithMultipleOf",
+                "NumberWithMultipleOf",
+                "NumberFloatWithMultipleOf",
+                "NumberDoubleWithMultipleOf",
+                "StringWithPattern",
+                "DateWithPattern",
+                "DateTimeWithPattern",
+                "ByteWithPattern",
+                "BinaryWithPattern",
+                "IntegerWithMinimum",
+                "Integer32WithMinimum",
+                "Integer64WithMinimum",
+                "NumberWithMinimum",
+                "NumberFloatWithMinimum",
+                "NumberDoubleWithMinimum",
+                "IntegerWithMaximum",
+                "Integer32WithMaximum",
+                "Integer64WithMaximum",
+                "NumberWithMaximum",
+                "NumberFloatWithMaximum",
+                "NumberDoubleWithMaximum",
+                "IntegerWithExclusiveMaximum",
+                "Integer32WithExclusiveMaximum",
+                "Integer64WithExclusiveMaximum",
+                "NumberWithExclusiveMaximum",
+                "NumberFloatWithExclusiveMaximum",
+                "NumberDoubleWithExclusiveMaximum",
+                "IntegerWithExclusiveMinimum",
+                "Integer32WithExclusiveMinimum",
+                "Integer64WithExclusiveMinimum",
+                "NumberWithExclusiveMinimum",
+                "NumberFloatWithExclusiveMinimum",
+                "NumberDoubleWithExclusiveMinimum"
+        );
+        for (String modelName : modelNames) {
+            sc = openAPI.getComponents().getSchemas().get(modelName);
+            cm = codegen.fromModel(modelName, sc);
+            assertEquals(cm.getHasValidation(), true);
+        }
+    }
+
+        @Test
     public void testVarsAndRequiredVarsPresent() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
