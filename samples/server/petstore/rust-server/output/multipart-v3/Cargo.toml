@@ -10,7 +10,7 @@ edition = "2018"
 default = ["client", "server"]
 client = [
     "mime_0_2",
-    "multipart", "multipart/client", "swagger/multipart",
+    "multipart", "multipart/client", "swagger/multipart_form",
     "hyper_0_10", "mime_multipart",
     "hyper", "hyper-openssl", "hyper-tls", "native-tls", "openssl", "url"
 ]
