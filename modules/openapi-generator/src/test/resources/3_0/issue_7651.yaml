@@ -18,20 +18,20 @@ paths:
         - isX
       operationId: queryParametersWithValidation
       parameters:
-#        - name: ArrayWithMaxItems
-#          in: query
-#          schema:
-#            type: array
-#            maxItems: 2
-#            items:
-#              type: string
-#        - name: ArrayWithMinItems
-#          in: query
-#          schema:
-#            type: array
-#            minItems: 2
-#            items:
-#              type: string
+        - name: ArrayWithMaxItems
+          in: query
+          schema:
+            type: array
+            maxItems: 2
+            items:
+              type: string
+        - name: ArrayWithMinItems
+          in: query
+          schema:
+            type: array
+            minItems: 2
+            items:
+              type: string
         - name: ArrayWithUniqueItems
           in: query
           schema:
