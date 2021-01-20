@@ -691,14 +691,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean getHasValidation() { return hasValidation; }
 
     @Override
-    public void setHasValidation(Boolean hasValidation) {
-        if (hasValidation == null) {
-            boolean val = (maxItems != null || minItems != null || minProperties != null || maxProperties != null || minLength != null || maxLength != null || multipleOf != null || pattern != null || minimum != null || maximum != null || Boolean.TRUE.equals(uniqueItems) || Boolean.TRUE.equals(exclusiveMaximum) || Boolean.TRUE.equals(exclusiveMinimum));
-            this.hasValidation = val;
-        } else {
-            this.hasValidation = (boolean) hasValidation;
-        }
-    }
+    public void setHasValidation(boolean hasValidation) { this.hasValidation = hasValidation; }
 
     @Override
     public String toString() {

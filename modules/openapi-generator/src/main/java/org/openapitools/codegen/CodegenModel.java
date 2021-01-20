@@ -615,17 +615,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     @Override
     public boolean getHasValidation() { return hasValidation; }
 
-    // indicates if the model component has validation on the root level schema
-    // this will be true when minItems or minProperties is set
     @Override
-    public void setHasValidation(Boolean hasValidation) {
-        if (hasValidation == null) {
-            boolean val = (maxItems != null || minItems != null || minProperties != null || maxProperties != null || minLength != null || maxLength != null || multipleOf != null || pattern != null || minimum != null || maximum != null || Boolean.TRUE.equals(uniqueItems) || Boolean.TRUE.equals(exclusiveMaximum) || Boolean.TRUE.equals(exclusiveMinimum));
-            this.hasValidation = val;
-        } else {
-            this.hasValidation = (boolean) hasValidation;
-        }
-    }
+    public void setHasValidation(boolean hasValidation) { this.hasValidation = hasValidation; }
 
     public List<CodegenProperty> getReadOnlyVars() {
         return readOnlyVars;

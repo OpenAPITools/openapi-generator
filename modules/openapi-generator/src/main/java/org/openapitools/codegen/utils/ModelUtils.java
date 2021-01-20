@@ -1489,7 +1489,6 @@ public class ModelUtils {
 
     public static void syncValidationProperties(Schema schema, IJsonSchemaValidationProperties target) {
         if (schema != null && target != null) {
-            target.setPattern(schema.getPattern());
             BigDecimal minimum = schema.getMinimum();
             BigDecimal maximum = schema.getMaximum();
             Boolean exclusiveMinimum = schema.getExclusiveMinimum();
@@ -1502,19 +1501,26 @@ public class ModelUtils {
             Integer minProperties = schema.getMinProperties();
             Integer maxProperties = schema.getMaxProperties();
             BigDecimal multipleOf = schema.getMultipleOf();
+            String pattern = schema.getPattern();
 
+            if (maxItems != null) target.setMaxItems(maxItems);
+            if (minItems != null) target.setMinItems(minItems);
+            if (minProperties != null) target.setMinProperties(minProperties);
+            if (maxProperties != null) target.setMaxProperties(maxProperties);
+            if (minLength != null) target.setMinLength(minLength);
+            if (maxLength != null) target.setMaxLength(maxLength);
+            if (multipleOf != null) target.setMultipleOf((Number) multipleOf);
+            if (pattern != null) target.setPattern(pattern);
             if (minimum != null) target.setMinimum(String.valueOf(minimum));
             if (maximum != null) target.setMaximum(String.valueOf(maximum));
             if (exclusiveMinimum != null) target.setExclusiveMinimum(exclusiveMinimum);
             if (exclusiveMaximum != null) target.setExclusiveMaximum(exclusiveMaximum);
-            if (minLength != null) target.setMinLength(minLength);
-            if (maxLength != null) target.setMaxLength(maxLength);
-            if (minItems != null) target.setMinItems(minItems);
-            if (maxItems != null) target.setMaxItems(maxItems);
             if (uniqueItems != null) target.setUniqueItems(uniqueItems);
-            if (minProperties != null) target.setMinProperties(minProperties);
-            if (maxProperties != null) target.setMaxProperties(maxProperties);
-            if (multipleOf != null) target.setMultipleOf((Number) multipleOf);
+
+            // TODO conditionally set this only if we are in the correct schema type for the validation
+            if (maxItems != null || minItems != null || minProperties != null || maxProperties != null || minLength != null || maxLength != null || multipleOf != null || pattern != null || minimum != null || maximum != null || exclusiveMinimum != null || exclusiveMaximum != null || uniqueItems != null) {
+                target.setHasValidation(true);
+            }
         }
     }
 

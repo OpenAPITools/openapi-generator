@@ -2660,7 +2660,6 @@ public class DefaultCodegenTest {
         Schema sc;
         CodegenModel cm;
 
-
         List<String> modelNames = Arrays.asList(
                 "ArrayWithMaxItems",
                 "ArrayWithMinItems",
@@ -2717,6 +2716,21 @@ public class DefaultCodegenTest {
             sc = openAPI.getComponents().getSchemas().get(modelName);
             cm = codegen.fromModel(modelName, sc);
             assertEquals(cm.getHasValidation(), true);
+        }
+    }
+
+    @Test
+    public void testPropertyGetHasValidation() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7651.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "ObjectWithPropertiesThatHaveValidations";
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);;
+        CodegenModel cm = codegen.fromModel(modelName, sc);
+
+        for (CodegenProperty prop : cm.getVars()) {
+            assertEquals(prop.getHasValidation(), true);
         }
     }
 

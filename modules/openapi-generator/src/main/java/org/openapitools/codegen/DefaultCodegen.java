@@ -2258,6 +2258,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
+        ModelUtils.syncValidationProperties(schema, m);
 
         if (reservedWords.contains(name)) {
             m.name = escapeReservedWord(name);
@@ -2305,7 +2306,6 @@ public class DefaultCodegen implements CodegenConfig {
             m.setItems(arrayProperty.items);
             m.arrayModelType = arrayProperty.complexType;
             addParentContainer(m, name, schema);
-            ModelUtils.syncValidationProperties(schema, m);
         } else if (ModelUtils.isNullType(schema)) {
             m.isNull = true;
         } else if (schema instanceof ComposedSchema) {
@@ -2500,8 +2500,6 @@ public class DefaultCodegen implements CodegenConfig {
                 m.isMap = true;
             } else if (ModelUtils.isIntegerSchema(schema)) { // integer type
                 // NOTE: Integral schemas as CodegenModel is a rare use case and may be removed at a later date.
-                // Sync of properties is done for consistency with other data types like CodegenParameter/CodegenProperty.
-                ModelUtils.syncValidationProperties(schema, m);
 
                 m.isNumeric = Boolean.TRUE;
                 if (ModelUtils.isLongSchema(schema)) { // int64/long format
@@ -2511,23 +2509,15 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             } else if (ModelUtils.isDateTimeSchema(schema)) {
                 // NOTE: DateTime schemas as CodegenModel is a rare use case and may be removed at a later date.
-                // Sync of properties is done for consistency with other data types like CodegenParameter/CodegenProperty.
-                ModelUtils.syncValidationProperties(schema, m);
                 m.isDateTime = Boolean.TRUE;
             } else if (ModelUtils.isDateSchema(schema)) {
                 // NOTE: Date schemas as CodegenModel is a rare use case and may be removed at a later date.
-                // Sync of properties is done for consistency with other data types like CodegenParameter/CodegenProperty.
-                ModelUtils.syncValidationProperties(schema, m);
                 m.isDate = Boolean.TRUE;
             } else if (ModelUtils.isStringSchema(schema)) {
                 // NOTE: String schemas as CodegenModel is a rare use case and may be removed at a later date.
-                // Sync of properties is done for consistency with other data types like CodegenParameter/CodegenProperty.
-                ModelUtils.syncValidationProperties(schema, m);
                 m.isString = Boolean.TRUE;
             } else if (ModelUtils.isNumberSchema(schema)) {
                 // NOTE: Number schemas as CodegenModel is a rare use case and may be removed at a later date.
-                // Sync of properties is done for consistency with other data types like CodegenParameter/CodegenProperty.
-                ModelUtils.syncValidationProperties(schema, m);
                 m.isNumeric = Boolean.TRUE;
                 if (ModelUtils.isFloatSchema(schema)) { // float
                     m.isFloat = Boolean.TRUE;
@@ -2538,7 +2528,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             } else if (ModelUtils.isFreeFormObject(openAPI, schema)) {
                 addAdditionPropertiesToCodeGenModel(m, schema);
-                ModelUtils.syncValidationProperties(schema, m);
             }
 
             if (Boolean.TRUE.equals(schema.getNullable())) {
@@ -2616,7 +2605,6 @@ public class DefaultCodegen implements CodegenConfig {
                 postProcessModelProperty(m, prop);
             }
         }
-        m.setHasValidation(null);
         return m;
     }
 
@@ -3078,7 +3066,6 @@ public class DefaultCodegen implements CodegenConfig {
         p = unaliasSchema(p, importMapping);
 
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
-
         ModelUtils.syncValidationProperties(p, property);
 
         property.name = toVarName(name);
@@ -3145,27 +3132,6 @@ public class DefaultCodegen implements CodegenConfig {
                 property.isInteger = Boolean.TRUE;
             }
 
-            if (p.getMinimum() != null) {
-                property.minimum = String.valueOf(p.getMinimum().longValue());
-            }
-            if (p.getMaximum() != null) {
-                property.maximum = String.valueOf(p.getMaximum().longValue());
-            }
-            if (p.getExclusiveMinimum() != null) {
-                property.exclusiveMinimum = p.getExclusiveMinimum();
-            }
-            if (p.getExclusiveMaximum() != null) {
-                property.exclusiveMaximum = p.getExclusiveMaximum();
-            }
-            if (p.getMultipleOf() != null) {
-                property.multipleOf = p.getMultipleOf();
-            }
-
-            // check if any validation rule defined
-            // exclusive* are noop without corresponding min/max
-            if (property.minimum != null || property.maximum != null || p.getMultipleOf() != null)
-                property.hasValidation = true;
-
         } else if (ModelUtils.isBooleanSchema(p)) { // boolean type
             property.isBoolean = true;
             property.getter = toBooleanGetter(name);
@@ -3178,27 +3144,6 @@ public class DefaultCodegen implements CodegenConfig {
             property.isDateTime = true;
         } else if (ModelUtils.isDecimalSchema(p)) { // type: string, format: number
             property.isDecimal = true;
-            if (p.getMinimum() != null) {
-                property.minimum = String.valueOf(p.getMinimum());
-            }
-            if (p.getMaximum() != null) {
-                property.maximum = String.valueOf(p.getMaximum());
-            }
-            if (p.getExclusiveMinimum() != null) {
-                property.exclusiveMinimum = p.getExclusiveMinimum();
-            }
-            if (p.getExclusiveMaximum() != null) {
-                property.exclusiveMaximum = p.getExclusiveMaximum();
-            }
-            if (p.getMultipleOf() != null) {
-                property.multipleOf = p.getMultipleOf();
-            }
-
-            // check if any validation rule defined
-            // exclusive* are noop without corresponding min/max
-            if (property.minimum != null || property.maximum != null || p.getMultipleOf() != null) {
-                property.hasValidation = true;
-            }
         } else if (ModelUtils.isStringSchema(p)) {
             if (ModelUtils.isByteArraySchema(p)) {
                 property.isByteArray = true;
@@ -3220,14 +3165,7 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 property.isString = true;
             }
-
-            property.maxLength = p.getMaxLength();
-            property.minLength = p.getMinLength();
             property.pattern = toRegularExpression(p.getPattern());
-
-            // check if any validation rule defined
-            if (property.pattern != null || property.minLength != null || property.maxLength != null)
-                property.hasValidation = true;
 
         } else if (ModelUtils.isNumberSchema(p)) {
             property.isNumeric = Boolean.TRUE;
@@ -3237,28 +3175,6 @@ public class DefaultCodegen implements CodegenConfig {
                 property.isDouble = Boolean.TRUE;
             } else { // type is number and without format
                 property.isNumber = Boolean.TRUE;
-            }
-
-            if (p.getMinimum() != null) {
-                property.minimum = String.valueOf(p.getMinimum());
-            }
-            if (p.getMaximum() != null) {
-                property.maximum = String.valueOf(p.getMaximum());
-            }
-            if (p.getExclusiveMinimum() != null) {
-                property.exclusiveMinimum = p.getExclusiveMinimum();
-            }
-            if (p.getExclusiveMaximum() != null) {
-                property.exclusiveMaximum = p.getExclusiveMaximum();
-            }
-            if (p.getMultipleOf() != null) {
-                property.multipleOf = p.getMultipleOf();
-            }
-
-            // check if any validation rule defined
-            // exclusive* are noop without corresponding min/max
-            if (property.minimum != null || property.maximum != null || p.getMultipleOf() != null) {
-                property.hasValidation = true;
             }
 
         } else if (isFreeFormObject(p)) {
@@ -3348,8 +3264,6 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             // handle inner property
-            property.maxItems = p.getMaxItems();
-            property.minItems = p.getMinItems();
             String itemName = null;
             if (p.getExtensions() != null && p.getExtensions().get("x-item-name") != null) {
                 itemName = p.getExtensions().get("x-item-name").toString();
@@ -3366,6 +3280,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.isMap = true;
             property.containerType = "map";
             property.baseType = getSchemaType(p);
+            // TODO remove this hack in the future, code should use minProperties and maxProperties for object schemas
             property.minItems = p.getMinProperties();
             property.maxItems = p.getMaxProperties();
 

@@ -97,6 +97,5 @@ public interface IJsonSchemaValidationProperties {
 
     boolean getHasValidation();
 
-    // if null is passed in validation is determined from set validation properties
-    void setHasValidation(Boolean hasValidation);
+    void setHasValidation(boolean hasValidation);
 }
