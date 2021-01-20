@@ -2734,6 +2734,20 @@ public class DefaultCodegenTest {
         }
     }
 
+    @Test
+    public void testQueryParametersGetHasValidation() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7651.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String path = "/queryParametersWithValidation";
+        Operation operation = openAPI.getPaths().get(path).getPost();
+        CodegenOperation co = codegen.fromOperation(path, "POST", operation, null);
+        for (CodegenParameter param : co.queryParams) {
+            assertEquals(param.getHasValidation(), true);
+        }
+    }
+
         @Test
     public void testVarsAndRequiredVarsPresent() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");

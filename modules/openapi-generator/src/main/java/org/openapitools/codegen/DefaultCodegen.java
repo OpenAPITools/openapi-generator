@@ -4135,20 +4135,6 @@ public class DefaultCodegen implements CodegenConfig {
     public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
 
-        if (parameter.getContent() != null && parameter.getContent().size() > 0) {
-            // Ensure validation properties from a target schema are persisted on CodegenParameter.
-            // This ignores any edge case where different schemas have different validations because we don't
-            // have a way to indicate a preference for parameter schema and are effective 1:1.
-            Schema contentSchema = null;
-            for (MediaType mt : parameter.getContent().values()) {
-                if (contentSchema != null) break;
-                contentSchema = mt.getSchema();
-            }
-            if (contentSchema != null) {
-                ModelUtils.syncValidationProperties(contentSchema, codegenParameter);
-            }
-        }
-
         codegenParameter.baseName = parameter.getName();
         codegenParameter.description = escapeText(parameter.getDescription());
         codegenParameter.unescapedDescription = parameter.getDescription();
@@ -4187,6 +4173,7 @@ public class DefaultCodegen implements CodegenConfig {
                 LOGGER.warn("warning!  Schema not found for parameter \"" + parameter.getName() + "\", using String");
                 parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
             }
+            ModelUtils.syncValidationProperties(parameterSchema, codegenParameter);
 
             if (Boolean.TRUE.equals(parameterSchema.getNullable())) { // use nullable defined in the spec
                 codegenParameter.isNullable = true;

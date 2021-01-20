@@ -12,6 +12,325 @@ tags:
   - name: isX
     description: an api that ensures that isX properties are present on Schema classes
 paths:
+  /queryParametersWithValidation:
+    post:
+      tags:
+        - isX
+      operationId: queryParametersWithValidation
+      parameters:
+#        - name: ArrayWithMaxItems
+#          in: query
+#          schema:
+#            type: array
+#            maxItems: 2
+#            items:
+#              type: string
+#        - name: ArrayWithMinItems
+#          in: query
+#          schema:
+#            type: array
+#            minItems: 2
+#            items:
+#              type: string
+        - name: ArrayWithUniqueItems
+          in: query
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+        - name: ObjectWithMinProperties
+          in: query
+          schema:
+            type: object
+            minProperties: 2
+        - name: ObjectWithMaxProperties
+          in: query
+          schema:
+            type: object
+            maxProperties: 2
+        - name: StringWithMinLength
+          in: query
+          schema:
+            type: string
+            minLength: 1
+        - name: DateWithMinLength
+          in: query
+          schema:
+            type: string
+            format: date
+            minLength: 10
+        - name: DateTimeWithMinLength
+          in: query
+          schema:
+            type: string
+            format: date-time
+            minLength: 20
+        - name: ByteWithMinLength
+          in: query
+          schema:
+            type: string
+            format: byte
+            minLength: 10
+        - name: BinaryWithMinLength
+          in: query
+          schema:
+            type: string
+            format: binary
+            minLength: 10
+        - name: StringWithMaxLength
+          in: query
+          schema:
+            type: string
+            maxLength: 1
+        - name: DateWithMaxLength
+          in: query
+          schema:
+            type: string
+            format: date
+            maxLength: 10
+        - name: DateTimeWithMaxLength
+          in: query
+          schema:
+            type: string
+            format: date-time
+            maxLength: 20
+        - name: ByteWithMaxLength
+          in: query
+          schema:
+            type: string
+            format: byte
+            maxLength: 10
+        - name: BinaryWithMaxLength
+          in: query
+          schema:
+            type: string
+            format: binary
+            maxLength: 10
+        - name: IntegerWithMultipleOf
+          in: query
+          schema:
+            type: integer
+            multipleOf: 2
+        - name: Integer32WithMultipleOf
+          in: query
+          schema:
+            type: integer
+            format: int32
+            multipleOf: 2
+        - name: Integer64WithMultipleOf
+          in: query
+          schema:
+            type: integer
+            format: int64
+            multipleOf: 2
+        - name: NumberWithMultipleOf
+          in: query
+          schema:
+            type: number
+            multipleOf: 2
+        - name: NumberFloatWithMultipleOf
+          in: query
+          schema:
+            type: number
+            format: float
+            multipleOf: 2
+        - name: NumberDoubleWithMultipleOf
+          in: query
+          schema:
+            type: number
+            format: double
+            multipleOf: 2
+        - name: StringWithPattern
+          in: query
+          schema:
+            type: string
+            pattern: '^2021.+'
+        - name: DateWithPattern
+          in: query
+          schema:
+            type: string
+            format: date
+            pattern: '^2021.+'
+        - name: DateTimeWithPattern
+          in: query
+          schema:
+            type: string
+            format: date-time
+            pattern: '^2021.+'
+        - name: ByteWithPattern
+          in: query
+          schema:
+            type: string
+            format: byte
+            pattern: '^2021.+'
+        - name: BinaryWithPattern
+          in: query
+          schema:
+            type: string
+            format: binary
+            pattern: '^2021.+'
+        - name: IntegerWithMinimum
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+        - name: Integer32WithMinimum
+          in: query
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+        - name: Integer64WithMinimum
+          in: query
+          schema:
+            type: integer
+            format: int364
+            minimum: 1
+        - name: NumberWithMinimum
+          in: query
+          schema:
+            type: number
+            minimum: 1
+        - name: NumberFloatWithMinimum
+          in: query
+          schema:
+            type: number
+            format: float
+            minimum: 1
+        - name: NumberDoubleWithMinimum
+          in: query
+          schema:
+            type: number
+            format: double
+            minimum: 1
+        - name: IntegerWithMaximum
+          in: query
+          schema:
+            type: integer
+            maximum: 10
+        - name: Integer32WithMaximum
+          in: query
+          schema:
+            type: integer
+            format: int32
+            maximum: 10
+        - name: Integer64WithMaximum
+          in: query
+          schema:
+            type: integer
+            format: int64
+            maximum: 10
+        - name: NumberWithMaximum
+          in: query
+          schema:
+            type: number
+            maximum: 10
+        - name: NumberFloatWithMaximum
+          in: query
+          schema:
+            type: number
+            format: float
+            maximum: 10
+        - name: NumberDoubleWithMaximum
+          in: query
+          schema:
+            type: number
+            format: double
+            maximum: 10
+        - name: IntegerWithExclusiveMinimum
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            exclusiveMinimum: true
+        - name: Integer32WithExclusiveMinimum
+          in: query
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            exclusiveMinimum: true
+        - name: Integer64WithExclusiveMinimum
+          in: query
+          schema:
+            type: integer
+            format: int364
+            minimum: 1
+            exclusiveMinimum: true
+        - name: NumberWithExclusiveMinimum
+          in: query
+          schema:
+            type: number
+            minimum: 1
+            exclusiveMinimum: true
+        - name: NumberFloatWithExclusiveMinimum
+          in: query
+          schema:
+            type: number
+            format: float
+            minimum: 1
+            exclusiveMinimum: true
+        - name: NumberDoubleWithExclusiveMinimum
+          in: query
+          schema:
+            type: number
+            format: double
+            minimum: 1
+            exclusiveMinimum: true
+        - name: IntegerWithExclusiveMaximum
+          in: query
+          schema:
+            type: integer
+            maximum: 10
+            exclusiveMaximum: true
+        - name: Integer32WithExclusiveMaximum
+          in: query
+          schema:
+            type: integer
+            format: int32
+            maximum: 10
+            exclusiveMaximum: true
+        - name: Integer64WithExclusiveMaximum
+          in: query
+          schema:
+            type: integer
+            format: int64
+            maximum: 10
+            exclusiveMaximum: true
+        - name: NumberWithExclusiveMaximum
+          in: query
+          schema:
+            type: number
+            maximum: 10
+            exclusiveMaximum: true
+        - name: NumberFloatWithExclusiveMaximum
+          in: query
+          schema:
+            type: number
+            format: float
+            maximum: 10
+            exclusiveMaximum: true
+        - name: NumberDoubleWithExclusiveMaximum
+          in: query
+          schema:
+            type: number
+            format: double
+            maximum: 10
+            exclusiveMaximum: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DateWithValidation'
   /ref_date_with_validation/{date}:
     post:
       tags:
