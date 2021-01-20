@@ -18,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * API tests for FakeClassnameTags123Api
  */
-public class FakeClassnameTags123ApiTest {
+class FakeClassnameTags123ApiTest {
 
   private static WireMockServer wm = new WireMockServer(options().dynamicPort().notifier(new Slf4jNotifier(true)));
 

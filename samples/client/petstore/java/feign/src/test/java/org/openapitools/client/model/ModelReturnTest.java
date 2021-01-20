@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for ModelReturn
  */
-public class ModelReturnTest {
+class ModelReturnTest {
     private final ModelReturn model = new ModelReturn();
 
     /**

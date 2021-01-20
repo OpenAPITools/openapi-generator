@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for FormatTest
  */
-public class FormatTestTest {
+class FormatTestTest {
     private final FormatTest model = new FormatTest();
 
     /**

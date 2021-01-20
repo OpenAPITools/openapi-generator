@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for AdditionalPropertiesInteger
  */
-public class AdditionalPropertiesIntegerTest {
+class AdditionalPropertiesIntegerTest {
     private final AdditionalPropertiesInteger model = new AdditionalPropertiesInteger();
 
     /**

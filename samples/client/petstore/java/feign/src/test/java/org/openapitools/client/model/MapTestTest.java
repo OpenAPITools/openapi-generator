@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for MapTest
  */
-public class MapTestTest {
+class MapTestTest {
     private final MapTest model = new MapTest();
 
     /**

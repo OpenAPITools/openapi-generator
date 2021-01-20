@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for XmlItem
  */
-public class XmlItemTest {
+class XmlItemTest {
     private final XmlItem model = new XmlItem();
 
     /**

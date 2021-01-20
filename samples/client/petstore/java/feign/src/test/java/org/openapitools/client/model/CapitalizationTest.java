@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for Capitalization
  */
-public class CapitalizationTest {
+class CapitalizationTest {
     private final Capitalization model = new Capitalization();
 
     /**

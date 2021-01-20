@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for AdditionalPropertiesNumber
  */
-public class AdditionalPropertiesNumberTest {
+class AdditionalPropertiesNumberTest {
     private final AdditionalPropertiesNumber model = new AdditionalPropertiesNumber();
 
     /**

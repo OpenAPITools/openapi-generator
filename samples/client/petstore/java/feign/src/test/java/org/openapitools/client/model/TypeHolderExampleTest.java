@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for TypeHolderExample
  */
-public class TypeHolderExampleTest {
+class TypeHolderExampleTest {
     private final TypeHolderExample model = new TypeHolderExample();
 
     /**

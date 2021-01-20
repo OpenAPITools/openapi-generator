@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for Pet
  */
-public class PetTest {
+class PetTest {
     private final Pet model = new Pet();
 
     /**

@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for Dog
  */
-public class DogTest {
+class DogTest {
     private final Dog model = new Dog();
 
     /**

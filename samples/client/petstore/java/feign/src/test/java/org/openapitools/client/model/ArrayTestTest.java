@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for ArrayTest
  */
-public class ArrayTestTest {
+class ArrayTestTest {
     private final ArrayTest model = new ArrayTest();
 
     /**

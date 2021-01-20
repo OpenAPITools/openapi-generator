@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for AdditionalPropertiesClass
  */
-public class AdditionalPropertiesClassTest {
+class AdditionalPropertiesClassTest {
     private final AdditionalPropertiesClass model = new AdditionalPropertiesClass();
 
     /**

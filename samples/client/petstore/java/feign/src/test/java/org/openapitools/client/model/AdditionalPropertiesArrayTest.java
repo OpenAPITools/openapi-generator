@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for AdditionalPropertiesArray
  */
-public class AdditionalPropertiesArrayTest {
+class AdditionalPropertiesArrayTest {
     private final AdditionalPropertiesArray model = new AdditionalPropertiesArray();
 
     /**

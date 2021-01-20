@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for NumberOnly
  */
-public class NumberOnlyTest {
+class NumberOnlyTest {
     private final NumberOnly model = new NumberOnly();
 
     /**

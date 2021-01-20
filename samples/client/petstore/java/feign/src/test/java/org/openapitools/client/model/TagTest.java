@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for Tag
  */
-public class TagTest {
+class TagTest {
     private final Tag model = new Tag();
 
     /**

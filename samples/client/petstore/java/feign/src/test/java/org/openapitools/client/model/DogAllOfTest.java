@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for DogAllOf
  */
-public class DogAllOfTest {
+class DogAllOfTest {
     private final DogAllOf model = new DogAllOf();
 
     /**

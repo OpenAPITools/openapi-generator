@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for OuterComposite
  */
-public class OuterCompositeTest {
+class OuterCompositeTest {
     private final OuterComposite model = new OuterComposite();
 
     /**

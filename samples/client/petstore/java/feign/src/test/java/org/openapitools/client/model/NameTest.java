@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for Name
  */
-public class NameTest {
+class NameTest {
     private final Name model = new Name();
 
     /**

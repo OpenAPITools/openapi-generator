@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for MixedPropertiesAndAdditionalPropertiesClass
  */
-public class MixedPropertiesAndAdditionalPropertiesClassTest {
+class MixedPropertiesAndAdditionalPropertiesClassTest {
     private final MixedPropertiesAndAdditionalPropertiesClass model = new MixedPropertiesAndAdditionalPropertiesClass();
 
     /**

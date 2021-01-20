@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for Animal
  */
-public class AnimalTest {
+class AnimalTest {
     private final Animal model = new Animal();
 
     /**

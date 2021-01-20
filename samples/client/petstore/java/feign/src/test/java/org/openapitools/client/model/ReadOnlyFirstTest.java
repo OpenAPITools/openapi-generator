@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for ReadOnlyFirst
  */
-public class ReadOnlyFirstTest {
+class ReadOnlyFirstTest {
     private final ReadOnlyFirst model = new ReadOnlyFirst();
 
     /**

@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for EnumClass
  */
-public class EnumClassTest {
+class EnumClassTest {
     /**
      * Model tests for EnumClass
      */

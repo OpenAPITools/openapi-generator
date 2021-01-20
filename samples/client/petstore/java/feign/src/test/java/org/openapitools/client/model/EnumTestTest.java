@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for EnumTest
  */
-public class EnumTestTest {
+class EnumTestTest {
     private final EnumTest model = new EnumTest();
 
     /**

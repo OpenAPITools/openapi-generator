@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for HasOnlyReadOnly
  */
-public class HasOnlyReadOnlyTest {
+class HasOnlyReadOnlyTest {
     private final HasOnlyReadOnly model = new HasOnlyReadOnly();
 
     /**

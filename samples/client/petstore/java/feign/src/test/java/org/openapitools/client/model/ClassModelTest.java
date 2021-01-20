@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for ClassModel
  */
-public class ClassModelTest {
+class ClassModelTest {
     private final ClassModel model = new ClassModel();
 
     /**

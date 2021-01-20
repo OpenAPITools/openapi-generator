@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for Cat
  */
-public class CatTest {
+class CatTest {
     private final Cat model = new Cat();
 
     /**

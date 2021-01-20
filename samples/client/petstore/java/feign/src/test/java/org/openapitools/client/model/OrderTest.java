@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for Order
  */
-public class OrderTest {
+class OrderTest {
     private final Order model = new Order();
 
     /**

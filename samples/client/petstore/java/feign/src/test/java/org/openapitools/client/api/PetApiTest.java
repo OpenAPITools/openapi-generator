@@ -27,7 +27,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * API tests for PetAp
  */
-public class PetApiTest {
+class PetApiTest {
 
   private static PetApi api;
 

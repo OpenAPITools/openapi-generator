@@ -14,12 +14,12 @@ import java.util.Map;
 /**
  * API tests for AnotherFakeApi
  */
-public class AnotherFakeApiTest {
+class AnotherFakeApiTest {
 
     private AnotherFakeApi api;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         api = new ApiClient().buildClient(AnotherFakeApi.class);
     }
 

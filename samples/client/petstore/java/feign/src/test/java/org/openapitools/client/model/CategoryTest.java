@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for Category
  */
-public class CategoryTest {
+class CategoryTest {
     private final Category model = new Category();
 
     /**

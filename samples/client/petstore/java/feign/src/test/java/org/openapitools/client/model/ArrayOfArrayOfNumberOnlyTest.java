@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for ArrayOfArrayOfNumberOnly
  */
-public class ArrayOfArrayOfNumberOnlyTest {
+class ArrayOfArrayOfNumberOnlyTest {
     private final ArrayOfArrayOfNumberOnly model = new ArrayOfArrayOfNumberOnly();
 
     /**

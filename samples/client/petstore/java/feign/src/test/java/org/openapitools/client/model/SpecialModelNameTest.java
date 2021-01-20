@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for SpecialModelName
  */
-public class SpecialModelNameTest {
+class SpecialModelNameTest {
     private final SpecialModelName model = new SpecialModelName();
 
     /**

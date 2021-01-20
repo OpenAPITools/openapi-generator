@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for CatAllOf
  */
-public class CatAllOfTest {
+class CatAllOfTest {
     private final CatAllOf model = new CatAllOf();
 
     /**

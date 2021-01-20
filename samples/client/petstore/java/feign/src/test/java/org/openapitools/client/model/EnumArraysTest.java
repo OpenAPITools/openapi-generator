@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for EnumArrays
  */
-public class EnumArraysTest {
+class EnumArraysTest {
     private final EnumArrays model = new EnumArrays();
 
     /**

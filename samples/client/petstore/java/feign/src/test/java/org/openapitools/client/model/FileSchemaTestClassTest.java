@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for FileSchemaTestClass
  */
-public class FileSchemaTestClassTest {
+class FileSchemaTestClassTest {
     private final FileSchemaTestClass model = new FileSchemaTestClass();
 
     /**

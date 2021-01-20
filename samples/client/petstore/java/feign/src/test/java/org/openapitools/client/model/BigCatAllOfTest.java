@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for BigCatAllOf
  */
-public class BigCatAllOfTest {
+class BigCatAllOfTest {
     private final BigCatAllOf model = new BigCatAllOf();
 
     /**

@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for User
  */
-public class UserTest {
+class UserTest {
     private final User model = new User();
 
     /**

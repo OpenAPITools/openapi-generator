@@ -14,12 +14,12 @@ import java.util.Map;
 /**
  * API tests for UserApi
  */
-public class UserApiTest {
+class UserApiTest {
 
     private UserApi api;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         api = new ApiClient().buildClient(UserApi.class);
     }
 

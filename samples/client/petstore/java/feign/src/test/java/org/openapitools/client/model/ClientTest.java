@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for Client
  */
-public class ClientTest {
+class ClientTest {
     private final Client model = new Client();
 
     /**

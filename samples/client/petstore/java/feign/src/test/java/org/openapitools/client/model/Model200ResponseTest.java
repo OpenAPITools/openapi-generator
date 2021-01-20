@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for Model200Response
  */
-public class Model200ResponseTest {
+class Model200ResponseTest {
     private final Model200Response model = new Model200Response();
 
     /**

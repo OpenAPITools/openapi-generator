@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for AdditionalPropertiesAnyType
  */
-public class AdditionalPropertiesAnyTypeTest {
+class AdditionalPropertiesAnyTypeTest {
     private final AdditionalPropertiesAnyType model = new AdditionalPropertiesAnyType();
 
     /**

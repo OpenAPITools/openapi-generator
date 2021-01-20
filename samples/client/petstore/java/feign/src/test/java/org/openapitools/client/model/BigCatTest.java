@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for BigCat
  */
-public class BigCatTest {
+class BigCatTest {
     private final BigCat model = new BigCat();
 
     /**

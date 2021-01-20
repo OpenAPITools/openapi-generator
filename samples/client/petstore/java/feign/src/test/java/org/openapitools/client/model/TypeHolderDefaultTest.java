@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for TypeHolderDefault
  */
-public class TypeHolderDefaultTest {
+class TypeHolderDefaultTest {
     private final TypeHolderDefault model = new TypeHolderDefault();
 
     /**

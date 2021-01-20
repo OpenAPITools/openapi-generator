@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for OuterEnum
  */
-public class OuterEnumTest {
+class OuterEnumTest {
     /**
      * Model tests for OuterEnum
      */
