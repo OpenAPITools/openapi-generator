@@ -41,12 +41,12 @@ func NewFileWithDefaults() *File {
 }
 
 // GetSourceURI returns the SourceURI field value if set, zero value otherwise.
-func (o *File) GetSourceURI() string {
+func (o *File) GetSourceURI() *string {
 	if o == nil || o.SourceURI == nil {
-		var ret string
+		var ret *string
 		return ret
 	}
-	return *o.SourceURI
+	return o.SourceURI
 }
 
 // GetSourceURIOk returns a tuple with the SourceURI field value if set, nil otherwise

@@ -37,12 +37,12 @@ func NewAdditionalPropertiesStringWithDefaults() *AdditionalPropertiesString {
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *AdditionalPropertiesString) GetName() string {
+func (o *AdditionalPropertiesString) GetName() *string {
 	if o == nil || o.Name == nil {
-		var ret string
+		var ret *string
 		return ret
 	}
-	return *o.Name
+	return o.Name
 }
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise

@@ -12,15 +12,15 @@ package petstore
 
 import (
 	"bytes"
-	_context "context"
-	_ioutil "io/ioutil"
-	_nethttp "net/http"
-	_neturl "net/url"
+	"context"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 )
 
 // Linger please
 var (
-	_ _context.Context
+	_ context.Context
 )
 
 type FakeClassnameTags123Api interface {
@@ -28,23 +28,23 @@ type FakeClassnameTags123Api interface {
 	/*
 	 * TestClassname To test class name in snake case
 	 * To test class name in snake case
-	 * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	 * @return ApiTestClassnameRequest
 	 */
-	TestClassname(ctx _context.Context) ApiTestClassnameRequest
+	TestClassname(ctx context.Context) ApiTestClassnameRequest
 
 	/*
 	 * TestClassnameExecute executes the request
 	 * @return Client
 	 */
-	TestClassnameExecute(r ApiTestClassnameRequest) (Client, *_nethttp.Response, error)
+	TestClassnameExecute(r ApiTestClassnameRequest) (*Client, *http.Response, error)
 }
 
 // FakeClassnameTags123ApiService FakeClassnameTags123Api service
 type FakeClassnameTags123ApiService service
 
 type ApiTestClassnameRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService FakeClassnameTags123Api
 	client *Client
 }
@@ -54,17 +54,17 @@ func (r ApiTestClassnameRequest) Client(client Client) ApiTestClassnameRequest {
 	return r
 }
 
-func (r ApiTestClassnameRequest) Execute() (Client, *_nethttp.Response, error) {
+func (r ApiTestClassnameRequest) Execute() (*Client, *http.Response, error) {
 	return r.ApiService.TestClassnameExecute(r)
 }
 
 /*
  * TestClassname To test class name in snake case
  * To test class name in snake case
- * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @return ApiTestClassnameRequest
  */
-func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context) ApiTestClassnameRequest {
+func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context) ApiTestClassnameRequest {
 	return ApiTestClassnameRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -75,9 +75,9 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context) Api
  * Execute executes the request
  * @return Client
  */
-func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassnameRequest) (Client, *_nethttp.Response, error) {
+func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassnameRequest) (*Client, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPatch
+		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -87,16 +87,16 @@ func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassname
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeClassnameTags123ApiService.TestClassname")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return &localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/fake_classname_test"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 	if r.client == nil {
-		return localVarReturnValue, nil, reportError("client is required and must be specified")
+		return &localVarReturnValue, nil, reportError("client is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -134,19 +134,19 @@ func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassname
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return &localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return &localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return &localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -154,7 +154,7 @@ func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassname
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return &localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -163,8 +163,8 @@ func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassname
 			body:  localVarBody,
 			error: err.Error(),
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return &localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return &localVarReturnValue, localVarHTTPResponse, nil
 }

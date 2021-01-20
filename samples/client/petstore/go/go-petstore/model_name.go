@@ -65,12 +65,12 @@ func (o *Name) SetName(v int32) {
 }
 
 // GetSnakeCase returns the SnakeCase field value if set, zero value otherwise.
-func (o *Name) GetSnakeCase() int32 {
+func (o *Name) GetSnakeCase() *int32 {
 	if o == nil || o.SnakeCase == nil {
-		var ret int32
+		var ret *int32
 		return ret
 	}
-	return *o.SnakeCase
+	return o.SnakeCase
 }
 
 // GetSnakeCaseOk returns a tuple with the SnakeCase field value if set, nil otherwise
@@ -97,12 +97,12 @@ func (o *Name) SetSnakeCase(v int32) {
 }
 
 // GetProperty returns the Property field value if set, zero value otherwise.
-func (o *Name) GetProperty() string {
+func (o *Name) GetProperty() *string {
 	if o == nil || o.Property == nil {
-		var ret string
+		var ret *string
 		return ret
 	}
-	return *o.Property
+	return o.Property
 }
 
 // GetPropertyOk returns a tuple with the Property field value if set, nil otherwise
@@ -129,12 +129,12 @@ func (o *Name) SetProperty(v string) {
 }
 
 // GetVar123Number returns the Var123Number field value if set, zero value otherwise.
-func (o *Name) GetVar123Number() int32 {
+func (o *Name) GetVar123Number() *int32 {
 	if o == nil || o.Var123Number == nil {
-		var ret int32
+		var ret *int32
 		return ret
 	}
-	return *o.Var123Number
+	return o.Var123Number
 }
 
 // GetVar123NumberOk returns a tuple with the Var123Number field value if set, nil otherwise

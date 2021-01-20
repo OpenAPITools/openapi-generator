@@ -23,12 +23,16 @@ type Mammal struct {
 
 // WhaleAsMammal is a convenience function that returns Whale wrapped in Mammal
 func WhaleAsMammal(v *Whale) Mammal {
-	return Mammal{ Whale: v}
+	return Mammal{
+		Whale: v,
+	}
 }
 
 // ZebraAsMammal is a convenience function that returns Zebra wrapped in Mammal
 func ZebraAsMammal(v *Zebra) Mammal {
-	return Mammal{ Zebra: v}
+	return Mammal{
+		Zebra: v,
+	}
 }
 
 

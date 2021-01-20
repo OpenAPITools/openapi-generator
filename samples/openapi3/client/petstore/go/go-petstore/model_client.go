@@ -40,12 +40,12 @@ func NewClientWithDefaults() *Client {
 }
 
 // GetClient returns the Client field value if set, zero value otherwise.
-func (o *Client) GetClient() string {
+func (o *Client) GetClient() *string {
 	if o == nil || o.Client == nil {
-		var ret string
+		var ret *string
 		return ret
 	}
-	return *o.Client
+	return o.Client
 }
 
 // GetClientOk returns a tuple with the Client field value if set, nil otherwise

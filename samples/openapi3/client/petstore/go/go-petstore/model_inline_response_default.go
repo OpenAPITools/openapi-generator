@@ -40,12 +40,12 @@ func NewInlineResponseDefaultWithDefaults() *InlineResponseDefault {
 }
 
 // GetString returns the String field value if set, zero value otherwise.
-func (o *InlineResponseDefault) GetString() Foo {
+func (o *InlineResponseDefault) GetString() *Foo {
 	if o == nil || o.String == nil {
-		var ret Foo
+		var ret *Foo
 		return ret
 	}
-	return *o.String
+	return o.String
 }
 
 // GetStringOk returns a tuple with the String field value if set, nil otherwise

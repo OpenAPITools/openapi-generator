@@ -38,12 +38,12 @@ func NewReadOnlyFirstWithDefaults() *ReadOnlyFirst {
 }
 
 // GetBar returns the Bar field value if set, zero value otherwise.
-func (o *ReadOnlyFirst) GetBar() string {
+func (o *ReadOnlyFirst) GetBar() *string {
 	if o == nil || o.Bar == nil {
-		var ret string
+		var ret *string
 		return ret
 	}
-	return *o.Bar
+	return o.Bar
 }
 
 // GetBarOk returns a tuple with the Bar field value if set, nil otherwise
@@ -70,12 +70,12 @@ func (o *ReadOnlyFirst) SetBar(v string) {
 }
 
 // GetBaz returns the Baz field value if set, zero value otherwise.
-func (o *ReadOnlyFirst) GetBaz() string {
+func (o *ReadOnlyFirst) GetBaz() *string {
 	if o == nil || o.Baz == nil {
-		var ret string
+		var ret *string
 		return ret
 	}
-	return *o.Baz
+	return o.Baz
 }
 
 // GetBazOk returns a tuple with the Baz field value if set, nil otherwise

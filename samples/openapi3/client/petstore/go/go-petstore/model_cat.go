@@ -46,12 +46,12 @@ func NewCatWithDefaults() *Cat {
 }
 
 // GetDeclawed returns the Declawed field value if set, zero value otherwise.
-func (o *Cat) GetDeclawed() bool {
+func (o *Cat) GetDeclawed() *bool {
 	if o == nil || o.Declawed == nil {
-		var ret bool
+		var ret *bool
 		return ret
 	}
-	return *o.Declawed
+	return o.Declawed
 }
 
 // GetDeclawedOk returns a tuple with the Declawed field value if set, nil otherwise

@@ -43,12 +43,12 @@ func NewWhaleWithDefaults() *Whale {
 }
 
 // GetHasBaleen returns the HasBaleen field value if set, zero value otherwise.
-func (o *Whale) GetHasBaleen() bool {
+func (o *Whale) GetHasBaleen() *bool {
 	if o == nil || o.HasBaleen == nil {
-		var ret bool
+		var ret *bool
 		return ret
 	}
-	return *o.HasBaleen
+	return o.HasBaleen
 }
 
 // GetHasBaleenOk returns a tuple with the HasBaleen field value if set, nil otherwise
@@ -75,12 +75,12 @@ func (o *Whale) SetHasBaleen(v bool) {
 }
 
 // GetHasTeeth returns the HasTeeth field value if set, zero value otherwise.
-func (o *Whale) GetHasTeeth() bool {
+func (o *Whale) GetHasTeeth() *bool {
 	if o == nil || o.HasTeeth == nil {
-		var ret bool
+		var ret *bool
 		return ret
 	}
-	return *o.HasTeeth
+	return o.HasTeeth
 }
 
 // GetHasTeethOk returns a tuple with the HasTeeth field value if set, nil otherwise

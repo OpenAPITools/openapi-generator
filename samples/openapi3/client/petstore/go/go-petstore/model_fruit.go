@@ -23,12 +23,16 @@ type Fruit struct {
 
 // AppleAsFruit is a convenience function that returns Apple wrapped in Fruit
 func AppleAsFruit(v *Apple) Fruit {
-	return Fruit{ Apple: v}
+	return Fruit{
+		Apple: v,
+	}
 }
 
 // BananaAsFruit is a convenience function that returns Banana wrapped in Fruit
 func BananaAsFruit(v *Banana) Fruit {
-	return Fruit{ Banana: v}
+	return Fruit{
+		Banana: v,
+	}
 }
 
 

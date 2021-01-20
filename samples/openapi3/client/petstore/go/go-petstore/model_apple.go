@@ -40,12 +40,12 @@ func NewAppleWithDefaults() *Apple {
 }
 
 // GetCultivar returns the Cultivar field value if set, zero value otherwise.
-func (o *Apple) GetCultivar() string {
+func (o *Apple) GetCultivar() *string {
 	if o == nil || o.Cultivar == nil {
-		var ret string
+		var ret *string
 		return ret
 	}
-	return *o.Cultivar
+	return o.Cultivar
 }
 
 // GetCultivarOk returns a tuple with the Cultivar field value if set, nil otherwise

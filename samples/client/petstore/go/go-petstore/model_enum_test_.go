@@ -42,12 +42,12 @@ func NewEnumTestWithDefaults() *EnumTest {
 }
 
 // GetEnumString returns the EnumString field value if set, zero value otherwise.
-func (o *EnumTest) GetEnumString() string {
+func (o *EnumTest) GetEnumString() *string {
 	if o == nil || o.EnumString == nil {
-		var ret string
+		var ret *string
 		return ret
 	}
-	return *o.EnumString
+	return o.EnumString
 }
 
 // GetEnumStringOk returns a tuple with the EnumString field value if set, nil otherwise
@@ -98,12 +98,12 @@ func (o *EnumTest) SetEnumStringRequired(v string) {
 }
 
 // GetEnumInteger returns the EnumInteger field value if set, zero value otherwise.
-func (o *EnumTest) GetEnumInteger() int32 {
+func (o *EnumTest) GetEnumInteger() *int32 {
 	if o == nil || o.EnumInteger == nil {
-		var ret int32
+		var ret *int32
 		return ret
 	}
-	return *o.EnumInteger
+	return o.EnumInteger
 }
 
 // GetEnumIntegerOk returns a tuple with the EnumInteger field value if set, nil otherwise
@@ -130,12 +130,12 @@ func (o *EnumTest) SetEnumInteger(v int32) {
 }
 
 // GetEnumNumber returns the EnumNumber field value if set, zero value otherwise.
-func (o *EnumTest) GetEnumNumber() float64 {
+func (o *EnumTest) GetEnumNumber() *float64 {
 	if o == nil || o.EnumNumber == nil {
-		var ret float64
+		var ret *float64
 		return ret
 	}
-	return *o.EnumNumber
+	return o.EnumNumber
 }
 
 // GetEnumNumberOk returns a tuple with the EnumNumber field value if set, nil otherwise
@@ -162,12 +162,12 @@ func (o *EnumTest) SetEnumNumber(v float64) {
 }
 
 // GetOuterEnum returns the OuterEnum field value if set, zero value otherwise.
-func (o *EnumTest) GetOuterEnum() OuterEnum {
+func (o *EnumTest) GetOuterEnum() *OuterEnum {
 	if o == nil || o.OuterEnum == nil {
-		var ret OuterEnum
+		var ret *OuterEnum
 		return ret
 	}
-	return *o.OuterEnum
+	return o.OuterEnum
 }
 
 // GetOuterEnumOk returns a tuple with the OuterEnum field value if set, nil otherwise

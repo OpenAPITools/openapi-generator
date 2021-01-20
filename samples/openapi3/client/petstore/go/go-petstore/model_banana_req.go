@@ -66,12 +66,12 @@ func (o *BananaReq) SetLengthCm(v float32) {
 }
 
 // GetSweet returns the Sweet field value if set, zero value otherwise.
-func (o *BananaReq) GetSweet() bool {
+func (o *BananaReq) GetSweet() *bool {
 	if o == nil || o.Sweet == nil {
-		var ret bool
+		var ret *bool
 		return ret
 	}
-	return *o.Sweet
+	return o.Sweet
 }
 
 // GetSweetOk returns a tuple with the Sweet field value if set, nil otherwise

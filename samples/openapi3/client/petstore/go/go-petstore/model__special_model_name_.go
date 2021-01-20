@@ -40,12 +40,12 @@ func NewSpecialModelNameWithDefaults() *SpecialModelName {
 }
 
 // GetSpecialPropertyName returns the SpecialPropertyName field value if set, zero value otherwise.
-func (o *SpecialModelName) GetSpecialPropertyName() int64 {
+func (o *SpecialModelName) GetSpecialPropertyName() *int64 {
 	if o == nil || o.SpecialPropertyName == nil {
-		var ret int64
+		var ret *int64
 		return ret
 	}
-	return *o.SpecialPropertyName
+	return o.SpecialPropertyName
 }
 
 // GetSpecialPropertyNameOk returns a tuple with the SpecialPropertyName field value if set, nil otherwise

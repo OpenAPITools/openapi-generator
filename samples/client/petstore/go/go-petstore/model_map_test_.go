@@ -40,12 +40,12 @@ func NewMapTestWithDefaults() *MapTest {
 }
 
 // GetMapMapOfString returns the MapMapOfString field value if set, zero value otherwise.
-func (o *MapTest) GetMapMapOfString() map[string]map[string]string {
+func (o *MapTest) GetMapMapOfString() *map[string]map[string]string {
 	if o == nil || o.MapMapOfString == nil {
-		var ret map[string]map[string]string
+		var ret *map[string]map[string]string
 		return ret
 	}
-	return *o.MapMapOfString
+	return o.MapMapOfString
 }
 
 // GetMapMapOfStringOk returns a tuple with the MapMapOfString field value if set, nil otherwise
@@ -72,12 +72,12 @@ func (o *MapTest) SetMapMapOfString(v map[string]map[string]string) {
 }
 
 // GetMapOfEnumString returns the MapOfEnumString field value if set, zero value otherwise.
-func (o *MapTest) GetMapOfEnumString() map[string]string {
+func (o *MapTest) GetMapOfEnumString() *map[string]string {
 	if o == nil || o.MapOfEnumString == nil {
-		var ret map[string]string
+		var ret *map[string]string
 		return ret
 	}
-	return *o.MapOfEnumString
+	return o.MapOfEnumString
 }
 
 // GetMapOfEnumStringOk returns a tuple with the MapOfEnumString field value if set, nil otherwise
@@ -104,12 +104,12 @@ func (o *MapTest) SetMapOfEnumString(v map[string]string) {
 }
 
 // GetDirectMap returns the DirectMap field value if set, zero value otherwise.
-func (o *MapTest) GetDirectMap() map[string]bool {
+func (o *MapTest) GetDirectMap() *map[string]bool {
 	if o == nil || o.DirectMap == nil {
-		var ret map[string]bool
+		var ret *map[string]bool
 		return ret
 	}
-	return *o.DirectMap
+	return o.DirectMap
 }
 
 // GetDirectMapOk returns a tuple with the DirectMap field value if set, nil otherwise
@@ -136,12 +136,12 @@ func (o *MapTest) SetDirectMap(v map[string]bool) {
 }
 
 // GetIndirectMap returns the IndirectMap field value if set, zero value otherwise.
-func (o *MapTest) GetIndirectMap() map[string]bool {
+func (o *MapTest) GetIndirectMap() *map[string]bool {
 	if o == nil || o.IndirectMap == nil {
-		var ret map[string]bool
+		var ret *map[string]bool
 		return ret
 	}
-	return *o.IndirectMap
+	return o.IndirectMap
 }
 
 // GetIndirectMapOk returns a tuple with the IndirectMap field value if set, nil otherwise

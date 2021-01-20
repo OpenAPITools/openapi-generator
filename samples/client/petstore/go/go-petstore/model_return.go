@@ -37,12 +37,12 @@ func NewReturnWithDefaults() *Return {
 }
 
 // GetReturn returns the Return field value if set, zero value otherwise.
-func (o *Return) GetReturn() int32 {
+func (o *Return) GetReturn() *int32 {
 	if o == nil || o.Return == nil {
-		var ret int32
+		var ret *int32
 		return ret
 	}
-	return *o.Return
+	return o.Return
 }
 
 // GetReturnOk returns a tuple with the Return field value if set, nil otherwise

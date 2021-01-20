@@ -40,12 +40,12 @@ func NewMixedPropertiesAndAdditionalPropertiesClassWithDefaults() *MixedProperti
 }
 
 // GetUuid returns the Uuid field value if set, zero value otherwise.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuid() string {
+func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuid() *string {
 	if o == nil || o.Uuid == nil {
-		var ret string
+		var ret *string
 		return ret
 	}
-	return *o.Uuid
+	return o.Uuid
 }
 
 // GetUuidOk returns a tuple with the Uuid field value if set, nil otherwise
@@ -72,12 +72,12 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) SetUuid(v string) {
 }
 
 // GetDateTime returns the DateTime field value if set, zero value otherwise.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTime() time.Time {
+func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTime() *time.Time {
 	if o == nil || o.DateTime == nil {
-		var ret time.Time
+		var ret *time.Time
 		return ret
 	}
-	return *o.DateTime
+	return o.DateTime
 }
 
 // GetDateTimeOk returns a tuple with the DateTime field value if set, nil otherwise
@@ -104,12 +104,12 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) SetDateTime(v time.Time) {
 }
 
 // GetMap returns the Map field value if set, zero value otherwise.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap() map[string]Animal {
+func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap() *map[string]Animal {
 	if o == nil || o.Map == nil {
-		var ret map[string]Animal
+		var ret *map[string]Animal
 		return ret
 	}
-	return *o.Map
+	return o.Map
 }
 
 // GetMapOk returns a tuple with the Map field value if set, nil otherwise

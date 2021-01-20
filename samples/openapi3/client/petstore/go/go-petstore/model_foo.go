@@ -44,12 +44,12 @@ func NewFooWithDefaults() *Foo {
 }
 
 // GetBar returns the Bar field value if set, zero value otherwise.
-func (o *Foo) GetBar() string {
+func (o *Foo) GetBar() *string {
 	if o == nil || o.Bar == nil {
-		var ret string
+		var ret *string
 		return ret
 	}
-	return *o.Bar
+	return o.Bar
 }
 
 // GetBarOk returns a tuple with the Bar field value if set, nil otherwise

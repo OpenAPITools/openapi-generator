@@ -41,12 +41,12 @@ func NewAdditionalPropertiesClassWithDefaults() *AdditionalPropertiesClass {
 }
 
 // GetMapProperty returns the MapProperty field value if set, zero value otherwise.
-func (o *AdditionalPropertiesClass) GetMapProperty() map[string]string {
+func (o *AdditionalPropertiesClass) GetMapProperty() *map[string]string {
 	if o == nil || o.MapProperty == nil {
-		var ret map[string]string
+		var ret *map[string]string
 		return ret
 	}
-	return *o.MapProperty
+	return o.MapProperty
 }
 
 // GetMapPropertyOk returns a tuple with the MapProperty field value if set, nil otherwise
@@ -73,12 +73,12 @@ func (o *AdditionalPropertiesClass) SetMapProperty(v map[string]string) {
 }
 
 // GetMapOfMapProperty returns the MapOfMapProperty field value if set, zero value otherwise.
-func (o *AdditionalPropertiesClass) GetMapOfMapProperty() map[string]map[string]string {
+func (o *AdditionalPropertiesClass) GetMapOfMapProperty() *map[string]map[string]string {
 	if o == nil || o.MapOfMapProperty == nil {
-		var ret map[string]map[string]string
+		var ret *map[string]map[string]string
 		return ret
 	}
-	return *o.MapOfMapProperty
+	return o.MapOfMapProperty
 }
 
 // GetMapOfMapPropertyOk returns a tuple with the MapOfMapProperty field value if set, nil otherwise
