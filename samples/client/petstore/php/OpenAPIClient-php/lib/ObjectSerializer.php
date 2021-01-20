@@ -303,6 +303,9 @@ class ObjectSerializer
         }
 
         if ($class === 'object') {
+            // have no idea why encoded data gets over here
+            // but at least it's a quick fix
+            $data = is_string($data) ? json_decode($data) : $data;
             settype($data, 'array');
             return $data;
         }
