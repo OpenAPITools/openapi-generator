@@ -2729,7 +2729,9 @@ public class DefaultCodegenTest {
         Schema sc = openAPI.getComponents().getSchemas().get(modelName);;
         CodegenModel cm = codegen.fromModel(modelName, sc);
 
-        for (CodegenProperty prop : cm.getVars()) {
+        List<CodegenProperty> props = cm.getVars();
+        assertEquals(props.size(), 50);
+        for (CodegenProperty prop : props) {
             assertEquals(prop.getHasValidation(), true);
         }
     }
@@ -2743,7 +2745,9 @@ public class DefaultCodegenTest {
         String path = "/queryParametersWithValidation";
         Operation operation = openAPI.getPaths().get(path).getPost();
         CodegenOperation co = codegen.fromOperation(path, "POST", operation, null);
-        for (CodegenParameter param : co.queryParams) {
+        List<CodegenParameter> params = co.queryParams;
+        assertEquals(params.size(), 50);
+        for (CodegenParameter param : params) {
             assertEquals(param.getHasValidation(), true);
         }
     }
@@ -2757,7 +2761,9 @@ public class DefaultCodegenTest {
         String path = "/headerParametersWithValidation";
         Operation operation = openAPI.getPaths().get(path).getPost();
         CodegenOperation co = codegen.fromOperation(path, "POST", operation, null);
-        for (CodegenParameter param : co.headerParams) {
+        List<CodegenParameter> params = co.headerParams;
+        assertEquals(params.size(), 50);
+        for (CodegenParameter param : params) {
             assertEquals(param.getHasValidation(), true);
         }
     }
@@ -2771,7 +2777,9 @@ public class DefaultCodegenTest {
         String path = "/cookieParametersWithValidation";
         Operation operation = openAPI.getPaths().get(path).getPost();
         CodegenOperation co = codegen.fromOperation(path, "POST", operation, null);
-        for (CodegenParameter param : co.cookieParams) {
+        List<CodegenParameter> params = co.cookieParams;
+        assertEquals(params.size(), 50);
+        for (CodegenParameter param : params) {
             assertEquals(param.getHasValidation(), true);
         }
     }
