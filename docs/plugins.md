@@ -76,7 +76,7 @@ buildscript {
     maven { url "https://repo1.maven.org/maven2" }
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:3.3.4"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:4.3.1"
   }
 }
 
@@ -111,9 +111,6 @@ openApiGenerate {
     apiPackage = "org.openapi.example.api"
     invokerPackage = "org.openapi.example.invoker"
     modelPackage = "org.openapi.example.model"
-    modelFilesConstrainedTo = [
-            "Error"
-    ]
     configOptions = [
         dateLibrary: "java8"
     ]
