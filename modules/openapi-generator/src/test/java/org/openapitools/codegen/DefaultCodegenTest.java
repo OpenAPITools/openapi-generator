@@ -2754,13 +2754,28 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
-        String path = "/queryParametersWithValidation";
+        String path = "/headerParametersWithValidation";
         Operation operation = openAPI.getPaths().get(path).getPost();
         CodegenOperation co = codegen.fromOperation(path, "POST", operation, null);
         for (CodegenParameter param : co.headerParams) {
             assertEquals(param.getHasValidation(), true);
         }
     }
+
+    @Test
+    public void testCookieParametersGetHasValidation() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7651.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String path = "/cookieParametersWithValidation";
+        Operation operation = openAPI.getPaths().get(path).getPost();
+        CodegenOperation co = codegen.fromOperation(path, "POST", operation, null);
+        for (CodegenParameter param : co.cookieParams) {
+            assertEquals(param.getHasValidation(), true);
+        }
+    }
+
 
     @Test
     public void testVarsAndRequiredVarsPresent() {

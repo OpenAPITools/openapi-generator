@@ -12,6 +12,325 @@ tags:
   - name: isX
     description: an api that ensures that isX properties are present on Schema classes
 paths:
+  /cookieParametersWithValidation:
+    post:
+      tags:
+        - isX
+      operationId: cookieParametersWithValidation
+      parameters:
+        - name: ArrayWithMaxItems
+          in: cookie
+          schema:
+            type: array
+            maxItems: 2
+            items:
+              type: string
+        - name: ArrayWithMinItems
+          in: cookie
+          schema:
+            type: array
+            minItems: 2
+            items:
+              type: string
+        - name: ArrayWithUniqueItems
+          in: cookie
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+        - name: ObjectWithMinProperties
+          in: cookie
+          schema:
+            type: object
+            minProperties: 2
+        - name: ObjectWithMaxProperties
+          in: cookie
+          schema:
+            type: object
+            maxProperties: 2
+        - name: StringWithMinLength
+          in: cookie
+          schema:
+            type: string
+            minLength: 1
+        - name: DateWithMinLength
+          in: cookie
+          schema:
+            type: string
+            format: date
+            minLength: 10
+        - name: DateTimeWithMinLength
+          in: cookie
+          schema:
+            type: string
+            format: date-time
+            minLength: 20
+        - name: ByteWithMinLength
+          in: cookie
+          schema:
+            type: string
+            format: byte
+            minLength: 10
+        - name: BinaryWithMinLength
+          in: cookie
+          schema:
+            type: string
+            format: binary
+            minLength: 10
+        - name: StringWithMaxLength
+          in: cookie
+          schema:
+            type: string
+            maxLength: 1
+        - name: DateWithMaxLength
+          in: cookie
+          schema:
+            type: string
+            format: date
+            maxLength: 10
+        - name: DateTimeWithMaxLength
+          in: cookie
+          schema:
+            type: string
+            format: date-time
+            maxLength: 20
+        - name: ByteWithMaxLength
+          in: cookie
+          schema:
+            type: string
+            format: byte
+            maxLength: 10
+        - name: BinaryWithMaxLength
+          in: cookie
+          schema:
+            type: string
+            format: binary
+            maxLength: 10
+        - name: IntegerWithMultipleOf
+          in: cookie
+          schema:
+            type: integer
+            multipleOf: 2
+        - name: Integer32WithMultipleOf
+          in: cookie
+          schema:
+            type: integer
+            format: int32
+            multipleOf: 2
+        - name: Integer64WithMultipleOf
+          in: cookie
+          schema:
+            type: integer
+            format: int64
+            multipleOf: 2
+        - name: NumberWithMultipleOf
+          in: cookie
+          schema:
+            type: number
+            multipleOf: 2
+        - name: NumberFloatWithMultipleOf
+          in: cookie
+          schema:
+            type: number
+            format: float
+            multipleOf: 2
+        - name: NumberDoubleWithMultipleOf
+          in: cookie
+          schema:
+            type: number
+            format: double
+            multipleOf: 2
+        - name: StringWithPattern
+          in: cookie
+          schema:
+            type: string
+            pattern: '^2021.+'
+        - name: DateWithPattern
+          in: cookie
+          schema:
+            type: string
+            format: date
+            pattern: '^2021.+'
+        - name: DateTimeWithPattern
+          in: cookie
+          schema:
+            type: string
+            format: date-time
+            pattern: '^2021.+'
+        - name: ByteWithPattern
+          in: cookie
+          schema:
+            type: string
+            format: byte
+            pattern: '^2021.+'
+        - name: BinaryWithPattern
+          in: cookie
+          schema:
+            type: string
+            format: binary
+            pattern: '^2021.+'
+        - name: IntegerWithMinimum
+          in: cookie
+          schema:
+            type: integer
+            minimum: 1
+        - name: Integer32WithMinimum
+          in: cookie
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+        - name: Integer64WithMinimum
+          in: cookie
+          schema:
+            type: integer
+            format: int364
+            minimum: 1
+        - name: NumberWithMinimum
+          in: cookie
+          schema:
+            type: number
+            minimum: 1
+        - name: NumberFloatWithMinimum
+          in: cookie
+          schema:
+            type: number
+            format: float
+            minimum: 1
+        - name: NumberDoubleWithMinimum
+          in: cookie
+          schema:
+            type: number
+            format: double
+            minimum: 1
+        - name: IntegerWithMaximum
+          in: cookie
+          schema:
+            type: integer
+            maximum: 10
+        - name: Integer32WithMaximum
+          in: cookie
+          schema:
+            type: integer
+            format: int32
+            maximum: 10
+        - name: Integer64WithMaximum
+          in: cookie
+          schema:
+            type: integer
+            format: int64
+            maximum: 10
+        - name: NumberWithMaximum
+          in: cookie
+          schema:
+            type: number
+            maximum: 10
+        - name: NumberFloatWithMaximum
+          in: cookie
+          schema:
+            type: number
+            format: float
+            maximum: 10
+        - name: NumberDoubleWithMaximum
+          in: cookie
+          schema:
+            type: number
+            format: double
+            maximum: 10
+        - name: IntegerWithExclusiveMinimum
+          in: cookie
+          schema:
+            type: integer
+            minimum: 1
+            exclusiveMinimum: true
+        - name: Integer32WithExclusiveMinimum
+          in: cookie
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            exclusiveMinimum: true
+        - name: Integer64WithExclusiveMinimum
+          in: cookie
+          schema:
+            type: integer
+            format: int364
+            minimum: 1
+            exclusiveMinimum: true
+        - name: NumberWithExclusiveMinimum
+          in: cookie
+          schema:
+            type: number
+            minimum: 1
+            exclusiveMinimum: true
+        - name: NumberFloatWithExclusiveMinimum
+          in: cookie
+          schema:
+            type: number
+            format: float
+            minimum: 1
+            exclusiveMinimum: true
+        - name: NumberDoubleWithExclusiveMinimum
+          in: cookie
+          schema:
+            type: number
+            format: double
+            minimum: 1
+            exclusiveMinimum: true
+        - name: IntegerWithExclusiveMaximum
+          in: cookie
+          schema:
+            type: integer
+            maximum: 10
+            exclusiveMaximum: true
+        - name: Integer32WithExclusiveMaximum
+          in: cookie
+          schema:
+            type: integer
+            format: int32
+            maximum: 10
+            exclusiveMaximum: true
+        - name: Integer64WithExclusiveMaximum
+          in: cookie
+          schema:
+            type: integer
+            format: int64
+            maximum: 10
+            exclusiveMaximum: true
+        - name: NumberWithExclusiveMaximum
+          in: cookie
+          schema:
+            type: number
+            maximum: 10
+            exclusiveMaximum: true
+        - name: NumberFloatWithExclusiveMaximum
+          in: cookie
+          schema:
+            type: number
+            format: float
+            maximum: 10
+            exclusiveMaximum: true
+        - name: NumberDoubleWithExclusiveMaximum
+          in: cookie
+          schema:
+            type: number
+            format: double
+            maximum: 10
+            exclusiveMaximum: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
   /headerParametersWithValidation:
     post:
       tags:
