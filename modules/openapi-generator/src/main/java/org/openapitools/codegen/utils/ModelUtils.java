@@ -1553,11 +1553,15 @@ public class ModelUtils {
     }
 
     private static void setNumericValidations(BigDecimal multipleOf, BigDecimal minimum, BigDecimal maximum, Boolean exclusiveMinimum, Boolean exclusiveMaximum, IJsonSchemaValidationProperties target) {
-        if (multipleOf != null) target.setMultipleOf((Number) multipleOf);
-        if (minimum != null) target.setMinimum(String.valueOf(minimum));
-        if (maximum != null) target.setMaximum(String.valueOf(maximum));
-        if (exclusiveMinimum != null) target.setExclusiveMinimum(exclusiveMinimum);
-        if (exclusiveMaximum != null) target.setExclusiveMaximum(exclusiveMaximum);
+        if (multipleOf != null) target.setMultipleOf(multipleOf);
+        if (minimum != null) {
+            target.setMinimum(String.valueOf(minimum));
+            if (exclusiveMinimum != null) target.setExclusiveMinimum(exclusiveMinimum);
+        }
+        if (maximum != null) {
+            target.setMaximum(String.valueOf(maximum));
+            if (exclusiveMaximum != null) target.setExclusiveMaximum(exclusiveMaximum);
+        }
     }
 
     private static ObjectMapper getRightMapper(String data) {
