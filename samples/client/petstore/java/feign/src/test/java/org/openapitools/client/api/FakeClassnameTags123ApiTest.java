@@ -1,5 +1,4 @@
 package org.openapitools.client.api;
-//TODO update packages 
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.common.Slf4jNotifier;
