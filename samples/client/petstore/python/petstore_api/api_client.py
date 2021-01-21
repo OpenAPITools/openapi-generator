@@ -606,6 +606,8 @@ class ApiClient(object):
         for auth in auth_settings:
             auth_setting = self.configuration.auth_settings().get(auth)
             if auth_setting:
+                if auth_setting['value'] is None:
+                    raise ApiValueError('Invalid authentication parameter value')
                 if auth_setting['in'] == 'cookie':
                     headers['Cookie'] = auth_setting['value']
                 elif auth_setting['in'] == 'header':
