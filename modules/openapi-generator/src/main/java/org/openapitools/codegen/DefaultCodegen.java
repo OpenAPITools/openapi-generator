@@ -3802,50 +3802,49 @@ public class DefaultCodegen implements CodegenConfig {
             String contentType = getContentType(requestBody);
 
             if (contentType == null) {
-                throw new RuntimeException("contentType cannot be null in the request body. It could be an issue with the parser."  +
-                        "Please report the issue to https://github.com/OpenAPITools/openapi-generator/." +
-                        "A possible workaround is to define the `requestBody` schema inline");
+                LOGGER.error("contentType cannot be null in the request body. It could be an issue with the parser. "  +
+                        "Please report the issue to https://github.com/OpenAPITools/openapi-generator/. " +
+                        "A possible workaround is to define the `requestBody` schema inline. {}", operation);
             } else {
                 contentType = contentType.toLowerCase(Locale.ROOT);
-            }
 
-            if (contentType != null &&
-                    (contentType.startsWith("application/x-www-form-urlencoded") ||
-                            contentType.startsWith("multipart"))) {
-                // process form parameters
-                formParams = fromRequestBodyToFormParameters(requestBody, imports);
-                op.isMultipart = contentType.startsWith("multipart");
-                for (CodegenParameter cp : formParams) {
-                    setParameterContentType(cp, requestBody.getContent().get(contentType));
-                    postProcessParameter(cp);
-                }
-                // add form parameters to the beginning of all parameter list
-                if (prependFormOrBodyParameters) {
+                if (contentType.startsWith("application/x-www-form-urlencoded") ||
+                                contentType.startsWith("multipart")) {
+                    // process form parameters
+                    formParams = fromRequestBodyToFormParameters(requestBody, imports);
+                    op.isMultipart = contentType.startsWith("multipart");
                     for (CodegenParameter cp : formParams) {
-                        allParams.add(cp.copy());
+                        setParameterContentType(cp, requestBody.getContent().get(contentType));
+                        postProcessParameter(cp);
                     }
-                }
-            } else {
-                // process body parameter
-                requestBody = ModelUtils.getReferencedRequestBody(this.openAPI, requestBody);
+                    // add form parameters to the beginning of all parameter list
+                    if (prependFormOrBodyParameters) {
+                        for (CodegenParameter cp : formParams) {
+                            allParams.add(cp.copy());
+                        }
+                    }
+                } else {
+                    // process body parameter
+                    requestBody = ModelUtils.getReferencedRequestBody(this.openAPI, requestBody);
 
-                String bodyParameterName = "";
-                if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
-                    bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
-                }
-                bodyParam = fromRequestBody(requestBody, imports, bodyParameterName);
-                bodyParam.description = escapeText(requestBody.getDescription());
-                postProcessParameter(bodyParam);
+                    String bodyParameterName = "";
+                    if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
+                        bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
+                    }
+                    bodyParam = fromRequestBody(requestBody, imports, bodyParameterName);
+                    bodyParam.description = escapeText(requestBody.getDescription());
+                    postProcessParameter(bodyParam);
 
-                bodyParams.add(bodyParam);
+                    bodyParams.add(bodyParam);
 
-                if (prependFormOrBodyParameters) {
-                    allParams.add(bodyParam);
-                }
+                    if (prependFormOrBodyParameters) {
+                        allParams.add(bodyParam);
+                    }
 
-                // add example
-                if (schemas != null) {
-                    op.requestBodyExamples = new ExampleGenerator(schemas, this.openAPI).generate(null, new ArrayList<String>(getConsumesInfo(this.openAPI, operation)), bodyParam.baseType);
+                    // add example
+                    if (schemas != null) {
+                        op.requestBodyExamples = new ExampleGenerator(schemas, this.openAPI).generate(null, new ArrayList<String>(getConsumesInfo(this.openAPI, operation)), bodyParam.baseType);
+                    }
                 }
             }
         }
