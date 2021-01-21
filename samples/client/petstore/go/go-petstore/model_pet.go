@@ -45,12 +45,12 @@ func NewPetWithDefaults() *Pet {
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *Pet) GetId() *int64 {
+func (o *Pet) GetId() int64 {
 	if o == nil || o.Id == nil {
-		var ret *int64
+		var ret int64
 		return ret
 	}
-	return o.Id
+	return *o.Id
 }
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
@@ -77,12 +77,12 @@ func (o *Pet) SetId(v int64) {
 }
 
 // GetCategory returns the Category field value if set, zero value otherwise.
-func (o *Pet) GetCategory() *Category {
+func (o *Pet) GetCategory() Category {
 	if o == nil || o.Category == nil {
-		var ret *Category
+		var ret Category
 		return ret
 	}
-	return o.Category
+	return *o.Category
 }
 
 // GetCategoryOk returns a tuple with the Category field value if set, nil otherwise
@@ -189,12 +189,12 @@ func (o *Pet) SetTags(v []Tag) {
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *Pet) GetStatus() *string {
+func (o *Pet) GetStatus() string {
 	if o == nil || o.Status == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.Status
+	return *o.Status
 }
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise

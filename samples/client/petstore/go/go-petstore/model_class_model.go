@@ -37,12 +37,12 @@ func NewClassModelWithDefaults() *ClassModel {
 }
 
 // GetClass returns the Class field value if set, zero value otherwise.
-func (o *ClassModel) GetClass() *string {
+func (o *ClassModel) GetClass() string {
 	if o == nil || o.Class == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.Class
+	return *o.Class
 }
 
 // GetClassOk returns a tuple with the Class field value if set, nil otherwise

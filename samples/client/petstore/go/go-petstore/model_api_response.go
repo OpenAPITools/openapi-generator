@@ -39,12 +39,12 @@ func NewApiResponseWithDefaults() *ApiResponse {
 }
 
 // GetCode returns the Code field value if set, zero value otherwise.
-func (o *ApiResponse) GetCode() *int32 {
+func (o *ApiResponse) GetCode() int32 {
 	if o == nil || o.Code == nil {
-		var ret *int32
+		var ret int32
 		return ret
 	}
-	return o.Code
+	return *o.Code
 }
 
 // GetCodeOk returns a tuple with the Code field value if set, nil otherwise
@@ -71,12 +71,12 @@ func (o *ApiResponse) SetCode(v int32) {
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
-func (o *ApiResponse) GetType() *string {
+func (o *ApiResponse) GetType() string {
 	if o == nil || o.Type == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.Type
+	return *o.Type
 }
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
@@ -103,12 +103,12 @@ func (o *ApiResponse) SetType(v string) {
 }
 
 // GetMessage returns the Message field value if set, zero value otherwise.
-func (o *ApiResponse) GetMessage() *string {
+func (o *ApiResponse) GetMessage() string {
 	if o == nil || o.Message == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.Message
+	return *o.Message
 }
 
 // GetMessageOk returns a tuple with the Message field value if set, nil otherwise

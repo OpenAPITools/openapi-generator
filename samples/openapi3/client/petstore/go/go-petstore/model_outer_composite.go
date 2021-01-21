@@ -42,12 +42,12 @@ func NewOuterCompositeWithDefaults() *OuterComposite {
 }
 
 // GetMyNumber returns the MyNumber field value if set, zero value otherwise.
-func (o *OuterComposite) GetMyNumber() *float32 {
+func (o *OuterComposite) GetMyNumber() float32 {
 	if o == nil || o.MyNumber == nil {
-		var ret *float32
+		var ret float32
 		return ret
 	}
-	return o.MyNumber
+	return *o.MyNumber
 }
 
 // GetMyNumberOk returns a tuple with the MyNumber field value if set, nil otherwise
@@ -74,12 +74,12 @@ func (o *OuterComposite) SetMyNumber(v float32) {
 }
 
 // GetMyString returns the MyString field value if set, zero value otherwise.
-func (o *OuterComposite) GetMyString() *string {
+func (o *OuterComposite) GetMyString() string {
 	if o == nil || o.MyString == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.MyString
+	return *o.MyString
 }
 
 // GetMyStringOk returns a tuple with the MyString field value if set, nil otherwise
@@ -106,12 +106,12 @@ func (o *OuterComposite) SetMyString(v string) {
 }
 
 // GetMyBoolean returns the MyBoolean field value if set, zero value otherwise.
-func (o *OuterComposite) GetMyBoolean() *bool {
+func (o *OuterComposite) GetMyBoolean() bool {
 	if o == nil || o.MyBoolean == nil {
-		var ret *bool
+		var ret bool
 		return ret
 	}
-	return o.MyBoolean
+	return *o.MyBoolean
 }
 
 // GetMyBooleanOk returns a tuple with the MyBoolean field value if set, nil otherwise

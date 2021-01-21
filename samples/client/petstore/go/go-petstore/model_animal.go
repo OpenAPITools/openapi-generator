@@ -67,12 +67,12 @@ func (o *Animal) SetClassName(v string) {
 }
 
 // GetColor returns the Color field value if set, zero value otherwise.
-func (o *Animal) GetColor() *string {
+func (o *Animal) GetColor() string {
 	if o == nil || o.Color == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.Color
+	return *o.Color
 }
 
 // GetColorOk returns a tuple with the Color field value if set, nil otherwise

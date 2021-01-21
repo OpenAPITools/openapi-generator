@@ -38,12 +38,12 @@ func NewEnumArraysWithDefaults() *EnumArrays {
 }
 
 // GetJustSymbol returns the JustSymbol field value if set, zero value otherwise.
-func (o *EnumArrays) GetJustSymbol() *string {
+func (o *EnumArrays) GetJustSymbol() string {
 	if o == nil || o.JustSymbol == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.JustSymbol
+	return *o.JustSymbol
 }
 
 // GetJustSymbolOk returns a tuple with the JustSymbol field value if set, nil otherwise

@@ -42,12 +42,12 @@ func NewZebraWithDefaults() *Zebra {
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
-func (o *Zebra) GetType() *string {
+func (o *Zebra) GetType() string {
 	if o == nil || o.Type == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.Type
+	return *o.Type
 }
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise

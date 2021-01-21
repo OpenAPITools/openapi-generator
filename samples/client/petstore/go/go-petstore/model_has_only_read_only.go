@@ -38,12 +38,12 @@ func NewHasOnlyReadOnlyWithDefaults() *HasOnlyReadOnly {
 }
 
 // GetBar returns the Bar field value if set, zero value otherwise.
-func (o *HasOnlyReadOnly) GetBar() *string {
+func (o *HasOnlyReadOnly) GetBar() string {
 	if o == nil || o.Bar == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.Bar
+	return *o.Bar
 }
 
 // GetBarOk returns a tuple with the Bar field value if set, nil otherwise
@@ -70,12 +70,12 @@ func (o *HasOnlyReadOnly) SetBar(v string) {
 }
 
 // GetFoo returns the Foo field value if set, zero value otherwise.
-func (o *HasOnlyReadOnly) GetFoo() *string {
+func (o *HasOnlyReadOnly) GetFoo() string {
 	if o == nil || o.Foo == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.Foo
+	return *o.Foo
 }
 
 // GetFooOk returns a tuple with the Foo field value if set, nil otherwise

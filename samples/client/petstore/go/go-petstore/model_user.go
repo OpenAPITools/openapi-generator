@@ -45,12 +45,12 @@ func NewUserWithDefaults() *User {
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *User) GetId() *int64 {
+func (o *User) GetId() int64 {
 	if o == nil || o.Id == nil {
-		var ret *int64
+		var ret int64
 		return ret
 	}
-	return o.Id
+	return *o.Id
 }
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
@@ -77,12 +77,12 @@ func (o *User) SetId(v int64) {
 }
 
 // GetUsername returns the Username field value if set, zero value otherwise.
-func (o *User) GetUsername() *string {
+func (o *User) GetUsername() string {
 	if o == nil || o.Username == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.Username
+	return *o.Username
 }
 
 // GetUsernameOk returns a tuple with the Username field value if set, nil otherwise
@@ -109,12 +109,12 @@ func (o *User) SetUsername(v string) {
 }
 
 // GetFirstName returns the FirstName field value if set, zero value otherwise.
-func (o *User) GetFirstName() *string {
+func (o *User) GetFirstName() string {
 	if o == nil || o.FirstName == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.FirstName
+	return *o.FirstName
 }
 
 // GetFirstNameOk returns a tuple with the FirstName field value if set, nil otherwise
@@ -141,12 +141,12 @@ func (o *User) SetFirstName(v string) {
 }
 
 // GetLastName returns the LastName field value if set, zero value otherwise.
-func (o *User) GetLastName() *string {
+func (o *User) GetLastName() string {
 	if o == nil || o.LastName == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.LastName
+	return *o.LastName
 }
 
 // GetLastNameOk returns a tuple with the LastName field value if set, nil otherwise
@@ -173,12 +173,12 @@ func (o *User) SetLastName(v string) {
 }
 
 // GetEmail returns the Email field value if set, zero value otherwise.
-func (o *User) GetEmail() *string {
+func (o *User) GetEmail() string {
 	if o == nil || o.Email == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.Email
+	return *o.Email
 }
 
 // GetEmailOk returns a tuple with the Email field value if set, nil otherwise
@@ -205,12 +205,12 @@ func (o *User) SetEmail(v string) {
 }
 
 // GetPassword returns the Password field value if set, zero value otherwise.
-func (o *User) GetPassword() *string {
+func (o *User) GetPassword() string {
 	if o == nil || o.Password == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.Password
+	return *o.Password
 }
 
 // GetPasswordOk returns a tuple with the Password field value if set, nil otherwise
@@ -237,12 +237,12 @@ func (o *User) SetPassword(v string) {
 }
 
 // GetPhone returns the Phone field value if set, zero value otherwise.
-func (o *User) GetPhone() *string {
+func (o *User) GetPhone() string {
 	if o == nil || o.Phone == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.Phone
+	return *o.Phone
 }
 
 // GetPhoneOk returns a tuple with the Phone field value if set, nil otherwise
@@ -269,12 +269,12 @@ func (o *User) SetPhone(v string) {
 }
 
 // GetUserStatus returns the UserStatus field value if set, zero value otherwise.
-func (o *User) GetUserStatus() *int32 {
+func (o *User) GetUserStatus() int32 {
 	if o == nil || o.UserStatus == nil {
-		var ret *int32
+		var ret int32
 		return ret
 	}
-	return o.UserStatus
+	return *o.UserStatus
 }
 
 // GetUserStatusOk returns a tuple with the UserStatus field value if set, nil otherwise

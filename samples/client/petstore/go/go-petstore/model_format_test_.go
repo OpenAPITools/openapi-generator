@@ -56,12 +56,12 @@ func NewFormatTestWithDefaults() *FormatTest {
 }
 
 // GetInteger returns the Integer field value if set, zero value otherwise.
-func (o *FormatTest) GetInteger() *int32 {
+func (o *FormatTest) GetInteger() int32 {
 	if o == nil || o.Integer == nil {
-		var ret *int32
+		var ret int32
 		return ret
 	}
-	return o.Integer
+	return *o.Integer
 }
 
 // GetIntegerOk returns a tuple with the Integer field value if set, nil otherwise
@@ -88,12 +88,12 @@ func (o *FormatTest) SetInteger(v int32) {
 }
 
 // GetInt32 returns the Int32 field value if set, zero value otherwise.
-func (o *FormatTest) GetInt32() *int32 {
+func (o *FormatTest) GetInt32() int32 {
 	if o == nil || o.Int32 == nil {
-		var ret *int32
+		var ret int32
 		return ret
 	}
-	return o.Int32
+	return *o.Int32
 }
 
 // GetInt32Ok returns a tuple with the Int32 field value if set, nil otherwise
@@ -120,12 +120,12 @@ func (o *FormatTest) SetInt32(v int32) {
 }
 
 // GetInt64 returns the Int64 field value if set, zero value otherwise.
-func (o *FormatTest) GetInt64() *int64 {
+func (o *FormatTest) GetInt64() int64 {
 	if o == nil || o.Int64 == nil {
-		var ret *int64
+		var ret int64
 		return ret
 	}
-	return o.Int64
+	return *o.Int64
 }
 
 // GetInt64Ok returns a tuple with the Int64 field value if set, nil otherwise
@@ -176,12 +176,12 @@ func (o *FormatTest) SetNumber(v float32) {
 }
 
 // GetFloat returns the Float field value if set, zero value otherwise.
-func (o *FormatTest) GetFloat() *float32 {
+func (o *FormatTest) GetFloat() float32 {
 	if o == nil || o.Float == nil {
-		var ret *float32
+		var ret float32
 		return ret
 	}
-	return o.Float
+	return *o.Float
 }
 
 // GetFloatOk returns a tuple with the Float field value if set, nil otherwise
@@ -208,12 +208,12 @@ func (o *FormatTest) SetFloat(v float32) {
 }
 
 // GetDouble returns the Double field value if set, zero value otherwise.
-func (o *FormatTest) GetDouble() *float64 {
+func (o *FormatTest) GetDouble() float64 {
 	if o == nil || o.Double == nil {
-		var ret *float64
+		var ret float64
 		return ret
 	}
-	return o.Double
+	return *o.Double
 }
 
 // GetDoubleOk returns a tuple with the Double field value if set, nil otherwise
@@ -240,12 +240,12 @@ func (o *FormatTest) SetDouble(v float64) {
 }
 
 // GetString returns the String field value if set, zero value otherwise.
-func (o *FormatTest) GetString() *string {
+func (o *FormatTest) GetString() string {
 	if o == nil || o.String == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.String
+	return *o.String
 }
 
 // GetStringOk returns a tuple with the String field value if set, nil otherwise
@@ -296,12 +296,12 @@ func (o *FormatTest) SetByte(v string) {
 }
 
 // GetBinary returns the Binary field value if set, zero value otherwise.
-func (o *FormatTest) GetBinary() **os.File {
+func (o *FormatTest) GetBinary() *os.File {
 	if o == nil || o.Binary == nil {
-		var ret **os.File
+		var ret *os.File
 		return ret
 	}
-	return o.Binary
+	return *o.Binary
 }
 
 // GetBinaryOk returns a tuple with the Binary field value if set, nil otherwise
@@ -352,12 +352,12 @@ func (o *FormatTest) SetDate(v string) {
 }
 
 // GetDateTime returns the DateTime field value if set, zero value otherwise.
-func (o *FormatTest) GetDateTime() *time.Time {
+func (o *FormatTest) GetDateTime() time.Time {
 	if o == nil || o.DateTime == nil {
-		var ret *time.Time
+		var ret time.Time
 		return ret
 	}
-	return o.DateTime
+	return *o.DateTime
 }
 
 // GetDateTimeOk returns a tuple with the DateTime field value if set, nil otherwise
@@ -384,12 +384,12 @@ func (o *FormatTest) SetDateTime(v time.Time) {
 }
 
 // GetUuid returns the Uuid field value if set, zero value otherwise.
-func (o *FormatTest) GetUuid() *string {
+func (o *FormatTest) GetUuid() string {
 	if o == nil || o.Uuid == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.Uuid
+	return *o.Uuid
 }
 
 // GetUuidOk returns a tuple with the Uuid field value if set, nil otherwise
@@ -440,12 +440,12 @@ func (o *FormatTest) SetPassword(v string) {
 }
 
 // GetBigDecimal returns the BigDecimal field value if set, zero value otherwise.
-func (o *FormatTest) GetBigDecimal() *float64 {
+func (o *FormatTest) GetBigDecimal() float64 {
 	if o == nil || o.BigDecimal == nil {
-		var ret *float64
+		var ret float64
 		return ret
 	}
-	return o.BigDecimal
+	return *o.BigDecimal
 }
 
 // GetBigDecimalOk returns a tuple with the BigDecimal field value if set, nil otherwise

@@ -40,12 +40,12 @@ func NewDogAllOfWithDefaults() *DogAllOf {
 }
 
 // GetBreed returns the Breed field value if set, zero value otherwise.
-func (o *DogAllOf) GetBreed() *string {
+func (o *DogAllOf) GetBreed() string {
 	if o == nil || o.Breed == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.Breed
+	return *o.Breed
 }
 
 // GetBreedOk returns a tuple with the Breed field value if set, nil otherwise

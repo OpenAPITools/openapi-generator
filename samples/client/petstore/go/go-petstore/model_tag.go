@@ -38,12 +38,12 @@ func NewTagWithDefaults() *Tag {
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *Tag) GetId() *int64 {
+func (o *Tag) GetId() int64 {
 	if o == nil || o.Id == nil {
-		var ret *int64
+		var ret int64
 		return ret
 	}
-	return o.Id
+	return *o.Id
 }
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
@@ -70,12 +70,12 @@ func (o *Tag) SetId(v int64) {
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *Tag) GetName() *string {
+func (o *Tag) GetName() string {
 	if o == nil || o.Name == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.Name
+	return *o.Name
 }
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise

@@ -41,12 +41,12 @@ func NewModel200ResponseWithDefaults() *Model200Response {
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *Model200Response) GetName() *int32 {
+func (o *Model200Response) GetName() int32 {
 	if o == nil || o.Name == nil {
-		var ret *int32
+		var ret int32
 		return ret
 	}
-	return o.Name
+	return *o.Name
 }
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
@@ -73,12 +73,12 @@ func (o *Model200Response) SetName(v int32) {
 }
 
 // GetClass returns the Class field value if set, zero value otherwise.
-func (o *Model200Response) GetClass() *string {
+func (o *Model200Response) GetClass() string {
 	if o == nil || o.Class == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.Class
+	return *o.Class
 }
 
 // GetClassOk returns a tuple with the Class field value if set, nil otherwise

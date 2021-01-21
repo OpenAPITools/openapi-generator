@@ -65,12 +65,12 @@ func NewXmlItemWithDefaults() *XmlItem {
 }
 
 // GetAttributeString returns the AttributeString field value if set, zero value otherwise.
-func (o *XmlItem) GetAttributeString() *string {
+func (o *XmlItem) GetAttributeString() string {
 	if o == nil || o.AttributeString == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.AttributeString
+	return *o.AttributeString
 }
 
 // GetAttributeStringOk returns a tuple with the AttributeString field value if set, nil otherwise
@@ -97,12 +97,12 @@ func (o *XmlItem) SetAttributeString(v string) {
 }
 
 // GetAttributeNumber returns the AttributeNumber field value if set, zero value otherwise.
-func (o *XmlItem) GetAttributeNumber() *float32 {
+func (o *XmlItem) GetAttributeNumber() float32 {
 	if o == nil || o.AttributeNumber == nil {
-		var ret *float32
+		var ret float32
 		return ret
 	}
-	return o.AttributeNumber
+	return *o.AttributeNumber
 }
 
 // GetAttributeNumberOk returns a tuple with the AttributeNumber field value if set, nil otherwise
@@ -129,12 +129,12 @@ func (o *XmlItem) SetAttributeNumber(v float32) {
 }
 
 // GetAttributeInteger returns the AttributeInteger field value if set, zero value otherwise.
-func (o *XmlItem) GetAttributeInteger() *int32 {
+func (o *XmlItem) GetAttributeInteger() int32 {
 	if o == nil || o.AttributeInteger == nil {
-		var ret *int32
+		var ret int32
 		return ret
 	}
-	return o.AttributeInteger
+	return *o.AttributeInteger
 }
 
 // GetAttributeIntegerOk returns a tuple with the AttributeInteger field value if set, nil otherwise
@@ -161,12 +161,12 @@ func (o *XmlItem) SetAttributeInteger(v int32) {
 }
 
 // GetAttributeBoolean returns the AttributeBoolean field value if set, zero value otherwise.
-func (o *XmlItem) GetAttributeBoolean() *bool {
+func (o *XmlItem) GetAttributeBoolean() bool {
 	if o == nil || o.AttributeBoolean == nil {
-		var ret *bool
+		var ret bool
 		return ret
 	}
-	return o.AttributeBoolean
+	return *o.AttributeBoolean
 }
 
 // GetAttributeBooleanOk returns a tuple with the AttributeBoolean field value if set, nil otherwise
@@ -225,12 +225,12 @@ func (o *XmlItem) SetWrappedArray(v []int32) {
 }
 
 // GetNameString returns the NameString field value if set, zero value otherwise.
-func (o *XmlItem) GetNameString() *string {
+func (o *XmlItem) GetNameString() string {
 	if o == nil || o.NameString == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.NameString
+	return *o.NameString
 }
 
 // GetNameStringOk returns a tuple with the NameString field value if set, nil otherwise
@@ -257,12 +257,12 @@ func (o *XmlItem) SetNameString(v string) {
 }
 
 // GetNameNumber returns the NameNumber field value if set, zero value otherwise.
-func (o *XmlItem) GetNameNumber() *float32 {
+func (o *XmlItem) GetNameNumber() float32 {
 	if o == nil || o.NameNumber == nil {
-		var ret *float32
+		var ret float32
 		return ret
 	}
-	return o.NameNumber
+	return *o.NameNumber
 }
 
 // GetNameNumberOk returns a tuple with the NameNumber field value if set, nil otherwise
@@ -289,12 +289,12 @@ func (o *XmlItem) SetNameNumber(v float32) {
 }
 
 // GetNameInteger returns the NameInteger field value if set, zero value otherwise.
-func (o *XmlItem) GetNameInteger() *int32 {
+func (o *XmlItem) GetNameInteger() int32 {
 	if o == nil || o.NameInteger == nil {
-		var ret *int32
+		var ret int32
 		return ret
 	}
-	return o.NameInteger
+	return *o.NameInteger
 }
 
 // GetNameIntegerOk returns a tuple with the NameInteger field value if set, nil otherwise
@@ -321,12 +321,12 @@ func (o *XmlItem) SetNameInteger(v int32) {
 }
 
 // GetNameBoolean returns the NameBoolean field value if set, zero value otherwise.
-func (o *XmlItem) GetNameBoolean() *bool {
+func (o *XmlItem) GetNameBoolean() bool {
 	if o == nil || o.NameBoolean == nil {
-		var ret *bool
+		var ret bool
 		return ret
 	}
-	return o.NameBoolean
+	return *o.NameBoolean
 }
 
 // GetNameBooleanOk returns a tuple with the NameBoolean field value if set, nil otherwise
@@ -417,12 +417,12 @@ func (o *XmlItem) SetNameWrappedArray(v []int32) {
 }
 
 // GetPrefixString returns the PrefixString field value if set, zero value otherwise.
-func (o *XmlItem) GetPrefixString() *string {
+func (o *XmlItem) GetPrefixString() string {
 	if o == nil || o.PrefixString == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.PrefixString
+	return *o.PrefixString
 }
 
 // GetPrefixStringOk returns a tuple with the PrefixString field value if set, nil otherwise
@@ -449,12 +449,12 @@ func (o *XmlItem) SetPrefixString(v string) {
 }
 
 // GetPrefixNumber returns the PrefixNumber field value if set, zero value otherwise.
-func (o *XmlItem) GetPrefixNumber() *float32 {
+func (o *XmlItem) GetPrefixNumber() float32 {
 	if o == nil || o.PrefixNumber == nil {
-		var ret *float32
+		var ret float32
 		return ret
 	}
-	return o.PrefixNumber
+	return *o.PrefixNumber
 }
 
 // GetPrefixNumberOk returns a tuple with the PrefixNumber field value if set, nil otherwise
@@ -481,12 +481,12 @@ func (o *XmlItem) SetPrefixNumber(v float32) {
 }
 
 // GetPrefixInteger returns the PrefixInteger field value if set, zero value otherwise.
-func (o *XmlItem) GetPrefixInteger() *int32 {
+func (o *XmlItem) GetPrefixInteger() int32 {
 	if o == nil || o.PrefixInteger == nil {
-		var ret *int32
+		var ret int32
 		return ret
 	}
-	return o.PrefixInteger
+	return *o.PrefixInteger
 }
 
 // GetPrefixIntegerOk returns a tuple with the PrefixInteger field value if set, nil otherwise
@@ -513,12 +513,12 @@ func (o *XmlItem) SetPrefixInteger(v int32) {
 }
 
 // GetPrefixBoolean returns the PrefixBoolean field value if set, zero value otherwise.
-func (o *XmlItem) GetPrefixBoolean() *bool {
+func (o *XmlItem) GetPrefixBoolean() bool {
 	if o == nil || o.PrefixBoolean == nil {
-		var ret *bool
+		var ret bool
 		return ret
 	}
-	return o.PrefixBoolean
+	return *o.PrefixBoolean
 }
 
 // GetPrefixBooleanOk returns a tuple with the PrefixBoolean field value if set, nil otherwise
@@ -609,12 +609,12 @@ func (o *XmlItem) SetPrefixWrappedArray(v []int32) {
 }
 
 // GetNamespaceString returns the NamespaceString field value if set, zero value otherwise.
-func (o *XmlItem) GetNamespaceString() *string {
+func (o *XmlItem) GetNamespaceString() string {
 	if o == nil || o.NamespaceString == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.NamespaceString
+	return *o.NamespaceString
 }
 
 // GetNamespaceStringOk returns a tuple with the NamespaceString field value if set, nil otherwise
@@ -641,12 +641,12 @@ func (o *XmlItem) SetNamespaceString(v string) {
 }
 
 // GetNamespaceNumber returns the NamespaceNumber field value if set, zero value otherwise.
-func (o *XmlItem) GetNamespaceNumber() *float32 {
+func (o *XmlItem) GetNamespaceNumber() float32 {
 	if o == nil || o.NamespaceNumber == nil {
-		var ret *float32
+		var ret float32
 		return ret
 	}
-	return o.NamespaceNumber
+	return *o.NamespaceNumber
 }
 
 // GetNamespaceNumberOk returns a tuple with the NamespaceNumber field value if set, nil otherwise
@@ -673,12 +673,12 @@ func (o *XmlItem) SetNamespaceNumber(v float32) {
 }
 
 // GetNamespaceInteger returns the NamespaceInteger field value if set, zero value otherwise.
-func (o *XmlItem) GetNamespaceInteger() *int32 {
+func (o *XmlItem) GetNamespaceInteger() int32 {
 	if o == nil || o.NamespaceInteger == nil {
-		var ret *int32
+		var ret int32
 		return ret
 	}
-	return o.NamespaceInteger
+	return *o.NamespaceInteger
 }
 
 // GetNamespaceIntegerOk returns a tuple with the NamespaceInteger field value if set, nil otherwise
@@ -705,12 +705,12 @@ func (o *XmlItem) SetNamespaceInteger(v int32) {
 }
 
 // GetNamespaceBoolean returns the NamespaceBoolean field value if set, zero value otherwise.
-func (o *XmlItem) GetNamespaceBoolean() *bool {
+func (o *XmlItem) GetNamespaceBoolean() bool {
 	if o == nil || o.NamespaceBoolean == nil {
-		var ret *bool
+		var ret bool
 		return ret
 	}
-	return o.NamespaceBoolean
+	return *o.NamespaceBoolean
 }
 
 // GetNamespaceBooleanOk returns a tuple with the NamespaceBoolean field value if set, nil otherwise
@@ -801,12 +801,12 @@ func (o *XmlItem) SetNamespaceWrappedArray(v []int32) {
 }
 
 // GetPrefixNsString returns the PrefixNsString field value if set, zero value otherwise.
-func (o *XmlItem) GetPrefixNsString() *string {
+func (o *XmlItem) GetPrefixNsString() string {
 	if o == nil || o.PrefixNsString == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.PrefixNsString
+	return *o.PrefixNsString
 }
 
 // GetPrefixNsStringOk returns a tuple with the PrefixNsString field value if set, nil otherwise
@@ -833,12 +833,12 @@ func (o *XmlItem) SetPrefixNsString(v string) {
 }
 
 // GetPrefixNsNumber returns the PrefixNsNumber field value if set, zero value otherwise.
-func (o *XmlItem) GetPrefixNsNumber() *float32 {
+func (o *XmlItem) GetPrefixNsNumber() float32 {
 	if o == nil || o.PrefixNsNumber == nil {
-		var ret *float32
+		var ret float32
 		return ret
 	}
-	return o.PrefixNsNumber
+	return *o.PrefixNsNumber
 }
 
 // GetPrefixNsNumberOk returns a tuple with the PrefixNsNumber field value if set, nil otherwise
@@ -865,12 +865,12 @@ func (o *XmlItem) SetPrefixNsNumber(v float32) {
 }
 
 // GetPrefixNsInteger returns the PrefixNsInteger field value if set, zero value otherwise.
-func (o *XmlItem) GetPrefixNsInteger() *int32 {
+func (o *XmlItem) GetPrefixNsInteger() int32 {
 	if o == nil || o.PrefixNsInteger == nil {
-		var ret *int32
+		var ret int32
 		return ret
 	}
-	return o.PrefixNsInteger
+	return *o.PrefixNsInteger
 }
 
 // GetPrefixNsIntegerOk returns a tuple with the PrefixNsInteger field value if set, nil otherwise
@@ -897,12 +897,12 @@ func (o *XmlItem) SetPrefixNsInteger(v int32) {
 }
 
 // GetPrefixNsBoolean returns the PrefixNsBoolean field value if set, zero value otherwise.
-func (o *XmlItem) GetPrefixNsBoolean() *bool {
+func (o *XmlItem) GetPrefixNsBoolean() bool {
 	if o == nil || o.PrefixNsBoolean == nil {
-		var ret *bool
+		var ret bool
 		return ret
 	}
-	return o.PrefixNsBoolean
+	return *o.PrefixNsBoolean
 }
 
 // GetPrefixNsBooleanOk returns a tuple with the PrefixNsBoolean field value if set, nil otherwise

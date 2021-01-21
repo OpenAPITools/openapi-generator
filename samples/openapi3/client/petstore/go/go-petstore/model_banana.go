@@ -40,12 +40,12 @@ func NewBananaWithDefaults() *Banana {
 }
 
 // GetLengthCm returns the LengthCm field value if set, zero value otherwise.
-func (o *Banana) GetLengthCm() *float32 {
+func (o *Banana) GetLengthCm() float32 {
 	if o == nil || o.LengthCm == nil {
-		var ret *float32
+		var ret float32
 		return ret
 	}
-	return o.LengthCm
+	return *o.LengthCm
 }
 
 // GetLengthCmOk returns a tuple with the LengthCm field value if set, nil otherwise

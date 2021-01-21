@@ -66,12 +66,12 @@ func (o *AppleReq) SetCultivar(v string) {
 }
 
 // GetMealy returns the Mealy field value if set, zero value otherwise.
-func (o *AppleReq) GetMealy() *bool {
+func (o *AppleReq) GetMealy() bool {
 	if o == nil || o.Mealy == nil {
-		var ret *bool
+		var ret bool
 		return ret
 	}
-	return o.Mealy
+	return *o.Mealy
 }
 
 // GetMealyOk returns a tuple with the Mealy field value if set, nil otherwise

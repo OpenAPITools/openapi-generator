@@ -41,12 +41,12 @@ func NewFileSchemaTestClassWithDefaults() *FileSchemaTestClass {
 }
 
 // GetFile returns the File field value if set, zero value otherwise.
-func (o *FileSchemaTestClass) GetFile() *File {
+func (o *FileSchemaTestClass) GetFile() File {
 	if o == nil || o.File == nil {
-		var ret *File
+		var ret File
 		return ret
 	}
-	return o.File
+	return *o.File
 }
 
 // GetFileOk returns a tuple with the File field value if set, nil otherwise

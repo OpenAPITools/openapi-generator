@@ -37,12 +37,12 @@ func NewListWithDefaults() *List {
 }
 
 // GetVar123List returns the Var123List field value if set, zero value otherwise.
-func (o *List) GetVar123List() *string {
+func (o *List) GetVar123List() string {
 	if o == nil || o.Var123List == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.Var123List
+	return *o.Var123List
 }
 
 // GetVar123ListOk returns a tuple with the Var123List field value if set, nil otherwise

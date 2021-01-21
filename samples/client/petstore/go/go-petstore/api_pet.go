@@ -365,7 +365,7 @@ func (r ApiFindPetsByStatusRequest) Status(status []string) ApiFindPetsByStatusR
 	return r
 }
 
-func (r ApiFindPetsByStatusRequest) Execute() (*[]Pet, *http.Response, error) {
+func (r ApiFindPetsByStatusRequest) Execute() ([]Pet, *http.Response, error) {
 	return r.ApiService.FindPetsByStatusExecute(r)
 }
 
@@ -386,7 +386,7 @@ func (a *PetApiService) FindPetsByStatus(ctx context.Context) ApiFindPetsByStatu
  * Execute executes the request
  * @return []Pet
  */
-func (a *PetApiService) FindPetsByStatusExecute(r ApiFindPetsByStatusRequest) (*[]Pet, *http.Response, error) {
+func (a *PetApiService) FindPetsByStatusExecute(r ApiFindPetsByStatusRequest) ([]Pet, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -398,7 +398,7 @@ func (a *PetApiService) FindPetsByStatusExecute(r ApiFindPetsByStatusRequest) (*
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.FindPetsByStatus")
 	if err != nil {
-		return &localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/pet/findByStatus"
@@ -407,7 +407,7 @@ func (a *PetApiService) FindPetsByStatusExecute(r ApiFindPetsByStatusRequest) (*
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.status == nil {
-		return &localVarReturnValue, nil, reportError("status is required and must be specified")
+		return localVarReturnValue, nil, reportError("status is required and must be specified")
 	}
 
 	localVarQueryParams.Add("status", parameterToString(*r.status, "csv"))
@@ -430,19 +430,19 @@ func (a *PetApiService) FindPetsByStatusExecute(r ApiFindPetsByStatusRequest) (*
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return &localVarReturnValue, nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -450,7 +450,7 @@ func (a *PetApiService) FindPetsByStatusExecute(r ApiFindPetsByStatusRequest) (*
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -459,10 +459,10 @@ func (a *PetApiService) FindPetsByStatusExecute(r ApiFindPetsByStatusRequest) (*
 			body:  localVarBody,
 			error: err.Error(),
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return &localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiFindPetsByTagsRequest struct {
@@ -476,7 +476,7 @@ func (r ApiFindPetsByTagsRequest) Tags(tags []string) ApiFindPetsByTagsRequest {
 	return r
 }
 
-func (r ApiFindPetsByTagsRequest) Execute() (*[]Pet, *http.Response, error) {
+func (r ApiFindPetsByTagsRequest) Execute() ([]Pet, *http.Response, error) {
 	return r.ApiService.FindPetsByTagsExecute(r)
 }
 
@@ -497,7 +497,7 @@ func (a *PetApiService) FindPetsByTags(ctx context.Context) ApiFindPetsByTagsReq
  * Execute executes the request
  * @return []Pet
  */
-func (a *PetApiService) FindPetsByTagsExecute(r ApiFindPetsByTagsRequest) (*[]Pet, *http.Response, error) {
+func (a *PetApiService) FindPetsByTagsExecute(r ApiFindPetsByTagsRequest) ([]Pet, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -509,7 +509,7 @@ func (a *PetApiService) FindPetsByTagsExecute(r ApiFindPetsByTagsRequest) (*[]Pe
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.FindPetsByTags")
 	if err != nil {
-		return &localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/pet/findByTags"
@@ -518,7 +518,7 @@ func (a *PetApiService) FindPetsByTagsExecute(r ApiFindPetsByTagsRequest) (*[]Pe
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.tags == nil {
-		return &localVarReturnValue, nil, reportError("tags is required and must be specified")
+		return localVarReturnValue, nil, reportError("tags is required and must be specified")
 	}
 
 	localVarQueryParams.Add("tags", parameterToString(*r.tags, "csv"))
@@ -541,19 +541,19 @@ func (a *PetApiService) FindPetsByTagsExecute(r ApiFindPetsByTagsRequest) (*[]Pe
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return &localVarReturnValue, nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -561,7 +561,7 @@ func (a *PetApiService) FindPetsByTagsExecute(r ApiFindPetsByTagsRequest) (*[]Pe
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -570,10 +570,10 @@ func (a *PetApiService) FindPetsByTagsExecute(r ApiFindPetsByTagsRequest) (*[]Pe
 			body:  localVarBody,
 			error: err.Error(),
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return &localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiGetPetByIdRequest struct {

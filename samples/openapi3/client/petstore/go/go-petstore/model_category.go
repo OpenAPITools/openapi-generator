@@ -44,12 +44,12 @@ func NewCategoryWithDefaults() *Category {
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *Category) GetId() *int64 {
+func (o *Category) GetId() int64 {
 	if o == nil || o.Id == nil {
-		var ret *int64
+		var ret int64
 		return ret
 	}
-	return o.Id
+	return *o.Id
 }
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise

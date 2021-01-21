@@ -37,12 +37,12 @@ func NewNumberOnlyWithDefaults() *NumberOnly {
 }
 
 // GetJustNumber returns the JustNumber field value if set, zero value otherwise.
-func (o *NumberOnly) GetJustNumber() *float32 {
+func (o *NumberOnly) GetJustNumber() float32 {
 	if o == nil || o.JustNumber == nil {
-		var ret *float32
+		var ret float32
 		return ret
 	}
-	return o.JustNumber
+	return *o.JustNumber
 }
 
 // GetJustNumberOk returns a tuple with the JustNumber field value if set, nil otherwise

@@ -37,12 +37,12 @@ func NewBigCatAllOfWithDefaults() *BigCatAllOf {
 }
 
 // GetKind returns the Kind field value if set, zero value otherwise.
-func (o *BigCatAllOf) GetKind() *string {
+func (o *BigCatAllOf) GetKind() string {
 	if o == nil || o.Kind == nil {
-		var ret *string
+		var ret string
 		return ret
 	}
-	return o.Kind
+	return *o.Kind
 }
 
 // GetKindOk returns a tuple with the Kind field value if set, nil otherwise
