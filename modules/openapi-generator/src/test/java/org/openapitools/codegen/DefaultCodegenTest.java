@@ -695,7 +695,7 @@ public class DefaultCodegenTest {
         CodegenParameter codegenParameter2 = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         codegen.setParameterExampleValue(codegenParameter2, operation2.getParameters().get(0));
 
-        Assert.assertEquals(codegenParameter2.example, "example3: parameter value");
+        Assert.assertEquals(codegenParameter2.example, "An example3 value");
     }
 
     @Test
