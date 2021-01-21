@@ -3899,20 +3899,6 @@ public class DefaultCodegen implements CodegenConfig {
     public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
         CodegenResponse r = CodegenModelFactory.newInstance(CodegenModelType.RESPONSE);
 
-        if (response.getContent() != null && response.getContent().size() > 0) {
-            // Ensure validation properties from a target schema are persisted on CodegenResponse.
-            // This ignores any edge case where different schemas have different validations because we don't
-            // have a way to indicate a preference for response schema and are effective 1:1.
-            Schema contentSchema = null;
-            for (MediaType mt : response.getContent().values()) {
-                if (contentSchema != null) break;
-                contentSchema = mt.getSchema();
-            }
-            if (contentSchema != null) {
-                ModelUtils.syncValidationProperties(contentSchema, r);
-            }
-        }
-
         if ("default".equals(responseCode) || "defaultResponse".equals(responseCode)) {
             r.code = "0";
             r.isDefault = true;
@@ -3946,8 +3932,11 @@ public class DefaultCodegen implements CodegenConfig {
             responseSchema = ModelUtils.getSchemaFromResponse(response);
         }
         r.schema = responseSchema;
-        if (responseSchema != null && responseSchema.getPattern() != null) {
-            r.setPattern(toRegularExpression(responseSchema.getPattern()));
+        if (responseSchema != null) {
+            ModelUtils.syncValidationProperties(responseSchema, r);
+            if (responseSchema.getPattern() != null) {
+                r.setPattern(toRegularExpression(responseSchema.getPattern()));
+            }
         }
 
         r.message = escapeText(response.getDescription());
@@ -6062,12 +6051,6 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.dataType = codegenProperty.dataType;
                 codegenParameter.description = codegenProperty.description;
                 codegenParameter.paramName = toParamName(codegenParameter.baseName);
-                codegenParameter.minimum = codegenProperty.minimum;
-                codegenParameter.maximum = codegenProperty.maximum;
-                codegenParameter.exclusiveMinimum = codegenProperty.exclusiveMinimum;
-                codegenParameter.exclusiveMaximum = codegenProperty.exclusiveMaximum;
-                codegenParameter.minLength = codegenProperty.minLength;
-                codegenParameter.maxLength = codegenProperty.maxLength;
                 codegenParameter.pattern = codegenProperty.pattern;
                 codegenParameter.isNullable = codegenProperty.isNullable;
 

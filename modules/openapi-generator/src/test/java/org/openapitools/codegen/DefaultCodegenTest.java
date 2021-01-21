@@ -2784,6 +2784,93 @@ public class DefaultCodegenTest {
         }
     }
 
+    @Test
+    public void testPathParametersGetHasValidation() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7651.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String path = "/pathParametersWithValidation";
+        Operation operation = openAPI.getPaths().get(path).getPost();
+        CodegenOperation co = codegen.fromOperation(path, "POST", operation, null);
+        List<CodegenParameter> params = co.pathParams;
+        assertEquals(params.size(), 50);
+        for (CodegenParameter param : params) {
+            assertEquals(param.getHasValidation(), true);
+        }
+    }
+
+    @Test
+    public void testBodyAndResponseGetHasValidation() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7651.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        List<String> modelNames = Arrays.asList(
+                "ArrayWithMaxItems",
+                "ArrayWithMinItems",
+                "ArrayWithUniqueItems",
+                "ObjectWithMinProperties",
+                "ObjectWithMaxProperties",
+                "StringWithMinLength",
+                "DateWithMinLength",
+                "DateTimeWithMinLength",
+                "ByteWithMinLength",
+                "BinaryWithMinLength",
+                "StringWithMaxLength",
+                "DateWithMaxLength",
+                "DateTimeWithMaxLength",
+                "ByteWithMaxLength",
+                "BinaryWithMaxLength",
+                "StringWithPattern",
+                "DateWithPattern",
+                "DateTimeWithPattern",
+                "ByteWithPattern",
+                "BinaryWithPattern",
+                "IntegerWithMultipleOf",
+                "Integer32WithMultipleOf",
+                "Integer64WithMultipleOf",
+                "NumberWithMultipleOf",
+                "NumberFloatWithMultipleOf",
+                "NumberDoubleWithMultipleOf",
+                "IntegerWithMinimum",
+                "Integer32WithMinimum",
+                "Integer64WithMinimum",
+                "NumberWithMinimum",
+                "NumberFloatWithMinimum",
+                "NumberDoubleWithMinimum",
+                "IntegerWithMaximum",
+                "Integer32WithMaximum",
+                "Integer64WithMaximum",
+                "NumberWithMaximum",
+                "NumberFloatWithMaximum",
+                "NumberDoubleWithMaximum",
+                "IntegerWithExclusiveMaximum",
+                "Integer32WithExclusiveMaximum",
+                "Integer64WithExclusiveMaximum",
+                "NumberWithExclusiveMaximum",
+                "NumberFloatWithExclusiveMaximum",
+                "NumberDoubleWithExclusiveMaximum",
+                "IntegerWithExclusiveMinimum",
+                "Integer32WithExclusiveMinimum",
+                "Integer64WithExclusiveMinimum",
+                "NumberWithExclusiveMinimum",
+                "NumberFloatWithExclusiveMinimum",
+                "NumberDoubleWithExclusiveMinimum"
+        );
+
+        String path;
+        Operation operation;
+        CodegenOperation co;
+
+        for (String modelName : modelNames) {
+            path = "/"+modelName;
+            operation = openAPI.getPaths().get(path).getPost();
+            co = codegen.fromOperation(path, "POST", operation, null);
+            assertEquals(co.bodyParam.getHasValidation(), true);
+            assertEquals(co.responses.get(0).getHasValidation(), true);
+        }
+    }
 
     @Test
     public void testVarsAndRequiredVarsPresent() {
