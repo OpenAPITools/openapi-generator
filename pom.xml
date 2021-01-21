@@ -62,7 +62,7 @@
     <distributionManagement>
       <repository>
          <id>maven-releases</id>
-         <url>http://s2.davido.vn:8081/repository/maven-releases/</url>
+         <url>https://nexus.devops.davido.vn/repository/maven-releases/</url>
       </repository>
     </distributionManagement>
     <licenses>
@@ -466,7 +466,8 @@
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>ossrh</serverId>
-                            <nexusUrl>https://nexus.devops.davido.vn/</nexusUrl>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+<!--                            <nexusUrl>https://nexus.devops.davido.vn/</nexusUrl>-->
                             <autoReleaseAfterClose>true</autoReleaseAfterClose>
                         </configuration>
                     </plugin>
