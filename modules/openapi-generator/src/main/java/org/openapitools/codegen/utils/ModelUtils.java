@@ -1519,14 +1519,17 @@ public class ModelUtils {
                 setObjectValidations(minProperties, maxProperties, target);
             } else if (isStringSchema(schema)) {
                 setStringValidations(minLength, maxLength, pattern, target);
+                if (isDecimalSchema(schema)) {
+                    setNumericValidations(schema, multipleOf, minimum, maximum, exclusiveMinimum, exclusiveMaximum, target);
+                }
             } else if (isNumberSchema(schema) || isIntegerSchema(schema)) {
-                setNumericValidations(multipleOf, minimum, maximum, exclusiveMinimum, exclusiveMaximum, target);
+                setNumericValidations(schema, multipleOf, minimum, maximum, exclusiveMinimum, exclusiveMaximum, target);
             } else if (isComposedSchema(schema)) {
                 // this could be composed out of anything so set all validations here
                 setArrayValidations(minItems, maxItems, uniqueItems, target);
                 setObjectValidations(minProperties, maxProperties, target);
                 setStringValidations(minLength, maxLength, pattern, target);
-                setNumericValidations(multipleOf, minimum, maximum, exclusiveMinimum, exclusiveMaximum, target);
+                setNumericValidations(schema, multipleOf, minimum, maximum, exclusiveMinimum, exclusiveMaximum, target);
             }
 
             if (maxItems != null || minItems != null || minProperties != null || maxProperties != null || minLength != null || maxLength != null || multipleOf != null || pattern != null || minimum != null || maximum != null || exclusiveMinimum != null || exclusiveMaximum != null || uniqueItems != null) {
@@ -1552,14 +1555,22 @@ public class ModelUtils {
         if (pattern != null) target.setPattern(pattern);
     }
 
-    private static void setNumericValidations(BigDecimal multipleOf, BigDecimal minimum, BigDecimal maximum, Boolean exclusiveMinimum, Boolean exclusiveMaximum, IJsonSchemaValidationProperties target) {
+    private static void setNumericValidations(Schema schema, BigDecimal multipleOf, BigDecimal minimum, BigDecimal maximum, Boolean exclusiveMinimum, Boolean exclusiveMaximum, IJsonSchemaValidationProperties target) {
         if (multipleOf != null) target.setMultipleOf(multipleOf);
         if (minimum != null) {
-            target.setMinimum(String.valueOf(minimum));
+            if (isIntegerSchema(schema)) {
+                target.setMinimum(String.valueOf(minimum.longValue()));
+            } else {
+                target.setMinimum(String.valueOf(minimum));
+            }
             if (exclusiveMinimum != null) target.setExclusiveMinimum(exclusiveMinimum);
         }
         if (maximum != null) {
-            target.setMaximum(String.valueOf(maximum));
+            if (isIntegerSchema(schema)) {
+                target.setMaximum(String.valueOf(maximum.longValue()));
+            } else {
+                target.setMaximum(String.valueOf(maximum));
+            }
             if (exclusiveMaximum != null) target.setExclusiveMaximum(exclusiveMaximum);
         }
     }
