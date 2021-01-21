@@ -5921,9 +5921,10 @@ public class DefaultCodegen implements CodegenConfig {
         if (StringUtils.isNotBlank(schema.get$ref())) {
             name = ModelUtils.getSimpleRef(schema.get$ref());
         }
+        Schema validationSchema = unaliasSchema(schema, importMapping);
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
 
-        ModelUtils.syncValidationProperties(schema, codegenParameter);
+        ModelUtils.syncValidationProperties(validationSchema, codegenParameter);
 
         if (ModelUtils.isMapSchema(schema)) {
             // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)

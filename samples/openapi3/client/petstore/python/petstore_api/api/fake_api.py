@@ -1142,16 +1142,10 @@ class FakeApi(object):
                 'enum': [
                 ],
                 'validation': [
-                    'body',
                 ]
             },
             root_map={
                 'validations': {
-                    ('body',): {
-
-                        'inclusive_maximum': 20,
-                        'inclusive_minimum': 10,
-                    },
                 },
                 'allowed_values': {
                 },
