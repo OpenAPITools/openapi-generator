@@ -1489,39 +1489,75 @@ public class ModelUtils {
 
     public static void syncValidationProperties(Schema schema, IJsonSchemaValidationProperties target) {
         if (schema != null && target != null) {
-            BigDecimal minimum = schema.getMinimum();
-            BigDecimal maximum = schema.getMaximum();
-            Boolean exclusiveMinimum = schema.getExclusiveMinimum();
-            Boolean exclusiveMaximum = schema.getExclusiveMaximum();
-            Integer minLength = schema.getMinLength();
-            Integer maxLength = schema.getMaxLength();
+            if (isNullType(schema) || schema.get$ref() != null || isBooleanSchema(schema)) {
+                return;
+            }
+            boolean isAnyType = (schema.getClass().equals(Schema.class) && schema.get$ref() == null && schema.getType() == null &&
+                    (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
+                    schema.getAdditionalProperties() == null && schema.getNot() == null &&
+                    schema.getEnum() == null);
+            if (isAnyType) {
+                return;
+            }
             Integer minItems = schema.getMinItems();
             Integer maxItems = schema.getMaxItems();
             Boolean uniqueItems = schema.getUniqueItems();
             Integer minProperties = schema.getMinProperties();
             Integer maxProperties = schema.getMaxProperties();
-            BigDecimal multipleOf = schema.getMultipleOf();
+            Integer minLength = schema.getMinLength();
+            Integer maxLength = schema.getMaxLength();
             String pattern = schema.getPattern();
+            BigDecimal multipleOf = schema.getMultipleOf();
+            BigDecimal minimum = schema.getMinimum();
+            BigDecimal maximum = schema.getMaximum();
+            Boolean exclusiveMinimum = schema.getExclusiveMinimum();
+            Boolean exclusiveMaximum = schema.getExclusiveMaximum();
 
-            if (maxItems != null) target.setMaxItems(maxItems);
-            if (minItems != null) target.setMinItems(minItems);
-            if (minProperties != null) target.setMinProperties(minProperties);
-            if (maxProperties != null) target.setMaxProperties(maxProperties);
-            if (minLength != null) target.setMinLength(minLength);
-            if (maxLength != null) target.setMaxLength(maxLength);
-            if (multipleOf != null) target.setMultipleOf((Number) multipleOf);
-            if (pattern != null) target.setPattern(pattern);
-            if (minimum != null) target.setMinimum(String.valueOf(minimum));
-            if (maximum != null) target.setMaximum(String.valueOf(maximum));
-            if (exclusiveMinimum != null) target.setExclusiveMinimum(exclusiveMinimum);
-            if (exclusiveMaximum != null) target.setExclusiveMaximum(exclusiveMaximum);
-            if (uniqueItems != null) target.setUniqueItems(uniqueItems);
+            if (isArraySchema(schema)) {
+                setArrayValidations(minItems, maxItems, uniqueItems, target);
+            } else if (isMapSchema(schema) || isObjectSchema(schema)) {
+                setObjectValidations(minProperties, maxProperties, target);
+            } else if (isStringSchema(schema)) {
+                setStringValidations(minLength, maxLength, pattern, target);
+            } else if (isNumberSchema(schema) || isIntegerSchema(schema)) {
+                setNumericValidations(multipleOf, minimum, maximum, exclusiveMinimum, exclusiveMaximum, target);
+            } else if (isComposedSchema(schema)) {
+                // this could be composed out of anything so set all validations here
+                setArrayValidations(minItems, maxItems, uniqueItems, target);
+                setObjectValidations(minProperties, maxProperties, target);
+                setStringValidations(minLength, maxLength, pattern, target);
+                setNumericValidations(multipleOf, minimum, maximum, exclusiveMinimum, exclusiveMaximum, target);
+            }
 
-            // TODO conditionally set this only if we are in the correct schema type for the validation
             if (maxItems != null || minItems != null || minProperties != null || maxProperties != null || minLength != null || maxLength != null || multipleOf != null || pattern != null || minimum != null || maximum != null || exclusiveMinimum != null || exclusiveMaximum != null || uniqueItems != null) {
                 target.setHasValidation(true);
             }
         }
+    }
+
+    private static void setArrayValidations(Integer minItems, Integer maxItems, Boolean uniqueItems, IJsonSchemaValidationProperties target) {
+        if (minItems != null) target.setMinItems(minItems);
+        if (maxItems != null) target.setMaxItems(maxItems);
+        if (uniqueItems != null) target.setUniqueItems(uniqueItems);
+    }
+
+    private static void setObjectValidations(Integer minProperties, Integer maxProperties, IJsonSchemaValidationProperties target) {
+        if (minProperties != null) target.setMinProperties(minProperties);
+        if (maxProperties != null) target.setMaxProperties(maxProperties);
+    }
+
+    private static void setStringValidations(Integer minLength, Integer maxLength, String pattern, IJsonSchemaValidationProperties target) {
+        if (minLength != null) target.setMinLength(minLength);
+        if (maxLength != null) target.setMaxLength(maxLength);
+        if (pattern != null) target.setPattern(pattern);
+    }
+
+    private static void setNumericValidations(BigDecimal multipleOf, BigDecimal minimum, BigDecimal maximum, Boolean exclusiveMinimum, Boolean exclusiveMaximum, IJsonSchemaValidationProperties target) {
+        if (multipleOf != null) target.setMultipleOf((Number) multipleOf);
+        if (minimum != null) target.setMinimum(String.valueOf(minimum));
+        if (maximum != null) target.setMaximum(String.valueOf(maximum));
+        if (exclusiveMinimum != null) target.setExclusiveMinimum(exclusiveMinimum);
+        if (exclusiveMaximum != null) target.setExclusiveMaximum(exclusiveMaximum);
     }
 
     private static ObjectMapper getRightMapper(String data) {
