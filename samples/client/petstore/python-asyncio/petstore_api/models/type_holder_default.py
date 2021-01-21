@@ -51,7 +51,7 @@ class TypeHolderDefault(object):
     def __init__(self, string_item='what', number_item=None, integer_item=None, bool_item=True, array_item=None, local_vars_configuration=None):  # noqa: E501
         """TypeHolderDefault - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
+            local_vars_configuration = Configuration.get_default_copy()
         self.local_vars_configuration = local_vars_configuration
 
         self._string_item = None
