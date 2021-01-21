@@ -1428,7 +1428,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
             } else {
                 // match int type to schema constraints
-                Long inclusiveMinimum = property.minimum != null ? Long.parseLong(property.minimum) : null;
+                Long inclusiveMinimum = property.minimum != null ? Double.valueOf(property.minimum).longValue() : null;
                 if (inclusiveMinimum != null && property.exclusiveMinimum) {
                     inclusiveMinimum++;
                 }
@@ -1436,7 +1436,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 // a signed int is required unless a minimum greater than zero is set
                 boolean unsigned = inclusiveMinimum != null && inclusiveMinimum >= 0;
 
-                Long inclusiveMaximum = property.maximum != null ? Long.parseLong(property.maximum) : null;
+                Long inclusiveMaximum = property.maximum != null ? Double.valueOf(property.maximum).longValue() : null;
                 if (inclusiveMaximum != null && property.exclusiveMaximum) {
                     inclusiveMaximum--;
                 }
