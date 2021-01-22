@@ -6,7 +6,10 @@
 //
 
 import Foundation
+#if canImport(Combine)
 import Combine
+#endif
+
 
 open class StoreAPI {
     /**
