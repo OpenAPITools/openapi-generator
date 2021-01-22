@@ -28,22 +28,18 @@ defmodule OpenapiPetstore.Model.AdditionalPropertiesClass do
     :"map_integer" => %{optional(String.t) => integer()} | nil,
     :"map_boolean" => %{optional(String.t) => boolean()} | nil,
     :"map_array_integer" => %{optional(String.t) => [integer()]} | nil,
-    :"map_array_anytype" => %{optional(String.t) => [Map.t]} | nil,
+    :"map_array_anytype" => %{optional(String.t) => [map()]} | nil,
     :"map_map_string" => %{optional(String.t) => %{optional(String.t) => String.t}} | nil,
-    :"map_map_anytype" => %{optional(String.t) => %{optional(String.t) => Map.t}} | nil,
-    :"anytype_1" => Map.t | nil,
-    :"anytype_2" => Map.t | nil,
-    :"anytype_3" => Map.t | nil
+    :"map_map_anytype" => %{optional(String.t) => %{optional(String.t) => map()}} | nil,
+    :"anytype_1" => map() | nil,
+    :"anytype_2" => map() | nil,
+    :"anytype_3" => map() | nil
   }
 end
 
 defimpl Poison.Decoder, for: OpenapiPetstore.Model.AdditionalPropertiesClass do
-  import OpenapiPetstore.Deserializer
-  def decode(value, options) do
+  def decode(value, _options) do
     value
-    |> deserialize(:"anytype_1", :struct, OpenapiPetstore.Model.Map.t, options)
-    |> deserialize(:"anytype_2", :struct, OpenapiPetstore.Model.Map.t, options)
-    |> deserialize(:"anytype_3", :struct, OpenapiPetstore.Model.Map.t, options)
   end
 end
 
