@@ -119,7 +119,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * Sets additional properties that can be referenced by the mustache templates.
      */
-    val additionalProperties = project.objects.mapProperty<String, String>()
+    val additionalProperties = project.objects.mapProperty<String, Any>()
 
     /**
      * Sets server variable for server URL template substitution, in the format of name=value,name=value.

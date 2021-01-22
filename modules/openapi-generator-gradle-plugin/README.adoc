@@ -215,7 +215,7 @@ apply plugin: 'org.openapi.generator'
 |Sets mappings between OpenAPI spec types and generated code types.
 
 |additionalProperties
-|Map(String,String)
+|Map(String,Any)
 |None
 |Sets additional properties that can be referenced by the mustache templates.
 
