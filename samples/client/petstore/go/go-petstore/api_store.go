@@ -52,7 +52,7 @@ type StoreApi interface {
 	 * GetInventoryExecute executes the request
 	 * @return map[string]int32
 	 */
-	GetInventoryExecute(r ApiGetInventoryRequest) (*map[string]int32, *http.Response, error)
+	GetInventoryExecute(r ApiGetInventoryRequest) (map[string]int32, *http.Response, error)
 
 	/*
 	 * GetOrderById Find purchase order by ID
@@ -87,11 +87,10 @@ type StoreApi interface {
 type StoreApiService service
 
 type ApiDeleteOrderRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService StoreApi
-	orderId string
+	orderId    string
 }
-
 
 func (r ApiDeleteOrderRequest) Execute() (*http.Response, error) {
 	return r.ApiService.DeleteOrderExecute(r)
@@ -107,8 +106,8 @@ func (r ApiDeleteOrderRequest) Execute() (*http.Response, error) {
 func (a *StoreApiService) DeleteOrder(ctx context.Context, orderId string) ApiDeleteOrderRequest {
 	return ApiDeleteOrderRequest{
 		ApiService: a,
-		ctx: ctx,
-		orderId: orderId,
+		ctx:        ctx,
+		orderId:    orderId,
 	}
 }
 
@@ -182,12 +181,11 @@ func (a *StoreApiService) DeleteOrderExecute(r ApiDeleteOrderRequest) (*http.Res
 }
 
 type ApiGetInventoryRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService StoreApi
 }
 
-
-func (r ApiGetInventoryRequest) Execute() (*map[string]int32, *http.Response, error) {
+func (r ApiGetInventoryRequest) Execute() (map[string]int32, *http.Response, error) {
 	return r.ApiService.GetInventoryExecute(r)
 }
 
@@ -200,7 +198,7 @@ func (r ApiGetInventoryRequest) Execute() (*map[string]int32, *http.Response, er
 func (a *StoreApiService) GetInventory(ctx context.Context) ApiGetInventoryRequest {
 	return ApiGetInventoryRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -208,7 +206,7 @@ func (a *StoreApiService) GetInventory(ctx context.Context) ApiGetInventoryReque
  * Execute executes the request
  * @return map[string]int32
  */
-func (a *StoreApiService) GetInventoryExecute(r ApiGetInventoryRequest) (*map[string]int32, *http.Response, error) {
+func (a *StoreApiService) GetInventoryExecute(r ApiGetInventoryRequest) (map[string]int32, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -220,7 +218,7 @@ func (a *StoreApiService) GetInventoryExecute(r ApiGetInventoryRequest) (*map[st
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.GetInventory")
 	if err != nil {
-		return &localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/store/inventory"
@@ -262,19 +260,19 @@ func (a *StoreApiService) GetInventoryExecute(r ApiGetInventoryRequest) (*map[st
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return &localVarReturnValue, nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -282,7 +280,7 @@ func (a *StoreApiService) GetInventoryExecute(r ApiGetInventoryRequest) (*map[st
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -291,18 +289,17 @@ func (a *StoreApiService) GetInventoryExecute(r ApiGetInventoryRequest) (*map[st
 			body:  localVarBody,
 			error: err.Error(),
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return &localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiGetOrderByIdRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService StoreApi
-	orderId int64
+	orderId    int64
 }
-
 
 func (r ApiGetOrderByIdRequest) Execute() (*Order, *http.Response, error) {
 	return r.ApiService.GetOrderByIdExecute(r)
@@ -318,8 +315,8 @@ func (r ApiGetOrderByIdRequest) Execute() (*Order, *http.Response, error) {
 func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) ApiGetOrderByIdRequest {
 	return ApiGetOrderByIdRequest{
 		ApiService: a,
-		ctx: ctx,
-		orderId: orderId,
+		ctx:        ctx,
+		orderId:    orderId,
 	}
 }
 
@@ -410,9 +407,9 @@ func (a *StoreApiService) GetOrderByIdExecute(r ApiGetOrderByIdRequest) (*Order,
 }
 
 type ApiPlaceOrderRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService StoreApi
-	body *Order
+	body       *Order
 }
 
 func (r ApiPlaceOrderRequest) Body(body Order) ApiPlaceOrderRequest {
@@ -432,7 +429,7 @@ func (r ApiPlaceOrderRequest) Execute() (*Order, *http.Response, error) {
 func (a *StoreApiService) PlaceOrder(ctx context.Context) ApiPlaceOrderRequest {
 	return ApiPlaceOrderRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 

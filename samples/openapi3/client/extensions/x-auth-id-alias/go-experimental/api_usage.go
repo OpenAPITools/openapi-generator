@@ -27,12 +27,11 @@ var (
 type UsageApiService service
 
 type ApiAnyKeyRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UsageApiService
 }
 
-
-func (r ApiAnyKeyRequest) Execute() (*map[string]interface{}, *http.Response, error) {
+func (r ApiAnyKeyRequest) Execute() (map[string]interface{}, *http.Response, error) {
 	return r.ApiService.AnyKeyExecute(r)
 }
 
@@ -45,7 +44,7 @@ func (r ApiAnyKeyRequest) Execute() (*map[string]interface{}, *http.Response, er
 func (a *UsageApiService) AnyKey(ctx context.Context) ApiAnyKeyRequest {
 	return ApiAnyKeyRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -53,7 +52,7 @@ func (a *UsageApiService) AnyKey(ctx context.Context) ApiAnyKeyRequest {
  * Execute executes the request
  * @return map[string]interface{}
  */
-func (a *UsageApiService) AnyKeyExecute(r ApiAnyKeyRequest) (*map[string]interface{}, *http.Response, error) {
+func (a *UsageApiService) AnyKeyExecute(r ApiAnyKeyRequest) (map[string]interface{}, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -65,7 +64,7 @@ func (a *UsageApiService) AnyKeyExecute(r ApiAnyKeyRequest) (*map[string]interfa
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageApiService.AnyKey")
 	if err != nil {
-		return &localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/any"
@@ -121,19 +120,19 @@ func (a *UsageApiService) AnyKeyExecute(r ApiAnyKeyRequest) (*map[string]interfa
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return &localVarReturnValue, nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -141,7 +140,7 @@ func (a *UsageApiService) AnyKeyExecute(r ApiAnyKeyRequest) (*map[string]interfa
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -150,19 +149,18 @@ func (a *UsageApiService) AnyKeyExecute(r ApiAnyKeyRequest) (*map[string]interfa
 			body:  localVarBody,
 			error: err.Error(),
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return &localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiBothKeysRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UsageApiService
 }
 
-
-func (r ApiBothKeysRequest) Execute() (*map[string]interface{}, *http.Response, error) {
+func (r ApiBothKeysRequest) Execute() (map[string]interface{}, *http.Response, error) {
 	return r.ApiService.BothKeysExecute(r)
 }
 
@@ -175,7 +173,7 @@ func (r ApiBothKeysRequest) Execute() (*map[string]interface{}, *http.Response, 
 func (a *UsageApiService) BothKeys(ctx context.Context) ApiBothKeysRequest {
 	return ApiBothKeysRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -183,7 +181,7 @@ func (a *UsageApiService) BothKeys(ctx context.Context) ApiBothKeysRequest {
  * Execute executes the request
  * @return map[string]interface{}
  */
-func (a *UsageApiService) BothKeysExecute(r ApiBothKeysRequest) (*map[string]interface{}, *http.Response, error) {
+func (a *UsageApiService) BothKeysExecute(r ApiBothKeysRequest) (map[string]interface{}, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -195,7 +193,7 @@ func (a *UsageApiService) BothKeysExecute(r ApiBothKeysRequest) (*map[string]int
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageApiService.BothKeys")
 	if err != nil {
-		return &localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/both"
@@ -251,19 +249,19 @@ func (a *UsageApiService) BothKeysExecute(r ApiBothKeysRequest) (*map[string]int
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return &localVarReturnValue, nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -271,7 +269,7 @@ func (a *UsageApiService) BothKeysExecute(r ApiBothKeysRequest) (*map[string]int
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -280,19 +278,18 @@ func (a *UsageApiService) BothKeysExecute(r ApiBothKeysRequest) (*map[string]int
 			body:  localVarBody,
 			error: err.Error(),
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return &localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiKeyInHeaderRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UsageApiService
 }
 
-
-func (r ApiKeyInHeaderRequest) Execute() (*map[string]interface{}, *http.Response, error) {
+func (r ApiKeyInHeaderRequest) Execute() (map[string]interface{}, *http.Response, error) {
 	return r.ApiService.KeyInHeaderExecute(r)
 }
 
@@ -305,7 +302,7 @@ func (r ApiKeyInHeaderRequest) Execute() (*map[string]interface{}, *http.Respons
 func (a *UsageApiService) KeyInHeader(ctx context.Context) ApiKeyInHeaderRequest {
 	return ApiKeyInHeaderRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -313,7 +310,7 @@ func (a *UsageApiService) KeyInHeader(ctx context.Context) ApiKeyInHeaderRequest
  * Execute executes the request
  * @return map[string]interface{}
  */
-func (a *UsageApiService) KeyInHeaderExecute(r ApiKeyInHeaderRequest) (*map[string]interface{}, *http.Response, error) {
+func (a *UsageApiService) KeyInHeaderExecute(r ApiKeyInHeaderRequest) (map[string]interface{}, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -325,7 +322,7 @@ func (a *UsageApiService) KeyInHeaderExecute(r ApiKeyInHeaderRequest) (*map[stri
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageApiService.KeyInHeader")
 	if err != nil {
-		return &localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/header"
@@ -367,19 +364,19 @@ func (a *UsageApiService) KeyInHeaderExecute(r ApiKeyInHeaderRequest) (*map[stri
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return &localVarReturnValue, nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -387,7 +384,7 @@ func (a *UsageApiService) KeyInHeaderExecute(r ApiKeyInHeaderRequest) (*map[stri
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -396,19 +393,18 @@ func (a *UsageApiService) KeyInHeaderExecute(r ApiKeyInHeaderRequest) (*map[stri
 			body:  localVarBody,
 			error: err.Error(),
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return &localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiKeyInQueryRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UsageApiService
 }
 
-
-func (r ApiKeyInQueryRequest) Execute() (*map[string]interface{}, *http.Response, error) {
+func (r ApiKeyInQueryRequest) Execute() (map[string]interface{}, *http.Response, error) {
 	return r.ApiService.KeyInQueryExecute(r)
 }
 
@@ -421,7 +417,7 @@ func (r ApiKeyInQueryRequest) Execute() (*map[string]interface{}, *http.Response
 func (a *UsageApiService) KeyInQuery(ctx context.Context) ApiKeyInQueryRequest {
 	return ApiKeyInQueryRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -429,7 +425,7 @@ func (a *UsageApiService) KeyInQuery(ctx context.Context) ApiKeyInQueryRequest {
  * Execute executes the request
  * @return map[string]interface{}
  */
-func (a *UsageApiService) KeyInQueryExecute(r ApiKeyInQueryRequest) (*map[string]interface{}, *http.Response, error) {
+func (a *UsageApiService) KeyInQueryExecute(r ApiKeyInQueryRequest) (map[string]interface{}, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -441,7 +437,7 @@ func (a *UsageApiService) KeyInQueryExecute(r ApiKeyInQueryRequest) (*map[string
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageApiService.KeyInQuery")
 	if err != nil {
-		return &localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/query"
@@ -483,19 +479,19 @@ func (a *UsageApiService) KeyInQueryExecute(r ApiKeyInQueryRequest) (*map[string
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return &localVarReturnValue, nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -503,7 +499,7 @@ func (a *UsageApiService) KeyInQueryExecute(r ApiKeyInQueryRequest) (*map[string
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -512,8 +508,8 @@ func (a *UsageApiService) KeyInQueryExecute(r ApiKeyInQueryRequest) (*map[string
 			body:  localVarBody,
 			error: err.Error(),
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return &localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, nil
 }

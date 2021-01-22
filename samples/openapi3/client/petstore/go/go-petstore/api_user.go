@@ -102,7 +102,7 @@ type UserApi interface {
 	 * LoginUserExecute executes the request
 	 * @return string
 	 */
-	LoginUserExecute(r ApiLoginUserRequest) (*string, *http.Response, error)
+	LoginUserExecute(r ApiLoginUserRequest) (string, *http.Response, error)
 
 	/*
 	 * LogoutUser Logs out current logged in user session
@@ -135,9 +135,9 @@ type UserApi interface {
 type UserApiService service
 
 type ApiCreateUserRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService UserApi
-	user *User
+	user       *User
 }
 
 func (r ApiCreateUserRequest) User(user User) ApiCreateUserRequest {
@@ -158,7 +158,7 @@ func (r ApiCreateUserRequest) Execute() (*http.Response, error) {
 func (a *UserApiService) CreateUser(ctx context.Context) ApiCreateUserRequest {
 	return ApiCreateUserRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -236,9 +236,9 @@ func (a *UserApiService) CreateUserExecute(r ApiCreateUserRequest) (*http.Respon
 }
 
 type ApiCreateUsersWithArrayInputRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService UserApi
-	user *[]User
+	user       *[]User
 }
 
 func (r ApiCreateUsersWithArrayInputRequest) User(user []User) ApiCreateUsersWithArrayInputRequest {
@@ -258,7 +258,7 @@ func (r ApiCreateUsersWithArrayInputRequest) Execute() (*http.Response, error) {
 func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context) ApiCreateUsersWithArrayInputRequest {
 	return ApiCreateUsersWithArrayInputRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -336,9 +336,9 @@ func (a *UserApiService) CreateUsersWithArrayInputExecute(r ApiCreateUsersWithAr
 }
 
 type ApiCreateUsersWithListInputRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService UserApi
-	user *[]User
+	user       *[]User
 }
 
 func (r ApiCreateUsersWithListInputRequest) User(user []User) ApiCreateUsersWithListInputRequest {
@@ -358,7 +358,7 @@ func (r ApiCreateUsersWithListInputRequest) Execute() (*http.Response, error) {
 func (a *UserApiService) CreateUsersWithListInput(ctx context.Context) ApiCreateUsersWithListInputRequest {
 	return ApiCreateUsersWithListInputRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -436,11 +436,10 @@ func (a *UserApiService) CreateUsersWithListInputExecute(r ApiCreateUsersWithLis
 }
 
 type ApiDeleteUserRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService UserApi
-	username string
+	username   string
 }
-
 
 func (r ApiDeleteUserRequest) Execute() (*http.Response, error) {
 	return r.ApiService.DeleteUserExecute(r)
@@ -456,8 +455,8 @@ func (r ApiDeleteUserRequest) Execute() (*http.Response, error) {
 func (a *UserApiService) DeleteUser(ctx context.Context, username string) ApiDeleteUserRequest {
 	return ApiDeleteUserRequest{
 		ApiService: a,
-		ctx: ctx,
-		username: username,
+		ctx:        ctx,
+		username:   username,
 	}
 }
 
@@ -531,11 +530,10 @@ func (a *UserApiService) DeleteUserExecute(r ApiDeleteUserRequest) (*http.Respon
 }
 
 type ApiGetUserByNameRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService UserApi
-	username string
+	username   string
 }
-
 
 func (r ApiGetUserByNameRequest) Execute() (*User, *http.Response, error) {
 	return r.ApiService.GetUserByNameExecute(r)
@@ -550,8 +548,8 @@ func (r ApiGetUserByNameRequest) Execute() (*User, *http.Response, error) {
 func (a *UserApiService) GetUserByName(ctx context.Context, username string) ApiGetUserByNameRequest {
 	return ApiGetUserByNameRequest{
 		ApiService: a,
-		ctx: ctx,
-		username: username,
+		ctx:        ctx,
+		username:   username,
 	}
 }
 
@@ -636,10 +634,10 @@ func (a *UserApiService) GetUserByNameExecute(r ApiGetUserByNameRequest) (*User,
 }
 
 type ApiLoginUserRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService UserApi
-	username *string
-	password *string
+	username   *string
+	password   *string
 }
 
 func (r ApiLoginUserRequest) Username(username string) ApiLoginUserRequest {
@@ -651,7 +649,7 @@ func (r ApiLoginUserRequest) Password(password string) ApiLoginUserRequest {
 	return r
 }
 
-func (r ApiLoginUserRequest) Execute() (*string, *http.Response, error) {
+func (r ApiLoginUserRequest) Execute() (string, *http.Response, error) {
 	return r.ApiService.LoginUserExecute(r)
 }
 
@@ -663,7 +661,7 @@ func (r ApiLoginUserRequest) Execute() (*string, *http.Response, error) {
 func (a *UserApiService) LoginUser(ctx context.Context) ApiLoginUserRequest {
 	return ApiLoginUserRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -671,7 +669,7 @@ func (a *UserApiService) LoginUser(ctx context.Context) ApiLoginUserRequest {
  * Execute executes the request
  * @return string
  */
-func (a *UserApiService) LoginUserExecute(r ApiLoginUserRequest) (*string, *http.Response, error) {
+func (a *UserApiService) LoginUserExecute(r ApiLoginUserRequest) (string, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -683,7 +681,7 @@ func (a *UserApiService) LoginUserExecute(r ApiLoginUserRequest) (*string, *http
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.LoginUser")
 	if err != nil {
-		return &localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user/login"
@@ -692,10 +690,10 @@ func (a *UserApiService) LoginUserExecute(r ApiLoginUserRequest) (*string, *http
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.username == nil {
-		return &localVarReturnValue, nil, reportError("username is required and must be specified")
+		return localVarReturnValue, nil, reportError("username is required and must be specified")
 	}
 	if r.password == nil {
-		return &localVarReturnValue, nil, reportError("password is required and must be specified")
+		return localVarReturnValue, nil, reportError("password is required and must be specified")
 	}
 
 	localVarQueryParams.Add("username", parameterToString(*r.username, ""))
@@ -719,19 +717,19 @@ func (a *UserApiService) LoginUserExecute(r ApiLoginUserRequest) (*string, *http
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return &localVarReturnValue, nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -739,7 +737,7 @@ func (a *UserApiService) LoginUserExecute(r ApiLoginUserRequest) (*string, *http
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -748,17 +746,16 @@ func (a *UserApiService) LoginUserExecute(r ApiLoginUserRequest) (*string, *http
 			body:  localVarBody,
 			error: err.Error(),
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return &localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiLogoutUserRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService UserApi
 }
-
 
 func (r ApiLogoutUserRequest) Execute() (*http.Response, error) {
 	return r.ApiService.LogoutUserExecute(r)
@@ -772,7 +769,7 @@ func (r ApiLogoutUserRequest) Execute() (*http.Response, error) {
 func (a *UserApiService) LogoutUser(ctx context.Context) ApiLogoutUserRequest {
 	return ApiLogoutUserRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -845,10 +842,10 @@ func (a *UserApiService) LogoutUserExecute(r ApiLogoutUserRequest) (*http.Respon
 }
 
 type ApiUpdateUserRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService UserApi
-	username string
-	user *User
+	username   string
+	user       *User
 }
 
 func (r ApiUpdateUserRequest) User(user User) ApiUpdateUserRequest {
@@ -870,8 +867,8 @@ func (r ApiUpdateUserRequest) Execute() (*http.Response, error) {
 func (a *UserApiService) UpdateUser(ctx context.Context, username string) ApiUpdateUserRequest {
 	return ApiUpdateUserRequest{
 		ApiService: a,
-		ctx: ctx,
-		username: username,
+		ctx:        ctx,
+		username:   username,
 	}
 }
 
