@@ -19,6 +19,7 @@ open class StoreAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Void, Error>
      */
+    #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
         return Future<Void, Error>.init { promise in
@@ -32,6 +33,7 @@ open class StoreAPI {
             }
         }.eraseToAnyPublisher()
     }
+    #endif
 
     /**
      Delete purchase order by ID
@@ -67,6 +69,7 @@ open class StoreAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<[String: Int], Error>
      */
+    #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<[String: Int], Error> {
         return Future<[String: Int], Error>.init { promise in
@@ -80,6 +83,7 @@ open class StoreAPI {
             }
         }.eraseToAnyPublisher()
     }
+    #endif
 
     /**
      Returns pet inventories by status
@@ -115,6 +119,7 @@ open class StoreAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Order, Error>
      */
+    #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Order, Error> {
         return Future<Order, Error>.init { promise in
@@ -128,6 +133,7 @@ open class StoreAPI {
             }
         }.eraseToAnyPublisher()
     }
+    #endif
 
     /**
      Find purchase order by ID
@@ -164,6 +170,7 @@ open class StoreAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Order, Error>
      */
+    #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Order, Error> {
         return Future<Order, Error>.init { promise in
@@ -177,6 +184,7 @@ open class StoreAPI {
             }
         }.eraseToAnyPublisher()
     }
+    #endif
 
     /**
      Place an order for a pet
