@@ -145,7 +145,7 @@ interface UserApiInterface
      *
      * Updated user
      *
-     * @param  string $username  name that need to be deleted (required)
+     * @param  string $username  name of the user that needs to be updated (required)
      * @param  OpenAPI\Server\Model\User $body  Updated user object (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()

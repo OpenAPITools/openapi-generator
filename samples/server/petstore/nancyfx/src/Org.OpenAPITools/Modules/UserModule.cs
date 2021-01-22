@@ -162,7 +162,7 @@ namespace Org.OpenAPITools._v2.Modules
         /// This can only be done by the logged in user.
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="username">name that need to be deleted</param>
+        /// <param name="username">name of the user that needs to be updated</param>
         /// <param name="body">Updated user object</param>
         /// <returns></returns>
         void UpdateUser(NancyContext context, string username, User body);

@@ -477,7 +477,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| name that need to be deleted |
+ **username** | **string**| name of the user that needs to be updated |
  **user** | [**OpenAPI\Server\Model\User**](../Model/User.md)| Updated user object |
 
 ### Return type

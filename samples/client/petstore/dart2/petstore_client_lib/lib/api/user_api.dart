@@ -486,7 +486,7 @@ class UserApi {
   /// Parameters:
   ///
   /// * [String] username (required):
-  ///   name that need to be deleted
+  ///   name of the user that needs to be updated
   ///
   /// * [User] body (required):
   ///   Updated user object
@@ -543,7 +543,7 @@ class UserApi {
   /// Parameters:
   ///
   /// * [String] username (required):
-  ///   name that need to be deleted
+  ///   name of the user that needs to be updated
   ///
   /// * [User] body (required):
   ///   Updated user object

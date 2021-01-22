@@ -413,7 +413,7 @@ $apiInstance = new OpenAPI\Client\Api\UserApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$username = 'username_example'; // string | name that need to be deleted
+$username = 'username_example'; // string | name of the user that needs to be updated
 $user = new \OpenAPI\Client\Model\User(); // \OpenAPI\Client\Model\User | Updated user object
 
 try {
@@ -427,7 +427,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| name that need to be deleted |
+ **username** | **string**| name of the user that needs to be updated |
  **user** | [**\OpenAPI\Client\Model\User**](../Model/User.md)| Updated user object |
 
 ### Return type

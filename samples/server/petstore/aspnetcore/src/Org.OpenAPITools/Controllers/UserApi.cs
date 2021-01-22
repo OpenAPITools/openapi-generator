@@ -185,7 +185,7 @@ namespace Org.OpenAPITools.Controllers
         /// Updated user
         /// </summary>
         /// <remarks>This can only be done by the logged in user.</remarks>
-        /// <param name="username">name that need to be deleted</param>
+        /// <param name="username">name of the user that needs to be updated</param>
         /// <param name="body">Updated user object</param>
         /// <response code="400">Invalid user supplied</response>
         /// <response code="404">User not found</response>

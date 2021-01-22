@@ -338,7 +338,7 @@ use WWW::OpenAPIClient::UserApi;
 my $api_instance = WWW::OpenAPIClient::UserApi->new(
 );
 
-my $username = "username_example"; # string | name that need to be deleted
+my $username = "username_example"; # string | name of the user that needs to be updated
 my $user = WWW::OpenAPIClient::Object::User->new(); # User | Updated user object
 
 eval { 
@@ -353,7 +353,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| name that need to be deleted | 
+ **username** | **string**| name of the user that needs to be updated | 
  **user** | [**User**](User.md)| Updated user object | 
 
 ### Return type

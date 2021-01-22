@@ -353,7 +353,7 @@ This can only be done by the logged in user.
 ### Example 
 ```objc
 
-NSString* username = @"username_example"; // name that need to be deleted
+NSString* username = @"username_example"; // name of the user that needs to be updated
 SWGUser* user = [[SWGUser alloc] init]; // Updated user object (optional)
 
 SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
@@ -372,7 +372,7 @@ SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **NSString***| name that need to be deleted | 
+ **username** | **NSString***| name of the user that needs to be updated | 
  **user** | [**SWGUser***](SWGUser.md)| Updated user object | [optional] 
 
 ### Return type

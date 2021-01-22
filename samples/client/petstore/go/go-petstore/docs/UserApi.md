@@ -483,7 +483,7 @@ import (
 )
 
 func main() {
-    username := "username_example" // string | name that need to be deleted
+    username := "username_example" // string | name of the user that needs to be updated
     body := *openapiclient.NewUser() // User | Updated user object
 
     configuration := openapiclient.NewConfiguration()
@@ -502,7 +502,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**username** | **string** | name that need to be deleted | 
+**username** | **string** | name of the user that needs to be updated | 
 
 ### Other Parameters
 

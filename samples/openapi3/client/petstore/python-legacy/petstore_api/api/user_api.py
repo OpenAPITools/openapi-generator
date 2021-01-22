@@ -966,7 +966,7 @@ class UserApi(object):
         >>> thread = api.update_user(username, user, async_req=True)
         >>> result = thread.get()
 
-        :param username: name that need to be deleted (required)
+        :param username: name of the user that needs to be updated (required)
         :type username: str
         :param user: Updated user object (required)
         :type user: User
@@ -998,7 +998,7 @@ class UserApi(object):
         >>> thread = api.update_user_with_http_info(username, user, async_req=True)
         >>> result = thread.get()
 
-        :param username: name that need to be deleted (required)
+        :param username: name of the user that needs to be updated (required)
         :type username: str
         :param user: Updated user object (required)
         :type user: User

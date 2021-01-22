@@ -997,7 +997,7 @@ h3. updateUser
 h4. Parameters
 h5. Path Parameters
         ||Name||Description||Type||Required||Default||Pattern||Enum||
-        |username |name that need to be deleted | String | (/) |null |  |  |
+        |username |name of the user that needs to be updated | String | (/) |null |  |  |
 
 h5. Body Parameter
         ||Name||Description||Type||Required||Default||Pattern||Enum||

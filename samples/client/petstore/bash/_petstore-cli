@@ -594,7 +594,7 @@ case $state in
       updateUser)
         local -a _op_arguments
         _op_arguments=(
-          "username=:[PATH] name that need to be deleted"
+          "username=:[PATH] name of the user that needs to be updated"
                     )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;

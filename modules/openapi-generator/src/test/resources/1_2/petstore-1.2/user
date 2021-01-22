@@ -134,7 +134,7 @@
           "parameters": [
             {
               "name": "username",
-              "description": "name that need to be deleted",
+              "description": "name of the user that needs to be updated",
               "required": true,
               "type": "string",
               "paramType": "path"

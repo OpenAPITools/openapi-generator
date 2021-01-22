@@ -167,7 +167,7 @@ MyApp.add_route('PUT', '/v2/user/{username}', {
   "parameters" => [
     {
       "name" => "username",
-      "description" => "name that need to be deleted",
+      "description" => "name of the user that needs to be updated",
       "dataType" => "String",
       "paramType" => "path",
     },

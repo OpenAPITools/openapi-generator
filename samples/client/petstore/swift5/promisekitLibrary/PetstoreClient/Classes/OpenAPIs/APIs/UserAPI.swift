@@ -333,7 +333,7 @@ open class UserAPI {
     /**
      Updated user
      
-     - parameter username: (path) name that need to be deleted 
+     - parameter username: (path) name of the user that needs to be updated 
      - parameter body: (body) Updated user object 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<Void>
@@ -355,7 +355,7 @@ open class UserAPI {
      Updated user
      - PUT /user/{username}
      - This can only be done by the logged in user.
-     - parameter username: (path) name that need to be deleted 
+     - parameter username: (path) name of the user that needs to be updated 
      - parameter body: (body) Updated user object 
      - returns: RequestBuilder<Void> 
      */

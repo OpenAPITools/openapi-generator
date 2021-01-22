@@ -162,7 +162,7 @@ interface UserApi {
             value = ["/user/{username}"],
             consumes = ["application/json"]
     )
-    fun updateUser(@ApiParam(value = "name that need to be deleted", required=true) @PathVariable("username") username: kotlin.String
+    fun updateUser(@ApiParam(value = "name of the user that needs to be updated", required=true) @PathVariable("username") username: kotlin.String
 ,@ApiParam(value = "Updated user object" ,required=true ) @Valid @RequestBody user: User
 ): ResponseEntity<Unit> {
         return getDelegate().updateUser(username, user);

@@ -201,7 +201,7 @@ public:
 	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
 	FString ComputePath() const final;
     
-	/* name that need to be deleted */
+	/* name of the user that needs to be updated */
 	FString Username;
 	/* Updated user object */
 	OpenAPIUser Body;

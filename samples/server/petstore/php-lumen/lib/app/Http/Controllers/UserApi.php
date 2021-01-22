@@ -192,7 +192,7 @@ class UserApi extends Controller
      *
      * Updated user.
      *
-     * @param string $username name that need to be deleted (required)
+     * @param string $username name of the user that needs to be updated (required)
      *
      * @return Http response
      */

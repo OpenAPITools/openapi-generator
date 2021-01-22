@@ -1749,7 +1749,7 @@ class UserApi
      *
      * Updated user
      *
-     * @param  string $username name that need to be deleted (required)
+     * @param  string $username name of the user that needs to be updated (required)
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
@@ -1766,7 +1766,7 @@ class UserApi
      *
      * Updated user
      *
-     * @param  string $username name that need to be deleted (required)
+     * @param  string $username name of the user that needs to be updated (required)
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
@@ -1819,7 +1819,7 @@ class UserApi
      *
      * Updated user
      *
-     * @param  string $username name that need to be deleted (required)
+     * @param  string $username name of the user that needs to be updated (required)
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      *
      * @throws \InvalidArgumentException
@@ -1840,7 +1840,7 @@ class UserApi
      *
      * Updated user
      *
-     * @param  string $username name that need to be deleted (required)
+     * @param  string $username name of the user that needs to be updated (required)
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      *
      * @throws \InvalidArgumentException
@@ -1877,7 +1877,7 @@ class UserApi
     /**
      * Create request for operation 'updateUser'
      *
-     * @param  string $username name that need to be deleted (required)
+     * @param  string $username name of the user that needs to be updated (required)
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      *
      * @throws \InvalidArgumentException

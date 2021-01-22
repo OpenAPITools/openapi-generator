@@ -179,7 +179,7 @@ namespace Org.OpenAPITools.Api
         /// This can only be done by the logged in user.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">name that need to be deleted</param>
+        /// <param name="username">name of the user that needs to be updated</param>
         /// <param name="user">Updated user object</param>
         /// <returns></returns>
         void UpdateUser (string username, User user);
@@ -191,7 +191,7 @@ namespace Org.OpenAPITools.Api
         /// This can only be done by the logged in user.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">name that need to be deleted</param>
+        /// <param name="username">name of the user that needs to be updated</param>
         /// <param name="user">Updated user object</param>
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> UpdateUserWithHttpInfo (string username, User user);
@@ -365,7 +365,7 @@ namespace Org.OpenAPITools.Api
         /// This can only be done by the logged in user.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">name that need to be deleted</param>
+        /// <param name="username">name of the user that needs to be updated</param>
         /// <param name="user">Updated user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of void</returns>
@@ -378,7 +378,7 @@ namespace Org.OpenAPITools.Api
         /// This can only be done by the logged in user.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">name that need to be deleted</param>
+        /// <param name="username">name of the user that needs to be updated</param>
         /// <param name="user">Updated user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse</returns>
@@ -1475,7 +1475,7 @@ namespace Org.OpenAPITools.Api
         /// Updated user This can only be done by the logged in user.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">name that need to be deleted</param>
+        /// <param name="username">name of the user that needs to be updated</param>
         /// <param name="user">Updated user object</param>
         /// <returns></returns>
         public void UpdateUser (string username, User user)
@@ -1487,7 +1487,7 @@ namespace Org.OpenAPITools.Api
         /// Updated user This can only be done by the logged in user.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">name that need to be deleted</param>
+        /// <param name="username">name of the user that needs to be updated</param>
         /// <param name="user">Updated user object</param>
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> UpdateUserWithHttpInfo (string username, User user)
@@ -1553,7 +1553,7 @@ namespace Org.OpenAPITools.Api
         /// Updated user This can only be done by the logged in user.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">name that need to be deleted</param>
+        /// <param name="username">name of the user that needs to be updated</param>
         /// <param name="user">Updated user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of void</returns>
@@ -1567,7 +1567,7 @@ namespace Org.OpenAPITools.Api
         /// Updated user This can only be done by the logged in user.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">name that need to be deleted</param>
+        /// <param name="username">name of the user that needs to be updated</param>
         /// <param name="user">Updated user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse</returns>

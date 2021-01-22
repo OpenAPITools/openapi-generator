@@ -157,7 +157,7 @@ class UserApi(baseUrl: String) {
    * Available security schemes:
    *   auth_cookie (apiKey)
    * 
-   * @param username name that need to be deleted
+   * @param username name of the user that needs to be updated
    * @param user Updated user object
    */
   def updateUser(username: String, user: User)(implicit apiKey: ApiKeyValue): ApiRequest[Unit] =

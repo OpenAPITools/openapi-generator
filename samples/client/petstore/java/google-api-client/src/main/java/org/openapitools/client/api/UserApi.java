@@ -631,7 +631,7 @@ public class UserApi {
     * This can only be done by the logged in user.
     * <p><b>400</b> - Invalid user supplied
     * <p><b>404</b> - User not found
-    * @param username name that need to be deleted
+    * @param username name of the user that needs to be updated
     * @param body Updated user object
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
@@ -644,7 +644,7 @@ public class UserApi {
     * This can only be done by the logged in user.
     * <p><b>400</b> - Invalid user supplied
     * <p><b>404</b> - User not found
-    * @param username name that need to be deleted
+    * @param username name of the user that needs to be updated
     * @param body Updated user object
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API

@@ -134,7 +134,7 @@ public interface UserApiDelegate {
      * PUT /user/{username} : Updated user
      * This can only be done by the logged in user.
      *
-     * @param username name that need to be deleted (required)
+     * @param username name of the user that needs to be updated (required)
      * @param body Updated user object (required)
      * @return Invalid user supplied (status code 400)
      *         or User not found (status code 404)

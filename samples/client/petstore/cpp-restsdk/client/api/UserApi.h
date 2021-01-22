@@ -121,7 +121,7 @@ public:
     /// <remarks>
     /// This can only be done by the logged in user.
     /// </remarks>
-    /// <param name="username">name that need to be deleted</param>
+    /// <param name="username">name of the user that needs to be updated</param>
     /// <param name="body">Updated user object</param>
     pplx::task<void> updateUser(
         utility::string_t username,

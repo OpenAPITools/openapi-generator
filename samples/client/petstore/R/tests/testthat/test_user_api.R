@@ -89,7 +89,7 @@ test_that("UpdateUser", {
   # base path: http://petstore.swagger.io/v2
   # Updated user
   # This can only be done by the logged in user.
-  # @param username character name that need to be deleted
+  # @param username character name of the user that needs to be updated
   # @param body User Updated user object
   # @return [Void]
 

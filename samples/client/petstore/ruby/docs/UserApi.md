@@ -461,7 +461,7 @@ require 'time'
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
-username = 'username_example' # String | name that need to be deleted
+username = 'username_example' # String | name of the user that needs to be updated
 user = Petstore::User.new # User | Updated user object
 
 begin
@@ -494,7 +494,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **username** | **String** | name that need to be deleted |  |
+| **username** | **String** | name of the user that needs to be updated |  |
 | **user** | [**User**](User.md) | Updated user object |  |
 
 ### Return type

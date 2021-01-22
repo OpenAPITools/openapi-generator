@@ -333,7 +333,7 @@ open class UserAPI {
     /**
      Updated user
      
-     - parameter username: (path) name that need to be deleted 
+     - parameter username: (path) name of the user that needs to be updated 
      - parameter user: (body) Updated user object 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
@@ -356,7 +356,7 @@ open class UserAPI {
      - API Key:
        - type: apiKey AUTH_KEY 
        - name: auth_cookie
-     - parameter username: (path) name that need to be deleted 
+     - parameter username: (path) name of the user that needs to be updated 
      - parameter user: (body) Updated user object 
      - returns: RequestBuilder<Void> 
      */

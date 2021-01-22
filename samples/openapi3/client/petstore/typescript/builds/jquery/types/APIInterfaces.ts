@@ -155,7 +155,7 @@ export interface GenericUserApiInterface<T1, T2, T3, T4, T5, T6, T7, T8> {
     /**
      * This can only be done by the logged in user.
      * Updated user
-     * @param username name that need to be deleted
+     * @param username name of the user that needs to be updated
      * @param user Updated user object
      */
     updateUser(username: string, user: User, options?: Configuration): T8;

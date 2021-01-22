@@ -203,7 +203,7 @@ Updated user
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be deleted | [default to null]
+ **username** | **String**| name of the user that needs to be updated | [default to null]
  **User** | [**User**](../Models/User.md)| Updated user object |
 
 ### Return type

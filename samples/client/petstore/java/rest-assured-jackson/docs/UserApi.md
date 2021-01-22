@@ -324,7 +324,7 @@ api.updateUser()
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be deleted |
+ **username** | **String**| name of the user that needs to be updated |
  **body** | [**User**](User.md)| Updated user object |
 
 ### Return type

@@ -107,7 +107,7 @@ def update_user(username, body):  # noqa: E501
 
     This can only be done by the logged in user. # noqa: E501
 
-    :param username: name that need to be deleted
+    :param username: name of the user that needs to be updated
     :type username: str
     :param body: Updated user object
     :type body: dict | bytes

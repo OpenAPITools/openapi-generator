@@ -265,7 +265,7 @@ petstore-cli updateUser username=value
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string** | name that need to be deleted | [default to null]
+ **username** | **string** | name of the user that needs to be updated | [default to null]
  **user** | [**User**](User.md) | Updated user object |
 
 ### Return type

@@ -775,7 +775,7 @@
         "description" : "This can only be done by the logged in user.",
         "operationId" : "updateUser",
         "parameters" : [ {
-          "description" : "name that need to be deleted",
+          "description" : "name of the user that needs to be updated",
           "in" : "path",
           "name" : "username",
           "required" : true,

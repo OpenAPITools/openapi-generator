@@ -839,7 +839,7 @@ public class UserApi {
     }
     /**
      * Build call for updateUser
-     * @param username name that need to be deleted (required)
+     * @param username name of the user that needs to be updated (required)
      * @param body Updated user object (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
@@ -904,7 +904,7 @@ public class UserApi {
     /**
      * Updated user
      * This can only be done by the logged in user.
-     * @param username name that need to be deleted (required)
+     * @param username name of the user that needs to be updated (required)
      * @param body Updated user object (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -921,7 +921,7 @@ public class UserApi {
     /**
      * Updated user
      * This can only be done by the logged in user.
-     * @param username name that need to be deleted (required)
+     * @param username name of the user that needs to be updated (required)
      * @param body Updated user object (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -940,7 +940,7 @@ public class UserApi {
     /**
      * Updated user (asynchronously)
      * This can only be done by the logged in user.
-     * @param username name that need to be deleted (required)
+     * @param username name of the user that needs to be updated (required)
      * @param body Updated user object (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call

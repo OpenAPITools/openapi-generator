@@ -296,7 +296,7 @@ This can only be done by the logged in user.
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(UserApi::class.java)
-val username : kotlin.String = username_example // kotlin.String | name that need to be deleted
+val username : kotlin.String = username_example // kotlin.String | name of the user that needs to be updated
 val user : User =  // User | Updated user object
 
 launch(Dispatchers.IO) {
@@ -308,7 +308,7 @@ launch(Dispatchers.IO) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **kotlin.String**| name that need to be deleted |
+ **username** | **kotlin.String**| name of the user that needs to be updated |
  **user** | [**User**](User.md)| Updated user object |
 
 ### Return type

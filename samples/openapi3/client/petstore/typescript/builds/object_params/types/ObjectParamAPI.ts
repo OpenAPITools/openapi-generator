@@ -345,7 +345,7 @@ export interface UserApiLogoutUserRequest {
 
 export interface UserApiUpdateUserRequest {
     /**
-     * name that need to be deleted
+     * name of the user that needs to be updated
      * @type string
      * @memberof UserApiupdateUser
      */

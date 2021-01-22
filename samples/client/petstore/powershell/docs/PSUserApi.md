@@ -373,7 +373,7 @@ $Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
 
-$Username = "Username_example" # String | name that need to be deleted
+$Username = "Username_example" # String | name of the user that needs to be updated
 $User =  # User | Updated user object
 
 # Updated user
@@ -389,7 +389,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Username** | **String**| name that need to be deleted | 
+ **Username** | **String**| name of the user that needs to be updated | 
  **User** | [**User**](User.md)| Updated user object | 
 
 ### Return type

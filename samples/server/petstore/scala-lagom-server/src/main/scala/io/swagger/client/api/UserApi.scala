@@ -102,7 +102,7 @@ trait UserApi extends Service {
     * Updated user
     * This can only be done by the logged in user.
     *  
-    * @param username name that need to be deleted  
+    * @param username name of the user that needs to be updated  
     * @return void Body Parameter  Updated user object 
     */
   def updateUser(username: String): ServiceCall[User ,Done]

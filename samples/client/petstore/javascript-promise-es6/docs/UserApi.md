@@ -325,7 +325,7 @@ This can only be done by the logged in user.
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.UserApi();
-let username = "username_example"; // String | name that need to be deleted
+let username = "username_example"; // String | name of the user that needs to be updated
 let user = new OpenApiPetstore.User(); // User | Updated user object
 apiInstance.updateUser(username, user).then(() => {
   console.log('API called successfully.');
@@ -340,7 +340,7 @@ apiInstance.updateUser(username, user).then(() => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be deleted | 
+ **username** | **String**| name of the user that needs to be updated | 
  **user** | [**User**](User.md)| Updated user object | 
 
 ### Return type

@@ -167,7 +167,7 @@ export interface UserApiInterface {
     /**
      * This can only be done by the logged in user.
      * @summary Updated user
-     * @param {string} username name that need to be deleted
+     * @param {string} username name of the user that needs to be updated
      * @param {User} body Updated user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

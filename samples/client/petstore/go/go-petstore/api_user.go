@@ -120,7 +120,7 @@ type UserApi interface {
 	 * UpdateUser Updated user
 	 * This can only be done by the logged in user.
 	 * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 * @param username name that need to be deleted
+	 * @param username name of the user that needs to be updated
 	 * @return ApiUpdateUserRequest
 	 */
 	UpdateUser(ctx _context.Context, username string) ApiUpdateUserRequest
@@ -864,7 +864,7 @@ func (r ApiUpdateUserRequest) Execute() (*_nethttp.Response, error) {
  * UpdateUser Updated user
  * This can only be done by the logged in user.
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param username name that need to be deleted
+ * @param username name of the user that needs to be updated
  * @return ApiUpdateUserRequest
  */
 func (a *UserApiService) UpdateUser(ctx _context.Context, username string) ApiUpdateUserRequest {

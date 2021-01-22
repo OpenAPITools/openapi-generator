@@ -450,7 +450,7 @@ module Petstore
 
     # Updated user
     # This can only be done by the logged in user.
-    # @param username [String] name that need to be deleted
+    # @param username [String] name of the user that needs to be updated
     # @param user [User] Updated user object
     # @param [Hash] opts the optional parameters
     # @return [nil]
@@ -461,7 +461,7 @@ module Petstore
 
     # Updated user
     # This can only be done by the logged in user.
-    # @param username [String] name that need to be deleted
+    # @param username [String] name of the user that needs to be updated
     # @param user [User] Updated user object
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers

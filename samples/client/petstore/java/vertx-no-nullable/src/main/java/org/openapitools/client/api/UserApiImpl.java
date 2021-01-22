@@ -381,7 +381,7 @@ public class UserApiImpl implements UserApi {
     /**
     * Updated user
     * This can only be done by the logged in user.
-        * @param username name that need to be deleted (required)
+        * @param username name of the user that needs to be updated (required)
         * @param body Updated user object (required)
     * @param resultHandler Asynchronous result handler
     */
@@ -392,7 +392,7 @@ public class UserApiImpl implements UserApi {
     /**
     * Updated user
     * This can only be done by the logged in user.
-    * @param username name that need to be deleted (required)
+    * @param username name of the user that needs to be updated (required)
     * @param body Updated user object (required)
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler

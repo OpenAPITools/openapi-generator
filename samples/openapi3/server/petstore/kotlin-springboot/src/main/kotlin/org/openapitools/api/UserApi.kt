@@ -163,7 +163,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/{username}"],
         consumes = ["application/json"],
         method = [RequestMethod.PUT])
-    fun updateUser(@ApiParam(value = "name that need to be deleted", required=true) @PathVariable("username") username: kotlin.String
+    fun updateUser(@ApiParam(value = "name of the user that needs to be updated", required=true) @PathVariable("username") username: kotlin.String
 ,@ApiParam(value = "Updated user object" ,required=true ) @Valid @RequestBody user: User
 ): ResponseEntity<Unit> {
         return ResponseEntity(service.updateUser(username, user), HttpStatus.valueOf(400))

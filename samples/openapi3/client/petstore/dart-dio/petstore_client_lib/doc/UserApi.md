@@ -339,7 +339,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKeyPrefix = 'Bearer';
 
 var api_instance = new UserApi();
-var username = username_example; // String | name that need to be deleted
+var username = username_example; // String | name of the user that needs to be updated
 var user = new User(); // User | Updated user object
 
 try { 
@@ -353,7 +353,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be deleted | 
+ **username** | **String**| name of the user that needs to be updated | 
  **user** | [**User**](User.md)| Updated user object | 
 
 ### Return type

@@ -274,7 +274,7 @@ export default class UserApi extends ApiClient {
     /**
      * Updated user
      * This can only be done by the logged in user.
-     * @param {String} username name that need to be deleted
+     * @param {String} username name of the user that needs to be updated
      * @param {User} body Updated user object
      * @return {Promise}
      */

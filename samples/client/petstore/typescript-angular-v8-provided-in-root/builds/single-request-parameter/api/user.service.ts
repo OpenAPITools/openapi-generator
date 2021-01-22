@@ -56,7 +56,7 @@ export interface LoginUserRequestParams {
 }
 
 export interface UpdateUserRequestParams {
-    /** name that need to be deleted */
+    /** name of the user that needs to be updated */
     username: string;
     /** Updated user object */
     body: User;

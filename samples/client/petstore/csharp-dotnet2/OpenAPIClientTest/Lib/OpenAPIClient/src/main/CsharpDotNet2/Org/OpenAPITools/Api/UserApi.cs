@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Updated user This can only be done by the logged in user.
         /// </summary>
-        /// <param name="username">name that need to be deleted</param>
+        /// <param name="username">name of the user that needs to be updated</param>
         /// <param name="body">Updated user object</param>
         /// <returns></returns>
         void UpdateUser (string username, User body);
@@ -377,7 +377,7 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Updated user This can only be done by the logged in user.
         /// </summary>
-        /// <param name="username">name that need to be deleted</param> 
+        /// <param name="username">name of the user that needs to be updated</param> 
         /// <param name="body">Updated user object</param> 
         /// <returns></returns>            
         public void UpdateUser (string username, User body)
