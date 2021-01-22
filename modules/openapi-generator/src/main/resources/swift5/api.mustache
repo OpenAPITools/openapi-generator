@@ -8,7 +8,10 @@
 import Foundation{{#usePromiseKit}}
 import PromiseKit{{/usePromiseKit}}{{#useRxSwift}}
 import RxSwift{{/useRxSwift}}{{#useCombine}}
-import Combine{{/useCombine}}{{#swiftUseApiNamespace}}
+#if canImport(Combine)
+import Combine
+#endif
+{{/useCombine}}{{#swiftUseApiNamespace}}
 
 extension {{projectName}}API {
 {{/swiftUseApiNamespace}}
