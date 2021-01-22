@@ -106,7 +106,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("URI", "String");
         typeMapping.put("binary", "File");
 
-        importMapping = new HashMap<String, String>();
+        importMapping = new HashMap<>();
         importMapping.put("File", "flash.filesystem.File");
 
         // from

@@ -55,7 +55,7 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
         outputFolder = "docs";
         embeddedTemplateDir = templateDir = "confluenceWikiDocs";
 
-        defaultIncludes = new HashSet<String>();
+        defaultIncludes = new HashSet<>();
 
         cliOptions.add(new CliOption("appName", "short name of the application"));
         cliOptions.add(new CliOption("appDescription", "description of the application"));
@@ -80,10 +80,10 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
         supportingFiles.add(new SupportingFile("index.mustache", "", "confluence-markup.txt"));
-        reservedWords = new HashSet<String>();
+        reservedWords = new HashSet<>();
 
-        languageSpecificPrimitives = new HashSet<String>();
-        importMapping = new HashMap<String, String>();
+        languageSpecificPrimitives = new HashSet<>();
+        importMapping = new HashMap<>();
     }
 
     @Override
