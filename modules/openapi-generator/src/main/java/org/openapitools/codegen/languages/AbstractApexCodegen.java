@@ -439,7 +439,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
         // TODO Check enum model handling
         if (cm.interfaces == null) {
-            cm.interfaces = new ArrayList<String>();
+            cm.interfaces = new ArrayList<>();
         }
 
         Boolean hasDefaultValues = false;

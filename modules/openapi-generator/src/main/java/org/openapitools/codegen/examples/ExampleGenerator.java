@@ -266,7 +266,7 @@ public class ExampleGenerator {
             }
             return (int) randomNumber(min, max);
         } else if (ModelUtils.isMapSchema(property)) {
-            Map<String, Object> mp = new HashMap<String, Object>();
+            Map<String, Object> mp = new HashMap<>();
             if (property.getName() != null) {
                 mp.put(property.getName(),
                         resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(openAPI, property), processedModels));

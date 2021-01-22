@@ -145,7 +145,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends DefaultCodege
         supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
         supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
 
-        regexModifiers = new HashMap<Character, String>();
+        regexModifiers = new HashMap<>();
         regexModifiers.put('i', "IGNORECASE");
         regexModifiers.put('l', "LOCALE");
         regexModifiers.put('m', "MULTILINE");
@@ -498,7 +498,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends DefaultCodege
 
     @SuppressWarnings("unchecked")
     private static List<Map<String, Object>> getOperations(Map<String, Object> objs) {
-        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> result = new ArrayList<>();
         Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
         List<Map<String, Object>> apis = (List<Map<String, Object>>) apiInfo.get("apis");
         for (Map<String, Object> api : apis) {
@@ -514,9 +514,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends DefaultCodege
             opsByPath.put(op.path, op);
         }
 
-        List<Map<String, Object>> opsByPathList = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> opsByPathList = new ArrayList<>();
         for (Map.Entry<String, Collection<CodegenOperation>> entry : opsByPath.asMap().entrySet()) {
-            Map<String, Object> opsByPathEntry = new HashMap<String, Object>();
+            Map<String, Object> opsByPathEntry = new HashMap<>();
             opsByPathList.add(opsByPathEntry);
             opsByPathEntry.put("path", entry.getKey());
             opsByPathEntry.put("operation", entry.getValue());
@@ -984,7 +984,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends DefaultCodege
             }
 
             String regex = pattern.substring(1, i).replace("'", "\\'");
-            List<String> modifiers = new ArrayList<String>();
+            List<String> modifiers = new ArrayList<>();
 
             for (char c : pattern.substring(i).toCharArray()) {
                 if (regexModifiers.containsKey(c)) {

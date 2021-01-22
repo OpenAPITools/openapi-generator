@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 public class InlineModelResolver {
     private OpenAPI openapi;
     private Map<String, Schema> addedModels = new HashMap<String, Schema>();
-    private Map<String, String> generatedSignature = new HashMap<String, String>();
+    private Map<String, String> generatedSignature = new HashMap<>();
 
     // structure mapper sorts properties alphabetically on write to ensure models are
     // serialized consistently for lookup of existing models

@@ -63,7 +63,7 @@ public class XmlExampleGenerator {
         if (path.contains(modelName)) {
             return EMPTY;
         }
-        final Set<String> selfPath = new HashSet<String>(path);
+        final Set<String> selfPath = new HashSet<>(path);
         selfPath.add(modelName);
 
         StringBuilder sb = new StringBuilder();

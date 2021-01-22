@@ -142,12 +142,12 @@ public class DefaultCodegen implements CodegenConfig {
     protected GeneratorMetadata generatorMetadata;
     protected String inputSpec;
     protected String outputFolder = "";
-    protected Set<String> defaultIncludes = new HashSet<String>();
-    protected Map<String, String> typeMapping = new HashMap<String, String>();
-    protected Map<String, String> instantiationTypes = new HashMap<String, String>();
-    protected Set<String> reservedWords = new HashSet<String>();
-    protected Set<String> languageSpecificPrimitives = new HashSet<String>();
-    protected Map<String, String> importMapping = new HashMap<String, String>();
+    protected Set<String> defaultIncludes = new HashSet<>();
+    protected Map<String, String> typeMapping = new HashMap<>();
+    protected Map<String, String> instantiationTypes = new HashMap<>();
+    protected Set<String> reservedWords = new HashSet<>();
+    protected Set<String> languageSpecificPrimitives = new HashSet<>();
+    protected Map<String, String> importMapping = new HashMap<>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
     protected String modelNamePrefix = "", modelNameSuffix = "";
     protected String apiNamePrefix = "", apiNameSuffix = "Api";
@@ -156,25 +156,25 @@ public class DefaultCodegen implements CodegenConfig {
     apiTemplateFiles are for API outputs only (controllers/handlers).
     API templates may be written multiple times; APIs are grouped by tag and the file is written once per tag group.
     */
-    protected Map<String, String> apiTemplateFiles = new HashMap<String, String>();
-    protected Map<String, String> modelTemplateFiles = new HashMap<String, String>();
-    protected Map<String, String> apiTestTemplateFiles = new HashMap<String, String>();
-    protected Map<String, String> modelTestTemplateFiles = new HashMap<String, String>();
-    protected Map<String, String> apiDocTemplateFiles = new HashMap<String, String>();
-    protected Map<String, String> modelDocTemplateFiles = new HashMap<String, String>();
-    protected Map<String, String> reservedWordsMappings = new HashMap<String, String>();
+    protected Map<String, String> apiTemplateFiles = new HashMap<>();
+    protected Map<String, String> modelTemplateFiles = new HashMap<>();
+    protected Map<String, String> apiTestTemplateFiles = new HashMap<>();
+    protected Map<String, String> modelTestTemplateFiles = new HashMap<>();
+    protected Map<String, String> apiDocTemplateFiles = new HashMap<>();
+    protected Map<String, String> modelDocTemplateFiles = new HashMap<>();
+    protected Map<String, String> reservedWordsMappings = new HashMap<>();
     protected String templateDir;
     protected String embeddedTemplateDir;
-    protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    protected Map<String, String> serverVariables = new HashMap<String, String>();
-    protected Map<String, Object> vendorExtensions = new HashMap<String, Object>();
+    protected Map<String, Object> additionalProperties = new HashMap<>();
+    protected Map<String, String> serverVariables = new HashMap<>();
+    protected Map<String, Object> vendorExtensions = new HashMap<>();
     /*
     Supporting files are those which aren't models, APIs, or docs.
     These get a different map of data bound to the templates. Supporting files are written once.
     See also 'apiTemplateFiles'.
     */
-    protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
-    protected List<CliOption> cliOptions = new ArrayList<CliOption>();
+    protected List<SupportingFile> supportingFiles = new ArrayList<>();
+    protected List<CliOption> cliOptions = new ArrayList<>();
     protected boolean skipOverwrite;
     protected boolean removeOperationIdPrefix;
 
@@ -200,7 +200,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected boolean supportsAdditionalPropertiesWithComposedSchema;
     protected boolean supportsMixins;
-    protected Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
+    protected Map<String, String> supportedLibraries = new LinkedHashMap<>();
     protected String library;
     protected Boolean sortParamsByRequiredFlag = true;
     protected Boolean sortModelPropertiesByRequiredFlag = false;
@@ -212,7 +212,7 @@ public class DefaultCodegen implements CodegenConfig {
     // How to encode special characters like $
     // They are translated to words like "Dollar" and prefixed with '
     // Then translated back during JSON encoding and decoding
-    protected Map<String, String> specialCharReplacements = new HashMap<String, String>();
+    protected Map<String, String> specialCharReplacements = new HashMap<>();
     // When a model is an alias for a simple type
     protected Map<String, String> typeAliases = null;
     protected Boolean prependFormOrBodyParameters = false;
@@ -226,7 +226,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected boolean useOneOfInterfaces = false;
     // whether or not the oneOf imports machinery should add oneOf interfaces as imports in implementing classes
     protected boolean addOneOfInterfaceImports = false;
-    protected List<CodegenModel> addOneOfInterfaces = new ArrayList<CodegenModel>();
+    protected List<CodegenModel> addOneOfInterfaces = new ArrayList<>();
 
     // flag to indicate whether to only update files whose contents have changed
     protected boolean enableMinimalUpdate = false;
@@ -397,7 +397,7 @@ public class DefaultCodegen implements CodegenConfig {
                 modelValue.put("model", cm);
 
                 List<Object> modelsValue = Arrays.asList(modelValue);
-                List<Map<String, String>> importsValue = new ArrayList<Map<String, String>>();
+                List<Map<String, String>> importsValue = new ArrayList<>();
                 Map<String, Object> objsValue = new HashMap<>();
                 objsValue.put("models", modelsValue);
                 objsValue.put("package", modelPackage());
@@ -409,7 +409,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             // Gather data from all the models that contain oneOf into OneOfImplementorAdditionalData classes
             // (see docstring of that class to find out what information is gathered and why)
-            Map<String, OneOfImplementorAdditionalData> additionalDataMap = new HashMap<String, OneOfImplementorAdditionalData>();
+            Map<String, OneOfImplementorAdditionalData> additionalDataMap = new HashMap<>();
             for (Map.Entry modelsEntry : objs.entrySet()) {
                 Map<String, Object> modelsAttrs = (Map<String, Object>) modelsEntry.getValue();
                 List<Object> models = (List<Object>) modelsAttrs.get("models");
@@ -474,7 +474,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return map of all models indexed by names
      */
     public Map<String, CodegenModel> getAllModels(Map<String, Object> objs) {
-        Map<String, CodegenModel> allModels = new HashMap<String, CodegenModel>();
+        Map<String, CodegenModel> allModels = new HashMap<>();
         for (Entry<String, Object> entry : objs.entrySet()) {
             String modelName = toModelName(entry.getKey());
             Map<String, Object> inner = (Map<String, Object>) entry.getValue();
@@ -1434,7 +1434,7 @@ public class DefaultCodegen implements CodegenConfig {
                 .generationMessage(String.format(Locale.ROOT, "OpenAPI Generator: %s (%s)", getName(), codegenType.toValue()))
                 .build();
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList("double",
                         "int",
                         "long",
@@ -1451,7 +1451,7 @@ public class DefaultCodegen implements CodegenConfig {
                         "Float")
         );
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("array", "List");
         typeMapping.put("set", "Set");
         typeMapping.put("map", "Map");
@@ -1477,9 +1477,9 @@ public class DefaultCodegen implements CodegenConfig {
         typeMapping.put("URI", "URI");
         typeMapping.put("AnyType", "oas_any_type_not_mapped");
 
-        instantiationTypes = new HashMap<String, String>();
+        instantiationTypes = new HashMap<>();
 
-        reservedWords = new HashSet<String>();
+        reservedWords = new HashSet<>();
 
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
@@ -2234,7 +2234,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    Map<NamedSchema, CodegenProperty> schemaCodegenPropertyCache = new HashMap<NamedSchema, CodegenProperty>();
+    Map<NamedSchema, CodegenProperty> schemaCodegenPropertyCache = new HashMap<>();
 
     /**
      * Convert OAS Model object to Codegen Model object.
@@ -2311,9 +2311,9 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (schema instanceof ComposedSchema) {
             final ComposedSchema composed = (ComposedSchema) schema;
             Map<String, Schema> properties = new LinkedHashMap<String, Schema>();
-            List<String> required = new ArrayList<String>();
+            List<String> required = new ArrayList<>();
             Map<String, Schema> allProperties = new LinkedHashMap<String, Schema>();
-            List<String> allRequired = new ArrayList<String>();
+            List<String> allRequired = new ArrayList<>();
 
             // if schema has properties outside of allOf/oneOf/anyOf also add them to m
             if (composed.getProperties() != null && !composed.getProperties().isEmpty()) {
@@ -2331,7 +2331,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             // TODO revise the logic below to set dicriminator, xml attributes
             if (supportsInheritance || supportsMixins) {
-                m.allVars = new ArrayList<CodegenProperty>();
+                m.allVars = new ArrayList<>();
                 if (composed.getAllOf() != null) {
                     int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
                     int modelDiscriminators = 0; // only one discriminator allowed in a ComposedModel
@@ -2367,7 +2367,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (!interfaces.isEmpty()) {
                 // m.interfaces is for backward compatibility
                 if (m.interfaces == null)
-                    m.interfaces = new ArrayList<String>();
+                    m.interfaces = new ArrayList<>();
 
                 for (Schema interfaceSchema : interfaces) {
                     interfaceSchema = unaliasSchema(interfaceSchema, importMapping);
@@ -2436,7 +2436,7 @@ public class DefaultCodegen implements CodegenConfig {
                 m.parent = toModelName(parentName);
 
                 if (supportsMultipleInheritance) {
-                    m.allParents = new ArrayList<String>();
+                    m.allParents = new ArrayList<>();
                     for (String pname : allParents) {
                         String pModelName = toModelName(pname);
                         m.allParents.add(pModelName);
@@ -2492,7 +2492,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
                 m.isEnum = true;
                 // comment out below as allowableValues is not set in post processing model enum
-                m.allowableValues = new HashMap<String, Object>();
+                m.allowableValues = new HashMap<>();
                 m.allowableValues.put("values", schema.getEnum());
             }
             if (ModelUtils.isMapSchema(schema)) {
@@ -2544,7 +2544,7 @@ public class DefaultCodegen implements CodegenConfig {
         // set isDiscriminator on the discriminator property
         if (m.discriminator != null) {
             String discPropName = m.discriminator.getPropertyBaseName();
-            List<List<CodegenProperty>> listOLists = new ArrayList<List<CodegenProperty>>();
+            List<List<CodegenProperty>> listOLists = new ArrayList<>();
             listOLists.add(m.requiredVars);
             listOLists.add(m.vars);
             listOLists.add(m.allVars);
@@ -3205,13 +3205,13 @@ public class DefaultCodegen implements CodegenConfig {
         //Inline enum case:
         if (p.getEnum() != null && !p.getEnum().isEmpty()) {
             List<Object> _enum = p.getEnum();
-            property._enum = new ArrayList<String>();
+            property._enum = new ArrayList<>();
             for (Object i : _enum) {
                 property._enum.add(String.valueOf(i));
             }
             property.isEnum = true;
 
-            Map<String, Object> allowableValues = new HashMap<String, Object>();
+            Map<String, Object> allowableValues = new HashMap<>();
             allowableValues.put("values", _enum);
             if (allowableValues.size() > 0) {
                 property.allowableValues = allowableValues;
@@ -3224,7 +3224,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
             List<Object> _enum = referencedSchema.getEnum();
 
-            Map<String, Object> allowableValues = new HashMap<String, Object>();
+            Map<String, Object> allowableValues = new HashMap<>();
             allowableValues.put("values", _enum);
             if (allowableValues.size() > 0) {
                 property.allowableValues = allowableValues;
@@ -3610,7 +3610,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
         CodegenOperation op = CodegenModelFactory.newInstance(CodegenModelType.OPERATION);
-        Set<String> imports = new HashSet<String>();
+        Set<String> imports = new HashSet<>();
         if (operation.getExtensions() != null && !operation.getExtensions().isEmpty()) {
             op.vendorExtensions.putAll(operation.getExtensions());
 
@@ -3702,15 +3702,15 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         List<Parameter> parameters = operation.getParameters();
-        List<CodegenParameter> allParams = new ArrayList<CodegenParameter>();
-        List<CodegenParameter> bodyParams = new ArrayList<CodegenParameter>();
-        List<CodegenParameter> pathParams = new ArrayList<CodegenParameter>();
-        List<CodegenParameter> queryParams = new ArrayList<CodegenParameter>();
-        List<CodegenParameter> headerParams = new ArrayList<CodegenParameter>();
-        List<CodegenParameter> cookieParams = new ArrayList<CodegenParameter>();
-        List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
-        List<CodegenParameter> requiredParams = new ArrayList<CodegenParameter>();
-        List<CodegenParameter> optionalParams = new ArrayList<CodegenParameter>();
+        List<CodegenParameter> allParams = new ArrayList<>();
+        List<CodegenParameter> bodyParams = new ArrayList<>();
+        List<CodegenParameter> pathParams = new ArrayList<>();
+        List<CodegenParameter> queryParams = new ArrayList<>();
+        List<CodegenParameter> headerParams = new ArrayList<>();
+        List<CodegenParameter> cookieParams = new ArrayList<>();
+        List<CodegenParameter> formParams = new ArrayList<>();
+        List<CodegenParameter> requiredParams = new ArrayList<>();
+        List<CodegenParameter> optionalParams = new ArrayList<>();
 
         CodegenParameter bodyParam = null;
         RequestBody requestBody = operation.getRequestBody();
@@ -4487,7 +4487,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void setReservedWordsLowerCase(List<String> words) {
-        reservedWords = new HashSet<String>();
+        reservedWords = new HashSet<>();
         for (String word : words) {
             reservedWords.add(word.toLowerCase(Locale.ROOT));
         }
@@ -4552,7 +4552,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         final List<Map<String, Object>> output = new ArrayList<Map<String, Object>>(examples.size());
         for (Map.Entry<String, Object> entry : examples.entrySet()) {
-            final Map<String, Object> kv = new HashMap<String, Object>();
+            final Map<String, Object> kv = new HashMap<>();
             kv.put("contentType", entry.getKey());
             kv.put("example", entry.getValue());
             output.add(kv);
@@ -4607,7 +4607,7 @@ public class DefaultCodegen implements CodegenConfig {
             co, Map<String, List<CodegenOperation>> operations) {
         List<CodegenOperation> opList = operations.get(tag);
         if (opList == null) {
-            opList = new ArrayList<CodegenOperation>();
+            opList = new ArrayList<>();
             operations.put(tag, opList);
         }
         // check for operationId uniqueness
@@ -4739,14 +4739,14 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // loop through list to update property name with toVarName
-        Set<String> renamedMandatory = new TreeSet<String>();
+        Set<String> renamedMandatory = new TreeSet<>();
         Iterator<String> mandatoryIterator = m.mandatory.iterator();
         while (mandatoryIterator.hasNext()) {
             renamedMandatory.add(toVarName(mandatoryIterator.next()));
         }
         m.mandatory = renamedMandatory;
 
-        Set<String> renamedAllMandatory = new TreeSet<String>();
+        Set<String> renamedAllMandatory = new TreeSet<>();
         Iterator<String> allMandatoryIterator = m.allMandatory.iterator();
         while (allMandatoryIterator.hasNext()) {
             renamedAllMandatory.add(toVarName(allMandatoryIterator.next()));
@@ -5600,7 +5600,7 @@ public class DefaultCodegen implements CodegenConfig {
             String encodedKey = "*/*".equals(key) ? key : escapeText(escapeQuotationMark(key));
             //Only unique media types should be added to "produces"
             if (!existingMediaTypes.contains(encodedKey)) {
-                Map<String, String> mediaType = new HashMap<String, String>();
+                Map<String, String> mediaType = new HashMap<>();
                 mediaType.put("mediaType", encodedKey);
                 codegenOperation.produces.add(mediaType);
                 codegenOperation.hasProduces = Boolean.TRUE;
@@ -5620,7 +5620,7 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
 
-        Set<String> produces = new TreeSet<String>();
+        Set<String> produces = new TreeSet<>();
 
         for (ApiResponse r : operation.getResponses().values()) {
             ApiResponse response = ModelUtils.getReferencedApiResponse(openAPI, r);
@@ -5664,11 +5664,11 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     public List<CodegenParameter> fromRequestBodyToFormParameters(RequestBody body, Set<String> imports) {
-        List<CodegenParameter> parameters = new ArrayList<CodegenParameter>();
+        List<CodegenParameter> parameters = new ArrayList<>();
         LOGGER.debug("debugging fromRequestBodyToFormParameters= " + body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
-        List<String> allRequired = new ArrayList<String>();
+        List<String> allRequired = new ArrayList<>();
         Map<String, Schema> properties = new LinkedHashMap<>();
         addProperties(properties, allRequired, schema);
 
@@ -6385,7 +6385,7 @@ public class DefaultCodegen implements CodegenConfig {
         cm.name = type;
         cm.classname = type;
         cm.vendorExtensions.put("x-is-one-of-interface", true);
-        cm.interfaceModels = new ArrayList<CodegenModel>();
+        cm.interfaceModels = new ArrayList<>();
 
         addOneOfInterfaces.add(cm);
     }

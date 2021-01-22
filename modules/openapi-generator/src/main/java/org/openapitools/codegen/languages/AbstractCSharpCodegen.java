@@ -79,9 +79,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean supportNullable = Boolean.FALSE;
 
     // nullable type
-    protected Set<String> nullableType = new HashSet<String>();
+    protected Set<String> nullableType = new HashSet<>();
 
-    protected Set<String> valueTypes = new HashSet<String>();
+    protected Set<String> valueTypes = new HashSet<>();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
 
@@ -96,14 +96,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         outputFolder = "generated-code" + File.separator + this.getName();
         embeddedTemplateDir = templateDir = this.getName();
 
-        collectionTypes = new HashSet<String>(
+        collectionTypes = new HashSet<>(
                 Arrays.asList(
                         "IList", "List",
                         "ICollection", "Collection",
                         "IEnumerable")
         );
 
-        mapTypes = new HashSet<String>(
+        mapTypes = new HashSet<>(
                 Arrays.asList("IDictionary")
         );
 
@@ -133,7 +133,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         );
 
         // TODO: Either include fully qualified names here or handle in DefaultCodegen via lastIndexOf(".") search
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "String",
                         "string",
@@ -176,7 +176,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
 
         // Nullable types here assume C# 2 support is not part of base
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("string", "string");
         typeMapping.put("binary", "byte[]");
         typeMapping.put("ByteArray", "byte[]");
@@ -199,11 +199,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("AnyType", "Object");
 
         // nullable type
-        nullableType = new HashSet<String>(
+        nullableType = new HashSet<>(
                 Arrays.asList("decimal", "bool", "int", "float", "long", "double", "DateTime", "DateTimeOffset", "Guid")
         );
         // value Types
-        valueTypes = new HashSet<String>(
+        valueTypes = new HashSet<>(
                 Arrays.asList("decimal", "bool", "int", "float", "long", "double")
         );
     }
@@ -435,7 +435,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      */
     @SuppressWarnings({"unchecked"})
     private void postProcessEnumRefs(final Map<String, Object> models) {
-        Map<String, CodegenModel> enumRefs = new HashMap<String, CodegenModel>();
+        Map<String, CodegenModel> enumRefs = new HashMap<>();
         for (Map.Entry<String, Object> entry : models.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), models);
             if (model.isEnum) {
@@ -527,9 +527,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     // Since we iterate enumVars for modelnnerEnum and enumClass templates, and CodegenModel is missing some of CodegenProperty's properties,
                     // we can take advantage of Mustache's contextual lookup to add the same "properties" to the model's enumVars scope rather than CodegenProperty's scope.
                     List<Map<String, String>> enumVars = (ArrayList<Map<String, String>>) model.allowableValues.get("enumVars");
-                    List<Map<String, Object>> newEnumVars = new ArrayList<Map<String, Object>>();
+                    List<Map<String, Object>> newEnumVars = new ArrayList<>();
                     for (Map<String, String> enumVar : enumVars) {
-                        Map<String, Object> mixedVars = new HashMap<String, Object>();
+                        Map<String, Object> mixedVars = new HashMap<>();
                         mixedVars.putAll(enumVar);
 
                         mixedVars.put("isString", isString);
