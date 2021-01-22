@@ -52,26 +52,15 @@ class {{classname}} {
         ];{{/hasConsumes}}
         {{#hasFormParams}}
 
-        final formData = <String, dynamic>{};
+        final formData = <String, dynamic>{
+            {{#formParams}}
+            {{^required}}{{^nullable}}if ({{paramName}} != null) {{/nullable}}{{/required}}r'{{baseName}}': {{#isFile}}MultipartFile.fromBytes({{paramName}}, filename: r'{{baseName}}'){{/isFile}}{{^isFile}}parameterToString(_serializers, {{paramName}}){{/isFile}},
+            {{/formParams}}
+        };
         {{#isMultipart}}
-        {{#formParams}}
-        {{^isFile}}
-        if ({{paramName}} != null) {
-            formData[r'{{baseName}}'] = parameterToString(_serializers, {{paramName}});
-        }
-        {{/isFile}}
-        {{#isFile}}
-        if ({{paramName}} != null) {
-            formData[r'{{baseName}}'] = MultipartFile.fromBytes({{paramName}}, filename: r'{{baseName}}');
-        }
-        {{/isFile}}
-        {{/formParams}}
         bodyData = FormData.fromMap(formData);
         {{/isMultipart}}
         {{^isMultipart}}
-        {{#formParams}}
-        formData['{{baseName}}'] = parameterToString(_serializers, {{paramName}});
-        {{/formParams}}
         bodyData = formData;
         {{/isMultipart}}
         {{/hasFormParams}}
@@ -89,7 +78,7 @@ class {{classname}} {
         {{/isContainer}}
         {{^isContainer}}
         {{#isPrimitiveType}}
-        var serializedBody = {{paramName}};
+        final serializedBody = {{paramName}};
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         final bodySerializer = _serializers.serializerForType({{{baseType}}}) as Serializer<{{{baseType}}}>;
