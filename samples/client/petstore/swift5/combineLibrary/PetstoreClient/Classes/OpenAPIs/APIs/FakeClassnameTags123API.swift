@@ -10,7 +10,6 @@ import Foundation
 import Combine
 #endif
 
-
 open class FakeClassnameTags123API {
     /**
      To test class name in snake case

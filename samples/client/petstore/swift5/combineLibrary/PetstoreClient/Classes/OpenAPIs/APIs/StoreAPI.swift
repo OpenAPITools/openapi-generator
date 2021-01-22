@@ -10,7 +10,6 @@ import Foundation
 import Combine
 #endif
 
-
 open class StoreAPI {
     /**
      Delete purchase order by ID

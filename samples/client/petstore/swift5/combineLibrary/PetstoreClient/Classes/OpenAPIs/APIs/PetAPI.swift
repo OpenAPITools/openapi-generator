@@ -10,7 +10,6 @@ import Foundation
 import Combine
 #endif
 
-
 open class PetAPI {
     /**
      Add a new pet to the store

@@ -10,7 +10,6 @@ import Foundation
 import Combine
 #endif
 
-
 open class UserAPI {
     /**
      Create user
