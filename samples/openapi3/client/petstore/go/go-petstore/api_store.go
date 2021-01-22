@@ -331,12 +331,12 @@ func (a *StoreApiService) GetOrderByIdExecute(r ApiGetOrderByIdRequest) (*Order,
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  Order
+		localVarReturnValue  *Order
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.GetOrderById")
 	if err != nil {
-		return &localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/store/order/{order_id}"
@@ -346,10 +346,10 @@ func (a *StoreApiService) GetOrderByIdExecute(r ApiGetOrderByIdRequest) (*Order,
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.orderId < 1 {
-		return &localVarReturnValue, nil, reportError("orderId must be greater than 1")
+		return localVarReturnValue, nil, reportError("orderId must be greater than 1")
 	}
 	if r.orderId > 5 {
-		return &localVarReturnValue, nil, reportError("orderId must be less than 5")
+		return localVarReturnValue, nil, reportError("orderId must be less than 5")
 	}
 
 	// to determine the Content-Type header
@@ -371,19 +371,19 @@ func (a *StoreApiService) GetOrderByIdExecute(r ApiGetOrderByIdRequest) (*Order,
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return &localVarReturnValue, nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -391,7 +391,7 @@ func (a *StoreApiService) GetOrderByIdExecute(r ApiGetOrderByIdRequest) (*Order,
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -400,10 +400,10 @@ func (a *StoreApiService) GetOrderByIdExecute(r ApiGetOrderByIdRequest) (*Order,
 			body:  localVarBody,
 			error: err.Error(),
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return &localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiPlaceOrderRequest struct {
@@ -444,12 +444,12 @@ func (a *StoreApiService) PlaceOrderExecute(r ApiPlaceOrderRequest) (*Order, *ht
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  Order
+		localVarReturnValue  *Order
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.PlaceOrder")
 	if err != nil {
-		return &localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/store/order"
@@ -458,7 +458,7 @@ func (a *StoreApiService) PlaceOrderExecute(r ApiPlaceOrderRequest) (*Order, *ht
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.order == nil {
-		return &localVarReturnValue, nil, reportError("order is required and must be specified")
+		return localVarReturnValue, nil, reportError("order is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -482,19 +482,19 @@ func (a *StoreApiService) PlaceOrderExecute(r ApiPlaceOrderRequest) (*Order, *ht
 	localVarPostBody = r.order
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return &localVarReturnValue, nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -502,7 +502,7 @@ func (a *StoreApiService) PlaceOrderExecute(r ApiPlaceOrderRequest) (*Order, *ht
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -511,8 +511,8 @@ func (a *StoreApiService) PlaceOrderExecute(r ApiPlaceOrderRequest) (*Order, *ht
 			body:  localVarBody,
 			error: err.Error(),
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return &localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, nil
 }

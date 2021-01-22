@@ -43,10 +43,9 @@ type DefaultApi interface {
 type DefaultApiService service
 
 type ApiFooGetRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService DefaultApi
 }
-
 
 func (r ApiFooGetRequest) Execute() (*InlineResponseDefault, *http.Response, error) {
 	return r.ApiService.FooGetExecute(r)
@@ -60,7 +59,7 @@ func (r ApiFooGetRequest) Execute() (*InlineResponseDefault, *http.Response, err
 func (a *DefaultApiService) FooGet(ctx context.Context) ApiFooGetRequest {
 	return ApiFooGetRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -75,12 +74,12 @@ func (a *DefaultApiService) FooGetExecute(r ApiFooGetRequest) (*InlineResponseDe
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  InlineResponseDefault
+		localVarReturnValue  *InlineResponseDefault
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.FooGet")
 	if err != nil {
-		return &localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/foo"
@@ -108,19 +107,19 @@ func (a *DefaultApiService) FooGetExecute(r ApiFooGetRequest) (*InlineResponseDe
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return &localVarReturnValue, nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return &localVarReturnValue, localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -128,14 +127,14 @@ func (a *DefaultApiService) FooGetExecute(r ApiFooGetRequest) (*InlineResponseDe
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-			var v InlineResponseDefault
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return &localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		var v InlineResponseDefault
+		err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+		if err != nil {
+			newErr.error = err.Error()
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		newErr.model = v
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -144,8 +143,8 @@ func (a *DefaultApiService) FooGetExecute(r ApiFooGetRequest) (*InlineResponseDe
 			body:  localVarBody,
 			error: err.Error(),
 		}
-		return &localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return &localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
