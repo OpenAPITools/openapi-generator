@@ -126,13 +126,13 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                 "Map"
         ));
 
-        languageGenericTypes = new HashSet<String>(Arrays.asList(
+        languageGenericTypes = new HashSet<>(Arrays.asList(
                 "Array"
         ));
 
         instantiationTypes.put("array", "Array");
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("Array", "Array");
         typeMapping.put("array", "Array");
         typeMapping.put("List", "Array");
@@ -315,7 +315,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
      * @return TypeScript return type
      */
     private String getReturnType(List<CodegenResponse> responses) {
-        Set<String> returnTypes = new HashSet<String>();
+        Set<String> returnTypes = new HashSet<>();
         for (CodegenResponse response: responses) {
             if (response.is2xx) {
                 if (response.dataType != null) {

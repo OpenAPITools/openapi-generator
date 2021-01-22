@@ -446,7 +446,7 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
         CodegenModel fruit = codegen.fromModel("Fruit", schema);
 
-        Set<String> oneOf = new TreeSet<String>();
+        Set<String> oneOf = new TreeSet<>();
         oneOf.add("Apple");
         oneOf.add("Banana");
         Assert.assertEquals(fruit.oneOf, oneOf);

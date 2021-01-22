@@ -559,9 +559,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                 if (path.readOperations() != null) {
                     for (Operation operation : path.readOperations()) {
                         if (operation.getTags() != null) {
-                            List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
+                            List<Map<String, String>> tags = new ArrayList<>();
                             for (String tag : operation.getTags()) {
-                                Map<String, String> value = new HashMap<String, String>();
+                                Map<String, String> value = new HashMap<>();
                                 value.put("tag", tag);
                                 tags.add(value);
                             }
@@ -848,7 +848,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             // for enum model
             if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
                 cm.imports.add(importMapping.get("JsonValue"));
-                Map<String, String> item = new HashMap<String, String>();
+                Map<String, String> item = new HashMap<>();
                 item.put("import", importMapping.get("JsonValue"));
                 imports.add(item);
             }

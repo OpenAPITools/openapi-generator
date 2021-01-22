@@ -149,7 +149,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
     }
 
     // The set of valid OAS values for the 'type' attribute.
-    private static Set<String> validTypes = new HashSet<String>(
+    private static Set<String> validTypes = new HashSet<>(
         Arrays.asList("null", "boolean", "object", "array", "number", "string", "integer"));
 
     /**

@@ -113,7 +113,7 @@ public class MysqlSchemaCodegenTest {
     public void testToCodegenMysqlDataTypeDefault() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
         HashMap<String, Object> defaultMap = null;
-        ArrayList<String> intFixture = new ArrayList<String>(Arrays.asList(
+        ArrayList<String> intFixture = new ArrayList<>(Arrays.asList(
             "TINYINT", "SmallInt", "Mediumint", "INT", "bigint"
         ));
         for(String intType : intFixture) {
@@ -129,7 +129,7 @@ public class MysqlSchemaCodegenTest {
         Assert.assertTrue((Boolean) defaultMap.get("isKeyword"));
         Assert.assertSame(defaultMap.get("defaultValue"), "SERIAL DEFAULT VALUE");
 
-        ArrayList<String> dateFixture = new ArrayList<String>(Arrays.asList(
+        ArrayList<String> dateFixture = new ArrayList<>(Arrays.asList(
             "Timestamp", "DateTime"
         ));
         for(String dateType : dateFixture) {
@@ -145,7 +145,7 @@ public class MysqlSchemaCodegenTest {
         Assert.assertTrue((Boolean) defaultMap.get("isKeyword"));
         Assert.assertSame(defaultMap.get("defaultValue"), "CURRENT_TIMESTAMP");
 
-        ArrayList<String> restFixture = new ArrayList<String>(Arrays.asList(
+        ArrayList<String> restFixture = new ArrayList<>(Arrays.asList(
             "VARCHAR", "CHAR", "ENUM", "UNKNOWN"
         ));
         for(String restType : restFixture) {
@@ -161,7 +161,7 @@ public class MysqlSchemaCodegenTest {
     public void testToCodegenMysqlDataTypeDefaultWithExceptionalColumnType() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
         HashMap<String, Object> defaultMap = null;
-        ArrayList<String> specialFixture = new ArrayList<String>(Arrays.asList(
+        ArrayList<String> specialFixture = new ArrayList<>(Arrays.asList(
             "TINYBLOB", "Blob", "MEDIUMBLOB", "LONGBLOB", "TINYTEXT", "TEXT", "MEDIUMTEXT", "LONGTEXT", "GEOMETRY", "JSON"
         ));
         for(String specialType : specialFixture) {
@@ -173,10 +173,10 @@ public class MysqlSchemaCodegenTest {
     @Test
     public void testIsMysqlDataType() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
-        ArrayList<String> trueFixture = new ArrayList<String>(Arrays.asList(
+        ArrayList<String> trueFixture = new ArrayList<>(Arrays.asList(
             "INTEGER", "integer", "Integer", "DATETIME", "datetime", "DateTime", "VARCHAR", "varchar", "VarChar", "POINT", "Point", "point", "JSON", "json", "Json"
         ));
-        ArrayList<String> falseFixture = new ArrayList<String>(Arrays.asList(
+        ArrayList<String> falseFixture = new ArrayList<>(Arrays.asList(
             "unknown", "HashMap", "HASHMAP", "hashmap"
         ));
         for(String trueValue : trueFixture) {
@@ -225,10 +225,10 @@ public class MysqlSchemaCodegenTest {
     public void testIsReservedWord() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
         Set<String> reservedWords = codegen.reservedWords();
-        ArrayList<String> trueFixture = new ArrayList<String>(Arrays.asList(
+        ArrayList<String> trueFixture = new ArrayList<>(Arrays.asList(
             "accessible", "asc", "between", "blob", "change", "column", "day_hour", "distinct", "enclosed", "except", "explain", "float", "for", "function", "grant", "grouping", "high_priority", "groups", "hour_minute", "insensitive", "interval", "json_table", "keys", "kill", "leave", "left", "mediumblob", "modifies", "not", "null", "numeric", "optimize", "outer", "precision", "primary", "references", "replace", "select", "sql", "then", "tinytext", "unique", "unlock", "varchar", "virtual", "when", "where", "xor", "year_month", "zerofill"
         ));
-        ArrayList<String> falseFixture = new ArrayList<String>(Arrays.asList(
+        ArrayList<String> falseFixture = new ArrayList<>(Arrays.asList(
             "after", "boolean", "charset", "cpu", "current", "delay_key_write", "end", "format", "global", "host", "install", "json", "key_block_size", "local", "max_size", "none", "offset", "partial", "quarter", "relay", "second", "status", "timestamp", "until", "variables", "without", "xml", "year"
         ));
         for(String trueValue : trueFixture) {

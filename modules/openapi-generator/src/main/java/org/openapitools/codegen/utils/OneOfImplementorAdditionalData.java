@@ -45,9 +45,9 @@ import static org.openapitools.codegen.utils.OnceLogger.once;
  */
 public class OneOfImplementorAdditionalData {
     private String implementorName;
-    private List<String> additionalInterfaces = new ArrayList<String>();
-    private List<CodegenProperty> additionalProps = new ArrayList<CodegenProperty>();
-    private List<Map<String, String>> additionalImports = new ArrayList<Map<String, String>>();
+    private List<String> additionalInterfaces = new ArrayList<>();
+    private List<CodegenProperty> additionalProps = new ArrayList<>();
+    private List<Map<String, String>> additionalImports = new ArrayList<>();
     private static final Logger LOGGER = LoggerFactory.getLogger(OneOfImplementorAdditionalData.class);
 
     public OneOfImplementorAdditionalData(String implementorName) {
@@ -71,10 +71,10 @@ public class OneOfImplementorAdditionalData {
         // Add all vars defined on cm
         // a "oneOf" model (cm) by default inherits all properties from its "interfaceModels",
         // but we only want to add properties defined on cm itself
-        List<CodegenProperty> toAdd = new ArrayList<CodegenProperty>(cm.vars);
+        List<CodegenProperty> toAdd = new ArrayList<>(cm.vars);
         // note that we can't just toAdd.removeAll(m.vars) for every interfaceModel,
         // as they might have different value of `hasMore` and thus are not equal
-        List<String> omitAdding = new ArrayList<String>();
+        List<String> omitAdding = new ArrayList<>();
         if (cm.interfaceModels != null) {
             for (CodegenModel m : cm.interfaceModels) {
                 for (CodegenProperty v : m.vars) {
@@ -114,7 +114,7 @@ public class OneOfImplementorAdditionalData {
             if (addInterfaceImports) {
                 // Add imports for interfaces
                 implcm.imports.add(intf);
-                Map<String, String> importsItem = new HashMap<String, String>();
+                Map<String, String> importsItem = new HashMap<>();
                 importsItem.put("import", cc.toModelImport(intf));
                 implImports.add(importsItem);
             }

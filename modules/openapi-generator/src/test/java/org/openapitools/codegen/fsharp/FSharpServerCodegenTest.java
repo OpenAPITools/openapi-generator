@@ -55,7 +55,7 @@ public class FSharpServerCodegenTest {
         child.setImports(new HashSet<String>(Arrays.asList("car", "bike", "parent")));
         child.setClassname("child");
 
-        Map<String, Object> models = new HashMap<String,Object>();
+        Map<String, Object> models = new HashMap<>();
         models.put("parent", Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", parent))));
         models.put("child", Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", child))));
         models.put("car", Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", car))));

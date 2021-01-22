@@ -276,13 +276,13 @@ public class RubyClientCodegenTest {
         Assert.assertEquals(cp1.name, "photo_urls");
 
         // test mandatory
-        Set<String> mandatory = new TreeSet<String>();
+        Set<String> mandatory = new TreeSet<>();
         mandatory.add("name");
         mandatory.add("photo_urls");
         Assert.assertEquals(nullablePet.getMandatory(), mandatory);
 
         // test allMandatory
-        Set<String> allMandatory = new TreeSet<String>();
+        Set<String> allMandatory = new TreeSet<>();
         allMandatory.add("name");
         allMandatory.add("photo_urls");
         Assert.assertEquals(nullablePet.getAllMandatory(), allMandatory);
@@ -344,7 +344,7 @@ public class RubyClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         CodegenModel fruit = codegen.fromModel("Fruit", schema);
 
-        Set<String> anyOf = new TreeSet<String>();
+        Set<String> anyOf = new TreeSet<>();
         anyOf.add("Apple");
         anyOf.add("Banana");
         Assert.assertEquals(fruit.anyOf, anyOf);
@@ -360,7 +360,7 @@ public class RubyClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         CodegenModel fruit = codegen.fromModel("Fruit", schema);
 
-        Set<String> oneOf = new TreeSet<String>();
+        Set<String> oneOf = new TreeSet<>();
         oneOf.add("Apple");
         oneOf.add("Banana");
         Assert.assertEquals(fruit.oneOf, oneOf);
@@ -379,7 +379,7 @@ public class RubyClientCodegenTest {
         Assert.assertNotNull(person);
 
         CodegenDiscriminator codegenDiscriminator = person.getDiscriminator();
-        Set<CodegenDiscriminator.MappedModel> mappedModels = new LinkedHashSet<CodegenDiscriminator.MappedModel>();
+        Set<CodegenDiscriminator.MappedModel> mappedModels = new LinkedHashSet<>();
         mappedModels.add(new CodegenDiscriminator.MappedModel("a", "Adult"));
         mappedModels.add(new CodegenDiscriminator.MappedModel("c", "Child"));
         mappedModels.add(new CodegenDiscriminator.MappedModel("Adult", "Adult"));
@@ -400,7 +400,7 @@ public class RubyClientCodegenTest {
         Assert.assertNotNull(person);
 
         CodegenDiscriminator codegenDiscriminator = person.getDiscriminator();
-        Set<CodegenDiscriminator.MappedModel> mappedModels = new LinkedHashSet<CodegenDiscriminator.MappedModel>();
+        Set<CodegenDiscriminator.MappedModel> mappedModels = new LinkedHashSet<>();
         mappedModels.add(new CodegenDiscriminator.MappedModel("a", "Adult"));
         mappedModels.add(new CodegenDiscriminator.MappedModel("c", "Child"));
         Assert.assertEquals(codegenDiscriminator.getMappedModels(), mappedModels);

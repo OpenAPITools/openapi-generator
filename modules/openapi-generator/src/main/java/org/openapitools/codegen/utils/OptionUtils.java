@@ -48,7 +48,7 @@ public class OptionUtils {
    
     public static List<String> splitCommaSeparatedList(String input) {
 
-        List<String> results = new ArrayList<String>();
+        List<String> results = new ArrayList<>();
 
         if(input != null && !input.isEmpty()) {
             for (String value : input.split(",")) {
