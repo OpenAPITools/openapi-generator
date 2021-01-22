@@ -44,9 +44,9 @@ type AnotherFakeApi interface {
 type AnotherFakeApiService service
 
 type ApiCall123TestSpecialTagsRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService AnotherFakeApi
-	body       *Client
+	body *Client
 }
 
 func (r ApiCall123TestSpecialTagsRequest) Body(body Client) ApiCall123TestSpecialTagsRequest {
@@ -67,7 +67,7 @@ func (r ApiCall123TestSpecialTagsRequest) Execute() (*Client, *http.Response, er
 func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx context.Context) ApiCall123TestSpecialTagsRequest {
 	return ApiCall123TestSpecialTagsRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 

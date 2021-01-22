@@ -44,9 +44,9 @@ type FakeClassnameTags123Api interface {
 type FakeClassnameTags123ApiService service
 
 type ApiTestClassnameRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService FakeClassnameTags123Api
-	client     *Client
+	client *Client
 }
 
 func (r ApiTestClassnameRequest) Client(client Client) ApiTestClassnameRequest {
@@ -67,7 +67,7 @@ func (r ApiTestClassnameRequest) Execute() (*Client, *http.Response, error) {
 func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context) ApiTestClassnameRequest {
 	return ApiTestClassnameRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 

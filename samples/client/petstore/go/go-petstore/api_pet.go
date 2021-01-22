@@ -16,8 +16,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"os"
 	"strings"
+	"os"
 )
 
 // Linger please
@@ -153,9 +153,9 @@ type PetApi interface {
 type PetApiService service
 
 type ApiAddPetRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService PetApi
-	body       *Pet
+	body *Pet
 }
 
 func (r ApiAddPetRequest) Body(body Pet) ApiAddPetRequest {
@@ -175,7 +175,7 @@ func (r ApiAddPetRequest) Execute() (*http.Response, error) {
 func (a *PetApiService) AddPet(ctx context.Context) ApiAddPetRequest {
 	return ApiAddPetRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -253,10 +253,10 @@ func (a *PetApiService) AddPetExecute(r ApiAddPetRequest) (*http.Response, error
 }
 
 type ApiDeletePetRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService PetApi
-	petId      int64
-	apiKey     *string
+	petId int64
+	apiKey *string
 }
 
 func (r ApiDeletePetRequest) ApiKey(apiKey string) ApiDeletePetRequest {
@@ -277,8 +277,8 @@ func (r ApiDeletePetRequest) Execute() (*http.Response, error) {
 func (a *PetApiService) DeletePet(ctx context.Context, petId int64) ApiDeletePetRequest {
 	return ApiDeletePetRequest{
 		ApiService: a,
-		ctx:        ctx,
-		petId:      petId,
+		ctx: ctx,
+		petId: petId,
 	}
 }
 
@@ -355,9 +355,9 @@ func (a *PetApiService) DeletePetExecute(r ApiDeletePetRequest) (*http.Response,
 }
 
 type ApiFindPetsByStatusRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService PetApi
-	status     *[]string
+	status *[]string
 }
 
 func (r ApiFindPetsByStatusRequest) Status(status []string) ApiFindPetsByStatusRequest {
@@ -378,7 +378,7 @@ func (r ApiFindPetsByStatusRequest) Execute() ([]Pet, *http.Response, error) {
 func (a *PetApiService) FindPetsByStatus(ctx context.Context) ApiFindPetsByStatusRequest {
 	return ApiFindPetsByStatusRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -466,9 +466,9 @@ func (a *PetApiService) FindPetsByStatusExecute(r ApiFindPetsByStatusRequest) ([
 }
 
 type ApiFindPetsByTagsRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService PetApi
-	tags       *[]string
+	tags *[]string
 }
 
 func (r ApiFindPetsByTagsRequest) Tags(tags []string) ApiFindPetsByTagsRequest {
@@ -489,7 +489,7 @@ func (r ApiFindPetsByTagsRequest) Execute() ([]Pet, *http.Response, error) {
 func (a *PetApiService) FindPetsByTags(ctx context.Context) ApiFindPetsByTagsRequest {
 	return ApiFindPetsByTagsRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -577,10 +577,11 @@ func (a *PetApiService) FindPetsByTagsExecute(r ApiFindPetsByTagsRequest) ([]Pet
 }
 
 type ApiGetPetByIdRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService PetApi
-	petId      int64
+	petId int64
 }
+
 
 func (r ApiGetPetByIdRequest) Execute() (*Pet, *http.Response, error) {
 	return r.ApiService.GetPetByIdExecute(r)
@@ -596,8 +597,8 @@ func (r ApiGetPetByIdRequest) Execute() (*Pet, *http.Response, error) {
 func (a *PetApiService) GetPetById(ctx context.Context, petId int64) ApiGetPetByIdRequest {
 	return ApiGetPetByIdRequest{
 		ApiService: a,
-		ctx:        ctx,
-		petId:      petId,
+		ctx: ctx,
+		petId: petId,
 	}
 }
 
@@ -696,9 +697,9 @@ func (a *PetApiService) GetPetByIdExecute(r ApiGetPetByIdRequest) (*Pet, *http.R
 }
 
 type ApiUpdatePetRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService PetApi
-	body       *Pet
+	body *Pet
 }
 
 func (r ApiUpdatePetRequest) Body(body Pet) ApiUpdatePetRequest {
@@ -718,7 +719,7 @@ func (r ApiUpdatePetRequest) Execute() (*http.Response, error) {
 func (a *PetApiService) UpdatePet(ctx context.Context) ApiUpdatePetRequest {
 	return ApiUpdatePetRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -796,11 +797,11 @@ func (a *PetApiService) UpdatePetExecute(r ApiUpdatePetRequest) (*http.Response,
 }
 
 type ApiUpdatePetWithFormRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService PetApi
-	petId      int64
-	name       *string
-	status     *string
+	petId int64
+	name *string
+	status *string
 }
 
 func (r ApiUpdatePetWithFormRequest) Name(name string) ApiUpdatePetWithFormRequest {
@@ -825,8 +826,8 @@ func (r ApiUpdatePetWithFormRequest) Execute() (*http.Response, error) {
 func (a *PetApiService) UpdatePetWithForm(ctx context.Context, petId int64) ApiUpdatePetWithFormRequest {
 	return ApiUpdatePetWithFormRequest{
 		ApiService: a,
-		ctx:        ctx,
-		petId:      petId,
+		ctx: ctx,
+		petId: petId,
 	}
 }
 
@@ -906,11 +907,11 @@ func (a *PetApiService) UpdatePetWithFormExecute(r ApiUpdatePetWithFormRequest) 
 }
 
 type ApiUploadFileRequest struct {
-	ctx                context.Context
-	ApiService         PetApi
-	petId              int64
+	ctx context.Context
+	ApiService PetApi
+	petId int64
 	additionalMetadata *string
-	file               **os.File
+	file **os.File
 }
 
 func (r ApiUploadFileRequest) AdditionalMetadata(additionalMetadata string) ApiUploadFileRequest {
@@ -935,8 +936,8 @@ func (r ApiUploadFileRequest) Execute() (*ApiResponse, *http.Response, error) {
 func (a *PetApiService) UploadFile(ctx context.Context, petId int64) ApiUploadFileRequest {
 	return ApiUploadFileRequest{
 		ApiService: a,
-		ctx:        ctx,
-		petId:      petId,
+		ctx: ctx,
+		petId: petId,
 	}
 }
 
@@ -1035,10 +1036,10 @@ func (a *PetApiService) UploadFileExecute(r ApiUploadFileRequest) (*ApiResponse,
 }
 
 type ApiUploadFileWithRequiredFileRequest struct {
-	ctx                context.Context
-	ApiService         PetApi
-	petId              int64
-	requiredFile       **os.File
+	ctx context.Context
+	ApiService PetApi
+	petId int64
+	requiredFile **os.File
 	additionalMetadata *string
 }
 
@@ -1064,8 +1065,8 @@ func (r ApiUploadFileWithRequiredFileRequest) Execute() (*ApiResponse, *http.Res
 func (a *PetApiService) UploadFileWithRequiredFile(ctx context.Context, petId int64) ApiUploadFileWithRequiredFileRequest {
 	return ApiUploadFileWithRequiredFileRequest{
 		ApiService: a,
-		ctx:        ctx,
-		petId:      petId,
+		ctx: ctx,
+		petId: petId,
 	}
 }
 

@@ -27,9 +27,10 @@ var (
 type UsageApiService service
 
 type ApiAnyKeyRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService *UsageApiService
 }
+
 
 func (r ApiAnyKeyRequest) Execute() (map[string]interface{}, *http.Response, error) {
 	return r.ApiService.AnyKeyExecute(r)
@@ -44,7 +45,7 @@ func (r ApiAnyKeyRequest) Execute() (map[string]interface{}, *http.Response, err
 func (a *UsageApiService) AnyKey(ctx context.Context) ApiAnyKeyRequest {
 	return ApiAnyKeyRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -156,9 +157,10 @@ func (a *UsageApiService) AnyKeyExecute(r ApiAnyKeyRequest) (map[string]interfac
 }
 
 type ApiBothKeysRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService *UsageApiService
 }
+
 
 func (r ApiBothKeysRequest) Execute() (map[string]interface{}, *http.Response, error) {
 	return r.ApiService.BothKeysExecute(r)
@@ -173,7 +175,7 @@ func (r ApiBothKeysRequest) Execute() (map[string]interface{}, *http.Response, e
 func (a *UsageApiService) BothKeys(ctx context.Context) ApiBothKeysRequest {
 	return ApiBothKeysRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -285,9 +287,10 @@ func (a *UsageApiService) BothKeysExecute(r ApiBothKeysRequest) (map[string]inte
 }
 
 type ApiKeyInHeaderRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService *UsageApiService
 }
+
 
 func (r ApiKeyInHeaderRequest) Execute() (map[string]interface{}, *http.Response, error) {
 	return r.ApiService.KeyInHeaderExecute(r)
@@ -302,7 +305,7 @@ func (r ApiKeyInHeaderRequest) Execute() (map[string]interface{}, *http.Response
 func (a *UsageApiService) KeyInHeader(ctx context.Context) ApiKeyInHeaderRequest {
 	return ApiKeyInHeaderRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -400,9 +403,10 @@ func (a *UsageApiService) KeyInHeaderExecute(r ApiKeyInHeaderRequest) (map[strin
 }
 
 type ApiKeyInQueryRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService *UsageApiService
 }
+
 
 func (r ApiKeyInQueryRequest) Execute() (map[string]interface{}, *http.Response, error) {
 	return r.ApiService.KeyInQueryExecute(r)
@@ -417,7 +421,7 @@ func (r ApiKeyInQueryRequest) Execute() (map[string]interface{}, *http.Response,
 func (a *UsageApiService) KeyInQuery(ctx context.Context) ApiKeyInQueryRequest {
 	return ApiKeyInQueryRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
