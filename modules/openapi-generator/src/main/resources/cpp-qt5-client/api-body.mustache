@@ -183,29 +183,22 @@ QString {{classname}}::getParamStyleSuffix(QString style){
 QString {{classname}}::getParamStyleDelimiter(QString style, QString name, bool isExplode){
 
         if(style == "matrix"){ 
-            if (isExplode)
-                return ";" + name + "=";
-            else
-                return ",";
+            return (isExplode) ? ";" + name + "=" : ",";
+
         }else if(style == "label"){
-            return ",";
+            return (isExplode) ? "." : ",";
+
         }else if(style == "form"){
-            if (isExplode)
-                return "&" + name + "="; 
-            else
-                return ",";
+            return (isExplode) ? "&" + name + "=" : ","; 
+
         }else if(style == "simple"){
             return ",";
         }else if(style == "spaceDelimited"){
-            if (isExplode)
-                return "&" + name + "=";
-            else
-                return " ";
+            return (isExplode) ? "&" + name + "=" : " ";
+
         }else if(style == "pipeDelimited"){
-            if (isExplode)
-                return "&" + name + "=";
-            else
-                return "|";
+            return (isExplode) ? "&" + name + "=" : "|";
+
         }else
             return "none";
 }
@@ -225,8 +218,27 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     pathSuffix = getParamStyleSuffix(pathStyle);
     pathDelimiter = getParamStyleDelimiter(pathStyle, "{{baseName}}", {{isExplode}});
     qDebug() << "FullPath styles: " << pathPrefix << " " << pathSuffix << " " << pathDelimiter << endl;
-    fullPath.replace({{paramName}}PathParam, pathPrefix+QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}}))+pathSuffix);
-    {{/pathParams}}{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
+        //collection format {{collectionFormat}}
+    {{^collectionFormat}}
+    QString paramString = (pathStyle == "matrix") ? pathPrefix+"{{baseName}}"+pathSuffix : pathPrefix;
+    fullPath.replace({{paramName}}PathParam, paramString+QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
+{{/collectionFormat}}{{#collectionFormat}}
+    if ({{{paramName}}}.size() > 0) {
+            QString paramString = (pathStyle == "matrix") ? pathPrefix+"{{baseName}}"+pathSuffix : pathPrefix;
+            qint32 count = 0;
+            foreach ({{{baseType}}} t, {{paramName}}) {
+                if (count > 0) {
+                    fullPath.append(pathDelimiter);
+                }
+                fullPath.append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue(t)));
+                count++;
+            }
+              fullPath.replace({{paramName}}PathParam, paramString);
+            qDebug() << " FullPath param String"<<paramString<<endl;
+
+    }
+
+{{/collectionFormat}}{{/pathParams}}{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
     if(_apiKeys.contains("{{name}}")){
         addHeaders("{{name}}",_apiKeys.find("{{name}}").value());
     }
@@ -261,15 +273,16 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     //collection format {{collectionFormat}}
 {{^collectionFormat}}
     if (fullPath.indexOf("?") > 0)
-        fullPath.append("&").append(queryPrefix).append(QUrl::toPercentEncoding("{{baseName}}")).append(querySuffix).append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
+        fullPath.append(queryPrefix);
     else
-        fullPath.append("?").append(queryPrefix).append(QUrl::toPercentEncoding("{{baseName}}")).append(querySuffix).append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
+        fullPath.append("?");
+    fullPath.append(QUrl::toPercentEncoding("{{baseName}}")).append(querySuffix).append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
 {{/collectionFormat}}{{#collectionFormat}}
     if ({{{paramName}}}.size() > 0) {
         if (QString("{{collectionFormat}}").indexOf("multi") == 0) {
             foreach ({{{baseType}}} t, {{paramName}}) {
                 if (fullPath.indexOf("?") > 0)
-                    fullPath.append("&");
+                    fullPath.append(queryPrefix);
                 else
                     fullPath.append("?");
                 fullPath.append("{{{baseName}}}=").append(::{{cppNamespace}}::toStringValue(t));
@@ -282,7 +295,7 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
             qint32 count = 0;
             foreach ({{{baseType}}} t, {{paramName}}) {
                 if (count > 0) {
-                    fullPath.append(QUrl::toPercentEncoding(queryDelimiter));
+                    fullPath.append(({{isExplode}})? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
                 }
                 fullPath.append(::{{cppNamespace}}::toStringValue(t));
                 count++;
@@ -334,7 +347,7 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     worker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
     worker->setResponseCompressionEnabled(isResponseCompressionEnabled);
     worker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
-    qDebug() <<"FullPath = " << fullPath << endl;
+    qDebug() <<"FullPath = " << fullPath <<endl;
     {{prefix}}HttpRequestInput input(fullPath, "{{httpMethod}}");
 
 {{#formParams}}
@@ -361,13 +374,24 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     QByteArray output = {{paramName}}.asByteArray();{{/isFile}}
     input.request_body.append(output);
 {{/isContainer}}{{/bodyParams}}{{#headerParams}}
-    QString queryParamStyle = "{{style}}";
-    bool isExplode = {{isExplode}};
-    bool isArray = {{isArray}};
-    bool isString = {{isString}};
+{{^collectionFormat}}
     if (!::{{cppNamespace}}::toStringValue({{paramName}}).isEmpty()) {
         input.headers.insert("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}));
     }
+{{/collectionFormat}}{{#collectionFormat}}
+    QString headerString;
+    if ({{{paramName}}}.size() > 0) {
+    qint32 count = 0;
+    foreach ({{{baseType}}} t, {{paramName}}) {
+        if (count > 0) {
+            headerString.append(",");
+        }
+        headerString.append(::{{cppNamespace}}::toStringValue(t));
+        count++;
+    }
+    input.headers.insert("{{baseName}}", headerString);
+    }
+{{/collectionFormat}}
 {{/headerParams}}
 
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
