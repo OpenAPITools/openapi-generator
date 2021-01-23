@@ -7,17 +7,15 @@
 
 import Foundation
 
-
-public struct ArrayOfNumberOnly: Codable { 
-
+public struct ArrayOfNumberOnly: Codable {
 
     public private(set) var arrayNumber: [Double]?
 
-    public init(arrayNumber: [Double]?) {
+    public init(arrayNumber: [Double]? = nil) {
         self.arrayNumber = arrayNumber
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable { 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayNumber = "ArrayNumber"
     }
 

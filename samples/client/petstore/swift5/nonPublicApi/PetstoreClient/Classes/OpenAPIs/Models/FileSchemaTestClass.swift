@@ -7,14 +7,12 @@
 
 import Foundation
 
-
-internal struct FileSchemaTestClass: Codable { 
-
+internal struct FileSchemaTestClass: Codable {
 
     internal var file: File?
     internal var files: [File]?
 
-    internal init(file: File?, files: [File]?) {
+    internal init(file: File? = nil, files: [File]? = nil) {
         self.file = file
         self.files = files
     }

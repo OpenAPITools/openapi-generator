@@ -12,13 +12,12 @@
 package org.openapitools.client.model
 
 import java.io.File
-import org.openapitools.client.core.ApiModel
 
 case class InlineObject1(
   /* Additional data to pass to server */
   additionalMetadata: Option[String] = None,
   /* file to upload */
   file: Option[File] = None
-) extends ApiModel
+)
 
 

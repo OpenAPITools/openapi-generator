@@ -170,9 +170,16 @@ class FormatTestTest extends TestCase
     }
 
     /**
-     * Test attribute "big_decimal"
+     * Test attribute "pattern_with_digits"
      */
-    public function testPropertyBigDecimal()
+    public function testPropertyPatternWithDigits()
+    {
+    }
+
+    /**
+     * Test attribute "pattern_with_digits_and_delimiter"
+     */
+    public function testPropertyPatternWithDigitsAndDelimiter()
     {
     }
 }

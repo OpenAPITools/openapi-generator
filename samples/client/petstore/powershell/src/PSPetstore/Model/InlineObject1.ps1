@@ -16,10 +16,8 @@ No description available.
 
 .PARAMETER AdditionalMetadata
 Additional data to pass to server
-
 .PARAMETER File
 file to upload
-
 .OUTPUTS
 
 InlineObject1<PSCustomObject>
@@ -40,10 +38,12 @@ function Initialize-PSInlineObject1 {
         'Creating PSCustomObject: PSPetstore => PSInlineObject1' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
+
         $PSO = [PSCustomObject]@{
             "additionalMetadata" = ${AdditionalMetadata}
             "file" = ${File}
         }
+
 
         return $PSO
     }

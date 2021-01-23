@@ -9,9 +9,9 @@
 .SYNOPSIS
     Gets the headers for HTTP signature.
 .DESCRIPTION
-    Gets the headers for the http sigature. 
+    Gets the headers for the http sigature.
 .PARAMETER Method
-    HTTP method
+   HTTP method
 .PARAMETER UriBuilder
     UriBuilder for url and query parameter
 .PARAMETER Body
@@ -50,49 +50,43 @@ function Get-PSHttpSignedHeader {
     $TargetHost = $UriBuilder.Host
     $httpSigningConfiguration = Get-PSConfigurationHttpSigning
     $Digest = $null
-    
+
     #get the body digest
     $bodyHash = Get-PSStringHash -String $Body -HashName $httpSigningConfiguration.HashAlgorithm
     if ($httpSigningConfiguration.HashAlgorithm -eq "SHA256") {
         $Digest = [String]::Format("SHA-256={0}", [Convert]::ToBase64String($bodyHash))
-    }
-    elseif ($httpSigningConfiguration.HashAlgorithm -eq "SHA512") {
+    } elseif ($httpSigningConfiguration.HashAlgorithm -eq "SHA512") {
         $Digest = [String]::Format("SHA-512={0}", [Convert]::ToBase64String($bodyHash))
     }
-    
+
     $dateTime = Get-Date
     #get the date in UTC
     $currentDate = $dateTime.ToUniversalTime().ToString("r")
 
     foreach ($headerItem in $httpSigningConfiguration.HttpSigningHeader) {
-       
-        if ($headerItem -eq $HEADER_REQUEST_TARGET) { 
+
+        if ($headerItem -eq $HEADER_REQUEST_TARGET) {
             $requestTargetPath = [string]::Format("{0} {1}{2}", $Method.ToLower(), $UriBuilder.Path, $UriBuilder.Query)
             $HttpSignatureHeader.Add($HEADER_REQUEST_TARGET, $requestTargetPath)
-        }
-        elseif ($headerItem -eq $HEADER_CREATED) {
+        } elseif ($headerItem -eq $HEADER_CREATED) {
             $created = Get-PSUnixTime -Date $dateTime -TotalTime TotalSeconds
             $HttpSignatureHeader.Add($HEADER_CREATED, $created)
-        }
-        elseif ($headerItem -eq $HEADER_EXPIRES) {
+        } elseif ($headerItem -eq $HEADER_EXPIRES) {
             $expire = $dateTime.AddSeconds($httpSigningConfiguration.SignatureValidityPeriod)
             $expireEpocTime = Get-PSUnixTime -Date $expire -TotalTime TotalSeconds
             $HttpSignatureHeader.Add($HEADER_EXPIRES, $expireEpocTime)
-        }
-        elseif ($headerItem -eq $HEADER_HOST) {
+        } elseif ($headerItem -eq $HEADER_HOST) {
             $HttpSignedRequestHeader[$HEADER_HOST] = $TargetHost
             $HttpSignatureHeader.Add($HEADER_HOST.ToLower(), $TargetHost)
-        }
-        elseif ($headerItem -eq $HEADER_DATE) {
+        } elseif ($headerItem -eq $HEADER_DATE) {
             $HttpSignedRequestHeader[$HEADER_DATE] = $currentDate
             $HttpSignatureHeader.Add($HEADER_DATE.ToLower(), $currentDate)
-        }
-        elseif ($headerItem -eq $HEADER_DIGEST) {
+        } elseif ($headerItem -eq $HEADER_DIGEST) {
             $HttpSignedRequestHeader[$HEADER_DIGEST] = $Digest
             $HttpSignatureHeader.Add($HEADER_DIGEST.ToLower(), $Digest)
-        }elseif($RequestHeader.ContainsKey($headerItem)){
+        } elseif($RequestHeader.ContainsKey($headerItem)) {
             $HttpSignatureHeader.Add($headerItem.ToLower(), $RequestHeader[$headerItem])
-        }else{
+        } else {
             throw "Cannot sign HTTP request. Request does not contain the $headerItem header."
         }
     }
@@ -105,7 +99,7 @@ function Get-PSHttpSignedHeader {
     }
     #Concatinate headers value separated by new line
     $headerValuesString = $headerValuesList -join "`n"
-    
+
     #Gets the hash of the headers value
     $signatureHashString = Get-PSStringHash -String $headerValuesString -HashName $httpSigningConfiguration.HashAlgorithm
 
@@ -118,8 +112,7 @@ function Get-PSHttpSignedHeader {
             -HashAlgorithmName $httpSigningConfiguration.HashAlgorithm `
             -KeyPassPhrase $httpSigningConfiguration.KeyPassPhrase `
             -SigningAlgorithm $httpSigningConfiguration.SigningAlgorithm
-    }
-    elseif ($KeyType -eq "EC") {
+    } elseif ($KeyType -eq "EC") {
         $headerSignatureStr = Get-PSECDSASignature -ECKeyFilePath $httpSigningConfiguration.KeyFilePath `
             -DataToSign $signatureHashString `
             -HashAlgorithmName $httpSigningConfiguration.HashAlgorithm `
@@ -140,10 +133,10 @@ function Get-PSHttpSignedHeader {
     if ($HttpSignatureHeader.ContainsKey($HEADER_EXPIRES)) {
         $authorizationHeaderValue += [string]::Format(",expires={0}", $HttpSignatureHeader[$HEADER_EXPIRES])
     }
-    
-    $authorizationHeaderValue += [string]::Format(",headers=""{0}"",signature=""{1}""", 
+
+    $authorizationHeaderValue += [string]::Format(",headers=""{0}"",signature=""{1}""",
         $headersKeysString , $headerSignatureStr)
-    
+
     $HttpSignedRequestHeader[$HEADER_AUTHORIZATION] = $authorizationHeaderValue
     return $HttpSignedRequestHeader
 }
@@ -153,7 +146,7 @@ function Get-PSHttpSignedHeader {
     Gets the RSA signature
 
 .DESCRIPTION
-    Gets the RSA signature for the http signing 
+    Gets the RSA signature for the http signing
 .PARAMETER PrivateKeyFilePath
     Specify the API key file path
 .PARAMETER DataToSign
@@ -174,11 +167,10 @@ function Get-PSRSASignature {
         [securestring]$KeyPassPhrase
     )
     try {
-        
+
         if ($hashAlgorithmName -eq "sha256") {
             $hashAlgo = [System.Security.Cryptography.HashAlgorithmName]::SHA256
-        }
-        elseif ($hashAlgorithmName -eq "sha512") {
+        } elseif ($hashAlgorithmName -eq "sha512") {
             $hashAlgo = [System.Security.Cryptography.HashAlgorithmName]::SHA512
         }
 
@@ -188,37 +180,32 @@ function Get-PSRSASignature {
             $keyStr = Get-Content -Path $PrivateKeyFilePath -Raw
             $ecKeyBase64String = $keyStr.Replace($ecKeyHeader, "").Replace($ecKeyFooter, "").Trim()
             $keyBytes = [System.Convert]::FromBase64String($ecKeyBase64String)
-            $rsa = [System.Security.Cryptography.RSACng]::new()
+            $rsa = [System.Security.Cryptography.RSA]::Create()
             [int]$bytCount = 0
             $rsa.ImportRSAPrivateKey($keyBytes, [ref] $bytCount)
 
             if ($SigningAlgorithm -eq "RSASSA-PSS") {
                 $signedBytes = $rsa.SignHash($DataToSign, $hashAlgo, [System.Security.Cryptography.RSASignaturePadding]::Pss)
-            }
-            else {
+            } else {
                 $signedBytes = $rsa.SignHash($DataToSign, $hashAlgo, [System.Security.Cryptography.RSASignaturePadding]::Pkcs1)
             }
-        }
-        else {
+        } else {
             $rsa_provider_path = Join-Path -Path $PSScriptRoot -ChildPath "PSRSAEncryptionProvider.cs"
             $rsa_provider_sourceCode = Get-Content -Path $rsa_provider_path -Raw
-            Add-Type -TypeDefinition $rsa_provider_sourceCode 
-    
+            Add-Type -TypeDefinition $rsa_provider_sourceCode
+
             [System.Security.Cryptography.RSA]$rsa = [RSAEncryption.RSAEncryptionProvider]::GetRSAProviderFromPemFile($PrivateKeyFilePath, $KeyPassPhrase)
-            
+
             if ($SigningAlgorithm -eq "RSASSA-PSS") {
                 throw "$SigningAlgorithm is not supported on $($PSVersionTable.PSVersion)"
-            }
-            else {
+            } else {
                 $signedBytes = $rsa.SignHash($DataToSign, $hashAlgo, [System.Security.Cryptography.RSASignaturePadding]::Pkcs1)
             }
-           
         }
 
         $signedString = [Convert]::ToBase64String($signedBytes)
         return $signedString
-    }
-    catch {
+    } catch {
         throw $_
     }
 }
@@ -228,7 +215,7 @@ function Get-PSRSASignature {
     Gets the ECDSA signature
 
 .DESCRIPTION
-    Gets the ECDSA signature for the http signing 
+    Gets the ECDSA signature for the http signing
 .PARAMETER PrivateKeyFilePath
     Specify the API key file path
 .PARAMETER DataToSign
@@ -255,8 +242,8 @@ function Get-PSECDSASignature {
         throw "key file path does not exist."
     }
 
-    if($PSVersionTable.PSVersion.Major -lt 7){
-        throw "ECDSA key is not supported on $($PSVersionTable.PSVersion), Use PSVersion 7.0 and above"
+    if ($PSVersionTable.PSVersion.Major -lt 7) {
+        throw "ECDSA key is not supported on PowerShell version $($PSVersionTable.PSVersion), Use PowerShell v7.0 and above"
     }
 
     $ecKeyHeader = "-----BEGIN EC PRIVATE KEY-----"
@@ -264,31 +251,20 @@ function Get-PSECDSASignature {
     $keyStr = Get-Content -Path $ECKeyFilePath -Raw
     $ecKeyBase64String = $keyStr.Replace($ecKeyHeader, "").Replace($ecKeyFooter, "").Trim()
     $keyBytes = [System.Convert]::FromBase64String($ecKeyBase64String)
+    $ecdsa = [System.Security.Cryptography.ECDsa]::Create()
 
-    #$cngKey = [System.Security.Cryptography.CngKey]::Import($keyBytes,[System.Security.Cryptography.CngKeyBlobFormat]::Pkcs8PrivateBlob)
-    #$ecdsa = [System.Security.Cryptography.ECDsaCng]::New($cngKey)
-    $ecdsa = [System.Security.Cryptography.ECDsaCng]::New()
     [int]$bytCount =0
-    if(![string]::IsNullOrEmpty($KeyPassPhrase)){
+    if (![string]::IsNullOrEmpty($KeyPassPhrase)) {
         $ecdsa.ImportEncryptedPkcs8PrivateKey($KeyPassPhrase,$keyBytes,[ref]$bytCount)
-    }
-    else{
-    $ecdsa.ImportPkcs8PrivateKey($keyBytes,[ref]$bytCount)
-    }
-    
-    if ($HashAlgorithmName -eq "sha512") {
-        $ecdsa.HashAlgorithm = [System.Security.Cryptography.CngAlgorithm]::Sha512
-    }
-    else {
-        $ecdsa.HashAlgorithm = [System.Security.Cryptography.CngAlgorithm]::Sha256
+    } else {
+        $ecdsa.ImportPkcs8PrivateKey($keyBytes,[ref]$bytCount)
     }
 
     $signedBytes = $ecdsa.SignHash($DataToSign)
-    $signedString = [System.Convert]::ToBase64String($signedBytes)
+    $derBytes =  ConvertTo-ECDSAANS1Format -RawBytes $signedBytes
+    $signedString = [System.Convert]::ToBase64String($derBytes)
     return $signedString
-
 }
-
 
 <#
 .Synopsis
@@ -301,7 +277,7 @@ function Get-PSECDSASignature {
     Specifies the hash name to calculate the hash, Accepted values are "SHA1", "SHA256" and "SHA512"
     It is recommneded not to use "SHA1" to calculate the Hash
 .Outputs
-String 
+    String
 #>
 Function Get-PSStringHash {
     param(
@@ -311,9 +287,9 @@ Function Get-PSStringHash {
         [Parameter(Mandatory = $true)]
         [ValidateSet("SHA1", "SHA256", "SHA512")]
         $HashName
-    ) 
+    )
     $hashAlogrithm = [System.Security.Cryptography.HashAlgorithm]::Create($HashName)
-    $hashAlogrithm.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($String)) 
+    $hashAlogrithm.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($String))
 }
 
 <#
@@ -365,7 +341,6 @@ function Get-PSCryptographicScheme {
     return $SigningAlgorithm
 }
 
-
 <#
 .Synopsis
     Gets the key type from the pem file.
@@ -396,20 +371,66 @@ function Get-PSKeyTypeFromFile {
 
     if ($key[0] -match $rsaPrivateKeyHeader -and $key[$key.Length - 1] -match $rsaPrivateFooter) {
         $KeyType = "RSA"
-
-    }
-    elseif ($key[0] -match $ecPrivateKeyHeader -and $key[$key.Length - 1] -match $ecPrivateKeyFooter) {
+    } elseif ($key[0] -match $ecPrivateKeyHeader -and $key[$key.Length - 1] -match $ecPrivateKeyFooter) {
         $keyType = "EC"
-    }
-    elseif ($key[0] -match $ecPrivateKeyHeader -and $key[$key.Length - 1] -match $ecPrivateKeyFooter) {
+    } elseif ($key[0] -match $ecPrivateKeyHeader -and $key[$key.Length - 1] -match $ecPrivateKeyFooter) {
         <#this type of key can hold many type different types of private key, but here due lack of pem header
-    Considering this as EC key
-    #>
+        Considering this as EC key
+        #>
         #TODO :- update the key based on oid
         $keyType = "EC"
-    }
-    else {
+    } else {
         throw "Either the key is invalid or key is not supported"
     }
-    return $keyType   
+    return $keyType
+}
+
+
+<#
+.Synopsis
+    Converts sequence of R and S bytes to ANS1 format for ECDSASIgnature.
+.Description
+    Converts sequence of R and S bytes to ANS1 format for ECDSASIgnature.
+.Parameter RawBytes[]
+    Specifies the R and S bytes of ECDSA signature.
+.Outputs
+    Byte[]
+#>
+function ConvertTo-ECDSAANS1Format{
+    Param(
+        [Parameter(Mandatory = $true)]
+        [byte[]]$RawBytes
+    )
+
+    $derLength = 68 #default lenght for ECDSA code signinged bit 0x44
+    $rbytesLength = 32 #R length 0x20 
+    $sbytesLength = 32 #S length 0x20
+    [byte[]]$rBytes = $signedBytes[0..31]
+    [byte[]]$sBytes = $signedBytes[32..63]
+
+    if($rBytes[0] -gt 0x7F){
+        $derLength++
+        $rbytesLength++
+        $rBytes = [byte[]]@(0x00) + $rBytes
+    }
+
+    if($sBytes[0] -gt 0x7F){
+        $derLength++
+        $sbytesLength++
+        $sBytes = [byte[]]@(0x00) + $sBytes
+    }
+
+    [byte[]]$derBytes = @()
+
+    $derBytes += 48  # start of the sequence 0x30
+    $derBytes += $derLength  # total length r lenth, type and r bytes
+    
+    $derBytes += 2 # tag for integer
+    $derBytes += $rbytesLength # length of r
+    $derBytes += $rBytes
+    
+    $derBytes += 2 #tag for integer
+    $derBytes += $sbytesLength #length of s
+    $derBytes += $sBytes
+    return $derBytes
 }

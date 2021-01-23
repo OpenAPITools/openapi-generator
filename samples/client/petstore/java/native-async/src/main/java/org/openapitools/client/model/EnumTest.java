@@ -15,14 +15,19 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.OuterEnum;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * EnumTest
@@ -197,7 +202,6 @@ public class EnumTest {
 
 
   public EnumTest enumString(EnumStringEnum enumString) {
-    
     this.enumString = enumString;
     return this;
   }
@@ -222,7 +226,6 @@ public class EnumTest {
 
 
   public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
-    
     this.enumStringRequired = enumStringRequired;
     return this;
   }
@@ -246,7 +249,6 @@ public class EnumTest {
 
 
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
-    
     this.enumInteger = enumInteger;
     return this;
   }
@@ -271,7 +273,6 @@ public class EnumTest {
 
 
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
-    
     this.enumNumber = enumNumber;
     return this;
   }
@@ -296,7 +297,6 @@ public class EnumTest {
 
 
   public EnumTest outerEnum(OuterEnum outerEnum) {
-    
     this.outerEnum = outerEnum;
     return this;
   }
@@ -320,8 +320,11 @@ public class EnumTest {
   }
 
 
+  /**
+   * Return true if this Enum_Test object is equal to o.
+   */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -341,7 +344,6 @@ public class EnumTest {
     return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -359,7 +361,7 @@ public class EnumTest {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

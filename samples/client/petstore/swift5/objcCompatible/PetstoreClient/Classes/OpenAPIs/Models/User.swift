@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-
-@objc public class User: NSObject, Codable { 
+@objc public class User: NSObject, Codable {
 
     public var _id: Int64?
     public var _idNum: NSNumber? {
@@ -31,7 +29,7 @@ import Foundation
         }
     }
 
-    public init(_id: Int64?, username: String?, firstName: String?, lastName: String?, email: String?, password: String?, phone: String?, userStatus: Int?) {
+    public init(_id: Int64? = nil, username: String? = nil, firstName: String? = nil, lastName: String? = nil, email: String? = nil, password: String? = nil, phone: String? = nil, userStatus: Int? = nil) {
         self._id = _id
         self.username = username
         self.firstName = firstName
@@ -42,7 +40,7 @@ import Foundation
         self.userStatus = userStatus
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable { 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case _id = "id"
         case username
         case firstName

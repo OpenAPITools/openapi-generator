@@ -73,12 +73,22 @@ class FakeApiTest extends TestCase
     }
 
     /**
-     * Test case for createXmlItem
+     * Test case for fakeHealthGet
      *
-     * creates an XmlItem.
+     * Health check endpoint.
      *
      */
-    public function testCreateXmlItem()
+    public function testFakeHealthGet()
+    {
+    }
+
+    /**
+     * Test case for fakeHttpSignatureTest
+     *
+     * test http signature authentication.
+     *
+     */
+    public function testFakeHttpSignatureTest()
     {
     }
 
@@ -155,7 +165,7 @@ class FakeApiTest extends TestCase
     /**
      * Test case for testEndpointParameters
      *
-     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트.
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트.
      *
      */
     public function testTestEndpointParameters()

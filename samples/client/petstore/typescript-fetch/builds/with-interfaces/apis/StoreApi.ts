@@ -117,7 +117,7 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
             throw new runtime.RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling deleteOrder.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -144,7 +144,7 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
      * Returns pet inventories by status
      */
     async getInventoryRaw(): Promise<runtime.ApiResponse<{ [key: string]: number; }>> {
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -180,7 +180,7 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
             throw new runtime.RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling getOrderById.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -211,7 +211,7 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling placeOrder.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 

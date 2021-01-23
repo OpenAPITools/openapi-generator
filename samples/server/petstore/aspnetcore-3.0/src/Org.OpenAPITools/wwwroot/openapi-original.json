@@ -1008,5 +1008,6 @@
         "type" : "apiKey"
       }
     }
-  }
+  },
+  "x-original-swagger-version" : "2.0"
 }

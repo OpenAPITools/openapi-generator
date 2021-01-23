@@ -286,7 +286,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
             // MultipartRequestPost - POST /multipart_request
             &hyper::Method::POST if path.matched(paths::ID_MULTIPART_REQUEST) => {
-                let boundary = match swagger::multipart::boundary(&headers) {
+                let boundary = match swagger::multipart::form::boundary(&headers) {
                     Some(boundary) => boundary.to_string(),
                     None => return Ok(Response::builder()
                                 .status(StatusCode::BAD_REQUEST)

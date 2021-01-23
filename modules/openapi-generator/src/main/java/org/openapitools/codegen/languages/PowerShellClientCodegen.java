@@ -54,6 +54,13 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     protected Map<String, String> commonVerbs; // verbs not in the official ps verb list but can be mapped to one of the verbs
     protected HashSet methodNames; // store a list of method names to detect duplicates
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    protected boolean discardReadOnly = false; // Discard the readonly property in initialize cmdlet
+    protected boolean skipVerbParsing = false; // Attempt to parse cmdlets from operation names
+    protected String projectUri;
+    protected String licenseUri;
+    protected String releaseNotes;
+    protected String tags;
+    protected String iconUri; 
 
     /**
      * Constructs an instance of `PowerShellClientCodegen`.
@@ -499,6 +506,32 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption(CodegenConstants.API_NAME_PREFIX, "Prefix that will be appended to all PS objects. Default: empty string. e.g. Pet => PSPet."));
         cliOptions.add(new CliOption("commonVerbs", "PS common verb mappings. e.g. Delete=Remove:Patch=Update to map Delete with Remove and Patch with Update accordingly."));
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC));
+        cliOptions.add(new CliOption("discardReadOnly", "Set discardReadonly to true to generate the Initialize cmdlet without readonly parameters"));
+        cliOptions.add(new CliOption("tags","Tags applied to the generated PowerShell module. These help with module discovery in online galleries"));
+        cliOptions.add(new CliOption("projectUri","A URL to the main website for this project"));
+        cliOptions.add(new CliOption("licenseUri","A URL to the license for the generated PowerShell module"));
+        cliOptions.add(new CliOption("iconUri","A URL to an icon representing the generated PowerShell module"));
+        cliOptions.add(new CliOption("releaseNotes","Release notes of the generated PowerShell module"));
+        cliOptions.add(new CliOption("skipVerbParsing", "Set skipVerbParsing to not try get powershell verbs of operation names"));
+
+        // option to change how we process + set the data in the 'additionalProperties' keyword.
+        CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.TRUE.toString());
+        Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
+        disallowAdditionalPropertiesIfNotPresentOpts.put("false",
+                "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
+        disallowAdditionalPropertiesIfNotPresentOpts.put("true",
+                "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.");
+        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
+        cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
+        this.setDisallowAdditionalPropertiesIfNotPresent(true);
+
+        // default value in the template
+        additionalProperties.put("powershellVersion", "6.2"); // minimal PS version
+        additionalProperties.put("author", "OpenAPI Generator Team");
+        additionalProperties.put("companyName", "openapitools.org");
+        additionalProperties.put("psData", null);
     }
 
     public CodegenType getTag() {
@@ -543,6 +576,36 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         return this.useOneOfDiscriminatorLookup;
     }
 
+    public void setDiscardReadOnly(boolean discardReadOnly) {
+        this.discardReadOnly = discardReadOnly;
+    }
+
+    public boolean getDiscardReadOnly() {
+        return this.discardReadOnly;
+    }
+
+    public void setTags(String tags){
+         this.tags = tags;
+    }
+
+    public void setLicenseUri(String licenseUri){
+        this.licenseUri = licenseUri;
+   }
+
+   public void setProjectUri(String projectUri){
+    this.projectUri = projectUri;
+   }
+
+   public void setReleaseNotes(String releaseNotes){
+       this.releaseNotes = releaseNotes;
+   }
+
+   public void setIconUri(String iconUri){
+       this.iconUri = iconUri;
+   }
+
+   public void setSkipVerbParsing(boolean skipVerbParsing) { this.skipVerbParsing = skipVerbParsing; };
+
     @Override
     public void processOpts() {
         this.setLegacyDiscriminatorBehavior(false);
@@ -563,6 +626,56 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             setUseOneOfDiscriminatorLookup(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
         } else {
             additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
+        }
+
+        if (additionalProperties.containsKey("discardReadOnly")) {
+            setDiscardReadOnly(convertPropertyToBooleanAndWriteBack("discardReadOnly"));
+        } else {
+            additionalProperties.put("discardReadOnly", discardReadOnly);
+        }
+
+        if (additionalProperties.containsKey("skipVerbParsing")) {
+            setSkipVerbParsing(convertPropertyToBoolean("skipVerbParsing"));
+        } else {
+            additionalProperties.put("skipVerbParsing", skipVerbParsing);
+        }
+        
+        if (additionalProperties.containsKey("tags")) {
+            String[] entries = ((String) additionalProperties.get("tags")).split(",");
+            String prefix = "";
+            StringBuilder tagStr =  new StringBuilder("@(");
+            for (String entry : entries) {
+                tagStr.append(prefix);
+                prefix = ",";
+                tagStr.append(String.format(Locale.ROOT, "'%s' ",entry));
+            }
+            tagStr.append(")");
+            setTags(tagStr.toString());
+            additionalProperties.put("tags",tagStr.toString());
+        }
+
+        if (additionalProperties.containsKey("releaseNotes")) {
+            setReleaseNotes((String) additionalProperties.get("releaseNotes"));
+        } else {
+            additionalProperties.put("releaseNotes", releaseNote);
+        }
+
+        if (additionalProperties.containsKey("licenseUri")) {
+            setLicenseUri((String) additionalProperties.get("licenseUri"));
+        } else {
+            additionalProperties.put("licenseUri", licenseUri);
+        }
+
+        if (additionalProperties.containsKey("projectUri")) {
+            setProjectUri((String) additionalProperties.get("projectUri"));
+        } else {
+            additionalProperties.put("projectUri", tags);
+        }
+
+        if (additionalProperties.containsKey("iconUri")) {
+            setIconUri((String) additionalProperties.get("iconUri"));
+        } else {
+            additionalProperties.put("iconUri", iconUri);
         }
 
         if (StringUtils.isNotBlank(powershellGalleryUrl)) {
@@ -608,6 +721,11 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
         if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
             LOGGER.warn(CodegenConstants.API_PACKAGE + " with " + this.getName() + " generator is ignored. Setting this value independently of " + CodegenConstants.PACKAGE_NAME + " is not currently supported.");
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
+            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
 
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
@@ -659,7 +777,6 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                         StringEscapeUtils.escapeJava(input)
                                 .replace("\\/", "/"))
                         .replaceAll("[\\t\\n\\r]", " ")
-                        .replace("\\", "\\\\")
                         .replace("\"", "\"\""));
 
     }
@@ -905,9 +1022,19 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         for (Object _mo : models) {
             Map<String, Object> _model = (Map<String, Object>) _mo;
             CodegenModel model = (CodegenModel) _model.get("model");
+            CodegenProperty lastWritableProperty = null;
 
             for (CodegenProperty cp : model.allVars) {
                 cp.vendorExtensions.put("x-powershell-data-type", getPSDataType(cp));
+                if (this.discardReadOnly && !cp.isReadOnly) {
+                    lastWritableProperty = cp;
+                }
+            }
+
+            // Mark the last readonly false property
+            if (this.discardReadOnly && lastWritableProperty != null) {
+                lastWritableProperty.vendorExtensions.put("x-powershell-last-writable", true);
+                model.allVars.set(model.allVars.indexOf(lastWritableProperty), lastWritableProperty);
             }
 
             // if oneOf contains "null" type
@@ -920,11 +1047,6 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             if (model.anyOf != null && !model.anyOf.isEmpty() && model.anyOf.contains("ModelNull")) {
                 model.isNullable = true;
                 model.anyOf.remove("ModelNull");
-            }
-
-            // add vendor extension for additonalProperties: true
-            if ("null<String, SystemCollectionsHashtable>".equals(model.parent)) {
-                model.vendorExtensions.put("x-additional-properties", true);
             }
         }
 
@@ -950,9 +1072,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
-        if (codegenParameter.isListContainer) { // array
+        if (codegenParameter.isArray) { // array
             return "@(" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + ")";
-        } else if (codegenParameter.isMapContainer) { // TODO: map, file type
+        } else if (codegenParameter.isMap) { // TODO: map, file type
             return "@{ \"Key\" = \"Value\" }";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType) ||
                 nullablePrimitives.contains(codegenParameter.dataType)) { // primitive type
@@ -960,7 +1082,12 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 if (StringUtils.isEmpty(codegenParameter.example)) {
                     return "\"" + codegenParameter.example + "\"";
                 } else {
-                    return "\"" + codegenParameter.paramName + "_example\"";
+                    if (Boolean.TRUE.equals(codegenParameter.isEnum)) { // enum
+                        List<Object> enumValues = (List<Object>) codegenParameter.allowableValues.get("values");
+                        return "\"" + String.valueOf(enumValues.get(0)) + "\"";
+                    } else {
+                        return "\"" + codegenParameter.paramName + "_example\"";
+                    }
                 }
             } else if ("Boolean".equals(codegenParameter.dataType) ||
                     "System.Nullable[Boolean]".equals(codegenParameter.dataType)) { // boolean
@@ -992,9 +1119,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
-        if (codegenProperty.isListContainer) { // array
+        if (codegenProperty.isArray) { // array
             return "@(" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + ")";
-        } else if (codegenProperty.isMapContainer) { // map
+        } else if (codegenProperty.isMap) { // map
             return "\"TODO\"";
         } else if (languageSpecificPrimitives.contains(codegenProperty.dataType) || // primitive type
                 nullablePrimitives.contains(codegenProperty.dataType)) { // nullable primitive type
@@ -1002,7 +1129,12 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 if (StringUtils.isEmpty(codegenProperty.example)) {
                     return "\"" + codegenProperty.example + "\"";
                 } else {
-                    return "\"" + codegenProperty.name + "_example\"";
+                    if (Boolean.TRUE.equals(codegenProperty.isEnum)) { // enum
+                        List<Object> enumValues = (List<Object>) codegenProperty.allowableValues.get("values");
+                        return "\"" + String.valueOf(enumValues.get(0)) + "\"";
+                    } else {
+                        return "\"" + codegenProperty.name + "_example\"";
+                    }
                 }
             } else if ("Boolean".equals(codegenProperty.dataType) ||
                     "System.Nullable[Boolean]".equals(codegenProperty.dataType)) { // boolean
@@ -1051,7 +1183,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             processedModelMap.put(model, 1);
         }
 
-        example = "(Initialize-" + codegenModel.name;
+        example = "(Initialize-" + codegenModel.name + " ";
         List<String> propertyExamples = new ArrayList<>();
         for (CodegenProperty codegenProperty : codegenModel.allVars) {
             propertyExamples.add("-" + codegenProperty.name + " " + constructExampleCode(codegenProperty, modelMaps, processedModelMap));
@@ -1070,9 +1202,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 dataType = "System.Nullable[" + dataType + "]";
             }
             return dataType;
-        } else if (cp.isListContainer) { // array
+        } else if (cp.isArray) { // array
             return getPSDataType(cp.items) + "[]";
-        } else if (cp.isMapContainer) { // map
+        } else if (cp.isMap) { // map
             return "System.Collections.Hashtable";
         } else { // model
             return "PSCustomObject";
@@ -1088,9 +1220,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 dataType = "System.Nullable[" + dataType + "]";
             }
             return dataType;
-        } else if (cp.isListContainer) { // array
+        } else if (cp.isArray) { // array
             return getPSDataType(cp.items) + "[]";
-        } else if (cp.isMapContainer) { // map
+        } else if (cp.isMap) { // map
             return "System.Collections.Hashtable";
         } else { // model
             return "PSCustomObject";
@@ -1100,20 +1232,22 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     private String toMethodName(String operationId) {
         String methodName = camelize(operationId);
 
-        // check if method name starts with powershell verbs
-        for (String verb : (HashSet<String>) powershellVerbs) {
-            if (methodName.startsWith(verb)) {
-                methodName = verb + "-" + apiNamePrefix + methodName.substring(verb.length());
-                LOGGER.info("Naming the method using the PowerShell verb: {} => {}", operationId, methodName);
-                return methodName;
+        if (!skipVerbParsing) {
+            // check if method name starts with powershell verbs
+            for (String verb : (HashSet<String>) powershellVerbs) {
+                if (methodName.startsWith(verb)) {
+                    methodName = verb + "-" + apiNamePrefix + methodName.substring(verb.length());
+                    LOGGER.info("Naming the method using the PowerShell verb: {} => {}", operationId, methodName);
+                    return methodName;
+                }
             }
-        }
 
-        for (Map.Entry<String, String> entry : commonVerbs.entrySet()) {
-            if (methodName.startsWith(entry.getKey())) {
-                methodName = entry.getValue() + "-" + apiNamePrefix + methodName.substring(entry.getKey().length());
-                LOGGER.info("Naming the method by mapping the common verbs (e.g. Create, Change) to PS verbs: {} => {}", operationId, methodName);
-                return methodName;
+            for (Map.Entry<String, String> entry : commonVerbs.entrySet()) {
+                if (methodName.startsWith(entry.getKey())) {
+                    methodName = entry.getValue() + "-" + apiNamePrefix + methodName.substring(entry.getKey().length());
+                    LOGGER.info("Naming the method by mapping the common verbs (e.g. Create, Change) to PS verbs: {} => {}", operationId, methodName);
+                    return methodName;
+                }
             }
         }
 
@@ -1152,6 +1286,31 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String toRegularExpression(String pattern) {
         return escapeText(pattern);
+    }
+
+    @Override
+    public String toDefaultValue(Schema p) {
+        if (p.getDefault() != null) {
+            if (ModelUtils.isBooleanSchema(p)) {
+                if (Boolean.valueOf(p.getDefault().toString())) {
+                    return "$true";
+                } else {
+                    return "$false";
+                }
+            } else if (ModelUtils.isDateSchema(p)) {
+                LOGGER.warn("Default value for `date` not yet supported. Please open an issue with https://github.com/openapitools/openapi-generator");
+            } else if (ModelUtils.isDateTimeSchema(p)) {
+                LOGGER.warn("Default value for `datetime` not yet supported. Please open an issue with https://github.com/openapitools/openapi-generator");
+            } else if (ModelUtils.isNumberSchema(p)) {
+                return p.getDefault().toString();
+            } else if (ModelUtils.isIntegerSchema(p)) {
+                return p.getDefault().toString();
+            } else if (ModelUtils.isStringSchema(p)) {
+                return "\"" + p.getDefault() + "\"";
+            }
+        }
+
+        return null;
     }
 
 }

@@ -134,7 +134,7 @@ valid_content_headers(
         operation_id = '{{operationId}}'
     }
 ) ->
-    Headers = [{{#headerParams}}"{{baseName}}"{{#hasMore}},{{/hasMore}}{{/headerParams}}],
+    Headers = [{{#headerParams}}"{{baseName}}"{{^-last}},{{/-last}}{{/headerParams}}],
     {Result, Req} = validate_headers(Headers, Req0),
     {Result, Req, State};
 {{/operation}}{{/operations}}

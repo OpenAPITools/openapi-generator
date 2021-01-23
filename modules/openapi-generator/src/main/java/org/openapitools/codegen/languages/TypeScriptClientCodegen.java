@@ -51,13 +51,13 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     private static final String[] FRAMEWORKS = { "fetch-api", "jquery" };
     private static final String PLATFORM_SWITCH = "platform";
     private static final String PLATFORM_SWITCH_DESC = "Specifies the platform the code should run on. The default is 'node' for the 'request' framework and 'browser' otherwise.";
-    private static final String[] PLATFORMS = { "browser", "node" };
+    private static final String[] PLATFORMS = { "browser", "node", "deno" };
     private static final String FILE_CONTENT_DATA_TYPE= "fileContentDataType";
-    private static final String FILE_CONTENT_DATA_TYPE_DESC = "Specifies the type to use for the content of a file - i.e. Blob (Browser) / Buffer (node)";
+    private static final String FILE_CONTENT_DATA_TYPE_DESC = "Specifies the type to use for the content of a file - i.e. Blob (Browser, Deno) / Buffer (node)";
     private static final String USE_RXJS_SWITCH = "useRxJS";
     private static final String USE_RXJS_SWITCH_DESC = "Enable this to internally use rxjs observables. If disabled, a stub is used instead. This is required for the 'angular' framework.";
     private static final String USE_INVERSIFY_SWITCH = "useInversify";
-    private static final String USE_INVERSIFY_SWITCH_DESC = "Enable this to generate decorators and service identifiers for the InversifyJS inversion of control container.";
+    private static final String USE_INVERSIFY_SWITCH_DESC = "Enable this to generate decorators and service identifiers for the InversifyJS inversion of control container. If you set 'deno' as 'platform', the generator will process this value as 'disable'.";
 
     private static final String USE_OBJECT_PARAMS_SWITCH = "useObjectParameters";
     private static final String USE_OBJECT_PARAMS_DESC = "Use aggregate parameter objects as function arguments for api operations instead of passing each parameter as a separate function argument.";
@@ -187,10 +187,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         cliOptions.add(platformOption);
         
-        //Documentation
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
-        supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+        // Git
         supportingFiles.add(new SupportingFile(".gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         
@@ -298,7 +295,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         // Add additional filename information for model imports in the apis
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         for (Map<String, Object> im : imports) {
-            im.put("filename", ((String) im.get("import")).replace(".", File.separator));
+            im.put("filename", ((String) im.get("import")).replace(".", "/"));
             im.put("classname", getModelnameFromModelFilename(im.get("import").toString()));
         }
         
@@ -792,6 +789,16 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         additionalProperties.putIfAbsent(FILE_CONTENT_DATA_TYPE, propPlatform.equals("node") ? "Buffer" : "Blob");
 
+        if (!propPlatform.equals("deno")) {
+            supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+            supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
+            supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+        }
+
+        if (propPlatform.equals("deno")) {
+            additionalProperties.put("extensionForDeno", ".ts");
+        }
+
         final boolean useRxJS = convertPropertyToBooleanAndWriteBack(USE_RXJS_SWITCH);
         if (!useRxJS) {
             supportingFiles.add(new SupportingFile("rxjsStub.mustache", "rxjsStub.ts"));
@@ -832,10 +839,10 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         Schema inner;
         if (ModelUtils.isArraySchema(p)) {
             inner = ((ArraySchema) p).getItems();
-            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(inner) + ">";
+            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             inner = (Schema) p.getAdditionalProperties();
-            return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
+            return "{ [key: string]: " + this.getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
             return "HttpFile";
         } else if (ModelUtils.isBinarySchema(p)) {

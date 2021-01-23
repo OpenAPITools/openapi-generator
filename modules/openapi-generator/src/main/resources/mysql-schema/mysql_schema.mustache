@@ -11,7 +11,7 @@ CREATE DATABASE IF NOT EXISTS `{{{defaultDatabaseName}}}` DEFAULT CHARACTER SET 
 
 -- --------------------------------------------------------
 
-{{#models}}{{#model}}{{#hasVars}}{{^isArrayModel}}--
+{{#models}}{{#model}}{{#hasVars}}{{^isArray}}--
 -- Table structure{{#vendorExtensions}}{{#x-mysql-schema}}{{#tableDefinition}} for table `{{tblName}}`{{/tableDefinition}}{{/x-mysql-schema}}{{/vendorExtensions}} generated from model '{{classVarName}}'
 {{#description}}
 -- {{description}}
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS {{#defaultDatabaseName}}`{{{defaultDatabaseName}}}`.{
 {{/x-mysql-schema}}
 {{/vendorExtensions}}
 
-{{/isArrayModel}}{{/hasVars}}{{/model}}{{/models}}
+{{/isArray}}{{/hasVars}}{{/model}}{{/models}}
 {{#hasOAuthMethods}}
 --
 -- OAuth2 framework tables

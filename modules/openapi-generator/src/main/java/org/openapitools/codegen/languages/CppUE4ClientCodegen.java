@@ -335,7 +335,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     public String modelFilename(String templateName, String modelName) {
         String suffix = modelTemplateFiles().get(templateName);
         String folder = privateFolder;
-        if (suffix == ".h") {
+        if (".h".equals(suffix)) {
             folder = publicFolder;
         }
 

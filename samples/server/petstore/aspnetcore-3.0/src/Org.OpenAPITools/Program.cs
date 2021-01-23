@@ -14,7 +14,7 @@ namespace Org.OpenAPITools
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace Org.OpenAPITools
         /// </summary>
         /// <param name="args"></param>
         /// <returns>IHostBuilder</returns>
-        public static IHostBuilder CreateWebHostBuilder(string[] args) =>
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

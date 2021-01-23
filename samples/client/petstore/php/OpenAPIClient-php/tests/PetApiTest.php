@@ -5,8 +5,8 @@ namespace OpenAPI\Client;
 use OpenAPI\Client\Api\PetApi;
 use OpenAPI\Client\Model\ApiResponse;
 use OpenAPI\Client\Model\Pet;
-use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Assert;
 
 class PetApiTest extends TestCase
 {
@@ -122,7 +122,7 @@ class PetApiTest extends TestCase
 
         $this->assertSame(get_class($response[0]), Pet::class); // verify the object is Pet
         foreach ($response as $pet) {
-            $this->assertSame($pet['status'], 'available');
+            $this->assertSame($pet->getStatus(), 'available');
         }
 
         $response = $this->api->findPetsByStatus('unknown_and_incorrect_status');

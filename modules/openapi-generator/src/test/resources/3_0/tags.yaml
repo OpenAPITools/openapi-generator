@@ -6,6 +6,28 @@ info:
 servers:
   - url: 'http://api.company.xyz/v2'
 paths:
+  /:
+    get:
+      tags:
+        - tag0
+      operationId: op0
+      responses:
+        '200':
+          description: Ok
+  /{id}:
+    get:
+      tags:
+        - tag0
+      operationId: opId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Ok
   /group1/op1:
     get:
       tags:

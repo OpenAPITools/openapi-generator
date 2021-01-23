@@ -8,8 +8,6 @@
 import Foundation
 import RxSwift
 
-
-
 open class FakeAPI {
     /**
 
@@ -45,9 +43,15 @@ open class FakeAPI {
 
         let url = URLComponents(string: URLString)
 
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+
         let requestBuilder: RequestBuilder<Bool>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -84,9 +88,15 @@ open class FakeAPI {
 
         let url = URLComponents(string: URLString)
 
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+
         let requestBuilder: RequestBuilder<OuterComposite>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -123,9 +133,15 @@ open class FakeAPI {
 
         let url = URLComponents(string: URLString)
 
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+
         let requestBuilder: RequestBuilder<Double>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -162,9 +178,15 @@ open class FakeAPI {
 
         let url = URLComponents(string: URLString)
 
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+
         let requestBuilder: RequestBuilder<String>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -201,9 +223,15 @@ open class FakeAPI {
 
         let url = URLComponents(string: URLString)
 
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -241,12 +269,18 @@ open class FakeAPI {
 
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "query": query.encodeToJSON()
+            "query": query.encodeToJSON(),
         ])
+
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -285,9 +319,15 @@ open class FakeAPI {
 
         let url = URLComponents(string: URLString)
 
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+
         let requestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "PATCH", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "PATCH", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -351,7 +391,7 @@ open class FakeAPI {
     open class func testEndpointParametersWithRequestBuilder(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> RequestBuilder<Void> {
         let path = "/fake"
         let URLString = PetstoreClientAPI.basePath + path
-        let formParams: [String:Any?] = [
+        let formParams: [String: Any?] = [
             "integer": integer?.encodeToJSON(),
             "int32": int32?.encodeToJSON(),
             "int64": int64?.encodeToJSON(),
@@ -365,17 +405,23 @@ open class FakeAPI {
             "date": date?.encodeToJSON(),
             "dateTime": dateTime?.encodeToJSON(),
             "password": password?.encodeToJSON(),
-            "callback": callback?.encodeToJSON()
+            "callback": callback?.encodeToJSON(),
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
         let parameters = APIHelper.convertBoolToString(nonNullParameters)
-        
+
         let url = URLComponents(string: URLString)
+
+        let nillableHeaders: [String: Any?] = [
+            "Content-Type": "application/x-www-form-urlencoded",
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -491,30 +537,33 @@ open class FakeAPI {
     open class func testEnumParametersWithRequestBuilder(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> RequestBuilder<Void> {
         let path = "/fake"
         let URLString = PetstoreClientAPI.basePath + path
-        let formParams: [String:Any?] = [
+        let formParams: [String: Any?] = [
             "enum_form_string_array": enumFormStringArray?.encodeToJSON(),
-            "enum_form_string": enumFormString?.encodeToJSON()
+            "enum_form_string": enumFormString?.encodeToJSON(),
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
         let parameters = APIHelper.convertBoolToString(nonNullParameters)
-        
+
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "enum_query_string_array": enumQueryStringArray?.encodeToJSON(), 
-            "enum_query_string": enumQueryString?.encodeToJSON(), 
-            "enum_query_integer": enumQueryInteger?.encodeToJSON(), 
-            "enum_query_double": enumQueryDouble?.encodeToJSON()
+            "enum_query_string_array": enumQueryStringArray?.encodeToJSON(),
+            "enum_query_string": enumQueryString?.encodeToJSON(),
+            "enum_query_integer": enumQueryInteger?.encodeToJSON(),
+            "enum_query_double": enumQueryDouble?.encodeToJSON(),
         ])
+
         let nillableHeaders: [String: Any?] = [
+            "Content-Type": "application/x-www-form-urlencoded",
             "enum_header_string_array": enumHeaderStringArray?.encodeToJSON(),
-            "enum_header_string": enumHeaderString?.encodeToJSON()
+            "enum_header_string": enumHeaderString?.encodeToJSON(),
         ]
+
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false, headers: headerParameters)
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -559,24 +608,26 @@ open class FakeAPI {
     open class func testGroupParametersWithRequestBuilder(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> RequestBuilder<Void> {
         let path = "/fake"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "required_string_group": requiredStringGroup.encodeToJSON(), 
-            "required_int64_group": requiredInt64Group.encodeToJSON(), 
-            "string_group": stringGroup?.encodeToJSON(), 
-            "int64_group": int64Group?.encodeToJSON()
+            "required_string_group": requiredStringGroup.encodeToJSON(),
+            "required_int64_group": requiredInt64Group.encodeToJSON(),
+            "string_group": stringGroup?.encodeToJSON(),
+            "int64_group": int64Group?.encodeToJSON(),
         ])
+
         let nillableHeaders: [String: Any?] = [
             "required_boolean_group": requiredBooleanGroup.encodeToJSON(),
-            "boolean_group": booleanGroup?.encodeToJSON()
+            "boolean_group": booleanGroup?.encodeToJSON(),
         ]
+
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false, headers: headerParameters)
+        return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -586,7 +637,7 @@ open class FakeAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Void>
      */
-    open class func testInlineAdditionalProperties(param: [String:String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
+    open class func testInlineAdditionalProperties(param: [String: String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
             testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute(apiResponseQueue) { result -> Void in
                 switch result {
@@ -607,16 +658,22 @@ open class FakeAPI {
      - parameter param: (body) request body 
      - returns: RequestBuilder<Void> 
      */
-    open class func testInlineAdditionalPropertiesWithRequestBuilder(param: [String:String]) -> RequestBuilder<Void> {
+    open class func testInlineAdditionalPropertiesWithRequestBuilder(param: [String: String]) -> RequestBuilder<Void> {
         let path = "/fake/inline-additionalProperties"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: param)
 
         let url = URLComponents(string: URLString)
 
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -652,19 +709,25 @@ open class FakeAPI {
     open class func testJsonFormDataWithRequestBuilder(param: String, param2: String) -> RequestBuilder<Void> {
         let path = "/fake/jsonFormData"
         let URLString = PetstoreClientAPI.basePath + path
-        let formParams: [String:Any?] = [
+        let formParams: [String: Any?] = [
             "param": param.encodeToJSON(),
-            "param2": param2.encodeToJSON()
+            "param2": param2.encodeToJSON(),
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
         let parameters = APIHelper.convertBoolToString(nonNullParameters)
-        
+
         let url = URLComponents(string: URLString)
+
+        let nillableHeaders: [String: Any?] = [
+            "Content-Type": "application/x-www-form-urlencoded",
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
 }

@@ -14,20 +14,16 @@ package org.openapitools.client.api
 import org.openapitools.client.model.ApiResponse
 import java.io.File
 import org.openapitools.client.model.Pet
-import org.openapitools.client.core._
-import alias._
+import org.openapitools.client.core.JsonSupport._
 import sttp.client._
 import sttp.model.Method
 
 object PetApi {
 
-  def apply(baseUrl: String = "http://petstore.swagger.io/v2")(implicit serializer: SttpSerializer) = new PetApi(baseUrl)
+def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new PetApi(baseUrl)
 }
 
-class PetApi(baseUrl: String)(implicit serializer: SttpSerializer) {
-
-  import Helpers._
-  import serializer._
+class PetApi(baseUrl: String) {
 
   /**
    * Expected answers:
@@ -36,7 +32,8 @@ class PetApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param pet Pet object that needs to be added to the store
    */
-  def addPet(pet: Pet): ApiRequestT[Pet] =
+  def addPet(pet: Pet
+): Request[Either[ResponseError[Exception], Pet], Nothing] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/pet")
       .contentType("application/json")
@@ -50,7 +47,8 @@ class PetApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * @param petId Pet id to delete
    * @param apiKey 
    */
-  def deletePet(petId: Long, apiKey: Option[String] = None): ApiRequestT[Unit] =
+  def deletePet(petId: Long, apiKey: Option[String] = None
+): Request[Either[ResponseError[Exception], Unit], Nothing] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
@@ -66,9 +64,10 @@ class PetApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param status Status values that need to be considered for filter
    */
-  def findPetsByStatus(status: Seq[String]): ApiRequestT[Seq[Pet]] =
+  def findPetsByStatus(status: Seq[String]
+): Request[Either[ResponseError[Exception], Seq[Pet]], Nothing] =
     basicRequest
-      .method(Method.GET, uri"$baseUrl/pet/findByStatus?status=$status")
+      .method(Method.GET, uri"$baseUrl/pet/findByStatus?status=${ status }")
       .contentType("application/json")
       .response(asJson[Seq[Pet]])
 
@@ -81,9 +80,10 @@ class PetApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param tags Tags to filter by
    */
-  def findPetsByTags(tags: Seq[String]): ApiRequestT[Seq[Pet]] =
+  def findPetsByTags(tags: Seq[String]
+): Request[Either[ResponseError[Exception], Seq[Pet]], Nothing] =
     basicRequest
-      .method(Method.GET, uri"$baseUrl/pet/findByTags?tags=$tags")
+      .method(Method.GET, uri"$baseUrl/pet/findByTags?tags=${ tags }")
       .contentType("application/json")
       .response(asJson[Seq[Pet]])
 
@@ -100,11 +100,12 @@ class PetApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param petId ID of pet to return
    */
-  def getPetById(petId: Long)(implicit apiKey: ApiKeyValue): ApiRequestT[Pet] =
+  def getPetById(apiKey: String)(petId: Long
+): Request[Either[ResponseError[Exception], Pet], Nothing] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
-      .header("api_key", apiKey.value)
+      .header("api_key", apiKey)
       .response(asJson[Pet])
 
   /**
@@ -116,7 +117,8 @@ class PetApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param pet Pet object that needs to be added to the store
    */
-  def updatePet(pet: Pet): ApiRequestT[Pet] =
+  def updatePet(pet: Pet
+): Request[Either[ResponseError[Exception], Pet], Nothing] =
     basicRequest
       .method(Method.PUT, uri"$baseUrl/pet")
       .contentType("application/json")
@@ -131,13 +133,14 @@ class PetApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * @param name Updated name of the pet
    * @param status Updated status of the pet
    */
-  def updatePetWithForm(petId: Long, name: Option[String] = None, status: Option[String] = None): ApiRequestT[Unit] =
+  def updatePetWithForm(petId: Long, name: Option[String] = None, status: Option[String] = None
+): Request[Either[ResponseError[Exception], Unit], Nothing] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/pet/${petId}")
       .contentType("application/x-www-form-urlencoded")
       .body(Map(
-        "name" -> name,
-        "status" -> status,
+        "name" -> name, 
+        "status" -> status
       ))
       .response(asJson[Unit])
 
@@ -149,15 +152,17 @@ class PetApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * @param additionalMetadata Additional data to pass to server
    * @param file file to upload
    */
-  def uploadFile(petId: Long, additionalMetadata: Option[String] = None, file: Option[File] = None): ApiRequestT[ApiResponse] =
+  def uploadFile(petId: Long, additionalMetadata: Option[String] = None, file: Option[File] = None
+): Request[Either[ResponseError[Exception], ApiResponse], Nothing] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/pet/${petId}/uploadImage")
       .contentType("multipart/form-data")
-      .body(Map(
-        "additionalMetadata" -> additionalMetadata,
-        "file" -> file,
-      ))
+      .multipartBody(Seq(
+                additionalMetadata.map(multipart("additionalMetadata", _))
+, 
+                file.map(multipartFile("file", _))
+
+      ).flatten)
       .response(asJson[ApiResponse])
 
 }
-

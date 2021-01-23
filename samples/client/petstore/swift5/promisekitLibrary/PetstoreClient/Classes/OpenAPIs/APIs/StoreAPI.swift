@@ -8,8 +8,6 @@
 import Foundation
 import PromiseKit
 
-
-
 open class StoreAPI {
     /**
      Delete purchase order by ID
@@ -44,23 +42,29 @@ open class StoreAPI {
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
+
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
      Returns pet inventories by status
      
      - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - returns: Promise<[String:Int]>
+     - returns: Promise<[String: Int]>
      */
-    open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<[String:Int]> {
-        let deferred = Promise<[String:Int]>.pending()
+    open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<[String: Int]> {
+        let deferred = Promise<[String: Int]>.pending()
         getInventoryWithRequestBuilder().execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
@@ -79,18 +83,24 @@ open class StoreAPI {
      - API Key:
        - type: apiKey api_key 
        - name: api_key
-     - returns: RequestBuilder<[String:Int]> 
+     - returns: RequestBuilder<[String: Int]> 
      */
-    open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String:Int]> {
+    open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String: Int]> {
         let path = "/store/inventory"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
 
-        let requestBuilder: RequestBuilder<[String:Int]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        let requestBuilder: RequestBuilder<[String: Int]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -126,13 +136,19 @@ open class StoreAPI {
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
+
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
         let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -168,9 +184,15 @@ open class StoreAPI {
 
         let url = URLComponents(string: URLString)
 
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+
         let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
 }

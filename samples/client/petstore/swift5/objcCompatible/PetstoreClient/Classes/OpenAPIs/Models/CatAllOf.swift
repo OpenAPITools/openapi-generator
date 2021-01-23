@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-
-@objc public class CatAllOf: NSObject, Codable { 
+@objc public class CatAllOf: NSObject, Codable {
 
     public var declawed: Bool?
     public var declawedNum: NSNumber? {
@@ -18,7 +16,7 @@ import Foundation
         }
     }
 
-    public init(declawed: Bool?) {
+    public init(declawed: Bool? = nil) {
         self.declawed = declawed
     }
 

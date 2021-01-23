@@ -20,7 +20,7 @@ import { Observable }                                        from 'rxjs';
 import { Order } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { Configuration }                                     from '../configuration';
+import { PetStoreConfiguration }                                     from '../configuration';
 
 
 
@@ -31,10 +31,10 @@ export class StoreService {
 
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders = new HttpHeaders();
-    public configuration = new Configuration();
+    public configuration = new PetStoreConfiguration();
     public encoder: HttpParameterCodec;
 
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: PetStoreConfiguration) {
         if (configuration) {
             this.configuration = configuration;
         }
@@ -142,12 +142,11 @@ export class StoreService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (api_key) required
-        if (this.configuration.apiKeys) {
-            const key: string | undefined = this.configuration.apiKeys["api_key"] || this.configuration.apiKeys["api_key"];
-            if (key) {
-                headers = headers.set('api_key', key);
-            }
+        credential = this.configuration.lookupCredential('api_key');
+        if (credential) {
+            headers = headers.set('api_key', credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;

@@ -3,18 +3,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **Int64** |  | [optional] [default to null]
-**PetId** | **Int64** |  | [optional] [default to null]
-**Quantity** | **Int32** |  | [optional] [default to null]
-**ShipDate** | **System.DateTime** |  | [optional] [default to null]
-**Status** | **String** | Order Status | [optional] [default to null]
-**Complete** | **Boolean** |  | [optional] [default to false]
+**Id** | **Int64** |  | [optional] 
+**PetId** | **Int64** |  | [optional] 
+**Quantity** | **Int32** |  | [optional] 
+**ShipDate** | **System.DateTime** |  | [optional] 
+**Status** | **String** | Order Status | [optional] 
+**Complete** | **Boolean** |  | [optional] [default to $false]
 
 ## Examples
 
 - Prepare the resource
 ```powershell
-Initialize-PSPetstoreOrder  -Id null `
+$Order = Initialize-PSPetstoreOrder  -Id null `
  -PetId null `
  -Quantity null `
  -ShipDate null `
@@ -24,7 +24,7 @@ Initialize-PSPetstoreOrder  -Id null `
 
 - Convert the resource to JSON
 ```powershell
-$ | Convert-ToJSON
+$Order | ConvertTo-JSON
 ```
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

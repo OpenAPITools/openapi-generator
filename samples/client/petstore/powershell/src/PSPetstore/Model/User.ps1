@@ -16,28 +16,20 @@ A User who is purchasing from the pet store
 
 .PARAMETER Id
 No description available.
-
 .PARAMETER Username
 No description available.
-
 .PARAMETER FirstName
 No description available.
-
 .PARAMETER LastName
 No description available.
-
 .PARAMETER Email
 No description available.
-
 .PARAMETER Password
 No description available.
-
 .PARAMETER Phone
 No description available.
-
 .PARAMETER UserStatus
 User Status
-
 .OUTPUTS
 
 User<PSCustomObject>
@@ -77,6 +69,7 @@ function Initialize-PSUser {
         'Creating PSCustomObject: PSPetstore => PSUser' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
+
         $PSO = [PSCustomObject]@{
             "id" = ${Id}
             "username" = ${Username}
@@ -87,6 +80,7 @@ function Initialize-PSUser {
             "phone" = ${Phone}
             "userStatus" = ${UserStatus}
         }
+
 
         return $PSO
     }

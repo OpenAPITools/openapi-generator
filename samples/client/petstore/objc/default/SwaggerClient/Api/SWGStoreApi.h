@@ -64,13 +64,13 @@ extern NSInteger kSWGStoreApiMissingParamErrorCode;
 /// Place an order for a pet
 /// 
 ///
-/// @param body order placed for purchasing the pet (optional)
+/// @param order order placed for purchasing the pet (optional)
 /// 
 ///  code:200 message:"successful operation",
 ///  code:400 message:"Invalid Order"
 ///
 /// @return SWGOrder*
--(NSURLSessionTask*) placeOrderWithBody: (SWGOrder*) body
+-(NSURLSessionTask*) placeOrderWithOrder: (SWGOrder*) order
     completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler;
 
 

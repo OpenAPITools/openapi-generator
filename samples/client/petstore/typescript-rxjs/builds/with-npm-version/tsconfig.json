@@ -8,7 +8,8 @@
     "rootDir": ".",
     "lib": [
       "es6",
-      "dom"
+      "dom",
+      "es2017"
     ],
     "typeRoots": [
       "node_modules/@types"

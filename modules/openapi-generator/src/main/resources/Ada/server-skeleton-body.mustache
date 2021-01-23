@@ -65,8 +65,8 @@ package body {{package}}.Skeletons is
          Deserialize (Input, "{{baseName}}", {{paramName}});{{/isLong}}{{/isFile}}{{/vendorExtensions.x-is-model-type}}{{/bodyParams}}
          {{/hasBodyParam}}
          Impl.{{operationId}}
-            ({{#allParams}}{{paramName}}{{#hasMore}},
-             {{/hasMore}}{{/allParams}}{{#returnType}}{{#hasParams}}, {{/hasParams}}Result{{/returnType}}, Context);
+            ({{#allParams}}{{paramName}}{{^-last}},
+             {{/-last}}{{/allParams}}{{#returnType}}{{#hasParams}}, {{/hasParams}}Result{{/returnType}}, Context);
          {{/hasParams}}
          {{^hasParams}}
          {{#returnType}}
@@ -161,8 +161,8 @@ package body {{package}}.Skeletons is
          Deserialize (Input, "{{baseName}}", {{paramName}});{{/isLong}}{{/isFile}}{{/vendorExtensions.x-is-model-type}}{{/bodyParams}}
          {{/hasBodyParam}}
          Server.{{operationId}}
-            ({{#allParams}}{{paramName}}{{#hasMore}},
-             {{/hasMore}}{{/allParams}}{{#returnType}}{{#hasParams}}, {{/hasParams}}Result{{/returnType}}, Context);
+            ({{#allParams}}{{paramName}}{{^-last}},
+             {{/-last}}{{/allParams}}{{#returnType}}{{#hasParams}}, {{/hasParams}}Result{{/returnType}}, Context);
          {{/hasParams}}
          {{^hasParams}}
          {{#returnType}}
@@ -212,14 +212,14 @@ package body {{package}}.Skeletons is
          --  {{summary}}
          {{#hasParams}}
          procedure {{operationId}}
-            ({{#allParams}}{{paramName}} : in {{dataType}}{{#hasMore}};
-             {{/hasMore}}{{/allParams}}{{#returnType}};
+            ({{#allParams}}{{paramName}} : in {{dataType}}{{^-last}};
+             {{/-last}}{{/allParams}}{{#returnType}};
              Result : out {{returnType}}{{/returnType}};
              Context : in out Swagger.Servers.Context_Type) is
          begin
             Impl.{{operationId}}
-               ({{#allParams}}{{paramName}}{{#hasMore}},
-                {{/hasMore}}{{/allParams}}{{#returnType}},
+               ({{#allParams}}{{paramName}}{{^-last}},
+                {{/-last}}{{/allParams}}{{#returnType}},
                 Result{{/returnType}},
                 Context);
          end {{operationId}};

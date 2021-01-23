@@ -19,8 +19,14 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap.Builder;
 import com.samskivert.mustache.Mustache.Lambda;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.servers.ServerVariables;
+import io.swagger.v3.oas.models.servers.ServerVariable;
+import org.openapitools.codegen.CodegenServer;
+import org.openapitools.codegen.CodegenServerVariable;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
@@ -28,15 +34,18 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
@@ -237,6 +246,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         return sanitizeName(super.toParamName(name));
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public CodegenProperty fromProperty(String name, Schema p) {
         CodegenProperty property = super.fromProperty(name, p);
@@ -323,6 +333,8 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
+        List<Server> serverList = openAPI.getServers();
+        List<CodegenServer> CodegenServerList = new ArrayList<CodegenServer>();
         URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
         String port = URLPathUtils.getPort(url, "");
         String host = url.getHost();
@@ -337,6 +349,28 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         if (!scheme.isEmpty()) {
             this.additionalProperties.put("scheme", scheme);
         }
+        if (!serverList.isEmpty()) {
+            for (Server server : serverList) {
+                CodegenServer s = new CodegenServer();
+                s.description = server.getDescription();
+                s.url = server.getUrl();
+                s.variables = new ArrayList<CodegenServerVariable>();
+                ServerVariables serverVars = server.getVariables();
+                if(serverVars != null){
+                serverVars.forEach((key,value) -> {
+                    CodegenServerVariable codegenServerVar= new CodegenServerVariable();
+                    ServerVariable ServerVar = value;
+                    codegenServerVar.name = key;
+                    codegenServerVar.description = ServerVar.getDescription();
+                    codegenServerVar.defaultValue = ServerVar.getDefault();
+                    codegenServerVar.enumValues = ServerVar.getEnum();
+                    s.variables.add(codegenServerVar);
+                    });
+                }
+                CodegenServerList.add(s);
+            }
+            this.vendorExtensions.put("x-cpp-global-server-list", CodegenServerList);
+        }
     }
 
     @Override
@@ -347,10 +381,52 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
             // cannot handle inheritance from maps and arrays in C++
-            if((cm.isArrayModel || cm.isMapModel ) && (cm.parentModel == null)) {
+            if((cm.isArray || cm.isMap ) && (cm.parentModel == null)) {
                 cm.parent = null;
             }
         }
         return postProcessModelsEnum(objs);
+    }
+
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs){
+        Map<String, Object> models = super.postProcessAllModels(objs);
+        for (final Entry<String, Object> model : models.entrySet()) {
+            CodegenModel mo = ModelUtils.getModelByName(model.getKey(), models);
+            addForwardDeclarations(mo, models);
+        }
+        return models;
+    }
+
+    private void addForwardDeclarations(CodegenModel parentModel, Map<String, Object> objs) {
+        List<String> forwardDeclarations = new ArrayList<String>();
+        if(!parentModel.hasVars) {
+            return;
+        }
+        for(CodegenProperty property : parentModel.vars){
+            if(!( (property.isContainer && property.mostInnerItems.isModel) || (property.isModel) ) ){
+                continue;
+            }
+            String childPropertyType = property.isContainer? property.mostInnerItems.baseType : property.baseType;
+            for(final Entry<String, Object> mo : objs.entrySet()) {
+                CodegenModel childModel = ModelUtils.getModelByName(mo.getKey(), objs);
+                if( !childPropertyType.equals(childModel.classname) || childPropertyType.equals(parentModel.classname) || !childModel.hasVars ){
+                    continue;
+                }
+                for(CodegenProperty p : childModel.vars) {
+                    if(((p.isModel && p.dataType.equals(parentModel.classname)) || (p.isContainer && p.mostInnerItems.baseType.equals(parentModel.classname)))) {
+                        String forwardDecl = "class " + childModel.classname + ";";
+                        if(!forwardDeclarations.contains(forwardDecl)) {
+                            forwardDeclarations.add(forwardDecl);
+                        }
+                    }
+                }
+            }
+        }
+        if(!forwardDeclarations.isEmpty()){
+            parentModel.vendorExtensions.put("x-has-forward-declarations", true);
+            parentModel.vendorExtensions.put("x-forward-declarations", forwardDeclarations);
+        }
+        return;
     }
 }

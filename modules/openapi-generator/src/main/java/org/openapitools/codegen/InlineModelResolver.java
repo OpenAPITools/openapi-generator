@@ -17,6 +17,10 @@
 
 package org.openapitools.codegen;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.callbacks.Callback;
@@ -25,6 +29,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +41,18 @@ public class InlineModelResolver {
     private OpenAPI openapi;
     private Map<String, Schema> addedModels = new HashMap<String, Schema>();
     private Map<String, String> generatedSignature = new HashMap<String, String>();
-    static Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
+
+    // structure mapper sorts properties alphabetically on write to ensure models are
+    // serialized consistently for lookup of existing models
+    private static ObjectMapper structureMapper;
+
+    static {
+        structureMapper = Json.mapper().copy();
+        structureMapper.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
+        structureMapper.writer(new DefaultPrettyPrinter());
+    }
+
+    static final Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
 
     void flatten(OpenAPI openapi) {
         this.openapi = openapi;
@@ -452,12 +468,20 @@ public class InlineModelResolver {
      * @param m Schema implementation
      */
     private void fixStringModel(Schema m) {
-        if (m.getType() != null && m.getType().equals("string") && m.getExample() != null) {
+        if (schemaIsOfType(m, "string") && schemaContainsExample(m)) {
             String example = m.getExample().toString();
-            if (example.substring(0, 1).equals("\"") && example.substring(example.length() - 1).equals("\"")) {
+            if (example.startsWith("\"") && example.endsWith("\"")) {
                 m.setExample(example.substring(1, example.length() - 1));
             }
         }
+    }
+
+    private boolean schemaIsOfType(Schema m, String type) {
+        return m.getType() != null && m.getType().equals(type);
+    }
+
+    private boolean schemaContainsExample(Schema m) {
+        return m.getExample() != null && m.getExample() != "";
     }
 
     /**
@@ -484,15 +508,25 @@ public class InlineModelResolver {
     }
 
     private String matchGenerated(Schema model) {
-        String json = Json.pretty(model);
-        if (generatedSignature.containsKey(json)) {
-            return generatedSignature.get(json);
+        try {
+            String json = structureMapper.writeValueAsString(model);
+            if (generatedSignature.containsKey(json)) {
+                return generatedSignature.get(json);
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
+
         return null;
     }
 
     private void addGenerated(String name, Schema model) {
-        generatedSignature.put(Json.pretty(model), name);
+        try {
+            String json = structureMapper.writeValueAsString(model);
+            generatedSignature.put(json, name);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -616,7 +650,17 @@ public class InlineModelResolver {
         }
         XML xml = object.getXml();
         Map<String, Schema> properties = object.getProperties();
+
+        // NOTE:
+        // No need to null check setters below. All defaults in the new'd Schema are null, so setting to null would just be a noop.
         Schema model = new Schema();
+        model.setType(object.getType());
+
+        // Even though the `format` keyword typically applies to primitive types only,
+        // the JSON schema specification states `format` can be used for any model type instance
+        // including object types.
+        model.setFormat(object.getFormat());
+
         model.setDescription(description);
         model.setExample(example);
         model.setName(object.getName());
@@ -625,6 +669,28 @@ public class InlineModelResolver {
         model.setNullable(object.getNullable());
         model.setEnum(object.getEnum());
         model.setType(object.getType());
+        model.setDiscriminator(object.getDiscriminator());
+        model.setWriteOnly(object.getWriteOnly());
+        model.setUniqueItems(object.getUniqueItems());
+        model.setTitle(object.getTitle());
+        model.setReadOnly(object.getReadOnly());
+        model.setPattern(object.getPattern());
+        model.setNot(object.getNot());
+        model.setMinProperties(object.getMinProperties());
+        model.setMinLength(object.getMinLength());
+        model.setMinItems(object.getMinItems());
+        model.setMinimum(object.getMinimum());
+        model.setMaxProperties(object.getMaxProperties());
+        model.setMaxLength(object.getMaxLength());
+        model.setMaxItems(object.getMaxItems());
+        model.setMaximum(object.getMaximum());
+        model.setExternalDocs(object.getExternalDocs());
+        model.setExtensions(object.getExtensions());
+        model.setExclusiveMinimum(object.getExclusiveMinimum());
+        model.setExclusiveMaximum(object.getExclusiveMaximum());
+        model.setExample(object.getExample());
+        model.setDeprecated(object.getDeprecated());
+
         if (properties != null) {
             flattenProperties(openAPI, properties, path);
             model.setProperties(properties);

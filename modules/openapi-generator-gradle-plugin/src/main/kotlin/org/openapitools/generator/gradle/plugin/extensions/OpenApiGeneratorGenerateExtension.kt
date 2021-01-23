@@ -317,7 +317,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun applyDefaults(){
+    fun applyDefaults() {
         releaseNote.set("Minor update")
         modelNamePrefix.set("")
         modelNameSuffix.set("")

@@ -30,11 +30,11 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class DartJaguarClientCodegen extends DartClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartJaguarClientCodegen.class);
+
     private static final String NULLABLE_FIELDS = "nullableFields";
     private static final String SERIALIZATION_FORMAT = "serialization";
     private static final String IS_FORMAT_JSON = "jsonFormat";
@@ -86,7 +86,6 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
                 )
         );
 
-        browserClient = false;
         outputFolder = "generated-code/dart-jaguar";
         embeddedTemplateDir = templateDir = "dart-jaguar";
 
@@ -132,13 +131,21 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
-        if (ModelUtils.isMapSchema(p)) {
+    public String toDefaultValue(Schema schema) {
+        if (ModelUtils.isMapSchema(schema)) {
             return "const {}";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (ModelUtils.isArraySchema(schema)) {
             return "const []";
         }
-        return super.toDefaultValue(p);
+
+        if (schema.getDefault() != null) {
+            if (ModelUtils.isStringSchema(schema)) {
+                return "'" + schema.getDefault().toString().replaceAll("'", "\\'") + "'";
+            }
+            return schema.getDefault().toString();
+        } else {
+            return "null";
+        }
     }
 
     @Override
@@ -163,6 +170,13 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             //not set, use to be passed to template
             additionalProperties.put(IS_FORMAT_JSON, true);
             additionalProperties.put(IS_FORMAT_PROTO, false);
+        }
+
+        if (additionalProperties.containsKey(PUB_LIBRARY)) {
+            this.setPubLibrary((String) additionalProperties.get(PUB_LIBRARY));
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(PUB_LIBRARY, pubLibrary);
         }
 
         if (additionalProperties.containsKey(PUB_NAME)) {
@@ -237,7 +251,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
             for (CodegenProperty p : cm.vars) {
                 String protoType = protoTypeMapping.get(p.openApiType);
-                if (p.isListContainer) {
+                if (p.isArray) {
                     String innerType = protoTypeMapping.get(p.mostInnerItems.openApiType);
                     protoType = protoType + " " + (innerType == null ? p.mostInnerItems.openApiType : innerType);
                 }

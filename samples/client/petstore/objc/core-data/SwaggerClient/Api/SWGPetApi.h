@@ -26,12 +26,12 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 /// Add a new pet to the store
 /// 
 ///
-/// @param body Pet object that needs to be added to the store (optional)
+/// @param pet Pet object that needs to be added to the store (optional)
 /// 
 ///  code:405 message:"Invalid input"
 ///
 /// @return void
--(NSURLSessionTask*) addPetWithBody: (SWGPet*) body
+-(NSURLSessionTask*) addPetWithPet: (SWGPet*) pet
     completionHandler: (void (^)(NSError* error)) handler;
 
 
@@ -92,14 +92,14 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 /// Update an existing pet
 /// 
 ///
-/// @param body Pet object that needs to be added to the store (optional)
+/// @param pet Pet object that needs to be added to the store (optional)
 /// 
 ///  code:400 message:"Invalid ID supplied",
 ///  code:404 message:"Pet not found",
 ///  code:405 message:"Validation exception"
 ///
 /// @return void
--(NSURLSessionTask*) updatePetWithBody: (SWGPet*) body
+-(NSURLSessionTask*) updatePetWithPet: (SWGPet*) pet
     completionHandler: (void (^)(NSError* error)) handler;
 
 

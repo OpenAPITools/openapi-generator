@@ -7,14 +7,12 @@
 
 import Foundation
 
-
-public struct Animal: Codable { 
-
+public struct Animal: Codable {
 
     public var className: String
     public var color: String? = "red"
 
-    public init(className: String, color: String?) {
+    public init(className: String, color: String? = "red") {
         self.className = className
         self.color = color
     }

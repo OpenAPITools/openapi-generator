@@ -16,6 +16,7 @@ The following generators are available:
 * [cpp-restsdk](generators/cpp-restsdk.md)  
 * [cpp-tizen](generators/cpp-tizen.md)  
 * [cpp-ue4 (beta)](generators/cpp-ue4.md)  
+* [crystal (beta)](generators/crystal.md)  
 * [csharp](generators/csharp.md)  
 * [csharp-dotnet2 (deprecated)](generators/csharp-dotnet2.md)  
 * [csharp-netcore](generators/csharp-netcore.md)  
@@ -27,9 +28,9 @@ The following generators are available:
 * [elm](generators/elm.md)  
 * [erlang-client](generators/erlang-client.md)  
 * [erlang-proper](generators/erlang-proper.md)  
-* [flash](generators/flash.md)  
+* [flash-deprecated (deprecated)](generators/flash-deprecated.md)  
 * [go](generators/go.md)  
-* [go-experimental (experimental)](generators/go-experimental.md)  
+* [go-deprecated (deprecated)](generators/go-deprecated.md)  
 * [groovy](generators/groovy.md)  
 * [haskell-http-client](generators/haskell-http-client.md)  
 * [java](generators/java.md)  
@@ -48,8 +49,8 @@ The following generators are available:
 * [perl](generators/perl.md)  
 * [php](generators/php.md)  
 * [powershell (beta)](generators/powershell.md)  
-* [python](generators/python.md)  
-* [python-experimental (experimental)](generators/python-experimental.md)  
+* [python (experimental)](generators/python.md)  
+* [python-legacy](generators/python-legacy.md)  
 * [r](generators/r.md)  
 * [ruby](generators/ruby.md)  
 * [rust](generators/rust.md)  
@@ -62,7 +63,7 @@ The following generators are available:
 * [swift5 (beta)](generators/swift5.md)  
 * [typescript (experimental)](generators/typescript.md)  
 * [typescript-angular](generators/typescript-angular.md)  
-* [typescript-angularjs](generators/typescript-angularjs.md)  
+* [typescript-angularjs-deprecated (deprecated)](generators/typescript-angularjs-deprecated.md)  
 * [typescript-aurelia](generators/typescript-aurelia.md)  
 * [typescript-axios](generators/typescript-axios.md)  
 * [typescript-fetch](generators/typescript-fetch.md)  
@@ -107,11 +108,11 @@ The following generators are available:
 * [nodejs-express-server (beta)](generators/nodejs-express-server.md)  
 * [php-laravel](generators/php-laravel.md)  
 * [php-lumen](generators/php-lumen.md)  
+* [php-mezzio-ph](generators/php-mezzio-ph.md)  
 * [php-silex-deprecated (deprecated)](generators/php-silex-deprecated.md)  
 * [php-slim-deprecated (deprecated)](generators/php-slim-deprecated.md)  
 * [php-slim4](generators/php-slim4.md)  
 * [php-symfony](generators/php-symfony.md)  
-* [php-ze-ph](generators/php-ze-ph.md)  
 * [python-aiohttp](generators/python-aiohttp.md)  
 * [python-blueplanet](generators/python-blueplanet.md)  
 * [python-flask](generators/python-flask.md)  
@@ -140,13 +141,14 @@ The following generators are available:
 
 ## SCHEMA generators
 * [avro-schema (beta)](generators/avro-schema.md)  
+* [graphql-schema](generators/graphql-schema.md)  
+* [ktorm-schema (beta)](generators/ktorm-schema.md)  
 * [mysql-schema](generators/mysql-schema.md)  
+* [protobuf-schema (beta)](generators/protobuf-schema.md)  
 
 
 ## CONFIG generators
 * [apache2](generators/apache2.md)  
-* [graphql-schema](generators/graphql-schema.md)  
-* [protobuf-schema (beta)](generators/protobuf-schema.md)  
 
 
 

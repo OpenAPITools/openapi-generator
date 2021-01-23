@@ -19,7 +19,7 @@ namespace {{apiPackage}}
         /// </summary>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
         {{/allParams}}/// <returns>{{#returnType}}{{returnType}}{{/returnType}}</returns>
-        {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
         {{/operation}}
     }
   
@@ -82,7 +82,7 @@ namespace {{apiPackage}}
         /// </summary>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param> 
         {{/allParams}}/// <returns>{{#returnType}}{{returnType}}{{/returnType}}</returns>            
-        public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
         {
             {{#allParams}}{{#required}}
             // verify the required parameter '{{paramName}}' is set
@@ -110,7 +110,7 @@ namespace {{apiPackage}}
             {{/bodyParam}}
     
             // authentication setting, if any
-            String[] authSettings = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
+            String[] authSettings = new String[] { {{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
     
             // make the HTTP request
             IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, authSettings);

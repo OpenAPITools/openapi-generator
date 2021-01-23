@@ -1,12 +1,12 @@
 {{#models}}
 {{#model}}
-export * from './{{{ classFilename }}}';
+export * from './{{{ classFilename }}}{{extensionForDeno}}';
 {{/model}}
 {{/models}}
 
 {{#models}}
 {{#model}}
-import { {{classname}}{{#hasEnums}}{{#vars}}{{#isEnum}}, {{classname}}{{enumName}} {{/isEnum}} {{/vars}}{{/hasEnums}} } from './{{{ classFilename }}}';
+import { {{classname}}{{#hasEnums}}{{#vars}}{{#isEnum}}, {{classname}}{{enumName}} {{/isEnum}} {{/vars}}{{/hasEnums}} } from './{{{ classFilename }}}{{extensionForDeno}}';
 {{/model}}
 {{/models}}
 
@@ -31,10 +31,13 @@ const supportedMediaTypes: { [mediaType: string]: number } = {
 let enumsMap: Set<string> = new Set<string>([
     {{#models}}
         {{#model}}
+            {{#isEnum}}
+    "{{classname}}{{enumName}}",
+            {{/isEnum}}
             {{#hasEnums}}
                 {{#vars}}
                     {{#isEnum}}
-					"{{classname}}{{enumName}}",
+    "{{classname}}{{enumName}}",
                     {{/isEnum}}
                 {{/vars}}
             {{/hasEnums}}
@@ -45,7 +48,9 @@ let enumsMap: Set<string> = new Set<string>([
 let typeMap: {[index: string]: any} = {
     {{#models}}
         {{#model}}
+            {{^isEnum}}
     "{{classname}}": {{classname}},
+            {{/isEnum}}
         {{/model}}
     {{/models}}
 }

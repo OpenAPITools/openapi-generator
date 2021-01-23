@@ -2,9 +2,9 @@ package org.openapitools.api;
 
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
-import org.springframework.core.io.Resource;
 import java.util.Set;
 import io.swagger.annotations.*;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import org.springframework.http.codec.multipart.Part;
 
 import java.util.List;
 import java.util.Map;
@@ -200,7 +201,7 @@ public interface PetApiDelegate {
      */
     default Mono<ResponseEntity<ModelApiResponse>> uploadFile(Long petId,
         String additionalMetadata,
-        MultipartFile file,
+        Flux<Part> file,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);

@@ -25,7 +25,7 @@ public:
     {{classname}}Request(QHttpEngine::Socket *s, QSharedPointer<{{classname}}Handler> handler);
     virtual ~{{classname}}Request();
 
-    {{#operations}}{{#operation}}void {{nickname}}Request({{#hasPathParams}}{{#pathParams}}const QString& {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}{{/hasPathParams}});
+    {{#operations}}{{#operation}}void {{nickname}}Request({{#hasPathParams}}{{#pathParams}}const QString& {{{paramName}}}{{^-last}}, {{/-last}}{{/pathParams}}{{/hasPathParams}});
     {{/operation}}{{/operations}}
 
     {{#operations}}{{#operation}}void {{nickname}}Response({{#returnType}}const {{{returnType}}}& res{{/returnType}});
@@ -45,7 +45,7 @@ public:
     void setResponseHeaders(const QMultiMap<QString,QString>& headers);
 
 signals:
-    {{#operations}}{{#operation}}void {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    {{#operations}}{{#operation}}void {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
     {{/operation}}{{/operations}}
 
 private:

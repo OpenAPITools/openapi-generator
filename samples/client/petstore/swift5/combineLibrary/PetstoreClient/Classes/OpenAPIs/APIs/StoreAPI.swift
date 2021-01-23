@@ -6,9 +6,9 @@
 //
 
 import Foundation
+#if canImport(Combine)
 import Combine
-
-
+#endif
 
 open class StoreAPI {
     /**
@@ -18,19 +18,21 @@ open class StoreAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Void, Error>
      */
+    #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        return Future<Void, Error>.init { promisse in
+        return Future<Void, Error>.init { promise in
             deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
-                    promisse(.success(()))
+                    promise(.success(()))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
     }
+    #endif
 
     /**
      Delete purchase order by ID
@@ -45,34 +47,42 @@ open class StoreAPI {
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
+
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
      Returns pet inventories by status
      
      - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - returns: AnyPublisher<[String:Int], Error>
+     - returns: AnyPublisher<[String: Int], Error>
      */
+    #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<[String:Int], Error> {
-        return Future<[String:Int], Error>.init { promisse in
+    open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<[String: Int], Error> {
+        return Future<[String: Int], Error>.init { promise in
             getInventoryWithRequestBuilder().execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
-                    promisse(.success(response.body!))
+                    promise(.success(response.body!))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
     }
+    #endif
 
     /**
      Returns pet inventories by status
@@ -81,18 +91,24 @@ open class StoreAPI {
      - API Key:
        - type: apiKey api_key 
        - name: api_key
-     - returns: RequestBuilder<[String:Int]> 
+     - returns: RequestBuilder<[String: Int]> 
      */
-    open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String:Int]> {
+    open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String: Int]> {
         let path = "/store/inventory"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
 
-        let requestBuilder: RequestBuilder<[String:Int]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        let requestBuilder: RequestBuilder<[String: Int]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -102,19 +118,21 @@ open class StoreAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Order, Error>
      */
+    #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Order, Error> {
-        return Future<Order, Error>.init { promisse in
+        return Future<Order, Error>.init { promise in
             getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
-                    promisse(.success(response.body!))
+                    promise(.success(response.body!))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
     }
+    #endif
 
     /**
      Find purchase order by ID
@@ -129,13 +147,19 @@ open class StoreAPI {
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
+
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
         let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -145,19 +169,21 @@ open class StoreAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Order, Error>
      */
+    #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Order, Error> {
-        return Future<Order, Error>.init { promisse in
+        return Future<Order, Error>.init { promise in
             placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
-                    promisse(.success(response.body!))
+                    promise(.success(response.body!))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
     }
+    #endif
 
     /**
      Place an order for a pet
@@ -172,9 +198,15 @@ open class StoreAPI {
 
         let url = URLComponents(string: URLString)
 
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+
         let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
 }

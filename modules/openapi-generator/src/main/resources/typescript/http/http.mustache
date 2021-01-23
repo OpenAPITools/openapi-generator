@@ -4,11 +4,17 @@
 import * as FormData from "form-data";
 {{/node}}
 {{/platforms}}
+{{#platforms}}
+{{^deno}}
 // typings of url-parse are incorrect...
 // @ts-ignore 
 import * as URLParse from "url-parse";
-import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub'{{/useRxJS}};
+{{/deno}}
+{{/platforms}}
+import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{extensionForDeno}}'{{/useRxJS}};
 
+{{#platforms}}
+{{^deno}}
 {{#frameworks}}
 {{#fetch-api}}
 export * from './isomorphic-fetch';
@@ -17,6 +23,8 @@ export * from './isomorphic-fetch';
 export * from './jquery';
 {{/jquery}}
 {{/frameworks}}
+{{/deno}}
+{{/platforms}}
 
 /**
  * Represents an HTTP method.
@@ -43,11 +51,44 @@ export type HttpFile = {
     name: string
 };
 {{/node}}
-{{#browser}}
+{{^node}}
 export type HttpFile = {{{fileContentDataType}}} & { readonly name: string };
-{{/browser}}
+{{/node}}
 {{/platforms}}
 
+{{#platforms}}
+{{#deno}}
+/**
+ * URLParse Wrapper for Deno
+ */
+class URLParse {
+    private url: URL;
+    constructor(address: string, _parser: boolean) {
+        this.url = new URL(address);
+    }
+    public set(_part: 'query', obj: {[key: string]: string | undefined}) {
+        for (const key in obj) {
+            const value = obj[key];
+            if (value) {
+              this.url.searchParams.set(key, value);
+            } else {
+              this.url.searchParams.set(key, "");
+            }
+        }
+    }
+    public get query() {
+        const obj: {[key: string]: string} = {};
+        for (const [key, value] of this.url.searchParams.entries()) {
+            obj[key] = value;
+        }
+        return obj;
+    }
+    public toString() {
+        return this.url.toString();
+    }
+}
+{{/deno}}
+{{/platforms}}
 
 export class HttpException extends Error {
     public constructor(msg: string) {
@@ -75,7 +116,7 @@ export class RequestContext {
 	 * @param httpMethod http method
 	 */
     public constructor(url: string, private httpMethod: HttpMethod) {
-        this.url = URLParse(url, true);
+        this.url = new URLParse(url, true);
     }
     
     /*
@@ -91,7 +132,7 @@ export class RequestContext {
      *
      */
     public setUrl(url: string) {
-    	this.url = URLParse(url, true);
+        this.url = new URLParse(url, true);
     }
 
     /**
@@ -177,6 +218,9 @@ export class SelfDecodingBody implements ResponseBody {
             reader.readAsText(data);
         });
         {{/browser}}
+        {{#deno}}
+        return data.text();
+        {{/deno}}
         {{/platforms}}
     }
 }
@@ -225,7 +269,7 @@ export class ResponseContext {
         {{#node}}
         return { data, name: fileName };
         {{/node}}
-        {{#browser}}
+        {{^node}}
         const contentType = this.headers["content-type"] || "";
         try {
             return new File([data], fileName, { type: contentType });
@@ -236,7 +280,7 @@ export class ResponseContext {
                 type: contentType
             });
         }
-        {{/browser}}
+        {{/node}}
         {{/platforms}}
     }
 }

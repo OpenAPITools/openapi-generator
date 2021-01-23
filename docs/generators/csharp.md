@@ -3,6 +3,8 @@ title: Config Options for csharp
 sidebar_label: csharp
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
@@ -53,6 +55,7 @@ sidebar_label: csharp
 <li>DateTime?</li>
 <li>DateTimeOffset</li>
 <li>DateTimeOffset?</li>
+<li>Decimal</li>
 <li>Dictionary</li>
 <li>Double</li>
 <li>Float</li>
@@ -188,6 +191,7 @@ sidebar_label: csharp
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✓|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

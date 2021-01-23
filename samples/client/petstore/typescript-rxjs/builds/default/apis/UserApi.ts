@@ -12,7 +12,7 @@
  */
 
 import { Observable } from 'rxjs';
-import { BaseAPI, HttpHeaders, HttpQuery, throwIfNullOrUndefined, encodeURI } from '../runtime';
+import { BaseAPI, HttpHeaders, HttpQuery, throwIfNullOrUndefined, encodeURI, OperationOpts, RawAjaxResponse } from '../runtime';
 import {
     User,
 } from '../models';
@@ -56,7 +56,9 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * Create user
      */
-    createUser = ({ body }: CreateUserRequest): Observable<void> => {
+    createUser({ body }: CreateUserRequest): Observable<void>
+    createUser({ body }: CreateUserRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
+    createUser({ body }: CreateUserRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
         throwIfNullOrUndefined(body, 'body', 'createUser');
 
         const headers: HttpHeaders = {
@@ -64,17 +66,19 @@ export class UserApi extends BaseAPI {
         };
 
         return this.request<void>({
-            path: '/user',
+            url: '/user',
             method: 'POST',
             headers,
             body: body,
-        });
+        }, opts?.responseOpts);
     };
 
     /**
      * Creates list of users with given input array
      */
-    createUsersWithArrayInput = ({ body }: CreateUsersWithArrayInputRequest): Observable<void> => {
+    createUsersWithArrayInput({ body }: CreateUsersWithArrayInputRequest): Observable<void>
+    createUsersWithArrayInput({ body }: CreateUsersWithArrayInputRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
+    createUsersWithArrayInput({ body }: CreateUsersWithArrayInputRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
         throwIfNullOrUndefined(body, 'body', 'createUsersWithArrayInput');
 
         const headers: HttpHeaders = {
@@ -82,17 +86,19 @@ export class UserApi extends BaseAPI {
         };
 
         return this.request<void>({
-            path: '/user/createWithArray',
+            url: '/user/createWithArray',
             method: 'POST',
             headers,
             body: body,
-        });
+        }, opts?.responseOpts);
     };
 
     /**
      * Creates list of users with given input array
      */
-    createUsersWithListInput = ({ body }: CreateUsersWithListInputRequest): Observable<void> => {
+    createUsersWithListInput({ body }: CreateUsersWithListInputRequest): Observable<void>
+    createUsersWithListInput({ body }: CreateUsersWithListInputRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
+    createUsersWithListInput({ body }: CreateUsersWithListInputRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
         throwIfNullOrUndefined(body, 'body', 'createUsersWithListInput');
 
         const headers: HttpHeaders = {
@@ -100,42 +106,48 @@ export class UserApi extends BaseAPI {
         };
 
         return this.request<void>({
-            path: '/user/createWithList',
+            url: '/user/createWithList',
             method: 'POST',
             headers,
             body: body,
-        });
+        }, opts?.responseOpts);
     };
 
     /**
      * This can only be done by the logged in user.
      * Delete user
      */
-    deleteUser = ({ username }: DeleteUserRequest): Observable<void> => {
+    deleteUser({ username }: DeleteUserRequest): Observable<void>
+    deleteUser({ username }: DeleteUserRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
+    deleteUser({ username }: DeleteUserRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
         throwIfNullOrUndefined(username, 'username', 'deleteUser');
 
         return this.request<void>({
-            path: '/user/{username}'.replace('{username}', encodeURI(username)),
+            url: '/user/{username}'.replace('{username}', encodeURI(username)),
             method: 'DELETE',
-        });
+        }, opts?.responseOpts);
     };
 
     /**
      * Get user by user name
      */
-    getUserByName = ({ username }: GetUserByNameRequest): Observable<User> => {
+    getUserByName({ username }: GetUserByNameRequest): Observable<User>
+    getUserByName({ username }: GetUserByNameRequest, opts?: OperationOpts): Observable<RawAjaxResponse<User>>
+    getUserByName({ username }: GetUserByNameRequest, opts?: OperationOpts): Observable<User | RawAjaxResponse<User>> {
         throwIfNullOrUndefined(username, 'username', 'getUserByName');
 
         return this.request<User>({
-            path: '/user/{username}'.replace('{username}', encodeURI(username)),
+            url: '/user/{username}'.replace('{username}', encodeURI(username)),
             method: 'GET',
-        });
+        }, opts?.responseOpts);
     };
 
     /**
      * Logs user into the system
      */
-    loginUser = ({ username, password }: LoginUserRequest): Observable<string> => {
+    loginUser({ username, password }: LoginUserRequest): Observable<string>
+    loginUser({ username, password }: LoginUserRequest, opts?: OperationOpts): Observable<RawAjaxResponse<string>>
+    loginUser({ username, password }: LoginUserRequest, opts?: OperationOpts): Observable<string | RawAjaxResponse<string>> {
         throwIfNullOrUndefined(username, 'username', 'loginUser');
         throwIfNullOrUndefined(password, 'password', 'loginUser');
 
@@ -145,27 +157,31 @@ export class UserApi extends BaseAPI {
         };
 
         return this.request<string>({
-            path: '/user/login',
+            url: '/user/login',
             method: 'GET',
             query,
-        });
+        }, opts?.responseOpts);
     };
 
     /**
      * Logs out current logged in user session
      */
-    logoutUser = (): Observable<void> => {
+    logoutUser(): Observable<void>
+    logoutUser(opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
+    logoutUser(opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
         return this.request<void>({
-            path: '/user/logout',
+            url: '/user/logout',
             method: 'GET',
-        });
+        }, opts?.responseOpts);
     };
 
     /**
      * This can only be done by the logged in user.
      * Updated user
      */
-    updateUser = ({ username, body }: UpdateUserRequest): Observable<void> => {
+    updateUser({ username, body }: UpdateUserRequest): Observable<void>
+    updateUser({ username, body }: UpdateUserRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
+    updateUser({ username, body }: UpdateUserRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
         throwIfNullOrUndefined(username, 'username', 'updateUser');
         throwIfNullOrUndefined(body, 'body', 'updateUser');
 
@@ -174,11 +190,11 @@ export class UserApi extends BaseAPI {
         };
 
         return this.request<void>({
-            path: '/user/{username}'.replace('{username}', encodeURI(username)),
+            url: '/user/{username}'.replace('{username}', encodeURI(username)),
             method: 'PUT',
             headers,
             body: body,
-        });
+        }, opts?.responseOpts);
     };
 
 }

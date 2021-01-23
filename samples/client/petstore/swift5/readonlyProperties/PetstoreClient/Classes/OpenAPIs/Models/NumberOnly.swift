@@ -7,17 +7,15 @@
 
 import Foundation
 
-
-public struct NumberOnly: Codable { 
-
+public struct NumberOnly: Codable {
 
     public private(set) var justNumber: Double?
 
-    public init(justNumber: Double?) {
+    public init(justNumber: Double? = nil) {
         self.justNumber = justNumber
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable { 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case justNumber = "JustNumber"
     }
 

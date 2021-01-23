@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-internal struct Capitalization: Codable { 
-
+internal struct Capitalization: Codable {
 
     internal var smallCamel: String?
     internal var capitalCamel: String?
@@ -19,7 +17,7 @@ internal struct Capitalization: Codable {
     /** Name of the pet  */
     internal var ATT_NAME: String?
 
-    internal init(smallCamel: String?, capitalCamel: String?, smallSnake: String?, capitalSnake: String?, sCAETHFlowPoints: String?, ATT_NAME: String?) {
+    internal init(smallCamel: String? = nil, capitalCamel: String? = nil, smallSnake: String? = nil, capitalSnake: String? = nil, sCAETHFlowPoints: String? = nil, ATT_NAME: String? = nil) {
         self.smallCamel = smallCamel
         self.capitalCamel = capitalCamel
         self.smallSnake = smallSnake
@@ -28,7 +26,7 @@ internal struct Capitalization: Codable {
         self.ATT_NAME = ATT_NAME
     }
 
-    internal enum CodingKeys: String, CodingKey, CaseIterable { 
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case smallCamel
         case capitalCamel = "CapitalCamel"
         case smallSnake = "small_Snake"

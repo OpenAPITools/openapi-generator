@@ -16,10 +16,8 @@ A category for a pet
 
 .PARAMETER Id
 No description available.
-
 .PARAMETER Name
 No description available.
-
 .OUTPUTS
 
 Category<PSCustomObject>
@@ -32,7 +30,7 @@ function Initialize-PSCategory {
         [System.Nullable[Int64]]
         ${Id},
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true)]
-        [ValidatePattern("^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")]
+        [ValidatePattern("^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$")]
         [String]
         ${Name}
     )
@@ -41,10 +39,12 @@ function Initialize-PSCategory {
         'Creating PSCustomObject: PSPetstore => PSCategory' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
+
         $PSO = [PSCustomObject]@{
             "id" = ${Id}
             "name" = ${Name}
         }
+
 
         return $PSO
     }

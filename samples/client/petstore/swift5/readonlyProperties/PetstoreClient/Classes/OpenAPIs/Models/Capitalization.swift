@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-public struct Capitalization: Codable { 
-
+public struct Capitalization: Codable {
 
     public private(set) var smallCamel: String?
     public private(set) var capitalCamel: String?
@@ -19,7 +17,7 @@ public struct Capitalization: Codable {
     /** Name of the pet  */
     public private(set) var ATT_NAME: String?
 
-    public init(smallCamel: String?, capitalCamel: String?, smallSnake: String?, capitalSnake: String?, sCAETHFlowPoints: String?, ATT_NAME: String?) {
+    public init(smallCamel: String? = nil, capitalCamel: String? = nil, smallSnake: String? = nil, capitalSnake: String? = nil, sCAETHFlowPoints: String? = nil, ATT_NAME: String? = nil) {
         self.smallCamel = smallCamel
         self.capitalCamel = capitalCamel
         self.smallSnake = smallSnake
@@ -28,7 +26,7 @@ public struct Capitalization: Codable {
         self.ATT_NAME = ATT_NAME
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable { 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case smallCamel
         case capitalCamel = "CapitalCamel"
         case smallSnake = "small_Snake"

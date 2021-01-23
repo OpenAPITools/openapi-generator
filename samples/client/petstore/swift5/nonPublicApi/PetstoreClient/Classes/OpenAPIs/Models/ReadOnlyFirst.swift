@@ -7,14 +7,12 @@
 
 import Foundation
 
-
-internal struct ReadOnlyFirst: Codable { 
-
+internal struct ReadOnlyFirst: Codable {
 
     internal var bar: String?
     internal var baz: String?
 
-    internal init(bar: String?, baz: String?) {
+    internal init(bar: String? = nil, baz: String? = nil) {
         self.bar = bar
         self.baz = baz
     }

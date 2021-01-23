@@ -7,14 +7,12 @@
 
 import Foundation
 
-
-public struct HasOnlyReadOnly: Codable { 
-
+public struct HasOnlyReadOnly: Codable {
 
     public private(set) var bar: String?
     public private(set) var foo: String?
 
-    public init(bar: String?, foo: String?) {
+    public init(bar: String? = nil, foo: String? = nil) {
         self.bar = bar
         self.foo = foo
     }

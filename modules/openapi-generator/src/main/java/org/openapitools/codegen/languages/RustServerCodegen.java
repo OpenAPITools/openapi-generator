@@ -41,10 +41,10 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
-import java.util.regex.*;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -258,10 +258,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (StringUtils.isEmpty(System.getenv("RUST_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable RUST_POST_PROCESS_FILE not defined. rustfmt will be used" +
-                        " by default. To choose a different tool, try" +
-                        " 'export RUST_POST_PROCESS_FILE=\"/usr/local/bin/rustfmt\"' (Linux/Mac)");
+                    " by default. To choose a different tool, try" +
+                    " 'export RUST_POST_PROCESS_FILE=\"/usr/local/bin/rustfmt\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` " +
-                        " (--enable-post-process-file for CLI).");
+                    " (--enable-post-process-file for CLI).");
         }
 
         if (!Boolean.TRUE.equals(ModelUtils.isGenerateAliasAsModel())) {
@@ -309,7 +309,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Configures a friendly name for the generator.  This will be used by the generator
+     * Configures a friendly name for the generator. This will be used by the generator
      * to select the library with the -g flag.
      *
      * @return the friendly name for the generator
@@ -327,7 +327,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String getHelp() {
-        return "Generates a Rust client/server library (beta) using the swagger-codegen project.";
+        return "Generates a Rust client/server library (beta) using the openapi-generator project.";
     }
 
     @Override
@@ -555,14 +555,14 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private boolean isMimetypeXml(String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith(xmlMimeType) ||
-               mimetype.toLowerCase(Locale.ROOT).startsWith(problemXmlMimeType) ||
-               mimetype.toLowerCase(Locale.ROOT).startsWith(textXmlMimeType);
+                mimetype.toLowerCase(Locale.ROOT).startsWith(problemXmlMimeType) ||
+                mimetype.toLowerCase(Locale.ROOT).startsWith(textXmlMimeType);
     }
 
     private boolean isMimetypeJson(String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith(jsonMimeType) ||
-               mimetype.toLowerCase(Locale.ROOT).startsWith(mergePatchJsonMimeType) ||
-               mimetype.toLowerCase(Locale.ROOT).startsWith(problemJsonMimeType);
+                mimetype.toLowerCase(Locale.ROOT).startsWith(mergePatchJsonMimeType) ||
+                mimetype.toLowerCase(Locale.ROOT).startsWith(problemJsonMimeType);
     }
 
     private boolean isMimetypeWwwFormUrlEncoded(String mimetype) {
@@ -590,11 +590,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
      */
     boolean isMimetypePlain(String mimetype) {
         boolean result = !(isMimetypeUnknown(mimetype) ||
-                           isMimetypeXml(mimetype) ||
-                           isMimetypeJson(mimetype) ||
-                           isMimetypeWwwFormUrlEncoded(mimetype) ||
-                           isMimetypeMultipartFormData(mimetype) ||
-                           isMimetypeMultipartRelated(mimetype));
+                isMimetypeXml(mimetype) ||
+                isMimetypeJson(mimetype) ||
+                isMimetypeWwwFormUrlEncoded(mimetype) ||
+                isMimetypeMultipartFormData(mimetype) ||
+                isMimetypeMultipartRelated(mimetype));
         return result;
     }
 
@@ -633,9 +633,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         // The callback API is logically distinct from the main API, so
         // it uses a separate path set map.
         if (op.isCallbackRequest) {
-           pathSetMap = this.callbacksPathSetMap;
+            pathSetMap = this.callbacksPathSetMap;
         } else {
-           pathSetMap = this.pathSetMap;
+            pathSetMap = this.pathSetMap;
         }
 
         while (pathSetMap.containsKey(pathId)) {
@@ -733,7 +733,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         op.vendorExtensions.put("x-operation-id", underscoredOperationId);
         op.vendorExtensions.put("x-uppercase-operation-id", underscoredOperationId.toUpperCase(Locale.ROOT));
         String vendorExtensionPath = op.path.replace("{", ":").replace("}", "");
-        op.vendorExtensions.put("x-path",vendorExtensionPath);
+        op.vendorExtensions.put("x-path", vendorExtensionPath);
         op.vendorExtensions.put("x-path-id", pathId);
         op.vendorExtensions.put("x-has-path-params", hasPathParams);
         op.vendorExtensions.put("x-path-format-string", formatPath);
@@ -742,8 +742,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         op.vendorExtensions.put("x-http-method", vendorExtensionHttpMethod);
 
         if (!op.vendorExtensions.containsKey("x-must-use-response")) {
-          // If there's more than one response, than by default the user must explicitly handle them
-          op.vendorExtensions.put("x-must-use-response", op.responses.size() > 1);
+            // If there's more than one response, than by default the user must explicitly handle them
+            op.vendorExtensions.put("x-must-use-response", op.responses.size() > 1);
         }
 
         for (CodegenParameter param : op.allParams) {
@@ -1120,7 +1120,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             // type.
             codegenParameter.dataType = getTypeDeclaration(original_schema);
             codegenParameter.isPrimitiveType = false;
-            codegenParameter.isListContainer = false;
+            codegenParameter.isArray = false;
             codegenParameter.isString = false;
             codegenParameter.isByteArray = ModelUtils.isByteArraySchema(original_schema);
 
@@ -1305,23 +1305,23 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         // If we have callbacks, add the callbacks module, otherwise remove it
         boolean hasCallbacks = haveCallbacks(bundle);
         bundle.put("hasCallbacks", hasCallbacks);
-        SupportingFile[] callbackFiles = new SupportingFile[] {
-            new SupportingFile("client-callbacks.mustache", "src/client", "callbacks.rs"),
-            new SupportingFile("server-callbacks.mustache", "src/server", "callbacks.rs"),
-            new SupportingFile("example-client-server.mustache", "examples/client", "server.rs")
+        SupportingFile[] callbackFiles = new SupportingFile[]{
+                new SupportingFile("client-callbacks.mustache", "src/client", "callbacks.rs"),
+                new SupportingFile("server-callbacks.mustache", "src/server", "callbacks.rs"),
+                new SupportingFile("example-client-server.mustache", "examples/client", "server.rs")
         };
         for (SupportingFile callbackFile : callbackFiles) {
-           if (hasCallbacks) {
-               supportingFiles.add(callbackFile);
-           } else {
-               supportingFiles.remove(callbackFile);
-           }
+            if (hasCallbacks) {
+                supportingFiles.add(callbackFile);
+            } else {
+                supportingFiles.remove(callbackFile);
+            }
         }
 
         if (hasCallbacks) {
-           Map<String, Object> callbackData = new HashMap();
-           addPathSetMapToBundle(callbacksPathSetMap, callbackData);
-           bundle.put("callbacks", callbackData);
+            Map<String, Object> callbackData = new HashMap();
+            addPathSetMapToBundle(callbacksPathSetMap, callbackData);
+            bundle.put("callbacks", callbackData);
         }
 
         return super.postProcessSupportingFileData(bundle);
@@ -1331,7 +1331,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
      * Add a built path set map to the provided bundle
      *
      * @param pathSetMap A previously built path set map
-     * @param bundle Bundle for the supporting files to add the data to.
+     * @param bundle     Bundle for the supporting files to add the data to.
      */
     private static void addPathSetMapToBundle(Map<String, Map<String, String>> pathSetMap, Map<String, Object> bundle) {
         // We previously built a mapping from path to path ID and regular
@@ -1573,9 +1573,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     // the user than the alternative.
                     LOGGER.warn("Ignoring additionalProperties (see https://github.com/OpenAPITools/openapi-generator/issues/318) alongside defined properties");
                     cm.dataType = null;
-                }
-                else
-                {
+                } else {
                     cm.dataType = "std::collections::HashMap<String, " + cm.additionalPropertiesType + ">";
                 }
             } else if (cm.dataType != null) {
@@ -1618,7 +1616,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 param.vendorExtensions.put("x-format-string", "{}");
                 example = (param.example != null) ? param.example : "";
             }
-        } else if (param.isListContainer) {
+        } else if (param.isArray) {
             param.vendorExtensions.put("x-format-string", "{:?}");
             example = (param.example != null) ? param.example : "&Vec::new()";
         } else {
@@ -1631,7 +1629,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         if (param.required) {
             if (example != null) {
                 param.vendorExtensions.put("x-example", example);
-            } else if (param.isListContainer) {
+            } else if (param.isArray) {
                 // Use the empty list if we don't have an example
                 param.vendorExtensions.put("x-example", "&Vec::new()");
             } else {
@@ -1664,7 +1662,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         // only process files with .rs extension
         if ("rs".equals(FilenameUtils.getExtension(file.toString()))) {
             try {
-                Process p = Runtime.getRuntime().exec(new String[] {commandPrefix, file.toString()});
+                Process p = Runtime.getRuntime().exec(new String[]{commandPrefix, file.toString()});
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({} {}). Exit code: {}", commandPrefix, file.toString(), exitValue);

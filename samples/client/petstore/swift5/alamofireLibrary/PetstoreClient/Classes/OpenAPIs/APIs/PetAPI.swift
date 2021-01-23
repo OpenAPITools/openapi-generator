@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 open class PetAPI {
     /**
      Add a new pet to the store
@@ -17,7 +15,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addPet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+    open class func addPet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
         addPetWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
             switch result {
             case .success:
@@ -44,9 +42,15 @@ open class PetAPI {
 
         let url = URLComponents(string: URLString)
 
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -57,7 +61,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deletePet(petId: Int64, apiKey: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+    open class func deletePet(petId: Int64, apiKey: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
         deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute(apiResponseQueue) { result -> Void in
             switch result {
             case .success:
@@ -84,17 +88,19 @@ open class PetAPI {
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
+
         let nillableHeaders: [String: Any?] = [
-            "api_key": apiKey?.encodeToJSON()
+            "api_key": apiKey?.encodeToJSON(),
         ]
+
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false, headers: headerParameters)
+        return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -113,7 +119,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func findPetsByStatus(status: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: [Pet]?,_ error: Error?) -> Void)) {
+    open class func findPetsByStatus(status: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: [Pet]?, _ error: Error?) -> Void)) {
         findPetsByStatusWithRequestBuilder(status: status).execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
@@ -137,16 +143,22 @@ open class PetAPI {
     open class func findPetsByStatusWithRequestBuilder(status: [String]) -> RequestBuilder<[Pet]> {
         let path = "/pet/findByStatus"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "status": status.encodeToJSON()
+            "status": status.encodeToJSON(),
         ])
+
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
         let requestBuilder: RequestBuilder<[Pet]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -157,7 +169,7 @@ open class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @available(*, deprecated, message: "This operation is deprecated.")
-    open class func findPetsByTags(tags: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: [Pet]?,_ error: Error?) -> Void)) {
+    open class func findPetsByTags(tags: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: [Pet]?, _ error: Error?) -> Void)) {
         findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
@@ -182,16 +194,22 @@ open class PetAPI {
     open class func findPetsByTagsWithRequestBuilder(tags: [String]) -> RequestBuilder<[Pet]> {
         let path = "/pet/findByTags"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "tags": tags.encodeToJSON()
+            "tags": tags.encodeToJSON(),
         ])
+
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
         let requestBuilder: RequestBuilder<[Pet]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -201,7 +219,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getPetById(petId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Pet?,_ error: Error?) -> Void)) {
+    open class func getPetById(petId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Pet?, _ error: Error?) -> Void)) {
         getPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
@@ -228,13 +246,19 @@ open class PetAPI {
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
+
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
         let requestBuilder: RequestBuilder<Pet>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -244,7 +268,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updatePet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+    open class func updatePet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
         updatePetWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
             switch result {
             case .success:
@@ -271,9 +295,15 @@ open class PetAPI {
 
         let url = URLComponents(string: URLString)
 
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -285,7 +315,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
         updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute(apiResponseQueue) { result -> Void in
             switch result {
             case .success:
@@ -313,19 +343,25 @@ open class PetAPI {
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let formParams: [String:Any?] = [
+        let formParams: [String: Any?] = [
             "name": name?.encodeToJSON(),
-            "status": status?.encodeToJSON()
+            "status": status?.encodeToJSON(),
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
         let parameters = APIHelper.convertBoolToString(nonNullParameters)
-        
+
         let url = URLComponents(string: URLString)
+
+        let nillableHeaders: [String: Any?] = [
+            "Content-Type": "application/x-www-form-urlencoded",
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -337,7 +373,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: ApiResponse?,_ error: Error?) -> Void)) {
+    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: ApiResponse?, _ error: Error?) -> Void)) {
         uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
@@ -365,19 +401,25 @@ open class PetAPI {
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let formParams: [String:Any?] = [
+        let formParams: [String: Any?] = [
             "additionalMetadata": additionalMetadata?.encodeToJSON(),
-            "file": file?.encodeToJSON()
+            "file": file?.encodeToJSON(),
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
         let parameters = APIHelper.convertBoolToString(nonNullParameters)
-        
+
         let url = URLComponents(string: URLString)
+
+        let nillableHeaders: [String: Any?] = [
+            "Content-Type": "multipart/form-data",
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
         let requestBuilder: RequestBuilder<ApiResponse>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -389,7 +431,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: ApiResponse?,_ error: Error?) -> Void)) {
+    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: ApiResponse?, _ error: Error?) -> Void)) {
         uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
@@ -417,19 +459,25 @@ open class PetAPI {
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let formParams: [String:Any?] = [
+        let formParams: [String: Any?] = [
             "additionalMetadata": additionalMetadata?.encodeToJSON(),
-            "requiredFile": requiredFile.encodeToJSON()
+            "requiredFile": requiredFile.encodeToJSON(),
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
         let parameters = APIHelper.convertBoolToString(nonNullParameters)
-        
+
         let url = URLComponents(string: URLString)
+
+        let nillableHeaders: [String: Any?] = [
+            "Content-Type": "multipart/form-data",
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
         let requestBuilder: RequestBuilder<ApiResponse>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
 }

@@ -285,7 +285,6 @@ void OpenAPIUserApi::GetUserByNameResponse::SetHttpResponseCode(EHttpResponseCod
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-	default:
 		SetResponseString(TEXT("successful operation"));
 		break;
 	case 400:
@@ -343,7 +342,6 @@ void OpenAPIUserApi::LoginUserResponse::SetHttpResponseCode(EHttpResponseCodes::
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-	default:
 		SetResponseString(TEXT("successful operation"));
 		break;
 	case 400:

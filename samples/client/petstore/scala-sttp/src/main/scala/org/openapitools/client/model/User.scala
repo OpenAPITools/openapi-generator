@@ -11,7 +11,6 @@
  */
 package org.openapitools.client.model
 
-import org.openapitools.client.core.ApiModel
 
   /**
    * a User
@@ -27,6 +26,6 @@ case class User(
   phone: Option[String] = None,
   /* User Status */
   userStatus: Option[Int] = None
-) extends ApiModel
+)
 
 
