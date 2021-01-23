@@ -37,7 +37,7 @@ class PetApi {
         final String _path = '/pet';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -96,7 +96,7 @@ class PetApi {
         final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -147,7 +147,7 @@ class PetApi {
         final String _path = '/pet/findByStatus';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -217,7 +217,7 @@ class PetApi {
         final String _path = '/pet/findByTags';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -287,7 +287,7 @@ class PetApi {
         final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -355,7 +355,7 @@ class PetApi {
         final String _path = '/pet';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -415,7 +415,7 @@ class PetApi {
         final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -475,7 +475,7 @@ class PetApi {
         final String _path = '/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', petId.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;

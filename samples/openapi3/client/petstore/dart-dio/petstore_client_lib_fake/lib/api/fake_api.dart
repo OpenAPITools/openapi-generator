@@ -40,7 +40,7 @@ class FakeApi {
         final String _path = '/fake/health';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -103,7 +103,7 @@ class FakeApi {
         final String _path = '/fake/http-signature-test';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -163,7 +163,7 @@ class FakeApi {
         final String _path = '/fake/outer/boolean';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -226,7 +226,7 @@ class FakeApi {
         final String _path = '/fake/outer/composite';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -294,7 +294,7 @@ class FakeApi {
         final String _path = '/fake/outer/number';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -357,7 +357,7 @@ class FakeApi {
         final String _path = '/fake/outer/string';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -420,7 +420,7 @@ class FakeApi {
         final String _path = '/fake/body-with-file-schema';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -473,7 +473,7 @@ class FakeApi {
         final String _path = '/fake/body-with-query-params';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -526,7 +526,7 @@ class FakeApi {
         final String _path = '/fake';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -607,7 +607,7 @@ class FakeApi {
         final String _path = '/fake';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -684,7 +684,7 @@ class FakeApi {
         final String _path = '/fake';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -748,7 +748,7 @@ class FakeApi {
         final String _path = '/fake';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -804,7 +804,7 @@ class FakeApi {
         final String _path = '/fake/inline-additionalProperties';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -857,7 +857,7 @@ class FakeApi {
         final String _path = '/fake/jsonFormData';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -914,7 +914,7 @@ class FakeApi {
         final String _path = '/fake/test-query-paramters';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;

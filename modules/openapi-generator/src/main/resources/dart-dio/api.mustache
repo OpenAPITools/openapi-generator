@@ -33,7 +33,8 @@ class {{classname}} {
         final String _path = '{{{path}}}'{{#pathParams}}.replaceAll('{' r'{{baseName}}' '}', {{{paramName}}}.toString()){{/pathParams}};
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ {{#httpUserAgent}}
+            'User-Agent': '{{{.}}}',{{/httpUserAgent}}
             if (headers != null) ...headers,
         };
         dynamic bodyData;
