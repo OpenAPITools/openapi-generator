@@ -1189,7 +1189,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public CodegenModel fromModel(String name, Schema model) {
-        LOGGER.debug("Creating model from schema: {}", model);
+        LOGGER.trace("Creating model from schema: {}", model);
 
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel mdl = super.fromModel(name, model);
@@ -1248,7 +1248,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             mdl.additionalPropertiesType = getTypeDeclaration(additionalProperties);
         }
 
-        LOGGER.debug("Created model: {}", mdl);
+        LOGGER.trace("Created model: {}", mdl);
 
         return mdl;
     }
@@ -1556,7 +1556,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
-            LOGGER.debug("postProcessModels: " + cm);
+            LOGGER.trace("Post processing model: {}", cm);
 
             if (cm.dataType != null && cm.dataType.equals("object")) {
                 // Object isn't a sensible default. Instead, we set it to
