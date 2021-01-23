@@ -32,7 +32,7 @@ import android.os.Parcel;
  * AdditionalPropertiesBoolean
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
+public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implements Parcelable {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
