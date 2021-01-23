@@ -178,7 +178,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
 
         importMapping.put("Date", "java.util.Date");
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("enum", "NSString");
         typeMapping.put("array", "List");
         typeMapping.put("set", "Set");

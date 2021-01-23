@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class MysqlSchemaCodegenTest {
@@ -85,7 +85,7 @@ public class MysqlSchemaCodegenTest {
     public void testToCodegenMysqlDataTypeArgument() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
         String strArgument = "HelloWorld";
-        HashMap<String, Object> strProp = codegen.toCodegenMysqlDataTypeArgument(strArgument);
+        Map<String, Object> strProp = codegen.toCodegenMysqlDataTypeArgument(strArgument);
         Assert.assertTrue((Boolean) strProp.get("isString"));
         Assert.assertFalse((Boolean) strProp.get("isFloat"));
         Assert.assertFalse((Boolean) strProp.get("isInteger"));
@@ -93,7 +93,7 @@ public class MysqlSchemaCodegenTest {
         Assert.assertSame((String) strProp.get("argumentValue"), strArgument);
 
         Integer intArgument = 10;
-        HashMap<String, Object> intProp = codegen.toCodegenMysqlDataTypeArgument(intArgument);
+        Map<String, Object> intProp = codegen.toCodegenMysqlDataTypeArgument(intArgument);
         Assert.assertFalse((Boolean) intProp.get("isString"));
         Assert.assertFalse((Boolean) intProp.get("isFloat"));
         Assert.assertTrue((Boolean) intProp.get("isInteger"));
@@ -101,7 +101,7 @@ public class MysqlSchemaCodegenTest {
         Assert.assertSame((Integer) intProp.get("argumentValue"), intArgument);
 
         Double floatArgument = 3.14;
-        HashMap<String, Object> floatProp = codegen.toCodegenMysqlDataTypeArgument(floatArgument);
+        Map<String, Object> floatProp = codegen.toCodegenMysqlDataTypeArgument(floatArgument);
         Assert.assertFalse((Boolean) floatProp.get("isString"));
         Assert.assertTrue((Boolean) floatProp.get("isFloat"));
         Assert.assertFalse((Boolean) floatProp.get("isInteger"));
@@ -112,7 +112,7 @@ public class MysqlSchemaCodegenTest {
     @Test
     public void testToCodegenMysqlDataTypeDefault() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
-        HashMap<String, Object> defaultMap = null;
+        Map<String, Object> defaultMap = null;
         ArrayList<String> intFixture = new ArrayList<String>(Arrays.asList(
             "TINYINT", "SmallInt", "Mediumint", "INT", "bigint"
         ));
@@ -160,7 +160,7 @@ public class MysqlSchemaCodegenTest {
     @Test(expectedExceptions = RuntimeException.class)
     public void testToCodegenMysqlDataTypeDefaultWithExceptionalColumnType() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
-        HashMap<String, Object> defaultMap = null;
+        Map<String, Object> defaultMap = null;
         ArrayList<String> specialFixture = new ArrayList<String>(Arrays.asList(
             "TINYBLOB", "Blob", "MEDIUMBLOB", "LONGBLOB", "TINYTEXT", "TEXT", "MEDIUMTEXT", "LONGTEXT", "GEOMETRY", "JSON"
         ));

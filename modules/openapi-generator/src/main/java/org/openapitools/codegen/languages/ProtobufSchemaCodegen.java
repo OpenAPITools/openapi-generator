@@ -16,6 +16,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Sets;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 
@@ -86,31 +88,29 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         modelPackage = "messages";
         apiPackage = "services";
 
-        defaultIncludes = new HashSet<String>(
-                Arrays.asList(
-                        "map",
-                        "array")
+        defaultIncludes = Sets.newHashSet(
+                "map",
+                "array"
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "map",
-                        "array",
-                        "bool",
-                        "bytes",
-                        "string",
-                        "int32",
-                        "int64",
-                        "uint32",
-                        "uint64",
-                        "sint32",
-                        "sint64",
-                        "fixed32",
-                        "fixed64",
-                        "sfixed32",
-                        "sfixed64",
-                        "float",
-                        "double")
+        languageSpecificPrimitives = Sets.newHashSet(
+                "map",
+                "array",
+                "bool",
+                "bytes",
+                "string",
+                "int32",
+                "int64",
+                "uint32",
+                "uint64",
+                "sint32",
+                "sint64",
+                "fixed32",
+                "fixed64",
+                "sfixed32",
+                "sfixed64",
+                "float",
+                "double"
         );
 
         instantiationTypes.clear();

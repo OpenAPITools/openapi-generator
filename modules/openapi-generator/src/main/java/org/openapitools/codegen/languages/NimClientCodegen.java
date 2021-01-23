@@ -16,6 +16,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Sets;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
@@ -117,32 +119,29 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
                 )
         );
 
-        defaultIncludes = new HashSet<String>(
-                Arrays.asList(
-                        "array"
-                )
+        defaultIncludes = Sets.newHashSet(
+                "array"
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "int",
-                        "int8",
-                        "int16",
-                        "int32",
-                        "int64",
-                        "uint",
-                        "uint8",
-                        "uint16",
-                        "uint32",
-                        "uint64",
-                        "float",
-                        "float32",
-                        "float64",
-                        "bool",
-                        "char",
-                        "string",
-                        "cstring",
-                        "pointer")
+        languageSpecificPrimitives = Sets.newHashSet(
+                "int",
+                "int8",
+                "int16",
+                "int32",
+                "int64",
+                "uint",
+                "uint8",
+                "uint16",
+                "uint32",
+                "uint64",
+                "float",
+                "float32",
+                "float64",
+                "bool",
+                "char",
+                "string",
+                "cstring",
+                "pointer"
         );
 
         typeMapping.clear();

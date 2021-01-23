@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Sets;
+
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -52,7 +54,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RustServerCodegen.class);
 
-    private HashMap<String, String> modelXmlNames = new HashMap<String, String>();
+    private Map<String, String> modelXmlNames = new HashMap<>();
 
     private static final String NO_FORMAT = "%%NO_FORMAT";
 
@@ -159,30 +161,28 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 )
         );
 
-        defaultIncludes = new HashSet<String>(
-                Arrays.asList(
-                        "map",
-                        "array")
+        defaultIncludes = Sets.newHashSet(
+                "map",
+                "array"
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "bool",
-                        "char",
-                        "i8",
-                        "i16",
-                        "i32",
-                        "i64",
-                        "u8",
-                        "u16",
-                        "u32",
-                        "u64",
-                        "isize",
-                        "usize",
-                        "f32",
-                        "f64",
-                        "str",
-                        "String")
+        languageSpecificPrimitives = Sets.newHashSet(
+                "bool",
+                "char",
+                "i8",
+                "i16",
+                "i32",
+                "i64",
+                "u8",
+                "u16",
+                "u32",
+                "u64",
+                "isize",
+                "usize",
+                "f32",
+                "f64",
+                "str",
+                "String"
         );
 
         instantiationTypes.clear();
@@ -212,7 +212,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("object", "serde_json::Value");
         typeMapping.put("AnyType", "serde_json::Value");
 
-        importMapping = new HashMap<String, String>();
+        importMapping = new HashMap<>();
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME,
@@ -677,7 +677,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         if (op.isCallbackRequest) {
             formatPath = formatPath.substring(1); // Callback paths are absolute so strip initial '/'
 
-            List<String> params = new ArrayList<String>();
+            List<String> params = new ArrayList<>();
 
             Matcher match = Pattern.compile("\\{\\$[^}{]*\\}").matcher(op.path);
 
@@ -708,7 +708,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         // "pathSetMap", which we'll add to the source document that will be
         // processed by the templates.
         if (!found) {
-            Map<String, String> pathSetEntry = new HashMap<String, String>();
+            Map<String, String> pathSetEntry = new HashMap<>();
             pathSetEntry.put("path", op.path);
             pathSetEntry.put("PATH_ID", pathId);
 
@@ -765,9 +765,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         boolean producesXml = false;
         boolean producesPlainText = false;
         if (produces != null && !produces.isEmpty()) {
-            List<Map<String, String>> c = new ArrayList<Map<String, String>>();
+            List<Map<String, String>> c = new ArrayList<>();
             for (String mimeType : produces) {
-                Map<String, String> mediaType = new HashMap<String, String>();
+                Map<String, String> mediaType = new HashMap<>();
 
                 if (isMimetypeXml(mimeType)) {
                     additionalProperties.put("usesXml", true);
@@ -1259,7 +1259,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, Object> newObjs = super.postProcessAllModels(objs);
 
         //Index all CodegenModels by model name.
-        HashMap<String, CodegenModel> allModels = new HashMap<String, CodegenModel>();
+        Map<String, CodegenModel> allModels = new HashMap<>();
         for (Entry<String, Object> entry : objs.entrySet()) {
             String modelName = toModelName(entry.getKey());
             Map<String, Object> inner = (Map<String, Object>) entry.getValue();
@@ -1345,7 +1345,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 return a.getValue().get("path").compareTo(b.getValue().get("path"));
             }
         });
-        List pathSet = new ArrayList<Map<String, String>>();
+        List<Map<String, String>> pathSet = new ArrayList<>();
         int index = 0;
         for (Map.Entry<String, Map<String, String>> pathSetEntry : pathSetEntryList) {
             Map<String, String> pathSetEntryValue = pathSetEntry.getValue();

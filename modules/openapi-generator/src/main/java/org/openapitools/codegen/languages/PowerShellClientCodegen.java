@@ -16,6 +16,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Sets;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
@@ -48,11 +50,11 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     protected String modelDocPath = "docs/";
     protected String apiTestPath = "tests/Api";
     protected String modelTestPath = "tests/Model";
-    protected HashSet nullablePrimitives;
+    protected Set<String> nullablePrimitives;
     protected String powershellGalleryUrl;
-    protected HashSet powershellVerbs;
+    protected Set<String> powershellVerbs;
     protected Map<String, String> commonVerbs; // verbs not in the official ps verb list but can be mapped to one of the verbs
-    protected HashSet methodNames; // store a list of method names to detect duplicates
+    protected Set<String> methodNames; // store a list of method names to detect duplicates
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected boolean discardReadOnly = false; // Discard the readonly property in initialize cmdlet
     protected boolean skipVerbParsing = false; // Attempt to parse cmdlets from operation names
@@ -105,7 +107,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         modelPackage = packageName + File.separator + "Model";
 
         // https://blogs.msdn.microsoft.com/powershell/2010/01/07/how-objects-are-sent-to-and-from-remote-sessions/
-        languageSpecificPrimitives = new HashSet<String>(Arrays.asList(
+        languageSpecificPrimitives = Sets.newHashSet(
                 "Byte",
                 "SByte",
                 "Byte[]",
@@ -130,11 +132,11 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 "Uri",
                 "System.IO.FileInfo",
                 "Version"
-        ));
+        );
 
-        commonVerbs = new HashMap<String, String>();
+        commonVerbs = new HashMap<>();
 
-        Map<String, List<String>> verbMappings = new HashMap<String, List<String>>();
+        Map<String, List<String>> verbMappings = new HashMap<>();
 
         // common
         verbMappings.put("Add", Arrays.asList("Append", "Attach", "Concatenate", "Insert"));
@@ -262,7 +264,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             }
         }
 
-        powershellVerbs = new HashSet<String>(Arrays.asList(
+        powershellVerbs = Sets.newHashSet(
                 "Add",
                 "Clear",
                 "Close",
@@ -362,11 +364,11 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 "Unblock",
                 "Unprotect",
                 "Use"
-        ));
+        );
 
-        methodNames = new HashSet<String>();
+        methodNames = new HashSet<>();
 
-        nullablePrimitives = new HashSet<String>(Arrays.asList(
+        nullablePrimitives = Sets.newHashSet(
                 "System.Nullable[Byte]",
                 "System.Nullable[SByte]",
                 "System.Nullable[Int16]",
@@ -379,10 +381,10 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 "System.Nullable[Single]",
                 "System.Nullable[Double]",
                 "System.Nullable[Boolean]"
-        ));
+        );
 
         // list of reserved words - must be in lower case
-        reservedWords = new HashSet<String>(Arrays.asList(
+        reservedWords = Sets.newHashSet(
                 // https://richardspowershellblog.wordpress.com/2009/05/02/powershell-reserved-words/
                 "begin",
                 "break",
@@ -450,9 +452,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 "stacktrace",
                 "this",
                 "true"
-        ));
+        );
 
-        defaultIncludes = new HashSet<String>(Arrays.asList(
+        defaultIncludes = Sets.newHashSet(
                 "Byte",
                 "SByte",
                 "Byte[]",
@@ -477,9 +479,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 "Uri",
                 "System.IO.FileInfo",
                 "Version"
-        ));
+        );
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("string", "String");
         typeMapping.put("boolean", "Boolean");
         typeMapping.put("integer", "Int32");
@@ -943,8 +945,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
-        HashMap<String, Integer> processedModelMaps = new HashMap<String, Integer>();
+        HashMap<String, CodegenModel> modelMaps = new HashMap<>();
+        HashMap<String, Integer> processedModelMaps = new HashMap<>();
 
         for (Object o : allModels) {
             HashMap<String, Object> h = (HashMap<String, Object>) o;
@@ -974,7 +976,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             if (methodNames.contains(op.vendorExtensions.get("x-powershell-method-name"))) {
                 LOGGER.error("Duplicated method name found: {}", op.vendorExtensions.get("x-powershell-method-name"));
             } else {
-                methodNames.add(op.vendorExtensions.get("x-powershell-method-name"));
+                methodNames.add((String) op.vendorExtensions.get("x-powershell-method-name"));
             }
 
             if (op.produces != null && op.produces.size() > 1) {

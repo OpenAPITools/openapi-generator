@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Sets;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
@@ -27,8 +29,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
-
-import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScalaFinchServerCodegen.class);
@@ -89,27 +89,27 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
                         "native")
         );
 
-        defaultIncludes = new HashSet<String>(
-                Arrays.asList("double",
-                        "Int",
-                        "Long",
-                        "Float",
-                        "Double",
-                        "char",
-                        "float",
-                        "String",
-                        "boolean",
-                        "Boolean",
-                        "Double",
-                        "Integer",
-                        "Long",
-                        "Float",
-                        "List",
-                        "Set",
-                        "Map")
+        defaultIncludes = Sets.newHashSet(
+                "double",
+                "Int",
+                "Long",
+                "Float",
+                "Double",
+                "char",
+                "float",
+                "String",
+                "boolean",
+                "Boolean",
+                "Double",
+                "Integer",
+                "Long",
+                "Float",
+                "List",
+                "Set",
+                "Map"
         );
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("string", "String");
         typeMapping.put("boolean", "Boolean");
         typeMapping.put("integer", "Int");
@@ -160,24 +160,23 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("endpoint.mustache", sourceFolder, "endpoint.scala"));
         supportingFiles.add(new SupportingFile("errors.mustache", sourceFolder, "errors.scala"));
 
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "String",
-                        "Boolean",
-                        "Double",
-                        "Int",
-                        "Integer",
-                        "Long",
-                        "Float",
-                        "Any",
-                        "AnyVal",
-                        "AnyRef",
-                        "Object")
+        languageSpecificPrimitives = Sets.newHashSet(
+                "String",
+                "Boolean",
+                "Double",
+                "Int",
+                "Integer",
+                "Long",
+                "Float",
+                "Any",
+                "AnyVal",
+                "AnyRef",
+                "Object"
         );
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("map", "HashMap");
 
-        importMapping = new HashMap<String, String>();
+        importMapping = new HashMap<>();
         importMapping.put("UUID", "java.util.UUID");
         importMapping.put("URI", "java.net.URI");
         importMapping.put("File", "java.io.File");

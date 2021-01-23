@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Sets;
+
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 
@@ -57,23 +59,23 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         apiPackage = "org.openapitools.server.api";
         modelPackage = "org.openapitools.server.model";
 
-        defaultIncludes = new HashSet<String>(
-                Arrays.asList("double",
-                        "Int",
-                        "Long",
-                        "Float",
-                        "Double",
-                        "char",
-                        "float",
-                        "String",
-                        "boolean",
-                        "Boolean",
-                        "Double",
-                        "Integer",
-                        "Long",
-                        "Float",
-                        "Set",
-                        "Map")
+        defaultIncludes = Sets.newHashSet(
+                "double",
+                "Int",
+                "Long",
+                "Float",
+                "Double",
+                "char",
+                "float",
+                "String",
+                "boolean",
+                "Boolean",
+                "Double",
+                "Integer",
+                "Long",
+                "Float",
+                "Set",
+                "Map"
         );
 
         typeMapping = new HashMap<>();
@@ -118,7 +120,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         supportingFiles.add(new SupportingFile("project/plugins.sbt", "project", "plugins.sbt"));
         supportingFiles.add(new SupportingFile("sbt", "", "sbt"));
 
-        importMapping = new HashMap<String, String>();
+        importMapping = new HashMap<>();
         importMapping.put("UUID", "java.util.UUID");
         importMapping.put("URI", "java.net.URI");
         importMapping.put("File", "java.io.File");

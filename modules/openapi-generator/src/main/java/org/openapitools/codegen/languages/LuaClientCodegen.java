@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Sets;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
@@ -111,18 +113,16 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
                 )
         );
 
-        defaultIncludes = new HashSet<String>(
-                Arrays.asList(
-                        "map",
-                        "array")
+        defaultIncludes = Sets.newHashSet(
+                "map",
+                "array"
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "nil",
-                        "string",
-                        "boolean",
-                        "number")
+        languageSpecificPrimitives = Sets.newHashSet(
+                "nil",
+                "string",
+                "boolean",
+                "number"
         );
 
         instantiationTypes.clear();
@@ -150,7 +150,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("ByteArray", "string");
         typeMapping.put("object", "TODO_OBJECT_MAPPING");
 
-        importMapping = new HashMap<String, String>();
+        importMapping = new HashMap<>();
         importMapping.put("time.Time", "time");
         importMapping.put("*os.File", "os");
         importMapping.put("os", "io/ioutil");
@@ -507,7 +507,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public Map<String, String> createMapping(String key, String value) {
-        Map<String, String> customImport = new HashMap<String, String>();
+        Map<String, String> customImport = new HashMap<>();
         customImport.put(key, value);
 
         return customImport;

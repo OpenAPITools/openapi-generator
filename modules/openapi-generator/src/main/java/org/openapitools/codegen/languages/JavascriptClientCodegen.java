@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Sets;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
@@ -135,10 +137,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                         "prototype", "String", "toString", "undefined", "valueOf")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList("String", "Boolean", "Number", "Array", "Object", "Date", "File", "Blob")
+        languageSpecificPrimitives = Sets.newHashSet(
+                "String", "Boolean", "Number", "Array", "Object", "Date", "File", "Blob"
         );
-        defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
+        defaultIncludes = new HashSet<>(languageSpecificPrimitives);
 
         instantiationTypes.put("array", "Array");
         instantiationTypes.put("set", "Array");

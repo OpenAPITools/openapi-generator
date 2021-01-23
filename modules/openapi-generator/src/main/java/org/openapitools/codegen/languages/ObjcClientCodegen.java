@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Sets;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
@@ -44,7 +46,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String DEFAULT_LICENSE = "Proprietary";
     public static final String CORE_DATA = "coreData";
 
-    protected Set<String> foundationClasses = new HashSet<String>();
+    protected Set<String> foundationClasses = new HashSet<>();
     protected String podName = "OpenAPIClient";
     protected String podVersion = "1.0.0";
     protected String classPrefix = "OAI";
@@ -61,7 +63,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected boolean generateCoreData = false;
 
-    protected Set<String> advancedMapingTypes = new HashSet<String>();
+    protected Set<String> advancedMapingTypes = new HashSet<>();
 
     public ObjcClientCodegen() {
         super();
@@ -186,17 +188,16 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "description", "class"
                 ));
 
-        importMapping = new HashMap<String, String>();
+        importMapping = new HashMap<>();
 
-        foundationClasses = new HashSet<String>(
-                Arrays.asList(
-                        "NSNumber",
-                        "NSObject",
-                        "NSString",
-                        "NSDate",
-                        "NSData",
-                        "NSURL",
-                        "NSDictionary")
+        foundationClasses = Sets.newHashSet(
+                "NSNumber",
+                "NSObject",
+                "NSString",
+                "NSDate",
+                "NSData",
+                "NSURL",
+                "NSDictionary"
         );
 
         instantiationTypes.put("array", "NSMutableArray");

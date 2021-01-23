@@ -16,6 +16,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Sets;
+
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
@@ -41,19 +43,19 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     public static final Integer ENUM_MAX_ELEMENTS = 65535;
     public static final Integer IDENTIFIER_MAX_LENGTH = 64;
 
-    protected Vector<String> mysqlNumericTypes = new Vector<String>(Arrays.asList(
+    protected Vector<String> mysqlNumericTypes = new Vector<>(Arrays.asList(
             "BIGINT", "BIT", "BOOL", "BOOLEAN", "DEC", "DECIMAL", "DOUBLE", "DOUBLE PRECISION", "FIXED", "FLOAT", "INT", "INTEGER", "MEDIUMINT", "NUMERIC", "REAL", "SMALLINT", "TINYINT"
     ));
 
-    protected Vector<String> mysqlDateAndTimeTypes = new Vector<String>(Arrays.asList(
+    protected Vector<String> mysqlDateAndTimeTypes = new Vector<>(Arrays.asList(
             "DATE", "DATETIME", "TIME", "TIMESTAMP", "YEAR"
     ));
 
-    protected Vector<String> mysqlStringTypes = new Vector<String>(Arrays.asList(
+    protected Vector<String> mysqlStringTypes = new Vector<>(Arrays.asList(
             "BINARY", "BLOB", "CHAR", "CHAR BYTE", "CHARACTER", "ENUM", "LONGBLOB", "LONGTEXT", "MEDIUMBLOB", "MEDIUMTEXT", "SET", "TEXT", "TINYBLOB", "TINYTEXT", "VARBINARY", "VARCHAR"
     ));
 
-    protected Vector<String> mysqlSpatialTypes = new Vector<String>(Arrays.asList(
+    protected Vector<String> mysqlSpatialTypes = new Vector<>(Arrays.asList(
             "GEOMETRY", "GEOMETRYCOLLECTION", "LINESTRING", "MULTILINESTRING", "MULTIPOINT", "MULTIPOLYGON", "POINT", "POLYGON"
     ));
 
@@ -125,32 +127,30 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         );
 
         // all types can be threaded as primitives except array, object and refs
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "bool",
-                        "boolean",
-                        "int",
-                        "integer",
-                        "double",
-                        "float",
-                        "string",
-                        "date",
-                        "Date",
-                        "DateTime",
-                        "long",
-                        "short",
-                        "char",
-                        "ByteArray",
-                        "binary",
-                        "file",
-                        "UUID",
-                        "URI",
-                        "BigDecimal",
-                        "mixed",
-                        "number",
-                        "void",
-                        "byte"
-                )
+        languageSpecificPrimitives = Sets.newHashSet(
+                "bool",
+                "boolean",
+                "int",
+                "integer",
+                "double",
+                "float",
+                "string",
+                "date",
+                "Date",
+                "DateTime",
+                "long",
+                "short",
+                "char",
+                "ByteArray",
+                "binary",
+                "file",
+                "UUID",
+                "URI",
+                "BigDecimal",
+                "mixed",
+                "number",
+                "void",
+                "byte"
         );
 
         // https://dev.mysql.com/doc/refman/8.0/en/data-types.html
@@ -263,8 +263,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             String tableName = this.toTableName(modelName);
             String modelDescription = model.getDescription();
             Map<String, Object> modelVendorExtensions = model.getVendorExtensions();
-            Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-            Map<String, Object> tableDefinition = new HashMap<String, Object>();
+            Map<String, Object> mysqlSchema = new HashMap<>();
+            Map<String, Object> tableDefinition = new HashMap<>();
 
             if (this.getIdentifierNamingConvention().equals("snake_case") && !modelName.equals(tableName)) {
                 // add original name in table comment
@@ -325,9 +325,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processIntegerTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
-        ArrayList columnDataTypeArguments = new ArrayList();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
+        List<Map<String, Object>> columnDataTypeArguments = new ArrayList<>();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
         String dataType = property.getDataType();
@@ -413,8 +413,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processDecimalTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
@@ -499,8 +499,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processBooleanTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
@@ -552,8 +552,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processStringTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
@@ -631,8 +631,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processDateTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
         String dataType = property.getDataType();
@@ -682,8 +682,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processJsonTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
         String dataType = property.getDataType();
@@ -737,8 +737,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processUnknownTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
         Boolean required = property.getRequired();
@@ -785,8 +785,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      * @param value   argument value
      * @return generated codegen property
      */
-    public HashMap<String, Object> toCodegenMysqlDataTypeArgument(Object value) {
-        HashMap<String, Object> arg = new HashMap<String, Object>();
+    public Map<String, Object> toCodegenMysqlDataTypeArgument(Object value) {
+        Map<String, Object> arg = new HashMap<>();
         if (value instanceof String) {
             arg.put("isString", true);
             arg.put("isFloat", false);
@@ -817,8 +817,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      * @param mysqlDataType MySQL data type
      * @return generated codegen property
      */
-    public HashMap<String, Object> toCodegenMysqlDataTypeDefault(String defaultValue, String mysqlDataType) {
-        HashMap<String, Object> defaultMap = new HashMap<String, Object>();
+    public Map<String, Object> toCodegenMysqlDataTypeDefault(String defaultValue, String mysqlDataType) {
+        Map<String, Object> defaultMap = new HashMap<>();
         if (defaultValue == null || defaultValue.toUpperCase(Locale.ROOT).equals("NULL")) {
             defaultMap.put("defaultValue", "NULL");
             defaultMap.put("isString", false);

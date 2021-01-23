@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Sets;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -55,16 +57,16 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
             "short", "try", "char", "final", "interface", "static", "void",
             "class", "finally", "const", "super", "while"));
 
-        languageSpecificPrimitives = new HashSet<String>(Arrays.asList(
+        languageSpecificPrimitives = Sets.newHashSet(
             "string",
             "boolean",
             "number",
             "Object",
             "Blob",
-            "Date"));
+            "Date");
         instantiationTypes.put("array", "Array");
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("Array", "Array");
         typeMapping.put("array", "Array");
         typeMapping.put("List", "Array");
@@ -86,12 +88,12 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
         typeMapping.put("map", "Object");
         typeMapping.put("DateTime", "Date");
 
-        importMapping = new HashMap<String, String>();
-        defaultIncludes = new HashSet<String>(Arrays.asList(
+        importMapping = new HashMap<>();
+        defaultIncludes = Sets.newHashSet(
             "Object",
             "Array",
             "Blob"
-        ));
+        );
 
         typeMapping.put("binary", "string");
 

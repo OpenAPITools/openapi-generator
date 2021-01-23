@@ -164,7 +164,7 @@ public class PythonLegacyClientCodegen extends DefaultCodegen implements Codegen
                         "return", "def", "for", "lambda", "try", "self", "nonlocal", "None", "True",
                         "False", "async", "await"));
 
-        regexModifiers = new HashMap<Character, String>();
+        regexModifiers = new HashMap<>();
         regexModifiers.put('i', "IGNORECASE");
         regexModifiers.put('l', "LOCALE");
         regexModifiers.put('m', "MULTILINE");
@@ -376,7 +376,7 @@ public class PythonLegacyClientCodegen extends DefaultCodegen implements Codegen
             }
 
             String regex = pattern.substring(1, i).replace("'", "\\'");
-            List<String> modifiers = new ArrayList<String>();
+            List<String> modifiers = new ArrayList<>();
 
             for (char c : pattern.substring(i).toCharArray()) {
                 if (regexModifiers.containsKey(c)) {

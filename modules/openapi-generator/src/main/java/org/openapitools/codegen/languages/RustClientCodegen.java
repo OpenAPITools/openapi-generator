@@ -18,6 +18,8 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
@@ -124,18 +126,16 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 )
         );
 
-        defaultIncludes = new HashSet<String>(
-                Arrays.asList(
-                        "map",
-                        "array")
+        defaultIncludes = Sets.newHashSet(
+                "map",
+                "array"
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "i8", "i16", "i32", "i64",
-                        "u8", "u16", "u32", "u64",
-                        "f32", "f64",
-                        "char", "bool", "String", "Vec<u8>", "File")
+        languageSpecificPrimitives = Sets.newHashSet(
+                "i8", "i16", "i32", "i64",
+                "u8", "u16", "u32", "u64",
+                "f32", "f64",
+                "char", "bool", "String", "Vec<u8>", "File"
         );
 
         instantiationTypes.clear();

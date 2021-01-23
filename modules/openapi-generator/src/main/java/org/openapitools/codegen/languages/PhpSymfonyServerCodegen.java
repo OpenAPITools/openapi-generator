@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Sets;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
@@ -114,7 +116,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         outputFolder = "generated-code" + File.separator + "php";
         apiTemplateFiles.put("api_controller.mustache", ".php");
         modelTestTemplateFiles.put("testing/model_test.mustache", ".php");
-        apiTestTemplateFiles = new HashMap<String, String>();
+        apiTestTemplateFiles = new HashMap<>();
         apiTestTemplateFiles.put("testing/api_test.mustache", ".php");
         embeddedTemplateDir = templateDir = "php-symfony";
 
@@ -140,27 +142,23 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         );
 
         // ref: http://php.net/manual/en/language.types.intro.php
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "bool",
-                        "int",
-                        "double",
-                        "float",
-                        "string",
-                        "object",
-                        "mixed",
-                        "number",
-                        "void",
-                        "byte",
-                        "array"
-                )
+        languageSpecificPrimitives = Sets.newHashSet(
+                "bool",
+                "int",
+                "double",
+                "float",
+                "string",
+                "object",
+                "mixed",
+                "number",
+                "void",
+                "byte",
+                "array"
         );
 
-        defaultIncludes = new HashSet<String>(
-                Arrays.asList(
-                        "\\DateTime",
-                        "UploadedFile"
-                )
+        defaultIncludes = Sets.newHashSet(
+                "\\DateTime",
+                "UploadedFile"
         );
 
         variableNamingConvention = "camelCase";
@@ -172,7 +170,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         additionalProperties.put("primitives", primitives);
 
         // ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
         typeMapping.put("number", "float");
@@ -368,20 +366,16 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         // Type-hintable primitive types
         // ref: http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration
         if (phpLegacySupport) {
-            typeHintable = new HashSet<String>(
-                    Arrays.asList(
-                            "array"
-                    )
+            typeHintable = Sets.newHashSet(
+                    "array"
             );
         } else {
-            typeHintable = new HashSet<String>(
-                    Arrays.asList(
-                            "array",
-                            "bool",
-                            "float",
-                            "int",
-                            "string"
-                    )
+            typeHintable = Sets.newHashSet(
+                    "array",
+                    "bool",
+                    "float",
+                    "int",
+                    "string"
             );
         }
     }
@@ -394,7 +388,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         operations.put("controllerName", toControllerName((String) operations.get("pathPrefix")));
         operations.put("symfonyService", toSymfonyService((String) operations.get("pathPrefix")));
 
-        List<CodegenSecurity> authMethods = new ArrayList<CodegenSecurity>();
+        List<CodegenSecurity> authMethods = new ArrayList<>();
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
 
         for (CodegenOperation op : operationList) {

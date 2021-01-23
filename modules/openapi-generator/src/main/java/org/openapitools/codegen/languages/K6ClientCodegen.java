@@ -312,7 +312,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                 List<Parameter> queryParams = new ArrayList<>();
                 List<Parameter> bodyOrFormParams = new ArrayList<>();
                 List<k6Check> k6Checks = new ArrayList<>();
-                Set<String> imports = new HashSet<String>();
+                Set<String> imports = new HashSet<>();
 
                 final Operation operation = methodOperation.getValue();
                 final PathItem.HttpMethod method = methodOperation.getKey();
