@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	sw "./go-petstore"
+	sw "github.com/OpenAPITools/openapi-generator/samples/client/petstore/go/go-petstore"
 )
 
 func TestCreateUser(t *testing.T) {

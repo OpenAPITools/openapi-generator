@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	sw "../go-petstore"
+	sw "github.com/OpenAPITools/openapi-generator/samples/client/petstore/go/go-petstore"
 )
 
 // MockPetApi is a mock of the PetApi interface

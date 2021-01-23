@@ -10,7 +10,7 @@ import (
 
 	"golang.org/x/oauth2"
 
-	sw "./go-petstore"
+	sw "github.com/OpenAPITools/openapi-generator/samples/client/petstore/go/go-petstore"
 )
 
 func TestOAuth2(t *testing.T) {

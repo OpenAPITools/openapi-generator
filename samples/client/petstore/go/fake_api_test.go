@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	sw "./go-petstore"
+	sw "github.com/OpenAPITools/openapi-generator/samples/client/petstore/go/go-petstore"
 )
 
 // TestPutBodyWithFileSchema ensures a model with the name 'File'

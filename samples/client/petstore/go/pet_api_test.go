@@ -8,8 +8,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	sw "./go-petstore"
-	mock "./mock"
+	sw "github.com/OpenAPITools/openapi-generator/samples/client/petstore/go/go-petstore"
+	mock "github.com/OpenAPITools/openapi-generator/samples/client/petstore/go/mock"
 )
 
 var client *sw.APIClient
