@@ -114,11 +114,11 @@ interface PetApi {
      * 
      * @param petId ID of pet to update 
      * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
+     * @param &#x60;file&#x60; file to upload (optional)
      * @return [Call]<[ApiResponse]>
      */
     @Multipart
     @POST("pet/{petId}/uploadImage")
-    fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String, @Part file: MultipartBody.Part): Call<ApiResponse>
+    fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String, @Part `file`: MultipartBody.Part): Call<ApiResponse>
 
 }

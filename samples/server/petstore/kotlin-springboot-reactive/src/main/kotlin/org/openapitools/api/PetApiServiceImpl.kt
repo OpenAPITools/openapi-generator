@@ -35,7 +35,7 @@ class PetApiServiceImpl : PetApiService {
         TODO("Implement me")
     }
 
-    override suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: org.springframework.core.io.Resource?): ModelApiResponse {
+    override suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, &#x60;file&#x60;: org.springframework.core.io.Resource?): ModelApiResponse {
         TODO("Implement me")
     }
 }

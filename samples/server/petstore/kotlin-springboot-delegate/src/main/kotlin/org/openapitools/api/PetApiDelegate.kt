@@ -150,7 +150,7 @@ interface PetApiDelegate {
      */
     fun uploadFile(petId: kotlin.Long,
         additionalMetadata: kotlin.String?,
-        file: Resource?): ResponseEntity<ModelApiResponse> {
+        &#x60;file&#x60;: Resource?): ResponseEntity<ModelApiResponse> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

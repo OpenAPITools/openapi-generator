@@ -68,7 +68,7 @@ fun Route.PetApi() {
     }
 
 
-    get<Paths.findPetsByStatus> {  _: Paths.findPetsByStatus ->
+    `get`<Paths.findPetsByStatus> {  _: Paths.findPetsByStatus ->
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()
         
         if (principal == null) {
@@ -102,7 +102,7 @@ fun Route.PetApi() {
     }
 
 
-    get<Paths.findPetsByTags> {  _: Paths.findPetsByTags ->
+    `get`<Paths.findPetsByTags> {  _: Paths.findPetsByTags ->
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()
         
         if (principal == null) {
@@ -136,7 +136,7 @@ fun Route.PetApi() {
     }
 
 
-    get<Paths.getPetById> {  _: Paths.getPetById ->
+    `get`<Paths.getPetById> {  _: Paths.getPetById ->
         val principal = call.authentication.principal<ApiPrincipal>()
         
         if (principal == null) {

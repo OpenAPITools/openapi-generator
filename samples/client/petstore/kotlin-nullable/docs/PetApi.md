@@ -354,7 +354,7 @@ Configure petstore_auth:
 
 <a name="uploadFile"></a>
 # **uploadFile**
-> ApiResponse uploadFile(petId, additionalMetadata, file)
+> ApiResponse uploadFile(petId, additionalMetadata, `file`)
 
 uploads an image
 
@@ -367,9 +367,9 @@ uploads an image
 val apiInstance = PetApi()
 val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to update
 val additionalMetadata : kotlin.String = additionalMetadata_example // kotlin.String | Additional data to pass to server
-val file : java.io.File = BINARY_DATA_HERE // java.io.File | file to upload
+val `file` : java.io.File = BINARY_DATA_HERE // java.io.File | file to upload
 try {
-    val result : ApiResponse? = apiInstance.uploadFile(petId, additionalMetadata, file)
+    val result : ApiResponse? = apiInstance.uploadFile(petId, additionalMetadata, `file`)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#uploadFile")
@@ -386,7 +386,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **kotlin.Long**| ID of pet to update |
  **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional]
- **file** | **java.io.File**| file to upload | [optional]
+ **&#x60;file&#x60;** | **java.io.File**| file to upload | [optional]
 
 ### Return type
 
