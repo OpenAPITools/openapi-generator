@@ -10,4 +10,8 @@ Name | Type | Description | Notes
 **baz** | **String** |  |  [optional]
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 
