@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(Combine)
 import Combine
+#endif
 
 open class PetAPI {
     /**
@@ -16,6 +18,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Void, Error>
      */
+    #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func addPet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
         return Future<Void, Error>.init { promise in
@@ -29,6 +32,7 @@ open class PetAPI {
             }
         }.eraseToAnyPublisher()
     }
+    #endif
 
     /**
      Add a new pet to the store
@@ -65,6 +69,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Void, Error>
      */
+    #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deletePet(petId: Int64, apiKey: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
         return Future<Void, Error>.init { promise in
@@ -78,6 +83,7 @@ open class PetAPI {
             }
         }.eraseToAnyPublisher()
     }
+    #endif
 
     /**
      Deletes a pet
@@ -126,6 +132,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<[Pet], Error>
      */
+    #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func findPetsByStatus(status: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<[Pet], Error> {
         return Future<[Pet], Error>.init { promise in
@@ -139,6 +146,7 @@ open class PetAPI {
             }
         }.eraseToAnyPublisher()
     }
+    #endif
 
     /**
      Finds Pets by status
@@ -179,6 +187,7 @@ open class PetAPI {
      - returns: AnyPublisher<[Pet], Error>
      */
     @available(*, deprecated, message: "This operation is deprecated.")
+    #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func findPetsByTags(tags: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<[Pet], Error> {
         return Future<[Pet], Error>.init { promise in
@@ -192,6 +201,7 @@ open class PetAPI {
             }
         }.eraseToAnyPublisher()
     }
+    #endif
 
     /**
      Finds Pets by tags
@@ -232,6 +242,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Pet, Error>
      */
+    #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getPetById(petId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Pet, Error> {
         return Future<Pet, Error>.init { promise in
@@ -245,6 +256,7 @@ open class PetAPI {
             }
         }.eraseToAnyPublisher()
     }
+    #endif
 
     /**
      Find pet by ID
@@ -284,6 +296,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Void, Error>
      */
+    #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updatePet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
         return Future<Void, Error>.init { promise in
@@ -297,6 +310,7 @@ open class PetAPI {
             }
         }.eraseToAnyPublisher()
     }
+    #endif
 
     /**
      Update an existing pet
@@ -334,6 +348,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Void, Error>
      */
+    #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
         return Future<Void, Error>.init { promise in
@@ -347,6 +362,7 @@ open class PetAPI {
             }
         }.eraseToAnyPublisher()
     }
+    #endif
 
     /**
      Updates a pet in the store with form data
@@ -395,6 +411,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<ApiResponse, Error>
      */
+    #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<ApiResponse, Error> {
         return Future<ApiResponse, Error>.init { promise in
@@ -408,6 +425,7 @@ open class PetAPI {
             }
         }.eraseToAnyPublisher()
     }
+    #endif
 
     /**
      uploads an image
@@ -456,6 +474,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<ApiResponse, Error>
      */
+    #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<ApiResponse, Error> {
         return Future<ApiResponse, Error>.init { promise in
@@ -469,6 +488,7 @@ open class PetAPI {
             }
         }.eraseToAnyPublisher()
     }
+    #endif
 
     /**
      uploads an image (required)

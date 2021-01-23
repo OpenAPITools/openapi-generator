@@ -9,11 +9,11 @@ import Alamofire
 
 class AlamofireRequestBuilderFactory: RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
-        AlamofireRequestBuilder<T>.self
+        return AlamofireRequestBuilder<T>.self
     }
 
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
-        AlamofireDecodableRequestBuilder<T>.self
+        return AlamofireDecodableRequestBuilder<T>.self
     }
 }
 
@@ -65,7 +65,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
      the file extension).  Return the desired Content-Type otherwise.
      */
     open func contentTypeForFormPart(fileURL: URL) -> String? {
-        nil
+        return nil
     }
 
     /**
@@ -73,7 +73,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
      configuration (e.g. to override the cache policy).
      */
     open func makeRequest(manager: SessionManager, method: HTTPMethod, encoding: ParameterEncoding, headers: [String: String]) -> DataRequest {
-        manager.request(URLString, method: method, parameters: parameters, encoding: encoding, headers: headers)
+        return manager.request(URLString, method: method, parameters: parameters, encoding: encoding, headers: headers)
     }
 
     override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
