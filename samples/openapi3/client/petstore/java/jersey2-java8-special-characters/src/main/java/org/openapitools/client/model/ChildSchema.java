@@ -134,7 +134,6 @@ public class ChildSchema extends Parent {
     return Objects.hash(prop1, super.hashCode(), additionalProperties);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

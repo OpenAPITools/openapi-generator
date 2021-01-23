@@ -560,13 +560,7 @@ public class ApiClient{{#java8}} extends JavaTimeFormatter{{/java8}} {
   public File downloadFileFromResponse(Response response) throws ApiException {
     try {
       File file = prepareDownloadFile(response);
-{{^supportJava6}}
       Files.copy(response.readEntity(InputStream.class), file.toPath());
-{{/supportJava6}}
-{{#supportJava6}}
-      // Java6 falls back to commons.io for file copying
-      FileUtils.copyToFile(response.readEntity(InputStream.class), file);
-{{/supportJava6}}
       return file;
     } catch (IOException e) {
       throw new ApiException(e);

@@ -162,7 +162,6 @@ public class ArrayTest {
     return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

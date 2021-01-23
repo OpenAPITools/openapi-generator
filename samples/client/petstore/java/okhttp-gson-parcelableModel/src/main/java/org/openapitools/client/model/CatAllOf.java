@@ -78,7 +78,6 @@ public class CatAllOf {
     return Objects.hash(declawed);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
