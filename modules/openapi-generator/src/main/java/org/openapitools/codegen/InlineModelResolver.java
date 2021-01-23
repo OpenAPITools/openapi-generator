@@ -362,7 +362,8 @@ public class InlineModelResolver {
         ListIterator<Schema> listIterator = children.listIterator();
         while (listIterator.hasNext()) {
             Schema component = listIterator.next();
-            if ((component.get$ref() == null) &&
+            if ((component != null) &&
+                (component.get$ref() == null) &&
                 ((component.getProperties() != null && !component.getProperties().isEmpty()) ||
                  (component.getEnum() != null && !component.getEnum().isEmpty()))) {
                 // If a `title` attribute is defined in the inline schema, codegen uses it to name the

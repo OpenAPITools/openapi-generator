@@ -1189,12 +1189,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public CodegenModel fromModel(String name, Schema model) {
-        LOGGER.debug("fromModel (schema): " + model);
+        LOGGER.debug("Creating model from schema: {}", model);
 
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel mdl = super.fromModel(name, model);
-
-        LOGGER.debug("fromModel (base end): " + mdl);
 
         mdl.vendorExtensions.put("x-upper-case-name", name.toUpperCase(Locale.ROOT));
         if (!StringUtils.isEmpty(model.get$ref())) {
@@ -1250,7 +1248,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             mdl.additionalPropertiesType = getTypeDeclaration(additionalProperties);
         }
 
-        LOGGER.debug("fromModel (end): " + mdl);
+        LOGGER.debug("Created model: {}", mdl);
 
         return mdl;
     }
