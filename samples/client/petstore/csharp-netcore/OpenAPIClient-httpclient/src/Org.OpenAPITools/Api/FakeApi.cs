@@ -535,13 +535,6 @@ namespace Org.OpenAPITools.Api
 
 
         /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateFakeHealthGetRequestAsync(System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
-        /// <summary>
         /// Health check endpoint 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -577,8 +570,6 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<HealthCheckResult>> FakeHealthGetWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
 
-            await ValidateFakeHealthGetRequestAsync(cancellationToken).ConfigureAwait(false);
-
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/fake/health";
@@ -600,12 +591,6 @@ namespace Org.OpenAPITools.Api
 
 
 
-            string[] contentTypes = new string[] {
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
@@ -619,14 +604,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="body">Input boolean as post body (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateFakeOuterBooleanSerializeRequestAsync(bool???? body, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         ///  Test serialization of outer boolean types
@@ -667,8 +644,6 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<bool>> FakeOuterBooleanSerializeWithHttpInfoAsync(bool???? body = null, System.Threading.CancellationToken? cancellationToken = null)
         {
 
-            await ValidateFakeOuterBooleanSerializeRequestAsync(body, cancellationToken).ConfigureAwait(false);
-
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/fake/outer/boolean";
@@ -687,17 +662,10 @@ namespace Org.OpenAPITools.Api
 
 
 
-            // todo localVarRequestOptions.Data = body;
+            request.Content = new System.Net.Http.StringContent(body.ToJson(), System.Text.Encoding.UTF8, "application/json");
 
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-            string[] contentTypes = new string[] {
-                "application/json"
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
 
@@ -712,14 +680,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="outerComposite">Input composite as post body (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateFakeOuterCompositeSerializeRequestAsync(OuterComposite??? outerComposite, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         ///  Test serialization of object with outer number type
@@ -760,8 +720,6 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync(OuterComposite??? outerComposite = null, System.Threading.CancellationToken? cancellationToken = null)
         {
 
-            await ValidateFakeOuterCompositeSerializeRequestAsync(outerComposite, cancellationToken).ConfigureAwait(false);
-
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/fake/outer/composite";
@@ -780,17 +738,10 @@ namespace Org.OpenAPITools.Api
 
 
 
-            // todo localVarRequestOptions.Data = outerComposite;
+            request.Content = new System.Net.Http.StringContent(outerComposite.ToJson(), System.Text.Encoding.UTF8, "application/json");
 
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-            string[] contentTypes = new string[] {
-                "application/json"
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
 
@@ -805,14 +756,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="body">Input number as post body (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateFakeOuterNumberSerializeRequestAsync(decimal???? body, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         ///  Test serialization of outer number types
@@ -853,8 +796,6 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<decimal>> FakeOuterNumberSerializeWithHttpInfoAsync(decimal???? body = null, System.Threading.CancellationToken? cancellationToken = null)
         {
 
-            await ValidateFakeOuterNumberSerializeRequestAsync(body, cancellationToken).ConfigureAwait(false);
-
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/fake/outer/number";
@@ -873,17 +814,10 @@ namespace Org.OpenAPITools.Api
 
 
 
-            // todo localVarRequestOptions.Data = body;
+            request.Content = new System.Net.Http.StringContent(body.ToJson(), System.Text.Encoding.UTF8, "application/json");
 
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-            string[] contentTypes = new string[] {
-                "application/json"
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
 
@@ -898,14 +832,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="body">Input string as post body (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateFakeOuterStringSerializeRequestAsync(string??? body, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         ///  Test serialization of outer string types
@@ -946,8 +872,6 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(string??? body = null, System.Threading.CancellationToken? cancellationToken = null)
         {
 
-            await ValidateFakeOuterStringSerializeRequestAsync(body, cancellationToken).ConfigureAwait(false);
-
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/fake/outer/string";
@@ -966,17 +890,10 @@ namespace Org.OpenAPITools.Api
 
 
 
-            // todo localVarRequestOptions.Data = body;
+            request.Content = new System.Net.Http.StringContent(body.ToJson(), System.Text.Encoding.UTF8, "application/json");
 
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-            string[] contentTypes = new string[] {
-                "application/json"
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
 
@@ -991,13 +908,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateGetArrayOfEnumsRequestAsync(System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// Array of Enums 
@@ -1035,8 +945,6 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<OuterEnum>>> GetArrayOfEnumsWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
 
-            await ValidateGetArrayOfEnumsRequestAsync(cancellationToken).ConfigureAwait(false);
-
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/fake/array-of-enums";
@@ -1058,12 +966,6 @@ namespace Org.OpenAPITools.Api
 
 
 
-            string[] contentTypes = new string[] {
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
@@ -1078,14 +980,6 @@ namespace Org.OpenAPITools.Api
             return apiResponse;
         }
 
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="fileSchemaTestClass"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateTestBodyWithFileSchemaRequestAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
 
 
         /// <summary>
@@ -1099,8 +993,6 @@ namespace Org.OpenAPITools.Api
         {
             if (fileSchemaTestClass == null)
                 throw new ArgumentNullException(nameof(fileSchemaTestClass)); 
-
-            await ValidateTestBodyWithFileSchemaRequestAsync(fileSchemaTestClass, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -1120,17 +1012,10 @@ namespace Org.OpenAPITools.Api
 
 
 
-            // todo localVarRequestOptions.Data = fileSchemaTestClass;
+            request.Content = new System.Net.Http.StringContent(fileSchemaTestClass.ToJson(), System.Text.Encoding.UTF8, "application/json");
 
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-            string[] contentTypes = new string[] {
-                "application/json"
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
@@ -1144,15 +1029,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="query"></param>
-        /// <param name="user"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateTestBodyWithQueryParamsRequestAsync(string query, User user, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
 
 
@@ -1170,8 +1046,6 @@ namespace Org.OpenAPITools.Api
                 throw new ArgumentNullException(nameof(query)); 
             if (user == null)
                 throw new ArgumentNullException(nameof(user)); 
-
-            await ValidateTestBodyWithQueryParamsRequestAsync(query, user, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -1193,17 +1067,10 @@ namespace Org.OpenAPITools.Api
 
 
 
-            // todo localVarRequestOptions.Data = user;
+            request.Content = new System.Net.Http.StringContent(user.ToJson(), System.Text.Encoding.UTF8, "application/json");
 
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-            string[] contentTypes = new string[] {
-                "application/json"
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
@@ -1217,14 +1084,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="modelClient">client model</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateTestClientModelRequestAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
@@ -1267,8 +1126,6 @@ namespace Org.OpenAPITools.Api
             if (modelClient == null)
                 throw new ArgumentNullException(nameof(modelClient)); 
 
-            await ValidateTestClientModelRequestAsync(modelClient, cancellationToken).ConfigureAwait(false);
-
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/fake";
@@ -1287,17 +1144,10 @@ namespace Org.OpenAPITools.Api
 
 
 
-            // todo localVarRequestOptions.Data = modelClient;
+            request.Content = new System.Net.Http.StringContent(modelClient.ToJson(), System.Text.Encoding.UTF8, "application/json");
 
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-            string[] contentTypes = new string[] {
-                "application/json"
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -1312,27 +1162,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="number">None</param>
-        /// <param name="_double">None</param>
-        /// <param name="patternWithoutDelimiter">None</param>
-        /// <param name="_byte">None</param>
-        /// <param name="integer">None (optional)</param>
-        /// <param name="int32">None (optional)</param>
-        /// <param name="int64">None (optional)</param>
-        /// <param name="_float">None (optional)</param>
-        /// <param name="_string">None (optional)</param>
-        /// <param name="binary">None (optional)</param>
-        /// <param name="date">None (optional)</param>
-        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
-        /// <param name="password">None (optional)</param>
-        /// <param name="callback">None (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateTestEndpointParametersRequestAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int???? integer, int???? int32, long???? int64, float???? _float, string??? _string, System.IO.Stream??? binary, DateTime???? date, DateTime???? dateTime, string??? password, string??? callback, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
 
 
@@ -1362,8 +1191,6 @@ namespace Org.OpenAPITools.Api
                 throw new ArgumentNullException(nameof(patternWithoutDelimiter)); 
             if (_byte == null)
                 throw new ArgumentNullException(nameof(_byte)); 
-
-            await ValidateTestEndpointParametersRequestAsync(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -1435,13 +1262,6 @@ namespace Org.OpenAPITools.Api
             
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
 
-            string[] contentTypes = new string[] {
-                "application/x-www-form-urlencoded"
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
@@ -1454,21 +1274,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
-        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
-        /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
-        /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
-        /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
-        /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
-        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
-        /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateTestEnumParametersRequestAsync(List<string>??? enumHeaderStringArray, string??? enumHeaderString, List<string>??? enumQueryStringArray, string??? enumQueryString, int???? enumQueryInteger, double???? enumQueryDouble, List<string>??? enumFormStringArray, string??? enumFormString, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
 
 
@@ -1488,8 +1293,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEnumParametersWithHttpInfoAsync(List<string>??? enumHeaderStringArray = null, string??? enumHeaderString = null, List<string>??? enumQueryStringArray = null, string??? enumQueryString = null, int???? enumQueryInteger = null, double???? enumQueryDouble = null, List<string>??? enumFormStringArray = null, string??? enumFormString = null, System.Threading.CancellationToken? cancellationToken = null)
         {
-
-            await ValidateTestEnumParametersRequestAsync(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -1537,13 +1340,6 @@ namespace Org.OpenAPITools.Api
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
 
-            string[] contentTypes = new string[] {
-                "application/x-www-form-urlencoded"
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
@@ -1556,19 +1352,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="requiredStringGroup">Required String in group parameters</param>
-        /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
-        /// <param name="requiredInt64Group">Required Integer in group parameters</param>
-        /// <param name="stringGroup">String in group parameters (optional)</param>
-        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
-        /// <param name="int64Group">Integer in group parameters (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateTestGroupParametersRequestAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int???? stringGroup, bool???? booleanGroup, long???? int64Group, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
 
 
@@ -1586,8 +1369,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestGroupParametersWithHttpInfoAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int???? stringGroup = null, bool???? booleanGroup = null, long???? int64Group = null, System.Threading.CancellationToken? cancellationToken = null)
         {
-
-            await ValidateTestGroupParametersRequestAsync(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -1628,12 +1409,6 @@ namespace Org.OpenAPITools.Api
                 //todo request.Headers.Add("authorization", $"Bearer {Environment.GetEnvironmentVariable("TOKEN_0", EnvironmentVariableTarget.Machine)}");
 
 
-            string[] contentTypes = new string[] {
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
@@ -1646,14 +1421,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="requestBody">request body</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateTestInlineAdditionalPropertiesRequestAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
 
 
@@ -1668,8 +1435,6 @@ namespace Org.OpenAPITools.Api
         {
             if (requestBody == null)
                 throw new ArgumentNullException(nameof(requestBody)); 
-
-            await ValidateTestInlineAdditionalPropertiesRequestAsync(requestBody, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -1689,17 +1454,10 @@ namespace Org.OpenAPITools.Api
 
 
 
-            // todo localVarRequestOptions.Data = requestBody;
+            request.Content = new System.Net.Http.StringContent(requestBody.ToJson(), System.Text.Encoding.UTF8, "application/json");
 
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-            string[] contentTypes = new string[] {
-                "application/json"
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
@@ -1713,15 +1471,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="param">field1</param>
-        /// <param name="param2">field2</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateTestJsonFormDataRequestAsync(string param, string param2, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
 
 
@@ -1739,8 +1488,6 @@ namespace Org.OpenAPITools.Api
                 throw new ArgumentNullException(nameof(param)); 
             if (param2 == null)
                 throw new ArgumentNullException(nameof(param2)); 
-
-            await ValidateTestJsonFormDataRequestAsync(param, param2, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -1766,13 +1513,6 @@ namespace Org.OpenAPITools.Api
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
 
-            string[] contentTypes = new string[] {
-                "application/x-www-form-urlencoded"
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
@@ -1785,18 +1525,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="pipe"></param>
-        /// <param name="ioutil"></param>
-        /// <param name="http"></param>
-        /// <param name="url"></param>
-        /// <param name="context"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateTestQueryParameterCollectionFormatRequestAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
 
 
@@ -1823,8 +1551,6 @@ namespace Org.OpenAPITools.Api
                 throw new ArgumentNullException(nameof(url)); 
             if (context == null)
                 throw new ArgumentNullException(nameof(context)); 
-
-            await ValidateTestQueryParameterCollectionFormatRequestAsync(pipe, ioutil, http, url, context, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -1856,12 +1582,6 @@ namespace Org.OpenAPITools.Api
 
 
 
-
-            string[] contentTypes = new string[] {
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);

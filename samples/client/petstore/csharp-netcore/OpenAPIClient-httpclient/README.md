@@ -19,9 +19,13 @@ foreach ($file in $files)
         continue
     }
 
-    $content=Get-Content $file.PSPath
-    $content=$content -replace "\?\?\?\?", "?"
-    $content=$content -replace "\?\?\?", "?"
+    $content=Get-Content $file.PSPath -raw
+    
+    if (-Not($content)){
+        continue;
+    }
+
+    $content=$content -replace '\?{3,4}', '?' # replace every three to four consecutive occurrences of '?' with a single one
     Set-Content $file.PSPath $content    
 }
 ```

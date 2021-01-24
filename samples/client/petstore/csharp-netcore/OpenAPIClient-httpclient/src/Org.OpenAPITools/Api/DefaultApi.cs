@@ -80,13 +80,6 @@ namespace Org.OpenAPITools.Api
 
 
         /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateFooGetRequestAsync(System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
-        /// <summary>
         ///  
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -122,8 +115,6 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<InlineResponseDefault>> FooGetWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
 
-            await ValidateFooGetRequestAsync(cancellationToken).ConfigureAwait(false);
-
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/foo";
@@ -144,12 +135,6 @@ namespace Org.OpenAPITools.Api
 
 
 
-
-            string[] contentTypes = new string[] {
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 

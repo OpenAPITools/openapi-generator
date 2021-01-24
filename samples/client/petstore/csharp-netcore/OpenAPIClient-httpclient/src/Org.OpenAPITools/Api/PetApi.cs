@@ -332,14 +332,6 @@ namespace Org.OpenAPITools.Api
         public Func<System.Threading.Tasks.ValueTask<string>>? GetTokenAsync { get; set; }  
 
 
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateAddPetRequestAsync(Pet pet, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
 
 
         /// <summary>
@@ -353,8 +345,6 @@ namespace Org.OpenAPITools.Api
         {
             if (pet == null)
                 throw new ArgumentNullException(nameof(pet)); 
-
-            await ValidateAddPetRequestAsync(pet, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -374,7 +364,7 @@ namespace Org.OpenAPITools.Api
 
 
 
-            // todo localVarRequestOptions.Data = pet;
+            request.Content = new System.Net.Http.StringContent(pet.ToJson(), System.Text.Encoding.UTF8, "application/json");
 
             // authentication (http_signature_test) required
                         //todo 
@@ -403,14 +393,6 @@ namespace Org.OpenAPITools.Api
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
 
-            string[] contentTypes = new string[] {
-                "application/json", 
-                "application/xml"
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
@@ -424,15 +406,6 @@ namespace Org.OpenAPITools.Api
             return apiResponse;
         }
 
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="petId">Pet id to delete</param>
-        /// <param name="apiKey"> (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateDeletePetRequestAsync(long petId, string??? apiKey, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
 
 
         /// <summary>
@@ -445,8 +418,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> DeletePetWithHttpInfoAsync(long petId, string??? apiKey = null, System.Threading.CancellationToken? cancellationToken = null)
         {
-
-            await ValidateDeletePetRequestAsync(petId, apiKey, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -477,12 +448,6 @@ namespace Org.OpenAPITools.Api
                 //todo localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
 
 
-            string[] contentTypes = new string[] {
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
@@ -495,14 +460,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="status">Status values that need to be considered for filter</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateFindPetsByStatusRequestAsync(List<string> status, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// Finds Pets by status Multiple status values can be provided with comma separated strings
@@ -544,8 +501,6 @@ namespace Org.OpenAPITools.Api
         {
             if (status == null)
                 throw new ArgumentNullException(nameof(status)); 
-
-            await ValidateFindPetsByStatusRequestAsync(status, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -593,12 +548,6 @@ namespace Org.OpenAPITools.Api
                 //todo localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
 
 
-            string[] contentTypes = new string[] {
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -613,14 +562,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="tags">Tags to filter by</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateFindPetsByTagsRequestAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// Finds Pets by tags Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -662,8 +603,6 @@ namespace Org.OpenAPITools.Api
         {
             if (tags == null)
                 throw new ArgumentNullException(nameof(tags)); 
-
-            await ValidateFindPetsByTagsRequestAsync(tags, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -711,12 +650,6 @@ namespace Org.OpenAPITools.Api
                 //todo localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
 
 
-            string[] contentTypes = new string[] {
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -731,14 +664,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="petId">ID of pet to return</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateGetPetByIdRequestAsync(long petId, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// Find pet by ID Returns a single pet
@@ -779,8 +704,6 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Pet>> GetPetByIdWithHttpInfoAsync(long petId, System.Threading.CancellationToken? cancellationToken = null)
         {
 
-            await ValidateGetPetByIdRequestAsync(petId, cancellationToken).ConfigureAwait(false);
-
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/pet/{petId}";
@@ -812,12 +735,6 @@ namespace Org.OpenAPITools.Api
                 request.Headers.Add("authorization", $"Bearer {token}");            
 
 
-            string[] contentTypes = new string[] {
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -833,14 +750,6 @@ namespace Org.OpenAPITools.Api
             return apiResponse;
         }
 
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateUpdatePetRequestAsync(Pet pet, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
 
 
         /// <summary>
@@ -854,8 +763,6 @@ namespace Org.OpenAPITools.Api
         {
             if (pet == null)
                 throw new ArgumentNullException(nameof(pet)); 
-
-            await ValidateUpdatePetRequestAsync(pet, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -875,7 +782,7 @@ namespace Org.OpenAPITools.Api
 
 
 
-            // todo localVarRequestOptions.Data = pet;
+            request.Content = new System.Net.Http.StringContent(pet.ToJson(), System.Text.Encoding.UTF8, "application/json");
 
             // authentication (http_signature_test) required
                         //todo 
@@ -904,14 +811,6 @@ namespace Org.OpenAPITools.Api
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
 
-            string[] contentTypes = new string[] {
-                "application/json", 
-                "application/xml"
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
@@ -924,16 +823,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="petId">ID of pet that needs to be updated</param>
-        /// <param name="name">Updated name of the pet (optional)</param>
-        /// <param name="status">Updated status of the pet (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateUpdatePetWithFormRequestAsync(long petId, string??? name, string??? status, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
 
 
@@ -948,8 +837,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdatePetWithFormWithHttpInfoAsync(long petId, string??? name = null, string??? status = null, System.Threading.CancellationToken? cancellationToken = null)
         {
-
-            await ValidateUpdatePetWithFormRequestAsync(petId, name, status, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -987,13 +874,6 @@ namespace Org.OpenAPITools.Api
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
 
-            string[] contentTypes = new string[] {
-                "application/x-www-form-urlencoded"
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
@@ -1006,16 +886,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="petId">ID of pet to update</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
-        /// <param name="file">file to upload (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateUploadFileRequestAsync(long petId, string??? additionalMetadata, System.IO.Stream??? file, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// uploads an image 
@@ -1062,8 +932,6 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileWithHttpInfoAsync(long petId, string??? additionalMetadata = null, System.IO.Stream??? file = null, System.Threading.CancellationToken? cancellationToken = null)
         {
 
-            await ValidateUploadFileRequestAsync(petId, additionalMetadata, file, cancellationToken).ConfigureAwait(false);
-
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/pet/{petId}/uploadImage";
@@ -1100,13 +968,6 @@ namespace Org.OpenAPITools.Api
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("multipart/form-data"));
 
-            string[] contentTypes = new string[] {
-                "multipart/form-data"
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
-
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
@@ -1120,16 +981,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="petId">ID of pet to update</param>
-        /// <param name="requiredFile">file to upload</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateUploadFileWithRequiredFileRequestAsync(long petId, System.IO.Stream requiredFile, string??? additionalMetadata, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// uploads an image (required) 
@@ -1178,8 +1029,6 @@ namespace Org.OpenAPITools.Api
             if (requiredFile == null)
                 throw new ArgumentNullException(nameof(requiredFile)); 
 
-            await ValidateUploadFileWithRequiredFileRequestAsync(petId, requiredFile, additionalMetadata, cancellationToken).ConfigureAwait(false);
-
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/fake/{petId}/uploadImageWithRequiredFile";
@@ -1212,13 +1061,6 @@ namespace Org.OpenAPITools.Api
                 //todo localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("multipart/form-data"));
-
-            string[] contentTypes = new string[] {
-                "multipart/form-data"
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
