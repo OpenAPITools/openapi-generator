@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 api.module.ts
 api/api.ts
@@ -16,4 +15,8 @@ model/order.ts
 model/pet.ts
 model/tag.ts
 model/user.ts
+package.json
+tsconfig.build.json
+tsconfig.json
+tslint.json
 variables.ts
