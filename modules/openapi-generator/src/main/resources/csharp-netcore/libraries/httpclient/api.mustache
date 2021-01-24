@@ -143,7 +143,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{/vendorExtensions.x-csharp-value-type}}
             {{/required}}
             {{/allParams}}
-            
+
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "{{path}}";
@@ -282,15 +282,6 @@ namespace {{packageName}}.{{apiPackage}}
             {{#consumes}}
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("{{{mediaType}}}"));
             {{/consumes}}
-
-            string[] contentTypes = new string[] {
-            {{#consumes}}
-                "{{{mediaType}}}"{{^-last}}, {{/-last}}
-            {{/consumes}}
-            };
-
-            if (request.Content != null && contentTypes.Length > 0)
-                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
             {{#produces}}
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("{{{mediaType}}}"));
