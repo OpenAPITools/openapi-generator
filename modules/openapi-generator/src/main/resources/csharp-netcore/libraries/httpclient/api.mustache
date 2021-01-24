@@ -216,7 +216,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{/formParams}}
 
             {{#bodyParam}}
-            // todo localVarRequestOptions.Data = {{paramName}};
+            request.Content = new System.Net.Http.StringContent({{paramName}}.ToJson(), System.Text.Encoding.UTF8, "application/json");
             {{/bodyParam}}
 
             {{#authMethods}}
