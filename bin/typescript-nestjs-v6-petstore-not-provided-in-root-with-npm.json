@@ -1,0 +1,7 @@
+{
+  "npmName": "@openapitools/typescript-nestjs-petstore",
+  "npmVersion": "1.0.0",
+  "stringEnums": true,
+  "npmRepository": "https://skimdb.npmjs.com/registry",
+  "snapshot": false
+}
