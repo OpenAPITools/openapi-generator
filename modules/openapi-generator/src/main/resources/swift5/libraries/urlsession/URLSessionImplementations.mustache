@@ -124,6 +124,7 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
         }
 
         let cleanupRequest = {
+            urlSessionStore[urlSessionId]?.finishTasksAndInvalidate()
             urlSessionStore[urlSessionId] = nil
         }
 
@@ -142,12 +143,14 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
                         } else {
                             apiResponseQueue.async {
                                 self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                                cleanupRequest()
                             }
                         }
                     }
                 } else {
                     apiResponseQueue.async {
                         self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                        cleanupRequest()
                     }
                 }
             }
