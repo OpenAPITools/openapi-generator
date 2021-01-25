@@ -44,9 +44,9 @@ type FakeClassnameTags123Api interface {
 type FakeClassnameTags123ApiService service
 
 type ApiTestClassnameRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService FakeClassnameTags123Api
-	client *Client
+	client     *Client
 }
 
 func (r ApiTestClassnameRequest) Client(client Client) ApiTestClassnameRequest {
@@ -67,7 +67,7 @@ func (r ApiTestClassnameRequest) Execute() (*Client, *http.Response, error) {
 func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context) ApiTestClassnameRequest {
 	return ApiTestClassnameRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -87,7 +87,7 @@ func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassname
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeClassnameTags123ApiService.TestClassname")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/fake_classname_test"
@@ -150,7 +150,7 @@ func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassname
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -159,7 +159,7 @@ func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassname
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}

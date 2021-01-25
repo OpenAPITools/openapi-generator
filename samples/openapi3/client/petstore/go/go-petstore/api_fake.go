@@ -17,8 +17,8 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"time"
 	"reflect"
+	"time"
 )
 
 // Linger please
@@ -137,15 +137,15 @@ type FakeApi interface {
 	TestClientModelExecute(r ApiTestClientModelRequest) (*Client, *http.Response, error)
 
 	/*
-	 * TestEndpointParameters Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-	 * Fake endpoint for testing various parameters
-假端點
-偽のエンドポイント
-가짜 엔드 포인트
+		 * TestEndpointParameters Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+		 * Fake endpoint for testing various parameters
+	假端點
+	偽のエンドポイント
+	가짜 엔드 포인트
 
-	 * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 * @return ApiTestEndpointParametersRequest
-	 */
+		 * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		 * @return ApiTestEndpointParametersRequest
+	*/
 	TestEndpointParameters(ctx context.Context) ApiTestEndpointParametersRequest
 
 	/*
@@ -235,10 +235,9 @@ type FakeApi interface {
 type FakeApiService service
 
 type ApiFakeHealthGetRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService FakeApi
 }
-
 
 func (r ApiFakeHealthGetRequest) Execute() (*HealthCheckResult, *http.Response, error) {
 	return r.ApiService.FakeHealthGetExecute(r)
@@ -252,7 +251,7 @@ func (r ApiFakeHealthGetRequest) Execute() (*HealthCheckResult, *http.Response, 
 func (a *FakeApiService) FakeHealthGet(ctx context.Context) ApiFakeHealthGetRequest {
 	return ApiFakeHealthGetRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -272,7 +271,7 @@ func (a *FakeApiService) FakeHealthGetExecute(r ApiFakeHealthGetRequest) (*Healt
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.FakeHealthGet")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/fake/health"
@@ -316,7 +315,7 @@ func (a *FakeApiService) FakeHealthGetExecute(r ApiFakeHealthGetRequest) (*Healt
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -325,7 +324,7 @@ func (a *FakeApiService) FakeHealthGetExecute(r ApiFakeHealthGetRequest) (*Healt
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -336,9 +335,9 @@ func (a *FakeApiService) FakeHealthGetExecute(r ApiFakeHealthGetRequest) (*Healt
 }
 
 type ApiFakeOuterBooleanSerializeRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService FakeApi
-	body *bool
+	body       *bool
 }
 
 func (r ApiFakeOuterBooleanSerializeRequest) Body(body bool) ApiFakeOuterBooleanSerializeRequest {
@@ -359,7 +358,7 @@ func (r ApiFakeOuterBooleanSerializeRequest) Execute() (bool, *http.Response, er
 func (a *FakeApiService) FakeOuterBooleanSerialize(ctx context.Context) ApiFakeOuterBooleanSerializeRequest {
 	return ApiFakeOuterBooleanSerializeRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -379,7 +378,7 @@ func (a *FakeApiService) FakeOuterBooleanSerializeExecute(r ApiFakeOuterBooleanS
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.FakeOuterBooleanSerialize")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/fake/outer/boolean"
@@ -425,7 +424,7 @@ func (a *FakeApiService) FakeOuterBooleanSerializeExecute(r ApiFakeOuterBooleanS
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -434,7 +433,7 @@ func (a *FakeApiService) FakeOuterBooleanSerializeExecute(r ApiFakeOuterBooleanS
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -445,8 +444,8 @@ func (a *FakeApiService) FakeOuterBooleanSerializeExecute(r ApiFakeOuterBooleanS
 }
 
 type ApiFakeOuterCompositeSerializeRequest struct {
-	ctx context.Context
-	ApiService FakeApi
+	ctx            context.Context
+	ApiService     FakeApi
 	outerComposite *OuterComposite
 }
 
@@ -468,7 +467,7 @@ func (r ApiFakeOuterCompositeSerializeRequest) Execute() (*OuterComposite, *http
 func (a *FakeApiService) FakeOuterCompositeSerialize(ctx context.Context) ApiFakeOuterCompositeSerializeRequest {
 	return ApiFakeOuterCompositeSerializeRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -488,7 +487,7 @@ func (a *FakeApiService) FakeOuterCompositeSerializeExecute(r ApiFakeOuterCompos
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.FakeOuterCompositeSerialize")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/fake/outer/composite"
@@ -534,7 +533,7 @@ func (a *FakeApiService) FakeOuterCompositeSerializeExecute(r ApiFakeOuterCompos
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -543,7 +542,7 @@ func (a *FakeApiService) FakeOuterCompositeSerializeExecute(r ApiFakeOuterCompos
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -554,9 +553,9 @@ func (a *FakeApiService) FakeOuterCompositeSerializeExecute(r ApiFakeOuterCompos
 }
 
 type ApiFakeOuterNumberSerializeRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService FakeApi
-	body *float32
+	body       *float32
 }
 
 func (r ApiFakeOuterNumberSerializeRequest) Body(body float32) ApiFakeOuterNumberSerializeRequest {
@@ -577,7 +576,7 @@ func (r ApiFakeOuterNumberSerializeRequest) Execute() (float32, *http.Response, 
 func (a *FakeApiService) FakeOuterNumberSerialize(ctx context.Context) ApiFakeOuterNumberSerializeRequest {
 	return ApiFakeOuterNumberSerializeRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -597,7 +596,7 @@ func (a *FakeApiService) FakeOuterNumberSerializeExecute(r ApiFakeOuterNumberSer
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.FakeOuterNumberSerialize")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/fake/outer/number"
@@ -643,7 +642,7 @@ func (a *FakeApiService) FakeOuterNumberSerializeExecute(r ApiFakeOuterNumberSer
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -652,7 +651,7 @@ func (a *FakeApiService) FakeOuterNumberSerializeExecute(r ApiFakeOuterNumberSer
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -663,9 +662,9 @@ func (a *FakeApiService) FakeOuterNumberSerializeExecute(r ApiFakeOuterNumberSer
 }
 
 type ApiFakeOuterStringSerializeRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService FakeApi
-	body *string
+	body       *string
 }
 
 func (r ApiFakeOuterStringSerializeRequest) Body(body string) ApiFakeOuterStringSerializeRequest {
@@ -686,7 +685,7 @@ func (r ApiFakeOuterStringSerializeRequest) Execute() (string, *http.Response, e
 func (a *FakeApiService) FakeOuterStringSerialize(ctx context.Context) ApiFakeOuterStringSerializeRequest {
 	return ApiFakeOuterStringSerializeRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -706,7 +705,7 @@ func (a *FakeApiService) FakeOuterStringSerializeExecute(r ApiFakeOuterStringSer
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.FakeOuterStringSerialize")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/fake/outer/string"
@@ -752,7 +751,7 @@ func (a *FakeApiService) FakeOuterStringSerializeExecute(r ApiFakeOuterStringSer
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -761,7 +760,7 @@ func (a *FakeApiService) FakeOuterStringSerializeExecute(r ApiFakeOuterStringSer
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -772,8 +771,8 @@ func (a *FakeApiService) FakeOuterStringSerializeExecute(r ApiFakeOuterStringSer
 }
 
 type ApiTestBodyWithFileSchemaRequest struct {
-	ctx context.Context
-	ApiService FakeApi
+	ctx                 context.Context
+	ApiService          FakeApi
 	fileSchemaTestClass *FileSchemaTestClass
 }
 
@@ -795,7 +794,7 @@ func (r ApiTestBodyWithFileSchemaRequest) Execute() (*http.Response, error) {
 func (a *FakeApiService) TestBodyWithFileSchema(ctx context.Context) ApiTestBodyWithFileSchemaRequest {
 	return ApiTestBodyWithFileSchemaRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -813,7 +812,7 @@ func (a *FakeApiService) TestBodyWithFileSchemaExecute(r ApiTestBodyWithFileSche
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestBodyWithFileSchema")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/fake/body-with-file-schema"
@@ -862,7 +861,7 @@ func (a *FakeApiService) TestBodyWithFileSchemaExecute(r ApiTestBodyWithFileSche
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -873,10 +872,10 @@ func (a *FakeApiService) TestBodyWithFileSchemaExecute(r ApiTestBodyWithFileSche
 }
 
 type ApiTestBodyWithQueryParamsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService FakeApi
-	query *string
-	user *User
+	query      *string
+	user       *User
 }
 
 func (r ApiTestBodyWithQueryParamsRequest) Query(query string) ApiTestBodyWithQueryParamsRequest {
@@ -900,7 +899,7 @@ func (r ApiTestBodyWithQueryParamsRequest) Execute() (*http.Response, error) {
 func (a *FakeApiService) TestBodyWithQueryParams(ctx context.Context) ApiTestBodyWithQueryParamsRequest {
 	return ApiTestBodyWithQueryParamsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -918,7 +917,7 @@ func (a *FakeApiService) TestBodyWithQueryParamsExecute(r ApiTestBodyWithQueryPa
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestBodyWithQueryParams")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/fake/body-with-query-params"
@@ -971,7 +970,7 @@ func (a *FakeApiService) TestBodyWithQueryParamsExecute(r ApiTestBodyWithQueryPa
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -982,9 +981,9 @@ func (a *FakeApiService) TestBodyWithQueryParamsExecute(r ApiTestBodyWithQueryPa
 }
 
 type ApiTestClientModelRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService FakeApi
-	client *Client
+	client     *Client
 }
 
 func (r ApiTestClientModelRequest) Client(client Client) ApiTestClientModelRequest {
@@ -1005,7 +1004,7 @@ func (r ApiTestClientModelRequest) Execute() (*Client, *http.Response, error) {
 func (a *FakeApiService) TestClientModel(ctx context.Context) ApiTestClientModelRequest {
 	return ApiTestClientModelRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -1025,7 +1024,7 @@ func (a *FakeApiService) TestClientModelExecute(r ApiTestClientModelRequest) (*C
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestClientModel")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/fake"
@@ -1074,7 +1073,7 @@ func (a *FakeApiService) TestClientModelExecute(r ApiTestClientModelRequest) (*C
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -1083,7 +1082,7 @@ func (a *FakeApiService) TestClientModelExecute(r ApiTestClientModelRequest) (*C
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1094,22 +1093,22 @@ func (a *FakeApiService) TestClientModelExecute(r ApiTestClientModelRequest) (*C
 }
 
 type ApiTestEndpointParametersRequest struct {
-	ctx context.Context
-	ApiService FakeApi
-	number *float32
-	double *float64
+	ctx                     context.Context
+	ApiService              FakeApi
+	number                  *float32
+	double                  *float64
 	patternWithoutDelimiter *string
-	byte_ *string
-	integer *int32
-	int32_ *int32
-	int64_ *int64
-	float *float32
-	string_ *string
-	binary **os.File
-	date *string
-	dateTime *time.Time
-	password *string
-	callback *string
+	byte_                   *string
+	integer                 *int32
+	int32_                  *int32
+	int64_                  *int64
+	float                   *float32
+	string_                 *string
+	binary                  **os.File
+	date                    *string
+	dateTime                *time.Time
+	password                *string
+	callback                *string
 }
 
 func (r ApiTestEndpointParametersRequest) Number(number float32) ApiTestEndpointParametersRequest {
@@ -1174,7 +1173,7 @@ func (r ApiTestEndpointParametersRequest) Execute() (*http.Response, error) {
 }
 
 /*
- * TestEndpointParameters Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+ * TestEndpointParameters Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
  * Fake endpoint for testing various parameters
 假端點
 偽のエンドポイント
@@ -1182,11 +1181,11 @@ func (r ApiTestEndpointParametersRequest) Execute() (*http.Response, error) {
 
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @return ApiTestEndpointParametersRequest
- */
+*/
 func (a *FakeApiService) TestEndpointParameters(ctx context.Context) ApiTestEndpointParametersRequest {
 	return ApiTestEndpointParametersRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -1204,7 +1203,7 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestEndpointParameters")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/fake"
@@ -1314,7 +1313,7 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -1325,16 +1324,16 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 }
 
 type ApiTestEnumParametersRequest struct {
-	ctx context.Context
-	ApiService FakeApi
+	ctx                   context.Context
+	ApiService            FakeApi
 	enumHeaderStringArray *[]string
-	enumHeaderString *string
-	enumQueryStringArray *[]string
-	enumQueryString *string
-	enumQueryInteger *int32
-	enumQueryDouble *float64
-	enumFormStringArray *[]string
-	enumFormString *string
+	enumHeaderString      *string
+	enumQueryStringArray  *[]string
+	enumQueryString       *string
+	enumQueryInteger      *int32
+	enumQueryDouble       *float64
+	enumFormStringArray   *[]string
+	enumFormString        *string
 }
 
 func (r ApiTestEnumParametersRequest) EnumHeaderStringArray(enumHeaderStringArray []string) ApiTestEnumParametersRequest {
@@ -1383,7 +1382,7 @@ func (r ApiTestEnumParametersRequest) Execute() (*http.Response, error) {
 func (a *FakeApiService) TestEnumParameters(ctx context.Context) ApiTestEnumParametersRequest {
 	return ApiTestEnumParametersRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -1401,7 +1400,7 @@ func (a *FakeApiService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestEnumParameters")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/fake"
@@ -1477,7 +1476,7 @@ func (a *FakeApiService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -1488,14 +1487,14 @@ func (a *FakeApiService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 }
 
 type ApiTestGroupParametersRequest struct {
-	ctx context.Context
-	ApiService FakeApi
-	requiredStringGroup *int32
+	ctx                  context.Context
+	ApiService           FakeApi
+	requiredStringGroup  *int32
 	requiredBooleanGroup *bool
-	requiredInt64Group *int64
-	stringGroup *int32
-	booleanGroup *bool
-	int64Group *int64
+	requiredInt64Group   *int64
+	stringGroup          *int32
+	booleanGroup         *bool
+	int64Group           *int64
 }
 
 func (r ApiTestGroupParametersRequest) RequiredStringGroup(requiredStringGroup int32) ApiTestGroupParametersRequest {
@@ -1536,7 +1535,7 @@ func (r ApiTestGroupParametersRequest) Execute() (*http.Response, error) {
 func (a *FakeApiService) TestGroupParameters(ctx context.Context) ApiTestGroupParametersRequest {
 	return ApiTestGroupParametersRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -1554,7 +1553,7 @@ func (a *FakeApiService) TestGroupParametersExecute(r ApiTestGroupParametersRequ
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestGroupParameters")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/fake"
@@ -1619,7 +1618,7 @@ func (a *FakeApiService) TestGroupParametersExecute(r ApiTestGroupParametersRequ
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -1630,8 +1629,8 @@ func (a *FakeApiService) TestGroupParametersExecute(r ApiTestGroupParametersRequ
 }
 
 type ApiTestInlineAdditionalPropertiesRequest struct {
-	ctx context.Context
-	ApiService FakeApi
+	ctx         context.Context
+	ApiService  FakeApi
 	requestBody *map[string]string
 }
 
@@ -1652,7 +1651,7 @@ func (r ApiTestInlineAdditionalPropertiesRequest) Execute() (*http.Response, err
 func (a *FakeApiService) TestInlineAdditionalProperties(ctx context.Context) ApiTestInlineAdditionalPropertiesRequest {
 	return ApiTestInlineAdditionalPropertiesRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -1670,7 +1669,7 @@ func (a *FakeApiService) TestInlineAdditionalPropertiesExecute(r ApiTestInlineAd
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestInlineAdditionalProperties")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/fake/inline-additionalProperties"
@@ -1719,7 +1718,7 @@ func (a *FakeApiService) TestInlineAdditionalPropertiesExecute(r ApiTestInlineAd
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -1730,10 +1729,10 @@ func (a *FakeApiService) TestInlineAdditionalPropertiesExecute(r ApiTestInlineAd
 }
 
 type ApiTestJsonFormDataRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService FakeApi
-	param *string
-	param2 *string
+	param      *string
+	param2     *string
 }
 
 func (r ApiTestJsonFormDataRequest) Param(param string) ApiTestJsonFormDataRequest {
@@ -1757,7 +1756,7 @@ func (r ApiTestJsonFormDataRequest) Execute() (*http.Response, error) {
 func (a *FakeApiService) TestJsonFormData(ctx context.Context) ApiTestJsonFormDataRequest {
 	return ApiTestJsonFormDataRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -1775,7 +1774,7 @@ func (a *FakeApiService) TestJsonFormDataExecute(r ApiTestJsonFormDataRequest) (
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestJsonFormData")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/fake/jsonFormData"
@@ -1827,7 +1826,7 @@ func (a *FakeApiService) TestJsonFormDataExecute(r ApiTestJsonFormDataRequest) (
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -1838,13 +1837,13 @@ func (a *FakeApiService) TestJsonFormDataExecute(r ApiTestJsonFormDataRequest) (
 }
 
 type ApiTestQueryParameterCollectionFormatRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService FakeApi
-	pipe *[]string
-	ioutil *[]string
-	http *[]string
-	url *[]string
-	context *[]string
+	pipe       *[]string
+	ioutil     *[]string
+	http       *[]string
+	url        *[]string
+	context    *[]string
 }
 
 func (r ApiTestQueryParameterCollectionFormatRequest) Pipe(pipe []string) ApiTestQueryParameterCollectionFormatRequest {
@@ -1881,7 +1880,7 @@ func (r ApiTestQueryParameterCollectionFormatRequest) Execute() (*http.Response,
 func (a *FakeApiService) TestQueryParameterCollectionFormat(ctx context.Context) ApiTestQueryParameterCollectionFormatRequest {
 	return ApiTestQueryParameterCollectionFormatRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -1899,7 +1898,7 @@ func (a *FakeApiService) TestQueryParameterCollectionFormatExecute(r ApiTestQuer
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestQueryParameterCollectionFormat")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/fake/test-query-paramters"
@@ -1983,7 +1982,7 @@ func (a *FakeApiService) TestQueryParameterCollectionFormatExecute(r ApiTestQuer
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}

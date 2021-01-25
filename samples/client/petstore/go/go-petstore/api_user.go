@@ -135,9 +135,9 @@ type UserApi interface {
 type UserApiService service
 
 type ApiCreateUserRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService UserApi
-	body *User
+	body       *User
 }
 
 func (r ApiCreateUserRequest) Body(body User) ApiCreateUserRequest {
@@ -158,7 +158,7 @@ func (r ApiCreateUserRequest) Execute() (*http.Response, error) {
 func (a *UserApiService) CreateUser(ctx context.Context) ApiCreateUserRequest {
 	return ApiCreateUserRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -176,7 +176,7 @@ func (a *UserApiService) CreateUserExecute(r ApiCreateUserRequest) (*http.Respon
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.CreateUser")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user"
@@ -225,7 +225,7 @@ func (a *UserApiService) CreateUserExecute(r ApiCreateUserRequest) (*http.Respon
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -236,9 +236,9 @@ func (a *UserApiService) CreateUserExecute(r ApiCreateUserRequest) (*http.Respon
 }
 
 type ApiCreateUsersWithArrayInputRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService UserApi
-	body *[]User
+	body       *[]User
 }
 
 func (r ApiCreateUsersWithArrayInputRequest) Body(body []User) ApiCreateUsersWithArrayInputRequest {
@@ -258,7 +258,7 @@ func (r ApiCreateUsersWithArrayInputRequest) Execute() (*http.Response, error) {
 func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context) ApiCreateUsersWithArrayInputRequest {
 	return ApiCreateUsersWithArrayInputRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -276,7 +276,7 @@ func (a *UserApiService) CreateUsersWithArrayInputExecute(r ApiCreateUsersWithAr
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.CreateUsersWithArrayInput")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user/createWithArray"
@@ -325,7 +325,7 @@ func (a *UserApiService) CreateUsersWithArrayInputExecute(r ApiCreateUsersWithAr
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -336,9 +336,9 @@ func (a *UserApiService) CreateUsersWithArrayInputExecute(r ApiCreateUsersWithAr
 }
 
 type ApiCreateUsersWithListInputRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService UserApi
-	body *[]User
+	body       *[]User
 }
 
 func (r ApiCreateUsersWithListInputRequest) Body(body []User) ApiCreateUsersWithListInputRequest {
@@ -358,7 +358,7 @@ func (r ApiCreateUsersWithListInputRequest) Execute() (*http.Response, error) {
 func (a *UserApiService) CreateUsersWithListInput(ctx context.Context) ApiCreateUsersWithListInputRequest {
 	return ApiCreateUsersWithListInputRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -376,7 +376,7 @@ func (a *UserApiService) CreateUsersWithListInputExecute(r ApiCreateUsersWithLis
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.CreateUsersWithListInput")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user/createWithList"
@@ -425,7 +425,7 @@ func (a *UserApiService) CreateUsersWithListInputExecute(r ApiCreateUsersWithLis
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -436,11 +436,10 @@ func (a *UserApiService) CreateUsersWithListInputExecute(r ApiCreateUsersWithLis
 }
 
 type ApiDeleteUserRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService UserApi
-	username string
+	username   string
 }
-
 
 func (r ApiDeleteUserRequest) Execute() (*http.Response, error) {
 	return r.ApiService.DeleteUserExecute(r)
@@ -456,8 +455,8 @@ func (r ApiDeleteUserRequest) Execute() (*http.Response, error) {
 func (a *UserApiService) DeleteUser(ctx context.Context, username string) ApiDeleteUserRequest {
 	return ApiDeleteUserRequest{
 		ApiService: a,
-		ctx: ctx,
-		username: username,
+		ctx:        ctx,
+		username:   username,
 	}
 }
 
@@ -475,7 +474,7 @@ func (a *UserApiService) DeleteUserExecute(r ApiDeleteUserRequest) (*http.Respon
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.DeleteUser")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
@@ -520,7 +519,7 @@ func (a *UserApiService) DeleteUserExecute(r ApiDeleteUserRequest) (*http.Respon
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -531,11 +530,10 @@ func (a *UserApiService) DeleteUserExecute(r ApiDeleteUserRequest) (*http.Respon
 }
 
 type ApiGetUserByNameRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService UserApi
-	username string
+	username   string
 }
-
 
 func (r ApiGetUserByNameRequest) Execute() (*User, *http.Response, error) {
 	return r.ApiService.GetUserByNameExecute(r)
@@ -550,8 +548,8 @@ func (r ApiGetUserByNameRequest) Execute() (*User, *http.Response, error) {
 func (a *UserApiService) GetUserByName(ctx context.Context, username string) ApiGetUserByNameRequest {
 	return ApiGetUserByNameRequest{
 		ApiService: a,
-		ctx: ctx,
-		username: username,
+		ctx:        ctx,
+		username:   username,
 	}
 }
 
@@ -571,7 +569,7 @@ func (a *UserApiService) GetUserByNameExecute(r ApiGetUserByNameRequest) (*User,
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.GetUserByName")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
@@ -616,7 +614,7 @@ func (a *UserApiService) GetUserByNameExecute(r ApiGetUserByNameRequest) (*User,
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -625,7 +623,7 @@ func (a *UserApiService) GetUserByNameExecute(r ApiGetUserByNameRequest) (*User,
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -636,10 +634,10 @@ func (a *UserApiService) GetUserByNameExecute(r ApiGetUserByNameRequest) (*User,
 }
 
 type ApiLoginUserRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService UserApi
-	username *string
-	password *string
+	username   *string
+	password   *string
 }
 
 func (r ApiLoginUserRequest) Username(username string) ApiLoginUserRequest {
@@ -663,7 +661,7 @@ func (r ApiLoginUserRequest) Execute() (string, *http.Response, error) {
 func (a *UserApiService) LoginUser(ctx context.Context) ApiLoginUserRequest {
 	return ApiLoginUserRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -683,7 +681,7 @@ func (a *UserApiService) LoginUserExecute(r ApiLoginUserRequest) (string, *http.
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.LoginUser")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user/login"
@@ -735,7 +733,7 @@ func (a *UserApiService) LoginUserExecute(r ApiLoginUserRequest) (string, *http.
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -744,7 +742,7 @@ func (a *UserApiService) LoginUserExecute(r ApiLoginUserRequest) (string, *http.
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -755,10 +753,9 @@ func (a *UserApiService) LoginUserExecute(r ApiLoginUserRequest) (string, *http.
 }
 
 type ApiLogoutUserRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService UserApi
 }
-
 
 func (r ApiLogoutUserRequest) Execute() (*http.Response, error) {
 	return r.ApiService.LogoutUserExecute(r)
@@ -772,7 +769,7 @@ func (r ApiLogoutUserRequest) Execute() (*http.Response, error) {
 func (a *UserApiService) LogoutUser(ctx context.Context) ApiLogoutUserRequest {
 	return ApiLogoutUserRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -790,7 +787,7 @@ func (a *UserApiService) LogoutUserExecute(r ApiLogoutUserRequest) (*http.Respon
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.LogoutUser")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user/logout"
@@ -834,7 +831,7 @@ func (a *UserApiService) LogoutUserExecute(r ApiLogoutUserRequest) (*http.Respon
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -845,10 +842,10 @@ func (a *UserApiService) LogoutUserExecute(r ApiLogoutUserRequest) (*http.Respon
 }
 
 type ApiUpdateUserRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService UserApi
-	username string
-	body *User
+	username   string
+	body       *User
 }
 
 func (r ApiUpdateUserRequest) Body(body User) ApiUpdateUserRequest {
@@ -870,8 +867,8 @@ func (r ApiUpdateUserRequest) Execute() (*http.Response, error) {
 func (a *UserApiService) UpdateUser(ctx context.Context, username string) ApiUpdateUserRequest {
 	return ApiUpdateUserRequest{
 		ApiService: a,
-		ctx: ctx,
-		username: username,
+		ctx:        ctx,
+		username:   username,
 	}
 }
 
@@ -889,7 +886,7 @@ func (a *UserApiService) UpdateUserExecute(r ApiUpdateUserRequest) (*http.Respon
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.UpdateUser")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
@@ -939,7 +936,7 @@ func (a *UserApiService) UpdateUserExecute(r ApiUpdateUserRequest) (*http.Respon
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}

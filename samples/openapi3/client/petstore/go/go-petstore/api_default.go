@@ -43,10 +43,9 @@ type DefaultApi interface {
 type DefaultApiService service
 
 type ApiFooGetRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService DefaultApi
 }
-
 
 func (r ApiFooGetRequest) Execute() (*InlineResponseDefault, *http.Response, error) {
 	return r.ApiService.FooGetExecute(r)
@@ -60,7 +59,7 @@ func (r ApiFooGetRequest) Execute() (*InlineResponseDefault, *http.Response, err
 func (a *DefaultApiService) FooGet(ctx context.Context) ApiFooGetRequest {
 	return ApiFooGetRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -80,7 +79,7 @@ func (a *DefaultApiService) FooGetExecute(r ApiFooGetRequest) (*InlineResponseDe
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.FooGet")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/foo"
@@ -124,23 +123,23 @@ func (a *DefaultApiService) FooGetExecute(r ApiFooGetRequest) (*InlineResponseDe
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-			var v InlineResponseDefault
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
+		var v InlineResponseDefault
+		err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+		if err != nil {
+			newErr.error = err.Error()
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		newErr.model = v
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}

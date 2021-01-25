@@ -44,9 +44,9 @@ type AnotherFakeApi interface {
 type AnotherFakeApiService service
 
 type ApiCall123TestSpecialTagsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService AnotherFakeApi
-	client *Client
+	client     *Client
 }
 
 func (r ApiCall123TestSpecialTagsRequest) Client(client Client) ApiCall123TestSpecialTagsRequest {
@@ -67,7 +67,7 @@ func (r ApiCall123TestSpecialTagsRequest) Execute() (*Client, *http.Response, er
 func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx context.Context) ApiCall123TestSpecialTagsRequest {
 	return ApiCall123TestSpecialTagsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -87,7 +87,7 @@ func (a *AnotherFakeApiService) Call123TestSpecialTagsExecute(r ApiCall123TestSp
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnotherFakeApiService.Call123TestSpecialTags")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/another-fake/dummy"
@@ -136,7 +136,7 @@ func (a *AnotherFakeApiService) Call123TestSpecialTagsExecute(r ApiCall123TestSp
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -145,7 +145,7 @@ func (a *AnotherFakeApiService) Call123TestSpecialTagsExecute(r ApiCall123TestSp
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
