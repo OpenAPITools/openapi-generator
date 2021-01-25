@@ -1443,17 +1443,18 @@
                 <module>samples/client/petstore/swift5/rxswiftLibrary</module>
                 <module>samples/client/petstore/swift5/urlsessionLibrary</module>
                 <!-- swift 5 tests -->
+                <!-- temporarily commment them because they are flaky
                 <module>samples/client/petstore/swift5/alamofireLibrary/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift5/combineLibrary/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift5/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift5/promisekitLibrary/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift5/rxswiftLibrary/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift5/urlsessionLibrary/SwaggerClientTests</module>
-                <!-- swift 4 tests -->
+                -->
+                <!-- swift 1.x, 3.x, 4.x client generators have been deprecated
                 <module>samples/client/petstore/swift4/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/promisekit/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/rxswift/SwaggerClientTests</module>
-                <!-- swift 1.x, 3.x client generators have been deprecated
                 <module>samples/client/petstore/swift3/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift3/promisekit/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift3/rxswift/SwaggerClientTests</module>
