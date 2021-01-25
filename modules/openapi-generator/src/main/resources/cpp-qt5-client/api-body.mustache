@@ -208,6 +208,7 @@ QString {{classname}}::getParamStyleDelimiter(QString style, QString name, bool 
 void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
     QString fullPath = QString(_serverConfigs["{{nickname}}"][_serverIndices.value("{{nickname}}")].URL()+"{{{path}}}");
     {{#pathParams}}
+        //{{baseType}}
     QString {{paramName}}PathParam("{");
     {{paramName}}PathParam.append("{{baseName}}").append("}");
     QString pathPrefix, pathSuffix, pathDelimiter;
@@ -220,9 +221,34 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     qDebug() << "FullPath styles: " << pathPrefix << " " << pathSuffix << " " << pathDelimiter << endl;
         //collection format {{collectionFormat}}
     {{^collectionFormat}}
+    {{^isPrimitiveType}}
+    QString paramString = (pathStyle == "matrix" && {{isExplode}}) ? pathPrefix : pathPrefix+"{{baseName}}"+pathSuffix;
+    QJsonObject parameter = {{paramName}}.asJsonObject();
+    qint32 count = 0;
+    foreach(const QString& key, parameter.keys()) {
+        qDebug() << "Key: "  << key << " value: " << parameter.value(key)<< "\n";
+               if (count > 0) {
+                    pathDelimiter = (pathStyle == "matrix" && {{isExplode}}) ? ";" : getParamStyleDelimiter(pathStyle, key, {{isExplode}});
+                    paramString.append(pathDelimiter);
+                }
+                switch(parameter.value(key).type()) {
+                case QJsonValue::String:
+                {
+                    paramString.append(key+(({{isExplode}}) ? "=" : ",")+parameter.value(key).toString());
+                }
+                case QJsonValue::Double:
+                {
+                    paramString.append(key+(({{isExplode}}) ? "=" : ",")+QString::number(parameter.value(key).toDouble()));
+                }
+                }
+                count++;
+    }
+    fullPath.replace({{paramName}}PathParam, QUrl::toPercentEncoding(paramString));
+    {{/isPrimitiveType}}
+    {{#isPrimitiveType}}
     QString paramString = (pathStyle == "matrix") ? pathPrefix+"{{baseName}}"+pathSuffix : pathPrefix;
     fullPath.replace({{paramName}}PathParam, paramString+QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
-{{/collectionFormat}}{{#collectionFormat}}
+{{/isPrimitiveType}}{{/collectionFormat}}{{#collectionFormat}}
     if ({{{paramName}}}.size() > 0) {
             QString paramString = (pathStyle == "matrix") ? pathPrefix+"{{baseName}}"+pathSuffix : pathPrefix;
             qint32 count = 0;
@@ -260,6 +286,7 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
         addHeaders("Authorization","Basic " + b64.toBase64());
     }{{/isBasicBasic}}{{/authMethods}}
     {{#hasQueryParams}}
+    //{{baseType}}
     QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
     {{/hasQueryParams}}
 {{#queryParams}}
@@ -271,13 +298,37 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     queryDelimiter = getParamStyleDelimiter(queryStyle, "{{baseName}}", {{isExplode}}); 
     qDebug() << "FullPath styles: " << queryPrefix << " " << querySuffix << " " << queryDelimiter << endl;
     //collection format {{collectionFormat}}
-{{^collectionFormat}}
+{{^collectionFormat}} 
     if (fullPath.indexOf("?") > 0)
         fullPath.append(queryPrefix);
     else
         fullPath.append("?");
+    {{^isPrimitiveType}}
+    QString paramString = (queryStyle == "form" && {{isExplode}}) ? "" : "{{baseName}}"+querySuffix;
+    QJsonObject parameter = {{paramName}}.asJsonObject();
+    qint32 count = 0;
+    foreach(const QString& key, parameter.keys()) {
+        qDebug() << "Key: "  << key << " value: " << parameter.value(key)<< "\n";
+               if (count > 0) {
+                    queryDelimiter =  (queryStyle == "form" && {{isExplode}}) ? "&" : getParamStyleDelimiter(queryStyle, key, {{isExplode}});
+                    paramString.append(queryDelimiter);
+                }
+                switch(parameter.value(key).type()) {
+                case QJsonValue::String:
+                {
+                    paramString.append(key+(({{isExplode}}) ? "=" : ",")+parameter.value(key).toString());
+                }
+                case QJsonValue::Double:
+                {
+                    paramString.append(key+(({{isExplode}}) ? "=" : ",")+QString::number(parameter.value(key).toDouble()));
+                }
+                }
+                count++;
+    }
+    fullPath.append(paramString);
+    {{/isPrimitiveType}}{{#isPrimitiveType}}
     fullPath.append(QUrl::toPercentEncoding("{{baseName}}")).append(querySuffix).append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
-{{/collectionFormat}}{{#collectionFormat}}
+{{/isPrimitiveType}}{{/collectionFormat}}{{#collectionFormat}}
     if ({{{paramName}}}.size() > 0) {
         if (QString("{{collectionFormat}}").indexOf("multi") == 0) {
             foreach ({{{baseType}}} t, {{paramName}}) {
@@ -374,11 +425,32 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     QByteArray output = {{paramName}}.asByteArray();{{/isFile}}
     input.request_body.append(output);
 {{/isContainer}}{{/bodyParams}}{{#headerParams}}
-{{^collectionFormat}}
+{{^collectionFormat}}{{^isPrimitiveType}}
+    QString headerString;
+    QJsonObject parameter = {{paramName}}.asJsonObject();
+    qint32 count = 0;
+    foreach(const QString& key, parameter.keys()) {
+        if (count > 0) {
+            headerString.append(",");
+        }
+        switch(parameter.value(key).type()) {
+        case QJsonValue::String:
+        {
+            headerString.append(key+(({{isExplode}}) ? "=" : ",")+parameter.value(key).toString());
+        }
+        case QJsonValue::Double:
+        {
+            headerString.append(key+(({{isExplode}}) ? "=" : ",")+QString::number(parameter.value(key).toDouble()));
+        }
+        }
+        count++;
+    }
+    input.headers.insert("{{baseName}}", headerString);
+{{/isPrimitiveType}}{{#isPrimitiveType}}
     if (!::{{cppNamespace}}::toStringValue({{paramName}}).isEmpty()) {
         input.headers.insert("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}));
     }
-{{/collectionFormat}}{{#collectionFormat}}
+{{/isPrimitiveType}}{{/collectionFormat}}{{#collectionFormat}}
     QString headerString;
     if ({{{paramName}}}.size() > 0) {
     qint32 count = 0;
