@@ -72,7 +72,7 @@ public class ApiClient extends JavaTimeFormatter {
 
   protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
     new ServerConfiguration(
-      "/",
+      "",
       "No description provided",
       new HashMap<String, ServerVariable>()
     )
