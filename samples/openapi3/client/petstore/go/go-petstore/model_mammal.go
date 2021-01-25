@@ -35,13 +35,12 @@ func ZebraAsMammal(v *Zebra) Mammal {
 	}
 }
 
-
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *Mammal) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
 	// try to unmarshal data into Whale
-	err = json.Unmarshal(data, &dst.Whale)
+	err = newStrictDecoder(data).Decode(&dst.Whale)
 	if err == nil {
 		jsonWhale, _ := json.Marshal(dst.Whale)
 		if string(jsonWhale) == "{}" { // empty struct
@@ -54,7 +53,7 @@ func (dst *Mammal) UnmarshalJSON(data []byte) error {
 	}
 
 	// try to unmarshal data into Zebra
-	err = json.Unmarshal(data, &dst.Zebra)
+	err = newStrictDecoder(data).Decode(&dst.Zebra)
 	if err == nil {
 		jsonZebra, _ := json.Marshal(dst.Zebra)
 		if string(jsonZebra) == "{}" { // empty struct
@@ -93,7 +92,7 @@ func (src Mammal) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *Mammal) GetActualInstance() (interface{}) {
+func (obj *Mammal) GetActualInstance() interface{} {
 	if obj.Whale != nil {
 		return obj.Whale
 	}
@@ -141,5 +140,3 @@ func (v *NullableMammal) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -17,7 +17,7 @@ import (
 
 // Fruit - struct for Fruit
 type Fruit struct {
-	Apple *Apple
+	Apple  *Apple
 	Banana *Banana
 }
 
@@ -35,13 +35,12 @@ func BananaAsFruit(v *Banana) Fruit {
 	}
 }
 
-
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *Fruit) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
 	// try to unmarshal data into Apple
-	err = json.Unmarshal(data, &dst.Apple)
+	err = newStrictDecoder(data).Decode(&dst.Apple)
 	if err == nil {
 		jsonApple, _ := json.Marshal(dst.Apple)
 		if string(jsonApple) == "{}" { // empty struct
@@ -54,7 +53,7 @@ func (dst *Fruit) UnmarshalJSON(data []byte) error {
 	}
 
 	// try to unmarshal data into Banana
-	err = json.Unmarshal(data, &dst.Banana)
+	err = newStrictDecoder(data).Decode(&dst.Banana)
 	if err == nil {
 		jsonBanana, _ := json.Marshal(dst.Banana)
 		if string(jsonBanana) == "{}" { // empty struct
@@ -93,7 +92,7 @@ func (src Fruit) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *Fruit) GetActualInstance() (interface{}) {
+func (obj *Fruit) GetActualInstance() interface{} {
 	if obj.Apple != nil {
 		return obj.Apple
 	}
@@ -141,5 +140,3 @@ func (v *NullableFruit) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-
