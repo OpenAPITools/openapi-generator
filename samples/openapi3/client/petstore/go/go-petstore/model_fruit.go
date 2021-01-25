@@ -93,6 +93,9 @@ func (src Fruit) MarshalJSON() ([]byte, error) {
 
 // Get the actual instance
 func (obj *Fruit) GetActualInstance() interface{} {
+	if obj == nil {
+		return nil
+	}
 	if obj.Apple != nil {
 		return obj.Apple
 	}

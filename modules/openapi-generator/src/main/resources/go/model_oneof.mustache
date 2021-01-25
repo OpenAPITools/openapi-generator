@@ -98,6 +98,9 @@ func (src {{classname}}) MarshalJSON() ([]byte, error) {
 
 // Get the actual instance
 func (obj *{{classname}}) GetActualInstance() (interface{}) {
+	if obj == nil {
+		return nil
+	}
 {{#oneOf}}
 	if obj.{{#lambda.titlecase}}{{{.}}}{{/lambda.titlecase}} != nil {
 		return obj.{{#lambda.titlecase}}{{{.}}}{{/lambda.titlecase}}

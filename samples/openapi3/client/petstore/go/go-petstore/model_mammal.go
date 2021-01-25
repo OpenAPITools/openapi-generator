@@ -93,6 +93,9 @@ func (src Mammal) MarshalJSON() ([]byte, error) {
 
 // Get the actual instance
 func (obj *Mammal) GetActualInstance() interface{} {
+	if obj == nil {
+		return nil
+	}
 	if obj.Whale != nil {
 		return obj.Whale
 	}
