@@ -134,7 +134,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="body" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">${body}</stringProp>
+                <stringProp name="Argument.value">${__javaScript("${body}".replace(/'/g\, '"'),)}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -528,7 +528,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="body" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">${body}</stringProp>
+                <stringProp name="Argument.value">${__javaScript("${body}".replace(/'/g\, '"'),)}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
