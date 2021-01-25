@@ -126,13 +126,6 @@ class PetStatusEnum {
   final String value;
 
   @override
-  bool operator ==(Object other) => identical(this, other) ||
-      other is PetStatusEnum && other.value == value;
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
   String toString() => value;
 
   String toJson() => value;
