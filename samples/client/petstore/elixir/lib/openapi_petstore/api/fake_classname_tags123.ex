@@ -22,8 +22,8 @@ defmodule OpenapiPetstore.Api.FakeClassnameTags123 do
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, %OpenapiPetstore.Model.Client{}} on success
-  {:error, info} on failure
+  {:ok, OpenapiPetstore.Model.Client.t} on success
+  {:error, Tesla.Env.t} on failure
   """
   @spec test_classname(Tesla.Env.client, OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Tesla.Env.t}
   def test_classname(connection, body, _opts \\ []) do

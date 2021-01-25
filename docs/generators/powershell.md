@@ -21,7 +21,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |releaseNotes|Release notes of the generated PowerShell module| |null|
 |skipVerbParsing|Set skipVerbParsing to not try get powershell verbs of operation names| |null|
 |tags|Tags applied to the generated PowerShell module. These help with module discovery in online galleries| |null|
-|useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and onlye one match in oneOf's schemas) will be skipped.| |null|
+|useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |null|
 
 ## IMPORT MAPPING
 

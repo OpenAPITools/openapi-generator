@@ -37,7 +37,7 @@ class PetApi {
         final String _path = '/pet';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -96,7 +96,7 @@ class PetApi {
         final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -147,7 +147,7 @@ class PetApi {
         final String _path = '/pet/findByStatus';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -217,7 +217,7 @@ class PetApi {
         final String _path = '/pet/findByTags';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -287,7 +287,7 @@ class PetApi {
         final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -355,7 +355,7 @@ class PetApi {
         final String _path = '/pet';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -415,7 +415,7 @@ class PetApi {
         final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -427,9 +427,10 @@ class PetApi {
             'application/x-www-form-urlencoded',
         ];
 
-        final formData = <String, dynamic>{};
-        formData['name'] = parameterToString(_serializers, name);
-        formData['status'] = parameterToString(_serializers, status);
+        final formData = <String, dynamic>{
+            if (name != null) r'name': parameterToString(_serializers, name),
+            if (status != null) r'status': parameterToString(_serializers, status),
+        };
         bodyData = formData;
 
         return _dio.request<dynamic>(
@@ -474,7 +475,7 @@ class PetApi {
         final String _path = '/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', petId.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -486,13 +487,10 @@ class PetApi {
             'multipart/form-data',
         ];
 
-        final formData = <String, dynamic>{};
-        if (additionalMetadata != null) {
-            formData[r'additionalMetadata'] = parameterToString(_serializers, additionalMetadata);
-        }
-        if (file != null) {
-            formData[r'file'] = MultipartFile.fromBytes(file, filename: r'file');
-        }
+        final formData = <String, dynamic>{
+            if (additionalMetadata != null) r'additionalMetadata': parameterToString(_serializers, additionalMetadata),
+            if (file != null) r'file': MultipartFile.fromBytes(file, filename: r'file'),
+        };
         bodyData = FormData.fromMap(formData);
 
         return _dio.request<dynamic>(

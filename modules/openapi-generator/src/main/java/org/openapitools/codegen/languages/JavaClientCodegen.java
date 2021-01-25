@@ -855,34 +855,34 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     }
                 }
             }
+        }
 
-            // add implements for serializable/parcelable to all models
-            for (Object _mo : models) {
-                Map<String, Object> mo = (Map<String, Object>) _mo;
-                CodegenModel cm = (CodegenModel) mo.get("model");
+        // add implements for serializable/parcelable to all models
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
 
-                cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
-                if (JERSEY2.equals(getLibrary()) || NATIVE.equals(getLibrary())) {
-                    cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
+            cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
+            if (JERSEY2.equals(getLibrary()) || NATIVE.equals(getLibrary())) {
+                cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
 
-                    if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
-                        // if oneOf contains "null" type
-                        cm.isNullable = true;
-                        cm.oneOf.remove("ModelNull");
-                    }
-
-                    if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("ModelNull")) {
-                        // if anyOf contains "null" type
-                        cm.isNullable = true;
-                        cm.anyOf.remove("ModelNull");
-                    }
+                if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
+                    // if oneOf contains "null" type
+                    cm.isNullable = true;
+                    cm.oneOf.remove("ModelNull");
                 }
-                if (this.parcelableModel) {
-                    ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Parcelable");
+
+                if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("ModelNull")) {
+                    // if anyOf contains "null" type
+                    cm.isNullable = true;
+                    cm.anyOf.remove("ModelNull");
                 }
-                if (this.serializableModel) {
-                    ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
-                }
+            }
+            if (this.parcelableModel) {
+                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Parcelable");
+            }
+            if (this.serializableModel) {
+                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
             }
         }
 

@@ -30,7 +30,7 @@ import android.os.Parcel;
  * ModelApiResponse
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class ModelApiResponse {
+public class ModelApiResponse implements Parcelable {
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)
   private Integer code;

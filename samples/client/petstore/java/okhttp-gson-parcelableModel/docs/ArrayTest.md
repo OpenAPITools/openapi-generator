@@ -11,4 +11,8 @@ Name | Type | Description | Notes
 **arrayArrayOfModel** | **List&lt;List&lt;ReadOnlyFirst&gt;&gt;** |  |  [optional]
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 

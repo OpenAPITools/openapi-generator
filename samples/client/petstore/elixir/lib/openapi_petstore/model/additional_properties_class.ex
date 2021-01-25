@@ -28,12 +28,12 @@ defmodule OpenapiPetstore.Model.AdditionalPropertiesClass do
     :"map_integer" => %{optional(String.t) => integer()} | nil,
     :"map_boolean" => %{optional(String.t) => boolean()} | nil,
     :"map_array_integer" => %{optional(String.t) => [integer()]} | nil,
-    :"map_array_anytype" => %{optional(String.t) => [Map]} | nil,
+    :"map_array_anytype" => %{optional(String.t) => [map()]} | nil,
     :"map_map_string" => %{optional(String.t) => %{optional(String.t) => String.t}} | nil,
-    :"map_map_anytype" => %{optional(String.t) => %{optional(String.t) => Map}} | nil,
-    :"anytype_1" => Map | nil,
-    :"anytype_2" => Map | nil,
-    :"anytype_3" => Map | nil
+    :"map_map_anytype" => %{optional(String.t) => %{optional(String.t) => map()}} | nil,
+    :"anytype_1" => map() | nil,
+    :"anytype_2" => map() | nil,
+    :"anytype_3" => map() | nil
   }
 end
 
