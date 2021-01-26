@@ -579,7 +579,7 @@ public class Example {
         BigDecimal number = new BigDecimal(78); // BigDecimal | None
         Double _double = 3.4D; // Double | None
         String patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
-        byte[] _byte = null; // byte[] | None
+        byte[] _byte = new byte[](); // byte[] | None
         Integer integer = 56; // Integer | None
         Integer int32 = 56; // Integer | None
         Long int64 = 56L; // Long | None
@@ -667,13 +667,13 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        List<String> enumHeaderStringArray = Arrays.asList("$"); // List<String> | Header parameter enum test (string array)
+        List<String> enumHeaderStringArray = new ArrayList<>(); // List<String> | Header parameter enum test (string array)
         String enumHeaderString = "-efg"; // String | Header parameter enum test (string)
-        List<String> enumQueryStringArray = Arrays.asList("$"); // List<String> | Query parameter enum test (string array)
+        List<String> enumQueryStringArray = new ArrayList<>(); // List<String> | Query parameter enum test (string array)
         String enumQueryString = "-efg"; // String | Query parameter enum test (string)
         Integer enumQueryInteger = 56; // Integer | Query parameter enum test (double)
         Double enumQueryDouble = 3.4D; // Double | Query parameter enum test (double)
-        List<String> enumFormStringArray = "$"; // List<String> | Form parameter enum test (string array)
+        List<String> enumFormStringArray = new ArrayList<>(); // List<String> | Form parameter enum test (string array)
         String enumFormString = "-efg"; // String | Form parameter enum test (string)
         try {
             apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
@@ -825,7 +825,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        Map<String, String> param = new HashMap(); // Map<String, String> | request body
+        Map<String, String> param = new HashMap<>(); // Map<String, String> | request body
         try {
             apiInstance.testInlineAdditionalProperties(param);
         } catch (ApiException e) {
@@ -953,11 +953,11 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        List<String> pipe = Arrays.asList(); // List<String> | 
-        List<String> ioutil = Arrays.asList(); // List<String> | 
-        List<String> http = Arrays.asList(); // List<String> | 
-        List<String> url = Arrays.asList(); // List<String> | 
-        List<String> context = Arrays.asList(); // List<String> | 
+        List<String> pipe = new ArrayList<>(); // List<String> | 
+        List<String> ioutil = new ArrayList<>(); // List<String> | 
+        List<String> http = new ArrayList<>(); // List<String> | 
+        List<String> url = new ArrayList<>(); // List<String> | 
+        List<String> context = new ArrayList<>(); // List<String> | 
         try {
             apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
         } catch (ApiException e) {

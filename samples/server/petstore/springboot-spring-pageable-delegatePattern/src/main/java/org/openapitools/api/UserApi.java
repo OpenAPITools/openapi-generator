@@ -41,7 +41,7 @@ public interface UserApi {
     @PostMapping(
         value = "/user"
     )
-    default ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body) {
+    default ResponseEntity<Void> createUser( @ApiParam(value = "Created user object", required=true) @Valid @RequestBody User body) {
         return getDelegate().createUser(body);
     }
 
@@ -58,7 +58,7 @@ public interface UserApi {
     @PostMapping(
         value = "/user/createWithArray"
     )
-    default ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body) {
+    default ResponseEntity<Void> createUsersWithArrayInput( @ApiParam(value = "List of user object", required=true, example="[]") @Valid @RequestBody List<User> body) {
         return getDelegate().createUsersWithArrayInput(body);
     }
 
@@ -75,7 +75,7 @@ public interface UserApi {
     @PostMapping(
         value = "/user/createWithList"
     )
-    default ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body) {
+    default ResponseEntity<Void> createUsersWithListInput( @ApiParam(value = "List of user object", required=true, example="[]") @Valid @RequestBody List<User> body) {
         return getDelegate().createUsersWithListInput(body);
     }
 
@@ -95,7 +95,7 @@ public interface UserApi {
     @DeleteMapping(
         value = "/user/{username}"
     )
-    default ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathVariable("username") String username) {
+    default ResponseEntity<Void> deleteUser( @ApiParam(value = "The name that needs to be deleted", required=true, example="username_example") @PathVariable("username") String username) {
         return getDelegate().deleteUser(username);
     }
 
@@ -117,7 +117,7 @@ public interface UserApi {
         value = "/user/{username}",
         produces = { "application/xml", "application/json" }
     )
-    default ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username) {
+    default ResponseEntity<User> getUserByName( @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required=true, example="username_example") @PathVariable("username") String username) {
         return getDelegate().getUserByName(username);
     }
 
@@ -138,7 +138,7 @@ public interface UserApi {
         value = "/user/login",
         produces = { "application/xml", "application/json" }
     )
-    default ResponseEntity<String> loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password) {
+    default ResponseEntity<String> loginUser(@NotNull  @ApiParam(value = "The user name for login", required=true, example="username_example") @Valid @RequestParam(value = "username", required = true) String username,@NotNull  @ApiParam(value = "The password for login in clear text", required=true, example="password_example") @Valid @RequestParam(value = "password", required = true) String password) {
         return getDelegate().loginUser(username, password);
     }
 
@@ -175,7 +175,7 @@ public interface UserApi {
     @PutMapping(
         value = "/user/{username}"
     )
-    default ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body) {
+    default ResponseEntity<Void> updateUser( @ApiParam(value = "name that need to be deleted", required=true, example="username_example") @PathVariable("username") String username, @ApiParam(value = "Updated user object", required=true) @Valid @RequestBody User body) {
         return getDelegate().updateUser(username, body);
     }
 
