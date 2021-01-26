@@ -465,6 +465,49 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     }
 {{/collectionFormat}}
 {{/headerParams}}
+{{#cookieParams}}
+if(QString("{{style}}").indexOf("form") == 0){
+{{^collectionFormat}}{{^isPrimitiveType}}{{^isExplode}}
+    QString cookieString = "{{baseName}}=";
+    QJsonObject parameter = {{paramName}}.asJsonObject();
+    qint32 count = 0;
+    foreach(const QString& key, parameter.keys()) {
+        if (count > 0) {
+            cookieString.append(",");
+        }
+        switch(parameter.value(key).type()) {
+        case QJsonValue::String:
+        {
+            cookieString.append(key+","+parameter.value(key).toString());
+        }
+        case QJsonValue::Double:
+        {
+            cookieString.append(key+","+QString::number(parameter.value(key).toDouble()));
+        }
+        }
+        count++;
+    }
+    input.headers.insert("Cookie", cookieString);
+{{/isExplode}}{{/isPrimitiveType}}{{#isPrimitiveType}}
+    if (!::{{cppNamespace}}::toStringValue({{paramName}}).isEmpty()) {
+        input.headers.insert("Cookie", "{{baseName}}="+::{{cppNamespace}}::toStringValue({{paramName}}));
+    }
+{{/isPrimitiveType}}{{/collectionFormat}}{{#collectionFormat}}{{^isExplode}}
+    QString cookieString = "{{baseName}}=";
+    if ({{{paramName}}}.size() > 0) {
+    qint32 count = 0;
+    foreach ({{{baseType}}} t, {{paramName}}) {
+        if (count > 0) {
+            cookieString.append(",");
+        }
+        cookieString.append(::{{cppNamespace}}::toStringValue(t));
+        count++;
+    }
+    input.headers.insert("Cookie", cookieString);
+    }
+{{/isExplode}}{{/collectionFormat}}
+}
+{{/cookieParams}}
 
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
