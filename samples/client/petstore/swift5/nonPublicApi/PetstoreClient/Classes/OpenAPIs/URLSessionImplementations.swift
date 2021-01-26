@@ -11,11 +11,11 @@ import MobileCoreServices
 
 class URLSessionRequestBuilderFactory: RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
-        URLSessionRequestBuilder<T>.self
+        return URLSessionRequestBuilder<T>.self
     }
 
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
-        URLSessionDecodableRequestBuilder<T>.self
+        return URLSessionDecodableRequestBuilder<T>.self
     }
 }
 
@@ -65,7 +65,7 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      the file extension).  Return the desired Content-Type otherwise.
      */
     internal func contentTypeForFormPart(fileURL: URL) -> String? {
-        nil
+        return nil
     }
 
     /**

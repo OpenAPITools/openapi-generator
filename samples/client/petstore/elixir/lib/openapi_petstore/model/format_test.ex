@@ -48,7 +48,6 @@ defimpl Poison.Decoder, for: OpenapiPetstore.Model.FormatTest do
   def decode(value, options) do
     value
     |> deserialize(:"date", :date, nil, options)
-    |> deserialize(:"BigDecimal", :struct, OpenapiPetstore.Model.String.t, options)
   end
 end
 

@@ -540,9 +540,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             for (String name : cm.imports) {
                 if (name.indexOf(" | ") >= 0) {
                     String[] parts = name.split(" \\| ");
-                    for (String s : parts) {
-                        newImports.add(s);
-                    }
+                    Collections.addAll(newImports, parts);
                 } else {
                     newImports.add(name);
                 }

@@ -36,7 +36,7 @@ import android.os.Parcel;
  * Pet
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class Pet {
+public class Pet implements Parcelable {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
   private Long id;
@@ -283,7 +283,6 @@ public class Pet {
   public int hashCode() {
     return Objects.hash(id, category, name, photoUrls, tags, status);
   }
-
 
   @Override
   public String toString() {

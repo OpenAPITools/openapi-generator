@@ -551,7 +551,7 @@ BUILD SUCCESSFUL in 0s
 
 === openApiValidate
 
-.in buid.gradle
+.in build.gradle
 [source,groovy]
 ----
 openApiValidate {

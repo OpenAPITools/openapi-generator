@@ -12,6 +12,22 @@ pub const BASE_PATH: &'static str = "";
 pub const API_VERSION: &'static str = "1.0.7";
 
 #[derive(Debug, PartialEq)]
+#[must_use]
+pub enum AnyOfGetResponse {
+    /// Success
+    Success
+    (models::AnyOfObject)
+    ,
+    /// AlternateSuccess
+    AlternateSuccess
+    (models::Model12345AnyOfObject)
+    ,
+    /// AnyOfSuccess
+    AnyOfSuccess
+    (swagger::AnyOf2<models::StringObject,models::UuidObject>)
+}
+
+#[derive(Debug, PartialEq)]
 pub enum CallbackWithHeaderPostResponse {
     /// OK
     OK
@@ -84,6 +100,13 @@ pub enum MultigetGetResponse {
 pub enum MultipleAuthSchemeGetResponse {
     /// Check that limiting to multiple required auth schemes works
     CheckThatLimitingToMultipleRequiredAuthSchemesWorks
+}
+
+#[derive(Debug, PartialEq)]
+pub enum OneOfGetResponse {
+    /// Success
+    Success
+    (swagger::OneOf2<i32,Vec<String>>)
 }
 
 #[derive(Debug, PartialEq)]
@@ -253,6 +276,11 @@ pub trait Api<C: Send + Sync> {
         Poll::Ready(Ok(()))
     }
 
+    async fn any_of_get(
+        &self,
+        any_of: Option<&Vec<models::AnyOfObject>>,
+        context: &C) -> Result<AnyOfGetResponse, ApiError>;
+
     async fn callback_with_header_post(
         &self,
         url: String,
@@ -290,6 +318,10 @@ pub trait Api<C: Send + Sync> {
     async fn multiple_auth_scheme_get(
         &self,
         context: &C) -> Result<MultipleAuthSchemeGetResponse, ApiError>;
+
+    async fn one_of_get(
+        &self,
+        context: &C) -> Result<OneOfGetResponse, ApiError>;
 
     async fn override_server_get(
         &self,
@@ -380,6 +412,11 @@ pub trait ApiNoContext<C: Send + Sync> {
 
     fn context(&self) -> &C;
 
+    async fn any_of_get(
+        &self,
+        any_of: Option<&Vec<models::AnyOfObject>>,
+        ) -> Result<AnyOfGetResponse, ApiError>;
+
     async fn callback_with_header_post(
         &self,
         url: String,
@@ -417,6 +454,10 @@ pub trait ApiNoContext<C: Send + Sync> {
     async fn multiple_auth_scheme_get(
         &self,
         ) -> Result<MultipleAuthSchemeGetResponse, ApiError>;
+
+    async fn one_of_get(
+        &self,
+        ) -> Result<OneOfGetResponse, ApiError>;
 
     async fn override_server_get(
         &self,
@@ -522,6 +563,15 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         ContextWrapper::context(self)
     }
 
+    async fn any_of_get(
+        &self,
+        any_of: Option<&Vec<models::AnyOfObject>>,
+        ) -> Result<AnyOfGetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().any_of_get(any_of, &context).await
+    }
+
     async fn callback_with_header_post(
         &self,
         url: String,
@@ -590,6 +640,14 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {
         let context = self.context().clone();
         self.api().multiple_auth_scheme_get(&context).await
+    }
+
+    async fn one_of_get(
+        &self,
+        ) -> Result<OneOfGetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().one_of_get(&context).await
     }
 
     async fn override_server_get(
