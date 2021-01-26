@@ -818,6 +818,23 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 sb.append(".t");
             }
         }
+
+        private boolean getRequiresHttpcWorkaround() {
+            // Only POST/PATCH/PUT are affected from the httpc bug
+            if (!(this.httpMethod.equals("POST") || this.httpMethod.equals("PATCH") || this.httpMethod.equals("PUT"))) {
+                return false;
+            }
+
+            // If theres something required for the body, the workaround is not required
+            for (CodegenParameter requiredParam : this.requiredParams) {
+                if (requiredParam.isBodyParam || requiredParam.isFormParam) {
+                    return false;
+                }
+            }
+
+            // In case there is nothing for the body, the operation requires the workaround
+            return true;
+        }
     }
 
     class ExtendedCodegenModel extends CodegenModel {

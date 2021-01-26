@@ -67,6 +67,9 @@ defmodule {{moduleName}}.Api.{{classname}} do
     |> add_optional_params(optional_params, opts)
 {{/-first}}
 {{/optionalParams}}
+{{#requiresHttpcWorkaround}}
+    |> ensure_body()
+{{/requiresHttpcWorkaround}}
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response({{#responses}}{{#-first}}[

@@ -60,6 +60,7 @@ defmodule OpenapiPetstore.Api.Fake do
     |> method(:post)
     |> url("/fake/outer/boolean")
     |> add_optional_params(optional_params, opts)
+    |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -89,6 +90,7 @@ defmodule OpenapiPetstore.Api.Fake do
     |> method(:post)
     |> url("/fake/outer/composite")
     |> add_optional_params(optional_params, opts)
+    |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -118,6 +120,7 @@ defmodule OpenapiPetstore.Api.Fake do
     |> method(:post)
     |> url("/fake/outer/number")
     |> add_optional_params(optional_params, opts)
+    |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -147,6 +150,7 @@ defmodule OpenapiPetstore.Api.Fake do
     |> method(:post)
     |> url("/fake/outer/string")
     |> add_optional_params(optional_params, opts)
+    |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -457,6 +461,7 @@ defmodule OpenapiPetstore.Api.Fake do
     |> add_param(:query, :"http", http)
     |> add_param(:query, :"url", url)
     |> add_param(:query, :"context", context)
+    |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
