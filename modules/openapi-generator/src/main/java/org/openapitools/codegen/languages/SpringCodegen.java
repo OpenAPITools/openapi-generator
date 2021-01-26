@@ -71,6 +71,9 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
+    public static final String VERSION_TYPE = "versionType";
+    public static final String VERSION_TOKEN = "versionToken";
+    public static final String VERSION_TOKEN_DEFAULT = "X-VERSION";
 
     public static final String OPEN_BRACE = "{";
     public static final String CLOSE_BRACE = "}";
@@ -179,7 +182,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(SPRING_BOOT);
         library.setEnum(supportedLibraries);
         cliOptions.add(library);
-
+        cliOptions.add(new CliOption(VERSION_TYPE, "Add a new criteria to filter requests handled")
+                .defaultValue(VersionType.NONE.name())
+                .addEnum(VersionType.NONE.name(), "No filter")
+                .addEnum(VersionType.PATH.name(), "Filter with path prefix")
+                .addEnum(VersionType.HEADER.name(), "Filter with custom header")
+                .addEnum(VersionType.QUERY_PARAM.name(), "Filter with custom query-param"));
+        cliOptions.add(new CliOption(VERSION_TOKEN, "Token used for version type header or queryParam").defaultValue(VERSION_TOKEN_DEFAULT));
     }
 
     private void updateJava8CliOptions() {
@@ -496,6 +505,25 @@ public class SpringCodegen extends AbstractJavaCodegen
         additionalProperties.put("lambdaTrimWhitespace", new TrimWhitespaceLambda());
 
         additionalProperties.put("lambdaSplitString", new SplitStringLambda());
+
+        VersionType versionType = VersionType.valueOf(additionalProperties.getOrDefault(VERSION_TYPE, VersionType.NONE.name()).toString());
+        String versionToken = (String) additionalProperties.getOrDefault(VERSION_TOKEN, VERSION_TOKEN_DEFAULT);
+        switch (versionType) {
+            case PATH:
+                additionalProperties.put("versionWithPath", true);
+                break;
+            case QUERY_PARAM:
+                additionalProperties.put("versionWithQueryParam", true);
+                additionalProperties.put(VERSION_TOKEN, versionToken);
+                break;
+            case HEADER:
+                additionalProperties.put("versionWithHeader", true);
+                additionalProperties.put(VERSION_TOKEN, versionToken);
+                break;
+            case NONE:
+            default:
+                break;
+        }
     }
 
     @Override
@@ -890,4 +918,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
     }
 
+    public enum VersionType {
+        NONE,
+        PATH,
+        QUERY_PARAM,
+        HEADER
+    }
 }
