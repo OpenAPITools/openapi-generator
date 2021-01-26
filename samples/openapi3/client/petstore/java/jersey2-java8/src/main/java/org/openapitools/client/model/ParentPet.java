@@ -105,7 +105,6 @@ public class ParentPet extends GrandparentAnimal {
     return Objects.hash(super.hashCode(), additionalProperties);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

@@ -88,7 +88,6 @@ public class HasOnlyReadOnly implements Parcelable {
     return Objects.hash(bar, foo);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

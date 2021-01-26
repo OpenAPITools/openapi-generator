@@ -79,7 +79,6 @@ public class ModelReturn implements Parcelable {
     return Objects.hash(_return);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

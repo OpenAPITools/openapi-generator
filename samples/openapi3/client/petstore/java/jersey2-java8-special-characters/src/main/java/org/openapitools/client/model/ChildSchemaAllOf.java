@@ -84,7 +84,6 @@ public class ChildSchemaAllOf {
     return Objects.hash(prop1);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

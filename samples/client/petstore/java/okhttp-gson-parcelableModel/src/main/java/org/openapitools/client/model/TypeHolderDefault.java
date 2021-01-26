@@ -193,7 +193,6 @@ public class TypeHolderDefault implements Parcelable {
     return Objects.hash(stringItem, numberItem, integerItem, boolItem, arrayItem);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

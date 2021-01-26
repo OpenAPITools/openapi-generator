@@ -134,7 +134,6 @@ public class BigCat extends Cat implements Parcelable {
     return Objects.hash(kind, super.hashCode());
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

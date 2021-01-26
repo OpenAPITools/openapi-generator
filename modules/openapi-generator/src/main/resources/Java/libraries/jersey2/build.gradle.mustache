@@ -33,11 +33,6 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 25
         }
         compileOptions {
-            {{#supportJava6}}
-            sourceCompatibility JavaVersion.VERSION_1_6
-            targetCompatibility JavaVersion.VERSION_1_6
-            {{/supportJava6}}
-            {{^supportJava6}}
             {{#java8}}
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
@@ -46,7 +41,6 @@ if(hasProperty('target') && target == 'android') {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
             {{/java8}}
-            {{/supportJava6}}
         }
 
         // Rename the aar correctly
@@ -90,11 +84,6 @@ if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'java'
     apply plugin: 'maven'
-    {{#supportJava6}}
-    sourceCompatibility = JavaVersion.VERSION_1_6
-    targetCompatibility = JavaVersion.VERSION_1_6
-    {{/supportJava6}}
-    {{^supportJava6}}
     {{#java8}}
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -103,7 +92,6 @@ if(hasProperty('target') && target == 'android') {
     sourceCompatibility = JavaVersion.VERSION_1_7
     targetCompatibility = JavaVersion.VERSION_1_7
     {{/java8}}
-    {{/supportJava6}}
 
     install {
         repositories.mavenInstaller {
@@ -124,14 +112,7 @@ ext {
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.1"
     {{/openApiNullable}}
-    {{#supportJava6}}
-    jersey_version = "2.6"
-    commons_io_version=2.5
-    commons_lang3_version=3.6
-    {{/supportJava6}}
-    {{^supportJava6}}
     jersey_version = "2.27"
-    {{/supportJava6}}
     junit_version = "4.13.1"
     {{#threetenbp}}
     threetenbp_version = "2.9.10"
@@ -170,10 +151,6 @@ dependencies {
     {{#hasHttpSignatureMethods}}
     implementation "org.tomitribe:tomitribe-http-signatures:$tomitribe_http_signatures_version"
     {{/hasHttpSignatureMethods}}
-    {{#supportJava6}}
-    implementation "commons-io:commons-io:$commons_io_version"
-    implementation "org.apache.commons:commons-lang3:$commons_lang3_version"
-    {{/supportJava6}}
     {{#threetenbp}}
     implementation "com.github.joschi.jackson:jackson-datatype-threetenbp:$threetenbp_version"
     {{/threetenbp}}

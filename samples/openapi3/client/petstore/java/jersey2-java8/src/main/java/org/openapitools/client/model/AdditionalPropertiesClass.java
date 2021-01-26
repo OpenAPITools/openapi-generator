@@ -335,7 +335,6 @@ public class AdditionalPropertiesClass {
     return Objects.hash(mapProperty, mapOfMapProperty, anytype1, mapWithUndeclaredPropertiesAnytype1, mapWithUndeclaredPropertiesAnytype2, mapWithUndeclaredPropertiesAnytype3, emptyMap, mapWithUndeclaredPropertiesString);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

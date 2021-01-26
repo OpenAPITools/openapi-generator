@@ -426,7 +426,6 @@ public class AdditionalPropertiesClass implements Parcelable {
     return Objects.hash(mapString, mapNumber, mapInteger, mapBoolean, mapArrayInteger, mapArrayAnytype, mapMapString, mapMapAnytype, anytype1, anytype2, anytype3);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

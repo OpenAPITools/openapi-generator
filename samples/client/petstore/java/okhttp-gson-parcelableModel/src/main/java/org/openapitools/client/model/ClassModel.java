@@ -79,7 +79,6 @@ public class ClassModel implements Parcelable {
     return Objects.hash(propertyClass);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

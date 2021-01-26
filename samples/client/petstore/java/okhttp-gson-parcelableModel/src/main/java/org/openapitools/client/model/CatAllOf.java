@@ -78,7 +78,6 @@ public class CatAllOf implements Parcelable {
     return Objects.hash(declawed);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

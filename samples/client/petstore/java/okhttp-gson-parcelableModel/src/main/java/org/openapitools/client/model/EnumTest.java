@@ -382,7 +382,6 @@ public class EnumTest implements Parcelable {
     return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

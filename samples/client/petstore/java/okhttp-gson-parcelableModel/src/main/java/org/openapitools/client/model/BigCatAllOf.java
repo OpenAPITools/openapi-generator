@@ -129,7 +129,6 @@ public class BigCatAllOf implements Parcelable {
     return Objects.hash(kind);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
