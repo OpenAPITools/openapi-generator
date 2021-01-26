@@ -134,7 +134,6 @@ public class ModelApiResponse implements Parcelable {
     return Objects.hash(code, type, message);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

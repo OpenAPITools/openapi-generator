@@ -84,7 +84,6 @@ public class Cat extends Animal implements Parcelable {
     return Objects.hash(declawed, super.hashCode());
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

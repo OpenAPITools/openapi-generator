@@ -95,7 +95,6 @@ public class Cat extends Animal {
     return Objects.hash(declawed, super.hashCode());
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

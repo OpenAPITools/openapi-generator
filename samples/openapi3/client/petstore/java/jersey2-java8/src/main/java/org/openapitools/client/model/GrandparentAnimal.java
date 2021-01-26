@@ -93,7 +93,6 @@ public class GrandparentAnimal {
     return Objects.hash(petType);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

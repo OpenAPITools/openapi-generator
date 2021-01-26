@@ -210,7 +210,6 @@ public class EnumArrays implements Parcelable {
     return Objects.hash(justSymbol, arrayEnum);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
