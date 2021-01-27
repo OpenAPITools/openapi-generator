@@ -11,8 +11,6 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import nulltype  # noqa: F401
-
 from petstore_api.model_utils import (  # noqa: F401
     ApiTypeError,
     ModelComposed,
@@ -90,8 +88,8 @@ class Triangle(ModelComposed):
         """
         lazy_import()
         return {
-            'shape_type': (str,),  # noqa: E501
             'triangle_type': (str,),  # noqa: E501
+            'shape_type': (str,),  # noqa: E501
         }
 
     @cached_property
@@ -107,8 +105,8 @@ class Triangle(ModelComposed):
         return {'triangle_type': val}
 
     attribute_map = {
-        'shape_type': 'shapeType',  # noqa: E501
         'triangle_type': 'triangleType',  # noqa: E501
+        'shape_type': 'shapeType',  # noqa: E501
     }
 
     required_properties = set([
@@ -124,11 +122,10 @@ class Triangle(ModelComposed):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, shape_type, triangle_type, *args, **kwargs):  # noqa: E501
+    def __init__(self, triangle_type, *args, **kwargs):  # noqa: E501
         """Triangle - a model defined in OpenAPI
 
         Args:
-            shape_type (str):
             triangle_type (str):
 
         Keyword Args:
@@ -162,6 +159,7 @@ class Triangle(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
+            shape_type (str): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -195,7 +193,6 @@ class Triangle(ModelComposed):
             '_visited_composed_classes': self._visited_composed_classes,
         }
         required_args = {
-            'shape_type': shape_type,
             'triangle_type': triangle_type,
         }
         model_args = {}

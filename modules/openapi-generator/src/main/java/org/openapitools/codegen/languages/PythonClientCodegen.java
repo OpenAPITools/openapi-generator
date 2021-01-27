@@ -566,6 +566,66 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         }
     }
 
+    private void fixComposedSchemaRequiredVars(Schema schema, CodegenModel result) {
+        // for composed schema models, if the required properties are only from oneOf or anyOf models
+        // remove them from the composed schema's required vars
+        // for composed schemas our code adds oneOf and anyOf required properties to
+        // the composed schema's required properties
+        // but they should not be required because if we have ComposedSchema: oneOf -schemaA -schemaB
+        // and the required props are only in schemaB, we do not need to use them when making an instance of
+        // ComposedSchema + schemaA
+        ComposedSchema cs = (ComposedSchema) schema;
+
+        // these are the properties that are from properties in self cs or cs allOf
+        Map<String, Schema> selfProperties = new LinkedHashMap<String, Schema>();
+        List<String> selfRequired = new ArrayList<String>();
+
+        // these are the properties that are from properties in cs oneOf or cs anyOf
+        Map<String, Schema> otherProperties = new LinkedHashMap<String, Schema>();
+        List<String> otherRequired = new ArrayList<String>();
+
+        List<Schema> oneOfanyOfSchemas = new ArrayList<>();
+        List<Schema> oneOf = cs.getOneOf();
+        if (oneOf != null) {
+            oneOfanyOfSchemas.addAll(oneOf);
+        }
+        List<Schema> anyOf = cs.getAnyOf();
+        if (anyOf != null) {
+            oneOfanyOfSchemas.addAll(anyOf);
+        }
+        for (Schema sc : oneOfanyOfSchemas) {
+            Schema refSchema = ModelUtils.getReferencedSchema(this.openAPI, sc);
+            addProperties(otherProperties, otherRequired, refSchema);
+        }
+        Set<String> otherRequiredSet = new HashSet<String>(otherRequired);
+
+        List<Schema> allOf = cs.getAllOf();
+        if ((schema.getProperties() != null && !schema.getProperties().isEmpty()) || allOf != null) {
+            // NOTE: this function also adds the allOf properties inside schema
+            addProperties(selfProperties, selfRequired, schema);
+        }
+        if (result.discriminator != null) {
+            selfRequired.add(result.discriminator.getPropertyBaseName());
+        }
+        Set<String> selfRequiredSet = new HashSet<String>(selfRequired);
+
+        List<CodegenProperty> reqVars = result.getRequiredVars();
+        List<CodegenProperty> reqVarsThatMustBeOptional = new ArrayList<>();
+        if (reqVars != null) {
+            for (CodegenProperty cp : reqVars) {
+                String propName = cp.baseName;
+                if (otherRequiredSet.contains(propName) && !selfRequiredSet.contains(propName)) {
+                    cp.required = false;
+                    reqVarsThatMustBeOptional.add(cp);
+                }
+            }
+        }
+        for (CodegenProperty cp : reqVarsThatMustBeOptional) {
+            result.getRequiredVars().remove(cp);
+            result.getOptionalVars().add(cp);
+        }
+    }
+
     /**
      * Sets the value of the 'model.parent' property in CodegenModel
      * We have a custom version of this function so we can add the dataType on the ArrayModel
@@ -591,6 +651,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
     @Override
     public CodegenModel fromModel(String name, Schema sc) {
         CodegenModel cm = super.fromModel(name, sc);
+        if (cm.requiredVars.size() > 0 && (cm.oneOf.size() > 0 || cm.anyOf.size() > 0)) {
+            fixComposedSchemaRequiredVars(sc, cm);
+        }
         ArrayList<List<CodegenProperty>> listOfLists = new ArrayList<List<CodegenProperty>>();
         listOfLists.add(cm.requiredVars);
         listOfLists.add(cm.optionalVars);

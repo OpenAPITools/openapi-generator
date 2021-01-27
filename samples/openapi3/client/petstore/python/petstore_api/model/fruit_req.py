@@ -11,8 +11,6 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import nulltype  # noqa: F401
-
 from petstore_api.model_utils import (  # noqa: F401
     ApiTypeError,
     ModelComposed,
@@ -81,10 +79,10 @@ class FruitReq(ModelComposed):
         """
         lazy_import()
         return {
-            'cultivar': (str,),  # noqa: E501
-            'length_cm': (float,),  # noqa: E501
             'mealy': (bool,),  # noqa: E501
             'sweet': (bool,),  # noqa: E501
+            'cultivar': (str,),  # noqa: E501
+            'length_cm': (float,),  # noqa: E501
         }
 
     @cached_property
@@ -93,10 +91,10 @@ class FruitReq(ModelComposed):
 
 
     attribute_map = {
-        'cultivar': 'cultivar',  # noqa: E501
-        'length_cm': 'lengthCm',  # noqa: E501
         'mealy': 'mealy',  # noqa: E501
         'sweet': 'sweet',  # noqa: E501
+        'cultivar': 'cultivar',  # noqa: E501
+        'length_cm': 'lengthCm',  # noqa: E501
     }
 
     required_properties = set([
@@ -112,12 +110,8 @@ class FruitReq(ModelComposed):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, cultivar, length_cm, *args, **kwargs):  # noqa: E501
+    def __init__(self, *args, **kwargs):  # noqa: E501
         """FruitReq - a model defined in OpenAPI
-
-        Args:
-            cultivar (str):
-            length_cm (float):
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -152,6 +146,8 @@ class FruitReq(ModelComposed):
                                 _visited_composed_classes = (Animal,)
             mealy (bool): [optional]  # noqa: E501
             sweet (bool): [optional]  # noqa: E501
+            cultivar (str): [optional]  # noqa: E501
+            length_cm (float): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -185,8 +181,6 @@ class FruitReq(ModelComposed):
             '_visited_composed_classes': self._visited_composed_classes,
         }
         required_args = {
-            'cultivar': cultivar,
-            'length_cm': length_cm,
         }
         model_args = {}
         model_args.update(required_args)

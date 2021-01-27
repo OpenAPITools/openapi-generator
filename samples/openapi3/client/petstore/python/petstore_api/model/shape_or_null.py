@@ -11,8 +11,6 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import nulltype  # noqa: F401
-
 from petstore_api.model_utils import (  # noqa: F401
     ApiTypeError,
     ModelComposed,
@@ -123,13 +121,11 @@ class ShapeOrNull(ModelComposed):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, shape_type, quadrilateral_type, triangle_type, *args, **kwargs):  # noqa: E501
+    def __init__(self, shape_type, *args, **kwargs):  # noqa: E501
         """ShapeOrNull - a model defined in OpenAPI
 
         Args:
             shape_type (str):
-            quadrilateral_type (str):
-            triangle_type (str):
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -162,6 +158,8 @@ class ShapeOrNull(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
+            quadrilateral_type (str): [optional]  # noqa: E501
+            triangle_type (str): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -196,8 +194,6 @@ class ShapeOrNull(ModelComposed):
         }
         required_args = {
             'shape_type': shape_type,
-            'quadrilateral_type': quadrilateral_type,
-            'triangle_type': triangle_type,
         }
         model_args = {}
         model_args.update(required_args)
