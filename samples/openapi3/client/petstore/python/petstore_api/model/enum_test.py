@@ -29,11 +29,13 @@ from petstore_api.model_utils import (  # noqa: F401
 )
 
 def lazy_import():
+    from petstore_api.model.array_of_enums import ArrayOfEnums
     from petstore_api.model.integer_enum import IntegerEnum
     from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue
     from petstore_api.model.integer_enum_with_default_value import IntegerEnumWithDefaultValue
     from petstore_api.model.string_enum import StringEnum
     from petstore_api.model.string_enum_with_default_value import StringEnumWithDefaultValue
+    globals()['ArrayOfEnums'] = ArrayOfEnums
     globals()['IntegerEnum'] = IntegerEnum
     globals()['IntegerEnumOneValue'] = IntegerEnumOneValue
     globals()['IntegerEnumWithDefaultValue'] = IntegerEnumWithDefaultValue
@@ -114,6 +116,8 @@ class EnumTest(ModelNormal):
             'string_enum_with_default_value': (StringEnumWithDefaultValue,),  # noqa: E501
             'integer_enum_with_default_value': (IntegerEnumWithDefaultValue,),  # noqa: E501
             'integer_enum_one_value': (IntegerEnumOneValue,),  # noqa: E501
+            'inline_array_of_str_enum': ([StringEnum],),  # noqa: E501
+            'array_of_str_enum': (ArrayOfEnums,),  # noqa: E501
         }
 
     @cached_property
@@ -131,6 +135,8 @@ class EnumTest(ModelNormal):
         'string_enum_with_default_value': 'StringEnumWithDefaultValue',  # noqa: E501
         'integer_enum_with_default_value': 'IntegerEnumWithDefaultValue',  # noqa: E501
         'integer_enum_one_value': 'IntegerEnumOneValue',  # noqa: E501
+        'inline_array_of_str_enum': 'InlineArrayOfStrEnum',  # noqa: E501
+        'array_of_str_enum': 'ArrayOfStrEnum',  # noqa: E501
     }
 
     _composed_schemas = {}
@@ -190,6 +196,8 @@ class EnumTest(ModelNormal):
             string_enum_with_default_value (StringEnumWithDefaultValue): [optional]  # noqa: E501
             integer_enum_with_default_value (IntegerEnumWithDefaultValue): [optional]  # noqa: E501
             integer_enum_one_value (IntegerEnumOneValue): [optional]  # noqa: E501
+            inline_array_of_str_enum ([StringEnum]): [optional]  # noqa: E501
+            array_of_str_enum (ArrayOfEnums): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

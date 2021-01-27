@@ -6,12 +6,12 @@ void main() {
   final instance = FileSchemaTestClass();
 
   group('test FileSchemaTestClass', () {
-    // MultipartFile file
+    // ModelFile file
     test('to test the property `file`', () async {
       // TODO
     });
 
-    // List<MultipartFile> files (default value: const [])
+    // List<ModelFile> files (default value: const [])
     test('to test the property `files`', () async {
       // TODO
     });

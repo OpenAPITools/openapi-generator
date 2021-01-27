@@ -85,7 +85,7 @@ func (c *PetApiController) Routes() Routes {
 func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) { 
 	pet := &Pet{}
 	if err := json.NewDecoder(r.Body).Decode(&pet); err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	
@@ -105,10 +105,10 @@ func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	petId, err := parseInt64Parameter(params["petId"])
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	apiKey := r.Header.Get("apiKey")
+	apiKey := r.Header.Get("api_key")
 	result, err := c.service.DeletePet(r.Context(), petId, apiKey)
 	//If an error occured, encode the error with the status code
 	if err != nil {
@@ -155,7 +155,7 @@ func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	petId, err := parseInt64Parameter(params["petId"])
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	result, err := c.service.GetPetById(r.Context(), petId)
@@ -173,7 +173,7 @@ func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) { 
 	pet := &Pet{}
 	if err := json.NewDecoder(r.Body).Decode(&pet); err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	
@@ -192,14 +192,14 @@ func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Request) { 
 	err := r.ParseForm()
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	
 	params := mux.Vars(r)
 	petId, err := parseInt64Parameter(params["petId"])
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	name := r.FormValue("name")
@@ -219,20 +219,20 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) { 
 	err := r.ParseForm()
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	
 	params := mux.Vars(r)
 	petId, err := parseInt64Parameter(params["petId"])
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	additionalMetadata := r.FormValue("additionalMetadata")
 	file, err := ReadFormFileToTempFile(r, "file")
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	

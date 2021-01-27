@@ -1,11 +1,16 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'dart:async';
-import 'dart:io';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 
-import 'package:openapi/model/client.dart';
+import 'package:openapi/model/model_client.dart';
 
 class AnotherFakeApi {
     final Dio _dio;
@@ -13,48 +18,63 @@ class AnotherFakeApi {
 
     AnotherFakeApi(this._dio, this._serializers);
 
-        /// To test special tags
-        ///
-        /// To test special tags and operation ID starting with number
-        Future<Response<Client>>call123testSpecialTags(Client client,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
+    /// To test special tags
+    ///
+    /// To test special tags and operation ID starting with number
+    Future<Response<ModelClient>> call123testSpecialTags(
+        ModelClient modelClient, { 
+        CancelToken cancelToken,
+        Map<String, dynamic> headers,
+        Map<String, dynamic> extra,
+        ValidateStatus validateStatus,
+        ProgressCallback onSendProgress,
+        ProgressCallback onReceiveProgress,
+    }) async {
+        final String _path = '/another-fake/dummy';
 
-        String _path = "/another-fake/dummy";
-
-        Map<String, dynamic> queryParams = {};
-        Map<String, String> headerParams = Map.from(headers ?? {});
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{ 
+            if (headers != null) ...headers,
+        };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        List<String> contentTypes = ["application/json"];
+        final contentTypes = <String>[
+            'application/json',
+        ];
 
+        final bodySerializer = _serializers.serializerForType(ModelClient) as Serializer<ModelClient>;
+        final serializedBody = _serializers.serializeWith(bodySerializer, modelClient);
+        final jsonmodelClient = json.encode(serializedBody);
+        bodyData = jsonmodelClient;
 
-            var serializedBody = _serializers.serialize(client);
-            var jsonclient = json.encode(serializedBody);
-            bodyData = jsonclient;
-
-            return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
-            method: 'patch'.toUpperCase(),
-            headers: headerParams,
-            extra: {
-                'secure': [],
-            },
-            contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
+                method: 'patch'.toUpperCase(),
+                headers: headerParams,
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[],
+                    if (extra != null) ...extra,
+                },
+                validateStatus: validateStatus,
+                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
             ),
             cancelToken: cancelToken,
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
-            ).then((response) {
+        ).then((response) {
+            final serializer = _serializers.serializerForType(ModelClient) as Serializer<ModelClient>;
+            final data = _serializers.deserializeWith<ModelClient>(
+                serializer,
+                response.data is String ? jsonDecode(response.data as String) : response.data,
+            );
 
-            final serializer = _serializers.serializerForType(Client);
-            final data = _serializers.deserializeWith<Client>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
-
-            return Response<Client>(
+            return Response<ModelClient>(
                 data: data,
                 headers: response.headers,
                 request: response.request,
@@ -63,6 +83,7 @@ class AnotherFakeApi {
                 statusMessage: response.statusMessage,
                 extra: response.extra,
             );
-            });
-            }
-        }
+        });
+    }
+
+}

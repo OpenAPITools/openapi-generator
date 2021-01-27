@@ -365,6 +365,7 @@ public class ApiClient {
         return authentications.get(authName);
     }
 
+
     /**
      * Helper method to set username for the first HTTP basic authentication.
      *

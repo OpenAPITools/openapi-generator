@@ -15,20 +15,12 @@ class OuterEnumInteger {
   const OuterEnumInteger._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
-
-  @override
-  bool operator ==(Object other) => identical(this, other) ||
-      other is OuterEnumInteger && other.value == value ||
-      other is String && other == value;
-
-  @override
-  int get hashCode => toString().hashCode;
+  final int value;
 
   @override
   String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
   static const number0 = OuterEnumInteger._(0);
   static const number1 = OuterEnumInteger._(1);
@@ -59,7 +51,7 @@ class OuterEnumIntegerTypeTransformer {
 
   factory OuterEnumIntegerTypeTransformer() => _instance ??= OuterEnumIntegerTypeTransformer._();
 
-  String encode(OuterEnumInteger data) => data.value;
+  int encode(OuterEnumInteger data) => data.value;
 
   /// Decodes a [dynamic value][data] to a OuterEnumInteger.
   ///

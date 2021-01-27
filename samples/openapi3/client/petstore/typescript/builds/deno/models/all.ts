@@ -1,7 +1,5 @@
 export * from './ApiResponse.ts'
 export * from './Category.ts'
-export * from './InlineObject.ts'
-export * from './InlineObject1.ts'
 export * from './Order.ts'
 export * from './Pet.ts'
 export * from './Tag.ts'

@@ -15,7 +15,6 @@ class Foo {
     this.bar = 'bar',
   });
 
-  
   String bar;
 
   @override

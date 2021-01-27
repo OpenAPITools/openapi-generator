@@ -12,6 +12,8 @@ Name | Type | Description | Notes
 **string_enum_with_default_value** | [**StringEnumWithDefaultValue**](StringEnumWithDefaultValue.md) |  | [optional] 
 **integer_enum_with_default_value** | [**IntegerEnumWithDefaultValue**](IntegerEnumWithDefaultValue.md) |  | [optional] 
 **integer_enum_one_value** | [**IntegerEnumOneValue**](IntegerEnumOneValue.md) |  | [optional] 
+**inline_array_of_str_enum** | [**[StringEnum]**](StringEnum.md) |  | [optional] 
+**array_of_str_enum** | [**ArrayOfEnums**](ArrayOfEnums.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

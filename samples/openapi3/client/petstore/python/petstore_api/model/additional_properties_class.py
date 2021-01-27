@@ -152,7 +152,7 @@ class AdditionalPropertiesClass(ModelNormal):
             map_with_undeclared_properties_anytype_1 ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): [optional]  # noqa: E501
             map_with_undeclared_properties_anytype_2 ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): [optional]  # noqa: E501
             map_with_undeclared_properties_anytype_3 ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): [optional]  # noqa: E501
-            empty_map (bool, date, datetime, dict, float, int, list, str): an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.. [optional]  # noqa: E501
+            empty_map (bool, date, datetime, dict, float, int, list, str): an object with no declared properties and no undeclared properties, hence it's an empty map.. [optional]  # noqa: E501
             map_with_undeclared_properties_string ({str: (str,)}): [optional]  # noqa: E501
         """
 

@@ -83,7 +83,6 @@ public class TriangleInterface {
     return Objects.hash(triangleType);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

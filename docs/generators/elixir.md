@@ -36,6 +36,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>Atom</li>
 <li>Boolean</li>
 <li>DateTime</li>
+<li>Decimal</li>
 <li>Float</li>
 <li>Integer</li>
 <li>List</li>
@@ -43,6 +44,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>PID</li>
 <li>String</li>
 <li>Tuple</li>
+<li>map()</li>
 </ul>
 
 ## RESERVED WORDS

@@ -4,7 +4,7 @@ import org.openapitools.vertxweb.server.model.User;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.vertx.core.json.jackson.DatabindCodec;
-import io.vertx.ext.web.openapi.RouterFactory;
+import io.vertx.ext.web.openapi.RouterBuilder;
 import io.vertx.ext.web.validation.RequestParameters;
 import io.vertx.ext.web.validation.RequestParameter;
 import io.vertx.ext.web.validation.ValidationHandler;
@@ -26,15 +26,15 @@ public class UserApiHandler {
         this.apiImpl = new UserApiImpl();
     }
 
-    public void mount(RouterFactory factory) {
-        factory.operation("createUser").handler(this::createUser);
-        factory.operation("createUsersWithArrayInput").handler(this::createUsersWithArrayInput);
-        factory.operation("createUsersWithListInput").handler(this::createUsersWithListInput);
-        factory.operation("deleteUser").handler(this::deleteUser);
-        factory.operation("getUserByName").handler(this::getUserByName);
-        factory.operation("loginUser").handler(this::loginUser);
-        factory.operation("logoutUser").handler(this::logoutUser);
-        factory.operation("updateUser").handler(this::updateUser);
+    public void mount(RouterBuilder builder) {
+        builder.operation("createUser").handler(this::createUser);
+        builder.operation("createUsersWithArrayInput").handler(this::createUsersWithArrayInput);
+        builder.operation("createUsersWithListInput").handler(this::createUsersWithListInput);
+        builder.operation("deleteUser").handler(this::deleteUser);
+        builder.operation("getUserByName").handler(this::getUserByName);
+        builder.operation("loginUser").handler(this::loginUser);
+        builder.operation("logoutUser").handler(this::logoutUser);
+        builder.operation("updateUser").handler(this::updateUser);
     }
 
     private void createUser(RoutingContext routingContext) {

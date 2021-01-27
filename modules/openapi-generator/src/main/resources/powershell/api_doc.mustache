@@ -26,24 +26,24 @@ Method | HTTP request | Description
 Import-Module -Name {{{packageName}}}
 
 {{#hasAuthMethods}}
-$Configuration = Get-{{{packageName}}}Configuration
+# general setting of the PowerShell module, e.g. base URL, authentication, etc
+$Configuration = Get-Configuration
 {{#authMethods}}
 {{#isBasic}}
 # Configure HTTP basic authorization: {{{name}}}
-$Configuration["Username"] = "YOUR_USERNAME";
-$Configuration["Password"] = "YOUR_PASSWORD";
+$Configuration.Username = "YOUR_USERNAME"
+$Configuration.Password = "YOUR_PASSWORD"
 {{/isBasic}}
 {{#isApiKey}}
 # Configure API key authorization: {{{name}}}
-$Configuration["ApiKey"]["{{{keyParamName}}}"] = "YOUR_API_KEY"
+$Configuration.ApiKey.{{{keyParamName}}} = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration["ApiKeyPrefix"]["{{{keyParamName}}}"] = "Bearer"
+#$Configuration.ApiKeyPrefix.{{{keyParamName}}} = "Bearer"
 {{/isApiKey}}
 {{#isOAuth}}
 # Configure OAuth2 access token for authorization: {{{name}}}
-$Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
+$Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 {{/isOAuth}}
-
 {{#isHttpSignature}}
 # Configure HttpSignature for authorization :{{name}}
 $httpSigningParams = @{
@@ -52,11 +52,10 @@ $httpSigningParams = @{
     HttpSigningHeader = @("(request-target)","Host","Date","Digest")
     HashAlgorithm = "sha256"
 }
-Set-{{{packageName}}}ConfigurationHttpSigning @httpSigningParams
-
+Set-ConfigurationHttpSigning $httpSigningParams
 {{/isHttpSignature}}
-{{/authMethods}}
 
+{{/authMethods}}
 {{/hasAuthMethods}}
 {{#allParams}}
 ${{paramName}} = {{{vendorExtensions.x-powershell-example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}

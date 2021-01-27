@@ -303,6 +303,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+        if (parameter.isFormParam && parameter.isArray && "binary".equals(parameter.dataFormat)) {
+            parameter.isCollectionFormatMulti = true;
+        }
+    }
+
+    @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         List<ExtendedCodegenModel> allModels = new ArrayList<ExtendedCodegenModel>();
         List<String> entityModelClassnames = new ArrayList<String>();

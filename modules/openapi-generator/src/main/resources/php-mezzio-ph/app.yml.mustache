@@ -1,0 +1,22 @@
+dependencies:
+  invokables:
+    Laminas\HttpHandlerRunner\Emitter\EmitterInterface: Laminas\HttpHandlerRunner\Emitter\SapiStreamEmitter
+  factories:
+    Mezzio\Application: App\Factory
+    Mezzio\MiddlewareContainer: Mezzio\Container\MiddlewareContainerFactory
+    Mezzio\MiddlewareFactory: Mezzio\Container\MiddlewareFactoryFactory
+    Mezzio\Router\RouteCollector: Mezzio\Router\RouteCollectorFactory
+
+    Psr\Http\Message\ServerRequestInterface: Mezzio\Container\ServerRequestFactoryFactory
+    Psr\Http\Message\StreamInterface: Mezzio\Container\StreamFactoryFactory
+    Psr\Http\Message\ResponseInterface: Mezzio\Container\ResponseFactoryFactory
+
+    App\Middleware\InternalServerError: Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory
+    Mezzio\Router\Middleware\RouteMiddleware: Mezzio\Router\Middleware\RouteMiddlewareFactory
+    Mezzio\Router\Middleware\DispatchMiddleware: Mezzio\Router\Middleware\DispatchMiddlewareFactory
+    Mezzio\Router\Middleware\MethodNotAllowedMiddleware: Mezzio\Router\Middleware\MethodNotAllowedMiddlewareFactory
+    Mezzio\Handler\NotFoundHandler: Mezzio\Container\NotFoundHandlerFactory
+
+Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory:
+  App\Middleware\InternalServerError:
+  - Psr\Http\Message\ResponseInterface

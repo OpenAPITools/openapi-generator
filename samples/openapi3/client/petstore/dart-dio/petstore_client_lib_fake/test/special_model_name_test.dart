@@ -6,7 +6,7 @@ void main() {
   final instance = SpecialModelName();
 
   group(SpecialModelName, () {
-    // int dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket (default value: null)
+    // int dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket
     test('to test the property `dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket`', () async {
       // TODO
     });

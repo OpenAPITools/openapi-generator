@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -6,11 +13,11 @@ part 'outer_enum_default_value.g.dart';
 
 class OuterEnumDefaultValue extends EnumClass {
 
-  @BuiltValueEnumConst(wireName: 'placed')
+  @BuiltValueEnumConst(wireName: r'placed')
   static const OuterEnumDefaultValue placed = _$placed;
-  @BuiltValueEnumConst(wireName: 'approved')
+  @BuiltValueEnumConst(wireName: r'approved')
   static const OuterEnumDefaultValue approved = _$approved;
-  @BuiltValueEnumConst(wireName: 'delivered')
+  @BuiltValueEnumConst(wireName: r'delivered')
   static const OuterEnumDefaultValue delivered = _$delivered;
 
   static Serializer<OuterEnumDefaultValue> get serializer => _$outerEnumDefaultValueSerializer;

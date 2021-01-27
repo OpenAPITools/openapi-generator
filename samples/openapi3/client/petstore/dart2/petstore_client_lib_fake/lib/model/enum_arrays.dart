@@ -16,10 +16,8 @@ class EnumArrays {
     this.arrayEnum = const [],
   });
 
-  
   EnumArraysJustSymbolEnum justSymbol;
 
-  
   List<EnumArraysArrayEnumEnum> arrayEnum;
 
   @override
@@ -89,20 +87,12 @@ class EnumArraysJustSymbolEnum {
   final String value;
 
   @override
-  bool operator ==(Object other) => identical(this, other) ||
-      other is EnumArraysJustSymbolEnum && other.value == value ||
-      other is String && other == value;
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
   String toString() => value;
 
   String toJson() => value;
 
-  static const greaterThanEqual = EnumArraysJustSymbolEnum._('>=');
-  static const dollar = EnumArraysJustSymbolEnum._('$');
+  static const greaterThanEqual = EnumArraysJustSymbolEnum._(r'>=');
+  static const dollar = EnumArraysJustSymbolEnum._(r'$');
 
   /// List of all possible values in this [enum][EnumArraysJustSymbolEnum].
   static const values = <EnumArraysJustSymbolEnum>[
@@ -140,8 +130,8 @@ class EnumArraysJustSymbolEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumArraysJustSymbolEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case '>=': return EnumArraysJustSymbolEnum.greaterThanEqual;
-      case '$': return EnumArraysJustSymbolEnum.dollar;
+      case r'>=': return EnumArraysJustSymbolEnum.greaterThanEqual;
+      case r'$': return EnumArraysJustSymbolEnum.dollar;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
@@ -163,20 +153,12 @@ class EnumArraysArrayEnumEnum {
   final String value;
 
   @override
-  bool operator ==(Object other) => identical(this, other) ||
-      other is EnumArraysArrayEnumEnum && other.value == value ||
-      other is String && other == value;
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() => value.toString();
+  String toString() => value;
 
   String toJson() => value;
 
-  static const fish = EnumArraysArrayEnumEnum._('fish');
-  static const crab = EnumArraysArrayEnumEnum._('crab');
+  static const fish = EnumArraysArrayEnumEnum._(r'fish');
+  static const crab = EnumArraysArrayEnumEnum._(r'crab');
 
   /// List of all possible values in this [enum][EnumArraysArrayEnumEnum].
   static const values = <EnumArraysArrayEnumEnum>[
@@ -195,7 +177,7 @@ class EnumArraysArrayEnumEnum {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [EnumArraysArrayEnumEnum] to List<String>,
+/// Transformation class that can [encode] an instance of [EnumArraysArrayEnumEnum] to String,
 /// and [decode] dynamic data back to [EnumArraysArrayEnumEnum].
 class EnumArraysArrayEnumEnumTypeTransformer {
   const EnumArraysArrayEnumEnumTypeTransformer._();
@@ -214,8 +196,8 @@ class EnumArraysArrayEnumEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumArraysArrayEnumEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case 'fish': return EnumArraysArrayEnumEnum.fish;
-      case 'crab': return EnumArraysArrayEnumEnum.crab;
+      case r'fish': return EnumArraysArrayEnumEnum.fish;
+      case r'crab': return EnumArraysArrayEnumEnum.crab;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
