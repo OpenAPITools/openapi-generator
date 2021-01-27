@@ -882,33 +882,33 @@ public class FakeApi {
   /**
    * Fake endpoint to test group parameters (optional)
    * Fake endpoint to test group parameters (optional)
-   * @param testGroupParametersRequest {@link APItestGroupParametersRequest}
+   * @param apiRequest {@link APItestGroupParametersRequest}
    * @throws ApiException if fails to make API call
    */
-  public void testGroupParameters(APItestGroupParametersRequest testGroupParametersRequest) throws ApiException {
-    Integer requiredStringGroup = testGroupParametersRequest.requiredStringGroup();
-    Boolean requiredBooleanGroup = testGroupParametersRequest.requiredBooleanGroup();
-    Long requiredInt64Group = testGroupParametersRequest.requiredInt64Group();
-    Integer stringGroup = testGroupParametersRequest.stringGroup();
-    Boolean booleanGroup = testGroupParametersRequest.booleanGroup();
-    Long int64Group = testGroupParametersRequest.int64Group();
+  public void testGroupParameters(APItestGroupParametersRequest apiRequest) throws ApiException {
+    Integer requiredStringGroup = apiRequest.requiredStringGroup();
+    Boolean requiredBooleanGroup = apiRequest.requiredBooleanGroup();
+    Long requiredInt64Group = apiRequest.requiredInt64Group();
+    Integer stringGroup = apiRequest.stringGroup();
+    Boolean booleanGroup = apiRequest.booleanGroup();
+    Long int64Group = apiRequest.int64Group();
     testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
   }
 
   /**
    * Fake endpoint to test group parameters (optional)
    * Fake endpoint to test group parameters (optional)
-   * @param testGroupParametersRequest {@link APItestGroupParametersRequest}
+   * @param apiRequest {@link APItestGroupParametersRequest}
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> testGroupParametersWithHttpInfo(APItestGroupParametersRequest testGroupParametersRequest) throws ApiException {
-    Integer requiredStringGroup = testGroupParametersRequest.requiredStringGroup();
-    Boolean requiredBooleanGroup = testGroupParametersRequest.requiredBooleanGroup();
-    Long requiredInt64Group = testGroupParametersRequest.requiredInt64Group();
-    Integer stringGroup = testGroupParametersRequest.stringGroup();
-    Boolean booleanGroup = testGroupParametersRequest.booleanGroup();
-    Long int64Group = testGroupParametersRequest.int64Group();
+  public ApiResponse<Void> testGroupParametersWithHttpInfo(APItestGroupParametersRequest apiRequest) throws ApiException {
+    Integer requiredStringGroup = apiRequest.requiredStringGroup();
+    Boolean requiredBooleanGroup = apiRequest.requiredBooleanGroup();
+    Long requiredInt64Group = apiRequest.requiredInt64Group();
+    Integer stringGroup = apiRequest.stringGroup();
+    Boolean booleanGroup = apiRequest.booleanGroup();
+    Long int64Group = apiRequest.int64Group();
     return testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
   }
 

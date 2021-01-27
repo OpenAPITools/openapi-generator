@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Request;
   {{/pathParams}}   *
      * @return Http response
      */
-    public function {{operationId}}({{#pathParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}})
+    public function {{operationId}}({{#pathParams}}${{paramName}}{{^-last}}, {{/-last}}{{/pathParams}})
     {
         $input = Request::all();
 

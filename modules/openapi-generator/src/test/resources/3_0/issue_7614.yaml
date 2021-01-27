@@ -1,0 +1,62 @@
+openapi: 3.0.0
+info:
+  title: test api
+  version: 0.0.1
+tags:
+  - name: examples
+    description: examples tag
+paths:
+  /examples/onlybasicauth:
+    get:
+      tags:
+        - examples
+      summary: Get with basic auth
+      operationId: getWithBasicAuth
+      responses:
+        200:
+          description: some result
+      security:
+        - basic_auth: []
+  /examples/basicauthwithoauth:
+    get:
+      tags:
+        - examples
+      summary: get with basic auth and oauth
+      operationId: getWithBasicAuthAndOauth
+      responses:
+        200:
+          description: some result
+      security:
+        - basic_auth: []
+        - oauth_auth:
+            - something:create
+  /examples/onlyoauthauth:
+    get:
+      tags:
+        - examples
+      summary: get with oauth
+      operationId: getWithOauthAuth
+      responses:
+        200:
+          description: some result
+      security:
+        - oauth_auth:
+            - something:create
+            - something:process
+components:
+  securitySchemes:
+    oauth_auth:
+      type: oauth2
+      flows:
+        password:
+          tokenUrl: "../auth/realms/master/protocol/openid-connect/token"
+          scopes:
+            something:create: create from password flow
+        clientCredentials:
+          tokenUrl: "../auth/realms/master/protocol/openid-connect/token"
+          scopes:
+            something:create: create from client credentials flow
+            something:process: process from client credentials flow
+    basic_auth:
+      type: http
+      scheme: basic

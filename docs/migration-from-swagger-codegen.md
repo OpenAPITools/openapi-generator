@@ -129,7 +129,7 @@ All languages of `swagger-codegen` have been migrated to `openapi-generator`, bu
 | `swift` | `swift2-deprecated` |
 | `lumen` | `php-lumen` |
 | `slim` | `php-slim` |
-| `ze-ph` | `php-ze-ph` |
+| `ze-ph` | `php-mezzio-ph` |
 | `nancyfx` | `csharp-nancyfx` |
 
 We provide a temporary mapping in code for these old values. You'll receive a warning with instructions to migrate to the new names.

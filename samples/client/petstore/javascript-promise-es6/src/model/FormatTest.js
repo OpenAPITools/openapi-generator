@@ -73,6 +73,9 @@ class FormatTest {
             if (data.hasOwnProperty('double')) {
                 obj['double'] = ApiClient.convertToType(data['double'], 'Number');
             }
+            if (data.hasOwnProperty('decimal')) {
+                obj['decimal'] = ApiClient.convertToType(data['decimal'], 'Number');
+            }
             if (data.hasOwnProperty('string')) {
                 obj['string'] = ApiClient.convertToType(data['string'], 'String');
             }
@@ -136,6 +139,11 @@ FormatTest.prototype['float'] = undefined;
  * @member {Number} double
  */
 FormatTest.prototype['double'] = undefined;
+
+/**
+ * @member {Number} decimal
+ */
+FormatTest.prototype['decimal'] = undefined;
 
 /**
  * @member {String} string

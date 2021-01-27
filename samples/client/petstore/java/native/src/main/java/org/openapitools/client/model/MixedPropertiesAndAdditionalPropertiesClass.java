@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -29,6 +31,8 @@ import java.util.Map;
 import java.util.UUID;
 import org.openapitools.client.model.Animal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
@@ -38,7 +42,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
-@JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String JSON_PROPERTY_UUID = "uuid";
@@ -52,7 +55,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
-    
     this.uuid = uuid;
     return this;
   }
@@ -77,7 +79,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
 
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
-    
     this.dateTime = dateTime;
     return this;
   }
@@ -102,7 +103,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
 
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
-    
     this.map = map;
     return this;
   }
@@ -134,8 +134,11 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
+  /**
+   * Return true if this MixedPropertiesAndAdditionalPropertiesClass object is equal to o.
+   */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -153,7 +156,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return Objects.hash(uuid, dateTime, map);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -169,7 +171,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

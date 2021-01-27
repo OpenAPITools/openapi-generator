@@ -20,6 +20,8 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -45,6 +47,8 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     public FlashClientCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.DEPRECATED).build();
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -201,12 +205,12 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String getName() {
-        return "flash";
+        return "flash-deprecated";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a Flash (ActionScript) client library (beta).";
+        return "Generates a Flash (ActionScript) client library (beta). IMPORTANT: this generator has been deprecated in v5.x";
     }
 
     @Override

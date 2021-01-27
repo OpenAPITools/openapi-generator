@@ -1,0 +1,9 @@
+{
+  "!include": "common/jaxrs-datelib-j8.json",
+  "generatorName": "jaxrs-jersey",
+  "outputDir": "outputDir",
+  "additionalProperties": {
+    "hideGenerationTimestamp": true,
+    "serverPort": "8082"
+  }
+}

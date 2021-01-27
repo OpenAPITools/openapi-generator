@@ -69,8 +69,8 @@ import           Web.HttpApiData
 
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#hasFormParams}}
 data {{vendorExtensions.x-form-name}} = {{vendorExtensions.x-form-name}}
-  { {{#formParams}}{{vendorExtensions.x-form-prefix}}{{vendorExtensions.x-form-param-name}} :: {{dataType}}{{#hasMore}}
-  , {{/hasMore}}{{/formParams}}
+  { {{#formParams}}{{vendorExtensions.x-form-prefix}}{{vendorExtensions.x-form-param-name}} :: {{dataType}}{{^-last}}
+  , {{/-last}}{{/formParams}}
   } deriving (Show, Eq, Generic, Data)
 
 instance FromForm {{vendorExtensions.x-form-name}}
@@ -130,9 +130,9 @@ formatSeparatedQueryList char = T.intercalate (T.singleton char) . map toQueryPa
 {{#apiInfo}}
 -- | Servant type-level API, generated from the OpenAPI spec for {{title}}.
 type {{title}}API
-    =    {{#apis}}{{#operations}}{{#operation}}{{& vendorExtensions.x-route-type}} -- '{{operationId}}' route{{#hasMore}}
-    :<|> {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}}
-    :<|> {{/hasMore}}{{/apis}}{{#serveStatic}}
+    =    {{#apis}}{{#operations}}{{#operation}}{{& vendorExtensions.x-route-type}} -- '{{operationId}}' route{{^-last}}
+    :<|> {{/-last}}{{/operation}}{{/operations}}{{^-last}}
+    :<|> {{/-last}}{{/apis}}{{#serveStatic}}
     :<|> Raw {{/serveStatic}}
 {{/apiInfo}}
 
@@ -155,9 +155,9 @@ newtype {{title}}ClientError = {{title}}ClientError ClientError
 -- is a backend that executes actions by sending HTTP requests (see @create{{title}}Client@). Alternatively, provided
 -- a backend, the API can be served using @run{{title}}MiddlewareServer@.
 data {{title}}Backend m = {{title}}Backend
-  { {{#apis}}{{#operations}}{{#operation}}{{operationId}} :: {{& vendorExtensions.x-client-type}}{- ^ {{& notes}} -}{{#hasMore}}
-  , {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}}
-  , {{/hasMore}}{{/apis}}
+  { {{#apis}}{{#operations}}{{#operation}}{{operationId}} :: {{& vendorExtensions.x-client-type}}{- ^ {{& notes}} -}{{^-last}}
+  , {{/-last}}{{/operation}}{{/operations}}{{^-last}}
+  , {{/-last}}{{/apis}}
   }
 
 newtype {{title}}Client a = {{title}}Client
@@ -183,9 +183,9 @@ instance MonadIO {{title}}Client where
 create{{title}}Client :: {{title}}Backend {{title}}Client
 create{{title}}Client = {{title}}Backend{..}
   where
-    ({{#apis}}{{#operations}}{{#operation}}(coerce -> {{operationId}}){{#hasMore}} :<|>
-     {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}} :<|>
-     {{/hasMore}}{{/apis}}{{#serveStatic}} :<|>
+    ({{#apis}}{{#operations}}{{#operation}}(coerce -> {{operationId}}){{^-last}} :<|>
+     {{/-last}}{{/operation}}{{/operations}}{{^-last}} :<|>
+     {{/-last}}{{/apis}}{{#serveStatic}} :<|>
      _{{/serveStatic}}) = client (Proxy :: Proxy {{title}}API)
 
 -- | Run requests in the {{title}}Client monad.
@@ -235,8 +235,8 @@ run{{title}}MiddlewareServer Config{..} middleware backend = do
   liftIO $ Warp.runSettings warpSettings $ middleware $ serve (Proxy :: Proxy {{title}}API) (serverFromBackend backend)
   where
     serverFromBackend {{title}}Backend{..} =
-      ({{#apis}}{{#operations}}{{#operation}}coerce {{operationId}}{{#hasMore}} :<|>
-       {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}} :<|>
-       {{/hasMore}}{{/apis}}{{#serveStatic}} :<|>
+      ({{#apis}}{{#operations}}{{#operation}}coerce {{operationId}}{{^-last}} :<|>
+       {{/-last}}{{/operation}}{{/operations}}{{^-last}} :<|>
+       {{/-last}}{{/apis}}{{#serveStatic}} :<|>
        serveDirectoryFileServer "static"{{/serveStatic}})
 {{/apiInfo}}

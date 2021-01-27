@@ -121,16 +121,8 @@ public class OneOfImplementorAdditionalData {
         }
 
         // Add oneOf-containing models properties - we need to properly set the hasMore values to make rendering correct
-        if (implcm.vars.size() > 0 && additionalProps.size() > 0) {
-            implcm.vars.get(implcm.vars.size() - 1).hasMore = true;
-        }
         for (int i = 0; i < additionalProps.size(); i++) {
             CodegenProperty var = additionalProps.get(i);
-            if (i == additionalProps.size() - 1) {
-                var.hasMore = false;
-            } else {
-                var.hasMore = true;
-            }
             implcm.vars.add(var);
         }
 

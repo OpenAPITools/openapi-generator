@@ -55,7 +55,7 @@ module {{classname}}Handler =
           return! (match result with 
                       {{#responses}}
                       | {{operationId}}{{#isDefault}}Default{{/isDefault}}StatusCode{{^isDefault}}{{code}}{{/isDefault}} resolved ->
-                            setStatusCode {{code}} >=> {{#primitiveType}}{{^isMapContainer}}text{{/isMapContainer}}{{/primitiveType}}{{^primitiveType}}json{{/primitiveType}} resolved.content 
+                            setStatusCode {{code}} >=> {{#primitiveType}}{{^isMap}}text{{/isMap}}{{/primitiveType}}{{^primitiveType}}json{{/primitiveType}} resolved.content
                       {{/responses}}
           ) next ctx
         }

@@ -13,7 +13,10 @@ defmodule OpenapiPetstore.Model.EnumTest do
     :"enum_string_required",
     :"enum_integer",
     :"enum_number",
-    :"outerEnum"
+    :"outerEnum",
+    :"outerEnumInteger",
+    :"outerEnumDefaultValue",
+    :"outerEnumIntegerDefaultValue"
   ]
 
   @type t :: %__MODULE__{
@@ -21,7 +24,10 @@ defmodule OpenapiPetstore.Model.EnumTest do
     :"enum_string_required" => String.t,
     :"enum_integer" => integer() | nil,
     :"enum_number" => float() | nil,
-    :"outerEnum" => OuterEnum | nil
+    :"outerEnum" => OpenapiPetstore.Model.OuterEnum.t | nil,
+    :"outerEnumInteger" => OpenapiPetstore.Model.OuterEnumInteger.t | nil,
+    :"outerEnumDefaultValue" => OpenapiPetstore.Model.OuterEnumDefaultValue.t | nil,
+    :"outerEnumIntegerDefaultValue" => OpenapiPetstore.Model.OuterEnumIntegerDefaultValue.t | nil
   }
 end
 
@@ -30,6 +36,9 @@ defimpl Poison.Decoder, for: OpenapiPetstore.Model.EnumTest do
   def decode(value, options) do
     value
     |> deserialize(:"outerEnum", :struct, OpenapiPetstore.Model.OuterEnum, options)
+    |> deserialize(:"outerEnumInteger", :struct, OpenapiPetstore.Model.OuterEnumInteger, options)
+    |> deserialize(:"outerEnumDefaultValue", :struct, OpenapiPetstore.Model.OuterEnumDefaultValue, options)
+    |> deserialize(:"outerEnumIntegerDefaultValue", :struct, OpenapiPetstore.Model.OuterEnumIntegerDefaultValue, options)
   end
 end
 

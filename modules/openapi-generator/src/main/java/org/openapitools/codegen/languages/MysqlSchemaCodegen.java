@@ -368,7 +368,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                     break;
                 }
                 String value = String.valueOf(enumValues.get(i));
-                columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(value, (Boolean) (i + 1 < enumValues.size())));
+                columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(value));
             }
             columnDefinition.put("colDataType", "ENUM");
             columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
@@ -455,7 +455,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                     break;
                 }
                 String value = String.valueOf(enumValues.get(i));
-                columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(value, (Boolean) (i + 1 < enumValues.size())));
+                columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(value));
             }
             columnDefinition.put("colDataType", "ENUM");
             columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
@@ -470,8 +470,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             columnDefinition.put("colDataType", "DECIMAL");
             columnDefinition.put("colUnsigned", unsigned);
             columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
-            columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(20, true));
-            columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(9, false));
+            columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(20));
+            columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(9));
         }
 
         if (Boolean.TRUE.equals(required)) {
@@ -525,7 +525,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         columnDefinition.put("colName", colName);
         columnDefinition.put("colDataType", "TINYINT");
         columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
-        columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(1, false));
+        columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(1));
 
         if (Boolean.TRUE.equals(required)) {
             columnDefinition.put("colNotNull", true);
@@ -593,7 +593,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                     break;
                 }
                 String value = String.valueOf(enumValues.get(i));
-                columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(value, (Boolean) (i + 1 < enumValues.size())));
+                columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(value));
             }
         } else if (dataType.equals("MEDIUMBLOB")) {
             columnDefinition.put("colDataType", "MEDIUMBLOB");
@@ -602,7 +602,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             columnDefinition.put("colDataType", matchedStringType);
             if (matchedStringType.equals("CHAR") || matchedStringType.equals("VARCHAR")) {
                 columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
-                columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument((maxLength != null) ? maxLength : 255, false));
+                columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument((maxLength != null) ? maxLength : 255));
             }
         }
 
@@ -783,10 +783,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      * Generates codegen property for MySQL data type argument
      *
      * @param value   argument value
-     * @param hasMore shows whether codegen has more arguments or not
      * @return generated codegen property
      */
-    public HashMap<String, Object> toCodegenMysqlDataTypeArgument(Object value, Boolean hasMore) {
+    public HashMap<String, Object> toCodegenMysqlDataTypeArgument(Object value) {
         HashMap<String, Object> arg = new HashMap<String, Object>();
         if (value instanceof String) {
             arg.put("isString", true);
@@ -807,7 +806,6 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             LOGGER.warn("MySQL data type argument can be primitive type only. Class '" + value.getClass() + "' is provided");
         }
         arg.put("argumentValue", value);
-        arg.put("hasMore", hasMore);
         return arg;
     }
 

@@ -295,7 +295,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         // Add additional filename information for model imports in the apis
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         for (Map<String, Object> im : imports) {
-            im.put("filename", ((String) im.get("import")).replace(".", File.separator));
+            im.put("filename", ((String) im.get("import")).replace(".", "/"));
             im.put("classname", getModelnameFromModelFilename(im.get("import").toString()));
         }
         

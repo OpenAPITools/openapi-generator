@@ -30,7 +30,7 @@ message {{operationId}}Request {
   {{#description}}
   // {{{.}}}
   {{/description}}
-  {{#vendorExtensions.x-protobuf-type}}{{.}} {{/vendorExtensions.x-protobuf-type}}{{vendorExtensions.x-protobuf-data-type}} {{paramName}} = {{vendorExtensions.x-index}};
+  {{#vendorExtensions.x-protobuf-type}}{{.}} {{/vendorExtensions.x-protobuf-type}}{{vendorExtensions.x-protobuf-data-type}} {{paramName}} = {{vendorExtensions.x-protobuf-index}};
   {{/allParams}}
 
 }

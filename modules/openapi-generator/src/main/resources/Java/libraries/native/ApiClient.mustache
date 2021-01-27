@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+{{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
+{{/openApiNullable}}
 
 import java.io.InputStream;
 import java.net.URI;
@@ -155,8 +157,10 @@ public class ApiClient {
     mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     mapper.registerModule(new JavaTimeModule());
+    {{#openApiNullable}}
     JsonNullableModule jnm = new JsonNullableModule();
     mapper.registerModule(jnm);
+    {{/openApiNullable}}
     URI baseURI = URI.create("{{{basePath}}}");
     scheme = baseURI.getScheme();
     host = baseURI.getHost();

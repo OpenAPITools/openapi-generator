@@ -50,7 +50,10 @@ void order_free(order_t *order) {
         return ;
     }
     listEntry_t *listEntry;
-    free(order->ship_date);
+    if (order->ship_date) {
+        free(order->ship_date);
+        order->ship_date = NULL;
+    }
     free(order);
 }
 

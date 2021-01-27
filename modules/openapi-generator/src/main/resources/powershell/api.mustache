@@ -18,7 +18,7 @@
 {{#vendorExtensions.x-powershell-select-accept}}
 .PARAMETER ReturnType
 
-Select the return type (optional): {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}
+Select the return type (optional): {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}
 
 {{/vendorExtensions.x-powershell-select-accept}}
 .PARAMETER WithHttpInfo
@@ -46,7 +46,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
     {{/allParams}}
         {{#vendorExtensions.x-powershell-select-accept}}
         [String]
-        [ValidateSet({{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}})]
+        [ValidateSet({{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}})]
         $ReturnType,
         {{/vendorExtensions.x-powershell-select-accept}}
         [Switch]
@@ -69,7 +69,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         $Configuration = Get-{{{apiNamePrefix}}}Configuration
         {{#hasProduces}}
         # HTTP header 'Accept' (if needed)
-        $LocalVarAccepts = @({{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}})
+        $LocalVarAccepts = @({{#produces}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}})
 
         {{/hasProduces}}
         {{#vendorExtensions.x-powershell-select-accept}}
@@ -81,7 +81,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         {{/vendorExtensions.x-powershell-select-accept}}
         {{#hasConsumes}}
         # HTTP header 'Content-Type'
-        $LocalVarContentTypes = @({{#consumes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/consumes}})
+        $LocalVarContentTypes = @({{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}})
 
         {{/hasConsumes}}
         $LocalVarUri = '{{{path}}}'

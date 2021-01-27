@@ -45,7 +45,7 @@ def apiInstance = new {{classname}}()
 {{#allParams}}def {{paramName}} = {{{example}}} // {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
-apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
     {
     // on success
     {{#returnType}}def result = ({{returnType}})it

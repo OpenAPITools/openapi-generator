@@ -32,7 +32,7 @@ class ValidateTaskDslTest : TestBase() {
                 .buildAndFail()
 
         // Assert
-        assertTrue(result.output.contains("unable to read location `some_location`"), "Unexpected/no message presented to the user for a spec pointing to an invalid URI.")
+        assertTrue(result.output.contains("some_location' specified for property 'inputSpec' does not exist"), "Unexpected/no message presented to the user for a spec pointing to an invalid URI.")
         assertEquals(FAILED, result.task(":openApiValidate")?.outcome,
                 "Expected a failed run, but found ${result.task(":openApiValidate")?.outcome}")
     }

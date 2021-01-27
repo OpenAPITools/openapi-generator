@@ -407,12 +407,12 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(defaultValue = "false", property = "openapi.generator.maven.plugin.addTestCompileSourceRoot")
     private boolean addTestCompileSourceRoot = false;
 
-    // TODO: Rename to global properties in version 5.0
+    // TODO: Rename to global properties in version 5.1
     @Parameter
     protected Map<String, String> environmentVariables = new HashMap<>();
 
     @Parameter
-    protected Map<String, String> originalEnvironmentVariables = new HashMap<>();
+    protected Map<String, String> globalProperties = new HashMap<>();
 
     @Parameter(property = "codegen.configHelp")
     private boolean configHelp = false;
@@ -430,7 +430,6 @@ public class CodeGenMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException {
         File inputSpecFile = new File(inputSpec);
-        resetEnvironmentVariables();
         addCompileSourceRootIfConfigured();
 
         try {
@@ -699,13 +698,19 @@ public class CodeGenMojo extends AbstractMojo {
                 applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
             }
 
-            if (environmentVariables != null) {
-                for (String key : environmentVariables.keySet()) {
-                    originalEnvironmentVariables.put(key, GlobalSettings.getProperty(key));
-                    String value = environmentVariables.get(key);
-                    if (value != null) {
-                        configurator.addGlobalProperty(key, value);
-                    }
+            if (globalProperties == null) {
+                globalProperties = new HashMap<>();
+            }
+
+            if (environmentVariables != null && environmentVariables.size() > 0) {
+                globalProperties.putAll(environmentVariables);
+                getLog().warn("environmentVariables is deprecated and will be removed in version 5.1. Use globalProperties instead.");
+            }
+
+            for (String key : globalProperties.keySet()) {
+                String value = globalProperties.get(key);
+                if (value != null) {
+                    configurator.addGlobalProperty(key, value);
                 }
             }
 
@@ -854,19 +859,6 @@ public class CodeGenMojo extends AbstractMojo {
             project.addCompileSourceRoot(getCompileSourceRoot());
         } else if (addTestCompileSourceRoot) {
             project.addTestCompileSourceRoot(getCompileSourceRoot());
-        }
-    }
-
-    private void resetEnvironmentVariables() {
-        // Reset all environment variables to their original value. This prevents unexpected
-        // behaviour
-        // when running the plugin multiple consecutive times with different configurations.
-        for (Map.Entry<String, String> entry : originalEnvironmentVariables.entrySet()) {
-            if (entry.getValue() == null) {
-                GlobalSettings.clearProperty(entry.getKey());
-            } else {
-                GlobalSettings.setProperty(entry.getKey(), entry.getValue());
-            }
         }
     }
 

@@ -12,9 +12,11 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Model200Response   {
   @JsonProperty("name")
+  
   private Integer name;
 
   @JsonProperty("class")
+  
   private String propertyClass;
 
   public Model200Response name(Integer name) {
@@ -26,7 +28,7 @@ public class Model200Response   {
    * Get name
    * @return name
   **/
-    public Integer getName() {
+  public Integer getName() {
     return name;
   }
 
@@ -43,7 +45,7 @@ public class Model200Response   {
    * Get propertyClass
    * @return propertyClass
   **/
-    public String getPropertyClass() {
+  public String getPropertyClass() {
     return propertyClass;
   }
 
@@ -53,7 +55,7 @@ public class Model200Response   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -86,7 +88,7 @@ public class Model200Response   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

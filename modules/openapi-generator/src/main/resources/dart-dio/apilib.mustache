@@ -1,3 +1,4 @@
+{{>header}}
 library {{pubName}}.api;
 
 import 'package:dio/dio.dart';
@@ -15,7 +16,7 @@ class {{clientName}} {
 
     Dio dio;
     Serializers serializers;
-    String basePath = "{{{basePath}}}";
+    String basePath = '{{{basePath}}}';
 
     {{clientName}}({this.dio, Serializers serializers, String basePathOverride, List<Interceptor> interceptors}) {
         if (dio == null) {

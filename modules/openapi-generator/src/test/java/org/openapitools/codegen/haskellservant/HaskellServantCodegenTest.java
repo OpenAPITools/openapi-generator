@@ -53,8 +53,8 @@ public class HaskellServantCodegenTest {
                 .getOpenAPI();
 
         ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        input.openAPI(openAPI);
+        input.config(codegen);
 
         // when
         DefaultGenerator generator = new DefaultGenerator();
