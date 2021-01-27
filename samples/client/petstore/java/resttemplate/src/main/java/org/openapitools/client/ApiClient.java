@@ -472,6 +472,15 @@ public class ApiClient {
     }
 
     /**
+    * Check if the given {@code String} is a Problem JSON MIME (RFC-7807).
+    * @param mediaType the input MediaType
+    * @return boolean true if the MediaType represents Problem JSON, false otherwise
+    */
+    public boolean isProblemJsonMime(String mediaType) {
+        return "application/problem+json".equalsIgnoreCase(mediaType);
+    }
+
+    /**
      * Select the Accept header's value from the given accepts array:
      *     if JSON exists in the given array, use it;
      *     otherwise use all of them (joining into a string)
@@ -485,7 +494,7 @@ public class ApiClient {
         }
         for (String accept : accepts) {
             MediaType mediaType = MediaType.parseMediaType(accept);
-            if (isJsonMime(mediaType)) {
+            if (isJsonMime(mediaType) && !isProblemJsonMime(accept)) {
                 return Collections.singletonList(mediaType);
             }
         }

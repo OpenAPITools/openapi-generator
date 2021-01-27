@@ -17,13 +17,10 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     this.map = const {},
   });
 
-  
   String uuid;
 
-  
   DateTime dateTime;
 
-  
   Map<String, Animal> map;
 
   @override

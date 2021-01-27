@@ -19,25 +19,24 @@ package org.openapitools.codegen.languages;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.nio.file.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
@@ -79,6 +78,10 @@ public class DartClientCodegen extends DefaultCodegen {
     protected String apiTestPath = "test" + File.separator;
     protected String modelTestPath = "test" + File.separator;
 
+    // Names that must not be used as model names because they clash with existing
+    // default imports (dart:io, dart:async, package:http etc.) but are not basic dataTypes.
+    protected Set<String> additionalReservedWords;
+
     public DartClientCodegen() {
         super();
 
@@ -106,9 +109,6 @@ public class DartClientCodegen extends DefaultCodegen {
                 )
         );
 
-        // clear import mapping (from default generator) as dart does not use it at the moment
-        importMapping.clear();
-
         outputFolder = "generated-code/dart";
         modelTemplateFiles.put("model.mustache", ".dart");
         apiTemplateFiles.put("api.mustache", ".dart");
@@ -121,15 +121,13 @@ public class DartClientCodegen extends DefaultCodegen {
         modelTestTemplateFiles.put("model_test.mustache", ".dart");
         apiTestTemplateFiles.put("api_test.mustache", ".dart");
 
-        List<String> reservedWordsList = new ArrayList<>();
-        try {
-            BufferedReader reader = new BufferedReader(
+        final List<String> reservedWordsList = new ArrayList<>();
+        try(BufferedReader reader = new BufferedReader(
                     new InputStreamReader(DartClientCodegen.class.getResourceAsStream("/dart/dart-keywords.txt"),
-                            StandardCharsets.UTF_8));
+                            StandardCharsets.UTF_8))) {
             while (reader.ready()) {
                 reservedWordsList.add(reader.readLine());
             }
-            reader.close();
         } catch (Exception e) {
             LOGGER.error("Error reading dart keywords. Exception: {}", e.getMessage());
         }
@@ -140,7 +138,8 @@ public class DartClientCodegen extends DefaultCodegen {
             "bool",
             "int",
             "num",
-            "double"
+            "double",
+            "dynamic"
         );
         instantiationTypes.put("array", "List");
         instantiationTypes.put("map", "Map");
@@ -164,7 +163,7 @@ public class DartClientCodegen extends DefaultCodegen {
         typeMapping.put("Date", "DateTime");
         typeMapping.put("date", "DateTime");
         typeMapping.put("DateTime", "DateTime");
-        typeMapping.put("File", "MultipartFile");
+        typeMapping.put("file", "MultipartFile");
         typeMapping.put("binary", "MultipartFile");
         typeMapping.put("UUID", "String");
         typeMapping.put("URI", "String");
@@ -172,21 +171,29 @@ public class DartClientCodegen extends DefaultCodegen {
         typeMapping.put("object", "Object");
         typeMapping.put("AnyType", "Object");
 
-        // These are needed as they prevent models from being generated
-        // which would clash with existing types, e.g. List
-        // Importing dart:core doesn't hurt but a subclass may choose to skip
-        // dart:core imports.
-        importMapping.put("dynamic", "dart:core");
-        importMapping.put("Object", "dart:core");
-        importMapping.put("String", "dart:core");
-        importMapping.put("bool", "dart:core");
-        importMapping.put("num", "dart:core");
-        importMapping.put("int", "dart:core");
-        importMapping.put("double", "dart:core");
-        importMapping.put("List", "dart:core");
-        importMapping.put("Map", "dart:core");
-        importMapping.put("Set", "dart:core");
-        importMapping.put("DateTime", "dart:core");
+        // DataTypes of the above values which are automatically imported.
+        // They are also not allowed to be model names.
+        defaultIncludes = Sets.newHashSet(
+                "String",
+                "bool",
+                "int",
+                "num",
+                "double",
+                "dynamic",
+                "List",
+                "Set",
+                "Map",
+                "DateTime",
+                "Object",
+                "MultipartFile"
+        );
+
+        additionalReservedWords = Sets.newHashSet(
+                "File",
+                "Client",
+                "Future",
+                "Response"
+        );
 
         cliOptions.add(new CliOption(PUB_LIBRARY, "Library name in generated code"));
         cliOptions.add(new CliOption(PUB_NAME, "Name in generated pubspec"));
@@ -316,6 +323,15 @@ public class DartClientCodegen extends DefaultCodegen {
     }
 
     @Override
+    protected boolean isReservedWord(String word) {
+        // consider everything as reserved that is either a keyword,
+        // a default included type, or a type include through some library
+        return super.isReservedWord(word) ||
+                defaultIncludes().contains(word) ||
+                additionalReservedWords.contains(word);
+    }
+
+    @Override
     public String escapeReservedWord(String name) {
         return name + "_";
     }
@@ -379,7 +395,7 @@ public class DartClientCodegen extends DefaultCodegen {
             name = "n" + name;
         }
 
-        if (isReservedWord(name) || importMapping().containsKey(name)) {
+        if (isReservedWord(name)) {
             name = escapeReservedWord(name);
         }
 
@@ -394,10 +410,6 @@ public class DartClientCodegen extends DefaultCodegen {
 
     @Override
     public String toModelName(final String name) {
-        if (importMapping().containsKey(name)) {
-            return name;
-        }
-
         String nameWithPrefixSuffix = sanitizeName(name);
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             // add '_' so that model name can be camelized correctly
@@ -463,43 +475,105 @@ public class DartClientCodegen extends DefaultCodegen {
         }
 
         if (schema.getDefault() != null) {
+            if (ModelUtils.isDateSchema(schema) || ModelUtils.isDateTimeSchema(schema)) {
+                // this is currently not supported and would create compile errors
+                return null;
+            }
             if (ModelUtils.isStringSchema(schema)) {
                 return "'" + schema.getDefault().toString().replace("'", "\\'") + "'";
             }
             return schema.getDefault().toString();
-        } else {
-            return null;
         }
+        return null;
     }
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            return instantiationTypes().get("array") + "<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
-            return instantiationTypes().get("map") + "<String, " + getTypeDeclaration(inner) + ">";
+        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
+        Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
+        if (ModelUtils.isArraySchema(target)) {
+            Schema<?> items = getSchemaItems((ArraySchema) schema);
+            return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
+        } else if (ModelUtils.isMapSchema(target)) {
+            // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
+            // additionalproperties: true
+            Schema<?> inner = getAdditionalProperties(target);
+            if (inner == null) {
+                LOGGER.error("`{}` (map property) does not have a proper inner type defined. Default to type:string", p.getName());
+                inner = new StringSchema().description("TODO default missing map inner type to string");
+                p.setAdditionalProperties(inner);
+            }
+            return getSchemaType(target) + "<String, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
     }
 
     @Override
     public String getSchemaType(Schema p) {
-        String type = super.getSchemaType(p);
-        if (typeMapping.containsKey(type)) {
-            return typeMapping.get(type);
+        String openAPIType = super.getSchemaType(p);
+        if (openAPIType == null) {
+            LOGGER.error("No Type defined for Schema " + p);
         }
-        if (languageSpecificPrimitives.contains(type)) {
-            return type;
+        if (typeMapping.containsKey(openAPIType)) {
+            return typeMapping.get(openAPIType);
         }
-        return toModelName(type);
+        if (languageSpecificPrimitives.contains(openAPIType)) {
+            return openAPIType;
+        }
+        return toModelName(openAPIType);
     }
 
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         return postProcessModelsEnum(objs);
+    }
+
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+        if (!model.isEnum && property.isEnum) {
+            // These are inner enums, enums which do not exist as models, just as properties.
+            // They are handled via the enum_inline template and and are generated in the
+            // same file as the containing class. To prevent name clashes the inline enum classes
+            // are prefix with the classname of the containing class in the template.
+            // Here the datatypeWithEnum template variable gets updated to match that scheme.
+            // Also taking into account potential collection types e.g. List<JustSymbolEnum> -> List<EnumArraysJustSymbolEnum>
+            if (property.items != null) {
+                // basically inner items e.g. map of maps etc.
+                property.setDatatypeWithEnum(property.datatypeWithEnum.replace(property.items.datatypeWithEnum, model.classname + property.items.datatypeWithEnum));
+            } else {
+                property.setDatatypeWithEnum(property.datatypeWithEnum.replace(property.enumName, model.classname + property.enumName));
+            }
+        }
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        final CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+        for (CodegenResponse r : op.responses) {
+            // By default only set types are automatically added to operation imports, not sure why.
+            // Add all container type imports here, by default 'dart:core' imports are skipped
+            // but other sub classes may required specific container type imports.
+            if (r.containerType != null && typeMapping().containsKey(r.containerType)) {
+                final String value = typeMapping().get(r.containerType);
+                if (needToImport(value)) {
+                    op.imports.add(value);
+                }
+            }
+        }
+        for (CodegenParameter p : op.allParams) {
+            if (p.isContainer) {
+                final String type = p.isArray ? "array" : "map";
+                if (typeMapping().containsKey(type)) {
+                    final String value = typeMapping().get(type);
+                    // Also add container imports for parameters.
+                    if (needToImport(value)) {
+                        op.imports.add(value);
+                    }
+                }
+            }
+        }
+        return op;
     }
 
     @Override
@@ -633,18 +707,7 @@ public class DartClientCodegen extends DefaultCodegen {
             return; // skip if DART_POST_PROCESS_FILE env variable is not defined
         }
 
-        // only process the following type (or we can simply rely on the file extension to check if it's a Dart file)
-        Set<String> supportedFileType = Sets.newHashSet(
-            "supporting-mustache",
-            "model-test",
-            "model",
-            "api-test",
-            "api");
-        if (!supportedFileType.contains(fileType)) {
-            return;
-        }
-
-        // only process files with dart extension
+        // process all files with dart extension
         if ("dart".equals(FilenameUtils.getExtension(file.toString()))) {
             // currently only support "dartfmt -w yourcode.dart"
             String command = dartPostProcessFile + " " + file.toString();

@@ -1,0 +1,42 @@
+---
+format_version: '8'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: other
+trigger_map:
+- push_branch: "*"
+  workflow: primary
+- pull_request_source_branch: "*"
+  workflow: primary
+workflows:
+  primary:
+    steps:
+    - git-clone@4.0.17: {}
+    - brew-install@0.11.0:
+        inputs:
+        - packages: maven
+    - script@1.1.6:
+        title: Install Cocoapods
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
+
+            sudo gem install cocoapods
+    - script@1.1.6:
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
+
+            set -e
+
+            mvn --no-snapshot-updates package -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+        title: Build openapi-generator
+    - script@1.1.6:
+        title: Run Swift5 tests
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
+
+            set -e
+
+            ./samples/client/petstore/swift5/swift5_test_all.sh
+

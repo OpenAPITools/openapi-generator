@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.DartClientCodegen;
+import org.openapitools.codegen.languages.DartDioClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -295,10 +296,15 @@ public class DartModelTest {
             {"sample.name", "SampleName"},
             {"_sample", "Sample"},
             {"sample name", "SampleName"},
+            {"List", "ModelList"},
+            {"list", "ModelList"},
+            {"File", "ModelFile"},
+            {"Client", "ModelClient"},
+            {"String", "ModelString"},
         };
     }
 
-    @Test(dataProvider = "modelNames", description = "avoid inner class")
+    @Test(dataProvider = "modelNames", description = "correctly generate model names")
     public void modelNameTest(String name, String expectedName) {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema model = new Schema();
@@ -419,7 +425,7 @@ public class DartModelTest {
         Assert.assertEquals(property1.baseName, "testStringEnum");
         Assert.assertEquals(property1.dataType, "String");
         Assert.assertEquals(property1.baseType, "String");
-        Assert.assertEquals(property1.datatypeWithEnum, "TestStringEnumEnum");
+        Assert.assertEquals(property1.datatypeWithEnum, "SampleTestStringEnumEnum");
         Assert.assertEquals(property1.name, "testStringEnum");
         Assert.assertTrue(property1.isEnum);
         Assert.assertEquals(property1.allowableValues.size(), 2);
@@ -439,7 +445,7 @@ public class DartModelTest {
         Assert.assertEquals(property2.baseName, "testIntEnum");
         Assert.assertEquals(property2.dataType, "int");
         Assert.assertEquals(property2.baseType, "int");
-        Assert.assertEquals(property2.datatypeWithEnum, "TestIntEnumEnum");
+        Assert.assertEquals(property2.datatypeWithEnum, "SampleTestIntEnumEnum");
         Assert.assertEquals(property2.name, "testIntEnum");
         Assert.assertTrue(property2.isEnum);
         Assert.assertEquals(property2.allowableValues.size(), 2);
@@ -482,7 +488,7 @@ public class DartModelTest {
         Assert.assertEquals(property1.baseName, "testIntEnum");
         Assert.assertEquals(property1.dataType, "int");
         Assert.assertEquals(property1.baseType, "int");
-        Assert.assertEquals(property1.datatypeWithEnum, "TestIntEnumEnum");
+        Assert.assertEquals(property1.datatypeWithEnum, "SampleTestIntEnumEnum");
         Assert.assertEquals(property1.name, "testIntEnum");
         Assert.assertTrue(property1.isEnum);
         Assert.assertEquals(property1.allowableValues.size(), 2);
@@ -515,5 +521,30 @@ public class DartModelTest {
 
         Assert.assertEquals(op.returnType, "DateTime");
         Assert.assertEquals(op.bodyParam.dataType, "DateTime");
+    }
+
+    @Test(description = "correctly generate date/datetime default values, currently null")
+    public void dateDefaultValues() {
+        final DateSchema date = new DateSchema();
+        date.setDefault("2021-01-01");
+        final DateTimeSchema dateTime = new DateTimeSchema();
+        dateTime.setDefault("2021-01-01T14:00:00Z");
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("date", date)
+                .addProperties("dateTime", dateTime)
+                .addProperties("mapNoDefault", new MapSchema());
+        final DefaultCodegen codegen = new DartDioClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        final CodegenProperty dateDefault = cm.vars.get(0);
+        Assert.assertEquals(dateDefault.name, "date");
+        Assert.assertNull(dateDefault.defaultValue);
+
+        final CodegenProperty dateTimeDefault = cm.vars.get(1);
+        Assert.assertEquals(dateTimeDefault.name, "dateTime");
+        Assert.assertNull(dateTimeDefault.defaultValue);
     }
 }

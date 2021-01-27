@@ -84,7 +84,6 @@ public class MySchemaNameCharactersAllOf {
     return Objects.hash(prop2);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

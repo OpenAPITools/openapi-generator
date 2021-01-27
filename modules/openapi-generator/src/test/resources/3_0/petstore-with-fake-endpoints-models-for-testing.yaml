@@ -40,6 +40,8 @@ paths:
       description: ''
       operationId: addPet
       responses:
+        '200':
+          description: Successful operation
         '405':
           description: Invalid input
       security:
@@ -55,6 +57,8 @@ paths:
       description: ''
       operationId: updatePet
       responses:
+        '200':
+          description: Successful operation
         '400':
           description: Invalid ID supplied
         '404':
@@ -197,6 +201,8 @@ paths:
             type: integer
             format: int64
       responses:
+        '200':
+          description: Successful operation
         '405':
           description: Invalid input
       security:
@@ -235,6 +241,8 @@ paths:
             type: integer
             format: int64
       responses:
+        '200':
+          description: Successful operation
         '400':
           description: Invalid pet value
       security:

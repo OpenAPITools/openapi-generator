@@ -69,7 +69,7 @@ public class DartDioModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.dataType, "int");
         Assert.assertEquals(property1.name, "id");
-        Assert.assertEquals(property1.defaultValue, "null");
+        Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int");
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
@@ -79,7 +79,7 @@ public class DartDioModelTest {
         Assert.assertEquals(property2.baseName, "name");
         Assert.assertEquals(property2.dataType, "String");
         Assert.assertEquals(property2.name, "name");
-        Assert.assertEquals(property2.defaultValue, "null");
+        Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "String");
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
@@ -90,7 +90,7 @@ public class DartDioModelTest {
         Assert.assertEquals(property3.complexType, "DateTime");
         Assert.assertEquals(property3.dataType, "DateTime");
         Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertEquals(property3.defaultValue, "null");
+        Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "DateTime");
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
@@ -128,7 +128,7 @@ public class DartDioModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.dataType, "int");
         Assert.assertEquals(property1.name, "id");
-        Assert.assertEquals(property1.defaultValue, "null");
+        Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int");
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
@@ -138,7 +138,7 @@ public class DartDioModelTest {
         Assert.assertEquals(property2.baseName, "name");
         Assert.assertEquals(property2.dataType, "String");
         Assert.assertEquals(property2.name, "name");
-        Assert.assertEquals(property2.defaultValue, "null");
+        Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "String");
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
@@ -149,7 +149,7 @@ public class DartDioModelTest {
         Assert.assertEquals(property3.complexType, "OffsetDateTime");
         Assert.assertEquals(property3.dataType, "OffsetDateTime");
         Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertEquals(property3.defaultValue, "null");
+        Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "OffsetDateTime");
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
@@ -159,7 +159,7 @@ public class DartDioModelTest {
         Assert.assertEquals(property4.complexType, "OffsetDate");
         Assert.assertEquals(property4.dataType, "OffsetDate");
         Assert.assertEquals(property4.name, "birthDate");
-        Assert.assertEquals(property4.defaultValue, "null");
+        Assert.assertNull(property4.defaultValue);
         Assert.assertEquals(property4.baseType, "OffsetDate");
         Assert.assertFalse(property4.required);
         Assert.assertFalse(property4.isContainer);
@@ -187,7 +187,7 @@ public class DartDioModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.dataType, "int");
         Assert.assertEquals(property1.name, "id");
-        Assert.assertEquals(property1.defaultValue, "null");
+        Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int");
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
@@ -350,18 +350,97 @@ public class DartDioModelTest {
     public static Object[][] modelNames() {
         return new Object[][] {
             {"EnumClass", "ModelEnumClass"},
+            {"JsonObject", "ModelJsonObject"},
+            // OffsetDate is valid without timemachine date library
+            {"OffsetDate", "OffsetDate"},
         };
     }
 
-    @Test(dataProvider = "modelNames", description = "avoid inner class")
+    @Test(dataProvider = "modelNames", description = "correctly prefix reserved model names")
     public void modelNameTest(String name, String expectedName) {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema model = new Schema();
-        final DefaultCodegen codegen = new DartDioClientCodegen();
+        final DartDioClientCodegen codegen = new DartDioClientCodegen();
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel(name, model);
 
         Assert.assertEquals(cm.name, name);
         Assert.assertEquals(cm.classname, expectedName);
+    }
+
+    @DataProvider(name = "modelNamesTimemachine")
+    public static Object[][] modelNamesTimemachine() {
+        return new Object[][] {
+            {"EnumClass", "ModelEnumClass"},
+            {"JsonObject", "ModelJsonObject"},
+            // OffsetDate is not valid with timemachine date library
+            {"OffsetDate", "ModelOffsetDate"},
+        };
+    }
+
+    @Test(dataProvider = "modelNamesTimemachine", description = "correctly prefix reserved model names")
+    public void modelNameTestTimemachine(String name, String expectedName) {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        final Schema model = new Schema();
+        final DartDioClientCodegen codegen = new DartDioClientCodegen();
+        codegen.setDateLibrary("timemachine");
+        codegen.processOpts();
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel(name, model);
+
+        Assert.assertEquals(cm.name, name);
+        Assert.assertEquals(cm.classname, expectedName);
+    }
+
+    @Test(description = "correctly generate collection default values")
+    public void collectionDefaultValues() {
+        final ArraySchema array = new ArraySchema();
+        array.setDefault("[]");
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("arrayNoDefault", new ArraySchema())
+                .addProperties("arrayEmptyDefault", array)
+                .addProperties("mapNoDefault", new MapSchema());
+        final DefaultCodegen codegen = new DartDioClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        final CodegenProperty arrayNoDefault = cm.vars.get(0);
+        Assert.assertEquals(arrayNoDefault.name, "arrayNoDefault");
+        Assert.assertNull(arrayNoDefault.defaultValue);
+
+        final CodegenProperty arrayEmptyDefault = cm.vars.get(1);
+        Assert.assertEquals(arrayEmptyDefault.name, "arrayEmptyDefault");
+        Assert.assertEquals(arrayEmptyDefault.defaultValue, "ListBuilder()");
+
+        final CodegenProperty mapNoDefault = cm.vars.get(2);
+        Assert.assertEquals(mapNoDefault.name, "mapNoDefault");
+        Assert.assertNull(mapNoDefault.defaultValue);
+    }
+
+    @Test(description = "correctly generate date/datetime default values, currently null")
+    public void dateDefaultValues() {
+        final DateSchema date = new DateSchema();
+        date.setDefault("2021-01-01");
+        final DateTimeSchema dateTime = new DateTimeSchema();
+        dateTime.setDefault("2021-01-01T14:00:00Z");
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("date", date)
+                .addProperties("dateTime", dateTime)
+                .addProperties("mapNoDefault", new MapSchema());
+        final DefaultCodegen codegen = new DartDioClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        final CodegenProperty dateDefault = cm.vars.get(0);
+        Assert.assertEquals(dateDefault.name, "date");
+        Assert.assertNull(dateDefault.defaultValue);
+
+        final CodegenProperty dateTimeDefault = cm.vars.get(1);
+        Assert.assertEquals(dateTimeDefault.name, "dateTime");
+        Assert.assertNull(dateTimeDefault.defaultValue);
     }
 }

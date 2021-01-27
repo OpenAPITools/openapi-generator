@@ -29,7 +29,7 @@ openssl = {version = "0.10", optional = true }
 async-trait = "0.1.24"
 chrono = { version = "0.4", features = ["serde"] }
 futures = "0.3"
-swagger = "5.0.0-alpha-1"
+swagger = "5.0.2"
 log = "0.4.0"
 mime = "0.3"
 

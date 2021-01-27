@@ -15,20 +15,12 @@ class OuterEnumIntegerDefaultValue {
   const OuterEnumIntegerDefaultValue._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
-
-  @override
-  bool operator ==(Object other) => identical(this, other) ||
-      other is OuterEnumIntegerDefaultValue && other.value == value ||
-      other is String && other == value;
-
-  @override
-  int get hashCode => toString().hashCode;
+  final int value;
 
   @override
   String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
   static const number0 = OuterEnumIntegerDefaultValue._(0);
   static const number1 = OuterEnumIntegerDefaultValue._(1);
@@ -59,7 +51,7 @@ class OuterEnumIntegerDefaultValueTypeTransformer {
 
   factory OuterEnumIntegerDefaultValueTypeTransformer() => _instance ??= OuterEnumIntegerDefaultValueTypeTransformer._();
 
-  String encode(OuterEnumIntegerDefaultValue data) => data.value;
+  int encode(OuterEnumIntegerDefaultValue data) => data.value;
 
   /// Decodes a [dynamic value][data] to a OuterEnumIntegerDefaultValue.
   ///

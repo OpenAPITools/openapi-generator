@@ -126,7 +126,6 @@ public class AdditionalPropertiesInteger {
     return Objects.hash(name, additionalProperties);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

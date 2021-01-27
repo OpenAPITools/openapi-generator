@@ -43,12 +43,6 @@ docs/GmFruit.md
 docs/GrandparentAnimal.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineObject.md
-docs/InlineObject1.md
-docs/InlineObject2.md
-docs/InlineObject3.md
-docs/InlineObject4.md
-docs/InlineObject5.md
 docs/InlineResponseDefault.md
 docs/IsoscelesTriangle.md
 docs/List.md
@@ -153,12 +147,6 @@ src/Org.OpenAPITools/Model/GmFruit.cs
 src/Org.OpenAPITools/Model/GrandparentAnimal.cs
 src/Org.OpenAPITools/Model/HasOnlyReadOnly.cs
 src/Org.OpenAPITools/Model/HealthCheckResult.cs
-src/Org.OpenAPITools/Model/InlineObject.cs
-src/Org.OpenAPITools/Model/InlineObject1.cs
-src/Org.OpenAPITools/Model/InlineObject2.cs
-src/Org.OpenAPITools/Model/InlineObject3.cs
-src/Org.OpenAPITools/Model/InlineObject4.cs
-src/Org.OpenAPITools/Model/InlineObject5.cs
 src/Org.OpenAPITools/Model/InlineResponseDefault.cs
 src/Org.OpenAPITools/Model/IsoscelesTriangle.cs
 src/Org.OpenAPITools/Model/List.cs

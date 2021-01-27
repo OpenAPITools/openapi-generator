@@ -41,7 +41,7 @@ try {
     var result = api_instance.fakeHealthGet();
     print(result);
 } catch (e) {
-    print("Exception when calling FakeApi->fakeHealthGet: $e\n");
+    print('Exception when calling FakeApi->fakeHealthGet: $e\n');
 }
 ```
 
@@ -83,7 +83,7 @@ var header1 = header1_example; // String | header parameter
 try { 
     api_instance.fakeHttpSignatureTest(pet, query1, header1);
 } catch (e) {
-    print("Exception when calling FakeApi->fakeHttpSignatureTest: $e\n");
+    print('Exception when calling FakeApi->fakeHttpSignatureTest: $e\n');
 }
 ```
 
@@ -92,8 +92,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
- **query1** | **String**| query parameter | [optional] [default to null]
- **header1** | **String**| header parameter | [optional] [default to null]
+ **query1** | **String**| query parameter | [optional] 
+ **header1** | **String**| header parameter | [optional] 
 
 ### Return type
 
@@ -128,7 +128,7 @@ try {
     var result = api_instance.fakeOuterBooleanSerialize(body);
     print(result);
 } catch (e) {
-    print("Exception when calling FakeApi->fakeOuterBooleanSerialize: $e\n");
+    print('Exception when calling FakeApi->fakeOuterBooleanSerialize: $e\n');
 }
 ```
 
@@ -171,7 +171,7 @@ try {
     var result = api_instance.fakeOuterCompositeSerialize(outerComposite);
     print(result);
 } catch (e) {
-    print("Exception when calling FakeApi->fakeOuterCompositeSerialize: $e\n");
+    print('Exception when calling FakeApi->fakeOuterCompositeSerialize: $e\n');
 }
 ```
 
@@ -214,7 +214,7 @@ try {
     var result = api_instance.fakeOuterNumberSerialize(body);
     print(result);
 } catch (e) {
-    print("Exception when calling FakeApi->fakeOuterNumberSerialize: $e\n");
+    print('Exception when calling FakeApi->fakeOuterNumberSerialize: $e\n');
 }
 ```
 
@@ -257,7 +257,7 @@ try {
     var result = api_instance.fakeOuterStringSerialize(body);
     print(result);
 } catch (e) {
-    print("Exception when calling FakeApi->fakeOuterStringSerialize: $e\n");
+    print('Exception when calling FakeApi->fakeOuterStringSerialize: $e\n');
 }
 ```
 
@@ -299,7 +299,7 @@ var fileSchemaTestClass = new FileSchemaTestClass(); // FileSchemaTestClass |
 try { 
     api_instance.testBodyWithFileSchema(fileSchemaTestClass);
 } catch (e) {
-    print("Exception when calling FakeApi->testBodyWithFileSchema: $e\n");
+    print('Exception when calling FakeApi->testBodyWithFileSchema: $e\n');
 }
 ```
 
@@ -340,7 +340,7 @@ var user = new User(); // User |
 try { 
     api_instance.testBodyWithQueryParams(query, user);
 } catch (e) {
-    print("Exception when calling FakeApi->testBodyWithQueryParams: $e\n");
+    print('Exception when calling FakeApi->testBodyWithQueryParams: $e\n');
 }
 ```
 
@@ -348,7 +348,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **String**|  | [default to null]
+ **query** | **String**|  | 
  **user** | [**User**](User.md)|  | 
 
 ### Return type
@@ -367,7 +367,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testClientModel**
-> Client testClientModel(client)
+> ModelClient testClientModel(modelClient)
 
 To test \"client\" model
 
@@ -378,13 +378,13 @@ To test \"client\" model
 import 'package:openapi/api.dart';
 
 var api_instance = new FakeApi();
-var client = new Client(); // Client | client model
+var modelClient = new ModelClient(); // ModelClient | client model
 
 try { 
-    var result = api_instance.testClientModel(client);
+    var result = api_instance.testClientModel(modelClient);
     print(result);
 } catch (e) {
-    print("Exception when calling FakeApi->testClientModel: $e\n");
+    print('Exception when calling FakeApi->testClientModel: $e\n');
 }
 ```
 
@@ -392,11 +392,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model | 
+ **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
 
 ### Return type
 
-[**Client**](Client.md)
+[**ModelClient**](ModelClient.md)
 
 ### Authorization
 
@@ -442,7 +442,7 @@ var callback = callback_example; // String | None
 try { 
     api_instance.testEndpointParameters(number, double_, patternWithoutDelimiter, byte, integer, int32, int64, float, string, binary, date, dateTime, password, callback);
 } catch (e) {
-    print("Exception when calling FakeApi->testEndpointParameters: $e\n");
+    print('Exception when calling FakeApi->testEndpointParameters: $e\n');
 }
 ```
 
@@ -450,20 +450,20 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **num**| None | [default to null]
- **double_** | **double**| None | [default to null]
- **patternWithoutDelimiter** | **String**| None | [default to null]
- **byte** | **String**| None | [default to null]
- **integer** | **int**| None | [optional] [default to null]
- **int32** | **int**| None | [optional] [default to null]
- **int64** | **int**| None | [optional] [default to null]
- **float** | **double**| None | [optional] [default to null]
- **string** | **String**| None | [optional] [default to null]
- **binary** | **Uint8List**| None | [optional] [default to null]
- **date** | **DateTime**| None | [optional] [default to null]
- **dateTime** | **DateTime**| None | [optional] [default to null]
- **password** | **String**| None | [optional] [default to null]
- **callback** | **String**| None | [optional] [default to null]
+ **number** | **num**| None | 
+ **double_** | **double**| None | 
+ **patternWithoutDelimiter** | **String**| None | 
+ **byte** | **String**| None | 
+ **integer** | **int**| None | [optional] 
+ **int32** | **int**| None | [optional] 
+ **int64** | **int**| None | [optional] 
+ **float** | **double**| None | [optional] 
+ **string** | **String**| None | [optional] 
+ **binary** | **Uint8List**| None | [optional] 
+ **date** | **DateTime**| None | [optional] 
+ **dateTime** | **DateTime**| None | [optional] 
+ **password** | **String**| None | [optional] 
+ **callback** | **String**| None | [optional] 
 
 ### Return type
 
@@ -492,19 +492,19 @@ To test enum parameters
 import 'package:openapi/api.dart';
 
 var api_instance = new FakeApi();
-var enumHeaderStringArray = []; // List<String> | Header parameter enum test (string array)
+var enumHeaderStringArray = []; // BuiltList<String> | Header parameter enum test (string array)
 var enumHeaderString = enumHeaderString_example; // String | Header parameter enum test (string)
-var enumQueryStringArray = []; // List<String> | Query parameter enum test (string array)
+var enumQueryStringArray = []; // BuiltList<String> | Query parameter enum test (string array)
 var enumQueryString = enumQueryString_example; // String | Query parameter enum test (string)
 var enumQueryInteger = 56; // int | Query parameter enum test (double)
 var enumQueryDouble = 1.2; // double | Query parameter enum test (double)
-var enumFormStringArray = [enumFormStringArray_example]; // List<String> | Form parameter enum test (string array)
+var enumFormStringArray = [enumFormStringArray_example]; // BuiltList<String> | Form parameter enum test (string array)
 var enumFormString = enumFormString_example; // String | Form parameter enum test (string)
 
 try { 
     api_instance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
 } catch (e) {
-    print("Exception when calling FakeApi->testEnumParameters: $e\n");
+    print('Exception when calling FakeApi->testEnumParameters: $e\n');
 }
 ```
 
@@ -512,14 +512,14 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**List&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] [default to const []]
- **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enumQueryStringArray** | [**List&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] [default to const []]
- **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enumQueryInteger** | **int**| Query parameter enum test (double) | [optional] [default to null]
- **enumQueryDouble** | **double**| Query parameter enum test (double) | [optional] [default to null]
- **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
- **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
+ **enumHeaderStringArray** | [**BuiltList<String>**](String.md)| Header parameter enum test (string array) | [optional] 
+ **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to '-efg']
+ **enumQueryStringArray** | [**BuiltList<String>**](String.md)| Query parameter enum test (string array) | [optional] 
+ **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to '-efg']
+ **enumQueryInteger** | **int**| Query parameter enum test (double) | [optional] 
+ **enumQueryDouble** | **double**| Query parameter enum test (double) | [optional] 
+ **enumFormStringArray** | [**BuiltList<String>**](String.md)| Form parameter enum test (string array) | [optional] [default to '$']
+ **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to '-efg']
 
 ### Return type
 
@@ -561,7 +561,7 @@ var int64Group = 789; // int | Integer in group parameters
 try { 
     api_instance.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
 } catch (e) {
-    print("Exception when calling FakeApi->testGroupParameters: $e\n");
+    print('Exception when calling FakeApi->testGroupParameters: $e\n');
 }
 ```
 
@@ -569,12 +569,12 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requiredStringGroup** | **int**| Required String in group parameters | [default to null]
- **requiredBooleanGroup** | **bool**| Required Boolean in group parameters | [default to null]
- **requiredInt64Group** | **int**| Required Integer in group parameters | [default to null]
- **stringGroup** | **int**| String in group parameters | [optional] [default to null]
- **booleanGroup** | **bool**| Boolean in group parameters | [optional] [default to null]
- **int64Group** | **int**| Integer in group parameters | [optional] [default to null]
+ **requiredStringGroup** | **int**| Required String in group parameters | 
+ **requiredBooleanGroup** | **bool**| Required Boolean in group parameters | 
+ **requiredInt64Group** | **int**| Required Integer in group parameters | 
+ **stringGroup** | **int**| String in group parameters | [optional] 
+ **booleanGroup** | **bool**| Boolean in group parameters | [optional] 
+ **int64Group** | **int**| Integer in group parameters | [optional] 
 
 ### Return type
 
@@ -601,12 +601,12 @@ test inline additionalProperties
 import 'package:openapi/api.dart';
 
 var api_instance = new FakeApi();
-var requestBody = new Map&lt;String, String&gt;(); // Map<String, String> | request body
+var requestBody = new BuiltMap<String, String>(); // BuiltMap<String, String> | request body
 
 try { 
     api_instance.testInlineAdditionalProperties(requestBody);
 } catch (e) {
-    print("Exception when calling FakeApi->testInlineAdditionalProperties: $e\n");
+    print('Exception when calling FakeApi->testInlineAdditionalProperties: $e\n');
 }
 ```
 
@@ -614,7 +614,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**Map&lt;String, String&gt;**](String.md)| request body | 
+ **requestBody** | [**BuiltMap<String, String>**](String.md)| request body | 
 
 ### Return type
 
@@ -647,7 +647,7 @@ var param2 = param2_example; // String | field2
 try { 
     api_instance.testJsonFormData(param, param2);
 } catch (e) {
-    print("Exception when calling FakeApi->testJsonFormData: $e\n");
+    print('Exception when calling FakeApi->testJsonFormData: $e\n');
 }
 ```
 
@@ -655,8 +655,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **String**| field1 | [default to null]
- **param2** | **String**| field2 | [default to null]
+ **param** | **String**| field1 | 
+ **param2** | **String**| field2 | 
 
 ### Return type
 
@@ -685,16 +685,16 @@ To test the collection format in query parameters
 import 'package:openapi/api.dart';
 
 var api_instance = new FakeApi();
-var pipe = []; // List<String> | 
-var ioutil = []; // List<String> | 
-var http = []; // List<String> | 
-var url = []; // List<String> | 
-var context = []; // List<String> | 
+var pipe = []; // BuiltList<String> | 
+var ioutil = []; // BuiltList<String> | 
+var http = []; // BuiltList<String> | 
+var url = []; // BuiltList<String> | 
+var context = []; // BuiltList<String> | 
 
 try { 
     api_instance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
 } catch (e) {
-    print("Exception when calling FakeApi->testQueryParameterCollectionFormat: $e\n");
+    print('Exception when calling FakeApi->testQueryParameterCollectionFormat: $e\n');
 }
 ```
 
@@ -702,11 +702,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pipe** | [**List&lt;String&gt;**](String.md)|  | [default to const []]
- **ioutil** | [**List&lt;String&gt;**](String.md)|  | [default to const []]
- **http** | [**List&lt;String&gt;**](String.md)|  | [default to const []]
- **url** | [**List&lt;String&gt;**](String.md)|  | [default to const []]
- **context** | [**List&lt;String&gt;**](String.md)|  | [default to const []]
+ **pipe** | [**BuiltList<String>**](String.md)|  | 
+ **ioutil** | [**BuiltList<String>**](String.md)|  | 
+ **http** | [**BuiltList<String>**](String.md)|  | 
+ **url** | [**BuiltList<String>**](String.md)|  | 
+ **context** | [**BuiltList<String>**](String.md)|  | 
 
 ### Return type
 

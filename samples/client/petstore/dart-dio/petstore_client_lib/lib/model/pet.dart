@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:openapi/model/tag.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:openapi/model/category.dart';
@@ -8,57 +15,58 @@ part 'pet.g.dart';
 
 abstract class Pet implements Built<Pet, PetBuilder> {
 
-    
     @nullable
     @BuiltValueField(wireName: r'id')
     int get id;
-    
+
     @nullable
     @BuiltValueField(wireName: r'category')
     Category get category;
-    
+
     @nullable
     @BuiltValueField(wireName: r'name')
     String get name;
-    
+
     @nullable
     @BuiltValueField(wireName: r'photoUrls')
     BuiltList<String> get photoUrls;
-    
+
     @nullable
     @BuiltValueField(wireName: r'tags')
     BuiltList<Tag> get tags;
-    /* pet status in the store */
+
+    /// pet status in the store
     @nullable
     @BuiltValueField(wireName: r'status')
-    PetStatus get status;
+    PetStatusEnum get status;
     // enum statusEnum {  available,  pending,  sold,  };
 
     // Boilerplate code needed to wire-up generated code
     Pet._();
 
-    factory Pet([updates(PetBuilder b)]) = _$Pet;
+    static void _initializeBuilder(PetBuilder b) => b;
+
+    factory Pet([void updates(PetBuilder b)]) = _$Pet;
     static Serializer<Pet> get serializer => _$petSerializer;
 }
 
-class PetStatus extends EnumClass {
+class PetStatusEnum extends EnumClass {
 
   /// pet status in the store
-  @BuiltValueEnumConst(wireName: 'available')
-  static const PetStatus available = _$petStatus_available;
+  @BuiltValueEnumConst(wireName: r'available')
+  static const PetStatusEnum available = _$petStatusEnum_available;
   /// pet status in the store
-  @BuiltValueEnumConst(wireName: 'pending')
-  static const PetStatus pending = _$petStatus_pending;
+  @BuiltValueEnumConst(wireName: r'pending')
+  static const PetStatusEnum pending = _$petStatusEnum_pending;
   /// pet status in the store
-  @BuiltValueEnumConst(wireName: 'sold')
-  static const PetStatus sold = _$petStatus_sold;
+  @BuiltValueEnumConst(wireName: r'sold')
+  static const PetStatusEnum sold = _$petStatusEnum_sold;
 
-  static Serializer<PetStatus> get serializer => _$petStatusSerializer;
+  static Serializer<PetStatusEnum> get serializer => _$petStatusEnumSerializer;
 
-  const PetStatus._(String name): super(name);
+  const PetStatusEnum._(String name): super(name);
 
-  static BuiltSet<PetStatus> get values => _$petStatusValues;
-  static PetStatus valueOf(String name) => _$petStatusValueOf(name);
+  static BuiltSet<PetStatusEnum> get values => _$petStatusEnumValues;
+  static PetStatusEnum valueOf(String name) => _$petStatusEnumValueOf(name);
 }
-
 

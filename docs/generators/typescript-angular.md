@@ -25,7 +25,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |npmVersion|The version of your npm package. If not provided, using the version from the OpenAPI specification file.| |1.0.0|
 |nullSafeAdditionalProps|Set to make additional properties types declare that their indexer may return undefined| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
-|providedInRoot|Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).| |false|
+|providedIn|Use this property to provide Injectables in wanted level (it is only valid in angular version greater or equal to 9.0.0).|<dl><dt>**root**</dt><dd>The application-level injector in most apps.</dd><dt>**none**</dt><dd>No providedIn (same as providedInRoot=false)</dd><dt>**any**</dt><dd>Provides a unique instance in each lazy loaded module while all eagerly loaded modules share one instance.</dd><dt>**platform**</dt><dd>A special singleton platform injector shared by all applications on the page.</dd></dl>|root|
+|providedInRoot|Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0). IMPORTANT: Deprecated for angular version greater or equal to 9.0.0, use **providedIn** instead.| |false|
 |queryParamObjectFormat|The format for query param objects: 'dot', 'json', 'key'.| |dot|
 |serviceFileSuffix|The suffix of the file of the generated service (service&lt;suffix&gt;.ts).| |.service|
 |serviceSuffix|The suffix of the generated service.| |Service|

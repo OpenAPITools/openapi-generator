@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 library openapi.api;
 
 import 'package:dio/dio.dart';
@@ -17,7 +24,7 @@ class Openapi {
 
     Dio dio;
     Serializers serializers;
-    String basePath = "http://petstore.swagger.io/v2";
+    String basePath = 'http://petstore.swagger.io/v2';
 
     Openapi({this.dio, Serializers serializers, String basePathOverride, List<Interceptor> interceptors}) {
         if (dio == null) {

@@ -142,11 +142,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>
                 <configuration>
-                    {{#supportJava6}}
-                        <source>1.6</source>
-                        <target>1.6</target>
-                    {{/supportJava6}}
-                    {{^supportJava6}}
                     {{#java8}}
                         <source>1.8</source>
                         <target>1.8</target>
@@ -155,7 +150,6 @@
                         <source>1.7</source>
                         <target>1.7</target>
                     {{/java8}}
-                    {{/supportJava6}}
                 </configuration>
             </plugin>
             <plugin>
@@ -164,17 +158,12 @@
                 <version>3.1.1</version>
                 <configuration>
                     <doclint>none</doclint>
-                    {{#supportJava6}}
-                        <source>1.6</source>
-                    {{/supportJava6}}
-                    {{^supportJava6}}
                     {{#java8}}
                         <source>1.8</source>
                     {{/java8}}
                     {{^java8}}
                         <source>1.7</source>
                     {{/java8}}
-                    {{/supportJava6}}
                 </configuration>
                 <executions>
                     <execution>
@@ -263,19 +252,6 @@
         </dependency>
         {{/java8}}
 
-        {{#supportJava6}}
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons_lang3_version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>${commons_io_version}</version>
-        </dependency>
-        {{/supportJava6}}
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-jackson2-provider</artifactId>
@@ -317,10 +293,6 @@
         {{^java8}}
         <jodatime-version>2.9.9</jodatime-version>
         {{/java8}}
-        {{#supportJava6}}
-        <commons_io_version>2.5</commons_io_version>
-        <commons_lang3_version>3.6</commons_lang3_version>
-        {{/supportJava6}}
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.13</junit-version>
     </properties>

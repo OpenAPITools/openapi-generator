@@ -25,7 +25,7 @@ class {{classname}}(baseUrl: String) {
       .method(Method.{{httpMethod.toUpperCase}}, uri"$baseUrl{{{path}}}{{#queryParams.0}}?{{#queryParams}}{{baseName}}=${ {{{paramName}}} }{{^-last}}&{{/-last}}{{/queryParams}}{{/queryParams.0}}{{#isApiKey}}{{#isKeyInQuery}}{{^queryParams.0}}?{{/queryParams.0}}{{#queryParams.0}}&{{/queryParams.0}}{{keyParamName}}=${apiKey.value}&{{/isKeyInQuery}}{{/isApiKey}}")
       .contentType({{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}}){{#headerParams}}
       .header({{>paramCreation}}){{/headerParams}}{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-      .auth.withCredentials(username, password){{/isBasicBasic}}{{#isBasicBearer}}
+      .auth.basic(username, password){{/isBasicBasic}}{{#isBasicBearer}}
       .auth.bearer(bearerToken){{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}{{#isKeyInHeader}}
       .header("{{keyParamName}}", apiKey){{/isKeyInHeader}}{{#isKeyInCookie}}
       .cookie("{{keyParamName}}", apiKey){{/isKeyInCookie}}{{/isApiKey}}{{/authMethods}}{{#formParams.0}}{{^isMultipart}}

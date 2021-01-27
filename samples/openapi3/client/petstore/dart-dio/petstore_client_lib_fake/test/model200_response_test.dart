@@ -6,12 +6,12 @@ void main() {
   final instance = Model200Response();
 
   group(Model200Response, () {
-    // int name (default value: null)
+    // int name
     test('to test the property `name`', () async {
       // TODO
     });
 
-    // String class_ (default value: null)
+    // String class_
     test('to test the property `class_`', () async {
       // TODO
     });
