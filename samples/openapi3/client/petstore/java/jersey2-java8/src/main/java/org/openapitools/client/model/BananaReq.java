@@ -113,7 +113,6 @@ public class BananaReq {
     return Objects.hash(lengthCm, sweet);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

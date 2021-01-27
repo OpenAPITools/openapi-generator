@@ -116,7 +116,6 @@ public class FileSchemaTestClass implements Parcelable {
     return Objects.hash(file, files);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

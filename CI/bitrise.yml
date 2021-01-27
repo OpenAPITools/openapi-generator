@@ -11,7 +11,7 @@ workflows:
   primary:
     steps:
     - git-clone@4.0.17: {}
-    - brew-install@0.10.2:
+    - brew-install@0.11.0:
         inputs:
         - packages: maven
     - script@1.1.6:
@@ -30,15 +30,6 @@ workflows:
 
             mvn --no-snapshot-updates package -Dorg.slf4j.simpleLogger.defaultLogLevel=error
         title: Build openapi-generator
-    - script@1.1.6:
-        title: Update Swift samples
-        inputs:
-        - content: |
-            #!/usr/bin/env bash
-
-            set -e
-
-            bin/generate-samples.sh ./bin/configs/other/swift5-*
     - script@1.1.6:
         title: Run Swift5 tests
         inputs:

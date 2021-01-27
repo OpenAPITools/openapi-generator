@@ -107,7 +107,6 @@ public class Model200Response implements Parcelable {
     return Objects.hash(name, propertyClass);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

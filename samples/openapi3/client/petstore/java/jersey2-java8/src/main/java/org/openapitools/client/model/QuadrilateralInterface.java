@@ -83,7 +83,6 @@ public class QuadrilateralInterface {
     return Objects.hash(quadrilateralType);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
