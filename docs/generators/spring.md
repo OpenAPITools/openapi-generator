@@ -69,6 +69,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useOptional|Use Optional container for optional parameters| |false|
 |useTags|use tags for creating interface and controller classnames| |false|
+|versionToken|Token used for version type header or queryParam| |X-VERSION|
+|versionType|Add a new criteria to filter requests handled|<dl><dt>**NONE**</dt><dd>No filter</dd><dt>**PATH**</dt><dd>Filter with path prefix</dd><dt>**HEADER**</dt><dd>Filter with custom header</dd><dt>**QUERY_PARAM**</dt><dd>Filter with custom query-param</dd></dl>|NONE|
 |virtualService|Generates the virtual service. For more details refer - https://github.com/elan-venture/virtualan/wiki| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 
