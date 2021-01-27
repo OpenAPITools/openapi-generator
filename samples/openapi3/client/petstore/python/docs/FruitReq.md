@@ -3,8 +3,8 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**cultivar** | **str** |  | defaults to nulltype.Null
-**length_cm** | **float** |  | defaults to nulltype.Null
+**cultivar** | **str** |  | 
+**length_cm** | **float** |  | 
 **mealy** | **bool** |  | [optional] 
 **sweet** | **bool** |  | [optional] 
 

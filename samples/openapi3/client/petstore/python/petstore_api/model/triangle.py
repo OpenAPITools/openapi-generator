@@ -124,14 +124,14 @@ class Triangle(ModelComposed):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, triangle_type, *args, **kwargs):  # noqa: E501
+    def __init__(self, shape_type, triangle_type, *args, **kwargs):  # noqa: E501
         """Triangle - a model defined in OpenAPI
 
         Args:
+            shape_type (str):
             triangle_type (str):
 
         Keyword Args:
-            shape_type (str): defaults to nulltype.Null  # noqa: E501
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -164,7 +164,6 @@ class Triangle(ModelComposed):
                                 _visited_composed_classes = (Animal,)
         """
 
-        shape_type = kwargs.get('shape_type', nulltype.Null)
         _check_type = kwargs.pop('_check_type', True)
         _spec_property_naming = kwargs.pop('_spec_property_naming', False)
         _path_to_item = kwargs.pop('_path_to_item', ())
@@ -199,11 +198,6 @@ class Triangle(ModelComposed):
             'shape_type': shape_type,
             'triangle_type': triangle_type,
         }
-        # remove args whose value is Null because they are unset
-        required_arg_names = list(required_args.keys())
-        for required_arg_name in required_arg_names:
-            if required_args[required_arg_name] is nulltype.Null:
-                del required_args[required_arg_name]
         model_args = {}
         model_args.update(required_args)
         model_args.update(kwargs)

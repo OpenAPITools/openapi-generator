@@ -112,14 +112,14 @@ class FruitReq(ModelComposed):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, *args, **kwargs):  # noqa: E501
+    def __init__(self, cultivar, length_cm, *args, **kwargs):  # noqa: E501
         """FruitReq - a model defined in OpenAPI
 
         Args:
+            cultivar (str):
+            length_cm (float):
 
         Keyword Args:
-            cultivar (str): defaults to nulltype.Null  # noqa: E501
-            length_cm (float): defaults to nulltype.Null  # noqa: E501
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -154,8 +154,6 @@ class FruitReq(ModelComposed):
             sweet (bool): [optional]  # noqa: E501
         """
 
-        cultivar = kwargs.get('cultivar', nulltype.Null)
-        length_cm = kwargs.get('length_cm', nulltype.Null)
         _check_type = kwargs.pop('_check_type', True)
         _spec_property_naming = kwargs.pop('_spec_property_naming', False)
         _path_to_item = kwargs.pop('_path_to_item', ())
@@ -190,11 +188,6 @@ class FruitReq(ModelComposed):
             'cultivar': cultivar,
             'length_cm': length_cm,
         }
-        # remove args whose value is Null because they are unset
-        required_arg_names = list(required_args.keys())
-        for required_arg_name in required_arg_names:
-            if required_args[required_arg_name] is nulltype.Null:
-                del required_args[required_arg_name]
         model_args = {}
         model_args.update(required_args)
         model_args.update(kwargs)
