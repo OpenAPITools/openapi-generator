@@ -6,7 +6,7 @@ import play.api.libs.json._
 import play.api.mvc._
 import model.Order
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2020-01-04T23:10:22.106-05:00[America/New_York]")
+
 @Singleton
 class StoreApiController @Inject()(cc: ControllerComponents, api: StoreApi) extends AbstractController(cc) {
   /**
@@ -54,10 +54,10 @@ class StoreApiController @Inject()(cc: ControllerComponents, api: StoreApi) exte
     */
   def placeOrder(): Action[AnyContent] = Action { request =>
     def executeApi(): Order = {
-      val body = request.body.asJson.map(_.as[Order]).getOrElse {
-        throw new OpenApiExceptions.MissingRequiredParameterException("body", "body")
+      val order = request.body.asJson.map(_.as[Order]).getOrElse {
+        throw new OpenApiExceptions.MissingRequiredParameterException("body", "order")
       }
-      api.placeOrder(body)
+      api.placeOrder(order)
     }
 
     val result = executeApi()

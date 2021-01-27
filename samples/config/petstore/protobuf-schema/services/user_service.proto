@@ -36,19 +36,19 @@ service UserService {
 
 message CreateUserRequest {
   // Created user object
-  User body = 1;
+  User user = 1;
 
 }
 
 message CreateUsersWithArrayInputRequest {
   // List of user object
-  repeated User body = 1;
+  repeated User user = 1;
 
 }
 
 message CreateUsersWithListInputRequest {
   // List of user object
-  repeated User body = 1;
+  repeated User user = 1;
 
 }
 
@@ -80,7 +80,7 @@ message UpdateUserRequest {
   // name that need to be deleted
   string username = 1;
   // Updated user object
-  User body = 2;
+  User user = 2;
 
 }
 

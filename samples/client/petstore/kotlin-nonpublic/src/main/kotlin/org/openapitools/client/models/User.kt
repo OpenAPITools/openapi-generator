@@ -13,6 +13,7 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+
 /**
  * A User who is purchasing from the pet store
  * @param id 

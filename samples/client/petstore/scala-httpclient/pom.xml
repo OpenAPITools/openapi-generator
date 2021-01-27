@@ -11,7 +11,7 @@
         <pluginRepository>
             <id>maven-mongodb-plugin-repo</id>
             <name>maven mongodb plugin repository</name>
-            <!-- TODO: this URL does not exist -->
+            <!-- TODO: this URL does not exist. -->
             <url>https://maven-mongodb-plugin.googlecode.com/svn/maven/repo</url>
             <layout>default</layout>
         </pluginRepository>
@@ -156,6 +156,28 @@
                         <jvmArg>-Xmx1500m</jvmArg>
                     </jvmArgs>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.5.0</version>
+                <executions>
+                    <execution>
+                        <id>sbt-test</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>sbt</executable>
+                            <arguments>
+                                <argument>-ivy</argument>
+                                <argument>${user.home}/.ivy2</argument>
+                                <argument>test</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

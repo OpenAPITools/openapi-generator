@@ -26,6 +26,27 @@ paths:
                 $ref: "#/components/schemas/SuperMan"
 components:
   schemas:
+    SuperBaby: # to test single ref (Human) only
+      allOf:
+      - $ref: '#/components/schemas/Human'
+      - required: # without type: object
+          - level
+        properties:
+          gender:
+            type: string
+          age:
+            type: integer 
+    SuperBoy: # to test single ref (Human) only
+      allOf:
+      - $ref: '#/components/schemas/Human'
+      - type: object
+        required:
+          - level
+        properties:
+          category:
+            type: string
+          level:
+            type: integer 
     SuperMan:
       allOf:
       - $ref: '#/components/schemas/Human'

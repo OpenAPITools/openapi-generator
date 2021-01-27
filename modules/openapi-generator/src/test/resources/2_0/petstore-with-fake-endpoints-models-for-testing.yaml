@@ -132,6 +132,7 @@ paths:
           description: Tags to filter by
           required: true
           type: array
+          uniqueItems: true
           items:
             type: string
           collectionFormat: csv
@@ -140,6 +141,7 @@ paths:
           description: successful operation
           schema:
             type: array
+            uniqueItems: true
             items:
               $ref: '#/definitions/Pet'
         '400':
@@ -1234,6 +1236,7 @@ definitions:
         example: doggie
       photoUrls:
         type: array
+        uniqueItems: true
         xml:
           name: photoUrl
           wrapped: true

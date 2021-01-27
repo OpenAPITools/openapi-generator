@@ -52,7 +52,7 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
         super();
 
         // TODO: Apache2 maintainer review.
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .parameterFeatures(EnumSet.of(ParameterFeature.Path))
                 .securityFeatures(EnumSet.of(SecurityFeature.BasicAuth))
                 .dataTypeFeatures(EnumSet.noneOf(DataTypeFeature.class))
@@ -61,7 +61,7 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
                 .globalFeatures(EnumSet.noneOf(GlobalFeature.class))
                 .schemaSupportFeatures(EnumSet.noneOf(SchemaSupportFeature.class))
                 .clientModificationFeatures(EnumSet.noneOf(ClientModificationFeature.class))
-                .build();
+        );
 
         apiTemplateFiles.put("apache-config.mustache", ".conf");
 
@@ -96,9 +96,6 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         List<CodegenOperation> newOpList = new ArrayList<CodegenOperation>();
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         for (CodegenOperation op : operationList) {
             String path = op.path;
 
@@ -111,7 +108,6 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
                 splitPath.add(item);
                 op.path += item + "/";
             }
-            op.vendorExtensions.put("x-codegen-userInfoPath", userInfoPath); // TODO: 5.0 Remove
             op.vendorExtensions.put("x-codegen-user-info-path", userInfoPath);
             boolean foundInNewList = false;
             for (CodegenOperation op1 : newOpList) {
@@ -124,7 +120,6 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
                         }
                         op.operationIdCamelCase = op1.operationIdCamelCase;
                         currentOtherMethodList.add(op);
-                        op1.vendorExtensions.put("x-codegen-otherMethods", currentOtherMethodList); // TODO: 5.0 Remove
                         op1.vendorExtensions.put("x-codegen-other-methods", currentOtherMethodList);
                     }
                 }

@@ -6,6 +6,8 @@
 
 void StoreApiTests::placeOrderTest() {
     PFXStoreApi api;
+  //  api.setUsername("TestName");
+   // api.setPassword("TestPassword");
     QEventLoop loop;
     bool orderPlaced = false;
 
@@ -16,8 +18,8 @@ void StoreApiTests::placeOrderTest() {
         qDebug() << order.getShipDate();
         loop.quit();
     });
-    connect(&api, &PFXStoreApi::placeOrderSignalE, [&]() {
-        QFAIL("shouldn't trigger error");
+    connect(&api, &PFXStoreApi::placeOrderSignalE, [&](PFXOrder, QNetworkReply::NetworkError, QString error_str) {
+        qDebug() << "Error happened while issuing request : " << error_str;
         loop.quit();
     });
 
@@ -36,6 +38,7 @@ void StoreApiTests::placeOrderTest() {
 
 void StoreApiTests::getOrderByIdTest() {
     PFXStoreApi api;
+    api.setApiKey("api_key_2","testKey");
     QEventLoop loop;
     bool orderFetched = false;
 
@@ -44,6 +47,10 @@ void StoreApiTests::getOrderByIdTest() {
         QVERIFY(order.getPetId() == 10000);
         QVERIFY((order.getId() == 500));
         qDebug() << order.getShipDate();
+        loop.quit();
+    });
+    connect(&api, &PFXStoreApi::getOrderByIdSignalE, [&](PFXOrder, QNetworkReply::NetworkError, QString error_str) {
+        qDebug() << "Error happened while issuing request : " << error_str;
         loop.quit();
     });
 
@@ -55,6 +62,7 @@ void StoreApiTests::getOrderByIdTest() {
 
 void StoreApiTests::getInventoryTest() {
     PFXStoreApi api;
+    api.setApiKey("api_key","special-key");
     QEventLoop loop;
     bool inventoryFetched = false;
 
@@ -63,6 +71,10 @@ void StoreApiTests::getInventoryTest() {
         for (const auto &key : status.keys()) {
             qDebug() << (key) << " Quantities " << status.value(key);
         }
+        loop.quit();
+    });
+    connect(&api, &PFXStoreApi::getInventorySignalE, [&](QMap<QString, qint32>, QNetworkReply::NetworkError, QString error_str) {
+        qDebug() << "Error happened while issuing request : " << error_str;
         loop.quit();
     });
 

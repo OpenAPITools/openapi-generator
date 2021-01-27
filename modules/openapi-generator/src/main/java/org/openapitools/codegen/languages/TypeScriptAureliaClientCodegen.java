@@ -36,8 +36,6 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
 
         outputFolder = "generated-code/typescript-aurelia";
         embeddedTemplateDir = templateDir = "typescript-aurelia";
-
-        typeMapping.put("DateTime", "Date");
     }
 
     @Override
@@ -96,7 +94,7 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
 
             // Collect models to be imported
             for (CodegenParameter param : op.allParams) {
-                if (!param.isPrimitiveType && !param.isListContainer && !param.dataType.equals("any")) {
+                if (!param.isPrimitiveType && !param.isArray && !param.dataType.equals("any")) {
                     modelImports.add(param.dataType);
                 }
             }

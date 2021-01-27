@@ -134,7 +134,7 @@ valid_content_headers(
         operation_id = '{{operationId}}'
     }
 ) ->
-    Headers = [{{#headerParams}}"{{baseName}}"{{#hasMore}},{{/hasMore}}{{/headerParams}}],
+    Headers = [{{#headerParams}}"{{baseName}}"{{^-last}},{{/-last}}{{/headerParams}}],
     {Result, Req} = validate_headers(Headers, Req0),
     {Result, Req, State};
 {{/operation}}{{/operations}}
@@ -225,7 +225,7 @@ handle_request_json(
                 LogicHandler,
                 OperationID,
                 Req1,
-                Populated
+                maps:merge(State#state.context, Populated)
             ),
             _ = {{packageName}}_api:validate_response(
                 OperationID,

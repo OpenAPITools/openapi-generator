@@ -1,0 +1,61 @@
+{
+  "name": "{{npmName}}",
+  "version": "{{npmVersion}}",
+  "description": "OpenAPI client for {{npmName}}",
+  "author": "OpenAPI-Generator Contributors",
+  "keywords": [
+    "fetch",
+    "typescript",
+    "openapi-client",
+    "openapi-generator"
+  ],
+  "license": "Unlicense",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    {{#frameworks}}
+      {{#fetch-api}}
+        {{#platforms}}
+          {{#node}}
+    "node-fetch": "^2.6.0",
+    "@types/node-fetch": "^2.5.7",
+          {{/node}}
+          {{#browser}}
+    "whatwg-fetch": "^3.0.0",
+          {{/browser}}
+        {{/platforms}}
+      {{/fetch-api}}
+      {{#jquery}}
+    "@types/jquery": "^3.3.29",
+    "jquery": "^3.4.1",
+      {{/jquery}}
+    {{/frameworks}}
+    {{#platforms}}
+      {{#node}}
+    "@types/node": "*",
+    "form-data": "^2.5.0",
+    "btoa": "^1.2.1",
+      {{/node}}
+    {{/platforms}}
+    {{#useRxJS}}
+    "rxjs": "^6.4.0",
+    {{/useRxJS}}
+    {{#useInversify}}
+    "inversify": "^5.0.1",
+    {{/useInversify}}
+    "es6-promise": "^4.2.4",
+    "url-parse": "^1.4.3"
+  },
+  "devDependencies": {
+    "typescript": "^3.9.3"
+  }{{#npmRepository}},{{/npmRepository}}
+{{#npmRepository}}
+  "publishConfig":{
+    "registry":"{{npmRepository}}"
+  }
+{{/npmRepository}}
+}

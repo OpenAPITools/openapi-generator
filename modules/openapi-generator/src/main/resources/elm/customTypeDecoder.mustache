@@ -1,16 +1,16 @@
-{{vendorExtensions.elmDecoder}} : Decoder {{vendorExtensions.elmCustomType}}
-{{vendorExtensions.elmDecoder}} =
-    Decode.string
-        |> Decode.andThen
-            (\str ->
-                case str of
+{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}{{enumName}}Decoder : Json.Decode.Decoder {{classname}}{{nameInCamelCase}}
+{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}{{enumName}}Decoder =
+    Json.Decode.{{#isString}}string{{/isString}}{{^isString}}int{{/isString}}
+        |> Json.Decode.andThen
+            (\value ->
+                case value of
 {{#allowableValues}}
 {{#enumVars}}
-                    {{{value}}} ->
-                        Decode.succeed {{name}}
+                    {{#isString}}{{{value}}}{{/isString}}{{^isString}}{{name}}{{/isString}} ->
+                        Json.Decode.succeed {{classname}}{{enumName}}{{name}}
 
 {{/enumVars}}
 {{/allowableValues}}
                     other ->
-                        Decode.fail <| "Unknown type: " ++ other
+                        Json.Decode.fail <| "Unknown type: " ++ {{^isString}}String.fromInt {{/isString}}other
             )

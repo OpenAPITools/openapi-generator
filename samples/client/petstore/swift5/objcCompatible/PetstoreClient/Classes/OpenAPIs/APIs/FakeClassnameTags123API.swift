@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class FakeClassnameTags123API {
+@objc open class FakeClassnameTags123API : NSObject {
     /**
      To test class name in snake case
      
@@ -43,9 +43,15 @@ open class FakeClassnameTags123API {
 
         let url = URLComponents(string: URLString)
 
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+
         let requestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "PATCH", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "PATCH", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
 }

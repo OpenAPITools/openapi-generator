@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
+
 /**
  * 
  * @param id 
@@ -36,7 +37,5 @@ data class User (
     @SerialName(value = "phone") val phone: kotlin.String? = null,
     /* User Status */
     @SerialName(value = "userStatus") val userStatus: kotlin.Int? = null
-) 
-
-
+)
 

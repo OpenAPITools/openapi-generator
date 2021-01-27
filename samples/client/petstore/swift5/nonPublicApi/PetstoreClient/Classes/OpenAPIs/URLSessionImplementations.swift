@@ -24,14 +24,6 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
 
 internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
-    let progress = Progress()
-
-    private var observation: NSKeyValueObservation?
-
-    deinit {
-      observation?.invalidate()
-    }
-
     // swiftlint:disable:next weak_delegate
     fileprivate let sessionDelegate = SessionDelegate()
 
@@ -46,10 +38,11 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      - intercept and handle errors like authorization
      - retry the request.
      */
+    @available(*, deprecated, message: "Please override execute() method to intercept and handle errors like authorization or retry the request. Check the Wiki for more info. https://github.com/OpenAPITools/openapi-generator/wiki/FAQ#how-do-i-implement-bearer-token-authentication-with-urlsession-on-the-swift-api-client")
     internal var taskCompletionShouldRetry: ((Data?, URLResponse?, Error?, @escaping (Bool) -> Void) -> Void)?
 
-    required internal init(method: String, URLString: String, parameters: [String: Any]?, isBody: Bool, headers: [String: String] = [:]) {
-        super.init(method: method, URLString: URLString, parameters: parameters, isBody: isBody, headers: headers)
+    required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:]) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers)
     }
 
     /**
@@ -89,11 +82,11 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
         originalRequest.httpMethod = method.rawValue
 
-        buildHeaders().forEach { key, value in
+        headers.forEach { key, value in
             originalRequest.setValue(value, forHTTPHeaderField: key)
         }
 
-        headers.forEach { key, value in
+        buildHeaders().forEach { key, value in
             originalRequest.setValue(value, forHTTPHeaderField: key)
         }
 
@@ -102,47 +95,48 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         return modifiedRequest
     }
 
-    override internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) {
-        let urlSessionId: String = UUID().uuidString
+    override internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
+        let urlSessionId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let urlSession = createURLSession()
         urlSessionStore[urlSessionId] = urlSession
-
-        let parameters: [String: Any] = self.parameters ?? [:]
-
-        let fileKeys = parameters.filter { $1 is NSURL }
-            .map { $0.0 }
-
-        let encoding: ParameterEncoding
-        if fileKeys.count > 0 {
-            encoding = FileUploadEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
-        } else if isBody {
-            encoding = JSONDataEncoding()
-        } else {
-            encoding = URLEncoding()
-        }
 
         guard let xMethod = HTTPMethod(rawValue: method) else {
             fatalError("Unsuported Http method - \(method)")
         }
 
+        let encoding: ParameterEncoding
+
+        switch xMethod {
+        case .get, .head:
+            encoding = URLEncoding()
+
+        case .options, .post, .put, .patch, .delete, .trace, .connect:
+            let contentType = headers["Content-Type"] ?? "application/json"
+
+            if contentType == "application/json" {
+                encoding = JSONDataEncoding()
+            } else if contentType == "multipart/form-data" {
+                encoding = FormDataEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
+            } else if contentType == "application/x-www-form-urlencoded" {
+                encoding = FormURLEncoding()
+            } else {
+                fatalError("Unsuported Media Type - \(contentType)")
+            }
+        }
+
         let cleanupRequest = {
             urlSessionStore[urlSessionId] = nil
-            self.observation?.invalidate()
         }
 
         do {
             let request = try createURLRequest(urlSession: urlSession, method: xMethod, encoding: encoding, headers: headers)
 
-            let dataTask = urlSession.dataTask(with: request) { [weak self] data, response, error in
-
-                guard let self = self else { return }
+            let dataTask = urlSession.dataTask(with: request) { data, response, error in
 
                 if let taskCompletionShouldRetry = self.taskCompletionShouldRetry {
 
-                    taskCompletionShouldRetry(data, response, error) { [weak self] shouldRetry in
-
-                        guard let self = self else { return }
+                    taskCompletionShouldRetry(data, response, error) { shouldRetry in
 
                         if shouldRetry {
                             cleanupRequest()
@@ -161,12 +155,7 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
             }
 
             if #available(iOS 11.0, macOS 10.13, macCatalyst 13.0, tvOS 11.0, watchOS 4.0, *) {
-                observation = dataTask.progress.observe(\.fractionCompleted) { newProgress, _ in
-                    self.progress.totalUnitCount = newProgress.totalUnitCount
-                    self.progress.completedUnitCount = newProgress.completedUnitCount
-                }
-
-                onProgressReady?(progress)
+                onProgressReady?(dataTask.progress)
             }
 
             dataTask.resume()
@@ -174,26 +163,25 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         } catch {
             apiResponseQueue.async {
                 cleanupRequest()
-                completion(.failure(ErrorResponse.error(415, nil, error)))
+                completion(.failure(ErrorResponse.error(415, nil, nil, error)))
             }
         }
-
     }
 
-    fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) {
+    fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
+
+        if let error = error {
+            completion(.failure(ErrorResponse.error(-1, data, response, error)))
+            return
+        }
 
         guard let httpResponse = response as? HTTPURLResponse else {
-            completion(.failure(ErrorResponse.error(-2, nil, DecodableRequestBuilderError.nilHTTPResponse)))
+            completion(.failure(ErrorResponse.error(-2, data, response, DecodableRequestBuilderError.nilHTTPResponse)))
             return
         }
 
         guard httpResponse.isStatusCodeSuccessful else {
-            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode(error))))
-            return
-        }
-
-        if let error = error {
-            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
+            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
             return
         }
 
@@ -217,11 +205,11 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
                 let fileManager = FileManager.default
                 let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                let requestURL = try self.getURL(from: urlRequest)
+                let requestURL = try getURL(from: urlRequest)
 
-                var requestPath = try self.getPath(from: requestURL)
+                var requestPath = try getPath(from: requestURL)
 
-                if let headerFileName = self.getFileName(fromContentDisposition: httpResponse.allHeaderFields["Content-Disposition"] as? String) {
+                if let headerFileName = getFileName(fromContentDisposition: httpResponse.allHeaderFields["Content-Disposition"] as? String) {
                     requestPath = requestPath.appending("/\(headerFileName)")
                 }
 
@@ -234,9 +222,9 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
                 completion(.success(Response(response: httpResponse, body: filePath as? T)))
 
             } catch let requestParserError as DownloadException {
-                completion(.failure(ErrorResponse.error(400, data, requestParserError)))
-            } catch let error {
-                completion(.failure(ErrorResponse.error(400, data, error)))
+                completion(.failure(ErrorResponse.error(400, data, response, requestParserError)))
+            } catch {
+                completion(.failure(ErrorResponse.error(400, data, response, error)))
             }
 
         case is Void.Type:
@@ -251,8 +239,11 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
     }
 
     internal func buildHeaders() -> [String: String] {
-        var httpHeaders = PetstoreClientAPI.customHeaders
-        for (key, value) in self.headers {
+        var httpHeaders: [String: String] = [:]
+        for (key, value) in headers {
+            httpHeaders[key] = value
+        }
+        for (key, value) in PetstoreClientAPI.customHeaders {
             httpHeaders[key] = value
         }
         return httpHeaders
@@ -312,20 +303,20 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 }
 
 internal class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBuilder<T> {
-    override fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) {
+    override fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
+
+        if let error = error {
+            completion(.failure(ErrorResponse.error(-1, data, response, error)))
+            return
+        }
 
         guard let httpResponse = response as? HTTPURLResponse else {
-            completion(.failure(ErrorResponse.error(-2, nil, DecodableRequestBuilderError.nilHTTPResponse)))
+            completion(.failure(ErrorResponse.error(-2, data, response, DecodableRequestBuilderError.nilHTTPResponse)))
             return
         }
 
         guard httpResponse.isStatusCodeSuccessful else {
-            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode(error))))
-            return
-        }
-
-        if let error = error {
-            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
+            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
             return
         }
 
@@ -347,7 +338,7 @@ internal class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionReques
         default:
 
             guard let data = data, !data.isEmpty else {
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, DecodableRequestBuilderError.emptyDataResponse)))
+                completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, response, DecodableRequestBuilderError.emptyDataResponse)))
                 return
             }
 
@@ -357,7 +348,7 @@ internal class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionReques
             case let .success(decodableObj):
                 completion(.success(Response(response: httpResponse, body: decodableObj)))
             case let .failure(error):
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
+                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, error)))
             }
         }
     }
@@ -395,13 +386,13 @@ private class SessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
 
 internal enum HTTPMethod: String {
     case options = "OPTIONS"
-    case get     = "GET"
-    case head    = "HEAD"
-    case post    = "POST"
-    case put     = "PUT"
-    case patch   = "PATCH"
-    case delete  = "DELETE"
-    case trace   = "TRACE"
+    case get = "GET"
+    case head = "HEAD"
+    case post = "POST"
+    case put = "PUT"
+    case patch = "PATCH"
+    case delete = "DELETE"
+    case trace = "TRACE"
     case connect = "CONNECT"
 }
 
@@ -429,7 +420,7 @@ private class URLEncoding: ParameterEncoding {
     }
 }
 
-private class FileUploadEncoding: ParameterEncoding {
+private class FormDataEncoding: ParameterEncoding {
 
     let contentTypeForFormPart: (_ fileURL: URL) -> String?
 
@@ -441,58 +432,118 @@ private class FileUploadEncoding: ParameterEncoding {
 
         var urlRequest = urlRequest
 
-        for (k, v) in parameters ?? [:] {
-            switch v {
+        guard let parameters = parameters, !parameters.isEmpty else {
+            return urlRequest
+        }
+
+        let boundary = "Boundary-\(UUID().uuidString)"
+
+        urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+
+        for (key, value) in parameters {
+            switch value {
             case let fileURL as URL:
 
-                let fileData = try Data(contentsOf: fileURL)
-
-                let mimetype = self.contentTypeForFormPart(fileURL) ?? mimeType(for: fileURL)
-
-                urlRequest = configureFileUploadRequest(urlRequest: urlRequest, name: fileURL.lastPathComponent, data: fileData, mimeType: mimetype)
+                urlRequest = try configureFileUploadRequest(
+                    urlRequest: urlRequest,
+                    boundary: boundary,
+                    name: key,
+                    fileURL: fileURL
+                )
 
             case let string as String:
 
                 if let data = string.data(using: .utf8) {
-                    urlRequest = configureFileUploadRequest(urlRequest: urlRequest, name: k, data: data, mimeType: nil)
+                    urlRequest = configureDataUploadRequest(
+                        urlRequest: urlRequest,
+                        boundary: boundary,
+                        name: key,
+                        data: data
+                    )
                 }
 
             case let number as NSNumber:
 
                 if let data = number.stringValue.data(using: .utf8) {
-                    urlRequest = configureFileUploadRequest(urlRequest: urlRequest, name: k, data: data, mimeType: nil)
+                    urlRequest = configureDataUploadRequest(
+                        urlRequest: urlRequest,
+                        boundary: boundary,
+                        name: key,
+                        data: data
+                    )
                 }
 
             default:
-                fatalError("Unprocessable value \(v) with key \(k)")
+                fatalError("Unprocessable value \(value) with key \(key)")
             }
         }
+
+        var body = urlRequest.httpBody.orEmpty
+
+        body.append("\r\n--\(boundary)--\r\n")
+
+        urlRequest.httpBody = body
 
         return urlRequest
     }
 
-    private func configureFileUploadRequest(urlRequest: URLRequest, name: String, data: Data, mimeType: String?) -> URLRequest {
+    private func configureFileUploadRequest(urlRequest: URLRequest, boundary: String, name: String, fileURL: URL) throws -> URLRequest {
 
         var urlRequest = urlRequest
 
-        var body = urlRequest.httpBody ?? Data()
+        var body = urlRequest.httpBody.orEmpty
 
-        // https://stackoverflow.com/a/26163136/976628
-        let boundary = "Boundary-\(UUID().uuidString)"
-        urlRequest.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        let fileData = try Data(contentsOf: fileURL)
 
-        body.append("--\(boundary)\r\n")
-        body.append("Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(name)\"\r\n")
+        let mimetype = contentTypeForFormPart(fileURL) ?? mimeType(for: fileURL)
 
-        if let mimeType = mimeType {
-            body.append("Content-Type: \(mimeType)\r\n\r\n")
+        let fileName = fileURL.lastPathComponent
+
+        // If we already added something then we need an additional newline.
+        if body.count > 0 {
+            body.append("\r\n")
         }
 
-        body.append(data)
+        // Value boundary.
+        body.append("--\(boundary)\r\n")
 
+        // Value headers.
+        body.append("Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(fileName)\"\r\n")
+        body.append("Content-Type: \(mimetype)\r\n")
+
+        // Separate headers and body.
         body.append("\r\n")
 
-        body.append("--\(boundary)--\r\n")
+        // The value data.
+        body.append(fileData)
+
+        urlRequest.httpBody = body
+
+        return urlRequest
+    }
+
+    private func configureDataUploadRequest(urlRequest: URLRequest, boundary: String, name: String, data: Data) -> URLRequest {
+
+        var urlRequest = urlRequest
+
+        var body = urlRequest.httpBody.orEmpty
+
+        // If we already added something then we need an additional newline.
+        if body.count > 0 {
+            body.append("\r\n")
+        }
+
+        // Value boundary.
+        body.append("--\(boundary)\r\n")
+
+        // Value headers.
+        body.append("Content-Disposition: form-data; name=\"\(name)\"\r\n")
+
+        // Separate headers and body.
+        body.append("\r\n")
+
+        // The value data.
+        body.append(data)
 
         urlRequest.httpBody = body
 
@@ -513,17 +564,41 @@ private class FileUploadEncoding: ParameterEncoding {
 
 }
 
-fileprivate extension Data {
-    /// Append string to NSMutableData
+private class FormURLEncoding: ParameterEncoding {
+    func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest {
+
+        var urlRequest = urlRequest
+
+        var requestBodyComponents = URLComponents()
+        requestBodyComponents.queryItems = APIHelper.mapValuesToQueryItems(parameters ?? [:])
+
+        if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
+            urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        }
+
+        urlRequest.httpBody = requestBodyComponents.query?.data(using: .utf8)
+
+        return urlRequest
+    }
+}
+
+private extension Data {
+    /// Append string to Data
     ///
-    /// Rather than littering my code with calls to `dataUsingEncoding` to convert strings to NSData, and then add that data to the NSMutableData, this wraps it in a nice convenient little extension to NSMutableData. This converts using UTF-8.
+    /// Rather than littering my code with calls to `dataUsingEncoding` to convert strings to Data, and then add that data to the Data, this wraps it in a nice convenient little extension to Data. This converts using UTF-8.
     ///
-    /// - parameter string:       The string to be added to the `NSMutableData`.
+    /// - parameter string:       The string to be added to the `Data`.
 
     mutating func append(_ string: String) {
         if let data = string.data(using: .utf8) {
             append(data)
         }
+    }
+}
+
+private extension Optional where Wrapped == Data {
+    var orEmpty: Data {
+        self ?? Data()
     }
 }
 

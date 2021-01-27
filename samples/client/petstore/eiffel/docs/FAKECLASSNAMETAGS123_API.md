@@ -8,7 +8,7 @@ Feature | HTTP request | Description
 
 
 # **test_classname**
-> test_classname (client: CLIENT ): detachable CLIENT
+> test_classname (body: CLIENT ): detachable CLIENT
 	
 
 To test class name in snake case
@@ -20,7 +20,7 @@ To test class name in snake case
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**CLIENT**](CLIENT.md)| client model | 
+ **body** | [**CLIENT**](CLIENT.md)| client model | 
 
 ### Return type
 

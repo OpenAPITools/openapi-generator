@@ -120,13 +120,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
+        [DataMember(Name="name", EmitDefaultValue=true)]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets PhotoUrls
         /// </summary>
-        [DataMember(Name="photoUrls", EmitDefaultValue=false)]
+        [DataMember(Name="photoUrls", EmitDefaultValue=true)]
         public List<string> PhotoUrls { get; set; }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>

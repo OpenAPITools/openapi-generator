@@ -14,8 +14,13 @@
 :app-name: {{appName}}
 {{/headerAttributes}}
 
+{{#useIntroduction}}
+== Introduction
+{{/useIntroduction}}
+{{^useIntroduction}}
 [abstract]
 .Abstract
+{{/useIntroduction}}
 {{{appDescription}}}
 
 {{#specinclude}}intro.adoc{{/specinclude}}
@@ -46,9 +51,17 @@
 {{#operation}}
 
 [.{{nickname}}]
+{{#useMethodAndPath}}
+==== {{httpMethod}} {{path}}
+
+Operation Id:: {{nickname}}
+
+{{/useMethodAndPath}}
+{{^useMethodAndPath}}
 ==== {{nickname}}
     
 `{{httpMethod}} {{path}}`
+{{/useMethodAndPath}}
 
 {{{summary}}}
 
@@ -96,12 +109,14 @@
 {{/responses}}
 |===         
 
+{{^skipExamples}}
 ===== Samples
 
 {{#snippetinclude}}{{path}}/{{httpMethod}}/http-request.adoc{{/snippetinclude}}
 {{#snippetinclude}}{{path}}/{{httpMethod}}/http-response.adoc{{/snippetinclude}}
 
 {{#snippetlink}}* wiremock data, {{path}}/{{httpMethod}}/{{httpMethod}}.json{{/snippetlink}}
+{{/skipExamples}}
 
 ifdef::internal-generation[]
 ===== Implementation

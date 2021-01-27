@@ -13,3 +13,5 @@ script:
 - R CMD build .
 - R CMD check *tar.gz
 - R CMD INSTALL *tar.gz
+after_failure:
+- cat ${TRAVIS_BUILD_DIR}/namsor.Rcheck/tests/testthat.Rout.fail

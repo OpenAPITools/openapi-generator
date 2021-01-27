@@ -10,31 +10,31 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class User   {
   @JsonProperty("id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("username")
-  private String username = null;
+  private String username;
 
   @JsonProperty("firstName")
-  private String firstName = null;
+  private String firstName;
 
   @JsonProperty("lastName")
-  private String lastName = null;
+  private String lastName;
 
   @JsonProperty("email")
-  private String email = null;
+  private String email;
 
   @JsonProperty("password")
-  private String password = null;
+  private String password;
 
   @JsonProperty("phone")
-  private String phone = null;
+  private String phone;
 
   @JsonProperty("userStatus")
-  private Integer userStatus = null;
+  private Integer userStatus;
 
   /**
    **/
@@ -175,7 +175,7 @@ public class User   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -219,7 +219,7 @@ public class User   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

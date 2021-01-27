@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
   
   private @Valid UUID uuid;
   private @Valid Date dateTime;
@@ -34,16 +34,17 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("uuid")
   public UUID getUuid() {
     return uuid;
   }
+
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
-  }
-
-  /**
+  }/**
    **/
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(Date dateTime) {
     this.dateTime = dateTime;
@@ -51,16 +52,17 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public Date getDateTime() {
     return dateTime;
   }
+
   public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
-  }
-
-  /**
+  }/**
    **/
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
     this.map = map;
@@ -68,18 +70,20 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("map")
   public Map<String, Animal> getMap() {
     return map;
   }
+
   public void setMap(Map<String, Animal> map) {
     this.map = map;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -113,11 +117,13 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

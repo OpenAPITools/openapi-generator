@@ -17,6 +17,11 @@
 #include <QUrl>
 #include <QUuid>
 #include <QtGlobal>
+#if QT_VERSION >= 0x051500
+    #define SKIP_EMPTY_PARTS Qt::SkipEmptyParts
+#else
+    #define SKIP_EMPTY_PARTS QString::SkipEmptyParts
+#endif
 
 #include "PFXHttpRequest.h"
 
@@ -51,15 +56,25 @@ void PFXHttpRequestInput::add_file(QString variable_name, QString local_filename
     files.append(file);
 }
 
-PFXHttpRequestWorker::PFXHttpRequestWorker(QObject *parent)
-    : QObject(parent), manager(nullptr), _timeOut(0) {
+PFXHttpRequestWorker::PFXHttpRequestWorker(QObject *parent, QNetworkAccessManager *_manager)
+    : QObject(parent), manager(_manager), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false), httpResponseCode(-1) {
+
+#if QT_VERSION >= 0x051500
+    randomGenerator = QRandomGenerator(QDateTime::currentDateTime().toSecsSinceEpoch());
+#else
     qsrand(QDateTime::currentDateTime().toTime_t());
-    manager = new QNetworkAccessManager(this);
+#endif
+
+    if (manager == nullptr) {
+        manager = new QNetworkAccessManager(this);
+    }
     workingDirectory = QDir::currentPath();
-    connect(manager, &QNetworkAccessManager::finished, this, &PFXHttpRequestWorker::on_manager_finished);
+    timeOutTimer.setSingleShot(true);
 }
 
 PFXHttpRequestWorker::~PFXHttpRequestWorker() {
+    QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
+    timeOutTimer.stop();
     for (const auto &item : multiPartFields) {
         if (item != nullptr) {
             delete item;
@@ -93,8 +108,11 @@ QByteArray *PFXHttpRequestWorker::getMultiPartField(const QString &fieldname) {
     return nullptr;
 }
 
-void PFXHttpRequestWorker::setTimeOut(int timeOut) {
-    _timeOut = timeOut;
+void PFXHttpRequestWorker::setTimeOut(int timeOutMs) {
+    timeOutTimer.setInterval(timeOutMs);
+    if(timeOutTimer.interval() == 0) {
+        QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
+    }
 }
 
 void PFXHttpRequestWorker::setWorkingDirectory(const QString &path) {
@@ -109,6 +127,10 @@ void PFXHttpRequestWorker::setResponseCompressionEnabled(bool enable) {
 
 void PFXHttpRequestWorker::setRequestCompressionEnabled(bool enable) {
     isRequestCompressionEnabled = enable;
+}
+
+int  PFXHttpRequestWorker::getHttpResponseCode() const{
+    return httpResponseCode;
 }
 
 QString PFXHttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
@@ -201,31 +223,36 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         // variable layout is MULTIPART
 
         boundary = QString("__-----------------------%1%2")
-                       .arg(QDateTime::currentDateTime().toTime_t())
-                       .arg(qrand());
+                    #if QT_VERSION >= 0x051500
+                            .arg(QDateTime::currentDateTime().toSecsSinceEpoch())
+                            .arg(randomGenerator.generate());
+                    #else
+                            .arg(QDateTime::currentDateTime().toTime_t())
+                            .arg(qrand());
+                    #endif
         QString boundary_delimiter = "--";
         QString new_line = "\r\n";
 
         // add variables
         foreach (QString key, input->vars.keys()) {
             // add boundary
-            request_content.append(boundary_delimiter);
-            request_content.append(boundary);
-            request_content.append(new_line);
+            request_content.append(boundary_delimiter.toUtf8());
+            request_content.append(boundary.toUtf8());
+            request_content.append(new_line.toUtf8());
 
             // add header
             request_content.append("Content-Disposition: form-data; ");
-            request_content.append(http_attribute_encode("name", key));
-            request_content.append(new_line);
+            request_content.append(http_attribute_encode("name", key).toUtf8());
+            request_content.append(new_line.toUtf8());
             request_content.append("Content-Type: text/plain");
-            request_content.append(new_line);
+            request_content.append(new_line.toUtf8());
 
             // add header to body splitter
-            request_content.append(new_line);
+            request_content.append(new_line.toUtf8());
 
             // add variable content
-            request_content.append(input->vars.value(key));
-            request_content.append(new_line);
+            request_content.append(input->vars.value(key).toUtf8());
+            request_content.append(new_line.toUtf8());
         }
 
         // add files
@@ -259,38 +286,38 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
             }
 
             // add boundary
-            request_content.append(boundary_delimiter);
-            request_content.append(boundary);
-            request_content.append(new_line);
+            request_content.append(boundary_delimiter.toUtf8());
+            request_content.append(boundary.toUtf8());
+            request_content.append(new_line.toUtf8());
 
             // add header
             request_content.append(
-                QString("Content-Disposition: form-data; %1; %2").arg(http_attribute_encode("name", file_info->variable_name), http_attribute_encode("filename", file_info->request_filename)));
-            request_content.append(new_line);
+                QString("Content-Disposition: form-data; %1; %2").arg(http_attribute_encode("name", file_info->variable_name), http_attribute_encode("filename", file_info->request_filename)).toUtf8());
+            request_content.append(new_line.toUtf8());
 
             if (file_info->mime_type != nullptr && !file_info->mime_type.isEmpty()) {
                 request_content.append("Content-Type: ");
-                request_content.append(file_info->mime_type);
-                request_content.append(new_line);
+                request_content.append(file_info->mime_type.toUtf8());
+                request_content.append(new_line.toUtf8());
             }
 
             request_content.append("Content-Transfer-Encoding: binary");
-            request_content.append(new_line);
+            request_content.append(new_line.toUtf8());
 
             // add header to body splitter
-            request_content.append(new_line);
+            request_content.append(new_line.toUtf8());
 
             // add file content
             request_content.append(file.readAll());
-            request_content.append(new_line);
+            request_content.append(new_line.toUtf8());
 
             file.close();
         }
 
         // add end of body
-        request_content.append(boundary_delimiter);
-        request_content.append(boundary);
-        request_content.append(boundary_delimiter);
+        request_content.append(boundary_delimiter.toUtf8());
+        request_content.append(boundary.toUtf8());
+        request_content.append(boundary_delimiter.toUtf8());
     }
 
     if (input->request_body.size() > 0) {
@@ -344,7 +371,7 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         reply = manager->deleteResource(request);
     } else {
 #if (QT_VERSION >= 0x050800)
-        manager->sendCustomRequest(request, input->http_method.toLatin1(), request_content);
+        reply = manager->sendCustomRequest(request, input->http_method.toLatin1(), request_content);
 #else
         QBuffer *buffer = new QBuffer;
         buffer->setData(request_content);
@@ -354,12 +381,26 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         buffer->setParent(reply);
 #endif
     }
-    if (_timeOut > 0) {
-        QTimer::singleShot(_timeOut, [=]() { on_manager_timeout(reply); });
+    if (reply != nullptr) {
+        reply->setParent(this);
+        connect(reply, &QNetworkReply::finished, [this, reply] {
+            on_reply_finished(reply);
+        });
+    }
+    if (timeOutTimer.interval() > 0) {
+        QObject::connect(&timeOutTimer, &QTimer::timeout, [this, reply] {
+            on_reply_timeout(reply);
+        });
+        timeOutTimer.start();
     }
 }
 
-void PFXHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
+void PFXHttpRequestWorker::on_reply_finished(QNetworkReply *reply) {
+    bool codeSts = false;
+    if(timeOutTimer.isActive()) {
+        QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
+        timeOutTimer.stop();
+    }
     error_type = reply->error();
     error_str = reply->errorString();
     if (reply->rawHeaderPairs().count() > 0) {
@@ -367,16 +408,22 @@ void PFXHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
             headers.insert(item.first, item.second);
         }
     }
+    auto rescode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&codeSts);
+    if(codeSts){
+        httpResponseCode = rescode;
+    } else{
+        httpResponseCode = -1;
+    }
     process_response(reply);
     reply->deleteLater();
     emit on_execution_finished(this);
 }
 
-void PFXHttpRequestWorker::on_manager_timeout(QNetworkReply *reply) {
+void PFXHttpRequestWorker::on_reply_timeout(QNetworkReply *reply) {
     error_type = QNetworkReply::TimeoutError;
     response = "";
     error_str = "Timed out waiting for response";
-    disconnect(manager, nullptr, nullptr, nullptr);
+    disconnect(reply, nullptr, nullptr, nullptr);
     reply->abort();
     reply->deleteLater();
     emit on_execution_finished(this);
@@ -384,14 +431,14 @@ void PFXHttpRequestWorker::on_manager_timeout(QNetworkReply *reply) {
 
 void PFXHttpRequestWorker::process_response(QNetworkReply *reply) {
     if (getResponseHeaders().contains(QString("Content-Disposition"))) {
-        auto contentDisposition = getResponseHeaders().value(QString("Content-Disposition").toUtf8()).split(QString(";"), QString::SkipEmptyParts);
+        auto contentDisposition = getResponseHeaders().value(QString("Content-Disposition").toUtf8()).split(QString(";"), SKIP_EMPTY_PARTS);
         auto contentType =
-            getResponseHeaders().contains(QString("Content-Type")) ? getResponseHeaders().value(QString("Content-Type").toUtf8()).split(QString(";"), QString::SkipEmptyParts).first() : QString();
+            getResponseHeaders().contains(QString("Content-Type")) ? getResponseHeaders().value(QString("Content-Type").toUtf8()).split(QString(";"), SKIP_EMPTY_PARTS).first() : QString();
         if ((contentDisposition.count() > 0) && (contentDisposition.first() == QString("attachment"))) {
             QString filename = QUuid::createUuid().toString();
             for (const auto &file : contentDisposition) {
                 if (file.contains(QString("filename"))) {
-                    filename = file.split(QString("="), QString::SkipEmptyParts).at(1);
+                    filename = file.split(QString("="), SKIP_EMPTY_PARTS).at(1);
                     break;
                 }
             }
@@ -401,14 +448,14 @@ void PFXHttpRequestWorker::process_response(QNetworkReply *reply) {
         }
 
     } else if (getResponseHeaders().contains(QString("Content-Type"))) {
-        auto contentType = getResponseHeaders().value(QString("Content-Type").toUtf8()).split(QString(";"), QString::SkipEmptyParts);
+        auto contentType = getResponseHeaders().value(QString("Content-Type").toUtf8()).split(QString(";"), SKIP_EMPTY_PARTS);
         if ((contentType.count() > 0) && (contentType.first() == QString("multipart/form-data"))) {
             // TODO : Handle Multipart responses
         } else {
             if(headers.contains("Content-Encoding")){
-                auto encoding = headers.value("Content-Encoding").split(QString(";"), QString::SkipEmptyParts);
+                auto encoding = headers.value("Content-Encoding").split(QString(";"), SKIP_EMPTY_PARTS);
                 if(encoding.count() > 0){
-                    auto compressionTypes = encoding.first().split(',', QString::SkipEmptyParts);
+                    auto compressionTypes = encoding.first().split(',', SKIP_EMPTY_PARTS);
                     if(compressionTypes.contains("gzip", Qt::CaseInsensitive) || compressionTypes.contains("deflate", Qt::CaseInsensitive)){
                         response = decompress(reply->readAll());
                     } else if(compressionTypes.contains("identity", Qt::CaseInsensitive)){

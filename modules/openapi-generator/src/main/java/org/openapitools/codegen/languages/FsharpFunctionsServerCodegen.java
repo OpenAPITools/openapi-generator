@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
     public static final String PROJECT_NAME = "projectName";
 
-    static Logger LOGGER = LoggerFactory.getLogger(FsharpFunctionsServerCodegen.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(FsharpFunctionsServerCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.SERVER;
@@ -54,7 +54,7 @@ public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
         super();
 
         // TODO: There's a README.mustache, but it doesn't seem to be referenced…
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
 //                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.noneOf(
@@ -74,7 +74,7 @@ public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)

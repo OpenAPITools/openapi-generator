@@ -31,17 +31,17 @@ void main() {
       ..category = category
       ..tags = tags
       ..name = name
-      ..status = status
+      ..status = PetStatusEnum.fromJson(status)
       ..photoUrls = ['https://petstore.com/sample/photo1.jpg'];
   }
 
   /// Setup the fake client then call [petApi.addPet]
   Future<dynamic> addPet(Pet pet) {
     petApi.apiClient.client = FakeClient(
-      expectedUrl: 'http://petstore.swagger.io/v2/pet',
-      expectedPostRequestBody: petApi.apiClient.serialize(pet),
-      postResponseBody: '',
-    );
+        expectedUrl: 'http://petstore.swagger.io/v2/pet',
+        expectedPostRequestBody: petApi.apiClient.serialize(pet),
+        postResponseBody: '',
+        expectedHeaders: {'Content-Type': 'application/json'});
     return petApi.addPet(pet);
   }
 
@@ -52,10 +52,10 @@ void main() {
 
       // use the pet api to add a pet
       petApi.apiClient.client = FakeClient(
-        expectedUrl: 'http://petstore.swagger.io/v2/pet',
-        expectedPostRequestBody: petApi.apiClient.serialize(newPet),
-        postResponseBody: '',
-      );
+          expectedUrl: 'http://petstore.swagger.io/v2/pet',
+          expectedPostRequestBody: petApi.apiClient.serialize(newPet),
+          postResponseBody: '',
+          expectedHeaders: {'Content-Type': 'application/json'});
       await petApi.addPet(newPet);
 
       // retrieve the same pet by id
@@ -85,19 +85,16 @@ void main() {
 
       // add a new pet
       petApi.apiClient.client = FakeClient(
-        expectedUrl: 'http://petstore.swagger.io/v2/pet',
-        expectedPostRequestBody: petApi.apiClient.serialize(newPet),
-        postResponseBody: '',
-      );
+          expectedUrl: 'http://petstore.swagger.io/v2/pet',
+          expectedPostRequestBody: petApi.apiClient.serialize(newPet),
+          postResponseBody: '',
+          expectedHeaders: {'Content-Type': 'application/json'});
       await petApi.addPet(newPet);
 
       // delete the pet
       petApi.apiClient.client = FakeClient(
         expectedUrl: 'http://petstore.swagger.io/v2/pet/$id',
-        expectedHeaders: {
-          'Content-Type': 'application/json',
-          'api_key': 'special-key'
-        },
+        expectedHeaders: {'api_key': 'special-key'},
         deleteResponseBody: '',
       );
       await petApi.deletePet(id, apiKey: 'special-key');
@@ -117,10 +114,10 @@ void main() {
 
       // add a new pet
       petApi.apiClient.client = FakeClient(
-        expectedUrl: 'http://petstore.swagger.io/v2/pet',
-        expectedPostRequestBody: petApi.apiClient.serialize(newPet),
-        postResponseBody: '',
-      );
+          expectedUrl: 'http://petstore.swagger.io/v2/pet',
+          expectedPostRequestBody: petApi.apiClient.serialize(newPet),
+          postResponseBody: '',
+          expectedHeaders: {'Content-Type': 'application/json'});
       await petApi.addPet(newPet);
 
       final multipartRequest = MultipartRequest(null, null);
@@ -156,18 +153,18 @@ void main() {
 
       // add a new pet
       petApi.apiClient.client = FakeClient(
-        expectedUrl: 'http://petstore.swagger.io/v2/pet',
-        expectedPostRequestBody: petApi.apiClient.serialize(newPet),
-        postResponseBody: '',
-      );
+          expectedUrl: 'http://petstore.swagger.io/v2/pet',
+          expectedPostRequestBody: petApi.apiClient.serialize(newPet),
+          postResponseBody: '',
+          expectedHeaders: {'Content-Type': 'application/json'});
       await petApi.addPet(newPet);
 
       // update the same pet
       petApi.apiClient.client = FakeClient(
-        expectedUrl: 'http://petstore.swagger.io/v2/pet',
-        expectedPutRequestBody: petApi.apiClient.serialize(updatePet),
-        putResponseBody: '',
-      );
+          expectedUrl: 'http://petstore.swagger.io/v2/pet',
+          expectedPutRequestBody: petApi.apiClient.serialize(updatePet),
+          putResponseBody: '',
+          expectedHeaders: {'Content-Type': 'application/json'});
       await petApi.updatePet(updatePet);
 
       // check update worked
@@ -183,10 +180,10 @@ void main() {
       final id1 = newId();
       final id2 = newId();
       final id3 = newId();
-      final status = 'available';
+      final status = PetStatusEnum.available.value;
       final pet1 = makePet(id: id1, status: status);
       final pet2 = makePet(id: id2, status: status);
-      final pet3 = makePet(id: id3, status: 'sold');
+      final pet3 = makePet(id: id3, status: PetStatusEnum.sold.value);
 
       return Future.wait([addPet(pet1), addPet(pet2), addPet(pet3)])
           .then((_) async {
@@ -197,6 +194,11 @@ void main() {
           getResponseBody: petApi.apiClient.serialize([pet1, pet2]),
         );
         final pets = await petApi.findPetsByStatus([status]);
+
+        // tests serialisation and deserialisation of enum
+        final petsByStatus =
+            pets.where((p) => p.status == PetStatusEnum.available);
+        expect(petsByStatus.length, equals(2));
         final petIds = pets.map((pet) => pet.id).toList();
         expect(petIds, contains(id1));
         expect(petIds, contains(id2));
@@ -213,10 +215,10 @@ void main() {
 
       // add a new pet
       petApi.apiClient.client = FakeClient(
-        expectedUrl: 'http://petstore.swagger.io/v2/pet',
-        expectedPostRequestBody: petApi.apiClient.serialize(newPet),
-        postResponseBody: '',
-      );
+          expectedUrl: 'http://petstore.swagger.io/v2/pet',
+          expectedPostRequestBody: petApi.apiClient.serialize(newPet),
+          postResponseBody: '',
+          expectedHeaders: {'Content-Type': 'application/json'});
       await petApi.addPet(newPet);
 
       petApi.apiClient.client = FakeClient(

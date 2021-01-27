@@ -1,0 +1,45 @@
+use async_trait::async_trait;
+use futures::{Stream, future, future::BoxFuture, stream, future::TryFutureExt, future::FutureExt, stream::StreamExt};
+use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
+use hyper::{Body, Request, Response, service::Service, Uri};
+use percent_encoding::{utf8_percent_encode, AsciiSet};
+use std::borrow::Cow;
+use std::convert::TryInto;
+use std::io::{ErrorKind, Read};
+use std::error::Error;
+use std::future::Future;
+use std::fmt;
+use std::marker::PhantomData;
+use std::path::Path;
+use std::sync::{Arc, Mutex};
+use std::str;
+use std::str::FromStr;
+use std::string::ToString;
+use std::task::{Context, Poll};
+use swagger::{ApiError, AuthData, BodyExt, Connector, DropContextService, Has, XSpanIdString};
+use url::form_urlencoded;
+
+{{#apiUsesMultipartFormData}}
+use mime::Mime;
+use std::io::Cursor;
+use multipart::client::lazy::Multipart;
+{{/apiUsesMultipartFormData}}
+{{#apiUsesMultipartRelated}}
+use hyper_0_10::header::{Headers, ContentType};
+use mime_multipart::{Node, Part, generate_boundary, write_multipart};
+{{/apiUsesMultipartRelated}}
+
+use crate::models;
+use crate::header;
+
+/// https://url.spec.whatwg.org/#fragment-percent-encode-set
+#[allow(dead_code)]
+const FRAGMENT_ENCODE_SET: &AsciiSet = &percent_encoding::CONTROLS
+    .add(b' ').add(b'"').add(b'<').add(b'>').add(b'`');
+
+/// This encode set is used for object IDs
+///
+/// Aside from the special characters defined in the `PATH_SEGMENT_ENCODE_SET`,
+/// the vertical bar (|) is encoded.
+#[allow(dead_code)]
+const ID_ENCODE_SET: &AsciiSet = &FRAGMENT_ENCODE_SET.add(b'|');

@@ -19,12 +19,18 @@
 package org.openapitools.generator.gradle.plugin.tasks
 
 import io.swagger.parser.OpenAPIParser
+import io.swagger.v3.parser.core.models.ParseOptions
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
+import org.gradle.api.logging.Logging
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.Optional
+import org.gradle.api.tasks.PathSensitive
+import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
-import org.gradle.api.logging.Logging
 import org.gradle.internal.logging.text.StyledTextOutput
 import org.gradle.internal.logging.text.StyledTextOutputFactory
 import org.gradle.kotlin.dsl.property
@@ -48,10 +54,12 @@ import org.openapitools.codegen.validations.oas.RuleConfiguration
  * @author Jim Schubert
  */
 open class ValidateTask : DefaultTask() {
-    @get:Internal
+    @get:InputFile
+    @PathSensitive(PathSensitivity.RELATIVE)
     var inputSpec = project.objects.property<String>()
 
-    @get:Internal
+    @Optional
+    @Input
     var recommend = project.objects.property<Boolean?>()
 
     @Suppress("unused")
@@ -71,10 +79,13 @@ open class ValidateTask : DefaultTask() {
         val recommendations = recommend.get()
 
         logger.quiet("Validating spec $spec")
-        val result = OpenAPIParser().readLocation(spec, null, null)
+
+        val options = ParseOptions()
+        options.isResolve = true
+
+        val result = OpenAPIParser().readLocation(spec, null, options)
         val messages = result.messages.toSet()
         val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
-
 
         val ruleConfiguration = RuleConfiguration()
         ruleConfiguration.isEnableRecommendations = recommendations

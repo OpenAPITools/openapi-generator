@@ -9,16 +9,16 @@ import Foundation
 
 {{#description}}
 /** {{description}} */{{/description}}
-{{#isArrayModel}}
+{{#isArray}}
 {{> modelArray}}
-{{/isArrayModel}}
-{{^isArrayModel}}
+{{/isArray}}
+{{^isArray}}
 {{#isEnum}}
 {{> modelEnum}}
 {{/isEnum}}
 {{^isEnum}}
 {{> modelObject}}
 {{/isEnum}}
-{{/isArrayModel}}
+{{/isArray}}
 {{/model}}
 {{/models}}

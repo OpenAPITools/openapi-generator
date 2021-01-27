@@ -1,0 +1,12 @@
+        formAndFiles({{#vendorExtensions.x-file-params}}FileField("{{baseName}}")){{/vendorExtensions.x-file-params}}{{^-last}}, {{/-last}} { partsAndFiles => {{^vendorExtensions.x-file-params.isEmpty}}
+          val _____ : Try[Route] = for {
+            {{#vendorExtensions.x-file-params}}{{baseName}} <- optToTry(partsAndFiles.files.get("{{baseName}}"), s"File {{baseName}} missing")
+            {{/vendorExtensions.x-file-params}}
+          } yield { {{/vendorExtensions.x-file-params.isEmpty}}
+            implicit val vp: StringValueProvider = partsAndFiles.form{{^vendorExtensions.x-non-file-params.isEmpty}}
+            stringFields({{#vendorExtensions.x-non-file-params}}"{{baseName}}".as[{{dataType}}]{{^required}}.?{{#vendorExtensions.x-has-default-value}}({{defaultValue}}){{/vendorExtensions.x-has-default-value}}{{/required}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-non-file-params}}) { ({{#vendorExtensions.x-non-file-params}}{{paramName}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-non-file-params}}) =>{{/vendorExtensions.x-non-file-params.isEmpty}}
+              {{classVarName}}Service.{{operationId}}({{#allParams}}{{paramName}} = {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{^vendorExtensions.nonFileFormParams.isEmpty}}
+            }{{/vendorExtensions.nonFileFormParams.isEmpty}}{{^vendorExtensions.x-file-params.isEmpty}}
+          }
+          _____.fold[Route](t => reject(MalformedRequestContentRejection("Missing file.", t)), identity){{/vendorExtensions.x-file-params.isEmpty}}
+        }

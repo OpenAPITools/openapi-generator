@@ -65,7 +65,7 @@ namespace {{packageName}}.Test
             {{#allParams}}
             //{{{dataType}}} {{paramName}} = null;
             {{/allParams}}
-            //{{#returnType}}var response = {{/returnType}}instance.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+            //{{#returnType}}var response = {{/returnType}}instance.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
             {{#returnType}}//Assert.IsInstanceOf(typeof({{{returnType}}}), response, "response is {{{returnType}}}");{{/returnType}}
         }
         {{/operation}}{{/operations}}

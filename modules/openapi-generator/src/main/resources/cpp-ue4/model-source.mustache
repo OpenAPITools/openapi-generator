@@ -1,0 +1,160 @@
+{{>licenseInfo}}
+#include "{{classname}}.h"
+
+#include "{{unrealModuleName}}Module.h"
+#include "{{modelNamePrefix}}Helpers.h"
+
+#include "Templates/SharedPointer.h"
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} 
+{
+{{/cppNamespaceDeclarations}}
+{{#models}}{{#model}}
+{{#isEnum}}
+inline FString ToString(const {{classname}}::Values& Value)
+{
+	{{#allowableValues}}
+	switch (Value)
+	{
+	{{#enumVars}}
+	case {{classname}}::Values::{{name}}:
+		return TEXT({{{value}}});
+	{{/enumVars}}
+	}
+	{{/allowableValues}}
+
+	UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Invalid {{classname}}::Values Value (%d)"), (int)Value);	
+	return TEXT("");
+}
+
+inline FStringFormatArg ToStringFormatArg(const {{classname}}::Values& Value)
+{
+	return FStringFormatArg(ToString(Value));
+}
+
+inline void WriteJsonValue(JsonWriter& Writer, const {{classname}}::Values& Value)
+{
+	WriteJsonValue(Writer, ToString(Value));
+}
+
+inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, {{classname}}::Values& Value)
+{
+	{{#allowableValues}}
+	FString TmpValue;
+	if (JsonValue->TryGetString(TmpValue))
+	{
+		static TMap<FString, {{classname}}::Values> StringToEnum = { {{#enumVars}}
+			{ TEXT({{{value}}}), {{classname}}::Values::{{name}} },{{/enumVars}} };
+
+		const auto Found = StringToEnum.Find(TmpValue);
+		if(Found)
+		{
+			Value = *Found;
+			return true;
+		}
+	}
+	{{/allowableValues}}
+	return false;
+}
+
+{{/isEnum}}
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
+inline FString ToString(const {{classname}}::{{{enumName}}}& Value)
+{
+	{{#allowableValues}}
+	switch (Value)
+	{
+	{{#enumVars}}
+	case {{classname}}::{{{enumName}}}::{{name}}:
+		return TEXT({{{value}}});
+	{{/enumVars}}
+	}
+	{{/allowableValues}}
+
+	UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Invalid {{classname}}::{{{enumName}}} Value (%d)"), (int)Value);	
+	return TEXT("");
+}
+
+inline FStringFormatArg ToStringFormatArg(const {{classname}}::{{{enumName}}}& Value)
+{
+	return FStringFormatArg(ToString(Value));
+}
+
+inline void WriteJsonValue(JsonWriter& Writer, const {{classname}}::{{{enumName}}}& Value)
+{
+	WriteJsonValue(Writer, ToString(Value));
+}
+
+inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, {{classname}}::{{{enumName}}}& Value)
+{
+	{{#allowableValues}}
+	FString TmpValue;
+	if (JsonValue->TryGetString(TmpValue))
+	{
+		static TMap<FString, {{classname}}::{{{enumName}}}> StringToEnum = { {{#enumVars}}
+			{ TEXT({{{value}}}), {{classname}}::{{{enumName}}}::{{name}} },{{/enumVars}} };
+
+		const auto Found = StringToEnum.Find(TmpValue);
+		if(Found)
+		{
+			Value = *Found;
+			return true;
+		}
+	}
+	{{/allowableValues}}
+	return false;
+}
+
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}
+void {{classname}}::WriteJson(JsonWriter& Writer) const
+{
+	{{#isString}}
+	WriteJsonValue(Writer, Value);
+	{{/isString}}
+	{{^isString}}
+	Writer->WriteObjectStart();
+    {{#vars}}
+	{{#required}}
+	Writer->WriteIdentifierPrefix(TEXT("{{baseName}}")); WriteJsonValue(Writer, {{name}});
+	{{/required}}
+	{{^required}}
+	if ({{name}}.IsSet())
+	{
+		Writer->WriteIdentifierPrefix(TEXT("{{baseName}}")); WriteJsonValue(Writer, {{name}}.GetValue());	
+	}
+	{{/required}}
+    {{/vars}}
+	Writer->WriteObjectEnd();
+	{{/isString}}
+}
+
+bool {{classname}}::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+{
+	{{#isString}}
+	return TryGetJsonValue(JsonValue, Value);
+	{{/isString}}
+	{{^isString}}
+	const TSharedPtr<FJsonObject>* Object;
+	if (!JsonValue->TryGetObject(Object))
+		return false;
+
+	bool ParseSuccess = true;
+
+    {{#vars}}
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("{{baseName}}"), {{name}});
+    {{/vars}}
+
+	return ParseSuccess;
+	{{/isString}}
+}
+
+{{/model}}
+{{/models}}
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}

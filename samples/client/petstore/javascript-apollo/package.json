@@ -1,0 +1,24 @@
+{
+  "name": "open_api_petstore",
+  "version": "1.0.0",
+  "description": "This_is_a_sample_server_Petstore_server__For_this_sample_you_can_use_the_api_key_special_key_to_test_the_authorization_filters_",
+  "license": "Apache-2.0",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mocha --require @babel/register --recursive"
+  },
+  "browser": {
+    "fs": false
+  },
+  "dependencies": {
+    "apollo-datasource-rest": "^0.7.0"
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "mocha": "^5.2.0",
+    "sinon": "^7.2.0"
+  },
+  "files": [
+    "src"
+  ]
+}

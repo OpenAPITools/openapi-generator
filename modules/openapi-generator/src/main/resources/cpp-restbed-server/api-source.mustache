@@ -15,16 +15,21 @@ namespace {{this}} {
 using namespace {{modelNamespace}};
 
 {{classname}}::{{classname}}() {
-	{{#operation}}
-	std::shared_ptr<{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource> sp{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource = std::make_shared<{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource>();
-	this->publish(sp{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource);
-
-	{{/operation}}
 }
 
 {{classname}}::~{{classname}}() {}
 
 void {{classname}}::startService(int const& port) {
+	// A typical pattern is to derive a class from {{classname}} and allocate the shared pointers for restbed::Resource objects
+	// and manipulate them (e.g. binding GET/POST handler functions) before this startService() gets called.
+	// In such a case we want to use our m_spXXX variables.
+	// However in case these shared pointers are nullptr, then allocate the restbed::Resources now:
+	{{#operation}}
+	if (!m_sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource)
+		m_sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource = std::make_shared<{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource>();
+	this->publish(m_sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource);
+	{{/operation}}
+
 	std::shared_ptr<restbed::Settings> settings = std::make_shared<restbed::Settings>();
 	settings->set_port(port);
 	settings->set_root("{{contextPath}}");
@@ -37,40 +42,40 @@ void {{classname}}::stopService() {
 }
 
 {{#operation}}
-{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource()
+{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource()
 {
 	this->set_path("{{path}}");
 	this->set_method_handler("{{httpMethod}}",
-		std::bind(&{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMethod}}_method_handler, this,
+		std::bind(&{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::{{httpMethod}}_method_handler, this,
 			std::placeholders::_1));
-	{{#vendorExtensions.x-codegen-otherMethods}}
+	{{#vendorExtensions.x-codegen-other-methods}}
 	this->set_method_handler("{{httpMethod}}",
-		std::bind(&{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMethod}}_method_handler, this,
+		std::bind(&{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::{{httpMethod}}_method_handler, this,
 			std::placeholders::_1));
-	{{/vendorExtensions.x-codegen-otherMethods}}
+	{{/vendorExtensions.x-codegen-other-methods}}
 }
 
-{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::~{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource()
+{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::~{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource()
 {
 }
 
-void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::set_handler_{{httpMethod}}(
+void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::set_handler_{{httpMethod}}(
 	std::function<std::pair<int, std::string>(
-		{{#allParams}}{{{dataType}}} const &{{#hasMore}}, {{/hasMore}}{{/allParams}}
+		{{#allParams}}{{{dataType}}} const &{{^-last}}, {{/-last}}{{/allParams}}
 	)> handler) {
 	handler_{{httpMethod}}_ = std::move(handler);
 }
 
-{{#vendorExtensions.x-codegen-otherMethods}}
-void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::set_handler_{{httpMethod}}(
+{{#vendorExtensions.x-codegen-other-methods}}
+void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::set_handler_{{httpMethod}}(
 	std::function<std::pair<int, std::string>(
-		{{#allParams}}{{{dataType}}} const &{{#hasMore}}, {{/hasMore}}{{/allParams}}
+		{{#allParams}}{{{dataType}}} const &{{^-last}}, {{/-last}}{{/allParams}}
 	)> handler) {
 	handler_{{httpMethod}}_ = std::move(handler);
 }
-{{/vendorExtensions.x-codegen-otherMethods}}
+{{/vendorExtensions.x-codegen-other-methods}}
 
-void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMethod}}_method_handler(const std::shared_ptr<restbed::Session> session) {
+void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::{{httpMethod}}_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 	{{#hasBodyParam}}
@@ -121,7 +126,7 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 			if (handler_{{httpMethod}}_)
 			{
 				std::tie(status_code, result) = handler_{{httpMethod}}_(
-					{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}
+					{{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}
 				);
 			}
 
@@ -141,8 +146,8 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 	{{/hasBodyParam}}
 }
 
-{{#vendorExtensions.x-codegen-otherMethods}}
-void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMethod}}_method_handler(const std::shared_ptr<restbed::Session> session) {
+{{#vendorExtensions.x-codegen-other-methods}}
+void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::{{httpMethod}}_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 	{{#hasBodyParam}}
@@ -190,7 +195,7 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 			if (handler_{{httpMethod}}_)
 			{
 				std::tie(status_code, result) = handler_{{httpMethod}}_(
-					{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}
+					{{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}
 				);
 			}
 
@@ -212,7 +217,7 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 		});
 	{{/hasBodyParam}}
 }
-{{/vendorExtensions.x-codegen-otherMethods}}  
+{{/vendorExtensions.x-codegen-other-methods}}  
 
 
 {{/operation}}

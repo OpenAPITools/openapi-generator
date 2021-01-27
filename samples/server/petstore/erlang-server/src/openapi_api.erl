@@ -349,6 +349,7 @@ request_param_info('LoginUser', 'username') ->
         source => qs_val  ,
         rules => [
             {type, 'binary'},
+            {pattern, "/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/" },
             required
         ]
     };
@@ -427,6 +428,8 @@ populate_request_param(OperationID, Name, Req0, ValidatorState) ->
 ) -> ok | no_return().
 
 
+validate_response('AddPet', 200, Body, ValidatorState) ->
+    validate_response_body('Pet', 'Pet', Body, ValidatorState);
 validate_response('AddPet', 405, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
 
@@ -450,6 +453,8 @@ validate_response('GetPetById', 400, Body, ValidatorState) ->
 validate_response('GetPetById', 404, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
 
+validate_response('UpdatePet', 200, Body, ValidatorState) ->
+    validate_response_body('Pet', 'Pet', Body, ValidatorState);
 validate_response('UpdatePet', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
 validate_response('UpdatePet', 404, Body, ValidatorState) ->

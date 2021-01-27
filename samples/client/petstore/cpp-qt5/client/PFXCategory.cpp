@@ -82,12 +82,28 @@ void PFXCategory::setId(const qint64 &id) {
     this->m_id_isSet = true;
 }
 
+bool PFXCategory::is_id_Set() const{
+    return m_id_isSet;
+}
+
+bool PFXCategory::is_id_Valid() const{
+    return m_id_isValid;
+}
+
 QString PFXCategory::getName() const {
     return name;
 }
 void PFXCategory::setName(const QString &name) {
     this->name = name;
     this->m_name_isSet = true;
+}
+
+bool PFXCategory::is_name_Set() const{
+    return m_name_isSet;
+}
+
+bool PFXCategory::is_name_Valid() const{
+    return m_name_isValid;
 }
 
 bool PFXCategory::isSet() const {

@@ -50,7 +50,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
     public GraphQLNodeJSExpressServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.noneOf(
@@ -68,7 +68,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         packageName = "openapi3graphql-server";
         packageVersion = "1.0.0";
@@ -114,7 +114,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
         supportingFiles.add(new SupportingFile("schema.graphql.mustache", supportFolder, "schema.graphql"));
 
         // General stuff
-        supportingFiles.add(new SupportingFile(".gitignore", supportFolder, ".gitignore"));
+        supportingFiles.add(new SupportingFile("gitignore", supportFolder, ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", supportFolder, "README.md"));
         supportingFiles.add(new SupportingFile("package.json.mustache", supportFolder, "package.json"));
         supportingFiles.add(new SupportingFile("server.js", supportFolder, "server.js"));

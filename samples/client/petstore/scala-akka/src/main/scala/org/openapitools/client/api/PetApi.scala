@@ -127,6 +127,7 @@ class PetApi(baseUrl: String) {
 
   /**
    * Expected answers:
+   *   code 200 :  (successful operation)
    *   code 405 :  (Invalid input)
    * 
    * @param petId ID of pet that needs to be updated
@@ -138,6 +139,7 @@ class PetApi(baseUrl: String) {
       .withFormParam("name", name)
       .withFormParam("status", status)
       .withPathParam("petId", petId)
+      .withSuccessResponse[Unit](200)
       .withErrorResponse[Unit](405)
       
 

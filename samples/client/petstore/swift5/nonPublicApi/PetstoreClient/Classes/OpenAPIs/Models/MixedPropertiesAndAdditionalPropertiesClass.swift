@@ -13,7 +13,7 @@ internal struct MixedPropertiesAndAdditionalPropertiesClass: Codable {
     internal var dateTime: Date?
     internal var map: [String: Animal]?
 
-    internal init(uuid: UUID?, dateTime: Date?, map: [String: Animal]?) {
+    internal init(uuid: UUID? = nil, dateTime: Date? = nil, map: [String: Animal]? = nil) {
         self.uuid = uuid
         self.dateTime = dateTime
         self.map = map

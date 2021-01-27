@@ -9,7 +9,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+{{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
+{{/openApiNullable}}
 
 import play.libs.Json;
 import play.libs.ws.WSClient;
@@ -42,7 +44,7 @@ public class ApiClient {
 
     public ApiClient() {
         // Setup authentications (key: authentication name, value: authentication).
-        authentications = new HashMap<{{#supportJava6}}String, Authentication{{/supportJava6}}>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+        authentications = new HashMap<>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
         // authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
         // authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
@@ -60,9 +62,9 @@ public class ApiClient {
             basePath = basePath + "/";
         }
 
-        Map<String, String> extraHeaders = new HashMap<{{#supportJava6}}String, String{{/supportJava6}}>();
-        Map<String, String> extraCookies = new HashMap<{{#supportJava6}}String, String{{/supportJava6}}>();
-        List<Pair> extraQueryParams = new ArrayList<{{#supportJava6}}Pair{{/supportJava6}}>();
+        Map<String, String> extraHeaders = new HashMap<>();
+        Map<String, String> extraCookies = new HashMap<>();
+        List<Pair> extraQueryParams = new ArrayList<>();
 
         for (String authName : authentications.keySet()) {
             Authentication auth = authentications.get(authName);
@@ -72,8 +74,10 @@ public class ApiClient {
         }
 
         ObjectMapper mapper = Json.mapper();
+        {{#openApiNullable}}
         JsonNullableModule jnm = new JsonNullableModule();
         mapper.registerModule(jnm);
+        {{/openApiNullable}}
 
         return new Retrofit.Builder()
                        .baseUrl(basePath)

@@ -30,7 +30,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
@@ -98,7 +98,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
@@ -170,7 +170,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
@@ -203,7 +203,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
+ **status** | **List&lt;String&gt;**| Status values that need to be considered for filter | [enum: available, pending, sold]
 
 ### Return type
 
@@ -227,7 +227,7 @@ Name | Type | Description  | Notes
 
 ## findPetsByTags
 
-> List&lt;Pet&gt; findPetsByTags(tags)
+> Set&lt;Pet&gt; findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -241,7 +241,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
@@ -254,9 +254,9 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        List<String> tags = Arrays.asList(); // List<String> | Tags to filter by
+        Set<String> tags = Arrays.asList(); // Set<String> | Tags to filter by
         try {
-            List<Pet> result = apiInstance.findPetsByTags(tags);
+            Set<Pet> result = apiInstance.findPetsByTags(tags);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#findPetsByTags");
@@ -274,11 +274,11 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by |
+ **tags** | **List&lt;String&gt;**| Tags to filter by |
 
 ### Return type
 
-[**List&lt;Pet&gt;**](Pet.md)
+[**Set&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
@@ -312,7 +312,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
@@ -384,7 +384,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
@@ -454,7 +454,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
@@ -520,12 +520,13 @@ uploads an image
 ### Example
 
 ```java
+import java.io.File;
 // Import classes:
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
@@ -592,12 +593,13 @@ uploads an image (required)
 ### Example
 
 ```java
+import java.io.File;
 // Import classes:
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {

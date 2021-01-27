@@ -10,7 +10,16 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.ResponseBody
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request
+import okhttp3.Headers
+import okhttp3.MultipartBody
 import java.io.File
+import java.net.URLConnection
+import java.util.Date
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.OffsetDateTime
+import java.time.OffsetTime
 
 open class ApiClient(val baseUrl: String) {
     companion object {
@@ -37,17 +46,55 @@ open class ApiClient(val baseUrl: String) {
         val builder: OkHttpClient.Builder = OkHttpClient.Builder()
     }
 
+    /**
+     * Guess Content-Type header from the given file (defaults to "application/octet-stream").
+     *
+     * @param file The given file
+     * @return The guessed Content-Type
+     */
+    protected fun guessContentTypeFromFile(file: File): String {
+        val contentType = URLConnection.guessContentTypeFromName(file.name)
+        return contentType ?: "application/octet-stream"
+    }
+
     protected inline fun <reified T> requestBody(content: T, mediaType: String = JsonMediaType): RequestBody =
         when {
             content is File -> content.asRequestBody(
                 mediaType.toMediaTypeOrNull()
             )
-            mediaType == FormDataMediaType || mediaType == FormUrlEncMediaType -> {
+            mediaType == FormDataMediaType -> {
+                MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .apply {
+                        // content's type *must* be Map<String, Any?>
+                        @Suppress("UNCHECKED_CAST")
+                        (content as Map<String, Any?>).forEach { (key, value) ->
+                            if (value is File) {
+                                val partHeaders = Headers.headersOf(
+                                    "Content-Disposition",
+                                    "form-data; name=\"$key\"; filename=\"${value.name}\""
+                                )
+                                val fileMediaType = guessContentTypeFromFile(value).toMediaTypeOrNull()
+                                addPart(partHeaders, value.asRequestBody(fileMediaType))
+                            } else {
+                                val partHeaders = Headers.headersOf(
+                                    "Content-Disposition",
+                                    "form-data; name=\"$key\""
+                                )
+                                addPart(
+                                    partHeaders,
+                                    parameterToString(value).toRequestBody(null)
+                                )
+                            }
+                        }
+                    }.build()
+            }
+            mediaType == FormUrlEncMediaType -> {
                 FormBody.Builder().apply {
-                    // content's type *must* be Map<String, Any>
+                    // content's type *must* be Map<String, Any?>
                     @Suppress("UNCHECKED_CAST")
-                    (content as Map<String,String>).forEach { (key, value) ->
-                        add(key, value)
+                    (content as Map<String, Any?>).forEach { (key, value) ->
+                        add(key, parameterToString(value))
                     }
                 }.build()
             }
@@ -139,12 +186,13 @@ open class ApiClient(val baseUrl: String) {
                     response.headers.toMultimap()
             )
             response.isClientError -> return ClientError(
+                    response.message,
                     response.body?.string(),
                     response.code,
                     response.headers.toMultimap()
             )
             else -> return ServerError(
-                    null,
+                    response.message,
                     response.body?.string(),
                     response.code,
                     response.headers.toMultimap()
@@ -152,7 +200,33 @@ open class ApiClient(val baseUrl: String) {
         }
     }
 
+    protected fun parameterToString(value: Any?): String {
+        when (value) {
+            null -> {
+                return ""
+            }
+            is Array<*> -> {
+                return toMultiValue(value, "csv").toString()
+            }
+            is Iterable<*> -> {
+                return toMultiValue(value, "csv").toString()
+            }
+            is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime, is Date -> {
+                return parseDateToQueryString<Any>(value)
+            }
+            else -> {
+                return value.toString()
+            }
+        }
+    }
+
     protected inline fun <reified T: Any> parseDateToQueryString(value : T): String {
-        return value.toString()
+        /*
+        .replace("\"", "") converts the json object string to an actual string for the query parameter.
+        The moshi or gson adapter allows a more generic solution instead of trying to use a native
+        formatter. It also easily allows to provide a simple way to define a custom date format pattern
+        inside a gson/moshi adapter.
+        */
+        return Serializer.moshi.adapter(T::class.java).toJson(value).replace("\"", "")
     }
 }

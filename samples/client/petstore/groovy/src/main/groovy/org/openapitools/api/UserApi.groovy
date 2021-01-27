@@ -9,7 +9,7 @@ class UserApi {
     String versionPath = ""
     ApiUtils apiUtils = new ApiUtils();
 
-    def createUser ( User body, Closure onSuccess, Closure onFailure)  {
+    def createUser ( User user, Closure onSuccess, Closure onFailure)  {
         String resourcePath = "/user"
 
         // params
@@ -19,14 +19,14 @@ class UserApi {
         def contentType
 
         // verify required params are set
-        if (body == null) {
-            throw new RuntimeException("missing required params body")
+        if (user == null) {
+            throw new RuntimeException("missing required params user")
         }
 
 
 
         contentType = 'application/json';
-        bodyParams = body
+        bodyParams = user
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -35,7 +35,7 @@ class UserApi {
 
     }
 
-    def createUsersWithArrayInput ( List<User> body, Closure onSuccess, Closure onFailure)  {
+    def createUsersWithArrayInput ( List<User> user, Closure onSuccess, Closure onFailure)  {
         String resourcePath = "/user/createWithArray"
 
         // params
@@ -45,14 +45,14 @@ class UserApi {
         def contentType
 
         // verify required params are set
-        if (body == null) {
-            throw new RuntimeException("missing required params body")
+        if (user == null) {
+            throw new RuntimeException("missing required params user")
         }
 
 
 
         contentType = 'application/json';
-        bodyParams = body
+        bodyParams = user
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -61,7 +61,7 @@ class UserApi {
 
     }
 
-    def createUsersWithListInput ( List<User> body, Closure onSuccess, Closure onFailure)  {
+    def createUsersWithListInput ( List<User> user, Closure onSuccess, Closure onFailure)  {
         String resourcePath = "/user/createWithList"
 
         // params
@@ -71,14 +71,14 @@ class UserApi {
         def contentType
 
         // verify required params are set
-        if (body == null) {
-            throw new RuntimeException("missing required params body")
+        if (user == null) {
+            throw new RuntimeException("missing required params user")
         }
 
 
 
         contentType = 'application/json';
-        bodyParams = body
+        bodyParams = user
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -189,7 +189,7 @@ class UserApi {
 
     }
 
-    def updateUser ( String username, User body, Closure onSuccess, Closure onFailure)  {
+    def updateUser ( String username, User user, Closure onSuccess, Closure onFailure)  {
         String resourcePath = "/user/${username}"
 
         // params
@@ -203,14 +203,14 @@ class UserApi {
             throw new RuntimeException("missing required params username")
         }
         // verify required params are set
-        if (body == null) {
-            throw new RuntimeException("missing required params body")
+        if (user == null) {
+            throw new RuntimeException("missing required params user")
         }
 
 
 
         contentType = 'application/json';
-        bodyParams = body
+        bodyParams = user
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,

@@ -17,15 +17,24 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 import java.io.File;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.ClientModificationFeature;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.ParameterFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
 
 
 public class GroovyClientCodegen extends AbstractJavaCodegen {
@@ -33,7 +42,7 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
     public GroovyClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -52,7 +61,7 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-                .build();
+        );
 
         // avoid importing the following as models
         languageSpecificPrimitives.add("Date");
@@ -60,6 +69,7 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
         languageSpecificPrimitives.add("File");
         languageSpecificPrimitives.add("Map");
 
+        // this must not be OS-specific
         sourceFolder = projectFolder + "/groovy";
         outputFolder = "generated-code/groovy";
         modelTemplateFiles.put("model.mustache", ".groovy");

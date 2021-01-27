@@ -3,6 +3,8 @@ title: Config Options for kotlin-server
 sidebar_label: kotlin-server
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |apiSuffix|suffix for api classes| |Api|
@@ -20,7 +22,7 @@ sidebar_label: kotlin-server
 |packageName|Generated artifact package name.| |org.openapitools.server|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
-|serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson'| |moshi|
+|serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson' or 'jackson'| |moshi|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
@@ -45,9 +47,9 @@ sidebar_label: kotlin-server
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
-|array|kotlin.arrayOf|
-|list|kotlin.arrayOf|
-|map|kotlin.mapOf|
+|array|kotlin.collections.ArrayList|
+|list|kotlin.collections.ArrayList|
+|map|kotlin.collections.HashMap|
 
 
 ## LANGUAGE PRIMITIVES
@@ -111,6 +113,7 @@ sidebar_label: kotlin-server
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

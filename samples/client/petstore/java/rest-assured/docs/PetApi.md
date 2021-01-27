@@ -140,7 +140,7 @@ Name | Type | Description  | Notes
 
 <a name="findPetsByTags"></a>
 # **findPetsByTags**
-> List&lt;Pet&gt; findPetsByTags(tags)
+> Set&lt;Pet&gt; findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -165,11 +165,11 @@ api.findPetsByTags()
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | [default to new ArrayList&lt;String&gt;()]
+ **tags** | [**Set&lt;String&gt;**](String.md)| Tags to filter by | [default to new LinkedHashSet&lt;String&gt;()]
 
 ### Return type
 
-[**List&lt;Pet&gt;**](Pet.md)
+[**Set&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 

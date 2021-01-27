@@ -2,7 +2,7 @@
 /**
  * Order
  *
- * PHP version 5
+ * PHP version 7.1.3
  *
  * @category Class
  * @package  OpenAPI\Server\Model
@@ -185,7 +185,7 @@ class Order
      *
      * @return \DateTime|null
      */
-    public function getShipDate()
+    public function getShipDate(): ?\DateTime
     {
         return $this->shipDate;
     }

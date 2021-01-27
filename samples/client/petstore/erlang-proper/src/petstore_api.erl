@@ -21,7 +21,7 @@ create_user(PetstoreUser) ->
   Host        = application:get_env(petstore, host, "http://localhost:8080"),
   Path        = ["/user"],
   Body        = PetstoreUser,
-  ContentType = "text/plain",
+  ContentType = hd(["application/json"]),
 
   petstore_utils:request(Method, [Host, ?BASE_URL, Path], jsx:encode(Body), ContentType).
 
@@ -34,7 +34,7 @@ create_users_with_array_input(PetstoreUserArray) ->
   Host        = application:get_env(petstore, host, "http://localhost:8080"),
   Path        = ["/user/createWithArray"],
   Body        = PetstoreUserArray,
-  ContentType = "text/plain",
+  ContentType = hd(["application/json"]),
 
   petstore_utils:request(Method, [Host, ?BASE_URL, Path], jsx:encode(Body), ContentType).
 
@@ -47,7 +47,7 @@ create_users_with_list_input(PetstoreUserArray) ->
   Host        = application:get_env(petstore, host, "http://localhost:8080"),
   Path        = ["/user/createWithList"],
   Body        = PetstoreUserArray,
-  ContentType = "text/plain",
+  ContentType = hd(["application/json"]),
 
   petstore_utils:request(Method, [Host, ?BASE_URL, Path], jsx:encode(Body), ContentType).
 
@@ -105,7 +105,7 @@ update_user(Username, PetstoreUser) ->
   Host        = application:get_env(petstore, host, "http://localhost:8080"),
   Path        = ["/user/", Username, ""],
   Body        = PetstoreUser,
-  ContentType = "text/plain",
+  ContentType = hd(["application/json"]),
 
   petstore_utils:request(Method, [Host, ?BASE_URL, Path], jsx:encode(Body), ContentType).
 

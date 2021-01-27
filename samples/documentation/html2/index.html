@@ -155,6 +155,36 @@ h={};g()}};typeof define==="function"&&define.amd&&define("google-code-prettify"
       //Convert elements with "marked" class to markdown
       processMarked();
     });
+
+    function findNode(id, currentNode) {
+        var currentChild,
+            result;
+
+        if ( Object.keys(currentNode)[0] == id) {
+            return currentNode;
+        } else {
+            // Use a for loop instead of forEach to avoid nested functions
+            // Otherwise "return" will not work properly
+            for(var propt in currentNode){
+                if (currentNode.hasOwnProperty(propt)) {
+                    currentChild = currentNode[propt]
+                    if (id == propt) {
+                        return currentChild;
+                    } else {
+                        // Search in the current child
+                        if (typeof(currentChild) === 'object') {
+                            result = findNode(id, currentChild);
+                            if (result != false) {
+                                return result;
+                            }
+                        }
+                    }
+                }
+            }
+            // The node has not been found and we have no more options
+           return false;
+        }
+    }
   </script>
   <style type="text/css">
     @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
@@ -842,12 +872,40 @@ ul.nav-tabs {
       "format" : "int64"
     },
     "name" : {
+      "pattern" : "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$",
       "type" : "string"
     }
   },
   "description" : "A category for a pet",
   "xml" : {
     "name" : "Category"
+  }
+};
+    defs["inline_object"] = {
+  "type" : "object",
+  "properties" : {
+    "name" : {
+      "type" : "string",
+      "description" : "Updated name of the pet"
+    },
+    "status" : {
+      "type" : "string",
+      "description" : "Updated status of the pet"
+    }
+  }
+};
+    defs["inline_object_1"] = {
+  "type" : "object",
+  "properties" : {
+    "additionalMetadata" : {
+      "type" : "string",
+      "description" : "Additional data to pass to server"
+    },
+    "file" : {
+      "type" : "string",
+      "description" : "file to upload",
+      "format" : "binary"
+    }
   }
 };
     defs["Order"] = {
@@ -1123,7 +1181,11 @@ ul.nav-tabs {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-addPet-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/pet"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+\
+ -H "Accept: application/xml,application/json"\
+ -H "Content-Type: application/json,application/xml"\
+ "http://petstore.swagger.io/v2/pet"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-addPet-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -1135,36 +1197,40 @@ import java.io.File;
 import java.util.*;
 
 public class PetApiExample {
-
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
-
+        
+        // Create an instance of the API class
         PetApi apiInstance = new PetApi();
         Pet pet = ; // Pet | 
+        
         try {
-            apiInstance.addPet(pet);
+            Pet result = apiInstance.addPet(pet);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#addPet");
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-addPet-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.PetApi;
 
 public class PetApiExample {
-
     public static void main(String[] args) {
         PetApi apiInstance = new PetApi();
         Pet pet = ; // Pet | 
+        
         try {
-            apiInstance.addPet(pet);
+            Pet result = apiInstance.addPet(pet);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#addPet");
             e.printStackTrace();
@@ -1182,17 +1248,21 @@ public class PetApiExample {
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
-Pet *pet = ; // 
 
+// Create an instance of the API class
 PetApi *apiInstance = [[PetApi alloc] init];
+Pet *pet = ; // 
 
 // Add a new pet to the store
 [apiInstance addPetWith:pet
-              completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+              completionHandler: ^(Pet output, NSError* error) {
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
@@ -1202,8 +1272,9 @@ var defaultClient = OpenApiPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
-petstore_auth.accessToken = "YOUR ACCESS TOKEN"
+petstore_auth.accessToken = "YOUR ACCESS TOKEN";
 
+// Create an instance of the API class
 var api = new OpenApiPetstore.PetApi()
 var pet = ; // {Pet} 
 
@@ -1211,7 +1282,7 @@ var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully.');
+    console.log('API called successfully. Returned data: ' + data);
   }
 };
 api.addPet(pet, callback);
@@ -1234,20 +1305,18 @@ namespace Example
     {
         public void main()
         {
-            
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
-
+            
+            // Create an instance of the API class
             var apiInstance = new PetApi();
             var pet = new Pet(); // Pet | 
 
-            try
-            {
+            try {
                 // Add a new pet to the store
-                apiInstance.addPet(pet);
-            }
-            catch (Exception e)
-            {
+                Pet result = apiInstance.addPet(pet);
+                Debug.WriteLine(result);
+            } catch (Exception e) {
                 Debug.Print("Exception when calling PetApi.addPet: " + e.Message );
             }
         }
@@ -1263,11 +1332,13 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: petstore_auth
 OpenAPITools\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\PetApi();
 $pet = ; // Pet | 
 
 try {
-    $api_instance->addPet($pet);
+    $result = $api_instance->addPet($pet);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->addPet: ', $e->getMessage(), PHP_EOL;
 }
@@ -1282,11 +1353,13 @@ use WWW::OPenAPIClient::PetApi;
 # Configure OAuth2 access token for authorization: petstore_auth
 $WWW::OPenAPIClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::PetApi->new();
 my $pet = WWW::OPenAPIClient::Object::Pet->new(); # Pet | 
 
 eval { 
-    $api_instance->addPet(pet => $pet);
+    my $result = $api_instance->addPet(pet => $pet);
+    print Dumper($result);
 };
 if ($@) {
     warn "Exception when calling PetApi->addPet: $@\n";
@@ -1303,13 +1376,14 @@ from pprint import pprint
 # Configure OAuth2 access token for authorization: petstore_auth
 openapi_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = openapi_client.PetApi()
 pet =  # Pet | 
 
 try: 
     # Add a new pet to the store
-    api_instance.add_pet(pet)
+    api_response = api_instance.add_pet(pet)
+    pprint(api_response)
 except ApiException as e:
     print("Exception when calling PetApi->addPet: %s\n" % e)</code></pre>
                             </div>
@@ -1322,8 +1396,8 @@ pub fn main() {
 
     let mut context = PetApi::Context::default();
     let result = client.addPet(pet, &context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -1359,8 +1433,27 @@ pub fn main() {
 <p class="marked">Pet object that needs to be added to the store</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
-  var schema = schemaWrapper.schema;
+  var schemaWrapper = {
+  "description" : "Pet object that needs to be added to the store",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    },
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    }
+  },
+  "required" : true
+};
+
+  var schema = findNode('schema',schemaWrapper).schema;
+  if (!schema) {
+    schema = schemaWrapper.schema;
+  }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
   } else {
@@ -1385,6 +1478,77 @@ $(document).ready(function() {
 
 
                           <h2>Responses</h2>
+                            <h3 id="examples-Pet-addPet-title-200"></h3>
+                            <p id="examples-Pet-addPet-description-200" class="marked"></p>
+                            <script>
+                              var responsePet200_description = `successful operation`;
+                              var responsePet200_description_break = responsePet200_description.indexOf('\n');
+                              if (responsePet200_description_break == -1) {
+                                $("#examples-Pet-addPet-title-200").text("Status: 200 - " + responsePet200_description);
+                              } else {
+                                $("#examples-Pet-addPet-title-200").text("Status: 200 - " + responsePet200_description.substring(0, responsePet200_description_break));
+                                $("#examples-Pet-addPet-description-200").html(responsePet200_description.substring(responsePet200_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-Pet-addPet-200" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-Pet-addPet-200-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-Pet-addPet-200-wrapper" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-Pet-addPet-200-schema">
+                                  <div id="responses-Pet-addPet-schema-200" class="exampleStyle">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    }
+  }
+};
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                          schema = schemaWrapper.schema;
+                                        }
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-Pet-addPet-200-schema-data').val(JSON.stringify(schema));
+                                        var result = $('#responses-Pet-addPet-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-Pet-addPet-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
                             <h3 id="examples-Pet-addPet-title-405"></h3>
                             <p id="examples-Pet-addPet-description-405" class="marked"></p>
                             <script>
@@ -1443,7 +1607,9 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-deletePet-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE\
+\
+ "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-deletePet-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -1455,17 +1621,18 @@ import java.io.File;
 import java.util.*;
 
 public class PetApiExample {
-
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
-
+        
+        // Create an instance of the API class
         PetApi apiInstance = new PetApi();
         Long petId = 789; // Long | Pet id to delete
         String apiKey = apiKey_example; // String | 
+        
         try {
             apiInstance.deletePet(petId, apiKey);
         } catch (ApiException e) {
@@ -1473,18 +1640,19 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-deletePet-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.PetApi;
 
 public class PetApiExample {
-
     public static void main(String[] args) {
         PetApi apiInstance = new PetApi();
         Long petId = 789; // Long | Pet id to delete
         String apiKey = apiKey_example; // String | 
+        
         try {
             apiInstance.deletePet(petId, apiKey);
         } catch (ApiException e) {
@@ -1504,19 +1672,20 @@ public class PetApiExample {
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
-Long *petId = 789; // Pet id to delete
-String *apiKey = apiKey_example; //  (optional)
 
+// Create an instance of the API class
 PetApi *apiInstance = [[PetApi alloc] init];
+Long *petId = 789; // Pet id to delete (default to null)
+String *apiKey = apiKey_example; //  (optional) (default to null)
 
 // Deletes a pet
 [apiInstance deletePetWith:petId
     apiKey:apiKey
               completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
@@ -1526,8 +1695,9 @@ var defaultClient = OpenApiPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
-petstore_auth.accessToken = "YOUR ACCESS TOKEN"
+petstore_auth.accessToken = "YOUR ACCESS TOKEN";
 
+// Create an instance of the API class
 var api = new OpenApiPetstore.PetApi()
 var petId = 789; // {Long} Pet id to delete
 var opts = {
@@ -1561,21 +1731,18 @@ namespace Example
     {
         public void main()
         {
-            
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
-
+            
+            // Create an instance of the API class
             var apiInstance = new PetApi();
-            var petId = 789;  // Long | Pet id to delete
-            var apiKey = apiKey_example;  // String |  (optional) 
+            var petId = 789;  // Long | Pet id to delete (default to null)
+            var apiKey = apiKey_example;  // String |  (optional)  (default to null)
 
-            try
-            {
+            try {
                 // Deletes a pet
                 apiInstance.deletePet(petId, apiKey);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Debug.Print("Exception when calling PetApi.deletePet: " + e.Message );
             }
         }
@@ -1591,6 +1758,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: petstore_auth
 OpenAPITools\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\PetApi();
 $petId = 789; // Long | Pet id to delete
 $apiKey = apiKey_example; // String | 
@@ -1611,6 +1779,7 @@ use WWW::OPenAPIClient::PetApi;
 # Configure OAuth2 access token for authorization: petstore_auth
 $WWW::OPenAPIClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::PetApi->new();
 my $petId = 789; # Long | Pet id to delete
 my $apiKey = apiKey_example; # String | 
@@ -1633,10 +1802,10 @@ from pprint import pprint
 # Configure OAuth2 access token for authorization: petstore_auth
 openapi_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = openapi_client.PetApi()
-petId = 789 # Long | Pet id to delete
-apiKey = apiKey_example # String |  (optional)
+petId = 789 # Long | Pet id to delete (default to null)
+apiKey = apiKey_example # String |  (optional) (default to null)
 
 try: 
     # Deletes a pet
@@ -1654,8 +1823,8 @@ pub fn main() {
 
     let mut context = PetApi::Context::default();
     let result = client.deletePet(petId, apiKey, &context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -1799,7 +1968,10 @@ Pet id to delete
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-findPetsByStatus-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v2/pet/findByStatus?status="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+\
+ -H "Accept: application/xml,application/json"\
+ "http://petstore.swagger.io/v2/pet/findByStatus?status="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-findPetsByStatus-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -1811,16 +1983,17 @@ import java.io.File;
 import java.util.*;
 
 public class PetApiExample {
-
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
-
+        
+        // Create an instance of the API class
         PetApi apiInstance = new PetApi();
         array[String] status = ; // array[String] | Status values that need to be considered for filter
+        
         try {
             array[Pet] result = apiInstance.findPetsByStatus(status);
             System.out.println(result);
@@ -1829,17 +2002,18 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-findPetsByStatus-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.PetApi;
 
 public class PetApiExample {
-
     public static void main(String[] args) {
         PetApi apiInstance = new PetApi();
         array[String] status = ; // array[String] | Status values that need to be considered for filter
+        
         try {
             array[Pet] result = apiInstance.findPetsByStatus(status);
             System.out.println(result);
@@ -1860,20 +2034,21 @@ public class PetApiExample {
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
-array[String] *status = ; // Status values that need to be considered for filter
 
+// Create an instance of the API class
 PetApi *apiInstance = [[PetApi alloc] init];
+array[String] *status = ; // Status values that need to be considered for filter (default to null)
 
 // Finds Pets by status
 [apiInstance findPetsByStatusWith:status
               completionHandler: ^(array[Pet] output, NSError* error) {
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
@@ -1883,8 +2058,9 @@ var defaultClient = OpenApiPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
-petstore_auth.accessToken = "YOUR ACCESS TOKEN"
+petstore_auth.accessToken = "YOUR ACCESS TOKEN";
 
+// Create an instance of the API class
 var api = new OpenApiPetstore.PetApi()
 var status = ; // {array[String]} Status values that need to be considered for filter
 
@@ -1915,21 +2091,18 @@ namespace Example
     {
         public void main()
         {
-            
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
-
+            
+            // Create an instance of the API class
             var apiInstance = new PetApi();
-            var status = new array[String](); // array[String] | Status values that need to be considered for filter
+            var status = new array[String](); // array[String] | Status values that need to be considered for filter (default to null)
 
-            try
-            {
+            try {
                 // Finds Pets by status
                 array[Pet] result = apiInstance.findPetsByStatus(status);
                 Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Debug.Print("Exception when calling PetApi.findPetsByStatus: " + e.Message );
             }
         }
@@ -1945,6 +2118,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: petstore_auth
 OpenAPITools\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\PetApi();
 $status = ; // array[String] | Status values that need to be considered for filter
 
@@ -1965,6 +2139,7 @@ use WWW::OPenAPIClient::PetApi;
 # Configure OAuth2 access token for authorization: petstore_auth
 $WWW::OPenAPIClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::PetApi->new();
 my $status = []; # array[String] | Status values that need to be considered for filter
 
@@ -1987,9 +2162,9 @@ from pprint import pprint
 # Configure OAuth2 access token for authorization: petstore_auth
 openapi_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = openapi_client.PetApi()
-status =  # array[String] | Status values that need to be considered for filter
+status =  # array[String] | Status values that need to be considered for filter (default to null)
 
 try: 
     # Finds Pets by status
@@ -2007,8 +2182,8 @@ pub fn main() {
 
     let mut context = PetApi::Context::default();
     let result = client.findPetsByStatus(status, &context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -2016,11 +2191,6 @@ pub fn main() {
 
                           <h2>Scopes</h2>
                           <table>
-                            
-                              <tr>
-                                <td>write:pets</td>
-                                <td>modify pets in your account</td>
-                              </tr>
                             
                               <tr>
                                 <td>read:pets</td>
@@ -2118,9 +2288,14 @@ Status values that need to be considered for filter
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                          schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
                                         } else {
                                           schemaWrapper.definitions = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -2197,7 +2372,10 @@ Status values that need to be considered for filter
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-findPetsByTags-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v2/pet/findByTags?tags="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+\
+ -H "Accept: application/xml,application/json"\
+ "http://petstore.swagger.io/v2/pet/findByTags?tags="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-findPetsByTags-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -2209,16 +2387,17 @@ import java.io.File;
 import java.util.*;
 
 public class PetApiExample {
-
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
-
+        
+        // Create an instance of the API class
         PetApi apiInstance = new PetApi();
         array[String] tags = ; // array[String] | Tags to filter by
+        
         try {
             array[Pet] result = apiInstance.findPetsByTags(tags);
             System.out.println(result);
@@ -2227,17 +2406,18 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-findPetsByTags-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.PetApi;
 
 public class PetApiExample {
-
     public static void main(String[] args) {
         PetApi apiInstance = new PetApi();
         array[String] tags = ; // array[String] | Tags to filter by
+        
         try {
             array[Pet] result = apiInstance.findPetsByTags(tags);
             System.out.println(result);
@@ -2258,20 +2438,21 @@ public class PetApiExample {
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
-array[String] *tags = ; // Tags to filter by
 
+// Create an instance of the API class
 PetApi *apiInstance = [[PetApi alloc] init];
+array[String] *tags = ; // Tags to filter by (default to null)
 
 // Finds Pets by tags
 [apiInstance findPetsByTagsWith:tags
               completionHandler: ^(array[Pet] output, NSError* error) {
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
@@ -2281,8 +2462,9 @@ var defaultClient = OpenApiPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
-petstore_auth.accessToken = "YOUR ACCESS TOKEN"
+petstore_auth.accessToken = "YOUR ACCESS TOKEN";
 
+// Create an instance of the API class
 var api = new OpenApiPetstore.PetApi()
 var tags = ; // {array[String]} Tags to filter by
 
@@ -2313,21 +2495,18 @@ namespace Example
     {
         public void main()
         {
-            
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
-
+            
+            // Create an instance of the API class
             var apiInstance = new PetApi();
-            var tags = new array[String](); // array[String] | Tags to filter by
+            var tags = new array[String](); // array[String] | Tags to filter by (default to null)
 
-            try
-            {
+            try {
                 // Finds Pets by tags
                 array[Pet] result = apiInstance.findPetsByTags(tags);
                 Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Debug.Print("Exception when calling PetApi.findPetsByTags: " + e.Message );
             }
         }
@@ -2343,6 +2522,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: petstore_auth
 OpenAPITools\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\PetApi();
 $tags = ; // array[String] | Tags to filter by
 
@@ -2363,6 +2543,7 @@ use WWW::OPenAPIClient::PetApi;
 # Configure OAuth2 access token for authorization: petstore_auth
 $WWW::OPenAPIClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::PetApi->new();
 my $tags = []; # array[String] | Tags to filter by
 
@@ -2385,9 +2566,9 @@ from pprint import pprint
 # Configure OAuth2 access token for authorization: petstore_auth
 openapi_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = openapi_client.PetApi()
-tags =  # array[String] | Tags to filter by
+tags =  # array[String] | Tags to filter by (default to null)
 
 try: 
     # Finds Pets by tags
@@ -2405,8 +2586,8 @@ pub fn main() {
 
     let mut context = PetApi::Context::default();
     let result = client.findPetsByTags(tags, &context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -2414,11 +2595,6 @@ pub fn main() {
 
                           <h2>Scopes</h2>
                           <table>
-                            
-                              <tr>
-                                <td>write:pets</td>
-                                <td>modify pets in your account</td>
-                              </tr>
                             
                               <tr>
                                 <td>read:pets</td>
@@ -2516,9 +2692,14 @@ Tags to filter by
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                          schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
                                         } else {
                                           schemaWrapper.definitions = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -2595,7 +2776,10 @@ Tags to filter by
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-getPetById-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET -H "api_key: [[apiKey]]" "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+-H "api_key: [[apiKey]]"\
+ -H "Accept: application/xml,application/json"\
+ "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-getPetById-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -2607,7 +2791,6 @@ import java.io.File;
 import java.util.*;
 
 public class PetApiExample {
-
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         
@@ -2616,9 +2799,11 @@ public class PetApiExample {
         api_key.setApiKey("YOUR API KEY");
         // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
         //api_key.setApiKeyPrefix("Token");
-
+        
+        // Create an instance of the API class
         PetApi apiInstance = new PetApi();
         Long petId = 789; // Long | ID of pet to return
+        
         try {
             Pet result = apiInstance.getPetById(petId);
             System.out.println(result);
@@ -2627,17 +2812,18 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-getPetById-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.PetApi;
 
 public class PetApiExample {
-
     public static void main(String[] args) {
         PetApi apiInstance = new PetApi();
         Long petId = 789; // Long | ID of pet to return
+        
         try {
             Pet result = apiInstance.getPetById(petId);
             System.out.println(result);
@@ -2660,20 +2846,21 @@ public class PetApiExample {
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
 
-Long *petId = 789; // ID of pet to return
 
+// Create an instance of the API class
 PetApi *apiInstance = [[PetApi alloc] init];
+Long *petId = 789; // ID of pet to return (default to null)
 
 // Find pet by ID
 [apiInstance getPetByIdWith:petId
               completionHandler: ^(Pet output, NSError* error) {
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
@@ -2683,10 +2870,11 @@ var defaultClient = OpenApiPetstore.ApiClient.instance;
 
 // Configure API key authorization: api_key
 var api_key = defaultClient.authentications['api_key'];
-api_key.apiKey = "YOUR API KEY"
+api_key.apiKey = "YOUR API KEY";
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//api_key.apiKeyPrefix['api_key'] = "Token"
+//api_key.apiKeyPrefix['api_key'] = "Token";
 
+// Create an instance of the API class
 var api = new OpenApiPetstore.PetApi()
 var petId = 789; // {Long} ID of pet to return
 
@@ -2717,23 +2905,20 @@ namespace Example
     {
         public void main()
         {
-            
             // Configure API key authorization: api_key
             Configuration.Default.ApiKey.Add("api_key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
             // Configuration.Default.ApiKeyPrefix.Add("api_key", "Bearer");
-
+            
+            // Create an instance of the API class
             var apiInstance = new PetApi();
-            var petId = 789;  // Long | ID of pet to return
+            var petId = 789;  // Long | ID of pet to return (default to null)
 
-            try
-            {
+            try {
                 // Find pet by ID
                 Pet result = apiInstance.getPetById(petId);
                 Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Debug.Print("Exception when calling PetApi.getPetById: " + e.Message );
             }
         }
@@ -2751,6 +2936,7 @@ OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 // OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
 
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\PetApi();
 $petId = 789; // Long | ID of pet to return
 
@@ -2773,6 +2959,7 @@ $WWW::OPenAPIClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$WWW::OPenAPIClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
 
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::PetApi->new();
 my $petId = 789; # Long | ID of pet to return
 
@@ -2797,9 +2984,9 @@ openapi_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # openapi_client.configuration.api_key_prefix['api_key'] = 'Bearer'
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = openapi_client.PetApi()
-petId = 789 # Long | ID of pet to return
+petId = 789 # Long | ID of pet to return (default to null)
 
 try: 
     # Find pet by ID
@@ -2817,8 +3004,8 @@ pub fn main() {
 
     let mut context = PetApi::Context::default();
     let result = client.getPetById(petId, &context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -2915,9 +3102,14 @@ ID of pet to return
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                          schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
                                         } else {
                                           schemaWrapper.definitions = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -3016,7 +3208,11 @@ ID of pet to return
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-updatePet-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT "http://petstore.swagger.io/v2/pet"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT\
+\
+ -H "Accept: application/xml,application/json"\
+ -H "Content-Type: application/json,application/xml"\
+ "http://petstore.swagger.io/v2/pet"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-updatePet-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -3028,36 +3224,40 @@ import java.io.File;
 import java.util.*;
 
 public class PetApiExample {
-
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
-
+        
+        // Create an instance of the API class
         PetApi apiInstance = new PetApi();
         Pet pet = ; // Pet | 
+        
         try {
-            apiInstance.updatePet(pet);
+            Pet result = apiInstance.updatePet(pet);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#updatePet");
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-updatePet-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.PetApi;
 
 public class PetApiExample {
-
     public static void main(String[] args) {
         PetApi apiInstance = new PetApi();
         Pet pet = ; // Pet | 
+        
         try {
-            apiInstance.updatePet(pet);
+            Pet result = apiInstance.updatePet(pet);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#updatePet");
             e.printStackTrace();
@@ -3075,17 +3275,21 @@ public class PetApiExample {
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
-Pet *pet = ; // 
 
+// Create an instance of the API class
 PetApi *apiInstance = [[PetApi alloc] init];
+Pet *pet = ; // 
 
 // Update an existing pet
 [apiInstance updatePetWith:pet
-              completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+              completionHandler: ^(Pet output, NSError* error) {
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
@@ -3095,8 +3299,9 @@ var defaultClient = OpenApiPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
-petstore_auth.accessToken = "YOUR ACCESS TOKEN"
+petstore_auth.accessToken = "YOUR ACCESS TOKEN";
 
+// Create an instance of the API class
 var api = new OpenApiPetstore.PetApi()
 var pet = ; // {Pet} 
 
@@ -3104,7 +3309,7 @@ var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully.');
+    console.log('API called successfully. Returned data: ' + data);
   }
 };
 api.updatePet(pet, callback);
@@ -3127,20 +3332,18 @@ namespace Example
     {
         public void main()
         {
-            
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
-
+            
+            // Create an instance of the API class
             var apiInstance = new PetApi();
             var pet = new Pet(); // Pet | 
 
-            try
-            {
+            try {
                 // Update an existing pet
-                apiInstance.updatePet(pet);
-            }
-            catch (Exception e)
-            {
+                Pet result = apiInstance.updatePet(pet);
+                Debug.WriteLine(result);
+            } catch (Exception e) {
                 Debug.Print("Exception when calling PetApi.updatePet: " + e.Message );
             }
         }
@@ -3156,11 +3359,13 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: petstore_auth
 OpenAPITools\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\PetApi();
 $pet = ; // Pet | 
 
 try {
-    $api_instance->updatePet($pet);
+    $result = $api_instance->updatePet($pet);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->updatePet: ', $e->getMessage(), PHP_EOL;
 }
@@ -3175,11 +3380,13 @@ use WWW::OPenAPIClient::PetApi;
 # Configure OAuth2 access token for authorization: petstore_auth
 $WWW::OPenAPIClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::PetApi->new();
 my $pet = WWW::OPenAPIClient::Object::Pet->new(); # Pet | 
 
 eval { 
-    $api_instance->updatePet(pet => $pet);
+    my $result = $api_instance->updatePet(pet => $pet);
+    print Dumper($result);
 };
 if ($@) {
     warn "Exception when calling PetApi->updatePet: $@\n";
@@ -3196,13 +3403,14 @@ from pprint import pprint
 # Configure OAuth2 access token for authorization: petstore_auth
 openapi_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = openapi_client.PetApi()
 pet =  # Pet | 
 
 try: 
     # Update an existing pet
-    api_instance.update_pet(pet)
+    api_response = api_instance.update_pet(pet)
+    pprint(api_response)
 except ApiException as e:
     print("Exception when calling PetApi->updatePet: %s\n" % e)</code></pre>
                             </div>
@@ -3215,8 +3423,8 @@ pub fn main() {
 
     let mut context = PetApi::Context::default();
     let result = client.updatePet(pet, &context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -3252,8 +3460,27 @@ pub fn main() {
 <p class="marked">Pet object that needs to be added to the store</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
-  var schema = schemaWrapper.schema;
+  var schemaWrapper = {
+  "description" : "Pet object that needs to be added to the store",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    },
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    }
+  },
+  "required" : true
+};
+
+  var schema = findNode('schema',schemaWrapper).schema;
+  if (!schema) {
+    schema = schemaWrapper.schema;
+  }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
   } else {
@@ -3278,6 +3505,77 @@ $(document).ready(function() {
 
 
                           <h2>Responses</h2>
+                            <h3 id="examples-Pet-updatePet-title-200"></h3>
+                            <p id="examples-Pet-updatePet-description-200" class="marked"></p>
+                            <script>
+                              var responsePet200_description = `successful operation`;
+                              var responsePet200_description_break = responsePet200_description.indexOf('\n');
+                              if (responsePet200_description_break == -1) {
+                                $("#examples-Pet-updatePet-title-200").text("Status: 200 - " + responsePet200_description);
+                              } else {
+                                $("#examples-Pet-updatePet-title-200").text("Status: 200 - " + responsePet200_description.substring(0, responsePet200_description_break));
+                                $("#examples-Pet-updatePet-description-200").html(responsePet200_description.substring(responsePet200_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-Pet-updatePet-200" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-Pet-updatePet-200-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-Pet-updatePet-200-wrapper" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-Pet-updatePet-200-schema">
+                                  <div id="responses-Pet-updatePet-schema-200" class="exampleStyle">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    }
+  }
+};
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                          schema = schemaWrapper.schema;
+                                        }
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-Pet-updatePet-200-schema-data').val(JSON.stringify(schema));
+                                        var result = $('#responses-Pet-updatePet-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-Pet-updatePet-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
                             <h3 id="examples-Pet-updatePet-title-400"></h3>
                             <p id="examples-Pet-updatePet-description-400" class="marked"></p>
                             <script>
@@ -3380,7 +3678,10 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-updatePetWithForm-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+\
+ -H "Content-Type: application/x-www-form-urlencoded"\
+ "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-updatePetWithForm-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -3392,18 +3693,19 @@ import java.io.File;
 import java.util.*;
 
 public class PetApiExample {
-
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
-
+        
+        // Create an instance of the API class
         PetApi apiInstance = new PetApi();
         Long petId = 789; // Long | ID of pet that needs to be updated
         String name = name_example; // String | Updated name of the pet
         String status = status_example; // String | Updated status of the pet
+        
         try {
             apiInstance.updatePetWithForm(petId, name, status);
         } catch (ApiException e) {
@@ -3411,19 +3713,20 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-updatePetWithForm-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.PetApi;
 
 public class PetApiExample {
-
     public static void main(String[] args) {
         PetApi apiInstance = new PetApi();
         Long petId = 789; // Long | ID of pet that needs to be updated
         String name = name_example; // String | Updated name of the pet
         String status = status_example; // String | Updated status of the pet
+        
         try {
             apiInstance.updatePetWithForm(petId, name, status);
         } catch (ApiException e) {
@@ -3443,21 +3746,22 @@ public class PetApiExample {
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
-Long *petId = 789; // ID of pet that needs to be updated
+
+// Create an instance of the API class
+PetApi *apiInstance = [[PetApi alloc] init];
+Long *petId = 789; // ID of pet that needs to be updated (default to null)
 String *name = name_example; // Updated name of the pet (optional) (default to null)
 String *status = status_example; // Updated status of the pet (optional) (default to null)
-
-PetApi *apiInstance = [[PetApi alloc] init];
 
 // Updates a pet in the store with form data
 [apiInstance updatePetWithFormWith:petId
     name:name
     status:status
               completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
@@ -3467,8 +3771,9 @@ var defaultClient = OpenApiPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
-petstore_auth.accessToken = "YOUR ACCESS TOKEN"
+petstore_auth.accessToken = "YOUR ACCESS TOKEN";
 
+// Create an instance of the API class
 var api = new OpenApiPetstore.PetApi()
 var petId = 789; // {Long} ID of pet that needs to be updated
 var opts = {
@@ -3503,22 +3808,19 @@ namespace Example
     {
         public void main()
         {
-            
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
-
+            
+            // Create an instance of the API class
             var apiInstance = new PetApi();
-            var petId = 789;  // Long | ID of pet that needs to be updated
+            var petId = 789;  // Long | ID of pet that needs to be updated (default to null)
             var name = name_example;  // String | Updated name of the pet (optional)  (default to null)
             var status = status_example;  // String | Updated status of the pet (optional)  (default to null)
 
-            try
-            {
+            try {
                 // Updates a pet in the store with form data
                 apiInstance.updatePetWithForm(petId, name, status);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Debug.Print("Exception when calling PetApi.updatePetWithForm: " + e.Message );
             }
         }
@@ -3534,6 +3836,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: petstore_auth
 OpenAPITools\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\PetApi();
 $petId = 789; // Long | ID of pet that needs to be updated
 $name = name_example; // String | Updated name of the pet
@@ -3555,6 +3858,7 @@ use WWW::OPenAPIClient::PetApi;
 # Configure OAuth2 access token for authorization: petstore_auth
 $WWW::OPenAPIClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::PetApi->new();
 my $petId = 789; # Long | ID of pet that needs to be updated
 my $name = name_example; # String | Updated name of the pet
@@ -3578,9 +3882,9 @@ from pprint import pprint
 # Configure OAuth2 access token for authorization: petstore_auth
 openapi_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = openapi_client.PetApi()
-petId = 789 # Long | ID of pet that needs to be updated
+petId = 789 # Long | ID of pet that needs to be updated (default to null)
 name = name_example # String | Updated name of the pet (optional) (default to null)
 status = status_example # String | Updated status of the pet (optional) (default to null)
 
@@ -3601,8 +3905,8 @@ pub fn main() {
 
     let mut context = PetApi::Context::default();
     let result = client.updatePetWithForm(petId, name, status, &context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -3769,7 +4073,11 @@ Updated status of the pet
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-uploadFile-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/pet/{petId}/uploadImage"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+\
+ -H "Accept: application/json"\
+ -H "Content-Type: multipart/form-data"\
+ "http://petstore.swagger.io/v2/pet/{petId}/uploadImage"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-uploadFile-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -3781,18 +4089,19 @@ import java.io.File;
 import java.util.*;
 
 public class PetApiExample {
-
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
-
+        
+        // Create an instance of the API class
         PetApi apiInstance = new PetApi();
         Long petId = 789; // Long | ID of pet to update
         String additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
         File file = BINARY_DATA_HERE; // File | file to upload
+        
         try {
             ApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
             System.out.println(result);
@@ -3801,19 +4110,20 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-uploadFile-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.PetApi;
 
 public class PetApiExample {
-
     public static void main(String[] args) {
         PetApi apiInstance = new PetApi();
         Long petId = 789; // Long | ID of pet to update
         String additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
         File file = BINARY_DATA_HERE; // File | file to upload
+        
         try {
             ApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
             System.out.println(result);
@@ -3834,24 +4144,25 @@ public class PetApiExample {
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
-Long *petId = 789; // ID of pet to update
+
+// Create an instance of the API class
+PetApi *apiInstance = [[PetApi alloc] init];
+Long *petId = 789; // ID of pet to update (default to null)
 String *additionalMetadata = additionalMetadata_example; // Additional data to pass to server (optional) (default to null)
 File *file = BINARY_DATA_HERE; // file to upload (optional) (default to null)
-
-PetApi *apiInstance = [[PetApi alloc] init];
 
 // uploads an image
 [apiInstance uploadFileWith:petId
     additionalMetadata:additionalMetadata
     file:file
               completionHandler: ^(ApiResponse output, NSError* error) {
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
@@ -3861,8 +4172,9 @@ var defaultClient = OpenApiPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
-petstore_auth.accessToken = "YOUR ACCESS TOKEN"
+petstore_auth.accessToken = "YOUR ACCESS TOKEN";
 
+// Create an instance of the API class
 var api = new OpenApiPetstore.PetApi()
 var petId = 789; // {Long} ID of pet to update
 var opts = {
@@ -3897,23 +4209,20 @@ namespace Example
     {
         public void main()
         {
-            
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
-
+            
+            // Create an instance of the API class
             var apiInstance = new PetApi();
-            var petId = 789;  // Long | ID of pet to update
+            var petId = 789;  // Long | ID of pet to update (default to null)
             var additionalMetadata = additionalMetadata_example;  // String | Additional data to pass to server (optional)  (default to null)
             var file = BINARY_DATA_HERE;  // File | file to upload (optional)  (default to null)
 
-            try
-            {
+            try {
                 // uploads an image
                 ApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
                 Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Debug.Print("Exception when calling PetApi.uploadFile: " + e.Message );
             }
         }
@@ -3929,6 +4238,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: petstore_auth
 OpenAPITools\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\PetApi();
 $petId = 789; // Long | ID of pet to update
 $additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
@@ -3951,6 +4261,7 @@ use WWW::OPenAPIClient::PetApi;
 # Configure OAuth2 access token for authorization: petstore_auth
 $WWW::OPenAPIClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::PetApi->new();
 my $petId = 789; # Long | ID of pet to update
 my $additionalMetadata = additionalMetadata_example; # String | Additional data to pass to server
@@ -3975,9 +4286,9 @@ from pprint import pprint
 # Configure OAuth2 access token for authorization: petstore_auth
 openapi_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = openapi_client.PetApi()
-petId = 789 # Long | ID of pet to update
+petId = 789 # Long | ID of pet to update (default to null)
 additionalMetadata = additionalMetadata_example # String | Additional data to pass to server (optional) (default to null)
 file = BINARY_DATA_HERE # File | file to upload (optional) (default to null)
 
@@ -3999,8 +4310,8 @@ pub fn main() {
 
     let mut context = PetApi::Context::default();
     let result = client.uploadFile(petId, additionalMetadata, file, &context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -4152,9 +4463,14 @@ file to upload
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                          schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
                                         } else {
                                           schemaWrapper.definitions = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -4212,7 +4528,8 @@ file to upload
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Store-deleteOrder-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "http://petstore.swagger.io/v2/store/order/{orderId}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE\
+ "http://petstore.swagger.io/v2/store/order/{orderId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Store-deleteOrder-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -4224,11 +4541,12 @@ import java.io.File;
 import java.util.*;
 
 public class StoreApiExample {
-
     public static void main(String[] args) {
         
+        // Create an instance of the API class
         StoreApi apiInstance = new StoreApi();
         String orderId = orderId_example; // String | ID of the order that needs to be deleted
+        
         try {
             apiInstance.deleteOrder(orderId);
         } catch (ApiException e) {
@@ -4236,17 +4554,18 @@ public class StoreApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Store-deleteOrder-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.StoreApi;
 
 public class StoreApiExample {
-
     public static void main(String[] args) {
         StoreApi apiInstance = new StoreApi();
         String orderId = orderId_example; // String | ID of the order that needs to be deleted
+        
         try {
             apiInstance.deleteOrder(orderId);
         } catch (ApiException e) {
@@ -4261,23 +4580,26 @@ public class StoreApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Store-deleteOrder-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">String *orderId = orderId_example; // ID of the order that needs to be deleted
+                              <pre class="prettyprint"><code class="language-cpp">
 
+// Create an instance of the API class
 StoreApi *apiInstance = [[StoreApi alloc] init];
+String *orderId = orderId_example; // ID of the order that needs to be deleted (default to null)
 
 // Delete purchase order by ID
 [apiInstance deleteOrderWith:orderId
               completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Store-deleteOrder-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
 
+// Create an instance of the API class
 var api = new OpenApiPetstore.StoreApi()
 var orderId = orderId_example; // {String} ID of the order that needs to be deleted
 
@@ -4309,16 +4631,14 @@ namespace Example
         public void main()
         {
             
+            // Create an instance of the API class
             var apiInstance = new StoreApi();
-            var orderId = orderId_example;  // String | ID of the order that needs to be deleted
+            var orderId = orderId_example;  // String | ID of the order that needs to be deleted (default to null)
 
-            try
-            {
+            try {
                 // Delete purchase order by ID
                 apiInstance.deleteOrder(orderId);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Debug.Print("Exception when calling StoreApi.deleteOrder: " + e.Message );
             }
         }
@@ -4331,6 +4651,7 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\StoreApi();
 $orderId = orderId_example; // String | ID of the order that needs to be deleted
 
@@ -4347,6 +4668,7 @@ try {
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::StoreApi;
 
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::StoreApi->new();
 my $orderId = orderId_example; # String | ID of the order that needs to be deleted
 
@@ -4365,9 +4687,9 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = openapi_client.StoreApi()
-orderId = orderId_example # String | ID of the order that needs to be deleted
+orderId = orderId_example # String | ID of the order that needs to be deleted (default to null)
 
 try: 
     # Delete purchase order by ID
@@ -4384,8 +4706,8 @@ pub fn main() {
 
     let mut context = StoreApi::Context::default();
     let result = client.deleteOrder(orderId, &context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -4514,7 +4836,10 @@ ID of the order that needs to be deleted
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Store-getInventory-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET -H "api_key: [[apiKey]]" "http://petstore.swagger.io/v2/store/inventory"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+-H "api_key: [[apiKey]]"\
+ -H "Accept: application/json"\
+ "http://petstore.swagger.io/v2/store/inventory"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Store-getInventory-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -4526,7 +4851,6 @@ import java.io.File;
 import java.util.*;
 
 public class StoreApiExample {
-
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         
@@ -4535,8 +4859,10 @@ public class StoreApiExample {
         api_key.setApiKey("YOUR API KEY");
         // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
         //api_key.setApiKeyPrefix("Token");
-
+        
+        // Create an instance of the API class
         StoreApi apiInstance = new StoreApi();
+        
         try {
             map['String', 'Integer'] result = apiInstance.getInventory();
             System.out.println(result);
@@ -4545,16 +4871,17 @@ public class StoreApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Store-getInventory-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.StoreApi;
 
 public class StoreApiExample {
-
     public static void main(String[] args) {
         StoreApi apiInstance = new StoreApi();
+        
         try {
             map['String', 'Integer'] result = apiInstance.getInventory();
             System.out.println(result);
@@ -4578,18 +4905,19 @@ public class StoreApiExample {
 //[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
 
 
+// Create an instance of the API class
 StoreApi *apiInstance = [[StoreApi alloc] init];
 
 // Returns pet inventories by status
 [apiInstance getInventoryWithCompletionHandler: 
               ^(map['String', 'Integer'] output, NSError* error) {
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
@@ -4599,10 +4927,11 @@ var defaultClient = OpenApiPetstore.ApiClient.instance;
 
 // Configure API key authorization: api_key
 var api_key = defaultClient.authentications['api_key'];
-api_key.apiKey = "YOUR API KEY"
+api_key.apiKey = "YOUR API KEY";
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//api_key.apiKeyPrefix['api_key'] = "Token"
+//api_key.apiKeyPrefix['api_key'] = "Token";
 
+// Create an instance of the API class
 var api = new OpenApiPetstore.StoreApi()
 var callback = function(error, data, response) {
   if (error) {
@@ -4631,22 +4960,19 @@ namespace Example
     {
         public void main()
         {
-            
             // Configure API key authorization: api_key
             Configuration.Default.ApiKey.Add("api_key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
             // Configuration.Default.ApiKeyPrefix.Add("api_key", "Bearer");
-
+            
+            // Create an instance of the API class
             var apiInstance = new StoreApi();
 
-            try
-            {
+            try {
                 // Returns pet inventories by status
                 map['String', 'Integer'] result = apiInstance.getInventory();
                 Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Debug.Print("Exception when calling StoreApi.getInventory: " + e.Message );
             }
         }
@@ -4664,6 +4990,7 @@ OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 // OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
 
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\StoreApi();
 
 try {
@@ -4685,6 +5012,7 @@ $WWW::OPenAPIClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$WWW::OPenAPIClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
 
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::StoreApi->new();
 
 eval { 
@@ -4708,7 +5036,7 @@ openapi_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # openapi_client.configuration.api_key_prefix['api_key'] = 'Bearer'
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = openapi_client.StoreApi()
 
 try: 
@@ -4726,8 +5054,8 @@ pub fn main() {
 
     let mut context = StoreApi::Context::default();
     let result = client.getInventory(&context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -4790,9 +5118,14 @@ pub fn main() {
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                          schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
                                         } else {
                                           schemaWrapper.definitions = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -4847,7 +5180,9 @@ pub fn main() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Store-getOrderById-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v2/store/order/{orderId}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+ -H "Accept: application/xml,application/json"\
+ "http://petstore.swagger.io/v2/store/order/{orderId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Store-getOrderById-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -4859,11 +5194,12 @@ import java.io.File;
 import java.util.*;
 
 public class StoreApiExample {
-
     public static void main(String[] args) {
         
+        // Create an instance of the API class
         StoreApi apiInstance = new StoreApi();
         Long orderId = 789; // Long | ID of pet that needs to be fetched
+        
         try {
             Order result = apiInstance.getOrderById(orderId);
             System.out.println(result);
@@ -4872,17 +5208,18 @@ public class StoreApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Store-getOrderById-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.StoreApi;
 
 public class StoreApiExample {
-
     public static void main(String[] args) {
         StoreApi apiInstance = new StoreApi();
         Long orderId = 789; // Long | ID of pet that needs to be fetched
+        
         try {
             Order result = apiInstance.getOrderById(orderId);
             System.out.println(result);
@@ -4898,26 +5235,29 @@ public class StoreApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Store-getOrderById-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Long *orderId = 789; // ID of pet that needs to be fetched
+                              <pre class="prettyprint"><code class="language-cpp">
 
+// Create an instance of the API class
 StoreApi *apiInstance = [[StoreApi alloc] init];
+Long *orderId = 789; // ID of pet that needs to be fetched (default to null)
 
 // Find purchase order by ID
 [apiInstance getOrderByIdWith:orderId
               completionHandler: ^(Order output, NSError* error) {
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Store-getOrderById-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
 
+// Create an instance of the API class
 var api = new OpenApiPetstore.StoreApi()
 var orderId = 789; // {Long} ID of pet that needs to be fetched
 
@@ -4949,17 +5289,15 @@ namespace Example
         public void main()
         {
             
+            // Create an instance of the API class
             var apiInstance = new StoreApi();
-            var orderId = 789;  // Long | ID of pet that needs to be fetched
+            var orderId = 789;  // Long | ID of pet that needs to be fetched (default to null)
 
-            try
-            {
+            try {
                 // Find purchase order by ID
                 Order result = apiInstance.getOrderById(orderId);
                 Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Debug.Print("Exception when calling StoreApi.getOrderById: " + e.Message );
             }
         }
@@ -4972,6 +5310,7 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\StoreApi();
 $orderId = 789; // Long | ID of pet that needs to be fetched
 
@@ -4989,6 +5328,7 @@ try {
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::StoreApi;
 
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::StoreApi->new();
 my $orderId = 789; # Long | ID of pet that needs to be fetched
 
@@ -5008,9 +5348,9 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = openapi_client.StoreApi()
-orderId = 789 # Long | ID of pet that needs to be fetched
+orderId = 789 # Long | ID of pet that needs to be fetched (default to null)
 
 try: 
     # Find purchase order by ID
@@ -5028,8 +5368,8 @@ pub fn main() {
 
     let mut context = StoreApi::Context::default();
     let result = client.getOrderById(orderId, &context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -5126,9 +5466,14 @@ ID of pet that needs to be fetched
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                          schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
                                         } else {
                                           schemaWrapper.definitions = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -5227,7 +5572,10 @@ ID of pet that needs to be fetched
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Store-placeOrder-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/store/order"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+ -H "Accept: application/xml,application/json"\
+ -H "Content-Type: application/json"\
+ "http://petstore.swagger.io/v2/store/order"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Store-placeOrder-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -5239,11 +5587,12 @@ import java.io.File;
 import java.util.*;
 
 public class StoreApiExample {
-
     public static void main(String[] args) {
         
+        // Create an instance of the API class
         StoreApi apiInstance = new StoreApi();
         Order order = ; // Order | 
+        
         try {
             Order result = apiInstance.placeOrder(order);
             System.out.println(result);
@@ -5252,17 +5601,18 @@ public class StoreApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Store-placeOrder-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.StoreApi;
 
 public class StoreApiExample {
-
     public static void main(String[] args) {
         StoreApi apiInstance = new StoreApi();
         Order order = ; // Order | 
+        
         try {
             Order result = apiInstance.placeOrder(order);
             System.out.println(result);
@@ -5278,26 +5628,29 @@ public class StoreApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Store-placeOrder-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Order *order = ; // 
+                              <pre class="prettyprint"><code class="language-cpp">
 
+// Create an instance of the API class
 StoreApi *apiInstance = [[StoreApi alloc] init];
+Order *order = ; // 
 
 // Place an order for a pet
 [apiInstance placeOrderWith:order
               completionHandler: ^(Order output, NSError* error) {
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Store-placeOrder-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
 
+// Create an instance of the API class
 var api = new OpenApiPetstore.StoreApi()
 var order = ; // {Order} 
 
@@ -5329,17 +5682,15 @@ namespace Example
         public void main()
         {
             
+            // Create an instance of the API class
             var apiInstance = new StoreApi();
             var order = new Order(); // Order | 
 
-            try
-            {
+            try {
                 // Place an order for a pet
                 Order result = apiInstance.placeOrder(order);
                 Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Debug.Print("Exception when calling StoreApi.placeOrder: " + e.Message );
             }
         }
@@ -5352,6 +5703,7 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\StoreApi();
 $order = ; // Order | 
 
@@ -5369,6 +5721,7 @@ try {
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::StoreApi;
 
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::StoreApi->new();
 my $order = WWW::OPenAPIClient::Object::Order->new(); # Order | 
 
@@ -5388,7 +5741,7 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = openapi_client.StoreApi()
 order =  # Order | 
 
@@ -5408,8 +5761,8 @@ pub fn main() {
 
     let mut context = StoreApi::Context::default();
     let result = client.placeOrder(order, &context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -5435,8 +5788,22 @@ pub fn main() {
 <p class="marked">order placed for purchasing the pet</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
-  var schema = schemaWrapper.schema;
+  var schemaWrapper = {
+  "description" : "order placed for purchasing the pet",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Order"
+      }
+    }
+  },
+  "required" : true
+};
+
+  var schema = findNode('schema',schemaWrapper).schema;
+  if (!schema) {
+    schema = schemaWrapper.schema;
+  }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
   } else {
@@ -5506,9 +5873,14 @@ $(document).ready(function() {
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                          schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
                                         } else {
                                           schemaWrapper.definitions = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -5588,7 +5960,10 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-createUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/user"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+-H "api_key: [[apiKey]]"\
+ -H "Content-Type: application/json"\
+ "http://petstore.swagger.io/v2/user"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-createUser-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -5600,11 +5975,19 @@ import java.io.File;
 import java.util.*;
 
 public class UserApiExample {
-
     public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
         
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //api_key.setApiKeyPrefix("Token");
+        
+        // Create an instance of the API class
         UserApi apiInstance = new UserApi();
         User user = ; // User | 
+        
         try {
             apiInstance.createUser(user);
         } catch (ApiException e) {
@@ -5612,17 +5995,18 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-createUser-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.UserApi;
 
 public class UserApiExample {
-
     public static void main(String[] args) {
         UserApi apiInstance = new UserApi();
         User user = ; // User | 
+        
         try {
             apiInstance.createUser(user);
         } catch (ApiException e) {
@@ -5637,23 +6021,39 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-createUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">User *user = ; // 
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
+// Configure API key authorization: (authentication scheme: api_key)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
+
+
+// Create an instance of the API class
 UserApi *apiInstance = [[UserApi alloc] init];
+User *user = ; // 
 
 // Create user
 [apiInstance createUserWith:user
               completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-createUser-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
 
+// Configure API key authorization: api_key
+var api_key = defaultClient.authentications['api_key'];
+api_key.apiKey = "YOUR API KEY";
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//api_key.apiKeyPrefix['api_key'] = "Token";
+
+// Create an instance of the API class
 var api = new OpenApiPetstore.UserApi()
 var user = ; // {User} 
 
@@ -5684,17 +6084,19 @@ namespace Example
     {
         public void main()
         {
+            // Configure API key authorization: api_key
+            Configuration.Default.ApiKey.Add("api_key", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("api_key", "Bearer");
             
+            // Create an instance of the API class
             var apiInstance = new UserApi();
             var user = new User(); // User | 
 
-            try
-            {
+            try {
                 // Create user
                 apiInstance.createUser(user);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Debug.Print("Exception when calling UserApi.createUser: " + e.Message );
             }
         }
@@ -5707,6 +6109,12 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure API key authorization: api_key
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
+
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 $user = ; // User | 
 
@@ -5723,6 +6131,12 @@ try {
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
 
+# Configure API key authorization: api_key
+$WWW::OPenAPIClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
+# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
+
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $user = WWW::OPenAPIClient::Object::User->new(); # User | 
 
@@ -5741,7 +6155,12 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Configure API key authorization: api_key
+openapi_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openapi_client.configuration.api_key_prefix['api_key'] = 'Bearer'
+
+# Create an instance of the API class
 api_instance = openapi_client.UserApi()
 user =  # User | 
 
@@ -5760,8 +6179,8 @@ pub fn main() {
 
     let mut context = UserApi::Context::default();
     let result = client.createUser(user, &context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -5787,8 +6206,22 @@ pub fn main() {
 <p class="marked">Created user object</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
-  var schema = schemaWrapper.schema;
+  var schemaWrapper = {
+  "description" : "Created user object",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/User"
+      }
+    }
+  },
+  "required" : true
+};
+
+  var schema = findNode('schema',schemaWrapper).schema;
+  if (!schema) {
+    schema = schemaWrapper.schema;
+  }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
   } else {
@@ -5871,7 +6304,10 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-createUsersWithArrayInput-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/user/createWithArray"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+-H "api_key: [[apiKey]]"\
+ -H "Content-Type: application/json"\
+ "http://petstore.swagger.io/v2/user/createWithArray"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -5883,11 +6319,19 @@ import java.io.File;
 import java.util.*;
 
 public class UserApiExample {
-
     public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
         
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //api_key.setApiKeyPrefix("Token");
+        
+        // Create an instance of the API class
         UserApi apiInstance = new UserApi();
         array[User] user = ; // array[User] | 
+        
         try {
             apiInstance.createUsersWithArrayInput(user);
         } catch (ApiException e) {
@@ -5895,17 +6339,18 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.UserApi;
 
 public class UserApiExample {
-
     public static void main(String[] args) {
         UserApi apiInstance = new UserApi();
         array[User] user = ; // array[User] | 
+        
         try {
             apiInstance.createUsersWithArrayInput(user);
         } catch (ApiException e) {
@@ -5920,23 +6365,39 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">array[User] *user = ; // 
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
+// Configure API key authorization: (authentication scheme: api_key)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
+
+
+// Create an instance of the API class
 UserApi *apiInstance = [[UserApi alloc] init];
+array[User] *user = ; // 
 
 // Creates list of users with given input array
 [apiInstance createUsersWithArrayInputWith:user
               completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
 
+// Configure API key authorization: api_key
+var api_key = defaultClient.authentications['api_key'];
+api_key.apiKey = "YOUR API KEY";
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//api_key.apiKeyPrefix['api_key'] = "Token";
+
+// Create an instance of the API class
 var api = new OpenApiPetstore.UserApi()
 var user = ; // {array[User]} 
 
@@ -5967,17 +6428,19 @@ namespace Example
     {
         public void main()
         {
+            // Configure API key authorization: api_key
+            Configuration.Default.ApiKey.Add("api_key", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("api_key", "Bearer");
             
+            // Create an instance of the API class
             var apiInstance = new UserApi();
             var user = new array[User](); // array[User] | 
 
-            try
-            {
+            try {
                 // Creates list of users with given input array
                 apiInstance.createUsersWithArrayInput(user);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Debug.Print("Exception when calling UserApi.createUsersWithArrayInput: " + e.Message );
             }
         }
@@ -5990,6 +6453,12 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure API key authorization: api_key
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
+
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 $user = ; // array[User] | 
 
@@ -6006,6 +6475,12 @@ try {
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
 
+# Configure API key authorization: api_key
+$WWW::OPenAPIClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
+# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
+
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $user = [WWW::OPenAPIClient::Object::array[User]->new()]; # array[User] | 
 
@@ -6024,7 +6499,12 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Configure API key authorization: api_key
+openapi_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openapi_client.configuration.api_key_prefix['api_key'] = 'Bearer'
+
+# Create an instance of the API class
 api_instance = openapi_client.UserApi()
 user =  # array[User] | 
 
@@ -6043,8 +6523,8 @@ pub fn main() {
 
     let mut context = UserApi::Context::default();
     let result = client.createUsersWithArrayInput(user, &context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -6070,8 +6550,25 @@ pub fn main() {
 <p class="marked">List of user object</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
-  var schema = schemaWrapper.schema;
+  var schemaWrapper = {
+  "description" : "List of user object",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/User"
+        }
+      }
+    }
+  },
+  "required" : true
+};
+
+  var schema = findNode('schema',schemaWrapper).schema;
+  if (!schema) {
+    schema = schemaWrapper.schema;
+  }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
   } else {
@@ -6154,7 +6651,10 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-createUsersWithListInput-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/user/createWithList"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+-H "api_key: [[apiKey]]"\
+ -H "Content-Type: application/json"\
+ "http://petstore.swagger.io/v2/user/createWithList"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-createUsersWithListInput-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -6166,11 +6666,19 @@ import java.io.File;
 import java.util.*;
 
 public class UserApiExample {
-
     public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
         
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //api_key.setApiKeyPrefix("Token");
+        
+        // Create an instance of the API class
         UserApi apiInstance = new UserApi();
         array[User] user = ; // array[User] | 
+        
         try {
             apiInstance.createUsersWithListInput(user);
         } catch (ApiException e) {
@@ -6178,17 +6686,18 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-createUsersWithListInput-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.UserApi;
 
 public class UserApiExample {
-
     public static void main(String[] args) {
         UserApi apiInstance = new UserApi();
         array[User] user = ; // array[User] | 
+        
         try {
             apiInstance.createUsersWithListInput(user);
         } catch (ApiException e) {
@@ -6203,23 +6712,39 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-createUsersWithListInput-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">array[User] *user = ; // 
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
+// Configure API key authorization: (authentication scheme: api_key)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
+
+
+// Create an instance of the API class
 UserApi *apiInstance = [[UserApi alloc] init];
+array[User] *user = ; // 
 
 // Creates list of users with given input array
 [apiInstance createUsersWithListInputWith:user
               completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-createUsersWithListInput-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
 
+// Configure API key authorization: api_key
+var api_key = defaultClient.authentications['api_key'];
+api_key.apiKey = "YOUR API KEY";
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//api_key.apiKeyPrefix['api_key'] = "Token";
+
+// Create an instance of the API class
 var api = new OpenApiPetstore.UserApi()
 var user = ; // {array[User]} 
 
@@ -6250,17 +6775,19 @@ namespace Example
     {
         public void main()
         {
+            // Configure API key authorization: api_key
+            Configuration.Default.ApiKey.Add("api_key", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("api_key", "Bearer");
             
+            // Create an instance of the API class
             var apiInstance = new UserApi();
             var user = new array[User](); // array[User] | 
 
-            try
-            {
+            try {
                 // Creates list of users with given input array
                 apiInstance.createUsersWithListInput(user);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Debug.Print("Exception when calling UserApi.createUsersWithListInput: " + e.Message );
             }
         }
@@ -6273,6 +6800,12 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure API key authorization: api_key
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
+
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 $user = ; // array[User] | 
 
@@ -6289,6 +6822,12 @@ try {
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
 
+# Configure API key authorization: api_key
+$WWW::OPenAPIClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
+# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
+
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $user = [WWW::OPenAPIClient::Object::array[User]->new()]; # array[User] | 
 
@@ -6307,7 +6846,12 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Configure API key authorization: api_key
+openapi_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openapi_client.configuration.api_key_prefix['api_key'] = 'Bearer'
+
+# Create an instance of the API class
 api_instance = openapi_client.UserApi()
 user =  # array[User] | 
 
@@ -6326,8 +6870,8 @@ pub fn main() {
 
     let mut context = UserApi::Context::default();
     let result = client.createUsersWithListInput(user, &context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -6353,8 +6897,25 @@ pub fn main() {
 <p class="marked">List of user object</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
-  var schema = schemaWrapper.schema;
+  var schemaWrapper = {
+  "description" : "List of user object",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/User"
+        }
+      }
+    }
+  },
+  "required" : true
+};
+
+  var schema = findNode('schema',schemaWrapper).schema;
+  if (!schema) {
+    schema = schemaWrapper.schema;
+  }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
   } else {
@@ -6437,7 +6998,9 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-deleteUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "http://petstore.swagger.io/v2/user/{username}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE\
+-H "api_key: [[apiKey]]"\
+ "http://petstore.swagger.io/v2/user/{username}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-deleteUser-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -6449,11 +7012,19 @@ import java.io.File;
 import java.util.*;
 
 public class UserApiExample {
-
     public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
         
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //api_key.setApiKeyPrefix("Token");
+        
+        // Create an instance of the API class
         UserApi apiInstance = new UserApi();
         String username = username_example; // String | The name that needs to be deleted
+        
         try {
             apiInstance.deleteUser(username);
         } catch (ApiException e) {
@@ -6461,17 +7032,18 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-deleteUser-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.UserApi;
 
 public class UserApiExample {
-
     public static void main(String[] args) {
         UserApi apiInstance = new UserApi();
         String username = username_example; // String | The name that needs to be deleted
+        
         try {
             apiInstance.deleteUser(username);
         } catch (ApiException e) {
@@ -6486,23 +7058,39 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-deleteUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // The name that needs to be deleted
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
+// Configure API key authorization: (authentication scheme: api_key)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
+
+
+// Create an instance of the API class
 UserApi *apiInstance = [[UserApi alloc] init];
+String *username = username_example; // The name that needs to be deleted (default to null)
 
 // Delete user
 [apiInstance deleteUserWith:username
               completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-deleteUser-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
 
+// Configure API key authorization: api_key
+var api_key = defaultClient.authentications['api_key'];
+api_key.apiKey = "YOUR API KEY";
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//api_key.apiKeyPrefix['api_key'] = "Token";
+
+// Create an instance of the API class
 var api = new OpenApiPetstore.UserApi()
 var username = username_example; // {String} The name that needs to be deleted
 
@@ -6533,17 +7121,19 @@ namespace Example
     {
         public void main()
         {
+            // Configure API key authorization: api_key
+            Configuration.Default.ApiKey.Add("api_key", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("api_key", "Bearer");
             
+            // Create an instance of the API class
             var apiInstance = new UserApi();
-            var username = username_example;  // String | The name that needs to be deleted
+            var username = username_example;  // String | The name that needs to be deleted (default to null)
 
-            try
-            {
+            try {
                 // Delete user
                 apiInstance.deleteUser(username);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Debug.Print("Exception when calling UserApi.deleteUser: " + e.Message );
             }
         }
@@ -6556,6 +7146,12 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure API key authorization: api_key
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
+
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 $username = username_example; // String | The name that needs to be deleted
 
@@ -6572,6 +7168,12 @@ try {
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
 
+# Configure API key authorization: api_key
+$WWW::OPenAPIClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
+# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
+
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $username = username_example; # String | The name that needs to be deleted
 
@@ -6590,9 +7192,14 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Configure API key authorization: api_key
+openapi_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openapi_client.configuration.api_key_prefix['api_key'] = 'Bearer'
+
+# Create an instance of the API class
 api_instance = openapi_client.UserApi()
-username = username_example # String | The name that needs to be deleted
+username = username_example # String | The name that needs to be deleted (default to null)
 
 try: 
     # Delete user
@@ -6609,8 +7216,8 @@ pub fn main() {
 
     let mut context = UserApi::Context::default();
     let result = client.deleteUser(username, &context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -6739,7 +7346,9 @@ The name that needs to be deleted
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-getUserByName-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v2/user/{username}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+ -H "Accept: application/xml,application/json"\
+ "http://petstore.swagger.io/v2/user/{username}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-getUserByName-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -6751,11 +7360,12 @@ import java.io.File;
 import java.util.*;
 
 public class UserApiExample {
-
     public static void main(String[] args) {
         
+        // Create an instance of the API class
         UserApi apiInstance = new UserApi();
         String username = username_example; // String | The name that needs to be fetched. Use user1 for testing.
+        
         try {
             User result = apiInstance.getUserByName(username);
             System.out.println(result);
@@ -6764,17 +7374,18 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-getUserByName-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.UserApi;
 
 public class UserApiExample {
-
     public static void main(String[] args) {
         UserApi apiInstance = new UserApi();
         String username = username_example; // String | The name that needs to be fetched. Use user1 for testing.
+        
         try {
             User result = apiInstance.getUserByName(username);
             System.out.println(result);
@@ -6790,26 +7401,29 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-getUserByName-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // The name that needs to be fetched. Use user1 for testing.
+                              <pre class="prettyprint"><code class="language-cpp">
 
+// Create an instance of the API class
 UserApi *apiInstance = [[UserApi alloc] init];
+String *username = username_example; // The name that needs to be fetched. Use user1 for testing. (default to null)
 
 // Get user by user name
 [apiInstance getUserByNameWith:username
               completionHandler: ^(User output, NSError* error) {
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-getUserByName-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
 
+// Create an instance of the API class
 var api = new OpenApiPetstore.UserApi()
 var username = username_example; // {String} The name that needs to be fetched. Use user1 for testing.
 
@@ -6841,17 +7455,15 @@ namespace Example
         public void main()
         {
             
+            // Create an instance of the API class
             var apiInstance = new UserApi();
-            var username = username_example;  // String | The name that needs to be fetched. Use user1 for testing.
+            var username = username_example;  // String | The name that needs to be fetched. Use user1 for testing. (default to null)
 
-            try
-            {
+            try {
                 // Get user by user name
                 User result = apiInstance.getUserByName(username);
                 Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Debug.Print("Exception when calling UserApi.getUserByName: " + e.Message );
             }
         }
@@ -6864,6 +7476,7 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 $username = username_example; // String | The name that needs to be fetched. Use user1 for testing.
 
@@ -6881,6 +7494,7 @@ try {
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
 
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $username = username_example; # String | The name that needs to be fetched. Use user1 for testing.
 
@@ -6900,9 +7514,9 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = openapi_client.UserApi()
-username = username_example # String | The name that needs to be fetched. Use user1 for testing.
+username = username_example # String | The name that needs to be fetched. Use user1 for testing. (default to null)
 
 try: 
     # Get user by user name
@@ -6920,8 +7534,8 @@ pub fn main() {
 
     let mut context = UserApi::Context::default();
     let result = client.getUserByName(username, &context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -7015,9 +7629,14 @@ The name that needs to be fetched. Use user1 for testing.
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                          schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
                                         } else {
                                           schemaWrapper.definitions = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -7116,7 +7735,9 @@ The name that needs to be fetched. Use user1 for testing.
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-loginUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v2/user/login?username=&password="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+ -H "Accept: application/xml,application/json"\
+ "http://petstore.swagger.io/v2/user/login?username=&password="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-loginUser-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -7128,12 +7749,13 @@ import java.io.File;
 import java.util.*;
 
 public class UserApiExample {
-
     public static void main(String[] args) {
         
+        // Create an instance of the API class
         UserApi apiInstance = new UserApi();
         String username = username_example; // String | The user name for login
         String password = password_example; // String | The password for login in clear text
+        
         try {
             'String' result = apiInstance.loginUser(username, password);
             System.out.println(result);
@@ -7142,18 +7764,19 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-loginUser-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.UserApi;
 
 public class UserApiExample {
-
     public static void main(String[] args) {
         UserApi apiInstance = new UserApi();
         String username = username_example; // String | The user name for login
         String password = password_example; // String | The password for login in clear text
+        
         try {
             'String' result = apiInstance.loginUser(username, password);
             System.out.println(result);
@@ -7169,28 +7792,31 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-loginUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // The user name for login
-String *password = password_example; // The password for login in clear text
+                              <pre class="prettyprint"><code class="language-cpp">
 
+// Create an instance of the API class
 UserApi *apiInstance = [[UserApi alloc] init];
+String *username = username_example; // The user name for login (default to null)
+String *password = password_example; // The password for login in clear text (default to null)
 
 // Logs user into the system
 [apiInstance loginUserWith:username
     password:password
               completionHandler: ^('String' output, NSError* error) {
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-loginUser-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
 
+// Create an instance of the API class
 var api = new OpenApiPetstore.UserApi()
 var username = username_example; // {String} The user name for login
 var password = password_example; // {String} The password for login in clear text
@@ -7223,18 +7849,16 @@ namespace Example
         public void main()
         {
             
+            // Create an instance of the API class
             var apiInstance = new UserApi();
-            var username = username_example;  // String | The user name for login
-            var password = password_example;  // String | The password for login in clear text
+            var username = username_example;  // String | The user name for login (default to null)
+            var password = password_example;  // String | The password for login in clear text (default to null)
 
-            try
-            {
+            try {
                 // Logs user into the system
                 'String' result = apiInstance.loginUser(username, password);
                 Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Debug.Print("Exception when calling UserApi.loginUser: " + e.Message );
             }
         }
@@ -7247,6 +7871,7 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 $username = username_example; // String | The user name for login
 $password = password_example; // String | The password for login in clear text
@@ -7265,6 +7890,7 @@ try {
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
 
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $username = username_example; # String | The user name for login
 my $password = password_example; # String | The password for login in clear text
@@ -7285,10 +7911,10 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = openapi_client.UserApi()
-username = username_example # String | The user name for login
-password = password_example # String | The password for login in clear text
+username = username_example # String | The user name for login (default to null)
+password = password_example # String | The password for login in clear text (default to null)
 
 try: 
     # Logs user into the system
@@ -7307,8 +7933,8 @@ pub fn main() {
 
     let mut context = UserApi::Context::default();
     let result = client.loginUser(username, password, &context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -7416,8 +8042,19 @@ The password for login in clear text
                                         var schemaWrapper = {
   "description" : "successful operation",
   "headers" : {
+    "Set-Cookie" : {
+      "description" : "Cookie authentication key for use with the `api_key` apiKey authentication.",
+      "style" : "simple",
+      "explode" : false,
+      "schema" : {
+        "type" : "string",
+        "example" : "AUTH_KEY=abcde12345; Path=/; HttpOnly"
+      }
+    },
     "X-Rate-Limit" : {
       "description" : "calls per hour allowed by the user",
+      "style" : "simple",
+      "explode" : false,
       "schema" : {
         "type" : "integer",
         "format" : "int32"
@@ -7425,6 +8062,8 @@ The password for login in clear text
     },
     "X-Expires-After" : {
       "description" : "date in UTC when toekn expires",
+      "style" : "simple",
+      "explode" : false,
       "schema" : {
         "type" : "string",
         "format" : "date-time"
@@ -7444,9 +8083,14 @@ The password for login in clear text
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                          schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
                                         } else {
                                           schemaWrapper.definitions = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -7472,6 +8116,12 @@ The password for login in clear text
                                               <th width="100px">Format</th>
                                               <th>Description</th>
                                           </tr>
+                                              <tr>
+                                                  <td>SetMinusCookie</td>
+                                                  <td>String</td>
+                                                  <td></td>
+                                                  <td>Cookie authentication key for use with the &#x60;api_key&#x60; apiKey authentication.</td>
+                                              </tr>
                                               <tr>
                                                   <td>XMinusRateMinusLimit</td>
                                                   <td>Integer</td>
@@ -7545,7 +8195,9 @@ The password for login in clear text
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-logoutUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v2/user/logout"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+-H "api_key: [[apiKey]]"\
+ "http://petstore.swagger.io/v2/user/logout"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-logoutUser-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -7557,10 +8209,18 @@ import java.io.File;
 import java.util.*;
 
 public class UserApiExample {
-
     public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
         
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //api_key.setApiKeyPrefix("Token");
+        
+        // Create an instance of the API class
         UserApi apiInstance = new UserApi();
+        
         try {
             apiInstance.logoutUser();
         } catch (ApiException e) {
@@ -7568,16 +8228,17 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-logoutUser-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.UserApi;
 
 public class UserApiExample {
-
     public static void main(String[] args) {
         UserApi apiInstance = new UserApi();
+        
         try {
             apiInstance.logoutUser();
         } catch (ApiException e) {
@@ -7592,22 +8253,38 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-logoutUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
+
+// Configure API key authorization: (authentication scheme: api_key)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
+
+
+// Create an instance of the API class
 UserApi *apiInstance = [[UserApi alloc] init];
 
 // Logs out current logged in user session
 [apiInstance logoutUserWithCompletionHandler: 
               ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-logoutUser-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
 
+// Configure API key authorization: api_key
+var api_key = defaultClient.authentications['api_key'];
+api_key.apiKey = "YOUR API KEY";
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//api_key.apiKeyPrefix['api_key'] = "Token";
+
+// Create an instance of the API class
 var api = new OpenApiPetstore.UserApi()
 var callback = function(error, data, response) {
   if (error) {
@@ -7636,16 +8313,18 @@ namespace Example
     {
         public void main()
         {
+            // Configure API key authorization: api_key
+            Configuration.Default.ApiKey.Add("api_key", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("api_key", "Bearer");
             
+            // Create an instance of the API class
             var apiInstance = new UserApi();
 
-            try
-            {
+            try {
                 // Logs out current logged in user session
                 apiInstance.logoutUser();
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Debug.Print("Exception when calling UserApi.logoutUser: " + e.Message );
             }
         }
@@ -7658,6 +8337,12 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure API key authorization: api_key
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
+
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 
 try {
@@ -7673,6 +8358,12 @@ try {
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
 
+# Configure API key authorization: api_key
+$WWW::OPenAPIClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
+# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
+
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 
 eval { 
@@ -7690,7 +8381,12 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Configure API key authorization: api_key
+openapi_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openapi_client.configuration.api_key_prefix['api_key'] = 'Bearer'
+
+# Create an instance of the API class
 api_instance = openapi_client.UserApi()
 
 try: 
@@ -7707,8 +8403,8 @@ pub fn main() {
 
     let mut context = UserApi::Context::default();
     let result = client.logoutUser(&context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -7785,7 +8481,10 @@ pub fn main() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-updateUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT "http://petstore.swagger.io/v2/user/{username}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT\
+-H "api_key: [[apiKey]]"\
+ -H "Content-Type: application/json"\
+ "http://petstore.swagger.io/v2/user/{username}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-updateUser-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -7797,12 +8496,20 @@ import java.io.File;
 import java.util.*;
 
 public class UserApiExample {
-
     public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
         
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //api_key.setApiKeyPrefix("Token");
+        
+        // Create an instance of the API class
         UserApi apiInstance = new UserApi();
         String username = username_example; // String | name that need to be deleted
         User user = ; // User | 
+        
         try {
             apiInstance.updateUser(username, user);
         } catch (ApiException e) {
@@ -7810,18 +8517,19 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-updateUser-0-android">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.UserApi;
 
 public class UserApiExample {
-
     public static void main(String[] args) {
         UserApi apiInstance = new UserApi();
         String username = username_example; // String | name that need to be deleted
         User user = ; // User | 
+        
         try {
             apiInstance.updateUser(username, user);
         } catch (ApiException e) {
@@ -7836,25 +8544,41 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-updateUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // name that need to be deleted
-User *user = ; // 
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
+// Configure API key authorization: (authentication scheme: api_key)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
+
+
+// Create an instance of the API class
 UserApi *apiInstance = [[UserApi alloc] init];
+String *username = username_example; // name that need to be deleted (default to null)
+User *user = ; // 
 
 // Updated user
 [apiInstance updateUserWith:username
     user:user
               completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
 </code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-updateUser-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
 
+// Configure API key authorization: api_key
+var api_key = defaultClient.authentications['api_key'];
+api_key.apiKey = "YOUR API KEY";
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//api_key.apiKeyPrefix['api_key'] = "Token";
+
+// Create an instance of the API class
 var api = new OpenApiPetstore.UserApi()
 var username = username_example; // {String} name that need to be deleted
 var user = ; // {User} 
@@ -7886,18 +8610,20 @@ namespace Example
     {
         public void main()
         {
+            // Configure API key authorization: api_key
+            Configuration.Default.ApiKey.Add("api_key", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("api_key", "Bearer");
             
+            // Create an instance of the API class
             var apiInstance = new UserApi();
-            var username = username_example;  // String | name that need to be deleted
+            var username = username_example;  // String | name that need to be deleted (default to null)
             var user = new User(); // User | 
 
-            try
-            {
+            try {
                 // Updated user
                 apiInstance.updateUser(username, user);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Debug.Print("Exception when calling UserApi.updateUser: " + e.Message );
             }
         }
@@ -7910,6 +8636,12 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure API key authorization: api_key
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
+
+// Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 $username = username_example; // String | name that need to be deleted
 $user = ; // User | 
@@ -7927,6 +8659,12 @@ try {
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
 
+# Configure API key authorization: api_key
+$WWW::OPenAPIClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
+# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
+
+# Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $username = username_example; # String | name that need to be deleted
 my $user = WWW::OPenAPIClient::Object::User->new(); # User | 
@@ -7946,9 +8684,14 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Configure API key authorization: api_key
+openapi_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openapi_client.configuration.api_key_prefix['api_key'] = 'Bearer'
+
+# Create an instance of the API class
 api_instance = openapi_client.UserApi()
-username = username_example # String | name that need to be deleted
+username = username_example # String | name that need to be deleted (default to null)
 user =  # User | 
 
 try: 
@@ -7967,8 +8710,8 @@ pub fn main() {
 
     let mut context = UserApi::Context::default();
     let result = client.updateUser(username, user, &context).wait();
-    println!("{:?}", result);
 
+    println!("{:?}", result);
 }
 </code></pre>
                             </div>
@@ -8024,8 +8767,22 @@ name that need to be deleted
 <p class="marked">Updated user object</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
-  var schema = schemaWrapper.schema;
+  var schemaWrapper = {
+  "description" : "Updated user object",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/User"
+      }
+    }
+  },
+  "required" : true
+};
+
+  var schema = findNode('schema',schemaWrapper).schema;
+  if (!schema) {
+    schema = schemaWrapper.schema;
+  }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
   } else {
@@ -9838,8 +10595,7 @@ g,0<c.length&&(c=Aa[c[0]])&&(a.c[e]=c))}a.c[e]||(c=Aa[e])&&(a.c[e]=c);for(c=0;c<
 </script>
 
   <script>
-    var schemaWrapper = {};
-    schemaWrapper.definitions = Object.assign({}, defs);
+    var schemaWrapper = { "components": { "schemas" : defs}};
     defsParser = new $RefParser();
     defsParser.dereference(schemaWrapper).catch(function(err) {
       console.log(err);

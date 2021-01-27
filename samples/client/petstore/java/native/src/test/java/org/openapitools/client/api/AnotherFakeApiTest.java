@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * API tests for AnotherFakeApi
  */
@@ -43,8 +44,9 @@ public class AnotherFakeApiTest {
     @Test
     public void call123testSpecialTagsTest() throws ApiException {
         Client body = null;
-        Client response = api.call123testSpecialTags(body);
-
+        Client response = 
+        api.call123testSpecialTags(body);
+        
         // TODO: test validations
     }
     

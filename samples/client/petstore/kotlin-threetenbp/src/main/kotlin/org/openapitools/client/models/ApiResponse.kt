@@ -13,6 +13,7 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+
 /**
  * Describes the result of uploading an image resource
  * @param code 

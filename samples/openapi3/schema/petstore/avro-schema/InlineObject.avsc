@@ -7,12 +7,15 @@
     {
       "name": "name",
       "type": ["null", "string"],
-      "doc": "Updated name of the pet"
+      "doc": "Updated name of the pet",
+      "default": null
     },
     {
       "name": "status",
       "type": ["null", "string"],
-      "doc": "Updated status of the pet"
+      "doc": "Updated status of the pet",
+      "default": null
     }
   ]
+
 }

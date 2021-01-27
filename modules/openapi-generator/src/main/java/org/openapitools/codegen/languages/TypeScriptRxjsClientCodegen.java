@@ -21,6 +21,8 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.FeatureSet;
+import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -35,7 +37,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTypeScriptClientCodegen.class);
 
     public static final String NPM_REPOSITORY = "npmRepository";
-    public static final String WITH_INTERFACES = "withInterfaces";
+    public static final String WITH_PROGRESS_SUBSCRIBER = "withProgressSubscriber";
 
     protected String npmRepository = null;
     protected Set<String> reservedParamNames = new HashSet<>();
@@ -43,9 +45,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     public TypeScriptRxjsClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .build();
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         outputFolder = "generated-code/typescript-rxjs";
         embeddedTemplateDir = templateDir = "typescript-rxjs";
@@ -58,10 +58,9 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
         languageSpecificPrimitives.add("Blob");
         typeMapping.put("file", "Blob");
-        typeMapping.put("DateTime", "Date");
 
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(WITH_PROGRESS_SUBSCRIBER, "Setting this property to true will generate API controller methods with support for subscribing to request progress.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
 
         // these are used in the api template for more efficient destructuring
         this.reservedParamNames.add("headers");
@@ -90,10 +89,9 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     @Override
     public void processOpts() {
         super.processOpts();
-        additionalProperties.put("isOriginalModelPropertyNaming", getModelPropertyNaming().equals("original"));
-        additionalProperties.put("modelPropertyNaming", getModelPropertyNaming());
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
         supportingFiles.add(new SupportingFile("runtime.mustache", "", "runtime.ts"));
+        supportingFiles.add(new SupportingFile("servers.mustache", "", "servers.ts"));
         supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
         supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
@@ -110,7 +108,9 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isBinarySchema(p)) {
+        if (ModelUtils.isFileSchema(p)) {
+            return "Blob";
+        } else if (ModelUtils.isBinarySchema(p)) {
             return "Blob";
         }
         return super.getTypeDeclaration(p);
@@ -118,7 +118,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -250,11 +250,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
     private void setParamNameAlternative(CodegenParameter param, String paramName, String paramNameAlternative) {
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         if (param.paramName.equals(paramName)) {
-            param.vendorExtensions.put("paramNameAlternative", paramNameAlternative); // TODO: 5.0 Remove
             param.vendorExtensions.put("x-param-name-alternative", paramNameAlternative);
         }
     }
@@ -285,14 +281,14 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
                 setParamNameAlternative(p, p.paramName, paramNameAlternative);
 
                 for (CodegenParameter param : op.headerParams) {
-                    if (param.isListContainer) {
+                    if (param.isArray) {
                         hasListContainers = true;
                     }
                     setParamNameAlternative(param, p.paramName, paramNameAlternative);
                 }
 
                 for (CodegenParameter param : op.queryParams) {
-                    if (param.isListContainer && !param.isCollectionFormatMulti) {
+                    if (param.isArray && !param.isCollectionFormatMulti) {
                         hasListContainers = true;
                     }
                     if (param.required) {
@@ -304,7 +300,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
                 }
 
                 for (CodegenParameter param : op.formParams) {
-                    if (param.isListContainer && !param.isCollectionFormatMulti) {
+                    if (param.isArray && !param.isCollectionFormatMulti) {
                         hasListContainers = true;
                     }
                     setParamNameAlternative(param, p.paramName, paramNameAlternative);
@@ -349,6 +345,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         this.reservedWords.add("Middleware");
         this.reservedWords.add("AjaxRequest");
         this.reservedWords.add("AjaxResponse");
+        this.reservedWords.add("servers");
     }
 
     class ExtendedCodegenOperation extends CodegenOperation {
@@ -370,10 +367,9 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
-            this.isMapContainer = o.isMapContainer;
-            this.isListContainer = o.isListContainer;
+            this.isMap = o.isMap;
+            this.isArray = o.isArray;
             this.isMultipart = o.isMultipart;
-            this.hasMore = o.hasMore;
             this.isResponseBinary = o.isResponseBinary;
             this.isResponseFile = o.isResponseFile;
             this.hasReference = o.hasReference;

@@ -39,7 +39,9 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
@@ -53,15 +55,23 @@ import java.text.DateFormat;
 
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
-import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private Map<String, String> defaultCookieMap = new HashMap<String, String>();
   private String basePath = "http://petstore.swagger.io:80/v2";
+  protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
+    new ServerConfiguration(
+      "http://petstore.swagger.io:80/v2",
+      "No description provided",
+      new HashMap<String, ServerVariable>()
+    )
+  ));
+  protected Integer serverIndex = 0;
+  protected Map<String, String> serverVariables = null;
   private boolean debugging = false;
   private int connectionTimeout = 0;
 
@@ -168,6 +178,33 @@ public class ApiClient {
     return this;
   }
 
+  public List<ServerConfiguration> getServers() {
+    return servers;
+  }
+
+  public ApiClient setServers(List<ServerConfiguration> servers) {
+    this.servers = servers;
+    return this;
+  }
+
+  public Integer getServerIndex() {
+    return serverIndex;
+  }
+
+  public ApiClient setServerIndex(Integer serverIndex) {
+    this.serverIndex = serverIndex;
+    return this;
+  }
+
+  public Map<String, String> getServerVariables() {
+    return serverVariables;
+  }
+
+  public ApiClient setServerVariables(Map<String, String> serverVariables) {
+    this.serverVariables = serverVariables;
+    return this;
+  }
+
   /**
    * Gets the status code of the previous request
    * @return Status code
@@ -202,6 +239,7 @@ public class ApiClient {
     return authentications.get(authName);
   }
 
+
   /**
    * Helper method to set username for the first HTTP basic authentication.
    * @param username Username
@@ -230,6 +268,7 @@ public class ApiClient {
     throw new RuntimeException("No HTTP basic authentication configured!");
   }
 
+
   /**
    * Helper method to set API key value for the first API key authentication.
    * @param apiKey the API key
@@ -243,7 +282,7 @@ public class ApiClient {
     }
     throw new RuntimeException("No API key authentication configured!");
   }
-  
+
   /**
    * Helper method to set API key prefix for the first API key authentication.
    * @param apiKeyPrefix API key prefix
@@ -257,6 +296,7 @@ public class ApiClient {
     }
     throw new RuntimeException("No API key authentication configured!");
   }
+
 
   /**
    * Helper method to set access token for the first OAuth2 authentication.
@@ -272,20 +312,6 @@ public class ApiClient {
     throw new RuntimeException("No OAuth2 authentication configured!");
   }
 
-
-  /**
-   * Helper method to set access token for the first Bearer authentication.
-   * @param bearerToken Bearer token
-   */
-  public void setBearerToken(String bearerToken) {
-    for (Authentication auth : authentications.values()) {
-      if (auth instanceof HttpBearerAuth) {
-        ((HttpBearerAuth) auth).setBearerToken(bearerToken);
-        return;
-      }
-    }
-    throw new RuntimeException("No Bearer authentication configured!");
-  }
 
   /**
    * Set the User-Agent header's value (by adding to the default header map).
@@ -615,8 +641,20 @@ public class ApiClient {
    * @return The full URL
    */
   private String buildUrl(String path, List<Pair> queryParams, List<Pair> collectionQueryParams) {
+    String baseURL;
+    if (serverIndex != null) {
+      if (serverIndex < 0 || serverIndex >= servers.size()) {
+        throw new ArrayIndexOutOfBoundsException(String.format(
+          "Invalid index %d when selecting the host settings. Must be less than %d", serverIndex, servers.size()
+        ));
+      }
+      baseURL = servers.get(serverIndex).URL(serverVariables);
+    } else {
+      baseURL = basePath;
+    }
+
     final StringBuilder url = new StringBuilder();
-    url.append(basePath).append(path);
+    url.append(baseURL).append(path);
 
     if (queryParams != null && !queryParams.isEmpty()) {
       // support (constant) query string in `path`, e.g. "/posts?draft=1"

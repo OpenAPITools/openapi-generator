@@ -7,11 +7,11 @@
 
 import Foundation
 
-public struct ArrayOfArrayOfNumberOnly: Codable {
+@objc public class ArrayOfArrayOfNumberOnly: NSObject, Codable {
 
     public var arrayArrayNumber: [[Double]]?
 
-    public init(arrayArrayNumber: [[Double]]?) {
+    public init(arrayArrayNumber: [[Double]]? = nil) {
         self.arrayArrayNumber = arrayArrayNumber
     }
 

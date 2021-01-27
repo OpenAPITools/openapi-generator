@@ -21,7 +21,9 @@
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
-
+{{#vendorExtensions.x-has-forward-declarations}}
+{{#vendorExtensions.x-forward-declarations}}{{.}}
+{{/vendorExtensions.x-forward-declarations}}{{/vendorExtensions.x-has-forward-declarations}}
 class {{classname}} : public {{prefix}}{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Enum{{/isEnum}} {
 public:
     {{classname}}();
@@ -35,6 +37,8 @@ public:
 {{^isEnum}}{{#vars}}
     {{{dataType}}} {{getter}}() const;
     void {{setter}}(const {{{dataType}}} &{{name}});
+    bool is_{{name}}_Set() const;
+    bool is_{{name}}_Valid() const;
 {{/vars}}{{/isEnum}}{{#isEnum}}
 {{#allowableValues}}
     enum class e{{classname}} {{#enumVars}}{{#-first}}{{^isString}}: int {{/isString}}{{/-first}}{{/enumVars}}{

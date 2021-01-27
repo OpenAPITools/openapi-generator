@@ -117,6 +117,10 @@ html[data-theme='dark'] .featureImage {
     filter: invert(.9);
 }
 
+html[data-theme='dark'] .mediaLink {
+    filter: invert(1.0);
+}
+
 .indexCtasGitHubButtonWrapper {
     display: flex;
 }

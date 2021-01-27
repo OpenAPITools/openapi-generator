@@ -148,6 +148,7 @@ public class JavaModelEnumTest {
 
         final ComposedSchema composedSchema = new ComposedSchema()
                 .addAllOfItem(new Schema().$ref(parentModel.getName()));
+        composedSchema.setName("sample");
 
         final JavaClientCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPI();
@@ -167,11 +168,12 @@ public class JavaModelEnumTest {
 
     @Test
     public void testEnumTestSchema() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
 
         Schema enumTest = openAPI.getComponents().getSchemas().get("Enum_Test");
+        Assert.assertNotNull(enumTest);
         CodegenModel cm = codegen.fromModel("Enum_Test", enumTest);
 
         Assert.assertEquals(cm.getVars().size(), 8);

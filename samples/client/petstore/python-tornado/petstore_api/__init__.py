@@ -31,6 +31,7 @@ from petstore_api.exceptions import OpenApiException
 from petstore_api.exceptions import ApiTypeError
 from petstore_api.exceptions import ApiValueError
 from petstore_api.exceptions import ApiKeyError
+from petstore_api.exceptions import ApiAttributeError
 from petstore_api.exceptions import ApiException
 # import models into sdk package
 from petstore_api.models.additional_properties_any_type import AdditionalPropertiesAnyType

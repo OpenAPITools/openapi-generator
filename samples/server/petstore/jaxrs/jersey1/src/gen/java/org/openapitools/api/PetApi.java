@@ -10,6 +10,7 @@ import io.swagger.jaxrs.*;
 import java.io.File;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
+import java.util.Set;
 
 import java.util.Map;
 import java.util.List;
@@ -17,8 +18,8 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
-import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
+import com.sun.jersey.multipart.FormDataBodyPart;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -31,7 +32,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the pet API")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class PetApi  {
    private final PetApiService delegate = PetApiServiceFactory.getPetApi();
 
@@ -44,7 +45,7 @@ public class PetApi  {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
-    }, tags={ "pet",  })
+    }, tags={ "pet" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
@@ -63,7 +64,7 @@ public class PetApi  {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
-    }, tags={ "pet",  })
+    }, tags={ "pet" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
@@ -83,7 +84,7 @@ public class PetApi  {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
-    }, tags={ "pet",  })
+    }, tags={ "pet" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid status value", response = Void.class) })
@@ -97,17 +98,17 @@ public class PetApi  {
     @Path("/findByTags")
     
     @Produces({ "application/xml", "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Finds Pets by tags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", response = Pet.class, responseContainer = "List", authorizations = {
+    @io.swagger.annotations.ApiOperation(value = "Finds Pets by tags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", response = Pet.class, responseContainer = "Set", authorizations = {
         @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
-    }, tags={ "pet",  })
+    }, tags={ "pet" })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "Set"),
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid tag value", response = Void.class) })
     public Response findPetsByTags(
-        @ApiParam(value = "Tags to filter by", required = true) @QueryParam("tags") @NotNull @Valid  List<String> tags,
+        @ApiParam(value = "Tags to filter by", required = true) @QueryParam("tags") @NotNull @Valid  Set<String> tags,
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.findPetsByTags(tags,securityContext);
@@ -118,7 +119,7 @@ public class PetApi  {
     @Produces({ "application/xml", "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Find pet by ID", notes = "Returns a single pet", response = Pet.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "api_key")
-    }, tags={ "pet",  })
+    }, tags={ "pet" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Pet.class),
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
@@ -138,7 +139,7 @@ public class PetApi  {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
-    }, tags={ "pet",  })
+    }, tags={ "pet" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
@@ -159,7 +160,7 @@ public class PetApi  {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
-    }, tags={ "pet",  })
+    }, tags={ "pet" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
     public Response updatePetWithForm(
@@ -185,10 +186,9 @@ public class PetApi  {
     public Response uploadFile(
         @ApiParam(value = "ID of pet to update", required = true) @PathParam("petId") @NotNull  Long petId,
         @FormDataParam("additionalMetadata")  String additionalMetadata,
-        @FormDataParam("file") InputStream inputStream,
-        @FormDataParam("file") FormDataContentDisposition fileDetail,
+        @FormDataParam("file") FormDataBodyPart fileBodypart,
         @Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.uploadFile(petId,additionalMetadata,inputStream, fileDetail,securityContext);
+        return delegate.uploadFile(petId,additionalMetadata,fileBodypart,securityContext);
     }
 }

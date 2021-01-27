@@ -19,12 +19,12 @@ feature -- Test routines
             -- To test class name in snake case 
         local
             l_response: CLIENT
-            l_client: CLIENT
+            l_body: CLIENT
         do
             -- TODO: Initialize required params.
-            -- l_client
+            -- l_body
                       
-            -- l_response := api.test_classname(l_client)
+            -- l_response := api.test_classname(l_body)
             assert ("not_implemented", False)
         end
 

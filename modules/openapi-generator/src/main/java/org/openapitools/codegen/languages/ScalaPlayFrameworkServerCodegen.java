@@ -35,6 +35,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.rightPad;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.DATE_LIBRARY;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -47,7 +48,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
     public static final String ROUTES_FILE_NAME = "routesFileName";
     public static final String BASE_PACKAGE = "basePackage";
 
-    static Logger LOGGER = LoggerFactory.getLogger(ScalaPlayFrameworkServerCodegen.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(ScalaPlayFrameworkServerCodegen.class);
 
     protected boolean skipStubs = false;
     protected boolean supportAsync = false;
@@ -59,7 +60,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
     public ScalaPlayFrameworkServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -75,7 +76,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         outputFolder = "generated-code" + File.separator + "scala-play-server";
         modelTemplateFiles.put("model.mustache", ".scala");
@@ -96,12 +97,14 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         typeMapping.put("ByteArray", "Array[Byte]");
         typeMapping.put("object", "JsObject");
         typeMapping.put("file", "TemporaryFile");
+        typeMapping.put("number", "BigDecimal");
+        typeMapping.put("decimal", "BigDecimal");
 
         importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
         importMapping.put("LocalDate", "java.time.LocalDate");
-        importMapping.remove("BigDecimal");
         importMapping.put("TemporaryFile", "play.api.libs.Files.TemporaryFile");
 
+        cliOptions.removeIf(opt -> DATE_LIBRARY.equals(opt.getOpt()));
         cliOptions.add(new CliOption(ROUTES_FILE_NAME, "Name of the routes file to generate.").defaultValue(routesFileName));
         cliOptions.add(new CliOption(BASE_PACKAGE, "Base package in which supporting classes are generated.").defaultValue(basePackage));
 
@@ -256,9 +259,6 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         objs = super.postProcessAllModels(objs);
         Map<String, CodegenModel> modelsByClassName = new HashMap<>();
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         for (Object _outer : objs.values()) {
             Map<String, Object> outer = (Map<String, Object>) _outer;
             List<Map<String, Object>> models = (List<Map<String, Object>>) outer.get("models");
@@ -269,7 +269,6 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
                 cm.classVarName = camelize(cm.classVarName, true);
                 modelsByClassName.put(cm.classname, cm);
                 boolean hasFiles = cm.vars.stream().anyMatch(var -> var.isFile);
-                cm.vendorExtensions.put("hasFiles", hasFiles); // TODO: 5.0 Remove
                 cm.vendorExtensions.put("x-has-files", hasFiles);
             }
         }
@@ -287,9 +286,6 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         objs = super.postProcessSupportingFileData(objs);
         generateJSONSpecFile(objs);
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         // Prettify routes file
         Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
         List<Map<String, Object>> apis = (List<Map<String, Object>>) apiInfo.get("apis");
@@ -302,11 +298,9 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
                 .reduce(0, Integer::max);
         ops.forEach(op -> {
             String paddedPath = rightPad(op.path, maxPathLength - op.httpMethod.length());
-            op.vendorExtensions.put("paddedPath", paddedPath); // TODO: 5.0 Remove
             op.vendorExtensions.put("x-padded-path", paddedPath);
         });
         ops.forEach(op -> {
-            op.vendorExtensions.put("hasPathParams", op.getHasPathParams()); // TODO: 5.0 Remove
             op.vendorExtensions.put("x-has-path-params", op.getHasPathParams());
         });
 
@@ -372,7 +366,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         }
 
         if (ModelUtils.isMapSchema(p)) {
-            Schema ap = ModelUtils.getAdditionalProperties(p);
+            Schema ap = getAdditionalProperties(p);
             String inner = getSchemaType(ap);
             return "Map.empty[String, " + inner + "]";
         }
@@ -428,7 +422,8 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         StringBuilder defaultValue = new StringBuilder();
         defaultValue.append(cm.classname).append('(');
 
-        for (CodegenProperty var : cm.vars) {
+        for(int i = 0; i < cm.vars.size(); i++) {
+            CodegenProperty var = cm.vars.get(i);
             if (!var.required) {
                 defaultValue.append("None");
             } else if (models.containsKey(var.dataType)) {
@@ -442,12 +437,12 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
                 defaultValue.append("null");
             }
 
-            if (var.hasMore) {
+            if (i < cm.vars.size()-1) {
                 defaultValue.append(", ");
             }
         }
 
-        if (cm.isMapModel) {
+        if (cm.isMap) {
             defaultValue.append(", Map.empty");
         }
 

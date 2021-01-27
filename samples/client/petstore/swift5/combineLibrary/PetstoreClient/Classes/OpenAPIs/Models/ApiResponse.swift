@@ -13,7 +13,7 @@ public struct ApiResponse: Codable {
     public var type: String?
     public var message: String?
 
-    public init(code: Int?, type: String?, message: String?) {
+    public init(code: Int? = nil, type: String? = nil, message: String? = nil) {
         self.code = code
         self.type = type
         self.message = message

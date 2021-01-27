@@ -1,0 +1,7 @@
+generatorName: python-legacy
+outputDir: samples/client/petstore/python-tornado
+library: tornado
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/python-legacy
+additionalProperties:
+  packageName: petstore_api

@@ -80,11 +80,11 @@ class PetApi(
    * Add a new pet to the store
    * 
    *
-   * @param body Pet object that needs to be added to the store 
-   * @return void
+   * @param pet Pet object that needs to be added to the store 
+   * @return Pet
    */
-  def addPet(body: Pet) = {
-    val await = Try(Await.result(addPetAsync(body), Duration.Inf))
+  def addPet(pet: Pet): Option[Pet] = {
+    val await = Try(Await.result(addPetAsync(pet), Duration.Inf))
     await match {
       case Success(i) => Some(await.get)
       case Failure(t) => None
@@ -95,11 +95,11 @@ class PetApi(
    * Add a new pet to the store asynchronously
    * 
    *
-   * @param body Pet object that needs to be added to the store 
-   * @return Future(void)
+   * @param pet Pet object that needs to be added to the store 
+   * @return Future(Pet)
    */
-  def addPetAsync(body: Pet) = {
-      helper.addPet(body)
+  def addPetAsync(pet: Pet): Future[Pet] = {
+      helper.addPet(pet)
   }
 
   /**
@@ -212,11 +212,11 @@ class PetApi(
    * Update an existing pet
    * 
    *
-   * @param body Pet object that needs to be added to the store 
-   * @return void
+   * @param pet Pet object that needs to be added to the store 
+   * @return Pet
    */
-  def updatePet(body: Pet) = {
-    val await = Try(Await.result(updatePetAsync(body), Duration.Inf))
+  def updatePet(pet: Pet): Option[Pet] = {
+    val await = Try(Await.result(updatePetAsync(pet), Duration.Inf))
     await match {
       case Success(i) => Some(await.get)
       case Failure(t) => None
@@ -227,11 +227,11 @@ class PetApi(
    * Update an existing pet asynchronously
    * 
    *
-   * @param body Pet object that needs to be added to the store 
-   * @return Future(void)
+   * @param pet Pet object that needs to be added to the store 
+   * @return Future(Pet)
    */
-  def updatePetAsync(body: Pet) = {
-      helper.updatePet(body)
+  def updatePetAsync(pet: Pet): Future[Pet] = {
+      helper.updatePet(pet)
   }
 
   /**
@@ -298,7 +298,7 @@ class PetApi(
 
 class PetApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends ApiClient(client, config) {
 
-  def addPet(body: Pet)(implicit reader: ClientResponseReader[Unit], writer: RequestWriter[Pet]): Future[Unit] = {
+  def addPet(pet: Pet)(implicit reader: ClientResponseReader[Pet], writer: RequestWriter[Pet]): Future[Pet] = {
     // create path and map variables
     val path = (addFmt("/pet"))
 
@@ -306,9 +306,9 @@ class PetApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends 
     val queryParams = new mutable.HashMap[String, String]
     val headerParams = new mutable.HashMap[String, String]
 
-    if (body == null) throw new Exception("Missing required parameter 'body' when calling PetApi->addPet")
+    if (pet == null) throw new Exception("Missing required parameter 'pet' when calling PetApi->addPet")
 
-    val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, writer.write(body))
+    val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, writer.write(pet))
     resFuture flatMap { resp =>
       val status = Response.Status.fromStatusCode(resp.statusCode)
       status.getFamily match {
@@ -406,7 +406,7 @@ class PetApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends 
     }
   }
 
-  def updatePet(body: Pet)(implicit reader: ClientResponseReader[Unit], writer: RequestWriter[Pet]): Future[Unit] = {
+  def updatePet(pet: Pet)(implicit reader: ClientResponseReader[Pet], writer: RequestWriter[Pet]): Future[Pet] = {
     // create path and map variables
     val path = (addFmt("/pet"))
 
@@ -414,9 +414,9 @@ class PetApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends 
     val queryParams = new mutable.HashMap[String, String]
     val headerParams = new mutable.HashMap[String, String]
 
-    if (body == null) throw new Exception("Missing required parameter 'body' when calling PetApi->updatePet")
+    if (pet == null) throw new Exception("Missing required parameter 'pet' when calling PetApi->updatePet")
 
-    val resFuture = client.submit("PUT", path, queryParams.toMap, headerParams.toMap, writer.write(body))
+    val resFuture = client.submit("PUT", path, queryParams.toMap, headerParams.toMap, writer.write(pet))
     resFuture flatMap { resp =>
       val status = Response.Status.fromStatusCode(resp.statusCode)
       status.getFamily match {

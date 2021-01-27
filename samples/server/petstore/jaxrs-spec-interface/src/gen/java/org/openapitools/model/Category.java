@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class Category  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Category  implements Serializable {
   
   private @Valid Long id;
   private @Valid String name = "default-name";
@@ -27,21 +27,24 @@ public class Category  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
   }
+
   public void setId(Long id) {
     this.id = id;
-  }
-
-  /**
+  }/**
    **/
   public Category name(String name) {
     this.name = name;
     return this;
   }
+
+  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -50,13 +53,13 @@ public class Category  implements Serializable {
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -88,11 +91,13 @@ public class Category  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

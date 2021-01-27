@@ -35,6 +35,13 @@ public class RetryingOAuth extends OAuth implements Interceptor {
         this(new OkHttpClient(), tokenRequestBuilder);
     }
 
+    /**
+    @param tokenUrl The token URL to be used for this OAuth2 flow.
+        Applicable to the following OAuth2 flows: "password", "clientCredentials" and "authorizationCode".
+        The value must be an absolute URL.
+    @param clientId The OAuth2 client ID for the "clientCredentials" flow.
+    @param clientSecret The OAuth2 client secret for the "clientCredentials" flow.
+    */
     public RetryingOAuth(
             String tokenUrl,
             String clientId,

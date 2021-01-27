@@ -23,9 +23,18 @@ api_response_t *api_response_create(
 
 
 void api_response_free(api_response_t *api_response) {
+    if(NULL == api_response){
+        return ;
+    }
     listEntry_t *listEntry;
-    free(api_response->type);
-    free(api_response->message);
+    if (api_response->type) {
+        free(api_response->type);
+        api_response->type = NULL;
+    }
+    if (api_response->message) {
+        free(api_response->message);
+        api_response->message = NULL;
+    }
     free(api_response);
 }
 

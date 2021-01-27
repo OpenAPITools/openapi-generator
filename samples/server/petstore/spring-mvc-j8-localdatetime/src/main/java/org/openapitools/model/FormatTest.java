@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import org.springframework.core.io.Resource;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -17,7 +16,7 @@ import javax.validation.constraints.*;
 /**
  * FormatTest
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FormatTest   {
   @JsonProperty("integer")
   private Integer integer;
@@ -44,12 +43,14 @@ public class FormatTest   {
   private byte[] _byte;
 
   @JsonProperty("binary")
-  private Resource binary;
+  private org.springframework.core.io.Resource binary;
 
   @JsonProperty("date")
+  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)
   private LocalDate date;
 
   @JsonProperty("dateTime")
+  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
   private LocalDateTime dateTime;
 
   @JsonProperty("uuid")
@@ -225,7 +226,7 @@ public class FormatTest   {
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
-@Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$") 
+
   public byte[] getByte() {
     return _byte;
   }
@@ -234,7 +235,7 @@ public class FormatTest   {
     this._byte = _byte;
   }
 
-  public FormatTest binary(Resource binary) {
+  public FormatTest binary(org.springframework.core.io.Resource binary) {
     this.binary = binary;
     return this;
   }
@@ -247,11 +248,11 @@ public class FormatTest   {
 
   @Valid
 
-  public Resource getBinary() {
+  public org.springframework.core.io.Resource getBinary() {
     return binary;
   }
 
-  public void setBinary(Resource binary) {
+  public void setBinary(org.springframework.core.io.Resource binary) {
     this.binary = binary;
   }
 
@@ -363,7 +364,7 @@ public class FormatTest   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -419,7 +420,7 @@ public class FormatTest   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

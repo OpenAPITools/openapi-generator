@@ -24,7 +24,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the store API")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen")
 public interface StoreApi  {
    
     @DELETE
@@ -58,7 +58,7 @@ public interface StoreApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Void.class) })
-    public Response getOrderById( @Min(1) @Max(5) @PathParam("orderId") Long orderId,@Context SecurityContext securityContext);
+    public Response getOrderById( @Min(1L) @Max(5L) @PathParam("orderId") Long orderId,@Context SecurityContext securityContext);
     @POST
     @Path("/order")
     

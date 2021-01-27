@@ -60,7 +60,6 @@ public class PhpModelTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, null);
         Assert.assertEquals(property1.baseType, "int");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
         Assert.assertFalse(property1.isContainer);
@@ -71,7 +70,6 @@ public class PhpModelTest {
         Assert.assertEquals(property2.name, "name");
         Assert.assertEquals(property2.defaultValue, null);
         Assert.assertEquals(property2.baseType, "string");
-        Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
         Assert.assertFalse(property2.isContainer);
@@ -83,7 +81,6 @@ public class PhpModelTest {
         Assert.assertEquals(property3.name, "created_at");
         Assert.assertEquals(property3.defaultValue, null);
         Assert.assertEquals(property3.baseType, "\\DateTime");
-        Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
     }
@@ -112,7 +109,6 @@ public class PhpModelTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, null);
         Assert.assertEquals(property1.baseType, "int");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
         Assert.assertFalse(property1.isContainer);
@@ -122,7 +118,6 @@ public class PhpModelTest {
         Assert.assertEquals(property2.dataType, "string[]");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertEquals(property2.baseType, "array");
-        Assert.assertFalse(property2.hasMore);
         Assert.assertEquals(property2.containerType, "array");
         Assert.assertFalse(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
@@ -250,7 +245,7 @@ public class PhpModelTest {
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
-        Assert.assertTrue(cm.isArrayModel);
+        Assert.assertTrue(cm.isArray);
         Assert.assertEquals(cm.description, "an array model");
         Assert.assertEquals(cm.vars.size(), 0);
         // skip import test as import is not used by PHP codegen
@@ -302,7 +297,7 @@ public class PhpModelTest {
 
     @Test(description = "test enum array model")
     public void enumArrayModelTest() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new PhpClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
@@ -337,7 +332,7 @@ public class PhpModelTest {
 
     @Test(description = "test enum model for values (numeric, string, etc)")
     public void enumMdoelValueTest() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new PhpClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Schema definition = openAPI.getComponents().getSchemas().get("Enum_Test");
@@ -376,7 +371,7 @@ public class PhpModelTest {
     // datetime (or primitive type) not yet supported in HTTP request body
     @Test(description = "returns DateTime when using `--model-name-prefix`")
     public void dateTest() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/datePropertyTest.json");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/datePropertyTest.json");
         final DefaultCodegen codegen = new PhpClientCodegen();
         codegen.setModelNamePrefix("foo");
         codegen.setOpenAPI(openAPI);

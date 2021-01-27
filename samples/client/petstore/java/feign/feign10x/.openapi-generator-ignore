@@ -1,0 +1,4 @@
+# OpenAPI Generator Ignore
+# This is a "live" test which should not be overwritten
+src/test/java/org/openapitools/client/StringUtilTest.java
+

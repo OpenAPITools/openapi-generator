@@ -105,6 +105,17 @@ namespace Org.OpenAPITools.Test
             // create pet
             Pet p1 = new Pet(name: "Csharp test", photoUrls: new List<string> { "http://petstore.com/csharp_test" });
             Assert.Equal("{\"name\":\"Csharp test\",\"photoUrls\":[\"http://petstore.com/csharp_test\"]}", JsonConvert.SerializeObject(p1));
+
+            // test additonal properties (serialization)
+            Pet p2 = new Pet(name: "Csharp test", photoUrls: new List<string> { "http://petstore.com/csharp_test" });
+            p2.AdditionalProperties.Add("hello", "world");
+            Assert.Equal("{\"name\":\"Csharp test\",\"photoUrls\":[\"http://petstore.com/csharp_test\"],\"hello\":\"world\"}", JsonConvert.SerializeObject(p2));
+
+            // test additonal properties (deserialization)
+            Pet p3 = JsonConvert.DeserializeObject<Pet>("{\"name\":\"Csharp test\",\"photoUrls\":[\"http://petstore.com/csharp_test\"],\"hello\":\"world\",\"int\":123}");
+            Assert.Equal("Csharp test", p3.Name);
+            Assert.Equal("world", p3.AdditionalProperties["hello"]);
+            Assert.Equal(123L, p3.AdditionalProperties["int"]);
         }
 
         /// <summary>
@@ -169,6 +180,22 @@ namespace Org.OpenAPITools.Test
             Assert.True(p1.PhotoUrls.SequenceEqual(p2.PhotoUrls));
 
             Assert.False(p1.Equals(p2));
+        }
+
+
+        /// <summary>
+        /// Test Pet deserialization
+        /// </summary>
+        [Fact]
+        public void TestDeserialization()
+        {
+            // properly deserialized, no exception
+            Pet p2 = JsonConvert.DeserializeObject<Pet>("{\n  \"name\": \"csharp test 2\",\n  \"photoUrls\": [\"http://petstore.com/csharp_test\", \"http://petstore.com/csharp_test2\"]\n}");
+            // comment out below as the result (json string) is OS dependent.
+            //Assert.Equal("{\n  \"name\": \"csharp test 2\",\n  \"photoUrls\": [\n    \"http://petstore.com/csharp_test\",\n    \"http://petstore.com/csharp_test2\"\n  ]\n}", p2.ToJson());
+
+            // Missing `name` to cause exceptions in deserialization
+            Assert.Throws<Newtonsoft.Json.JsonSerializationException>(() => JsonConvert.DeserializeObject<Pet>("{\n  \"Something\": \"csharp test 2\",\n  \"photoUrls\": [\"http://petstore.com/csharp_test\", \"http://petstore.com/csharp_test2\"]\n}"));
         }
 
     }

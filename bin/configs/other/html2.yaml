@@ -1,0 +1,6 @@
+generatorName: html2
+outputDir: samples/documentation/html2
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/htmlDocs2
+additionalProperties:
+  hideGenerationTimestamp: "true"

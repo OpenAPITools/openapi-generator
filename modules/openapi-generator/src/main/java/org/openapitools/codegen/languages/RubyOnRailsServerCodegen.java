@@ -74,7 +74,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
     public RubyOnRailsServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -90,7 +90,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         outputFolder = "generated-code" + File.separator + "rails5";
         apiPackage = "app/controllers";

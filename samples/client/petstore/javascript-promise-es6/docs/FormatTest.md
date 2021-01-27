@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **_number** | **Number** |  | 
 **_float** | **Number** |  | [optional] 
 **_double** | **Number** |  | [optional] 
+**decimal** | **Number** |  | [optional] 
 **_string** | **String** |  | [optional] 
 **_byte** | **Blob** |  | 
 **binary** | **File** |  | [optional] 
@@ -17,6 +18,7 @@ Name | Type | Description | Notes
 **dateTime** | **Date** |  | [optional] 
 **uuid** | **String** |  | [optional] 
 **password** | **String** |  | 
-**bigDecimal** | **Number** |  | [optional] 
+**patternWithDigits** | **String** | A string that is a 10 digit number. Can have leading zeros. | [optional] 
+**patternWithDigitsAndDelimiter** | **String** | A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01. | [optional] 
 
 

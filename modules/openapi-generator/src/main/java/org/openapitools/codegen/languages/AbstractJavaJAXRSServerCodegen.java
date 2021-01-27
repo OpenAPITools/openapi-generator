@@ -17,9 +17,11 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.annotations.VisibleForTesting;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.utils.URLPathUtils;
@@ -30,10 +32,10 @@ import java.io.File;
 import java.net.URL;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
 public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     public static final String SERVER_PORT = "serverPort";
+    public static final String USE_TAGS = "useTags";
+
     /**
      * Name of the sub-directory in "src/main/resource" where to find the
      * Mustache template for the JAX-RS Codegen.
@@ -43,7 +45,9 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     protected String testResourcesFolder = "src/test/resources";
     protected String title = "OpenAPI Server";
     protected String serverPort = "8080";
+
     protected boolean useBeanValidation = true;
+    protected boolean useTags = false;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaJAXRSServerCodegen.class);
 
@@ -72,6 +76,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         cliOptions.add(new CliOption("title", "a title describing the application").defaultValue(title));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations",useBeanValidation));
         cliOptions.add(new CliOption(SERVER_PORT, "The port on which the server should be started").defaultValue(serverPort));
+        cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames"));
     }
 
 
@@ -93,11 +98,32 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         }
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+            setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+        }
+
+        if (additionalProperties.containsKey(USE_TAGS)) {
+            setUseTags(convertPropertyToBoolean(USE_TAGS));
         }
 
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+    }
 
+    @Override
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        final String basePath = StringUtils.substringBefore(StringUtils.removeStart(resourcePath, "/"), "/");
+        if (!StringUtils.isEmpty(basePath)) {
+            co.subresourceOperation = !co.path.isEmpty();
+        }
+        if (useTags) {
+            super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+        } else {
+            co.baseName = basePath;
+            if (StringUtils.isEmpty(co.baseName) || StringUtils.containsAny(co.baseName, "{", "}")) {
+                co.baseName = "default";
+            }
+            final List<CodegenOperation> opList = operations.computeIfAbsent(co.baseName, k -> new ArrayList<>());
+            opList.add(co);
+        }
     }
 
     @Override
@@ -125,11 +151,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
                             for (String tag : operation.getTags()) {
                                 Map<String, String> value = new HashMap<String, String>();
                                 value.put("tag", tag);
-                                value.put("hasMore", "true");
                                 tags.add(value);
-                            }
-                            if (tags.size() > 0) {
-                                tags.get(tags.size() - 1).remove("hasMore");
                             }
                             if (operation.getTags().size() > 0) {
                                 String tag = operation.getTags().get(0);
@@ -151,9 +173,8 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     static Map<String, Object> jaxrsPostProcessOperations(Map<String, Object> objs) {
         @SuppressWarnings("unchecked")
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        String commonPath = null;
         if (operations != null) {
-            String commonBaseName = null;
-            boolean baseNameEquals = true;
             @SuppressWarnings("unchecked")
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
@@ -201,6 +222,8 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
                         if ("array".equals(resp.containerType)) {
                             resp.containerType = "List";
+                        } else if ("set".equals(resp.containerType)) {
+                            resp.containerType = "Set";
                         } else if ("map".equals(resp.containerType)) {
                             resp.containerType = "Map";
                         }
@@ -216,27 +239,23 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
                 if ("array".equals(operation.returnContainer)) {
                     operation.returnContainer = "List";
+                } else if ("set".equals(operation.returnContainer)) {
+                    operation.returnContainer = "Set";
                 } else if ("map".equals(operation.returnContainer)) {
                     operation.returnContainer = "Map";
                 }
-                
-                if(commonBaseName == null) {
-                    commonBaseName = operation.baseName;
-                } else if(!commonBaseName.equals(operation.baseName)) {
-                    baseNameEquals = false;
+
+                if (commonPath == null) {
+                    commonPath = operation.path;
+                } else {
+                    commonPath = getCommonPath(commonPath, operation.path);
                 }
             }
-            if(baseNameEquals) {
-                objs.put("commonPath", commonBaseName);
-            } else {
-                for (CodegenOperation operation : ops) {
-                    if(operation.baseName != null) {
-                        operation.path = "/" + operation.baseName + operation.path;
-                        operation.baseName = null;
-                    }
-                }
-                objs.put("commonPath", null);
+            for (CodegenOperation co : ops) {
+                co.path = StringUtils.removeStart(co.path, commonPath);
+                co.subresourceOperation = co.path.length() > 1;
             }
+            objs.put("commonPath", "/".equals(commonPath) ? StringUtils.EMPTY : commonPath);
         }
         return objs;
     }
@@ -247,7 +266,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         if (computed.length() > 0) {
             computed = sanitizeName(computed);
         }
-         return super.toApiName(computed);
+        return super.toApiName(computed);
     }
 
     @Override
@@ -269,6 +288,19 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         return result;
     }
 
+    private static String getCommonPath(String path1, String path2) {
+        final String[] parts1 = StringUtils.split(path1, "/");
+        final String[] parts2 = StringUtils.split(path2, "/");
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < Math.min(parts1.length, parts2.length); i++) {
+            if (!parts1[i].equals(parts2[i])) {
+                break;
+            }
+            builder.append("/").append(parts1[i]);
+        }
+        return builder.toString();
+    }
+
     private String implFileFolder(String output) {
         return outputFolder + "/" + output + "/" + apiPackage().replace('.', '/');
     }
@@ -277,5 +309,8 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         this.useBeanValidation = useBeanValidation;
     }
 
-
+    @VisibleForTesting
+    public void setUseTags(boolean useTags) {
+        this.useTags = useTags;
+    }
 }

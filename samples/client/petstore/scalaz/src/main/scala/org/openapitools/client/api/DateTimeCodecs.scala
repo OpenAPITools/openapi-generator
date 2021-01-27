@@ -7,13 +7,12 @@ import argonaut.DecodeJson._
 import org.http4s._
 import org.http4s.{EntityDecoder, EntityEncoder}
 import org.http4s.argonaut._
-
-import org.joda.time.DateTime
+import java.time.OffsetDateTime
 
 object DateTimeCodecs {
-  implicit def dateTimeEncodeJson: EncodeJson[DateTime] =
-    EncodeJson[DateTime](dt => StringEncodeJson(dt.toString))
+  implicit def dateTimeEncodeJson: EncodeJson[OffsetDateTime] =
+    EncodeJson[OffsetDateTime](dt => StringEncodeJson(dt.toString))
 
-  implicit def dateTimeDecodeJson: DecodeJson[DateTime] =
-    DecodeJson.of[String].map(DateTime.parse(_)) setName "org.joda.time.DateTime"
+  implicit def dateTimeDecodeJson: DecodeJson[OffsetDateTime] =
+    DecodeJson.of[String].map(OffsetDateTime.parse(_)) setName "java.time.OffsetDateTime"
 }

@@ -27,11 +27,14 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * AdditionalPropertiesClass
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_MAP_STRING = "map_string";
   @SerializedName(SERIALIZED_NAME_MAP_STRING)
@@ -128,6 +131,7 @@ public class AdditionalPropertiesClass {
    * @return mapNumber
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public Map<String, BigDecimal> getMapNumber() {
@@ -221,6 +225,7 @@ public class AdditionalPropertiesClass {
    * @return mapArrayInteger
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public Map<String, List<Integer>> getMapArrayInteger() {
@@ -252,6 +257,7 @@ public class AdditionalPropertiesClass {
    * @return mapArrayAnytype
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public Map<String, List<Object>> getMapArrayAnytype() {
@@ -283,6 +289,7 @@ public class AdditionalPropertiesClass {
    * @return mapMapString
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public Map<String, Map<String, String>> getMapMapString() {
@@ -314,6 +321,7 @@ public class AdditionalPropertiesClass {
    * @return mapMapAnytype
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public Map<String, Map<String, Object>> getMapMapAnytype() {
@@ -396,7 +404,7 @@ public class AdditionalPropertiesClass {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -422,7 +430,6 @@ public class AdditionalPropertiesClass {
     return Objects.hash(mapString, mapNumber, mapInteger, mapBoolean, mapArrayInteger, mapArrayAnytype, mapMapString, mapMapAnytype, anytype1, anytype2, anytype3);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -446,7 +453,7 @@ public class AdditionalPropertiesClass {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

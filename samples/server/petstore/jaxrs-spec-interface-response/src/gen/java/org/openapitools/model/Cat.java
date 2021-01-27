@@ -3,6 +3,7 @@ package org.openapitools.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
+import org.openapitools.model.CatAllOf;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -15,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class Cat extends Animal implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Cat extends Animal implements Serializable {
   
   private @Valid Boolean declawed;
 
@@ -27,18 +28,20 @@ public class Cat extends Animal implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("declawed")
   public Boolean getDeclawed() {
     return declawed;
   }
+
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -46,12 +49,13 @@ public class Cat extends Animal implements Serializable {
       return false;
     }
     Cat cat = (Cat) o;
-    return Objects.equals(declawed, cat.declawed);
+    return Objects.equals(this.declawed, cat.declawed) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(declawed);
+    return Objects.hash(declawed, super.hashCode());
   }
 
   @Override
@@ -68,11 +72,13 @@ public class Cat extends Animal implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

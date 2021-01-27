@@ -1,0 +1,31 @@
+{{>example-server-common}}
+
+use {{{externCrateName}}}::{
+    Api,
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+    {{{operationId}}}Response,
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+};
+use {{{externCrateName}}}::server::MakeService;
+use std::error::Error;
+use swagger::ApiError;
+
+#[async_trait]
+impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
+{
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+{{>example-server-operation}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+}

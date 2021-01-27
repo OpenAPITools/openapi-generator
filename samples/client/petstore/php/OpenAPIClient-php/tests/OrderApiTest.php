@@ -8,7 +8,7 @@ class OrderApiTest extends TestCase
 {
 
     // add a new pet (id 10005) to ensure the pet object is available for all the tests
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         // for error reporting (need to run with php5.3 to get no warning)
         //ini_set('display_errors', 1);
@@ -31,13 +31,11 @@ class OrderApiTest extends TestCase
         $order->setStatus("placed");
         $this->assertSame("placed", $order->getStatus());
     }
- 
-    /**
-     * @expectedException InvalidArgumentException
-     */
+
     public function testOrderException()
     {
         // initialize the API client
+        $this->expectException(\InvalidArgumentException::class);
         $order = new Model\Order();
         $order->setStatus("invalid_value");
     }

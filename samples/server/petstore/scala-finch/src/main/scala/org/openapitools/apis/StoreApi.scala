@@ -96,8 +96,8 @@ object StoreApi {
         * @return An endpoint representing a Order
         */
         private def placeOrder(da: DataAccessor): Endpoint[Order] =
-        post("store" :: "order" :: jsonBody[Order]) { (body: Order) =>
-          da.Store_placeOrder(body) match {
+        post("store" :: "order" :: jsonBody[Order]) { (order: Order) =>
+          da.Store_placeOrder(order) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }

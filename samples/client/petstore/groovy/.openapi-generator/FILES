@@ -1,0 +1,12 @@
+README.md
+build.gradle
+src/main/groovy/org/openapitools/api/ApiUtils.groovy
+src/main/groovy/org/openapitools/api/PetApi.groovy
+src/main/groovy/org/openapitools/api/StoreApi.groovy
+src/main/groovy/org/openapitools/api/UserApi.groovy
+src/main/groovy/org/openapitools/model/Category.groovy
+src/main/groovy/org/openapitools/model/ModelApiResponse.groovy
+src/main/groovy/org/openapitools/model/Order.groovy
+src/main/groovy/org/openapitools/model/Pet.groovy
+src/main/groovy/org/openapitools/model/Tag.groovy
+src/main/groovy/org/openapitools/model/User.groovy

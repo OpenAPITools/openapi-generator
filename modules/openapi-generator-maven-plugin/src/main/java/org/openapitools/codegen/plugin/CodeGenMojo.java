@@ -70,7 +70,7 @@ import com.google.common.io.Files;
  * Goal which generates client/server code from a OpenAPI json/yaml definition.
  */
 @SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfCollection"})
-@Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
+@Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
 public class CodeGenMojo extends AbstractMojo {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CodeGenMojo.class);
@@ -84,14 +84,6 @@ public class CodeGenMojo extends AbstractMojo {
 
     @Parameter(name = "verbose", defaultValue = "false")
     private boolean verbose;
-
-    // TODO: 5.0 Remove `language` option.
-    /**
-     * Client language to generate.
-     */
-    @Parameter(name = "language")
-    private String language;
-
 
     /**
      * The name of the generator to use.
@@ -403,16 +395,24 @@ public class CodeGenMojo extends AbstractMojo {
 
     /**
      * Add the output directory to the project as a source root, so that the generated java types
-     * are compiled and included in the project artifact.
+     * are compiled and included in the project artifact. Mutually exclusive with {@link #addTestCompileSourceRoot}.
      */
     @Parameter(defaultValue = "true", property = "openapi.generator.maven.plugin.addCompileSourceRoot")
     private boolean addCompileSourceRoot = true;
 
+    /**
+     * Add the output directory to the project as a test source root, so that the generated java types
+     * are compiled only for the test classpath of the project. Mutually exclusive with {@link #addCompileSourceRoot}.
+     */
+    @Parameter(defaultValue = "false", property = "openapi.generator.maven.plugin.addTestCompileSourceRoot")
+    private boolean addTestCompileSourceRoot = false;
+
+    // TODO: Rename to global properties in version 5.1
     @Parameter
     protected Map<String, String> environmentVariables = new HashMap<>();
 
     @Parameter
-    protected Map<String, String> originalEnvironmentVariables = new HashMap<>();
+    protected Map<String, String> globalProperties = new HashMap<>();
 
     @Parameter(property = "codegen.configHelp")
     private boolean configHelp = false;
@@ -529,20 +529,8 @@ public class CodeGenMojo extends AbstractMojo {
                 configurator.setGenerateAliasAsModel(generateAliasAsModel);
             }
 
-            // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang.
             if (isNotEmpty(generatorName)) {
                 configurator.setGeneratorName(generatorName);
-
-                // check if generatorName & language are set together, inform user this needs to be updated to prevent future issues.
-                if (isNotEmpty(language)) {
-                    LOGGER.warn("The 'language' option is deprecated and was replaced by 'generatorName'. Both can not be set together");
-                    throw new MojoExecutionException(
-                            "Illegal configuration: 'language' and  'generatorName' can not be set both, remove 'language' from your configuration");
-                }
-            } else if (isNotEmpty(language)) {
-                LOGGER.warn(
-                        "The 'language' option is deprecated and may reference language names only in the next major release (4.0). Please use 'generatorName' instead.");
-                configurator.setGeneratorName(language);
             } else {
                 LOGGER.error("A generator name (generatorName) is required.");
                 throw new MojoExecutionException("The generator requires 'generatorName'. Refer to documentation for a list of options.");
@@ -710,13 +698,19 @@ public class CodeGenMojo extends AbstractMojo {
                 applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
             }
 
-            if (environmentVariables != null) {
-                for (String key : environmentVariables.keySet()) {
-                    originalEnvironmentVariables.put(key, GlobalSettings.getProperty(key));
-                    String value = environmentVariables.get(key);
-                    if (value != null) {
-                        configurator.addSystemProperty(key, value);
-                    }
+            if (globalProperties == null) {
+                globalProperties = new HashMap<>();
+            }
+
+            if (environmentVariables != null && environmentVariables.size() > 0) {
+                globalProperties.putAll(environmentVariables);
+                getLog().warn("environmentVariables is deprecated and will be removed in version 5.1. Use globalProperties instead.");
+            }
+
+            for (String key : globalProperties.keySet()) {
+                String value = globalProperties.get(key);
+                if (value != null) {
+                    configurator.addGlobalProperty(key, value);
                 }
             }
 
@@ -847,26 +841,24 @@ public class CodeGenMojo extends AbstractMojo {
         final Object sourceFolderObject =
                 configOptions == null ? null : configOptions
                         .get(CodegenConstants.SOURCE_FOLDER);
-        final String sourceFolder =
-                sourceFolderObject == null ? "src/main/java" : sourceFolderObject.toString();
+        final String sourceFolder;
+        if (sourceFolderObject != null) {
+            sourceFolder = sourceFolderObject.toString();
+        } else {
+            sourceFolder = addTestCompileSourceRoot ? "src/test/java" : "src/main/java";
+        }
 
         return output.toString() + "/" + sourceFolder;
     }
 
-    private void addCompileSourceRootIfConfigured() {
+    private void addCompileSourceRootIfConfigured() throws MojoExecutionException {
         if (addCompileSourceRoot) {
-            project.addCompileSourceRoot(getCompileSourceRoot());
-        }
-
-        // Reset all environment variables to their original value. This prevents unexpected
-        // behaviour
-        // when running the plugin multiple consecutive times with different configurations.
-        for (Map.Entry<String, String> entry : originalEnvironmentVariables.entrySet()) {
-            if (entry.getValue() == null) {
-                GlobalSettings.clearProperty(entry.getKey());
-            } else {
-                GlobalSettings.setProperty(entry.getKey(), entry.getValue());
+            if (addTestCompileSourceRoot) {
+                throw new MojoExecutionException("Either 'addCompileSourceRoot' or 'addTestCompileSourceRoot' may be active, not both.");
             }
+            project.addCompileSourceRoot(getCompileSourceRoot());
+        } else if (addTestCompileSourceRoot) {
+            project.addTestCompileSourceRoot(getCompileSourceRoot());
         }
     }
 

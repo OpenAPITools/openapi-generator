@@ -17,19 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.servers.Server;
-
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.utils.URLPathUtils;
 
 import java.io.File;
-import java.net.URL;
 
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implements CodegenConfig {
 
@@ -44,9 +39,7 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
     public CppQt5QHttpEngineServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .build();
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         // set the output folder here
         outputFolder = "generated-code/cpp-qt5-qhttpengine-server";

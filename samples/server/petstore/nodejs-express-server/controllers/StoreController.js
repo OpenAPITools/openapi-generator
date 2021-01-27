@@ -1,26 +1,33 @@
+/**
+ * The StoreController file is a very simple one, which does not need to be changed manually,
+ * unless there's a case where business logic reoutes the request to an entity which is not
+ * the service.
+ * The heavy lifting of the Controller item is done in Request.js - that is where request
+ * parameters are extracted and sent to the service, and where response is handled.
+ */
+
 const Controller = require('./Controller');
+const service = require('../services/StoreService');
+const deleteOrder = async (request, response) => {
+  await Controller.handleRequest(request, response, service.deleteOrder);
+};
 
-class StoreController {
-  constructor(Service) {
-    this.service = Service;
-  }
+const getInventory = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getInventory);
+};
 
-  async deleteOrder(request, response) {
-    await Controller.handleRequest(request, response, this.service.deleteOrder);
-  }
+const getOrderById = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getOrderById);
+};
 
-  async getInventory(request, response) {
-    await Controller.handleRequest(request, response, this.service.getInventory);
-  }
+const placeOrder = async (request, response) => {
+  await Controller.handleRequest(request, response, service.placeOrder);
+};
 
-  async getOrderById(request, response) {
-    await Controller.handleRequest(request, response, this.service.getOrderById);
-  }
 
-  async placeOrder(request, response) {
-    await Controller.handleRequest(request, response, this.service.placeOrder);
-  }
-
-}
-
-module.exports = StoreController;
+module.exports = {
+  deleteOrder,
+  getInventory,
+  getOrderById,
+  placeOrder,
+};

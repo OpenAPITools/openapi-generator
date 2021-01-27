@@ -49,6 +49,10 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     public static final String SPEC_DIR = "specDir";
     public static final String SNIPPET_DIR = "snippetDir";
     public static final String HEADER_ATTRIBUTES_FLAG = "headerAttributes";
+    public static final String USE_INTRODUCTION_FLAG = "useIntroduction";
+    public static final String SKIP_EXAMPLES_FLAG = "skipExamples";
+    public static final String USE_METHOD_AND_PATH_FLAG = "useMethodAndPath";
+    public static final String USE_TABLE_TITLES_FLAG = "useTableTitles";
 
     /**
      * Lambda emitting an asciidoc "include::filename.adoc[]" if file is found in
@@ -62,9 +66,11 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
 
         private long includeCount = 0;
         private long notFoundCount = 0;
+        private String attributePathReference;
         private String basePath;
 
-        public IncludeMarkupLambda(final String basePath) {
+        public IncludeMarkupLambda(final String attributePathReference, final String basePath) {
+            this.attributePathReference = attributePathReference;
             this.basePath = basePath;
         }
 
@@ -81,14 +87,18 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
             final String relativeFileName = AsciidocDocumentationCodegen.sanitize(frag.execute());
             final Path filePathToInclude = Paths.get(basePath, relativeFileName).toAbsolutePath();
 
+            String includeStatement = "include::{" + attributePathReference + "}" + escapeCurlyBrackets(relativeFileName) + "[opts=optional]";
             if (Files.isRegularFile(filePathToInclude)) {
-                LOGGER.debug(
-                        "including " + ++includeCount + ". file into markup from: " + filePathToInclude.toString());
-                out.write("\ninclude::" + relativeFileName + "[opts=optional]\n");
+                LOGGER.debug("including " + ++includeCount + ". file into markup from: " + filePathToInclude.toString());
+                out.write("\n" + includeStatement + "\n");
             } else {
                 LOGGER.debug(++notFoundCount + ". file not found, skip include for: " + filePathToInclude.toString());
-                out.write("\n// markup not found, no include ::" + relativeFileName + "[opts=optional]\n");
+                out.write("\n// markup not found, no " + includeStatement + "\n");
             }
+        }
+
+        private String escapeCurlyBrackets(String relativeFileName) {
+            return relativeFileName.replaceAll("\\{","\\\\{").replaceAll("\\}","\\\\}");
         }
     }
 
@@ -144,6 +154,10 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     protected String artifactId = "openapi-client";
     protected String artifactVersion = "1.0.0";
     protected boolean headerAttributes = true;
+    protected boolean useIntroduction = false;
+    protected boolean skipExamples = false;
+    protected boolean useMethodAndPath = false;
+    protected boolean useTableTitles = false;
 
     private IncludeMarkupLambda includeSpecMarkupLambda;
     private IncludeMarkupLambda includeSnippetMarkupLambda;
@@ -187,13 +201,13 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         super();
 
         // TODO: Asciidoc maintainer review.
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .documentationFeatures(EnumSet.noneOf(DocumentationFeature.class))
                 .globalFeatures(EnumSet.noneOf(GlobalFeature.class))
                 .schemaSupportFeatures(EnumSet.noneOf(SchemaSupportFeature.class))
                 .clientModificationFeatures(EnumSet.noneOf(ClientModificationFeature.class))
-                .build();
+        );
 
         LOGGER.trace("start asciidoc codegen");
 
@@ -222,6 +236,18 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(HEADER_ATTRIBUTES_FLAG,
                 "generation of asciidoc header meta data attributes (set to false to suppress, default: true)",
                 true));
+        cliOptions.add(CliOption.newBoolean(USE_INTRODUCTION_FLAG,
+                "use introduction section, rather than an initial abstract (default: false)",
+                false));
+        cliOptions.add(CliOption.newBoolean(SKIP_EXAMPLES_FLAG,
+                "skip examples sections (default: false)",
+                false));
+        cliOptions.add(CliOption.newBoolean(USE_METHOD_AND_PATH_FLAG,
+                "Use HTTP method and path as operation heading, instead of operation id (default: false)",
+                false));
+        cliOptions.add(CliOption.newBoolean(USE_TABLE_TITLES_FLAG,
+                "Use titles for tables, rather than wrapping tables instead their own section (default: false)",
+                false));
 
         additionalProperties.put("appName", "OpenAPI Sample description");
         additionalProperties.put("appDescription", "A sample OpenAPI documentation");
@@ -260,6 +286,38 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         this.headerAttributes = headerAttributes;
     }
 
+    public boolean isUseIntroduction() {
+        return useIntroduction;
+    }
+
+    public void setUseIntroduction(boolean useIntroduction) {
+        this.useIntroduction = useIntroduction;
+    }
+
+    public boolean isSkipExamples() {
+        return skipExamples;
+    }
+
+    public void setSkipExamples(boolean skipExamples) {
+        this.skipExamples = skipExamples;
+    }
+
+    public boolean isUseMethodAndPath() {
+        return useMethodAndPath;
+    }
+
+    public void setUseMethodAndPath(boolean useMethodAndPath) {
+        this.useMethodAndPath = useMethodAndPath;
+    }
+
+    public boolean isUseTableTitles() {
+        return useTableTitles;
+    }
+
+    public void setUseTableTitles(boolean useTableTitles) {
+        this.useTableTitles = useTableTitles;
+    }
+
     @Override
     public void processOpts() {
         super.processOpts();
@@ -270,7 +328,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
                     + Paths.get(specDir).toAbsolutePath());
         }
 
-        this.includeSpecMarkupLambda = new IncludeMarkupLambda(specDir);
+        this.includeSpecMarkupLambda = new IncludeMarkupLambda(SPEC_DIR,specDir);
         additionalProperties.put("specinclude", this.includeSpecMarkupLambda);
 
         String snippetDir = this.additionalProperties.get(SNIPPET_DIR) + "";
@@ -279,17 +337,24 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
                     + Paths.get(snippetDir).toAbsolutePath());
         }
 
-        this.includeSnippetMarkupLambda = new IncludeMarkupLambda(snippetDir);
+        this.includeSnippetMarkupLambda = new IncludeMarkupLambda(SNIPPET_DIR,snippetDir);
         additionalProperties.put("snippetinclude", this.includeSnippetMarkupLambda);
 
         this.linkSnippetMarkupLambda = new LinkMarkupLambda(snippetDir);
         additionalProperties.put("snippetlink", this.linkSnippetMarkupLambda);
 
+        processBooleanFlag(HEADER_ATTRIBUTES_FLAG, headerAttributes);
+        processBooleanFlag(USE_INTRODUCTION_FLAG, useIntroduction);
+        processBooleanFlag(SKIP_EXAMPLES_FLAG, skipExamples);
+        processBooleanFlag(USE_METHOD_AND_PATH_FLAG, useMethodAndPath);
+        processBooleanFlag(USE_TABLE_TITLES_FLAG, useTableTitles);
+    }
 
-        if (additionalProperties.containsKey(HEADER_ATTRIBUTES_FLAG)) {
-            this.setHeaderAttributes(convertPropertyToBooleanAndWriteBack(HEADER_ATTRIBUTES_FLAG));
+    private void processBooleanFlag(String flag, boolean value) {
+        if (additionalProperties.containsKey(flag)) {
+            this.setHeaderAttributes(convertPropertyToBooleanAndWriteBack(flag));
         } else {
-            additionalProperties.put(HEADER_ATTRIBUTES_FLAG, headerAttributes);
+            additionalProperties.put(flag, value);
         }
     }
 

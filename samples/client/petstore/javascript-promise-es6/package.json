@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@babel/cli": "^7.0.0",
-    "superagent": "3.7.0"
+    "superagent": "^5.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
@@ -37,7 +37,7 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/register": "^7.0.0",
     "expect.js": "^0.3.1",
-    "mocha": "^5.2.0",
+    "mocha": "^8.0.1",
     "sinon": "^7.2.0"
   },
   "files": [

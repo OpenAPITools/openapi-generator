@@ -21,6 +21,8 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -57,7 +59,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     public LuaClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.of(
@@ -77,7 +79,11 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+            .stability(Stability.BETA)
+            .build();
 
         outputFolder = "generated-code/lua";
         modelTemplateFiles.put("model.mustache", ".lua");
@@ -361,7 +367,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner);
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getTypeDeclaration(inner);
         }
 

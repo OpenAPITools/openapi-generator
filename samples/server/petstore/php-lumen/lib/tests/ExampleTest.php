@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+ */
+
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 

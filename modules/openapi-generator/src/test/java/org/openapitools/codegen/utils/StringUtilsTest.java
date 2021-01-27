@@ -11,6 +11,7 @@ public class StringUtilsTest {
     public void testUnderscore() {
         Assert.assertEquals(underscore("abcd"), "abcd");
         Assert.assertEquals(underscore("abCd"), "ab_cd");
+        Assert.assertEquals(underscore("ListABCs"), "list_abcs");
     }
 
     @Test

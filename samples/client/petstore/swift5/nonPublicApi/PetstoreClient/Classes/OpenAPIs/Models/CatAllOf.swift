@@ -11,7 +11,7 @@ internal struct CatAllOf: Codable {
 
     internal var declawed: Bool?
 
-    internal init(declawed: Bool?) {
+    internal init(declawed: Bool? = nil) {
         self.declawed = declawed
     }
 

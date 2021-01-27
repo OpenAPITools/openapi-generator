@@ -13,7 +13,7 @@ internal struct ApiResponse: Codable {
     internal var type: String?
     internal var message: String?
 
-    internal init(code: Int?, type: String?, message: String?) {
+    internal init(code: Int? = nil, type: String? = nil, message: String? = nil) {
         self.code = code
         self.type = type
         self.message = message

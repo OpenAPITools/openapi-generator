@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include "StoreAPI.h"
 
-
+#define MAX_NUMBER_LENGTH 16
 #define MAX_BUFFER_LENGTH 4096
 #define intToStr(dst, src) \
     do {\
@@ -11,12 +11,13 @@
     snprintf(dst, 256, "%ld", (long int)(src));\
 }while(0)
 
+
 // Delete purchase order by ID
 //
 // For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 //
 void
-StoreAPI_deleteOrder(apiClient_t *apiClient ,char * orderId)
+StoreAPI_deleteOrder(apiClient_t *apiClient, char * orderId )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -62,6 +63,8 @@ StoreAPI_deleteOrder(apiClient_t *apiClient ,char * orderId)
 end:
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -120,6 +123,8 @@ StoreAPI_getInventory(apiClient_t *apiClient)
 
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -129,6 +134,7 @@ StoreAPI_getInventory(apiClient_t *apiClient)
     free(localVarPath);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
@@ -138,7 +144,7 @@ end:
 // For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 //
 order_t*
-StoreAPI_getOrderById(apiClient_t *apiClient ,long orderId)
+StoreAPI_getOrderById(apiClient_t *apiClient, long orderId )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -200,6 +206,8 @@ StoreAPI_getOrderById(apiClient_t *apiClient ,long orderId)
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -210,6 +218,7 @@ StoreAPI_getOrderById(apiClient_t *apiClient ,long orderId)
     free(localVarToReplace_orderId);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
@@ -217,7 +226,7 @@ end:
 // Place an order for a pet
 //
 order_t*
-StoreAPI_placeOrder(apiClient_t *apiClient ,order_t * body)
+StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -235,7 +244,7 @@ StoreAPI_placeOrder(apiClient_t *apiClient ,order_t * body)
 
 
     // Body Param
-    cJSON *localVarSingleItemJSON_body;
+    cJSON *localVarSingleItemJSON_body = NULL;
     if (body != NULL)
     {
         //string
@@ -271,6 +280,8 @@ StoreAPI_placeOrder(apiClient_t *apiClient ,order_t * body)
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -278,10 +289,14 @@ StoreAPI_placeOrder(apiClient_t *apiClient ,order_t * body)
     list_free(localVarHeaderType);
     
     free(localVarPath);
-    cJSON_Delete(localVarSingleItemJSON_body);
+    if (localVarSingleItemJSON_body) {
+        cJSON_Delete(localVarSingleItemJSON_body);
+        localVarSingleItemJSON_body = NULL;
+    }
     free(localVarBodyParameters);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }

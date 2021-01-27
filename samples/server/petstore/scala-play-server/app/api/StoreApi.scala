@@ -2,7 +2,7 @@ package api
 
 import model.Order
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2020-01-04T23:10:22.106-05:00[America/New_York]")
+
 trait StoreApi {
   /**
     * Delete purchase order by ID
@@ -26,7 +26,7 @@ trait StoreApi {
 
   /**
     * Place an order for a pet
-    * @param body order placed for purchasing the pet
+    * @param order order placed for purchasing the pet
     */
-  def placeOrder(body: Order): Order
+  def placeOrder(order: Order): Order
 }
