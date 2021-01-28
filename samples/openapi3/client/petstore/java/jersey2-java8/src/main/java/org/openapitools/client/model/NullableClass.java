@@ -619,7 +619,6 @@ public class NullableClass {
     return Objects.hash(integerProp, numberProp, booleanProp, stringProp, dateProp, datetimeProp, arrayNullableProp, arrayAndItemsNullableProp, arrayItemsNullable, objectNullableProp, objectAndItemsNullableProp, objectItemsNullable, additionalProperties);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

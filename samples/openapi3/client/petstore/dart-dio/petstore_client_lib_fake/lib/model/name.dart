@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -24,7 +31,9 @@ abstract class Name implements Built<Name, NameBuilder> {
     // Boilerplate code needed to wire-up generated code
     Name._();
 
-    factory Name([updates(NameBuilder b)]) = _$Name;
+    static void _initializeBuilder(NameBuilder b) => b;
+
+    factory Name([void updates(NameBuilder b)]) = _$Name;
     static Serializer<Name> get serializer => _$nameSerializer;
 }
 

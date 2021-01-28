@@ -19,9 +19,14 @@ package org.openapitools.codegen.languages;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -116,15 +121,13 @@ public class DartClientCodegen extends DefaultCodegen {
         modelTestTemplateFiles.put("model_test.mustache", ".dart");
         apiTestTemplateFiles.put("api_test.mustache", ".dart");
 
-        List<String> reservedWordsList = new ArrayList<>();
-        try {
-            BufferedReader reader = new BufferedReader(
+        final List<String> reservedWordsList = new ArrayList<>();
+        try(BufferedReader reader = new BufferedReader(
                     new InputStreamReader(DartClientCodegen.class.getResourceAsStream("/dart/dart-keywords.txt"),
-                            StandardCharsets.UTF_8));
+                            StandardCharsets.UTF_8))) {
             while (reader.ready()) {
                 reservedWordsList.add(reader.readLine());
             }
-            reader.close();
         } catch (Exception e) {
             LOGGER.error("Error reading dart keywords. Exception: {}", e.getMessage());
         }
@@ -472,13 +475,16 @@ public class DartClientCodegen extends DefaultCodegen {
         }
 
         if (schema.getDefault() != null) {
+            if (ModelUtils.isDateSchema(schema) || ModelUtils.isDateTimeSchema(schema)) {
+                // this is currently not supported and would create compile errors
+                return null;
+            }
             if (ModelUtils.isStringSchema(schema)) {
                 return "'" + schema.getDefault().toString().replace("'", "\\'") + "'";
             }
             return schema.getDefault().toString();
-        } else {
-            return null;
         }
+        return null;
     }
 
     @Override
@@ -552,6 +558,18 @@ public class DartClientCodegen extends DefaultCodegen {
                 final String value = typeMapping().get(r.containerType);
                 if (needToImport(value)) {
                     op.imports.add(value);
+                }
+            }
+        }
+        for (CodegenParameter p : op.allParams) {
+            if (p.isContainer) {
+                final String type = p.isArray ? "array" : "map";
+                if (typeMapping().containsKey(type)) {
+                    final String value = typeMapping().get(type);
+                    // Also add container imports for parameters.
+                    if (needToImport(value)) {
+                        op.imports.add(value);
+                    }
                 }
             }
         }

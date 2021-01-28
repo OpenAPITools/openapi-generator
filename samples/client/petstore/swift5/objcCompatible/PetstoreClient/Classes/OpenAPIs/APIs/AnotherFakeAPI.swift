@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc open class AnotherFakeAPI: NSObject {
+@objc open class AnotherFakeAPI : NSObject {
     /**
      To test special tags
      
@@ -40,9 +40,15 @@ import Foundation
 
         let url = URLComponents(string: URLString)
 
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+
         let requestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "PATCH", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "PATCH", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
 }

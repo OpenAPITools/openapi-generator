@@ -57,6 +57,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean isArray;
     public boolean isBinary = false;
     public boolean isFile = false;
+    public boolean isNull;
     public Object schema;
     public String jsonSchema;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
@@ -77,6 +78,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public CodegenProperty additionalProperties;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>();
+    private boolean hasValidation;
 
     @Override
     public int hashCode() {
@@ -84,7 +86,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
                 isMap, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
-                vars, requiredVars,
+                vars, requiredVars, isNull, hasValidation,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(),
                 is1xx, is2xx, is3xx, is4xx, is5xx);
@@ -122,6 +124,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isFile == that.isFile &&
                 items == that.items &&
                 additionalProperties == that.additionalProperties &&
+                isNull == that.isNull &&
+                hasValidation == that.hasValidation &&
                 is1xx == that.is1xx &&
                 is2xx == that.is2xx &&
                 is3xx == that.is3xx &&
@@ -423,6 +427,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", additionalProperties='").append(additionalProperties).append('\'');
         sb.append(", vars='").append(vars).append('\'');
         sb.append(", requiredVars='").append(requiredVars).append('\'');
+        sb.append(", isNull='").append(isNull);
+        sb.append(", hasValidation='").append(hasValidation);
         sb.append('}');
         return sb.toString();
     }
@@ -443,4 +449,20 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
             return true;
         return false;
     }
+
+    @Override
+    public boolean getIsNull() {
+        return isNull;
+    }
+
+    @Override
+    public void setIsNull(boolean isNull) {
+        this.isNull = isNull;
+    }
+
+    @Override
+    public boolean getHasValidation() { return hasValidation; }
+
+    @Override
+    public void setHasValidation(boolean hasValidation) { this.hasValidation = hasValidation; }
 }

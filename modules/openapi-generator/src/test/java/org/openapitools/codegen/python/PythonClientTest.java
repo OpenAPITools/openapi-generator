@@ -15,6 +15,18 @@
  */
 
 package org.openapitools.codegen.python;
+import com.google.common.io.Resources;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.Paths;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import javax.validation.constraints.AssertTrue;
+import org.apache.commons.io.IOUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 
 import com.google.common.collect.Sets;
@@ -33,6 +45,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
+import org.testng.TestNGAntTask.Mode;
 import org.testng.annotations.Test;
 
 @SuppressWarnings("static-method")
@@ -425,4 +438,31 @@ public class PythonClientTest {
         final CodegenModel model = codegen.fromModel(modelName, modelSchema);
         Assert.assertEquals((int) model.getMinProperties(), 1);
     }
+
+    @Test(description = "tests RecursiveToExample")
+    public void testRecursiveToExample() throws IOException {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8052_recursive_model.yaml");
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final Operation operation = openAPI.getPaths().get("/geojson").getPost();
+        Schema schema = ModelUtils.getSchemaFromRequestBody(operation.getRequestBody());
+        String exampleValue = codegen.toExampleValue(schema, null);
+
+        // uncomment if you need to regenerate the expected value
+        //        PrintWriter printWriter = new PrintWriter("src/test/resources/3_0/issue_8052_recursive_model_expected_value.txt");
+        //        printWriter.write(exampleValue);
+        //        printWriter.close();
+        //        org.junit.Assert.assertTrue(false);
+
+        String expectedValue = Resources.toString(
+                Resources.getResource("3_0/issue_8052_recursive_model_expected_value.txt"),
+                StandardCharsets.UTF_8);
+        expectedValue = expectedValue.replaceAll("\\r\\n", "\n");
+
+
+        Assert.assertEquals(expectedValue.trim(), exampleValue.trim());
+
+    }
+
 }

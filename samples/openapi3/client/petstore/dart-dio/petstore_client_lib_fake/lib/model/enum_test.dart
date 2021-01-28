@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:openapi/model/outer_enum_integer_default_value.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:openapi/model/outer_enum_default_value.dart';
@@ -53,7 +60,9 @@ abstract class EnumTest implements Built<EnumTest, EnumTestBuilder> {
     // Boilerplate code needed to wire-up generated code
     EnumTest._();
 
-    factory EnumTest([updates(EnumTestBuilder b)]) = _$EnumTest;
+    static void _initializeBuilder(EnumTestBuilder b) => b;
+
+    factory EnumTest([void updates(EnumTestBuilder b)]) = _$EnumTest;
     static Serializer<EnumTest> get serializer => _$enumTestSerializer;
 }
 

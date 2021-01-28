@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -16,7 +23,9 @@ abstract class Category implements Built<Category, CategoryBuilder> {
     // Boilerplate code needed to wire-up generated code
     Category._();
 
-    factory Category([updates(CategoryBuilder b)]) = _$Category;
+    static void _initializeBuilder(CategoryBuilder b) => b;
+
+    factory Category([void updates(CategoryBuilder b)]) = _$Category;
     static Serializer<Category> get serializer => _$categorySerializer;
 }
 

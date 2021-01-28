@@ -1,0 +1,9 @@
+GeoJsonGeometry(
+        type="GeometryCollection",
+        geometries=[
+            GeoJsonGeometry(
+                type="GeometryCollection",
+                geometries=[],
+            ),
+        ],
+    )

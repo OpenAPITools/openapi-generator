@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:openapi/model/foo.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -13,7 +20,9 @@ abstract class InlineResponseDefault implements Built<InlineResponseDefault, Inl
     // Boilerplate code needed to wire-up generated code
     InlineResponseDefault._();
 
-    factory InlineResponseDefault([updates(InlineResponseDefaultBuilder b)]) = _$InlineResponseDefault;
+    static void _initializeBuilder(InlineResponseDefaultBuilder b) => b;
+
+    factory InlineResponseDefault([void updates(InlineResponseDefaultBuilder b)]) = _$InlineResponseDefault;
     static Serializer<InlineResponseDefault> get serializer => _$inlineResponseDefaultSerializer;
 }
 

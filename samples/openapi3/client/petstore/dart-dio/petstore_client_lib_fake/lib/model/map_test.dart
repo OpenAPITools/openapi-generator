@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -26,7 +33,9 @@ abstract class MapTest implements Built<MapTest, MapTestBuilder> {
     // Boilerplate code needed to wire-up generated code
     MapTest._();
 
-    factory MapTest([updates(MapTestBuilder b)]) = _$MapTest;
+    static void _initializeBuilder(MapTestBuilder b) => b;
+
+    factory MapTest([void updates(MapTestBuilder b)]) = _$MapTest;
     static Serializer<MapTest> get serializer => _$mapTestSerializer;
 }
 

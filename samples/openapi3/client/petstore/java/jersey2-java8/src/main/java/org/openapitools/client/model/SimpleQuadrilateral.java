@@ -155,7 +155,6 @@ public class SimpleQuadrilateral {
     return Objects.hash(shapeType, quadrilateralType, additionalProperties);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

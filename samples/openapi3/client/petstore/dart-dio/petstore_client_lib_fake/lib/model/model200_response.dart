@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -16,7 +23,9 @@ abstract class Model200Response implements Built<Model200Response, Model200Respo
     // Boilerplate code needed to wire-up generated code
     Model200Response._();
 
-    factory Model200Response([updates(Model200ResponseBuilder b)]) = _$Model200Response;
+    static void _initializeBuilder(Model200ResponseBuilder b) => b;
+
+    factory Model200Response([void updates(Model200ResponseBuilder b)]) = _$Model200Response;
     static Serializer<Model200Response> get serializer => _$model200ResponseSerializer;
 }
 

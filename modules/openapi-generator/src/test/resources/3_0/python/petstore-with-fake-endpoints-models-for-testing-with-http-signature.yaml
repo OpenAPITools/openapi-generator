@@ -16,6 +16,8 @@ tags:
     description: Access to Petstore orders
   - name: user
     description: Operations about user
+  - name: fake
+    description: Fake api used for feature testing
 paths:
   /foo:
     get:
@@ -246,45 +248,6 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
-  '/pet/{petId}/uploadImage':
-    post:
-      tags:
-        - pet
-      summary: uploads an image
-      description: ''
-      operationId: uploadFile
-      parameters:
-        - name: petId
-          in: path
-          description: ID of pet to update
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                file:
-                  description: file to upload
-                  type: string
-                  format: binary
   /store/inventory:
     get:
       tags:
@@ -1008,6 +971,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
+  /fake/refs/enum-test:
+    post:
+      tags:
+        - fake
+      summary: Object contains enum properties and array properties containing enums
+      operationId: EnumTest
+      requestBody:
+        description: Input object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Enum_Test'
+        required: false
+      responses:
+        200:
+          description: Got object containing enums
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enum_Test'
   /fake/additional-properties-with-array-of-enums:
     get:
       tags:
@@ -1176,21 +1159,41 @@ paths:
       responses:
         "200":
           description: Success
-  '/fake/{petId}/uploadImageWithRequiredFile':
-    post:
+  /{fileName}:
+    get:
+      servers:
+        - url: http://www.jtricks.com
       tags:
-        - pet
-      summary: uploads an image (required)
-      description: ''
-      operationId: uploadFileWithRequiredFile
+        - fake
+      summary: downloads a file using Content-Disposition
+      operationId: downloadAttachment
       parameters:
-        - name: petId
+        - name: fileName
           in: path
-          description: ID of pet to update
+          description: file name
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            'text/plain':
+              schema:
+                type: string
+                format: binary
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
+              description: "describes the received file. Looks like: 'attachment; filename=fileName.txt'"
+  /fake/uploadFile:
+    post:
+      tags:
+        - fake
+      summary: uploads a file using multipart/form-data
+      description: ''
+      operationId: uploadFile
       responses:
         '200':
           description: successful operation
@@ -1198,10 +1201,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
       requestBody:
         content:
           multipart/form-data:
@@ -1211,12 +1210,61 @@ paths:
                 additionalMetadata:
                   description: Additional data to pass to server
                   type: string
-                requiredFile:
+                file:
                   description: file to upload
                   type: string
                   format: binary
               required:
-                - requiredFile
+                - file
+  /fake/uploadFiles:
+    post:
+      tags:
+        - fake
+      summary: uploads files using multipart/form-data
+      description: ''
+      operationId: uploadFiles
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+  /fake/uploadDownloadFile:
+    post:
+      tags:
+        - fake
+      summary: uploads a file and downloads a file using application/octet-stream
+      description: ''
+      operationId: uploadDownloadFile
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+                description: file to download
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+              description: file to upload
   /fake/health:
     get:
       tags:
@@ -1671,6 +1719,12 @@ components:
           $ref: '#/components/schemas/IntegerEnumWithDefaultValue'
         IntegerEnumOneValue:
           $ref: '#/components/schemas/IntegerEnumOneValue'
+        InlineArrayOfStrEnum:
+          type: array
+          items:
+            $ref: '#/components/schemas/StringEnum'
+        ArrayOfStrEnum:
+          $ref: '#/components/schemas/ArrayOfEnums'
     AdditionalPropertiesClass:
       type: object
       properties:

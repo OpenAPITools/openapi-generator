@@ -135,7 +135,6 @@ public class MySchemaNameCharacters extends Parent {
     return Objects.hash(prop2, super.hashCode(), additionalProperties);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

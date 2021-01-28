@@ -1,8 +1,6 @@
 README.md
 models/api_response.proto
 models/category.proto
-models/inline_object.proto
-models/inline_object1.proto
 models/order.proto
 models/pet.proto
 models/tag.proto

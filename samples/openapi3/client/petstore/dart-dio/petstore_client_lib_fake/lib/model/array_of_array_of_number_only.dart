@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -13,7 +20,9 @@ abstract class ArrayOfArrayOfNumberOnly implements Built<ArrayOfArrayOfNumberOnl
     // Boilerplate code needed to wire-up generated code
     ArrayOfArrayOfNumberOnly._();
 
-    factory ArrayOfArrayOfNumberOnly([updates(ArrayOfArrayOfNumberOnlyBuilder b)]) = _$ArrayOfArrayOfNumberOnly;
+    static void _initializeBuilder(ArrayOfArrayOfNumberOnlyBuilder b) => b;
+
+    factory ArrayOfArrayOfNumberOnly([void updates(ArrayOfArrayOfNumberOnlyBuilder b)]) = _$ArrayOfArrayOfNumberOnly;
     static Serializer<ArrayOfArrayOfNumberOnly> get serializer => _$arrayOfArrayOfNumberOnlySerializer;
 }
 

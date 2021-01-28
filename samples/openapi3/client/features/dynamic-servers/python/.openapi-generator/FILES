@@ -10,6 +10,7 @@ dynamic_servers/api_client.py
 dynamic_servers/apis/__init__.py
 dynamic_servers/configuration.py
 dynamic_servers/exceptions.py
+dynamic_servers/model/__init__.py
 dynamic_servers/model_utils.py
 dynamic_servers/models/__init__.py
 dynamic_servers/models/__init__.py

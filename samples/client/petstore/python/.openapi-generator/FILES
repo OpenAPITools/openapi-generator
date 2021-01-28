@@ -84,6 +84,7 @@ petstore_api/api_client.py
 petstore_api/apis/__init__.py
 petstore_api/configuration.py
 petstore_api/exceptions.py
+petstore_api/model/__init__.py
 petstore_api/model/additional_properties_any_type.py
 petstore_api/model/additional_properties_array.py
 petstore_api/model/additional_properties_boolean.py

@@ -4,46 +4,6 @@ use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
 
-
-// Methods for converting between header::IntoHeaderValue<InlineObject> and hyper::header::HeaderValue
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<InlineObject>> for hyper::header::HeaderValue {
-    type Error = String;
-
-    fn try_from(hdr_value: header::IntoHeaderValue<InlineObject>) -> std::result::Result<Self, Self::Error> {
-        let hdr_value = hdr_value.to_string();
-        match hyper::header::HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for InlineObject - value: {} is invalid {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<InlineObject> {
-    type Error = String;
-
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
-        match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <InlineObject as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into InlineObject - {}",
-                                value, err))
-                    }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct InlineObject {
@@ -128,36 +88,34 @@ impl std::str::FromStr for InlineObject {
     }
 }
 
-
-
-// Methods for converting between header::IntoHeaderValue<MultipartRelatedRequest> and hyper::header::HeaderValue
+// Methods for converting between header::IntoHeaderValue<InlineObject> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<MultipartRelatedRequest>> for hyper::header::HeaderValue {
+impl std::convert::TryFrom<header::IntoHeaderValue<InlineObject>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<MultipartRelatedRequest>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<InlineObject>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for MultipartRelatedRequest - value: {} is invalid {}",
+                 format!("Invalid header value for InlineObject - value: {} is invalid {}",
                      hdr_value, e))
         }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRelatedRequest> {
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<InlineObject> {
     type Error = String;
 
     fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
              std::result::Result::Ok(value) => {
-                    match <MultipartRelatedRequest as std::str::FromStr>::from_str(value) {
+                    match <InlineObject as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into MultipartRelatedRequest - {}",
+                            format!("Unable to convert header value '{}' into InlineObject - {}",
                                 value, err))
                     }
              },
@@ -242,7 +200,7 @@ impl std::str::FromStr for MultipartRelatedRequest {
 
             if let Some(key) = key_result {
                 match key {
-                    "object_field" => intermediate_rep.object_field.push(models::MultipartRequestObjectField::from_str(val).map_err(|x| format!("{}", x))?),
+                    "object_field" => intermediate_rep.object_field.push(<models::MultipartRequestObjectField as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     "optional_binary_field" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
                     "required_binary_field" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
                     _ => return std::result::Result::Err("Unexpected key while parsing MultipartRelatedRequest".to_string())
@@ -262,184 +220,34 @@ impl std::str::FromStr for MultipartRelatedRequest {
     }
 }
 
-
-
-// Methods for converting between header::IntoHeaderValue<MultipartRequest> and hyper::header::HeaderValue
+// Methods for converting between header::IntoHeaderValue<MultipartRelatedRequest> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<MultipartRequest>> for hyper::header::HeaderValue {
+impl std::convert::TryFrom<header::IntoHeaderValue<MultipartRelatedRequest>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<MultipartRequest>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<MultipartRelatedRequest>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for MultipartRequest - value: {} is invalid {}",
+                 format!("Invalid header value for MultipartRelatedRequest - value: {} is invalid {}",
                      hdr_value, e))
         }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRequest> {
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRelatedRequest> {
     type Error = String;
 
     fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
              std::result::Result::Ok(value) => {
-                    match <MultipartRequest as std::str::FromStr>::from_str(value) {
+                    match <MultipartRelatedRequest as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into MultipartRequest - {}",
-                                value, err))
-                    }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct MultipartRequest {
-    #[serde(rename = "string_field")]
-    pub string_field: String,
-
-    #[serde(rename = "optional_string_field")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub optional_string_field: Option<String>,
-
-    #[serde(rename = "object_field")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub object_field: Option<models::MultipartRequestObjectField>,
-
-    #[serde(rename = "binary_field")]
-    pub binary_field: swagger::ByteArray,
-
-}
-
-impl MultipartRequest {
-    pub fn new(string_field: String, binary_field: swagger::ByteArray, ) -> MultipartRequest {
-        MultipartRequest {
-            string_field: string_field,
-            optional_string_field: None,
-            object_field: None,
-            binary_field: binary_field,
-        }
-    }
-}
-
-/// Converts the MultipartRequest value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl std::string::ToString for MultipartRequest {
-    fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
-
-        params.push("string_field".to_string());
-        params.push(self.string_field.to_string());
-
-
-        if let Some(ref optional_string_field) = self.optional_string_field {
-            params.push("optional_string_field".to_string());
-            params.push(optional_string_field.to_string());
-        }
-
-        // Skipping object_field in query parameter serialization
-
-        // Skipping binary_field in query parameter serialization
-        // Skipping binary_field in query parameter serialization
-
-        params.join(",").to_string()
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a MultipartRequest value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl std::str::FromStr for MultipartRequest {
-    type Err = String;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
-        struct IntermediateRep {
-            pub string_field: Vec<String>,
-            pub optional_string_field: Vec<String>,
-            pub object_field: Vec<models::MultipartRequestObjectField>,
-            pub binary_field: Vec<swagger::ByteArray>,
-        }
-
-        let mut intermediate_rep = IntermediateRep::default();
-
-        // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
-        let mut key_result = string_iter.next();
-
-        while key_result.is_some() {
-            let val = match string_iter.next() {
-                Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing MultipartRequest".to_string())
-            };
-
-            if let Some(key) = key_result {
-                match key {
-                    "string_field" => intermediate_rep.string_field.push(String::from_str(val).map_err(|x| format!("{}", x))?),
-                    "optional_string_field" => intermediate_rep.optional_string_field.push(String::from_str(val).map_err(|x| format!("{}", x))?),
-                    "object_field" => intermediate_rep.object_field.push(models::MultipartRequestObjectField::from_str(val).map_err(|x| format!("{}", x))?),
-                    "binary_field" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipartRequest".to_string()),
-                    _ => return std::result::Result::Err("Unexpected key while parsing MultipartRequest".to_string())
-                }
-            }
-
-            // Get the next key
-            key_result = string_iter.next();
-        }
-
-        // Use the intermediate representation to return the struct
-        std::result::Result::Ok(MultipartRequest {
-            string_field: intermediate_rep.string_field.into_iter().next().ok_or("string_field missing in MultipartRequest".to_string())?,
-            optional_string_field: intermediate_rep.optional_string_field.into_iter().next(),
-            object_field: intermediate_rep.object_field.into_iter().next(),
-            binary_field: intermediate_rep.binary_field.into_iter().next().ok_or("binary_field missing in MultipartRequest".to_string())?,
-        })
-    }
-}
-
-
-
-// Methods for converting between header::IntoHeaderValue<MultipartRequestObjectField> and hyper::header::HeaderValue
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<MultipartRequestObjectField>> for hyper::header::HeaderValue {
-    type Error = String;
-
-    fn try_from(hdr_value: header::IntoHeaderValue<MultipartRequestObjectField>) -> std::result::Result<Self, Self::Error> {
-        let hdr_value = hdr_value.to_string();
-        match hyper::header::HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for MultipartRequestObjectField - value: {} is invalid {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRequestObjectField> {
-    type Error = String;
-
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
-        match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <MultipartRequestObjectField as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into MultipartRequestObjectField - {}",
+                            format!("Unable to convert header value '{}' into MultipartRelatedRequest - {}",
                                 value, err))
                     }
              },
@@ -520,7 +328,7 @@ impl std::str::FromStr for MultipartRequestObjectField {
 
             if let Some(key) = key_result {
                 match key {
-                    "field_a" => intermediate_rep.field_a.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    "field_a" => intermediate_rep.field_a.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     "field_b" => return std::result::Result::Err("Parsing a container in this style is not supported in MultipartRequestObjectField".to_string()),
                     _ => return std::result::Result::Err("Unexpected key while parsing MultipartRequestObjectField".to_string())
                 }
@@ -538,4 +346,41 @@ impl std::str::FromStr for MultipartRequestObjectField {
     }
 }
 
+// Methods for converting between header::IntoHeaderValue<MultipartRequestObjectField> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<MultipartRequestObjectField>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<MultipartRequestObjectField>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for MultipartRequestObjectField - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRequestObjectField> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <MultipartRequestObjectField as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into MultipartRequestObjectField - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
 

@@ -11,6 +11,7 @@
 package x_auth_id_alias
 
 import (
+	"bytes"
 	_context "context"
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
@@ -130,6 +131,7 @@ func (a *UsageApiService) AnyKeyExecute(r ApiAnyKeyRequest) (map[string]interfac
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -259,6 +261,7 @@ func (a *UsageApiService) BothKeysExecute(r ApiBothKeysRequest) (map[string]inte
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -374,6 +377,7 @@ func (a *UsageApiService) KeyInHeaderExecute(r ApiKeyInHeaderRequest) (map[strin
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -489,6 +493,7 @@ func (a *UsageApiService) KeyInQueryExecute(r ApiKeyInQueryRequest) (map[string]
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}

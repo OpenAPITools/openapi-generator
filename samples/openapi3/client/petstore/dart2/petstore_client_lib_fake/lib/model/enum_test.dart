@@ -141,13 +141,6 @@ class EnumTestEnumStringEnum {
   final String value;
 
   @override
-  bool operator ==(Object other) => identical(this, other) ||
-      other is EnumTestEnumStringEnum && other.value == value;
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
   String toString() => value;
 
   String toJson() => value;
@@ -215,13 +208,6 @@ class EnumTestEnumStringRequiredEnum {
 
   /// The underlying value of this enum member.
   final String value;
-
-  @override
-  bool operator ==(Object other) => identical(this, other) ||
-      other is EnumTestEnumStringRequiredEnum && other.value == value;
-
-  @override
-  int get hashCode => toString().hashCode;
 
   @override
   String toString() => value;
@@ -293,13 +279,6 @@ class EnumTestEnumIntegerEnum {
   final int value;
 
   @override
-  bool operator ==(Object other) => identical(this, other) ||
-      other is EnumTestEnumIntegerEnum && other.value == value;
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
   String toString() => value.toString();
 
   int toJson() => value;
@@ -364,13 +343,6 @@ class EnumTestEnumNumberEnum {
 
   /// The underlying value of this enum member.
   final double value;
-
-  @override
-  bool operator ==(Object other) => identical(this, other) ||
-      other is EnumTestEnumNumberEnum && other.value == value;
-
-  @override
-  int get hashCode => toString().hashCode;
 
   @override
   String toString() => value.toString();

@@ -52,12 +52,6 @@ from petstore_api.model.gm_fruit import GmFruit
 from petstore_api.model.grandparent_animal import GrandparentAnimal
 from petstore_api.model.has_only_read_only import HasOnlyReadOnly
 from petstore_api.model.health_check_result import HealthCheckResult
-from petstore_api.model.inline_object import InlineObject
-from petstore_api.model.inline_object1 import InlineObject1
-from petstore_api.model.inline_object2 import InlineObject2
-from petstore_api.model.inline_object3 import InlineObject3
-from petstore_api.model.inline_object4 import InlineObject4
-from petstore_api.model.inline_object5 import InlineObject5
 from petstore_api.model.inline_response_default import InlineResponseDefault
 from petstore_api.model.integer_enum import IntegerEnum
 from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue

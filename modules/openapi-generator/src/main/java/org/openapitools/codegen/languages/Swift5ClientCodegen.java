@@ -522,7 +522,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             return ModelUtils.isSet(p) ? "Set<" + getTypeDeclaration(inner) + ">" : "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
-            return "[String:" + getTypeDeclaration(inner) + "]";
+            return "[String: " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
     }
@@ -807,7 +807,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toEnumValue(String value, String datatype) {
         // for string, array of string
-        if ("String".equals(datatype) || "[String]".equals(datatype) || "[String:String]".equals(datatype)) {
+        if ("String".equals(datatype) || "[String]".equals(datatype) || "[String: String]".equals(datatype)) {
             return "\"" + String.valueOf(value) + "\"";
         } else {
             return String.valueOf(value);

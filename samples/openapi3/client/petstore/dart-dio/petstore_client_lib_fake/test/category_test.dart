@@ -6,7 +6,7 @@ void main() {
   final instance = Category();
 
   group(Category, () {
-    // int id (default value: null)
+    // int id
     test('to test the property `id`', () async {
       // TODO
     });

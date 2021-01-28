@@ -142,7 +142,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(PARCELABLE_MODEL, "Whether to generate models for Android that implement Parcelable with the okhttp-gson library."));
         cliOptions.add(CliOption.newBoolean(USE_PLAY_WS, "Use Play! Async HTTP client (Play WS API)"));
         cliOptions.add(CliOption.newString(PLAY_VERSION, "Version of Play! Framework (possible values \"play24\" (Deprecated), \"play25\" (Deprecated), \"play26\" (Default))"));
-        cliOptions.add(CliOption.newBoolean(SUPPORT_JAVA6, "Whether to support Java6 with the Jersey1 library. This option has been deprecated and will be removed in the 5.x release"));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Perform BeanValidation"));
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE, "Send gzip-encoded requests"));
@@ -154,7 +153,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on " + RESTTEMPLATE + " library"));
         cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
 
-        supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.");
+        supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 10.x. JSON processing: Jackson 2.9.x.");
         supportedLibraries.put(OKHTTP_GSON, "[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
@@ -392,6 +391,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
             supportingFiles.add(new SupportingFile("ParamExpander.mustache", invokerFolder, "ParamExpander.java"));
             supportingFiles.add(new SupportingFile("EncodingUtils.mustache", invokerFolder, "EncodingUtils.java"));
+            supportingFiles.add(new SupportingFile("auth/DefaultApi20Impl.mustache", authFolder, "DefaultApi20Impl.java"));
+            supportingFiles.add(new SupportingFile("auth/OauthPasswordGrant.mustache", authFolder, "OauthPasswordGrant.java"));
+            supportingFiles.add(new SupportingFile("auth/OauthClientCredentialsGrant.mustache", authFolder, "OauthClientCredentialsGrant.java"));
+
         } else if (OKHTTP_GSON.equals(getLibrary()) || StringUtils.isEmpty(getLibrary())) {
             // the "okhttp-gson" library template requires "ApiCallback.mustache" for async call
             supportingFiles.add(new SupportingFile("ApiCallback.mustache", invokerFolder, "ApiCallback.java"));
@@ -851,34 +854,34 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     }
                 }
             }
+        }
 
-            // add implements for serializable/parcelable to all models
-            for (Object _mo : models) {
-                Map<String, Object> mo = (Map<String, Object>) _mo;
-                CodegenModel cm = (CodegenModel) mo.get("model");
+        // add implements for serializable/parcelable to all models
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
 
-                cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
-                if (JERSEY2.equals(getLibrary()) || NATIVE.equals(getLibrary())) {
-                    cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
+            cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
+            if (JERSEY2.equals(getLibrary()) || NATIVE.equals(getLibrary())) {
+                cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
 
-                    if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
-                        // if oneOf contains "null" type
-                        cm.isNullable = true;
-                        cm.oneOf.remove("ModelNull");
-                    }
-
-                    if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("ModelNull")) {
-                        // if anyOf contains "null" type
-                        cm.isNullable = true;
-                        cm.anyOf.remove("ModelNull");
-                    }
+                if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
+                    // if oneOf contains "null" type
+                    cm.isNullable = true;
+                    cm.oneOf.remove("ModelNull");
                 }
-                if (this.parcelableModel) {
-                    ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Parcelable");
+
+                if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("ModelNull")) {
+                    // if anyOf contains "null" type
+                    cm.isNullable = true;
+                    cm.anyOf.remove("ModelNull");
                 }
-                if (this.serializableModel) {
-                    ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
-                }
+            }
+            if (this.parcelableModel) {
+                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Parcelable");
+            }
+            if (this.serializableModel) {
+                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
             }
         }
 

@@ -7,7 +7,7 @@ void main() {
 
   group(ModelFile, () {
     // Test capitalization
-    // String sourceURI (default value: null)
+    // String sourceURI
     test('to test the property `sourceURI`', () async {
       // TODO
     });

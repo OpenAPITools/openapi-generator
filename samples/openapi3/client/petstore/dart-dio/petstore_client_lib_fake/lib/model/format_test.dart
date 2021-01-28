@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'dart:typed_data';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -75,7 +82,9 @@ abstract class FormatTest implements Built<FormatTest, FormatTestBuilder> {
     // Boilerplate code needed to wire-up generated code
     FormatTest._();
 
-    factory FormatTest([updates(FormatTestBuilder b)]) = _$FormatTest;
+    static void _initializeBuilder(FormatTestBuilder b) => b;
+
+    factory FormatTest([void updates(FormatTestBuilder b)]) = _$FormatTest;
     static Serializer<FormatTest> get serializer => _$formatTestSerializer;
 }
 

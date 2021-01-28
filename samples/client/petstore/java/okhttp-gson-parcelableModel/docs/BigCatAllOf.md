@@ -20,4 +20,8 @@ LEOPARDS | &quot;leopards&quot;
 JAGUARS | &quot;jaguars&quot;
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 

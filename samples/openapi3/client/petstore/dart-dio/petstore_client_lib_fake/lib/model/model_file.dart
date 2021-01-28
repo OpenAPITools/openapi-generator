@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -13,7 +20,9 @@ abstract class ModelFile implements Built<ModelFile, ModelFileBuilder> {
     // Boilerplate code needed to wire-up generated code
     ModelFile._();
 
-    factory ModelFile([updates(ModelFileBuilder b)]) = _$ModelFile;
+    static void _initializeBuilder(ModelFileBuilder b) => b;
+
+    factory ModelFile([void updates(ModelFileBuilder b)]) = _$ModelFile;
     static Serializer<ModelFile> get serializer => _$modelFileSerializer;
 }
 
