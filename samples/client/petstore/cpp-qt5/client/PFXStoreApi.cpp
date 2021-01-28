@@ -359,7 +359,7 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
 
 
     QString output = body.asJson();
-    input.request_body.append(output);
+    input.request_body.append(output.toUtf8());
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::placeOrderCallback);
