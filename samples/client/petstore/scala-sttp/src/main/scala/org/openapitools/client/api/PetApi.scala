@@ -14,13 +14,15 @@ package org.openapitools.client.api
 import org.openapitools.client.model.ApiResponse
 import java.io.File
 import org.openapitools.client.model.Pet
+import org.openapitools.client.core._
 import org.openapitools.client.core.JsonSupport._
-import sttp.client._
-import sttp.model.Method
+import org.openapitools.client.core.Helpers._
+import sttp.client3._
+import sttp.model._
 
 object PetApi {
 
-def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new PetApi(baseUrl)
+  def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new PetApi(baseUrl)
 }
 
 class PetApi(baseUrl: String) {
@@ -32,13 +34,16 @@ class PetApi(baseUrl: String) {
    * 
    * @param pet Pet object that needs to be added to the store
    */
-  def addPet(pet: Pet
-): Request[Either[ResponseError[Exception], Pet], Nothing] =
+  def addPet(pet: Pet): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Pet], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/pet")
       .contentType("application/json")
       .body(pet)
-      .response(asJson[Pet])
+      .response(fromMetadata(
+        asJsonEither[ErrorModel, Pet],
+        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ErrorModel, Pet]),
+        ConditionalResponseAs(_.code == StatusCode(405), asJsonEither[MethodNotAllowed, Pet])
+      ))
 
   /**
    * Expected answers:
@@ -47,13 +52,15 @@ class PetApi(baseUrl: String) {
    * @param petId Pet id to delete
    * @param apiKey 
    */
-  def deletePet(petId: Long, apiKey: Option[String] = None
-): Request[Either[ResponseError[Exception], Unit], Nothing] =
+  def deletePet(petId: Long, apiKey: Option[String] = None): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
       .header("api_key", apiKey)
-      .response(asJson[Unit])
+      .response(fromMetadata(
+        ignoreAsEither,
+        ConditionalResponseAs(_.code == StatusCode(400), asJsonEither[BadRequest, Unit])
+      ))
 
   /**
    * Multiple status values can be provided with comma separated strings
@@ -64,12 +71,15 @@ class PetApi(baseUrl: String) {
    * 
    * @param status Status values that need to be considered for filter
    */
-  def findPetsByStatus(status: Seq[String]
-): Request[Either[ResponseError[Exception], Seq[Pet]], Nothing] =
+  def findPetsByStatus(status: Seq[String]): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Seq[Pet]], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/pet/findByStatus?status=${ status }")
       .contentType("application/json")
-      .response(asJson[Seq[Pet]])
+      .response(fromMetadata(
+        asJsonEither[ErrorModel, Seq[Pet]],
+        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ErrorModel, Seq[Pet]]),
+        ConditionalResponseAs(_.code == StatusCode(400), asJsonEither[BadRequest, Seq[Pet]])
+      ))
 
   /**
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -80,12 +90,15 @@ class PetApi(baseUrl: String) {
    * 
    * @param tags Tags to filter by
    */
-  def findPetsByTags(tags: Seq[String]
-): Request[Either[ResponseError[Exception], Seq[Pet]], Nothing] =
+  def findPetsByTags(tags: Seq[String]): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Seq[Pet]], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/pet/findByTags?tags=${ tags }")
       .contentType("application/json")
-      .response(asJson[Seq[Pet]])
+      .response(fromMetadata(
+        asJsonEither[ErrorModel, Seq[Pet]],
+        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ErrorModel, Seq[Pet]]),
+        ConditionalResponseAs(_.code == StatusCode(400), asJsonEither[BadRequest, Seq[Pet]])
+      ))
 
   /**
    * Returns a single pet
@@ -100,13 +113,17 @@ class PetApi(baseUrl: String) {
    * 
    * @param petId ID of pet to return
    */
-  def getPetById(apiKey: String)(petId: Long
-): Request[Either[ResponseError[Exception], Pet], Nothing] =
+  def getPetById(apiKey: String)(petId: Long): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Pet], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
       .header("api_key", apiKey)
-      .response(asJson[Pet])
+      .response(fromMetadata(
+        asJsonEither[ErrorModel, Pet],
+        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ErrorModel, Pet]),
+        ConditionalResponseAs(_.code == StatusCode(400), asJsonEither[BadRequest, Pet]),
+        ConditionalResponseAs(_.code == StatusCode(404), asJsonEither[NotFound, Pet])
+      ))
 
   /**
    * Expected answers:
@@ -117,13 +134,18 @@ class PetApi(baseUrl: String) {
    * 
    * @param pet Pet object that needs to be added to the store
    */
-  def updatePet(pet: Pet
-): Request[Either[ResponseError[Exception], Pet], Nothing] =
+  def updatePet(pet: Pet): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Pet], Any] =
     basicRequest
       .method(Method.PUT, uri"$baseUrl/pet")
       .contentType("application/json")
       .body(pet)
-      .response(asJson[Pet])
+      .response(fromMetadata(
+        asJsonEither[ErrorModel, Pet],
+        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ErrorModel, Pet]),
+        ConditionalResponseAs(_.code == StatusCode(400), asJsonEither[BadRequest, Pet]),
+        ConditionalResponseAs(_.code == StatusCode(404), asJsonEither[NotFound, Pet]),
+        ConditionalResponseAs(_.code == StatusCode(405), asJsonEither[MethodNotAllowed, Pet])
+      ))
 
   /**
    * Expected answers:
@@ -133,8 +155,7 @@ class PetApi(baseUrl: String) {
    * @param name Updated name of the pet
    * @param status Updated status of the pet
    */
-  def updatePetWithForm(petId: Long, name: Option[String] = None, status: Option[String] = None
-): Request[Either[ResponseError[Exception], Unit], Nothing] =
+  def updatePetWithForm(petId: Long, name: Option[String] = None, status: Option[String] = None): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/pet/${petId}")
       .contentType("application/x-www-form-urlencoded")
@@ -142,7 +163,10 @@ class PetApi(baseUrl: String) {
         "name" -> name, 
         "status" -> status
       ))
-      .response(asJson[Unit])
+      .response(fromMetadata(
+        ignoreAsEither,
+        ConditionalResponseAs(_.code == StatusCode(405), asJsonEither[MethodNotAllowed, Unit])
+      ))
 
   /**
    * Expected answers:
@@ -152,8 +176,7 @@ class PetApi(baseUrl: String) {
    * @param additionalMetadata Additional data to pass to server
    * @param file file to upload
    */
-  def uploadFile(petId: Long, additionalMetadata: Option[String] = None, file: Option[File] = None
-): Request[Either[ResponseError[Exception], ApiResponse], Nothing] =
+  def uploadFile(petId: Long, additionalMetadata: Option[String] = None, file: Option[File] = None): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], ApiResponse], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/pet/${petId}/uploadImage")
       .contentType("multipart/form-data")
@@ -163,6 +186,9 @@ class PetApi(baseUrl: String) {
                 file.map(multipartFile("file", _))
 
       ).flatten)
-      .response(asJson[ApiResponse])
+      .response(fromMetadata(
+        asJsonEither[ErrorModel, ApiResponse],
+        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ErrorModel, ApiResponse])
+      ))
 
 }

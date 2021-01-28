@@ -1,0 +1,7 @@
+{{>licenseInfo}}
+package {{invokerPackage}}
+
+sealed trait ErrorModel
+{{#errorModels}}
+case class {{message}}(message: String) extends ErrorModel
+{{/errorModels}}

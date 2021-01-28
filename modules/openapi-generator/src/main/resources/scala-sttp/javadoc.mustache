@@ -4,13 +4,18 @@
 {{/notes}}
 Expected answers:
 {{#responses}}
+{{#isDefault}}
+  code 200 : {{#message}}({{{message}}}){{/message}}
+{{/isDefault}}
+{{^isDefault}}
   code {{code}} : {{{dataType}}} {{#message}}({{{message}}}){{/message}}
-  {{#headers}}
-             {{#-first}}
-             Headers :
-             {{/-first}}
-               {{{baseName}}} - {{{description}}}
-  {{/headers}}
+{{/isDefault}}
+{{#headers}}
+{{#-first}}
+    Headers :
+{{/-first}}
+      {{{baseName}}} - {{{description}}}
+{{/headers}}
 {{/responses}}
 {{#authMethods.0}}
 

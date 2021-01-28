@@ -9,15 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package org.openapitools.client.model
+package org.openapitools.client.core
 
-import java.io.File
+import sttp.client3._
 
-case class InlineObject1(
-  /* Additional data to pass to server */
-  additionalMetadata: Option[String] = None,
-  /* file to upload */
-  file: Option[File] = None
-)
+object Helpers {
 
-
+  val ignoreAsEither: ResponseAs[Either[ResponseException[ErrorModel, Exception], Unit], Any] =
+    ignore.map(Right(_): Either[ResponseException[ErrorModel, Exception], Unit])
+}

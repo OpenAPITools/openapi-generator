@@ -37,12 +37,13 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion", "The version of " +
-            "sttp client", "2.2.0");
+            "sttp client", "3.0.0");
     private static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
             "Whether to return response as " +
                     "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
@@ -50,7 +51,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     private static final StringProperty JODA_TIME_VERSION = new StringProperty("jodaTimeVersion", "The version of " +
             "joda-time library", "2.10.6");
     private static final StringProperty JSON4S_VERSION = new StringProperty("json4sVersion", "The version of json4s " +
-            "library", "3.6.8");
+            "library", "3.6.10");
     private static final StringProperty CIRCE_VERSION = new StringProperty("circeVersion", "The version of circe " +
             "library", "0.13.0");
     private static final JsonLibraryProperty JSON_LIBRARY_PROPERTY = new JsonLibraryProperty();
@@ -70,6 +71,8 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     protected boolean registerNonStandardStatusCodes = true;
     protected boolean renderJavadoc = true;
     protected boolean removeOAuthSecurities = true;
+
+    protected Map<Integer, String> code4xxMapping = new HashMap<>();
 
     public ScalaSttpClientCodegen() {
         super();
@@ -149,6 +152,34 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
                 .map(Property::toCliOptions)
                 .flatMap(Collection::stream)
                 .forEach(option -> cliOptions.add(option));
+
+        code4xxMapping.put(400, "BadRequest");
+        code4xxMapping.put(401, "Unauthorized");
+        code4xxMapping.put(402, "PaymentRequired");
+        code4xxMapping.put(403, "Forbidden");
+        code4xxMapping.put(404, "NotFound");
+        code4xxMapping.put(405, "MethodNotAllowed");
+        code4xxMapping.put(406, "NotAcceptable");
+        code4xxMapping.put(407, "ProxyAuthenticationRequired");
+        code4xxMapping.put(408, "RequestTimeout");
+        code4xxMapping.put(409, "Conflict");
+        code4xxMapping.put(410, "Gone");
+        code4xxMapping.put(411, "LengthRequired");
+        code4xxMapping.put(412, "PreconditionFailed");
+        code4xxMapping.put(413, "PayloadTooLarge");
+        code4xxMapping.put(414, "UriTooLong");
+        code4xxMapping.put(415, "UnsupportedMediaType");
+        code4xxMapping.put(416, "RangeNotSatisfiable");
+        code4xxMapping.put(417, "ExpectationFailed");
+        code4xxMapping.put(421, "MisdirectedRequest");
+        code4xxMapping.put(422, "UnprocessableEntity");
+        code4xxMapping.put(423, "Locked");
+        code4xxMapping.put(424, "FailedDependency");
+        code4xxMapping.put(426, "UpgradeRequired");
+        code4xxMapping.put(428, "PreconditionRequired");
+        code4xxMapping.put(429, "TooManyRequests");
+        code4xxMapping.put(431, "RequestHeaderFieldsTooLarge");
+        code4xxMapping.put(451, "UnavailableForLegalReasons");
     }
 
     @Override
@@ -165,6 +196,16 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         supportingFiles.add(new SupportingFile("jsonSupport.mustache", invokerFolder, "JsonSupport.scala"));
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
         supportingFiles.add(new SupportingFile("dateSerializers.mustache", invokerFolder, "DateSerializers.scala"));
+        supportingFiles.add(new SupportingFile("helpers.mustache", invokerFolder, "Helpers.scala"));
+        supportingFiles.add(new SupportingFile("errorModel.mustache", invokerFolder, "ErrorModel.scala"));
+
+        List<CodegenResponse> errorModels = code4xxMapping.entrySet().stream().map(entry -> {
+            CodegenResponse codegenResponse = new CodegenResponse();
+            codegenResponse.code = entry.getKey().toString();
+            codegenResponse.message = entry.getValue();
+            return codegenResponse;
+        }).collect(Collectors.toList());
+        additionalProperties.put("errorModels", errorModels);
     }
 
     @Override
@@ -212,21 +253,27 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
             try {
                 @SuppressWarnings("unchecked")
                 Map<String, ArrayList<CodegenOperation>> opsMap = (Map<String, ArrayList<CodegenOperation>>) objs.get("operations");
-                HashSet<Integer> unknownCodes = new HashSet<Integer>();
+                HashSet<Integer> unknownCodes = new HashSet<>();
                 for (CodegenOperation operation : opsMap.get("operation")) {
+                    boolean hasOnlyDefaultResponse = true;
                     for (CodegenResponse response : operation.responses) {
-                        if ("default".equals(response.code)) {
+                        if (response.isDefault) {
                             continue;
                         }
                         try {
                             int code = Integer.parseInt(response.code);
+                            hasOnlyDefaultResponse = false;
                             if (code >= 600) {
                                 unknownCodes.add(code);
+                            }
+                            if (code4xxMapping.containsKey(code)) {
+                                response.vendorExtensions.put("x-error-model-class", code4xxMapping.get(code));
                             }
                         } catch (NumberFormatException e) {
                             LOGGER.error("Status code is not an integer : response.code", e);
                         }
                     }
+                    operation.vendorExtensions.put("x-has-only-default-response", hasOnlyDefaultResponse);
                 }
                 if (!unknownCodes.isEmpty()) {
                     additionalProperties.put("unknownStatusCodes", unknownCodes);

@@ -12,13 +12,15 @@
 package org.openapitools.client.api
 
 import org.openapitools.client.model.User
+import org.openapitools.client.core._
 import org.openapitools.client.core.JsonSupport._
-import sttp.client._
-import sttp.model.Method
+import org.openapitools.client.core.Helpers._
+import sttp.client3._
+import sttp.model._
 
 object UserApi {
 
-def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new UserApi(baseUrl)
+  def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new UserApi(baseUrl)
 }
 
 class UserApi(baseUrl: String) {
@@ -27,57 +29,54 @@ class UserApi(baseUrl: String) {
    * This can only be done by the logged in user.
    * 
    * Expected answers:
-   *   code 0 :  (successful operation)
+   *   code 200 : (successful operation)
    * 
    * Available security schemes:
    *   api_key (apiKey)
    * 
    * @param user Created user object
    */
-  def createUser(apiKey: String)(user: User
-): Request[Either[ResponseError[Exception], Unit], Nothing] =
+  def createUser(apiKey: String)(user: User): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user")
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-      .response(asJson[Unit])
+      .response(ignoreAsEither)
 
   /**
    * Expected answers:
-   *   code 0 :  (successful operation)
+   *   code 200 : (successful operation)
    * 
    * Available security schemes:
    *   api_key (apiKey)
    * 
    * @param user List of user object
    */
-  def createUsersWithArrayInput(apiKey: String)(user: Seq[User]
-): Request[Either[ResponseError[Exception], Unit], Nothing] =
+  def createUsersWithArrayInput(apiKey: String)(user: Seq[User]): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithArray")
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-      .response(asJson[Unit])
+      .response(ignoreAsEither)
 
   /**
    * Expected answers:
-   *   code 0 :  (successful operation)
+   *   code 200 : (successful operation)
    * 
    * Available security schemes:
    *   api_key (apiKey)
    * 
    * @param user List of user object
    */
-  def createUsersWithListInput(apiKey: String)(user: Seq[User]
-): Request[Either[ResponseError[Exception], Unit], Nothing] =
+  def createUsersWithListInput(apiKey: String)(user: Seq[User]): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithList")
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-      .response(asJson[Unit])
+      .response(ignoreAsEither)
 
   /**
    * This can only be done by the logged in user.
@@ -91,13 +90,16 @@ class UserApi(baseUrl: String) {
    * 
    * @param username The name that needs to be deleted
    */
-  def deleteUser(apiKey: String)(username: String
-): Request[Either[ResponseError[Exception], Unit], Nothing] =
+  def deleteUser(apiKey: String)(username: String): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/user/${username}")
       .contentType("application/json")
       .header("api_key", apiKey)
-      .response(asJson[Unit])
+      .response(fromMetadata(
+        ignoreAsEither,
+        ConditionalResponseAs(_.code == StatusCode(400), asJsonEither[BadRequest, Unit]),
+        ConditionalResponseAs(_.code == StatusCode(404), asJsonEither[NotFound, Unit])
+      ))
 
   /**
    * Expected answers:
@@ -107,46 +109,52 @@ class UserApi(baseUrl: String) {
    * 
    * @param username The name that needs to be fetched. Use user1 for testing.
    */
-  def getUserByName(username: String
-): Request[Either[ResponseError[Exception], User], Nothing] =
+  def getUserByName(username: String): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], User], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/${username}")
       .contentType("application/json")
-      .response(asJson[User])
+      .response(fromMetadata(
+        asJsonEither[ErrorModel, User],
+        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ErrorModel, User]),
+        ConditionalResponseAs(_.code == StatusCode(400), asJsonEither[BadRequest, User]),
+        ConditionalResponseAs(_.code == StatusCode(404), asJsonEither[NotFound, User])
+      ))
 
   /**
    * Expected answers:
    *   code 200 : String (successful operation)
-   *              Headers :
-   *                Set-Cookie - Cookie authentication key for use with the `api_key` apiKey authentication.
-   *                X-Rate-Limit - calls per hour allowed by the user
-   *                X-Expires-After - date in UTC when toekn expires
+   *     Headers :
+   *       Set-Cookie - Cookie authentication key for use with the `api_key` apiKey authentication.
+   *       X-Rate-Limit - calls per hour allowed by the user
+   *       X-Expires-After - date in UTC when toekn expires
    *   code 400 :  (Invalid username/password supplied)
    * 
    * @param username The user name for login
    * @param password The password for login in clear text
    */
-  def loginUser(username: String, password: String
-): Request[Either[ResponseError[Exception], String], Nothing] =
+  def loginUser(username: String, password: String): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], String], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/login?username=${ username }&password=${ password }")
       .contentType("application/json")
-      .response(asJson[String])
+      .response(fromMetadata(
+        asJsonEither[ErrorModel, String],
+        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ErrorModel, String]),
+        ConditionalResponseAs(_.code == StatusCode(400), asJsonEither[BadRequest, String])
+      ))
 
   /**
    * Expected answers:
-   *   code 0 :  (successful operation)
+   *   code 200 : (successful operation)
    * 
    * Available security schemes:
    *   api_key (apiKey)
    */
-  def logoutUser(apiKey: String)(
-): Request[Either[ResponseError[Exception], Unit], Nothing] =
+  def logoutUser(apiKey: String)(): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/logout")
       .contentType("application/json")
       .header("api_key", apiKey)
-      .response(asJson[Unit])
+      .response(ignoreAsEither)
 
   /**
    * This can only be done by the logged in user.
@@ -161,13 +169,16 @@ class UserApi(baseUrl: String) {
    * @param username name that need to be deleted
    * @param user Updated user object
    */
-  def updateUser(apiKey: String)(username: String, user: User
-): Request[Either[ResponseError[Exception], Unit], Nothing] =
+  def updateUser(apiKey: String)(username: String, user: User): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.PUT, uri"$baseUrl/user/${username}")
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-      .response(asJson[Unit])
+      .response(fromMetadata(
+        ignoreAsEither,
+        ConditionalResponseAs(_.code == StatusCode(400), asJsonEither[BadRequest, Unit]),
+        ConditionalResponseAs(_.code == StatusCode(404), asJsonEither[NotFound, Unit])
+      ))
 
 }
