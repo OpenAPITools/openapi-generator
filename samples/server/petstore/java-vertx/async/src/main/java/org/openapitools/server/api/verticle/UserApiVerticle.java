@@ -15,16 +15,16 @@ import java.util.List;
 import java.util.Map;
 
 public class UserApiVerticle extends AbstractVerticle {
-    final static Logger LOGGER = LoggerFactory.getLogger(UserApiVerticle.class); 
+    static final Logger LOGGER = LoggerFactory.getLogger(UserApiVerticle.class);
     
-    final static String CREATEUSER_SERVICE_ID = "createUser";
-    final static String CREATEUSERSWITHARRAYINPUT_SERVICE_ID = "createUsersWithArrayInput";
-    final static String CREATEUSERSWITHLISTINPUT_SERVICE_ID = "createUsersWithListInput";
-    final static String DELETEUSER_SERVICE_ID = "deleteUser";
-    final static String GETUSERBYNAME_SERVICE_ID = "getUserByName";
-    final static String LOGINUSER_SERVICE_ID = "loginUser";
-    final static String LOGOUTUSER_SERVICE_ID = "logoutUser";
-    final static String UPDATEUSER_SERVICE_ID = "updateUser";
+    static final String CREATEUSER_SERVICE_ID = "createUser";
+    static final String CREATEUSERSWITHARRAYINPUT_SERVICE_ID = "createUsersWithArrayInput";
+    static final String CREATEUSERSWITHLISTINPUT_SERVICE_ID = "createUsersWithListInput";
+    static final String DELETEUSER_SERVICE_ID = "deleteUser";
+    static final String GETUSERBYNAME_SERVICE_ID = "getUserByName";
+    static final String LOGINUSER_SERVICE_ID = "loginUser";
+    static final String LOGOUTUSER_SERVICE_ID = "logoutUser";
+    static final String UPDATEUSER_SERVICE_ID = "updateUser";
     
     final UserApi service;
 

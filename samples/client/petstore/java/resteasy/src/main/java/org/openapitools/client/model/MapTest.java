@@ -239,7 +239,6 @@ public class MapTest {
     return Objects.hash(mapMapOfString, mapOfEnumString, directMap, indirectMap);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

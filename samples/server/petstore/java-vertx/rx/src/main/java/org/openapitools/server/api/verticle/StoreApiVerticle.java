@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.Map;
 
 public class StoreApiVerticle extends AbstractVerticle {
-    final static Logger LOGGER = LoggerFactory.getLogger(StoreApiVerticle.class); 
+    static final Logger LOGGER = LoggerFactory.getLogger(StoreApiVerticle.class);
     
-    final static String DELETEORDER_SERVICE_ID = "deleteOrder";
-    final static String GETINVENTORY_SERVICE_ID = "getInventory";
-    final static String GETORDERBYID_SERVICE_ID = "getOrderById";
-    final static String PLACEORDER_SERVICE_ID = "placeOrder";
+    static final String DELETEORDER_SERVICE_ID = "deleteOrder";
+    static final String GETINVENTORY_SERVICE_ID = "getInventory";
+    static final String GETORDERBYID_SERVICE_ID = "getOrderById";
+    static final String PLACEORDER_SERVICE_ID = "placeOrder";
     
     final StoreApi service;
 

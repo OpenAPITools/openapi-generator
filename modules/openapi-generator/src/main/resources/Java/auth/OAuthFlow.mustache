@@ -2,6 +2,10 @@
 
 package {{invokerPackage}}.auth;
 
+{{>generatedAnnotation}}
 public enum OAuthFlow {
-    accessCode, implicit, password, application
+    accessCode, //called authorizationCode  in OpenAPI 3.0
+    implicit, 
+    password,
+    application //called clientCredentials in OpenAPI 3.0
 }

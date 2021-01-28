@@ -1189,7 +1189,7 @@
                 <module>samples/server/petstore/php-slim4</module>
                 <module>samples/server/petstore/php-laravel</module>
                 <module>samples/server/petstore/php-lumen</module>
-                <!--<module>samples/server/petstore/rust-server</module>-->
+                <module>samples/server/petstore/rust-server</module>
                 <!-- clients -->
                 <!--<module>samples/client/petstore/perl</module>
                 <module>samples/client/petstore/bash</module>-->
@@ -1225,6 +1225,8 @@
                 <module>samples/client/petstore/typescript-axios/tests/default</module>
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <module>samples/client/petstore/typescript-rxjs/builds/with-npm-version</module>
+                <!-- TODO comment out below when the test for typescript-nestjs is ready
+                <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
                 <!-- comment out due to error `npm run build`
                 <module>samples/client/petstore/typescript-jquery/npm</module>-->
                 <!--<module>samples/client/petstore/typescript-angular-v2/npm</module>-->
@@ -1443,17 +1445,18 @@
                 <module>samples/client/petstore/swift5/rxswiftLibrary</module>
                 <module>samples/client/petstore/swift5/urlsessionLibrary</module>
                 <!-- swift 5 tests -->
+                <!-- temporarily commment them because they are flaky
                 <module>samples/client/petstore/swift5/alamofireLibrary/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift5/combineLibrary/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift5/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift5/promisekitLibrary/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift5/rxswiftLibrary/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift5/urlsessionLibrary/SwaggerClientTests</module>
-                <!-- swift 4 tests -->
+                -->
+                <!-- swift 1.x, 3.x, 4.x client generators have been deprecated
                 <module>samples/client/petstore/swift4/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/promisekit/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/rxswift/SwaggerClientTests</module>
-                <!-- swift 1.x, 3.x client generators have been deprecated
                 <module>samples/client/petstore/swift3/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift3/promisekit/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift3/rxswift/SwaggerClientTests</module>
@@ -1534,7 +1537,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <swagger-core-version>2.1.2</swagger-core-version>
         <swagger-parser-groupid>io.swagger.parser.v3</swagger-parser-groupid>
-        <swagger-parser-version>2.0.23</swagger-parser-version>
+        <swagger-parser-version>2.0.24</swagger-parser-version>
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>

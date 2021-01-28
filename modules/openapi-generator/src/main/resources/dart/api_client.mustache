@@ -23,6 +23,7 @@ class ApiClient {
     _authentications['{{name}}'] = new HttpBasicAuth();{{/isBasic}}{{#isApiKey}}
     _authentications['{{name}}'] = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");{{/isApiKey}}{{#isOAuth}}
     _authentications['{{name}}'] = new OAuth();{{/isOAuth}}{{/authMethods}}
+    {{#httpUserAgent}}addDefaultHeader('User-Agent', '{{{.}}}');{{/httpUserAgent}}
   }
 
   void addDefaultHeader(String key, String value) {

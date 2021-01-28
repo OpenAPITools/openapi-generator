@@ -31,7 +31,7 @@ import android.os.Parcel;
  * OuterComposite
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class OuterComposite {
+public class OuterComposite implements Parcelable {
   public static final String SERIALIZED_NAME_MY_NUMBER = "my_number";
   @SerializedName(SERIALIZED_NAME_MY_NUMBER)
   private BigDecimal myNumber;
@@ -134,7 +134,6 @@ public class OuterComposite {
   public int hashCode() {
     return Objects.hash(myNumber, myString, myBoolean);
   }
-
 
   @Override
   public String toString() {

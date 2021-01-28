@@ -126,13 +126,6 @@ class OrderStatusEnum {
   final String value;
 
   @override
-  bool operator ==(Object other) => identical(this, other) ||
-      other is OrderStatusEnum && other.value == value;
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
   String toString() => value;
 
   String toJson() => value;

@@ -85,7 +85,6 @@ public class Banana {
     return Objects.hash(lengthCm);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

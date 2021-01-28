@@ -94,7 +94,6 @@ public class Parent {
     return Objects.hash(objectType);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

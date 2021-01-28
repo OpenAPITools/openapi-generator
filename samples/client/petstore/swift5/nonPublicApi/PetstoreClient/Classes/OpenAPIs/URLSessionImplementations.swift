@@ -11,11 +11,11 @@ import MobileCoreServices
 
 class URLSessionRequestBuilderFactory: RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
-        URLSessionRequestBuilder<T>.self
+        return URLSessionRequestBuilder<T>.self
     }
 
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
-        URLSessionDecodableRequestBuilder<T>.self
+        return URLSessionDecodableRequestBuilder<T>.self
     }
 }
 
@@ -65,7 +65,7 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      the file extension).  Return the desired Content-Type otherwise.
      */
     internal func contentTypeForFormPart(fileURL: URL) -> String? {
-        nil
+        return nil
     }
 
     /**
@@ -132,15 +132,11 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         do {
             let request = try createURLRequest(urlSession: urlSession, method: xMethod, encoding: encoding, headers: headers)
 
-            let dataTask = urlSession.dataTask(with: request) { [weak self] data, response, error in
-
-                guard let self = self else { return }
+            let dataTask = urlSession.dataTask(with: request) { data, response, error in
 
                 if let taskCompletionShouldRetry = self.taskCompletionShouldRetry {
 
-                    taskCompletionShouldRetry(data, response, error) { [weak self] shouldRetry in
-
-                        guard let self = self else { return }
+                    taskCompletionShouldRetry(data, response, error) { shouldRetry in
 
                         if shouldRetry {
                             cleanupRequest()

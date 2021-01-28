@@ -898,7 +898,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
+    public String toDefaultValue(Schema schema) {
+        Schema p = ModelUtils.getReferencedSchema(this.openAPI, schema);
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
@@ -921,8 +922,15 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                return "\"" + p.getDefault() + "\"";
+                String _default = (String) p.getDefault();
+                if (p.getEnum() == null) {
+                    return "\"" + escapeText(_default) + "\"";
+                } else {
+                    // convert to enum var name later in postProcessModels
+                    return _default;
+                }
             }
+            return null;
         }
 
         return null;

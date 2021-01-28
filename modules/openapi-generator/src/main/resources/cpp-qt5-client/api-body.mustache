@@ -165,7 +165,7 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     {{/isBasicBearer}}{{#isBasicBasic}}
     if(!_username.isEmpty() && !_password.isEmpty()){
         QByteArray b64;
-        b64.append(_username + ":" + _password);
+        b64.append(_username.toUtf8() + ":" + _password.toUtf8());
         addHeaders("Authorization","Basic " + b64.toBase64());
     }{{/isBasicBasic}}{{/authMethods}}
 {{#queryParams}}{{^collectionFormat}}
@@ -230,7 +230,7 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     QString output({{paramName}});{{/isString}}{{#isByteArray}}QString output({{paramName}});{{/isByteArray}}{{^isString}}{{^isByteArray}}{{^isFile}}
     QString output = {{paramName}}.asJson();{{/isFile}}{{/isByteArray}}{{/isString}}{{#isFile}}{{#hasConsumes}}input.headers.insert("Content-Type", {{#consumes}}{{^-first}}, {{/-first}}"{{mediaType}}"{{/consumes}});{{/hasConsumes}}
     QByteArray output = {{paramName}}.asByteArray();{{/isFile}}
-    input.request_body.append(output);
+    input.request_body.append(output.toUtf8());
 {{/isContainer}}{{/bodyParams}}{{#headerParams}}
     if (!::{{cppNamespace}}::toStringValue({{paramName}}).isEmpty()) {
         input.headers.insert("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}));
