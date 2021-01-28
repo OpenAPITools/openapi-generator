@@ -52,6 +52,10 @@ public:
     void enableRequestCompression();
     void enableResponseCompression();
     void abortRequests();
+    QString getParamStylePrefix(QString style);
+    QString getParamStyleSuffix(QString style);
+    QString getParamStyleDelimiter(QString style, QString name, bool isExplode);
+
 
     void createUser(const PFXUser &body);
     void createUsersWithArrayInput(const QList<PFXUser> &body);
