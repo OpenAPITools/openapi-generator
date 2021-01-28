@@ -217,12 +217,8 @@ void PFXPetApi::addPet(const PFXPet &body) {
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
 
-<<<<<<< HEAD
-    QByteArray output = body.asJson().toUtf8();
-=======
 
-    QString output = body.asJson();
->>>>>>> generated samples and docs. added GlobalFeature.ParamterStyling
+    QByteArray output = body.asJson().toUtf8();
     input.request_body.append(output);
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
