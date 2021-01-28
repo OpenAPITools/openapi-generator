@@ -17,16 +17,16 @@ import java.util.List;
 import java.util.Map;
 
 public class PetApiVerticle extends AbstractVerticle {
-    final static Logger LOGGER = LoggerFactory.getLogger(PetApiVerticle.class); 
+    static final Logger LOGGER = LoggerFactory.getLogger(PetApiVerticle.class);
     
-    final static String ADDPET_SERVICE_ID = "addPet";
-    final static String DELETEPET_SERVICE_ID = "deletePet";
-    final static String FINDPETSBYSTATUS_SERVICE_ID = "findPetsByStatus";
-    final static String FINDPETSBYTAGS_SERVICE_ID = "findPetsByTags";
-    final static String GETPETBYID_SERVICE_ID = "getPetById";
-    final static String UPDATEPET_SERVICE_ID = "updatePet";
-    final static String UPDATEPETWITHFORM_SERVICE_ID = "updatePetWithForm";
-    final static String UPLOADFILE_SERVICE_ID = "uploadFile";
+    static final String ADDPET_SERVICE_ID = "addPet";
+    static final String DELETEPET_SERVICE_ID = "deletePet";
+    static final String FINDPETSBYSTATUS_SERVICE_ID = "findPetsByStatus";
+    static final String FINDPETSBYTAGS_SERVICE_ID = "findPetsByTags";
+    static final String GETPETBYID_SERVICE_ID = "getPetById";
+    static final String UPDATEPET_SERVICE_ID = "updatePet";
+    static final String UPDATEPETWITHFORM_SERVICE_ID = "updatePetWithForm";
+    static final String UPLOADFILE_SERVICE_ID = "uploadFile";
     
     final PetApi service;
 
