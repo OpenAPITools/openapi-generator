@@ -13,7 +13,7 @@ protocol JSONEncodable {
 }
 
 internal enum ErrorResponse: Error {
-    case error(Int, Data?, Error)
+    case error(Int, Data?, URLResponse?, Error)
 }
 
 internal enum DownloadException: Error {

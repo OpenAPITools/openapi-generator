@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -14,7 +21,7 @@ abstract class DogAllOf implements Built<DogAllOf, DogAllOfBuilder> {
 
     static void _initializeBuilder(DogAllOfBuilder b) => b;
 
-    factory DogAllOf([updates(DogAllOfBuilder b)]) = _$DogAllOf;
+    factory DogAllOf([void updates(DogAllOfBuilder b)]) = _$DogAllOf;
     static Serializer<DogAllOf> get serializer => _$dogAllOfSerializer;
 }
 

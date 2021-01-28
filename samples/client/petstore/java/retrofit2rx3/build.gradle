@@ -105,18 +105,18 @@ ext {
 }
 
 dependencies {
-    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
-    compile "com.squareup.retrofit2:converter-scalars:$retrofit_version"
-    compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    compile 'com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0'
-    compile "io.reactivex.rxjava3:rxjava:$rx_java_version"
-    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
-    compile "com.google.code.findbugs:jsr305:3.0.2"
-    compile ("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"){
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation 'com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0'
+    implementation "io.reactivex.rxjava3:rxjava:$rx_java_version"
+    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    implementation "com.google.code.findbugs:jsr305:3.0.2"
+    implementation ("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"){
         exclude group:'org.apache.oltu.oauth2' , module: 'org.apache.oltu.oauth2.common'
     }
-    compile "io.gsonfire:gson-fire:$json_fire_version"
-    compile "org.threeten:threetenbp:$threetenbp_version"
-    compile 'javax.annotation:javax.annotation-api:1.3.2'
-    testCompile "junit:junit:$junit_version"
+    implementation "io.gsonfire:gson-fire:$json_fire_version"
+    implementation "org.threeten:threetenbp:$threetenbp_version"
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    testImplementation "junit:junit:$junit_version"
 }

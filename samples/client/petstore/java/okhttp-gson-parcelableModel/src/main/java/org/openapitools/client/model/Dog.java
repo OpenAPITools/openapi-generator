@@ -32,7 +32,7 @@ import android.os.Parcel;
  * Dog
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class Dog extends Animal {
+public class Dog extends Animal implements Parcelable {
   public static final String SERIALIZED_NAME_BREED = "breed";
   @SerializedName(SERIALIZED_NAME_BREED)
   private String breed;
@@ -82,7 +82,6 @@ public class Dog extends Animal {
   public int hashCode() {
     return Objects.hash(breed, super.hashCode());
   }
-
 
   @Override
   public String toString() {

@@ -75,7 +75,6 @@ public class NumberOnly {
     return Objects.hash(justNumber);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

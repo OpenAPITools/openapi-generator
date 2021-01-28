@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.6
+
+// ignore_for_file: unused_import
+
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
@@ -32,26 +39,26 @@ class FakeApi {
     }) async {
         final String _path = '/fake/health';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [];
+        final contentTypes = <String>[];
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'get'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [],
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[],
                     if (extra != null) ...extra,
                 },
                 validateStatus: validateStatus,
@@ -61,8 +68,11 @@ class FakeApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            final serializer = _serializers.serializerForType(HealthCheckResult);
-            final data = _serializers.deserializeWith<HealthCheckResult>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            final serializer = _serializers.serializerForType(HealthCheckResult) as Serializer<HealthCheckResult>;
+            final data = _serializers.deserializeWith<HealthCheckResult>(
+                serializer,
+                response.data is String ? jsonDecode(response.data as String) : response.data,
+            );
 
             return Response<HealthCheckResult>(
                 data: data,
@@ -92,35 +102,36 @@ class FakeApi {
     }) async {
         final String _path = '/fake/http-signature-test';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
         headerParams[r'header_1'] = header1;
         queryParams[r'query_1'] = query1;
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'application/json',
             'application/xml',
         ];
 
-        final serializedBody = _serializers.serialize(pet);
+        final bodySerializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
+        final serializedBody = _serializers.serializeWith(bodySerializer, pet);
         final jsonpet = json.encode(serializedBody);
         bodyData = jsonpet;
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'get'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[
                         {
                             'type': 'http',
                             'name': 'http_signature_test',
@@ -151,32 +162,32 @@ class FakeApi {
     }) async {
         final String _path = '/fake/outer/boolean';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(body);
+        final serializedBody = body;
         final jsonbody = json.encode(serializedBody);
         bodyData = jsonbody;
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'post'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [],
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[],
                     if (extra != null) ...extra,
                 },
                 validateStatus: validateStatus,
@@ -214,32 +225,33 @@ class FakeApi {
     }) async {
         final String _path = '/fake/outer/composite';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(outerComposite);
+        final bodySerializer = _serializers.serializerForType(OuterComposite) as Serializer<OuterComposite>;
+        final serializedBody = _serializers.serializeWith(bodySerializer, outerComposite);
         final jsonouterComposite = json.encode(serializedBody);
         bodyData = jsonouterComposite;
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'post'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [],
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[],
                     if (extra != null) ...extra,
                 },
                 validateStatus: validateStatus,
@@ -249,8 +261,11 @@ class FakeApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            final serializer = _serializers.serializerForType(OuterComposite);
-            final data = _serializers.deserializeWith<OuterComposite>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            final serializer = _serializers.serializerForType(OuterComposite) as Serializer<OuterComposite>;
+            final data = _serializers.deserializeWith<OuterComposite>(
+                serializer,
+                response.data is String ? jsonDecode(response.data as String) : response.data,
+            );
 
             return Response<OuterComposite>(
                 data: data,
@@ -278,32 +293,32 @@ class FakeApi {
     }) async {
         final String _path = '/fake/outer/number';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(body);
+        final serializedBody = body;
         final jsonbody = json.encode(serializedBody);
         bodyData = jsonbody;
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'post'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [],
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[],
                     if (extra != null) ...extra,
                 },
                 validateStatus: validateStatus,
@@ -341,32 +356,32 @@ class FakeApi {
     }) async {
         final String _path = '/fake/outer/string';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(body);
+        final serializedBody = body;
         final jsonbody = json.encode(serializedBody);
         bodyData = jsonbody;
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'post'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [],
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[],
                     if (extra != null) ...extra,
                 },
                 validateStatus: validateStatus,
@@ -404,32 +419,33 @@ class FakeApi {
     }) async {
         final String _path = '/fake/body-with-file-schema';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(fileSchemaTestClass);
+        final bodySerializer = _serializers.serializerForType(FileSchemaTestClass) as Serializer<FileSchemaTestClass>;
+        final serializedBody = _serializers.serializeWith(bodySerializer, fileSchemaTestClass);
         final jsonfileSchemaTestClass = json.encode(serializedBody);
         bodyData = jsonfileSchemaTestClass;
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'put'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [],
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[],
                     if (extra != null) ...extra,
                 },
                 validateStatus: validateStatus,
@@ -456,33 +472,34 @@ class FakeApi {
     }) async {
         final String _path = '/fake/body-with-query-params';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
         queryParams[r'query'] = query;
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(user);
+        final bodySerializer = _serializers.serializerForType(User) as Serializer<User>;
+        final serializedBody = _serializers.serializeWith(bodySerializer, user);
         final jsonuser = json.encode(serializedBody);
         bodyData = jsonuser;
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'put'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [],
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[],
                     if (extra != null) ...extra,
                 },
                 validateStatus: validateStatus,
@@ -508,32 +525,33 @@ class FakeApi {
     }) async {
         final String _path = '/fake';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(modelClient);
+        final bodySerializer = _serializers.serializerForType(ModelClient) as Serializer<ModelClient>;
+        final serializedBody = _serializers.serializeWith(bodySerializer, modelClient);
         final jsonmodelClient = json.encode(serializedBody);
         bodyData = jsonmodelClient;
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'patch'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [],
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[],
                     if (extra != null) ...extra,
                 },
                 validateStatus: validateStatus,
@@ -543,8 +561,11 @@ class FakeApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            final serializer = _serializers.serializerForType(ModelClient);
-            final data = _serializers.deserializeWith<ModelClient>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            final serializer = _serializers.serializerForType(ModelClient) as Serializer<ModelClient>;
+            final data = _serializers.deserializeWith<ModelClient>(
+                serializer,
+                response.data is String ? jsonDecode(response.data as String) : response.data,
+            );
 
             return Response<ModelClient>(
                 data: data,
@@ -585,45 +606,46 @@ class FakeApi {
     }) async {
         final String _path = '/fake';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'application/x-www-form-urlencoded',
         ];
 
-        final Map<String, dynamic> formData = {};
-        formData['integer'] = parameterToString(_serializers, integer);
-        formData['int32'] = parameterToString(_serializers, int32);
-        formData['int64'] = parameterToString(_serializers, int64);
-        formData['number'] = parameterToString(_serializers, number);
-        formData['float'] = parameterToString(_serializers, float);
-        formData['double'] = parameterToString(_serializers, double_);
-        formData['string'] = parameterToString(_serializers, string);
-        formData['pattern_without_delimiter'] = parameterToString(_serializers, patternWithoutDelimiter);
-        formData['byte'] = parameterToString(_serializers, byte);
-        formData['binary'] = parameterToString(_serializers, binary);
-        formData['date'] = parameterToString(_serializers, date);
-        formData['dateTime'] = parameterToString(_serializers, dateTime);
-        formData['password'] = parameterToString(_serializers, password);
-        formData['callback'] = parameterToString(_serializers, callback);
+        final formData = <String, dynamic>{
+            if (integer != null) r'integer': parameterToString(_serializers, integer),
+            if (int32 != null) r'int32': parameterToString(_serializers, int32),
+            if (int64 != null) r'int64': parameterToString(_serializers, int64),
+            r'number': parameterToString(_serializers, number),
+            if (float != null) r'float': parameterToString(_serializers, float),
+            r'double': parameterToString(_serializers, double_),
+            if (string != null) r'string': parameterToString(_serializers, string),
+            r'pattern_without_delimiter': parameterToString(_serializers, patternWithoutDelimiter),
+            r'byte': parameterToString(_serializers, byte),
+            if (binary != null) r'binary': MultipartFile.fromBytes(binary, filename: r'binary'),
+            if (date != null) r'date': parameterToString(_serializers, date),
+            if (dateTime != null) r'dateTime': parameterToString(_serializers, dateTime),
+            if (password != null) r'password': parameterToString(_serializers, password),
+            if (callback != null) r'callback': parameterToString(_serializers, callback),
+        };
         bodyData = formData;
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'post'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[
                         {
                             'type': 'http',
                             'name': 'http_basic_test',
@@ -661,8 +683,8 @@ class FakeApi {
     }) async {
         final String _path = '/fake';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -673,27 +695,28 @@ class FakeApi {
         queryParams[r'enum_query_string'] = enumQueryString;
         queryParams[r'enum_query_integer'] = enumQueryInteger;
         queryParams[r'enum_query_double'] = enumQueryDouble;
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'application/x-www-form-urlencoded',
         ];
 
-        final Map<String, dynamic> formData = {};
-        formData['enum_form_string_array'] = parameterToString(_serializers, enumFormStringArray);
-        formData['enum_form_string'] = parameterToString(_serializers, enumFormString);
+        final formData = <String, dynamic>{
+            if (enumFormStringArray != null) r'enum_form_string_array': parameterToString(_serializers, enumFormStringArray),
+            if (enumFormString != null) r'enum_form_string': parameterToString(_serializers, enumFormString),
+        };
         bodyData = formData;
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'get'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [],
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[],
                     if (extra != null) ...extra,
                 },
                 validateStatus: validateStatus,
@@ -724,8 +747,8 @@ class FakeApi {
     }) async {
         final String _path = '/fake';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -736,20 +759,20 @@ class FakeApi {
         queryParams[r'required_int64_group'] = requiredInt64Group;
         queryParams[r'string_group'] = stringGroup;
         queryParams[r'int64_group'] = int64Group;
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [];
+        final contentTypes = <String>[];
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'delete'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[
                         {
                             'type': 'http',
                             'name': 'bearer_test',
@@ -780,32 +803,33 @@ class FakeApi {
     }) async {
         final String _path = '/fake/inline-additionalProperties';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'application/json',
         ];
 
-        final serializedBody = _serializers.serialize(requestBody);
+        const type = FullType(BuiltMap, [FullType(String), FullType(String)]);
+        final serializedBody = _serializers.serialize(requestBody, specifiedType: type);
         final jsonrequestBody = json.encode(serializedBody);
         bodyData = jsonrequestBody;
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'post'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [],
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[],
                     if (extra != null) ...extra,
                 },
                 validateStatus: validateStatus,
@@ -832,33 +856,34 @@ class FakeApi {
     }) async {
         final String _path = '/fake/jsonFormData';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
 
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [
+        final contentTypes = <String>[
             'application/x-www-form-urlencoded',
         ];
 
-        final Map<String, dynamic> formData = {};
-        formData['param'] = parameterToString(_serializers, param);
-        formData['param2'] = parameterToString(_serializers, param2);
+        final formData = <String, dynamic>{
+            r'param': parameterToString(_serializers, param),
+            r'param2': parameterToString(_serializers, param2),
+        };
         bodyData = formData;
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'get'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [],
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[],
                     if (extra != null) ...extra,
                 },
                 validateStatus: validateStatus,
@@ -888,8 +913,8 @@ class FakeApi {
     }) async {
         final String _path = '/fake/test-query-paramters';
 
-        final Map<String, dynamic> queryParams = {};
-        final Map<String, dynamic> headerParams = {
+        final queryParams = <String, dynamic>{};
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -899,20 +924,20 @@ class FakeApi {
         queryParams[r'http'] = http;
         queryParams[r'url'] = url;
         queryParams[r'context'] = context;
-        queryParams.removeWhere((key, value) => value == null);
-        headerParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, dynamic value) => value == null);
+        headerParams.removeWhere((key, dynamic value) => value == null);
 
-        final List<String> contentTypes = [];
+        final contentTypes = <String>[];
 
-        return _dio.request(
+        return _dio.request<dynamic>(
             _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
                 method: 'put'.toUpperCase(),
                 headers: headerParams,
-                extra: {
-                    'secure': [],
+                extra: <String, dynamic>{
+                    'secure': <Map<String, String>>[],
                     if (extra != null) ...extra,
                 },
                 validateStatus: validateStatus,

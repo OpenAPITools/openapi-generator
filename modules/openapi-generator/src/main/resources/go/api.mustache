@@ -36,7 +36,7 @@ type {{classname}} interface {
 	 * {{nickname}}Execute executes the request{{#returnType}}
 	 * @return {{{.}}}{{/returnType}}
 	 */
-	{{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, GenericOpenAPIError)
+	{{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error)
 	{{/operation}}
 }
 {{/generateInterfaces}}
@@ -61,7 +61,7 @@ func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Reques
 	return r
 }{{/isPathParam}}{{/allParams}}
 
-func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, GenericOpenAPIError) {
+func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
 	return r.ApiService.{{nickname}}Execute(r)
 }
 
@@ -86,14 +86,13 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#pathParam
  * Execute executes the request{{#returnType}}
  * @return {{{.}}}{{/returnType}}
  */
-func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, GenericOpenAPIError) {
+func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.Method{{httpMethod}}
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		executionError       GenericOpenAPIError
 		{{#returnType}}
 		localVarReturnValue  {{{.}}}
 		{{/returnType}}
@@ -101,8 +100,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "{{{classname}}}Service.{{{nickname}}}")
 	if err != nil {
-		executionError.error = err.Error()
-		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, executionError
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "{{{path}}}"{{#pathParams}}
@@ -115,32 +113,27 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	{{#required}}
 	{{^isPathParam}}
 	if r.{{paramName}} == nil {
-		executionError.error = "{{paramName}} is required and must be specified"
-		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, executionError
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} is required and must be specified")
 	}
 	{{/isPathParam}}
 	{{#minItems}}
 	if len({{^isPathParam}}*{{/isPathParam}}r.{{paramName}}) < {{minItems}} {
-		executionError.error = "{{paramName}} must have at least {{minItems}} elements"
-		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, executionError
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must have at least {{minItems}} elements")
 	}
 	{{/minItems}}
 	{{#maxItems}}
 	if len({{^isPathParam}}*{{/isPathParam}}r.{{paramName}}) > {{maxItems}} {
-		executionError.error = "{{paramName}} must have less than {{maxItems}} elements"
-		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, executionError
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must have less than {{maxItems}} elements")
 	}
 	{{/maxItems}}
 	{{#minLength}}
 	if strlen({{^isPathParam}}*{{/isPathParam}}r.{{paramName}}) < {{minLength}} {
-		executionError.error = "{{paramName}} must have at least {{minLength}} elements"
-		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, executionError
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must have at least {{minLength}} elements")
 	}
 	{{/minLength}}
 	{{#maxLength}}
 	if strlen({{^isPathParam}}*{{/isPathParam}}r.{{paramName}}) > {{maxLength}} {
-		executionError.error = "{{paramName}} must have less than {{maxLength}} elements"
-		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, executionError
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must have less than {{maxLength}} elements")
 	}
 	{{/maxLength}}
 	{{#minimum}}
@@ -151,8 +144,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	{{^isString}}
 	if {{^isPathParam}}*{{/isPathParam}}r.{{paramName}} < {{minimum}} {
 	{{/isString}}
-		executionError.error = "{{paramName}} must be greater than {{minimum}}"
-		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, executionError
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must be greater than {{minimum}}")
 	}
 	{{/minimum}}
 	{{#maximum}}
@@ -163,8 +155,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	{{^isString}}
 	if {{^isPathParam}}*{{/isPathParam}}r.{{paramName}} > {{maximum}} {
 	{{/isString}}
-		executionError.error = "{{paramName}} must be less than {{maximum}}"
-		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, executionError
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must be less than {{maximum}}")
 	}
 	{{/maximum}}
 	{{/required}}
@@ -267,8 +258,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	if r.{{paramName}} != nil {
 		paramJson, err := parameterToJson(*r.{{paramName}})
 		if err != nil {
-			executionError.error = err.Error()
-			return {{#returnType}}localVarReturnValue, {{/returnType}}nil, executionError
+			return {{#returnType}}localVarReturnValue, {{/returnType}}nil, err
 		}
 		localVarFormParams.Add("{{baseName}}", paramJson)
 	}
@@ -323,22 +313,19 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 {{/authMethods}}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		executionError.error = err.Error()
-		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, executionError
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		executionError.error = err.Error()
-		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, executionError
+		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, err
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		executionError.error = err.Error()
-		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, executionError
+		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -384,7 +371,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	}
 
 	{{/returnType}}
-	return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, executionError
+	return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, nil
 }
 {{/operation}}
 {{/operations}}

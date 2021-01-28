@@ -134,7 +134,7 @@ Use specific imports for apis and models like:
 - `from x_auth_id_alias.api.default_api import DefaultApi`
 - `from x_auth_id_alias.model.pet import Pet`
 
-Solution 1:
+Solution 2:
 Before importing the package, adjust the maximum recursion limit as shown below:
 ```
 import sys

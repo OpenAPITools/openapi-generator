@@ -1,24 +1,19 @@
 package org.openapitools.client.api;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.model.Client;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * API tests for AnotherFakeApi
  */
-public class AnotherFakeApiTest {
+class AnotherFakeApiTest {
 
     private AnotherFakeApi api;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         api = new ApiClient().buildClient(AnotherFakeApi.class);
     }
 
@@ -29,7 +24,7 @@ public class AnotherFakeApiTest {
      * To test special tags and operation ID starting with number
      */
     @Test
-    public void call123testSpecialTagsTest() {
+    void call123testSpecialTagsTest() {
         Client body = null;
         // Client response = api.call123testSpecialTags(body);
 

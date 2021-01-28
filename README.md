@@ -63,6 +63,7 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [<img src="https://openapi-generator.tech/img/companies/docspring.png" width="128" height="128">](https://docspring.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/datadog.png" width="128" height="128">](https://datadoghq.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/thales.jpg" width="128" height="128">](https://cpl.thalesgroup.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img src="https://openapi-generator.tech/img/companies/apideck.jpg" width="128" height="128">](https://www.apideck.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 
 #### Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS and Checkly for sponsoring the API monitoring
 
@@ -76,11 +77,11 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 
 |                                  | Languages/Frameworks                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C**, **C#** (.net 2.0, 3.5 or later, .NET Standard 1.3 - 2.0, .NET Core 2.0), **C++** (cpp-restsdk, Qt5, Tizen), **Clojure**, **Dart**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client, MicroProfile Rest Client), **k6**, **Kotlin**, **Lua**, **Nim**, **Node.js/JavaScript** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types, Apollo GraphQL DataStore), **Objective-C**, **OCaml**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (rust, rust-server), **Scala** (akka, http4s, scalaz, sttp, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x, 5.x), **Typescript** (AngularJS, Angular (2.x - 8.x), Aurelia, Axios, Fetch, Inversify, jQuery, Node, Rxjs) |
+| **API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C**, **C#** (.net 2.0, 3.5 or later, .NET Standard 1.3 - 2.0, .NET Core 2.0), **C++** (cpp-restsdk, Qt5, Tizen), **Clojure**, **Crystal**, **Dart**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client, MicroProfile Rest Client), **k6**, **Kotlin**, **Lua**, **Nim**, **Node.js/JavaScript** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types, Apollo GraphQL DataStore), **Objective-C**, **OCaml**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (rust, rust-server), **Scala** (akka, http4s, scalaz, sttp, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x, 5.x), **Typescript** (AngularJS, Angular (2.x - 8.x), Aurelia, Axios, Fetch, Inversify, jQuery, Nestjs, Node, Rxjs) |
 | **Server stubs**                 | **Ada**, **C#** (ASP.NET Core, NancyFx), **C++** (Pistache, Restbed, Qt5 QHTTPEngine), **Erlang**, **F#** (Giraffe), **Go** (net/http, Gin), **Haskell** (Servant), **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, Jersey, RestEasy, Play Framework, [PKMST](https://github.com/ProKarma-Inc/pkmst-getting-started-examples), [Vert.x](https://vertx.io/)), **Kotlin** (Spring Boot, Ktor, Vertx), **PHP** (Laravel, Lumen, Slim, Silex, [Symfony](https://symfony.com/), [Zend Expressive](https://github.com/zendframework/zend-expressive)), **Python** (Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Rust** (rust-server), **Scala** (Akka, [Finch](https://github.com/finagle/finch), [Lagom](https://github.com/lagom/lagom), [Play](https://www.playframework.com/), Scalatra)                                                                                                                                                                                         |
 | **API documentation generators** | **HTML**, **Confluence Wiki**, **Asciidoc**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | **Configuration files**          | [**Apache2**](https://httpd.apache.org/)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| **Others**                       | **GraphQL**, **JMeter**, **MySQL Schema**, **Protocol Buffer**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| **Others**                       | **GraphQL**, **JMeter**, **Ktorm**, **MySQL Schema**, **Protocol Buffer**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 
 ## Table of contents
 
@@ -671,6 +672,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Vouchery.io](https://vouchery.io)
 - [Xero](https://www.xero.com/)
 - [Yahoo Japan](https://www.yahoo.co.jp/)
+- [viadee](https://www.viadee.de/)
 - [Vonage](https://vonage.com)
 - [YITU Technology](https://www.yitutech.com/)
 - [Yelp](https://www.yelp.com/)
@@ -808,6 +810,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-12-01 - [OpenAPI GeneratorでGoのAPIサーバー/クライアントコードを自動生成する](https://qiita.com/saki-engineering/items/b20d8b6074c4da9664a5) by [@saki-engineering](https://qiita.com/saki-engineering)
 - 2020-12-09 - [プロジェクトにOpenAPI Generatorで自動生成された型付きAPI Clientを導入した話](https://qiita.com/yoshifujiT/items/905c18700ede23f40840) by [@yoshifujiT](https://github.com/yoshifujiT)
 - 2020-12-15 - [Next.js + NestJS + GraphQLで変化に追従するフロントエンドへ 〜 ショッピングクーポンの事例紹介](https://techblog.yahoo.co.jp/entry/2020121530052952/) by [小倉 陸](https://github.com/ogugu9) at [Yahoo! JAPAN Tech Blog](https://techblog.yahoo.co.jp/)
+- 2021-01-08 - [Hello, New API – Part 1](https://www.nginx.com/blog/hello-new-api-part-1/) by [Jeremy Schulman](https://www.nginx.com/people/jeremy-schulman/) at [Major League Baseball](https://www.mlb.com)
+- 2021-01-18 - [「アプリ開発あるある」を疑うことから始まった、API Clientコードの自動生成【デブスト2020】](https://codezine.jp/article/detail/13406?p=2) by [CodeZine編集部](https://codezine.jp/author/1)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -842,6 +846,7 @@ Here is a list of template creators:
    * C# (.NET Standard 1.3 ): @Gronsak
    * C# (.NET 4.5 refactored): @jimschubert [:heart:](https://www.patreon.com/jimschubert)
    * Clojure: @xhh
+   * Crystal: @wing328
    * Dart: @yissachar
    * Dart (refactor): @joernahrens
    * Dart 2: @swipesight
@@ -900,10 +905,11 @@ Here is a list of template creators:
    * TypeScript (Angular7): @topce
    * TypeScript (Axios): @nicokoenig
    * TypeScript (Fetch): @leonyu
+   * TypeScript (Inversify): @gualtierim
    * TypeScript (jQuery): @bherila
+   * TypeScript (Nestjs): @vfrank66
    * TypeScript (Node):  @mhardorf
    * TypeScript (Rxjs): @denyo
-   * TypeScript (Inversify): @gualtierim
    * TypeScript (redux-query): @petejohansonxo
  * Server Stubs
    * Ada: @stcarrez
@@ -957,6 +963,7 @@ Here is a list of template creators:
  * Schema
    * Avro: @sgadouar
    * GraphQL: @wing328 [:heart:](https://www.patreon.com/wing328)
+   * Ktorm: @Luiz-Monad
    * MySQL: @ybelenko
    * Protocol Buffer: @wing328
 
@@ -1008,11 +1015,11 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Elm               | @eriktim (2018/09)                                                                                                                                                                                                                |
 | Erlang            | @tsloughter (2017/11) @jfacorro (2018/10) @robertoaloi (2018/10)                                                                                                                                                                  |
 | F#                | @nmfisher (2019/05)                                                                                                                                                                                                               |
-| Go                | @antihax (2017/11) @grokify (2018/07) @kemokemo (2018/09) @bkabrda (2019/07)                                                                                                                                   |
+| Go                | @antihax (2017/11) @grokify (2018/07) @kemokemo (2018/09) @jirikuncar (2021/01)                                                                                                                                   |
 | GraphQL           | @renepardon (2018/12)                                                                                                                                                                                                             |
 | Groovy            |                                                                                                                                                                                                                                   |
 | Haskell           |                                                                                                                                                                                                                                   |
-| Java              | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) @Zomzog (2019/04) @lwlee2608 (2019/10) @bkabrda (2020/01)                          |
+| Java              | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) @Zomzog (2019/04) @lwlee2608 (2019/10) @nmuesch (2021/01)                          |
 | Kotlin            | @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @dr4ke616 (2018/08) @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) @4brunu (2019/11) @yutaka0m (2020/03)                                                        |
 | Lua               | @daurnimator (2017/08)                                                                                                                                                                                                            |
 | Nim               |                                                                                                                                                                                                                                   |

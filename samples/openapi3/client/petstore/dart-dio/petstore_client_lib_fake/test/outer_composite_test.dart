@@ -6,17 +6,17 @@ void main() {
   final instance = OuterComposite();
 
   group(OuterComposite, () {
-    // num myNumber (default value: null)
+    // num myNumber
     test('to test the property `myNumber`', () async {
       // TODO
     });
 
-    // String myString (default value: null)
+    // String myString
     test('to test the property `myString`', () async {
       // TODO
     });
 
-    // bool myBoolean (default value: null)
+    // bool myBoolean
     test('to test the property `myBoolean`', () async {
       // TODO
     });

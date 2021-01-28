@@ -67,12 +67,12 @@ Returns a map of status codes to quantities
 ```powershell
 Import-Module -Name PSPetstore
 
-$Configuration = Get-PSPetstoreConfiguration
+# general setting of the PowerShell module, e.g. base URL, authentication, etc
+$Configuration = Get-Configuration
 # Configure API key authorization: api_key
-$Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
+$Configuration.ApiKey.api_key = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration["ApiKeyPrefix"]["api_key"] = "Bearer"
-
+#$Configuration.ApiKeyPrefix.api_key = "Bearer"
 
 
 # Returns pet inventories by status
@@ -158,7 +158,7 @@ Place an order for a pet
 ```powershell
 Import-Module -Name PSPetstore
 
-$Order = (Initialize-Order-Id 123 -PetId 123 -Quantity 123 -ShipDate Get-Date -Status "Status_example" -Complete $false) # Order | order placed for purchasing the pet
+$Order = (Initialize-Order -Id 123 -PetId 123 -Quantity 123 -ShipDate Get-Date -Status "placed" -Complete $false) # Order | order placed for purchasing the pet
 
 # Place an order for a pet
 try {

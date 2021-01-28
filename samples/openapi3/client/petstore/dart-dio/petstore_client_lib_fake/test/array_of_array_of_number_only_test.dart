@@ -6,7 +6,7 @@ void main() {
   final instance = ArrayOfArrayOfNumberOnly();
 
   group(ArrayOfArrayOfNumberOnly, () {
-    // BuiltList<BuiltList<num>> arrayArrayNumber (default value: const [])
+    // BuiltList<BuiltList<num>> arrayArrayNumber
     test('to test the property `arrayArrayNumber`', () async {
       // TODO
     });

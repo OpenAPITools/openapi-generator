@@ -13,7 +13,7 @@ protocol JSONEncodable {
 }
 
 public enum ErrorResponse: Error {
-    case error(Int, Data?, Error)
+    case error(Int, Data?, URLResponse?, Error)
 }
 
 public enum DownloadException: Error {
