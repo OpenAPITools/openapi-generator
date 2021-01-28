@@ -20,6 +20,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
+import com.google.gson.reflect.TypeToken
 import java.util.Date
 import java.util.Locale
 
@@ -124,7 +125,7 @@ open class ApiClient(val baseUrl: String) {
             return f as T
         }
         return when(mediaType) {
-            JsonMediaType -> Serializer.gson.fromJson(bodyContent, T::class.java)
+            JsonMediaType -> Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType())
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }

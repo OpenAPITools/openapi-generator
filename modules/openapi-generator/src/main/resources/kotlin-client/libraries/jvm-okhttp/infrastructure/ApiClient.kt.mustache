@@ -55,6 +55,12 @@ import org.threeten.bp.LocalTime
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.OffsetTime
 {{/threetenbp}}
+{{#gson}}
+import com.google.gson.reflect.TypeToken
+{{/gson}}
+{{#jackson}}
+import com.fasterxml.jackson.core.type.TypeReference
+{{/jackson}}
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}open class ApiClient(val baseUrl: String) {
     {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
@@ -201,7 +207,7 @@ import org.threeten.bp.OffsetTime
             return f as T
         }
         return when(mediaType) {
-            JsonMediaType -> {{#moshi}}Serializer.moshi.adapter(T::class.java).fromJson(bodyContent){{/moshi}}{{#gson}}Serializer.gson.fromJson(bodyContent, T::class.java){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, T::class.java){{/jackson}}{{#kotlinx_serialization}}Serializer.jvmJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
+            JsonMediaType -> {{#moshi}}Serializer.moshi.adapter(T::class.java).fromJson(bodyContent){{/moshi}}{{#gson}}Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType()){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}{{#kotlinx_serialization}}Serializer.jvmJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
