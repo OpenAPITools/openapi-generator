@@ -283,7 +283,16 @@ public class {{classname}} {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("{{{collectionFormat}}}", "{{baseName}}", {{paramName}}));
       {{/collectionFormat}}
       {{^collectionFormat}}
+        {{#isDeepObject}}
+    if ({{paramName}} != null) {
+          {{#items.vars}}
+      localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}.{{getter}}()));
+          {{/items.vars}}
+    }
+        {{/isDeepObject}}
+        {{^isDeepObject}}
     localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}));
+        {{/isDeepObject}}
       {{/collectionFormat}}
     {{/queryParams}}
 
