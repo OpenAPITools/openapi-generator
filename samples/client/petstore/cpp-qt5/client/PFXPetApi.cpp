@@ -633,7 +633,7 @@ void PFXPetApi::updatePet(const PFXPet &body) {
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "PUT");
 
-
+  
     QString output = body.asJson();
     input.request_body.append(output.toUtf8());
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }

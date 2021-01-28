@@ -6,13 +6,8 @@ package {{package}};
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 {{/useReflectionEqualsHashCode}}
-{{^supportJava6}}
 import java.util.Objects;
 import java.util.Arrays;
-{{/supportJava6}}
-{{#supportJava6}}
-import org.apache.commons.lang3.ObjectUtils;
-{{/supportJava6}}
 {{#imports}}
 import {{import}};
 {{/imports}}

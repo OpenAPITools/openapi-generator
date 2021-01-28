@@ -33,7 +33,7 @@ class AnotherFakeApi {
         final String _path = '/another-fake/dummy';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;

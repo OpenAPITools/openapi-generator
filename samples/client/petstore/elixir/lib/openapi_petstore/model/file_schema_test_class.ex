@@ -14,8 +14,8 @@ defmodule OpenapiPetstore.Model.FileSchemaTestClass do
   ]
 
   @type t :: %__MODULE__{
-    :"file" => File | nil,
-    :"files" => [File] | nil
+    :"file" => OpenapiPetstore.Model.File.t | nil,
+    :"files" => [OpenapiPetstore.Model.File.t] | nil
   }
 end
 

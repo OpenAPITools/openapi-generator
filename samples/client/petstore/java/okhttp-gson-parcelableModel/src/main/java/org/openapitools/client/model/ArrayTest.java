@@ -33,7 +33,7 @@ import android.os.Parcel;
  * ArrayTest
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class ArrayTest {
+public class ArrayTest implements Parcelable {
   public static final String SERIALIZED_NAME_ARRAY_OF_STRING = "array_of_string";
   @SerializedName(SERIALIZED_NAME_ARRAY_OF_STRING)
   private List<String> arrayOfString = null;
@@ -160,7 +160,6 @@ public class ArrayTest {
   public int hashCode() {
     return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
   }
-
 
   @Override
   public String toString() {

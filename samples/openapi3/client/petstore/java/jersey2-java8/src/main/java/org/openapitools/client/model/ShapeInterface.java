@@ -83,7 +83,6 @@ public class ShapeInterface {
     return Objects.hash(shapeType);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

@@ -12,6 +12,7 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class DogAllOf   {
   @JsonProperty("breed")
+  
   private String breed;
 
   public DogAllOf breed(String breed) {
@@ -23,7 +24,7 @@ public class DogAllOf   {
    * Get breed
    * @return breed
   **/
-    public String getBreed() {
+  public String getBreed() {
     return breed;
   }
 

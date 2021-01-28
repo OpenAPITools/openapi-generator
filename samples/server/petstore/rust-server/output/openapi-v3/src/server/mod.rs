@@ -22,6 +22,7 @@ pub use crate::context;
 type ServiceFuture = BoxFuture<'static, Result<Response<Body>, crate::ServiceError>>;
 
 use crate::{Api,
+     AnyOfGetResponse,
      CallbackWithHeaderPostResponse,
      ComplexQueryParamGetResponse,
      EnumInPathPathParamGetResponse,
@@ -30,6 +31,7 @@ use crate::{Api,
      MergePatchJsonGetResponse,
      MultigetGetResponse,
      MultipleAuthSchemeGetResponse,
+     OneOfGetResponse,
      OverrideServerGetResponse,
      ParamgetGetResponse,
      ReadonlyAuthSchemeGetResponse,
@@ -55,6 +57,7 @@ mod paths {
 
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
+            r"^/any-of$",
             r"^/callback-with-header$",
             r"^/complex-query-param$",
             r"^/enum_in_path/(?P<path_param>[^/?#]*)$",
@@ -63,6 +66,7 @@ mod paths {
             r"^/merge-patch-json$",
             r"^/multiget$",
             r"^/multiple_auth_scheme$",
+            r"^/one-of$",
             r"^/override-server$",
             r"^/paramget$",
             r"^/readonly_auth_scheme$",
@@ -80,38 +84,40 @@ mod paths {
         ])
         .expect("Unable to create global regex set");
     }
-    pub(crate) static ID_CALLBACK_WITH_HEADER: usize = 0;
-    pub(crate) static ID_COMPLEX_QUERY_PARAM: usize = 1;
-    pub(crate) static ID_ENUM_IN_PATH_PATH_PARAM: usize = 2;
+    pub(crate) static ID_ANY_OF: usize = 0;
+    pub(crate) static ID_CALLBACK_WITH_HEADER: usize = 1;
+    pub(crate) static ID_COMPLEX_QUERY_PARAM: usize = 2;
+    pub(crate) static ID_ENUM_IN_PATH_PATH_PARAM: usize = 3;
     lazy_static! {
         pub static ref REGEX_ENUM_IN_PATH_PATH_PARAM: regex::Regex =
             regex::Regex::new(r"^/enum_in_path/(?P<path_param>[^/?#]*)$")
                 .expect("Unable to create regex for ENUM_IN_PATH_PATH_PARAM");
     }
-    pub(crate) static ID_JSON_COMPLEX_QUERY_PARAM: usize = 3;
-    pub(crate) static ID_MANDATORY_REQUEST_HEADER: usize = 4;
-    pub(crate) static ID_MERGE_PATCH_JSON: usize = 5;
-    pub(crate) static ID_MULTIGET: usize = 6;
-    pub(crate) static ID_MULTIPLE_AUTH_SCHEME: usize = 7;
-    pub(crate) static ID_OVERRIDE_SERVER: usize = 8;
-    pub(crate) static ID_PARAMGET: usize = 9;
-    pub(crate) static ID_READONLY_AUTH_SCHEME: usize = 10;
-    pub(crate) static ID_REGISTER_CALLBACK: usize = 11;
-    pub(crate) static ID_REPOS: usize = 12;
-    pub(crate) static ID_REPOS_REPOID: usize = 13;
+    pub(crate) static ID_JSON_COMPLEX_QUERY_PARAM: usize = 4;
+    pub(crate) static ID_MANDATORY_REQUEST_HEADER: usize = 5;
+    pub(crate) static ID_MERGE_PATCH_JSON: usize = 6;
+    pub(crate) static ID_MULTIGET: usize = 7;
+    pub(crate) static ID_MULTIPLE_AUTH_SCHEME: usize = 8;
+    pub(crate) static ID_ONE_OF: usize = 9;
+    pub(crate) static ID_OVERRIDE_SERVER: usize = 10;
+    pub(crate) static ID_PARAMGET: usize = 11;
+    pub(crate) static ID_READONLY_AUTH_SCHEME: usize = 12;
+    pub(crate) static ID_REGISTER_CALLBACK: usize = 13;
+    pub(crate) static ID_REPOS: usize = 14;
+    pub(crate) static ID_REPOS_REPOID: usize = 15;
     lazy_static! {
         pub static ref REGEX_REPOS_REPOID: regex::Regex =
             regex::Regex::new(r"^/repos/(?P<repoId>[^/?#]*)$")
                 .expect("Unable to create regex for REPOS_REPOID");
     }
-    pub(crate) static ID_REQUIRED_OCTET_STREAM: usize = 14;
-    pub(crate) static ID_RESPONSES_WITH_HEADERS: usize = 15;
-    pub(crate) static ID_RFC7807: usize = 16;
-    pub(crate) static ID_UNTYPED_PROPERTY: usize = 17;
-    pub(crate) static ID_UUID: usize = 18;
-    pub(crate) static ID_XML: usize = 19;
-    pub(crate) static ID_XML_EXTRA: usize = 20;
-    pub(crate) static ID_XML_OTHER: usize = 21;
+    pub(crate) static ID_REQUIRED_OCTET_STREAM: usize = 16;
+    pub(crate) static ID_RESPONSES_WITH_HEADERS: usize = 17;
+    pub(crate) static ID_RFC7807: usize = 18;
+    pub(crate) static ID_UNTYPED_PROPERTY: usize = 19;
+    pub(crate) static ID_UUID: usize = 20;
+    pub(crate) static ID_XML: usize = 21;
+    pub(crate) static ID_XML_EXTRA: usize = 22;
+    pub(crate) static ID_XML_OTHER: usize = 23;
 }
 
 pub struct MakeService<T, C> where
@@ -215,6 +221,76 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
         let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
 
         match &method {
+
+            // AnyOfGet - GET /any-of
+            &hyper::Method::GET if path.matched(paths::ID_ANY_OF) => {
+                // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
+                let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
+                let param_any_of = query_params.iter().filter(|e| e.0 == "any-of").map(|e| e.1.to_owned())
+                    .filter_map(|param_any_of| param_any_of.parse().ok())
+                    .collect::<Vec<_>>();
+                let param_any_of = if !param_any_of.is_empty() {
+                    Some(param_any_of)
+                } else {
+                    None
+                };
+
+                                let result = api_impl.any_of_get(
+                                            param_any_of.as_ref(),
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                AnyOfGetResponse::Success
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for ANY_OF_GET_SUCCESS"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                                AnyOfGetResponse::AlternateSuccess
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for ANY_OF_GET_ALTERNATE_SUCCESS"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                                AnyOfGetResponse::AnyOfSuccess
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(202).expect("Unable to turn 202 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for ANY_OF_GET_ANY_OF_SUCCESS"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+            },
 
             // CallbackWithHeaderPost - POST /callback-with-header
             &hyper::Method::POST if path.matched(paths::ID_CALLBACK_WITH_HEADER) => {
@@ -654,6 +730,42 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 MultipleAuthSchemeGetResponse::CheckThatLimitingToMultipleRequiredAuthSchemesWorks
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+            },
+
+            // OneOfGet - GET /one-of
+            &hyper::Method::GET if path.matched(paths::ID_ONE_OF) => {
+                                let result = api_impl.one_of_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                OneOfGetResponse::Success
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for ONE_OF_GET_SUCCESS"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                             },
                                             Err(_) => {
@@ -1722,6 +1834,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         Ok(response)
             },
 
+            _ if path.matched(paths::ID_ANY_OF) => method_not_allowed(),
             _ if path.matched(paths::ID_CALLBACK_WITH_HEADER) => method_not_allowed(),
             _ if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => method_not_allowed(),
             _ if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => method_not_allowed(),
@@ -1730,6 +1843,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             _ if path.matched(paths::ID_MERGE_PATCH_JSON) => method_not_allowed(),
             _ if path.matched(paths::ID_MULTIGET) => method_not_allowed(),
             _ if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => method_not_allowed(),
+            _ if path.matched(paths::ID_ONE_OF) => method_not_allowed(),
             _ if path.matched(paths::ID_OVERRIDE_SERVER) => method_not_allowed(),
             _ if path.matched(paths::ID_PARAMGET) => method_not_allowed(),
             _ if path.matched(paths::ID_READONLY_AUTH_SCHEME) => method_not_allowed(),
@@ -1757,6 +1871,8 @@ impl<T> RequestParser<T> for ApiRequestParser {
     fn parse_operation_id(request: &Request<T>) -> Result<&'static str, ()> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
         match request.method() {
+            // AnyOfGet - GET /any-of
+            &hyper::Method::GET if path.matched(paths::ID_ANY_OF) => Ok("AnyOfGet"),
             // CallbackWithHeaderPost - POST /callback-with-header
             &hyper::Method::POST if path.matched(paths::ID_CALLBACK_WITH_HEADER) => Ok("CallbackWithHeaderPost"),
             // ComplexQueryParamGet - GET /complex-query-param
@@ -1773,6 +1889,8 @@ impl<T> RequestParser<T> for ApiRequestParser {
             &hyper::Method::GET if path.matched(paths::ID_MULTIGET) => Ok("MultigetGet"),
             // MultipleAuthSchemeGet - GET /multiple_auth_scheme
             &hyper::Method::GET if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => Ok("MultipleAuthSchemeGet"),
+            // OneOfGet - GET /one-of
+            &hyper::Method::GET if path.matched(paths::ID_ONE_OF) => Ok("OneOfGet"),
             // OverrideServerGet - GET /override-server
             &hyper::Method::GET if path.matched(paths::ID_OVERRIDE_SERVER) => Ok("OverrideServerGet"),
             // ParamgetGet - GET /paramget

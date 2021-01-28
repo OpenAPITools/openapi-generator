@@ -24,6 +24,9 @@
 #include <QObject>
 #include <QString>
 #include <QTimer>
+#if QT_VERSION >= 0x051500
+    #include <QRandomGenerator>
+#endif
 
 #include "PFXHttpFileElement.h"
 
@@ -94,6 +97,9 @@ private:
     bool isResponseCompressionEnabled;
     bool isRequestCompressionEnabled;
     int  httpResponseCode;
+#if QT_VERSION >= 0x051500
+    QRandomGenerator randomGenerator;
+#endif
 
     void on_reply_timeout(QNetworkReply *reply);
     void on_reply_finished(QNetworkReply *reply);

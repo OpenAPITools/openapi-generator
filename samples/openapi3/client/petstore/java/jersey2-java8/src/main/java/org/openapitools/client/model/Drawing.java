@@ -240,7 +240,6 @@ public class Drawing {
     return Objects.hash(mainShape, shapeOrNull, nullableShape, shapes, additionalProperties);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
