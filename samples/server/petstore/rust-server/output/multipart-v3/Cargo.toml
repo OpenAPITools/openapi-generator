@@ -10,7 +10,7 @@ edition = "2018"
 default = ["client", "server"]
 client = [
     "mime_0_2",
-    "multipart", "multipart/client", "swagger/multipart",
+    "multipart", "multipart/client", "swagger/multipart_form",
     "hyper_0_10", "mime_multipart",
     "hyper", "hyper-openssl", "hyper-tls", "native-tls", "openssl", "url"
 ]
@@ -35,7 +35,7 @@ openssl = {version = "0.10", optional = true }
 async-trait = "0.1.24"
 chrono = { version = "0.4", features = ["serde"] }
 futures = "0.3"
-swagger = "5.0.0-alpha-1"
+swagger = "5.0.2"
 log = "0.4.0"
 mime = "0.3"
 

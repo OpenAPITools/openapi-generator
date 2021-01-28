@@ -582,5 +582,11 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public void setIsNull(boolean isNull) {
         this.isNull = isNull;
     }
+
+    @Override
+    public boolean getHasValidation() { return hasValidation; }
+
+    @Override
+    public void setHasValidation(boolean hasValidation) { this.hasValidation = hasValidation; }
 }
 

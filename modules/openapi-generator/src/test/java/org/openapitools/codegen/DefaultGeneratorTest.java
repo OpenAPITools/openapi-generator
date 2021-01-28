@@ -11,8 +11,11 @@ import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -635,6 +638,32 @@ public class DefaultGeneratorTest {
             output.delete();
             templates.toFile().delete();
         }
+    }
+
+    @Test
+    public void testHandlesTrailingSlashInServers() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7533.yaml");
+        ClientOptInput opts = new ClientOptInput();
+        opts.openAPI(openAPI);
+        DefaultCodegen config = new DefaultCodegen();
+        config.setStrictSpecBehavior(false);
+        opts.config(config);
+        final DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(opts);
+        generator.configureGeneratorProperties();
+
+        List<File> files = new ArrayList<>();
+        List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        List<Object> allModels = new ArrayList<>();
+        generator.generateModels(files, allModels, filteredSchemas);
+        List<Object> allOperations = new ArrayList<>();
+        generator.generateApis(files, allOperations, allModels);
+
+        Map<String, Object> bundle = generator.buildSupportFileBundle(allOperations, allModels);
+        LinkedList<CodegenServer> servers = (LinkedList<CodegenServer>) bundle.get("servers");
+        Assert.assertEquals(servers.get(0).url, "");
+        Assert.assertEquals(servers.get(1).url, "http://trailingshlash.io:80/v1");
+        Assert.assertEquals(servers.get(2).url, "http://notrailingslash.io:80/v2");
     }
 }
 

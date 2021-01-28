@@ -34,7 +34,7 @@ class StoreApi {
         final String _path = '/store/order/{orderId}'.replaceAll('{' r'orderId' '}', orderId.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -78,7 +78,7 @@ class StoreApi {
         final String _path = '/store/inventory';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -149,7 +149,7 @@ class StoreApi {
         final String _path = '/store/order/{orderId}'.replaceAll('{' r'orderId' '}', orderId.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -210,7 +210,7 @@ class StoreApi {
         final String _path = '/store/order';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;

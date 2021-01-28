@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public class Pet: NSObject, Codable, Hashable {
+@objc public class Pet: NSObject, Codable {
 
     public enum Status: String, Codable, CaseIterable {
         case available = "available"

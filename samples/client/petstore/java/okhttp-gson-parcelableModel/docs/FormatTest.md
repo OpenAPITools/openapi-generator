@@ -22,4 +22,8 @@ Name | Type | Description | Notes
 **bigDecimal** | **BigDecimal** |  |  [optional]
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 

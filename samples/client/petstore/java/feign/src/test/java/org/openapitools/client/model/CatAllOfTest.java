@@ -16,25 +16,24 @@ package org.openapitools.client.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
  * Model tests for CatAllOf
  */
-public class CatAllOfTest {
+class CatAllOfTest {
     private final CatAllOf model = new CatAllOf();
 
     /**
      * Model tests for CatAllOf
      */
     @Test
-    public void testCatAllOf() {
+    void testCatAllOf() {
         // TODO: test CatAllOf
     }
 
@@ -42,7 +41,7 @@ public class CatAllOfTest {
      * Test the property 'declawed'
      */
     @Test
-    public void declawedTest() {
+    void declawedTest() {
         // TODO: test declawed
     }
 

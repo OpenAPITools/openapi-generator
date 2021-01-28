@@ -34,15 +34,9 @@ import java.security.cert.X509Certificate;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-{{^supportJava6}}
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import org.glassfish.jersey.logging.LoggingFeature;
-{{/supportJava6}}
-{{#supportJava6}}
-import org.apache.commons.io.FileUtils;
-import org.glassfish.jersey.filter.LoggingFilter;
-{{/supportJava6}}
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Collection;
@@ -997,13 +991,7 @@ public class ApiClient{{#java8}} extends JavaTimeFormatter{{/java8}} {
   public File downloadFileFromResponse(Response response) throws ApiException {
     try {
       File file = prepareDownloadFile(response);
-{{^supportJava6}}
       Files.copy(response.readEntity(InputStream.class), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-{{/supportJava6}}
-{{#supportJava6}}
-      // Java6 falls back to commons.io for file copying
-      FileUtils.copyToFile(response.readEntity(InputStream.class), file);
-{{/supportJava6}}
       return file;
     } catch (IOException e) {
       throw new ApiException(e);
@@ -1259,15 +1247,10 @@ public class ApiClient{{#java8}} extends JavaTimeFormatter{{/java8}} {
     // turn off compliance validation to be able to send payloads with DELETE calls
     clientConfig.property(ClientProperties.SUPPRESS_HTTP_COMPLIANCE_VALIDATION, true);
     if (debugging) {
-{{^supportJava6}}
       clientConfig.register(new LoggingFeature(java.util.logging.Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME), java.util.logging.Level.INFO, LoggingFeature.Verbosity.PAYLOAD_ANY, 1024*50 /* Log payloads up to 50K */));
       clientConfig.property(LoggingFeature.LOGGING_FEATURE_VERBOSITY, LoggingFeature.Verbosity.PAYLOAD_ANY);
       // Set logger to ALL
       java.util.logging.Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME).setLevel(java.util.logging.Level.ALL);
-{{/supportJava6}}
-{{#supportJava6}}
-      clientConfig.register(new LoggingFilter(java.util.logging.Logger.getLogger(LoggingFilter.class.getName()), true));
-{{/supportJava6}}
     } else {
       // suppress warnings for payloads with DELETE calls:
       java.util.logging.Logger.getLogger("org.glassfish.jersey.client").setLevel(java.util.logging.Level.SEVERE);

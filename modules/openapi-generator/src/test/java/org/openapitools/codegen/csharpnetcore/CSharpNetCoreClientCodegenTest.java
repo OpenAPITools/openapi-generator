@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.openapitools.codegen.csharp;
+package org.openapitools.codegen.csharpnetcore;
 
 import org.openapitools.codegen.languages.CSharpNetCoreClientCodegen;
 import org.testng.Assert;

@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.FileSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.XML;
@@ -96,14 +97,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                         SecurityFeature.OAuth2_Implicit
                 ))
                 .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.LinkObjects,
                         GlobalFeature.ParameterStyling
                 )
                 .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism,
-                        SchemaSupportFeature.Union,
-                        SchemaSupportFeature.Composite
+                        SchemaSupportFeature.Polymorphism
                 )
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
@@ -400,7 +398,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // model name starts with number
-        else if (name.matches("^\\d.*")) {
+        else if (camelizedName.matches("^\\d.*")) {
             // e.g. 200Response => Model200Response (after camelize)
             camelizedName = "Model" + camelizedName;
             LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelizedName);
@@ -1191,8 +1189,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public CodegenModel fromModel(String name, Schema model) {
+        LOGGER.trace("Creating model from schema: {}", model);
+
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel mdl = super.fromModel(name, model);
+
         mdl.vendorExtensions.put("x-upper-case-name", name.toUpperCase(Locale.ROOT));
         if (!StringUtils.isEmpty(model.get$ref())) {
             Schema schema = allDefinitions.get(ModelUtils.getSimpleRef(model.get$ref()));
@@ -1233,6 +1234,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             } else {
                 mdl.arrayModelType = toModelName(mdl.arrayModelType);
             }
+        } else if ((mdl.anyOf.size() > 0) || (mdl.oneOf.size() > 0)) {
+            mdl.dataType = getSchemaType(model);
         }
 
         if (mdl.xmlNamespace != null) {
@@ -1244,6 +1247,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         if (additionalProperties != null) {
             mdl.additionalPropertiesType = getTypeDeclaration(additionalProperties);
         }
+
+        LOGGER.trace("Created model: {}", mdl);
 
         return mdl;
     }
@@ -1404,6 +1409,28 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
+        List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
+
+        List<String> types = new ArrayList<>();
+        for (Schema s : schemas) {
+            types.add(getTypeDeclaration(s));
+        }
+        return "swagger::OneOf" + types.size() + "<" + String.join(",", types) + ">";
+    }
+
+    @Override
+    public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
+        List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
+
+        List<String> types = new ArrayList<>();
+        for (Schema s : schemas) {
+            types.add(getTypeDeclaration(s));
+        }
+        return "swagger::AnyOf" + types.size() + "<" + String.join(",", types) + ">";
+    }
+
+    @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
         if (!languageSpecificPrimitives.contains(property.dataType)) {
@@ -1528,6 +1555,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
+
+            LOGGER.trace("Post processing model: {}", cm);
 
             if (cm.dataType != null && cm.dataType.equals("object")) {
                 // Object isn't a sensible default. Instead, we set it to

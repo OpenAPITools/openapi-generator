@@ -155,7 +155,6 @@ public class EquilateralTriangle {
     return Objects.hash(shapeType, triangleType, additionalProperties);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

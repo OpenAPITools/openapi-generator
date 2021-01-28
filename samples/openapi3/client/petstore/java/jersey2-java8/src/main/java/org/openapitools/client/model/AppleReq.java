@@ -112,7 +112,6 @@ public class AppleReq {
     return Objects.hash(cultivar, mealy);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
