@@ -40,7 +40,7 @@ data class Order(
     @field:JsonProperty("status") val status: Order.Status? = null,
 
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonProperty("complete") val complete: kotlin.Boolean? = null
+    @field:JsonProperty("complete") val complete: kotlin.Boolean? = false
 ) {
 
     /**

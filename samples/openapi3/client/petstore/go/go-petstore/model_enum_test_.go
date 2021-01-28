@@ -36,7 +36,7 @@ type _EnumTest EnumTest
 func NewEnumTest(enumStringRequired string, ) *EnumTest {
 	this := EnumTest{}
 	this.EnumStringRequired = enumStringRequired
-	var outerEnumDefaultValue OuterEnumDefaultValue = "placed"
+	var outerEnumDefaultValue OuterEnumDefaultValue = OUTERENUMDEFAULTVALUE_PLACED
 	this.OuterEnumDefaultValue = &outerEnumDefaultValue
 	var outerEnumIntegerDefaultValue OuterEnumIntegerDefaultValue = OUTERENUMINTEGERDEFAULTVALUE__0
 	this.OuterEnumIntegerDefaultValue = &outerEnumIntegerDefaultValue
@@ -48,7 +48,7 @@ func NewEnumTest(enumStringRequired string, ) *EnumTest {
 // but it doesn't guarantee that properties required by API are set
 func NewEnumTestWithDefaults() *EnumTest {
 	this := EnumTest{}
-	var outerEnumDefaultValue OuterEnumDefaultValue = "placed"
+	var outerEnumDefaultValue OuterEnumDefaultValue = OUTERENUMDEFAULTVALUE_PLACED
 	this.OuterEnumDefaultValue = &outerEnumDefaultValue
 	var outerEnumIntegerDefaultValue OuterEnumIntegerDefaultValue = OUTERENUMINTEGERDEFAULTVALUE__0
 	this.OuterEnumIntegerDefaultValue = &outerEnumIntegerDefaultValue

@@ -94,6 +94,10 @@ if(hasProperty('target') && target == 'android') {
     }
 }
 
+test {
+    useJUnitPlatform()
+}
+
 ext {
     swagger_annotations_version = "1.5.24"
     jackson_version = "2.10.3"
@@ -102,7 +106,7 @@ ext {
     jackson_threetenbp_version = "2.9.10"
     feign_version = "10.11"
     feign_form_version = "3.8.0"
-    junit_version = "4.13.1"
+    junit_version = "5.7.0"
     scribejava_version = "8.0.0"
 }
 
@@ -112,6 +116,7 @@ dependencies {
     implementation "io.github.openfeign:feign-core:$feign_version"
     implementation "io.github.openfeign:feign-jackson:$feign_version"
     implementation "io.github.openfeign:feign-slf4j:$feign_version"
+    implementation "io.github.openfeign:feign-okhttp:$feign_version"
     implementation "io.github.openfeign.form:feign-form:$feign_form_version"
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
@@ -122,5 +127,11 @@ dependencies {
     implementation "com.github.scribejava:scribejava-core:$scribejava_version"
     implementation "com.brsanthu:migbase64:2.2"
     implementation 'javax.annotation:javax.annotation-api:1.3.2'
-    testImplementation "junit:junit:$junit_version"
+    testImplementation "org.junit.jupiter:junit-jupiter:$junit_version"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$junit_version"
+    testImplementation "com.github.tomakehurst:wiremock-jre8:2.27.2"
+    testImplementation "org.hamcrest:hamcrest:2.2"
+    testImplementation "commons-io:commons-io:2.8.0"
+    testImplementation "ch.qos.logback:logback-classic:1.2.3"
 }

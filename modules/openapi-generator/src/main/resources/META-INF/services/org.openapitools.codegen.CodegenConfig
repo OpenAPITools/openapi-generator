@@ -126,6 +126,7 @@ org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen
 org.openapitools.codegen.languages.TypeScriptFetchClientCodegen
 org.openapitools.codegen.languages.TypeScriptInversifyClientCodegen
 org.openapitools.codegen.languages.TypeScriptJqueryClientCodegen
+org.openapitools.codegen.languages.TypeScriptNestjsClientCodegen
 org.openapitools.codegen.languages.TypeScriptNodeClientCodegen
 org.openapitools.codegen.languages.TypeScriptReduxQueryClientCodegen
 org.openapitools.codegen.languages.TypeScriptRxjsClientCodegen

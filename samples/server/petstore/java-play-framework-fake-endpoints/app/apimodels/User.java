@@ -12,27 +12,35 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class User   {
   @JsonProperty("id")
+  
   private Long id;
 
   @JsonProperty("username")
+  
   private String username;
 
   @JsonProperty("firstName")
+  
   private String firstName;
 
   @JsonProperty("lastName")
+  
   private String lastName;
 
   @JsonProperty("email")
+  
   private String email;
 
   @JsonProperty("password")
+  
   private String password;
 
   @JsonProperty("phone")
+  
   private String phone;
 
   @JsonProperty("userStatus")
+  
   private Integer userStatus;
 
   public User id(Long id) {
@@ -44,7 +52,7 @@ public class User   {
    * Get id
    * @return id
   **/
-    public Long getId() {
+  public Long getId() {
     return id;
   }
 
@@ -61,7 +69,7 @@ public class User   {
    * Get username
    * @return username
   **/
-    public String getUsername() {
+  public String getUsername() {
     return username;
   }
 
@@ -78,7 +86,7 @@ public class User   {
    * Get firstName
    * @return firstName
   **/
-    public String getFirstName() {
+  public String getFirstName() {
     return firstName;
   }
 
@@ -95,7 +103,7 @@ public class User   {
    * Get lastName
    * @return lastName
   **/
-    public String getLastName() {
+  public String getLastName() {
     return lastName;
   }
 
@@ -112,7 +120,7 @@ public class User   {
    * Get email
    * @return email
   **/
-    public String getEmail() {
+  public String getEmail() {
     return email;
   }
 
@@ -129,7 +137,7 @@ public class User   {
    * Get password
    * @return password
   **/
-    public String getPassword() {
+  public String getPassword() {
     return password;
   }
 
@@ -146,7 +154,7 @@ public class User   {
    * Get phone
    * @return phone
   **/
-    public String getPhone() {
+  public String getPhone() {
     return phone;
   }
 
@@ -163,7 +171,7 @@ public class User   {
    * User Status
    * @return userStatus
   **/
-    public Integer getUserStatus() {
+  public Integer getUserStatus() {
     return userStatus;
   }
 

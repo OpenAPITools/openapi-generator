@@ -80,7 +80,6 @@ public class ClassModel {
     return Objects.hash(propertyClass);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

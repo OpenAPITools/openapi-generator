@@ -34,7 +34,7 @@ class UserApi {
         final String _path = '/user';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -86,7 +86,7 @@ class UserApi {
         final String _path = '/user/createWithArray';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -138,7 +138,7 @@ class UserApi {
         final String _path = '/user/createWithList';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -190,7 +190,7 @@ class UserApi {
         final String _path = '/user/{username}'.replaceAll('{' r'username' '}', username.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -235,7 +235,7 @@ class UserApi {
         final String _path = '/user/{username}'.replaceAll('{' r'username' '}', username.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -297,7 +297,7 @@ class UserApi {
         final String _path = '/user/login';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -355,7 +355,7 @@ class UserApi {
         final String _path = '/user/logout';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -401,7 +401,7 @@ class UserApi {
         final String _path = '/user/{username}'.replaceAll('{' r'username' '}', username.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;

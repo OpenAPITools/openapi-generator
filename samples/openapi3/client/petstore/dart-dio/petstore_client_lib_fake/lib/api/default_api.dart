@@ -32,7 +32,7 @@ class DefaultApi {
         final String _path = '/foo';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
