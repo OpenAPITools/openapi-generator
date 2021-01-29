@@ -424,6 +424,11 @@
   infoLink: "https://www.veamly.com/"
   pinned: false
 -
+  caption: "viadee"
+  image: "img/companies/viadee.png"
+  infoLink: "https://www.viadee.de"
+  pinned: false
+-
   caption: Vonage
   image: "img/companies/vonage.png"
   infoLink: "https://vonage.com"
