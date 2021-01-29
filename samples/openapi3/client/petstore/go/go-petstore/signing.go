@@ -125,6 +125,7 @@ type HttpSignatureAuth struct {
 	privateKey        crypto.PrivateKey // The private key used to sign HTTP requests.
 }
 
+//SetPrivateKey - accepts a private key string and sets it
 func (h *HttpSignatureAuth) SetPrivateKey(privateKey string) error {
 	return h.parsePrivateKey([]byte(privateKey))
 }
@@ -201,6 +202,7 @@ func (h *HttpSignatureAuth) loadPrivateKey() (err error) {
 	return h.parsePrivateKey(priv)
 }
 
+// parsePrivateKey - decode privateKey byte array to crypto.PrivateKey type
 func (h *HttpSignatureAuth) parsePrivateKey(priv []byte) error {
 	pemBlock, _ := pem.Decode(priv)
 	if pemBlock == nil {
