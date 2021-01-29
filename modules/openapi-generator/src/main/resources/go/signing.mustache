@@ -193,7 +193,7 @@ func (h *HttpSignatureAuth) loadPrivateKey() (err error) {
 	return h.parsePrivateKey(priv)
 }
 
-// parsePrivateKey - decode privateKey byte array to crypto.PrivateKey type
+// parsePrivateKey decodes privateKey byte array to crypto.PrivateKey type.
 func (h *HttpSignatureAuth) parsePrivateKey(priv []byte) error {
 	pemBlock, _ := pem.Decode(priv)
 	if pemBlock == nil {
