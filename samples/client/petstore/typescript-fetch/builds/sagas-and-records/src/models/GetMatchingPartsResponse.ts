@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ProductType,
-    ProductTypeFromJSON,
-    ProductTypeFromJSONTyped,
-    ProductTypeToJSON,
+    MatchingParts,
+    MatchingPartsFromJSON,
+    MatchingPartsFromJSONTyped,
+    MatchingPartsToJSON,
     ResponseMeta,
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
@@ -27,39 +27,39 @@ import {
 /**
  * 
  * @export
- * @interface GetProductTypesResponse
+ * @interface GetMatchingPartsResponse
  */
-export interface GetProductTypesResponse {
+export interface GetMatchingPartsResponse {
     /**
      * 
      * @type {ResponseMeta}
-     * @memberof GetProductTypesResponse
+     * @memberof GetMatchingPartsResponse
      */
     meta: ResponseMeta;
     /**
      * 
-     * @type {Array<ProductType>}
-     * @memberof GetProductTypesResponse
+     * @type {MatchingParts}
+     * @memberof GetMatchingPartsResponse
      */
-    data?: Array<ProductType>;
+    data?: MatchingParts;
 }
 
-export function GetProductTypesResponseFromJSON(json: any): GetProductTypesResponse {
-    return GetProductTypesResponseFromJSONTyped(json, false);
+export function GetMatchingPartsResponseFromJSON(json: any): GetMatchingPartsResponse {
+    return GetMatchingPartsResponseFromJSONTyped(json, false);
 }
 
-export function GetProductTypesResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetProductTypesResponse {
+export function GetMatchingPartsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetMatchingPartsResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
         'meta': ResponseMetaFromJSON(json['meta']),
-        'data': !exists(json, 'data') ? undefined : ((json['data'] as Array<any>).map(ProductTypeFromJSON)),
+        'data': !exists(json, 'data') ? undefined : MatchingPartsFromJSON(json['data']),
     };
 }
 
-export function GetProductTypesResponseToJSON(value?: GetProductTypesResponse | null): any {
+export function GetMatchingPartsResponseToJSON(value?: GetMatchingPartsResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -69,7 +69,7 @@ export function GetProductTypesResponseToJSON(value?: GetProductTypesResponse | 
     return {
         
         'meta': ResponseMetaToJSON(value.meta),
-        'data': value.data === undefined ? undefined : ((value.data as Array<any>).map(ProductTypeToJSON)),
+        'data': MatchingPartsToJSON(value.data),
     };
 }
 

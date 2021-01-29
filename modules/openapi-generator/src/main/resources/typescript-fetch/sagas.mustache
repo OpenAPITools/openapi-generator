@@ -109,23 +109,23 @@ export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase
 {{#allParams}}
 {{#isUniqueId}}
 {{#isArray}}
-            {{paramName}}.map(p => parseFloat(p)).toArray(),
+            {{^required}}{{paramName}} ? {{/required}}{{paramName}}.map(p => parseFloat(p)).toArray(){{^required}} : undefined{{/required}},
 {{/isArray}}
 {{^isArray}}
-            parseFloat({{paramName}}),
+            {{^required}}{{paramName}} ? {{/required}}parseFloat({{paramName}}){{^required}} : undefined{{/required}},
 {{/isArray}}
 {{/isUniqueId}}
 {{^isUniqueId}}
 {{#isArray}}
 {{#items.isModel}}
-            {{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.toApiArray({{paramName}}),
+            {{^required}}{{paramName}} ? {{/required}}{{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.toApiArray({{paramName}}){{^required}} : undefined{{/required}},
 {{/items.isModel}}
 {{^items.isModel}}
-            {{paramName}}.toJS(),
+            {{^required}}{{paramName}} ? {{/required}}{{paramName}}.toJS(){{^required}} : undefined{{/required}},
 {{/items.isModel}}
 {{/isArray}}
 {{#isModel}}
-            {{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.toApi({{paramName}}),
+            {{^required}}{{paramName}} ? {{/required}}{{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.toApi({{paramName}}){{^required}} : undefined{{/required}},
 {{/isModel}}
 {{^isArray}}
 {{^isModel}}

@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ProductType,
-    ProductTypeFromJSON,
-    ProductTypeFromJSONTyped,
-    ProductTypeToJSON,
+    BehaviorType,
+    BehaviorTypeFromJSON,
+    BehaviorTypeFromJSONTyped,
+    BehaviorTypeToJSON,
     ResponseMeta,
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
@@ -27,39 +27,39 @@ import {
 /**
  * 
  * @export
- * @interface GetProductTypeResponse
+ * @interface GetBehaviorTypeResponse
  */
-export interface GetProductTypeResponse {
+export interface GetBehaviorTypeResponse {
     /**
      * 
      * @type {ResponseMeta}
-     * @memberof GetProductTypeResponse
+     * @memberof GetBehaviorTypeResponse
      */
     meta: ResponseMeta;
     /**
      * 
-     * @type {ProductType}
-     * @memberof GetProductTypeResponse
+     * @type {BehaviorType}
+     * @memberof GetBehaviorTypeResponse
      */
-    data?: ProductType;
+    data?: BehaviorType;
 }
 
-export function GetProductTypeResponseFromJSON(json: any): GetProductTypeResponse {
-    return GetProductTypeResponseFromJSONTyped(json, false);
+export function GetBehaviorTypeResponseFromJSON(json: any): GetBehaviorTypeResponse {
+    return GetBehaviorTypeResponseFromJSONTyped(json, false);
 }
 
-export function GetProductTypeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetProductTypeResponse {
+export function GetBehaviorTypeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetBehaviorTypeResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
         'meta': ResponseMetaFromJSON(json['meta']),
-        'data': !exists(json, 'data') ? undefined : ProductTypeFromJSON(json['data']),
+        'data': !exists(json, 'data') ? undefined : BehaviorTypeFromJSON(json['data']),
     };
 }
 
-export function GetProductTypeResponseToJSON(value?: GetProductTypeResponse | null): any {
+export function GetBehaviorTypeResponseToJSON(value?: GetBehaviorTypeResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -69,7 +69,7 @@ export function GetProductTypeResponseToJSON(value?: GetProductTypeResponse | nu
     return {
         
         'meta': ResponseMetaToJSON(value.meta),
-        'data': ProductTypeToJSON(value.data),
+        'data': BehaviorTypeToJSON(value.data),
     };
 }
 

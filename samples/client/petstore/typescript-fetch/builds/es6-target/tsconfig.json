@@ -2,7 +2,7 @@
   "compilerOptions": {
     "declaration": true,
     "target": "es6",
-    "module": "commonjs",
+    "module": "es6",
     "moduleResolution": "node",
     "outDir": "dist",
     "typeRoots": [

@@ -1,18 +1,18 @@
 import {all, fork} from "redux-saga/effects";
 
 import {
-    affiliateApiAllSagas,
-    brandApiAllSagas,
+    behaviorApiAllSagas,
     petApiAllSagas,
+    petPartApiAllSagas,
     storeApiAllSagas,
     userApiAllSagas,
 } from "./";
 
 export function *allApiSagas() {
     yield all([
-        fork(affiliateApiAllSagas),
-        fork(brandApiAllSagas),
+        fork(behaviorApiAllSagas),
         fork(petApiAllSagas),
+        fork(petPartApiAllSagas),
         fork(storeApiAllSagas),
         fork(userApiAllSagas),
     ]);

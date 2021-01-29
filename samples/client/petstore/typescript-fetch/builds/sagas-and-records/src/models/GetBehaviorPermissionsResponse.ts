@@ -23,28 +23,28 @@ import {
 /**
  * 
  * @export
- * @interface GetFrontEndPermissionsResponse
+ * @interface GetBehaviorPermissionsResponse
  */
-export interface GetFrontEndPermissionsResponse {
+export interface GetBehaviorPermissionsResponse {
     /**
      * 
      * @type {ResponseMeta}
-     * @memberof GetFrontEndPermissionsResponse
+     * @memberof GetBehaviorPermissionsResponse
      */
     meta: ResponseMeta;
     /**
      * 
      * @type {{ [key: string]: boolean; }}
-     * @memberof GetFrontEndPermissionsResponse
+     * @memberof GetBehaviorPermissionsResponse
      */
     data?: { [key: string]: boolean; };
 }
 
-export function GetFrontEndPermissionsResponseFromJSON(json: any): GetFrontEndPermissionsResponse {
-    return GetFrontEndPermissionsResponseFromJSONTyped(json, false);
+export function GetBehaviorPermissionsResponseFromJSON(json: any): GetBehaviorPermissionsResponse {
+    return GetBehaviorPermissionsResponseFromJSONTyped(json, false);
 }
 
-export function GetFrontEndPermissionsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetFrontEndPermissionsResponse {
+export function GetBehaviorPermissionsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetBehaviorPermissionsResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -55,7 +55,7 @@ export function GetFrontEndPermissionsResponseFromJSONTyped(json: any, ignoreDis
     };
 }
 
-export function GetFrontEndPermissionsResponseToJSON(value?: GetFrontEndPermissionsResponse | null): any {
+export function GetBehaviorPermissionsResponseToJSON(value?: GetBehaviorPermissionsResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

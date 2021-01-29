@@ -18,23 +18,22 @@ tags:
 schemes:
   - http
 parameters:
-  affiliate-id:
+  fake_petPart-id:
     in: path
-    name: affiliate-id
+    name: fake_petPart-id
     required: true
     type: integer
     format: int64
 paths:
-  /channels/{channel-id}/published-status:
-    #TODO move to channel controller instead of brand if additional channel operations are needed
+  /fake_behavior/{behavior-id}/type:
     get:
       tags:
-        - Brand
-      summary: Get the published status of a channel
-      operationId: getChannelPublishedStatus
+        - Behavior
+      summary: Get the type of behavior
+      operationId: getBehaviorType
       parameters:
         - in: path
-          name: channel-id
+          name: behavior-id
           required: true
           type: integer
           format: int64
@@ -42,17 +41,16 @@ paths:
         200:
           description: OK
           schema:
-            $ref: "#/definitions/GetChannelPublishedStatusResponse"
-  /channels/{channel-id}/permissions:
-    #TODO move to channel controller instead of brand if additional channel operations are needed
+            $ref: "#/definitions/GetBehaviorTypeResponse"
+  /fake_behavior/{behavior-id}/permissions:
     get:
       tags:
-        - Brand
-      summary: Get permissions for the channel
-      operationId: getChannelPermissions
+        - Behavior
+      summary: Get permissions for the behavior
+      operationId: getBehaviorPermissions
       parameters:
         - in: path
-          name: channel-id
+          name: behavior-id
           required: true
           type: integer
           format: int64
@@ -60,82 +58,54 @@ paths:
         200:
           description: OK
           schema:
-            $ref: "#/definitions/GetFrontEndPermissionsResponse"
+            $ref: "#/definitions/GetBehaviorPermissionsResponse"
 
-#  /affiliates/{affiliate-id}/product-types:
-#    get:
-#      tags:
-#        - Affiliate
-#      summary: Returns all product types for the given affiliate
-#      operationId: getAffiliateProductTypes
-#      parameters:
-#        - $ref: "#/definitions/affiliate-id"
-#      responses:
-#        200:
-#          description: OK
-#          schema:
-#            $ref: "#/definitions/GetProductTypesResponse"
-  /affiliates/{affiliate-id}/product-type:
+  /fake_petParts/{fake_petPart-id}/part-type:
     get:
       tags:
-        - Affiliate
-      summary: Returns single product types for the given affiliate
-      operationId: getAffiliateProductType
+        - PetPart
+      summary: Returns single pet part type for the petPart id.
+      operationId: getFakePetPartType
       parameters:
-        - $ref: "#/definitions/affiliate-id"
+        - $ref: "#/definitions/fake_petPart-id"
       responses:
         200:
           description: OK
           schema:
-            $ref: "#/definitions/GetProductTypeResponse"
-  /affiliates/{affiliate-id}/matching-roles:
+            $ref: "#/definitions/GetPetPartTypeResponse"
+  /fake_petParts/{fake_petPart-id}/matching-parts:
     get:
       tags:
-        - Affiliate
-      summary: Get the matching roles for the given affiliate
-      operationId: getMatchingRoles
+        - PetPart
+      summary: Get the matching parts for the given pet part.
+      operationId: getMatchingParts
       parameters:
-        - $ref: "#/parameters/affiliate-id"
+        - $ref: "#/parameters/fake_petPart-id"
         - in: query
-          name: video
+          name: long
           required: true
           type: boolean
         - in: query
-          name: mono
+          name: smooth
           required: true
           type: boolean
         - in: query
-          name: audio-bit-rate
+          name: name
           required: false
-          #TODO: Replace this with enum when OpenApi 3.0 is available
           type: string
         - in: query
-          name: related-media-type
+          name: connected-part
           required: false
-          #TODO: Replace this with enum when OpenApi 3.0 is available
           type: string
         - in: query
-          name: claper-enabled
+          name: short
           required: true
           type: boolean
-        - in: query
-          name: messaging
-          required: true
-          type: boolean
-        - in: query
-          name: signage
-          required: true
-          type: boolean
-        - in: query
-          name: branding-type
-          required: false
-          #TODO: Replace this with enum when OpenApi 3.0 is available
-          type: string
       responses:
         200:
           description: OK
           schema:
-            $ref: "#/definitions/GetMatchingRolesResponse"
+            $ref: "#/definitions/GetMatchingPartsResponse"
   /pet:
     post:
       tags:
@@ -150,23 +120,12 @@ paths:
         - application/xml
         - application/json
       parameters:
-#        - in: body
-#          name: body
-#          description: Pet object that needs to be added to the store
-#          required: true
-#          schema:
-#            $ref: '#/definitions/Pet'
         - in: body
           name: dummyCat
           description: dummy category for testing
           required: true
           schema:
             $ref: "#/definitions/Category"
-#        - in: body
-#          name: depRequest
-#          description: dummy depRequesForTesting
-#          schema:
-#            $ref: "#/definitions/DeploymentRequestStatus"
       responses:
         '405':
           description: Invalid input
@@ -1124,7 +1083,7 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/User"
-  GetProductTypeResponse:
+  GetBehaviorTypeResponse:
     type: object
     required:
       - meta
@@ -1132,27 +1091,16 @@ definitions:
       meta:
         $ref: "#/definitions/ResponseMeta"
       data:
-        $ref: "#/definitions/ProductType"
-  GetProductTypesResponse:
-    type: object
-    required:
-      - meta
-    properties:
-      meta:
-        $ref: "#/definitions/ResponseMeta"
-      data:
-        type: array
-        items:
-          $ref: "#/definitions/ProductType"
-  ProductType:
+        $ref: "#/definitions/BehaviorType"
+  BehaviorType:
     type: string
     enum:
-      - Linear
-      - Signage
-      - Galaxie_Api
-    description: "Type of product"
-    example: Linear
-  GetMatchingRolesResponse:
+      - Voluntary
+      - Involuntary
+      - Overt
+    description: "Behavior type of a pet"
+    example: Published
+  GetBehaviorPermissionsResponse:
     type: object
     required:
       - meta
@@ -1160,27 +1108,54 @@ definitions:
       meta:
         $ref: "#/definitions/ResponseMeta"
       data:
-        $ref: "#/definitions/MatchingRoles"
-  MatchingRoles:
+        $ref: "#/definitions/StringBooleanMap"
+  GetPetPartTypeResponse:
     type: object
-    description: "Contains all the matching roles for each category"
     required:
-      - songRoles
-      - messagingRoles
+      - meta
     properties:
-      songRoles:
-        type: array
-        items:
-          $ref: "#/definitions/Role"
-        description: "List of all the song roles"
-      messagingRoles:
-        type: array
-        items:
-          $ref: "#/definitions/Role"
-        description: "List of all the messaging roles"
-  Role:
+      meta:
+        $ref: "#/definitions/ResponseMeta"
+      data:
+        $ref: "#/definitions/PetPartType"
+
+  PetPartType:
+    type: string
+    enum:
+      - Curved
+      - Smooth
+      - Long
+    description: "Type of pet part"
+    example: Linear
+  GetMatchingPartsResponse:
     type: object
-    description: "Contains all the info about a Role from the SAM system"
+    required:
+      - meta
+    properties:
+      meta:
+        $ref: "#/definitions/ResponseMeta"
+      data:
+        $ref: "#/definitions/MatchingParts"
+  MatchingParts:
+    type: object
+    description: "Contains all the matching parts"
+    required:
+      - connected
+      - related
+    properties:
+      connected:
+        type: array
+        items:
+          $ref: "#/definitions/Part"
+        description: "List of all the connected parts"
+      related:
+        type: array
+        items:
+          $ref: "#/definitions/Part"
+        description: "List of all the related parts"
+  Part:
+    type: object
+    description: "Contains all the info about a pet part"
     x-entityId: ""
     required:
       - id
@@ -1193,34 +1168,8 @@ definitions:
         example: 1
       name:
         type: string
-        description: "Name of the role in SAM"
-        example: "GX_OGG_MONO_128KBPS_12DB_CLEAN_CUE_CUT_CRYPT"
-  GetChannelPublishedStatusResponse:
-    type: object
-    required:
-      - meta
-    properties:
-      meta:
-        $ref: "#/definitions/ResponseMeta"
-      data:
-        $ref: "#/definitions/ChannelPublishedStatus"
-  ChannelPublishedStatus:
-    type: string
-    enum:
-      - Unpublished
-      - RecentlyPublished
-      - Published
-    description: "Publishing status of a channel"
-    example: Published
+        description: "Name of the part"
+        example: "head"
   StringBooleanMap:
     additionalProperties:
       type: boolean
-  GetFrontEndPermissionsResponse:
-    type: object
-    required:
-      - meta
-    properties:
-      meta:
-        $ref: "#/definitions/ResponseMeta"
-      data:
-        $ref: "#/definitions/StringBooleanMap"

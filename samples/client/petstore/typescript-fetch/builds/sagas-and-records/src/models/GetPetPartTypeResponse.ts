@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ChannelPublishedStatus,
-    ChannelPublishedStatusFromJSON,
-    ChannelPublishedStatusFromJSONTyped,
-    ChannelPublishedStatusToJSON,
+    PetPartType,
+    PetPartTypeFromJSON,
+    PetPartTypeFromJSONTyped,
+    PetPartTypeToJSON,
     ResponseMeta,
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
@@ -27,39 +27,39 @@ import {
 /**
  * 
  * @export
- * @interface GetChannelPublishedStatusResponse
+ * @interface GetPetPartTypeResponse
  */
-export interface GetChannelPublishedStatusResponse {
+export interface GetPetPartTypeResponse {
     /**
      * 
      * @type {ResponseMeta}
-     * @memberof GetChannelPublishedStatusResponse
+     * @memberof GetPetPartTypeResponse
      */
     meta: ResponseMeta;
     /**
      * 
-     * @type {ChannelPublishedStatus}
-     * @memberof GetChannelPublishedStatusResponse
+     * @type {PetPartType}
+     * @memberof GetPetPartTypeResponse
      */
-    data?: ChannelPublishedStatus;
+    data?: PetPartType;
 }
 
-export function GetChannelPublishedStatusResponseFromJSON(json: any): GetChannelPublishedStatusResponse {
-    return GetChannelPublishedStatusResponseFromJSONTyped(json, false);
+export function GetPetPartTypeResponseFromJSON(json: any): GetPetPartTypeResponse {
+    return GetPetPartTypeResponseFromJSONTyped(json, false);
 }
 
-export function GetChannelPublishedStatusResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetChannelPublishedStatusResponse {
+export function GetPetPartTypeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetPetPartTypeResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
         'meta': ResponseMetaFromJSON(json['meta']),
-        'data': !exists(json, 'data') ? undefined : ChannelPublishedStatusFromJSON(json['data']),
+        'data': !exists(json, 'data') ? undefined : PetPartTypeFromJSON(json['data']),
     };
 }
 
-export function GetChannelPublishedStatusResponseToJSON(value?: GetChannelPublishedStatusResponse | null): any {
+export function GetPetPartTypeResponseToJSON(value?: GetPetPartTypeResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -69,7 +69,7 @@ export function GetChannelPublishedStatusResponseToJSON(value?: GetChannelPublis
     return {
         
         'meta': ResponseMetaToJSON(value.meta),
-        'data': ChannelPublishedStatusToJSON(value.data),
+        'data': PetPartTypeToJSON(value.data),
     };
 }
 

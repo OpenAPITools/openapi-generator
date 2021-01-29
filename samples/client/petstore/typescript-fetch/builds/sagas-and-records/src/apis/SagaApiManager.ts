@@ -4,17 +4,17 @@ import {
 } from "../";
 
 import {
-    AffiliateApi,
-    BrandApi,
+    BehaviorApi,
     PetApi,
+    PetPartApi,
     StoreApi,
     UserApi,
 } from "./";
 
 export class Api {
-	public static affiliateApi: AffiliateApi;
-	public static brandApi: BrandApi;
+	public static behaviorApi: BehaviorApi;
 	public static petApi: PetApi;
+	public static petPartApi: PetPartApi;
 	public static storeApi: StoreApi;
 	public static userApi: UserApi;
 
@@ -27,9 +27,9 @@ export class Api {
 			}
 		};
 
-		Api.affiliateApi = new AffiliateApi(new Configuration(apiBaseConfig));
-		Api.brandApi = new BrandApi(new Configuration(apiBaseConfig));
+		Api.behaviorApi = new BehaviorApi(new Configuration(apiBaseConfig));
 		Api.petApi = new PetApi(new Configuration(apiBaseConfig));
+		Api.petPartApi = new PetPartApi(new Configuration(apiBaseConfig));
 		Api.storeApi = new StoreApi(new Configuration(apiBaseConfig));
 		Api.userApi = new UserApi(new Configuration(apiBaseConfig));
 	}

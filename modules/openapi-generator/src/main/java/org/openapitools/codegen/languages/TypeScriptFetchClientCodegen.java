@@ -55,6 +55,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD = "detectPassthroughModelsWithSuffixAndField";
     public static final String INFER_UNIQUE_ID_FROM_NAME_SUFFIX = "inferUniqueIdFromNameSuffix";
     public static final String INFER_ENTITY_FROM_UNIQUE_ID_WITH_NAME = "inferEntityFromUniqueIdWithName";
+    public static final String PACKAGE_AS_SOURCE_ONLY_LIBRARY = "packageAsSourceOnlyLibrary";
 
     private static final String X_IS_UNIQUE_ID = "x-isUniqueId";
     private static final String X_ENTITY_ID = "x-entityId";
@@ -65,6 +66,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     protected String detectPassthroughModelsWithSuffixAndField = null; // Ex: "Response;data"
     protected boolean inferUniqueIdFromNameSuffix = false;
     protected String inferEntityFromUniqueIdWithName = null;
+    protected boolean packageAsSourceOnlyLibrary = false;
+
 
     public TypeScriptFetchClientCodegen() {
         super();
@@ -169,6 +172,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.inferEntityFromUniqueIdWithName = inferEntityFromUniqueIdWithName;
     }
 
+    public boolean getPackageAsSourceOnlyLibrary() {
+        return packageAsSourceOnlyLibrary;
+    }
+
+    public void setPackageAsSourceOnlyLibrary(boolean packageAsSourceOnlyLibrary) {
+        this.packageAsSourceOnlyLibrary = packageAsSourceOnlyLibrary;
+    }
+
     public boolean isUniqueIdAccordingToNameSuffix(String name) {
         if (name == null) {
             return false;
@@ -241,7 +252,15 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 if (additionalProperties.containsKey(INFER_ENTITY_FROM_UNIQUE_ID_WITH_NAME)) {
                     this.setInferEntityFromUniqueIdWithName((String)additionalProperties.get(INFER_ENTITY_FROM_UNIQUE_ID_WITH_NAME));
                 }
+                if (additionalProperties.containsKey(PACKAGE_AS_SOURCE_ONLY_LIBRARY)) {
+                    this.setPackageAsSourceOnlyLibrary(convertPropertyToBoolean(PACKAGE_AS_SOURCE_ONLY_LIBRARY));
+                }
+
                 this.addExtraReservedWordsForSagasAndRecords();
+
+                if (this.getPackageAsSourceOnlyLibrary()) {
+                    supportingFiles.add(new SupportingFile("sourceLibraryIndex.mustache", "", "index.ts"));
+                }
             }
         }
     }

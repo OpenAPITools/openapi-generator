@@ -14,30 +14,30 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * Contains all the info about a Role from the SAM system
+ * Contains all the info about a pet part
  * @export
- * @interface Role
+ * @interface Part
  */
-export interface Role {
+export interface Part {
     /**
      * Unique identifier from the database
      * @type {number}
-     * @memberof Role
+     * @memberof Part
      */
     id: number;
     /**
-     * Name of the role in SAM
+     * Name of the part
      * @type {string}
-     * @memberof Role
+     * @memberof Part
      */
     name: string;
 }
 
-export function RoleFromJSON(json: any): Role {
-    return RoleFromJSONTyped(json, false);
+export function PartFromJSON(json: any): Part {
+    return PartFromJSONTyped(json, false);
 }
 
-export function RoleFromJSONTyped(json: any, ignoreDiscriminator: boolean): Role {
+export function PartFromJSONTyped(json: any, ignoreDiscriminator: boolean): Part {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -48,7 +48,7 @@ export function RoleFromJSONTyped(json: any, ignoreDiscriminator: boolean): Role
     };
 }
 
-export function RoleToJSON(value?: Role | null): any {
+export function PartToJSON(value?: Part | null): any {
     if (value === undefined) {
         return undefined;
     }

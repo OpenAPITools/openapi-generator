@@ -13,25 +13,25 @@
  */
 
 /**
- * Type of product
+ * Type of pet part
  * @export
  * @enum {string}
  */
-export enum ProductType {
-    Linear = 'Linear',
-    Signage = 'Signage',
-    GalaxieApi = 'Galaxie_Api'
+export enum PetPartType {
+    Curved = 'Curved',
+    Smooth = 'Smooth',
+    Long = 'Long'
 }
 
-export function ProductTypeFromJSON(json: any): ProductType {
-    return ProductTypeFromJSONTyped(json, false);
+export function PetPartTypeFromJSON(json: any): PetPartType {
+    return PetPartTypeFromJSONTyped(json, false);
 }
 
-export function ProductTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): ProductType {
-    return json as ProductType;
+export function PetPartTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): PetPartType {
+    return json as PetPartType;
 }
 
-export function ProductTypeToJSON(value?: ProductType | null): any {
+export function PetPartTypeToJSON(value?: PetPartType | null): any {
     return value as any;
 }
 

@@ -17,36 +17,36 @@ import {List, Record, RecordOf} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
 import {
-    Role,
-} from './Role';
+    Part,
+} from './Part';
 
 
 
-export const RoleRecordProps = {
-	recType: "RoleApiRecord" as "RoleApiRecord",
+export const PartRecordProps = {
+	recType: "PartApiRecord" as "PartApiRecord",
     id: "-1",
     name: "",
 };
 
-export type RoleRecordPropsType = typeof RoleRecordProps;
-export const RoleRecord = Record(RoleRecordProps, RoleRecordProps.recType);
-export type RoleRecord = RecordOf<RoleRecordPropsType>;
+export type PartRecordPropsType = typeof PartRecordProps;
+export const PartRecord = Record(PartRecordProps, PartRecordProps.recType);
+export type PartRecord = RecordOf<PartRecordPropsType>;
 
-knownRecordFactories.set(RoleRecordProps.recType, RoleRecord);
+knownRecordFactories.set(PartRecordProps.recType, PartRecord);
 
 
-class RoleRecordUtils extends ApiRecordUtils<Role, RoleRecord> {
-	public normalize(apiObject: Role, asEntity?: boolean): Role {
-		(apiObject as any).recType = RoleRecordProps.recType;
+class PartRecordUtils extends ApiRecordUtils<Part, PartRecord> {
+	public normalize(apiObject: Part, asEntity?: boolean): Part {
+		(apiObject as any).recType = PartRecordProps.recType;
         (apiObject as any).id = apiObject.id.toString();
 		return apiObject;
 	}
 
-	public toApi(record: RoleRecord): Role {
+	public toApi(record: PartRecord): Part {
         const apiObject = super.toApi(record);
         apiObject.id = parseFloat(record.id);
         return apiObject;
     }
 }
 
-export const roleRecordUtils = new RoleRecordUtils();
+export const partRecordUtils = new PartRecordUtils();

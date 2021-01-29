@@ -6,9 +6,7 @@
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "prepare": "npm run build"
-  },
+    "build": "tsc"  },
   "devDependencies": {
     "immutable": "^4.0.0-rc.12",
     "normalizr": "^3.6.1",
