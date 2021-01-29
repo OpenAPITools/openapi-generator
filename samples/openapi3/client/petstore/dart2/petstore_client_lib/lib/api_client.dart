@@ -43,10 +43,11 @@ class ApiClient {
   }
 
   Map<String,String> get defaultHeaderMap => _defaultHeaderMap;
+
   /// returns an unmodifiable view of the authentications, since none should be added
   /// nor deleted
   Map<String, Authentication> get authentications =>
-      Map.unmodififiable(_authentications);
+      Map.unmodifiable(_authentications);
 
   dynamic deserialize(String json, String targetType, {bool growable}) {
     // Remove all spaces.  Necessary for reg expressions as well.
