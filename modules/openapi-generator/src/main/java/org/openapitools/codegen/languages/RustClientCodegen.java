@@ -133,8 +133,8 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 Arrays.asList(
                         "i8", "i16", "i32", "i64",
                         "u8", "u16", "u32", "u64",
-                        "f32", "f64",
-                        "char", "bool", "String", "Vec<u8>", "File")
+                        "f32", "f64", "isize", "usize",
+                        "char", "bool", "str", "String")
         );
 
         instantiationTypes.clear();
@@ -641,7 +641,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // string
-        String enumName = sanitizeName(camelize(name));
+        String enumName = camelize(sanitizeName(name));
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
