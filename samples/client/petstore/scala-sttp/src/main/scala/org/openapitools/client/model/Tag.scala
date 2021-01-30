@@ -11,6 +11,7 @@
  */
 package org.openapitools.client.model
 
+import org.openapitools.client.core._
 
   /**
    * Pet Tag
@@ -19,6 +20,6 @@ package org.openapitools.client.model
 case class Tag(
   id: Option[Long] = None,
   name: Option[String] = None
-)
+) extends ApiModel
 
 

@@ -43,6 +43,13 @@ object JsonSupport extends SttpJson4sApi {
       }
     }
 
-  implicit val format: Formats = DefaultFormats ++ enumSerializers ++ DateSerializers.all
+  def apiModelSerializers: Seq[Serializer[_]] = Seq[Serializer[_]]() :+
+    new CustomSerializer[ApiModel](_ => ({
+      case _ => EmptyApiModel
+    }, {
+      case _: ApiModel => JObject()
+    }))
+
+  implicit val format: Formats = DefaultFormats ++ enumSerializers ++ DateSerializers.all ++ apiModelSerializers
   implicit val serialization: org.json4s.Serialization = org.json4s.jackson.Serialization
 }

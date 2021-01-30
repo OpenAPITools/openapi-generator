@@ -35,12 +35,19 @@ object JsonSupport extends SttpJson4sApi {
       }
     }
 
-  implicit val format: Formats = DefaultFormats ++ enumSerializers ++ DateSerializers.all
+  def apiModelSerializers: Seq[Serializer[_]] = Seq[Serializer[_]]() :+
+    new CustomSerializer[ApiModel](_ => ({
+      case _ => EmptyApiModel
+    }, {
+      case _: ApiModel => JObject()
+    }))
+
+  implicit val format: Formats = DefaultFormats ++ enumSerializers ++ DateSerializers.all ++ apiModelSerializers
   implicit val serialization: org.json4s.Serialization = org.json4s.jackson.Serialization
 }
 {{/json4s}}
 {{#circe}}
-import io.circe.{Decoder, Encoder}
+import io.circe.{Decoder, Encoder, HCursor}
 import io.circe.generic.AutoDerivation
 import sttp.client3.circe.SttpCirceApi
 
@@ -49,5 +56,9 @@ object JsonSupport extends SttpCirceApi with AutoDerivation with DateSerializers
   implicit val {{classname}}{{datatypeWithEnum}}Decoder: Decoder[{{classname}}Enums.{{datatypeWithEnum}}] = Decoder.decodeEnumeration({{classname}}Enums.{{datatypeWithEnum}})
   implicit val {{classname}}{{datatypeWithEnum}}Encoder: Encoder[{{classname}}Enums.{{datatypeWithEnum}}] = Encoder.encodeEnumeration({{classname}}Enums.{{datatypeWithEnum}})
 {{/isEnum}}{{/vars}}{{/hasEnums}}{{/model}}{{/models}}
+  implicit val ApiModelDecoder: Decoder[ApiModel] = (c: HCursor) => c.value match {
+    case _ => Right(EmptyApiModel)
+  }
+  implicit val ApiModelEncoder: Encoder[ApiModel] = Encoder.encodeUnit.contramap(_ => ())
 }
 {{/circe}}

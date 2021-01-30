@@ -14,7 +14,6 @@ package org.openapitools.client.api
 import org.openapitools.client.model.User
 import org.openapitools.client.core._
 import org.openapitools.client.core.JsonSupport._
-import org.openapitools.client.core.Helpers._
 import sttp.client3._
 import sttp.model._
 
@@ -36,13 +35,13 @@ class UserApi(baseUrl: String) {
    * 
    * @param user Created user object
    */
-  def createUser(apiKey: String)(user: User): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Unit], Any] =
+  def createUser(apiKey: String)(user: User): Request[Either[ResponseException[ApiModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user")
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-      .response(ignoreAsEither)
+      .response(ignore.map(Right(_): Either[ResponseException[ApiModel, Exception], Unit]))
 
   /**
    * Expected answers:
@@ -53,13 +52,13 @@ class UserApi(baseUrl: String) {
    * 
    * @param user List of user object
    */
-  def createUsersWithArrayInput(apiKey: String)(user: Seq[User]): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Unit], Any] =
+  def createUsersWithArrayInput(apiKey: String)(user: Seq[User]): Request[Either[ResponseException[ApiModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithArray")
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-      .response(ignoreAsEither)
+      .response(ignore.map(Right(_): Either[ResponseException[ApiModel, Exception], Unit]))
 
   /**
    * Expected answers:
@@ -70,13 +69,13 @@ class UserApi(baseUrl: String) {
    * 
    * @param user List of user object
    */
-  def createUsersWithListInput(apiKey: String)(user: Seq[User]): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Unit], Any] =
+  def createUsersWithListInput(apiKey: String)(user: Seq[User]): Request[Either[ResponseException[ApiModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithList")
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-      .response(ignoreAsEither)
+      .response(ignore.map(Right(_): Either[ResponseException[ApiModel, Exception], Unit]))
 
   /**
    * This can only be done by the logged in user.
@@ -90,15 +89,13 @@ class UserApi(baseUrl: String) {
    * 
    * @param username The name that needs to be deleted
    */
-  def deleteUser(apiKey: String)(username: String): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Unit], Any] =
+  def deleteUser(apiKey: String)(username: String): Request[Either[ResponseException[ApiModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/user/${username}")
       .contentType("application/json")
       .header("api_key", apiKey)
       .response(fromMetadata(
-        ignoreAsEither,
-        ConditionalResponseAs(_.code == StatusCode(400), asJsonEither[BadRequest, Unit]),
-        ConditionalResponseAs(_.code == StatusCode(404), asJsonEither[NotFound, Unit])
+        ignore.map(Right(_): Either[ResponseException[ApiModel, Exception], Unit]),
       ))
 
   /**
@@ -109,15 +106,13 @@ class UserApi(baseUrl: String) {
    * 
    * @param username The name that needs to be fetched. Use user1 for testing.
    */
-  def getUserByName(username: String): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], User], Any] =
+  def getUserByName(username: String): Request[Either[ResponseException[ApiModel, Exception], User], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/${username}")
       .contentType("application/json")
       .response(fromMetadata(
-        asJsonEither[ErrorModel, User],
-        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ErrorModel, User]),
-        ConditionalResponseAs(_.code == StatusCode(400), asJsonEither[BadRequest, User]),
-        ConditionalResponseAs(_.code == StatusCode(404), asJsonEither[NotFound, User])
+        asJsonEither[ApiModel, User],
+        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ApiModel, User]),
       ))
 
   /**
@@ -132,14 +127,13 @@ class UserApi(baseUrl: String) {
    * @param username The user name for login
    * @param password The password for login in clear text
    */
-  def loginUser(username: String, password: String): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], String], Any] =
+  def loginUser(username: String, password: String): Request[Either[ResponseException[ApiModel, Exception], String], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/login?username=${ username }&password=${ password }")
       .contentType("application/json")
       .response(fromMetadata(
-        asJsonEither[ErrorModel, String],
-        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ErrorModel, String]),
-        ConditionalResponseAs(_.code == StatusCode(400), asJsonEither[BadRequest, String])
+        asJsonEither[ApiModel, String],
+        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ApiModel, String]),
       ))
 
   /**
@@ -149,12 +143,12 @@ class UserApi(baseUrl: String) {
    * Available security schemes:
    *   api_key (apiKey)
    */
-  def logoutUser(apiKey: String)(): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Unit], Any] =
+  def logoutUser(apiKey: String)(): Request[Either[ResponseException[ApiModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/logout")
       .contentType("application/json")
       .header("api_key", apiKey)
-      .response(ignoreAsEither)
+      .response(ignore.map(Right(_): Either[ResponseException[ApiModel, Exception], Unit]))
 
   /**
    * This can only be done by the logged in user.
@@ -169,16 +163,14 @@ class UserApi(baseUrl: String) {
    * @param username name that need to be deleted
    * @param user Updated user object
    */
-  def updateUser(apiKey: String)(username: String, user: User): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Unit], Any] =
+  def updateUser(apiKey: String)(username: String, user: User): Request[Either[ResponseException[ApiModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.PUT, uri"$baseUrl/user/${username}")
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
       .response(fromMetadata(
-        ignoreAsEither,
-        ConditionalResponseAs(_.code == StatusCode(400), asJsonEither[BadRequest, Unit]),
-        ConditionalResponseAs(_.code == StatusCode(404), asJsonEither[NotFound, Unit])
+        ignore.map(Right(_): Either[ResponseException[ApiModel, Exception], Unit]),
       ))
 
 }

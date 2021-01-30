@@ -6,7 +6,6 @@ import {{import}}
 {{/imports}}
 import {{invokerPackage}}._
 import {{invokerPackage}}.JsonSupport._
-import {{invokerPackage}}.Helpers._
 import sttp.client3._
 import sttp.model._
 
@@ -22,7 +21,7 @@ class {{classname}}(baseUrl: String) {
 {{#javadocRenderer}}
 {{>javadoc}}
 {{/javadocRenderer}}
-  def {{operationId}}({{>methodParameters}}): RequestT[Identity, {{#separateErrorChannel}}Either[ResponseException[ErrorModel, Exception], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}, Any] =
+  def {{operationId}}({{>methodParameters}}): Request[{{#separateErrorChannel}}Either[ResponseException[ApiModel, Exception], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}, Any] =
     basicRequest
       .method(Method.{{httpMethod.toUpperCase}}, uri"$baseUrl{{{path}}}{{#queryParams.0}}?{{#queryParams}}{{baseName}}=${ {{{paramName}}} }{{^-last}}&{{/-last}}{{/queryParams}}{{/queryParams.0}}{{#isApiKey}}{{#isKeyInQuery}}{{^queryParams.0}}?{{/queryParams.0}}{{#queryParams.0}}&{{/queryParams.0}}{{keyParamName}}=${apiKey.value}&{{/isKeyInQuery}}{{/isApiKey}}")
       .contentType({{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}}){{#headerParams}}
@@ -38,6 +37,10 @@ class {{classname}}(baseUrl: String) {
         {{>paramMultipartCreation}}{{^-last}}, {{/-last}}{{/formParams}}
       ).flatten){{/isMultipart}}{{/formParams.0}}{{#bodyParam}}
       .body({{paramName}}){{/bodyParam}}
+      {{^separateErrorChannel}}
+      .response({{>ignoreErrorsResponse}})
+      {{/separateErrorChannel}}
+      {{#separateErrorChannel}}
       {{#vendorExtensions.x-has-only-default-response}}
       .response({{>defaultResponse}})
       {{/vendorExtensions.x-has-only-default-response}}
@@ -46,11 +49,14 @@ class {{classname}}(baseUrl: String) {
         {{>defaultResponse}},
         {{#responses}}
         {{^isDefault}}
-        ConditionalResponseAs(_.code == StatusCode({{code}}), asJsonEither[{{#vendorExtensions.x-error-model-class}}{{vendorExtensions.x-error-model-class}}{{/vendorExtensions.x-error-model-class}}{{^vendorExtensions.x-error-model-class}}ErrorModel{{/vendorExtensions.x-error-model-class}}, {{>operationReturnType}}]){{^-last}},{{/-last}}
+        {{#dataType}}
+        ConditionalResponseAs(_.code == StatusCode({{code}}), {{>responseReturnType}}){{^-last}},{{/-last}}
+        {{/dataType}}
         {{/isDefault}}
         {{/responses}}
       ))
       {{/vendorExtensions.x-has-only-default-response}}
+      {{/separateErrorChannel}}
 
 {{/operation}}
 }

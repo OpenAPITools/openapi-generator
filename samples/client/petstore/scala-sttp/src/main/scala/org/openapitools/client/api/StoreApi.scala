@@ -14,7 +14,6 @@ package org.openapitools.client.api
 import org.openapitools.client.model.Order
 import org.openapitools.client.core._
 import org.openapitools.client.core.JsonSupport._
-import org.openapitools.client.core.Helpers._
 import sttp.client3._
 import sttp.model._
 
@@ -34,14 +33,12 @@ class StoreApi(baseUrl: String) {
    * 
    * @param orderId ID of the order that needs to be deleted
    */
-  def deleteOrder(orderId: String): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Unit], Any] =
+  def deleteOrder(orderId: String): Request[Either[ResponseException[ApiModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/store/order/${orderId}")
       .contentType("application/json")
       .response(fromMetadata(
-        ignoreAsEither,
-        ConditionalResponseAs(_.code == StatusCode(400), asJsonEither[BadRequest, Unit]),
-        ConditionalResponseAs(_.code == StatusCode(404), asJsonEither[NotFound, Unit])
+        ignore.map(Right(_): Either[ResponseException[ApiModel, Exception], Unit]),
       ))
 
   /**
@@ -53,14 +50,14 @@ class StoreApi(baseUrl: String) {
    * Available security schemes:
    *   api_key (apiKey)
    */
-  def getInventory(apiKey: String)(): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Map[String, Int]], Any] =
+  def getInventory(apiKey: String)(): Request[Either[ResponseException[ApiModel, Exception], Map[String, Int]], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/store/inventory")
       .contentType("application/json")
       .header("api_key", apiKey)
       .response(fromMetadata(
-        asJsonEither[ErrorModel, Map[String, Int]],
-        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ErrorModel, Map[String, Int]])
+        asJsonEither[ApiModel, Map[String, Int]],
+        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ApiModel, Map[String, Int]])
       ))
 
   /**
@@ -73,15 +70,13 @@ class StoreApi(baseUrl: String) {
    * 
    * @param orderId ID of pet that needs to be fetched
    */
-  def getOrderById(orderId: Long): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Order], Any] =
+  def getOrderById(orderId: Long): Request[Either[ResponseException[ApiModel, Exception], Order], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/store/order/${orderId}")
       .contentType("application/json")
       .response(fromMetadata(
-        asJsonEither[ErrorModel, Order],
-        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ErrorModel, Order]),
-        ConditionalResponseAs(_.code == StatusCode(400), asJsonEither[BadRequest, Order]),
-        ConditionalResponseAs(_.code == StatusCode(404), asJsonEither[NotFound, Order])
+        asJsonEither[ApiModel, Order],
+        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ApiModel, Order]),
       ))
 
   /**
@@ -91,15 +86,14 @@ class StoreApi(baseUrl: String) {
    * 
    * @param order order placed for purchasing the pet
    */
-  def placeOrder(order: Order): RequestT[Identity, Either[ResponseException[ErrorModel, Exception], Order], Any] =
+  def placeOrder(order: Order): Request[Either[ResponseException[ApiModel, Exception], Order], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/store/order")
       .contentType("application/json")
       .body(order)
       .response(fromMetadata(
-        asJsonEither[ErrorModel, Order],
-        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ErrorModel, Order]),
-        ConditionalResponseAs(_.code == StatusCode(400), asJsonEither[BadRequest, Order])
+        asJsonEither[ApiModel, Order],
+        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ApiModel, Order]),
       ))
 
 }

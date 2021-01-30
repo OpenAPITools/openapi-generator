@@ -11,10 +11,5 @@
  */
 package org.openapitools.client.core
 
-import sttp.client3._
-
-object Helpers {
-
-  val ignoreAsEither: ResponseAs[Either[ResponseException[ErrorModel, Exception], Unit], Any] =
-    ignore.map(Right(_): Either[ResponseException[ErrorModel, Exception], Unit])
-}
+trait ApiModel
+case object EmptyApiModel extends ApiModel {}
