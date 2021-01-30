@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -212,6 +211,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 allModels.put(modelName, cm);
             }
         }
+
         for (Map.Entry<String, Object> entry : objs.entrySet()) {
             Map<String, Object> inner = (Map<String, Object>) entry.getValue();
             List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
@@ -224,7 +224,11 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                         Map<String, Object> mas = new HashMap<>();
                         mas.put("modelName", camelize(mappedModel.getModelName()));
                         mas.put("mappingName", mappedModel.getMappingName());
-                        List<CodegenProperty> vars = model.getVars();
+                        
+                        // TODO: deleting the variable from the array was
+                        // problematic; I don't know what this is supposed to do
+                        // so I'm just cloning it for the moment
+                        List<CodegenProperty> vars = new ArrayList<>(model.getVars());
                         vars.removeIf(p -> p.name.equals(cm.discriminator.getPropertyName()));
                         mas.put("vars", vars);
                         discriminatorVars.add(mas);
