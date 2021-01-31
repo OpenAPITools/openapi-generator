@@ -11,8 +11,6 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import nulltype  # noqa: F401
-
 from petstore_api.model_utils import (  # noqa: F401
     ApiTypeError,
     ModelComposed,
@@ -88,8 +86,8 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
         """
         lazy_import()
         return {
-            'class_name': (str,),  # noqa: E501
             'color': (str,),  # noqa: E501
+            'class_name': (str,),  # noqa: E501
         }
 
     @cached_property
@@ -98,8 +96,8 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
 
 
     attribute_map = {
-        'class_name': 'className',  # noqa: E501
         'color': 'color',  # noqa: E501
+        'class_name': 'className',  # noqa: E501
     }
 
     required_properties = set([
@@ -118,10 +116,7 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
     def __init__(self, *args, **kwargs):  # noqa: E501
         """ComposedOneOfNumberWithValidations - a model defined in OpenAPI
 
-        Args:
-
         Keyword Args:
-            class_name (str): defaults to nulltype.Null  # noqa: E501
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -153,9 +148,9 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             color (str): [optional] if omitted the server will use the default value of "red"  # noqa: E501
+            class_name (str): [optional]  # noqa: E501
         """
 
-        class_name = kwargs.get('class_name', nulltype.Null)
         _check_type = kwargs.pop('_check_type', True)
         _spec_property_naming = kwargs.pop('_spec_property_naming', False)
         _path_to_item = kwargs.pop('_path_to_item', ())
@@ -187,13 +182,7 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
             '_visited_composed_classes': self._visited_composed_classes,
         }
         required_args = {
-            'class_name': class_name,
         }
-        # remove args whose value is Null because they are unset
-        required_arg_names = list(required_args.keys())
-        for required_arg_name in required_arg_names:
-            if required_args[required_arg_name] is nulltype.Null:
-                del required_args[required_arg_name]
         model_args = {}
         model_args.update(required_args)
         model_args.update(kwargs)

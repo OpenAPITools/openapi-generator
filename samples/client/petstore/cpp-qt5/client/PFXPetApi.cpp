@@ -154,8 +154,8 @@ void PFXPetApi::addPet(const PFXPet &body) {
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
 
-    QString output = body.asJson();
-    input.request_body.append(output.toUtf8());
+    QByteArray output = body.asJson().toUtf8();
+    input.request_body.append(output);
 
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
@@ -458,8 +458,8 @@ void PFXPetApi::updatePet(const PFXPet &body) {
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "PUT");
 
-    QString output = body.asJson();
-    input.request_body.append(output.toUtf8());
+    QByteArray output = body.asJson().toUtf8();
+    input.request_body.append(output);
 
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 

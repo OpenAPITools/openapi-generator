@@ -5,13 +5,14 @@ use futures::Stream;
 use std::error::Error;
 use std::task::{Poll, Context};
 use swagger::{ApiError, ContextWrapper};
+use serde::{Serialize, Deserialize};
 
 type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
 pub const BASE_PATH: &'static str = "";
 pub const API_VERSION: &'static str = "1.0.7";
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum AnyOfGetResponse {
     /// Success
@@ -27,44 +28,44 @@ pub enum AnyOfGetResponse {
     (swagger::AnyOf2<models::StringObject,models::UuidObject>)
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CallbackWithHeaderPostResponse {
     /// OK
     OK
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum ComplexQueryParamGetResponse {
     /// Success
     Success
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum EnumInPathPathParamGetResponse {
     /// Success
     Success
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum JsonComplexQueryParamGetResponse {
     /// Success
     Success
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MandatoryRequestHeaderGetResponse {
     /// Success
     Success
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MergePatchJsonGetResponse {
     /// merge-patch+json-encoded response
     Merge
     (models::AnotherXmlObject)
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum MultigetGetResponse {
     /// JSON rsp
@@ -96,51 +97,51 @@ pub enum MultigetGetResponse {
     (models::AnotherXmlObject)
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MultipleAuthSchemeGetResponse {
     /// Check that limiting to multiple required auth schemes works
     CheckThatLimitingToMultipleRequiredAuthSchemesWorks
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum OneOfGetResponse {
     /// Success
     Success
     (swagger::OneOf2<i32,Vec<String>>)
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum OverrideServerGetResponse {
     /// Success.
     Success
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum ParamgetGetResponse {
     /// JSON rsp
     JSONRsp
     (models::AnotherXmlObject)
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum ReadonlyAuthSchemeGetResponse {
     /// Check that limiting to a single required auth scheme works
     CheckThatLimitingToASingleRequiredAuthSchemeWorks
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum RegisterCallbackPostResponse {
     /// OK
     OK
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum RequiredOctetStreamPutResponse {
     /// OK
     OK
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum ResponsesWithHeadersGetResponse {
     /// Success
@@ -176,7 +177,7 @@ pub enum ResponsesWithHeadersGetResponse {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum Rfc7807GetResponse {
     /// OK
@@ -192,20 +193,20 @@ pub enum Rfc7807GetResponse {
     (models::ObjectWithArrayOfObjects)
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum UntypedPropertyGetResponse {
     /// Check that untyped properties works
     CheckThatUntypedPropertiesWorks
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum UuidGetResponse {
     /// Duplicate Response long text. One.
     DuplicateResponseLongText
     (uuid::Uuid)
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlExtraPostResponse {
     /// OK
@@ -215,7 +216,7 @@ pub enum XmlExtraPostResponse {
     BadRequest
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlOtherPostResponse {
     /// OK
@@ -226,7 +227,7 @@ pub enum XmlOtherPostResponse {
     BadRequest
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlOtherPutResponse {
     /// OK
@@ -236,7 +237,7 @@ pub enum XmlOtherPutResponse {
     BadRequest
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlPostResponse {
     /// OK
@@ -246,7 +247,7 @@ pub enum XmlPostResponse {
     BadRequest
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlPutResponse {
     /// OK
@@ -256,13 +257,13 @@ pub enum XmlPutResponse {
     BadRequest
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CreateRepoResponse {
     /// Success
     Success
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum GetRepoInfoResponse {
     /// OK
     OK
@@ -796,13 +797,13 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
 }
 
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CallbackCallbackWithHeaderPostResponse {
     /// OK
     OK
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CallbackCallbackPostResponse {
     /// OK
     OK
