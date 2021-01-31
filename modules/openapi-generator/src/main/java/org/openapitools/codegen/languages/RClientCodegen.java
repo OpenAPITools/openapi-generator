@@ -756,9 +756,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         String example;
         example = codegenModel.name + "$new(";
         List<String> propertyExamples = new ArrayList<>();
-        for (CodegenProperty codegenProperty : codegenModel.vars) {
+        // required properties first
+        for (CodegenProperty codegenProperty : codegenModel.requiredVars) {
             propertyExamples.add(constructExampleCode(codegenProperty, modelMaps));
         }
+
+        // optional properties second
+        for (CodegenProperty codegenProperty : codegenModel.optionalVars) {
+            propertyExamples.add(constructExampleCode(codegenProperty, modelMaps));
+        }
+
         example += StringUtils.join(propertyExamples, ", ");
         example += ")";
         return example;
