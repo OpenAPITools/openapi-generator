@@ -197,7 +197,7 @@ QString PFXStoreApi::getParamStyleDelimiter(QString style, QString name, bool is
 
 void PFXStoreApi::deleteOrder(const QString &order_id) {
     QString fullPath = QString(_serverConfigs["deleteOrder"][_serverIndices.value("deleteOrder")].URL()+"/store/order/{orderId}");
-
+    
     QString order_idPathParam("{");
     order_idPathParam.append("orderId").append("}");
     QString pathPrefix, pathSuffix, pathDelimiter;
@@ -247,8 +247,10 @@ void PFXStoreApi::deleteOrderCallback(PFXHttpRequestWorker *worker) {
 
 void PFXStoreApi::getInventory() {
     QString fullPath = QString(_serverConfigs["getInventory"][_serverIndices.value("getInventory")].URL()+"/store/inventory");
-        }else if(style == "deepObject"){
-            return (isExplode) ? "&" + name + "=" : "|";
+    
+    if(_apiKeys.contains("api_key")){
+        addHeaders("api_key",_apiKeys.find("api_key").value());
+    }
     
 
 
@@ -298,7 +300,7 @@ void PFXStoreApi::getInventoryCallback(PFXHttpRequestWorker *worker) {
 
 void PFXStoreApi::getOrderById(const qint64 &order_id) {
     QString fullPath = QString(_serverConfigs["getOrderById"][_serverIndices.value("getOrderById")].URL()+"/store/order/{orderId}");
-
+    
     QString order_idPathParam("{");
     order_idPathParam.append("orderId").append("}");
     QString pathPrefix, pathSuffix, pathDelimiter;
@@ -349,7 +351,7 @@ void PFXStoreApi::getOrderByIdCallback(PFXHttpRequestWorker *worker) {
 
 void PFXStoreApi::placeOrder(const PFXOrder &body) {
     QString fullPath = QString(_serverConfigs["placeOrder"][_serverIndices.value("placeOrder")].URL()+"/store/order");
-
+    
 
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
