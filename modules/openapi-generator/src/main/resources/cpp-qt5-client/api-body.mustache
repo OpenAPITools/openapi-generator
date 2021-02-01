@@ -99,6 +99,10 @@ void {{classname}}::setBearerToken(const QString &token){
     _bearerToken = token;
 }
 
+void {{classname}}::setOauthToken(const QString &token){
+    _oAuthToken = token;
+}
+
 void {{classname}}::setUsername(const QString &username) {
     _username = username;
 }
@@ -167,7 +171,10 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
         QByteArray b64;
         b64.append(_username.toUtf8() + ":" + _password.toUtf8());
         addHeaders("Authorization","Basic " + b64.toBase64());
-    }{{/isBasicBasic}}{{/authMethods}}
+    }{{/isBasicBasic}}{{#isOAuth}}
+    if(!_oAuthToken.isEmpty())
+        addHeaders("Authorization", "Bearer " + _oAuthToken);
+    {{/isOAuth}}{{/authMethods}}
 {{#queryParams}}{{^collectionFormat}}
     if (fullPath.indexOf("?") > 0)
         fullPath.append("&");
