@@ -26,8 +26,8 @@ Serializers serializers = (_$serializers.toBuilder(){{#apiInfo}}{{#apis}}{{#seri
         () => MapBuilder<String, {{baseType}}>(),
 {{/isMap}}
       ){{/serializers}}{{/apis}}{{/apiInfo}}{{#timeMachine}}
-      ..add(OffsetDateSerializer())
-      ..add(OffsetDateTimeSerializer()){{/timeMachine}}
+      ..add(const OffsetDateSerializer())
+      ..add(const OffsetDateTimeSerializer()){{/timeMachine}}
       ..add(Iso8601DateTimeSerializer()))
     .build();
 
