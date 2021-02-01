@@ -53,6 +53,9 @@ public:
     void enableRequestCompression();
     void enableResponseCompression();
     void abortRequests();
+    QString getParamStylePrefix(QString style);
+    QString getParamStyleSuffix(QString style);
+    QString getParamStyleDelimiter(QString style, QString name, bool isExplode);
 
     void addPet(const PFXPet &body);
     void deletePet(const qint64 &pet_id, const QString &api_key);
