@@ -209,14 +209,14 @@ QString PFXUserApi::getParamStyleDelimiter(QString style, QString name, bool isE
 
 void PFXUserApi::createUser(const PFXUser &body) {
     QString fullPath = QString(_serverConfigs["createUser"][_serverIndices.value("createUser")].URL()+"/user");
-
+    
 
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
-  
+
 
     QString output = body.asJson();
     input.request_body.append(output.toUtf8());
@@ -251,7 +251,7 @@ void PFXUserApi::createUserCallback(PFXHttpRequestWorker *worker) {
 
 void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
     QString fullPath = QString(_serverConfigs["createUsersWithArrayInput"][_serverIndices.value("createUsersWithArrayInput")].URL()+"/user/createWithArray");
-
+    
 
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -294,7 +294,7 @@ void PFXUserApi::createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker)
 
 void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
     QString fullPath = QString(_serverConfigs["createUsersWithListInput"][_serverIndices.value("createUsersWithListInput")].URL()+"/user/createWithList");
-
+    
 
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -337,7 +337,7 @@ void PFXUserApi::createUsersWithListInputCallback(PFXHttpRequestWorker *worker) 
 
 void PFXUserApi::deleteUser(const QString &username) {
     QString fullPath = QString(_serverConfigs["deleteUser"][_serverIndices.value("deleteUser")].URL()+"/user/{username}");
-
+    
     QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
     QString pathPrefix, pathSuffix, pathDelimiter;
@@ -387,7 +387,7 @@ void PFXUserApi::deleteUserCallback(PFXHttpRequestWorker *worker) {
 
 void PFXUserApi::getUserByName(const QString &username) {
     QString fullPath = QString(_serverConfigs["getUserByName"][_serverIndices.value("getUserByName")].URL()+"/user/{username}");
-
+    
     QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
     QString pathPrefix, pathSuffix, pathDelimiter;
@@ -438,7 +438,7 @@ void PFXUserApi::getUserByNameCallback(PFXHttpRequestWorker *worker) {
 
 void PFXUserApi::loginUser(const QString &username, const QString &password) {
     QString fullPath = QString(_serverConfigs["loginUser"][_serverIndices.value("loginUser")].URL()+"/user/login");
-
+    
 
     QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
     queryStyle = "";
@@ -504,7 +504,7 @@ void PFXUserApi::loginUserCallback(PFXHttpRequestWorker *worker) {
 
 void PFXUserApi::logoutUser() {
     QString fullPath = QString(_serverConfigs["logoutUser"][_serverIndices.value("logoutUser")].URL()+"/user/logout");
-
+    
 
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -543,7 +543,7 @@ void PFXUserApi::logoutUserCallback(PFXHttpRequestWorker *worker) {
 
 void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
     QString fullPath = QString(_serverConfigs["updateUser"][_serverIndices.value("updateUser")].URL()+"/user/{username}");
-
+    
     QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
     QString pathPrefix, pathSuffix, pathDelimiter;

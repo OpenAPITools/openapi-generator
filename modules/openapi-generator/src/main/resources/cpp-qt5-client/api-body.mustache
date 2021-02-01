@@ -205,8 +205,10 @@ QString {{classname}}::getParamStyleDelimiter(QString style, QString name, bool 
 {{#operation}}
 void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
     QString fullPath = QString(_serverConfigs["{{nickname}}"][_serverIndices.value("{{nickname}}")].URL()+"{{{path}}}");
-{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}        }else if(style == "deepObject"){
-            return (isExplode) ? "&" + name + "=" : "|";
+    {{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
+    if(_apiKeys.contains("{{name}}")){
+        addHeaders("{{name}}",_apiKeys.find("{{name}}").value());
+    }
     {{/isKeyInHeader}}{{#isKeyInQuery}}
     if(_apiKeys.contains("{{name}}")){
         if (fullPath.indexOf("?") > 0)
