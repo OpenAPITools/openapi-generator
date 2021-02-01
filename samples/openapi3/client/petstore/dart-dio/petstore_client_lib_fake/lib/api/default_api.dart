@@ -69,6 +69,7 @@ class DefaultApi {
             return Response<InlineResponseDefault>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
