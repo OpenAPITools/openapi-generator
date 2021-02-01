@@ -87,6 +87,7 @@ class PetApi {
             return Response<Pet>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -209,6 +210,7 @@ class PetApi {
             return Response<BuiltList<Pet>>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -279,6 +281,7 @@ class PetApi {
             return Response<BuiltList<Pet>>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -347,6 +350,7 @@ class PetApi {
             return Response<Pet>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -421,6 +425,7 @@ class PetApi {
             return Response<Pet>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -557,6 +562,7 @@ class PetApi {
             return Response<ApiResponse>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,

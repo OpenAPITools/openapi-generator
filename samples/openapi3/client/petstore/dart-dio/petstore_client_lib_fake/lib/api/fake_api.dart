@@ -77,6 +77,7 @@ class FakeApi {
             return Response<HealthCheckResult>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -202,6 +203,7 @@ class FakeApi {
             return Response<bool>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -270,6 +272,7 @@ class FakeApi {
             return Response<OuterComposite>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -333,6 +336,7 @@ class FakeApi {
             return Response<num>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -396,6 +400,7 @@ class FakeApi {
             return Response<String>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -570,6 +575,7 @@ class FakeApi {
             return Response<ModelClient>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,

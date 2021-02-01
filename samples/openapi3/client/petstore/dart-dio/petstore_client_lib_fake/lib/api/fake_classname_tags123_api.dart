@@ -84,6 +84,7 @@ class FakeClassnameTags123Api {
             return Response<ModelClient>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
