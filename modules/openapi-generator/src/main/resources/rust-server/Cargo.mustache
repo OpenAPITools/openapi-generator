@@ -7,6 +7,18 @@ description = "{{{appDescription}}}"
 {{/appDescription}}
 license = "Unlicense"
 edition = "2018"
+{{#publishRustRegistry}}
+publish = ["{{publishRustRegistry}}"]
+{{/publishRustRegistry}}
+{{#repositoryUrl}}
+repository = "{{repositoryUrl}}"
+{{/repositoryUrl}}
+{{#documentationUrl}}
+documentation = "{{documentationUrl}}"
+{{/documentationUrl}}
+{{#homePageUrl}}
+homepage = "{{homePageUrl}}
+{{/homePageUrl}}
 
 [features]
 default = ["client", "server"]
