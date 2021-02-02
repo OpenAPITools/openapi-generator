@@ -27,12 +27,6 @@ docs/Foo.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineObject.md
-docs/InlineObject1.md
-docs/InlineObject2.md
-docs/InlineObject3.md
-docs/InlineObject4.md
-docs/InlineObject5.md
 docs/InlineResponseDefault.md
 docs/List.md
 docs/MapTest.md
@@ -100,12 +94,6 @@ src/main/kotlin/org/openapitools/client/models/Foo.kt
 src/main/kotlin/org/openapitools/client/models/FormatTest.kt
 src/main/kotlin/org/openapitools/client/models/HasOnlyReadOnly.kt
 src/main/kotlin/org/openapitools/client/models/HealthCheckResult.kt
-src/main/kotlin/org/openapitools/client/models/InlineObject.kt
-src/main/kotlin/org/openapitools/client/models/InlineObject1.kt
-src/main/kotlin/org/openapitools/client/models/InlineObject2.kt
-src/main/kotlin/org/openapitools/client/models/InlineObject3.kt
-src/main/kotlin/org/openapitools/client/models/InlineObject4.kt
-src/main/kotlin/org/openapitools/client/models/InlineObject5.kt
 src/main/kotlin/org/openapitools/client/models/InlineResponseDefault.kt
 src/main/kotlin/org/openapitools/client/models/List.kt
 src/main/kotlin/org/openapitools/client/models/MapTest.kt
