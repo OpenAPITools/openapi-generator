@@ -11,10 +11,12 @@ import 'package:built_value/serializer.dart';
 {{/fullImports}}
 
 class {{classname}} {
-    final Dio _dio;
-    Serializers _serializers;
 
-    {{classname}}(this._dio, this._serializers);
+    final Dio _dio;
+
+    final Serializers _serializers;
+
+    const {{classname}}(this._dio, this._serializers);
 
     {{#operation}}
     /// {{{summary}}}

@@ -13,10 +13,12 @@ import 'package:built_value/serializer.dart';
 import 'package:openapi/model/inline_response_default.dart';
 
 class DefaultApi {
-    final Dio _dio;
-    Serializers _serializers;
 
-    DefaultApi(this._dio, this._serializers);
+    final Dio _dio;
+
+    final Serializers _serializers;
+
+    const DefaultApi(this._dio, this._serializers);
 
     /// 
     ///

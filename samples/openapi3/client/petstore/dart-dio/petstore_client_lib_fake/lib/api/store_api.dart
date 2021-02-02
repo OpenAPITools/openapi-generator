@@ -14,10 +14,12 @@ import 'package:openapi/model/order.dart';
 import 'package:built_collection/built_collection.dart';
 
 class StoreApi {
-    final Dio _dio;
-    Serializers _serializers;
 
-    StoreApi(this._dio, this._serializers);
+    final Dio _dio;
+
+    final Serializers _serializers;
+
+    const StoreApi(this._dio, this._serializers);
 
     /// Delete purchase order by ID
     ///

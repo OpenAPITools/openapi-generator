@@ -17,10 +17,12 @@ import 'package:built_collection/built_collection.dart';
 import 'package:openapi/api_util.dart';
 
 class PetApi {
-    final Dio _dio;
-    Serializers _serializers;
 
-    PetApi(this._dio, this._serializers);
+    final Dio _dio;
+
+    final Serializers _serializers;
+
+    const PetApi(this._dio, this._serializers);
 
     /// Add a new pet to the store
     ///
