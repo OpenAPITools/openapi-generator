@@ -69,7 +69,7 @@ class {{classname}} {
 
         {{#isContainer}}
         {{#isArray}}
-        const type = FullType(BuiltList, [FullType({{baseType}})]);
+        const type = FullType(Built{{#uniqueItems}}Built{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}, [FullType({{baseType}})]);
         final serializedBody = _serializers.serialize({{paramName}}, specifiedType: type);
         {{/isArray}}
         {{#isMap}}
@@ -135,8 +135,7 @@ class {{classname}} {
         {{/returnTypeIsPrimitive}}
         {{/returnSimpleType}}
         {{^returnSimpleType}}
-            const collectionType = {{#isMap}}BuiltMap{{/isMap}}{{^isMap}}BuiltList{{/isMap}};
-            const type = FullType(collectionType, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{returnBaseType}}})]);
+            const type = FullType(Built{{#isMap}}Map{{/isMap}}{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{returnBaseType}}})]);
             final data = _serializers.deserialize(
                 response.data is String
                 ? jsonDecode(response.data as String)

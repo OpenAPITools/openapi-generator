@@ -156,7 +156,7 @@ class {{{classname}}} {
         {{^isEnum}}
         {{{name}}}: json[r'{{{baseName}}}'] == null
           ? null
-          : (json[r'{{{baseName}}}'] as List).cast<{{{items.datatype}}}>(),
+          : (json[r'{{{baseName}}}'] as {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}).cast<{{{items.datatype}}}>(),
         {{/isEnum}}
       {{/isArray}}
       {{^isArray}}

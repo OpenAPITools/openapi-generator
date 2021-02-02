@@ -15,7 +15,7 @@ class Pet {
     this.id,
     this.category,
     @required this.name,
-    this.photoUrls = const [],
+    this.photoUrls = const {},
     this.tags = const [],
     this.status,
   });
@@ -26,7 +26,7 @@ class Pet {
 
   String name;
 
-  List<String> photoUrls;
+  Set<String> photoUrls;
 
   List<Tag> tags;
 
@@ -87,7 +87,7 @@ class Pet {
         name: json[r'name'],
         photoUrls: json[r'photoUrls'] == null
           ? null
-          : (json[r'photoUrls'] as List).cast<String>(),
+          : (json[r'photoUrls'] as Set).cast<String>(),
         tags: Tag.listFromJson(json[r'tags']),
         status: PetStatusEnum.fromJson(json[r'status']),
     );
