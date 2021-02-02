@@ -450,10 +450,10 @@ To get a list of PHP specified options (which can be passed to the generator wit
 You can build a client against the [Petstore API](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml) as follows:
 
 ```sh
-./bin/java-petstore-okhttp-gson.sh
+./bin/generate-samples.sh ./bin/configs/java-okhttp-gson.yaml
 ```
 
-(On Windows, run `.\bin\windows\java-petstore-okhttp-gson.bat` instead)
+(On Windows, please install [GIT Bash for Windows](https://gitforwindows.org/) to run the command above)
 
 This script uses the default library, which is `okhttp-gson`. It will run the generator with this command:
 
@@ -461,6 +461,8 @@ This script uses the default library, which is `okhttp-gson`. It will run the ge
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
   -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
   -g java \
+  -t modules/openapi-generator/src/main/resources/Java \
+  --additional-properties artifactId=petstore-okhttp-gson,hideGenerationTimestamp:true \
   -o samples/client/petstore/java/okhttp-gson
 ```
 
@@ -526,13 +528,7 @@ cd samples/client/petstore/java/okhttp-gson
 mvn package
 ```
 
-Other languages have petstore samples, too:
-
-- [Swift5](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/swift5)
-- [Ruby](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/ruby)
-- [Kotlin](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/kotlin)
-
-... and more.
+Other generators have [samples](https://github.com/OpenAPITools/openapi-generator/tree/master/samples) too.
 
 ### [3.1 - Customization](#table-of-contents)
 
