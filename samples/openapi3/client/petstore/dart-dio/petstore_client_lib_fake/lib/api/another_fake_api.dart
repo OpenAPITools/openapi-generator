@@ -32,61 +32,72 @@ class AnotherFakeApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/another-fake/dummy';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/another-fake/dummy',
+          method: 'PATCH',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/json',
-        ];
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
-        final bodySerializer = _serializers.serializerForType(ModelClient) as Serializer<ModelClient>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, modelClient);
-        final jsonmodelClient = json.encode(serializedBody);
-        bodyData = jsonmodelClient;
+        dynamic _bodyData;
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'patch'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            final serializer = _serializers.serializerForType(ModelClient) as Serializer<ModelClient>;
-            final data = _serializers.deserializeWith<ModelClient>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+        try {
+          final _bodyType = FullType(ModelClient);
+          final _serializedBody = _serializers.serialize(modelClient, specifiedType: _bodyType);
+          final _encodedJson = json.encode(_serializedBody);
+          _bodyData = _encodedJson;
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
 
-            return Response<ModelClient>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        try {
+          const _responseType = FullType(ModelClient);
+          final ModelClient _responseData = _serializers.deserialize(
+            _response.data is String ? jsonDecode(_response.data as String) : _response.data,
+            specifiedType: _responseType,
+          ) as ModelClient;
+          return Response<ModelClient>(
+            data: _responseData,
+            headers: _response.headers,
+            isRedirect: _response.isRedirect,
+            request: _response.request,
+            redirects: _response.redirects,
+            statusCode: _response.statusCode,
+            statusMessage: _response.statusMessage,
+            extra: _response.extra,
+          );
+        } catch (error) {
+          throw DioError(
+            request: _request,
+            response: _response,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
     }
 
 }

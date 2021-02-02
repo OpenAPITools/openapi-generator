@@ -39,54 +39,68 @@ class FakeApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/fake/health';
+        final _request = RequestOptions(
+          path: r'/fake/health',
+          method: 'GET',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
+            'application/json',
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+        dynamic _bodyData;
 
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
+        try {
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
 
-        final contentTypes = <String>[];
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'get'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            final serializer = _serializers.serializerForType(HealthCheckResult) as Serializer<HealthCheckResult>;
-            final data = _serializers.deserializeWith<HealthCheckResult>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
-
-            return Response<HealthCheckResult>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
+        try {
+          const _responseType = FullType(HealthCheckResult);
+          final HealthCheckResult _responseData = _serializers.deserialize(
+            _response.data is String ? jsonDecode(_response.data as String) : _response.data,
+            specifiedType: _responseType,
+          ) as HealthCheckResult;
+          return Response<HealthCheckResult>(
+            data: _responseData,
+            headers: _response.headers,
+            isRedirect: _response.isRedirect,
+            request: _response.request,
+            redirects: _response.redirects,
+            statusCode: _response.statusCode,
+            statusMessage: _response.statusMessage,
+            extra: _response.extra,
+          );
+        } catch (error) {
+          throw DioError(
+            request: _request,
+            response: _response,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
     }
 
     /// test http signature authentication
@@ -103,52 +117,57 @@ class FakeApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/fake/http-signature-test';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        headerParams[r'header_1'] = header1;
-        queryParams[r'query_1'] = query1;
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/fake/http-signature-test',
+          method: 'GET',
+          headers: <String, dynamic>{
+            r'header_1': header1,
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+            r'query_1': query1,
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[
+               {
+                'type': 'http',
+                'name': 'http_signature_test',
+              },
+            ],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/json',
             'application/xml',
-        ];
-
-        final bodySerializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, pet);
-        final jsonpet = json.encode(serializedBody);
-        bodyData = jsonpet;
-
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'get'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'http',
-                            'name': 'http_signature_test',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
         );
+
+        dynamic _bodyData;
+
+        try {
+          final _bodyType = FullType(Pet);
+          final _serializedBody = _serializers.serialize(pet, specifiedType: _bodyType);
+          final _encodedJson = json.encode(_serializedBody);
+          _bodyData = _encodedJson;
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
+
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        return _response;
     }
 
     /// 
@@ -163,56 +182,67 @@ class FakeApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/fake/outer/boolean';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/fake/outer/boolean',
+          method: 'POST',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/json',
-        ];
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
-        final serializedBody = body;
-        final jsonbody = json.encode(serializedBody);
-        bodyData = jsonbody;
+        dynamic _bodyData;
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'post'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            final data = response.data as bool;
+        try {
+          final _serializedBody = body;
+          final _encodedJson = json.encode(_serializedBody);
+          _bodyData = _encodedJson;
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
 
-            return Response<bool>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        try {
+          final bool _responseData = _response.data as bool;
+          return Response<bool>(
+            data: _responseData,
+            headers: _response.headers,
+            isRedirect: _response.isRedirect,
+            request: _response.request,
+            redirects: _response.redirects,
+            statusCode: _response.statusCode,
+            statusMessage: _response.statusMessage,
+            extra: _response.extra,
+          );
+        } catch (error) {
+          throw DioError(
+            request: _request,
+            response: _response,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
     }
 
     /// 
@@ -227,61 +257,72 @@ class FakeApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/fake/outer/composite';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/fake/outer/composite',
+          method: 'POST',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/json',
-        ];
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
-        final bodySerializer = _serializers.serializerForType(OuterComposite) as Serializer<OuterComposite>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, outerComposite);
-        final jsonouterComposite = json.encode(serializedBody);
-        bodyData = jsonouterComposite;
+        dynamic _bodyData;
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'post'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            final serializer = _serializers.serializerForType(OuterComposite) as Serializer<OuterComposite>;
-            final data = _serializers.deserializeWith<OuterComposite>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+        try {
+          final _bodyType = FullType(OuterComposite);
+          final _serializedBody = _serializers.serialize(outerComposite, specifiedType: _bodyType);
+          final _encodedJson = json.encode(_serializedBody);
+          _bodyData = _encodedJson;
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
 
-            return Response<OuterComposite>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        try {
+          const _responseType = FullType(OuterComposite);
+          final OuterComposite _responseData = _serializers.deserialize(
+            _response.data is String ? jsonDecode(_response.data as String) : _response.data,
+            specifiedType: _responseType,
+          ) as OuterComposite;
+          return Response<OuterComposite>(
+            data: _responseData,
+            headers: _response.headers,
+            isRedirect: _response.isRedirect,
+            request: _response.request,
+            redirects: _response.redirects,
+            statusCode: _response.statusCode,
+            statusMessage: _response.statusMessage,
+            extra: _response.extra,
+          );
+        } catch (error) {
+          throw DioError(
+            request: _request,
+            response: _response,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
     }
 
     /// 
@@ -296,56 +337,67 @@ class FakeApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/fake/outer/number';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/fake/outer/number',
+          method: 'POST',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/json',
-        ];
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
-        final serializedBody = body;
-        final jsonbody = json.encode(serializedBody);
-        bodyData = jsonbody;
+        dynamic _bodyData;
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'post'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            final data = response.data as num;
+        try {
+          final _serializedBody = body;
+          final _encodedJson = json.encode(_serializedBody);
+          _bodyData = _encodedJson;
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
 
-            return Response<num>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        try {
+          final num _responseData = _response.data as num;
+          return Response<num>(
+            data: _responseData,
+            headers: _response.headers,
+            isRedirect: _response.isRedirect,
+            request: _response.request,
+            redirects: _response.redirects,
+            statusCode: _response.statusCode,
+            statusMessage: _response.statusMessage,
+            extra: _response.extra,
+          );
+        } catch (error) {
+          throw DioError(
+            request: _request,
+            response: _response,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
     }
 
     /// 
@@ -360,56 +412,67 @@ class FakeApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/fake/outer/string';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/fake/outer/string',
+          method: 'POST',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/json',
-        ];
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
-        final serializedBody = body;
-        final jsonbody = json.encode(serializedBody);
-        bodyData = jsonbody;
+        dynamic _bodyData;
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'post'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            final data = response.data as String;
+        try {
+          final _serializedBody = body;
+          final _encodedJson = json.encode(_serializedBody);
+          _bodyData = _encodedJson;
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
 
-            return Response<String>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        try {
+          final String _responseData = _response.data as String;
+          return Response<String>(
+            data: _responseData,
+            headers: _response.headers,
+            isRedirect: _response.isRedirect,
+            request: _response.request,
+            redirects: _response.redirects,
+            statusCode: _response.statusCode,
+            statusMessage: _response.statusMessage,
+            extra: _response.extra,
+          );
+        } catch (error) {
+          throw DioError(
+            request: _request,
+            response: _response,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
     }
 
     /// 
@@ -424,44 +487,49 @@ class FakeApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/fake/body-with-file-schema';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/fake/body-with-file-schema',
+          method: 'PUT',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/json',
-        ];
-
-        final bodySerializer = _serializers.serializerForType(FileSchemaTestClass) as Serializer<FileSchemaTestClass>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, fileSchemaTestClass);
-        final jsonfileSchemaTestClass = json.encode(serializedBody);
-        bodyData = jsonfileSchemaTestClass;
-
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'put'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
         );
+
+        dynamic _bodyData;
+
+        try {
+          final _bodyType = FullType(FileSchemaTestClass);
+          final _serializedBody = _serializers.serialize(fileSchemaTestClass, specifiedType: _bodyType);
+          final _encodedJson = json.encode(_serializedBody);
+          _bodyData = _encodedJson;
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
+
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        return _response;
     }
 
     /// 
@@ -477,45 +545,50 @@ class FakeApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/fake/body-with-query-params';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams[r'query'] = query;
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/fake/body-with-query-params',
+          method: 'PUT',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+            r'query': query,
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/json',
-        ];
-
-        final bodySerializer = _serializers.serializerForType(User) as Serializer<User>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, user);
-        final jsonuser = json.encode(serializedBody);
-        bodyData = jsonuser;
-
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'put'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
         );
+
+        dynamic _bodyData;
+
+        try {
+          final _bodyType = FullType(User);
+          final _serializedBody = _serializers.serialize(user, specifiedType: _bodyType);
+          final _encodedJson = json.encode(_serializedBody);
+          _bodyData = _encodedJson;
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
+
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        return _response;
     }
 
     /// To test \"client\" model
@@ -530,61 +603,72 @@ class FakeApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/fake';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/fake',
+          method: 'PATCH',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/json',
-        ];
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
-        final bodySerializer = _serializers.serializerForType(ModelClient) as Serializer<ModelClient>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, modelClient);
-        final jsonmodelClient = json.encode(serializedBody);
-        bodyData = jsonmodelClient;
+        dynamic _bodyData;
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'patch'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            final serializer = _serializers.serializerForType(ModelClient) as Serializer<ModelClient>;
-            final data = _serializers.deserializeWith<ModelClient>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+        try {
+          final _bodyType = FullType(ModelClient);
+          final _serializedBody = _serializers.serialize(modelClient, specifiedType: _bodyType);
+          final _encodedJson = json.encode(_serializedBody);
+          _bodyData = _encodedJson;
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
 
-            return Response<ModelClient>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        try {
+          const _responseType = FullType(ModelClient);
+          final ModelClient _responseData = _serializers.deserialize(
+            _response.data is String ? jsonDecode(_response.data as String) : _response.data,
+            specifiedType: _responseType,
+          ) as ModelClient;
+          return Response<ModelClient>(
+            data: _responseData,
+            headers: _response.headers,
+            isRedirect: _response.isRedirect,
+            request: _response.request,
+            redirects: _response.redirects,
+            statusCode: _response.statusCode,
+            statusMessage: _response.statusMessage,
+            extra: _response.extra,
+          );
+        } catch (error) {
+          throw DioError(
+            request: _request,
+            response: _response,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
     }
 
     /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -612,22 +696,36 @@ class FakeApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/fake';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/fake',
+          method: 'POST',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[
+               {
+                'type': 'http',
+                'name': 'http_basic_test',
+              },
+            ],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/x-www-form-urlencoded',
-        ];
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
-        final formData = <String, dynamic>{
+        dynamic _bodyData;
+
+        try {
+          _bodyData = <String, dynamic>{
             if (integer != null) r'integer': parameterToString(_serializers, integer),
             if (int32 != null) r'int32': parameterToString(_serializers, int32),
             if (int64 != null) r'int64': parameterToString(_serializers, int64),
@@ -642,32 +740,22 @@ class FakeApi {
             if (dateTime != null) r'dateTime': parameterToString(_serializers, dateTime),
             if (password != null) r'password': parameterToString(_serializers, password),
             if (callback != null) r'callback': parameterToString(_serializers, callback),
-        };
-        bodyData = formData;
+          };
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'post'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'http',
-                            'name': 'http_basic_test',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
         );
+
+        return _response;
     }
 
     /// To test enum parameters
@@ -689,51 +777,55 @@ class FakeApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/fake';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        headerParams[r'enum_header_string_array'] = enumHeaderStringArray;
-        headerParams[r'enum_header_string'] = enumHeaderString;
-        queryParams[r'enum_query_string_array'] = enumQueryStringArray;
-        queryParams[r'enum_query_string'] = enumQueryString;
-        queryParams[r'enum_query_integer'] = enumQueryInteger;
-        queryParams[r'enum_query_double'] = enumQueryDouble;
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/fake',
+          method: 'GET',
+          headers: <String, dynamic>{
+            r'enum_header_string_array': enumHeaderStringArray,
+            r'enum_header_string': enumHeaderString,
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+            r'enum_query_string_array': enumQueryStringArray,
+            r'enum_query_string': enumQueryString,
+            r'enum_query_integer': enumQueryInteger,
+            r'enum_query_double': enumQueryDouble,
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/x-www-form-urlencoded',
-        ];
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
-        final formData = <String, dynamic>{
+        dynamic _bodyData;
+
+        try {
+          _bodyData = <String, dynamic>{
             if (enumFormStringArray != null) r'enum_form_string_array': parameterToString(_serializers, enumFormStringArray),
             if (enumFormString != null) r'enum_form_string': parameterToString(_serializers, enumFormString),
-        };
-        bodyData = formData;
+          };
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'get'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
         );
+
+        return _response;
     }
 
     /// Fake endpoint to test group parameters (optional)
@@ -753,48 +845,56 @@ class FakeApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/fake';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        headerParams[r'required_boolean_group'] = requiredBooleanGroup;
-        headerParams[r'boolean_group'] = booleanGroup;
-        queryParams[r'required_string_group'] = requiredStringGroup;
-        queryParams[r'required_int64_group'] = requiredInt64Group;
-        queryParams[r'string_group'] = stringGroup;
-        queryParams[r'int64_group'] = int64Group;
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[];
-
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'delete'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'http',
-                            'name': 'bearer_test',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
+        final _request = RequestOptions(
+          path: r'/fake',
+          method: 'DELETE',
+          headers: <String, dynamic>{
+            r'required_boolean_group': requiredBooleanGroup,
+            r'boolean_group': booleanGroup,
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+            r'required_string_group': requiredStringGroup,
+            r'required_int64_group': requiredInt64Group,
+            r'string_group': stringGroup,
+            r'int64_group': int64Group,
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[
+               {
+                'type': 'http',
+                'name': 'bearer_test',
+              },
+            ],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
+            'application/json',
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
         );
+
+        dynamic _bodyData;
+
+        try {
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
+
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        return _response;
     }
 
     /// test inline additionalProperties
@@ -809,44 +909,49 @@ class FakeApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/fake/inline-additionalProperties';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/fake/inline-additionalProperties',
+          method: 'POST',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/json',
-        ];
-
-        const type = FullType(BuiltMap, [FullType(String), FullType(String)]);
-        final serializedBody = _serializers.serialize(requestBody, specifiedType: type);
-        final jsonrequestBody = json.encode(serializedBody);
-        bodyData = jsonrequestBody;
-
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'post'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
         );
+
+        dynamic _bodyData;
+
+        try {
+          const _bodyType = FullType(BuiltMap, [FullType(String), FullType(String)]);
+          final _serializedBody = _serializers.serialize(requestBody, specifiedType: _bodyType);
+          final _encodedJson = json.encode(_serializedBody);
+          _bodyData = _encodedJson;
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
+
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        return _response;
     }
 
     /// test json serialization of form data
@@ -862,45 +967,49 @@ class FakeApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/fake/jsonFormData';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/fake/jsonFormData',
+          method: 'GET',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/x-www-form-urlencoded',
-        ];
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
-        final formData = <String, dynamic>{
+        dynamic _bodyData;
+
+        try {
+          _bodyData = <String, dynamic>{
             r'param': parameterToString(_serializers, param),
             r'param2': parameterToString(_serializers, param2),
-        };
-        bodyData = formData;
+          };
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'get'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
         );
+
+        return _response;
     }
 
     /// 
@@ -919,42 +1028,50 @@ class FakeApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/fake/test-query-paramters';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams[r'pipe'] = pipe;
-        queryParams[r'ioutil'] = ioutil;
-        queryParams[r'http'] = http;
-        queryParams[r'url'] = url;
-        queryParams[r'context'] = context;
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[];
-
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'put'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
+        final _request = RequestOptions(
+          path: r'/fake/test-query-paramters',
+          method: 'PUT',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+            r'pipe': pipe,
+            r'ioutil': ioutil,
+            r'http': http,
+            r'url': url,
+            r'context': context,
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
+            'application/json',
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
         );
+
+        dynamic _bodyData;
+
+        try {
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
+
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        return _response;
     }
 
 }

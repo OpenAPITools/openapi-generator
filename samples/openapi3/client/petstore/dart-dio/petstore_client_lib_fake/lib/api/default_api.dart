@@ -31,54 +31,68 @@ class DefaultApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/foo';
+        final _request = RequestOptions(
+          path: r'/foo',
+          method: 'GET',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
+            'application/json',
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+        dynamic _bodyData;
 
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
+        try {
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
 
-        final contentTypes = <String>[];
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'get'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            final serializer = _serializers.serializerForType(InlineResponseDefault) as Serializer<InlineResponseDefault>;
-            final data = _serializers.deserializeWith<InlineResponseDefault>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
-
-            return Response<InlineResponseDefault>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
+        try {
+          const _responseType = FullType(InlineResponseDefault);
+          final InlineResponseDefault _responseData = _serializers.deserialize(
+            _response.data is String ? jsonDecode(_response.data as String) : _response.data,
+            specifiedType: _responseType,
+          ) as InlineResponseDefault;
+          return Response<InlineResponseDefault>(
+            data: _responseData,
+            headers: _response.headers,
+            isRedirect: _response.isRedirect,
+            request: _response.request,
+            redirects: _response.redirects,
+            statusCode: _response.statusCode,
+            statusMessage: _response.statusMessage,
+            extra: _response.extra,
+          );
+        } catch (error) {
+          throw DioError(
+            request: _request,
+            response: _response,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
     }
 
 }

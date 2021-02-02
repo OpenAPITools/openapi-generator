@@ -33,44 +33,49 @@ class UserApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/user';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/user',
+          method: 'POST',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/json',
-        ];
-
-        final bodySerializer = _serializers.serializerForType(User) as Serializer<User>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, user);
-        final jsonuser = json.encode(serializedBody);
-        bodyData = jsonuser;
-
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'post'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
         );
+
+        dynamic _bodyData;
+
+        try {
+          final _bodyType = FullType(User);
+          final _serializedBody = _serializers.serialize(user, specifiedType: _bodyType);
+          final _encodedJson = json.encode(_serializedBody);
+          _bodyData = _encodedJson;
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
+
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        return _response;
     }
 
     /// Creates list of users with given input array
@@ -85,44 +90,49 @@ class UserApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/user/createWithArray';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/user/createWithArray',
+          method: 'POST',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/json',
-        ];
-
-        const type = FullType(BuiltList, [FullType(User)]);
-        final serializedBody = _serializers.serialize(user, specifiedType: type);
-        final jsonuser = json.encode(serializedBody);
-        bodyData = jsonuser;
-
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'post'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
         );
+
+        dynamic _bodyData;
+
+        try {
+          const _bodyType = FullType(BuiltList, [FullType(User)]);
+          final _serializedBody = _serializers.serialize(user, specifiedType: _bodyType);
+          final _encodedJson = json.encode(_serializedBody);
+          _bodyData = _encodedJson;
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
+
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        return _response;
     }
 
     /// Creates list of users with given input array
@@ -137,44 +147,49 @@ class UserApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/user/createWithList';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/user/createWithList',
+          method: 'POST',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/json',
-        ];
-
-        const type = FullType(BuiltList, [FullType(User)]);
-        final serializedBody = _serializers.serialize(user, specifiedType: type);
-        final jsonuser = json.encode(serializedBody);
-        bodyData = jsonuser;
-
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'post'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
         );
+
+        dynamic _bodyData;
+
+        try {
+          const _bodyType = FullType(BuiltList, [FullType(User)]);
+          final _serializedBody = _serializers.serialize(user, specifiedType: _bodyType);
+          final _encodedJson = json.encode(_serializedBody);
+          _bodyData = _encodedJson;
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
+
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        return _response;
     }
 
     /// Delete user
@@ -189,37 +204,45 @@ class UserApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/user/{username}'.replaceAll('{' r'username' '}', username.toString());
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[];
-
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'delete'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
+        final _request = RequestOptions(
+          path: r'/user/{username}'.replaceAll('{' r'username' '}', username.toString()),
+          method: 'DELETE',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
+            'application/json',
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
         );
+
+        dynamic _bodyData;
+
+        try {
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
+
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        return _response;
     }
 
     /// Get user by user name
@@ -234,54 +257,68 @@ class UserApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/user/{username}'.replaceAll('{' r'username' '}', username.toString());
+        final _request = RequestOptions(
+          path: r'/user/{username}'.replaceAll('{' r'username' '}', username.toString()),
+          method: 'GET',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
+            'application/json',
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+        dynamic _bodyData;
 
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
+        try {
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
 
-        final contentTypes = <String>[];
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'get'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            final serializer = _serializers.serializerForType(User) as Serializer<User>;
-            final data = _serializers.deserializeWith<User>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
-
-            return Response<User>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
+        try {
+          const _responseType = FullType(User);
+          final User _responseData = _serializers.deserialize(
+            _response.data is String ? jsonDecode(_response.data as String) : _response.data,
+            specifiedType: _responseType,
+          ) as User;
+          return Response<User>(
+            data: _responseData,
+            headers: _response.headers,
+            isRedirect: _response.isRedirect,
+            request: _response.request,
+            redirects: _response.redirects,
+            statusCode: _response.statusCode,
+            statusMessage: _response.statusMessage,
+            extra: _response.extra,
+          );
+        } catch (error) {
+          throw DioError(
+            request: _request,
+            response: _response,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
     }
 
     /// Logs user into the system
@@ -297,52 +334,66 @@ class UserApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/user/login';
+        final _request = RequestOptions(
+          path: r'/user/login',
+          method: 'GET',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+            r'username': username,
+            r'password': password,
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
+            'application/json',
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+        dynamic _bodyData;
 
-        queryParams[r'username'] = username;
-        queryParams[r'password'] = password;
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
+        try {
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
 
-        final contentTypes = <String>[];
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'get'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            final data = response.data as String;
-
-            return Response<String>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
+        try {
+          final String _responseData = _response.data as String;
+          return Response<String>(
+            data: _responseData,
+            headers: _response.headers,
+            isRedirect: _response.isRedirect,
+            request: _response.request,
+            redirects: _response.redirects,
+            statusCode: _response.statusCode,
+            statusMessage: _response.statusMessage,
+            extra: _response.extra,
+          );
+        } catch (error) {
+          throw DioError(
+            request: _request,
+            response: _response,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
     }
 
     /// Logs out current logged in user session
@@ -356,37 +407,45 @@ class UserApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/user/logout';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[];
-
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'get'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
+        final _request = RequestOptions(
+          path: r'/user/logout',
+          method: 'GET',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
+            'application/json',
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
         );
+
+        dynamic _bodyData;
+
+        try {
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
+
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        return _response;
     }
 
     /// Updated user
@@ -402,44 +461,49 @@ class UserApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/user/{username}'.replaceAll('{' r'username' '}', username.toString());
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/user/{username}'.replaceAll('{' r'username' '}', username.toString()),
+          method: 'PUT',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/json',
-        ];
-
-        final bodySerializer = _serializers.serializerForType(User) as Serializer<User>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, user);
-        final jsonuser = json.encode(serializedBody);
-        bodyData = jsonuser;
-
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'put'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
         );
+
+        dynamic _bodyData;
+
+        try {
+          final _bodyType = FullType(User);
+          final _serializedBody = _serializers.serialize(user, specifiedType: _bodyType);
+          final _encodedJson = json.encode(_serializedBody);
+          _bodyData = _encodedJson;
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
+
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        return _response;
     }
 
 }

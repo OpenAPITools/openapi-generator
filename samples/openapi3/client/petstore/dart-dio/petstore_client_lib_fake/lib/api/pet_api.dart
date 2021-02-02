@@ -36,50 +36,55 @@ class PetApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/pet';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/pet',
+          method: 'POST',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[
+               {
+                'type': 'oauth2',
+                'name': 'petstore_auth',
+              },
+            ],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/json',
             'application/xml',
-        ];
-
-        final bodySerializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, pet);
-        final jsonpet = json.encode(serializedBody);
-        bodyData = jsonpet;
-
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'post'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'oauth2',
-                            'name': 'petstore_auth',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
         );
+
+        dynamic _bodyData;
+
+        try {
+          final _bodyType = FullType(Pet);
+          final _serializedBody = _serializers.serialize(pet, specifiedType: _bodyType);
+          final _encodedJson = json.encode(_serializedBody);
+          _bodyData = _encodedJson;
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
+
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        return _response;
     }
 
     /// Deletes a pet
@@ -95,43 +100,51 @@ class PetApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        headerParams[r'api_key'] = apiKey;
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[];
-
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'delete'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'oauth2',
-                            'name': 'petstore_auth',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
+        final _request = RequestOptions(
+          path: r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString()),
+          method: 'DELETE',
+          headers: <String, dynamic>{
+            r'api_key': apiKey,
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[
+               {
+                'type': 'oauth2',
+                'name': 'petstore_auth',
+              },
+            ],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
+            'application/json',
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
         );
+
+        dynamic _bodyData;
+
+        try {
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
+
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        return _response;
     }
 
     /// Finds Pets by status
@@ -146,62 +159,74 @@ class PetApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/pet/findByStatus';
+        final _request = RequestOptions(
+          path: r'/pet/findByStatus',
+          method: 'GET',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+            r'status': status,
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[
+               {
+                'type': 'oauth2',
+                'name': 'petstore_auth',
+              },
+            ],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
+            'application/json',
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+        dynamic _bodyData;
 
-        queryParams[r'status'] = status;
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
+        try {
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
 
-        final contentTypes = <String>[];
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'get'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'oauth2',
-                            'name': 'petstore_auth',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            const type = FullType(BuiltList, [FullType(Pet)]);
-            final data = _serializers.deserialize(
-                response.data is String
-                ? jsonDecode(response.data as String)
-                : response.data,
-                specifiedType: type,
-            ) as BuiltList<Pet>;
-
-            return Response<BuiltList<Pet>>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
+        try {
+          const _responseType = FullType(BuiltList, [FullType(Pet)]);
+          final BuiltList<Pet> _responseData = _serializers.deserialize(
+            _response.data is String ? jsonDecode(_response.data as String) : _response.data,
+            specifiedType: _responseType,
+          ) as BuiltList<Pet>;
+          return Response<BuiltList<Pet>>(
+            data: _responseData,
+            headers: _response.headers,
+            isRedirect: _response.isRedirect,
+            request: _response.request,
+            redirects: _response.redirects,
+            statusCode: _response.statusCode,
+            statusMessage: _response.statusMessage,
+            extra: _response.extra,
+          );
+        } catch (error) {
+          throw DioError(
+            request: _request,
+            response: _response,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
     }
 
     /// Finds Pets by tags
@@ -216,62 +241,74 @@ class PetApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/pet/findByTags';
+        final _request = RequestOptions(
+          path: r'/pet/findByTags',
+          method: 'GET',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+            r'tags': tags,
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[
+               {
+                'type': 'oauth2',
+                'name': 'petstore_auth',
+              },
+            ],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
+            'application/json',
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+        dynamic _bodyData;
 
-        queryParams[r'tags'] = tags;
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
+        try {
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
 
-        final contentTypes = <String>[];
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'get'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'oauth2',
-                            'name': 'petstore_auth',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            const type = FullType(BuiltSet, [FullType(Pet)]);
-            final data = _serializers.deserialize(
-                response.data is String
-                ? jsonDecode(response.data as String)
-                : response.data,
-                specifiedType: type,
-            ) as BuiltSet<Pet>;
-
-            return Response<BuiltSet<Pet>>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
+        try {
+          const _responseType = FullType(BuiltSet, [FullType(Pet)]);
+          final BuiltSet<Pet> _responseData = _serializers.deserialize(
+            _response.data is String ? jsonDecode(_response.data as String) : _response.data,
+            specifiedType: _responseType,
+          ) as BuiltSet<Pet>;
+          return Response<BuiltSet<Pet>>(
+            data: _responseData,
+            headers: _response.headers,
+            isRedirect: _response.isRedirect,
+            request: _response.request,
+            redirects: _response.redirects,
+            statusCode: _response.statusCode,
+            statusMessage: _response.statusMessage,
+            extra: _response.extra,
+          );
+        } catch (error) {
+          throw DioError(
+            request: _request,
+            response: _response,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
     }
 
     /// Find pet by ID
@@ -286,61 +323,75 @@ class PetApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
+        final _request = RequestOptions(
+          path: r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString()),
+          method: 'GET',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[
+               {
+                'type': 'apiKey',
+                'name': 'api_key',
+                'keyName': 'api_key',
+                'where': 'header',
+              },
+            ],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
+            'application/json',
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+        dynamic _bodyData;
 
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
+        try {
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
 
-        final contentTypes = <String>[];
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'get'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'apiKey',
-                            'name': 'api_key',
-                            'keyName': 'api_key',
-                            'where': 'header',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            final serializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
-            final data = _serializers.deserializeWith<Pet>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
-
-            return Response<Pet>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
+        try {
+          const _responseType = FullType(Pet);
+          final Pet _responseData = _serializers.deserialize(
+            _response.data is String ? jsonDecode(_response.data as String) : _response.data,
+            specifiedType: _responseType,
+          ) as Pet;
+          return Response<Pet>(
+            data: _responseData,
+            headers: _response.headers,
+            isRedirect: _response.isRedirect,
+            request: _response.request,
+            redirects: _response.redirects,
+            statusCode: _response.statusCode,
+            statusMessage: _response.statusMessage,
+            extra: _response.extra,
+          );
+        } catch (error) {
+          throw DioError(
+            request: _request,
+            response: _response,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
     }
 
     /// Update an existing pet
@@ -355,50 +406,55 @@ class PetApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/pet';
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/pet',
+          method: 'PUT',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[
+               {
+                'type': 'oauth2',
+                'name': 'petstore_auth',
+              },
+            ],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/json',
             'application/xml',
-        ];
-
-        final bodySerializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, pet);
-        final jsonpet = json.encode(serializedBody);
-        bodyData = jsonpet;
-
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'put'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'oauth2',
-                            'name': 'petstore_auth',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
         );
+
+        dynamic _bodyData;
+
+        try {
+          final _bodyType = FullType(Pet);
+          final _serializedBody = _serializers.serialize(pet, specifiedType: _bodyType);
+          final _encodedJson = json.encode(_serializedBody);
+          _bodyData = _encodedJson;
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
+
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
+
+        return _response;
     }
 
     /// Updates a pet in the store with form data
@@ -415,50 +471,54 @@ class PetApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString()),
+          method: 'POST',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[
+               {
+                'type': 'oauth2',
+                'name': 'petstore_auth',
+              },
+            ],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'application/x-www-form-urlencoded',
-        ];
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
-        final formData = <String, dynamic>{
+        dynamic _bodyData;
+
+        try {
+          _bodyData = <String, dynamic>{
             if (name != null) r'name': parameterToString(_serializers, name),
             if (status != null) r'status': parameterToString(_serializers, status),
-        };
-        bodyData = formData;
+          };
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'post'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'oauth2',
-                            'name': 'petstore_auth',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
         );
+
+        return _response;
     }
 
     /// uploads an image
@@ -475,67 +535,77 @@ class PetApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', petId.toString());
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', petId.toString()),
+          method: 'POST',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[
+               {
+                'type': 'oauth2',
+                'name': 'petstore_auth',
+              },
+            ],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'multipart/form-data',
-        ];
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
-        final formData = <String, dynamic>{
+        dynamic _bodyData;
+
+        try {
+          _bodyData = FormData.fromMap(<String, dynamic>{
             if (additionalMetadata != null) r'additionalMetadata': parameterToString(_serializers, additionalMetadata),
             if (file != null) r'file': MultipartFile.fromBytes(file, filename: r'file'),
-        };
-        bodyData = FormData.fromMap(formData);
+          });
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'post'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'oauth2',
-                            'name': 'petstore_auth',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            final serializer = _serializers.serializerForType(ApiResponse) as Serializer<ApiResponse>;
-            final data = _serializers.deserializeWith<ApiResponse>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
 
-            return Response<ApiResponse>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
+        try {
+          const _responseType = FullType(ApiResponse);
+          final ApiResponse _responseData = _serializers.deserialize(
+            _response.data is String ? jsonDecode(_response.data as String) : _response.data,
+            specifiedType: _responseType,
+          ) as ApiResponse;
+          return Response<ApiResponse>(
+            data: _responseData,
+            headers: _response.headers,
+            isRedirect: _response.isRedirect,
+            request: _response.request,
+            redirects: _response.redirects,
+            statusCode: _response.statusCode,
+            statusMessage: _response.statusMessage,
+            extra: _response.extra,
+          );
+        } catch (error) {
+          throw DioError(
+            request: _request,
+            response: _response,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
     }
 
     /// uploads an image (required)
@@ -552,67 +622,77 @@ class PetApi {
         ProgressCallback onSendProgress,
         ProgressCallback onReceiveProgress,
     }) async {
-        final String _path = '/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{' r'petId' '}', petId.toString());
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
+        final _request = RequestOptions(
+          path: r'/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{' r'petId' '}', petId.toString()),
+          method: 'POST',
+          headers: <String, dynamic>{
+            ...?headers,
+          }..removeWhere((_, dynamic value) => value == null),
+          queryParameters: <String, dynamic>{
+          }..removeWhere((_, dynamic value) => value == null),
+          extra: <String, dynamic>{
+            'secure': <Map<String, String>>[
+               {
+                'type': 'oauth2',
+                'name': 'petstore_auth',
+              },
+            ],
+            ...?extra,
+          },
+          validateStatus: validateStatus,
+          contentType: [
             'multipart/form-data',
-        ];
+          ].first,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
-        final formData = <String, dynamic>{
+        dynamic _bodyData;
+
+        try {
+          _bodyData = FormData.fromMap(<String, dynamic>{
             if (additionalMetadata != null) r'additionalMetadata': parameterToString(_serializers, additionalMetadata),
             r'requiredFile': MultipartFile.fromBytes(requiredFile, filename: r'requiredFile'),
-        };
-        bodyData = FormData.fromMap(formData);
+          });
+        } catch(error) {
+          throw DioError(
+            request: _request,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'post'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'oauth2',
-                            'name': 'petstore_auth',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            final serializer = _serializers.serializerForType(ApiResponse) as Serializer<ApiResponse>;
-            final data = _serializers.deserializeWith<ApiResponse>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+        final _response = await _dio.request<dynamic>(
+          _request.path,
+          data: _bodyData,
+          options: _request,
+        );
 
-            return Response<ApiResponse>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
+        try {
+          const _responseType = FullType(ApiResponse);
+          final ApiResponse _responseData = _serializers.deserialize(
+            _response.data is String ? jsonDecode(_response.data as String) : _response.data,
+            specifiedType: _responseType,
+          ) as ApiResponse;
+          return Response<ApiResponse>(
+            data: _responseData,
+            headers: _response.headers,
+            isRedirect: _response.isRedirect,
+            request: _response.request,
+            redirects: _response.redirects,
+            statusCode: _response.statusCode,
+            statusMessage: _response.statusMessage,
+            extra: _response.extra,
+          );
+        } catch (error) {
+          throw DioError(
+            request: _request,
+            response: _response,
+            type: DioErrorType.DEFAULT,
+            error: error,
+          );
+        }
     }
 
 }
