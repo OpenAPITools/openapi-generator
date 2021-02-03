@@ -1209,7 +1209,6 @@
                 <module>samples/client/petstore/python-tornado</module>
                 <module>samples/openapi3/client/petstore/python</module>
                 <module>samples/openapi3/client/petstore/python-legacy</module>
-                <module>samples/client/petstore/typescript-axios/tests/default</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/default</module>
                 <module>samples/openapi3/client/petstore/typescript/tests/default</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/jquery</module>
@@ -1346,6 +1345,7 @@
                 <module>samples/client/petstore/java/microprofile-rest-client</module>
                 <module>samples/client/petstore/groovy</module>
                 <!-- test non-java projects -->
+                <module>samples/client/petstore/typescript-axios/tests/default</module>
                 <module>samples/client/petstore/go</module>
                 <module>samples/openapi3/client/petstore/go</module>
                 <module>samples/client/petstore/javascript-es6</module>
