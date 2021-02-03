@@ -106,7 +106,7 @@ deletePet (PetId petId) =
 data DeletePet  
 instance HasOptionalParam DeletePet ApiKey where
   applyOptionalParam req (ApiKey xs) =
-    req `setHeader` toHeader ("api_key", xs)
+    req `addHeader` toHeader ("api_key", xs)
 instance Produces DeletePet MimeNoContent
 
 
@@ -127,7 +127,7 @@ findPetsByStatus
 findPetsByStatus  _ (Status status) =
   _mkRequest "GET" ["/pet/findByStatus"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
-    `setQuery` toQueryColl CommaSeparated ("status", Just status)
+    `addQuery` toQueryColl CommaSeparated ("status", Just status)
 
 data FindPetsByStatus  
 -- | @application/xml@
@@ -153,7 +153,7 @@ findPetsByTags
 findPetsByTags  _ (Tags tags) =
   _mkRequest "GET" ["/pet/findByTags"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
-    `setQuery` toQueryColl CommaSeparated ("tags", Just tags)
+    `addQuery` toQueryColl CommaSeparated ("tags", Just tags)
 
 {-# DEPRECATED findPetsByTags "" #-}
 

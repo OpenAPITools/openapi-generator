@@ -3,11 +3,15 @@ title: Config Options for clojure
 sidebar_label: clojure
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |baseNamespace|the base/top namespace (Default: generated from projectName)| |null|
+|disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
+|legacyDiscriminatorBehavior|Set to true for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |projectDescription|description of the project (Default: using info.description or &quot;Client library of &lt;projectName&gt;&quot;)| |null|
 |projectLicenseName|name of the license the project uses (Default: using info.license.name or not included in project.clj)| |null|
@@ -22,22 +26,6 @@ sidebar_label: clojure
 
 | Type/Alias | Imports |
 | ---------- | ------- |
-|Array|java.util.List|
-|ArrayList|java.util.ArrayList|
-|BigDecimal|java.math.BigDecimal|
-|Date|java.util.Date|
-|DateTime|org.joda.time.*|
-|File|java.io.File|
-|HashMap|java.util.HashMap|
-|List|java.util.*|
-|LocalDate|org.joda.time.*|
-|LocalDateTime|org.joda.time.*|
-|LocalTime|org.joda.time.*|
-|Map|java.util.Map|
-|Set|java.util.*|
-|Timestamp|java.sql.Timestamp|
-|URI|java.net.URI|
-|UUID|java.util.UUID|
 
 
 ## INSTANTIATION TYPES
@@ -65,6 +53,7 @@ sidebar_label: clojure
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

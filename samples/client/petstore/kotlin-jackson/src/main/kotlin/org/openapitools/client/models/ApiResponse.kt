@@ -13,6 +13,7 @@ package org.openapitools.client.models
 
 
 import com.fasterxml.jackson.annotation.JsonProperty
+
 /**
  * Describes the result of uploading an image resource
  * @param code 
@@ -21,11 +22,11 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 
 data class ApiResponse (
-    @JsonProperty("code")
+    @field:JsonProperty("code")
     val code: kotlin.Int? = null,
-    @JsonProperty("type")
+    @field:JsonProperty("type")
     val type: kotlin.String? = null,
-    @JsonProperty("message")
+    @field:JsonProperty("message")
     val message: kotlin.String? = null
 )
 

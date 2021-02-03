@@ -1,15 +1,15 @@
 {{>licenseInfo}}
-import { Headers } from "../Headers";
+import { Headers } from '../Headers';
 {{^useRxJS6}}
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 {{/useRxJS6}}
 {{#useRxJS6}}
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 {{/useRxJS6}}
 {{#imports}}
-import { {{classname}} } from "../{{filename}}";
+import { {{classname}} } from '../{{filename}}';
 {{/imports}}
-import HttpResponse from "../HttpResponse";
+import HttpResponse from '../HttpResponse';
 
 {{#operations}}
 

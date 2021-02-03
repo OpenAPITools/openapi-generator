@@ -72,6 +72,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         super();
 
         supportsInheritance = true;
+        useTags = true;
 
         artifactId = "openapi-cxf-server";
 
@@ -79,6 +80,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         // clioOptions default redifinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(USE_TAGS, String.valueOf(true));
 
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
 
@@ -183,41 +185,49 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
-        writeOptional(outputFolder, new SupportingFile("server/pom.mustache", "", "pom.xml"));
+        supportingFiles.add(new SupportingFile("server/pom.mustache", "", "pom.xml")
+            .doNotOverwrite());
 
-        writeOptional(outputFolder,
-                new SupportingFile("server/openapi-generator-ignore.mustache", "", ".openapi-generator-ignore"));
+        supportingFiles.add(new SupportingFile("server/openapi-generator-ignore.mustache", "", ".openapi-generator-ignore")
+            .doNotOverwrite());
 
         if (this.generateSpringApplication) {
-            writeOptional(outputFolder, new SupportingFile("server/readme.md", "", "readme.md"));
-
-            writeOptional(outputFolder, new SupportingFile("server/ApplicationContext.xml.mustache",
-                    ("src/main/resources"), "ApplicationContext.xml"));
-            writeOptional(outputFolder, new SupportingFile("server/web.mustache",
-                    ("src/main/webapp/WEB-INF"), "web.xml"));
-            writeOptional(outputFolder, new SupportingFile("server/context.xml.mustache",
-                    ("src/main/webapp/WEB-INF"), "context.xml"));
+            supportingFiles.add(new SupportingFile("server/readme.md", "", "readme.md")
+                .doNotOverwrite());
+            supportingFiles.add(new SupportingFile("server/ApplicationContext.xml.mustache",
+                    ("src/main/resources"), "ApplicationContext.xml")
+                .doNotOverwrite());
+            supportingFiles.add(new SupportingFile("server/web.mustache",
+                    ("src/main/webapp/WEB-INF"), "web.xml")
+                .doNotOverwrite());
+            supportingFiles.add(new SupportingFile("server/context.xml.mustache",
+                    ("src/main/webapp/WEB-INF"), "context.xml")
+                .doNotOverwrite());
 
             // Jboss
             if (generateJbossDeploymentDescriptor) {
-                writeOptional(outputFolder, new SupportingFile("server/jboss-web.xml.mustache",
-                        ("src/main/webapp/WEB-INF"), "jboss-web.xml"));
+                supportingFiles.add(new SupportingFile("server/jboss-web.xml.mustache",
+                        ("src/main/webapp/WEB-INF"), "jboss-web.xml")
+                    .doNotOverwrite());
 
             }
 
             // Spring Boot
             if (this.generateSpringBootApplication) {
-                writeOptional(outputFolder, new SupportingFile("server/SpringBootApplication.mustache",
-                        (testFolder + '/' + apiPackage).replace(".", "/"), "SpringBootApplication.java"));
-                writeOptional(outputFolder, new SupportingFile("server/application.properties.mustache",
-                        (testResourcesFolder + '/'), "application.properties"));
+                supportingFiles.add(new SupportingFile("server/SpringBootApplication.mustache",
+                        (testFolder + '/' + apiPackage).replace(".", "/"), "SpringBootApplication.java")
+                    .doNotOverwrite());
+                supportingFiles.add(new SupportingFile("server/application.properties.mustache",
+                        (testResourcesFolder + '/'), "application.properties")
+                    .doNotOverwrite());
 
             }
         }
 
         if (this.generateNonSpringApplication) {
-            writeOptional(outputFolder, new SupportingFile("server/nonspring-web.mustache",
-                    ("src/main/webapp/WEB-INF"), "web.xml"));
+            supportingFiles.add(new SupportingFile("server/nonspring-web.mustache",
+                    ("src/main/webapp/WEB-INF"), "web.xml")
+                .doNotOverwrite());
         }
     }
 
@@ -227,18 +237,20 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
     }
 
     @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        super.addOperationToGroup(tag, resourcePath, operation, co, operations);
-        co.subresourceOperation = !co.path.isEmpty();
-    }
-
-    @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
         model.imports.remove("ApiModelProperty");
         model.imports.remove("ApiModel");
         model.imports.remove("JsonSerialize");
         model.imports.remove("ToStringSerializer");
+
+        //Add imports for Jackson when model has inner enum
+        if (additionalProperties.containsKey("jackson")) {
+            if (Boolean.FALSE.equals(model.isEnum) && Boolean.TRUE.equals(model.hasEnums)) {
+                model.imports.add("JsonCreator");
+                model.imports.add("JsonValue");
+            }
+        }
     }
 
     @Override

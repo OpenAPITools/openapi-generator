@@ -25,26 +25,26 @@ import kotlinx.serialization.*
 import kotlinx.serialization.internal.StringDescriptor
 
 class AnotherFakeApi @UseExperimental(UnstableDefault::class) constructor(
-        baseUrl: kotlin.String = "http://petstore.swagger.io:80/v2",
-        httpClientEngine: HttpClientEngine? = null,
-        serializer: KotlinxSerializer)
-    : ApiClient(baseUrl, httpClientEngine, serializer) {
+    baseUrl: kotlin.String = "http://petstore.swagger.io:80/v2",
+    httpClientEngine: HttpClientEngine? = null,
+    serializer: KotlinxSerializer
+) : ApiClient(baseUrl, httpClientEngine, serializer) {
 
     @UseExperimental(UnstableDefault::class)
     constructor(
         baseUrl: kotlin.String = "http://petstore.swagger.io:80/v2",
         httpClientEngine: HttpClientEngine? = null,
-        jsonConfiguration: JsonConfiguration = JsonConfiguration.Default)
-    : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
+        jsonConfiguration: JsonConfiguration = JsonConfiguration.Default
+    ) : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
 
     /**
-    * To test special tags
-    * To test special tags and operation ID starting with number
-    * @param client client model 
-    * @return Client
-    */
+     * To test special tags
+     * To test special tags and operation ID starting with number
+     * @param client client model 
+     * @return Client
+     */
     @Suppress("UNCHECKED_CAST")
-    suspend fun call123testSpecialTags(client: Client) : HttpResponse<Client> {
+    suspend fun call123testSpecialTags(client: Client): HttpResponse<Client> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -68,7 +68,7 @@ class AnotherFakeApi @UseExperimental(UnstableDefault::class) constructor(
         ).wrap()
     }
 
-    
+
 
 
     companion object {

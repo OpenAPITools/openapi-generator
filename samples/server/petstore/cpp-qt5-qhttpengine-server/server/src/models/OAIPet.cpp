@@ -118,12 +118,28 @@ void OAIPet::setId(const qint64 &id) {
     this->m_id_isSet = true;
 }
 
+bool OAIPet::is_id_Set() const{
+    return m_id_isSet;
+}
+
+bool OAIPet::is_id_Valid() const{
+    return m_id_isValid;
+}
+
 OAICategory OAIPet::getCategory() const {
     return category;
 }
 void OAIPet::setCategory(const OAICategory &category) {
     this->category = category;
     this->m_category_isSet = true;
+}
+
+bool OAIPet::is_category_Set() const{
+    return m_category_isSet;
+}
+
+bool OAIPet::is_category_Valid() const{
+    return m_category_isValid;
 }
 
 QString OAIPet::getName() const {
@@ -134,12 +150,28 @@ void OAIPet::setName(const QString &name) {
     this->m_name_isSet = true;
 }
 
+bool OAIPet::is_name_Set() const{
+    return m_name_isSet;
+}
+
+bool OAIPet::is_name_Valid() const{
+    return m_name_isValid;
+}
+
 QList<QString> OAIPet::getPhotoUrls() const {
     return photo_urls;
 }
 void OAIPet::setPhotoUrls(const QList<QString> &photo_urls) {
     this->photo_urls = photo_urls;
     this->m_photo_urls_isSet = true;
+}
+
+bool OAIPet::is_photo_urls_Set() const{
+    return m_photo_urls_isSet;
+}
+
+bool OAIPet::is_photo_urls_Valid() const{
+    return m_photo_urls_isValid;
 }
 
 QList<OAITag> OAIPet::getTags() const {
@@ -150,12 +182,28 @@ void OAIPet::setTags(const QList<OAITag> &tags) {
     this->m_tags_isSet = true;
 }
 
+bool OAIPet::is_tags_Set() const{
+    return m_tags_isSet;
+}
+
+bool OAIPet::is_tags_Valid() const{
+    return m_tags_isValid;
+}
+
 QString OAIPet::getStatus() const {
     return status;
 }
 void OAIPet::setStatus(const QString &status) {
     this->status = status;
     this->m_status_isSet = true;
+}
+
+bool OAIPet::is_status_Set() const{
+    return m_status_isSet;
+}
+
+bool OAIPet::is_status_Valid() const{
+    return m_status_isValid;
 }
 
 bool OAIPet::isSet() const {

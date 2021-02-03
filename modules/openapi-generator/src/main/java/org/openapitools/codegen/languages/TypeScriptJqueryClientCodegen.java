@@ -112,7 +112,7 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getSchemaType(ModelUtils.getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getSchemaType(getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 

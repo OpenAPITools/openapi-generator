@@ -5,6 +5,6 @@ Module : {{baseModule}}.API
 
 module {{baseModule}}.API
   ( {{#apiInfo}}{{#apis}}module {{baseModule}}.API.{{classname}}
-  {{#hasMore}}, {{/hasMore}}{{/apis}}{{/apiInfo}}) where
+  {{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}) where
 {{#apiInfo}}{{#apis}}
 import {{baseModule}}.API.{{classname}}{{/apis}}{{/apiInfo}}

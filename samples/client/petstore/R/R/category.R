@@ -8,12 +8,14 @@
 
 #' @docType class
 #' @title Category
+#'
 #' @description Category Class
+#'
 #' @format An \code{R6Class} generator object
+#'
 #' @field id  integer [optional]
 #'
 #' @field name  character [optional]
-#'
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -23,7 +25,9 @@ Category <- R6::R6Class(
   public = list(
     `id` = NULL,
     `name` = NULL,
-    initialize = function(`id`=NULL, `name`=NULL, ...){
+    initialize = function(
+        `id`=NULL, `name`=NULL, ...
+    ) {
       local.optional.var <- list(...)
       if (!is.null(`id`)) {
         stopifnot(is.numeric(`id`), length(`id`) == 1)
@@ -55,6 +59,7 @@ Category <- R6::R6Class(
       if (!is.null(CategoryObject$`name`)) {
         self$`name` <- CategoryObject$`name`
       }
+      self
     },
     toJSONString = function() {
       jsoncontent <- c(
@@ -84,3 +89,4 @@ Category <- R6::R6Class(
     }
   )
 )
+

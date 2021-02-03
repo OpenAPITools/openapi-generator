@@ -1,5 +1,5 @@
 {{>licenseInfo}}
-package {{{mainPackage}}}.core
+package {{invokerPackage}}
 
 import java.util.concurrent.TimeUnit
 
@@ -14,7 +14,7 @@ import scala.concurrent.duration.FiniteDuration
 class ApiSettings(config: Config) extends Extension {
   def this(system: ExtendedActorSystem) = this(system.settings.config)
 
-  private def cfg = config.getConfig("{{{mainPackage}}}.apiRequest")
+  private def cfg = config.getConfig("{{configKeyPath}}.{{configKey}}")
 
   val alwaysTrustCertificates: Boolean = cfg.getBoolean("trust-certificates")
   val defaultHeaders: List[RawHeader] = cfg.getConfig("default-headers").entrySet.asScala.toList.map(c => RawHeader(c.getKey, c.getValue.render))

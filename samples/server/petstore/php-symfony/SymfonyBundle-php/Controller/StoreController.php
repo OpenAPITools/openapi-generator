@@ -2,7 +2,7 @@
 
 /**
  * StoreController
- * PHP version 5
+ * PHP version 7.1.3
  *
  * @category Class
  * @package  OpenAPI\Server\Controller
@@ -162,7 +162,7 @@ class StoreController extends Controller
             $result = $handler->getInventory($responseCode, $responseHeaders);
 
             // Find default response message
-            $message = 'successful operation';
+            $message = '';
 
             // Find a more specific message, if available
             switch ($responseCode) {
@@ -241,7 +241,7 @@ class StoreController extends Controller
             $result = $handler->getOrderById($orderId, $responseCode, $responseHeaders);
 
             // Find default response message
-            $message = 'successful operation';
+            $message = '';
 
             // Find a more specific message, if available
             switch ($responseCode) {
@@ -284,8 +284,7 @@ class StoreController extends Controller
     {
         // Make sure that the client is providing something that we can consume
         $consumes = [];
-        $inputFormat = $request->headers->has('Content-Type')?$request->headers->get('Content-Type'):$consumes[0];
-        if (!in_array($inputFormat, $consumes)) {
+        if (!static::isContentTypeAllowed($request, $consumes)) {
             // We can't consume the content that the client is sending us
             return new Response('', 415);
         }
@@ -308,6 +307,7 @@ class StoreController extends Controller
 
         // Deserialize the input values that needs it
         try {
+            $inputFormat = $request->getMimeType($request->getContentType());
             $body = $this->deserialize($body, 'OpenAPI\Server\Model\Order', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
@@ -334,7 +334,7 @@ class StoreController extends Controller
             $result = $handler->placeOrder($body, $responseCode, $responseHeaders);
 
             // Find default response message
-            $message = 'successful operation';
+            $message = '';
 
             // Find a more specific message, if available
             switch ($responseCode) {

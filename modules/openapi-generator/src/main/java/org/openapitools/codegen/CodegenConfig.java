@@ -174,11 +174,15 @@ public interface CodegenConfig {
 
     String toModelImport(String name);
 
+    Map<String,String> toModelImportMap(String name);
+
     String toApiImport(String name);
 
     void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations);
 
     Map<String, Object> updateAllModels(Map<String, Object> objs);
+
+    void postProcess();
 
     Map<String, Object> postProcessAllModels(Map<String, Object> objs);
 
@@ -191,6 +195,8 @@ public interface CodegenConfig {
     void postProcessModelProperty(CodegenModel model, CodegenProperty property);
 
     void postProcessParameter(CodegenParameter parameter);
+
+    String modelFilename(String templateName, String modelName);
 
     String apiFilename(String templateName, String tag);
 
@@ -247,8 +253,6 @@ public interface CodegenConfig {
 
     String getDocExtension();
 
-    String getCommonTemplateDir();
-
     void setIgnoreFilePathOverride(String ignoreFileOverride);
 
     String getIgnoreFilePathOverride();
@@ -290,4 +294,6 @@ public interface CodegenConfig {
     boolean isRemoveEnumValuePrefix();
 
     void setRemoveEnumValuePrefix(boolean removeEnumValuePrefix);
+
+    Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings);
 }

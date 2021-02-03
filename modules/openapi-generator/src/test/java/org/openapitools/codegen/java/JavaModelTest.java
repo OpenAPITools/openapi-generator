@@ -73,7 +73,6 @@ public class JavaModelTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, null);
         Assert.assertEquals(property1.baseType, "Long");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertFalse(property1.isContainer);
 
@@ -88,7 +87,6 @@ public class JavaModelTest {
         Assert.assertEquals(property2.defaultValue, null);
         Assert.assertEquals(property2.baseType, "String");
         Assert.assertEquals(property2.example, "Tony");
-        Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
         Assert.assertFalse(property2.isContainer);
 
@@ -102,7 +100,6 @@ public class JavaModelTest {
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, null);
         Assert.assertEquals(property3.baseType, "Date");
-        Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
     }
@@ -110,11 +107,11 @@ public class JavaModelTest {
     @Test(description = "convert a model with list property")
     public void listPropertyTest() {
         final Schema schema = new Schema()
-                .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("urls", new ArraySchema()
-                        .items(new StringSchema()))
-                .addRequiredItem("id");
+            .description("a sample model")
+            .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+            .addProperties("urls", new ArraySchema()
+                .items(new StringSchema()))
+            .addRequiredItem("id");
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -134,6 +131,38 @@ public class JavaModelTest {
         Assert.assertEquals(property.defaultValue, "new ArrayList<String>()");
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
+        Assert.assertFalse(property.required);
+        Assert.assertTrue(property.isContainer);
+    }
+
+    @Test(description = "convert a model with set property")
+    public void setPropertyTest() {
+        final Schema schema = new Schema()
+            .description("a sample model")
+            .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+            .addProperties("urls", new ArraySchema()
+                .items(new StringSchema())
+                .uniqueItems(true))
+            .addRequiredItem("id");
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 2);
+
+        final CodegenProperty property = cm.vars.get(1);
+        Assert.assertEquals(property.baseName, "urls");
+        Assert.assertEquals(property.getter, "getUrls");
+        Assert.assertEquals(property.setter, "setUrls");
+        Assert.assertEquals(property.dataType, "Set<String>");
+        Assert.assertEquals(property.name, "urls");
+        Assert.assertEquals(property.defaultValue, "new LinkedHashSet<String>()");
+        Assert.assertEquals(property.baseType, "Set");
+        Assert.assertEquals(property.containerType, "set");
         Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
     }
@@ -401,6 +430,27 @@ public class JavaModelTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("ApiModel", "List", "ArrayList", "Children")).size(), 4);
     }
 
+    @Test(description = "convert a set model")
+    public void setModelTest() {
+        final Schema schema = new ArraySchema()
+                .items(new Schema().name("elobjeto").$ref("#/components/schemas/Children"))
+                .uniqueItems(true)
+                .name("arraySchema")
+                .description("an array model");
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "an array model");
+        Assert.assertEquals(cm.vars.size(), 0);
+        Assert.assertEquals(cm.parent, "LinkedHashSet<Children>");
+        Assert.assertEquals(cm.imports.size(), 4);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("ApiModel", "Set", "LinkedHashSet", "Children")).size(), 4);
+    }
+
     @Test(description = "convert a map model")
     public void mapModelTest() {
         final Schema schema = new Schema()
@@ -443,7 +493,6 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "NAME");
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertFalse(property.hasMore);
         Assert.assertTrue(property.required);
         Assert.assertFalse(property.isContainer);
     }
@@ -471,7 +520,6 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "NAME1");
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertFalse(property.hasMore);
         Assert.assertTrue(property.required);
         Assert.assertFalse(property.isContainer);
     }
@@ -499,7 +547,6 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "pId");
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertFalse(property.hasMore);
         Assert.assertTrue(property.required);
         Assert.assertFalse(property.isContainer);
     }
@@ -527,7 +574,6 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "atTName");
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertFalse(property.hasMore);
         Assert.assertTrue(property.required);
         Assert.assertFalse(property.isContainer);
     }
@@ -555,7 +601,6 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "ATT_NAME");
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertFalse(property.hasMore);
         Assert.assertTrue(property.required);
         Assert.assertFalse(property.isContainer);
     }
@@ -625,7 +670,6 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "inputBinaryData");
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "byte[]");
-        Assert.assertFalse(property.hasMore);
         Assert.assertFalse(property.required);
         Assert.assertFalse(property.isContainer);
     }
@@ -652,7 +696,6 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "u");
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertFalse(property.hasMore);
         Assert.assertFalse(property.isContainer);
     }
 
@@ -673,10 +716,13 @@ public class JavaModelTest {
 
     @Test(description = "types used by inner properties should be imported")
     public void mapWithAnListOfBigDecimalTest() {
+        Schema decimal = new StringSchema();
+        decimal.setFormat("number");
+
         Schema schema1 = new Schema()
                 .description("model with Map<String, List<BigDecimal>>")
                 .addProperties("map", new MapSchema()
-                        .additionalProperties(new ArraySchema().items(new NumberSchema())));
+                        .additionalProperties(new ArraySchema().items(decimal)));
         OpenAPI openAPI1 = TestUtils.createOpenAPIWithOneSchema("sample", schema1);
         JavaClientCodegen codegen1 = new JavaClientCodegen();
         codegen1.setOpenAPI(openAPI1);
@@ -688,7 +734,7 @@ public class JavaModelTest {
                 .description("model with Map<String, Map<String, List<BigDecimal>>>")
                 .addProperties("map", new MapSchema()
                         .additionalProperties(new MapSchema()
-                                .additionalProperties(new ArraySchema().items(new NumberSchema()))));
+                                .additionalProperties(new ArraySchema().items(decimal))));
         OpenAPI openAPI2 = TestUtils.createOpenAPIWithOneSchema("sample", schema2);
         JavaClientCodegen codegen2 = new JavaClientCodegen();
         codegen2.setOpenAPI(openAPI2);
@@ -796,7 +842,6 @@ public class JavaModelTest {
         Assert.assertEquals(property2.defaultValue, null);
         Assert.assertEquals(property2.baseType, "String");
         Assert.assertEquals(property2.example, "Tony");
-        Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
         Assert.assertFalse(property2.isContainer);
         Assert.assertTrue(property2.isXmlAttribute);
@@ -811,7 +856,6 @@ public class JavaModelTest {
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, null);
         Assert.assertEquals(property3.baseType, "Date");
-        Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
         Assert.assertFalse(property3.isXmlAttribute);
@@ -1089,8 +1133,8 @@ public class JavaModelTest {
         Assert.assertEquals(cp1.name, "pets");
         Assert.assertEquals(cp1.baseType, "List");
         Assert.assertTrue(cp1.isContainer);
-        Assert.assertTrue(cp1.isListContainer);
-        Assert.assertFalse(cp1.isMapContainer);
+        Assert.assertTrue(cp1.isArray);
+        Assert.assertFalse(cp1.isMap);
         Assert.assertEquals(cp1.getter, "getPets");
         Assert.assertEquals(cp1.items.baseType, "Pet");
 
@@ -1119,8 +1163,8 @@ public class JavaModelTest {
         Assert.assertEquals(cp1.baseType, "Pet");
         Assert.assertEquals(cp1.dataType, "List<Pet>");
         Assert.assertTrue(cp1.isContainer);
-        Assert.assertTrue(cp1.isListContainer);
-        Assert.assertFalse(cp1.isMapContainer);
+        Assert.assertTrue(cp1.isArray);
+        Assert.assertFalse(cp1.isMap);
         Assert.assertEquals(cp1.items.baseType, "Pet");
         Assert.assertEquals(cp1.items.complexType, "Pet");
         Assert.assertEquals(cp1.items.dataType, "Pet");
@@ -1199,8 +1243,8 @@ public class JavaModelTest {
         Assert.assertEquals(cp1.baseType, "List");
         Assert.assertEquals(cp1.dataType, "List<List<Pet>>");
         Assert.assertTrue(cp1.isContainer);
-        Assert.assertTrue(cp1.isListContainer);
-        Assert.assertFalse(cp1.isMapContainer);
+        Assert.assertTrue(cp1.isArray);
+        Assert.assertFalse(cp1.isMap);
         Assert.assertEquals(cp1.items.baseType, "List");
         Assert.assertEquals(cp1.items.complexType, "Pet");
         Assert.assertEquals(cp1.items.dataType, "List<Pet>");
@@ -1278,8 +1322,8 @@ public class JavaModelTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec(inputSpec);
 
         final ClientOptInput opts = new ClientOptInput();
-        opts.setConfig(config);
-        opts.setOpenAPI(openAPI);
+        opts.config(config);
+        opts.openAPI(openAPI);
         new DefaultGenerator().opts(opts).generate();
 
         File orderFile = new File(output, "src/main/java/org/openapitools/client/api/DefaultApi.java");

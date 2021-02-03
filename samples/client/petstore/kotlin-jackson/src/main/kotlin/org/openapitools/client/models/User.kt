@@ -13,6 +13,7 @@ package org.openapitools.client.models
 
 
 import com.fasterxml.jackson.annotation.JsonProperty
+
 /**
  * A User who is purchasing from the pet store
  * @param id 
@@ -26,22 +27,22 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 
 data class User (
-    @JsonProperty("id")
+    @field:JsonProperty("id")
     val id: kotlin.Long? = null,
-    @JsonProperty("username")
+    @field:JsonProperty("username")
     val username: kotlin.String? = null,
-    @JsonProperty("firstName")
+    @field:JsonProperty("firstName")
     val firstName: kotlin.String? = null,
-    @JsonProperty("lastName")
+    @field:JsonProperty("lastName")
     val lastName: kotlin.String? = null,
-    @JsonProperty("email")
+    @field:JsonProperty("email")
     val email: kotlin.String? = null,
-    @JsonProperty("password")
+    @field:JsonProperty("password")
     val password: kotlin.String? = null,
-    @JsonProperty("phone")
+    @field:JsonProperty("phone")
     val phone: kotlin.String? = null,
     /* User Status */
-    @JsonProperty("userStatus")
+    @field:JsonProperty("userStatus")
     val userStatus: kotlin.Int? = null
 )
 

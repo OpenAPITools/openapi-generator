@@ -12,6 +12,7 @@ import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
+import javax.validation.Valid
 import io.swagger.annotations.ApiModelProperty
 
 /**
@@ -23,27 +24,27 @@ import io.swagger.annotations.ApiModelProperty
  * @param tags 
  * @param status pet status in the store
  */
-data class Pet (
+data class Pet(
 
-        @get:NotNull 
-        @ApiModelProperty(example = "doggie", required = true, value = "")
-        @JsonProperty("name") var name: kotlin.String,
+    @ApiModelProperty(example = "doggie", required = true, value = "")
+    @field:JsonProperty("name", required = true) var name: kotlin.String,
 
-        @get:NotNull 
-        @ApiModelProperty(example = "null", required = true, value = "")
-        @JsonProperty("photoUrls") var photoUrls: kotlin.collections.List<kotlin.String>,
+    @ApiModelProperty(example = "null", required = true, value = "")
+    @field:JsonProperty("photoUrls", required = true) var photoUrls: kotlin.collections.List<kotlin.String>,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("id") var id: kotlin.Long? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @field:JsonProperty("id") var id: kotlin.Long? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("category") var category: Category? = null,
+    @field:Valid
+    @ApiModelProperty(example = "null", value = "")
+    @field:JsonProperty("category") var category: Category? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("tags") var tags: kotlin.collections.List<Tag>? = null,
+    @field:Valid
+    @ApiModelProperty(example = "null", value = "")
+    @field:JsonProperty("tags") var tags: kotlin.collections.List<Tag>? = null,
 
-        @ApiModelProperty(example = "null", value = "pet status in the store")
-        @JsonProperty("status") var status: Pet.Status? = null
+    @ApiModelProperty(example = "null", value = "pet status in the store")
+    @field:JsonProperty("status") var status: Pet.Status? = null
 ) {
 
     /**

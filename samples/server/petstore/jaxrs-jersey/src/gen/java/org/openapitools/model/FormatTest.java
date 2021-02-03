@@ -36,6 +36,7 @@ import javax.validation.Valid;
   FormatTest.JSON_PROPERTY_NUMBER,
   FormatTest.JSON_PROPERTY_FLOAT,
   FormatTest.JSON_PROPERTY_DOUBLE,
+  FormatTest.JSON_PROPERTY_DECIMAL,
   FormatTest.JSON_PROPERTY_STRING,
   FormatTest.JSON_PROPERTY_BYTE,
   FormatTest.JSON_PROPERTY_BINARY,
@@ -46,7 +47,7 @@ import javax.validation.Valid;
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS,
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class FormatTest   {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   @JsonProperty(JSON_PROPERTY_INTEGER)
@@ -71,6 +72,10 @@ public class FormatTest   {
   public static final String JSON_PROPERTY_DOUBLE = "double";
   @JsonProperty(JSON_PROPERTY_DOUBLE)
   private Double _double;
+
+  public static final String JSON_PROPERTY_DECIMAL = "decimal";
+  @JsonProperty(JSON_PROPERTY_DECIMAL)
+  private BigDecimal decimal;
 
   public static final String JSON_PROPERTY_STRING = "string";
   @JsonProperty(JSON_PROPERTY_STRING)
@@ -236,6 +241,26 @@ public class FormatTest   {
 
   public void setDouble(Double _double) {
     this._double = _double;
+  }
+
+  public FormatTest decimal(BigDecimal decimal) {
+    this.decimal = decimal;
+    return this;
+  }
+
+  /**
+   * Get decimal
+   * @return decimal
+   **/
+  @JsonProperty("decimal")
+  @ApiModelProperty(value = "")
+  @Valid 
+  public BigDecimal getDecimal() {
+    return decimal;
+  }
+
+  public void setDecimal(BigDecimal decimal) {
+    this.decimal = decimal;
   }
 
   public FormatTest string(String string) {
@@ -420,7 +445,7 @@ public class FormatTest   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -434,6 +459,7 @@ public class FormatTest   {
         Objects.equals(this.number, formatTest.number) &&
         Objects.equals(this._float, formatTest._float) &&
         Objects.equals(this._double, formatTest._double) &&
+        Objects.equals(this.decimal, formatTest.decimal) &&
         Objects.equals(this.string, formatTest.string) &&
         Objects.equals(this._byte, formatTest._byte) &&
         Objects.equals(this.binary, formatTest.binary) &&
@@ -447,7 +473,7 @@ public class FormatTest   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
+    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, _byte, binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
   }
 
 
@@ -462,6 +488,7 @@ public class FormatTest   {
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
     sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
     sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
+    sb.append("    decimal: ").append(toIndentedString(decimal)).append("\n");
     sb.append("    string: ").append(toIndentedString(string)).append("\n");
     sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
@@ -479,7 +506,7 @@ public class FormatTest   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

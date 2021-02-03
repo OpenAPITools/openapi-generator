@@ -118,12 +118,28 @@ void OAIOrder::setId(const qint64 &id) {
     this->m_id_isSet = true;
 }
 
+bool OAIOrder::is_id_Set() const{
+    return m_id_isSet;
+}
+
+bool OAIOrder::is_id_Valid() const{
+    return m_id_isValid;
+}
+
 qint64 OAIOrder::getPetId() const {
     return pet_id;
 }
 void OAIOrder::setPetId(const qint64 &pet_id) {
     this->pet_id = pet_id;
     this->m_pet_id_isSet = true;
+}
+
+bool OAIOrder::is_pet_id_Set() const{
+    return m_pet_id_isSet;
+}
+
+bool OAIOrder::is_pet_id_Valid() const{
+    return m_pet_id_isValid;
 }
 
 qint32 OAIOrder::getQuantity() const {
@@ -134,12 +150,28 @@ void OAIOrder::setQuantity(const qint32 &quantity) {
     this->m_quantity_isSet = true;
 }
 
+bool OAIOrder::is_quantity_Set() const{
+    return m_quantity_isSet;
+}
+
+bool OAIOrder::is_quantity_Valid() const{
+    return m_quantity_isValid;
+}
+
 QDateTime OAIOrder::getShipDate() const {
     return ship_date;
 }
 void OAIOrder::setShipDate(const QDateTime &ship_date) {
     this->ship_date = ship_date;
     this->m_ship_date_isSet = true;
+}
+
+bool OAIOrder::is_ship_date_Set() const{
+    return m_ship_date_isSet;
+}
+
+bool OAIOrder::is_ship_date_Valid() const{
+    return m_ship_date_isValid;
 }
 
 QString OAIOrder::getStatus() const {
@@ -150,12 +182,28 @@ void OAIOrder::setStatus(const QString &status) {
     this->m_status_isSet = true;
 }
 
+bool OAIOrder::is_status_Set() const{
+    return m_status_isSet;
+}
+
+bool OAIOrder::is_status_Valid() const{
+    return m_status_isValid;
+}
+
 bool OAIOrder::isComplete() const {
     return complete;
 }
 void OAIOrder::setComplete(const bool &complete) {
     this->complete = complete;
     this->m_complete_isSet = true;
+}
+
+bool OAIOrder::is_complete_Set() const{
+    return m_complete_isSet;
+}
+
+bool OAIOrder::is_complete_Valid() const{
+    return m_complete_isValid;
 }
 
 bool OAIOrder::isSet() const {

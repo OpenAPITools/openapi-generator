@@ -1,0 +1,6 @@
+generatorName: typescript
+outputDir: samples/openapi3/client/petstore/typescript/builds/jquery
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+additionalProperties:
+  framework: jquery
+  npmName: ts-petstore-client

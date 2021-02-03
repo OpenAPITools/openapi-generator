@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Number
         /// </summary>
-        [DataMember(Name="number", EmitDefaultValue=false)]
+        [DataMember(Name="number", EmitDefaultValue=true)]
         public decimal Number { get; set; }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Byte
         /// </summary>
-        [DataMember(Name="byte", EmitDefaultValue=false)]
+        [DataMember(Name="byte", EmitDefaultValue=true)]
         public byte[] Byte { get; set; }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        [DataMember(Name="date", EmitDefaultValue=false)]
+        [DataMember(Name="date", EmitDefaultValue=true)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateTime Date { get; set; }
 
@@ -180,7 +180,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
-        [DataMember(Name="password", EmitDefaultValue=false)]
+        [DataMember(Name="password", EmitDefaultValue=true)]
         public string Password { get; set; }
 
         /// <summary>

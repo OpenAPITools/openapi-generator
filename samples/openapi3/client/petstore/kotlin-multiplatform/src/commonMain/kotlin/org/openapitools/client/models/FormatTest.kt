@@ -14,21 +14,23 @@ package org.openapitools.client.models
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
+
 /**
  * 
+ * @param number 
+ * @param byte 
+ * @param date 
+ * @param password 
  * @param integer 
  * @param int32 
  * @param int64 
- * @param number 
  * @param float 
  * @param double 
+ * @param decimal 
  * @param string 
- * @param byte 
  * @param binary 
- * @param date 
  * @param dateTime 
  * @param uuid 
- * @param password 
  * @param patternWithDigits A string that is a 10 digit number. Can have leading zeros.
  * @param patternWithDigitsAndDelimiter A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
  */
@@ -43,6 +45,7 @@ data class FormatTest (
     @SerialName(value = "int64") val int64: kotlin.Long? = null,
     @SerialName(value = "float") val float: kotlin.Float? = null,
     @SerialName(value = "double") val double: kotlin.Double? = null,
+    @SerialName(value = "decimal") val decimal: java.math.BigDecimal? = null,
     @SerialName(value = "string") val string: kotlin.String? = null,
     @SerialName(value = "binary") val binary: org.openapitools.client.infrastructure.OctetByteArray? = null,
     @SerialName(value = "dateTime") val dateTime: kotlin.String? = null,
@@ -51,7 +54,5 @@ data class FormatTest (
     @SerialName(value = "pattern_with_digits") val patternWithDigits: kotlin.String? = null,
     /* A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01. */
     @SerialName(value = "pattern_with_digits_and_delimiter") val patternWithDigitsAndDelimiter: kotlin.String? = null
-) 
-
-
+)
 

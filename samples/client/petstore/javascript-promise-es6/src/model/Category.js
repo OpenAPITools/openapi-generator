@@ -35,7 +35,7 @@ class Category {
      * Only for internal use.
      */
     static initialize(obj, name) { 
-        obj['name'] = name;
+        obj['name'] = name || 'default-name';
     }
 
     /**

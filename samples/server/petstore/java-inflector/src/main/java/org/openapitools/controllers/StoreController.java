@@ -13,7 +13,7 @@ import org.openapitools.model.*;
 import java.util.Map;
 import org.openapitools.model.Order;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class StoreController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map
@@ -40,7 +40,7 @@ public class StoreController  {
   */
 
   /*
-    public ResponseContext placeOrder(RequestContext request , Order order) {
+    public ResponseContext placeOrder(RequestContext request , Order body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */

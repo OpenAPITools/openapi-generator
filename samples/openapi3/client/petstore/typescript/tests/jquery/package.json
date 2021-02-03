@@ -1,0 +1,36 @@
+{
+  "private": true,
+  "dependencies": {
+    "@types/jsdom": "^12.2.3",
+    "@types/qunit": "^2.9.0",
+    "@types/rewire": "^2.5.28",
+    "form-data": "^2.5.1",
+    "jsdom": "^15.0.0",
+    "node-qunit-puppeteer": "^1.0.12",
+    "qunit": "^2.9.2",
+    "requirejs": "^2.3.6",
+    "rewire": "^4.0.1",
+    "ts-node": "^3.3.0",
+    "ts-petstore-client": "file:../../builds/jquery",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  },
+  "scripts": {
+    "test": "node ./dist/test-runner.js",
+    "build": "tsc && webpack"
+  },
+  "devDependencies": {
+    "@types/node": "^8.10.48",
+    "raw-loader": "^4.0.0",
+    "ts-loader": "^4.3.1",
+    "typescript": "^2.4.1"
+  },
+  "name": "typescript-test",
+  "version": "1.0.0",
+  "directories": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

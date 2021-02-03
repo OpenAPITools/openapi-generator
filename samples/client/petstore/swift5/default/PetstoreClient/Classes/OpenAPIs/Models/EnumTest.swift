@@ -33,7 +33,7 @@ public struct EnumTest: Codable {
     public var enumNumber: EnumNumber?
     public var outerEnum: OuterEnum?
 
-    public init(enumString: EnumString?, enumStringRequired: EnumStringRequired, enumInteger: EnumInteger?, enumNumber: EnumNumber?, outerEnum: OuterEnum?) {
+    public init(enumString: EnumString? = nil, enumStringRequired: EnumStringRequired, enumInteger: EnumInteger? = nil, enumNumber: EnumNumber? = nil, outerEnum: OuterEnum? = nil) {
         self.enumString = enumString
         self.enumStringRequired = enumStringRequired
         self.enumInteger = enumInteger

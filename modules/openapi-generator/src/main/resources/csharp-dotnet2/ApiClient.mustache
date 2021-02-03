@@ -261,8 +261,25 @@ namespace {{clientPackage}}
                 {
                     {{#authMethods}}
                     case "{{name}}":
-                        {{#isApiKey}}{{#isKeyInHeader}}headerParams["{{keyParamName}}"] = GetApiKeyWithPrefix("{{keyParamName}}");{{/isKeyInHeader}}{{#isKeyInQuery}}queryParams["{{keyParamName}}"] = GetApiKeyWithPrefix("{{keyParamName}}");{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}headerParams["Authorization"] = "Basic " + Base64Encode(Configuration.Username + ":" + Configuration.Password);{{/isBasic}}
-                        {{#isOAuth}}//TODO support oauth{{/isOAuth}}
+                        {{#isApiKey}}
+                        {{#isKeyInHeader}}
+                        headerParams["{{keyParamName}}"] = GetApiKeyWithPrefix("{{keyParamName}}");
+                        {{/isKeyInHeader}}
+                        {{#isKeyInQuery}}
+                        queryParams["{{keyParamName}}"] = GetApiKeyWithPrefix("{{keyParamName}}");
+                        {{/isKeyInQuery}}
+                        {{/isApiKey}}
+                        {{#isBasic}}
+                        {{#isBasicBasic}}
+                        headerParams["Authorization"] = "Basic " + Base64Encode(Configuration.Username + ":" + Configuration.Password);
+                        {{/isBasicBasic}}
+                        {{#isBasicBearer}}
+                        headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+                        {{/isBasicBearer}}
+                        {{/isBasic}}
+                        {{#isOAuth}}
+                        headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+                        {{/isOAuth}}
                         break;
                     {{/authMethods}}
                     default:

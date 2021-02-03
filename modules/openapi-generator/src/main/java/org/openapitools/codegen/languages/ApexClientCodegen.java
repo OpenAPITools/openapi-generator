@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
@@ -99,22 +98,19 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         // https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_reserved_words.htm
         setReservedWordsLowerCase(
                 Arrays.asList("abstract", "activate", "and", "any", "array", "as", "asc", "autonomous",
-                        "begin", "bigdecimal", "blob", "break", "bulk", "by", "byte", "case", "cast",
+                        "begin", "bigdecimal", "blob", "boolean", "break", "bulk", "by", "byte", "case", "cast",
                         "catch", "char", "class", "collect", "commit", "const", "continue",
-                        "convertcurrency", "currency", "date", "datetime", "decimal", "default", "delete", "desc", "do", "else",
+                        "currency", "date", "datetime", "decimal", "default", "delete", "desc", "do", "double", "else",
                         "end", "enum", "exception", "exit", "export", "extends", "false", "final",
-                        "finally", "float", "for", "from", "future", "global", "goto", "group", "having",
-                        "hint", "if", "implements", "import", "in", "inner", "insert", "instanceof", "int",
-                        "interface", "into", "join", "last_90_days", "last_month", "last_n_days",
-                        "last_week", "like", "limit", "list", "long", "loop", "map", "merge", "new",
-                        "next_90_days", "next_month", "next_n_days", "next_week", "not", "null", "nulls",
-                        "number", "object", "of", "on", "or", "outer", "override", "package", "parallel",
-                        "pragma", "private", "protected", "public", "retrieve", "return", "returning",
-                        "rollback", "savepoint", "search", "select", "set", "short", "sort", "stat",
-                        "static", "super", "switch", "synchronized", "system", "testmethod", "then", "this",
-                        "this_month", "this_week", "throw", "time", "today", "tolabel", "tomorrow", "transaction",
-                        "trigger", "true", "try", "type", "undelete", "update", "upsert", "using",
-                        "virtual", "webservice", "when", "where", "while", "yesterday"
+                        "finally", "float", "for", "from", "global", "goto", "group", "having",
+                        "hint", "if", "implements", "import", "in", "inner", "insert", "instanceof", "int", "integer",
+                        "interface", "into", "join", "like", "limit", "list", "long", "loop", "map", "merge", "new",
+                        "not", "null", "nulls", "number", "object", "of", "on", "or", "outer", "override", "package", "parallel",
+                        "pragma", "private", "protected", "public", "retrieve", "return", 
+                        "rollback", "select", "set", "short", "sObject", "sort", "static", "string", 
+                        "super", "switch", "synchronized", "system", "testmethod", "then", "this",
+                        "throw", "time", "transaction", "trigger", "true", "try", "undelete", "update", "upsert", "using",
+                        "virtual", "void", "webservice", "when", "where", "while"
                 ));
 
         languageSpecificPrimitives = new HashSet<String>(
@@ -239,7 +235,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
             Long def = (Long) p.getDefault();
             out = def == null ? out : def.toString() + "L";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             String s = inner == null ? "Object" : getTypeDeclaration(inner);
             out = String.format(Locale.ROOT, "new Map<String, %s>()", s);
         } else if (ModelUtils.isStringSchema(p)) {
@@ -315,7 +311,8 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
-        writeOptional(outputFolder, new SupportingFile("README_ant.mustache", "README.md"));
+        supportingFiles.add(new SupportingFile("README_ant.mustache", "README.md")
+            .doNotOverwrite());
 
     }
 
@@ -324,7 +321,8 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         supportingFiles.add(new SupportingFile("sfdx-project-scratch-def.json", sfdxConfigPath, "project-scratch-def.json"));
         supportingFiles.add(new SupportingFile("sfdx-project.json.mustache", "sfdx-project.json"));
 
-        writeOptional(outputFolder, new SupportingFile("README_sfdx.mustache", "README.md"));
+        supportingFiles.add(new SupportingFile("README_sfdx.mustache", "README.md")
+            .doNotOverwrite());
 
     }
 

@@ -12,7 +12,7 @@ internal struct ClassModel: Codable {
 
     internal var _class: String?
 
-    internal init(_class: String?) {
+    internal init(_class: String? = nil) {
         self._class = _class
     }
 

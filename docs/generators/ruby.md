@@ -3,9 +3,12 @@ title: Config Options for ruby
 sidebar_label: ruby
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
+|disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |gemAuthor|gem author (only one is supported).| |null|
 |gemAuthorEmail|gem author email (only one is supported).| |null|
@@ -17,6 +20,7 @@ sidebar_label: ruby
 |gemSummary|gem summary. | |A ruby wrapper for the REST APIs|
 |gemVersion|gem version.| |1.0.0|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
+|legacyDiscriminatorBehavior|Set to true for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |library|HTTP library template (sub-template) to use|<dl><dt>**faraday**</dt><dd>Faraday (https://github.com/lostisland/faraday) (Beta support)</dd><dt>**typhoeus**</dt><dd>Typhoeus &gt;= 1.0.1 (https://github.com/typhoeus/typhoeus)</dd></dl>|typhoeus|
 |moduleName|top module name (convention: CamelCase, usually corresponding to gem name).| |OpenAPIClient|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
@@ -33,6 +37,9 @@ sidebar_label: ruby
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
+|array|Array|
+|map|Hash|
+|set|Set|
 
 
 ## LANGUAGE PRIMITIVES
@@ -41,13 +48,13 @@ sidebar_label: ruby
 <li>Array</li>
 <li>Boolean</li>
 <li>Date</li>
-<li>DateTime</li>
 <li>File</li>
 <li>Float</li>
 <li>Hash</li>
 <li>Integer</li>
 <li>Object</li>
 <li>String</li>
+<li>Time</li>
 <li>array</li>
 <li>int</li>
 <li>map</li>
@@ -116,6 +123,7 @@ sidebar_label: ruby
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✓|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

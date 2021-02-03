@@ -1,0 +1,10 @@
+generatorName: swift5
+outputDir: samples/client/petstore/swift5/deprecated
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-depreacted-fields.yaml
+templateDir: modules/openapi-generator/src/main/resources/swift5
+generateAliasAsModel: true
+additionalProperties:
+  podAuthors: ""
+  podSummary: PetstoreClient
+  projectName: PetstoreClient
+  podHomepage: https://github.com/openapitools/openapi-generator

@@ -29,6 +29,12 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
 
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
@@ -82,6 +88,12 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
 
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
@@ -135,6 +147,12 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
 
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
@@ -190,6 +208,12 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
 
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
@@ -244,6 +268,12 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
 
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
@@ -300,6 +330,12 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
 
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
@@ -357,6 +393,12 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
 
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
@@ -408,6 +450,12 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
 
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:

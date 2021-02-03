@@ -16,27 +16,27 @@ import javax.validation.Valid;
 
 @Path("/user")
 @Api(description = "the user API")
-public interface UserApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public interface UserApi {
 
     @POST
     @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    Response createUser(@Valid User user);
+    Response createUser(@Valid User body);
 
     @POST
     @Path("/createWithArray")
     @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    Response createUsersWithArrayInput(@Valid List<User> user);
+    Response createUsersWithArrayInput(@Valid List<User> body);
 
     @POST
     @Path("/createWithList")
     @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    Response createUsersWithListInput(@Valid List<User> user);
+    Response createUsersWithListInput(@Valid List<User> body);
 
     @DELETE
     @Path("/{username}")
@@ -78,5 +78,5 @@ public interface UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-    Response updateUser(@PathParam("username") @ApiParam("name that need to be deleted") String username,@Valid User user);
+    Response updateUser(@PathParam("username") @ApiParam("name that need to be deleted") String username,@Valid User body);
 }

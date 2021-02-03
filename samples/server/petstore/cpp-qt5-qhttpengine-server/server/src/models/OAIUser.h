@@ -40,27 +40,43 @@ public:
 
     qint64 getId() const;
     void setId(const qint64 &id);
+    bool is_id_Set() const;
+    bool is_id_Valid() const;
 
     QString getUsername() const;
     void setUsername(const QString &username);
+    bool is_username_Set() const;
+    bool is_username_Valid() const;
 
     QString getFirstName() const;
     void setFirstName(const QString &first_name);
+    bool is_first_name_Set() const;
+    bool is_first_name_Valid() const;
 
     QString getLastName() const;
     void setLastName(const QString &last_name);
+    bool is_last_name_Set() const;
+    bool is_last_name_Valid() const;
 
     QString getEmail() const;
     void setEmail(const QString &email);
+    bool is_email_Set() const;
+    bool is_email_Valid() const;
 
     QString getPassword() const;
     void setPassword(const QString &password);
+    bool is_password_Set() const;
+    bool is_password_Valid() const;
 
     QString getPhone() const;
     void setPhone(const QString &phone);
+    bool is_phone_Set() const;
+    bool is_phone_Valid() const;
 
     qint32 getUserStatus() const;
     void setUserStatus(const qint32 &user_status);
+    bool is_user_status_Set() const;
+    bool is_user_status_Valid() const;
 
     virtual bool isSet() const override;
     virtual bool isValid() const override;

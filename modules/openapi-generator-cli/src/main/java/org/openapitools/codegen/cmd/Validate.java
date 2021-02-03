@@ -33,8 +33,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@SuppressWarnings({"unused","java:S106"})
 @Command(name = "validate", description = "Validate specification")
-public class Validate implements Runnable {
+public class Validate extends OpenApiGeneratorCommand {
 
     @Option(name = {"-i", "--input-spec"}, title = "spec file", required = true,
             description = "location of the OpenAPI spec, as URL or file (required)")
@@ -44,7 +45,7 @@ public class Validate implements Runnable {
     private Boolean recommend;
 
     @Override
-    public void run() {
+    public void execute() {
         System.out.println("Validating spec (" + spec + ")");
         ParseOptions options = new ParseOptions();
         options.setResolve(true);
@@ -57,7 +58,9 @@ public class Validate implements Runnable {
         OpenAPI specification = result.getOpenAPI();
 
         RuleConfiguration ruleConfiguration = new RuleConfiguration();
-        ruleConfiguration.setEnableRecommendations(recommend != null ? recommend : false);
+
+        if (recommend != null) ruleConfiguration.setEnableRecommendations(recommend);
+        else ruleConfiguration.setEnableRecommendations(false);
 
         OpenApiEvaluator evaluator = new OpenApiEvaluator(ruleConfiguration);
         ValidationResult validationResult = evaluator.validate(specification);

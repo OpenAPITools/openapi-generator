@@ -35,7 +35,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
      *
      * @return $this
      */
-    public function {{setter}}({{#vendorExtensions.x-parameter-type}}{{vendorExtensions.x-parameter-type}} {{/vendorExtensions.x-parameter-type}}${{name}}{{^required}} = null{{/required}}){{#vendorExtensions.x-parameter-type}}: {{^required}}?{{/required}}{{vendorExtensions.x-parameter-type}}{{/vendorExtensions.x-parameter-type}}
+    public function {{setter}}({{#vendorExtensions.x-parameter-type}}{{vendorExtensions.x-parameter-type}} {{/vendorExtensions.x-parameter-type}}${{name}}{{^required}} = null{{/required}})
     {
         $this->{{name}} = ${{name}};
 

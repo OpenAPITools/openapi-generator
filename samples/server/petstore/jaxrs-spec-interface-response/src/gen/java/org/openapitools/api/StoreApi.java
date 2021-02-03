@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @Path("/store")
 @Api(description = "the store API")
-public interface StoreApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public interface StoreApi {
 
     @DELETE
     @Path("/order/{order_id}")
@@ -53,5 +53,5 @@ public interface StoreApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order", response = Void.class) })
-    Response placeOrder(@Valid Order order);
+    Response placeOrder(@Valid Order body);
 }

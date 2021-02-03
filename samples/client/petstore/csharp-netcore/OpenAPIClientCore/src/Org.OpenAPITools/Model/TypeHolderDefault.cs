@@ -48,12 +48,12 @@ namespace Org.OpenAPITools.Model
         public TypeHolderDefault(string stringItem = "what", decimal numberItem = default(decimal), int integerItem = default(int), bool boolItem = true, List<int> arrayItem = default(List<int>))
         {
             // to ensure "stringItem" is required (not null)
-            this.StringItem = stringItem ?? throw new ArgumentNullException("stringItem is a required property for TypeHolderDefault and cannot be null");;
+            this.StringItem = stringItem ?? throw new ArgumentNullException("stringItem is a required property for TypeHolderDefault and cannot be null");
             this.NumberItem = numberItem;
             this.IntegerItem = integerItem;
             this.BoolItem = boolItem;
             // to ensure "arrayItem" is required (not null)
-            this.ArrayItem = arrayItem ?? throw new ArgumentNullException("arrayItem is a required property for TypeHolderDefault and cannot be null");;
+            this.ArrayItem = arrayItem ?? throw new ArgumentNullException("arrayItem is a required property for TypeHolderDefault and cannot be null");
         }
         
         /// <summary>

@@ -1,0 +1,8 @@
+generatorName: spring
+outputDir: samples/server/petstore/springboot-delegate-j8
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  artifactId: springboot-delegate-j8
+  hideGenerationTimestamp: "true"
+  delegatePattern: "true"

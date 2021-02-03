@@ -15,13 +15,49 @@
 
 namespace test_namespace {
 
+class PFXSerializerSettings {
+public:
+    static void setDateTimeFormat(const QString & dtFormat){
+        getInstance()->dateTimeFormat = dtFormat;
+    }
+    static QString getDateTimeFormat() {
+        return getInstance()->dateTimeFormat;
+    }
+    static PFXSerializerSettings *getInstance(){
+        if(instance == nullptr){
+            instance = new PFXSerializerSettings();
+        }
+        return instance;
+    }
+private:
+    explicit PFXSerializerSettings(){
+        instance = this;
+        dateTimeFormat.clear();
+    }
+    static PFXSerializerSettings *instance;
+    QString dateTimeFormat;
+};
+
+PFXSerializerSettings * PFXSerializerSettings::instance = nullptr;
+
+bool setDateTimeFormat(const QString& dateTimeFormat){
+    bool success = false;
+    auto dt = QDateTime::fromString(QDateTime::currentDateTime().toString(dateTimeFormat), dateTimeFormat);
+    if(dt.isValid()){
+        success = true;
+        PFXSerializerSettings::setDateTimeFormat(dateTimeFormat);
+    }
+    return success;
+}
+
+
 QString toStringValue(const QString &value) {
     return value;
 }
 
 QString toStringValue(const QDateTime &value) {
     // ISO 8601
-    return value.toString("yyyy-MM-ddTHH:mm:ss[Z|[+|-]HH:mm]");
+    return PFXSerializerSettings::getInstance()->getDateTimeFormat().isEmpty()? value.toString(Qt::ISODate):value.toString(PFXSerializerSettings::getInstance()->getDateTimeFormat());
 }
 
 QString toStringValue(const QByteArray &value) {
@@ -70,7 +106,7 @@ QJsonValue toJsonValue(const QString &value) {
 }
 
 QJsonValue toJsonValue(const QDateTime &value) {
-    return QJsonValue(value.toString(Qt::ISODate));
+    return QJsonValue(value.toString(PFXSerializerSettings::getInstance()->getDateTimeFormat().isEmpty()?value.toString(Qt::ISODate):value.toString(PFXSerializerSettings::getInstance()->getDateTimeFormat())));
 }
 
 QJsonValue toJsonValue(const QByteArray &value) {
@@ -123,7 +159,7 @@ bool fromStringValue(const QString &inStr, QDateTime &value) {
     if (inStr.isEmpty()) {
         return false;
     } else {
-        auto dateTime = QDateTime::fromString(inStr, "yyyy-MM-ddTHH:mm:ss[Z|[+|-]HH:mm]");
+        auto dateTime = PFXSerializerSettings::getInstance()->getDateTimeFormat().isEmpty()?QDateTime::fromString(inStr, Qt::ISODate) :QDateTime::fromString(inStr, PFXSerializerSettings::getInstance()->getDateTimeFormat());
         if (dateTime.isValid()) {
             value.setDate(dateTime.date());
             value.setTime(dateTime.time());
@@ -228,7 +264,7 @@ bool fromJsonValue(QString &value, const QJsonValue &jval) {
 bool fromJsonValue(QDateTime &value, const QJsonValue &jval) {
     bool ok = true;
     if (!jval.isUndefined() && !jval.isNull() && jval.isString()) {
-        value = QDateTime::fromString(jval.toString(), Qt::ISODate);
+        value = PFXSerializerSettings::getInstance()->getDateTimeFormat().isEmpty()?QDateTime::fromString(jval.toString(), Qt::ISODate): QDateTime::fromString(jval.toString(), PFXSerializerSettings::getInstance()->getDateTimeFormat());
         ok = value.isValid();
     } else {
         ok = false;

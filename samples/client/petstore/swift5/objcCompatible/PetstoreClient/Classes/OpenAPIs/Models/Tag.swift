@@ -17,7 +17,7 @@ import Foundation
     }
     public var name: String?
 
-    public init(_id: Int64?, name: String?) {
+    public init(_id: Int64? = nil, name: String? = nil) {
         self._id = _id
         self.name = name
     }

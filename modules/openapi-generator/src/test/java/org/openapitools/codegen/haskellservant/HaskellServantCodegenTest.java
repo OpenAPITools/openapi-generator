@@ -22,10 +22,13 @@ import static org.testng.Assert.assertNotNull;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.MockDefaultGenerator;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.HaskellServantCodegen;
 import org.testng.annotations.Test;
 
@@ -50,22 +53,15 @@ public class HaskellServantCodegenTest {
                 .getOpenAPI();
 
         ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        input.openAPI(openAPI);
+        input.config(codegen);
 
         // when
-        MockDefaultGenerator generator = new MockDefaultGenerator();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
         generator.opts(input).generate();
 
         // then
-        assertFileNotContains(generator, outputPath + "/lib/RootOperation/API.hs", "\"\" :>");
-    }
-
-    private static void assertFileNotContains(MockDefaultGenerator generator, String file, String... expected) {
-        String content = generator.getFiles().get(file);
-        assertNotNull(content, "The file \"" + file + "\" was not generated");
-        for (String line : expected) {
-            assertFalse(content.contains(line), "The file \"" + file + "\" contains \"" + line + "\"");
-        }
+        TestUtils.assertFileNotContains(Paths.get(outputPath + "/lib/RootOperation/API.hs"), "\"\" :>");
     }
 }

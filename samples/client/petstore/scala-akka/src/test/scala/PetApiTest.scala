@@ -100,6 +100,7 @@ class PetApiTest extends AsyncFlatSpec with Matchers {
       }
   }
 
+  /*
   it should "find pets by tag" in {
     val request = api.findPetsByTags(List("tag1", "tag2"))
 
@@ -117,5 +118,6 @@ class PetApiTest extends AsyncFlatSpec with Matchers {
         }
       }
   }
+  */
 }
 

@@ -12,7 +12,7 @@ import Foundation
     public var bar: String?
     public var foo: String?
 
-    public init(bar: String?, foo: String?) {
+    public init(bar: String? = nil, foo: String? = nil) {
         self.bar = bar
         self.foo = foo
     }

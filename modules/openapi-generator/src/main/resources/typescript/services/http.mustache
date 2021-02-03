@@ -1,0 +1,20 @@
+{{#useRxJS}}
+import type { Observable } from "rxjs";
+{{/useRxJS}}
+import type { {{^useRxJS}}Promise{{/useRxJS}}HttpLibrary, HttpMethod, RequestContext, ResponseContext } from "../http/http";
+import type { {{^useRxJS}}Promise{{/useRxJS}}Middleware } from "../middleware";
+import type { BaseServerConfiguration } from "../servers";
+
+export abstract class AbstractHttpLibrary implements {{^useRxJS}}Promise{{/useRxJS}}HttpLibrary {
+    public abstract send(request: RequestContext): {{#useRxJS}}Observable{{/useRxJS}}{{^useRxJS}}Promise{{/useRxJS}}<ResponseContext>;
+};
+
+export abstract class AbstractMiddleware implements {{^useRxJS}}Promise{{/useRxJS}}Middleware {
+    public abstract pre(context: RequestContext): {{#useRxJS}}Observable{{/useRxJS}}{{^useRxJS}}Promise{{/useRxJS}}<RequestContext>;
+    public abstract post(context: ResponseContext): {{#useRxJS}}Observable{{/useRxJS}}{{^useRxJS}}Promise{{/useRxJS}}<ResponseContext>;
+}
+
+export abstract class AbstractServerConfiguration implements BaseServerConfiguration {
+    public abstract makeRequestContext(endpoint: string, httpMethod: HttpMethod): RequestContext;
+};
+

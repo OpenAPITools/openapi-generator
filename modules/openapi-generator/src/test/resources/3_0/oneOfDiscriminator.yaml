@@ -1,0 +1,268 @@
+openapi: 3.0.1
+info:
+   title: fruity
+   version: 0.0.1
+paths:
+   /:
+      get:
+         responses:
+            '200':
+               description: desc
+               content:
+                  application/json:
+                     schema:
+                        $ref: '#/components/schemas/FruitAllOfDisc'
+components:
+   schemas:
+    FruitType:
+      properties:
+        fruitType:
+          type: string
+      required:
+      - fruitType
+    FruitInlineDisc:
+      oneOf:
+        - type: object
+          required:
+            - seeds
+            - fruitType
+          properties:
+            seeds:
+              type: integer
+            fruitType:
+              type: string
+        - type: object
+          required:
+            - length
+            - fruitType
+          properties:
+            length:
+              type: integer
+            fruitType:
+              type: string
+      discriminator:
+        propertyName: fruitType
+    FruitInlineInlineDisc:
+      oneOf:
+        - type: object
+          required:
+            - seeds
+          properties:
+            seeds:
+              type: integer
+          oneOf:
+            - type: object
+              properties:
+                fruitType:
+                  type: string
+              required:
+              - fruitType
+        - type: object
+          required:
+            - length
+          properties:
+            length:
+              type: integer
+          oneOf:
+            - type: object
+              properties:
+                fruitType:
+                  type: string
+              required:
+              - fruitType
+      discriminator:
+        propertyName: fruitType
+    FruitReqDisc:
+      oneOf:
+        - $ref: '#/components/schemas/AppleReqDisc'
+        - $ref: '#/components/schemas/BananaReqDisc'
+      discriminator:
+        propertyName: fruitType
+    AppleReqDisc:
+      type: object
+      required:
+        - seeds
+        - fruitType
+      properties:
+        seeds:
+          type: integer
+        fruitType:
+          type: string
+    BananaReqDisc:
+      type: object
+      required:
+        - length
+        - fruitType
+      properties:
+        length:
+          type: integer
+        fruitType:
+          type: string
+    FruitAllOfDisc:
+      oneOf:
+        - $ref: '#/components/schemas/AppleAllOfDisc'
+        - $ref: '#/components/schemas/BananaAllOfDisc'
+      discriminator:
+        propertyName: fruitType
+    AppleAllOfDisc:
+      type: object
+      required:
+        - seeds
+      properties:
+        seeds:
+          type: integer
+      allOf:
+        - $ref: '#/components/schemas/FruitType'
+    BananaAllOfDisc:
+      type: object
+      required:
+        - length
+      properties:
+        length:
+          type: integer
+      allOf:
+        - $ref: '#/components/schemas/FruitType'
+    FruitAnyOfDisc:
+      oneOf:
+        - $ref: '#/components/schemas/AppleAnyOfDisc'
+        - $ref: '#/components/schemas/BananaAnyOfDisc'
+      discriminator:
+        propertyName: fruitType
+    AppleAnyOfDisc:
+      type: object
+      required:
+        - seeds
+      properties:
+        seeds:
+          type: integer
+      anyOf:
+        - $ref: '#/components/schemas/FruitType'
+    BananaAnyOfDisc:
+      type: object
+      required:
+        - length
+      properties:
+        length:
+          type: integer
+      anyOf:
+        - $ref: '#/components/schemas/FruitType'
+    FruitOneOfDisc:
+      oneOf:
+        - $ref: '#/components/schemas/AppleOneOfDisc'
+        - $ref: '#/components/schemas/BananaOneOfDisc'
+      discriminator:
+        propertyName: fruitType
+    AppleOneOfDisc:
+      type: object
+      required:
+        - seeds
+      properties:
+        seeds:
+          type: integer
+      oneOf:
+        - $ref: '#/components/schemas/FruitType'
+    BananaOneOfDisc:
+      type: object
+      required:
+        - length
+      properties:
+        length:
+          type: integer
+      oneOf:
+        - $ref: '#/components/schemas/FruitType'
+    FruitGrandparentDisc:
+      oneOf:
+        - $ref: '#/components/schemas/AppleGrandparentDisc'
+        - $ref: '#/components/schemas/BananaGrandparentDisc'
+      discriminator:
+        propertyName: fruitType
+    Parent:
+      type: object
+      allOf:
+        # the FruitType schema is a grandparent of AppleGrandparentDisc + BananaGrandparentDisc
+        - $ref: '#/components/schemas/FruitType'
+    AppleGrandparentDisc:
+      type: object
+      required:
+        - seeds
+      properties:
+        seeds:
+          type: integer
+      allOf:
+        - $ref: '#/components/schemas/Parent'
+    BananaGrandparentDisc:
+      type: object
+      required:
+        - length
+      properties:
+        length:
+          type: integer
+      allOf:
+        - $ref: '#/components/schemas/Parent'
+    ComposedDiscMissingNoProperties:
+      oneOf:
+        - $ref: '#/components/schemas/DiscMissingNoProperties'
+      discriminator:
+        propertyName: fruitType
+    DiscMissingNoProperties:
+      type: object
+    ComposedDiscMissingFromProperties:
+      oneOf:
+        - $ref: '#/components/schemas/DiscMissingFromProperties'
+      discriminator:
+        propertyName: fruitType
+    DiscMissingFromProperties:
+      type: object
+      properties:
+        length:
+          type: integer
+    ComposedDiscOptionalTypeCorrect:
+      oneOf:
+        - $ref: '#/components/schemas/DiscOptionalTypeCorrect'
+      discriminator:
+        propertyName: fruitType
+    DiscOptionalTypeCorrect:
+      type: object
+      properties:
+        fruitType:
+          type: string
+    ComposedDiscOptionalTypeIncorrect:
+      oneOf:
+        - $ref: '#/components/schemas/DiscOptionalTypeIncorrect'
+      discriminator:
+        propertyName: fruitType
+    DiscOptionalTypeIncorrect:
+      type: object
+      properties:
+        fruitType:
+          type: integer
+    ComposedDiscOptionalTypeInconsistent:
+      oneOf:
+        - $ref: '#/components/schemas/DiscOptionalTypeIncorrect'
+        - $ref: '#/components/schemas/DiscOptionalTypeCorrect'
+      discriminator:
+        propertyName: fruitType
+    ComposedDiscTypeIncorrect:
+      oneOf:
+        - $ref: '#/components/schemas/DiscTypeIncorrect'
+      discriminator:
+        propertyName: fruitType
+    DiscTypeIncorrect:
+      type: object
+      properties:
+        fruitType:
+          type: integer
+      required:
+        - fruitType
+    ComposedDiscTypeInconsistent:
+      oneOf:
+        - $ref: '#/components/schemas/DiscTypeIncorrect'
+        - $ref: '#/components/schemas/FruitType'
+      discriminator:
+        propertyName: fruitType
+    ComposedDiscRequiredInconsistent:
+      oneOf:
+        - $ref: '#/components/schemas/DiscOptionalTypeCorrect'
+        - $ref: '#/components/schemas/FruitType'
+      discriminator:
+        propertyName: fruitType

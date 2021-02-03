@@ -1,0 +1,71 @@
+// {{{classname}}} {{#description}}{{{.}}}{{/description}}{{^description}}the model '{{{classname}}}'{{/description}}
+type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
+
+// List of {{{name}}}
+const (
+	{{#allowableValues}}
+	{{#enumVars}}
+	{{^-first}}
+	{{/-first}}
+	{{#enumClassPrefix}}{{{classname.toUpperCase}}}_{{/enumClassPrefix}}{{name}} {{{classname}}} = {{{value}}}
+	{{/enumVars}}
+	{{/allowableValues}}
+)
+
+func (v *{{{classname}}}) UnmarshalJSON(src []byte) error {
+	var value {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := {{{classname}}}(value)
+	for _, existing := range []{{classname}}{ {{#allowableValues}}{{#enumVars}}{{{value}}}, {{/enumVars}} {{/allowableValues}} } {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid {{classname}}", value)
+}
+
+// Ptr returns reference to {{{name}}} value
+func (v {{{classname}}}) Ptr() *{{{classname}}} {
+	return &v
+}
+
+type Nullable{{{classname}}} struct {
+	value *{{{classname}}}
+	isSet bool
+}
+
+func (v Nullable{{classname}}) Get() *{{classname}} {
+	return v.value
+}
+
+func (v *Nullable{{classname}}) Set(val *{{classname}}) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v Nullable{{classname}}) IsSet() bool {
+	return v.isSet
+}
+
+func (v *Nullable{{classname}}) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullable{{classname}}(val *{{classname}}) *Nullable{{classname}} {
+	return &Nullable{{classname}}{value: val, isSet: true}
+}
+
+func (v Nullable{{{classname}}}) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *Nullable{{{classname}}}) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}

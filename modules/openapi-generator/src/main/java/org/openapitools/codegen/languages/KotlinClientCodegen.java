@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -26,16 +27,20 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.openapitools.codegen.utils.ProcessUtils;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class KotlinClientCodegen extends AbstractKotlinCodegen {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(KotlinClientCodegen.class);
 
     protected static final String JVM = "jvm";
     protected static final String JVM_OKHTTP = "jvm-okhttp";
@@ -43,6 +48,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected static final String JVM_OKHTTP3 = "jvm-okhttp3";
     protected static final String JVM_RETROFIT2 = "jvm-retrofit2";
     protected static final String MULTIPLATFORM = "multiplatform";
+
+    public static final String USE_RX_JAVA = "useRxJava";
+    public static final String USE_RX_JAVA2 = "useRxJava2";
+    public static final String USE_RX_JAVA3 = "useRxJava3";
+    public static final String USE_COROUTINES = "useCoroutines";
+    public static final String DO_NOT_USE_RX_AND_COROUTINES = "doNotUseRxAndCoroutines";
 
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String REQUEST_DATE_CONVERTER = "requestDateConverter";
@@ -52,7 +63,16 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
     protected String requestDateConverter = RequestDateConverter.TO_JSON.value;
-    protected String collectionType = CollectionType.ARRAY.value;
+    protected String collectionType = CollectionType.LIST.value;
+    protected boolean useRxJava = false;
+    protected boolean useRxJava2 = false;
+    protected boolean useRxJava3 = false;
+    protected boolean useCoroutines = false;
+    // backwards compatibility for openapi configs that specify neither rx1 nor rx2
+    // (mustache does not allow for boolean operators so we need this extra field)
+    protected boolean doNotUseRxAndCoroutines = true;
+
+    protected String authFolder;
 
     public enum DateLibrary {
         STRING("string"),
@@ -177,6 +197,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         requestDateConverter.setEnum(requestDateConverterOptions);
         requestDateConverter.setDefault(this.requestDateConverter);
         cliOptions.add(requestDateConverter);
+
+        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library."));
+        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library."));
+        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA3, "Whether to use the RxJava3 adapter with the retrofit2 library."));
+        cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines adapter with the retrofit2 library."));
     }
 
     public CodegenType getTag() {
@@ -190,6 +215,57 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public String getHelp() {
         return "Generates a Kotlin client.";
     }
+
+    public void setUseRxJava(boolean useRxJava) {
+        if (useRxJava) {
+            this.useRxJava2 = false;
+            this.useRxJava3 = false;
+            this.doNotUseRxAndCoroutines = false;
+            this.useCoroutines = false;
+        }
+        this.useRxJava = useRxJava;
+    }
+
+    public void setUseRxJava2(boolean useRxJava2) {
+        if (useRxJava2) {
+            this.useRxJava = false;
+            this.useRxJava3 = false;
+            this.doNotUseRxAndCoroutines = false;
+            this.useCoroutines = false;
+        }
+        this.useRxJava2 = useRxJava2;
+    }
+    
+    public void setUseRxJava3(boolean useRxJava3) {
+        if (useRxJava3) {
+            this.useRxJava = false;
+            this.useRxJava2 = false;
+            this.doNotUseRxAndCoroutines = false;
+            this.useCoroutines = false;
+        }
+        this.useRxJava3 = useRxJava3;
+    }
+
+    public void setDoNotUseRxAndCoroutines(boolean doNotUseRxAndCoroutines) {
+        if (doNotUseRxAndCoroutines) {
+            this.useRxJava = false;
+            this.useRxJava2 = false;
+            this.useRxJava3 = false;
+            this.useCoroutines = false;
+        }
+        this.doNotUseRxAndCoroutines = doNotUseRxAndCoroutines;
+    }
+
+    public void setUseCoroutines(boolean useCoroutines) {
+        if (useCoroutines) {
+            this.useRxJava = false;
+            this.useRxJava2 = false;
+            this.useRxJava3 = false;
+            this.doNotUseRxAndCoroutines = false;
+        }
+        this.useCoroutines = useCoroutines;
+    }
+
 
     public void setDateLibrary(String library) {
         this.dateLibrary = library;
@@ -211,8 +287,47 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             sourceFolder = "src/commonMain/kotlin";
         }
 
+
+        boolean hasRx = additionalProperties.containsKey(USE_RX_JAVA);
+        boolean hasRx2 = additionalProperties.containsKey(USE_RX_JAVA2);
+        boolean hasRx3 = additionalProperties.containsKey(USE_RX_JAVA3);
+        boolean hasCoroutines = additionalProperties.containsKey(USE_COROUTINES);
+        int optionCount = 0;
+        if (hasRx) {
+            optionCount++;
+        }
+        if (hasRx2) {
+            optionCount++;
+        }
+        if (hasRx3) {
+            optionCount++;
+        }
+        if (hasCoroutines) {
+            optionCount++;
+        }
+        boolean hasConflict = optionCount > 1;
+
+        // RxJava & Coroutines
+        if (hasConflict) {
+            LOGGER.warn("You specified RxJava versions 1 and 2 and 3 or Coroutines together, please choose one of them.");
+        } else if (hasRx) {
+            this.setUseRxJava(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA).toString()));
+        } else if (hasRx2) {
+            this.setUseRxJava2(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA2).toString()));
+        } else if (hasRx3) {
+            this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
+        } else if (hasCoroutines) {
+            this.setUseCoroutines(Boolean.valueOf(additionalProperties.get(USE_COROUTINES).toString()));
+        }
+
+        if (!hasRx && !hasRx2 && !hasRx3 && !hasCoroutines) {
+            setDoNotUseRxAndCoroutines(true);
+            additionalProperties.put(DO_NOT_USE_RX_AND_COROUTINES, true);
+        }
+
         // infrastructure destination folder
         final String infrastructureFolder = (sourceFolder + File.separator + packageName + File.separator + "infrastructure").replace(".", "/");
+        authFolder = (sourceFolder + File.separator + packageName + File.separator + "auth").replace(".", "/");
 
         // additional properties
         if (additionalProperties.containsKey(DATE_LIBRARY)) {
@@ -251,6 +366,23 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             typeMapping.put("array", "kotlin.collections.List");
             typeMapping.put("list", "kotlin.collections.List");
             additionalProperties.put("isList", true);
+        }
+
+        if(usesRetrofit2Library()) {
+            if (ProcessUtils.hasOAuthMethods(openAPI)) {
+                supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
+                supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
+                supportingFiles.add(new SupportingFile("auth/OAuthFlow.kt.mustache", authFolder, "OAuthFlow.kt"));
+                supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.kt.mustache", authFolder, "OAuthOkHttpClient.kt"));
+            }
+
+            if(ProcessUtils.hasHttpBearerMethods(openAPI)) {
+                supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
+            }
+            
+            if(ProcessUtils.hasHttpBasicMethods(openAPI)) {
+                supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
+            }
         }
     }
 
@@ -316,6 +448,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         additionalProperties.put(JVM, true);
         additionalProperties.put(JVM_RETROFIT2, true);
         supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/ResponseExt.kt.mustache", infrastructureFolder, "ResponseExt.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/CollectionFormats.kt.mustache", infrastructureFolder, "CollectionFormats.kt"));
         addSupportingSerializerAdapters(infrastructureFolder);
     }
@@ -407,7 +540,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/OctetByteArray.kt.mustache", infrastructureFolder, "OctetByteArray.kt"));
 
         // multiplatform specific auth
-        final String authFolder = (sourceFolder + File.separator + packageName + File.separator + "auth").replace(".", "/");
         supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
         supportingFiles.add(new SupportingFile("auth/Authentication.kt.mustache", authFolder, "Authentication.kt"));
         supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
@@ -471,6 +603,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         return objects;
     }
 
+    private boolean usesRetrofit2Library() {
+        return getLibrary() != null && getLibrary().contains(JVM_RETROFIT2);
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
@@ -480,11 +616,26 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
 
+                if (JVM_RETROFIT2.equals(getLibrary()) && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
+                    operation.path = operation.path.substring(1);
+                }
+
                 // set multipart against all relevant operations
                 if (operation.hasConsumes == Boolean.TRUE) {
                     if (isMultipartType(operation.consumes)) {
                         operation.isMultipart = Boolean.TRUE;
                     }
+                }
+
+                // import okhttp3.MultipartBody if any parameter is a file
+                for (CodegenParameter param : operation.allParams) {
+                    if (Boolean.TRUE.equals(param.isFile)) {
+                        operations.put("x-kotlin-multipart-import", true);
+                    }
+                }
+
+                if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
+                    operation.path = operation.path.substring(1);
                 }
 
                 // modify the data type of binary form parameters to a more friendly type for multiplatform builds

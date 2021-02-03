@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include "StoreAPI.h"
 
-
+#define MAX_NUMBER_LENGTH 16
 #define MAX_BUFFER_LENGTH 4096
 #define intToStr(dst, src) \
     do {\
@@ -63,6 +63,8 @@ StoreAPI_deleteOrder(apiClient_t *apiClient, char * orderId )
 end:
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -121,6 +123,8 @@ StoreAPI_getInventory(apiClient_t *apiClient)
 
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -130,6 +134,7 @@ StoreAPI_getInventory(apiClient_t *apiClient)
     free(localVarPath);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
@@ -201,6 +206,8 @@ StoreAPI_getOrderById(apiClient_t *apiClient, long orderId )
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -211,6 +218,7 @@ StoreAPI_getOrderById(apiClient_t *apiClient, long orderId )
     free(localVarToReplace_orderId);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
@@ -236,7 +244,7 @@ StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body )
 
 
     // Body Param
-    cJSON *localVarSingleItemJSON_body;
+    cJSON *localVarSingleItemJSON_body = NULL;
     if (body != NULL)
     {
         //string
@@ -272,6 +280,8 @@ StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body )
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -279,10 +289,14 @@ StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body )
     list_free(localVarHeaderType);
     
     free(localVarPath);
-    cJSON_Delete(localVarSingleItemJSON_body);
+    if (localVarSingleItemJSON_body) {
+        cJSON_Delete(localVarSingleItemJSON_body);
+        localVarSingleItemJSON_body = NULL;
+    }
     free(localVarBodyParameters);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }

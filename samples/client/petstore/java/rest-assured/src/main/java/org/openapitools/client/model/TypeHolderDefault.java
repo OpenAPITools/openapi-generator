@@ -26,11 +26,14 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * TypeHolderDefault
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TypeHolderDefault {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
@@ -63,6 +66,7 @@ public class TypeHolderDefault {
    * Get stringItem
    * @return stringItem
   **/
+  @NotNull
   @ApiModelProperty(required = true, value = "")
 
   public String getStringItem() {
@@ -85,6 +89,8 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
   **/
+  @NotNull
+  @Valid
   @ApiModelProperty(required = true, value = "")
 
   public BigDecimal getNumberItem() {
@@ -107,6 +113,7 @@ public class TypeHolderDefault {
    * Get integerItem
    * @return integerItem
   **/
+  @NotNull
   @ApiModelProperty(required = true, value = "")
 
   public Integer getIntegerItem() {
@@ -129,6 +136,7 @@ public class TypeHolderDefault {
    * Get boolItem
    * @return boolItem
   **/
+  @NotNull
   @ApiModelProperty(required = true, value = "")
 
   public Boolean isBoolItem() {
@@ -156,6 +164,7 @@ public class TypeHolderDefault {
    * Get arrayItem
    * @return arrayItem
   **/
+  @NotNull
   @ApiModelProperty(required = true, value = "")
 
   public List<Integer> getArrayItem() {
@@ -169,7 +178,7 @@ public class TypeHolderDefault {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -189,7 +198,6 @@ public class TypeHolderDefault {
     return Objects.hash(stringItem, numberItem, integerItem, boolItem, arrayItem);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -207,7 +215,7 @@ public class TypeHolderDefault {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -16,6 +16,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
   
   @ApiModelProperty(value = "")
@@ -59,7 +60,7 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

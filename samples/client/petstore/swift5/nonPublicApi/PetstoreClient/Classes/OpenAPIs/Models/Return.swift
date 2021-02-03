@@ -12,7 +12,7 @@ internal struct Return: Codable {
 
     internal var _return: Int?
 
-    internal init(_return: Int?) {
+    internal init(_return: Int? = nil) {
         self._return = _return
     }
 

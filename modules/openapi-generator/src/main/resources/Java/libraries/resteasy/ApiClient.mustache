@@ -22,6 +22,14 @@ import java.util.Map.Entry;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+{{#jsr310}}
+{{#threetenbp}}
+import org.threeten.bp.OffsetDateTime;
+{{/threetenbp}}
+{{^threetenbp}}
+import java.time.OffsetDateTime;
+{{/threetenbp}}
+{{/jsr310}}
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -48,7 +56,7 @@ import {{invokerPackage}}.auth.OAuth;
 {{/hasOAuthMethods}}
 
 {{>generatedAnnotation}}
-public class ApiClient {
+public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private Map<String, String> defaultCookieMap = new HashMap<String, String>();
   private String basePath = "{{{basePath}}}";
@@ -333,7 +341,9 @@ public class ApiClient {
       return "";
     } else if (param instanceof Date) {
       return formatDate((Date) param);
-    } else if (param instanceof Collection) {
+    } {{#jsr310}}else if (param instanceof OffsetDateTime) {
+      return formatOffsetDateTime((OffsetDateTime) param);
+    } {{/jsr310}}else if (param instanceof Collection) {
       StringBuilder b = new StringBuilder();
       for(Object o : (Collection)param) {
         if(b.length() > 0) {
@@ -555,13 +565,7 @@ public class ApiClient {
   public File downloadFileFromResponse(Response response) throws ApiException {
     try {
       File file = prepareDownloadFile(response);
-{{^supportJava6}}
       Files.copy(response.readEntity(InputStream.class), file.toPath());
-{{/supportJava6}}
-{{#supportJava6}}
-      // Java6 falls back to commons.io for file copying
-      FileUtils.copyToFile(response.readEntity(InputStream.class), file);
-{{/supportJava6}}
       return file;
     } catch (IOException e) {
       throw new ApiException(e);

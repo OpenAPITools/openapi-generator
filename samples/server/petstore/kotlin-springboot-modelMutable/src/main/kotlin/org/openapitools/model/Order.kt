@@ -10,6 +10,7 @@ import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
+import javax.validation.Valid
 import io.swagger.annotations.ApiModelProperty
 
 /**
@@ -21,25 +22,25 @@ import io.swagger.annotations.ApiModelProperty
  * @param status Order Status
  * @param complete 
  */
-data class Order (
+data class Order(
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("id") var id: kotlin.Long? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @field:JsonProperty("id") var id: kotlin.Long? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("petId") var petId: kotlin.Long? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @field:JsonProperty("petId") var petId: kotlin.Long? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("quantity") var quantity: kotlin.Int? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @field:JsonProperty("quantity") var quantity: kotlin.Int? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("shipDate") var shipDate: java.time.OffsetDateTime? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @field:JsonProperty("shipDate") var shipDate: java.time.OffsetDateTime? = null,
 
-        @ApiModelProperty(example = "null", value = "Order Status")
-        @JsonProperty("status") var status: Order.Status? = null,
+    @ApiModelProperty(example = "null", value = "Order Status")
+    @field:JsonProperty("status") var status: Order.Status? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("complete") var complete: kotlin.Boolean? = null
+    @ApiModelProperty(example = "null", value = "")
+    @field:JsonProperty("complete") var complete: kotlin.Boolean? = false
 ) {
 
     /**

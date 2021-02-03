@@ -1,0 +1,11 @@
+.openapi-generator-ignore
+pom.xml
+src/gen/java/org/openapitools/api/PetApi.java
+src/gen/java/org/openapitools/api/StoreApi.java
+src/gen/java/org/openapitools/api/UserApi.java
+src/gen/java/org/openapitools/model/Category.java
+src/gen/java/org/openapitools/model/ModelApiResponse.java
+src/gen/java/org/openapitools/model/Order.java
+src/gen/java/org/openapitools/model/Pet.java
+src/gen/java/org/openapitools/model/Tag.java
+src/gen/java/org/openapitools/model/User.java

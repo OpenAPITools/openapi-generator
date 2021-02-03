@@ -1,0 +1,36 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+
+components:
+  schemas:
+    deprecated:
+      type: object
+      deprecated: true
+      properties:
+        customerCode:
+          type: string
+          example: '0001'
+        firstName:
+          type: string
+          example: 'first'
+    current:
+      type: object
+      properties:
+        customerCode:
+          type: string
+          example: '0001'
+        firstName:
+          type: string
+          example: 'first'
+    complex:
+      properties:
+        deprecated:
+          $ref: "#/components/schemas/deprecated"
+        current:
+          type: boolean

@@ -17,7 +17,7 @@ def add_pet(pet):  # noqa: E501
     :param pet: Pet object that needs to be added to the store
     :type pet: dict | bytes
 
-    :rtype: Pet
+    :rtype: None
     """
     if connexion.request.is_json:
         pet = Pet.from_dict(connexion.request.get_json())  # noqa: E501
@@ -86,7 +86,7 @@ def update_pet(pet):  # noqa: E501
     :param pet: Pet object that needs to be added to the store
     :type pet: dict | bytes
 
-    :rtype: Pet
+    :rtype: None
     """
     if connexion.request.is_json:
         pet = Pet.from_dict(connexion.request.get_json())  # noqa: E501

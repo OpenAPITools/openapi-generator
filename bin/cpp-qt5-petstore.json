@@ -1,8 +1,0 @@
-{
-  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
-  "outputDir": "samples/client/petstore/cpp-qt5",
-  "additionalProperties": {
-    "cppNamespace": "test_namespace",
-    "modelNamePrefix": "PFX"
-  }
-}

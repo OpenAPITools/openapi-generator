@@ -13,48 +13,117 @@ For example, if you generate the aspnetcore generator passing `--minimal-update 
 
 ```bash
 export JAVA_OPTS="-Dlog.level=off"
-./bin/aspnetcore-petstore-server.sh --minimal-update --dry-run
+./bin/generate-samples.sh ./bin/configs/lua.yaml -- --minimal-update --dry-run
 ```
 
 You'll see the output similar to the following:
 
-```
-# START SCRIPT: ./bin/aspnetcore-petstore-server.sh
+```bash
+$ ./bin/generate-samples.sh ./bin/configs/lua.yaml -- --minimal-update --dry-run
+# START SCRIPT: ./bin/generate-samples.sh
+This script generates all configs under bin/configs by default.
+You may generate a targeted script or set of scripts using glob patterns.
 
+For example:
+    ./bin/generate-samples.sh bin/configs/java-*
+
+You may generate a single config with additional options if you use -- to
+separate the single config file from the generator arguments.
+
+For example:
+    ./bin/generate-samples.sh bin/configs/java-vertx.yaml -- --global-property debugModels=true
+
+
+[main] INFO  o.o.codegen.DefaultGenerator - Generating with dryRun=true
+[main] INFO  o.o.codegen.DefaultGenerator - OpenAPI Generator: lua (client)
+[main] INFO  o.o.codegen.DefaultGenerator - Generator 'lua' is considered beta.
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] INFO  o.o.codegen.DefaultGenerator - Model inline_object (marked as unused due to form parameters) is generated due to the system property skipFormModel=false (default)
+[main] INFO  o.o.codegen.DefaultGenerator - Model inline_object_1 (marked as unused due to form parameters) is generated due to the system property skipFormModel=false (default)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/json)
+[main] WARN  o.o.codegen.DefaultCodegen - Multiple MediaTypes found, using only the first one
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/json)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] ERROR o.o.codegen.DefaultGenerator - 
 
 Dry Run Results:
 
-s /path/to/aspnetcore/.openapi-generator-ignore
-n /path/to/aspnetcore/.openapi-generator/VERSION
-n /path/to/aspnetcore/Org.OpenAPITools.sln
-n /path/to/aspnetcore/README.md
-n /path/to/aspnetcore/build.bat
-n /path/to/aspnetcore/build.sh
-w /path/to/aspnetcore/src/Org.OpenAPITools/.gitignore
-n /path/to/aspnetcore/src/Org.OpenAPITools/Attributes/ValidateModelStateAttribute.cs
-n /path/to/aspnetcore/src/Org.OpenAPITools/Authentication/ApiAuthentication.cs
-n /path/to/aspnetcore/src/Org.OpenAPITools/Controllers/PetApi.cs
-n /path/to/aspnetcore/src/Org.OpenAPITools/Controllers/StoreApi.cs
-n /path/to/aspnetcore/src/Org.OpenAPITools/Controllers/UserApi.cs
-n /path/to/aspnetcore/src/Org.OpenAPITools/Converters/CustomEnumConverter.cs
-n /path/to/aspnetcore/src/Org.OpenAPITools/Dockerfile
-n /path/to/aspnetcore/src/Org.OpenAPITools/Filters/BasePathFilter.cs
-n /path/to/aspnetcore/src/Org.OpenAPITools/Filters/GeneratePathParamsValidationFilter.cs
-n /path/to/aspnetcore/src/Org.OpenAPITools/Models/ApiResponse.cs
-n /path/to/aspnetcore/src/Org.OpenAPITools/Models/Category.cs
-n /path/to/aspnetcore/src/Org.OpenAPITools/Models/Order.cs
-n /path/to/aspnetcore/src/Org.OpenAPITools/Models/Pet.cs
-n /path/to/aspnetcore/src/Org.OpenAPITools/Models/Tag.cs
-n /path/to/aspnetcore/src/Org.OpenAPITools/Models/User.cs
-n /path/to/aspnetcore/src/Org.OpenAPITools/Org.OpenAPITools.csproj
-n /path/to/aspnetcore/src/Org.OpenAPITools/Program.cs
-w /path/to/aspnetcore/src/Org.OpenAPITools/Properties/launchSettings.json
-n /path/to/aspnetcore/src/Org.OpenAPITools/Startup.cs
-w /path/to/aspnetcore/src/Org.OpenAPITools/appsettings.json
-w /path/to/aspnetcore/src/Org.OpenAPITools/wwwroot/README.md
-w /path/to/aspnetcore/src/Org.OpenAPITools/wwwroot/index.html
-n /path/to/aspnetcore/src/Org.OpenAPITools/wwwroot/openapi-original.json
-w /path/to/aspnetcore/src/Org.OpenAPITools/wwwroot/web.config
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/.openapi-generator-ignore
+n /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/.openapi-generator/VERSION
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/api_response_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/category_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/inline_object_1_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/inline_object_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/order_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/pet_api_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/pet_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/store_api_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/tag_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/user_api_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/user_spec.lua
+
+
+States:
+
+  - w Write
+  - n Write if New/Updated
+  - i Ignored
+  - s Skipped Overwrite
+  - k Skipped by user option(s)
+  - e Error evaluating file write state
+
+
+[main] ERROR o.o.codegen.DefaultGenerator - 
+
+Dry Run Results:
+
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/.openapi-generator-ignore
+n /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/.openapi-generator/VERSION
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/api_response_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/category_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/inline_object_1_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/inline_object_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/order_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/pet_api_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/pet_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/store_api_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/tag_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/user_api_spec.lua
+k /Users/williamcheng/Code/openapi-generator/samples/client/petstore/lua/spec/user_spec.lua
 
 
 States:
@@ -78,13 +147,13 @@ If you find an operation that you feel should result in a different state, pleas
 Sometimes, you may have issues with variables in your templates. As discussed in the [templating](./templating.md) docs, we offer a variety of system properties for inspecting the models bound to templates.
 
 <dl>
-<dt><code>-DdebugOpenAPI</code></dt>
+<dt><code>--global-property debugOpenAPI</code></dt>
 <dd>Prints out the JSON model of the OpenAPI Document, as seen by OpenAPI Generator</dd>
-<dt><code>-DdebugModels</code></dt>
+<dt><code>--global-property debugModels</code></dt>
 <dd>Prints out the JSON model passed to model templates</dd>
-<dt><code>-DdebugOperations</code></dt>
+<dt><code>--global-property debugOperations</code></dt>
 <dd>Prints out the JSON model passed to operation (api) templates</dd>
-<dt><code>-DdebugSupportingFiles</code></dt>
+<dt><code>--global-property debugSupportingFiles</code></dt>
 <dd>Prints out the JSON model passed to supporting files</dd>
 </dl>
 
@@ -94,14 +163,13 @@ One or more of these properties can be passed alongside other command line optio
 openapi-generator generate -g go \
     -o out \
     -i petstore-minimal.yaml \
-    -DdebugModels \
-    -DdebugOperations
+    --global-property debugModels,debugOperations
 ```
 
 Or you can add these to your `JAVA_OPTS` environment variable (this applies to every invocation of the tool):
 
 ```bash
-export JAVA_OPTS="${JAVA_OPTS} -DdebugModels -DdebugOperations"
+export JAVA_OPTS="${JAVA_OPTS} --global-property debugModels,debugOperations"
 ```
 
 > NOTE: Globally available system options like these will apply to all invocations of the generator (CLI and plugins)

@@ -136,12 +136,28 @@ void OAIUser::setId(const qint64 &id) {
     this->m_id_isSet = true;
 }
 
+bool OAIUser::is_id_Set() const{
+    return m_id_isSet;
+}
+
+bool OAIUser::is_id_Valid() const{
+    return m_id_isValid;
+}
+
 QString OAIUser::getUsername() const {
     return username;
 }
 void OAIUser::setUsername(const QString &username) {
     this->username = username;
     this->m_username_isSet = true;
+}
+
+bool OAIUser::is_username_Set() const{
+    return m_username_isSet;
+}
+
+bool OAIUser::is_username_Valid() const{
+    return m_username_isValid;
 }
 
 QString OAIUser::getFirstName() const {
@@ -152,12 +168,28 @@ void OAIUser::setFirstName(const QString &first_name) {
     this->m_first_name_isSet = true;
 }
 
+bool OAIUser::is_first_name_Set() const{
+    return m_first_name_isSet;
+}
+
+bool OAIUser::is_first_name_Valid() const{
+    return m_first_name_isValid;
+}
+
 QString OAIUser::getLastName() const {
     return last_name;
 }
 void OAIUser::setLastName(const QString &last_name) {
     this->last_name = last_name;
     this->m_last_name_isSet = true;
+}
+
+bool OAIUser::is_last_name_Set() const{
+    return m_last_name_isSet;
+}
+
+bool OAIUser::is_last_name_Valid() const{
+    return m_last_name_isValid;
 }
 
 QString OAIUser::getEmail() const {
@@ -168,12 +200,28 @@ void OAIUser::setEmail(const QString &email) {
     this->m_email_isSet = true;
 }
 
+bool OAIUser::is_email_Set() const{
+    return m_email_isSet;
+}
+
+bool OAIUser::is_email_Valid() const{
+    return m_email_isValid;
+}
+
 QString OAIUser::getPassword() const {
     return password;
 }
 void OAIUser::setPassword(const QString &password) {
     this->password = password;
     this->m_password_isSet = true;
+}
+
+bool OAIUser::is_password_Set() const{
+    return m_password_isSet;
+}
+
+bool OAIUser::is_password_Valid() const{
+    return m_password_isValid;
 }
 
 QString OAIUser::getPhone() const {
@@ -184,12 +232,28 @@ void OAIUser::setPhone(const QString &phone) {
     this->m_phone_isSet = true;
 }
 
+bool OAIUser::is_phone_Set() const{
+    return m_phone_isSet;
+}
+
+bool OAIUser::is_phone_Valid() const{
+    return m_phone_isValid;
+}
+
 qint32 OAIUser::getUserStatus() const {
     return user_status;
 }
 void OAIUser::setUserStatus(const qint32 &user_status) {
     this->user_status = user_status;
     this->m_user_status_isSet = true;
+}
+
+bool OAIUser::is_user_status_Set() const{
+    return m_user_status_isSet;
+}
+
+bool OAIUser::is_user_status_Valid() const{
+    return m_user_status_isValid;
 }
 
 bool OAIUser::isSet() const {

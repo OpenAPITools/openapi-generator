@@ -10,7 +10,7 @@ class QueryParam {
 class ApiClient {
 
   String basePath;
-  var client = new {{#browserClient}}Browser{{/browserClient}}Client();
+  var client = new Client();
 
   Map<String, String> _defaultHeaderMap = {};
   Map<String, Authentication> _authentications = {};
@@ -23,6 +23,7 @@ class ApiClient {
     _authentications['{{name}}'] = new HttpBasicAuth();{{/isBasic}}{{#isApiKey}}
     _authentications['{{name}}'] = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");{{/isApiKey}}{{#isOAuth}}
     _authentications['{{name}}'] = new OAuth();{{/isOAuth}}{{/authMethods}}
+    {{#httpUserAgent}}addDefaultHeader('User-Agent', '{{{.}}}');{{/httpUserAgent}}
   }
 
   void addDefaultHeader(String key, String value) {

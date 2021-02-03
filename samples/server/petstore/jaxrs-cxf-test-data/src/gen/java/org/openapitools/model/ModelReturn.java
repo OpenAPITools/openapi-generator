@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Model for testing reserved words
  */
 @ApiModel(description="Model for testing reserved words")
+
 public class ModelReturn  {
   
   @ApiModelProperty(value = "")
@@ -63,7 +64,7 @@ public class ModelReturn  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -40,12 +40,18 @@ public:
 
     qint32 getCode() const;
     void setCode(const qint32 &code);
+    bool is_code_Set() const;
+    bool is_code_Valid() const;
 
     QString getType() const;
     void setType(const QString &type);
+    bool is_type_Set() const;
+    bool is_type_Valid() const;
 
     QString getMessage() const;
     void setMessage(const QString &message);
+    bool is_message_Set() const;
+    bool is_message_Valid() const;
 
     virtual bool isSet() const override;
     virtual bool isValid() const override;

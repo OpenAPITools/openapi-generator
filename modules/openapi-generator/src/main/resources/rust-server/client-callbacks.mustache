@@ -1,0 +1,72 @@
+{{>server-imports}}
+use crate::CallbackApi as Api;
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+        {{#callbacks}}
+          {{#urls}}
+            {{#requests}}
+use crate::{{{operationId}}}Response;
+            {{/requests}}
+          {{/urls}}
+        {{/callbacks}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+
+{{#callbacks}}
+{{>server-paths}}
+{{/callbacks}}
+
+{{>server-make-service}}
+
+{{>server-service-header}}
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+        {{#callbacks}}
+          {{#urls}}
+            {{#requests}}
+{{>server-operation}}
+            {{/requests}}
+          {{/urls}}
+        {{/callbacks}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+{{#callbacks}}
+  {{#pathSet}}
+            _ if path.matched(paths::ID_{{PATH_ID}}) => method_not_allowed(),
+  {{/pathSet}}
+{{/callbacks}}
+{{>server-service-footer}}
+/// Request parser for `Api`.
+pub struct ApiRequestParser;
+impl<T> RequestParser<T> for ApiRequestParser {
+    fn parse_operation_id(request: &Request<T>) -> Result<&'static str, ()> {
+        let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
+        match request.method() {
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+        {{#callbacks}}
+          {{#urls}}
+            {{#requests}}
+            // {{{operationId}}} - {{{httpMethod}}} {{{path}}}
+            &hyper::Method::{{{vendorExtensions.x-http-method}}} if path.matched(paths::ID_{{{vendorExtensions.x-path-id}}}) => Ok("{{{operationId}}}"),
+            {{/requests}}
+          {{/urls}}
+        {{/callbacks}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+            _ => Err(()),
+        }
+    }
+}

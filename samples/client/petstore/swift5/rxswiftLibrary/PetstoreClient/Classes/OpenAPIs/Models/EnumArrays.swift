@@ -20,7 +20,7 @@ public struct EnumArrays: Codable {
     public var justSymbol: JustSymbol?
     public var arrayEnum: [ArrayEnum]?
 
-    public init(justSymbol: JustSymbol?, arrayEnum: [ArrayEnum]?) {
+    public init(justSymbol: JustSymbol? = nil, arrayEnum: [ArrayEnum]? = nil) {
         self.justSymbol = justSymbol
         self.arrayEnum = arrayEnum
     }

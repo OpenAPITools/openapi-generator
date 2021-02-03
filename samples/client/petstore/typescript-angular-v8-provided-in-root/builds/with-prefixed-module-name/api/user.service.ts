@@ -20,7 +20,7 @@ import { Observable }                                        from 'rxjs';
 import { User } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { Configuration }                                     from '../configuration';
+import { PetStoreConfiguration }                                     from '../configuration';
 
 
 
@@ -31,10 +31,10 @@ export class UserService {
 
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders = new HttpHeaders();
-    public configuration = new Configuration();
+    public configuration = new PetStoreConfiguration();
     public encoder: HttpParameterCodec;
 
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: PetStoreConfiguration) {
         if (configuration) {
             this.configuration = configuration;
         }
@@ -46,7 +46,6 @@ export class UserService {
         }
         this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
     }
-
 
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {

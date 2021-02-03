@@ -1,0 +1,10 @@
+generatorName: spring
+outputDir: samples/server/petstore/spring-mvc-no-nullable
+library: spring-mvc
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  artifactId: spring-mvc-server-no-nullable
+  openApiNullable: "false"
+  serverPort: "8002"
+  hideGenerationTimestamp: "true"

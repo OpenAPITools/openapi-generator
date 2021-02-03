@@ -3,6 +3,8 @@ title: Config Options for kotlin-server
 sidebar_label: kotlin-server
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |apiSuffix|suffix for api classes| |Api|
@@ -30,8 +32,8 @@ sidebar_label: kotlin-server
 | Type/Alias | Imports |
 | ---------- | ------- |
 |BigDecimal|java.math.BigDecimal|
-|Date|java.util.Date|
-|DateTime|java.time.LocalDateTime|
+|Date|java.time.LocalDate|
+|DateTime|java.time.OffsetDateTime|
 |File|java.io.File|
 |LocalDate|java.time.LocalDate|
 |LocalDateTime|java.time.LocalDateTime|
@@ -45,9 +47,9 @@ sidebar_label: kotlin-server
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
-|array|kotlin.arrayOf|
-|list|kotlin.arrayOf|
-|map|kotlin.mapOf|
+|array|kotlin.collections.ArrayList|
+|list|kotlin.collections.ArrayList|
+|map|kotlin.collections.HashMap|
 
 
 ## LANGUAGE PRIMITIVES
@@ -111,6 +113,7 @@ sidebar_label: kotlin-server
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

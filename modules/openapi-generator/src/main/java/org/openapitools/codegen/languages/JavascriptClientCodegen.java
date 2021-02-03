@@ -58,7 +58,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             new String[]{"git_push.sh.mustache", "git_push.sh"},
             new String[]{"README.mustache", "README.md"},
             new String[]{"mocha.opts", "mocha.opts"},
-            new String[]{"travis.yml", ".travis.yml"}
+            new String[]{"travis.yml", ".travis.yml"},
+            new String[]{"gitignore.mustache", ".gitignore"}
     };
 
     final String[][] JAVASCRIPT_ES6_SUPPORTING_FILES = new String[][]{
@@ -69,7 +70,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             new String[]{"README.mustache", "README.md"},
             new String[]{"mocha.opts", "mocha.opts"},
             new String[]{"travis.yml", ".travis.yml"},
-            new String[]{".babelrc.mustache", ".babelrc"}
+            new String[]{".babelrc.mustache", ".babelrc"},
+            new String[]{"gitignore.mustache", ".gitignore"}
     };
 
     protected String projectName;
@@ -139,10 +141,12 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
 
         instantiationTypes.put("array", "Array");
+        instantiationTypes.put("set", "Array");
         instantiationTypes.put("list", "Array");
         instantiationTypes.put("map", "Object");
         typeMapping.clear();
         typeMapping.put("array", "Array");
+        typeMapping.put("set", "Array");
         typeMapping.put("map", "Object");
         typeMapping.put("List", "Array");
         typeMapping.put("boolean", "Boolean");
@@ -150,7 +154,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("int", "Number");
         typeMapping.put("float", "Number");
         typeMapping.put("number", "Number");
-        typeMapping.put("BigDecimal", "Number");
+        typeMapping.put("decimal", "Number");
         typeMapping.put("DateTime", "Date");
         typeMapping.put("date", "Date");
         typeMapping.put("long", "Number");
@@ -164,6 +168,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("file", "File");
         typeMapping.put("UUID", "String");
         typeMapping.put("URI", "String");
+        typeMapping.put("AnyType", "Object");
 
         importMapping.clear();
 
@@ -196,7 +201,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(USE_ES6,
-                "use JavaScript ES6 (ECMAScript 6) (beta). Default is ES6.")
+                "use JavaScript ES6 (ECMAScript 6). Default is ES6. (This option has been deprecated and will be removed in the 5.x release as ES5 is no longer supported)")
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
         cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
@@ -611,7 +616,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return "{String: " + getTypeDeclaration(inner) + "}";
         }
         return super.getTypeDeclaration(p);
@@ -725,10 +730,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         // container
-        if (Boolean.TRUE.equals(p.isListContainer)) {
+        if (Boolean.TRUE.equals(p.isArray)) {
             example = setPropertyExampleValue(p.items);
             example = "[" + example + "]";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(p.isMap)) {
             example = setPropertyExampleValue(p.items);
             example = "{key: " + example + "}";
         } else if (example == null) {
@@ -860,9 +865,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public CodegenModel fromModel(String name, Schema model) {
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel codegenModel = super.fromModel(name, model);
 
@@ -875,22 +877,17 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             ArraySchema am = (ArraySchema) model;
             if (codegenModel != null && am.getItems() != null) {
                 String itemType = getSchemaType(am.getItems());
-                codegenModel.vendorExtensions.put("x-isArray", true); // TODO: 5.0 Remove
                 codegenModel.vendorExtensions.put("x-is-array", true);
-                codegenModel.vendorExtensions.put("x-itemType", itemType); // TODO: 5.0 Remove
                 codegenModel.vendorExtensions.put("x-item-type", itemType);
             }
         } else if (ModelUtils.isMapSchema(model)) {
-            if (codegenModel != null && ModelUtils.getAdditionalProperties(model) != null) {
-                String itemType = getSchemaType(ModelUtils.getAdditionalProperties(model));
-                codegenModel.vendorExtensions.put("x-isMap", true); // TODO: 5.0 Remove
+            if (codegenModel != null && getAdditionalProperties(model) != null) {
+                String itemType = getSchemaType(getAdditionalProperties(model));
                 codegenModel.vendorExtensions.put("x-is-map", true);
-                codegenModel.vendorExtensions.put("x-itemType", itemType); // TODO: 5.0 Remove
                 codegenModel.vendorExtensions.put("x-item-type", itemType);
             } else {
                 String type = model.getType();
                 if (codegenModel != null && isPrimitiveType(type)) {
-                    codegenModel.vendorExtensions.put("x-isPrimitive", true); // TODO: 5.0 Remove
                     codegenModel.vendorExtensions.put("x-is-primitive", true);
                 }
             }
@@ -923,7 +920,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     private String getJSDocType(CodegenModel cm, CodegenProperty cp) {
         if (Boolean.TRUE.equals(cp.isContainer)) {
-            if (cp.containerType.equals("array"))
+            if (cp.containerType.equals("array") || cp.containerType.equals("set"))
                 return "Array.<" + getJSDocType(cm, cp.items) + ">";
             else if (cp.containerType.equals("map"))
                 return "Object.<String, " + getJSDocType(cm, cp.items) + ">";
@@ -946,9 +943,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         String dataType = trimBrackets(cp.dataType);
         if (isModelledType(cp))
             dataType = getModelledType(dataType);
-        if (Boolean.TRUE.equals(cp.isListContainer)) {
+        if (Boolean.TRUE.equals(cp.isArray)) {
             return "Array.<" + dataType + ">";
-        } else if (Boolean.TRUE.equals(cp.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(cp.isMap)) {
             return "Object.<String, " + dataType + ">";
         }
         return dataType;
@@ -964,9 +961,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (returnType != null) {
             if (isModelledType(co))
                 returnType = getModelledType(returnType);
-            if (Boolean.TRUE.equals(co.isListContainer)) {
+            if (Boolean.TRUE.equals(co.isArray)) {
                 return "Array.<" + returnType + ">";
-            } else if (Boolean.TRUE.equals(co.isMapContainer)) {
+            } else if (Boolean.TRUE.equals(co.isMap)) {
                 return "Object.<String, " + returnType + ">";
             }
         }
@@ -989,9 +986,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         // Generate and store argument list string of each operation into
         // vendor-extension: x-codegen-argList.
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
 
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
@@ -1019,9 +1013,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                     argList.add("callback");
                 }
                 String joinedArgList = StringUtils.join(argList, ", ");
-                operation.vendorExtensions.put("x-codegen-argList", joinedArgList); // TODO: 5.0 Remove
                 operation.vendorExtensions.put("x-codegen-arg-list", joinedArgList);
-                operation.vendorExtensions.put("x-codegen-hasOptionalParams", hasOptionalParams); // TODO: 5.0 Remove
                 operation.vendorExtensions.put("x-codegen-has-optional-params", hasOptionalParams);
 
                 // Store JSDoc type specification into vendor-extension: x-jsdoc-type.
@@ -1046,9 +1038,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         objs = super.postProcessModelsEnum(objs);
         List<Object> models = (List<Object>) objs.get("models");
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
 
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
@@ -1100,10 +1089,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             for (CodegenProperty var : cm.vars) {
                 Optional.ofNullable(lastRequired).ifPresent(_lastRequired -> {
                     if (var == _lastRequired) {
-                        var.vendorExtensions.put("x-codegen-hasMoreRequired", false); // TODO: 5.0 Remove
                         var.vendorExtensions.put("x-codegen-has-more-required", false);
                     } else if (var.required) {
-                        var.vendorExtensions.put("x-codegen-hasMoreRequired", true); // TODO: 5.0 Remove
                         var.vendorExtensions.put("x-codegen-has-more-required", true);
                     }
                 });
@@ -1153,12 +1140,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             }
 
             if (removedChildEnum) {
-                // If we removed an entry from this model's vars, we need to ensure hasMore is updated
-                int count = 0, numVars = codegenProperties.size();
-                for (CodegenProperty codegenProperty : codegenProperties) {
-                    count += 1;
-                    codegenProperty.hasMore = (count < numVars) ? true : false;
-                }
                 codegenModel.vars = codegenProperties;
             }
         }
@@ -1238,5 +1219,17 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
         }
+    }
+
+    @Override
+    protected String getCollectionFormat(CodegenParameter codegenParameter) {
+        // This method will return `passthrough` when the parameter data format is binary and an array.
+        // `passthrough` is not part of the OAS spec. However, this will act like a flag that we should
+        // not do any processing on the collection type (i.e. convert to tsv, csv, etc..). This is
+        // critical to support multi file uploads correctly.
+        if (codegenParameter.isArray && Objects.equals(codegenParameter.dataFormat, "binary")) {
+            return "passthrough";
+        }
+        return super.getCollectionFormat(codegenParameter);
     }
 }

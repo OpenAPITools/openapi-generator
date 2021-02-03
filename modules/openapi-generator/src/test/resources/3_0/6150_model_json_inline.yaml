@@ -1,0 +1,79 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Test inline response model
+  description: Test inline response model.
+  license:
+    name: MIT
+paths:
+  /foobar:
+    get:
+      operationId: testOperation
+      description: No type property in modelJson of InlineResponse200
+      responses:
+        200:
+          description: InlineResponse200 itself.
+          content:
+            application/json:
+              schema:
+                type: object
+                # It is legal to use the `format` keyword for object types. The JSON schema specification explicitly allows this.
+                # Even if in practice most OAS authors use `format` for primitive types, it should still be allowed to use format for object types.
+                format: unknown
+                properties:
+                  foo:
+                    type: string
+                  bar:
+                    type: string
+    post:
+      operationId: testOperationPost
+      description: No type property in modelJson of InlineResponse200
+      responses:
+        400:
+          description: InlineResponse200 itself.
+          content:
+            application/json:
+              schema:
+                title: FooBarObject
+                type: object
+                # It is legal to use the `format` keyword for object types. The JSON schema specification explicitly allows this.
+                # Even if in practice most OAS authors use `format` for primitive types, it should still be allowed to use format for object types.
+                format: date-time
+                properties:
+                  foo:
+                    type: string
+components:
+  schemas:
+    Animal:
+      type: object
+      discriminator: className
+      required:
+        - className
+      properties:
+        className:
+          type: string
+        color:
+          type: string
+          default: 'red'
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            breed:
+              type: string
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            declawed:
+              type: boolean
+    HugeCat:
+      allOf:
+        - $ref: '#/components/schemas/Cat'
+        - type: object
+          properties:
+            kind:
+              type: string
+              enum: [lions, tigers, leopards, jaguars]

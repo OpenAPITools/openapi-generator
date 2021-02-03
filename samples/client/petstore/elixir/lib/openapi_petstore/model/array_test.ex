@@ -17,7 +17,7 @@ defmodule OpenapiPetstore.Model.ArrayTest do
   @type t :: %__MODULE__{
     :"array_of_string" => [String.t] | nil,
     :"array_array_of_integer" => [[integer()]] | nil,
-    :"array_array_of_model" => [[ReadOnlyFirst]] | nil
+    :"array_array_of_model" => [[OpenapiPetstore.Model.ReadOnlyFirst.t]] | nil
   }
 end
 

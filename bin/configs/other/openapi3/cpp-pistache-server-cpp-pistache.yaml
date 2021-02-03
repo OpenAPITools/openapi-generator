@@ -1,0 +1,4 @@
+generatorName: cpp-pistache-server
+outputDir: samples/server/petstore/cpp-pistache
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/cpp-pistache-server

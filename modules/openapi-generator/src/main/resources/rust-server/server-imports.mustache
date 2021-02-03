@@ -1,0 +1,31 @@
+use futures::{future, future::BoxFuture, Stream, stream, future::FutureExt, stream::TryStreamExt};
+use hyper::{Request, Response, StatusCode, Body, HeaderMap};
+use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
+use log::warn;
+#[allow(unused_imports)]
+use std::convert::{TryFrom, TryInto};
+use std::error::Error;
+use std::future::Future;
+use std::marker::PhantomData;
+use std::task::{Context, Poll};
+use swagger::{ApiError, BodyExt, Has, RequestParser, XSpanIdString};
+pub use swagger::auth::Authorization;
+use swagger::auth::Scopes;
+use url::form_urlencoded;
+{{#apiUsesMultipartRelated}}
+use hyper_0_10::header::{Headers, ContentType};
+use mime_0_2::{TopLevel, SubLevel, Mime as Mime2};
+use mime_multipart::{read_multipart_body, Node, Part};
+{{/apiUsesMultipartRelated}}
+{{#apiUsesMultipartFormData}}
+use multipart::server::Multipart;
+use multipart::server::save::SaveResult;
+{{/apiUsesMultipartFormData}}
+
+#[allow(unused_imports)]
+use crate::models;
+use crate::header;
+
+pub use crate::context;
+
+type ServiceFuture = BoxFuture<'static, Result<Response<Body>, crate::ServiceError>>;

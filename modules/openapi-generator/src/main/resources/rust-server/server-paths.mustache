@@ -1,0 +1,22 @@
+mod paths {
+    use lazy_static::lazy_static;
+
+    lazy_static! {
+        pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
+{{#pathSet}}
+            r"^{{{basePathWithoutHost}}}{{{pathRegEx}}}"{{^-last}},{{/-last}}
+{{/pathSet}}
+        ])
+        .expect("Unable to create global regex set");
+    }
+{{#pathSet}}
+    pub(crate) static ID_{{{PATH_ID}}}: usize = {{{index}}};
+{{#hasPathParams}}
+    lazy_static! {
+        pub static ref REGEX_{{{PATH_ID}}}: regex::Regex =
+            regex::Regex::new(r"^{{{basePathWithoutHost}}}{{{pathRegEx}}}")
+                .expect("Unable to create regex for {{{PATH_ID}}}");
+    }
+{{/hasPathParams}}
+{{/pathSet}}
+}

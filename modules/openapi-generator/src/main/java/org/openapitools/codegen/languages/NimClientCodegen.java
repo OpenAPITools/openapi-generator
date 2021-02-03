@@ -34,7 +34,7 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
-    static Logger LOGGER = LoggerFactory.getLogger(NimClientCodegen.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(NimClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
 
@@ -278,7 +278,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
             return "seq[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             if (inner == null) {
                 inner = new StringSchema();
             }

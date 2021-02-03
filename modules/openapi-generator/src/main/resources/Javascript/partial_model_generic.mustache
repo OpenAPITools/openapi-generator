@@ -33,7 +33,12 @@
     {{/useInheritance}}
     {{#vars}}
     {{#required}}
+    {{#defaultValue}}
+    _this['{{baseName}}'] = {{name}} || {{{defaultValue}}};
+    {{/defaultValue}}
+    {{^defaultValue}}
     _this['{{baseName}}'] = {{name}};
+    {{/defaultValue}}
     {{/required}}
     {{/vars}}
     {{#parent}}

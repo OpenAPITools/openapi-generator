@@ -1,0 +1,11 @@
+---
+"!include": common/jaxrs-datelib-j8.yaml
+generatorName: jaxrs-jersey
+# We expect this property to be ignored because it exists in the importing file
+outputDir: outputDir-should-be-ignored
+inputSpec: batch/specs/petstore.yaml
+# This map should be ignored since it exists in the importing file
+# We may want to consider merging additionalProperties, but that would depend on user need
+additionalProperties:
+  hideGenerationTimestamp: true
+  serverPort: 'should-be-ignored'

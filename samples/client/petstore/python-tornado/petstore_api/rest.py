@@ -16,7 +16,6 @@ import logging
 import re
 
 # python 2 and python 3 compatibility library
-import six
 from six.moves.urllib.parse import urlencode
 import tornado
 import tornado.gen
@@ -36,11 +35,7 @@ class RESTResponse(io.IOBase):
         self.reason = resp.reason
 
         if resp.body:
-            # In Python 3, the response body is utf-8 encoded bytes.
-            if six.PY3:
-                self.data = resp.body.decode('utf-8')
-            else:
-                self.data = resp.body
+            self.data = resp.body
         else:
             self.data = None
 

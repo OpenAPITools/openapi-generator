@@ -1,0 +1,9 @@
+myFile.sample
+src/org/openapitools/api/PetApi.sample
+src/org/openapitools/api/StoreApi.sample
+src/org/openapitools/api/UserApi.sample
+src/org/openapitools/model/Category.sample
+src/org/openapitools/model/Order.sample
+src/org/openapitools/model/Pet.sample
+src/org/openapitools/model/Tag.sample
+src/org/openapitools/model/User.sample
