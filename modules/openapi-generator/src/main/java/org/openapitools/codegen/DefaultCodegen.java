@@ -805,11 +805,15 @@ public class DefaultCodegen implements CodegenConfig {
                             schemas.put(opId, requestSchema);
                         }
                         // process all response bodies
-                        for (Map.Entry<String, ApiResponse> ar : op.getValue().getResponses().entrySet()) {
-                            ApiResponse a = ModelUtils.getReferencedApiResponse(openAPI, ar.getValue());
-                            Schema responseSchema = ModelUtils.getSchemaFromResponse(a);
-                            if (responseSchema != null) {
-                                schemas.put(opId + ar.getKey(), responseSchema);
+                        if (op.getValue().getResponses() != null) {
+                            for (Map.Entry<String, ApiResponse> ar : op.getValue().getResponses()
+                                .entrySet()) {
+                                ApiResponse a = ModelUtils
+                                    .getReferencedApiResponse(openAPI, ar.getValue());
+                                Schema responseSchema = ModelUtils.getSchemaFromResponse(a);
+                                if (responseSchema != null) {
+                                    schemas.put(opId + ar.getKey(), responseSchema);
+                                }
                             }
                         }
                     }
@@ -832,32 +836,43 @@ public class DefaultCodegen implements CodegenConfig {
 
             // go through all gathered schemas and add them as interfaces to be created
             for (Map.Entry<String, Schema> e : schemas.entrySet()) {
-                String n = toModelName(e.getKey());
-                Schema s = e.getValue();
-                String nOneOf = toModelName(n + "OneOf");
-                if (ModelUtils.isComposedSchema(s)) {
-                    if (e.getKey().contains("/")) {
-                        // if this is property schema, we also need to generate the oneOf interface model
-                        addOneOfNameExtension((ComposedSchema) s, nOneOf);
-                        addOneOfInterfaceModel((ComposedSchema) s, nOneOf, openAPI);
-                    } else {
-                        // else this is a component schema, so we will just use that as the oneOf interface model
-                        addOneOfNameExtension((ComposedSchema) s, n);
-                    }
-                } else if (ModelUtils.isArraySchema(s)) {
-                    Schema items = ((ArraySchema) s).getItems();
+                String modelName = toModelName(e.getKey());
+                Schema schema = e.getValue();
+                String nOneOf = toModelName(modelName + "OneOf");
+                if (ModelUtils.isComposedSchema(schema)) {
+                    addOneOfForComposedSchema(e, modelName, (ComposedSchema) schema, nOneOf, openAPI);
+                } else if (ModelUtils.isArraySchema(schema)) {
+                    Schema items = ((ArraySchema) schema).getItems();
                     if (ModelUtils.isComposedSchema(items)) {
-                        addOneOfNameExtension((ComposedSchema) items, nOneOf);
-                        addOneOfInterfaceModel((ComposedSchema) items, nOneOf, openAPI);
+                        addOneOfForComposedSchemaArray(nOneOf, openAPI, (ComposedSchema) items, modelName);
                     }
-                } else if (ModelUtils.isMapSchema(s)) {
-                    Schema addProps = getAdditionalProperties(s);
+                } else if (ModelUtils.isMapSchema(schema)) {
+                    Schema addProps = ModelUtils.getAdditionalProperties(openAPI, schema);
                     if (addProps != null && ModelUtils.isComposedSchema(addProps)) {
                         addOneOfNameExtension((ComposedSchema) addProps, nOneOf);
                         addOneOfInterfaceModel((ComposedSchema) addProps, nOneOf, openAPI);
                     }
                 }
             }
+        }
+    }
+
+    protected void addOneOfForComposedSchemaArray(String nOneOf, OpenAPI openAPI,
+        ComposedSchema items, String modelName) {
+        addOneOfNameExtension(items, nOneOf);
+        addOneOfInterfaceModel(items, nOneOf, openAPI);
+    }
+
+    protected void addOneOfForComposedSchema(Entry<String, Schema> stringSchemaEntry,
+        String modelName, ComposedSchema composedSchema,
+        String nOneOf, OpenAPI openAPI) {
+        if (stringSchemaEntry.getKey().contains("/")) {
+            // if this is property schema, we also need to generate the oneOf interface model
+            addOneOfNameExtension(composedSchema, nOneOf);
+            addOneOfInterfaceModel(composedSchema, nOneOf, openAPI);
+        } else {
+            // else this is a component schema, so we will just use that as the oneOf interface model
+            addOneOfNameExtension(composedSchema, modelName);
         }
     }
 
@@ -5868,7 +5883,7 @@ public class DefaultCodegen implements CodegenConfig {
                                 "'application/x-www-form-urlencoded' or 'multipart/?'");
                         LOGGER.warn("schema: " + schema);
                         LOGGER.warn("codegenModel is null. Default to UNKNOWN_BASE_TYPE");
-                        codegenModelName = "UNKNOWN_BASE_TYPE";
+                        codegenModelName = getCodegenModelName(codegenProperty);
                         codegenModelDescription = "UNKNOWN_DESCRIPTION";
                     }
 
@@ -6111,6 +6126,14 @@ public class DefaultCodegen implements CodegenConfig {
     private void addJsonSchemaForBodyRequestInCaseItsNotPresent(CodegenParameter codegenParameter, RequestBody body) {
         if (codegenParameter.jsonSchema == null)
             codegenParameter.jsonSchema = Json.pretty(body);
+    }
+
+    protected void addAdditionalImports(Set<String> imports, String complexType) {
+        imports.add(complexType);
+    }
+
+    protected String getCodegenModelName(CodegenProperty codegenProperty) {
+        return "UNKNOWN_BASE_TYPE";
     }
 
     protected void addOption(String key, String description, String defaultValue) {

@@ -581,18 +581,19 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    protected void addOneOfForComposedSchema(Entry<String, Schema> stringSchemaEntry, String modelName, ComposedSchema composedSchema,
-        String nOneOf){
+    protected void addOneOfForComposedSchema(Entry<String, Schema> stringSchemaEntry,
+        String modelName, ComposedSchema composedSchema,
+        String nOneOf, OpenAPI openAPI) {
         // if this is property schema, we also need to generate the oneOf interface model
         addOneOfNameExtension(composedSchema, modelName);
-        addOneOfInterfaceModel(composedSchema, modelName);
+        addOneOfInterfaceModel(composedSchema, modelName, openAPI);
     }
 
     @Override
-    protected void addOneOfForComposedSchemaArray(String nOneOf, String modelName,
-        ComposedSchema items) {
-        addOneOfNameExtension(items, modelName);
-        addOneOfInterfaceModel(items, modelName);
+    protected void addOneOfForComposedSchemaArray(String nOneOf, OpenAPI openAPI,
+        ComposedSchema composedSchema, String modelName) {
+        addOneOfNameExtension(composedSchema, modelName);
+        addOneOfInterfaceModel(composedSchema, modelName, openAPI);
     }
 
     @Override
