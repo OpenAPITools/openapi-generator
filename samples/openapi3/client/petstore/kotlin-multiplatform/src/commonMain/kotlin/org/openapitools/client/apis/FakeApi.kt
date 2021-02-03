@@ -405,13 +405,13 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
      * To test enum parameters
      * To test enum parameters
      * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
-     * @param enumHeaderString Header parameter enum test (string) (optional, default to "-efg")
+     * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
      * @param enumQueryStringArray Query parameter enum test (string array) (optional)
-     * @param enumQueryString Query parameter enum test (string) (optional, default to "-efg")
+     * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
-     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to "$")
-     * @param enumFormString Form parameter enum test (string) (optional, default to "-efg")
+     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @return void
      */
     suspend fun testEnumParameters(enumHeaderStringArray: kotlin.collections.List<kotlin.String>?, enumHeaderString: kotlin.String?, enumQueryStringArray: kotlin.collections.List<kotlin.String>?, enumQueryString: kotlin.String?, enumQueryInteger: kotlin.Int?, enumQueryDouble: kotlin.Double?, enumFormStringArray: kotlin.collections.List<kotlin.String>?, enumFormString: kotlin.String?): HttpResponse<Unit> {

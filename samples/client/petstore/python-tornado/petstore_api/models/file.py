@@ -43,7 +43,7 @@ class File(object):
     def __init__(self, source_uri=None, local_vars_configuration=None):  # noqa: E501
         """File - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
+            local_vars_configuration = Configuration.get_default_copy()
         self.local_vars_configuration = local_vars_configuration
 
         self._source_uri = None

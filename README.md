@@ -3,7 +3,7 @@
 
 <div align="center">
 
-[![Stable releaases in Maven Central](https://img.shields.io/maven-metadata/v/https/repo1.maven.org/maven2/org/openapitools/openapi-generator/maven-metadata.xml.svg)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.openapitools%22%20AND%20a%3A%22openapi-generator%22) [![Apache 2.0 License](https://img.shields.io/badge/License-Apache%202.0-orange)](./LICENSE) ![Open Collective backers](https://img.shields.io/opencollective/backers/openapi_generator?color=orange&label=OpenCollective%20Backers) [![Join the Slack chat room](https://img.shields.io/badge/Slack-Join%20the%20chat%20room-orange)](https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM) [![Follow OpenAPI Generator Twitter account to get the latest update](https://img.shields.io/twitter/follow/oas_generator.svg?style=social&label=Follow)](https://twitter.com/oas_generator)
+[![Stable releaases in Maven Central](https://img.shields.io/maven-metadata/v/https/repo1.maven.org/maven2/org/openapitools/openapi-generator/maven-metadata.xml.svg)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.openapitools%22%20AND%20a%3A%22openapi-generator%22) [![Apache 2.0 License](https://img.shields.io/badge/License-Apache%202.0-orange)](./LICENSE) [![Open Collective backers](https://img.shields.io/opencollective/backers/openapi_generator?color=orange&label=OpenCollective%20Backers)](https://opencollective.com/openapi_generator) [![Join the Slack chat room](https://img.shields.io/badge/Slack-Join%20the%20chat%20room-orange)](https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM) [![Follow OpenAPI Generator Twitter account to get the latest update](https://img.shields.io/twitter/follow/oas_generator.svg?style=social&label=Follow)](https://twitter.com/oas_generator)
 
 </div>
 
@@ -450,10 +450,10 @@ To get a list of PHP specified options (which can be passed to the generator wit
 You can build a client against the [Petstore API](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml) as follows:
 
 ```sh
-./bin/java-petstore-okhttp-gson.sh
+./bin/generate-samples.sh ./bin/configs/java-okhttp-gson.yaml
 ```
 
-(On Windows, run `.\bin\windows\java-petstore-okhttp-gson.bat` instead)
+(On Windows, please install [GIT Bash for Windows](https://gitforwindows.org/) to run the command above)
 
 This script uses the default library, which is `okhttp-gson`. It will run the generator with this command:
 
@@ -461,6 +461,8 @@ This script uses the default library, which is `okhttp-gson`. It will run the ge
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
   -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
   -g java \
+  -t modules/openapi-generator/src/main/resources/Java \
+  --additional-properties artifactId=petstore-okhttp-gson,hideGenerationTimestamp:true \
   -o samples/client/petstore/java/okhttp-gson
 ```
 
@@ -526,13 +528,7 @@ cd samples/client/petstore/java/okhttp-gson
 mvn package
 ```
 
-Other languages have petstore samples, too:
-
-- [Swift5](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/swift5)
-- [Ruby](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/ruby)
-- [Kotlin](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/kotlin)
-
-... and more.
+Other generators have [samples](https://github.com/OpenAPITools/openapi-generator/tree/master/samples) too.
 
 ### [3.1 - Customization](#table-of-contents)
 
@@ -808,6 +804,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-10-31 - [[B2] OpenAPI Specification으로 타입-세이프하게 API 개발하기: 희망편 VS 절망편](https://www.youtube.com/watch?v=J4JHLESAiFk) by 최태건 at [FEConf 2020](https://2020.feconf.kr/)
 - 2020-11-05 - [Automated REST-Api Code Generation: Wie IT-Systeme miteinander sprechen](https://www.massiveart.com/blog/automated-rest-api-code-generation-wie-it-systeme-miteinander-sprechen) by Stefan Rottensteiner at [MASSIVE ART Blog](https://www.massiveart.com/blog)
 - 2020-12-01 - [OpenAPI GeneratorでGoのAPIサーバー/クライアントコードを自動生成する](https://qiita.com/saki-engineering/items/b20d8b6074c4da9664a5) by [@saki-engineering](https://qiita.com/saki-engineering)
+- 2020-12-04 - [Scaling the Test Coverage of OpenAPI Generator for 30+ Programming Languages](https://www.youtube.com/watch?v=7Lke9dHRqT0) by [William Cheng](https://github.com/wing328) at [Open Source Summit Japan + Automotive Linux Summit 2020](https://events.linuxfoundation.org/archive/2020/open-source-summit-japan/) ([Slides](https://speakerdeck.com/wing328/scaling-the-test-coverage-of-openapi-generator-for-30-plus-programming-languages))
 - 2020-12-09 - [プロジェクトにOpenAPI Generatorで自動生成された型付きAPI Clientを導入した話](https://qiita.com/yoshifujiT/items/905c18700ede23f40840) by [@yoshifujiT](https://github.com/yoshifujiT)
 - 2020-12-15 - [Next.js + NestJS + GraphQLで変化に追従するフロントエンドへ 〜 ショッピングクーポンの事例紹介](https://techblog.yahoo.co.jp/entry/2020121530052952/) by [小倉 陸](https://github.com/ogugu9) at [Yahoo! JAPAN Tech Blog](https://techblog.yahoo.co.jp/)
 - 2021-01-08 - [Hello, New API – Part 1](https://www.nginx.com/blog/hello-new-api-part-1/) by [Jeremy Schulman](https://www.nginx.com/people/jeremy-schulman/) at [Major League Baseball](https://www.mlb.com)
@@ -998,7 +995,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 
 #### Members of Technical Committee
 
-| Languages         | Member (join date)                                                                                                                                                                                                                |
+| Languages/Generators         | Member (join date)                                                                                                                                                                                                                |
 | :---------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ActionScript      |                                                                                                                                                                                                                                   |
 | Ada               | @stcarrez (2018/02) @michelealbano (2018/02)                                                                                                                                                                                        |
@@ -1020,6 +1017,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Groovy            |                                                                                                                                                                                                                                   |
 | Haskell           |                                                                                                                                                                                                                                   |
 | Java              | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) @Zomzog (2019/04) @lwlee2608 (2019/10) @nmuesch (2021/01)                          |
+| JMeter               | @kannkyo (2021/01)                                                                                                                                                                                                            |
 | Kotlin            | @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @dr4ke616 (2018/08) @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) @4brunu (2019/11) @yutaka0m (2020/03)                                                        |
 | Lua               | @daurnimator (2017/08)                                                                                                                                                                                                            |
 | Nim               |                                                                                                                                                                                                                                   |

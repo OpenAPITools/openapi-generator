@@ -13,10 +13,12 @@ import 'package:built_value/serializer.dart';
 import 'package:openapi/model/model_client.dart';
 
 class AnotherFakeApi {
-    final Dio _dio;
-    Serializers _serializers;
 
-    AnotherFakeApi(this._dio, this._serializers);
+    final Dio _dio;
+
+    final Serializers _serializers;
+
+    const AnotherFakeApi(this._dio, this._serializers);
 
     /// To test special tags
     ///
@@ -77,6 +79,7 @@ class AnotherFakeApi {
             return Response<ModelClient>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
