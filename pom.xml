@@ -1181,6 +1181,7 @@
                 </property>
             </activation>
             <modules>
+                <module>samples/client/petstore/typescript-axios/</module>
                 <module>samples/client/petstore/typescript-axios/tests/default</module>
                 <module>samples/client/petstore/crystal</module>
                 <!-- servers -->
