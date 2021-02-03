@@ -29,7 +29,7 @@ abstract class Pet implements Built<Pet, PetBuilder> {
 
     @nullable
     @BuiltValueField(wireName: r'photoUrls')
-    BuiltList<String> get photoUrls;
+    BuiltSet<String> get photoUrls;
 
     @nullable
     @BuiltValueField(wireName: r'tags')

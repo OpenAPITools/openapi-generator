@@ -16,7 +16,7 @@ interface AnotherFakeApi {
      *  - 200: successful operation
      * 
      * @param client client model 
-    * @return [Call]<[Client]>
+     * @return [Call]<[Client]>
      */
     @PATCH("another-fake/dummy")
     fun call123testSpecialTags(@Body client: Client): Single<Client>

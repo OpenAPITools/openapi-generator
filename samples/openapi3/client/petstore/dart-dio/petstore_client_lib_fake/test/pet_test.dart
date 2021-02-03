@@ -21,7 +21,7 @@ void main() {
       // TODO
     });
 
-    // BuiltList<String> photoUrls
+    // BuiltSet<String> photoUrls
     test('to test the property `photoUrls`', () async {
       // TODO
     });

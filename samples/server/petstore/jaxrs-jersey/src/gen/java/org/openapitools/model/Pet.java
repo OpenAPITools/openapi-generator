@@ -20,7 +20,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -54,7 +56,7 @@ public class Pet   {
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
-  private List<String> photoUrls = new ArrayList<String>();
+  private Set<String> photoUrls = new LinkedHashSet<String>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   @JsonProperty(JSON_PROPERTY_TAGS)
@@ -157,7 +159,7 @@ public class Pet   {
     this.name = name;
   }
 
-  public Pet photoUrls(List<String> photoUrls) {
+  public Pet photoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
@@ -174,11 +176,11 @@ public class Pet   {
   @JsonProperty("photoUrls")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
-  public List<String> getPhotoUrls() {
+  public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
-  public void setPhotoUrls(List<String> photoUrls) {
+  public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 

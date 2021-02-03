@@ -34,8 +34,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
-|array|List|
-|map|Map|
 
 
 ## LANGUAGE PRIMITIVES
