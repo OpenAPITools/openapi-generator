@@ -128,7 +128,7 @@ func (h *HttpSignatureAuth) ContextWithValue(ctx context.Context) (context.Conte
 	if h.KeyId == "" {
 		return nil, fmt.Errorf("Key ID must be specified")
 	}
-	if h.PrivateKeyPath == "" && h.privateKey == "" {
+	if h.PrivateKeyPath == "" && h.privateKey == nil {
 		return nil, fmt.Errorf("Private key path must be specified")
 	}
 	if _, ok := supportedSigningSchemes[h.SigningScheme]; !ok {
