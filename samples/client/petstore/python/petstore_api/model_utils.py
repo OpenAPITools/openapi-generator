@@ -1333,7 +1333,7 @@ def is_valid_type(input_class_simple, valid_classes):
     Returns:
         bool
     """
-    valid_type = input_class_simple in valid_classes
+    valid_type = issubclass(input_class_simple, valid_classes)
     if not valid_type and (
             issubclass(input_class_simple, OpenApiModel) or
             input_class_simple is none_type):
