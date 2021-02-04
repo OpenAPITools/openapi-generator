@@ -1,11 +1,6 @@
 group 'org.openapitools'
 version '1.0.0'
 
-wrapper {
-    gradleVersion = '6.8.1'
-    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
-}
-
 buildscript {
     ext.kotlin_version = '1.4.20'
     ext.retrofitVersion = '2.6.2'
