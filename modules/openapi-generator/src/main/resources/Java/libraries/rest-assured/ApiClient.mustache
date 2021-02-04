@@ -1,8 +1,11 @@
 {{>licenseInfo}}
 
 package {{invokerPackage}};
-
-import {{apiPackage}}.*;
+{{#apiInfo}}
+{{#apis}}
+import {{apiPackage}}.{{classname}};
+{{/apis}}
+{{/apiInfo}}
 
 {{#imports}}import {{import}};
 {{/imports}}
