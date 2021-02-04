@@ -1,0 +1,21 @@
+{{>partial_header}}
+package {{packageName}}
+
+import (
+	"net/http"
+)
+
+// EncodeParameterErrorResponse returns an error status code to the caller for an invalid parameter
+func EncodeParameterErrorResponse(parameterName string, err error, w http.ResponseWriter) {
+	w.WriteHeader(http.StatusBadRequest)
+}
+
+// EncodeBodyErrorResponse returns an error status code to the caller for a failure parsing the request body
+func EncodeBodyErrorResponse(err error, w http.ResponseWriter) {
+	w.WriteHeader(http.StatusBadRequest)
+}
+
+// EncodeFormErrorResponse returns an error status code to the caller when failing to process the for parameters
+func EncodeFormErrorResponse(err error, w http.ResponseWriter) {
+	w.WriteHeader(http.StatusBadRequest)
+}
