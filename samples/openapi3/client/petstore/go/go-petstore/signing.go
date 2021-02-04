@@ -125,6 +125,11 @@ type HttpSignatureAuth struct {
 	privateKey        crypto.PrivateKey // The private key used to sign HTTP requests.
 }
 
+// SetPrivateKey accepts a private key string and sets it.
+func (h *HttpSignatureAuth) SetPrivateKey(privateKey string) error {
+	return h.parsePrivateKey([]byte(privateKey))
+}
+
 // ContextWithValue validates the HttpSignatureAuth configuration parameters and returns a context
 // suitable for HTTP signature. An error is returned if the HttpSignatureAuth configuration parameters
 // are invalid.
@@ -132,7 +137,7 @@ func (h *HttpSignatureAuth) ContextWithValue(ctx context.Context) (context.Conte
 	if h.KeyId == "" {
 		return nil, fmt.Errorf("Key ID must be specified")
 	}
-	if h.PrivateKeyPath == "" {
+	if h.PrivateKeyPath == "" && h.privateKey == nil {
 		return nil, fmt.Errorf("Private key path must be specified")
 	}
 	if _, ok := supportedSigningSchemes[h.SigningScheme]; !ok {
@@ -177,7 +182,11 @@ func (h *HttpSignatureAuth) GetPublicKey() (crypto.PublicKey, error) {
 }
 
 // loadPrivateKey reads the private key from the file specified in the HttpSignatureAuth.
+// The key is loaded only when privateKey is not already set.
 func (h *HttpSignatureAuth) loadPrivateKey() (err error) {
+	if h.privateKey != nil {
+		return nil
+	}
 	var file *os.File
 	file, err = os.Open(h.PrivateKeyPath)
 	if err != nil {
@@ -191,12 +200,18 @@ func (h *HttpSignatureAuth) loadPrivateKey() (err error) {
 	if err != nil {
 		return err
 	}
+	return h.parsePrivateKey(priv)
+}
+
+// parsePrivateKey decodes privateKey byte array to crypto.PrivateKey type.
+func (h *HttpSignatureAuth) parsePrivateKey(priv []byte) error {
 	pemBlock, _ := pem.Decode(priv)
 	if pemBlock == nil {
 		// No PEM data has been found.
 		return fmt.Errorf("File '%s' does not contain PEM data", h.PrivateKeyPath)
 	}
 	var privKey []byte
+	var err error
 	if x509.IsEncryptedPEMBlock(pemBlock) {
 		// The PEM data is encrypted.
 		privKey, err = x509.DecryptPEMBlock(pemBlock, []byte(h.Passphrase))
