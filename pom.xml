@@ -1181,6 +1181,8 @@
                 </property>
             </activation>
             <modules>
+                <module>samples/client/petstore/typescript-axios/builds/with-npm-version</module>
+                <module>samples/client/petstore/typescript-axios/tests/default</module>
                 <module>samples/client/petstore/crystal</module>
                 <!-- servers -->
                 <module>samples/server/petstore/python-aiohttp</module>
@@ -1222,7 +1224,6 @@
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
                 <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
                 <module>samples/client/petstore/typescript-fetch/tests/default</module>
-                <module>samples/client/petstore/typescript-axios/tests/default</module>
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <module>samples/client/petstore/typescript-rxjs/builds/with-npm-version</module>
                 <!-- TODO comment out below when the test for typescript-nestjs is ready
