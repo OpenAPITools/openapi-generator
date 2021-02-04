@@ -13,6 +13,7 @@
 
 package org.openapitools.client.api;
 
+import org.openapitools.client.Oper;
 import org.openapitools.client.model.Client;
 
 import java.util.ArrayList;
