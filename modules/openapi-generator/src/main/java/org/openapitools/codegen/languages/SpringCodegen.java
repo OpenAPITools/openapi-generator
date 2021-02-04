@@ -45,6 +45,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public class SpringCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures,
         OptionalFeatures {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
 
     public static final String TITLE = "title";
@@ -72,6 +73,10 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
 
+
+
+
+
     public static final String OPEN_BRACE = "{";
     public static final String CLOSE_BRACE = "}";
 
@@ -98,6 +103,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean hateoas = false;
     protected boolean returnSuccessCode = false;
     protected boolean unhandledException = false;
+
 
     public SpringCodegen() {
         super();
@@ -204,14 +210,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         return "Generates a Java SpringBoot Server application using the SpringFox integration.";
     }
 
+
+
     @Override
     public void processOpts() {
 
-        List<Pair<String, String>> configOptions = additionalProperties.entrySet().stream()
-                .filter(e -> !Arrays.asList(API_FIRST, "hideGenerationTimestamp").contains(e.getKey()))
-                .filter(e -> cliOptions.stream().map(CliOption::getOpt).anyMatch(opt -> opt.equals(e.getKey())))
-                .map(e -> Pair.of(e.getKey(), e.getValue().toString()))
-                .collect(Collectors.toList());
+
+        List<Pair<String, String>> configOptions = generateAdditionalConfig();
         additionalProperties.put("configOptions", configOptions);
 
         // Process java8 option before common java ones to change the default dateLibrary to java8.
@@ -239,6 +244,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         //TODO: add doc templates
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
+
+
 
         if (additionalProperties.containsKey(TITLE)) {
             this.setTitle((String) additionalProperties.get(TITLE));
@@ -359,6 +366,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (!this.interfaceOnly) {
             if (library.equals(SPRING_BOOT)) {
+                supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
+                supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
                 supportingFiles.add(new SupportingFile("openapi2SpringBoot.mustache",
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "OpenAPI2SpringBoot.java"));
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
@@ -496,6 +505,15 @@ public class SpringCodegen extends AbstractJavaCodegen
         additionalProperties.put("lambdaTrimWhitespace", new TrimWhitespaceLambda());
 
         additionalProperties.put("lambdaSplitString", new SplitStringLambda());
+    }
+
+
+    private List<Pair<String, String>> generateAdditionalConfig() {
+        return additionalProperties.entrySet().stream()
+                .filter(e -> !Arrays.asList(API_FIRST, "hideGenerationTimestamp").contains(e.getKey()))
+                .filter(e -> cliOptions.stream().map(CliOption::getOpt).anyMatch(opt -> opt.equals(e.getKey())))
+                .map(e -> Pair.of(e.getKey(), e.getValue().toString()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -775,6 +793,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public void setAsync(boolean async) {
         this.async = async;
     }
+
 
     public void setReactive(boolean reactive) {
         this.reactive = reactive;

@@ -18,8 +18,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 using Org.OpenAPITools.Authentication;
 using Org.OpenAPITools.Filters;
 using Org.OpenAPITools.OpenApi;
@@ -65,12 +63,14 @@ namespace Org.OpenAPITools
             services
                 // Don't need the full MVC stack for an API, see https://andrewlock.net/comparing-startup-between-the-asp-net-core-3-templates/
                 .AddControllers()
-                .AddNewtonsoftJson(opts =>
+                // Don't need this for 3.x - see https://docs.microsoft.com/en-us/aspnet/core/mvc/compatibility-version?view=aspnetcore-3.1
+                //.SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(opts =>
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     opts.SerializerSettings.Converters.Add(new StringEnumConverter
                     {
-                        NamingStrategy = new CamelCaseNamingStrategy()
+                        CamelCaseText = true
                     });
                 });
 
@@ -80,7 +80,7 @@ namespace Org.OpenAPITools
                     c.SwaggerDoc("1.0.0", new OpenApiInfo
                     {
                         Title = "OpenAPI Petstore",
-                        Description = "OpenAPI Petstore (ASP.NET Core 3.1)",
+                        Description = "OpenAPI Petstore (ASP.NET Core 2.2)",
                         TermsOfService = new Uri("https://github.com/openapitools/openapi-generator"),
                         Contact = new OpenApiContact
                         {
@@ -104,8 +104,6 @@ namespace Org.OpenAPITools
                     // Use [ValidateModelState] on Actions to actually validate it in C# as well!
                     c.OperationFilter<GeneratePathParamsValidationFilter>();
                 });
-                services
-                    .AddSwaggerGenNewtonsoftSupport();
         }
 
         /// <summary>
