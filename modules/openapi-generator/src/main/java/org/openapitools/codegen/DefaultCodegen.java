@@ -782,7 +782,7 @@ public class DefaultCodegen implements CodegenConfig {
     //override with any special handling of the entire OpenAPI spec document
     @SuppressWarnings("unused")
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        if (useOneOfInterfaces) {
+        if (useOneOfInterfaces && openAPI.getComponents() != null) {
             // we process the openapi schema here to find oneOf schemas and create interface models for them
             Map<String, Schema> schemas = new HashMap<String, Schema>(openAPI.getComponents().getSchemas());
             if (schemas == null) {
