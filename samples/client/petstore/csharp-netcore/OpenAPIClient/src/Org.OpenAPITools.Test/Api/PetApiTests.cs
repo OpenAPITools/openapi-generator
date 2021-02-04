@@ -199,6 +199,19 @@ namespace Org.OpenAPITools.Test
             Assert.Equal("sample category name2", response.Category.Name);
         }
 
+        /* a simple test for binary response. no longer in use.
+        [Fact]
+        public void TestGetByIdBinaryResponse()
+        {
+            PetApi petApi = new PetApi(c1);
+            Stream response = petApi.GetPetByIdBinaryResponse(petId);
+            Assert.IsType<System.IO.MemoryStream>(response);
+            StreamReader reader = new StreamReader(response);
+            // the following will fail for sure
+            //Assert.Equal("someting", reader.ReadToEnd());
+        }
+        */
+
         /// <summary>
         /// Test GetPetByIdWithHttpInfoAsync
         /// </summary>

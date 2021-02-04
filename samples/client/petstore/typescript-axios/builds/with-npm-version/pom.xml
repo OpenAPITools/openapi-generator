@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>TypeScriptAngularBuildWithNPMVersionPestoreClientTests</artifactId>
+    <artifactId>TSAxiosPestoreTests</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>TS Fetch Petstore Client (with npm)</name>
+    <name>TS Axios Petstore Test Client</name>
     <build>
         <plugins>
             <plugin>
@@ -28,7 +28,7 @@
                 <executions>
                     <execution>
                         <id>npm-install</id>
-                        <phase>integration-test</phase>
+                        <phase>pre-integration-test</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
@@ -36,20 +36,6 @@
                             <executable>npm</executable>
                             <arguments>
                                 <argument>install</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>npm-build</id>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>npm</executable>
-                            <arguments>
-                                <argument>run</argument>
-                                <argument>build</argument>
                             </arguments>
                         </configuration>
                     </execution>

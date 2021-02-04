@@ -25,8 +25,6 @@ This can only be done by the logged in user.
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 # Configure API key authorization: auth_cookie
@@ -75,8 +73,6 @@ Creates list of users with given input array
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 # Configure API key authorization: auth_cookie
@@ -125,8 +121,6 @@ Creates list of users with given input array
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 # Configure API key authorization: auth_cookie
@@ -177,8 +171,6 @@ This can only be done by the logged in user.
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 # Configure API key authorization: auth_cookie
@@ -227,8 +219,6 @@ Get user by user name
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 $Username = "Username_example" # String | The name that needs to be fetched. Use user1 for testing.
 
 # Get user by user name
@@ -271,8 +261,6 @@ Logs user into the system
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 $Username = "Username_example" # String | The user name for login
 $Password = "Password_example" # String | The password for login in clear text
 
@@ -315,8 +303,6 @@ Logs out current logged in user session
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 # Configure API key authorization: auth_cookie
@@ -364,8 +350,6 @@ This can only be done by the logged in user.
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 # Configure API key authorization: auth_cookie
