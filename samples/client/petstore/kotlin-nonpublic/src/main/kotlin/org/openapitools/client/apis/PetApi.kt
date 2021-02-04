@@ -45,18 +45,10 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun addPet(body: Pet) : Unit {
-        val localVariableBody: kotlin.Any? = body
-        val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        val localVariableConfig = RequestConfig(
-            RequestMethod.POST,
-            "/pet",
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
+        val localVariableConfig = addPetRequestConfig(body = body)
+
         val localVarResponse = request<Any?>(
-            localVariableConfig,
-            localVariableBody
+            localVariableConfig
         )
 
         return when (localVarResponse.responseType) {
@@ -72,6 +64,22 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
                 throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
             }
         }
+    }
+
+    fun addPetRequestConfig(body: Pet) : RequestConfig {
+        val localVariableBody: kotlin.Any? = body
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        val localVariableConfig = RequestConfig(
+            method = RequestMethod.POST,
+            path = "/pet",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+
+        return localVariableConfig
     }
 
     /**
@@ -86,19 +94,10 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?) : Unit {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
-        val localVariableConfig = RequestConfig(
-            RequestMethod.DELETE,
-            "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
+        val localVariableConfig = deletePetRequestConfig(petId = petId, apiKey = apiKey)
+
         val localVarResponse = request<Any?>(
-            localVariableConfig,
-            localVariableBody
+            localVariableConfig
         )
 
         return when (localVarResponse.responseType) {
@@ -116,6 +115,23 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
         }
     }
 
+    fun deletePetRequestConfig(petId: kotlin.Long, apiKey: kotlin.String?) : RequestConfig {
+        val localVariableBody: kotlin.Any? = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
+        
+        val localVariableConfig = RequestConfig(
+            method = RequestMethod.DELETE,
+            path = "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+
+        return localVariableConfig
+    }
+
     /**
     * Finds Pets by status
     * Multiple status values can be provided with comma separated strings
@@ -128,21 +144,10 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>) : kotlin.collections.List<Pet> {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
-            .apply {
-                put("status", toMultiValue(status.toList(), "csv"))
-            }
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        val localVariableConfig = RequestConfig(
-            RequestMethod.GET,
-            "/pet/findByStatus",
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
+        val localVariableConfig = findPetsByStatusRequestConfig(status = status)
+
         val localVarResponse = request<kotlin.collections.List<Pet>>(
-            localVariableConfig,
-            localVariableBody
+            localVariableConfig
         )
 
         return when (localVarResponse.responseType) {
@@ -158,6 +163,25 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
                 throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
             }
         }
+    }
+
+    fun findPetsByStatusRequestConfig(status: kotlin.collections.List<kotlin.String>) : RequestConfig {
+        val localVariableBody: kotlin.Any? = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+            .apply {
+                put("status", toMultiValue(status.toList(), "csv"))
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        val localVariableConfig = RequestConfig(
+            method = RequestMethod.GET,
+            path = "/pet/findByStatus",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+
+        return localVariableConfig
     }
 
     /**
@@ -173,21 +197,10 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     @Deprecated(message = "This operation is deprecated.")
     fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>) : kotlin.collections.List<Pet> {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
-            .apply {
-                put("tags", toMultiValue(tags.toList(), "csv"))
-            }
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        val localVariableConfig = RequestConfig(
-            RequestMethod.GET,
-            "/pet/findByTags",
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
+        val localVariableConfig = findPetsByTagsRequestConfig(tags = tags)
+
         val localVarResponse = request<kotlin.collections.List<Pet>>(
-            localVariableConfig,
-            localVariableBody
+            localVariableConfig
         )
 
         return when (localVarResponse.responseType) {
@@ -205,6 +218,25 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
         }
     }
 
+    fun findPetsByTagsRequestConfig(tags: kotlin.collections.List<kotlin.String>) : RequestConfig {
+        val localVariableBody: kotlin.Any? = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+            .apply {
+                put("tags", toMultiValue(tags.toList(), "csv"))
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        val localVariableConfig = RequestConfig(
+            method = RequestMethod.GET,
+            path = "/pet/findByTags",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+
+        return localVariableConfig
+    }
+
     /**
     * Find pet by ID
     * Returns a single pet
@@ -217,18 +249,10 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getPetById(petId: kotlin.Long) : Pet {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        val localVariableConfig = RequestConfig(
-            RequestMethod.GET,
-            "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
+        val localVariableConfig = getPetByIdRequestConfig(petId = petId)
+
         val localVarResponse = request<Pet>(
-            localVariableConfig,
-            localVariableBody
+            localVariableConfig
         )
 
         return when (localVarResponse.responseType) {
@@ -246,6 +270,22 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
         }
     }
 
+    fun getPetByIdRequestConfig(petId: kotlin.Long) : RequestConfig {
+        val localVariableBody: kotlin.Any? = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        val localVariableConfig = RequestConfig(
+            method = RequestMethod.GET,
+            path = "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+
+        return localVariableConfig
+    }
+
     /**
     * Update an existing pet
     * 
@@ -257,18 +297,10 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun updatePet(body: Pet) : Unit {
-        val localVariableBody: kotlin.Any? = body
-        val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        val localVariableConfig = RequestConfig(
-            RequestMethod.PUT,
-            "/pet",
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
+        val localVariableConfig = updatePetRequestConfig(body = body)
+
         val localVarResponse = request<Any?>(
-            localVariableConfig,
-            localVariableBody
+            localVariableConfig
         )
 
         return when (localVarResponse.responseType) {
@@ -286,6 +318,22 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
         }
     }
 
+    fun updatePetRequestConfig(body: Pet) : RequestConfig {
+        val localVariableBody: kotlin.Any? = body
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        val localVariableConfig = RequestConfig(
+            method = RequestMethod.PUT,
+            path = "/pet",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+
+        return localVariableConfig
+    }
+
     /**
     * Updates a pet in the store with form data
     * 
@@ -299,18 +347,10 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : Unit {
-        val localVariableBody: kotlin.Any? = mapOf("name" to name, "status" to status)
-        val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
-        val localVariableConfig = RequestConfig(
-            RequestMethod.POST,
-            "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
+        val localVariableConfig = updatePetWithFormRequestConfig(petId = petId, name = name, status = status)
+
         val localVarResponse = request<Any?>(
-            localVariableConfig,
-            localVariableBody
+            localVariableConfig
         )
 
         return when (localVarResponse.responseType) {
@@ -326,6 +366,22 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
                 throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
             }
         }
+    }
+
+    fun updatePetWithFormRequestConfig(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : RequestConfig {
+        val localVariableBody: kotlin.Any? = mapOf("name" to name, "status" to status)
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
+        
+        val localVariableConfig = RequestConfig(
+            method = RequestMethod.POST,
+            path = "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+
+        return localVariableConfig
     }
 
     /**
@@ -342,18 +398,10 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : ApiResponse {
-        val localVariableBody: kotlin.Any? = mapOf("additionalMetadata" to additionalMetadata, "file" to file)
-        val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
-        val localVariableConfig = RequestConfig(
-            RequestMethod.POST,
-            "/pet/{petId}/uploadImage".replace("{"+"petId"+"}", "$petId"),
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
+        val localVariableConfig = uploadFileRequestConfig(petId = petId, additionalMetadata = additionalMetadata, file = file)
+
         val localVarResponse = request<ApiResponse>(
-            localVariableConfig,
-            localVariableBody
+            localVariableConfig
         )
 
         return when (localVarResponse.responseType) {
@@ -369,6 +417,22 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
                 throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
             }
         }
+    }
+
+    fun uploadFileRequestConfig(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : RequestConfig {
+        val localVariableBody: kotlin.Any? = mapOf("additionalMetadata" to additionalMetadata, "file" to file)
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
+        
+        val localVariableConfig = RequestConfig(
+            method = RequestMethod.POST,
+            path = "/pet/{petId}/uploadImage".replace("{"+"petId"+"}", "$petId"),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+
+        return localVariableConfig
     }
 
 }
