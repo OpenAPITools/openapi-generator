@@ -4,6 +4,9 @@ import 'package:built_value/serializer.dart';
 import 'package:time_machine/time_machine.dart';
 
 class OffsetDateSerializer implements PrimitiveSerializer<OffsetDate> {
+
+  const OffsetDateSerializer();
+
   @override
   Iterable<Type> get types => BuiltList<Type>([OffsetDate]);
 
@@ -25,6 +28,9 @@ class OffsetDateSerializer implements PrimitiveSerializer<OffsetDate> {
 }
 
 class OffsetDateTimeSerializer implements PrimitiveSerializer<OffsetDateTime> {
+
+  const OffsetDateTimeSerializer();
+
   @override
   Iterable<Type> get types => BuiltList<Type>([OffsetDateTime]);
 

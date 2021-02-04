@@ -127,6 +127,9 @@ public class DartDioClientCodegen extends DartClientCodegen {
     public String toDefaultValue(Schema schema) {
         if (schema.getDefault() != null) {
             if (ModelUtils.isArraySchema(schema)) {
+                if (ModelUtils.isSet(schema)) {
+                    return "SetBuilder()";
+                }
                 return "ListBuilder()";
             }
             if (ModelUtils.isMapSchema(schema)) {
@@ -318,6 +321,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
                 if (param.isContainer) {
                     final Map<String, Object> serializer = new HashMap<>();
                     serializer.put("isArray", param.isArray);
+                    serializer.put("uniqueItems", param.uniqueItems);
                     serializer.put("isMap", param.isMap);
                     serializer.put("baseType", param.baseType);
                     serializers.add(serializer);
@@ -347,7 +351,8 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
             if (op.returnContainer != null) {
                 final Map<String, Object> serializer = new HashMap<>();
-                serializer.put("isArray", Objects.equals("array", op.returnContainer));
+                serializer.put("isArray", Objects.equals("array", op.returnContainer) || Objects.equals("set", op.returnContainer));
+                serializer.put("uniqueItems", op.uniqueItems);
                 serializer.put("isMap", Objects.equals("map", op.returnContainer));
                 serializer.put("baseType", op.returnBaseType);
                 serializers.add(serializer);

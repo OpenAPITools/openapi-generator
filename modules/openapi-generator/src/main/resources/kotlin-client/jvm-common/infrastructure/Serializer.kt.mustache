@@ -2,7 +2,6 @@ package {{packageName}}.infrastructure
 
 {{#moshi}}
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 {{^moshiCodeGen}}
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 {{/moshiCodeGen}}
@@ -36,7 +35,6 @@ import java.util.Date
 {{#moshi}}
     @JvmStatic
     val moshiBuilder: Moshi.Builder = Moshi.Builder()
-        .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
         .add(OffsetDateTimeAdapter())
         .add(LocalDateTimeAdapter())
         .add(LocalDateAdapter())
@@ -54,7 +52,6 @@ import java.util.Date
 {{#gson}}
     @JvmStatic
     val gsonBuilder: GsonBuilder = GsonBuilder()
-        .registerTypeAdapter(Date::class.java, DateAdapter())
         .registerTypeAdapter(OffsetDateTime::class.java, OffsetDateTimeAdapter())
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
