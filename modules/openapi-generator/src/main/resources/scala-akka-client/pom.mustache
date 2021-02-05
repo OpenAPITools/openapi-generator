@@ -15,7 +15,8 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <java.version>1.8</java.version>
-    <scala.version>2.12.8</scala.version>
+    <scala.version>2.12.10</scala.version>
+    <scala213.version>2.13.2</scala213.version>
     <json4s.jackson.version>3.5.3</json4s.jackson.version>
     <json4s.ext.version>3.2.11</json4s.ext.version>
     <akka.version>2.5.21</akka.version>
@@ -234,12 +235,39 @@
         <version>${scala.maven.plugin.version}</version>
         <executions>
           <execution>
+            <id>scala-compile-first-2.13</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>add-source</goal>
+              <goal>compile</goal>
+            </goals>
+             <configuration>
+                 <scalaVersion>${scala213.version}</scalaVersion>
+                 <outputDir>${project.build.outputDirectory}/scala-2.13</outputDir>
+              </configuration>
+          </execution>
+          <execution>
+            <id>scala-test-compile-2.13</id>
+            <phase>process-test-resources</phase>
+            <goals>
+              <goal>testCompile</goal>
+            </goals>
+             <configuration>
+                 <scalaVersion>${scala213.version}</scalaVersion>
+                 <outputDir>${project.build.outputDirectory}/scala-2.13</outputDir>
+              </configuration>
+          </execution>
+          <execution>
             <id>scala-compile-first</id>
             <phase>process-resources</phase>
             <goals>
               <goal>add-source</goal>
               <goal>compile</goal>
             </goals>
+             <configuration>
+                 <scalaVersion>${scala.version}</scalaVersion>
+                 <outputDir>${project.build.outputDirectory}/scala-2.12</outputDir>
+              </configuration>
           </execution>
           <execution>
             <id>scala-test-compile</id>
@@ -247,6 +275,10 @@
             <goals>
               <goal>testCompile</goal>
             </goals>
+             <configuration>
+                 <scalaVersion>${scala.version}</scalaVersion>
+                 <outputDir>${project.build.outputDirectory}/scala-2.12</outputDir>
+              </configuration>
           </execution>
         </executions>
         <configuration>

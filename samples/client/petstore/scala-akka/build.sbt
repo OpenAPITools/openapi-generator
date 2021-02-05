@@ -1,7 +1,6 @@
 version := "1.0.0"
 name := "scala-akka-petstore-client"
 organization := "org.openapitools"
-scalaVersion := "2.12.8"
 
 scalaVersion := "2.13.2"
 crossScalaVersions := Seq(scalaVersion.value, "2.12.10")
