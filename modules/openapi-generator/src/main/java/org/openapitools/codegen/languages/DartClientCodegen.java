@@ -141,14 +141,13 @@ public class DartClientCodegen extends DefaultCodegen {
             "double",
             "dynamic"
         );
-        instantiationTypes.put("array", "List");
-        instantiationTypes.put("map", "Map");
 
         typeMapping = new HashMap<>();
         typeMapping.put("Array", "List");
         typeMapping.put("array", "List");
         typeMapping.put("map", "Map");
         typeMapping.put("List", "List");
+        typeMapping.put("set", "Set");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "String");
         typeMapping.put("char", "String");
@@ -468,9 +467,10 @@ public class DartClientCodegen extends DefaultCodegen {
 
     @Override
     public String toDefaultValue(Schema schema) {
-        if (ModelUtils.isMapSchema(schema)) {
+        if (ModelUtils.isMapSchema(schema) || ModelUtils.isSet(schema)) {
             return "const {}";
-        } else if (ModelUtils.isArraySchema(schema)) {
+        }
+        if (ModelUtils.isArraySchema(schema)) {
             return "const []";
         }
 
@@ -494,7 +494,8 @@ public class DartClientCodegen extends DefaultCodegen {
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
             return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
-        } else if (ModelUtils.isMapSchema(target)) {
+        }
+        if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
             Schema<?> inner = getAdditionalProperties(target);

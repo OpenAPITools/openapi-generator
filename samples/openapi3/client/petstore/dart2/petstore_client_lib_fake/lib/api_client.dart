@@ -265,6 +265,12 @@ class ApiClient {
               .map((v) => _deserialize(v, newTargetType, growable: growable))
               .toList(growable: true == growable);
           }
+          if (value is Set && (match = _regSet.firstMatch(targetType)) != null) {
+            final newTargetType = match[1];
+            return value
+              .map((v) => _deserialize(v, newTargetType, growable: growable))
+              .toSet();
+          }
           if (value is Map && (match = _regMap.firstMatch(targetType)) != null) {
             final newTargetType = match[1];
             return Map.fromIterables(

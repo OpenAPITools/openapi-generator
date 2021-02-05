@@ -6,6 +6,7 @@ import org.openapitools.model.*;
 import java.io.File;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
+import java.util.Set;
 
 import java.util.List;
 import org.openapitools.api.NotFoundException;
@@ -35,7 +36,7 @@ public class PetApiServiceImpl extends PetApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response findPetsByTags( @NotNull List<String> tags, SecurityContext securityContext) throws NotFoundException {
+    public Response findPetsByTags( @NotNull Set<String> tags, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
