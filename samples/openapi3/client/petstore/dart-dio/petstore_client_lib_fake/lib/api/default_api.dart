@@ -13,10 +13,12 @@ import 'package:built_value/serializer.dart';
 import 'package:openapi/model/inline_response_default.dart';
 
 class DefaultApi {
-    final Dio _dio;
-    Serializers _serializers;
 
-    DefaultApi(this._dio, this._serializers);
+    final Dio _dio;
+
+    final Serializers _serializers;
+
+    const DefaultApi(this._dio, this._serializers);
 
     /// 
     ///
@@ -32,7 +34,7 @@ class DefaultApi {
         final String _path = '/foo';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -69,6 +71,7 @@ class DefaultApi {
             return Response<InlineResponseDefault>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,

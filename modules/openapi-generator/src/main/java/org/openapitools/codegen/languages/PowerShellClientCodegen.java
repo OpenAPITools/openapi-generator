@@ -1082,7 +1082,12 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 if (StringUtils.isEmpty(codegenParameter.example)) {
                     return "\"" + codegenParameter.example + "\"";
                 } else {
-                    return "\"" + codegenParameter.paramName + "_example\"";
+                    if (Boolean.TRUE.equals(codegenParameter.isEnum)) { // enum
+                        List<Object> enumValues = (List<Object>) codegenParameter.allowableValues.get("values");
+                        return "\"" + String.valueOf(enumValues.get(0)) + "\"";
+                    } else {
+                        return "\"" + codegenParameter.paramName + "_example\"";
+                    }
                 }
             } else if ("Boolean".equals(codegenParameter.dataType) ||
                     "System.Nullable[Boolean]".equals(codegenParameter.dataType)) { // boolean
@@ -1124,7 +1129,12 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 if (StringUtils.isEmpty(codegenProperty.example)) {
                     return "\"" + codegenProperty.example + "\"";
                 } else {
-                    return "\"" + codegenProperty.name + "_example\"";
+                    if (Boolean.TRUE.equals(codegenProperty.isEnum)) { // enum
+                        List<Object> enumValues = (List<Object>) codegenProperty.allowableValues.get("values");
+                        return "\"" + String.valueOf(enumValues.get(0)) + "\"";
+                    } else {
+                        return "\"" + codegenProperty.name + "_example\"";
+                    }
                 }
             } else if ("Boolean".equals(codegenProperty.dataType) ||
                     "System.Nullable[Boolean]".equals(codegenProperty.dataType)) { // boolean
@@ -1173,7 +1183,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             processedModelMap.put(model, 1);
         }
 
-        example = "(Initialize-" + codegenModel.name;
+        example = "(Initialize-" + codegenModel.name + " ";
         List<String> propertyExamples = new ArrayList<>();
         for (CodegenProperty codegenProperty : codegenModel.allVars) {
             propertyExamples.add("-" + codegenProperty.name + " " + constructExampleCode(codegenProperty, modelMaps, processedModelMap));

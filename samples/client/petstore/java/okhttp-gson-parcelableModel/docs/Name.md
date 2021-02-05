@@ -13,4 +13,8 @@ Name | Type | Description | Notes
 **_123number** | **Integer** |  |  [optional] [readonly]
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 

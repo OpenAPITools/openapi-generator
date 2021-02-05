@@ -11,11 +11,11 @@ import MobileCoreServices
 
 class URLSessionRequestBuilderFactory: RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
-        URLSessionRequestBuilder<T>.self
+        return URLSessionRequestBuilder<T>.self
     }
 
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
-        URLSessionDecodableRequestBuilder<T>.self
+        return URLSessionDecodableRequestBuilder<T>.self
     }
 }
 
@@ -23,9 +23,6 @@ class URLSessionRequestBuilderFactory: RequestBuilderFactory {
 private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
 
 internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
-
-    // swiftlint:disable:next weak_delegate
-    fileprivate let sessionDelegate = SessionDelegate()
 
     /**
      May be assigned if you want to control the authentication challenges.
@@ -52,6 +49,7 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
     internal func createURLSession() -> URLSession {
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = buildHeaders()
+        let sessionDelegate = SessionDelegate()
         sessionDelegate.credential = credential
         sessionDelegate.taskDidReceiveChallenge = taskDidReceiveChallenge
         return URLSession(configuration: configuration, delegate: sessionDelegate, delegateQueue: nil)
@@ -65,7 +63,7 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      the file extension).  Return the desired Content-Type otherwise.
      */
     internal func contentTypeForFormPart(fileURL: URL) -> String? {
-        nil
+        return nil
     }
 
     /**
@@ -126,21 +124,18 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         }
 
         let cleanupRequest = {
+            urlSessionStore[urlSessionId]?.finishTasksAndInvalidate()
             urlSessionStore[urlSessionId] = nil
         }
 
         do {
             let request = try createURLRequest(urlSession: urlSession, method: xMethod, encoding: encoding, headers: headers)
 
-            let dataTask = urlSession.dataTask(with: request) { [weak self] data, response, error in
-
-                guard let self = self else { return }
+            let dataTask = urlSession.dataTask(with: request) { data, response, error in
 
                 if let taskCompletionShouldRetry = self.taskCompletionShouldRetry {
 
-                    taskCompletionShouldRetry(data, response, error) { [weak self] shouldRetry in
-
-                        guard let self = self else { return }
+                    taskCompletionShouldRetry(data, response, error) { shouldRetry in
 
                         if shouldRetry {
                             cleanupRequest()
@@ -148,12 +143,14 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
                         } else {
                             apiResponseQueue.async {
                                 self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                                cleanupRequest()
                             }
                         }
                     }
                 } else {
                     apiResponseQueue.async {
                         self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                        cleanupRequest()
                     }
                 }
             }

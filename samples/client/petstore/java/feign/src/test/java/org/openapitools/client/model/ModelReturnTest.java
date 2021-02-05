@@ -16,25 +16,24 @@ package org.openapitools.client.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
  * Model tests for ModelReturn
  */
-public class ModelReturnTest {
+class ModelReturnTest {
     private final ModelReturn model = new ModelReturn();
 
     /**
      * Model tests for ModelReturn
      */
     @Test
-    public void testModelReturn() {
+    void testModelReturn() {
         // TODO: test ModelReturn
     }
 
@@ -42,7 +41,7 @@ public class ModelReturnTest {
      * Test the property '_return'
      */
     @Test
-    public void _returnTest() {
+    void _returnTest() {
         // TODO: test _return
     }
 

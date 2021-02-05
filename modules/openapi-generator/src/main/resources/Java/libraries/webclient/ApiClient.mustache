@@ -59,9 +59,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
-{{#java8}}
+{{#jsr310}}
+{{#threetenbp}}
+import org.threeten.bp.OffsetDateTime;
+{{/threetenbp}}
+{{^threetenbp}}
 import java.time.OffsetDateTime;
-{{/java8}}
+{{/threetenbp}}
+{{/jsr310}}
 
 import {{invokerPackage}}.auth.Authentication;
 import {{invokerPackage}}.auth.HttpBasicAuth;
@@ -72,7 +77,7 @@ import {{invokerPackage}}.auth.OAuth;
 {{/hasOAuthMethods}}
 
 {{>generatedAnnotation}}
-public class ApiClient{{#java8}} extends JavaTimeFormatter{{/java8}} {
+public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
 
@@ -357,9 +362,9 @@ public class ApiClient{{#java8}} extends JavaTimeFormatter{{/java8}} {
             return "";
         } else if (param instanceof Date) {
             return formatDate( (Date) param);
-        } {{#java8}}else if (param instanceof OffsetDateTime) {
+        } {{#jsr310}}else if (param instanceof OffsetDateTime) {
             return formatOffsetDateTime((OffsetDateTime) param);
-        } {{/java8}}else if (param instanceof Collection) {
+        } {{/jsr310}}else if (param instanceof Collection) {
             StringBuilder b = new StringBuilder();
             for(Object o : (Collection<?>) param) {
                 if(b.length() > 0) {

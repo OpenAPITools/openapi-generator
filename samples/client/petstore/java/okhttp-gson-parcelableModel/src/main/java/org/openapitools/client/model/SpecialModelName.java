@@ -30,7 +30,7 @@ import android.os.Parcel;
  * SpecialModelName
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class SpecialModelName {
+public class SpecialModelName implements Parcelable {
   public static final String SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @SerializedName(SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME)
   private Long $specialPropertyName;
@@ -77,7 +77,6 @@ public class SpecialModelName {
   public int hashCode() {
     return Objects.hash($specialPropertyName);
   }
-
 
   @Override
   public String toString() {

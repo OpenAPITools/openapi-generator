@@ -35,8 +35,8 @@ defmodule {{moduleName}}.Api.{{classname}} do
 {{/optionalParams}}
   ## Returns
 
-  {:ok, {{#isArray}}[%{{&returnBaseType}}{}, ...]{{/isArray}}{{#isMap}}%{}{{/isMap}}{{^returnType}}%{}{{/returnType}}{{#returnSimpleType}}%{{#returnType}}{{#isMap}}{{/isMap}}{{{moduleName}}}.Model.{{{returnType}}}{{/returnType}}{}{{/returnSimpleType}}} on success
-  {:error, info} on failure
+  {:ok, {{#isArray}}[%{{&returnBaseType}}{}, ...]{{/isArray}}{{#isMap}}%{}{{/isMap}}{{^returnType}}nil{{/returnType}}{{#returnSimpleType}}{{#returnType}}{{#isMap}}{{/isMap}}{{{returnType}}}{{/returnType}}{{/returnSimpleType}}} on success
+  {:error, Tesla.Env.t} on failure
   """
   {{{typespec}}}
   def {{{operationId}}}(connection, {{#requiredParams}}{{#underscored}}{{{paramName}}}{{/underscored}}, {{/requiredParams}}{{^hasOptionalParams}}_{{/hasOptionalParams}}opts \\ []) do
@@ -67,6 +67,9 @@ defmodule {{moduleName}}.Api.{{classname}} do
     |> add_optional_params(optional_params, opts)
 {{/-first}}
 {{/optionalParams}}
+{{#requiresHttpcWorkaround}}
+    |> ensure_body()
+{{/requiresHttpcWorkaround}}
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response({{#responses}}{{#-first}}[

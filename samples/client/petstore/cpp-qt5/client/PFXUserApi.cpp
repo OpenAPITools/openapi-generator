@@ -154,7 +154,7 @@ void PFXUserApi::createUser(const PFXUser &body) {
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
 
-    QString output = body.asJson();
+    QByteArray output = body.asJson().toUtf8();
     input.request_body.append(output);
 
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
@@ -455,7 +455,7 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "PUT");
 
-    QString output = body.asJson();
+    QByteArray output = body.asJson().toUtf8();
     input.request_body.append(output);
 
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }

@@ -14,10 +14,12 @@ import 'package:openapi/model/user.dart';
 import 'package:built_collection/built_collection.dart';
 
 class UserApi {
-    final Dio _dio;
-    Serializers _serializers;
 
-    UserApi(this._dio, this._serializers);
+    final Dio _dio;
+
+    final Serializers _serializers;
+
+    const UserApi(this._dio, this._serializers);
 
     /// Create user
     ///
@@ -34,7 +36,7 @@ class UserApi {
         final String _path = '/user';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -86,7 +88,7 @@ class UserApi {
         final String _path = '/user/createWithArray';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -138,7 +140,7 @@ class UserApi {
         final String _path = '/user/createWithList';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -190,7 +192,7 @@ class UserApi {
         final String _path = '/user/{username}'.replaceAll('{' r'username' '}', username.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -235,7 +237,7 @@ class UserApi {
         final String _path = '/user/{username}'.replaceAll('{' r'username' '}', username.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -272,6 +274,7 @@ class UserApi {
             return Response<User>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -297,7 +300,7 @@ class UserApi {
         final String _path = '/user/login';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -332,6 +335,7 @@ class UserApi {
             return Response<String>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -355,7 +359,7 @@ class UserApi {
         final String _path = '/user/logout';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -401,7 +405,7 @@ class UserApi {
         final String _path = '/user/{username}'.replaceAll('{' r'username' '}', username.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
