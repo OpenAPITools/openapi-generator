@@ -20,6 +20,6 @@ import org.openapitools.client.core._
 case class Category(
   id: Option[Long] = None,
   name: Option[String] = None
-) extends ApiModel
+) extends ApiModel with ExceptionApiModel
 
 

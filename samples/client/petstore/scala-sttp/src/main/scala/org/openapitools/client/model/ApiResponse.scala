@@ -21,6 +21,6 @@ case class ApiResponse(
   code: Option[Int] = None,
   `type`: Option[String] = None,
   message: Option[String] = None
-) extends ApiModel
+) extends ApiModel with ExceptionApiModel
 
 

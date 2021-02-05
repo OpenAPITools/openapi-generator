@@ -25,7 +25,7 @@ case class Pet(
   tags: Option[Seq[Tag]] = None,
   /* pet status in the store */
   status: Option[PetEnums.Status] = None
-) extends ApiModel
+) extends ApiModel with ExceptionApiModel
 
 object PetEnums {
 

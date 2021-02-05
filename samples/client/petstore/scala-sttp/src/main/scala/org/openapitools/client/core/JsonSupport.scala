@@ -48,6 +48,11 @@ object JsonSupport extends SttpJson4sApi {
       case _ => EmptyApiModel
     }, {
       case _: ApiModel => JObject()
+    })) :+
+    new CustomSerializer[ExceptionApiModel](_ => ({
+      case _ => EmptyExceptionApiModel
+    }, {
+      case _: ExceptionApiModel => JObject()
     }))
 
   implicit val format: Formats = DefaultFormats ++ enumSerializers ++ DateSerializers.all ++ apiModelSerializers

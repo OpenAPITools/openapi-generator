@@ -27,6 +27,6 @@ case class User(
   phone: Option[String] = None,
   /* User Status */
   userStatus: Option[Int] = None
-) extends ApiModel
+) extends ApiModel with ExceptionApiModel
 
 

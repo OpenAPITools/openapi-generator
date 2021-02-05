@@ -40,6 +40,11 @@ object JsonSupport extends SttpJson4sApi {
       case _ => EmptyApiModel
     }, {
       case _: ApiModel => JObject()
+    })) :+
+    new CustomSerializer[ExceptionApiModel](_ => ({
+      case _ => EmptyExceptionApiModel
+    }, {
+      case _: ExceptionApiModel => JObject()
     }))
 
   implicit val format: Formats = DefaultFormats ++ enumSerializers ++ DateSerializers.all ++ apiModelSerializers
@@ -56,9 +61,13 @@ object JsonSupport extends SttpCirceApi with AutoDerivation with DateSerializers
   implicit val {{classname}}{{datatypeWithEnum}}Decoder: Decoder[{{classname}}Enums.{{datatypeWithEnum}}] = Decoder.decodeEnumeration({{classname}}Enums.{{datatypeWithEnum}})
   implicit val {{classname}}{{datatypeWithEnum}}Encoder: Encoder[{{classname}}Enums.{{datatypeWithEnum}}] = Encoder.encodeEnumeration({{classname}}Enums.{{datatypeWithEnum}})
 {{/isEnum}}{{/vars}}{{/hasEnums}}{{/model}}{{/models}}
-  implicit val ApiModelDecoder: Decoder[ApiModel] = (c: HCursor) => c.value match {
+  implicit val apiModelDecoder: Decoder[ApiModel] = (c: HCursor) => c.value match {
     case _ => Right(EmptyApiModel)
   }
-  implicit val ApiModelEncoder: Encoder[ApiModel] = Encoder.encodeUnit.contramap(_ => ())
+  implicit val apiModelEncoder: Encoder[ApiModel] = Encoder.encodeUnit.contramap(_ => ())
+  implicit val exceptionApiModelDecoder: Decoder[ExceptionApiModel] = (c: HCursor) => c.value match {
+    case _ => Right(EmptyExceptionApiModel)
+  }
+  implicit val exceptionApiModelEncoder: Encoder[ExceptionApiModel] = Encoder.encodeUnit.contramap(_ => ())
 }
 {{/circe}}

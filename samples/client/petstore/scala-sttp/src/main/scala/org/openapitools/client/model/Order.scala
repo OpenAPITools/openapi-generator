@@ -26,7 +26,7 @@ case class Order(
   /* Order Status */
   status: Option[OrderEnums.Status] = None,
   complete: Option[Boolean] = None
-) extends ApiModel
+) extends ApiModel with ExceptionApiModel
 
 object OrderEnums {
 

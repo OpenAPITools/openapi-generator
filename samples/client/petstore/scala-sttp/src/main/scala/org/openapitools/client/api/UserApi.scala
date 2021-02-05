@@ -35,13 +35,13 @@ class UserApi(baseUrl: String) {
    * 
    * @param user Created user object
    */
-  def createUser(apiKey: String)(user: User): Request[Either[ResponseException[ApiModel, Exception], Unit], Any] =
+  def createUser(apiKey: String)(user: User): Request[Either[ResponseException[ExceptionApiModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user")
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-      .response(ignore.map(Right(_): Either[ResponseException[ApiModel, Exception], Unit]))
+      .response(ignore.map(Right(_): Either[ResponseException[ExceptionApiModel, Exception], Unit]))
 
   /**
    * Expected answers:
@@ -52,13 +52,13 @@ class UserApi(baseUrl: String) {
    * 
    * @param user List of user object
    */
-  def createUsersWithArrayInput(apiKey: String)(user: Seq[User]): Request[Either[ResponseException[ApiModel, Exception], Unit], Any] =
+  def createUsersWithArrayInput(apiKey: String)(user: Seq[User]): Request[Either[ResponseException[ExceptionApiModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithArray")
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-      .response(ignore.map(Right(_): Either[ResponseException[ApiModel, Exception], Unit]))
+      .response(ignore.map(Right(_): Either[ResponseException[ExceptionApiModel, Exception], Unit]))
 
   /**
    * Expected answers:
@@ -69,13 +69,13 @@ class UserApi(baseUrl: String) {
    * 
    * @param user List of user object
    */
-  def createUsersWithListInput(apiKey: String)(user: Seq[User]): Request[Either[ResponseException[ApiModel, Exception], Unit], Any] =
+  def createUsersWithListInput(apiKey: String)(user: Seq[User]): Request[Either[ResponseException[ExceptionApiModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithList")
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-      .response(ignore.map(Right(_): Either[ResponseException[ApiModel, Exception], Unit]))
+      .response(ignore.map(Right(_): Either[ResponseException[ExceptionApiModel, Exception], Unit]))
 
   /**
    * This can only be done by the logged in user.
@@ -89,13 +89,13 @@ class UserApi(baseUrl: String) {
    * 
    * @param username The name that needs to be deleted
    */
-  def deleteUser(apiKey: String)(username: String): Request[Either[ResponseException[ApiModel, Exception], Unit], Any] =
+  def deleteUser(apiKey: String)(username: String): Request[Either[ResponseException[ExceptionApiModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/user/${username}")
       .contentType("application/json")
       .header("api_key", apiKey)
       .response(fromMetadata(
-        ignore.map(Right(_): Either[ResponseException[ApiModel, Exception], Unit]),
+        ignore.map(Right(_): Either[ResponseException[ExceptionApiModel, Exception], Unit]),
       ))
 
   /**
@@ -106,13 +106,13 @@ class UserApi(baseUrl: String) {
    * 
    * @param username The name that needs to be fetched. Use user1 for testing.
    */
-  def getUserByName(username: String): Request[Either[ResponseException[ApiModel, Exception], User], Any] =
+  def getUserByName(username: String): Request[Either[ResponseException[ExceptionApiModel, Exception], User], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/${username}")
       .contentType("application/json")
       .response(fromMetadata(
-        asJsonEither[ApiModel, User],
-        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ApiModel, User]),
+        asJsonEither[ExceptionApiModel, User],
+        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ExceptionApiModel, User]),
       ))
 
   /**
@@ -127,13 +127,13 @@ class UserApi(baseUrl: String) {
    * @param username The user name for login
    * @param password The password for login in clear text
    */
-  def loginUser(username: String, password: String): Request[Either[ResponseException[ApiModel, Exception], String], Any] =
+  def loginUser(username: String, password: String): Request[Either[ResponseException[ExceptionApiModel, Exception], String], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/login?username=${ username }&password=${ password }")
       .contentType("application/json")
       .response(fromMetadata(
-        asJsonEither[ApiModel, String],
-        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ApiModel, String]),
+        asJsonEither[ExceptionApiModel, String],
+        ConditionalResponseAs(_.code == StatusCode(200), asJsonEither[ExceptionApiModel, String]),
       ))
 
   /**
@@ -143,12 +143,12 @@ class UserApi(baseUrl: String) {
    * Available security schemes:
    *   api_key (apiKey)
    */
-  def logoutUser(apiKey: String)(): Request[Either[ResponseException[ApiModel, Exception], Unit], Any] =
+  def logoutUser(apiKey: String)(): Request[Either[ResponseException[ExceptionApiModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/logout")
       .contentType("application/json")
       .header("api_key", apiKey)
-      .response(ignore.map(Right(_): Either[ResponseException[ApiModel, Exception], Unit]))
+      .response(ignore.map(Right(_): Either[ResponseException[ExceptionApiModel, Exception], Unit]))
 
   /**
    * This can only be done by the logged in user.
@@ -163,14 +163,14 @@ class UserApi(baseUrl: String) {
    * @param username name that need to be deleted
    * @param user Updated user object
    */
-  def updateUser(apiKey: String)(username: String, user: User): Request[Either[ResponseException[ApiModel, Exception], Unit], Any] =
+  def updateUser(apiKey: String)(username: String, user: User): Request[Either[ResponseException[ExceptionApiModel, Exception], Unit], Any] =
     basicRequest
       .method(Method.PUT, uri"$baseUrl/user/${username}")
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
       .response(fromMetadata(
-        ignore.map(Right(_): Either[ResponseException[ApiModel, Exception], Unit]),
+        ignore.map(Right(_): Either[ResponseException[ExceptionApiModel, Exception], Unit]),
       ))
 
 }

@@ -1,1 +1,1 @@
-{{#returnType}}asJsonEither[ApiModel, {{>operationReturnType}}]{{/returnType}}{{^returnType}}ignore.map(Right(_): Either[ResponseException[ApiModel, Exception], Unit]){{/returnType}}
+{{#returnType}}asJsonEither[ExceptionApiModel, {{>operationReturnType}}]{{/returnType}}{{^returnType}}ignore.map(Right(_): Either[ResponseException[ExceptionApiModel, Exception], Unit]){{/returnType}}

@@ -12,4 +12,6 @@
 package org.openapitools.client.core
 
 trait ApiModel
+trait ExceptionApiModel
 case object EmptyApiModel extends ApiModel {}
+case object EmptyExceptionApiModel extends ExceptionApiModel {}
