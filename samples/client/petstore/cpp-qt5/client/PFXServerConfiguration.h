@@ -17,6 +17,7 @@
 #include <QString>
 #include <QMap>
 #include <QRegularExpression>
+#include <stdexcept>
 #include "PFXServerVariable.h"
 
 namespace test_namespace {

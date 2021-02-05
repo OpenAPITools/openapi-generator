@@ -21,7 +21,7 @@ void main() {
       // TODO
     });
 
-    // List<String> photoUrls (default value: const [])
+    // Set<String> photoUrls (default value: const {})
     test('to test the property `photoUrls`', () async {
       // TODO
     });

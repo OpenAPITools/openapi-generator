@@ -98,7 +98,8 @@ class FakeApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
                     put("query_1", listOf(query1.toString()))
                 }
             }
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf("header_1" to header1.toString())
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        header1?.apply { localVariableHeaders["header_1"] = this.toString() }
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/fake/http-signature-test",
@@ -471,13 +472,13 @@ class FakeApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * To test enum parameters
     * To test enum parameters
     * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
-    * @param enumHeaderString Header parameter enum test (string) (optional, default to "-efg")
+    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
     * @param enumQueryStringArray Query parameter enum test (string array) (optional)
-    * @param enumQueryString Query parameter enum test (string) (optional, default to "-efg")
+    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
     * @param enumQueryInteger Query parameter enum test (double) (optional)
     * @param enumQueryDouble Query parameter enum test (double) (optional)
-    * @param enumFormStringArray Form parameter enum test (string array) (optional, default to "$")
-    * @param enumFormString Form parameter enum test (string) (optional, default to "-efg")
+    * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
     * @return void
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
@@ -501,7 +502,9 @@ class FakeApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
                     put("enum_query_double", listOf(enumQueryDouble.toString()))
                 }
             }
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded", "enum_header_string_array" to enumHeaderStringArray.joinToString(separator = collectionDelimiter("csv")), "enum_header_string" to enumHeaderString.toString())
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
+        enumHeaderStringArray?.apply { localVariableHeaders["enum_header_string_array"] = this.joinToString(separator = collectionDelimiter("csv")) }
+        enumHeaderString?.apply { localVariableHeaders["enum_header_string"] = this.toString() }
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/fake",
@@ -556,7 +559,9 @@ class FakeApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
                     put("int64_group", listOf(int64Group.toString()))
                 }
             }
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf("required_boolean_group" to requiredBooleanGroup.toString(), "boolean_group" to booleanGroup.toString())
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        requiredBooleanGroup?.apply { localVariableHeaders["required_boolean_group"] = this.toString() }
+        booleanGroup?.apply { localVariableHeaders["boolean_group"] = this.toString() }
         val localVariableConfig = RequestConfig(
             RequestMethod.DELETE,
             "/fake",

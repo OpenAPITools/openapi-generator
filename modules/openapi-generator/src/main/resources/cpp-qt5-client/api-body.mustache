@@ -227,10 +227,10 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     QByteArray bytes = doc.toJson();
     input.request_body.append(bytes);
 {{/isContainer}}{{^isContainer}}{{#isString}}
-    QString output({{paramName}});{{/isString}}{{#isByteArray}}QString output({{paramName}});{{/isByteArray}}{{^isString}}{{^isByteArray}}{{^isFile}}
-    QString output = {{paramName}}.asJson();{{/isFile}}{{/isByteArray}}{{/isString}}{{#isFile}}{{#hasConsumes}}input.headers.insert("Content-Type", {{#consumes}}{{^-first}}, {{/-first}}"{{mediaType}}"{{/consumes}});{{/hasConsumes}}
+    QByteArray output = {{paramName}}.toUtf8();{{/isString}}{{#isByteArray}}QByteArray output({{paramName}});{{/isByteArray}}{{^isString}}{{^isByteArray}}{{^isFile}}
+    QByteArray output = {{paramName}}.asJson().toUtf8();{{/isFile}}{{/isByteArray}}{{/isString}}{{#isFile}}{{#hasConsumes}}input.headers.insert("Content-Type", {{#consumes}}{{^-first}}, {{/-first}}"{{mediaType}}"{{/consumes}});{{/hasConsumes}}
     QByteArray output = {{paramName}}.asByteArray();{{/isFile}}
-    input.request_body.append(output.toUtf8());
+    input.request_body.append(output);
 {{/isContainer}}{{/bodyParams}}{{#headerParams}}
     if (!::{{cppNamespace}}::toStringValue({{paramName}}).isEmpty()) {
         input.headers.insert("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}));

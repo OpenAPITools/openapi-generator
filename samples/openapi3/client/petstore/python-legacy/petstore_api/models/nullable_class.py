@@ -65,7 +65,7 @@ class NullableClass(object):
     def __init__(self, integer_prop=None, number_prop=None, boolean_prop=None, string_prop=None, date_prop=None, datetime_prop=None, array_nullable_prop=None, array_and_items_nullable_prop=None, array_items_nullable=None, object_nullable_prop=None, object_and_items_nullable_prop=None, object_items_nullable=None, local_vars_configuration=None):  # noqa: E501
         """NullableClass - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
+            local_vars_configuration = Configuration.get_default_copy()
         self.local_vars_configuration = local_vars_configuration
 
         self._integer_prop = None

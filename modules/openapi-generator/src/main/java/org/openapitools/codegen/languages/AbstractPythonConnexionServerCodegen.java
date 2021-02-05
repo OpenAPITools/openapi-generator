@@ -49,6 +49,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends DefaultCodege
     public static final String CONTROLLER_PACKAGE = "controllerPackage";
     public static final String DEFAULT_CONTROLLER = "defaultController";
     public static final String SUPPORT_PYTHON2 = "supportPython2";
+    public static final String FEATURE_CORS = "featureCORS";
     // nose is a python testing framework, we use pytest if USE_NOSE is unset
     public static final String USE_NOSE = "useNose";
     public static final String PYTHON_SRC_ROOT = "pythonSrcRoot";
@@ -61,6 +62,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends DefaultCodege
     protected String defaultController;
     protected Map<Character, String> regexModifiers;
     protected boolean fixBodyName;
+    protected boolean featureCORS = Boolean.FALSE;
     protected boolean useNose = Boolean.FALSE;
     protected String pythonSrcRoot;
 
@@ -165,6 +167,8 @@ public abstract class AbstractPythonConnexionServerCodegen extends DefaultCodege
                 defaultValue("false"));
         cliOptions.add(new CliOption("serverPort", "TCP port to listen to in app.run").
                 defaultValue("8080"));
+        cliOptions.add(CliOption.newBoolean(FEATURE_CORS, "use flask-cors for handling CORS requests").
+                defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(CliOption.newBoolean(USE_NOSE, "use the nose test framework").
                 defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(PYTHON_SRC_ROOT, "put python sources in this subdirectory of output folder (defaults to \"\" for). Use this for src/ layout.").
@@ -213,6 +217,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends DefaultCodege
             additionalProperties.put(SUPPORT_PYTHON2, Boolean.TRUE);
             typeMapping.put("long", "long");
         }
+        if (additionalProperties.containsKey(FEATURE_CORS)) {
+            setFeatureCORS((String) additionalProperties.get(FEATURE_CORS));
+        }
         if (additionalProperties.containsKey(USE_NOSE)) {
             setUseNose((String) additionalProperties.get(USE_NOSE));
         }
@@ -234,6 +241,10 @@ public abstract class AbstractPythonConnexionServerCodegen extends DefaultCodege
 
         modelPackage = packageName + "." + modelPackage;
         controllerPackage = packageName + "." + controllerPackage;
+    }
+
+    public void setFeatureCORS(String val) {
+        this.featureCORS = Boolean.valueOf(val);
     }
 
     public void setUseNose(String val) {

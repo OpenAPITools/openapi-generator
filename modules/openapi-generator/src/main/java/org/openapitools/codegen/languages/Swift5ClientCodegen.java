@@ -140,6 +140,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                         // Added for Objective-C compatibility
                         "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
                         "NSError", "NSDictionary",
+                        // 'Property 'hash' with type 'String' cannot override a property with type 'Int' (when objcCompatible=true)
+                        "hash",
                         // Cannot override with a stored property 'className'
                         "className"
                 )
