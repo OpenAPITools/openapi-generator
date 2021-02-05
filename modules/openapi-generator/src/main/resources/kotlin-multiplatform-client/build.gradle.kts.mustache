@@ -71,7 +71,6 @@ kotlin {
             kotlin.srcDir("src/common/main")
 
             dependencies {
-                implementation(kotlin("stdlib-common"))
                 api("io.ktor:ktor-client-core:$ktorVersion")
                 api("io.ktor:ktor-client-json:$ktorVersion")
                 api("io.ktor:ktor-client-serialization:$ktorVersion")
@@ -96,7 +95,6 @@ kotlin {
             kotlin.srcDir("src/jvm/main")
 
             dependencies {
-                implementation(kotlin("stdlib-jdk8"))
                 api("io.ktor:ktor-client-core-jvm:$ktorVersion")
             }
         }
@@ -157,7 +155,6 @@ kotlin {
             kotlin.srcDir("src/js/main")
 
             dependencies {
-                implementation(kotlin("stdlib-js"))
                 api("io.ktor:ktor-client-js:$ktorVersion")
             }
         }
@@ -176,7 +173,6 @@ kotlin {
             kotlin.srcDir("src/native/main")
 
             dependencies {
-                implementation(kotlin("stdlib-native"))
                 api("io.ktor:ktor-client-native:$ktorVersion")
             }
         }
