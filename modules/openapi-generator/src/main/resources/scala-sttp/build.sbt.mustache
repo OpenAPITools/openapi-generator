@@ -7,9 +7,6 @@ crossScalaVersions := Seq(scalaVersion.value, "2.12.13")
 
 libraryDependencies ++= Seq(
   "com.softwaremill.sttp.client3" %% "core" % "{{sttpClientVersion}}",
-{{#joda}}
-  "joda-time" % "joda-time" % "{{jodaTimeVersion}}",
-{{/joda}}
 {{#json4s}}
   "com.softwaremill.sttp.client3" %% "json4s" % "{{sttpClientVersion}}",
   "org.json4s" %% "json4s-jackson" % "{{json4sVersion}}"

@@ -47,8 +47,6 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
             "Whether to return response as " +
                     "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
                     "response's error raising them through enclosing monad (F[ReturnType]).", true);
-    private static final StringProperty JODA_TIME_VERSION = new StringProperty("jodaTimeVersion", "The version of " +
-            "joda-time library", "2.10.6");
     private static final StringProperty JSON4S_VERSION = new StringProperty("json4sVersion", "The version of json4s " +
             "library", "3.6.10");
     private static final StringProperty CIRCE_VERSION = new StringProperty("circeVersion", "The version of circe " +
@@ -59,7 +57,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     private static final PackageProperty PACKAGE_PROPERTY = new PackageProperty();
 
     private static final List<Property<?>> properties = Arrays.asList(
-            STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL, JODA_TIME_VERSION,
+            STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL,
             JSON4S_VERSION, CIRCE_VERSION, JSON_LIBRARY_PROPERTY, PACKAGE_PROPERTY);
 
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaSttpClientCodegen.class);
