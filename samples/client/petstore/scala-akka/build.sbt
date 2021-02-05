@@ -2,8 +2,9 @@ version := "1.0.0"
 name := "scala-akka-petstore-client"
 organization := "org.openapitools"
 
-scalaVersion := "2.13.2"
-crossScalaVersions := Seq(scalaVersion.value, "2.12.10")
+scalaVersion := "2.12.10"
+crossScalaVersions := Seq(scalaVersion.value, "2.13.2")
+
 
 libraryDependencies ++= Seq(
   "com.typesafe" % "config" % "1.4.1",
@@ -13,9 +14,10 @@ libraryDependencies ++= Seq(
   "org.json4s" %% "json4s-jackson" % "3.6.7",
   "org.json4s" %% "json4s-ext" % "3.6.7",
   "de.heikoseeberger" %% "akka-http-json4s" % "1.27.0",
+  "org.scala-lang.modules" %% "scala-collection-compat" % "2.4.1",
   // test dependencies
-  "org.scalatest" %% "scalatest" % "3.0.8" % "test",
-  "junit" % "junit" % "4.13.1" % "test"
+  "org.scalatest"     %% "scalatest"  % "3.2.3"   % "test",
+  "org.scalatestplus" %% "junit-4-13" % "3.2.3.0" % "test"
 )
 
 resolvers ++= Seq(Resolver.mavenLocal)

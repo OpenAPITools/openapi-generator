@@ -166,7 +166,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         supportingFiles.add(new SupportingFile("reference.mustache", resourcesFolder, "reference.conf"));
         final String invokerFolder = (sourceFolder + File.separator + invokerPackage).replace(".", File.separator);

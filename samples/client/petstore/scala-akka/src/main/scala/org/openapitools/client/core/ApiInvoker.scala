@@ -28,6 +28,7 @@ import de.heikoseeberger.akkahttpjson4s.Json4sSupport
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization
+import scala.collection.compat._
 
 import scala.collection.immutable
 import scala.concurrent.{ ExecutionContext, ExecutionContextExecutor, Future }
@@ -125,7 +126,7 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
   private def headers(headers: Map[String, Any]): immutable.Seq[HttpHeader] =
     headers.asFormattedParams
       .map { case (name, value) => RawHeader(name, value.toString) }
-      .to[immutable.Seq]
+      .to(immutable.Seq)
 
 
   private def bodyPart(name: String, value: Any): BodyPart = {
@@ -157,9 +158,9 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
           case MediaTypes.`multipart/form-data` =>
             Multipart.FormData(Source(params.toList.map { case (name, value) => bodyPart(name, value) }))
           case MediaTypes.`application/x-www-form-urlencoded` =>
-            FormData(params.mapValues(_.toString))
+            FormData(params.mapValues(_.toString).toMap)
           case _: MediaType => // Default : application/x-www-form-urlencoded.
-            FormData(params.mapValues(_.toString))
+            FormData(params.mapValues(_.toString).toMap)
         }
       )
   }
@@ -257,7 +258,7 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
     request
       .responseForCode(response.status.intValue) match {
       case Some((Manifest.Unit, state: ResponseState)) =>
-        Future(responseForState(state, Unit).asInstanceOf[ApiResponse[T]])
+        Future(responseForState(state, ()).asInstanceOf[ApiResponse[T]])
       case Some((manifest, state: ResponseState)) if manifest == mf =>
         implicit val m: Unmarshaller[HttpEntity, T] = unmarshaller[T](mf, serialization, formats)
         Unmarshal(response.entity)
