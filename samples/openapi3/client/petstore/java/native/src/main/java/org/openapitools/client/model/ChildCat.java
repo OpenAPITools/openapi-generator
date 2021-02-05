@@ -33,6 +33,7 @@ import java.util.HashSet;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.JSON;
 /**
  * ChildCat
  */

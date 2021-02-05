@@ -447,7 +447,7 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void testJdkHttpClientWithoutSupportingFiles() throws Exception {
+    public void testJdkHttpClientWithAndWithoutDiscriminator() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
         properties.put(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model");
@@ -460,26 +460,21 @@ public class JavaClientCodegenTest {
                 .setGeneratorName("java")
                 .setLibrary(JavaClientCodegen.NATIVE)
                 .setAdditionalProperties(properties)
-                .setInputSpec("src/test/resources/3_0/pingSomeObj.yaml")
+                .setInputSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 6);
+        Assert.assertEquals(files.size(), 156);
         validateJavaSourceFiles(files);
 
-        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/PingApi.java"),
-                "public class PingApi",
-                "import java.net.http.HttpClient;",
-                "import java.net.http.HttpRequest;",
-                "import java.net.http.HttpResponse;");
-
-        TestUtils.assertFileNotContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/SomeObj.java"),
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/Dog.java"),
+                "import xyz.abcdef.invoker.JSON;");
+        TestUtils.assertFileNotContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/DogAllOf.java"),
                 "import xyz.abcdef.invoker.JSON;");
     }
 
