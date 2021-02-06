@@ -1055,6 +1055,7 @@ class PetApi
             );
         }
 
+
         $resourcePath = '/pet/findByTags';
         $formParams = [];
         $queryParams = [];

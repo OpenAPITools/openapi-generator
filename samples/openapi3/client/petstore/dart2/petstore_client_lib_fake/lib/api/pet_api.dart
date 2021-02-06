@@ -222,7 +222,7 @@ class PetApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
-        .map((item) => item as Pet)
+        .cast<Pet>()
         .toList(growable: false);
     }
     return null;
@@ -236,9 +236,9 @@ class PetApi {
   ///
   /// Parameters:
   ///
-  /// * [List<String>] tags (required):
+  /// * [Set<String>] tags (required):
   ///   Tags to filter by
-  Future<Response> findPetsByTagsWithHttpInfo(List<String> tags) async {
+  Future<Response> findPetsByTagsWithHttpInfo(Set<String> tags) async {
     // Verify required params are set.
     if (tags == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: tags');
@@ -288,9 +288,9 @@ class PetApi {
   ///
   /// Parameters:
   ///
-  /// * [List<String>] tags (required):
+  /// * [Set<String>] tags (required):
   ///   Tags to filter by
-  Future<List<Pet>> findPetsByTags(List<String> tags) async {
+  Future<Set<Pet>> findPetsByTags(Set<String> tags) async {
     final response = await findPetsByTagsWithHttpInfo(tags);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
@@ -299,9 +299,9 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
-        .map((item) => item as Pet)
-        .toList(growable: false);
+      return (apiClient.deserialize(_decodeBodyBytes(response), 'Set<Pet>') as List)
+        .cast<Pet>()
+        .toSet();
     }
     return null;
   }
