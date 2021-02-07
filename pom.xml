@@ -1390,13 +1390,6 @@
                 <module>samples/client/petstore/kotlin-string</module>
                 <module>samples/client/petstore/kotlin-threetenbp</module>
                 <module>samples/client/petstore/kotlin-uppercase-enum</module>
-                <module>samples/openapi3/client/petstore/kotlin/</module>
-                <module>samples/openapi3/client/petstore/kotlin-deprecated/</module>
-                <module>samples/openapi3/client/petstore/kotlin-jvm-retrofit2-coroutines/</module>
-                <module>samples/openapi3/client/petstore/kotlin-jvm-retrofit2-rx/</module>
-                <module>samples/openapi3/client/petstore/kotlin-jvm-retrofit2-rx2/</module>
-                <module>samples/openapi3/client/petstore/kotlin-multiplatform/</module>
-                <module>samples/openapi3/client/petstore/kotlin-nullable-required/</module>
                 <!-- servers -->
                 <!--<module>samples/server/petstore/erlang-server</module>-->
             </modules>
