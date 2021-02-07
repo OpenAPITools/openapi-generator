@@ -727,6 +727,12 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             if ("Yojson.Safe.t".equals(operation.returnBaseType)) {
                 operation.vendorExtensions.put("x-return-free-form-object", true);
             }
+
+            if (operation.returnType != null && operation.returnType.startsWith("Enums.")) {
+                String returnTypeEnum = operation.returnType.replaceAll(" list$", "");
+                operation.vendorExtensions.put("x-returntype-enum", returnTypeEnum);
+                operation.vendorExtensions.put("x-returntype-is-enum", true);
+            }
         }
 
         for (Map.Entry<String, String> e : enumUniqNames.entrySet()) {
