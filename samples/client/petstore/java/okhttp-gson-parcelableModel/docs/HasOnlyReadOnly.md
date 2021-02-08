@@ -10,4 +10,8 @@ Name | Type | Description | Notes
 **foo** | **String** |  |  [optional] [readonly]
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 

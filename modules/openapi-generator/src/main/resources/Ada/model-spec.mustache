@@ -4,6 +4,7 @@
 with Swagger.Streams;
 with Ada.Containers.Vectors;
 package {{package}}.Models is
+   pragma Style_Checks ("-mr");
 
 {{#orderedModels}}{{#model}}{{^isArray}}
 {{#title}}   --  ------------------------------

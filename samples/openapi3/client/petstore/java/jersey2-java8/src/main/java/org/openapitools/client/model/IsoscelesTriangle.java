@@ -113,7 +113,6 @@ public class IsoscelesTriangle {
     return Objects.hash(shapeType, triangleType);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

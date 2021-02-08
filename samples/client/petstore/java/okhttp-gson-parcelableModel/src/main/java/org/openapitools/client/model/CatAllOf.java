@@ -30,7 +30,7 @@ import android.os.Parcel;
  * CatAllOf
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class CatAllOf {
+public class CatAllOf implements Parcelable {
   public static final String SERIALIZED_NAME_DECLAWED = "declawed";
   @SerializedName(SERIALIZED_NAME_DECLAWED)
   private Boolean declawed;
@@ -77,7 +77,6 @@ public class CatAllOf {
   public int hashCode() {
     return Objects.hash(declawed);
   }
-
 
   @Override
   public String toString() {

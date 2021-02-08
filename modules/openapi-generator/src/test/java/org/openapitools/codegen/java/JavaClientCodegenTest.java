@@ -1088,4 +1088,48 @@ public class JavaClientCodegenTest {
 
         output.deleteOnExit();
     }
+
+    /**
+     * See https://github.com/OpenAPITools/openapi-generator/issues/6715
+     */
+    @Test
+    public void testWebClientWithUseAbstractionForFiles() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.WEBCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+
+        Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
+        TestUtils.assertFileContains(defaultApi,
+                //multiple files
+                "multipartArray(java.util.Collection<org.springframework.core.io.AbstractResource> files)",
+                "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
+
+                //mixed
+                "multipartMixed(org.springframework.core.io.AbstractResource file, MultipartMixedMarker marker)",
+                "formParams.add(\"file\", file);",
+
+                //single file
+                "multipartSingle(org.springframework.core.io.AbstractResource file)",
+                "formParams.add(\"file\", file);"
+        );
+    }
 }

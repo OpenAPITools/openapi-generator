@@ -119,7 +119,6 @@ public class FileSchemaTestClass {
     return Objects.hash(file, files);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

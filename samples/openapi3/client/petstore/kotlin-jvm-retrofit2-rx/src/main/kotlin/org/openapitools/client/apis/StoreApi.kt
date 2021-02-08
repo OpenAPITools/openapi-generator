@@ -16,7 +16,7 @@ interface StoreApi {
      *  - 404: Order not found
      * 
      * @param orderId ID of the order that needs to be deleted 
-    * @return [Call]<[Unit]>
+     * @return [Call]<[Unit]>
      */
     @DELETE("store/order/{order_id}")
     fun deleteOrder(@Path("order_id") orderId: kotlin.String): Observable<Unit>
@@ -27,7 +27,7 @@ interface StoreApi {
      * Responses:
      *  - 200: successful operation
      * 
-    * @return [Call]<[kotlin.collections.Map<kotlin.String, kotlin.Int>]>
+     * @return [Call]<[kotlin.collections.Map<kotlin.String, kotlin.Int>]>
      */
     @GET("store/inventory")
     fun getInventory(): Observable<kotlin.collections.Map<kotlin.String, kotlin.Int>>
@@ -41,7 +41,7 @@ interface StoreApi {
      *  - 404: Order not found
      * 
      * @param orderId ID of pet that needs to be fetched 
-    * @return [Call]<[Order]>
+     * @return [Call]<[Order]>
      */
     @GET("store/order/{order_id}")
     fun getOrderById(@Path("order_id") orderId: kotlin.Long): Observable<Order>
@@ -54,7 +54,7 @@ interface StoreApi {
      *  - 400: Invalid Order
      * 
      * @param order order placed for purchasing the pet 
-    * @return [Call]<[Order]>
+     * @return [Call]<[Order]>
      */
     @POST("store/order")
     fun placeOrder(@Body order: Order): Observable<Order>

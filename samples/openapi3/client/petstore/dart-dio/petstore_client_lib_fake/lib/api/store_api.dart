@@ -14,10 +14,12 @@ import 'package:openapi/model/order.dart';
 import 'package:built_collection/built_collection.dart';
 
 class StoreApi {
-    final Dio _dio;
-    Serializers _serializers;
 
-    StoreApi(this._dio, this._serializers);
+    final Dio _dio;
+
+    final Serializers _serializers;
+
+    const StoreApi(this._dio, this._serializers);
 
     /// Delete purchase order by ID
     ///
@@ -34,7 +36,7 @@ class StoreApi {
         final String _path = '/store/order/{order_id}'.replaceAll('{' r'order_id' '}', orderId.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -78,7 +80,7 @@ class StoreApi {
         final String _path = '/store/inventory';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -113,8 +115,7 @@ class StoreApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            const collectionType = BuiltMap;
-            const type = FullType(collectionType, [FullType(String), FullType(int)]);
+            const type = FullType(BuiltMap, [FullType(String), FullType(int)]);
             final data = _serializers.deserialize(
                 response.data is String
                 ? jsonDecode(response.data as String)
@@ -125,6 +126,7 @@ class StoreApi {
             return Response<BuiltMap<String, int>>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -149,7 +151,7 @@ class StoreApi {
         final String _path = '/store/order/{order_id}'.replaceAll('{' r'order_id' '}', orderId.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -186,6 +188,7 @@ class StoreApi {
             return Response<Order>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -210,7 +213,7 @@ class StoreApi {
         final String _path = '/store/order';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -254,6 +257,7 @@ class StoreApi {
             return Response<Order>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,

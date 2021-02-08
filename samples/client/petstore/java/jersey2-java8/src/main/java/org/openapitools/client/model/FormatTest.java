@@ -472,7 +472,6 @@ public class FormatTest {
     return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, bigDecimal);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

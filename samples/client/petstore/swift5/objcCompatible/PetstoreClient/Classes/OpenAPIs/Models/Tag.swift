@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public class Tag: NSObject, Codable, Hashable {
+@objc public class Tag: NSObject, Codable {
 
     public var _id: Int64?
     public var _idNum: NSNumber? {

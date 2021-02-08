@@ -55,7 +55,7 @@ module {{moduleName}}
       {{^isContainer}}
       # verify enum value
       allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation && !allowable_values.include?({{{paramName}}})
+      if @api_client.config.client_side_validation && !allowable_values.includes?({{{paramName}}})
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must be one of #{allowable_values}")
       end
       {{/isContainer}}
@@ -66,13 +66,13 @@ module {{moduleName}}
       {{#isEnum}}
       {{#collectionFormat}}
       allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation && {{{paramName}}} && {{{paramName}}}.all? { |item| allowable_values.include?(item) }
+      if @api_client.config.client_side_validation && {{{paramName}}} && {{{paramName}}}.all? { |item| allowable_values.includes?(item) }
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must include one of #{allowable_values}")
       end
       {{/collectionFormat}}
       {{^collectionFormat}}
       allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation && {{{paramName}}} && !allowable_values.include?({{{paramName}}}])
+      if @api_client.config.client_side_validation && {{{paramName}}} && !allowable_values.includes?({{{paramName}}})
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must be one of #{allowable_values}")
       end
       {{/collectionFormat}}
