@@ -65,6 +65,12 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         }
     }
 
+    /**
+    * Create user
+    * This can only be done by the logged in user.
+    * @param body Created user object 
+    * @return RequestConfig
+    */
     fun createUserRequestConfig(body: User) : RequestConfig {
         val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -113,6 +119,12 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         }
     }
 
+    /**
+    * Creates list of users with given input array
+    * 
+    * @param body List of user object 
+    * @return RequestConfig
+    */
     fun createUsersWithArrayInputRequestConfig(body: kotlin.collections.List<User>) : RequestConfig {
         val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -161,6 +173,12 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         }
     }
 
+    /**
+    * Creates list of users with given input array
+    * 
+    * @param body List of user object 
+    * @return RequestConfig
+    */
     fun createUsersWithListInputRequestConfig(body: kotlin.collections.List<User>) : RequestConfig {
         val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -209,6 +227,12 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         }
     }
 
+    /**
+    * Delete user
+    * This can only be done by the logged in user.
+    * @param username The name that needs to be deleted 
+    * @return RequestConfig
+    */
     fun deleteUserRequestConfig(username: kotlin.String) : RequestConfig {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -258,6 +282,12 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         }
     }
 
+    /**
+    * Get user by user name
+    * 
+    * @param username The name that needs to be fetched. Use user1 for testing. 
+    * @return RequestConfig
+    */
     fun getUserByNameRequestConfig(username: kotlin.String) : RequestConfig {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -308,6 +338,13 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         }
     }
 
+    /**
+    * Logs user into the system
+    * 
+    * @param username The user name for login 
+    * @param password The password for login in clear text 
+    * @return RequestConfig
+    */
     fun loginUserRequestConfig(username: kotlin.String, password: kotlin.String) : RequestConfig {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
@@ -359,6 +396,11 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         }
     }
 
+    /**
+    * Logs out current logged in user session
+    * 
+    * @return RequestConfig
+    */
     fun logoutUserRequestConfig() : RequestConfig {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -408,6 +450,13 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         }
     }
 
+    /**
+    * Updated user
+    * This can only be done by the logged in user.
+    * @param username name that need to be deleted 
+    * @param body Updated user object 
+    * @return RequestConfig
+    */
     fun updateUserRequestConfig(username: kotlin.String, body: User) : RequestConfig {
         val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()

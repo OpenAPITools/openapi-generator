@@ -65,6 +65,12 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
         }
     }
 
+    /**
+    * Delete purchase order by ID
+    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+    * @param orderId ID of the order that needs to be deleted 
+    * @return RequestConfig
+    */
     fun deleteOrderRequestConfig(orderId: kotlin.String) : RequestConfig {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -113,6 +119,11 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
         }
     }
 
+    /**
+    * Returns pet inventories by status
+    * Returns a map of status codes to quantities
+    * @return RequestConfig
+    */
     fun getInventoryRequestConfig() : RequestConfig {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -162,6 +173,12 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
         }
     }
 
+    /**
+    * Find purchase order by ID
+    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+    * @param orderId ID of pet that needs to be fetched 
+    * @return RequestConfig
+    */
     fun getOrderByIdRequestConfig(orderId: kotlin.Long) : RequestConfig {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -211,6 +228,12 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
         }
     }
 
+    /**
+    * Place an order for a pet
+    * 
+    * @param body order placed for purchasing the pet 
+    * @return RequestConfig
+    */
     fun placeOrderRequestConfig(body: Order) : RequestConfig {
         val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
