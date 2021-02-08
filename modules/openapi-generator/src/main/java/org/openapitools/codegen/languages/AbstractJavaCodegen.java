@@ -1674,7 +1674,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toRegularExpression(String pattern) {
-        return escapeText(pattern);
+        return addRegularExpressionDelimiter(pattern);
     }
 
     /**
