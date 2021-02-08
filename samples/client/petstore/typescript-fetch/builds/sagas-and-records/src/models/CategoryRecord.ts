@@ -13,7 +13,8 @@
  */
 
 import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
-import {List, Record, RecordOf} from 'immutable';
+import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
 import {
@@ -23,7 +24,7 @@ import {
 
 
 export const CategoryRecordProps = {
-	recType: "CategoryApiRecord" as "CategoryApiRecord",
+    recType: "CategoryApiRecord" as "CategoryApiRecord",
     id: null as string | null,
     name: null as string | null,
 };
@@ -35,8 +36,8 @@ export type CategoryRecord = RecordOf<CategoryRecordPropsType>;
 knownRecordFactories.set(CategoryRecordProps.recType, CategoryRecord);
 
 export const CategoryRecordEntityProps = {
-	...CategoryRecordProps,
-	recType: "CategoryApiRecordEntity" as "CategoryApiRecordEntity",
+    ...CategoryRecordProps,
+    recType: "CategoryApiRecordEntity" as "CategoryApiRecordEntity",
 };
 
 export type CategoryRecordEntityPropsType = typeof CategoryRecordEntityProps;
@@ -46,18 +47,18 @@ export type CategoryRecordEntity = RecordOf<CategoryRecordEntityPropsType>;
 knownRecordFactories.set(CategoryRecordEntityProps.recType, CategoryRecordEntity);
 
 class CategoryRecordUtils extends ApiRecordUtils<Category, CategoryRecord> {
-	public normalize(apiObject: Category, asEntity?: boolean): Category {
-		(apiObject as any).recType = asEntity ? CategoryRecordEntityProps.recType : CategoryRecordProps.recType;
+    public normalize(apiObject: Category, asEntity?: boolean): Category {
+        (apiObject as any).recType = asEntity ? CategoryRecordEntityProps.recType : CategoryRecordProps.recType;
         if (apiObject.id) { (apiObject as any).id = apiObject.id.toString(); } 
-		return apiObject;
-	}
+        return apiObject;
+    }
 
-	public getSchema(): Schema {
-	    return new schema.Entity("category", {
-		});
-	}
+    public getSchema(): Schema {
+        return new schema.Entity("category", {
+        });
+    }
 
-	public toApi(record: CategoryRecord): Category {
+    public toApi(record: CategoryRecord): Category {
         const apiObject = super.toApi(record);
         if (record.id) { apiObject.id = parseFloat(record.id); } 
         return apiObject;
@@ -65,3 +66,7 @@ class CategoryRecordUtils extends ApiRecordUtils<Category, CategoryRecord> {
 }
 
 export const categoryRecordUtils = new CategoryRecordUtils();
+
+export const apiEntitiesCategorySelector = (state: any) => getApiEntitiesState(state).category as Map<string, CategoryRecordEntity>;
+export const apiEntityCategorySelector = (state: any, {id}: {id: string}) => apiEntitiesCategorySelector(state).get(id);
+

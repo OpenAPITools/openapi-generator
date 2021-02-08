@@ -13,7 +13,8 @@
  */
 
 import {ApiRecordUtils, knownRecordFactories, appFromJS, NormalizedRecordEntities} from "../runtimeSagasAndRecords";
-import {List, Record, RecordOf} from 'immutable';
+import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
 import {
@@ -37,7 +38,7 @@ import {
 } from './ResponseMetaRecord';
 
 export const GetMatchingPartsResponseRecordProps = {
-	recType: "GetMatchingPartsResponseApiRecord" as "GetMatchingPartsResponseApiRecord",
+    recType: "GetMatchingPartsResponseApiRecord" as "GetMatchingPartsResponseApiRecord",
     meta: ResponseMetaRecord(),
     data: (MatchingPartsRecord(), null as MatchingPartsRecord | null),
 };
@@ -50,30 +51,32 @@ knownRecordFactories.set(GetMatchingPartsResponseRecordProps.recType, GetMatchin
 
 
 class GetMatchingPartsResponseRecordUtils extends ApiRecordUtils<GetMatchingPartsResponse, GetMatchingPartsResponseRecord> {
-	public normalize(apiObject: GetMatchingPartsResponse, asEntity?: boolean): GetMatchingPartsResponse {
-		(apiObject as any).recType = GetMatchingPartsResponseRecordProps.recType;
+    public normalize(apiObject: GetMatchingPartsResponse, asEntity?: boolean): GetMatchingPartsResponse {
+        (apiObject as any).recType = GetMatchingPartsResponseRecordProps.recType;
         responseMetaRecordUtils.normalize(apiObject.meta);
         if (apiObject.data) { matchingPartsRecordUtils.normalize(apiObject.data); } 
-		return apiObject;
-	}
+        return apiObject;
+    }
 
-	public toApi(record: GetMatchingPartsResponseRecord): GetMatchingPartsResponse {
+    public toApi(record: GetMatchingPartsResponseRecord): GetMatchingPartsResponse {
         const apiObject = super.toApi(record);
         apiObject.meta = responseMetaRecordUtils.toApi(record.meta);
         if (record.data) { apiObject.data = matchingPartsRecordUtils.toApi(record.data); } 
         return apiObject;
     }
 
-	public fromApiPassthrough(apiObject: GetMatchingPartsResponse): MatchingPartsRecord {
-	    if (!apiObject.data) {return MatchingPartsRecord(); }
-		const normalizedApiObject = matchingPartsRecordUtils.normalize(apiObject.data);
-		return appFromJS(normalizedApiObject);
-	}
+    public fromApiPassthrough(apiObject: GetMatchingPartsResponse): MatchingPartsRecord {
+        if (!apiObject.data) {return MatchingPartsRecord(); }
+        const normalizedApiObject = matchingPartsRecordUtils.normalize(apiObject.data);
+        return appFromJS(normalizedApiObject);
+    }
 
-	public fromApiPassthroughAsEntities(apiObject: GetMatchingPartsResponse): NormalizedRecordEntities {
-	    console.log("entities revival not supported on this response");
-		return {entities: {}, result: List<string>()};
-	}
+    public fromApiPassthroughAsEntities(apiObject: GetMatchingPartsResponse): NormalizedRecordEntities {
+        console.log("entities revival not supported on this response");
+        return {entities: {}, result: List<string>()};
+    }
 }
 
 export const getMatchingPartsResponseRecordUtils = new GetMatchingPartsResponseRecordUtils();
+
+

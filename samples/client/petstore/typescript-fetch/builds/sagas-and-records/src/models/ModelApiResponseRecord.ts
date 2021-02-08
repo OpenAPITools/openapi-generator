@@ -13,7 +13,8 @@
  */
 
 import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
-import {List, Record, RecordOf} from 'immutable';
+import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
 import {
@@ -23,7 +24,7 @@ import {
 
 
 export const ModelApiResponseRecordProps = {
-	recType: "ModelApiResponseApiRecord" as "ModelApiResponseApiRecord",
+    recType: "ModelApiResponseApiRecord" as "ModelApiResponseApiRecord",
     code: null as number | null,
     type: null as string | null,
     message: null as string | null,
@@ -37,15 +38,17 @@ knownRecordFactories.set(ModelApiResponseRecordProps.recType, ModelApiResponseRe
 
 
 class ModelApiResponseRecordUtils extends ApiRecordUtils<ModelApiResponse, ModelApiResponseRecord> {
-	public normalize(apiObject: ModelApiResponse, asEntity?: boolean): ModelApiResponse {
-		(apiObject as any).recType = ModelApiResponseRecordProps.recType;
-		return apiObject;
-	}
+    public normalize(apiObject: ModelApiResponse, asEntity?: boolean): ModelApiResponse {
+        (apiObject as any).recType = ModelApiResponseRecordProps.recType;
+        return apiObject;
+    }
 
-	public toApi(record: ModelApiResponseRecord): ModelApiResponse {
+    public toApi(record: ModelApiResponseRecord): ModelApiResponse {
         const apiObject = super.toApi(record);
         return apiObject;
     }
 }
 
 export const modelApiResponseRecordUtils = new ModelApiResponseRecordUtils();
+
+

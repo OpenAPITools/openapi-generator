@@ -13,7 +13,8 @@
  */
 
 import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
-import {List, Record, RecordOf} from 'immutable';
+import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
 import {
@@ -23,7 +24,7 @@ import {
 
 
 export const ItemIdRecordProps = {
-	recType: "ItemIdApiRecord" as "ItemIdApiRecord",
+    recType: "ItemIdApiRecord" as "ItemIdApiRecord",
     id: "",
     type: "",
 };
@@ -36,15 +37,17 @@ knownRecordFactories.set(ItemIdRecordProps.recType, ItemIdRecord);
 
 
 class ItemIdRecordUtils extends ApiRecordUtils<ItemId, ItemIdRecord> {
-	public normalize(apiObject: ItemId, asEntity?: boolean): ItemId {
-		(apiObject as any).recType = ItemIdRecordProps.recType;
-		return apiObject;
-	}
+    public normalize(apiObject: ItemId, asEntity?: boolean): ItemId {
+        (apiObject as any).recType = ItemIdRecordProps.recType;
+        return apiObject;
+    }
 
-	public toApi(record: ItemIdRecord): ItemId {
+    public toApi(record: ItemIdRecord): ItemId {
         const apiObject = super.toApi(record);
         return apiObject;
     }
 }
 
 export const itemIdRecordUtils = new ItemIdRecordUtils();
+
+

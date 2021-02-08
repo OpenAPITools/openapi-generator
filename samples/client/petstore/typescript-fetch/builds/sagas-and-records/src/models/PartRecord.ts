@@ -13,7 +13,8 @@
  */
 
 import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
-import {List, Record, RecordOf} from 'immutable';
+import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
 import {
@@ -23,7 +24,7 @@ import {
 
 
 export const PartRecordProps = {
-	recType: "PartApiRecord" as "PartApiRecord",
+    recType: "PartApiRecord" as "PartApiRecord",
     id: "-1",
     name: "",
 };
@@ -36,13 +37,13 @@ knownRecordFactories.set(PartRecordProps.recType, PartRecord);
 
 
 class PartRecordUtils extends ApiRecordUtils<Part, PartRecord> {
-	public normalize(apiObject: Part, asEntity?: boolean): Part {
-		(apiObject as any).recType = PartRecordProps.recType;
+    public normalize(apiObject: Part, asEntity?: boolean): Part {
+        (apiObject as any).recType = PartRecordProps.recType;
         (apiObject as any).id = apiObject.id.toString();
-		return apiObject;
-	}
+        return apiObject;
+    }
 
-	public toApi(record: PartRecord): Part {
+    public toApi(record: PartRecord): Part {
         const apiObject = super.toApi(record);
         apiObject.id = parseFloat(record.id);
         return apiObject;
@@ -50,3 +51,5 @@ class PartRecordUtils extends ApiRecordUtils<Part, PartRecord> {
 }
 
 export const partRecordUtils = new PartRecordUtils();
+
+

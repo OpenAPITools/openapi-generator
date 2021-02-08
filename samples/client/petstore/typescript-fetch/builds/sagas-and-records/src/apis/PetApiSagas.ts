@@ -45,21 +45,21 @@ import {
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_petApi"});
 
 export const petApiSagaMap = new Map<string, () => Generator<any, any, any>>([
-    	["addPet", addPetSaga],
-    	["deletePet", deletePetSaga],
-    	["findPetsByIds", findPetsByIdsSaga],
-    	["findPetsByStatus", findPetsByStatusSaga],
-    	["findPetsByTags", findPetsByTagsSaga],
-    	["findPetsByUserIds", findPetsByUserIdsSaga],
-    	["getPetById", getPetByIdSaga],
-    	["updatePet", updatePetSaga],
-    	["updatePetWithForm", updatePetWithFormSaga],
-    	["uploadFile", uploadFileSaga],
-	]
+        ["addPet", addPetSaga],
+        ["deletePet", deletePetSaga],
+        ["findPetsByIds", findPetsByIdsSaga],
+        ["findPetsByStatus", findPetsByStatusSaga],
+        ["findPetsByTags", findPetsByTagsSaga],
+        ["findPetsByUserIds", findPetsByUserIdsSaga],
+        ["getPetById", getPetByIdSaga],
+        ["updatePet", updatePetSaga],
+        ["updatePetWithForm", updatePetWithFormSaga],
+        ["uploadFile", uploadFileSaga],
+    ]
 );
 
 export function *petApiAllSagas() {
-	yield all([...petApiSagaMap.values()].map(actionSaga => fork(actionSaga)));
+    yield all([...petApiSagaMap.values()].map(actionSaga => fork(actionSaga)));
 }
 
 //region addPet
@@ -78,28 +78,28 @@ export const addPetFailure = createSagaAction<any>("addPetFailure");
 export const addPet = createSagaAction<PayloadAddPet>("addPet");
 
 export function *addPetSaga() {
-	yield takeLatest(addPet, addPetSagaImp);
+    yield takeLatest(addPet, addPetSagaImp);
 }
 
 export function *addPetSagaImp(_action_: Action<PayloadAddPet>) {
-	try {
+    try {
         const {
             dummyCat,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(addPetRequest(_action_.payload));
+        yield put(addPetRequest(_action_.payload));
 
-		const response = yield apiCall(Api.petApi, Api.petApi.addPet,
+        const response = yield apiCall(Api.petApi, Api.petApi.addPet,
             categoryRecordUtils.toApi(dummyCat),
-		);
+        );
 
-		    yield put(addPetSuccess());
+            yield put(addPetSuccess());
 
         return undefined;
-	} catch (error) {
-		yield put(addPetFailure(error));
-		return error;
-	}
+    } catch (error) {
+        yield put(addPetFailure(error));
+        return error;
+    }
 }
 //endregion
 //region deletePet
@@ -119,30 +119,30 @@ export const deletePetFailure = createSagaAction<any>("deletePetFailure");
 export const deletePet = createSagaAction<PayloadDeletePet>("deletePet");
 
 export function *deletePetSaga() {
-	yield takeLatest(deletePet, deletePetSagaImp);
+    yield takeLatest(deletePet, deletePetSagaImp);
 }
 
 export function *deletePetSagaImp(_action_: Action<PayloadDeletePet>) {
-	try {
+    try {
         const {
             petId,
             apiKey,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(deletePetRequest(_action_.payload));
+        yield put(deletePetRequest(_action_.payload));
 
-		const response = yield apiCall(Api.petApi, Api.petApi.deletePet,
+        const response = yield apiCall(Api.petApi, Api.petApi.deletePet,
             parseFloat(petId),
             apiKey,
-		);
+        );
 
-		    yield put(deletePetSuccess());
+            yield put(deletePetSuccess());
 
         return undefined;
-	} catch (error) {
-		yield put(deletePetFailure(error));
-		return error;
-	}
+    } catch (error) {
+        yield put(deletePetFailure(error));
+        return error;
+    }
 }
 //endregion
 //region findPetsByIds
@@ -162,38 +162,38 @@ export const findPetsByIdsFailure = createSagaAction<any>("findPetsByIdsFailure"
 export const findPetsByIds = createSagaAction<PayloadFindPetsByIds>("findPetsByIds");
 
 export function *findPetsByIdsSaga() {
-	yield takeLatest(findPetsByIds, findPetsByIdsSagaImp);
+    yield takeLatest(findPetsByIds, findPetsByIdsSagaImp);
 }
 
 export function *findPetsByIdsSagaImp(_action_: Action<PayloadFindPetsByIds>) {
-	try {
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+    try {
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
         const {
             ids,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(findPetsByIdsRequest(requestPayload));
+        yield put(findPetsByIdsRequest(requestPayload));
 
-		const response: Required<Array<Pet>> = yield apiCall(Api.petApi, Api.petApi.findPetsByIds,
+        const response: Required<Array<Pet>> = yield apiCall(Api.petApi, Api.petApi.findPetsByIds,
             ids.map(p => parseFloat(p)).toArray(),
-		);
+        );
 
-		let successReturnValue: any = undefined;
-		if (toEntities) {
+        let successReturnValue: any = undefined;
+        if (toEntities) {
             successReturnValue = petRecordUtils.fromApiArrayAsEntities(response);
-			yield put(normalizedEntities(successReturnValue));
-			yield put(findPetsByIdsSuccess_Entities(successReturnValue));
-		}
-		if (toInlined) {
+            yield put(normalizedEntities(successReturnValue));
+            yield put(findPetsByIdsSuccess_Entities(successReturnValue));
+        }
+        if (toInlined) {
             successReturnValue = petRecordUtils.fromApiArray(response);
-	    	yield put(findPetsByIdsSuccess(successReturnValue));
-		}
+            yield put(findPetsByIdsSuccess(successReturnValue));
+        }
 
         return successReturnValue;
-	} catch (error) {
-		yield put(findPetsByIdsFailure(error));
-		return error;
-	}
+    } catch (error) {
+        yield put(findPetsByIdsFailure(error));
+        return error;
+    }
 }
 //endregion
 //region findPetsByStatus
@@ -213,38 +213,38 @@ export const findPetsByStatusFailure = createSagaAction<any>("findPetsByStatusFa
 export const findPetsByStatus = createSagaAction<PayloadFindPetsByStatus>("findPetsByStatus");
 
 export function *findPetsByStatusSaga() {
-	yield takeLatest(findPetsByStatus, findPetsByStatusSagaImp);
+    yield takeLatest(findPetsByStatus, findPetsByStatusSagaImp);
 }
 
 export function *findPetsByStatusSagaImp(_action_: Action<PayloadFindPetsByStatus>) {
-	try {
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+    try {
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
         const {
             status,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(findPetsByStatusRequest(requestPayload));
+        yield put(findPetsByStatusRequest(requestPayload));
 
-		const response: Required<FindPetsByStatusResponse> = yield apiCall(Api.petApi, Api.petApi.findPetsByStatus,
+        const response: Required<FindPetsByStatusResponse> = yield apiCall(Api.petApi, Api.petApi.findPetsByStatus,
             status.toJS(),
-		);
+        );
 
-		let successReturnValue: any = undefined;
-		if (toEntities) {
-			successReturnValue = findPetsByStatusResponseRecordUtils.fromApiPassthroughAsEntities(response);
-			yield put(normalizedEntities(successReturnValue));
-			yield put(findPetsByStatusSuccess_Entities(successReturnValue));
-		}
-		if (toInlined) {
-    		successReturnValue = findPetsByStatusResponseRecordUtils.fromApiPassthrough(response);
-	    	yield put(findPetsByStatusSuccess(successReturnValue));
-		}
+        let successReturnValue: any = undefined;
+        if (toEntities) {
+            successReturnValue = findPetsByStatusResponseRecordUtils.fromApiPassthroughAsEntities(response);
+            yield put(normalizedEntities(successReturnValue));
+            yield put(findPetsByStatusSuccess_Entities(successReturnValue));
+        }
+        if (toInlined) {
+            successReturnValue = findPetsByStatusResponseRecordUtils.fromApiPassthrough(response);
+            yield put(findPetsByStatusSuccess(successReturnValue));
+        }
 
-		return successReturnValue;
-	} catch (error) {
-		yield put(findPetsByStatusFailure(error));
-		return error;
-	}
+        return successReturnValue;
+    } catch (error) {
+        yield put(findPetsByStatusFailure(error));
+        return error;
+    }
 }
 //endregion
 //region findPetsByTags
@@ -264,38 +264,38 @@ export const findPetsByTagsFailure = createSagaAction<any>("findPetsByTagsFailur
 export const findPetsByTags = createSagaAction<PayloadFindPetsByTags>("findPetsByTags");
 
 export function *findPetsByTagsSaga() {
-	yield takeLatest(findPetsByTags, findPetsByTagsSagaImp);
+    yield takeLatest(findPetsByTags, findPetsByTagsSagaImp);
 }
 
 export function *findPetsByTagsSagaImp(_action_: Action<PayloadFindPetsByTags>) {
-	try {
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+    try {
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
         const {
             tags,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(findPetsByTagsRequest(requestPayload));
+        yield put(findPetsByTagsRequest(requestPayload));
 
-		const response: Required<Array<Pet>> = yield apiCall(Api.petApi, Api.petApi.findPetsByTags,
+        const response: Required<Array<Pet>> = yield apiCall(Api.petApi, Api.petApi.findPetsByTags,
             tags.toJS(),
-		);
+        );
 
-		let successReturnValue: any = undefined;
-		if (toEntities) {
+        let successReturnValue: any = undefined;
+        if (toEntities) {
             successReturnValue = petRecordUtils.fromApiArrayAsEntities(response);
-			yield put(normalizedEntities(successReturnValue));
-			yield put(findPetsByTagsSuccess_Entities(successReturnValue));
-		}
-		if (toInlined) {
+            yield put(normalizedEntities(successReturnValue));
+            yield put(findPetsByTagsSuccess_Entities(successReturnValue));
+        }
+        if (toInlined) {
             successReturnValue = petRecordUtils.fromApiArray(response);
-	    	yield put(findPetsByTagsSuccess(successReturnValue));
-		}
+            yield put(findPetsByTagsSuccess(successReturnValue));
+        }
 
         return successReturnValue;
-	} catch (error) {
-		yield put(findPetsByTagsFailure(error));
-		return error;
-	}
+    } catch (error) {
+        yield put(findPetsByTagsFailure(error));
+        return error;
+    }
 }
 //endregion
 //region findPetsByUserIds
@@ -315,38 +315,38 @@ export const findPetsByUserIdsFailure = createSagaAction<any>("findPetsByUserIds
 export const findPetsByUserIds = createSagaAction<PayloadFindPetsByUserIds>("findPetsByUserIds");
 
 export function *findPetsByUserIdsSaga() {
-	yield takeLatest(findPetsByUserIds, findPetsByUserIdsSagaImp);
+    yield takeLatest(findPetsByUserIds, findPetsByUserIdsSagaImp);
 }
 
 export function *findPetsByUserIdsSagaImp(_action_: Action<PayloadFindPetsByUserIds>) {
-	try {
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+    try {
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
         const {
             ids,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(findPetsByUserIdsRequest(requestPayload));
+        yield put(findPetsByUserIdsRequest(requestPayload));
 
-		const response: Required<FindPetsByUserResponse> = yield apiCall(Api.petApi, Api.petApi.findPetsByUserIds,
+        const response: Required<FindPetsByUserResponse> = yield apiCall(Api.petApi, Api.petApi.findPetsByUserIds,
             ids.map(p => parseFloat(p)).toArray(),
-		);
+        );
 
-		let successReturnValue: any = undefined;
-		if (toEntities) {
-			successReturnValue = findPetsByUserResponseRecordUtils.fromApiPassthroughAsEntities(response);
-			yield put(normalizedEntities(successReturnValue));
-			yield put(findPetsByUserIdsSuccess_Entities(successReturnValue));
-		}
-		if (toInlined) {
-    		successReturnValue = findPetsByUserResponseRecordUtils.fromApiPassthrough(response);
-	    	yield put(findPetsByUserIdsSuccess(successReturnValue));
-		}
+        let successReturnValue: any = undefined;
+        if (toEntities) {
+            successReturnValue = findPetsByUserResponseRecordUtils.fromApiPassthroughAsEntities(response);
+            yield put(normalizedEntities(successReturnValue));
+            yield put(findPetsByUserIdsSuccess_Entities(successReturnValue));
+        }
+        if (toInlined) {
+            successReturnValue = findPetsByUserResponseRecordUtils.fromApiPassthrough(response);
+            yield put(findPetsByUserIdsSuccess(successReturnValue));
+        }
 
-		return successReturnValue;
-	} catch (error) {
-		yield put(findPetsByUserIdsFailure(error));
-		return error;
-	}
+        return successReturnValue;
+    } catch (error) {
+        yield put(findPetsByUserIdsFailure(error));
+        return error;
+    }
 }
 //endregion
 //region getPetById
@@ -366,38 +366,38 @@ export const getPetByIdFailure = createSagaAction<any>("getPetByIdFailure");
 export const getPetById = createSagaAction<PayloadGetPetById>("getPetById");
 
 export function *getPetByIdSaga() {
-	yield takeLatest(getPetById, getPetByIdSagaImp);
+    yield takeLatest(getPetById, getPetByIdSagaImp);
 }
 
 export function *getPetByIdSagaImp(_action_: Action<PayloadGetPetById>) {
-	try {
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+    try {
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
         const {
             petId,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(getPetByIdRequest(requestPayload));
+        yield put(getPetByIdRequest(requestPayload));
 
-		const response: Required<Pet> = yield apiCall(Api.petApi, Api.petApi.getPetById,
+        const response: Required<Pet> = yield apiCall(Api.petApi, Api.petApi.getPetById,
             parseFloat(petId),
-		);
+        );
 
-		let successReturnValue: any = undefined;
-		if (toEntities) {
+        let successReturnValue: any = undefined;
+        if (toEntities) {
             successReturnValue = petRecordUtils.fromApiArrayAsEntities([response]);
-			yield put(normalizedEntities(successReturnValue));
-			yield put(getPetByIdSuccess_Entities(successReturnValue));
-		}
-		if (toInlined) {
+            yield put(normalizedEntities(successReturnValue));
+            yield put(getPetByIdSuccess_Entities(successReturnValue));
+        }
+        if (toInlined) {
             successReturnValue = petRecordUtils.fromApi(response);
-		    yield put(getPetByIdSuccess(successReturnValue));
-		}
+            yield put(getPetByIdSuccess(successReturnValue));
+        }
 
         return successReturnValue;
-	} catch (error) {
-		yield put(getPetByIdFailure(error));
-		return error;
-	}
+    } catch (error) {
+        yield put(getPetByIdFailure(error));
+        return error;
+    }
 }
 //endregion
 //region updatePet
@@ -416,28 +416,28 @@ export const updatePetFailure = createSagaAction<any>("updatePetFailure");
 export const updatePet = createSagaAction<PayloadUpdatePet>("updatePet");
 
 export function *updatePetSaga() {
-	yield takeLatest(updatePet, updatePetSagaImp);
+    yield takeLatest(updatePet, updatePetSagaImp);
 }
 
 export function *updatePetSagaImp(_action_: Action<PayloadUpdatePet>) {
-	try {
+    try {
         const {
             body,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(updatePetRequest(_action_.payload));
+        yield put(updatePetRequest(_action_.payload));
 
-		const response = yield apiCall(Api.petApi, Api.petApi.updatePet,
+        const response = yield apiCall(Api.petApi, Api.petApi.updatePet,
             petRecordUtils.toApi(body),
-		);
+        );
 
-		    yield put(updatePetSuccess());
+            yield put(updatePetSuccess());
 
         return undefined;
-	} catch (error) {
-		yield put(updatePetFailure(error));
-		return error;
-	}
+    } catch (error) {
+        yield put(updatePetFailure(error));
+        return error;
+    }
 }
 //endregion
 //region updatePetWithForm
@@ -458,32 +458,32 @@ export const updatePetWithFormFailure = createSagaAction<any>("updatePetWithForm
 export const updatePetWithForm = createSagaAction<PayloadUpdatePetWithForm>("updatePetWithForm");
 
 export function *updatePetWithFormSaga() {
-	yield takeLatest(updatePetWithForm, updatePetWithFormSagaImp);
+    yield takeLatest(updatePetWithForm, updatePetWithFormSagaImp);
 }
 
 export function *updatePetWithFormSagaImp(_action_: Action<PayloadUpdatePetWithForm>) {
-	try {
+    try {
         const {
             petId,
             name,
             status,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(updatePetWithFormRequest(_action_.payload));
+        yield put(updatePetWithFormRequest(_action_.payload));
 
-		const response = yield apiCall(Api.petApi, Api.petApi.updatePetWithForm,
+        const response = yield apiCall(Api.petApi, Api.petApi.updatePetWithForm,
             parseFloat(petId),
             name,
             status,
-		);
+        );
 
-		    yield put(updatePetWithFormSuccess());
+            yield put(updatePetWithFormSuccess());
 
         return undefined;
-	} catch (error) {
-		yield put(updatePetWithFormFailure(error));
-		return error;
-	}
+    } catch (error) {
+        yield put(updatePetWithFormFailure(error));
+        return error;
+    }
 }
 //endregion
 //region uploadFile
@@ -505,41 +505,41 @@ export const uploadFileFailure = createSagaAction<any>("uploadFileFailure");
 export const uploadFile = createSagaAction<PayloadUploadFile>("uploadFile");
 
 export function *uploadFileSaga() {
-	yield takeLatest(uploadFile, uploadFileSagaImp);
+    yield takeLatest(uploadFile, uploadFileSagaImp);
 }
 
 export function *uploadFileSagaImp(_action_: Action<PayloadUploadFile>) {
-	try {
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+    try {
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
         const {
             petId,
             additionalMetadata,
             file,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(uploadFileRequest(requestPayload));
+        yield put(uploadFileRequest(requestPayload));
 
-		const response: Required<ModelApiResponse> = yield apiCall(Api.petApi, Api.petApi.uploadFile,
+        const response: Required<ModelApiResponse> = yield apiCall(Api.petApi, Api.petApi.uploadFile,
             parseFloat(petId),
             additionalMetadata,
             file,
-		);
+        );
 
-		let successReturnValue: any = undefined;
-		if (toEntities) {
+        let successReturnValue: any = undefined;
+        if (toEntities) {
             successReturnValue = modelApiResponseRecordUtils.fromApiArrayAsEntities([response]);
-			yield put(normalizedEntities(successReturnValue));
-			yield put(uploadFileSuccess_Entities(successReturnValue));
-		}
-		if (toInlined) {
+            yield put(normalizedEntities(successReturnValue));
+            yield put(uploadFileSuccess_Entities(successReturnValue));
+        }
+        if (toInlined) {
             successReturnValue = modelApiResponseRecordUtils.fromApi(response);
-		    yield put(uploadFileSuccess(successReturnValue));
-		}
+            yield put(uploadFileSuccess(successReturnValue));
+        }
 
         return successReturnValue;
-	} catch (error) {
-		yield put(uploadFileFailure(error));
-		return error;
-	}
+    } catch (error) {
+        yield put(uploadFileFailure(error));
+        return error;
+    }
 }
 //endregion

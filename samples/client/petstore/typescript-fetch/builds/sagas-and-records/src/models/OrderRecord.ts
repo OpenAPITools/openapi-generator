@@ -13,7 +13,8 @@
  */
 
 import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
-import {List, Record, RecordOf} from 'immutable';
+import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
 import {
@@ -24,7 +25,7 @@ import {
 
 
 export const OrderRecordProps = {
-	recType: "OrderApiRecord" as "OrderApiRecord",
+    recType: "OrderApiRecord" as "OrderApiRecord",
     id: null as string | null,
     petId: null as number | null,
     quantity: null as number | null,
@@ -40,8 +41,8 @@ export type OrderRecord = RecordOf<OrderRecordPropsType>;
 knownRecordFactories.set(OrderRecordProps.recType, OrderRecord);
 
 export const OrderRecordEntityProps = {
-	...OrderRecordProps,
-	recType: "OrderApiRecordEntity" as "OrderApiRecordEntity",
+    ...OrderRecordProps,
+    recType: "OrderApiRecordEntity" as "OrderApiRecordEntity",
 };
 
 export type OrderRecordEntityPropsType = typeof OrderRecordEntityProps;
@@ -51,18 +52,18 @@ export type OrderRecordEntity = RecordOf<OrderRecordEntityPropsType>;
 knownRecordFactories.set(OrderRecordEntityProps.recType, OrderRecordEntity);
 
 class OrderRecordUtils extends ApiRecordUtils<Order, OrderRecord> {
-	public normalize(apiObject: Order, asEntity?: boolean): Order {
-		(apiObject as any).recType = asEntity ? OrderRecordEntityProps.recType : OrderRecordProps.recType;
+    public normalize(apiObject: Order, asEntity?: boolean): Order {
+        (apiObject as any).recType = asEntity ? OrderRecordEntityProps.recType : OrderRecordProps.recType;
         if (apiObject.id) { (apiObject as any).id = apiObject.id.toString(); } 
-		return apiObject;
-	}
+        return apiObject;
+    }
 
-	public getSchema(): Schema {
-	    return new schema.Entity("order", {
-		});
-	}
+    public getSchema(): Schema {
+        return new schema.Entity("order", {
+        });
+    }
 
-	public toApi(record: OrderRecord): Order {
+    public toApi(record: OrderRecord): Order {
         const apiObject = super.toApi(record);
         if (record.id) { apiObject.id = parseFloat(record.id); } 
         return apiObject;
@@ -70,3 +71,7 @@ class OrderRecordUtils extends ApiRecordUtils<Order, OrderRecord> {
 }
 
 export const orderRecordUtils = new OrderRecordUtils();
+
+export const apiEntitiesOrderSelector = (state: any) => getApiEntitiesState(state).order as Map<string, OrderRecordEntity>;
+export const apiEntityOrderSelector = (state: any, {id}: {id: string}) => apiEntitiesOrderSelector(state).get(id);
+

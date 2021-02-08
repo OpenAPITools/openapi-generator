@@ -33,13 +33,13 @@ import {
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_petPartApi"});
 
 export const petPartApiSagaMap = new Map<string, () => Generator<any, any, any>>([
-    	["getFakePetPartType", getFakePetPartTypeSaga],
-    	["getMatchingParts", getMatchingPartsSaga],
-	]
+        ["getFakePetPartType", getFakePetPartTypeSaga],
+        ["getMatchingParts", getMatchingPartsSaga],
+    ]
 );
 
 export function *petPartApiAllSagas() {
-	yield all([...petPartApiSagaMap.values()].map(actionSaga => fork(actionSaga)));
+    yield all([...petPartApiSagaMap.values()].map(actionSaga => fork(actionSaga)));
 }
 
 //region getFakePetPartType
@@ -58,30 +58,30 @@ export const getFakePetPartTypeFailure = createSagaAction<any>("getFakePetPartTy
 export const getFakePetPartType = createSagaAction<PayloadGetFakePetPartType>("getFakePetPartType");
 
 export function *getFakePetPartTypeSaga() {
-	yield takeLatest(getFakePetPartType, getFakePetPartTypeSagaImp);
+    yield takeLatest(getFakePetPartType, getFakePetPartTypeSagaImp);
 }
 
 export function *getFakePetPartTypeSagaImp(_action_: Action<PayloadGetFakePetPartType>) {
-	try {
+    try {
         const {
             fakePetPartId,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(getFakePetPartTypeRequest(_action_.payload));
+        yield put(getFakePetPartTypeRequest(_action_.payload));
 
-		const response: Required<GetPetPartTypeResponse> = yield apiCall(Api.petPartApi, Api.petPartApi.getFakePetPartType,
+        const response: Required<GetPetPartTypeResponse> = yield apiCall(Api.petPartApi, Api.petPartApi.getFakePetPartType,
             parseFloat(fakePetPartId),
-		);
+        );
 
-		let successReturnValue: any = undefined;
-    		successReturnValue = getPetPartTypeResponseRecordUtils.fromApiPassthrough(response);
-	    	yield put(getFakePetPartTypeSuccess(successReturnValue));
+        let successReturnValue: any = undefined;
+            successReturnValue = getPetPartTypeResponseRecordUtils.fromApiPassthrough(response);
+            yield put(getFakePetPartTypeSuccess(successReturnValue));
 
-		return successReturnValue;
-	} catch (error) {
-		yield put(getFakePetPartTypeFailure(error));
-		return error;
-	}
+        return successReturnValue;
+    } catch (error) {
+        yield put(getFakePetPartTypeFailure(error));
+        return error;
+    }
 }
 //endregion
 //region getMatchingParts
@@ -106,12 +106,12 @@ export const getMatchingPartsFailure = createSagaAction<any>("getMatchingPartsFa
 export const getMatchingParts = createSagaAction<PayloadGetMatchingParts>("getMatchingParts");
 
 export function *getMatchingPartsSaga() {
-	yield takeLatest(getMatchingParts, getMatchingPartsSagaImp);
+    yield takeLatest(getMatchingParts, getMatchingPartsSagaImp);
 }
 
 export function *getMatchingPartsSagaImp(_action_: Action<PayloadGetMatchingParts>) {
-	try {
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+    try {
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
         const {
             fakePetPartId,
             _long,
@@ -119,34 +119,34 @@ export function *getMatchingPartsSagaImp(_action_: Action<PayloadGetMatchingPart
             _short,
             name,
             connectedPart,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(getMatchingPartsRequest(requestPayload));
+        yield put(getMatchingPartsRequest(requestPayload));
 
-		const response: Required<GetMatchingPartsResponse> = yield apiCall(Api.petPartApi, Api.petPartApi.getMatchingParts,
+        const response: Required<GetMatchingPartsResponse> = yield apiCall(Api.petPartApi, Api.petPartApi.getMatchingParts,
             parseFloat(fakePetPartId),
             _long,
             smooth,
             _short,
             name,
             connectedPart,
-		);
+        );
 
-		let successReturnValue: any = undefined;
-		if (toEntities) {
-			successReturnValue = getMatchingPartsResponseRecordUtils.fromApiPassthroughAsEntities(response);
-			yield put(normalizedEntities(successReturnValue));
-			yield put(getMatchingPartsSuccess_Entities(successReturnValue));
-		}
-		if (toInlined) {
-    		successReturnValue = getMatchingPartsResponseRecordUtils.fromApiPassthrough(response);
-	    	yield put(getMatchingPartsSuccess(successReturnValue));
-		}
+        let successReturnValue: any = undefined;
+        if (toEntities) {
+            successReturnValue = getMatchingPartsResponseRecordUtils.fromApiPassthroughAsEntities(response);
+            yield put(normalizedEntities(successReturnValue));
+            yield put(getMatchingPartsSuccess_Entities(successReturnValue));
+        }
+        if (toInlined) {
+            successReturnValue = getMatchingPartsResponseRecordUtils.fromApiPassthrough(response);
+            yield put(getMatchingPartsSuccess(successReturnValue));
+        }
 
-		return successReturnValue;
-	} catch (error) {
-		yield put(getMatchingPartsFailure(error));
-		return error;
-	}
+        return successReturnValue;
+    } catch (error) {
+        yield put(getMatchingPartsFailure(error));
+        return error;
+    }
 }
 //endregion

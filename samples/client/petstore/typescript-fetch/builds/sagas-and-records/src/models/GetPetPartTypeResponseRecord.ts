@@ -13,7 +13,8 @@
  */
 
 import {ApiRecordUtils, knownRecordFactories, appFromJS, NormalizedRecordEntities} from "../runtimeSagasAndRecords";
-import {List, Record, RecordOf} from 'immutable';
+import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
 import {
@@ -33,7 +34,7 @@ import {
 } from './ResponseMetaRecord';
 
 export const GetPetPartTypeResponseRecordProps = {
-	recType: "GetPetPartTypeResponseApiRecord" as "GetPetPartTypeResponseApiRecord",
+    recType: "GetPetPartTypeResponseApiRecord" as "GetPetPartTypeResponseApiRecord",
     meta: ResponseMetaRecord(),
     data: null as PetPartType | null,
 };
@@ -46,26 +47,28 @@ knownRecordFactories.set(GetPetPartTypeResponseRecordProps.recType, GetPetPartTy
 
 
 class GetPetPartTypeResponseRecordUtils extends ApiRecordUtils<GetPetPartTypeResponse, GetPetPartTypeResponseRecord> {
-	public normalize(apiObject: GetPetPartTypeResponse, asEntity?: boolean): GetPetPartTypeResponse {
-		(apiObject as any).recType = GetPetPartTypeResponseRecordProps.recType;
+    public normalize(apiObject: GetPetPartTypeResponse, asEntity?: boolean): GetPetPartTypeResponse {
+        (apiObject as any).recType = GetPetPartTypeResponseRecordProps.recType;
         responseMetaRecordUtils.normalize(apiObject.meta);
-		return apiObject;
-	}
+        return apiObject;
+    }
 
-	public toApi(record: GetPetPartTypeResponseRecord): GetPetPartTypeResponse {
+    public toApi(record: GetPetPartTypeResponseRecord): GetPetPartTypeResponse {
         const apiObject = super.toApi(record);
         apiObject.meta = responseMetaRecordUtils.toApi(record.meta);
         return apiObject;
     }
 
-	public fromApiPassthrough(apiObject: GetPetPartTypeResponse): PetPartType {
-	    return apiObject.data!;
-	}
+    public fromApiPassthrough(apiObject: GetPetPartTypeResponse): PetPartType {
+        return apiObject.data!;
+    }
 
-	public fromApiPassthroughAsEntities(apiObject: GetPetPartTypeResponse): NormalizedRecordEntities {
-	    console.log("entities revival not supported on this response");
-		return {entities: {}, result: List<string>()};
-	}
+    public fromApiPassthroughAsEntities(apiObject: GetPetPartTypeResponse): NormalizedRecordEntities {
+        console.log("entities revival not supported on this response");
+        return {entities: {}, result: List<string>()};
+    }
 }
 
 export const getPetPartTypeResponseRecordUtils = new GetPetPartTypeResponseRecordUtils();
+
+

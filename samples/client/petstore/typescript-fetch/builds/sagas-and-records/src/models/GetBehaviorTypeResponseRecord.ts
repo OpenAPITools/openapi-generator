@@ -13,7 +13,8 @@
  */
 
 import {ApiRecordUtils, knownRecordFactories, appFromJS, NormalizedRecordEntities} from "../runtimeSagasAndRecords";
-import {List, Record, RecordOf} from 'immutable';
+import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
 import {
@@ -33,7 +34,7 @@ import {
 } from './ResponseMetaRecord';
 
 export const GetBehaviorTypeResponseRecordProps = {
-	recType: "GetBehaviorTypeResponseApiRecord" as "GetBehaviorTypeResponseApiRecord",
+    recType: "GetBehaviorTypeResponseApiRecord" as "GetBehaviorTypeResponseApiRecord",
     meta: ResponseMetaRecord(),
     data: null as BehaviorType | null,
 };
@@ -46,26 +47,28 @@ knownRecordFactories.set(GetBehaviorTypeResponseRecordProps.recType, GetBehavior
 
 
 class GetBehaviorTypeResponseRecordUtils extends ApiRecordUtils<GetBehaviorTypeResponse, GetBehaviorTypeResponseRecord> {
-	public normalize(apiObject: GetBehaviorTypeResponse, asEntity?: boolean): GetBehaviorTypeResponse {
-		(apiObject as any).recType = GetBehaviorTypeResponseRecordProps.recType;
+    public normalize(apiObject: GetBehaviorTypeResponse, asEntity?: boolean): GetBehaviorTypeResponse {
+        (apiObject as any).recType = GetBehaviorTypeResponseRecordProps.recType;
         responseMetaRecordUtils.normalize(apiObject.meta);
-		return apiObject;
-	}
+        return apiObject;
+    }
 
-	public toApi(record: GetBehaviorTypeResponseRecord): GetBehaviorTypeResponse {
+    public toApi(record: GetBehaviorTypeResponseRecord): GetBehaviorTypeResponse {
         const apiObject = super.toApi(record);
         apiObject.meta = responseMetaRecordUtils.toApi(record.meta);
         return apiObject;
     }
 
-	public fromApiPassthrough(apiObject: GetBehaviorTypeResponse): BehaviorType {
-	    return apiObject.data!;
-	}
+    public fromApiPassthrough(apiObject: GetBehaviorTypeResponse): BehaviorType {
+        return apiObject.data!;
+    }
 
-	public fromApiPassthroughAsEntities(apiObject: GetBehaviorTypeResponse): NormalizedRecordEntities {
-	    console.log("entities revival not supported on this response");
-		return {entities: {}, result: List<string>()};
-	}
+    public fromApiPassthroughAsEntities(apiObject: GetBehaviorTypeResponse): NormalizedRecordEntities {
+        console.log("entities revival not supported on this response");
+        return {entities: {}, result: List<string>()};
+    }
 }
 
 export const getBehaviorTypeResponseRecordUtils = new GetBehaviorTypeResponseRecordUtils();
+
+

@@ -13,7 +13,8 @@
  */
 
 import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
-import {List, Record, RecordOf} from 'immutable';
+import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
 import {
@@ -23,7 +24,7 @@ import {
 
 
 export const TagRecordProps = {
-	recType: "TagApiRecord" as "TagApiRecord",
+    recType: "TagApiRecord" as "TagApiRecord",
     id: null as string | null,
     name: null as string | null,
 };
@@ -35,8 +36,8 @@ export type TagRecord = RecordOf<TagRecordPropsType>;
 knownRecordFactories.set(TagRecordProps.recType, TagRecord);
 
 export const TagRecordEntityProps = {
-	...TagRecordProps,
-	recType: "TagApiRecordEntity" as "TagApiRecordEntity",
+    ...TagRecordProps,
+    recType: "TagApiRecordEntity" as "TagApiRecordEntity",
 };
 
 export type TagRecordEntityPropsType = typeof TagRecordEntityProps;
@@ -46,18 +47,18 @@ export type TagRecordEntity = RecordOf<TagRecordEntityPropsType>;
 knownRecordFactories.set(TagRecordEntityProps.recType, TagRecordEntity);
 
 class TagRecordUtils extends ApiRecordUtils<Tag, TagRecord> {
-	public normalize(apiObject: Tag, asEntity?: boolean): Tag {
-		(apiObject as any).recType = asEntity ? TagRecordEntityProps.recType : TagRecordProps.recType;
+    public normalize(apiObject: Tag, asEntity?: boolean): Tag {
+        (apiObject as any).recType = asEntity ? TagRecordEntityProps.recType : TagRecordProps.recType;
         if (apiObject.id) { (apiObject as any).id = apiObject.id.toString(); } 
-		return apiObject;
-	}
+        return apiObject;
+    }
 
-	public getSchema(): Schema {
-	    return new schema.Entity("tag", {
-		});
-	}
+    public getSchema(): Schema {
+        return new schema.Entity("tag", {
+        });
+    }
 
-	public toApi(record: TagRecord): Tag {
+    public toApi(record: TagRecord): Tag {
         const apiObject = super.toApi(record);
         if (record.id) { apiObject.id = parseFloat(record.id); } 
         return apiObject;
@@ -65,3 +66,7 @@ class TagRecordUtils extends ApiRecordUtils<Tag, TagRecord> {
 }
 
 export const tagRecordUtils = new TagRecordUtils();
+
+export const apiEntitiesTagSelector = (state: any) => getApiEntitiesState(state).tag as Map<string, TagRecordEntity>;
+export const apiEntityTagSelector = (state: any, {id}: {id: string}) => apiEntitiesTagSelector(state).get(id);
+

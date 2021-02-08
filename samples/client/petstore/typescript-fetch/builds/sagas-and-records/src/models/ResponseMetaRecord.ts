@@ -13,7 +13,8 @@
  */
 
 import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
-import {List, Record, RecordOf} from 'immutable';
+import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
 import {
@@ -27,7 +28,7 @@ import {
 
 
 export const ResponseMetaRecordProps = {
-	recType: "ResponseMetaApiRecord" as "ResponseMetaApiRecord",
+    recType: "ResponseMetaApiRecord" as "ResponseMetaApiRecord",
     code: ResponseMetaCodeEnum.Ok,
     detail: null as string | null,
     exception: null as string | null,
@@ -44,15 +45,17 @@ knownRecordFactories.set(ResponseMetaRecordProps.recType, ResponseMetaRecord);
 
 
 class ResponseMetaRecordUtils extends ApiRecordUtils<ResponseMeta, ResponseMetaRecord> {
-	public normalize(apiObject: ResponseMeta, asEntity?: boolean): ResponseMeta {
-		(apiObject as any).recType = ResponseMetaRecordProps.recType;
-		return apiObject;
-	}
+    public normalize(apiObject: ResponseMeta, asEntity?: boolean): ResponseMeta {
+        (apiObject as any).recType = ResponseMetaRecordProps.recType;
+        return apiObject;
+    }
 
-	public toApi(record: ResponseMetaRecord): ResponseMeta {
+    public toApi(record: ResponseMetaRecord): ResponseMeta {
         const apiObject = super.toApi(record);
         return apiObject;
     }
 }
 
 export const responseMetaRecordUtils = new ResponseMetaRecordUtils();
+
+

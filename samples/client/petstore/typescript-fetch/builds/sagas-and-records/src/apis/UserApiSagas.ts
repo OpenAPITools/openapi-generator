@@ -31,19 +31,19 @@ import {
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_userApi"});
 
 export const userApiSagaMap = new Map<string, () => Generator<any, any, any>>([
-    	["createUser", createUserSaga],
-    	["createUsersWithArrayInput", createUsersWithArrayInputSaga],
-    	["createUsersWithListInput", createUsersWithListInputSaga],
-    	["deleteUser", deleteUserSaga],
-    	["getUserByName", getUserByNameSaga],
-    	["loginUser", loginUserSaga],
-    	["logoutUser", logoutUserSaga],
-    	["updateUser", updateUserSaga],
-	]
+        ["createUser", createUserSaga],
+        ["createUsersWithArrayInput", createUsersWithArrayInputSaga],
+        ["createUsersWithListInput", createUsersWithListInputSaga],
+        ["deleteUser", deleteUserSaga],
+        ["getUserByName", getUserByNameSaga],
+        ["loginUser", loginUserSaga],
+        ["logoutUser", logoutUserSaga],
+        ["updateUser", updateUserSaga],
+    ]
 );
 
 export function *userApiAllSagas() {
-	yield all([...userApiSagaMap.values()].map(actionSaga => fork(actionSaga)));
+    yield all([...userApiSagaMap.values()].map(actionSaga => fork(actionSaga)));
 }
 
 //region createUser
@@ -62,28 +62,28 @@ export const createUserFailure = createSagaAction<any>("createUserFailure");
 export const createUser = createSagaAction<PayloadCreateUser>("createUser");
 
 export function *createUserSaga() {
-	yield takeLatest(createUser, createUserSagaImp);
+    yield takeLatest(createUser, createUserSagaImp);
 }
 
 export function *createUserSagaImp(_action_: Action<PayloadCreateUser>) {
-	try {
+    try {
         const {
             body,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(createUserRequest(_action_.payload));
+        yield put(createUserRequest(_action_.payload));
 
-		const response = yield apiCall(Api.userApi, Api.userApi.createUser,
+        const response = yield apiCall(Api.userApi, Api.userApi.createUser,
             userRecordUtils.toApi(body),
-		);
+        );
 
-		    yield put(createUserSuccess());
+            yield put(createUserSuccess());
 
         return undefined;
-	} catch (error) {
-		yield put(createUserFailure(error));
-		return error;
-	}
+    } catch (error) {
+        yield put(createUserFailure(error));
+        return error;
+    }
 }
 //endregion
 //region createUsersWithArrayInput
@@ -102,28 +102,28 @@ export const createUsersWithArrayInputFailure = createSagaAction<any>("createUse
 export const createUsersWithArrayInput = createSagaAction<PayloadCreateUsersWithArrayInput>("createUsersWithArrayInput");
 
 export function *createUsersWithArrayInputSaga() {
-	yield takeLatest(createUsersWithArrayInput, createUsersWithArrayInputSagaImp);
+    yield takeLatest(createUsersWithArrayInput, createUsersWithArrayInputSagaImp);
 }
 
 export function *createUsersWithArrayInputSagaImp(_action_: Action<PayloadCreateUsersWithArrayInput>) {
-	try {
+    try {
         const {
             body,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(createUsersWithArrayInputRequest(_action_.payload));
+        yield put(createUsersWithArrayInputRequest(_action_.payload));
 
-		const response = yield apiCall(Api.userApi, Api.userApi.createUsersWithArrayInput,
+        const response = yield apiCall(Api.userApi, Api.userApi.createUsersWithArrayInput,
             userRecordUtils.toApiArray(body),
-		);
+        );
 
-		    yield put(createUsersWithArrayInputSuccess());
+            yield put(createUsersWithArrayInputSuccess());
 
         return undefined;
-	} catch (error) {
-		yield put(createUsersWithArrayInputFailure(error));
-		return error;
-	}
+    } catch (error) {
+        yield put(createUsersWithArrayInputFailure(error));
+        return error;
+    }
 }
 //endregion
 //region createUsersWithListInput
@@ -142,28 +142,28 @@ export const createUsersWithListInputFailure = createSagaAction<any>("createUser
 export const createUsersWithListInput = createSagaAction<PayloadCreateUsersWithListInput>("createUsersWithListInput");
 
 export function *createUsersWithListInputSaga() {
-	yield takeLatest(createUsersWithListInput, createUsersWithListInputSagaImp);
+    yield takeLatest(createUsersWithListInput, createUsersWithListInputSagaImp);
 }
 
 export function *createUsersWithListInputSagaImp(_action_: Action<PayloadCreateUsersWithListInput>) {
-	try {
+    try {
         const {
             body,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(createUsersWithListInputRequest(_action_.payload));
+        yield put(createUsersWithListInputRequest(_action_.payload));
 
-		const response = yield apiCall(Api.userApi, Api.userApi.createUsersWithListInput,
+        const response = yield apiCall(Api.userApi, Api.userApi.createUsersWithListInput,
             userRecordUtils.toApiArray(body),
-		);
+        );
 
-		    yield put(createUsersWithListInputSuccess());
+            yield put(createUsersWithListInputSuccess());
 
         return undefined;
-	} catch (error) {
-		yield put(createUsersWithListInputFailure(error));
-		return error;
-	}
+    } catch (error) {
+        yield put(createUsersWithListInputFailure(error));
+        return error;
+    }
 }
 //endregion
 //region deleteUser
@@ -182,28 +182,28 @@ export const deleteUserFailure = createSagaAction<any>("deleteUserFailure");
 export const deleteUser = createSagaAction<PayloadDeleteUser>("deleteUser");
 
 export function *deleteUserSaga() {
-	yield takeLatest(deleteUser, deleteUserSagaImp);
+    yield takeLatest(deleteUser, deleteUserSagaImp);
 }
 
 export function *deleteUserSagaImp(_action_: Action<PayloadDeleteUser>) {
-	try {
+    try {
         const {
             username,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(deleteUserRequest(_action_.payload));
+        yield put(deleteUserRequest(_action_.payload));
 
-		const response = yield apiCall(Api.userApi, Api.userApi.deleteUser,
+        const response = yield apiCall(Api.userApi, Api.userApi.deleteUser,
             username,
-		);
+        );
 
-		    yield put(deleteUserSuccess());
+            yield put(deleteUserSuccess());
 
         return undefined;
-	} catch (error) {
-		yield put(deleteUserFailure(error));
-		return error;
-	}
+    } catch (error) {
+        yield put(deleteUserFailure(error));
+        return error;
+    }
 }
 //endregion
 //region getUserByName
@@ -223,38 +223,38 @@ export const getUserByNameFailure = createSagaAction<any>("getUserByNameFailure"
 export const getUserByName = createSagaAction<PayloadGetUserByName>("getUserByName");
 
 export function *getUserByNameSaga() {
-	yield takeLatest(getUserByName, getUserByNameSagaImp);
+    yield takeLatest(getUserByName, getUserByNameSagaImp);
 }
 
 export function *getUserByNameSagaImp(_action_: Action<PayloadGetUserByName>) {
-	try {
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+    try {
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
         const {
             username,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(getUserByNameRequest(requestPayload));
+        yield put(getUserByNameRequest(requestPayload));
 
-		const response: Required<User> = yield apiCall(Api.userApi, Api.userApi.getUserByName,
+        const response: Required<User> = yield apiCall(Api.userApi, Api.userApi.getUserByName,
             username,
-		);
+        );
 
-		let successReturnValue: any = undefined;
-		if (toEntities) {
+        let successReturnValue: any = undefined;
+        if (toEntities) {
             successReturnValue = userRecordUtils.fromApiArrayAsEntities([response]);
-			yield put(normalizedEntities(successReturnValue));
-			yield put(getUserByNameSuccess_Entities(successReturnValue));
-		}
-		if (toInlined) {
+            yield put(normalizedEntities(successReturnValue));
+            yield put(getUserByNameSuccess_Entities(successReturnValue));
+        }
+        if (toInlined) {
             successReturnValue = userRecordUtils.fromApi(response);
-		    yield put(getUserByNameSuccess(successReturnValue));
-		}
+            yield put(getUserByNameSuccess(successReturnValue));
+        }
 
         return successReturnValue;
-	} catch (error) {
-		yield put(getUserByNameFailure(error));
-		return error;
-	}
+    } catch (error) {
+        yield put(getUserByNameFailure(error));
+        return error;
+    }
 }
 //endregion
 //region loginUser
@@ -274,31 +274,31 @@ export const loginUserFailure = createSagaAction<any>("loginUserFailure");
 export const loginUser = createSagaAction<PayloadLoginUser>("loginUser");
 
 export function *loginUserSaga() {
-	yield takeLatest(loginUser, loginUserSagaImp);
+    yield takeLatest(loginUser, loginUserSagaImp);
 }
 
 export function *loginUserSagaImp(_action_: Action<PayloadLoginUser>) {
-	try {
+    try {
         const {
             username,
             password,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(loginUserRequest(_action_.payload));
+        yield put(loginUserRequest(_action_.payload));
 
-		const response: Required<string> = yield apiCall(Api.userApi, Api.userApi.loginUser,
+        const response: Required<string> = yield apiCall(Api.userApi, Api.userApi.loginUser,
             username,
             password,
-		);
+        );
 
-		let successReturnValue: any = undefined;
-		    yield put(loginUserSuccess(response));
+        let successReturnValue: any = undefined;
+            yield put(loginUserSuccess(response));
 
-		return response;
-	} catch (error) {
-		yield put(loginUserFailure(error));
-		return error;
-	}
+        return response;
+    } catch (error) {
+        yield put(loginUserFailure(error));
+        return error;
+    }
 }
 //endregion
 //region logoutUser
@@ -314,24 +314,24 @@ export const logoutUserFailure = createSagaAction<any>("logoutUserFailure");
 export const logoutUser = createSagaAction<PayloadLogoutUser>("logoutUser");
 
 export function *logoutUserSaga() {
-	yield takeLatest(logoutUser, logoutUserSagaImp);
+    yield takeLatest(logoutUser, logoutUserSagaImp);
 }
 
 export function *logoutUserSagaImp(_action_: Action<PayloadLogoutUser>) {
-	try {
+    try {
 
-		yield put(logoutUserRequest());
+        yield put(logoutUserRequest());
 
-		const response = yield apiCall(Api.userApi, Api.userApi.logoutUser,
-		);
+        const response = yield apiCall(Api.userApi, Api.userApi.logoutUser,
+        );
 
-		    yield put(logoutUserSuccess());
+            yield put(logoutUserSuccess());
 
         return undefined;
-	} catch (error) {
-		yield put(logoutUserFailure(error));
-		return error;
-	}
+    } catch (error) {
+        yield put(logoutUserFailure(error));
+        return error;
+    }
 }
 //endregion
 //region updateUser
@@ -351,29 +351,29 @@ export const updateUserFailure = createSagaAction<any>("updateUserFailure");
 export const updateUser = createSagaAction<PayloadUpdateUser>("updateUser");
 
 export function *updateUserSaga() {
-	yield takeLatest(updateUser, updateUserSagaImp);
+    yield takeLatest(updateUser, updateUserSagaImp);
 }
 
 export function *updateUserSagaImp(_action_: Action<PayloadUpdateUser>) {
-	try {
+    try {
         const {
             username,
             body,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(updateUserRequest(_action_.payload));
+        yield put(updateUserRequest(_action_.payload));
 
-		const response: Required<DefaultMetaOnlyResponse> = yield apiCall(Api.userApi, Api.userApi.updateUser,
+        const response: Required<DefaultMetaOnlyResponse> = yield apiCall(Api.userApi, Api.userApi.updateUser,
             username,
             userRecordUtils.toApi(body),
-		);
+        );
 
-		    yield put(updateUserSuccess());
+            yield put(updateUserSuccess());
 
         return undefined;
-	} catch (error) {
-		yield put(updateUserFailure(error));
-		return error;
-	}
+    } catch (error) {
+        yield put(updateUserFailure(error));
+        return error;
+    }
 }
 //endregion

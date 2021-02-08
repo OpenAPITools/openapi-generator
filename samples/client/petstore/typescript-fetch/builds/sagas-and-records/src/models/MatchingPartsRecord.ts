@@ -13,7 +13,8 @@
  */
 
 import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
-import {List, Record, RecordOf} from 'immutable';
+import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
 import {
@@ -30,7 +31,7 @@ import {
 } from './PartRecord';
 
 export const MatchingPartsRecordProps = {
-	recType: "MatchingPartsApiRecord" as "MatchingPartsApiRecord",
+    recType: "MatchingPartsApiRecord" as "MatchingPartsApiRecord",
     connected: (PartRecord(), List<PartRecord>()),
     related: (PartRecord(), List<PartRecord>()),
 };
@@ -43,14 +44,14 @@ knownRecordFactories.set(MatchingPartsRecordProps.recType, MatchingPartsRecord);
 
 
 class MatchingPartsRecordUtils extends ApiRecordUtils<MatchingParts, MatchingPartsRecord> {
-	public normalize(apiObject: MatchingParts, asEntity?: boolean): MatchingParts {
-		(apiObject as any).recType = MatchingPartsRecordProps.recType;
+    public normalize(apiObject: MatchingParts, asEntity?: boolean): MatchingParts {
+        (apiObject as any).recType = MatchingPartsRecordProps.recType;
         partRecordUtils.normalizeArray(apiObject.connected);
         partRecordUtils.normalizeArray(apiObject.related);
-		return apiObject;
-	}
+        return apiObject;
+    }
 
-	public toApi(record: MatchingPartsRecord): MatchingParts {
+    public toApi(record: MatchingPartsRecord): MatchingParts {
         const apiObject = super.toApi(record);
         apiObject.connected = partRecordUtils.toApiArray(record.connected);
         apiObject.related = partRecordUtils.toApiArray(record.related);
@@ -59,3 +60,5 @@ class MatchingPartsRecordUtils extends ApiRecordUtils<MatchingParts, MatchingPar
 }
 
 export const matchingPartsRecordUtils = new MatchingPartsRecordUtils();
+
+

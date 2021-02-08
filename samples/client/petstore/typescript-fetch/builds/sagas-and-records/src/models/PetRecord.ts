@@ -13,7 +13,8 @@
  */
 
 import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
-import {List, Record, RecordOf} from 'immutable';
+import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
 import {
@@ -44,7 +45,7 @@ import {
 } from './TagRecord';
 
 export const PetRecordProps = {
-	recType: "PetApiRecord" as "PetApiRecord",
+    recType: "PetApiRecord" as "PetApiRecord",
     id: "-1",
     friendId: null as string | null,
     otherFriendIds: List<string>(),
@@ -74,8 +75,8 @@ export type PetRecord = RecordOf<PetRecordPropsType>;
 knownRecordFactories.set(PetRecordProps.recType, PetRecord);
 
 export const PetRecordEntityProps = {
-	...PetRecordProps,
-	recType: "PetApiRecordEntity" as "PetApiRecordEntity",
+    ...PetRecordProps,
+    recType: "PetApiRecordEntity" as "PetApiRecordEntity",
     category: "-1",
     optionalCategory: null as string | null,
     _entries: null as List<string> | null,
@@ -90,8 +91,8 @@ export type PetRecordEntity = RecordOf<PetRecordEntityPropsType>;
 knownRecordFactories.set(PetRecordEntityProps.recType, PetRecordEntity);
 
 class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
-	public normalize(apiObject: Pet, asEntity?: boolean): Pet {
-		(apiObject as any).recType = asEntity ? PetRecordEntityProps.recType : PetRecordProps.recType;
+    public normalize(apiObject: Pet, asEntity?: boolean): Pet {
+        (apiObject as any).recType = asEntity ? PetRecordEntityProps.recType : PetRecordProps.recType;
         (apiObject as any).id = apiObject.id.toString();
         if (apiObject.friendId) { (apiObject as any).friendId = apiObject.friendId.toString(); } 
         (apiObject as any).otherFriendIds = apiObject.otherFriendIds.map(item => item.toString());
@@ -100,20 +101,20 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
         if (apiObject._entries) { categoryRecordUtils.normalizeArray(apiObject._entries); } 
         tagRecordUtils.normalizeArray(apiObject.tags);
         if (apiObject.optionalTags) { tagRecordUtils.normalizeArray(apiObject.optionalTags); } 
-		return apiObject;
-	}
+        return apiObject;
+    }
 
-	public getSchema(): Schema {
-	    return new schema.Entity("pet", {
+    public getSchema(): Schema {
+        return new schema.Entity("pet", {
             category: categoryRecordUtils.getSchema(),
             optionalCategory: categoryRecordUtils.getSchema(),
             _entries: [categoryRecordUtils.getSchema()],
             tags: [tagRecordUtils.getSchema()],
             optionalTags: [tagRecordUtils.getSchema()],
-		});
-	}
+        });
+    }
 
-	public toApi(record: PetRecord): Pet {
+    public toApi(record: PetRecord): Pet {
         const apiObject = super.toApi(record);
         apiObject.id = parseFloat(record.id);
         if (record.friendId) { apiObject.friendId = parseFloat(record.friendId); } 
@@ -128,3 +129,7 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
 }
 
 export const petRecordUtils = new PetRecordUtils();
+
+export const apiEntitiesPetSelector = (state: any) => getApiEntitiesState(state).pet as Map<string, PetRecordEntity>;
+export const apiEntityPetSelector = (state: any, {id}: {id: string}) => apiEntitiesPetSelector(state).get(id);
+

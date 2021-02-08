@@ -28,15 +28,15 @@ import {
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_storeApi"});
 
 export const storeApiSagaMap = new Map<string, () => Generator<any, any, any>>([
-    	["deleteOrder", deleteOrderSaga],
-    	["getInventory", getInventorySaga],
-    	["getOrderById", getOrderByIdSaga],
-    	["placeOrder", placeOrderSaga],
-	]
+        ["deleteOrder", deleteOrderSaga],
+        ["getInventory", getInventorySaga],
+        ["getOrderById", getOrderByIdSaga],
+        ["placeOrder", placeOrderSaga],
+    ]
 );
 
 export function *storeApiAllSagas() {
-	yield all([...storeApiSagaMap.values()].map(actionSaga => fork(actionSaga)));
+    yield all([...storeApiSagaMap.values()].map(actionSaga => fork(actionSaga)));
 }
 
 //region deleteOrder
@@ -55,28 +55,28 @@ export const deleteOrderFailure = createSagaAction<any>("deleteOrderFailure");
 export const deleteOrder = createSagaAction<PayloadDeleteOrder>("deleteOrder");
 
 export function *deleteOrderSaga() {
-	yield takeLatest(deleteOrder, deleteOrderSagaImp);
+    yield takeLatest(deleteOrder, deleteOrderSagaImp);
 }
 
 export function *deleteOrderSagaImp(_action_: Action<PayloadDeleteOrder>) {
-	try {
+    try {
         const {
             orderId,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(deleteOrderRequest(_action_.payload));
+        yield put(deleteOrderRequest(_action_.payload));
 
-		const response = yield apiCall(Api.storeApi, Api.storeApi.deleteOrder,
+        const response = yield apiCall(Api.storeApi, Api.storeApi.deleteOrder,
             orderId,
-		);
+        );
 
-		    yield put(deleteOrderSuccess());
+            yield put(deleteOrderSuccess());
 
         return undefined;
-	} catch (error) {
-		yield put(deleteOrderFailure(error));
-		return error;
-	}
+    } catch (error) {
+        yield put(deleteOrderFailure(error));
+        return error;
+    }
 }
 //endregion
 //region getInventory
@@ -92,25 +92,25 @@ export const getInventoryFailure = createSagaAction<any>("getInventoryFailure");
 export const getInventory = createSagaAction<PayloadGetInventory>("getInventory");
 
 export function *getInventorySaga() {
-	yield takeLatest(getInventory, getInventorySagaImp);
+    yield takeLatest(getInventory, getInventorySagaImp);
 }
 
 export function *getInventorySagaImp(_action_: Action<PayloadGetInventory>) {
-	try {
+    try {
 
-		yield put(getInventoryRequest());
+        yield put(getInventoryRequest());
 
-		const response: Required<{ [key: string]: number; }> = yield apiCall(Api.storeApi, Api.storeApi.getInventory,
-		);
+        const response: Required<{ [key: string]: number; }> = yield apiCall(Api.storeApi, Api.storeApi.getInventory,
+        );
 
-		let successReturnValue: any = undefined;
-		    yield put(getInventorySuccess(response));
+        let successReturnValue: any = undefined;
+            yield put(getInventorySuccess(response));
 
-		return response;
-	} catch (error) {
-		yield put(getInventoryFailure(error));
-		return error;
-	}
+        return response;
+    } catch (error) {
+        yield put(getInventoryFailure(error));
+        return error;
+    }
 }
 //endregion
 //region getOrderById
@@ -130,38 +130,38 @@ export const getOrderByIdFailure = createSagaAction<any>("getOrderByIdFailure");
 export const getOrderById = createSagaAction<PayloadGetOrderById>("getOrderById");
 
 export function *getOrderByIdSaga() {
-	yield takeLatest(getOrderById, getOrderByIdSagaImp);
+    yield takeLatest(getOrderById, getOrderByIdSagaImp);
 }
 
 export function *getOrderByIdSagaImp(_action_: Action<PayloadGetOrderById>) {
-	try {
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+    try {
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
         const {
             orderId,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(getOrderByIdRequest(requestPayload));
+        yield put(getOrderByIdRequest(requestPayload));
 
-		const response: Required<Order> = yield apiCall(Api.storeApi, Api.storeApi.getOrderById,
+        const response: Required<Order> = yield apiCall(Api.storeApi, Api.storeApi.getOrderById,
             parseFloat(orderId),
-		);
+        );
 
-		let successReturnValue: any = undefined;
-		if (toEntities) {
+        let successReturnValue: any = undefined;
+        if (toEntities) {
             successReturnValue = orderRecordUtils.fromApiArrayAsEntities([response]);
-			yield put(normalizedEntities(successReturnValue));
-			yield put(getOrderByIdSuccess_Entities(successReturnValue));
-		}
-		if (toInlined) {
+            yield put(normalizedEntities(successReturnValue));
+            yield put(getOrderByIdSuccess_Entities(successReturnValue));
+        }
+        if (toInlined) {
             successReturnValue = orderRecordUtils.fromApi(response);
-		    yield put(getOrderByIdSuccess(successReturnValue));
-		}
+            yield put(getOrderByIdSuccess(successReturnValue));
+        }
 
         return successReturnValue;
-	} catch (error) {
-		yield put(getOrderByIdFailure(error));
-		return error;
-	}
+    } catch (error) {
+        yield put(getOrderByIdFailure(error));
+        return error;
+    }
 }
 //endregion
 //region placeOrder
@@ -181,37 +181,37 @@ export const placeOrderFailure = createSagaAction<any>("placeOrderFailure");
 export const placeOrder = createSagaAction<PayloadPlaceOrder>("placeOrder");
 
 export function *placeOrderSaga() {
-	yield takeLatest(placeOrder, placeOrderSagaImp);
+    yield takeLatest(placeOrder, placeOrderSagaImp);
 }
 
 export function *placeOrderSagaImp(_action_: Action<PayloadPlaceOrder>) {
-	try {
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+    try {
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
         const {
             body,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(placeOrderRequest(requestPayload));
+        yield put(placeOrderRequest(requestPayload));
 
-		const response: Required<Order> = yield apiCall(Api.storeApi, Api.storeApi.placeOrder,
+        const response: Required<Order> = yield apiCall(Api.storeApi, Api.storeApi.placeOrder,
             orderRecordUtils.toApi(body),
-		);
+        );
 
-		let successReturnValue: any = undefined;
-		if (toEntities) {
+        let successReturnValue: any = undefined;
+        if (toEntities) {
             successReturnValue = orderRecordUtils.fromApiArrayAsEntities([response]);
-			yield put(normalizedEntities(successReturnValue));
-			yield put(placeOrderSuccess_Entities(successReturnValue));
-		}
-		if (toInlined) {
+            yield put(normalizedEntities(successReturnValue));
+            yield put(placeOrderSuccess_Entities(successReturnValue));
+        }
+        if (toInlined) {
             successReturnValue = orderRecordUtils.fromApi(response);
-		    yield put(placeOrderSuccess(successReturnValue));
-		}
+            yield put(placeOrderSuccess(successReturnValue));
+        }
 
         return successReturnValue;
-	} catch (error) {
-		yield put(placeOrderFailure(error));
-		return error;
-	}
+    } catch (error) {
+        yield put(placeOrderFailure(error));
+        return error;
+    }
 }
 //endregion

@@ -13,7 +13,8 @@
  */
 
 import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
-import {List, Record, RecordOf} from 'immutable';
+import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
 import {
@@ -23,7 +24,7 @@ import {
 
 
 export const UserRecordProps = {
-	recType: "UserApiRecord" as "UserApiRecord",
+    recType: "UserApiRecord" as "UserApiRecord",
     id: "-1",
     username: null as string | null,
     firstName: null as string | null,
@@ -43,8 +44,8 @@ export type UserRecord = RecordOf<UserRecordPropsType>;
 knownRecordFactories.set(UserRecordProps.recType, UserRecord);
 
 export const UserRecordEntityProps = {
-	...UserRecordProps,
-	recType: "UserApiRecordEntity" as "UserApiRecordEntity",
+    ...UserRecordProps,
+    recType: "UserApiRecordEntity" as "UserApiRecordEntity",
     subUser: null as string | null,
     subUser2: "-1",
 };
@@ -56,20 +57,18 @@ export type UserRecordEntity = RecordOf<UserRecordEntityPropsType>;
 knownRecordFactories.set(UserRecordEntityProps.recType, UserRecordEntity);
 
 class UserRecordUtils extends ApiRecordUtils<User, UserRecord> {
-	public normalize(apiObject: User, asEntity?: boolean): User {
-		(apiObject as any).recType = asEntity ? UserRecordEntityProps.recType : UserRecordProps.recType;
+    public normalize(apiObject: User, asEntity?: boolean): User {
+        (apiObject as any).recType = asEntity ? UserRecordEntityProps.recType : UserRecordProps.recType;
         (apiObject as any).id = apiObject.id.toString();
-		return apiObject;
-	}
+        return apiObject;
+    }
 
-	public getSchema(): Schema {
-	    return new schema.Entity("user", {
-            subUser: userRecordUtils.getSchema(),
-            subUser2: userRecordUtils.getSchema(),
-		});
-	}
+    public getSchema(): Schema {
+        return new schema.Entity("user", {
+        });
+    }
 
-	public toApi(record: UserRecord): User {
+    public toApi(record: UserRecord): User {
         const apiObject = super.toApi(record);
         apiObject.id = parseFloat(record.id);
         return apiObject;
@@ -77,3 +76,7 @@ class UserRecordUtils extends ApiRecordUtils<User, UserRecord> {
 }
 
 export const userRecordUtils = new UserRecordUtils();
+
+export const apiEntitiesUserSelector = (state: any) => getApiEntitiesState(state).user as Map<string, UserRecordEntity>;
+export const apiEntityUserSelector = (state: any, {id}: {id: string}) => apiEntitiesUserSelector(state).get(id);
+

@@ -32,13 +32,13 @@ import {
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_behaviorApi"});
 
 export const behaviorApiSagaMap = new Map<string, () => Generator<any, any, any>>([
-    	["getBehaviorPermissions", getBehaviorPermissionsSaga],
-    	["getBehaviorType", getBehaviorTypeSaga],
-	]
+        ["getBehaviorPermissions", getBehaviorPermissionsSaga],
+        ["getBehaviorType", getBehaviorTypeSaga],
+    ]
 );
 
 export function *behaviorApiAllSagas() {
-	yield all([...behaviorApiSagaMap.values()].map(actionSaga => fork(actionSaga)));
+    yield all([...behaviorApiSagaMap.values()].map(actionSaga => fork(actionSaga)));
 }
 
 //region getBehaviorPermissions
@@ -57,30 +57,30 @@ export const getBehaviorPermissionsFailure = createSagaAction<any>("getBehaviorP
 export const getBehaviorPermissions = createSagaAction<PayloadGetBehaviorPermissions>("getBehaviorPermissions");
 
 export function *getBehaviorPermissionsSaga() {
-	yield takeLatest(getBehaviorPermissions, getBehaviorPermissionsSagaImp);
+    yield takeLatest(getBehaviorPermissions, getBehaviorPermissionsSagaImp);
 }
 
 export function *getBehaviorPermissionsSagaImp(_action_: Action<PayloadGetBehaviorPermissions>) {
-	try {
+    try {
         const {
             behaviorId,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(getBehaviorPermissionsRequest(_action_.payload));
+        yield put(getBehaviorPermissionsRequest(_action_.payload));
 
-		const response: Required<GetBehaviorPermissionsResponse> = yield apiCall(Api.behaviorApi, Api.behaviorApi.getBehaviorPermissions,
+        const response: Required<GetBehaviorPermissionsResponse> = yield apiCall(Api.behaviorApi, Api.behaviorApi.getBehaviorPermissions,
             parseFloat(behaviorId),
-		);
+        );
 
-		let successReturnValue: any = undefined;
-    		successReturnValue = getBehaviorPermissionsResponseRecordUtils.fromApiPassthrough(response);
-	    	yield put(getBehaviorPermissionsSuccess(successReturnValue));
+        let successReturnValue: any = undefined;
+            successReturnValue = getBehaviorPermissionsResponseRecordUtils.fromApiPassthrough(response);
+            yield put(getBehaviorPermissionsSuccess(successReturnValue));
 
-		return successReturnValue;
-	} catch (error) {
-		yield put(getBehaviorPermissionsFailure(error));
-		return error;
-	}
+        return successReturnValue;
+    } catch (error) {
+        yield put(getBehaviorPermissionsFailure(error));
+        return error;
+    }
 }
 //endregion
 //region getBehaviorType
@@ -99,29 +99,29 @@ export const getBehaviorTypeFailure = createSagaAction<any>("getBehaviorTypeFail
 export const getBehaviorType = createSagaAction<PayloadGetBehaviorType>("getBehaviorType");
 
 export function *getBehaviorTypeSaga() {
-	yield takeLatest(getBehaviorType, getBehaviorTypeSagaImp);
+    yield takeLatest(getBehaviorType, getBehaviorTypeSagaImp);
 }
 
 export function *getBehaviorTypeSagaImp(_action_: Action<PayloadGetBehaviorType>) {
-	try {
+    try {
         const {
             behaviorId,
-   		} = _action_.payload;
+        } = _action_.payload;
 
-		yield put(getBehaviorTypeRequest(_action_.payload));
+        yield put(getBehaviorTypeRequest(_action_.payload));
 
-		const response: Required<GetBehaviorTypeResponse> = yield apiCall(Api.behaviorApi, Api.behaviorApi.getBehaviorType,
+        const response: Required<GetBehaviorTypeResponse> = yield apiCall(Api.behaviorApi, Api.behaviorApi.getBehaviorType,
             parseFloat(behaviorId),
-		);
+        );
 
-		let successReturnValue: any = undefined;
-    		successReturnValue = getBehaviorTypeResponseRecordUtils.fromApiPassthrough(response);
-	    	yield put(getBehaviorTypeSuccess(successReturnValue));
+        let successReturnValue: any = undefined;
+            successReturnValue = getBehaviorTypeResponseRecordUtils.fromApiPassthrough(response);
+            yield put(getBehaviorTypeSuccess(successReturnValue));
 
-		return successReturnValue;
-	} catch (error) {
-		yield put(getBehaviorTypeFailure(error));
-		return error;
-	}
+        return successReturnValue;
+    } catch (error) {
+        yield put(getBehaviorTypeFailure(error));
+        return error;
+    }
 }
 //endregion

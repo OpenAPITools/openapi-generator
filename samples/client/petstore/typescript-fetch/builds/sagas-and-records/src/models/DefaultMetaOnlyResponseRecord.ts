@@ -13,7 +13,8 @@
  */
 
 import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
-import {List, Record, RecordOf} from 'immutable';
+import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
 import {
@@ -30,7 +31,7 @@ import {
 } from './ResponseMetaRecord';
 
 export const DefaultMetaOnlyResponseRecordProps = {
-	recType: "DefaultMetaOnlyResponseApiRecord" as "DefaultMetaOnlyResponseApiRecord",
+    recType: "DefaultMetaOnlyResponseApiRecord" as "DefaultMetaOnlyResponseApiRecord",
     meta: ResponseMetaRecord(),
 };
 
@@ -42,13 +43,13 @@ knownRecordFactories.set(DefaultMetaOnlyResponseRecordProps.recType, DefaultMeta
 
 
 class DefaultMetaOnlyResponseRecordUtils extends ApiRecordUtils<DefaultMetaOnlyResponse, DefaultMetaOnlyResponseRecord> {
-	public normalize(apiObject: DefaultMetaOnlyResponse, asEntity?: boolean): DefaultMetaOnlyResponse {
-		(apiObject as any).recType = DefaultMetaOnlyResponseRecordProps.recType;
+    public normalize(apiObject: DefaultMetaOnlyResponse, asEntity?: boolean): DefaultMetaOnlyResponse {
+        (apiObject as any).recType = DefaultMetaOnlyResponseRecordProps.recType;
         responseMetaRecordUtils.normalize(apiObject.meta);
-		return apiObject;
-	}
+        return apiObject;
+    }
 
-	public toApi(record: DefaultMetaOnlyResponseRecord): DefaultMetaOnlyResponse {
+    public toApi(record: DefaultMetaOnlyResponseRecord): DefaultMetaOnlyResponse {
         const apiObject = super.toApi(record);
         apiObject.meta = responseMetaRecordUtils.toApi(record.meta);
         return apiObject;
@@ -56,3 +57,5 @@ class DefaultMetaOnlyResponseRecordUtils extends ApiRecordUtils<DefaultMetaOnlyR
 }
 
 export const defaultMetaOnlyResponseRecordUtils = new DefaultMetaOnlyResponseRecordUtils();
+
+

@@ -13,7 +13,8 @@
  */
 
 import {ApiRecordUtils, knownRecordFactories, appFromJS, NormalizedRecordEntities} from "../runtimeSagasAndRecords";
-import {List, Record, RecordOf} from 'immutable';
+import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
 import {
@@ -37,7 +38,7 @@ import {
 } from './UserRecord';
 
 export const FindPetsByUserResponseRecordProps = {
-	recType: "FindPetsByUserResponseApiRecord" as "FindPetsByUserResponseApiRecord",
+    recType: "FindPetsByUserResponseApiRecord" as "FindPetsByUserResponseApiRecord",
     meta: ResponseMetaRecord(),
     data: (UserRecord(), null as List<UserRecord> | null),
 };
@@ -50,30 +51,32 @@ knownRecordFactories.set(FindPetsByUserResponseRecordProps.recType, FindPetsByUs
 
 
 class FindPetsByUserResponseRecordUtils extends ApiRecordUtils<FindPetsByUserResponse, FindPetsByUserResponseRecord> {
-	public normalize(apiObject: FindPetsByUserResponse, asEntity?: boolean): FindPetsByUserResponse {
-		(apiObject as any).recType = FindPetsByUserResponseRecordProps.recType;
+    public normalize(apiObject: FindPetsByUserResponse, asEntity?: boolean): FindPetsByUserResponse {
+        (apiObject as any).recType = FindPetsByUserResponseRecordProps.recType;
         responseMetaRecordUtils.normalize(apiObject.meta);
         if (apiObject.data) { userRecordUtils.normalizeArray(apiObject.data); } 
-		return apiObject;
-	}
+        return apiObject;
+    }
 
-	public toApi(record: FindPetsByUserResponseRecord): FindPetsByUserResponse {
+    public toApi(record: FindPetsByUserResponseRecord): FindPetsByUserResponse {
         const apiObject = super.toApi(record);
         apiObject.meta = responseMetaRecordUtils.toApi(record.meta);
         if (record.data) { apiObject.data = userRecordUtils.toApiArray(record.data); } 
         return apiObject;
     }
 
-	public fromApiPassthrough(apiObject: FindPetsByUserResponse): List<UserRecord> {
-	    if (!apiObject.data) {return List<UserRecord>(); }
-		const normalizedApiObject = userRecordUtils.normalizeArray(apiObject.data);
-		return appFromJS(normalizedApiObject);
-	}
+    public fromApiPassthrough(apiObject: FindPetsByUserResponse): List<UserRecord> {
+        if (!apiObject.data) {return List<UserRecord>(); }
+        const normalizedApiObject = userRecordUtils.normalizeArray(apiObject.data);
+        return appFromJS(normalizedApiObject);
+    }
 
-	public fromApiPassthroughAsEntities(apiObject: FindPetsByUserResponse): NormalizedRecordEntities {
-		if (!apiObject.data) {return {entities: {}, result: List<string>()}; }
-		return ApiRecordUtils.toNormalizedRecordEntities(userRecordUtils.normalizeArrayAsEntities(apiObject.data), true);
-	}
+    public fromApiPassthroughAsEntities(apiObject: FindPetsByUserResponse): NormalizedRecordEntities {
+        if (!apiObject.data) {return {entities: {}, result: List<string>()}; }
+        return ApiRecordUtils.toNormalizedRecordEntities(userRecordUtils.normalizeArrayAsEntities(apiObject.data), true);
+    }
 }
 
 export const findPetsByUserResponseRecordUtils = new FindPetsByUserResponseRecordUtils();
+
+

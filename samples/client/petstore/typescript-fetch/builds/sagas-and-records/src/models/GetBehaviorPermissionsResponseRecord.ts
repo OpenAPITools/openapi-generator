@@ -13,7 +13,8 @@
  */
 
 import {ApiRecordUtils, knownRecordFactories, appFromJS, NormalizedRecordEntities} from "../runtimeSagasAndRecords";
-import {List, Record, RecordOf} from 'immutable';
+import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 
 import {
@@ -30,7 +31,7 @@ import {
 } from './ResponseMetaRecord';
 
 export const GetBehaviorPermissionsResponseRecordProps = {
-	recType: "GetBehaviorPermissionsResponseApiRecord" as "GetBehaviorPermissionsResponseApiRecord",
+    recType: "GetBehaviorPermissionsResponseApiRecord" as "GetBehaviorPermissionsResponseApiRecord",
     meta: ResponseMetaRecord(),
     data: null as { [key: string]: boolean; } | null,
 };
@@ -43,26 +44,28 @@ knownRecordFactories.set(GetBehaviorPermissionsResponseRecordProps.recType, GetB
 
 
 class GetBehaviorPermissionsResponseRecordUtils extends ApiRecordUtils<GetBehaviorPermissionsResponse, GetBehaviorPermissionsResponseRecord> {
-	public normalize(apiObject: GetBehaviorPermissionsResponse, asEntity?: boolean): GetBehaviorPermissionsResponse {
-		(apiObject as any).recType = GetBehaviorPermissionsResponseRecordProps.recType;
+    public normalize(apiObject: GetBehaviorPermissionsResponse, asEntity?: boolean): GetBehaviorPermissionsResponse {
+        (apiObject as any).recType = GetBehaviorPermissionsResponseRecordProps.recType;
         responseMetaRecordUtils.normalize(apiObject.meta);
-		return apiObject;
-	}
+        return apiObject;
+    }
 
-	public toApi(record: GetBehaviorPermissionsResponseRecord): GetBehaviorPermissionsResponse {
+    public toApi(record: GetBehaviorPermissionsResponseRecord): GetBehaviorPermissionsResponse {
         const apiObject = super.toApi(record);
         apiObject.meta = responseMetaRecordUtils.toApi(record.meta);
         return apiObject;
     }
 
-	public fromApiPassthrough(apiObject: GetBehaviorPermissionsResponse): { [key: string]: boolean; } {
-	    return apiObject.data!;
-	}
+    public fromApiPassthrough(apiObject: GetBehaviorPermissionsResponse): { [key: string]: boolean; } {
+        return apiObject.data!;
+    }
 
-	public fromApiPassthroughAsEntities(apiObject: GetBehaviorPermissionsResponse): NormalizedRecordEntities {
-	    console.log("entities revival not supported on this response");
-		return {entities: {}, result: List<string>()};
-	}
+    public fromApiPassthroughAsEntities(apiObject: GetBehaviorPermissionsResponse): NormalizedRecordEntities {
+        console.log("entities revival not supported on this response");
+        return {entities: {}, result: List<string>()};
+    }
 }
 
 export const getBehaviorPermissionsResponseRecordUtils = new GetBehaviorPermissionsResponseRecordUtils();
+
+

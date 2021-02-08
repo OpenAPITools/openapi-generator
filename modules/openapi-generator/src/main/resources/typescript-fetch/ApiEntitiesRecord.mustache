@@ -11,11 +11,11 @@ import {
 } from "./models"
 
 export const ApiEntitiesRecordProps = {
-	recType: "ApiEntitiesRecord" as "ApiEntitiesRecord",
+    recType: "ApiEntitiesRecord" as "ApiEntitiesRecord",
 {{#models}}
 {{#model}}
 {{#isEntity}}
-	{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: ({{classname}}RecordEntity(), Map<string, {{classname}}RecordEntity>()),
+    {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: ({{classname}}RecordEntity(), Map<string, {{classname}}RecordEntity>()),
 {{/isEntity}}
 {{/model}}
 {{/models}}

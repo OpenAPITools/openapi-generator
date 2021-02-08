@@ -39,15 +39,15 @@ const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, 
 
 export const {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}SagaMap = new Map<string, () => Generator<any, any, any>>([
 {{#operations}}
-	{{#operation}}
-    	["{{nickname}}", {{nickname}}Saga],
-	{{/operation}}
+    {{#operation}}
+        ["{{nickname}}", {{nickname}}Saga],
+    {{/operation}}
 {{/operations}}
-	]
+    ]
 );
 
 export function *{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}AllSagas() {
-	yield all([...{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}SagaMap.values()].map(actionSaga => fork(actionSaga)));
+    yield all([...{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}SagaMap.values()].map(actionSaga => fork(actionSaga)));
 }
 
 {{#operations}}
@@ -86,25 +86,25 @@ export const {{nickname}}Failure = createSagaAction<any>("{{nickname}}Failure");
 export const {{nickname}} = createSagaAction<Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}>("{{nickname}}");
 
 export function *{{nickname}}Saga() {
-	yield takeLatest({{nickname}}, {{nickname}}SagaImp);
+    yield takeLatest({{nickname}}, {{nickname}}SagaImp);
 }
 
 export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}>) {
-	try {
+    try {
 {{#returnTypeSupportsEntities}}
-		const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
 {{/returnTypeSupportsEntities}}
 {{#allParams.0}}
         const {
 {{#allParams}}
             {{paramName}},
 {{/allParams}}
-   		} = _action_.payload;
+        } = _action_.payload;
 {{/allParams.0}}
 
-		yield put({{nickname}}Request({{#allParams.0}}{{#returnTypeSupportsEntities}}requestPayload{{/returnTypeSupportsEntities}}{{^returnTypeSupportsEntities}}_action_.payload{{/returnTypeSupportsEntities}}{{/allParams.0}}));
+        yield put({{nickname}}Request({{#allParams.0}}{{#returnTypeSupportsEntities}}requestPayload{{/returnTypeSupportsEntities}}{{^returnTypeSupportsEntities}}_action_.payload{{/returnTypeSupportsEntities}}{{/allParams.0}}));
 
-		const response{{#returnType}}: Required<{{{returnType}}}>{{/returnType}} = yield apiCall(Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}, Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.{{nickname}},
+        const response{{#returnType}}: Required<{{{returnType}}}>{{/returnType}} = yield apiCall(Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}, Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.{{nickname}},
 {{#allParams.0}}
 {{#allParams}}
 {{#isUniqueId}}
@@ -135,17 +135,17 @@ export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase
 {{/isUniqueId}}
 {{/allParams}}
 {{/allParams.0}}
-		);
+        );
 
 {{#returnType}}
 {{^hasReturnPassthroughVoid}}
-		let successReturnValue: any = undefined;
+        let successReturnValue: any = undefined;
 {{/hasReturnPassthroughVoid}}
 {{/returnType}}
 {{#returnTypeSupportsEntities}}
-		if (toEntities) {
+        if (toEntities) {
 {{#returnPassthrough}}
-			successReturnValue = {{#lambda.camelcase}}{{{returnType}}}{{/lambda.camelcase}}RecordUtils.fromApiPassthroughAsEntities(response);
+            successReturnValue = {{#lambda.camelcase}}{{{returnType}}}{{/lambda.camelcase}}RecordUtils.fromApiPassthroughAsEntities(response);
 {{/returnPassthrough}}
 {{^hasReturnPassthroughVoid}}
 {{^returnPassthrough}}
@@ -159,49 +159,49 @@ export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase
 {{/returnTypeIsModel}}
 {{/returnPassthrough}}
 {{/hasReturnPassthroughVoid}}
-			yield put(normalizedEntities(successReturnValue));
-			yield put({{nickname}}Success_Entities(successReturnValue));
-		}
-		if (toInlined) {
+            yield put(normalizedEntities(successReturnValue));
+            yield put({{nickname}}Success_Entities(successReturnValue));
+        }
+        if (toInlined) {
 {{/returnTypeSupportsEntities}}
 {{#returnType}}
 {{#returnPassthrough}}
-    		successReturnValue = {{#lambda.camelcase}}{{{returnType}}}{{/lambda.camelcase}}RecordUtils.fromApiPassthrough(response);
-	    	yield put({{nickname}}Success(successReturnValue));
+            successReturnValue = {{#lambda.camelcase}}{{{returnType}}}{{/lambda.camelcase}}RecordUtils.fromApiPassthrough(response);
+            yield put({{nickname}}Success(successReturnValue));
 {{/returnPassthrough}}
 {{#hasReturnPassthroughVoid}}
-		    yield put({{nickname}}Success());
+            yield put({{nickname}}Success());
 {{/hasReturnPassthroughVoid}}
 {{^hasReturnPassthroughVoid}}
 {{^returnPassthrough}}
 {{#returnTypeIsArray}}
 {{#returnTypeAlternate}}
             successReturnValue = {{#lambda.camelcase}}{{returnBaseTypeAlternate}}{{/lambda.camelcase}}Utils.fromApiArray(response);
-	    	yield put({{nickname}}Success(successReturnValue));
+            yield put({{nickname}}Success(successReturnValue));
 {{/returnTypeAlternate}}
 {{/returnTypeIsArray}}
 {{#returnTypeIsModel}}
             successReturnValue = {{#lambda.camelcase}}{{returnTypeAlternate}}{{/lambda.camelcase}}Utils.fromApi(response);
-		    yield put({{nickname}}Success(successReturnValue));
+            yield put({{nickname}}Success(successReturnValue));
 {{/returnTypeIsModel}}
 {{^returnTypeIsArray}}
 {{^returnTypeIsModel}}
-		    yield put({{nickname}}Success(response));
+            yield put({{nickname}}Success(response));
 {{/returnTypeIsModel}}
 {{/returnTypeIsArray}}
 {{/returnPassthrough}}
 {{/hasReturnPassthroughVoid}}
 {{/returnType}}
 {{^returnType}}
-		    yield put({{nickname}}Success());
+            yield put({{nickname}}Success());
 {{/returnType}}
 {{#returnTypeSupportsEntities}}
-		}
+        }
 {{/returnTypeSupportsEntities}}
 
 {{#returnType}}
 {{#returnPassthrough}}
-		return successReturnValue;
+        return successReturnValue;
 {{/returnPassthrough}}
 {{#hasReturnPassthroughVoid}}
         return undefined;
@@ -218,7 +218,7 @@ export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase
 {{/returnTypeIsModel}}
 {{^returnTypeIsArray}}
 {{^returnTypeIsModel}}
-		return response;
+        return response;
 {{/returnTypeIsModel}}
 {{/returnTypeIsArray}}
 {{/returnPassthrough}}
@@ -227,10 +227,10 @@ export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase
 {{^returnType}}
         return undefined;
 {{/returnType}}
-	} catch (error) {
-		yield put({{nickname}}Failure(error));
-		return error;
-	}
+    } catch (error) {
+        yield put({{nickname}}Failure(error));
+        return error;
+    }
 }
 //endregion
 {{/operation}}
