@@ -1,6 +1,6 @@
 # Org.OpenAPITools.Api.UserApi
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -37,12 +37,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io/v2";
-            // Configure API key authorization: api_key
-            config.AddApiKey("api_key", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // config.AddApiKeyPrefix("api_key", "Bearer");
-
+            config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
             var user = new User(); // User | Created user object
 
@@ -74,7 +69,7 @@ void (empty response body)
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -109,12 +104,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io/v2";
-            // Configure API key authorization: api_key
-            config.AddApiKey("api_key", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // config.AddApiKeyPrefix("api_key", "Bearer");
-
+            config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
             var user = new List<User>(); // List<User> | List of user object
 
@@ -146,7 +136,7 @@ void (empty response body)
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -181,12 +171,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io/v2";
-            // Configure API key authorization: api_key
-            config.AddApiKey("api_key", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // config.AddApiKeyPrefix("api_key", "Bearer");
-
+            config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
             var user = new List<User>(); // List<User> | List of user object
 
@@ -218,7 +203,7 @@ void (empty response body)
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -255,12 +240,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io/v2";
-            // Configure API key authorization: api_key
-            config.AddApiKey("api_key", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // config.AddApiKeyPrefix("api_key", "Bearer");
-
+            config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
             var username = username_example;  // string | The name that needs to be deleted
 
@@ -292,7 +272,7 @@ void (empty response body)
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -328,7 +308,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io/v2";
+            config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
             var username = username_example;  // string | The name that needs to be fetched. Use user1 for testing.
 
@@ -398,7 +378,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io/v2";
+            config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
             var username = username_example;  // string | The user name for login
             var password = password_example;  // string | The password for login in clear text
@@ -443,7 +423,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  * Set-Cookie - Cookie authentication key for use with the &#x60;api_key&#x60; apiKey authentication. <br>  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when toekn expires <br>  |
+| **200** | successful operation |  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  |
 | **400** | Invalid username/password supplied |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -469,12 +449,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io/v2";
-            // Configure API key authorization: api_key
-            config.AddApiKey("api_key", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // config.AddApiKeyPrefix("api_key", "Bearer");
-
+            config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
 
             try
@@ -502,7 +477,7 @@ void (empty response body)
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -539,12 +514,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io/v2";
-            // Configure API key authorization: api_key
-            config.AddApiKey("api_key", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // config.AddApiKeyPrefix("api_key", "Bearer");
-
+            config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
             var username = username_example;  // string | name that need to be deleted
             var user = new User(); // User | Updated user object
@@ -578,7 +548,7 @@ void (empty response body)
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
