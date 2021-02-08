@@ -152,7 +152,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **findPetsByTags**
-> BuiltList<Pet> findPetsByTags(tags)
+> BuiltSet<Pet> findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -165,7 +165,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
-var tags = []; // BuiltList<String> | Tags to filter by
+var tags = []; // BuiltSet<String> | Tags to filter by
 
 try { 
     var result = api_instance.findPetsByTags(tags);
@@ -179,11 +179,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**BuiltList<String>**](String.md)| Tags to filter by | 
+ **tags** | [**BuiltSet<String>**](String.md)| Tags to filter by | 
 
 ### Return type
 
-[**BuiltList<Pet>**](Pet.md)
+[**BuiltSet<Pet>**](Pet.md)
 
 ### Authorization
 

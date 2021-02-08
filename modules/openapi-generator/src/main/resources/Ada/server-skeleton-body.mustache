@@ -1,7 +1,12 @@
 {{>licenseInfo}}
+pragma Warnings (Off, "*is not referenced");
 with Swagger.Streams;
 with Swagger.Servers.Operation;
 package body {{package}}.Skeletons is
+   pragma Style_Checks ("-mr");
+   pragma Warnings (Off, "*use clause for package*");
+
+   use Swagger.Streams;
 
    package body Skeleton is
 
@@ -58,7 +63,7 @@ package body {{package}}.Skeletons is
          {{#hasParams}}
          {{#hasBodyParam}}
          Swagger.Servers.Read (Req, Input);
-         {{#bodyParams}}{{#vendorExtensions.x-is-model-type}}
+{{#bodyParams}}{{#vendorExtensions.x-is-model-type}}
          {{package}}.Models.Deserialize (Input, "{{baseName}}", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}{{#isFile}}
          --  TODO: Serialize (Input.Stream, "{{basename}}", {{paramName}});{{/isFile}}{{^isFile}}{{^isLong}}
          Deserialize (Input, "{{baseName}}", {{paramName}});{{/isLong}}{{#isLong}}

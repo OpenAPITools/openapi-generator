@@ -21,8 +21,6 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 $OrderId = "OrderId_example" # String | ID of the order that needs to be deleted
 
 # Delete purchase order by ID
@@ -65,8 +63,6 @@ Returns a map of status codes to quantities
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 # Configure API key authorization: api_key
@@ -113,8 +109,6 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 $OrderId = 987 # Int64 | ID of pet that needs to be fetched
 
 # Find purchase order by ID
@@ -156,8 +150,6 @@ Place an order for a pet
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 $Order = (Initialize-Order -Id 123 -PetId 123 -Quantity 123 -ShipDate Get-Date -Status "placed" -Complete $false) # Order | order placed for purchasing the pet
 
 # Place an order for a pet

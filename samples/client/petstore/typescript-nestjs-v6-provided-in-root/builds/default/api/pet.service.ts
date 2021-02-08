@@ -67,7 +67,7 @@ export class PetService {
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'application/xml'
+            'application/xml',
             'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
@@ -77,14 +77,13 @@ export class PetService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json'
+            'application/json',
             'application/xml'
         ];
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-
         return this.httpClient.post<Pet>(`${this.basePath}/pet`,
             pet,
             {
@@ -111,7 +110,7 @@ export class PetService {
 
         let headers = this.defaultHeaders;
         if (apiKey !== undefined && apiKey !== null) {
-            headers['api_key'] String(apiKey);
+            headers['api_key'] = String(apiKey);
         }
 
         // authentication (petstore_auth) required
@@ -133,7 +132,6 @@ export class PetService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-
         return this.httpClient.delete<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -172,7 +170,7 @@ export class PetService {
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'application/xml'
+            'application/xml',
             'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
@@ -183,7 +181,6 @@ export class PetService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-
         return this.httpClient.get<Array<Pet>>(`${this.basePath}/pet/findByStatus`,
             {
                 params: queryParameters,
@@ -223,7 +220,7 @@ export class PetService {
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'application/xml'
+            'application/xml',
             'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
@@ -234,7 +231,6 @@ export class PetService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-
         return this.httpClient.get<Array<Pet>>(`${this.basePath}/pet/findByTags`,
             {
                 params: queryParameters,
@@ -266,7 +262,7 @@ export class PetService {
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'application/xml'
+            'application/xml',
             'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
@@ -277,7 +273,6 @@ export class PetService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-
         return this.httpClient.get<Pet>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -311,7 +306,7 @@ export class PetService {
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'application/xml'
+            'application/xml',
             'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
@@ -321,14 +316,13 @@ export class PetService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json'
+            'application/json',
             'application/xml'
         ];
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-
         return this.httpClient.put<Pet>(`${this.basePath}/pet`,
             pet,
             {
@@ -392,6 +386,7 @@ export class PetService {
         if (name !== undefined) {
             formParams.append('name', <any>name);
         }
+
         if (status !== undefined) {
             formParams.append('status', <any>status);
         }
@@ -451,6 +446,7 @@ export class PetService {
         let formParams: { append(param: string, value: any): void; };
         let useForm = false;
         let convertFormParamsToString = false;
+
         // use FormData to transmit files using content-type "multipart/form-data"
         // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
         useForm = canConsumeForm;
@@ -463,6 +459,7 @@ export class PetService {
         if (additionalMetadata !== undefined) {
             formParams.append('additionalMetadata', <any>additionalMetadata);
         }
+
         if (file !== undefined) {
             formParams.append('file', <any>file);
         }

@@ -229,7 +229,7 @@ class PetApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
-        .map((item) => item as Pet)
+        .cast<Pet>()
         .toList(growable: false);
     }
     return null;
@@ -307,7 +307,7 @@ class PetApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
-        .map((item) => item as Pet)
+        .cast<Pet>()
         .toList(growable: false);
     }
     return null;
