@@ -414,7 +414,7 @@ public class FormatTest   {
    **/
   @JsonProperty("pattern_with_digits")
   @ApiModelProperty(value = "A string that is a 10 digit number. Can have leading zeros.")
-   @Pattern(regexp="^\\d{10}$")
+   @Pattern(regexp="/^\d{10}$/")
   public String getPatternWithDigits() {
     return patternWithDigits;
   }
@@ -434,7 +434,7 @@ public class FormatTest   {
    **/
   @JsonProperty("pattern_with_digits_and_delimiter")
   @ApiModelProperty(value = "A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
-   @Pattern(regexp="/^image_\\d{1,3}$/i")
+   @Pattern(regexp="/^image_\d{1,3}$/i")
   public String getPatternWithDigitsAndDelimiter() {
     return patternWithDigitsAndDelimiter;
   }
