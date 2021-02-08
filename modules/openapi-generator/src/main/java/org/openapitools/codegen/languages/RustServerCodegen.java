@@ -94,6 +94,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.ApiKey,
                         SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
                         SecurityFeature.OAuth2_Implicit
                 ))
                 .excludeGlobalFeatures(

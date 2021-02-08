@@ -338,7 +338,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
         }
 
-        if (dateLibrary.equals("java8") && (isLibrary(WEBCLIENT) || isLibrary(VERTX) || isLibrary(RESTTEMPLATE) || isLibrary(RESTEASY) || isLibrary(MICROPROFILE) || isLibrary(JERSEY2))) {
+        // helper for client library that allow to parse/format java.time.OffsetDateTime or org.threeten.bp.OffsetDateTime
+        if (additionalProperties.containsKey("jsr310") && (isLibrary(WEBCLIENT) || isLibrary(VERTX) || isLibrary(RESTTEMPLATE) || isLibrary(RESTEASY) || isLibrary(MICROPROFILE) || isLibrary(JERSEY1) || isLibrary(JERSEY2))) {
             supportingFiles.add(new SupportingFile("JavaTimeFormatter.mustache", invokerFolder, "JavaTimeFormatter.java"));
         }
 

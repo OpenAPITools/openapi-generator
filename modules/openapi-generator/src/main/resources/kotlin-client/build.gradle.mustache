@@ -33,6 +33,9 @@ apply plugin: 'kotlin'
 {{#moshiCodeGen}}
 apply plugin: 'kotlin-kapt'
 {{/moshiCodeGen}}
+{{#parcelizeModels}}
+apply plugin: 'kotlin-parcelize'
+{{/parcelizeModels}}
 
 repositories {
     maven { url "https://repo1.maven.org/maven2" }

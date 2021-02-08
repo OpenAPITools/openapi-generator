@@ -17,10 +17,12 @@ import 'package:built_collection/built_collection.dart';
 import 'package:openapi/api_util.dart';
 
 class PetApi {
-    final Dio _dio;
-    Serializers _serializers;
 
-    PetApi(this._dio, this._serializers);
+    final Dio _dio;
+
+    final Serializers _serializers;
+
+    const PetApi(this._dio, this._serializers);
 
     /// Add a new pet to the store
     ///
@@ -181,8 +183,7 @@ class PetApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            const collectionType = BuiltList;
-            const type = FullType(collectionType, [FullType(Pet)]);
+            const type = FullType(BuiltList, [FullType(Pet)]);
             final data = _serializers.deserialize(
                 response.data is String
                 ? jsonDecode(response.data as String)
@@ -193,6 +194,7 @@ class PetApi {
             return Response<BuiltList<Pet>>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -251,8 +253,7 @@ class PetApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            const collectionType = BuiltList;
-            const type = FullType(collectionType, [FullType(Pet)]);
+            const type = FullType(BuiltList, [FullType(Pet)]);
             final data = _serializers.deserialize(
                 response.data is String
                 ? jsonDecode(response.data as String)
@@ -263,6 +264,7 @@ class PetApi {
             return Response<BuiltList<Pet>>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -331,6 +333,7 @@ class PetApi {
             return Response<Pet>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -525,6 +528,7 @@ class PetApi {
             return Response<ApiResponse>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
