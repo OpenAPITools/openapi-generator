@@ -75,7 +75,7 @@
           end
         end
 
-        openapi_one_of.include?(:AnyType) ? data : nil
+        openapi_one_of.includes?(:AnyType) ? data : nil
       {{/discriminator}}
       end
       {{^discriminator}}
