@@ -1053,7 +1053,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp.getter, "getSomePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.minLength, Integer.valueOf(3));
         Assert.assertEquals(cp.maxLength, Integer.valueOf(10));
-        Assert.assertEquals(cp.pattern, "^[A-Z]+$");
+        Assert.assertEquals(cp.pattern, "/^[A-Z]+$/");
     }
 
     @Test(description = "convert string property in an object")
@@ -1081,7 +1081,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp.getter, "getSomePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.minLength, Integer.valueOf(3));
         Assert.assertEquals(cp.maxLength, Integer.valueOf(10));
-        Assert.assertEquals(cp.pattern, "^[A-Z]+$");
+        Assert.assertEquals(cp.pattern, "/^[A-Z]+$/");
     }
 
     @Test(description = "convert referenced string property in an object")
@@ -1113,7 +1113,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp.getter, "getSomePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.minLength, Integer.valueOf(3));
         Assert.assertEquals(cp.maxLength, Integer.valueOf(10));
-        Assert.assertEquals(cp.pattern, "^[A-Z]+$");
+        Assert.assertEquals(cp.pattern, "/^[A-Z]+$/");
     }
 
     @Test(description = "convert an array schema")
