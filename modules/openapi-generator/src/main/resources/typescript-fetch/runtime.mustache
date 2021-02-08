@@ -216,6 +216,9 @@ export function querystring(params: HTTPQuery, prefix: string = ''): string {
                     .join(`&${encodeURIComponent(fullKey)}=`);
                 return `${encodeURIComponent(fullKey)}=${multiValue}`;
             }
+            if (value instanceof Date) {
+                return `${encodeURIComponent(fullKey)}=${encodeURIComponent(value.toISOString())}`;
+            }
             if (value instanceof Object) {
                 return querystring(value as HTTPQuery, fullKey);
             }
