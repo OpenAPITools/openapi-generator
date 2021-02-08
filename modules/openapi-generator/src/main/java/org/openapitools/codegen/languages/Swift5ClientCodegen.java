@@ -95,6 +95,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
      */
     public Swift5ClientCodegen() {
         super();
+        this.useOneOfInterfaces = true;
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)
