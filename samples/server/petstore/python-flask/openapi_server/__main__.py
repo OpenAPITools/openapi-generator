@@ -11,6 +11,7 @@ def main():
     app.add_api('openapi.yaml',
                 arguments={'title': 'OpenAPI Petstore'},
                 pythonic_params=True)
+
     app.run(port=8080)
 
 

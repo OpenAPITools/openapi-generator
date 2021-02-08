@@ -517,6 +517,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("JsonReader", "com.google.gson.stream.JsonReader");
         importMapping.put("JsonWriter", "com.google.gson.stream.JsonWriter");
         importMapping.put("IOException", "java.io.IOException");
+        importMapping.put("Arrays", "java.util.Arrays");
         importMapping.put("Objects", "java.util.Objects");
         importMapping.put("StringUtil", invokerPackage + ".StringUtil");
         // import JsonCreator if JsonProperty is imported

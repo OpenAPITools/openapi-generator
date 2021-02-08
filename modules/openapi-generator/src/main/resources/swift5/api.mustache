@@ -8,7 +8,9 @@
 import Foundation{{#usePromiseKit}}
 import PromiseKit{{/usePromiseKit}}{{#useRxSwift}}
 import RxSwift{{/useRxSwift}}{{#useCombine}}
-import Combine{{/useCombine}}{{#swiftUseApiNamespace}}
+#if canImport(Combine)
+import Combine
+#endif{{/useCombine}}{{#swiftUseApiNamespace}}
 
 extension {{projectName}}API {
 {{/swiftUseApiNamespace}}
@@ -140,6 +142,7 @@ extension {{projectName}}API {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}, Error>
      */
+    #if canImport(Combine)
     {{#isDeprecated}}
     @available(*, deprecated, message: "This operation is deprecated.")
     {{/isDeprecated}}
@@ -162,6 +165,7 @@ extension {{projectName}}API {
             }
         }.eraseToAnyPublisher()
     }
+    #endif
 {{/useCombine}}
 {{#useResult}}
     /**

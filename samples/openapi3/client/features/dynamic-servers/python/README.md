@@ -103,7 +103,7 @@ Use specific imports for apis and models like:
 - `from dynamic_servers.api.default_api import DefaultApi`
 - `from dynamic_servers.model.pet import Pet`
 
-Solution 1:
+Solution 2:
 Before importing the package, adjust the maximum recursion limit as shown below:
 ```
 import sys

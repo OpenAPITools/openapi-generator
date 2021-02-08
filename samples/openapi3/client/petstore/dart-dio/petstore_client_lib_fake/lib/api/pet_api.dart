@@ -17,10 +17,12 @@ import 'package:built_collection/built_collection.dart';
 import 'package:openapi/api_util.dart';
 
 class PetApi {
-    final Dio _dio;
-    Serializers _serializers;
 
-    PetApi(this._dio, this._serializers);
+    final Dio _dio;
+
+    final Serializers _serializers;
+
+    const PetApi(this._dio, this._serializers);
 
     /// Add a new pet to the store
     ///
@@ -37,7 +39,7 @@ class PetApi {
         final String _path = '/pet';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -96,7 +98,7 @@ class PetApi {
         final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -147,7 +149,7 @@ class PetApi {
         final String _path = '/pet/findByStatus';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -181,8 +183,7 @@ class PetApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            const collectionType = BuiltList;
-            const type = FullType(collectionType, [FullType(Pet)]);
+            const type = FullType(BuiltList, [FullType(Pet)]);
             final data = _serializers.deserialize(
                 response.data is String
                 ? jsonDecode(response.data as String)
@@ -193,6 +194,7 @@ class PetApi {
             return Response<BuiltList<Pet>>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -205,8 +207,8 @@ class PetApi {
     /// Finds Pets by tags
     ///
     /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-    Future<Response<BuiltList<Pet>>> findPetsByTags(
-        BuiltList<String> tags, { 
+    Future<Response<BuiltSet<Pet>>> findPetsByTags(
+        BuiltSet<String> tags, { 
         CancelToken cancelToken,
         Map<String, dynamic> headers,
         Map<String, dynamic> extra,
@@ -217,7 +219,7 @@ class PetApi {
         final String _path = '/pet/findByTags';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -251,18 +253,18 @@ class PetApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            const collectionType = BuiltList;
-            const type = FullType(collectionType, [FullType(Pet)]);
+            const type = FullType(BuiltSet, [FullType(Pet)]);
             final data = _serializers.deserialize(
                 response.data is String
                 ? jsonDecode(response.data as String)
                 : response.data,
                 specifiedType: type,
-            ) as BuiltList<Pet>;
+            ) as BuiltSet<Pet>;
 
-            return Response<BuiltList<Pet>>(
+            return Response<BuiltSet<Pet>>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -287,7 +289,7 @@ class PetApi {
         final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -331,6 +333,7 @@ class PetApi {
             return Response<Pet>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -355,7 +358,7 @@ class PetApi {
         final String _path = '/pet';
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -415,7 +418,7 @@ class PetApi {
         final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -427,9 +430,10 @@ class PetApi {
             'application/x-www-form-urlencoded',
         ];
 
-        final formData = <String, dynamic>{};
-        formData['name'] = parameterToString(_serializers, name);
-        formData['status'] = parameterToString(_serializers, status);
+        final formData = <String, dynamic>{
+            if (name != null) r'name': parameterToString(_serializers, name),
+            if (status != null) r'status': parameterToString(_serializers, status),
+        };
         bodyData = formData;
 
         return _dio.request<dynamic>(
@@ -474,7 +478,7 @@ class PetApi {
         final String _path = '/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', petId.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -486,13 +490,10 @@ class PetApi {
             'multipart/form-data',
         ];
 
-        final formData = <String, dynamic>{};
-        if (additionalMetadata != null) {
-            formData[r'additionalMetadata'] = parameterToString(_serializers, additionalMetadata);
-        }
-        if (file != null) {
-            formData[r'file'] = MultipartFile.fromBytes(file, filename: r'file');
-        }
+        final formData = <String, dynamic>{
+            if (additionalMetadata != null) r'additionalMetadata': parameterToString(_serializers, additionalMetadata),
+            if (file != null) r'file': MultipartFile.fromBytes(file, filename: r'file'),
+        };
         bodyData = FormData.fromMap(formData);
 
         return _dio.request<dynamic>(
@@ -527,6 +528,7 @@ class PetApi {
             return Response<ApiResponse>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -553,7 +555,7 @@ class PetApi {
         final String _path = '/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{' r'petId' '}', petId.toString());
 
         final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
+        final headerParams = <String, dynamic>{ 
             if (headers != null) ...headers,
         };
         dynamic bodyData;
@@ -565,13 +567,10 @@ class PetApi {
             'multipart/form-data',
         ];
 
-        final formData = <String, dynamic>{};
-        if (additionalMetadata != null) {
-            formData[r'additionalMetadata'] = parameterToString(_serializers, additionalMetadata);
-        }
-        if (requiredFile != null) {
-            formData[r'requiredFile'] = MultipartFile.fromBytes(requiredFile, filename: r'requiredFile');
-        }
+        final formData = <String, dynamic>{
+            if (additionalMetadata != null) r'additionalMetadata': parameterToString(_serializers, additionalMetadata),
+            r'requiredFile': MultipartFile.fromBytes(requiredFile, filename: r'requiredFile'),
+        };
         bodyData = FormData.fromMap(formData);
 
         return _dio.request<dynamic>(
@@ -606,6 +605,7 @@ class PetApi {
             return Response<ApiResponse>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,

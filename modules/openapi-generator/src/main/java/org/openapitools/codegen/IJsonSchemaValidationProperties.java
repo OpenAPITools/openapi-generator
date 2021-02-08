@@ -90,4 +90,12 @@ public interface IJsonSchemaValidationProperties {
     List<CodegenProperty> getRequiredVars();
 
     void setRequiredVars(List<CodegenProperty> requiredVars);
+
+    boolean getIsNull();
+
+    void setIsNull(boolean isNull);
+
+    boolean getHasValidation();
+
+    void setHasValidation(boolean hasValidation);
 }

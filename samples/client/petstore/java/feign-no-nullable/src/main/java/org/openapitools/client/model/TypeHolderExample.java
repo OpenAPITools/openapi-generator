@@ -232,7 +232,6 @@ public class TypeHolderExample {
     return Objects.hash(stringItem, numberItem, floatItem, integerItem, boolItem, arrayItem);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

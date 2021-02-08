@@ -26,6 +26,7 @@ import java.io.Serializable
  * @param int64 
  * @param float 
  * @param double 
+ * @param decimal 
  * @param string 
  * @param binary 
  * @param dateTime 
@@ -53,6 +54,8 @@ data class FormatTest (
     val float: kotlin.Float? = null,
     @SerializedName("double")
     val double: kotlin.Double? = null,
+    @SerializedName("decimal")
+    val decimal: java.math.BigDecimal? = null,
     @SerializedName("string")
     val string: kotlin.String? = null,
     @SerializedName("binary")

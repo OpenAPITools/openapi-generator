@@ -151,7 +151,6 @@ public class OuterComposite {
     return Objects.hash(myNumber, myString, myBoolean);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
