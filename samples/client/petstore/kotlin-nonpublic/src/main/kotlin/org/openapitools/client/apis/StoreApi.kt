@@ -66,8 +66,8 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     }
 
     /**
-    * Delete purchase order by ID
-    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+    * To obtain the request config of the operation deleteOrder
+    *
     * @param orderId ID of the order that needs to be deleted 
     * @return RequestConfig
     */
@@ -120,8 +120,8 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     }
 
     /**
-    * Returns pet inventories by status
-    * Returns a map of status codes to quantities
+    * To obtain the request config of the operation getInventory
+    *
     * @return RequestConfig
     */
     fun getInventoryRequestConfig() : RequestConfig {
@@ -174,8 +174,8 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     }
 
     /**
-    * Find purchase order by ID
-    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+    * To obtain the request config of the operation getOrderById
+    *
     * @param orderId ID of pet that needs to be fetched 
     * @return RequestConfig
     */
@@ -229,8 +229,8 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     }
 
     /**
-    * Place an order for a pet
-    * 
+    * To obtain the request config of the operation placeOrder
+    *
     * @param body order placed for purchasing the pet 
     * @return RequestConfig
     */

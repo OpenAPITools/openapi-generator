@@ -66,8 +66,8 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
     }
 
     /**
-    * Create user
-    * This can only be done by the logged in user.
+    * To obtain the request config of the operation createUser
+    *
     * @param body Created user object 
     * @return RequestConfig
     */
@@ -120,8 +120,8 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
     }
 
     /**
-    * Creates list of users with given input array
-    * 
+    * To obtain the request config of the operation createUsersWithArrayInput
+    *
     * @param body List of user object 
     * @return RequestConfig
     */
@@ -174,8 +174,8 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
     }
 
     /**
-    * Creates list of users with given input array
-    * 
+    * To obtain the request config of the operation createUsersWithListInput
+    *
     * @param body List of user object 
     * @return RequestConfig
     */
@@ -228,8 +228,8 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
     }
 
     /**
-    * Delete user
-    * This can only be done by the logged in user.
+    * To obtain the request config of the operation deleteUser
+    *
     * @param username The name that needs to be deleted 
     * @return RequestConfig
     */
@@ -283,8 +283,8 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
     }
 
     /**
-    * Get user by user name
-    * 
+    * To obtain the request config of the operation getUserByName
+    *
     * @param username The name that needs to be fetched. Use user1 for testing. 
     * @return RequestConfig
     */
@@ -339,8 +339,8 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
     }
 
     /**
-    * Logs user into the system
-    * 
+    * To obtain the request config of the operation loginUser
+    *
     * @param username The user name for login 
     * @param password The password for login in clear text 
     * @return RequestConfig
@@ -397,8 +397,8 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
     }
 
     /**
-    * Logs out current logged in user session
-    * 
+    * To obtain the request config of the operation logoutUser
+    *
     * @return RequestConfig
     */
     fun logoutUserRequestConfig() : RequestConfig {
@@ -451,8 +451,8 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
     }
 
     /**
-    * Updated user
-    * This can only be done by the logged in user.
+    * To obtain the request config of the operation updateUser
+    *
     * @param username name that need to be deleted 
     * @param body Updated user object 
     * @return RequestConfig

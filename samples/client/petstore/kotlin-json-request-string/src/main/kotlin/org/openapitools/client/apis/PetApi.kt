@@ -67,8 +67,8 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Add a new pet to the store
-    * 
+    * To obtain the request config of the operation addPet
+    *
     * @param body Pet object that needs to be added to the store 
     * @return RequestConfig
     */
@@ -122,8 +122,8 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Deletes a pet
-    * 
+    * To obtain the request config of the operation deletePet
+    *
     * @param petId Pet id to delete 
     * @param apiKey  (optional)
     * @return RequestConfig
@@ -180,8 +180,8 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Finds Pets by tags
-    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+    * To obtain the request config of the operation findPetsByTags
+    *
     * @param tags Tags to filter by 
     * @return RequestConfig
     */
@@ -239,8 +239,8 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Get all pets
-    * 
+    * To obtain the request config of the operation getAllPets
+    *
     * @param lastUpdated When this endpoint was hit last to help indentify if the client already has the latest copy. (optional)
     * @return RequestConfig
     */
@@ -299,8 +299,8 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Find pet by ID
-    * Returns a single pet
+    * To obtain the request config of the operation getPetById
+    *
     * @param petId ID of pet to return 
     * @return RequestConfig
     */
@@ -353,8 +353,8 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Update an existing pet
-    * 
+    * To obtain the request config of the operation updatePet
+    *
     * @param body Pet object that needs to be added to the store 
     * @return RequestConfig
     */
@@ -409,8 +409,8 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Updates a pet in the store with form data
-    * 
+    * To obtain the request config of the operation updatePetWithForm
+    *
     * @param petId ID of pet that needs to be updated 
     * @param name Updated name of the pet (optional)
     * @param status Updated status of the pet (optional)
@@ -468,8 +468,8 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * uploads an image
-    * 
+    * To obtain the request config of the operation uploadFile
+    *
     * @param petId ID of pet to update 
     * @param additionalMetadata Additional data to pass to server (optional)
     * @param file file to upload (optional)
