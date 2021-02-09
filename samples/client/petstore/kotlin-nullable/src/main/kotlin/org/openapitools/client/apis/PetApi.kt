@@ -333,7 +333,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * 
     * @param petId ID of pet to update 
     * @param additionalMetadata Additional data to pass to server (optional)
-    * @param file file to upload (optional)
+    * @param `file` file to upload (optional)
     * @return ApiResponse or null
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
@@ -341,8 +341,8 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : ApiResponse? {
-        val localVariableBody: kotlin.Any? = mapOf("additionalMetadata" to additionalMetadata, "file" to file)
+    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, `file`: java.io.File?) : ApiResponse? {
+        val localVariableBody: kotlin.Any? = mapOf("additionalMetadata" to additionalMetadata, "file" to `file`)
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
         val localVariableConfig = RequestConfig(

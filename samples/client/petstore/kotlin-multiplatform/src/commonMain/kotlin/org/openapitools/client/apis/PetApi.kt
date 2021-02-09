@@ -299,18 +299,18 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
      * 
      * @param petId ID of pet to update 
      * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
+     * @param `file` file to upload (optional)
      * @return ApiResponse
      */
     @Suppress("UNCHECKED_CAST")
-    suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.ktor.client.request.forms.InputProvider?): HttpResponse<ApiResponse> {
+    suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, `file`: io.ktor.client.request.forms.InputProvider?): HttpResponse<ApiResponse> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
         val localVariableBody = 
             formData {
                 additionalMetadata?.apply { append("additionalMetadata", additionalMetadata) }
-                file?.apply { append("file", file) }
+                `file`?.apply { append("file", `file`) }
             }
 
         val localVariableQuery = mutableMapOf<String, List<String>>()

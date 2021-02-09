@@ -46,7 +46,7 @@ fun Route.StoreApi() {
     }
 
 
-    get<Paths.getInventory> {  _: Paths.getInventory ->
+    `get`<Paths.getInventory> {  _: Paths.getInventory ->
         val principal = call.authentication.principal<ApiPrincipal>()
         
         if (principal == null) {
@@ -57,7 +57,7 @@ fun Route.StoreApi() {
     }
 
 
-    get<Paths.getOrderById> {  _: Paths.getOrderById ->
+    `get`<Paths.getOrderById> {  _: Paths.getOrderById ->
         val exampleContentType = "application/json"
         val exampleContentString = """{
           "petId" : 6,

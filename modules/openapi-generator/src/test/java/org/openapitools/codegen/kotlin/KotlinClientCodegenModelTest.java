@@ -23,6 +23,7 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.openapitools.codegen.languages.KotlinClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -60,6 +61,18 @@ public class KotlinClientCodegenModelTest {
         return new ObjectSchema()
                 .description("a sample model")
                 .addProperties("child", new ObjectSchema().$ref("#/components/schemas/Child"));
+    }
+
+    private Schema getReservedWordSchema() {
+        Schema schema = new ObjectSchema()
+                .description("model with reserved words");
+
+        for (String word : AbstractKotlinCodegen.kotlinReservedWords) {
+            schema.addProperties(word, new StringSchema());
+
+        }
+
+        return schema;
     }
 
     @Test(description = "convert a simple model")
@@ -316,6 +329,32 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property1.baseType, "Child");
         Assert.assertFalse(property1.required);
         Assert.assertFalse(property1.isContainer);
+    }
+
+    @Test(description = "convert a model with reserved name properties")
+    public void reservedWordTest() {
+        final Schema schema = getReservedWordSchema();
+        final DefaultCodegen codegen = new KotlinClientCodegen();
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        for (String word : AbstractKotlinCodegen.kotlinReservedWords) {
+            String expectedName;
+
+            if (word.equals("class")) {
+                expectedName = "propertyClass";
+            } else {
+                expectedName = "`" + word + "`";
+            }
+
+            Assert.assertTrue(
+                    cm.vars.stream().anyMatch(it -> it.name.equals(expectedName)),
+                    "Could not find escaped property ("+expectedName+") for " + word
+            );
+        }
     }
 
     @DataProvider(name = "modelNames")

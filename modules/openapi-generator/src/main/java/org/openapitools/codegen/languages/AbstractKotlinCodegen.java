@@ -51,6 +51,86 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
 
+    // all possible reserved words in kotlin from the grammer at https://kotlinlang.org/docs/reference/grammar.html
+    // since kotlin supports escaping reserved words using backticks (e.g. `catch`), there isn't a downside to escaping
+    // all possible words
+    public static final Set<String> kotlinReservedWords = new HashSet<String>(Arrays.asList(
+            "abstract",
+            "actual",
+            "annotation",
+            "as",
+            "break",
+            "by",
+            "catch",
+            "class",
+            "companion",
+            "const",
+            "constructor",
+            "continue",
+            "crossinline",
+            "data",
+            "delegate",
+            "do",
+            "dynamic",
+            "else",
+            "enum",
+            "expect",
+            "external",
+            "false",
+            "field",
+            "file",
+            "final",
+            "finally",
+            "for",
+            "fun",
+            "get",
+            "if",
+            "import",
+            "in",
+            "infix",
+            "init",
+            "inline",
+            "inner",
+            "interface",
+            "internal",
+            "is",
+            "lateinit",
+            "noinline",
+            "null",
+            "object",
+            "open",
+            "operator",
+            "out",
+            "override",
+            "package",
+            "param",
+            "private",
+            "property",
+            "protected",
+            "public",
+            "receiver",
+            "reified",
+            "return",
+            "sealed",
+            "set",
+            "setparam",
+            "super",
+            "suspend",
+            "tailrec",
+            "this",
+            "throw",
+            "true",
+            "try",
+            "typealias",
+            "typeof",
+            "val",
+            "var",
+            "vararg",
+            "when",
+            "where",
+            "while"
+        ));
+
     protected String artifactId;
     protected String artifactVersion = "1.0.0";
     protected String groupId = "org.openapitools";
@@ -94,38 +174,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 "kotlin.collections.Set"
         ));
 
-        // this includes hard reserved words defined by https://github.com/JetBrains/kotlin/blob/master/core/descriptors/src/org/jetbrains/kotlin/renderer/KeywordStringsGenerated.java
-        // as well as keywords from https://kotlinlang.org/docs/reference/keyword-reference.html
-        reservedWords = new HashSet<String>(Arrays.asList(
-                "as",
-                "break",
-                "class",
-                "continue",
-                "do",
-                "else",
-                "false",
-                "for",
-                "fun",
-                "if",
-                "in",
-                "interface",
-                "is",
-                "null",
-                "object",
-                "package",
-                "return",
-                "super",
-                "this",
-                "throw",
-                "true",
-                "try",
-                "typealias",
-                "typeof",
-                "val",
-                "var",
-                "when",
-                "while"
-        ));
+        reservedWords = new HashSet<String>(kotlinReservedWords);
 
         defaultIncludes = new HashSet<String>(Arrays.asList(
                 "kotlin.Byte",

@@ -98,7 +98,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         response = User::class)
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation", response = User::class),ApiResponse(code = 400, message = "Invalid username supplied"),ApiResponse(code = 404, message = "User not found")])
-    @GetMapping(
+    @`get`Mapping(
         value = ["/user/{username}"],
         produces = ["application/xml", "application/json"]
     )
@@ -114,7 +114,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         response = kotlin.String::class)
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.String::class),ApiResponse(code = 400, message = "Invalid username/password supplied")])
-    @GetMapping(
+    @`get`Mapping(
         value = ["/user/login"],
         produces = ["application/xml", "application/json"]
     )
@@ -130,7 +130,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         notes = "")
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation")])
-    @GetMapping(
+    @`get`Mapping(
         value = ["/user/logout"]
     )
     fun logoutUser(): ResponseEntity<Unit> {
