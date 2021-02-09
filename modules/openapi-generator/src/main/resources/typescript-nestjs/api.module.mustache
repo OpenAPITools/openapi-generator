@@ -11,13 +11,13 @@ import { {{classname}} } from './{{importPath}}';
 @Global
 @Module({
   imports:      [ HttpModule ],
-  exports:      [   
-    {{#apiInfo}}{{#apis}}{{classname}}{{#hasMore}},
-    {{/hasMore}}{{/apis}}{{/apiInfo}} 
+  exports:      [
+    {{#apiInfo}}{{#apis}}{{classname}}{{^-last}},
+    {{/-last}}{{/apis}}{{/apiInfo}}
   ],
   providers: [
-    {{#apiInfo}}{{#apis}}{{classname}}{{#hasMore}},
-    {{/hasMore}}{{/apis}}{{/apiInfo}} 
+    {{#apiInfo}}{{#apis}}{{classname}}{{^-last}},
+    {{/-last}}{{/apis}}{{/apiInfo}}
   ]
 })
 export class ApiModule {
