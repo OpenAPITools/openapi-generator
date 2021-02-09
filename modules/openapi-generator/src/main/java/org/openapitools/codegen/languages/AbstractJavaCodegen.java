@@ -1673,6 +1673,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.supportJava6 = value;
     }
 
+    /*
+     * We don't want to run `escapeText` on the pattern
+     */
     @Override
     public String toRegularExpression(String pattern) {
         return addRegularExpressionDelimiter(pattern);
