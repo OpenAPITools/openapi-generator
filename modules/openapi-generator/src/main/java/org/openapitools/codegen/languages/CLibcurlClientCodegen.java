@@ -906,8 +906,11 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
         System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
         System.out.println("#                                                                              #");
-        System.out.println("# This generator is contributed by Hemant Zope (https://github.com/zhemant).   #");
-        System.out.println("# Please support his work directly via https://www.patreon.com/zhemant \uD83D\uDE4F      #");
+        System.out.println("# This generator is contributed by Hemant Zope (https://github.com/zhemant)    #");
+        System.out.println("# and Niklas Werner (https://github.com/PowerOfCreation).                      #");
+        System.out.println("# Please support their work directly \uD83D\uDE4F                                        #");
+        System.out.println("# > Hemant Zope - https://www.patreon.com/zhemant                              #");
+        System.out.println("# > Niklas Werner - https://paypal.me/wernerdevelopment                        #");
         System.out.println("################################################################################");
     }
 }
