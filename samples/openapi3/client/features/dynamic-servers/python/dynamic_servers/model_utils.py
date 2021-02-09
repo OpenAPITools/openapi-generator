@@ -1499,7 +1499,7 @@ def model_to_dict(model_instance, serialize=True):
                 elif isinstance(value[0], ModelSimple):
                     result[attr] = [x.value for x in value]
                 else:
-                    result[attr] = [model_to_dict(x, serialize=serialize) for x in value]
+                    result[attr] = [model_to_dict(x, serialize=serialize) if hasattr(x, '_data_store') else x for x in value]
             elif isinstance(value, dict):
                 result[attr] = dict(map(
                     lambda item: (item[0],
