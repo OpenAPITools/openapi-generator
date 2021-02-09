@@ -73,7 +73,7 @@ Code change should conform to the programming style guide of the respective lang
 - Ruby: https://github.com/bbatsov/ruby-style-guide
 - Rust: https://github.com/rust-lang-nursery/fmt-rfcs/blob/master/guide/guide.md (the default [rustfmt](https://github.com/rust-lang-nursery/rustfmt) configuration)
 - Scala: http://docs.scala-lang.org/style/
-- Swift: [Apple Developer](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html)
+- Swift: https://swift.org/documentation/api-design-guidelines/
 - TypeScript: https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines
 
 For other languages, feel free to suggest.
