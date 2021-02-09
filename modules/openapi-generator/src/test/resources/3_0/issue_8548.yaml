@@ -1,0 +1,42 @@
+openapi: 3.0.0
+
+info:
+  version: 1.0.0
+  title: OpenAPI Petstore
+
+paths:
+  /test-endpoint:
+    post:
+      tags:
+        - test-controller
+      summary: Generate object which can be customly imported
+      operationId: customIMport
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonObject'
+
+components:
+  schemas:
+    CommonObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        stringField:
+          type: string
+          format: int64
+        customObject:
+          $ref: '#/components/schemas/CustomObject'
+
+    CustomObject:
+      type: object
+      properties:
+        field1:
+          type: string
+        field2:
+          type: boolean

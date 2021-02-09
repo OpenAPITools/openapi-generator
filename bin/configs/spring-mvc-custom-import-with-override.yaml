@@ -1,0 +1,12 @@
+generatorName: spring
+outputDir: samples/server/petstore/spring-mvc-custom-import-with-override
+library: spring-mvc
+inputSpec: modules/openapi-generator/src/test/resources/3_0/issue_8548.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  java8: true
+  booleanGetterPrefix: get
+  artifactId: spring-mvc-custom-import-with-override
+  hideGenerationTimestamp: "true"
+importMappings:
+  CustomObject: org.customimport.CustomObject
