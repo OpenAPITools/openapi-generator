@@ -122,8 +122,6 @@ public interface JsonCache {
             OVERWRITE_EXISTING
         }
 
-        ;
-
         /**
          * If the cache is dirty, saves the object graph in JSON format to the specified file.
          *
