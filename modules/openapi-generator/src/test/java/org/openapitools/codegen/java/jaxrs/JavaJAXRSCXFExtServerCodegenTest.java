@@ -368,7 +368,7 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         assertEquals(testerCodegen.getTestDataControlFile(), new File(curdir, "my/test-data-control.json"));
     }
 
-    @Test()
+    @Test
     public void testGenerateOperationBodyWithCodedTestData() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -412,7 +412,7 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         checkFile(Paths.get(outputPath + "/test-data-control.json"), false);
     }
 
-    @Test()
+    @Test
     public void testGenerateOperationBodyWithJsonTestData() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

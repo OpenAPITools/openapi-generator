@@ -1,9 +1,16 @@
 {{>licenseInfo}}
 package {{invokerPackage}};
 
+{{^threetenbp}}
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+{{/threetenbp}}
+{{#threetenbp}}
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+import org.threeten.bp.format.DateTimeParseException;
+{{/threetenbp}}
 
 /**
  * Class that add parsing/formatting support for Java 8+ {@code OffsetDateTime} class.

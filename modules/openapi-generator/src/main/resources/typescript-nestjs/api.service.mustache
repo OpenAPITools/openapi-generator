@@ -107,7 +107,7 @@ export class {{classname}} {
         {{/isListContainer}}
         {{^isListContainer}}
         if ({{paramName}} !== undefined && {{paramName}} !== null) {
-            headers['{{baseName}}'] String({{paramName}});
+            headers['{{baseName}}'] = String({{paramName}});
         }
         {{/isListContainer}}
 {{/headerParams}}
@@ -147,7 +147,7 @@ export class {{classname}} {
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
             {{#produces}}
-            '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
+            '{{{mediaType}}}'{{^-last}},{{/-last}}
             {{/produces}}
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
@@ -158,7 +158,7 @@ export class {{classname}} {
         // to determine the Content-Type header
         const consumes: string[] = [
             {{#consumes}}
-            '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
+            '{{{mediaType}}}'{{^-last}},{{/-last}}
             {{/consumes}}
         ];
 {{#bodyParam}}
@@ -167,8 +167,8 @@ export class {{classname}} {
             headers['Content-Type'] = httpContentTypeSelected;
         }
 {{/bodyParam}}
-
 {{#hasFormParams}}
+
         const canConsumeForm = this.canConsumeForm(consumes);
 
         let formParams: { append(param: string, value: any): void; };
@@ -176,6 +176,7 @@ export class {{classname}} {
         let convertFormParamsToString = false;
 {{#formParams}}
 {{#isFile}}
+
         // use FormData to transmit files using content-type "multipart/form-data"
         // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
         useForm = canConsumeForm;
@@ -186,8 +187,8 @@ export class {{classname}} {
         } else {
             // formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         }
-
 {{#formParams}}
+
         {{#isListContainer}}
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}

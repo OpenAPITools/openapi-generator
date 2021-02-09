@@ -50,7 +50,7 @@ class EnumClass(object):
     def __init__(self, local_vars_configuration=None):  # noqa: E501
         """EnumClass - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
+            local_vars_configuration = Configuration.get_default_copy()
         self.local_vars_configuration = local_vars_configuration
         self.discriminator = None
 

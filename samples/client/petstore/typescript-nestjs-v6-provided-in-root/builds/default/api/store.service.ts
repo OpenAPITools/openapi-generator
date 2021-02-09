@@ -67,7 +67,6 @@ export class StoreService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-
         return this.httpClient.delete<any>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -103,7 +102,6 @@ export class StoreService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-
         return this.httpClient.get<{ [key: string]: number; }>(`${this.basePath}/store/inventory`,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -129,7 +127,7 @@ export class StoreService {
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'application/xml'
+            'application/xml',
             'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
@@ -140,7 +138,6 @@ export class StoreService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-
         return this.httpClient.get<Order>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -166,7 +163,7 @@ export class StoreService {
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'application/xml'
+            'application/xml',
             'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
@@ -182,7 +179,6 @@ export class StoreService {
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-
         return this.httpClient.post<Order>(`${this.basePath}/store/order`,
             order,
             {

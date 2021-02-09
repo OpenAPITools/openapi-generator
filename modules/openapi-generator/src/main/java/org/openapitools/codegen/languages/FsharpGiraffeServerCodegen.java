@@ -229,7 +229,7 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
         return outputFolder + File.separator + sourceFolder + File.separator + "impl";
     }
 
-    @Override()
+    @Override
     public String toModelImport(String name) {
         return packageName + "." + modelPackage() + "." + name;
     }
