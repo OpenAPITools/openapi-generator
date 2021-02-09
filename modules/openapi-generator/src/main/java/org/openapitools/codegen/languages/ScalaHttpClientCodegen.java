@@ -31,7 +31,6 @@ import java.util.EnumSet;
 import java.util.HashMap;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 /*
  * This generator has been deprecated. Please use scala-akka instead.

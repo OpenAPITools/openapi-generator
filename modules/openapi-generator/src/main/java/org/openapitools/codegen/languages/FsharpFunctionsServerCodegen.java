@@ -19,15 +19,8 @@ package org.openapitools.codegen.languages;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.parameters.Parameter;
-
 import java.io.File;
 import java.util.*;
-
-import org.apache.commons.lang3.StringUtils;
 
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
