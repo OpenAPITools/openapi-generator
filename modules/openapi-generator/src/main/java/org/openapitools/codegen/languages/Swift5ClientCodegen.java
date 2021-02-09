@@ -628,7 +628,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 // Datetime time stamps in Swift are expressed as Seconds with Microsecond precision.
                 // In Java, we need to be creative to get the Timestamp in Microseconds as a long.
                 Instant instant = ((OffsetDateTime) p.getDefault()).toInstant();
-                long epochMicro = TimeUnit.SECONDS.toMicros(instant.getEpochSecond()) + ((long) instant.get(ChronoField.MICRO_OF_SECOND));
+                long epochMicro = TimeUnit.SECONDS.toMicros(instant.getEpochSecond()) + (instant.get(ChronoField.MICRO_OF_SECOND));
                 return "Date(timeIntervalSince1970: " + String.valueOf(epochMicro) + ".0 / 1_000_000)";
             } else if (ModelUtils.isStringSchema(p)) {
                 return "\"" + escapeText((String) p.getDefault()) + "\"";

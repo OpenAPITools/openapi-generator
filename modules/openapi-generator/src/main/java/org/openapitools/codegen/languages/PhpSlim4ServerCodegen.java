@@ -147,7 +147,7 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
                 break;
             default:
                 this.psr7Implementation = "slim-psr7";
-                LOGGER.warn("\"" + (String) psr7Implementation + "\" is invalid \"psr7Implementation\" argument. Default \"slim-psr7\" used instead.");
+                LOGGER.warn("\"" + psr7Implementation + "\" is invalid \"psr7Implementation\" argument. Default \"slim-psr7\" used instead.");
         }
     }
 
