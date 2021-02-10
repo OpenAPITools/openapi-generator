@@ -27,6 +27,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.Charset;
 import java.time.Duration;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -66,6 +68,9 @@ public class ApiClient {
     if (value == null) {
       return "";
     }
+    if (value instanceof OffsetDateTime) {
+      return ((OffsetDateTime) value).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+    }
     return value.toString();
   }
 
@@ -96,7 +101,7 @@ public class ApiClient {
     if (name == null || name.isEmpty() || value == null) {
       return Collections.emptyList();
     }
-    return Collections.singletonList(new Pair(urlEncode(name), urlEncode(value.toString())));
+    return Collections.singletonList(new Pair(urlEncode(name), urlEncode(valueToString(value))));
   }
 
   /**
@@ -165,6 +170,7 @@ public class ApiClient {
     mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
+    mapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
     mapper.registerModule(new JavaTimeModule());
     JsonNullableModule jnm = new JsonNullableModule();
     mapper.registerModule(jnm);

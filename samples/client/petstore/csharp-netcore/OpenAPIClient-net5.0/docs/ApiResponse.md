@@ -1,5 +1,4 @@
 # Org.OpenAPITools.Model.ApiResponse
-Describes the result of uploading an image resource
 ## Properties
 
 Name | Type | Description | Notes
