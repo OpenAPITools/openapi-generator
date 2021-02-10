@@ -48,7 +48,7 @@
                         <configuration>
                             <executable>./gradlew</executable>
                             <arguments>
-                                <argument>test</argument>
+                                <argument>build</argument>
                             </arguments>
                         </configuration>
                     </execution>
