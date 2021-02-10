@@ -9,11 +9,15 @@ import { UserService } from './api/user.service';
 @Global
 @Module({
   imports:      [ HttpModule ],
-  exports:      [   
-    PetServiceStoreServiceUserService 
+  exports:      [
+    PetService,
+    StoreService,
+    UserService
   ],
   providers: [
-    PetServiceStoreServiceUserService 
+    PetService,
+    StoreService,
+    UserService
   ]
 })
 export class ApiModule {
