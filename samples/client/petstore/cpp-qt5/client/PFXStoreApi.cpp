@@ -133,12 +133,83 @@ void PFXStoreApi::abortRequests(){
     emit abortRequestsSignal();
 }
 
+QString PFXStoreApi::getParamStylePrefix(QString style){
+
+        if(style == "matrix"){ 
+            return ";";
+        }else if(style == "label"){
+            return ".";
+        }else if(style == "form"){
+            return "&"; 
+        }else if(style == "simple"){
+            return "";
+        }else if(style == "spaceDelimited"){
+            return "&"; 
+        }else if(style == "pipeDelimited"){
+            return "&"; 
+        }else
+            return "none";
+}
+
+QString PFXStoreApi::getParamStyleSuffix(QString style){
+
+        if(style == "matrix"){ 
+            return "=";
+        }else if(style == "label"){
+            return "";
+        }else if(style == "form"){
+            return "=";
+        }else if(style == "simple"){
+            return "";
+        }else if(style == "spaceDelimited"){
+            return "=";
+        }else if(style == "pipeDelimited"){
+            return "=";
+        }else
+            return "none";
+}
+
+QString PFXStoreApi::getParamStyleDelimiter(QString style, QString name, bool isExplode){
+
+        if(style == "matrix"){ 
+            return (isExplode) ? ";" + name + "=" : ",";
+
+        }else if(style == "label"){
+            return (isExplode) ? "." : ",";
+
+        }else if(style == "form"){
+            return (isExplode) ? "&" + name + "=" : ","; 
+
+        }else if(style == "simple"){
+            return ",";
+        }else if(style == "spaceDelimited"){
+            return (isExplode) ? "&" + name + "=" : " ";
+
+        }else if(style == "pipeDelimited"){
+            return (isExplode) ? "&" + name + "=" : "|";
+
+        }else if(style == "deepObject"){
+            return (isExplode) ? "&" : "none";
+
+        }else
+            return "none";
+}
+
 void PFXStoreApi::deleteOrder(const QString &order_id) {
     QString fullPath = QString(_serverConfigs["deleteOrder"][_serverIndices.value("deleteOrder")].URL()+"/store/order/{orderId}");
+    
     QString order_idPathParam("{");
     order_idPathParam.append("orderId").append("}");
-    fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
-    
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "";    
+    if(pathStyle == "") 
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "orderId", false);
+    QString paramString = (pathStyle == "matrix") ? pathPrefix+"orderId"+pathSuffix : pathPrefix;
+    fullPath.replace(order_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
+
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -176,11 +247,12 @@ void PFXStoreApi::deleteOrderCallback(PFXHttpRequestWorker *worker) {
 
 void PFXStoreApi::getInventory() {
     QString fullPath = QString(_serverConfigs["getInventory"][_serverIndices.value("getInventory")].URL()+"/store/inventory");
-
+    
     if(_apiKeys.contains("api_key")){
         addHeaders("api_key",_apiKeys.find("api_key").value());
     }
     
+
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -228,10 +300,19 @@ void PFXStoreApi::getInventoryCallback(PFXHttpRequestWorker *worker) {
 
 void PFXStoreApi::getOrderById(const qint64 &order_id) {
     QString fullPath = QString(_serverConfigs["getOrderById"][_serverIndices.value("getOrderById")].URL()+"/store/order/{orderId}");
+    
     QString order_idPathParam("{");
     order_idPathParam.append("orderId").append("}");
-    fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
-    
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "";    
+    if(pathStyle == "") 
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "orderId", false);
+    QString paramString = (pathStyle == "matrix") ? pathPrefix+"orderId"+pathSuffix : pathPrefix;
+    fullPath.replace(order_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
+
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -270,6 +351,7 @@ void PFXStoreApi::getOrderByIdCallback(PFXHttpRequestWorker *worker) {
 
 void PFXStoreApi::placeOrder(const PFXOrder &body) {
     QString fullPath = QString(_serverConfigs["placeOrder"][_serverIndices.value("placeOrder")].URL()+"/store/order");
+    
 
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -277,9 +359,9 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
 
+
     QByteArray output = body.asJson().toUtf8();
     input.request_body.append(output);
-
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::placeOrderCallback);
