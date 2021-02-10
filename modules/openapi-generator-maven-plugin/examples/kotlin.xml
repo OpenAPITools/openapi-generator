@@ -91,7 +91,7 @@
 					<execution>
 						<id>compile</id>
 						<goals>
-							<goal>compile</goal>
+							<goal>integration-test</goal>
 						</goals>
 						<configuration>
 							<sourceDirs>
