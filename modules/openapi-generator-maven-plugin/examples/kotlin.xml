@@ -89,7 +89,7 @@
 				</configuration>
 				<executions>
 					<execution>
-						<id>compile</id>
+						<id>integration-test</id>
 						<goals>
 							<goal>integration-test</goal>
 						</goals>
