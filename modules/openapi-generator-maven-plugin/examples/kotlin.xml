@@ -89,9 +89,9 @@
 				</configuration>
 				<executions>
 					<execution>
-						<id>build</id>
+						<id>compile</id>
 						<goals>
-							<goal>build</goal>
+							<goal>compile</goal>
 						</goals>
 						<configuration>
 							<sourceDirs>
