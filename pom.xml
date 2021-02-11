@@ -1235,8 +1235,6 @@
                 <module>samples/client/petstore/typescript-angular-v4.3/npm</module>
                 <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>-->
-                <module>samples/client/petstore/kotlin-threetenbp/</module>
-                <module>samples/client/petstore/kotlin-string/</module>
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
@@ -1377,17 +1375,21 @@
                 <!--<module>samples/client/petstore/elixir</module>-->
                 <module>samples/client/petstore/erlang-client</module>
                 <module>samples/client/petstore/erlang-proper</module>
+                <module>samples/client/petstore/kotlin</module>
+                <module>samples/client/petstore/kotlin-gson</module>
+                <module>samples/client/petstore/kotlin-jackson</module>
+                <module>samples/client/petstore/kotlin-json-request-string</module>
+                <module>samples/client/petstore/kotlin-jvm-okhttp4-coroutines</module>
+                <module>samples/client/petstore/kotlin-moshi-codegen</module>
                 <module>samples/client/petstore/kotlin-multiplatform</module>
-                <!--<module>samples/client/petstore/kotlin/</module>-->
+                <module>samples/client/petstore/kotlin-nonpublic</module>
+                <module>samples/client/petstore/kotlin-nullable</module>
+                <module>samples/client/petstore/kotlin-okhttp3</module>
                 <module>samples/client/petstore/kotlin-retrofit2</module>
                 <module>samples/client/petstore/kotlin-retrofit2-rx3</module>
-                <module>samples/client/petstore/kotlin-jackson/</module>
-                <module>samples/client/petstore/kotlin-gson/</module>
-                <module>samples/client/petstore/kotlin-nonpublic/</module>
-                <module>samples/client/petstore/kotlin-nullable/</module>
-                <module>samples/client/petstore/kotlin-okhttp3/</module>
-                <module>samples/client/petstore/kotlin-moshi-codegen/</module>
-                <module>samples/client/petstore/kotlin-json-request-string/</module>
+                <module>samples/client/petstore/kotlin-string</module>
+                <module>samples/client/petstore/kotlin-threetenbp</module>
+                <module>samples/client/petstore/kotlin-uppercase-enum</module>
                 <!-- servers -->
                 <!--<module>samples/server/petstore/erlang-server</module>-->
             </modules>
