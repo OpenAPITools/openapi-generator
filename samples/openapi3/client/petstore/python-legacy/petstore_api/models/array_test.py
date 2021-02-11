@@ -80,6 +80,12 @@ class ArrayTest(object):
         :param array_of_string: The array_of_string of this ArrayTest.  # noqa: E501
         :type array_of_string: list[str]
         """
+        if (self.local_vars_configuration.client_side_validation and
+                array_of_string is not None and len(array_of_string) > 3):
+            raise ValueError("Invalid value for `array_of_string`, number of items must be less than or equal to `3`")  # noqa: E501
+        if (self.local_vars_configuration.client_side_validation and
+                array_of_string is not None and len(array_of_string) < 0):
+            raise ValueError("Invalid value for `array_of_string`, number of items must be greater than or equal to `0`")  # noqa: E501
 
         self._array_of_string = array_of_string
 
