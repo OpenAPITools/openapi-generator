@@ -98,7 +98,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         );
 
         instantiationTypes.put("array", "array");
-        instantiationTypes.put("map", "map");
+        instantiationTypes.put("map", "array");
 
 
         // provide primitives to mustache template
@@ -119,7 +119,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("Date", "\\DateTime");
         typeMapping.put("DateTime", "\\DateTime");
         typeMapping.put("file", "\\SplFileObject");
-        typeMapping.put("map", "map");
+        typeMapping.put("map", "array");
         typeMapping.put("array", "array");
         typeMapping.put("list", "array");
         typeMapping.put("object", "object");
