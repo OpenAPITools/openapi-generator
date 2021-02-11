@@ -4,12 +4,14 @@ package {{packageName}}
 import (
 	"encoding/json"
 	"io/ioutil"
+	"mime/multipart"
 	"net/http"
 	"os"
 	"strconv"
 	{{#featureCORS}}
 	"github.com/gorilla/handlers"
 	{{/featureCORS}}
+	
 	"github.com/gorilla/mux"
 )
 
