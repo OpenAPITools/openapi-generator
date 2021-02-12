@@ -21,10 +21,12 @@ import 'package:built_collection/built_collection.dart';
 import 'package:openapi/api_util.dart';
 
 class FakeApi {
-    final Dio _dio;
-    Serializers _serializers;
 
-    FakeApi(this._dio, this._serializers);
+    final Dio _dio;
+
+    final Serializers _serializers;
+
+    const FakeApi(this._dio, this._serializers);
 
     /// Health check endpoint
     ///
@@ -77,6 +79,7 @@ class FakeApi {
             return Response<HealthCheckResult>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -202,6 +205,7 @@ class FakeApi {
             return Response<bool>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -270,6 +274,7 @@ class FakeApi {
             return Response<OuterComposite>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -333,6 +338,7 @@ class FakeApi {
             return Response<num>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -396,6 +402,7 @@ class FakeApi {
             return Response<String>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -570,6 +577,7 @@ class FakeApi {
             return Response<ModelClient>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,

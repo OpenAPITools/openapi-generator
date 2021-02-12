@@ -110,6 +110,10 @@ Serializers serializers = (_$serializers.toBuilder()
         () => MapBuilder<String, String>(),
       )
       ..addBuilderFactory(
+        const FullType(BuiltSet, [FullType(Pet)]),
+        () => SetBuilder<Pet>(),
+      )
+      ..addBuilderFactory(
         const FullType(BuiltList, [FullType(Pet)]),
         () => ListBuilder<Pet>(),
       )

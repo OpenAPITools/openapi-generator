@@ -26,6 +26,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
  * @param int64 
  * @param float 
  * @param double 
+ * @param decimal 
  * @param string 
  * @param binary 
  * @param dateTime 
@@ -44,6 +45,7 @@ data class FormatTest (
     @SerialName(value = "int64") val int64: kotlin.Long? = null,
     @SerialName(value = "float") val float: kotlin.Float? = null,
     @SerialName(value = "double") val double: kotlin.Double? = null,
+    @SerialName(value = "decimal") val decimal: java.math.BigDecimal? = null,
     @SerialName(value = "string") val string: kotlin.String? = null,
     @SerialName(value = "binary") val binary: org.openapitools.client.infrastructure.OctetByteArray? = null,
     @SerialName(value = "dateTime") val dateTime: kotlin.String? = null,

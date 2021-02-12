@@ -125,16 +125,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         typeMapping.put("array", "kotlin.collections.List");
         typeMapping.put("list", "kotlin.collections.List");
 
-        typeMapping.put("date", "java.time.LocalDate");
-        typeMapping.put("date-time", "java.time.OffsetDateTime");
-        typeMapping.put("Date", "java.time.LocalDate");
-        typeMapping.put("DateTime", "java.time.OffsetDateTime");
-
         // use resource for file handling
         typeMapping.put("file", "org.springframework.core.io.Resource");
-
-        importMapping.put("Date", "java.time.LocalDate");
-        importMapping.put("DateTime", "java.time.OffsetDateTime");
 
         addOption(TITLE, "server title name or client service name", title);
         addOption(BASE_PACKAGE, "base package (invokerPackage) for generated code", basePackage);

@@ -16,7 +16,7 @@ interface FakeClassnameTags123Api {
      *  - 200: successful operation
      * 
      * @param client client model 
-    * @return [Call]<[Client]>
+     * @return [Call]<[Client]>
      */
     @PATCH("fake_classname_test")
     fun testClassname(@Body client: Client): Single<Client>

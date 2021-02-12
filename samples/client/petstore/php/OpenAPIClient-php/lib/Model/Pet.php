@@ -362,6 +362,8 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setPhotoUrls($photo_urls)
     {
+
+
         $this->container['photo_urls'] = $photo_urls;
 
         return $this;

@@ -67,7 +67,7 @@ pub fn delete_order(configuration: &configuration::Configuration, order_id: &str
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
     } else {
         let local_var_entity: Option<DeleteOrderError> = serde_json::from_str(&local_var_content).ok();
@@ -102,7 +102,7 @@ pub fn get_inventory(configuration: &configuration::Configuration, ) -> Result<:
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<GetInventoryError> = serde_json::from_str(&local_var_content).ok();
@@ -129,7 +129,7 @@ pub fn get_order_by_id(configuration: &configuration::Configuration, order_id: i
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<GetOrderByIdError> = serde_json::from_str(&local_var_content).ok();
@@ -156,7 +156,7 @@ pub fn place_order(configuration: &configuration::Configuration, body: crate::mo
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<PlaceOrderError> = serde_json::from_str(&local_var_content).ok();

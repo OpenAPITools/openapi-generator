@@ -249,6 +249,11 @@
   infoLink: "https://www.lvm.de"
   pinned: false
 -
+  caption: "Lumeris"
+  image: "img/companies/lumeris.png"
+  infoLink: "https://www.lumeris.com"
+  pinned: false
+-
   caption: M3, Inc.
   image: "img/companies/m3.png"
   infoLink: "https://jobs.m3.com/engineer/"
@@ -425,7 +430,7 @@
   pinned: false
 -
   caption: "viadee"
-  image: "img/companies/viadee.png"
+  image: "img/companies/viadee.jpg"
   infoLink: "https://www.viadee.de"
   pinned: false
 -
