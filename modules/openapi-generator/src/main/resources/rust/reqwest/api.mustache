@@ -283,7 +283,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text(){{#supportAsync}}.await{{/supportAsync}}?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         {{^supportMultipleResponses}}
         {{^returnType}}
         Ok(())

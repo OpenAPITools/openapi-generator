@@ -187,8 +187,8 @@ class {{{classname}}} {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       {{#isArray}}
       return (apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as List)
-        .map((item) => item as {{{returnBaseType}}})
-        .toList(growable: false);
+        .cast<{{{returnBaseType}}}>()
+        .{{#uniqueItems}}toSet(){{/uniqueItems}}{{^uniqueItems}}toList(growable: false){{/uniqueItems}};
       {{/isArray}}
       {{^isArray}}
         {{#isMap}}
