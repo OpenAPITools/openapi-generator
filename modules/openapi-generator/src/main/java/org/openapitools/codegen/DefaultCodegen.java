@@ -3675,6 +3675,10 @@ public class DefaultCodegen implements CodegenConfig {
                     imports.add(typeMapping.get(r.containerType));
                 }
 
+                if ("map".equals(r.containerType) && r.additionalProperties != null && r.additionalProperties.complexType != null) {
+                    imports.add(r.additionalProperties.complexType);
+                }
+
                 op.responses.add(r);
                 if (Boolean.TRUE.equals(r.isBinary) && Boolean.TRUE.equals(r.is2xx) && Boolean.FALSE.equals(op.isResponseBinary)) {
                     op.isResponseBinary = Boolean.TRUE;

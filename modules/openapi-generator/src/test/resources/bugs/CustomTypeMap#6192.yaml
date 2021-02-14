@@ -1,0 +1,39 @@
+---
+swagger: '2.0'
+info:
+  description: Api Documentation
+  version: '1.0'
+  title: Api Documentation
+  termsOfService: urn:tos
+  contact: {}
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0
+paths:
+  "/":
+    get:
+      tags:
+        - custom-type-map-controller
+      summary: testCustomTypeMap
+      operationId: testCustomTypeMapUsingGET
+      produces:
+        - "*/*"
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            additionalProperties:
+              type: array
+              items:
+                "$ref": "#/definitions/TestObject"
+definitions:
+  TestObject:
+    type: object
+    properties:
+      testValue1:
+        type: integer
+        format: int32
+      testValue2:
+        type: string
+    title: TestObject

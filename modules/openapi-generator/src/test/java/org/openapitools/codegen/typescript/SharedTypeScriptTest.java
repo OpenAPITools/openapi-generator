@@ -69,4 +69,24 @@ public class SharedTypeScriptTest {
 
         FileUtils.deleteDirectory(new File("src/test/resources/oldImportsStillPresentTest/"));
     }
+
+    @Test
+    public void customTypeMapImportTest() throws IOException {
+        CodegenConfigurator config =
+                new CodegenConfigurator()
+                        .setInputSpec("src/test/resources/bugs/CustomTypeMap#6192.yaml")
+                        .setModelPackage("model")
+                        .setApiPackage("api")
+                        .setOutputDir("src/test/resources/customTypeMapTest/")
+                        .addAdditionalProperty(
+                                TypeScriptAxiosClientCodegen.SEPARATE_MODELS_AND_API, true);
+
+        config.setGeneratorName("typescript-angular");
+        List<File> files = getGenerator(config).generate();
+        File apiFile = files.stream().filter(file->file.getName().contains("customTypeMapController.service.ts")).findFirst().get();
+        String apiFileContent = FileUtils.readFileToString(apiFile);
+        Assert.assertTrue(apiFileContent.contains("import { TestObject }"));
+
+        FileUtils.deleteDirectory(new File("src/test/resources/customTypeMapTest/"));
+    }
 }
