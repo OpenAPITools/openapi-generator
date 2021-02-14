@@ -606,6 +606,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [GetYourGuide](https://www.getyourguide.com/)
 - [GMO Pepabo](https://pepabo.com/en/)
 - [GoDaddy](https://godaddy.com)
+- [Gumtree](https://gumtree.com)
 - [Here](https://developer.here.com/)
 - [IBM](https://www.ibm.com/)
 - [Instana](https://www.instana.com)

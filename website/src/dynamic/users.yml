@@ -199,6 +199,11 @@
   infoLink: "https://www.godaddy.com/"
   pinned: false
 -
+  caption: "Gumtree"
+  image: "img/companies/gumtree.png"
+  infoLink: "https://gumtree.com/"
+  pinned: false
+-
   caption: "Here"
   image: "img/companies/here.png"
   infoLink: "https://developer.here.com/"
