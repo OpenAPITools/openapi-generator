@@ -4173,6 +4173,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             if (parameter.getStyle() != null) {
                 codegenParameter.style = parameter.getStyle().toString();
+                codegenParameter.isDeepObject = Parameter.StyleEnum.DEEPOBJECT == parameter.getStyle();
             }
 
             // the default value is false
@@ -4330,6 +4331,19 @@ public class DefaultCodegen implements CodegenConfig {
         if (codegenParameter.paramName == null) {
             LOGGER.warn("Parameter name not defined properly. Default to UNKNOWN_PARAMETER_NAME");
             codegenParameter.paramName = "UNKNOWN_PARAMETER_NAME";
+        }
+
+        if (codegenParameter.isQueryParam && codegenParameter.isDeepObject) {
+            Schema schema = ModelUtils.getSchema(openAPI, codegenParameter.dataType);
+            codegenParameter.items = fromProperty(codegenParameter.paramName, schema);
+            Map<String, Schema<?>> properties = schema.getProperties();
+            codegenParameter.items.vars =
+                    properties.entrySet().stream()
+                            .map(entry -> {
+                                CodegenProperty property = fromProperty(entry.getKey(), entry.getValue());
+                                property.baseName = codegenParameter.baseName + "[" + entry.getKey() + "]";
+                                return property;
+                            }).collect(Collectors.toList());
         }
 
         // set the parameter example value
