@@ -211,7 +211,7 @@ export class PetApi extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         if (requestParameters.tags) {
-            queryParameters['tags'] = requestParameters.tags.join(runtime.COLLECTION_FORMATS["csv"]);
+            queryParameters['tags'] = Array.from(requestParameters.tags).join(runtime.COLLECTION_FORMATS["csv"]);
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -232,7 +232,7 @@ export class PetApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PetFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => new Set(jsonValue.map(PetFromJSON)));
     }
 
     /**
