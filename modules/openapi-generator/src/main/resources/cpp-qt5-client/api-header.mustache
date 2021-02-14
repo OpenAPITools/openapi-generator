@@ -13,6 +13,7 @@
 #include <QStringList> 
 #include <QList>
 #include <QNetworkAccessManager>
+#include <QVariant>
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
@@ -47,7 +48,19 @@ public:
     QString getParamStyleSuffix(QString style);
     QString getParamStyleDelimiter(QString style, QString name, bool isExplode);
 {{#operations}}{{#operation}}
-    void {{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{/operation}}{{/operations}}
+
+    /**
+    {{#allParams}}
+    {{#required}}
+    * @param[in]  {{paramName}} {{{dataType}}} [required]
+    {{/required}}
+    {{^required}}
+    * @param[in]  {{paramName}} {{{dataType}}} [optional]
+    {{/required}}
+    {{/allParams}}
+    */
+    void {{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}&{{/required}}{{^required}}const QVariant&{{/required}} {{paramName}} {{^required}}= QVariant(){{/required}}{{^-last}}, {{/-last}}{{/allParams}});
+{{/operation}}{{/operations}}
 
 private:
     QString _scheme, _host;
