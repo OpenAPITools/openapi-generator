@@ -63,6 +63,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String MICROPROFILE_FRAMEWORK = "microprofileFramework";
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
     public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
+    public static final String OAI_ANNOTATION_LIB = "oaiAnnotationLib";
 
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
@@ -70,6 +71,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public static final String MICROPROFILE_DEFAULT = "default";
     public static final String MICROPROFILE_KUMULUZEE = "kumuluzee";
+    public static final String MICROPROFILE_QUARKUS = "quarkus";
+
+    public static final String OAI_ANNOTATION_NONE = "none";
+    public static final String OAI_ANNOTATION_SWAGGER = "swagger";
+    public static final String OAI_ANNOTATION_MICROPROFILE = "microprofile";
 
     public static final String FEIGN = "feign";
     public static final String GOOGLE_API_CLIENT = "google-api-client";
@@ -87,6 +93,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
+    public static final String SERIALIZATION_LIBRARY_JSONB = "jsonb";
 
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected boolean useRxJava = false;
@@ -98,6 +105,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean usePlayWS = false;
     protected String playVersion = PLAY_26;
     protected String microprofileFramework = MICROPROFILE_DEFAULT;
+    protected String oaiAnnotationLib = OAI_ANNOTATION_SWAGGER;
 
     protected boolean asyncNative = false;
     protected boolean parcelableModel = false;
@@ -149,9 +157,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(ASYNC_NATIVE, "If true, async handlers will be used, instead of the sync version"));
         cliOptions.add(CliOption.newBoolean(USE_REFLECTION_EQUALS_HASHCODE, "Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact."));
         cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
-        cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values \"kumuluzee\""));
+        cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values \"kumuluzee\" and \"quarkus\""));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on " + RESTTEMPLATE + " library"));
         cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
+        cliOptions.add(CliOption.newString(OAI_ANNOTATION_LIB, "Choose the OpenAPI annotation library to use. Possible values \"none\" and \"swagger\"(Default)"));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
@@ -179,6 +188,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         Map<String, String> serializationOptions = new HashMap<>();
         serializationOptions.put(SERIALIZATION_LIBRARY_GSON, "Use Gson as serialization library");
         serializationOptions.put(SERIALIZATION_LIBRARY_JACKSON, "Use Jackson as serialization library");
+        serializationOptions.put(SERIALIZATION_LIBRARY_JSONB, "Use JSON-B as serialization library");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
 
@@ -265,12 +275,17 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         // Microprofile framework
         if (additionalProperties.containsKey(MICROPROFILE_FRAMEWORK)) {
-            if (!MICROPROFILE_KUMULUZEE.equals(microprofileFramework)) {
-                throw new RuntimeException("Invalid microprofileFramework '" + microprofileFramework + "'. Must be 'kumuluzee' or none.");
-            }
             this.setMicroprofileFramework(additionalProperties.get(MICROPROFILE_FRAMEWORK).toString());
+            if (!MICROPROFILE_KUMULUZEE.equals(microprofileFramework) && !MICROPROFILE_QUARKUS.equals(microprofileFramework)) {
+                throw new RuntimeException("Invalid microprofileFramework '" + microprofileFramework + "'. Must be 'kumuluzee', 'quarkus', or none.");
+            }
         }
         additionalProperties.put(MICROPROFILE_FRAMEWORK, microprofileFramework);
+
+        if (additionalProperties.containsKey(OAI_ANNOTATION_LIB)) {
+            this.setOaiAnnotationLib(additionalProperties.get(OAI_ANNOTATION_LIB).toString());
+        }
+        additionalProperties.put(OAI_ANNOTATION_LIB, oaiAnnotationLib);
 
         if (additionalProperties.containsKey(ASYNC_NATIVE)) {
             this.setAsyncNative(convertPropertyToBooleanAndWriteBack(ASYNC_NATIVE));
@@ -482,16 +497,36 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (MICROPROFILE.equals(getLibrary())) {
             supportingFiles.clear(); // Don't need extra files provided by Java Codegen
             String apiExceptionFolder = (sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
-            supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
             supportingFiles.add(new SupportingFile("api_exception.mustache", apiExceptionFolder, "ApiException.java"));
             supportingFiles.add(new SupportingFile("api_exception_mapper.mustache", apiExceptionFolder, "ApiExceptionMapper.java"));
-            serializationLibrary = "none";
 
             if (microprofileFramework.equals(MICROPROFILE_KUMULUZEE)) {
                 supportingFiles.add(new SupportingFile("kumuluzee.pom.mustache", "", "pom.xml"));
                 supportingFiles.add(new SupportingFile("kumuluzee.config.yaml.mustache", "src/main/resources", "config.yaml"));
                 supportingFiles.add(new SupportingFile("kumuluzee.beans.xml.mustache", "src/main/resources/META-INF", "beans.xml"));
+                forceSerializationLibrary(SERIALIZATION_LIBRARY_JSONB);
+            }
+            else if(microprofileFramework.equals(MICROPROFILE_QUARKUS)) {
+                supportingFiles.add(new SupportingFile("quarkus.pom.mustache", "", "pom.xml"));
+                supportingFiles.add(new SupportingFile("quarkus.beans.xml.mustache", "src/main/resources/META-INF", "beans.xml"));
+
+                if(!SERIALIZATION_LIBRARY_JSONB.equals(serializationLibrary) && !SERIALIZATION_LIBRARY_JACKSON.equals(serializationLibrary)) {
+                    forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
+                }
+                if(!additionalProperties.containsKey("quarkusVersion")) {
+                    additionalProperties.put("quarkusVersion", "1.11.3.Final");
+                }
+            }
+            else {
+                supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+                forceSerializationLibrary(SERIALIZATION_LIBRARY_JSONB);
+            }
+
+            additionalProperties.put("mpFwk"+microprofileFramework.toUpperCase(), true);
+            if(OAI_ANNOTATION_SWAGGER.equals(oaiAnnotationLib)) {
+                oaiAnnotationLib = OAI_ANNOTATION_MICROPROFILE;
+                additionalProperties.put(OAI_ANNOTATION_LIB, OAI_ANNOTATION_MICROPROFILE);
             }
         } else {
             LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
@@ -557,6 +592,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
             additionalProperties.put(SERIALIZATION_LIBRARY_JACKSON, "true");
             additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
+            additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
             supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
             if (!NATIVE.equals(getLibrary())) {
                 if ("threetenbp".equals(dateLibrary) && !usePlayWS) {
@@ -566,10 +602,18 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (SERIALIZATION_LIBRARY_GSON.equals(getSerializationLibrary())) {
             additionalProperties.put(SERIALIZATION_LIBRARY_GSON, "true");
             additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
+            additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
+        } else if (SERIALIZATION_LIBRARY_JSONB.equals(getSerializationLibrary())) {
+            additionalProperties.put(SERIALIZATION_LIBRARY_JSONB, "true");
+            additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
+            additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
         } else {
             additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
             additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
+            additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
         }
+
+        additionalProperties.put("oaiAnnotation"+oaiAnnotationLib.toUpperCase(), "true");
 
         // authentication related files
         // has OAuth defined
@@ -746,18 +790,38 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 model.imports.add("JsonWriter");
                 model.imports.add("IOException");
             }
+            if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JSONB)) {
+                //TODO: Fill this out
+            }
         } else { // enum class
             //Needed imports for Jackson's JsonCreator
             if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON)) {
                 model.imports.add("JsonValue");
                 model.imports.add("JsonCreator");
             }
+            if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JSONB)) {
+                //TODO: Fill this out
+            }
         }
-        if (MICROPROFILE.equals(getLibrary())) {
-            model.imports.remove("ApiModelProperty");
-            model.imports.remove("ApiModel");
-            model.imports.remove("JsonSerialize");
-            model.imports.remove("ToStringSerializer");
+//        if (MICROPROFILE.equals(getLibrary())) {
+//            model.imports.remove("ApiModelProperty");
+//            model.imports.remove("ApiModel");
+//            model.imports.remove("JsonSerialize");
+//            model.imports.remove("ToStringSerializer");
+//        }
+        switch (oaiAnnotationLib) {
+            case OAI_ANNOTATION_NONE:
+                model.imports.remove("ApiModelProperty");
+                model.imports.remove("ApiModel");
+                break;
+            case OAI_ANNOTATION_MICROPROFILE:
+                model.imports.remove("ApiModelProperty");
+                model.imports.remove("ApiModel");
+                //TODO: Add imports for MP OpenAPI
+                break;
+            case OAI_ANNOTATION_SWAGGER:
+                // Do nothing, annotations are already included by parent class
+                break;
         }
     }
 
@@ -960,6 +1024,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         this.dynamicOperations = dynamicOperations;
     }
 
+    public void setOaiAnnotationLib(String oaiAnnotationLib) {
+        this.oaiAnnotationLib = oaiAnnotationLib;
+    }
+
     /**
      * Serialization library.
      *
@@ -974,6 +1042,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.serializationLibrary = SERIALIZATION_LIBRARY_JACKSON;
         } else if (SERIALIZATION_LIBRARY_GSON.equalsIgnoreCase(serializationLibrary)) {
             this.serializationLibrary = SERIALIZATION_LIBRARY_GSON;
+        } else if (SERIALIZATION_LIBRARY_JSONB.equalsIgnoreCase(serializationLibrary)) {
+            this.serializationLibrary = SERIALIZATION_LIBRARY_JSONB;
         } else {
             throw new IllegalArgumentException("Unexpected serializationLibrary value: " + serializationLibrary);
         }
@@ -1010,5 +1080,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 imports.add(oneImport);
             }
         }
+    }
+
+    @Override
+    public Map<String, String> typeMapping() {
+        return super.typeMapping();
     }
 }

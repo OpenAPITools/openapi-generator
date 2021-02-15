@@ -11,9 +11,24 @@ import java.util.Map;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
-{{^disableMultipart}}
+{{#enableMultipart}}
+{{^mpFwkQUARKUS}}
 import org.apache.cxf.jaxrs.ext.multipart.*;
-{{/disableMultipart}}
+{{/mpFwkQUARKUS}}
+{{#mpFwkQUARKUS}}
+{{! TODO: Add support for Quarkus multipart: https://quarkus.io/guides/rest-client-multipart }}
+import org.jboss.resteasy.annotations.providers.multipart.*;
+{{/mpFwkQUARKUS}}
+{{/enableMultipart}}
+
+{{#asyncNative}}
+{{^mpFwkQUARKUS}}
+import java.util.concurrent.CompletionStage;
+{{/mpFwkQUARKUS}}
+{{#mpFwkQUARKUS}}
+import io.smallrye.mutiny.Uni;
+{{/mpFwkQUARKUS}}
+{{/asyncNative}}
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
@@ -54,7 +69,8 @@ public interface {{classname}}  {
 {{#hasProduces}}
     @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} })
 {{/hasProduces}}
-    public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException, ProcessingException;
+    {{! FIXME: The explicit returnType of 'void' is incompatible with asyncNative. It needs to return null instead. }}
+    public {{#asyncNative}}{{#mpFwkQUARKUS}}Uni{{/mpFwkQUARKUS}}{{^mpFwkQUARKUS}}CompletionStage{{/mpFwkQUARKUS}}<{{/asyncNative}}{{#returnType}}{{{returnType}}}{{/returnType}}{{#asyncNative}}{{^returnType}}Void{{/returnType}}>{{/asyncNative}}{{^asyncNative}}{{^returnType}}void{{/returnType}}{{/asyncNative}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException, ProcessingException;
 {{/operation}}
 }
 {{/operations}}
