@@ -523,7 +523,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 forceSerializationLibrary(SERIALIZATION_LIBRARY_JSONB);
             }
 
-            additionalProperties.put("mpFwk"+microprofileFramework.toUpperCase(), true);
+            additionalProperties.put("mpFwk"+microprofileFramework, true);
             if(OAI_ANNOTATION_SWAGGER.equals(oaiAnnotationLib)) {
                 oaiAnnotationLib = OAI_ANNOTATION_MICROPROFILE;
                 additionalProperties.put(OAI_ANNOTATION_LIB, OAI_ANNOTATION_MICROPROFILE);
@@ -613,7 +613,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
         }
 
-        additionalProperties.put("oaiAnnotation"+oaiAnnotationLib.toUpperCase(), "true");
+        additionalProperties.put("oaiAnnotation"+oaiAnnotationLib, "true");
 
         // authentication related files
         // has OAuth defined

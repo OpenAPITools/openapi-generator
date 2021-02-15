@@ -12,22 +12,22 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
 {{#enableMultipart}}
-{{^mpFwkQUARKUS}}
+{{^mpFwkquarkus}}
 import org.apache.cxf.jaxrs.ext.multipart.*;
-{{/mpFwkQUARKUS}}
-{{#mpFwkQUARKUS}}
+{{/mpFwkquarkus}}
+{{#mpFwkquarkus}}
 {{! TODO: Add support for Quarkus multipart: https://quarkus.io/guides/rest-client-multipart }}
 import org.jboss.resteasy.annotations.providers.multipart.*;
-{{/mpFwkQUARKUS}}
+{{/mpFwkquarkus}}
 {{/enableMultipart}}
 
 {{#asyncNative}}
-{{^mpFwkQUARKUS}}
+{{^mpFwkquarkus}}
 import java.util.concurrent.CompletionStage;
-{{/mpFwkQUARKUS}}
-{{#mpFwkQUARKUS}}
+{{/mpFwkquarkus}}
+{{#mpFwkquarkus}}
 import io.smallrye.mutiny.Uni;
-{{/mpFwkQUARKUS}}
+{{/mpFwkquarkus}}
 {{/asyncNative}}
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
@@ -70,7 +70,7 @@ public interface {{classname}}  {
     @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} })
 {{/hasProduces}}
     {{! FIXME: The explicit returnType of 'void' is incompatible with asyncNative. It needs to return null instead. }}
-    public {{#asyncNative}}{{#mpFwkQUARKUS}}Uni{{/mpFwkQUARKUS}}{{^mpFwkQUARKUS}}CompletionStage{{/mpFwkQUARKUS}}<{{/asyncNative}}{{#returnType}}{{{returnType}}}{{/returnType}}{{#asyncNative}}{{^returnType}}Void{{/returnType}}>{{/asyncNative}}{{^asyncNative}}{{^returnType}}void{{/returnType}}{{/asyncNative}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException, ProcessingException;
+    public {{#asyncNative}}{{#mpFwkquarkus}}Uni{{/mpFwkquarkus}}{{^mpFwkquarkus}}CompletionStage{{/mpFwkquarkus}}<{{/asyncNative}}{{#returnType}}{{{returnType}}}{{/returnType}}{{#asyncNative}}{{^returnType}}Void{{/returnType}}>{{/asyncNative}}{{^asyncNative}}{{^returnType}}void{{/returnType}}{{/asyncNative}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException, ProcessingException;
 {{/operation}}
 }
 {{/operations}}
