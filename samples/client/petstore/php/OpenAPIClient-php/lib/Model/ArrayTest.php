@@ -206,6 +206,14 @@ class ArrayTest implements ModelInterface, ArrayAccess, \JsonSerializable
     {
         $invalidProperties = [];
 
+        if (!is_null($this->container['array_of_string']) && (count($this->container['array_of_string']) > 3)) {
+            $invalidProperties[] = "invalid value for 'array_of_string', number of items must be less than or equal to 3.";
+        }
+
+        if (!is_null($this->container['array_of_string']) && (count($this->container['array_of_string']) < 0)) {
+            $invalidProperties[] = "invalid value for 'array_of_string', number of items must be greater than or equal to 0.";
+        }
+
         return $invalidProperties;
     }
 
@@ -240,6 +248,13 @@ class ArrayTest implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setArrayOfString($array_of_string)
     {
+
+        if (!is_null($array_of_string) && (count($array_of_string) > 3)) {
+            throw new \InvalidArgumentException('invalid value for $array_of_string when calling ArrayTest., number of items must be less than or equal to 3.');
+        }
+        if (!is_null($array_of_string) && (count($array_of_string) < 0)) {
+            throw new \InvalidArgumentException('invalid length for $array_of_string when calling ArrayTest., number of items must be greater than or equal to 0.');
+        }
         $this->container['array_of_string'] = $array_of_string;
 
         return $this;

@@ -1627,6 +1627,8 @@ components:
           type: array
           items:
             type: string
+          minItems: 0
+          maxItems: 3
         array_array_of_integer:
           type: array
           items:
