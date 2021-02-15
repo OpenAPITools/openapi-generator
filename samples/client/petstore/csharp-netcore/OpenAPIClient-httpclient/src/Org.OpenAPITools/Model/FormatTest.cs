@@ -248,6 +248,46 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                hashCode = hashCode * 59 + this.Integer.GetHashCode();
+                hashCode = hashCode * 59 + this.Int32.GetHashCode();
+                hashCode = hashCode * 59 + this.Int64.GetHashCode();
+                hashCode = hashCode * 59 + this.Number.GetHashCode();
+                hashCode = hashCode * 59 + this.Float.GetHashCode();
+                hashCode = hashCode * 59 + this.Double.GetHashCode();
+                hashCode = hashCode * 59 + this.Decimal.GetHashCode();
+                if (this.String != null)
+                    hashCode = hashCode * 59 + this.String.GetHashCode();
+                if (this.Byte != null)
+                    hashCode = hashCode * 59 + this.Byte.GetHashCode();
+                if (this.Binary != null)
+                    hashCode = hashCode * 59 + this.Binary.GetHashCode();
+                if (this.Date != null)
+                    hashCode = hashCode * 59 + this.Date.GetHashCode();
+                if (this.DateTime != null)
+                    hashCode = hashCode * 59 + this.DateTime.GetHashCode();
+                if (this.Uuid != null)
+                    hashCode = hashCode * 59 + this.Uuid.GetHashCode();
+                if (this.Password != null)
+                    hashCode = hashCode * 59 + this.Password.GetHashCode();
+                if (this.PatternWithDigits != null)
+                    hashCode = hashCode * 59 + this.PatternWithDigits.GetHashCode();
+                if (this.PatternWithDigitsAndDelimiter != null)
+                    hashCode = hashCode * 59 + this.PatternWithDigitsAndDelimiter.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                return hashCode;
+            }
+        }
+
+        /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>

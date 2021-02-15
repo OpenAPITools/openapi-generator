@@ -159,6 +159,37 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (this.MapProperty != null)
+                    hashCode = hashCode * 59 + this.MapProperty.GetHashCode();
+                if (this.MapOfMapProperty != null)
+                    hashCode = hashCode * 59 + this.MapOfMapProperty.GetHashCode();
+                if (this.Anytype1 != null)
+                    hashCode = hashCode * 59 + this.Anytype1.GetHashCode();
+                if (this.MapWithUndeclaredPropertiesAnytype1 != null)
+                    hashCode = hashCode * 59 + this.MapWithUndeclaredPropertiesAnytype1.GetHashCode();
+                if (this.MapWithUndeclaredPropertiesAnytype2 != null)
+                    hashCode = hashCode * 59 + this.MapWithUndeclaredPropertiesAnytype2.GetHashCode();
+                if (this.MapWithUndeclaredPropertiesAnytype3 != null)
+                    hashCode = hashCode * 59 + this.MapWithUndeclaredPropertiesAnytype3.GetHashCode();
+                if (this.EmptyMap != null)
+                    hashCode = hashCode * 59 + this.EmptyMap.GetHashCode();
+                if (this.MapWithUndeclaredPropertiesString != null)
+                    hashCode = hashCode * 59 + this.MapWithUndeclaredPropertiesString.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                return hashCode;
+            }
+        }
+
+        /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>

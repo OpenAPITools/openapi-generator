@@ -115,6 +115,27 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = base.GetHashCode();
+                if (this.MainShape != null)
+                    hashCode = hashCode * 59 + this.MainShape.GetHashCode();
+                if (this.ShapeOrNull != null)
+                    hashCode = hashCode * 59 + this.ShapeOrNull.GetHashCode();
+                if (this.NullableShape != null)
+                    hashCode = hashCode * 59 + this.NullableShape.GetHashCode();
+                if (this.Shapes != null)
+                    hashCode = hashCode * 59 + this.Shapes.GetHashCode();
+                return hashCode;
+            }
+        }
+
+        /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>

@@ -199,6 +199,43 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                hashCode = hashCode * 59 + this.Id.GetHashCode();
+                if (this.Username != null)
+                    hashCode = hashCode * 59 + this.Username.GetHashCode();
+                if (this.FirstName != null)
+                    hashCode = hashCode * 59 + this.FirstName.GetHashCode();
+                if (this.LastName != null)
+                    hashCode = hashCode * 59 + this.LastName.GetHashCode();
+                if (this.Email != null)
+                    hashCode = hashCode * 59 + this.Email.GetHashCode();
+                if (this.Password != null)
+                    hashCode = hashCode * 59 + this.Password.GetHashCode();
+                if (this.Phone != null)
+                    hashCode = hashCode * 59 + this.Phone.GetHashCode();
+                hashCode = hashCode * 59 + this.UserStatus.GetHashCode();
+                if (this.ObjectWithNoDeclaredProps != null)
+                    hashCode = hashCode * 59 + this.ObjectWithNoDeclaredProps.GetHashCode();
+                if (this.ObjectWithNoDeclaredPropsNullable != null)
+                    hashCode = hashCode * 59 + this.ObjectWithNoDeclaredPropsNullable.GetHashCode();
+                if (this.AnyTypeProp != null)
+                    hashCode = hashCode * 59 + this.AnyTypeProp.GetHashCode();
+                if (this.AnyTypePropNullable != null)
+                    hashCode = hashCode * 59 + this.AnyTypePropNullable.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                return hashCode;
+            }
+        }
+
+        /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>

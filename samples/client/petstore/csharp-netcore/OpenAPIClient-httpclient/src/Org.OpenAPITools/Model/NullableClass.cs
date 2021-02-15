@@ -188,6 +188,43 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = base.GetHashCode();
+                if (this.IntegerProp != null)
+                    hashCode = hashCode * 59 + this.IntegerProp.GetHashCode();
+                if (this.NumberProp != null)
+                    hashCode = hashCode * 59 + this.NumberProp.GetHashCode();
+                if (this.BooleanProp != null)
+                    hashCode = hashCode * 59 + this.BooleanProp.GetHashCode();
+                if (this.StringProp != null)
+                    hashCode = hashCode * 59 + this.StringProp.GetHashCode();
+                if (this.DateProp != null)
+                    hashCode = hashCode * 59 + this.DateProp.GetHashCode();
+                if (this.DatetimeProp != null)
+                    hashCode = hashCode * 59 + this.DatetimeProp.GetHashCode();
+                if (this.ArrayNullableProp != null)
+                    hashCode = hashCode * 59 + this.ArrayNullableProp.GetHashCode();
+                if (this.ArrayAndItemsNullableProp != null)
+                    hashCode = hashCode * 59 + this.ArrayAndItemsNullableProp.GetHashCode();
+                if (this.ArrayItemsNullable != null)
+                    hashCode = hashCode * 59 + this.ArrayItemsNullable.GetHashCode();
+                if (this.ObjectNullableProp != null)
+                    hashCode = hashCode * 59 + this.ObjectNullableProp.GetHashCode();
+                if (this.ObjectAndItemsNullableProp != null)
+                    hashCode = hashCode * 59 + this.ObjectAndItemsNullableProp.GetHashCode();
+                if (this.ObjectItemsNullable != null)
+                    hashCode = hashCode * 59 + this.ObjectItemsNullable.GetHashCode();
+                return hashCode;
+            }
+        }
+
+        /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>

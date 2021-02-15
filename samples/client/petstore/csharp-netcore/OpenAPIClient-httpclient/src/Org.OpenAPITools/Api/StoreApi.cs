@@ -171,6 +171,14 @@ namespace Org.OpenAPITools.Api
         public Func<System.Threading.Tasks.ValueTask<string>>? GetTokenAsync { get; set; }  
 
 
+        /// <summary>
+        /// Validate the input before sending the request
+        /// </summary>
+        /// <param name="orderId">ID of the order that needs to be deleted</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateDeleteOrderRequestAsync(string orderId, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
+
 
 
         /// <summary>
@@ -184,6 +192,8 @@ namespace Org.OpenAPITools.Api
         {
             if (orderId == null)
                 throw new ArgumentNullException(nameof(orderId)); 
+
+            await ValidateDeleteOrderRequestAsync(orderId, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -208,6 +218,12 @@ namespace Org.OpenAPITools.Api
 
 
 
+            string[] contentTypes = new string[] {
+            };
+
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
+
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
@@ -216,10 +232,17 @@ namespace Org.OpenAPITools.Api
             ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
+
+        /// <summary>
+        /// Validate the input before sending the request
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateGetInventoryRequestAsync(System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
@@ -230,7 +253,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<Dictionary<string, int>> GetInventoryAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int>> result = await GetInventoryWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-            return result.Data ?? throw new NullReferenceException();
+            return result.Content ?? throw new NullReferenceException();
         }
 
         /// <summary>
@@ -244,7 +267,7 @@ namespace Org.OpenAPITools.Api
             Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int>> result = await GetInventoryWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
             
             return result.IsSuccessStatusCode
-                ? result.Data
+                ? result.Content
                 : null;
         } 
 
@@ -256,6 +279,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse (Dictionary&lt;string, int&gt;)</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int>>> GetInventoryWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
+
+            await ValidateGetInventoryRequestAsync(cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -286,6 +311,12 @@ namespace Org.OpenAPITools.Api
                 request.Headers.Add("authorization", $"Bearer {token}");            
 
 
+            string[] contentTypes = new string[] {
+            };
+
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
+
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
@@ -295,10 +326,18 @@ namespace Org.OpenAPITools.Api
             ApiResponse<Dictionary<string, int>> apiResponse = new(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, int>>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, int>>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
+
+        /// <summary>
+        /// Validate the input before sending the request
+        /// </summary>
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateGetOrderByIdRequestAsync(long orderId, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
@@ -310,7 +349,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<Order> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<Order> result = await GetOrderByIdWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
-            return result.Data ?? throw new NullReferenceException();
+            return result.Content ?? throw new NullReferenceException();
         }
 
         /// <summary>
@@ -325,7 +364,7 @@ namespace Org.OpenAPITools.Api
             Org.OpenAPITools.Client.ApiResponse<Order> result = await GetOrderByIdWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
             
             return result.IsSuccessStatusCode
-                ? result.Data
+                ? result.Content
                 : null;
         } 
 
@@ -338,6 +377,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse (Order)</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Order>> GetOrderByIdWithHttpInfoAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
+
+            await ValidateGetOrderByIdRequestAsync(orderId, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -362,6 +403,12 @@ namespace Org.OpenAPITools.Api
 
 
 
+            string[] contentTypes = new string[] {
+            };
+
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
+
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -372,10 +419,18 @@ namespace Org.OpenAPITools.Api
             ApiResponse<Order> apiResponse = new(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<Order>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Order>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
+
+        /// <summary>
+        /// Validate the input before sending the request
+        /// </summary>
+        /// <param name="order">order placed for purchasing the pet</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidatePlaceOrderRequestAsync(Order order, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// Place an order for a pet 
@@ -387,7 +442,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<Order> PlaceOrderAsync(Order order, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<Order> result = await PlaceOrderWithHttpInfoAsync(order, cancellationToken).ConfigureAwait(false);
-            return result.Data ?? throw new NullReferenceException();
+            return result.Content ?? throw new NullReferenceException();
         }
 
         /// <summary>
@@ -402,7 +457,7 @@ namespace Org.OpenAPITools.Api
             Org.OpenAPITools.Client.ApiResponse<Order> result = await PlaceOrderWithHttpInfoAsync(order, cancellationToken).ConfigureAwait(false);
             
             return result.IsSuccessStatusCode
-                ? result.Data
+                ? result.Content
                 : null;
         } 
 
@@ -417,6 +472,8 @@ namespace Org.OpenAPITools.Api
         {
             if (order == null)
                 throw new ArgumentNullException(nameof(order)); 
+
+            await ValidatePlaceOrderRequestAsync(order, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -436,10 +493,17 @@ namespace Org.OpenAPITools.Api
 
 
 
-            request.Content = new System.Net.Http.StringContent(order.ToJson(), System.Text.Encoding.UTF8, "application/json");
+            // todo localVarRequestOptions.Content = order;
 
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            string[] contentTypes = new string[] {
+                "application/json"
+            };
+
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
@@ -451,7 +515,7 @@ namespace Org.OpenAPITools.Api
             ApiResponse<Order> apiResponse = new(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<Order>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Order>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }

@@ -143,6 +143,28 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (this.MapMapOfString != null)
+                    hashCode = hashCode * 59 + this.MapMapOfString.GetHashCode();
+                hashCode = hashCode * 59 + this.MapOfEnumString.GetHashCode();
+                if (this.DirectMap != null)
+                    hashCode = hashCode * 59 + this.DirectMap.GetHashCode();
+                if (this.IndirectMap != null)
+                    hashCode = hashCode * 59 + this.IndirectMap.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                return hashCode;
+            }
+        }
+
+        /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>

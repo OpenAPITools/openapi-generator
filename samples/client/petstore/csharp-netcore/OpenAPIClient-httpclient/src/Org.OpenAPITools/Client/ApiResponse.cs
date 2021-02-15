@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// The raw content of this response
         /// </summary>
-        string RawData { get; }
+        string RawContent { get; }
     }
 
     /// <summary>
@@ -50,9 +50,9 @@ namespace Org.OpenAPITools.Client
         #region Properties
 
         /// <summary>
-        /// The deserialized data
+        /// The deserialized content
         /// </summary>
-        public T? Data { get; set; }
+        public T? Content { get; set; }
 
         /// <summary>
         /// Gets or sets the status code (HTTP status code)
@@ -76,7 +76,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// The raw data
         /// </summary>
-        public string RawData { get; }
+        public string RawContent { get; }
 
         /// <summary>
         /// The IsSuccessStatusCode from the api response
@@ -99,14 +99,14 @@ namespace Org.OpenAPITools.Client
         /// Construct the reponse using an HttpResponseMessage
         /// </summary>
         /// <param name="response"></param>
-        /// <param name="rawData"></param>
-        public ApiResponse(System.Net.Http.HttpResponseMessage response, string rawData)
+        /// <param name="rawContent"></param>
+        public ApiResponse(System.Net.Http.HttpResponseMessage response, string rawContent)
         {
             StatusCode = response.StatusCode;
             Headers = response.Headers;
             IsSuccessStatusCode = response.IsSuccessStatusCode;
             ReasonPhrase = response.ReasonPhrase;
-            RawData = rawData;
+            RawContent = rawContent;
         }
     }
 }

@@ -257,6 +257,29 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                hashCode = hashCode * 59 + this.EnumString.GetHashCode();
+                hashCode = hashCode * 59 + this.EnumStringRequired.GetHashCode();
+                hashCode = hashCode * 59 + this.EnumInteger.GetHashCode();
+                hashCode = hashCode * 59 + this.EnumNumber.GetHashCode();
+                hashCode = hashCode * 59 + this.OuterEnum.GetHashCode();
+                hashCode = hashCode * 59 + this.OuterEnumInteger.GetHashCode();
+                hashCode = hashCode * 59 + this.OuterEnumDefaultValue.GetHashCode();
+                hashCode = hashCode * 59 + this.OuterEnumIntegerDefaultValue.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                return hashCode;
+            }
+        }
+
+        /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>

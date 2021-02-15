@@ -141,6 +141,33 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (this.SmallCamel != null)
+                    hashCode = hashCode * 59 + this.SmallCamel.GetHashCode();
+                if (this.CapitalCamel != null)
+                    hashCode = hashCode * 59 + this.CapitalCamel.GetHashCode();
+                if (this.SmallSnake != null)
+                    hashCode = hashCode * 59 + this.SmallSnake.GetHashCode();
+                if (this.CapitalSnake != null)
+                    hashCode = hashCode * 59 + this.CapitalSnake.GetHashCode();
+                if (this.SCAETHFlowPoints != null)
+                    hashCode = hashCode * 59 + this.SCAETHFlowPoints.GetHashCode();
+                if (this.ATT_NAME != null)
+                    hashCode = hashCode * 59 + this.ATT_NAME.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                return hashCode;
+            }
+        }
+
+        /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>

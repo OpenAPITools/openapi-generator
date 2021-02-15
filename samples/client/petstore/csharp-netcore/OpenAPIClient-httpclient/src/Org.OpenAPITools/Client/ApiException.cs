@@ -30,21 +30,21 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// The raw data returned by the api
         /// </summary>
-        public string RawData { get; }
+        public string RawContent { get; }
         
         /// <summary>
         /// Construct the ApiException from parts of the reponse
         /// </summary>
         /// <param name="reasonPhrase"></param>
         /// <param name="statusCode"></param>
-        /// <param name="rawData"></param>
-        public ApiException(string? reasonPhrase, System.Net.HttpStatusCode statusCode, string rawData) : base(reasonPhrase ?? rawData)
+        /// <param name="rawContent"></param>
+        public ApiException(string? reasonPhrase, System.Net.HttpStatusCode statusCode, string rawContent) : base(reasonPhrase ?? rawContent)
         {
             ReasonPhrase = reasonPhrase;
 
             StatusCode = statusCode;
 
-            RawData = rawData;
+            RawContent = rawContent;
         }
     }
 }

@@ -83,6 +83,14 @@ namespace Org.OpenAPITools.Api
 
 
         /// <summary>
+        /// Validate the input before sending the request
+        /// </summary>
+        /// <param name="modelClient">client model</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateTestClassnameRequestAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
+
+        /// <summary>
         /// To test class name in snake case To test class name in snake case
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -92,7 +100,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<ModelClient> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<ModelClient> result = await TestClassnameWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
-            return result.Data ?? throw new NullReferenceException();
+            return result.Content ?? throw new NullReferenceException();
         }
 
         /// <summary>
@@ -107,7 +115,7 @@ namespace Org.OpenAPITools.Api
             Org.OpenAPITools.Client.ApiResponse<ModelClient> result = await TestClassnameWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
             
             return result.IsSuccessStatusCode
-                ? result.Data
+                ? result.Content
                 : null;
         } 
 
@@ -122,6 +130,8 @@ namespace Org.OpenAPITools.Api
         {
             if (modelClient == null)
                 throw new ArgumentNullException(nameof(modelClient)); 
+
+            await ValidateTestClassnameRequestAsync(modelClient, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -141,13 +151,20 @@ namespace Org.OpenAPITools.Api
 
 
 
-            request.Content = new System.Net.Http.StringContent(modelClient.ToJson(), System.Text.Encoding.UTF8, "application/json");
+            // todo localVarRequestOptions.Content = modelClient;
 
             // authentication (api_key_query) required
                         //todo if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key_query")))
                 //todo localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "api_key_query", this.Configuration.GetApiKeyWithPrefix("api_key_query")));
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            string[] contentTypes = new string[] {
+                "application/json"
+            };
+
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -158,7 +175,7 @@ namespace Org.OpenAPITools.Api
             ApiResponse<ModelClient> apiResponse = new(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<ModelClient>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<ModelClient>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }

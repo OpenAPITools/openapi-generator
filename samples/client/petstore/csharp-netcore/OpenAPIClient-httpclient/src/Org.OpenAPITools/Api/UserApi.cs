@@ -263,6 +263,14 @@ namespace Org.OpenAPITools.Api
         public Func<System.Threading.Tasks.ValueTask<string>>? GetTokenAsync { get; set; }  
 
 
+        /// <summary>
+        /// Validate the input before sending the request
+        /// </summary>
+        /// <param name="user">Created user object</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateCreateUserRequestAsync(User user, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
+
 
 
         /// <summary>
@@ -276,6 +284,8 @@ namespace Org.OpenAPITools.Api
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user)); 
+
+            await ValidateCreateUserRequestAsync(user, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -295,10 +305,17 @@ namespace Org.OpenAPITools.Api
 
 
 
-            request.Content = new System.Net.Http.StringContent(user.ToJson(), System.Text.Encoding.UTF8, "application/json");
+            // todo localVarRequestOptions.Content = user;
 
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            string[] contentTypes = new string[] {
+                "application/json"
+            };
+
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
@@ -308,10 +325,18 @@ namespace Org.OpenAPITools.Api
             ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
+
+        /// <summary>
+        /// Validate the input before sending the request
+        /// </summary>
+        /// <param name="user">List of user object</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateCreateUsersWithArrayInputRequestAsync(List<User> user, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
 
 
@@ -326,6 +351,8 @@ namespace Org.OpenAPITools.Api
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user)); 
+
+            await ValidateCreateUsersWithArrayInputRequestAsync(user, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -345,10 +372,17 @@ namespace Org.OpenAPITools.Api
 
 
 
-            request.Content = new System.Net.Http.StringContent(user.ToJson(), System.Text.Encoding.UTF8, "application/json");
+            // todo localVarRequestOptions.Content = user;
 
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            string[] contentTypes = new string[] {
+                "application/json"
+            };
+
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
@@ -358,10 +392,18 @@ namespace Org.OpenAPITools.Api
             ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
+
+        /// <summary>
+        /// Validate the input before sending the request
+        /// </summary>
+        /// <param name="user">List of user object</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateCreateUsersWithListInputRequestAsync(List<User> user, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
 
 
@@ -376,6 +418,8 @@ namespace Org.OpenAPITools.Api
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user)); 
+
+            await ValidateCreateUsersWithListInputRequestAsync(user, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -395,10 +439,17 @@ namespace Org.OpenAPITools.Api
 
 
 
-            request.Content = new System.Net.Http.StringContent(user.ToJson(), System.Text.Encoding.UTF8, "application/json");
+            // todo localVarRequestOptions.Content = user;
 
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            string[] contentTypes = new string[] {
+                "application/json"
+            };
+
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
@@ -408,10 +459,18 @@ namespace Org.OpenAPITools.Api
             ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
+
+        /// <summary>
+        /// Validate the input before sending the request
+        /// </summary>
+        /// <param name="username">The name that needs to be deleted</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateDeleteUserRequestAsync(string username, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
 
 
@@ -427,6 +486,8 @@ namespace Org.OpenAPITools.Api
             if (username == null)
                 throw new ArgumentNullException(nameof(username)); 
 
+            await ValidateDeleteUserRequestAsync(username, cancellationToken).ConfigureAwait(false);
+
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/user/{username}";
@@ -450,6 +511,12 @@ namespace Org.OpenAPITools.Api
 
 
 
+            string[] contentTypes = new string[] {
+            };
+
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
+
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
@@ -458,10 +525,18 @@ namespace Org.OpenAPITools.Api
             ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
+
+        /// <summary>
+        /// Validate the input before sending the request
+        /// </summary>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateGetUserByNameRequestAsync(string username, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// Get user by user name 
@@ -473,7 +548,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<User> GetUserByNameAsync(string username, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<User> result = await GetUserByNameWithHttpInfoAsync(username, cancellationToken).ConfigureAwait(false);
-            return result.Data ?? throw new NullReferenceException();
+            return result.Content ?? throw new NullReferenceException();
         }
 
         /// <summary>
@@ -488,7 +563,7 @@ namespace Org.OpenAPITools.Api
             Org.OpenAPITools.Client.ApiResponse<User> result = await GetUserByNameWithHttpInfoAsync(username, cancellationToken).ConfigureAwait(false);
             
             return result.IsSuccessStatusCode
-                ? result.Data
+                ? result.Content
                 : null;
         } 
 
@@ -504,6 +579,8 @@ namespace Org.OpenAPITools.Api
             if (username == null)
                 throw new ArgumentNullException(nameof(username)); 
 
+            await ValidateGetUserByNameRequestAsync(username, cancellationToken).ConfigureAwait(false);
+
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/user/{username}";
@@ -527,6 +604,12 @@ namespace Org.OpenAPITools.Api
 
 
 
+            string[] contentTypes = new string[] {
+            };
+
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
+
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -537,10 +620,19 @@ namespace Org.OpenAPITools.Api
             ApiResponse<User> apiResponse = new(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
+
+        /// <summary>
+        /// Validate the input before sending the request
+        /// </summary>
+        /// <param name="username">The user name for login</param>
+        /// <param name="password">The password for login in clear text</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateLoginUserRequestAsync(string username, string password, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// Logs user into the system 
@@ -553,7 +645,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<string> LoginUserAsync(string username, string password, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<string> result = await LoginUserWithHttpInfoAsync(username, password, cancellationToken).ConfigureAwait(false);
-            return result.Data ?? throw new NullReferenceException();
+            return result.Content ?? throw new NullReferenceException();
         }
 
         /// <summary>
@@ -569,7 +661,7 @@ namespace Org.OpenAPITools.Api
             Org.OpenAPITools.Client.ApiResponse<string> result = await LoginUserWithHttpInfoAsync(username, password, cancellationToken).ConfigureAwait(false);
             
             return result.IsSuccessStatusCode
-                ? result.Data
+                ? result.Content
                 : null;
         } 
 
@@ -587,6 +679,8 @@ namespace Org.OpenAPITools.Api
                 throw new ArgumentNullException(nameof(username)); 
             if (password == null)
                 throw new ArgumentNullException(nameof(password)); 
+
+            await ValidateLoginUserRequestAsync(username, password, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -613,6 +707,12 @@ namespace Org.OpenAPITools.Api
 
 
 
+            string[] contentTypes = new string[] {
+            };
+
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
+
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -623,10 +723,17 @@ namespace Org.OpenAPITools.Api
             ApiResponse<string> apiResponse = new(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
+
+        /// <summary>
+        /// Validate the input before sending the request
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateLogoutUserRequestAsync(System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
 
 
@@ -638,6 +745,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> LogoutUserWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
+
+            await ValidateLogoutUserRequestAsync(cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -660,6 +769,12 @@ namespace Org.OpenAPITools.Api
 
 
 
+            string[] contentTypes = new string[] {
+            };
+
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
+
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
@@ -668,10 +783,19 @@ namespace Org.OpenAPITools.Api
             ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
+
+        /// <summary>
+        /// Validate the input before sending the request
+        /// </summary>
+        /// <param name="username">name that need to be deleted</param>
+        /// <param name="user">Updated user object</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateUpdateUserRequestAsync(string username, User user, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
 
 
@@ -689,6 +813,8 @@ namespace Org.OpenAPITools.Api
                 throw new ArgumentNullException(nameof(username)); 
             if (user == null)
                 throw new ArgumentNullException(nameof(user)); 
+
+            await ValidateUpdateUserRequestAsync(username, user, cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -710,10 +836,17 @@ namespace Org.OpenAPITools.Api
 
 
 
-            request.Content = new System.Net.Http.StringContent(user.ToJson(), System.Text.Encoding.UTF8, "application/json");
+            // todo localVarRequestOptions.Content = user;
 
 
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            string[] contentTypes = new string[] {
+                "application/json"
+            };
+
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
 
             using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
@@ -723,7 +856,7 @@ namespace Org.OpenAPITools.Api
             ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
