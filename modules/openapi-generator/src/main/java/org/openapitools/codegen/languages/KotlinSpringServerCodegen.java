@@ -125,8 +125,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         typeMapping.put("array", "kotlin.collections.List");
         typeMapping.put("list", "kotlin.collections.List");
 
-        // use resource for file handling
-        typeMapping.put("file", "org.springframework.core.io.Resource");
 
         addOption(TITLE, "server title name or client service name", title);
         addOption(BASE_PACKAGE, "base package (invokerPackage) for generated code", basePackage);
@@ -352,6 +350,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setReactive(convertPropertyToBoolean(REACTIVE));
             // spring webflux doesn't support @ControllerAdvice
             this.setExceptionHandler(false);
+            // use FilePart for file handling
+            typeMapping.put("file", "org.springframework.http.codec.multipart.FilePart");
+        }
+        if (!additionalProperties.containsKey(REACTIVE) && library.equals(SPRING_BOOT)) {
+            // use MultipartFile for file handling
+            typeMapping.put("file", "org.springframework.web.multipart.MultipartFile");
         }
         writePropertyBack(REACTIVE, reactive);
         writePropertyBack(EXCEPTION_HANDLER, exceptionHandler);
