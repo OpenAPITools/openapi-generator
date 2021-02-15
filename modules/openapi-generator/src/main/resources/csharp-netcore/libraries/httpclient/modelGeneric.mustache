@@ -233,6 +233,37 @@
             {{/useCompareNetObjects}}
         }
 
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                {{#parent}}
+                int hashCode = base.GetHashCode();
+                {{/parent}}
+                {{^parent}}
+                int hashCode = 41;
+                {{/parent}}
+                {{#vars}}
+                {{^vendorExtensions.x-is-value-type}}
+                if (this.{{name}} != null)
+                    hashCode = hashCode * 59 + this.{{name}}.GetHashCode();
+                {{/vendorExtensions.x-is-value-type}}
+                {{#vendorExtensions.x-is-value-type}}
+                hashCode = hashCode * 59 + this.{{name}}.GetHashCode();
+                {{/vendorExtensions.x-is-value-type}}
+                {{/vars}}
+                {{#isAdditionalPropertiesTrue}}
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {{/isAdditionalPropertiesTrue}}
+                return hashCode;
+            }
+        }
+
 {{#validatable}}
 {{#discriminator}}
         /// <summary>
