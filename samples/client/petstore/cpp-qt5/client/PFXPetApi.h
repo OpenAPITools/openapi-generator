@@ -25,6 +25,7 @@
 #include <QStringList> 
 #include <QList>
 #include <QNetworkAccessManager>
+#include <QVariant>
 
 namespace test_namespace {
 
@@ -57,14 +58,59 @@ public:
     QString getParamStyleSuffix(QString style);
     QString getParamStyleDelimiter(QString style, QString name, bool isExplode);
 
-    void addPet(const PFXPet &body);
-    void deletePet(const qint64 &pet_id, const QString &api_key);
-    void findPetsByStatus(const QList<QString> &status);
-    void findPetsByTags(const QList<QString> &tags);
-    void getPetById(const qint64 &pet_id);
-    void updatePet(const PFXPet &body);
-    void updatePetWithForm(const qint64 &pet_id, const QString &name, const QString &status);
-    void uploadFile(const qint64 &pet_id, const QString &additional_metadata, const PFXHttpFileElement &file);
+
+    /**
+    * @param[in]  body PFXPet [required]
+    */
+    void addPet(const PFXPet &body );
+
+
+    /**
+    * @param[in]  pet_id qint64 [required]
+    * @param[in]  api_key QString [optional]
+    */
+    void deletePet(const qint64 &pet_id , const QVariant &api_key = QVariant());
+
+
+    /**
+    * @param[in]  status QList<QString> [required]
+    */
+    void findPetsByStatus(const QList<QString> &status );
+
+
+    /**
+    * @param[in]  tags QList<QString> [required]
+    */
+    void findPetsByTags(const QList<QString> &tags );
+
+
+    /**
+    * @param[in]  pet_id qint64 [required]
+    */
+    void getPetById(const qint64 &pet_id );
+
+
+    /**
+    * @param[in]  body PFXPet [required]
+    */
+    void updatePet(const PFXPet &body );
+
+
+    /**
+    * @param[in]  pet_id qint64 [required]
+    * @param[in]  name QString [optional]
+    * @param[in]  status QString [optional]
+    */
+    void updatePetWithForm(const qint64 &pet_id , const QVariant &name = QVariant(), const QVariant &status = QVariant());
+
+
+    /**
+    * @param[in]  pet_id qint64 [required]
+    * @param[in]  additional_metadata QString [optional]
+    * @param[in]  file PFXHttpFileElement [optional]
+    */
+    void uploadFile(const qint64 &pet_id , const QVariant &additional_metadata = QVariant(), const QVariant &file = QVariant());
+
 
 private:
     QString _scheme, _host;

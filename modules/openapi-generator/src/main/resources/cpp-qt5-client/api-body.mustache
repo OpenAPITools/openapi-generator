@@ -203,7 +203,7 @@ QString {{classname}}::getParamStyleDelimiter(QString style, QString name, bool 
 
 {{#operations}}
 {{#operation}}
-void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}&{{/required}}{{^required}}const QVariant&{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}} &{{/required}}{{^required}}const QVariant &{{/required}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
     QString fullPath = QString(_serverConfigs["{{nickname}}"][_serverIndices.value("{{nickname}}")].URL()+"{{{path}}}");
     {{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
     if(_apiKeys.contains("{{name}}")){

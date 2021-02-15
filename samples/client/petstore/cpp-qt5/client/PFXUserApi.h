@@ -24,6 +24,7 @@
 #include <QStringList> 
 #include <QList>
 #include <QNetworkAccessManager>
+#include <QVariant>
 
 namespace test_namespace {
 
@@ -56,14 +57,55 @@ public:
     QString getParamStyleSuffix(QString style);
     QString getParamStyleDelimiter(QString style, QString name, bool isExplode);
 
-    void createUser(const PFXUser &body);
-    void createUsersWithArrayInput(const QList<PFXUser> &body);
-    void createUsersWithListInput(const QList<PFXUser> &body);
-    void deleteUser(const QString &username);
-    void getUserByName(const QString &username);
-    void loginUser(const QString &username, const QString &password);
+
+    /**
+    * @param[in]  body PFXUser [required]
+    */
+    void createUser(const PFXUser &body );
+
+
+    /**
+    * @param[in]  body QList<PFXUser> [required]
+    */
+    void createUsersWithArrayInput(const QList<PFXUser> &body );
+
+
+    /**
+    * @param[in]  body QList<PFXUser> [required]
+    */
+    void createUsersWithListInput(const QList<PFXUser> &body );
+
+
+    /**
+    * @param[in]  username QString [required]
+    */
+    void deleteUser(const QString &username );
+
+
+    /**
+    * @param[in]  username QString [required]
+    */
+    void getUserByName(const QString &username );
+
+
+    /**
+    * @param[in]  username QString [required]
+    * @param[in]  password QString [required]
+    */
+    void loginUser(const QString &username , const QString &password );
+
+
+    /**
+    */
     void logoutUser();
-    void updateUser(const QString &username, const PFXUser &body);
+
+
+    /**
+    * @param[in]  username QString [required]
+    * @param[in]  body PFXUser [required]
+    */
+    void updateUser(const QString &username , const PFXUser &body );
+
 
 private:
     QString _scheme, _host;

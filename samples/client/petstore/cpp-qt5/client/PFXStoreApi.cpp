@@ -198,6 +198,8 @@ QString PFXStoreApi::getParamStyleDelimiter(QString style, QString name, bool is
 void PFXStoreApi::deleteOrder(const QString &order_id) {
     QString fullPath = QString(_serverConfigs["deleteOrder"][_serverIndices.value("deleteOrder")].URL()+"/store/order/{orderId}");
     
+
+    
     QString order_idPathParam("{");
     order_idPathParam.append("orderId").append("}");
     QString pathPrefix, pathSuffix, pathDelimiter;
@@ -209,8 +211,7 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
     pathDelimiter = getParamStyleDelimiter(pathStyle, "orderId", false);
     QString paramString = (pathStyle == "matrix") ? pathPrefix+"orderId"+pathSuffix : pathPrefix;
     fullPath.replace(order_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
-
-
+    
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
@@ -252,7 +253,6 @@ void PFXStoreApi::getInventory() {
         addHeaders("api_key",_apiKeys.find("api_key").value());
     }
     
-
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -301,6 +301,8 @@ void PFXStoreApi::getInventoryCallback(PFXHttpRequestWorker *worker) {
 void PFXStoreApi::getOrderById(const qint64 &order_id) {
     QString fullPath = QString(_serverConfigs["getOrderById"][_serverIndices.value("getOrderById")].URL()+"/store/order/{orderId}");
     
+
+    
     QString order_idPathParam("{");
     order_idPathParam.append("orderId").append("}");
     QString pathPrefix, pathSuffix, pathDelimiter;
@@ -312,8 +314,7 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
     pathDelimiter = getParamStyleDelimiter(pathStyle, "orderId", false);
     QString paramString = (pathStyle == "matrix") ? pathPrefix+"orderId"+pathSuffix : pathPrefix;
     fullPath.replace(order_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
-
-
+    
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
@@ -352,7 +353,6 @@ void PFXStoreApi::getOrderByIdCallback(PFXHttpRequestWorker *worker) {
 void PFXStoreApi::placeOrder(const PFXOrder &body) {
     QString fullPath = QString(_serverConfigs["placeOrder"][_serverIndices.value("placeOrder")].URL()+"/store/order");
     
-
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);

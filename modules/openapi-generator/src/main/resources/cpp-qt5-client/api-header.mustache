@@ -59,7 +59,7 @@ public:
     {{/required}}
     {{/allParams}}
     */
-    void {{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}&{{/required}}{{^required}}const QVariant&{{/required}} {{paramName}} {{^required}}= QVariant(){{/required}}{{^-last}}, {{/-last}}{{/allParams}});
+    void {{nickname}}({{#allParams}}{{#required}}const {{{dataType}}} &{{/required}}{{^required}}const QVariant &{{/required}}{{paramName}} {{^required}}= QVariant(){{/required}}{{^-last}}, {{/-last}}{{/allParams}});
 {{/operation}}{{/operations}}
 
 private:
