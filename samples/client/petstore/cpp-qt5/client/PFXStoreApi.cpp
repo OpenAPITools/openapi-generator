@@ -17,12 +17,8 @@
 
 namespace test_namespace {
 
-PFXStoreApi::PFXStoreApi(const QString &scheme, const QString &host, int port, const QString &basePath, const int timeOut)
-    : _scheme(scheme),
-      _host(host),
-      _port(port),
-      _basePath(basePath),
-      _timeOut(timeOut),
+PFXStoreApi::PFXStoreApi(const int timeOut)
+    : _timeOut(timeOut),
       _manager(nullptr),
       isResponseCompressionEnabled(false),
       isRequestCompressionEnabled(false) {
@@ -73,18 +69,6 @@ void PFXStoreApi::setServerIndex(const QString &operation, int serverIndex){
         _serverIndices[operation] = serverIndex;
 }
 
-void PFXStoreApi::setScheme(const QString &scheme) {
-    _scheme = scheme;
-}
-
-void PFXStoreApi::setHost(const QString &host) {
-    _host = host;
-}
-
-void PFXStoreApi::setPort(int port) {
-    _port = port;
-}
-
 void PFXStoreApi::setApiKey(const QString &apiKeyName, const QString &apiKey){
     _apiKeys.insert(apiKeyName,apiKey);
 }
@@ -99,10 +83,6 @@ void PFXStoreApi::setUsername(const QString &username) {
 
 void PFXStoreApi::setPassword(const QString &password) {
     _password = password;
-}
-
-void PFXStoreApi::setBasePath(const QString &basePath) {
-    _basePath = basePath;
 }
 
 void PFXStoreApi::setTimeOut(const int timeOut) {

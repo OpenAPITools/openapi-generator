@@ -9,12 +9,8 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-{{classname}}::{{classname}}(const QString &scheme, const QString &host, int port, const QString &basePath, const int timeOut)
-    : _scheme(scheme),
-      _host(host),
-      _port(port),
-      _basePath(basePath),
-      _timeOut(timeOut),
+{{classname}}::{{classname}}(const int timeOut)
+    : _timeOut(timeOut),
       _manager(nullptr),
       isResponseCompressionEnabled(false),
       isRequestCompressionEnabled(false) {
@@ -79,18 +75,6 @@ void {{classname}}::setServerIndex(const QString &operation, int serverIndex){
         _serverIndices[operation] = serverIndex;
 }
 
-void {{classname}}::setScheme(const QString &scheme) {
-    _scheme = scheme;
-}
-
-void {{classname}}::setHost(const QString &host) {
-    _host = host;
-}
-
-void {{classname}}::setPort(int port) {
-    _port = port;
-}
-
 void {{classname}}::setApiKey(const QString &apiKeyName, const QString &apiKey){
     _apiKeys.insert(apiKeyName,apiKey);
 }
@@ -105,10 +89,6 @@ void {{classname}}::setUsername(const QString &username) {
 
 void {{classname}}::setPassword(const QString &password) {
     _password = password;
-}
-
-void {{classname}}::setBasePath(const QString &basePath) {
-    _basePath = basePath;
 }
 
 void {{classname}}::setTimeOut(const int timeOut) {

@@ -17,12 +17,8 @@
 
 namespace test_namespace {
 
-PFXUserApi::PFXUserApi(const QString &scheme, const QString &host, int port, const QString &basePath, const int timeOut)
-    : _scheme(scheme),
-      _host(host),
-      _port(port),
-      _basePath(basePath),
-      _timeOut(timeOut),
+PFXUserApi::PFXUserApi(const int timeOut)
+    : _timeOut(timeOut),
       _manager(nullptr),
       isResponseCompressionEnabled(false),
       isRequestCompressionEnabled(false) {
@@ -85,18 +81,6 @@ void PFXUserApi::setServerIndex(const QString &operation, int serverIndex){
         _serverIndices[operation] = serverIndex;
 }
 
-void PFXUserApi::setScheme(const QString &scheme) {
-    _scheme = scheme;
-}
-
-void PFXUserApi::setHost(const QString &host) {
-    _host = host;
-}
-
-void PFXUserApi::setPort(int port) {
-    _port = port;
-}
-
 void PFXUserApi::setApiKey(const QString &apiKeyName, const QString &apiKey){
     _apiKeys.insert(apiKeyName,apiKey);
 }
@@ -111,10 +95,6 @@ void PFXUserApi::setUsername(const QString &username) {
 
 void PFXUserApi::setPassword(const QString &password) {
     _password = password;
-}
-
-void PFXUserApi::setBasePath(const QString &basePath) {
-    _basePath = basePath;
 }
 
 void PFXUserApi::setTimeOut(const int timeOut) {
