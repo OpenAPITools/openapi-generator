@@ -85,7 +85,17 @@ namespace {{packageName}}.{{apiPackage}}
         /// </summary>
         public Func<System.Threading.Tasks.ValueTask<string>>? GetTokenAsync { get; set; }  
 
-        {{#operation}}       
+        {{#operation}}
+
+        /// <summary>
+        /// Validate the input before sending the request
+        /// </summary>
+        {{#allParams}}
+        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+        {{/allParams}}
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask Validate{{operationId}}RequestAsync({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}}??? {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
         {{#returnType}}
         /// <summary>
@@ -100,7 +110,7 @@ namespace {{packageName}}.{{apiPackage}}
         public async System.Threading.Tasks.Task<{{{returnType}}}> {{operationId}}Async({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}}??? {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null)
         {
             {{packageName}}.Client.ApiResponse<{{{returnType}}}> result = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
-            return result.Data ?? throw new NullReferenceException();
+            return result.Content ?? throw new NullReferenceException();
         }
         {{/returnType}}
 
@@ -119,7 +129,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{packageName}}.Client.ApiResponse<{{{returnType}}}> result = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
             
             return result.IsSuccessStatusCode
-                ? result.Data
+                ? result.Content
                 : null;
         } 
         {{/returnType}}       
@@ -143,6 +153,8 @@ namespace {{packageName}}.{{apiPackage}}
             {{/vendorExtensions.x-csharp-value-type}}
             {{/required}}
             {{/allParams}}
+
+            await Validate{{operationId}}RequestAsync({{#allParams}}{{#required}}{{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{paramName}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
 
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
@@ -216,7 +228,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{/formParams}}
 
             {{#bodyParam}}
-            request.Content = new System.Net.Http.StringContent({{paramName}}.ToJson(), System.Text.Encoding.UTF8, "application/json");
+            // todo localVarRequestOptions.Content = {{paramName}};
             {{/bodyParam}}
 
             {{#authMethods}}
@@ -283,6 +295,15 @@ namespace {{packageName}}.{{apiPackage}}
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("{{{mediaType}}}"));
             {{/consumes}}
 
+            string[] contentTypes = new string[] {
+            {{#consumes}}
+                "{{{mediaType}}}"{{^-last}}, {{/-last}}
+            {{/consumes}}
+            };
+
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
+
             {{#produces}}
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("{{{mediaType}}}"));
             {{/produces}}
@@ -294,7 +315,7 @@ namespace {{packageName}}.{{apiPackage}}
             ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> apiResponse = new(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Data = Newtonsoft.Json.JsonConvert.DeserializeObject<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>(apiResponse.RawData, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
