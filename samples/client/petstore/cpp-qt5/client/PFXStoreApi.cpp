@@ -17,12 +17,8 @@
 
 namespace test_namespace {
 
-PFXStoreApi::PFXStoreApi(const QString &scheme, const QString &host, int port, const QString &basePath, const int timeOut)
-    : _scheme(scheme),
-      _host(host),
-      _port(port),
-      _basePath(basePath),
-      _timeOut(timeOut),
+PFXStoreApi::PFXStoreApi(const int timeOut)
+    : _timeOut(timeOut),
       _manager(nullptr),
       isResponseCompressionEnabled(false),
       isRequestCompressionEnabled(false) {
@@ -73,18 +69,6 @@ void PFXStoreApi::setServerIndex(const QString &operation, int serverIndex){
         _serverIndices[operation] = serverIndex;
 }
 
-void PFXStoreApi::setScheme(const QString &scheme) {
-    _scheme = scheme;
-}
-
-void PFXStoreApi::setHost(const QString &host) {
-    _host = host;
-}
-
-void PFXStoreApi::setPort(int port) {
-    _port = port;
-}
-
 void PFXStoreApi::setApiKey(const QString &apiKeyName, const QString &apiKey){
     _apiKeys.insert(apiKeyName,apiKey);
 }
@@ -101,9 +85,6 @@ void PFXStoreApi::setPassword(const QString &password) {
     _password = password;
 }
 
-void PFXStoreApi::setBasePath(const QString &basePath) {
-    _basePath = basePath;
-}
 
 void PFXStoreApi::setTimeOut(const int timeOut) {
     _timeOut = timeOut;
@@ -115,6 +96,26 @@ void PFXStoreApi::setWorkingDirectory(const QString &path) {
 
 void PFXStoreApi::setNetworkAccessManager(QNetworkAccessManager* manager) {
     _manager = manager;  
+}
+
+    /**
+     * Appends a new ServerConfiguration to the config mal for a specific operation.
+     * @param operation The id to the target operation.
+     * @param URL 
+     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+     * returns the index of the new server config on success and -1 if the operation is not found
+     */
+int PFXStoreApi::addServerConfiguration(const QString& operation, const QString& URL, const QString& description, const QMap<QString, PFXServerVariable>& variables){
+    if(_serverConfigs.contains(operation)){
+        _serverConfigs[operation].append(PFXServerConfiguration(
+                    URL,
+                    description,
+                     variables));
+        return _serverConfigs[operation].size()-1;
+    }else{
+        return -1;
+    }
+
 }
 
 void PFXStoreApi::addHeaders(const QString &key, const QString &value) {
