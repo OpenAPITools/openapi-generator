@@ -20,10 +20,10 @@ public class UserApiHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(UserApiHandler.class);
 
-    private final UserApi apiImpl;
+    private final UserApi api;
 
-    public UserApiHandler() {
-        this.apiImpl = new UserApiImpl();
+    public UserApiHandler(UserApi api) {
+        this.api = api;
     }
 
     public void mount(RouterBuilder builder) {
@@ -48,7 +48,7 @@ public class UserApiHandler {
 
         logger.debug("Parameter user is {}", user);
 
-        apiImpl.createUser(user)
+        api.createUser(user)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -71,7 +71,7 @@ public class UserApiHandler {
 
         logger.debug("Parameter user is {}", user);
 
-        apiImpl.createUsersWithArrayInput(user)
+        api.createUsersWithArrayInput(user)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -94,7 +94,7 @@ public class UserApiHandler {
 
         logger.debug("Parameter user is {}", user);
 
-        apiImpl.createUsersWithListInput(user)
+        api.createUsersWithListInput(user)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -116,7 +116,7 @@ public class UserApiHandler {
 
         logger.debug("Parameter username is {}", username);
 
-        apiImpl.deleteUser(username)
+        api.deleteUser(username)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -138,7 +138,7 @@ public class UserApiHandler {
 
         logger.debug("Parameter username is {}", username);
 
-        apiImpl.getUserByName(username)
+        api.getUserByName(username)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -162,7 +162,7 @@ public class UserApiHandler {
         logger.debug("Parameter username is {}", username);
         logger.debug("Parameter password is {}", password);
 
-        apiImpl.loginUser(username, password)
+        api.loginUser(username, password)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -182,7 +182,7 @@ public class UserApiHandler {
 
 
 
-        apiImpl.logoutUser()
+        api.logoutUser()
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -207,7 +207,7 @@ public class UserApiHandler {
         logger.debug("Parameter username is {}", username);
         logger.debug("Parameter user is {}", user);
 
-        apiImpl.updateUser(username, user)
+        api.updateUser(username, user)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
