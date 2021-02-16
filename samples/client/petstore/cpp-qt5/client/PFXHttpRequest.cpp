@@ -59,7 +59,7 @@ void PFXHttpRequestInput::add_file(QString variable_name, QString local_filename
 PFXHttpRequestWorker::PFXHttpRequestWorker(QObject *parent, QNetworkAccessManager *_manager)
     : QObject(parent), manager(_manager), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false), httpResponseCode(-1) {
 
-#if QT_VERSION >= QT_VERSION(5, 15, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     randomGenerator = QRandomGenerator(QDateTime::currentDateTime().toSecsSinceEpoch());
 #else
     qsrand(QDateTime::currentDateTime().toTime_t());
