@@ -35,6 +35,8 @@ install:
   - ps: Install-Module Pester -Force -Scope CurrentUser
 build_script:
   - dotnet --info
+  # build C# aspnetcore 5.0 server
+  - dotnet build samples\server\petstore\aspnetcore-5.0\Org.OpenAPITools.sln
   # build C# aspnetcore 3.1 server
   - dotnet build samples\server\petstore\aspnetcore-3.1\Org.OpenAPITools.sln
   # build C# aspnetcore 3.0 server
