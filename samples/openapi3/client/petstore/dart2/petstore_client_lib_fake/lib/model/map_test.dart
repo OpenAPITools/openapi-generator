@@ -20,7 +20,7 @@ class MapTest {
 
   Map<String, Map<String, String>> mapMapOfString;
 
-  Map<String, MapTestMapOfEnumStringEnum> mapOfEnumString;
+  Map<String, InnerEnum> mapOfEnumString;
 
   Map<String, bool> directMap;
 

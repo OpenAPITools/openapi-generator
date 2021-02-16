@@ -18,7 +18,7 @@ class EnumArrays {
 
   EnumArraysJustSymbolEnum justSymbol;
 
-  List<EnumArraysArrayEnumEnum> arrayEnum;
+  List<ArrayEnumEnum> arrayEnum;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is EnumArrays &&
