@@ -35,7 +35,6 @@ abstract class Order implements Built<Order, OrderBuilder> {
     OrderStatusEnum get status;
     // enum statusEnum {  placed,  approved,  delivered,  };
 
-    @nullable
     @BuiltValueField(wireName: r'complete')
     bool get complete;
 

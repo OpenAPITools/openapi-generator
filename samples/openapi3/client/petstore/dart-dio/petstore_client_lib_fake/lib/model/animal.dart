@@ -15,7 +15,6 @@ abstract class Animal implements Built<Animal, AnimalBuilder> {
     @BuiltValueField(wireName: r'className')
     String get className;
 
-    @nullable
     @BuiltValueField(wireName: r'color')
     String get color;
 

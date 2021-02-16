@@ -9,12 +9,18 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
     {{#description}}
     /// {{{description}}}
     {{/description}}
+    {{!
+        A field is @nullable in built_value when it is
+        nullable || (!required && !defaultValue) in OAS
+    }}
     {{#isNullable}}
     @nullable
     {{/isNullable}}
     {{^isNullable}}
     {{^required}}
+    {{^defaultValue}}
     @nullable
+    {{/defaultValue}}
     {{/required}}
     {{/isNullable}}
     @BuiltValueField(wireName: r'{{baseName}}')
@@ -36,7 +42,7 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
 }
 
 {{!
-    Generate a custom serializer in order to support combinations of reuqired and nullable.
+    Generate a custom serializer in order to support combinations of required and nullable.
     By default built_value does not serialize null fields.
 }}
 class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {

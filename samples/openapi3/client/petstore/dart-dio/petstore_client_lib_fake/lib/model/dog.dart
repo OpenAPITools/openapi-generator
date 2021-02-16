@@ -17,7 +17,6 @@ abstract class Dog implements Built<Dog, DogBuilder> {
     @BuiltValueField(wireName: r'className')
     String get className;
 
-    @nullable
     @BuiltValueField(wireName: r'color')
     String get color;
 
