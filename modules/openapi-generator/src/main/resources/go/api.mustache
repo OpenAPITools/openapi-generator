@@ -79,7 +79,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#pathParam
 		ApiService: a,
 		ctx: ctx,
 		{{#pathParams}}
-		{{paramName}}: {{paramName}}{{^-last}},{{/-last}}
+		{{paramName}}: {{paramName}},
 		{{/pathParams}}
 	}
 }

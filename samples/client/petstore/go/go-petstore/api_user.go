@@ -457,7 +457,7 @@ func (a *UserApiService) DeleteUser(ctx _context.Context, username string) ApiDe
 	return ApiDeleteUserRequest{
 		ApiService: a,
 		ctx: ctx,
-		username: username
+		username: username,
 	}
 }
 
@@ -551,7 +551,7 @@ func (a *UserApiService) GetUserByName(ctx _context.Context, username string) Ap
 	return ApiGetUserByNameRequest{
 		ApiService: a,
 		ctx: ctx,
-		username: username
+		username: username,
 	}
 }
 
@@ -871,7 +871,7 @@ func (a *UserApiService) UpdateUser(ctx _context.Context, username string) ApiUp
 	return ApiUpdateUserRequest{
 		ApiService: a,
 		ctx: ctx,
-		username: username
+		username: username,
 	}
 }
 
