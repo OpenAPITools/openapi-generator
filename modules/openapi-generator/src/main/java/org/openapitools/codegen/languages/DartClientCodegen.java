@@ -539,12 +539,18 @@ public class DartClientCodegen extends DefaultCodegen {
             // are prefix with the classname of the containing class in the template.
             // Here the datatypeWithEnum template variable gets updated to match that scheme.
             // Also taking into account potential collection types e.g. List<JustSymbolEnum> -> List<EnumArraysJustSymbolEnum>
+            final String enumName = model.classname + property.enumName;
             if (property.items != null) {
-                // basically inner items e.g. map of maps etc.
-                property.setDatatypeWithEnum(property.datatypeWithEnum.replace(property.items.datatypeWithEnum, model.classname + property.items.datatypeWithEnum));
+                // inner items e.g. enums in collections, only works for one level
+                // but same is the case for DefaultCodegen
+                property.setDatatypeWithEnum(property.datatypeWithEnum.replace(property.items.datatypeWithEnum, enumName));
+                property.items.setDatatypeWithEnum(enumName);
+                property.items.setEnumName(enumName);
             } else {
-                property.setDatatypeWithEnum(property.datatypeWithEnum.replace(property.enumName, model.classname + property.enumName));
+                // plain enum property
+                property.setDatatypeWithEnum(property.datatypeWithEnum.replace(property.enumName, enumName));
             }
+            property.setEnumName(enumName);
         }
     }
 
