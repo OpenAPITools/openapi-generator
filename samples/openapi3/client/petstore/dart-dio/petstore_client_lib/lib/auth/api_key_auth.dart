@@ -26,7 +26,6 @@ class ApiKeyAuthInterceptor extends AuthInterceptor {
                 } else {
                     options.headers[authKeyName] = apiKey;
                 }
-                break;
             }
         }
         return super.onRequest(options);
