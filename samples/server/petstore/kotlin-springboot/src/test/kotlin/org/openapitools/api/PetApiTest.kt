@@ -139,7 +139,7 @@ class PetApiTest {
     fun uploadFileTest() {
         val petId:kotlin.Long? = null
         val additionalMetadata:kotlin.String? = null
-        val file:org.springframework.core.io.Resource? = null
+        val file:org.springframework.web.multipart.MultipartFile? = null
         val response: ResponseEntity<ModelApiResponse> = api.uploadFile(petId!!, additionalMetadata!!, file!!)
 
         // TODO: test validations

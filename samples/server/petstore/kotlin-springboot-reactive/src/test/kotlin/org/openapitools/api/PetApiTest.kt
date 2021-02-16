@@ -141,7 +141,7 @@ class PetApiTest {
     fun uploadFileTest() = runBlockingTest {
         val petId:kotlin.Long? = null
         val additionalMetadata:kotlin.String? = null
-        val file:org.springframework.core.io.Resource? = null
+        val file:org.springframework.http.codec.multipart.FilePart? = null
         val response: ResponseEntity<ModelApiResponse> = api.uploadFile(petId!!, additionalMetadata!!, file!!)
 
         // TODO: test validations
