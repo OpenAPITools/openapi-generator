@@ -87,6 +87,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
+    public static final String SERIALIZATION_LIBRARY_JSONB = "jsonb";
 
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected boolean useRxJava = false;
@@ -179,6 +180,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         Map<String, String> serializationOptions = new HashMap<>();
         serializationOptions.put(SERIALIZATION_LIBRARY_GSON, "Use Gson as serialization library");
         serializationOptions.put(SERIALIZATION_LIBRARY_JACKSON, "Use Jackson as serialization library");
+        serializationOptions.put(SERIALIZATION_LIBRARY_JSONB, "Use JSON-B as serialization library");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
 
@@ -554,21 +556,33 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             LOGGER.info("No serializationLibrary configured, using '" + SERIALIZATION_LIBRARY_GSON + "' as fallback");
             setSerializationLibrary(SERIALIZATION_LIBRARY_GSON);
         }
-        if (SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
-            additionalProperties.put(SERIALIZATION_LIBRARY_JACKSON, "true");
-            additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
-            supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
-            if (!NATIVE.equals(getLibrary())) {
-                if ("threetenbp".equals(dateLibrary) && !usePlayWS) {
-                    supportingFiles.add(new SupportingFile("CustomInstantDeserializer.mustache", invokerFolder, "CustomInstantDeserializer.java"));
+        switch (getSerializationLibrary()) {
+            case SERIALIZATION_LIBRARY_JACKSON:
+                additionalProperties.put(SERIALIZATION_LIBRARY_JACKSON, "true");
+                additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
+                additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
+                supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
+                if (!NATIVE.equals(getLibrary())) {
+                    if ("threetenbp".equals(dateLibrary) && !usePlayWS) {
+                        supportingFiles.add(new SupportingFile("CustomInstantDeserializer.mustache", invokerFolder, "CustomInstantDeserializer.java"));
+                    }
                 }
-            }
-        } else if (SERIALIZATION_LIBRARY_GSON.equals(getSerializationLibrary())) {
-            additionalProperties.put(SERIALIZATION_LIBRARY_GSON, "true");
-            additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
-        } else {
-            additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
-            additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
+                break;
+            case SERIALIZATION_LIBRARY_GSON:
+                additionalProperties.put(SERIALIZATION_LIBRARY_GSON, "true");
+                additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
+                additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
+                break;
+            case SERIALIZATION_LIBRARY_JSONB:
+                additionalProperties.put(SERIALIZATION_LIBRARY_JSONB, "true");
+                additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
+                additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
+                break;
+            default:
+                additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
+                additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
+                additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
+                break;
         }
 
         // authentication related files
@@ -974,6 +988,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.serializationLibrary = SERIALIZATION_LIBRARY_JACKSON;
         } else if (SERIALIZATION_LIBRARY_GSON.equalsIgnoreCase(serializationLibrary)) {
             this.serializationLibrary = SERIALIZATION_LIBRARY_GSON;
+        } else if (SERIALIZATION_LIBRARY_JSONB.equalsIgnoreCase(serializationLibrary)) {
+            this.serializationLibrary = SERIALIZATION_LIBRARY_JSONB;
         } else {
             throw new IllegalArgumentException("Unexpected serializationLibrary value: " + serializationLibrary);
         }

@@ -46,11 +46,16 @@ public class EnumTest {
   /**
    * Gets or Sets enumString
    */
+  @XmlType(name="EnumStringEnum")
+  @XmlEnum(String.class)
   public enum EnumStringEnum {
+    @XmlEnumValue("UPPER")
     UPPER("UPPER"),
     
+    @XmlEnumValue("lower")
     LOWER("lower"),
     
+    @XmlEnumValue("")
     EMPTY("");
 
     private String value;
@@ -87,11 +92,16 @@ public class EnumTest {
   /**
    * Gets or Sets enumStringRequired
    */
+  @XmlType(name="EnumStringRequiredEnum")
+  @XmlEnum(String.class)
   public enum EnumStringRequiredEnum {
+    @XmlEnumValue("UPPER")
     UPPER("UPPER"),
     
+    @XmlEnumValue("lower")
     LOWER("lower"),
     
+    @XmlEnumValue("")
     EMPTY("");
 
     private String value;
@@ -128,9 +138,13 @@ public class EnumTest {
   /**
    * Gets or Sets enumInteger
    */
+  @XmlType(name="EnumIntegerEnum")
+  @XmlEnum(Integer.class)
   public enum EnumIntegerEnum {
+    @XmlEnumValue("1")
     NUMBER_1(1),
     
+    @XmlEnumValue("-1")
     NUMBER_MINUS_1(-1);
 
     private Integer value;
@@ -167,9 +181,13 @@ public class EnumTest {
   /**
    * Gets or Sets enumNumber
    */
+  @XmlType(name="EnumNumberEnum")
+  @XmlEnum(Double.class)
   public enum EnumNumberEnum {
+    @XmlEnumValue("1.1")
     NUMBER_1_DOT_1(1.1),
     
+    @XmlEnumValue("-1.2")
     NUMBER_MINUS_1_DOT_2(-1.2);
 
     private Double value;
