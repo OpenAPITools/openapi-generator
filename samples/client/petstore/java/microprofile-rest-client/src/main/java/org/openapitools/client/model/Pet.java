@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
@@ -10,13 +10,15 @@
  * Do not edit the class manually.
  */
 
+
 package org.openapitools.client.model;
 
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
-
 import java.lang.reflect.Type;
 import javax.json.bind.annotation.JsonbTypeDeserializer;
 import javax.json.bind.annotation.JsonbTypeSerializer;
@@ -29,11 +31,10 @@ import javax.json.stream.JsonParser;
 import javax.json.bind.annotation.JsonbProperty;
 
 /**
-  * A pet for sale in the pet store
- **/
-
-public class Pet  {
-  
+ * A pet for sale in the pet store
+ */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+public class Pet {
   private Long id;
 
   private Category category;
@@ -44,133 +45,137 @@ public class Pet  {
 
   private List<Tag> tags = null;
 
+  /**
+   * pet status in the store
+   */
   @JsonbTypeSerializer(StatusEnum.Serializer.class)
   @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
   public enum StatusEnum {
+    AVAILABLE("available"),
+    
+    PENDING("pending"),
+    
+    SOLD("sold");
 
-    AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));    
+    private String value;
 
-
-    String value;
-
-    StatusEnum (String v) {
-        value = v;
+    StatusEnum(String value) {
+      this.value = value;
     }
 
-    public String value() {
-        return value;
+    public String getValue() {
+      return value;
     }
 
     @Override
     public String toString() {
-        return String.valueOf(value);
+      return String.valueOf(value);
     }
 
-    public static final class Deserializer implements JsonbDeserializer<StatusEnum> {
-        @Override
-        public StatusEnum deserialize(JsonParser parser, DeserializationContext ctx, Type rtType) {
-            for (StatusEnum b : StatusEnum.values()) {
-                if (String.valueOf(b.value).equals(parser.getString())) {
-                    return b;
-                }
-            }
-            throw new IllegalArgumentException("Unexpected value '" + parser.getString() + "'");
+    public static StatusEnum fromValue(String value) {
+      for (StatusEnum b : StatusEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
         }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+    public static final class Deserializer implements JsonbDeserializer<StatusEnum> {
+      @Override
+      public StatusEnum deserialize(JsonParser parser, DeserializationContext ctx, Type rtType) {
+        for (StatusEnum b : StatusEnum.values()) {
+          if (String.valueOf(b.value).equals(parser.getString())) {
+            return b;
+          }
+        }
+        throw new IllegalArgumentException("Unexpected value '" + parser.getString() + "'");
+      }
     }
 
     public static final class Serializer implements JsonbSerializer<StatusEnum> {
-        @Override
-        public void serialize(StatusEnum obj, JsonGenerator generator, SerializationContext ctx) {
-            generator.write(obj.value);
-        }
+      @Override
+      public void serialize(StatusEnum obj, JsonGenerator generator, SerializationContext ctx) {
+        generator.write(obj.value);
+      }
     }
   }
 
- /**
-   * pet status in the store
-  **/
   private StatusEnum status;
-  
- /**
+
+
+  public Pet id(Long id) {
+    
+    this.id = id;
+    return this;
+  }
+
+   /**
    * Get id
    * @return id
   **/
+  @javax.annotation.Nullable
   @JsonbProperty("id")
+
+
   public Long getId() {
     return id;
   }
 
-  /**
-    * Set id
-  **/
+
   public void setId(Long id) {
     this.id = id;
   }
 
-  public Pet id(Long id) {
-    this.id = id;
+
+  public Pet category(Category category) {
+    
+    this.category = category;
     return this;
   }
 
- /**
+   /**
    * Get category
    * @return category
   **/
+  @javax.annotation.Nullable
   @JsonbProperty("category")
+
+
   public Category getCategory() {
     return category;
   }
 
-  /**
-    * Set category
-  **/
+
   public void setCategory(Category category) {
     this.category = category;
   }
 
-  public Pet category(Category category) {
-    this.category = category;
+
+  public Pet name(String name) {
+    
+    this.name = name;
     return this;
   }
 
- /**
+   /**
    * Get name
    * @return name
   **/
   @JsonbProperty("name")
+
+
   public String getName() {
     return name;
   }
 
-  /**
-    * Set name
-  **/
+
   public void setName(String name) {
     this.name = name;
   }
 
-  public Pet name(String name) {
-    this.name = name;
-    return this;
-  }
-
- /**
-   * Get photoUrls
-   * @return photoUrls
-  **/
-  @JsonbProperty("photoUrls")
-  public List<String> getPhotoUrls() {
-    return photoUrls;
-  }
-
-  /**
-    * Set photoUrls
-  **/
-  public void setPhotoUrls(List<String> photoUrls) {
-    this.photoUrls = photoUrls;
-  }
 
   public Pet photoUrls(List<String> photoUrls) {
+    
     this.photoUrls = photoUrls;
     return this;
   }
@@ -180,62 +185,105 @@ public class Pet  {
     return this;
   }
 
- /**
-   * Get tags
-   * @return tags
+   /**
+   * Get photoUrls
+   * @return photoUrls
   **/
-  @JsonbProperty("tags")
-  public List<Tag> getTags() {
-    return tags;
+  @JsonbProperty("photoUrls")
+
+
+  public List<String> getPhotoUrls() {
+    return photoUrls;
   }
 
-  /**
-    * Set tags
-  **/
-  public void setTags(List<Tag> tags) {
-    this.tags = tags;
+
+  public void setPhotoUrls(List<String> photoUrls) {
+    this.photoUrls = photoUrls;
   }
+
 
   public Pet tags(List<Tag> tags) {
+    
     this.tags = tags;
     return this;
   }
 
   public Pet addTagsItem(Tag tagsItem) {
+    if (this.tags == null) {
+      this.tags = new ArrayList<Tag>();
+    }
     this.tags.add(tagsItem);
     return this;
   }
 
- /**
-   * pet status in the store
-   * @return status
+   /**
+   * Get tags
+   * @return tags
   **/
-  @JsonbProperty("status")
-  public StatusEnum getStatus() {
-    return status;
+  @javax.annotation.Nullable
+  @JsonbProperty("tags")
+
+
+  public List<Tag> getTags() {
+    return tags;
   }
 
-  /**
-    * Set status
-  **/
-  public void setStatus(StatusEnum status) {
-    this.status = status;
+
+  public void setTags(List<Tag> tags) {
+    this.tags = tags;
   }
+
 
   public Pet status(StatusEnum status) {
+    
     this.status = status;
     return this;
   }
 
-
-  /**
-    * Create a string representation of this pojo.
+   /**
+   * pet status in the store
+   * @return status
   **/
+  @javax.annotation.Nullable
+  @JsonbProperty("status")
+
+
+  public StatusEnum getStatus() {
+    return status;
+  }
+
+
+  public void setStatus(StatusEnum status) {
+    this.status = status;
+  }
+
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Pet pet = (Pet) o;
+    return Objects.equals(this.id, pet.id) &&
+        Objects.equals(this.category, pet.category) &&
+        Objects.equals(this.name, pet.name) &&
+        Objects.equals(this.photoUrls, pet.photoUrls) &&
+        Objects.equals(this.tags, pet.tags) &&
+        Objects.equals(this.status, pet.status);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, category, name, photoUrls, tags, status);
+  }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Pet {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
@@ -250,11 +298,12 @@ public class Pet  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+
 }
 

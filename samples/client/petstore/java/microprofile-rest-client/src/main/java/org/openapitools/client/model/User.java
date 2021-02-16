@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
@@ -10,9 +10,11 @@
  * Do not edit the class manually.
  */
 
+
 package org.openapitools.client.model;
 
-
+import java.util.Objects;
+import java.util.Arrays;
 import java.lang.reflect.Type;
 import javax.json.bind.annotation.JsonbTypeDeserializer;
 import javax.json.bind.annotation.JsonbTypeSerializer;
@@ -25,11 +27,10 @@ import javax.json.stream.JsonParser;
 import javax.json.bind.annotation.JsonbProperty;
 
 /**
-  * A User who is purchasing from the pet store
- **/
-
-public class User  {
-  
+ * A User who is purchasing from the pet store
+ */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+public class User {
   private Long id;
 
   private String username;
@@ -44,188 +45,229 @@ public class User  {
 
   private String phone;
 
- /**
-   * User Status
-  **/
   private Integer userStatus;
-  
- /**
+
+
+  public User id(Long id) {
+    
+    this.id = id;
+    return this;
+  }
+
+   /**
    * Get id
    * @return id
   **/
+  @javax.annotation.Nullable
   @JsonbProperty("id")
+
+
   public Long getId() {
     return id;
   }
 
-  /**
-    * Set id
-  **/
+
   public void setId(Long id) {
     this.id = id;
   }
 
-  public User id(Long id) {
-    this.id = id;
+
+  public User username(String username) {
+    
+    this.username = username;
     return this;
   }
 
- /**
+   /**
    * Get username
    * @return username
   **/
+  @javax.annotation.Nullable
   @JsonbProperty("username")
+
+
   public String getUsername() {
     return username;
   }
 
-  /**
-    * Set username
-  **/
+
   public void setUsername(String username) {
     this.username = username;
   }
 
-  public User username(String username) {
-    this.username = username;
+
+  public User firstName(String firstName) {
+    
+    this.firstName = firstName;
     return this;
   }
 
- /**
+   /**
    * Get firstName
    * @return firstName
   **/
+  @javax.annotation.Nullable
   @JsonbProperty("firstName")
+
+
   public String getFirstName() {
     return firstName;
   }
 
-  /**
-    * Set firstName
-  **/
+
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
 
-  public User firstName(String firstName) {
-    this.firstName = firstName;
+
+  public User lastName(String lastName) {
+    
+    this.lastName = lastName;
     return this;
   }
 
- /**
+   /**
    * Get lastName
    * @return lastName
   **/
+  @javax.annotation.Nullable
   @JsonbProperty("lastName")
+
+
   public String getLastName() {
     return lastName;
   }
 
-  /**
-    * Set lastName
-  **/
+
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
 
-  public User lastName(String lastName) {
-    this.lastName = lastName;
+
+  public User email(String email) {
+    
+    this.email = email;
     return this;
   }
 
- /**
+   /**
    * Get email
    * @return email
   **/
+  @javax.annotation.Nullable
   @JsonbProperty("email")
+
+
   public String getEmail() {
     return email;
   }
 
-  /**
-    * Set email
-  **/
+
   public void setEmail(String email) {
     this.email = email;
   }
 
-  public User email(String email) {
-    this.email = email;
+
+  public User password(String password) {
+    
+    this.password = password;
     return this;
   }
 
- /**
+   /**
    * Get password
    * @return password
   **/
+  @javax.annotation.Nullable
   @JsonbProperty("password")
+
+
   public String getPassword() {
     return password;
   }
 
-  /**
-    * Set password
-  **/
+
   public void setPassword(String password) {
     this.password = password;
   }
 
-  public User password(String password) {
-    this.password = password;
+
+  public User phone(String phone) {
+    
+    this.phone = phone;
     return this;
   }
 
- /**
+   /**
    * Get phone
    * @return phone
   **/
+  @javax.annotation.Nullable
   @JsonbProperty("phone")
+
+
   public String getPhone() {
     return phone;
   }
 
-  /**
-    * Set phone
-  **/
+
   public void setPhone(String phone) {
     this.phone = phone;
   }
 
-  public User phone(String phone) {
-    this.phone = phone;
+
+  public User userStatus(Integer userStatus) {
+    
+    this.userStatus = userStatus;
     return this;
   }
 
- /**
+   /**
    * User Status
    * @return userStatus
   **/
+  @javax.annotation.Nullable
   @JsonbProperty("userStatus")
+
+
   public Integer getUserStatus() {
     return userStatus;
   }
 
-  /**
-    * Set userStatus
-  **/
+
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
 
-  public User userStatus(Integer userStatus) {
-    this.userStatus = userStatus;
-    return this;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    User user = (User) o;
+    return Objects.equals(this.id, user.id) &&
+        Objects.equals(this.username, user.username) &&
+        Objects.equals(this.firstName, user.firstName) &&
+        Objects.equals(this.lastName, user.lastName) &&
+        Objects.equals(this.email, user.email) &&
+        Objects.equals(this.password, user.password) &&
+        Objects.equals(this.phone, user.phone) &&
+        Objects.equals(this.userStatus, user.userStatus);
   }
 
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus);
+  }
 
-  /**
-    * Create a string representation of this pojo.
-  **/
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class User {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    username: ").append(toIndentedString(username)).append("\n");
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
@@ -242,11 +284,12 @@ public class User  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+
 }
 
