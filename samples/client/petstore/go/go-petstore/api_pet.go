@@ -278,7 +278,7 @@ func (a *PetApiService) DeletePet(ctx _context.Context, petId int64) ApiDeletePe
 	return ApiDeletePetRequest{
 		ApiService: a,
 		ctx: ctx,
-		petId: petId,
+		petId: petId
 	}
 }
 
@@ -598,7 +598,7 @@ func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) ApiGetPetB
 	return ApiGetPetByIdRequest{
 		ApiService: a,
 		ctx: ctx,
-		petId: petId,
+		petId: petId
 	}
 }
 
@@ -827,7 +827,7 @@ func (a *PetApiService) UpdatePetWithForm(ctx _context.Context, petId int64) Api
 	return ApiUpdatePetWithFormRequest{
 		ApiService: a,
 		ctx: ctx,
-		petId: petId,
+		petId: petId
 	}
 }
 
@@ -937,7 +937,7 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64) ApiUploadF
 	return ApiUploadFileRequest{
 		ApiService: a,
 		ctx: ctx,
-		petId: petId,
+		petId: petId
 	}
 }
 
@@ -1066,7 +1066,7 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId i
 	return ApiUploadFileWithRequiredFileRequest{
 		ApiService: a,
 		ctx: ctx,
-		petId: petId,
+		petId: petId
 	}
 }
 

@@ -108,7 +108,7 @@ func (a *StoreApiService) DeleteOrder(ctx _context.Context, orderId string) ApiD
 	return ApiDeleteOrderRequest{
 		ApiService: a,
 		ctx: ctx,
-		orderId: orderId,
+		orderId: orderId
 	}
 }
 
@@ -319,7 +319,7 @@ func (a *StoreApiService) GetOrderById(ctx _context.Context, orderId int64) ApiG
 	return ApiGetOrderByIdRequest{
 		ApiService: a,
 		ctx: ctx,
-		orderId: orderId,
+		orderId: orderId
 	}
 }
 
