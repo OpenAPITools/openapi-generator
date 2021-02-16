@@ -4,3 +4,4 @@ library: microprofile
 inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
 additionalProperties:
   artifactId: microprofile-rest-client
+  hideGenerationTimestamp: "true"

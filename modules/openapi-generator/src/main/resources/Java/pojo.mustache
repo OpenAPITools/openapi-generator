@@ -61,9 +61,6 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
     {{/isContainer}}
   {{/isXmlAttribute}}
   {{/withXml}}
-  {{#jsonb}}
-  @JsonbProperty("{{baseName}}")
-  {{/jsonb}}
   {{#gson}}
   @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
   {{/gson}}
@@ -189,7 +186,10 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
 {{^required}}
   @javax.annotation.Nullable
 {{/required}}
-  {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}{{#oaiAnnotationswagger}}  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/oaiAnnotationswagger}}
+{{#jsonb}}
+  @JsonbProperty("{{baseName}}")
+{{/jsonb}}
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}{{#oaiAnnotationswagger}}  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/oaiAnnotationswagger}}
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
 {{/vendorExtensions.x-extra-annotation}}

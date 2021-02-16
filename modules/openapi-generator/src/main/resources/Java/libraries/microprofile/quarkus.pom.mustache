@@ -39,6 +39,12 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-rest-client-jackson</artifactId>
         </dependency>
+    {{#withXml}}
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+        </dependency>
+    {{/withXml}}
     {{/jackson}}
     {{#jsonb}}
         <dependency>
