@@ -68,7 +68,7 @@ No authorization required
 ## `getInventory()`
 
 ```php
-getInventory(): array[string,int]
+getInventory(): array<string,int>
 ```
 
 Returns pet inventories by status
@@ -109,7 +109,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**array[string,int]**
+**array<string,int>**
 
 ### Authorization
 

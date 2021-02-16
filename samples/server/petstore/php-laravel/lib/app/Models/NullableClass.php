@@ -36,13 +36,13 @@ class NullableClass {
     /** @var object[] $arrayItemsNullable */
     private $arrayItemsNullable;
 
-    /** @var array[string,object] $objectNullableProp */
+    /** @var array<string,object> $objectNullableProp */
     private $objectNullableProp;
 
-    /** @var array[string,object] $objectAndItemsNullableProp */
+    /** @var array<string,object> $objectAndItemsNullableProp */
     private $objectAndItemsNullableProp;
 
-    /** @var array[string,object] $objectItemsNullable */
+    /** @var array<string,object> $objectItemsNullable */
     private $objectItemsNullable;
 
 }

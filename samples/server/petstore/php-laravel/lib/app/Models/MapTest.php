@@ -9,16 +9,16 @@ namespace app\Models;
  */
 class MapTest {
 
-    /** @var array[string,array[string,string]] $mapMapOfString */
+    /** @var array<string,array<string,string>> $mapMapOfString */
     private $mapMapOfString;
 
-    /** @var array[string,string] $mapOfEnumString */
+    /** @var array<string,string> $mapOfEnumString */
     private $mapOfEnumString;
 
-    /** @var array[string,bool] $directMap */
+    /** @var array<string,bool> $directMap */
     private $directMap;
 
-    /** @var array[string,bool] $indirectMap */
+    /** @var array<string,bool> $indirectMap */
     private $indirectMap;
 
 }

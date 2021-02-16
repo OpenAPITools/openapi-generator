@@ -342,7 +342,7 @@ class StoreApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array[string,int]
+     * @return array<string,int>
      */
     public function getInventory()
     {
@@ -358,7 +358,7 @@ class StoreApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of array[string,int], HTTP status code, HTTP response headers (array of strings)
+     * @return array of array<string,int>, HTTP status code, HTTP response headers (array of strings)
      */
     public function getInventoryWithHttpInfo()
     {
@@ -395,20 +395,20 @@ class StoreApi
             $responseBody = $response->getBody();
             switch($statusCode) {
                 case 200:
-                    if ('array[string,int]' === '\SplFileObject') {
+                    if ('array<string,int>' === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = (string) $responseBody;
                     }
 
                     return [
-                        ObjectSerializer::deserialize($content, 'array[string,int]', []),
+                        ObjectSerializer::deserialize($content, 'array<string,int>', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
             }
 
-            $returnType = 'array[string,int]';
+            $returnType = 'array<string,int>';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -427,7 +427,7 @@ class StoreApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        'array[string,int]',
+                        'array<string,int>',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -467,7 +467,7 @@ class StoreApi
      */
     public function getInventoryAsyncWithHttpInfo()
     {
-        $returnType = 'array[string,int]';
+        $returnType = 'array<string,int>';
         $request = $this->getInventoryRequest();
 
         return $this->client

@@ -307,7 +307,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                 LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined. Default to string");
                 inner = new StringSchema().description("TODO default missing map inner type to string");
             }
-            return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
+            return getSchemaType(p) + "<string," + getTypeDeclaration(inner) + ">";
         } else if (StringUtils.isNotBlank(p.get$ref())) { // model
             String type = super.getTypeDeclaration(p);
             return (!languageSpecificPrimitives.contains(type))
