@@ -46,7 +46,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
 
         public static final class Defaults {
             // Versions
-            public static final String KOTLIN_VERSION = "1.4.21";
+            public static final String KOTLIN_VERSION = "1.4.30";
             public static final String KTOR_VERSION = "1.4.1";
             public static final String GRADLE_VERSION = "6.7.1";
             public static final String ANDROID_GRADLE_VERSION = "4.1.0";
