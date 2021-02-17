@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for OuterComposite
 void main() {
-  final instance = OuterComposite();
+  final instance = OuterCompositeBuilder();
+  // TODO add properties to the builder and call build()
 
   group(OuterComposite, () {
     // num myNumber

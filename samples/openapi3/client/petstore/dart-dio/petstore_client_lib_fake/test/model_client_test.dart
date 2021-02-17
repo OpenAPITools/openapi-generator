@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for ModelClient
 void main() {
-  final instance = ModelClient();
+  final instance = ModelClientBuilder();
+  // TODO add properties to the builder and call build()
 
   group(ModelClient, () {
     // String client

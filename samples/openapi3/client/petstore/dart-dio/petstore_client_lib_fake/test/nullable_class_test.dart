@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for NullableClass
 void main() {
-  final instance = NullableClass();
+  final instance = NullableClassBuilder();
+  // TODO add properties to the builder and call build()
 
   group(NullableClass, () {
     // int integerProp

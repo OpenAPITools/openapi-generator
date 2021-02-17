@@ -2,7 +2,11 @@ class {{{classname}}} {
   /// Returns a new [{{{classname}}}] instance.
   {{{classname}}}({
   {{#vars}}
-    {{#required}}{{^defaultValue}}@required {{/defaultValue}}{{/required}}this.{{{name}}}{{^isNullable}}{{#defaultValue}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/isNullable}},
+    {{!
+        A field is @required in Dart when it is
+        required && !nullable && !defaultValue in OAS
+    }}
+    {{#required}}{{^isNullable}}{{^defaultValue}}@required {{/defaultValue}}{{/isNullable}}{{/required}}this.{{{name}}}{{^isNullable}}{{#defaultValue}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/isNullable}},
   {{/vars}}
   });
 
@@ -39,33 +43,37 @@ class {{{classname}}} {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
   {{#vars}}
+    {{^required}}
     if ({{{name}}} != null) {
+    {{/required}}
     {{#isDateTime}}
       {{#pattern}}
-      json[r'{{{baseName}}}'] = _dateEpochMarker == '{{{pattern}}}'
+      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}_dateEpochMarker == '{{{pattern}}}'
         ? {{{name}}}.millisecondsSinceEpoch
         : {{{name}}}.toUtc().toIso8601String();
       {{/pattern}}
       {{^pattern}}
-      json[r'{{{baseName}}}'] = {{{name}}}.toUtc().toIso8601String();
+      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}{{{name}}}.toUtc().toIso8601String();
       {{/pattern}}
     {{/isDateTime}}
     {{#isDate}}
       {{#pattern}}
-      json[r'{{{baseName}}}'] = _dateEpochMarker == '{{{pattern}}}'
+      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}_dateEpochMarker == '{{{pattern}}}'
         ? {{{name}}}.millisecondsSinceEpoch
         : _dateFormatter.format({{{name}}}.toUtc());
       {{/pattern}}
       {{^pattern}}
-      json[r'{{{baseName}}}'] = _dateFormatter.format({{{name}}}.toUtc());
+      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}_dateFormatter.format({{{name}}}.toUtc());
       {{/pattern}}
     {{/isDate}}
     {{^isDateTime}}
       {{^isDate}}
-      json[r'{{{baseName}}}'] = {{{name}}};
+      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}{{{name}}};
       {{/isDate}}
     {{/isDateTime}}
+    {{^required}}
     }
+    {{/required}}
   {{/vars}}
     return json;
   }
