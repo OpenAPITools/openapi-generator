@@ -26,6 +26,10 @@ public class StoreApiHandler {
         this.api = api;
     }
 
+    public StoreApiHandler() {
+        this(new StoreApiImpl());
+    }
+
     public void mount(RouterBuilder builder) {
         builder.operation("deleteOrder").handler(this::deleteOrder);
         builder.operation("getInventory").handler(this::getInventory);

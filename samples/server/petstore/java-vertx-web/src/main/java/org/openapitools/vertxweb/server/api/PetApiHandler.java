@@ -28,6 +28,10 @@ public class PetApiHandler {
         this.api = api;
     }
 
+    public PetApiHandler() {
+        this(new PetApiImpl());
+    }
+
     public void mount(RouterBuilder builder) {
         builder.operation("addPet").handler(this::addPet);
         builder.operation("deletePet").handler(this::deletePet);

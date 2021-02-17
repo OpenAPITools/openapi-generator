@@ -26,6 +26,10 @@ public class UserApiHandler {
         this.api = api;
     }
 
+    public UserApiHandler() {
+        this(new UserApiImpl());
+    }
+
     public void mount(RouterBuilder builder) {
         builder.operation("createUser").handler(this::createUser);
         builder.operation("createUsersWithArrayInput").handler(this::createUsersWithArrayInput);

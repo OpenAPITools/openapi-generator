@@ -27,6 +27,10 @@ public class {{classname}}Handler {
         this.api = api;
     }
 
+    public {{classname}}Handler() {
+        this(new {{classname}}Impl());
+    }
+
     public void mount(RouterBuilder builder) {
 {{#operations}}
 {{#operation}}
