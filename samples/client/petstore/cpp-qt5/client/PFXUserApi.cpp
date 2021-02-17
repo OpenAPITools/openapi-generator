@@ -111,22 +111,45 @@ void PFXUserApi::setNetworkAccessManager(QNetworkAccessManager* manager) {
 }
 
     /**
-     * Appends a new ServerConfiguration to the config mal for a specific operation.
+     * Appends a new ServerConfiguration to the config map for a specific operation.
      * @param operation The id to the target operation.
-     * @param URL 
+     * @param URL A string that contains the URL of the server
+     * @param description A String that describes the server
      * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
      * returns the index of the new server config on success and -1 if the operation is not found
      */
-int PFXUserApi::addServerConfiguration(const QString& operation, const QString& URL, const QString& description, const QMap<QString, PFXServerVariable>& variables){
+int PFXUserApi::addServerConfiguration(const QString &operation, const QString &URL, const QString &description, const QMap<QString, PFXServerVariable> &variables){
     if(_serverConfigs.contains(operation)){
         _serverConfigs[operation].append(PFXServerConfiguration(
                     URL,
                     description,
-                     variables));
+                    variables));
         return _serverConfigs[operation].size()-1;
     }else{
         return -1;
     }
+}
+
+    /**
+     * Appends a new ServerConfiguration to the config map for a all operations and sets the index to that server.
+     * @param URL A string that contains the URL of the server
+     * @param description A String that describes the server
+     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+     */
+void PFXUserApi::setNewServerForAllOperations(const QString &URL, const QString &description, const QMap<QString, PFXServerVariable> &variables){
+        for(auto e : _serverIndices.keys()){
+            setServerIndex(e, addServerConfiguration(e, URL, description, variables));
+        }
+} 
+    /**
+     * Appends a new ServerConfiguration to the config map for an operations and sets the index to that server.
+     * @param URL A string that contains the URL of the server
+     * @param description A String that describes the server
+     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+     */
+void PFXUserApi::setNewServer(const QString &operation, const QString &URL, const QString &description, const QMap<QString, PFXServerVariable> &variables){
+
+    setServerIndex(operation, addServerConfiguration(operation, URL, description, variables));
 
 }
 

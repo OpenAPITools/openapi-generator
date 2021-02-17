@@ -35,7 +35,9 @@ public:
     void setTimeOut(const int timeOut);
     void setWorkingDirectory(const QString &path);
     void setNetworkAccessManager(QNetworkAccessManager* manager);
-    int addServerConfiguration(const QString& operation, const QString& URL, const QString& description, const QMap<QString, {{prefix}}ServerVariable>& variables);
+    int addServerConfiguration(const QString &operation, const QString &URL, const QString &description = "", const QMap<QString, {{prefix}}ServerVariable> &variables = QMap<QString, {{prefix}}ServerVariable>());
+    void setNewServerForAllOperations(const QString &URL, const QString &description = "", const QMap<QString, {{prefix}}ServerVariable> &variables =  QMap<QString, {{prefix}}ServerVariable>());
+    void setNewServer(const QString &operation, const QString &URL, const QString &description = "", const QMap<QString, {{prefix}}ServerVariable> &variables =  QMap<QString, {{prefix}}ServerVariable>());
     void addHeaders(const QString &key, const QString &value);
     void enableRequestCompression();
     void enableResponseCompression();
