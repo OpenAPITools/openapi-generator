@@ -42,7 +42,7 @@ public class WorkflowSettings {
     public static final boolean DEFAULT_VERBOSE = false;
     public static final boolean DEFAULT_SKIP_OVERWRITE = false;
     public static final boolean DEFAULT_REMOVE_OPERATION_ID_PREFIX = false;
-    public static final boolean DEFAULT_SKIP_OPERATION_EXAMPLE = true;
+    public static final boolean DEFAULT_SKIP_OPERATION_EXAMPLE = false;
     public static final boolean DEFAULT_LOG_TO_STDERR = false;
     public static final boolean DEFAULT_VALIDATE_SPEC = true;
     public static final boolean DEFAULT_ENABLE_POST_PROCESS_FILE = false;
