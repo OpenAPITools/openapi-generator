@@ -26,6 +26,7 @@ public class StoreApiHandler {
         this.api = api;
     }
 
+    @Deprecated
     public StoreApiHandler() {
         this(new StoreApiImpl());
     }

@@ -26,6 +26,7 @@ public class UserApiHandler {
         this.api = api;
     }
 
+    @Deprecated
     public UserApiHandler() {
         this(new UserApiImpl());
     }

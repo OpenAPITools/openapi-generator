@@ -28,6 +28,7 @@ public class PetApiHandler {
         this.api = api;
     }
 
+    @Deprecated
     public PetApiHandler() {
         this(new PetApiImpl());
     }
