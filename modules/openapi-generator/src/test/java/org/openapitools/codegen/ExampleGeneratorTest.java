@@ -1,6 +1,7 @@
 package org.openapitools.codegen;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.examples.ExampleGenerator;
 import org.testng.annotations.Test;
 
@@ -150,5 +151,40 @@ public class ExampleGeneratorTest {
         assertEquals("application/json", examples.get(0).get("contentType"));
         assertEquals(String.format(Locale.ROOT, "{%n  \"example_schema_property\" : \"example schema property value\"%n}"), examples.get(0).get("example"));
         assertEquals("200", examples.get(0).get("statusCode"));
+    }
+
+    @Test
+    public void generateNothingFromResponseSchemaWithModel() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/example_generator_test.yaml");
+
+        new InlineModelResolver().flatten(openAPI);
+
+        ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI) {
+            @Override
+            protected Map<String, Object> createExampleFromModelValues(Schema schema, String mediaType, Set<String> processedModels) {
+                return null;
+            }
+
+            @Override
+            protected void createDefaultExamples(List<Map<String, String>> examples) {
+            }
+        };
+        Set<String> mediaTypeKeys = new TreeSet<>();
+        mediaTypeKeys.add("application/json");
+        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+                "200",
+                openAPI
+                        .getPaths()
+                        .get("/generate_from_response_schema_with_model")
+                        .getGet()
+                        .getResponses()
+                        .get("200")
+                        .getContent()
+                        .get("application/json")
+                        .getSchema(),
+                mediaTypeKeys
+        );
+
+        assertEquals(0, examples.size());
     }
 }
