@@ -167,7 +167,7 @@ module Petstore
       # throw an exception if the temp folder path is not defined
       # to avoid using the default temp directory which can be read by anyone
       if @config.temp_folder_path.nil?
-        raise "@config.temp_folder_path must be setup first (e.g. ENV["HOME"], ENV["HOMEPATH"])" +
+        raise "@config.temp_folder_path must be setup first (e.g. ENV[\"HOME\"], ENV[\"HOMEPATH\"])" +
               "to avoid dowloading the file to a location readable by everyone."
       end
 
