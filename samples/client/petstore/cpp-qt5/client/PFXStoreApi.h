@@ -62,15 +62,19 @@ public:
     */
     void deleteOrder(const QString &order_id);
 
+
     void getInventory();
+
     /**
     * @param[in]  order_id qint64 [required]
     */
     void getOrderById(const qint64 &order_id);
+
     /**
     * @param[in]  body PFXOrder [required]
     */
     void placeOrder(const PFXOrder &body);
+
 
 private:
     QString _scheme, _host;

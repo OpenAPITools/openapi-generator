@@ -58,7 +58,8 @@ public:
     {{/required}}
     {{/allParams}}
     */{{/hasParams}}
-    void {{nickname}}({{#allParams}}{{#required}}const {{{dataType}}} &{{/required}}{{^required}}const QVariant &{{/required}}{{paramName}}{{^required}} = QVariant(){{/required}}{{^-last}}, {{/-last}}{{/allParams}});{{/operation}}{{/operations}}
+    void {{nickname}}({{#allParams}}{{#required}}const {{{dataType}}} &{{/required}}{{^required}}const QVariant &{{/required}}{{paramName}}{{^required}} = QVariant(){{/required}}{{^-last}}, {{/-last}}{{/allParams}});
+{{/operation}}{{/operations}}
 
 private:
     QString _scheme, _host;

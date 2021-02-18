@@ -61,34 +61,42 @@ public:
     * @param[in]  body PFXUser [required]
     */
     void createUser(const PFXUser &body);
+
     /**
     * @param[in]  body QList<PFXUser> [required]
     */
     void createUsersWithArrayInput(const QList<PFXUser> &body);
+
     /**
     * @param[in]  body QList<PFXUser> [required]
     */
     void createUsersWithListInput(const QList<PFXUser> &body);
+
     /**
     * @param[in]  username QString [required]
     */
     void deleteUser(const QString &username);
+
     /**
     * @param[in]  username QString [required]
     */
     void getUserByName(const QString &username);
+
     /**
     * @param[in]  username QString [required]
     * @param[in]  password QString [required]
     */
     void loginUser(const QString &username, const QString &password);
 
+
     void logoutUser();
+
     /**
     * @param[in]  username QString [required]
     * @param[in]  body PFXUser [required]
     */
     void updateUser(const QString &username, const PFXUser &body);
+
 
 private:
     QString _scheme, _host;
