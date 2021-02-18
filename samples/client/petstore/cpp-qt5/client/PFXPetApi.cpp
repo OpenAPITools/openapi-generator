@@ -265,7 +265,7 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const QVariant &api_key) {
         pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
         QString paramString = (pathStyle == "matrix") ? pathPrefix+"petId"+pathSuffix : pathPrefix;
         fullPath.replace(pet_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
-        }
+    }
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -600,7 +600,7 @@ void PFXPetApi::getPetById(const qint64 &pet_id) {
         pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
         QString paramString = (pathStyle == "matrix") ? pathPrefix+"petId"+pathSuffix : pathPrefix;
         fullPath.replace(pet_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
-        }
+    }
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -695,7 +695,7 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const QVariant &name, co
         pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
         QString paramString = (pathStyle == "matrix") ? pathPrefix+"petId"+pathSuffix : pathPrefix;
         fullPath.replace(pet_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
-        }
+    }
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -760,7 +760,7 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const QVariant &additional_meta
         pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
         QString paramString = (pathStyle == "matrix") ? pathPrefix+"petId"+pathSuffix : pathPrefix;
         fullPath.replace(pet_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
-        }
+    }
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);

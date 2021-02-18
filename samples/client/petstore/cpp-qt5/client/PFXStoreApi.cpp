@@ -212,7 +212,7 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
         pathDelimiter = getParamStyleDelimiter(pathStyle, "orderId", false);
         QString paramString = (pathStyle == "matrix") ? pathPrefix+"orderId"+pathSuffix : pathPrefix;
         fullPath.replace(order_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
-        }
+    }
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -317,7 +317,7 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
         pathDelimiter = getParamStyleDelimiter(pathStyle, "orderId", false);
         QString paramString = (pathStyle == "matrix") ? pathPrefix+"orderId"+pathSuffix : pathPrefix;
         fullPath.replace(order_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
-        }
+    }
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);

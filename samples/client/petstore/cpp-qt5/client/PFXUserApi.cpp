@@ -347,7 +347,7 @@ void PFXUserApi::deleteUser(const QString &username) {
         pathDelimiter = getParamStyleDelimiter(pathStyle, "username", false);
         QString paramString = (pathStyle == "matrix") ? pathPrefix+"username"+pathSuffix : pathPrefix;
         fullPath.replace(usernamePathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
-        }
+    }
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -400,7 +400,7 @@ void PFXUserApi::getUserByName(const QString &username) {
         pathDelimiter = getParamStyleDelimiter(pathStyle, "username", false);
         QString paramString = (pathStyle == "matrix") ? pathPrefix+"username"+pathSuffix : pathPrefix;
         fullPath.replace(usernamePathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
-        }
+    }
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -565,7 +565,7 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
         pathDelimiter = getParamStyleDelimiter(pathStyle, "username", false);
         QString paramString = (pathStyle == "matrix") ? pathPrefix+"username"+pathSuffix : pathPrefix;
         fullPath.replace(usernamePathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
-        }
+    }
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
