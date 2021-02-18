@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.6
+// @dart=2.7
 
 // ignore_for_file: unused_import
 
@@ -23,11 +23,9 @@ abstract class Pet implements Built<Pet, PetBuilder> {
     @BuiltValueField(wireName: r'category')
     Category get category;
 
-    @nullable
     @BuiltValueField(wireName: r'name')
     String get name;
 
-    @nullable
     @BuiltValueField(wireName: r'photoUrls')
     BuiltList<String> get photoUrls;
 
@@ -41,13 +39,101 @@ abstract class Pet implements Built<Pet, PetBuilder> {
     PetStatusEnum get status;
     // enum statusEnum {  available,  pending,  sold,  };
 
-    // Boilerplate code needed to wire-up generated code
     Pet._();
 
     static void _initializeBuilder(PetBuilder b) => b;
 
     factory Pet([void updates(PetBuilder b)]) = _$Pet;
-    static Serializer<Pet> get serializer => _$petSerializer;
+
+    @BuiltValueSerializer(custom: true)
+    static Serializer<Pet> get serializer => _$PetSerializer();
+}
+
+class _$PetSerializer implements StructuredSerializer<Pet> {
+
+    @override
+    final Iterable<Type> types = const [Pet, _$Pet];
+    @override
+    final String wireName = r'Pet';
+
+    @override
+    Iterable<Object> serialize(Serializers serializers, Pet object,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = <Object>[];
+        if (object.id != null) {
+            result
+                ..add(r'id')
+                ..add(serializers.serialize(object.id,
+                    specifiedType: const FullType(int)));
+        }
+        if (object.category != null) {
+            result
+                ..add(r'category')
+                ..add(serializers.serialize(object.category,
+                    specifiedType: const FullType(Category)));
+        }
+        result
+            ..add(r'name')
+            ..add(serializers.serialize(object.name,
+                specifiedType: const FullType(String)));
+        result
+            ..add(r'photoUrls')
+            ..add(serializers.serialize(object.photoUrls,
+                specifiedType: const FullType(BuiltList, [FullType(String)])));
+        if (object.tags != null) {
+            result
+                ..add(r'tags')
+                ..add(serializers.serialize(object.tags,
+                    specifiedType: const FullType(BuiltList, [FullType(Tag)])));
+        }
+        if (object.status != null) {
+            result
+                ..add(r'status')
+                ..add(serializers.serialize(object.status,
+                    specifiedType: const FullType(PetStatusEnum)));
+        }
+        return result;
+    }
+
+    @override
+    Pet deserialize(Serializers serializers, Iterable<Object> serialized,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = PetBuilder();
+
+        final iterator = serialized.iterator;
+        while (iterator.moveNext()) {
+            final key = iterator.current as String;
+            iterator.moveNext();
+            final dynamic value = iterator.current;
+            switch (key) {
+                case r'id':
+                    result.id = serializers.deserialize(value,
+                        specifiedType: const FullType(int)) as int;
+                    break;
+                case r'category':
+                    result.category.replace(serializers.deserialize(value,
+                        specifiedType: const FullType(Category)) as Category);
+                    break;
+                case r'name':
+                    result.name = serializers.deserialize(value,
+                        specifiedType: const FullType(String)) as String;
+                    break;
+                case r'photoUrls':
+                    result.photoUrls.replace(serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltList, [FullType(String)])) as BuiltList<String>);
+                    break;
+                case r'tags':
+                    result.tags.replace(serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltList, [FullType(Tag)])) as BuiltList<Tag>);
+                    break;
+                case r'status':
+                    result.status = serializers.deserialize(value,
+                        specifiedType: const FullType(PetStatusEnum)) as PetStatusEnum;
+                    break;
+            }
+        }
+        return result.build();
+    }
 }
 
 class PetStatusEnum extends EnumClass {

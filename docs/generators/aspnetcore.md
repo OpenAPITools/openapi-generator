@@ -7,7 +7,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|aspnetCoreVersion|ASP.NET Core version: 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)| |3.1|
+|aspnetCoreVersion|ASP.NET Core version: 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)| |3.1|
 |buildTarget|Target to build an application or library| |program|
 |classModifier|Class Modifier for controller classes: Empty string or abstract.| ||
 |compatibilityVersion|ASP.Net Core CompatibilityVersion| |Version_2_2|

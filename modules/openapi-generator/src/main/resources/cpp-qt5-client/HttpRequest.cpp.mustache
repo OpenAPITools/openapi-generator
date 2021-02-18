@@ -7,7 +7,7 @@
 #include <QUrl>
 #include <QUuid>
 #include <QtGlobal>
-#if QT_VERSION >= 0x051500
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     #define SKIP_EMPTY_PARTS Qt::SkipEmptyParts
 #else
     #define SKIP_EMPTY_PARTS QString::SkipEmptyParts
@@ -52,7 +52,7 @@ void {{prefix}}HttpRequestInput::add_file(QString variable_name, QString local_f
 {{prefix}}HttpRequestWorker::{{prefix}}HttpRequestWorker(QObject *parent, QNetworkAccessManager *_manager)
     : QObject(parent), manager(_manager), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false), httpResponseCode(-1) {
 
-#if QT_VERSION >= 0x051500
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     randomGenerator = QRandomGenerator(QDateTime::currentDateTime().toSecsSinceEpoch());
 #else
     qsrand(QDateTime::currentDateTime().toTime_t());
@@ -216,7 +216,7 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
         // variable layout is MULTIPART
 
         boundary = QString("__-----------------------%1%2")
-                    #if QT_VERSION >= 0x051500
+                    #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
                             .arg(QDateTime::currentDateTime().toSecsSinceEpoch())
                             .arg(randomGenerator.generate());
                     #else
@@ -546,7 +546,7 @@ QByteArray {{prefix}}HttpRequestWorker::compress(const QByteArray& input, int le
     return output;{{/contentCompression}}{{^contentCompression}}
     Q_UNUSED(input);
     Q_UNUSED(level);
-    Q_UNUSED(compressType);        
+    Q_UNUSED(compressType);
     return QByteArray();{{/contentCompression}}
 }
 
