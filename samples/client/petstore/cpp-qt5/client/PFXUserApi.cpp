@@ -348,6 +348,7 @@ void PFXUserApi::deleteUser(const QString &username) {
         QString paramString = (pathStyle == "matrix") ? pathPrefix+"username"+pathSuffix : pathPrefix;
         fullPath.replace(usernamePathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
         }
+
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
@@ -400,6 +401,7 @@ void PFXUserApi::getUserByName(const QString &username) {
         QString paramString = (pathStyle == "matrix") ? pathPrefix+"username"+pathSuffix : pathPrefix;
         fullPath.replace(usernamePathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
         }
+
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
@@ -454,7 +456,9 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
             fullPath.append("?");
 
         fullPath.append(QUrl::toPercentEncoding("username")).append(querySuffix).append(QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
-        
+        }
+
+    
     {
         queryStyle = "";
         if(queryStyle == "") 
@@ -468,7 +472,9 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
             fullPath.append("?");
 
         fullPath.append(QUrl::toPercentEncoding("password")).append(querySuffix).append(QUrl::toPercentEncoding(::test_namespace::toStringValue(password)));
-        PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
+        }
+
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "GET");
@@ -560,6 +566,7 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
         QString paramString = (pathStyle == "matrix") ? pathPrefix+"username"+pathSuffix : pathPrefix;
         fullPath.replace(usernamePathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
         }
+
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);

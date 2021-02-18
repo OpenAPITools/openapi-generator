@@ -302,6 +302,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         }
     {{/collectionFormat}}
     }
+
 {{/pathParams}}
     {{#hasQueryParams}}
     QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
@@ -446,8 +447,9 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
                 }   
             }
         }
+{{/collectionFormat}}
     }
-    {{/collectionFormat}}
+
 {{/queryParams}}
     {{prefix}}HttpRequestWorker *worker = new {{prefix}}HttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
