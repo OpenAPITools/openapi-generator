@@ -397,7 +397,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
                 }   
             }
         }
-    }
+}
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -533,7 +533,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
                 }   
             }
         }
-    }
+}
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -705,13 +705,13 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const QVariant &name, co
 
     if(!name.isNull())
     {
-    input.add_var("name", ::test_namespace::toStringValue(name.value<QString>()));
+        input.add_var("name", ::test_namespace::toStringValue(name.value<QString>()));
     }
 
 
     if(!status.isNull())
     {
-    input.add_var("status", ::test_namespace::toStringValue(status.value<QString>()));
+        input.add_var("status", ::test_namespace::toStringValue(status.value<QString>()));
     }
 
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
@@ -770,13 +770,13 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const QVariant &additional_meta
 
     if(!additional_metadata.isNull())
     {
-    input.add_var("additionalMetadata", ::test_namespace::toStringValue(additional_metadata.value<QString>()));
+        input.add_var("additionalMetadata", ::test_namespace::toStringValue(additional_metadata.value<QString>()));
     }
 
 
     if(!file.isNull())
     {
-    input.add_file("file", file.value<PFXHttpFileElement>().local_filename, file.value<PFXHttpFileElement>().request_filename, file.value<PFXHttpFileElement>().mime_type);
+        input.add_file("file", file.value<PFXHttpFileElement>().local_filename, file.value<PFXHttpFileElement>().request_filename, file.value<PFXHttpFileElement>().mime_type);
     }
 
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }

@@ -316,7 +316,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         queryPrefix = getParamStylePrefix(queryStyle);
         querySuffix = getParamStyleSuffix(queryStyle);
         queryDelimiter = getParamStyleDelimiter(queryStyle, "{{baseName}}", {{isExplode}}); 
-    {{^collectionFormat}} 
+{{^collectionFormat}}
         if (fullPath.indexOf("?") > 0)
             fullPath.append(queryPrefix);
         else
@@ -447,8 +447,8 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
                 }   
             }
         }
-{{/collectionFormat}}
-    }
+    {{/collectionFormat}}
+}
 
 {{/queryParams}}
     {{prefix}}HttpRequestWorker *worker = new {{prefix}}HttpRequestWorker(this, _manager);
@@ -472,10 +472,10 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     {{^required}}if(!{{paramName}}.isNull()){{/required}}
     {
 {{^isFile}}
-    input.add_var("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}));
+        input.add_var("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}));
 {{/isFile}}
 {{#isFile}}
-    input.add_file("{{baseName}}", {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}.local_filename, {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}.request_filename, {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}.mime_type);
+        input.add_file("{{baseName}}", {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}.local_filename, {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}.request_filename, {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}.mime_type);
 {{/isFile}}
     }
 

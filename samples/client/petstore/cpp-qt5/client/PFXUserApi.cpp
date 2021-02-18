@@ -456,7 +456,7 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
             fullPath.append("?");
 
         fullPath.append(QUrl::toPercentEncoding("username")).append(querySuffix).append(QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
-        }
+    }
 
     
     {
@@ -472,7 +472,7 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
             fullPath.append("?");
 
         fullPath.append(QUrl::toPercentEncoding("password")).append(querySuffix).append(QUrl::toPercentEncoding(::test_namespace::toStringValue(password)));
-        }
+    }
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
