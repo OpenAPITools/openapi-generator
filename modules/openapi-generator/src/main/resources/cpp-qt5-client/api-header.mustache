@@ -48,7 +48,6 @@ public:
     QString getParamStyleSuffix(QString style);
     QString getParamStyleDelimiter(QString style, QString name, bool isExplode);
 {{#operations}}{{#operation}}
-
     /**
     {{#allParams}}
     {{#required}}
@@ -59,7 +58,7 @@ public:
     {{/required}}
     {{/allParams}}
     */
-    void {{nickname}}({{#allParams}}{{#required}}const {{{dataType}}} &{{/required}}{{^required}}const QVariant &{{/required}}{{paramName}} {{^required}}= QVariant(){{/required}}{{^-last}}, {{/-last}}{{/allParams}});
+    void {{nickname}}({{#allParams}}{{#required}}const {{{dataType}}} &{{/required}}{{^required}}const QVariant &{{/required}}{{paramName}}{{^required}} = QVariant(){{/required}}{{^-last}}, {{/-last}}{{/allParams}});
 {{/operation}}{{/operations}}
 
 private:
