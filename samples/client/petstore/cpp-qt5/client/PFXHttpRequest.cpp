@@ -17,7 +17,7 @@
 #include <QUrl>
 #include <QUuid>
 #include <QtGlobal>
-#if QT_VERSION >= 0x051500
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     #define SKIP_EMPTY_PARTS Qt::SkipEmptyParts
 #else
     #define SKIP_EMPTY_PARTS QString::SkipEmptyParts
@@ -59,7 +59,7 @@ void PFXHttpRequestInput::add_file(QString variable_name, QString local_filename
 PFXHttpRequestWorker::PFXHttpRequestWorker(QObject *parent, QNetworkAccessManager *_manager)
     : QObject(parent), manager(_manager), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false), httpResponseCode(-1) {
 
-#if QT_VERSION >= 0x051500
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     randomGenerator = QRandomGenerator(QDateTime::currentDateTime().toSecsSinceEpoch());
 #else
     qsrand(QDateTime::currentDateTime().toTime_t());
@@ -223,7 +223,7 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         // variable layout is MULTIPART
 
         boundary = QString("__-----------------------%1%2")
-                    #if QT_VERSION >= 0x051500
+                    #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
                             .arg(QDateTime::currentDateTime().toSecsSinceEpoch())
                             .arg(randomGenerator.generate());
                     #else
@@ -480,7 +480,7 @@ QByteArray PFXHttpRequestWorker::compress(const QByteArray& input, int level, PF
     
     Q_UNUSED(input);
     Q_UNUSED(level);
-    Q_UNUSED(compressType);        
+    Q_UNUSED(compressType);
     return QByteArray();
 }
 
