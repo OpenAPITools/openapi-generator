@@ -140,13 +140,13 @@ type ApiCreateUserRequest struct {
 	body *User
 }
 
-func (r ApiCreateUserRequest) Body(body User) ApiCreateUserRequest {
+func (r *ApiCreateUserRequest) Body(body User) *ApiCreateUserRequest {
 	r.body = &body
 	return r
 }
 
-func (r ApiCreateUserRequest) Execute() (*_nethttp.Response, error) {
-	return r.ApiService.CreateUserExecute(r)
+func (r *ApiCreateUserRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.CreateUserExecute(*r)
 }
 
 /*
@@ -241,13 +241,13 @@ type ApiCreateUsersWithArrayInputRequest struct {
 	body *[]User
 }
 
-func (r ApiCreateUsersWithArrayInputRequest) Body(body []User) ApiCreateUsersWithArrayInputRequest {
+func (r *ApiCreateUsersWithArrayInputRequest) Body(body []User) *ApiCreateUsersWithArrayInputRequest {
 	r.body = &body
 	return r
 }
 
-func (r ApiCreateUsersWithArrayInputRequest) Execute() (*_nethttp.Response, error) {
-	return r.ApiService.CreateUsersWithArrayInputExecute(r)
+func (r *ApiCreateUsersWithArrayInputRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.CreateUsersWithArrayInputExecute(*r)
 }
 
 /*
@@ -341,13 +341,13 @@ type ApiCreateUsersWithListInputRequest struct {
 	body *[]User
 }
 
-func (r ApiCreateUsersWithListInputRequest) Body(body []User) ApiCreateUsersWithListInputRequest {
+func (r *ApiCreateUsersWithListInputRequest) Body(body []User) *ApiCreateUsersWithListInputRequest {
 	r.body = &body
 	return r
 }
 
-func (r ApiCreateUsersWithListInputRequest) Execute() (*_nethttp.Response, error) {
-	return r.ApiService.CreateUsersWithListInputExecute(r)
+func (r *ApiCreateUsersWithListInputRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.CreateUsersWithListInputExecute(*r)
 }
 
 /*
@@ -442,8 +442,8 @@ type ApiDeleteUserRequest struct {
 }
 
 
-func (r ApiDeleteUserRequest) Execute() (*_nethttp.Response, error) {
-	return r.ApiService.DeleteUserExecute(r)
+func (r *ApiDeleteUserRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.DeleteUserExecute(*r)
 }
 
 /*
@@ -537,8 +537,8 @@ type ApiGetUserByNameRequest struct {
 }
 
 
-func (r ApiGetUserByNameRequest) Execute() (User, *_nethttp.Response, error) {
-	return r.ApiService.GetUserByNameExecute(r)
+func (r *ApiGetUserByNameRequest) Execute() (User, *_nethttp.Response, error) {
+	return r.ApiService.GetUserByNameExecute(*r)
 }
 
 /*
@@ -642,17 +642,17 @@ type ApiLoginUserRequest struct {
 	password *string
 }
 
-func (r ApiLoginUserRequest) Username(username string) ApiLoginUserRequest {
+func (r *ApiLoginUserRequest) Username(username string) *ApiLoginUserRequest {
 	r.username = &username
 	return r
 }
-func (r ApiLoginUserRequest) Password(password string) ApiLoginUserRequest {
+func (r *ApiLoginUserRequest) Password(password string) *ApiLoginUserRequest {
 	r.password = &password
 	return r
 }
 
-func (r ApiLoginUserRequest) Execute() (string, *_nethttp.Response, error) {
-	return r.ApiService.LoginUserExecute(r)
+func (r *ApiLoginUserRequest) Execute() (string, *_nethttp.Response, error) {
+	return r.ApiService.LoginUserExecute(*r)
 }
 
 /*
@@ -760,8 +760,8 @@ type ApiLogoutUserRequest struct {
 }
 
 
-func (r ApiLogoutUserRequest) Execute() (*_nethttp.Response, error) {
-	return r.ApiService.LogoutUserExecute(r)
+func (r *ApiLogoutUserRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.LogoutUserExecute(*r)
 }
 
 /*
@@ -851,13 +851,13 @@ type ApiUpdateUserRequest struct {
 	body *User
 }
 
-func (r ApiUpdateUserRequest) Body(body User) ApiUpdateUserRequest {
+func (r *ApiUpdateUserRequest) Body(body User) *ApiUpdateUserRequest {
 	r.body = &body
 	return r
 }
 
-func (r ApiUpdateUserRequest) Execute() (*_nethttp.Response, error) {
-	return r.ApiService.UpdateUserExecute(r)
+func (r *ApiUpdateUserRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.UpdateUserExecute(*r)
 }
 
 /*

@@ -158,13 +158,13 @@ type ApiAddPetRequest struct {
 	body *Pet
 }
 
-func (r ApiAddPetRequest) Body(body Pet) ApiAddPetRequest {
+func (r *ApiAddPetRequest) Body(body Pet) *ApiAddPetRequest {
 	r.body = &body
 	return r
 }
 
-func (r ApiAddPetRequest) Execute() (*_nethttp.Response, error) {
-	return r.ApiService.AddPetExecute(r)
+func (r *ApiAddPetRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.AddPetExecute(*r)
 }
 
 /*
@@ -259,13 +259,13 @@ type ApiDeletePetRequest struct {
 	apiKey *string
 }
 
-func (r ApiDeletePetRequest) ApiKey(apiKey string) ApiDeletePetRequest {
+func (r *ApiDeletePetRequest) ApiKey(apiKey string) *ApiDeletePetRequest {
 	r.apiKey = &apiKey
 	return r
 }
 
-func (r ApiDeletePetRequest) Execute() (*_nethttp.Response, error) {
-	return r.ApiService.DeletePetExecute(r)
+func (r *ApiDeletePetRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.DeletePetExecute(*r)
 }
 
 /*
@@ -360,13 +360,13 @@ type ApiFindPetsByStatusRequest struct {
 	status *[]string
 }
 
-func (r ApiFindPetsByStatusRequest) Status(status []string) ApiFindPetsByStatusRequest {
+func (r *ApiFindPetsByStatusRequest) Status(status []string) *ApiFindPetsByStatusRequest {
 	r.status = &status
 	return r
 }
 
-func (r ApiFindPetsByStatusRequest) Execute() ([]Pet, *_nethttp.Response, error) {
-	return r.ApiService.FindPetsByStatusExecute(r)
+func (r *ApiFindPetsByStatusRequest) Execute() ([]Pet, *_nethttp.Response, error) {
+	return r.ApiService.FindPetsByStatusExecute(*r)
 }
 
 /*
@@ -471,13 +471,13 @@ type ApiFindPetsByTagsRequest struct {
 	tags *[]string
 }
 
-func (r ApiFindPetsByTagsRequest) Tags(tags []string) ApiFindPetsByTagsRequest {
+func (r *ApiFindPetsByTagsRequest) Tags(tags []string) *ApiFindPetsByTagsRequest {
 	r.tags = &tags
 	return r
 }
 
-func (r ApiFindPetsByTagsRequest) Execute() ([]Pet, *_nethttp.Response, error) {
-	return r.ApiService.FindPetsByTagsExecute(r)
+func (r *ApiFindPetsByTagsRequest) Execute() ([]Pet, *_nethttp.Response, error) {
+	return r.ApiService.FindPetsByTagsExecute(*r)
 }
 
 /*
@@ -583,8 +583,8 @@ type ApiGetPetByIdRequest struct {
 }
 
 
-func (r ApiGetPetByIdRequest) Execute() (Pet, *_nethttp.Response, error) {
-	return r.ApiService.GetPetByIdExecute(r)
+func (r *ApiGetPetByIdRequest) Execute() (Pet, *_nethttp.Response, error) {
+	return r.ApiService.GetPetByIdExecute(*r)
 }
 
 /*
@@ -702,13 +702,13 @@ type ApiUpdatePetRequest struct {
 	body *Pet
 }
 
-func (r ApiUpdatePetRequest) Body(body Pet) ApiUpdatePetRequest {
+func (r *ApiUpdatePetRequest) Body(body Pet) *ApiUpdatePetRequest {
 	r.body = &body
 	return r
 }
 
-func (r ApiUpdatePetRequest) Execute() (*_nethttp.Response, error) {
-	return r.ApiService.UpdatePetExecute(r)
+func (r *ApiUpdatePetRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.UpdatePetExecute(*r)
 }
 
 /*
@@ -804,17 +804,17 @@ type ApiUpdatePetWithFormRequest struct {
 	status *string
 }
 
-func (r ApiUpdatePetWithFormRequest) Name(name string) ApiUpdatePetWithFormRequest {
+func (r *ApiUpdatePetWithFormRequest) Name(name string) *ApiUpdatePetWithFormRequest {
 	r.name = &name
 	return r
 }
-func (r ApiUpdatePetWithFormRequest) Status(status string) ApiUpdatePetWithFormRequest {
+func (r *ApiUpdatePetWithFormRequest) Status(status string) *ApiUpdatePetWithFormRequest {
 	r.status = &status
 	return r
 }
 
-func (r ApiUpdatePetWithFormRequest) Execute() (*_nethttp.Response, error) {
-	return r.ApiService.UpdatePetWithFormExecute(r)
+func (r *ApiUpdatePetWithFormRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.UpdatePetWithFormExecute(*r)
 }
 
 /*
@@ -914,17 +914,17 @@ type ApiUploadFileRequest struct {
 	file **os.File
 }
 
-func (r ApiUploadFileRequest) AdditionalMetadata(additionalMetadata string) ApiUploadFileRequest {
+func (r *ApiUploadFileRequest) AdditionalMetadata(additionalMetadata string) *ApiUploadFileRequest {
 	r.additionalMetadata = &additionalMetadata
 	return r
 }
-func (r ApiUploadFileRequest) File(file *os.File) ApiUploadFileRequest {
+func (r *ApiUploadFileRequest) File(file *os.File) *ApiUploadFileRequest {
 	r.file = &file
 	return r
 }
 
-func (r ApiUploadFileRequest) Execute() (ApiResponse, *_nethttp.Response, error) {
-	return r.ApiService.UploadFileExecute(r)
+func (r *ApiUploadFileRequest) Execute() (ApiResponse, *_nethttp.Response, error) {
+	return r.ApiService.UploadFileExecute(*r)
 }
 
 /*
@@ -1043,17 +1043,17 @@ type ApiUploadFileWithRequiredFileRequest struct {
 	additionalMetadata *string
 }
 
-func (r ApiUploadFileWithRequiredFileRequest) RequiredFile(requiredFile *os.File) ApiUploadFileWithRequiredFileRequest {
+func (r *ApiUploadFileWithRequiredFileRequest) RequiredFile(requiredFile *os.File) *ApiUploadFileWithRequiredFileRequest {
 	r.requiredFile = &requiredFile
 	return r
 }
-func (r ApiUploadFileWithRequiredFileRequest) AdditionalMetadata(additionalMetadata string) ApiUploadFileWithRequiredFileRequest {
+func (r *ApiUploadFileWithRequiredFileRequest) AdditionalMetadata(additionalMetadata string) *ApiUploadFileWithRequiredFileRequest {
 	r.additionalMetadata = &additionalMetadata
 	return r
 }
 
-func (r ApiUploadFileWithRequiredFileRequest) Execute() (ApiResponse, *_nethttp.Response, error) {
-	return r.ApiService.UploadFileWithRequiredFileExecute(r)
+func (r *ApiUploadFileWithRequiredFileRequest) Execute() (ApiResponse, *_nethttp.Response, error) {
+	return r.ApiService.UploadFileWithRequiredFileExecute(*r)
 }
 
 /*

@@ -226,8 +226,8 @@ type ApiFakeHealthGetRequest struct {
 }
 
 
-func (r ApiFakeHealthGetRequest) Execute() (HealthCheckResult, *_nethttp.Response, error) {
-	return r.ApiService.FakeHealthGetExecute(r)
+func (r *ApiFakeHealthGetRequest) Execute() (HealthCheckResult, *_nethttp.Response, error) {
+	return r.ApiService.FakeHealthGetExecute(*r)
 }
 
 /*
@@ -327,13 +327,13 @@ type ApiFakeOuterBooleanSerializeRequest struct {
 	body *bool
 }
 
-func (r ApiFakeOuterBooleanSerializeRequest) Body(body bool) ApiFakeOuterBooleanSerializeRequest {
+func (r *ApiFakeOuterBooleanSerializeRequest) Body(body bool) *ApiFakeOuterBooleanSerializeRequest {
 	r.body = &body
 	return r
 }
 
-func (r ApiFakeOuterBooleanSerializeRequest) Execute() (bool, *_nethttp.Response, error) {
-	return r.ApiService.FakeOuterBooleanSerializeExecute(r)
+func (r *ApiFakeOuterBooleanSerializeRequest) Execute() (bool, *_nethttp.Response, error) {
+	return r.ApiService.FakeOuterBooleanSerializeExecute(*r)
 }
 
 /*
@@ -436,13 +436,13 @@ type ApiFakeOuterCompositeSerializeRequest struct {
 	outerComposite *OuterComposite
 }
 
-func (r ApiFakeOuterCompositeSerializeRequest) OuterComposite(outerComposite OuterComposite) ApiFakeOuterCompositeSerializeRequest {
+func (r *ApiFakeOuterCompositeSerializeRequest) OuterComposite(outerComposite OuterComposite) *ApiFakeOuterCompositeSerializeRequest {
 	r.outerComposite = &outerComposite
 	return r
 }
 
-func (r ApiFakeOuterCompositeSerializeRequest) Execute() (OuterComposite, *_nethttp.Response, error) {
-	return r.ApiService.FakeOuterCompositeSerializeExecute(r)
+func (r *ApiFakeOuterCompositeSerializeRequest) Execute() (OuterComposite, *_nethttp.Response, error) {
+	return r.ApiService.FakeOuterCompositeSerializeExecute(*r)
 }
 
 /*
@@ -545,13 +545,13 @@ type ApiFakeOuterNumberSerializeRequest struct {
 	body *float32
 }
 
-func (r ApiFakeOuterNumberSerializeRequest) Body(body float32) ApiFakeOuterNumberSerializeRequest {
+func (r *ApiFakeOuterNumberSerializeRequest) Body(body float32) *ApiFakeOuterNumberSerializeRequest {
 	r.body = &body
 	return r
 }
 
-func (r ApiFakeOuterNumberSerializeRequest) Execute() (float32, *_nethttp.Response, error) {
-	return r.ApiService.FakeOuterNumberSerializeExecute(r)
+func (r *ApiFakeOuterNumberSerializeRequest) Execute() (float32, *_nethttp.Response, error) {
+	return r.ApiService.FakeOuterNumberSerializeExecute(*r)
 }
 
 /*
@@ -654,13 +654,13 @@ type ApiFakeOuterStringSerializeRequest struct {
 	body *string
 }
 
-func (r ApiFakeOuterStringSerializeRequest) Body(body string) ApiFakeOuterStringSerializeRequest {
+func (r *ApiFakeOuterStringSerializeRequest) Body(body string) *ApiFakeOuterStringSerializeRequest {
 	r.body = &body
 	return r
 }
 
-func (r ApiFakeOuterStringSerializeRequest) Execute() (string, *_nethttp.Response, error) {
-	return r.ApiService.FakeOuterStringSerializeExecute(r)
+func (r *ApiFakeOuterStringSerializeRequest) Execute() (string, *_nethttp.Response, error) {
+	return r.ApiService.FakeOuterStringSerializeExecute(*r)
 }
 
 /*
@@ -763,13 +763,13 @@ type ApiTestBodyWithFileSchemaRequest struct {
 	fileSchemaTestClass *FileSchemaTestClass
 }
 
-func (r ApiTestBodyWithFileSchemaRequest) FileSchemaTestClass(fileSchemaTestClass FileSchemaTestClass) ApiTestBodyWithFileSchemaRequest {
+func (r *ApiTestBodyWithFileSchemaRequest) FileSchemaTestClass(fileSchemaTestClass FileSchemaTestClass) *ApiTestBodyWithFileSchemaRequest {
 	r.fileSchemaTestClass = &fileSchemaTestClass
 	return r
 }
 
-func (r ApiTestBodyWithFileSchemaRequest) Execute() (*_nethttp.Response, error) {
-	return r.ApiService.TestBodyWithFileSchemaExecute(r)
+func (r *ApiTestBodyWithFileSchemaRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.TestBodyWithFileSchemaExecute(*r)
 }
 
 /*
@@ -865,17 +865,17 @@ type ApiTestBodyWithQueryParamsRequest struct {
 	user *User
 }
 
-func (r ApiTestBodyWithQueryParamsRequest) Query(query string) ApiTestBodyWithQueryParamsRequest {
+func (r *ApiTestBodyWithQueryParamsRequest) Query(query string) *ApiTestBodyWithQueryParamsRequest {
 	r.query = &query
 	return r
 }
-func (r ApiTestBodyWithQueryParamsRequest) User(user User) ApiTestBodyWithQueryParamsRequest {
+func (r *ApiTestBodyWithQueryParamsRequest) User(user User) *ApiTestBodyWithQueryParamsRequest {
 	r.user = &user
 	return r
 }
 
-func (r ApiTestBodyWithQueryParamsRequest) Execute() (*_nethttp.Response, error) {
-	return r.ApiService.TestBodyWithQueryParamsExecute(r)
+func (r *ApiTestBodyWithQueryParamsRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.TestBodyWithQueryParamsExecute(*r)
 }
 
 /*
@@ -973,13 +973,13 @@ type ApiTestClientModelRequest struct {
 	client *Client
 }
 
-func (r ApiTestClientModelRequest) Client(client Client) ApiTestClientModelRequest {
+func (r *ApiTestClientModelRequest) Client(client Client) *ApiTestClientModelRequest {
 	r.client = &client
 	return r
 }
 
-func (r ApiTestClientModelRequest) Execute() (Client, *_nethttp.Response, error) {
-	return r.ApiService.TestClientModelExecute(r)
+func (r *ApiTestClientModelRequest) Execute() (Client, *_nethttp.Response, error) {
+	return r.ApiService.TestClientModelExecute(*r)
 }
 
 /*
@@ -1098,65 +1098,65 @@ type ApiTestEndpointParametersRequest struct {
 	callback *string
 }
 
-func (r ApiTestEndpointParametersRequest) Number(number float32) ApiTestEndpointParametersRequest {
+func (r *ApiTestEndpointParametersRequest) Number(number float32) *ApiTestEndpointParametersRequest {
 	r.number = &number
 	return r
 }
-func (r ApiTestEndpointParametersRequest) Double(double float64) ApiTestEndpointParametersRequest {
+func (r *ApiTestEndpointParametersRequest) Double(double float64) *ApiTestEndpointParametersRequest {
 	r.double = &double
 	return r
 }
-func (r ApiTestEndpointParametersRequest) PatternWithoutDelimiter(patternWithoutDelimiter string) ApiTestEndpointParametersRequest {
+func (r *ApiTestEndpointParametersRequest) PatternWithoutDelimiter(patternWithoutDelimiter string) *ApiTestEndpointParametersRequest {
 	r.patternWithoutDelimiter = &patternWithoutDelimiter
 	return r
 }
-func (r ApiTestEndpointParametersRequest) Byte_(byte_ string) ApiTestEndpointParametersRequest {
+func (r *ApiTestEndpointParametersRequest) Byte_(byte_ string) *ApiTestEndpointParametersRequest {
 	r.byte_ = &byte_
 	return r
 }
-func (r ApiTestEndpointParametersRequest) Integer(integer int32) ApiTestEndpointParametersRequest {
+func (r *ApiTestEndpointParametersRequest) Integer(integer int32) *ApiTestEndpointParametersRequest {
 	r.integer = &integer
 	return r
 }
-func (r ApiTestEndpointParametersRequest) Int32_(int32_ int32) ApiTestEndpointParametersRequest {
+func (r *ApiTestEndpointParametersRequest) Int32_(int32_ int32) *ApiTestEndpointParametersRequest {
 	r.int32_ = &int32_
 	return r
 }
-func (r ApiTestEndpointParametersRequest) Int64_(int64_ int64) ApiTestEndpointParametersRequest {
+func (r *ApiTestEndpointParametersRequest) Int64_(int64_ int64) *ApiTestEndpointParametersRequest {
 	r.int64_ = &int64_
 	return r
 }
-func (r ApiTestEndpointParametersRequest) Float(float float32) ApiTestEndpointParametersRequest {
+func (r *ApiTestEndpointParametersRequest) Float(float float32) *ApiTestEndpointParametersRequest {
 	r.float = &float
 	return r
 }
-func (r ApiTestEndpointParametersRequest) String_(string_ string) ApiTestEndpointParametersRequest {
+func (r *ApiTestEndpointParametersRequest) String_(string_ string) *ApiTestEndpointParametersRequest {
 	r.string_ = &string_
 	return r
 }
-func (r ApiTestEndpointParametersRequest) Binary(binary *os.File) ApiTestEndpointParametersRequest {
+func (r *ApiTestEndpointParametersRequest) Binary(binary *os.File) *ApiTestEndpointParametersRequest {
 	r.binary = &binary
 	return r
 }
-func (r ApiTestEndpointParametersRequest) Date(date string) ApiTestEndpointParametersRequest {
+func (r *ApiTestEndpointParametersRequest) Date(date string) *ApiTestEndpointParametersRequest {
 	r.date = &date
 	return r
 }
-func (r ApiTestEndpointParametersRequest) DateTime(dateTime time.Time) ApiTestEndpointParametersRequest {
+func (r *ApiTestEndpointParametersRequest) DateTime(dateTime time.Time) *ApiTestEndpointParametersRequest {
 	r.dateTime = &dateTime
 	return r
 }
-func (r ApiTestEndpointParametersRequest) Password(password string) ApiTestEndpointParametersRequest {
+func (r *ApiTestEndpointParametersRequest) Password(password string) *ApiTestEndpointParametersRequest {
 	r.password = &password
 	return r
 }
-func (r ApiTestEndpointParametersRequest) Callback(callback string) ApiTestEndpointParametersRequest {
+func (r *ApiTestEndpointParametersRequest) Callback(callback string) *ApiTestEndpointParametersRequest {
 	r.callback = &callback
 	return r
 }
 
-func (r ApiTestEndpointParametersRequest) Execute() (*_nethttp.Response, error) {
-	return r.ApiService.TestEndpointParametersExecute(r)
+func (r *ApiTestEndpointParametersRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.TestEndpointParametersExecute(*r)
 }
 
 /*
@@ -1323,41 +1323,41 @@ type ApiTestEnumParametersRequest struct {
 	enumFormString *string
 }
 
-func (r ApiTestEnumParametersRequest) EnumHeaderStringArray(enumHeaderStringArray []string) ApiTestEnumParametersRequest {
+func (r *ApiTestEnumParametersRequest) EnumHeaderStringArray(enumHeaderStringArray []string) *ApiTestEnumParametersRequest {
 	r.enumHeaderStringArray = &enumHeaderStringArray
 	return r
 }
-func (r ApiTestEnumParametersRequest) EnumHeaderString(enumHeaderString string) ApiTestEnumParametersRequest {
+func (r *ApiTestEnumParametersRequest) EnumHeaderString(enumHeaderString string) *ApiTestEnumParametersRequest {
 	r.enumHeaderString = &enumHeaderString
 	return r
 }
-func (r ApiTestEnumParametersRequest) EnumQueryStringArray(enumQueryStringArray []string) ApiTestEnumParametersRequest {
+func (r *ApiTestEnumParametersRequest) EnumQueryStringArray(enumQueryStringArray []string) *ApiTestEnumParametersRequest {
 	r.enumQueryStringArray = &enumQueryStringArray
 	return r
 }
-func (r ApiTestEnumParametersRequest) EnumQueryString(enumQueryString string) ApiTestEnumParametersRequest {
+func (r *ApiTestEnumParametersRequest) EnumQueryString(enumQueryString string) *ApiTestEnumParametersRequest {
 	r.enumQueryString = &enumQueryString
 	return r
 }
-func (r ApiTestEnumParametersRequest) EnumQueryInteger(enumQueryInteger int32) ApiTestEnumParametersRequest {
+func (r *ApiTestEnumParametersRequest) EnumQueryInteger(enumQueryInteger int32) *ApiTestEnumParametersRequest {
 	r.enumQueryInteger = &enumQueryInteger
 	return r
 }
-func (r ApiTestEnumParametersRequest) EnumQueryDouble(enumQueryDouble float64) ApiTestEnumParametersRequest {
+func (r *ApiTestEnumParametersRequest) EnumQueryDouble(enumQueryDouble float64) *ApiTestEnumParametersRequest {
 	r.enumQueryDouble = &enumQueryDouble
 	return r
 }
-func (r ApiTestEnumParametersRequest) EnumFormStringArray(enumFormStringArray []string) ApiTestEnumParametersRequest {
+func (r *ApiTestEnumParametersRequest) EnumFormStringArray(enumFormStringArray []string) *ApiTestEnumParametersRequest {
 	r.enumFormStringArray = &enumFormStringArray
 	return r
 }
-func (r ApiTestEnumParametersRequest) EnumFormString(enumFormString string) ApiTestEnumParametersRequest {
+func (r *ApiTestEnumParametersRequest) EnumFormString(enumFormString string) *ApiTestEnumParametersRequest {
 	r.enumFormString = &enumFormString
 	return r
 }
 
-func (r ApiTestEnumParametersRequest) Execute() (*_nethttp.Response, error) {
-	return r.ApiService.TestEnumParametersExecute(r)
+func (r *ApiTestEnumParametersRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.TestEnumParametersExecute(*r)
 }
 
 /*
@@ -1484,33 +1484,33 @@ type ApiTestGroupParametersRequest struct {
 	int64Group *int64
 }
 
-func (r ApiTestGroupParametersRequest) RequiredStringGroup(requiredStringGroup int32) ApiTestGroupParametersRequest {
+func (r *ApiTestGroupParametersRequest) RequiredStringGroup(requiredStringGroup int32) *ApiTestGroupParametersRequest {
 	r.requiredStringGroup = &requiredStringGroup
 	return r
 }
-func (r ApiTestGroupParametersRequest) RequiredBooleanGroup(requiredBooleanGroup bool) ApiTestGroupParametersRequest {
+func (r *ApiTestGroupParametersRequest) RequiredBooleanGroup(requiredBooleanGroup bool) *ApiTestGroupParametersRequest {
 	r.requiredBooleanGroup = &requiredBooleanGroup
 	return r
 }
-func (r ApiTestGroupParametersRequest) RequiredInt64Group(requiredInt64Group int64) ApiTestGroupParametersRequest {
+func (r *ApiTestGroupParametersRequest) RequiredInt64Group(requiredInt64Group int64) *ApiTestGroupParametersRequest {
 	r.requiredInt64Group = &requiredInt64Group
 	return r
 }
-func (r ApiTestGroupParametersRequest) StringGroup(stringGroup int32) ApiTestGroupParametersRequest {
+func (r *ApiTestGroupParametersRequest) StringGroup(stringGroup int32) *ApiTestGroupParametersRequest {
 	r.stringGroup = &stringGroup
 	return r
 }
-func (r ApiTestGroupParametersRequest) BooleanGroup(booleanGroup bool) ApiTestGroupParametersRequest {
+func (r *ApiTestGroupParametersRequest) BooleanGroup(booleanGroup bool) *ApiTestGroupParametersRequest {
 	r.booleanGroup = &booleanGroup
 	return r
 }
-func (r ApiTestGroupParametersRequest) Int64Group(int64Group int64) ApiTestGroupParametersRequest {
+func (r *ApiTestGroupParametersRequest) Int64Group(int64Group int64) *ApiTestGroupParametersRequest {
 	r.int64Group = &int64Group
 	return r
 }
 
-func (r ApiTestGroupParametersRequest) Execute() (*_nethttp.Response, error) {
-	return r.ApiService.TestGroupParametersExecute(r)
+func (r *ApiTestGroupParametersRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.TestGroupParametersExecute(*r)
 }
 
 /*
@@ -1621,13 +1621,13 @@ type ApiTestInlineAdditionalPropertiesRequest struct {
 	requestBody *map[string]string
 }
 
-func (r ApiTestInlineAdditionalPropertiesRequest) RequestBody(requestBody map[string]string) ApiTestInlineAdditionalPropertiesRequest {
+func (r *ApiTestInlineAdditionalPropertiesRequest) RequestBody(requestBody map[string]string) *ApiTestInlineAdditionalPropertiesRequest {
 	r.requestBody = &requestBody
 	return r
 }
 
-func (r ApiTestInlineAdditionalPropertiesRequest) Execute() (*_nethttp.Response, error) {
-	return r.ApiService.TestInlineAdditionalPropertiesExecute(r)
+func (r *ApiTestInlineAdditionalPropertiesRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.TestInlineAdditionalPropertiesExecute(*r)
 }
 
 /*
@@ -1722,17 +1722,17 @@ type ApiTestJsonFormDataRequest struct {
 	param2 *string
 }
 
-func (r ApiTestJsonFormDataRequest) Param(param string) ApiTestJsonFormDataRequest {
+func (r *ApiTestJsonFormDataRequest) Param(param string) *ApiTestJsonFormDataRequest {
 	r.param = &param
 	return r
 }
-func (r ApiTestJsonFormDataRequest) Param2(param2 string) ApiTestJsonFormDataRequest {
+func (r *ApiTestJsonFormDataRequest) Param2(param2 string) *ApiTestJsonFormDataRequest {
 	r.param2 = &param2
 	return r
 }
 
-func (r ApiTestJsonFormDataRequest) Execute() (*_nethttp.Response, error) {
-	return r.ApiService.TestJsonFormDataExecute(r)
+func (r *ApiTestJsonFormDataRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.TestJsonFormDataExecute(*r)
 }
 
 /*
@@ -1833,29 +1833,29 @@ type ApiTestQueryParameterCollectionFormatRequest struct {
 	context *[]string
 }
 
-func (r ApiTestQueryParameterCollectionFormatRequest) Pipe(pipe []string) ApiTestQueryParameterCollectionFormatRequest {
+func (r *ApiTestQueryParameterCollectionFormatRequest) Pipe(pipe []string) *ApiTestQueryParameterCollectionFormatRequest {
 	r.pipe = &pipe
 	return r
 }
-func (r ApiTestQueryParameterCollectionFormatRequest) Ioutil(ioutil []string) ApiTestQueryParameterCollectionFormatRequest {
+func (r *ApiTestQueryParameterCollectionFormatRequest) Ioutil(ioutil []string) *ApiTestQueryParameterCollectionFormatRequest {
 	r.ioutil = &ioutil
 	return r
 }
-func (r ApiTestQueryParameterCollectionFormatRequest) Http(http []string) ApiTestQueryParameterCollectionFormatRequest {
+func (r *ApiTestQueryParameterCollectionFormatRequest) Http(http []string) *ApiTestQueryParameterCollectionFormatRequest {
 	r.http = &http
 	return r
 }
-func (r ApiTestQueryParameterCollectionFormatRequest) Url(url []string) ApiTestQueryParameterCollectionFormatRequest {
+func (r *ApiTestQueryParameterCollectionFormatRequest) Url(url []string) *ApiTestQueryParameterCollectionFormatRequest {
 	r.url = &url
 	return r
 }
-func (r ApiTestQueryParameterCollectionFormatRequest) Context(context []string) ApiTestQueryParameterCollectionFormatRequest {
+func (r *ApiTestQueryParameterCollectionFormatRequest) Context(context []string) *ApiTestQueryParameterCollectionFormatRequest {
 	r.context = &context
 	return r
 }
 
-func (r ApiTestQueryParameterCollectionFormatRequest) Execute() (*_nethttp.Response, error) {
-	return r.ApiService.TestQueryParameterCollectionFormatExecute(r)
+func (r *ApiTestQueryParameterCollectionFormatRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.TestQueryParameterCollectionFormatExecute(*r)
 }
 
 /*

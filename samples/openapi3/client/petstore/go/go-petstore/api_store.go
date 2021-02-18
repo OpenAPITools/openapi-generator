@@ -93,8 +93,8 @@ type ApiDeleteOrderRequest struct {
 }
 
 
-func (r ApiDeleteOrderRequest) Execute() (*_nethttp.Response, error) {
-	return r.ApiService.DeleteOrderExecute(r)
+func (r *ApiDeleteOrderRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.DeleteOrderExecute(*r)
 }
 
 /*
@@ -187,8 +187,8 @@ type ApiGetInventoryRequest struct {
 }
 
 
-func (r ApiGetInventoryRequest) Execute() (map[string]int32, *_nethttp.Response, error) {
-	return r.ApiService.GetInventoryExecute(r)
+func (r *ApiGetInventoryRequest) Execute() (map[string]int32, *_nethttp.Response, error) {
+	return r.ApiService.GetInventoryExecute(*r)
 }
 
 /*
@@ -304,8 +304,8 @@ type ApiGetOrderByIdRequest struct {
 }
 
 
-func (r ApiGetOrderByIdRequest) Execute() (Order, *_nethttp.Response, error) {
-	return r.ApiService.GetOrderByIdExecute(r)
+func (r *ApiGetOrderByIdRequest) Execute() (Order, *_nethttp.Response, error) {
+	return r.ApiService.GetOrderByIdExecute(*r)
 }
 
 /*
@@ -415,13 +415,13 @@ type ApiPlaceOrderRequest struct {
 	order *Order
 }
 
-func (r ApiPlaceOrderRequest) Order(order Order) ApiPlaceOrderRequest {
+func (r *ApiPlaceOrderRequest) Order(order Order) *ApiPlaceOrderRequest {
 	r.order = &order
 	return r
 }
 
-func (r ApiPlaceOrderRequest) Execute() (Order, *_nethttp.Response, error) {
-	return r.ApiService.PlaceOrderExecute(r)
+func (r *ApiPlaceOrderRequest) Execute() (Order, *_nethttp.Response, error) {
+	return r.ApiService.PlaceOrderExecute(*r)
 }
 
 /*

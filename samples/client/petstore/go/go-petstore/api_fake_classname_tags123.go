@@ -49,13 +49,13 @@ type ApiTestClassnameRequest struct {
 	body *Client
 }
 
-func (r ApiTestClassnameRequest) Body(body Client) ApiTestClassnameRequest {
+func (r *ApiTestClassnameRequest) Body(body Client) *ApiTestClassnameRequest {
 	r.body = &body
 	return r
 }
 
-func (r ApiTestClassnameRequest) Execute() (Client, *_nethttp.Response, error) {
-	return r.ApiService.TestClassnameExecute(r)
+func (r *ApiTestClassnameRequest) Execute() (Client, *_nethttp.Response, error) {
+	return r.ApiService.TestClassnameExecute(*r)
 }
 
 /*

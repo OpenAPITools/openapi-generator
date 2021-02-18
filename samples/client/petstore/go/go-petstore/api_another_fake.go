@@ -49,13 +49,13 @@ type ApiCall123TestSpecialTagsRequest struct {
 	body *Client
 }
 
-func (r ApiCall123TestSpecialTagsRequest) Body(body Client) ApiCall123TestSpecialTagsRequest {
+func (r *ApiCall123TestSpecialTagsRequest) Body(body Client) *ApiCall123TestSpecialTagsRequest {
 	r.body = &body
 	return r
 }
 
-func (r ApiCall123TestSpecialTagsRequest) Execute() (Client, *_nethttp.Response, error) {
-	return r.ApiService.Call123TestSpecialTagsExecute(r)
+func (r *ApiCall123TestSpecialTagsRequest) Execute() (Client, *_nethttp.Response, error) {
+	return r.ApiService.Call123TestSpecialTagsExecute(*r)
 }
 
 /*

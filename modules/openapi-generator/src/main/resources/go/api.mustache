@@ -56,13 +56,13 @@ type {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request s
 {{/allParams}}
 }
 {{#allParams}}{{^isPathParam}}
-func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) {{vendorExtensions.x-export-param-name}}({{paramName}} {{{dataType}}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request {
+func (r *{{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) {{vendorExtensions.x-export-param-name}}({{paramName}} {{{dataType}}}) *{{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request {
 	r.{{paramName}} = &{{paramName}}
 	return r
 }{{/isPathParam}}{{/allParams}}
 
-func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
-	return r.ApiService.{{nickname}}Execute(r)
+func (r *{{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
+	return r.ApiService.{{nickname}}Execute(*r)
 }
 
 /*
