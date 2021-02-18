@@ -277,7 +277,7 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const QVariant &api_key) {
         if (!::test_namespace::toStringValue(api_key.value<QString>()).isEmpty()) {
             input.headers.insert("api_key", ::test_namespace::toStringValue(api_key.value<QString>()));
         }
-        }
+    }
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::deletePetCallback);

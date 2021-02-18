@@ -559,7 +559,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         input.headers.insert("{{baseName}}", headerString);
         }
     {{/collectionFormat}}
-    }
+}
 {{/headerParams}}
 {{#cookieParams}}
     {{^required}}if(!{{paramName}}.isNull()){{/required}}
