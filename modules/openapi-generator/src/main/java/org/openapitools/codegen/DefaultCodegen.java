@@ -3768,7 +3768,7 @@ public class DefaultCodegen implements CodegenConfig {
 
                 // ensure unique params
                 if (ensureUniqueParams) {
-                    if (!isParameterNameUnique(p, allParams)) {
+                    while (!isParameterNameUnique(p, allParams)) {
                         p.paramName = generateNextName(p.paramName);
                     }
                 }
@@ -3794,7 +3794,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (!prependFormOrBodyParameters) {
             for (CodegenParameter cp : formParams) {
                 if (ensureUniqueParams) {
-                    if (!isParameterNameUnique(cp, allParams)) {
+                    while (!isParameterNameUnique(cp, allParams)) {
                         cp.paramName = generateNextName(cp.paramName);
                     }
                 }
@@ -3803,7 +3803,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             for (CodegenParameter cp : bodyParams) {
                 if (ensureUniqueParams) {
-                    if (!isParameterNameUnique(cp, allParams)) {
+                    while (!isParameterNameUnique(cp, allParams)) {
                         cp.paramName = generateNextName(cp.paramName);
                     }
                 }
@@ -4690,9 +4690,8 @@ public class DefaultCodegen implements CodegenConfig {
         Pattern pattern = Pattern.compile("\\d+\\z");
         Matcher matcher = pattern.matcher(name);
         if (matcher.find()) {
-            String numStr = matcher.group();
-            int num = Integer.parseInt(numStr) + 1;
-            return name.substring(0, name.length() - numStr.length()) + num;
+            // +1 to the ending integer, e.g. status5 => status6
+            return name.substring(0, name.length() - matcher.group().length()) + Integer.parseInt(matcher.group()) + 1;
         } else {
             return name + "2";
         }
