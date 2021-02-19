@@ -9,15 +9,43 @@
                                 use std::io::Read;
 
                                 // Read Form Parameters from body
-                                let mut entries = match Multipart::with_body(&body.to_vec()[..], boundary).save().temp() {
+                                let mut entries = match Multipart::with_body(&body.to_vec()[..], boundary)
+                                    .save()
+                                    .size_limit(multipart_form_size_limit)
+                                    .temp()
+                                {
                                     SaveResult::Full(entries) => {
                                         entries
                                     },
-                                    _ => {
+                                    SaveResult::Partial(_, PartialReason::CountLimit) => {
                                         return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from("Unable to process all message parts".to_string()))
-                                                        .expect("Unable to create Bad Request response due to failure to process all message"))
+                                                        .body(Body::from("Unable to process message part due to excessive parts".to_string()))
+                                                        .expect("Unable to create Bad Request response due to excessive parts"))
+                                    },
+                                    SaveResult::Partial(_, PartialReason::SizeLimit) => {
+                                        return Ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Unable to process message part due to excessive data".to_string()))
+                                                        .expect("Unable to create Bad Request response due to excessive data"))
+                                    },
+                                    SaveResult::Partial(_, PartialReason::Utf8Error(_)) => {
+                                        return Ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Unable to process message part due to invalid data".to_string()))
+                                                        .expect("Unable to create Bad Request response due to invalid data"))
+                                    },
+                                    SaveResult::Partial(_, PartialReason::IoError(_)) => {
+                                        return Ok(Response::builder()
+                                                        .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                        .body(Body::from("Failed to process message part due an internal error".to_string()))
+                                                        .expect("Unable to create Internal Server Error response due to an internal errror"))
+                                    },
+                                    SaveResult::Error(e) => {
+                                        return Ok(Response::builder()
+                                                        .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                        .body(Body::from("Failed to process all message parts due to an internal error".to_string()))
+                                                        .expect("Unable to create Internal Server Error response due to an internal error"))
                                     },
                                 };
                 {{#formParams}}
