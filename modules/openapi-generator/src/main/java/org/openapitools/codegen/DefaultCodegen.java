@@ -4690,8 +4690,9 @@ public class DefaultCodegen implements CodegenConfig {
         Pattern pattern = Pattern.compile("\\d+\\z");
         Matcher matcher = pattern.matcher(name);
         if (matcher.find()) {
-            // +1 to the ending integer, e.g. status5 => status6
-            return name.substring(0, name.length() - matcher.group().length()) + Integer.parseInt(matcher.group()) + 1;
+            String numStr = matcher.group();
+            int num = Integer.parseInt(numStr) + 1;
+            return name.substring(0, name.length() - numStr.length()) + num;
         } else {
             return name + "2";
         }
