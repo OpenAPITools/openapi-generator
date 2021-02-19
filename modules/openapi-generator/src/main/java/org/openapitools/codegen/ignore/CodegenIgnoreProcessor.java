@@ -65,7 +65,7 @@ public class CodegenIgnoreProcessor {
         if (directory.exists() && directory.isDirectory()) {
             loadFromFile(targetIgnoreFile);
         } else {
-            LOGGER.warn("Output directory does not exist, or is inaccessible. No file (.openapi-generator-ignore) will be evaluated.");
+            LOGGER.info("Output directory ({}) does not exist, or is inaccessible. No file (.openapi-generator-ignore) will be evaluated.", baseDirectory);
         }
     }
 

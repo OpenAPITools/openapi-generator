@@ -91,10 +91,10 @@ class {{{classname}}} {
           : _dateEpochMarker == '{{{pattern}}}'
             ? DateTime.fromMillisecondsSinceEpoch(json[r'{{{baseName}}}'] as int, isUtc: true)
             : DateTime.parse(json[r'{{{baseName}}}']),
-	{{/pattern}}
+    {{/pattern}}
     {{^pattern}}
           : DateTime.parse(json[r'{{{baseName}}}']),
-	{{/pattern}}
+    {{/pattern}}
   {{/isDateTime}}
   {{#isDate}}
         {{{name}}}: json[r'{{{baseName}}}'] == null
@@ -103,10 +103,10 @@ class {{{classname}}} {
           : _dateEpochMarker == '{{{pattern}}}'
             ? DateTime.fromMillisecondsSinceEpoch(json[r'{{{baseName}}}'] as int, isUtc: true)
             : DateTime.parse(json[r'{{{baseName}}}']),
-	{{/pattern}}
+    {{/pattern}}
     {{^pattern}}
           : DateTime.parse(json[r'{{{baseName}}}']),
-	{{/pattern}}
+    {{/pattern}}
   {{/isDate}}
   {{^isDateTime}}
   {{^isDate}}
@@ -138,7 +138,7 @@ class {{{classname}}} {
               {{/items.complexType}}
               {{^items.complexType}}
           : (json[r'{{{baseName}}}'] as Map).cast<String, List>(),
-  	          {{/items.complexType}}
+              {{/items.complexType}}
           {{/items.isArray}}
           {{^items.isArray}}
         {{{name}}}: json[r'{{{baseName}}}'] == null
