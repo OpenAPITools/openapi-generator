@@ -22,7 +22,7 @@
 
 #include <QObject>
 #include <QByteArray>
-#include <QStringList> 
+#include <QStringList>
 #include <QList>
 #include <QNetworkAccessManager>
 
@@ -60,7 +60,7 @@ public:
     void addPet(const PFXPet &body);
     void deletePet(const qint64 &pet_id, const QString &api_key);
     void findPetsByStatus(const QList<QString> &status);
-    void findPetsByTags(const QList<QString> &tags);
+    Q_DECL_DEPRECATED void findPetsByTags(const QList<QString> &tags);
     void getPetById(const qint64 &pet_id);
     void updatePet(const PFXPet &body);
     void updatePetWithForm(const qint64 &pet_id, const QString &name, const QString &status);
