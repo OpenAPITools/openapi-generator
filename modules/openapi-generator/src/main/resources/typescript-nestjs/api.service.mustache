@@ -91,7 +91,7 @@ export class {{classname}} {
             queryParameters['{{baseName}}'] = <any>{{paramName}}.toISOString();
         {{/isDateTime}}
         {{^isDateTime}}
-            queryParameters['{{baseName}}'] <any>{{paramName}};
+            queryParameters['{{baseName}}'] = <any>{{paramName}};
         {{/isDateTime}}
         }
         {{/isListContainer}}
