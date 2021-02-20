@@ -238,6 +238,12 @@ public class CodeGenMojo extends AbstractMojo {
     private Boolean removeOperationIdPrefix;
 
     /**
+     * To skip examples defined in the operation
+     */
+    @Parameter(name = "skipOperationExample", property = "openapi.generator.maven.plugin.skipOperationExample")
+    private Boolean skipOperationExample;
+
+    /**
      * To write all log messages (not just errors) to STDOUT
      */
     @Parameter(name = "logToStderr", property = "openapi.generator.maven.plugin.logToStderr")
@@ -483,6 +489,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (removeOperationIdPrefix != null) {
                 configurator.setRemoveOperationIdPrefix(removeOperationIdPrefix);
+            }
+
+            if (skipOperationExample != null) {
+                configurator.setSkipOperationExample(skipOperationExample);
             }
 
             if (isNotEmpty(inputSpec)) {

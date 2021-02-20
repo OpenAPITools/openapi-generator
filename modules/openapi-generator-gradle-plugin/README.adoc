@@ -294,6 +294,11 @@ apply plugin: 'org.openapi.generator'
 |false
 |Remove prefix of operationId, e.g. config_getId => getId.
 
+|skipOperationExample
+|Boolean
+|false
+|Skip examples defined in the operation
+
 |apiFilesConstrainedTo
 |List(String)
 |None
