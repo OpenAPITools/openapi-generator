@@ -94,7 +94,7 @@ export const setSearchParams = function (url: URL, ...objects: any[]) {
             if (Array.isArray(object[key])) {
                 searchParams.delete(key);
                 for (const item of object[key]) {
-                    searchParams.set(key, item);
+                    searchParams.append(key, item);
                 }
             } else {
                 searchParams.set(key, object[key]);
