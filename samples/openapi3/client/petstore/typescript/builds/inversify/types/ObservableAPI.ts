@@ -3,8 +3,6 @@ import * as models from '../models/all';
 import { Configuration} from '../configuration'
 import { Observable, of, from } from '../rxjsStub';
 import {mergeMap, map} from  '../rxjsStub';
-import { injectable, inject, optional } from "inversify";
-import { AbstractConfiguration } from "../services/configuration";
 
 import { ApiResponse } from '../models/ApiResponse';
 import { Category } from '../models/Category';
@@ -14,18 +12,15 @@ import { Tag } from '../models/Tag';
 import { User } from '../models/User';
 
 import { PetApiRequestFactory, PetApiResponseProcessor} from "../apis/PetApi";
-import { AbstractPetApiRequestFactory, AbstractPetApiResponseProcessor } from "../apis/PetApi.service";
-
-@injectable()
 export class ObservablePetApi {
-    private requestFactory: AbstractPetApiRequestFactory;
-    private responseProcessor: AbstractPetApiResponseProcessor;
+    private requestFactory: PetApiRequestFactory;
+    private responseProcessor: PetApiResponseProcessor;
     private configuration: Configuration;
 
     public constructor(
-        @inject(AbstractConfiguration) configuration: Configuration,
-        @inject(AbstractPetApiRequestFactory) @optional() requestFactory?: AbstractPetApiRequestFactory,
-        @inject(AbstractPetApiResponseProcessor) @optional() responseProcessor?: AbstractPetApiResponseProcessor
+        configuration: Configuration,
+        requestFactory?: PetApiRequestFactory,
+        responseProcessor?: PetApiResponseProcessor
     ) {
         this.configuration = configuration;
         this.requestFactory = requestFactory || new PetApiRequestFactory(configuration);
@@ -231,18 +226,15 @@ export class ObservablePetApi {
 
 
 import { StoreApiRequestFactory, StoreApiResponseProcessor} from "../apis/StoreApi";
-import { AbstractStoreApiRequestFactory, AbstractStoreApiResponseProcessor } from "../apis/StoreApi.service";
-
-@injectable()
 export class ObservableStoreApi {
-    private requestFactory: AbstractStoreApiRequestFactory;
-    private responseProcessor: AbstractStoreApiResponseProcessor;
+    private requestFactory: StoreApiRequestFactory;
+    private responseProcessor: StoreApiResponseProcessor;
     private configuration: Configuration;
 
     public constructor(
-        @inject(AbstractConfiguration) configuration: Configuration,
-        @inject(AbstractStoreApiRequestFactory) @optional() requestFactory?: AbstractStoreApiRequestFactory,
-        @inject(AbstractStoreApiResponseProcessor) @optional() responseProcessor?: AbstractStoreApiResponseProcessor
+        configuration: Configuration,
+        requestFactory?: StoreApiRequestFactory,
+        responseProcessor?: StoreApiResponseProcessor
     ) {
         this.configuration = configuration;
         this.requestFactory = requestFactory || new StoreApiRequestFactory(configuration);
@@ -350,18 +342,15 @@ export class ObservableStoreApi {
 
 
 import { UserApiRequestFactory, UserApiResponseProcessor} from "../apis/UserApi";
-import { AbstractUserApiRequestFactory, AbstractUserApiResponseProcessor } from "../apis/UserApi.service";
-
-@injectable()
 export class ObservableUserApi {
-    private requestFactory: AbstractUserApiRequestFactory;
-    private responseProcessor: AbstractUserApiResponseProcessor;
+    private requestFactory: UserApiRequestFactory;
+    private responseProcessor: UserApiResponseProcessor;
     private configuration: Configuration;
 
     public constructor(
-        @inject(AbstractConfiguration) configuration: Configuration,
-        @inject(AbstractUserApiRequestFactory) @optional() requestFactory?: AbstractUserApiRequestFactory,
-        @inject(AbstractUserApiResponseProcessor) @optional() responseProcessor?: AbstractUserApiResponseProcessor
+        configuration: Configuration,
+        requestFactory?: UserApiRequestFactory,
+        responseProcessor?: UserApiResponseProcessor
     ) {
         this.configuration = configuration;
         this.requestFactory = requestFactory || new UserApiRequestFactory(configuration);

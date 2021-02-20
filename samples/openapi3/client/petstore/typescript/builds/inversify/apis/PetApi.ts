@@ -6,7 +6,6 @@ import * as FormData from "form-data";
 import {ObjectSerializer} from '../models/ObjectSerializer';
 import {ApiException} from './exception';
 import {isCodeInRange} from '../util';
-import { injectable } from "inversify";
 
 import { ApiResponse } from '../models/ApiResponse';
 import { Pet } from '../models/Pet';
@@ -14,7 +13,6 @@ import { Pet } from '../models/Pet';
 /**
  * no description
  */
-@injectable()
 export class PetApiRequestFactory extends BaseAPIRequestFactory {
 	
     /**
@@ -399,7 +397,6 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 
 
-@injectable()
 export class PetApiResponseProcessor {
 
     /**
