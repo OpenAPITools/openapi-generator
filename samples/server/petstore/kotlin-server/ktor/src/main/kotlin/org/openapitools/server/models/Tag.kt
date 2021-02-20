@@ -23,8 +23,8 @@ data class Tag (
     val name: kotlin.String? = null
 ) : Serializable 
 {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 }
 
