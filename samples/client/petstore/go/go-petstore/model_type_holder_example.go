@@ -28,7 +28,7 @@ type TypeHolderExample struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTypeHolderExample(stringItem string, numberItem float32, floatItem float32, integerItem int32, boolItem bool, arrayItem []int32, ) *TypeHolderExample {
+func NewTypeHolderExample(stringItem string, numberItem float32, floatItem float32, integerItem int32, boolItem bool, arrayItem []int32) *TypeHolderExample {
 	this := TypeHolderExample{}
 	this.StringItem = stringItem
 	this.NumberItem = numberItem
@@ -49,7 +49,7 @@ func NewTypeHolderExampleWithDefaults() *TypeHolderExample {
 
 // GetStringItem returns the StringItem field value
 func (o *TypeHolderExample) GetStringItem() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -73,7 +73,7 @@ func (o *TypeHolderExample) SetStringItem(v string) {
 
 // GetNumberItem returns the NumberItem field value
 func (o *TypeHolderExample) GetNumberItem() float32 {
-	if o == nil  {
+	if o == nil {
 		var ret float32
 		return ret
 	}
@@ -97,7 +97,7 @@ func (o *TypeHolderExample) SetNumberItem(v float32) {
 
 // GetFloatItem returns the FloatItem field value
 func (o *TypeHolderExample) GetFloatItem() float32 {
-	if o == nil  {
+	if o == nil {
 		var ret float32
 		return ret
 	}
@@ -121,7 +121,7 @@ func (o *TypeHolderExample) SetFloatItem(v float32) {
 
 // GetIntegerItem returns the IntegerItem field value
 func (o *TypeHolderExample) GetIntegerItem() int32 {
-	if o == nil  {
+	if o == nil {
 		var ret int32
 		return ret
 	}
@@ -145,7 +145,7 @@ func (o *TypeHolderExample) SetIntegerItem(v int32) {
 
 // GetBoolItem returns the BoolItem field value
 func (o *TypeHolderExample) GetBoolItem() bool {
-	if o == nil  {
+	if o == nil {
 		var ret bool
 		return ret
 	}
@@ -169,7 +169,7 @@ func (o *TypeHolderExample) SetBoolItem(v bool) {
 
 // GetArrayItem returns the ArrayItem field value
 func (o *TypeHolderExample) GetArrayItem() []int32 {
-	if o == nil  {
+	if o == nil {
 		var ret []int32
 		return ret
 	}
