@@ -155,7 +155,7 @@ export class PetService {
 
         let queryParameters = {};   
         if (status !== undefined && status !== null) {
-            queryParameters['status'] <any>status;
+            queryParameters['status'] = <any>status;
         }
 
         let headers = this.defaultHeaders;
@@ -205,7 +205,7 @@ export class PetService {
 
         let queryParameters = {};   
         if (tags !== undefined && tags !== null) {
-            queryParameters['tags'] <any>tags;
+            queryParameters['tags'] = <any>tags;
         }
 
         let headers = this.defaultHeaders;

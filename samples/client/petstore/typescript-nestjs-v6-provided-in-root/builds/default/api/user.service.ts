@@ -271,10 +271,10 @@ export class UserService {
 
         let queryParameters = {};   
         if (username !== undefined && username !== null) {
-            queryParameters['username'] <any>username;
+            queryParameters['username'] = <any>username;
         }
         if (password !== undefined && password !== null) {
-            queryParameters['password'] <any>password;
+            queryParameters['password'] = <any>password;
         }
 
         let headers = this.defaultHeaders;

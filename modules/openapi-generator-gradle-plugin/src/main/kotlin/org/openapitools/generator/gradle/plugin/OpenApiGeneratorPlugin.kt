@@ -125,6 +125,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     reservedWordsMappings.set(generate.reservedWordsMappings)
                     ignoreFileOverride.set(generate.ignoreFileOverride)
                     removeOperationIdPrefix.set(generate.removeOperationIdPrefix)
+                    skipOperationExample.set(generate.skipOperationExample)
                     apiFilesConstrainedTo.set(generate.apiFilesConstrainedTo)
                     modelFilesConstrainedTo.set(generate.modelFilesConstrainedTo)
                     supportingFilesConstrainedTo.set(generate.supportingFilesConstrainedTo)
