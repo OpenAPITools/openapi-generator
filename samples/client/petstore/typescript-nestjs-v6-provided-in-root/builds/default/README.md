@@ -1,4 +1,4 @@
-## @openapitools/typescript-nestjs-petstore@1.0.0
+modules/openapi-generator/src/main/resources/typescript-nestjs/README.mustache @openapitools/typescript-nestjs-petstore@1.0.0
 
 ### Building
 
@@ -52,7 +52,7 @@ export class AppModule {}
 import { DefaultApi } from '@openapitools/typescript-nestjs-petstore';
 
 export class AppComponent {
-	 constructor(private apiGateway: DefaultApi) { }
+    constructor(private apiGateway: DefaultApi) { }
 }
 ```
 
@@ -134,4 +134,4 @@ import { environment } from '../environments/environment';
   ]
 })
 export class AppModule { }
-```  
+```
