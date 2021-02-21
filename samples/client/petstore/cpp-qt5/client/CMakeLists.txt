@@ -30,7 +30,7 @@ add_library(${PROJECT_NAME}
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Network )
 
-if(UNIX AND NOT APPLE)
+if(NOT APPLE)
   target_link_libraries(${PROJECT_NAME} PRIVATE ssl crypto)
 endif()
 
