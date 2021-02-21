@@ -358,7 +358,7 @@ func (c *APIClient) prepareRequest(
 		{{#withAWSV4Signature}}
 		// AWS Signature v4 Authentication
 		if auth, ok := ctx.Value(ContextAWSv4).(AWSv4); ok {
-			creds := awscredentials.NewStaticCredentials(auth.AccessKey, auth.SecretKey, "")
+			creds := awscredentials.NewStaticCredentials(auth.AccessKey, auth.SecretKey, auth.SessionToken)
 			signer := awsv4.NewSigner(creds)
 			var reader *strings.Reader
 			if body == nil {
@@ -366,8 +366,19 @@ func (c *APIClient) prepareRequest(
 			} else {
 				reader = strings.NewReader(body.String())
 			}
+
+			// Define default values for region and service to maintain backward compatibility 
+			region := auth.Region
+			if region == "" {
+				region = "eu-west-2"
+			}
+			service := auth.Service
+			if service == "" {
+				service = "oapi"
+			}
+
 			timestamp := time.Now()
-			_, err := signer.Sign(localVarRequest, reader, "oapi", "eu-west-2", timestamp)
+			_, err := signer.Sign(localVarRequest, reader, service, region, timestamp)
 			if err != nil {
 				return nil, err
 			}
