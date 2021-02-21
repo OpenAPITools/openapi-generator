@@ -445,9 +445,7 @@ class ModelComposed(OpenApiModel):
                     setattr(model_instance, name, value)
                 if name not in self._var_name_to_model_instances:
                     # we assigned an additional property
-                    self.__dict__['_var_name_to_model_instances'][name] = (
-                        model_instance
-                    )
+                    self.__dict__['_var_name_to_model_instances'][name] = [model_instance]
             return None
 
         raise ApiAttributeError(

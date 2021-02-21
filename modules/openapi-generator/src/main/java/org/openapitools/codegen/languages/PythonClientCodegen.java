@@ -65,10 +65,6 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         // in other code generators, support needs to be enabled on a case-by-case basis.
         supportsAdditionalPropertiesWithComposedSchema = true;
 
-        // When the 'additionalProperties' keyword is not present in a OAS schema, allow
-        // undeclared properties. This is compliant with the JSON schema specification.
-        this.setDisallowAdditionalPropertiesIfNotPresent(false);
-
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
@@ -136,6 +132,14 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
             supportingFiles.add(new SupportingFile("signing.mustache", packagePath(), "signing.py"));
         }
+
+        // When the 'additionalProperties' keyword is not present in a OAS schema, allow
+        // undeclared properties. This is compliant with the JSON schema specification.
+        // setting this to false is required to have composed schemas work because:
+        // anyOf SchemaA + SchemaB, requires that props present only in A are accepted in B because in B
+        // they are additional properties
+        this.setDisallowAdditionalPropertiesIfNotPresent(false);
+
 
         Boolean generateSourceCodeOnly = false;
         if (additionalProperties.containsKey(CodegenConstants.SOURCECODEONLY_GENERATION)) {

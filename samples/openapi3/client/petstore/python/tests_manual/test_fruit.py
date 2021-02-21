@@ -60,10 +60,25 @@ class TestFruit(unittest.TestCase):
                 'color': color
             }
         )
-        # setting a value that doesn't exist raises an exception
-        # with a key
-        with self.assertRaises(AttributeError):
-            fruit['invalid_variable'] = 'some value'
+        # setting a value that doesn't exist works because additional_properties_type allows any type
+        other_fruit = Fruit(length_cm=length_cm, color=color)
+        blah = 'blah'
+        other_fruit['a'] = blah
+        assert other_fruit.a == blah
+
+        # with setattr
+        setattr(other_fruit, 'b', blah)
+        assert other_fruit.b == blah
+
+        self.assertEqual(
+            other_fruit.to_dict(),
+            {
+                'a': 'blah',
+                'b': 'blah',
+                'length_cm': length_cm,
+                'color': color
+            }
+        )
 
         # Assert that we can call the builtin hasattr() function.
         # hasattr should return False for non-existent attribute.
@@ -74,14 +89,11 @@ class TestFruit(unittest.TestCase):
         # hasattr should return True for existent attribute.
         self.assertTrue(hasattr(fruit, 'color'))
 
-        # with setattr
-        with self.assertRaises(AttributeError):
-            setattr(fruit, 'invalid_variable', 'some value')
-
         # getting a value that doesn't exist raises an exception
         # with a key
         with self.assertRaises(AttributeError):
             invalid_variable = fruit['cultivar']
+
         # with getattr
         # Per Python doc, if the named attribute does not exist,
         # default is returned if provided.
@@ -130,7 +142,7 @@ class TestFruit(unittest.TestCase):
         # model._additional_properties_model_instances stores a list of
         # models which have the property additional_properties_type != None
         self.assertEqual(
-            fruit._additional_properties_model_instances, []
+            fruit._additional_properties_model_instances, [banana_instance]
         )
 
         # if we modify one of the properties owned by multiple
@@ -140,13 +152,12 @@ class TestFruit(unittest.TestCase):
         with self.assertRaises(petstore_api.ApiValueError):
             some_length_cm = fruit.length_cm
 
-        # including extra parameters raises an exception
-        with self.assertRaises(petstore_api.ApiValueError):
-            fruit = Fruit(
-                color=color,
-                length_cm=length_cm,
-                unknown_property='some value'
-            )
+        # including extra parameters works because the oneOf models include additionalProperties
+        some_fruit = Fruit(
+            color=color,
+            length_cm=length_cm,
+            unknown_property='some value'
+        )
 
         # including input parameters for two oneOf instances raise an exception
         with self.assertRaises(petstore_api.ApiValueError):
@@ -199,7 +210,7 @@ class TestFruit(unittest.TestCase):
         # model._additional_properties_model_instances stores a list of
         # models which have the property additional_properties_type != None
         self.assertEqual(
-            fruit._additional_properties_model_instances, []
+            fruit._additional_properties_model_instances, [apple_instance]
         )
 
     def testFruitNullValue(self):

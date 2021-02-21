@@ -14,16 +14,8 @@ import sys
 import unittest
 
 import petstore_api
-try:
-    from petstore_api.model import apple
-except ImportError:
-    apple = sys.modules[
-        'petstore_api.model.apple']
-try:
-    from petstore_api.model import banana
-except ImportError:
-    banana = sys.modules[
-        'petstore_api.model.banana']
+from petstore_api.model import apple
+from petstore_api.model import banana
 from petstore_api.model.gm_fruit import GmFruit
 
 
@@ -59,13 +51,26 @@ class TestGmFruit(unittest.TestCase):
                 'color': color
             }
         )
-        # setting a value that doesn't exist raises an exception
-        # with a key
-        with self.assertRaises(AttributeError):
-            fruit['invalid_variable'] = 'some value'
+
+        # setting a value that doesn't exist works because additional_properties_type allows any type
+        other_fruit = GmFruit(length_cm=length_cm, color=color)
+        blah = 'blah'
+        other_fruit['a'] = blah
+        assert other_fruit.a == blah
+
         # with setattr
-        with self.assertRaises(AttributeError):
-            setattr(fruit, 'invalid_variable', 'some value')
+        setattr(other_fruit, 'b', blah)
+        assert other_fruit.b == blah
+
+        self.assertEqual(
+            other_fruit.to_dict(),
+            {
+                'a': 'blah',
+                'b': 'blah',
+                'length_cm': length_cm,
+                'color': color
+            }
+        )
 
         # getting a value that doesn't exist raises an exception
         # with a key
@@ -113,7 +118,7 @@ class TestGmFruit(unittest.TestCase):
         # model._additional_properties_model_instances stores a list of
         # models which have the property additional_properties_type != None
         self.assertEqual(
-            fruit._additional_properties_model_instances, []
+            fruit._additional_properties_model_instances, [banana_instance]
         )
 
         # if we modify one of the properties owned by multiple
@@ -122,14 +127,6 @@ class TestGmFruit(unittest.TestCase):
         banana_instance.length_cm = 4.56
         with self.assertRaises(petstore_api.ApiValueError):
             some_length_cm = fruit.length_cm
-
-        # including extra parameters raises an exception
-        with self.assertRaises(petstore_api.ApiValueError):
-            fruit = GmFruit(
-                color=color,
-                length_cm=length_cm,
-                unknown_property='some value'
-            )
 
         # including input parameters for both anyOf instances works
         cultivar = 'banaple'
@@ -223,7 +220,7 @@ class TestGmFruit(unittest.TestCase):
         # model._additional_properties_model_instances stores a list of
         # models which have the property additional_properties_type != None
         self.assertEqual(
-            fruit._additional_properties_model_instances, []
+            fruit._additional_properties_model_instances, [apple_instance]
         )
 
 if __name__ == '__main__':
