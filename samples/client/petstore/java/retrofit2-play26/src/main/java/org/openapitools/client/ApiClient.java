@@ -6,6 +6,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -199,9 +200,9 @@ public class ApiClient {
                 @Override
                 public File convert(ResponseBody value) throws IOException {
 
-                    File file = File.createTempFile("retrofit-file", ".tmp");
-                    Files.write(Paths.get(file.getPath()), value.bytes());
-                    return file;
+                    Path path = Files.createTempFile("retrofit-file", ".tmp");
+                    Files.write(path, value.bytes());
+                    return path.toFile();
                 }
             };
         }
