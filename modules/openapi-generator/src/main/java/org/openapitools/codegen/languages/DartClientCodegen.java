@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,5 +39,31 @@ public class DartClientCodegen extends AbstractDartCodegen {
         serializationOptions.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "Use json_serializable as serialization library");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+        this.setSerializationLibrary();
+    }
+
+    private void setSerializationLibrary() {
+        final String serialization_library = getLibrary();
+        LOGGER.info("Using serialization library {}", serialization_library);
+
+        switch (serialization_library) {
+            case SERIALIZATION_LIBRARY_JSON_SERIALIZABLE:
+                additionalProperties.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "true");
+                // json_serializable requires build.yaml
+                supportingFiles.add(new SupportingFile("build.yaml.mustache",
+                        "" /* main project dir */,
+                        "build.yaml"));
+                break;
+
+            case SERIALIZATION_LIBRARY_CUSTOM: // fall trough to default backwards compatible generator
+            default:
+                additionalProperties.put(SERIALIZATION_LIBRARY_CUSTOM_SERIALIZATION, "true");
+
+        }
     }
 }

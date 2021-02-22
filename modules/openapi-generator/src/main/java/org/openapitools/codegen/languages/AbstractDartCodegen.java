@@ -197,13 +197,9 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         return "Generates a Dart 2.x client library.";
     }
 
-    protected void defaultProcessOpts() {
-        super.processOpts();
-    }
-
     @Override
     public void processOpts() {
-        defaultProcessOpts();
+        super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("DART_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");
@@ -287,8 +283,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             this.library = additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY).toString();
         }
 
-        setSerializationLibrary();
-
         final String libFolder = sourceFolder + File.separator + "lib";
         supportingFiles.add(new SupportingFile("pubspec.mustache", "", "pubspec.yaml"));
         supportingFiles.add(new SupportingFile("api_client.mustache", libFolder, "api_client.dart"));
@@ -306,26 +300,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
-    }
-
-    private void setSerializationLibrary() {
-        final String serialization_library = getLibrary();
-        LOGGER.error("Using serialization library {}", serialization_library);
-
-        switch (serialization_library) {
-            case SERIALIZATION_LIBRARY_JSON_SERIALIZABLE:
-                additionalProperties.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "true");
-                // json_serializable requires build.yaml
-                supportingFiles.add(new SupportingFile("build.yaml.mustache",
-                        "" /* main project dir */,
-                        "build.yaml"));
-                break;
-
-            case SERIALIZATION_LIBRARY_CUSTOM: // fall trough to default backwards compatible generator
-            default:
-                additionalProperties.put(SERIALIZATION_LIBRARY_CUSTOM_SERIALIZATION, "true");
-
-        }
     }
 
     @Override
