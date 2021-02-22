@@ -758,7 +758,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (storedInputSpecHashFile.getParent() != null && !new File(storedInputSpecHashFile.getParent()).exists()) {
                 File parent = new File(storedInputSpecHashFile.getParent());
-                parent.mkdirs();
+                if (!parent.mkdirs()) {
+                    throw new RuntimeException("Failed to create the folder " + parent.getAbsolutePath() +
+                                               " to store the checksum of the input spec.");
+                }
             }
             Files.asCharSink(storedInputSpecHashFile, StandardCharsets.UTF_8).write(inputSpecHash);
 
