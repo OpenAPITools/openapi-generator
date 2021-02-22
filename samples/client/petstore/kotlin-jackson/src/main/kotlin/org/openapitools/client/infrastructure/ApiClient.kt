@@ -20,6 +20,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
+import com.fasterxml.jackson.core.type.TypeReference
 
 open class ApiClient(val baseUrl: String) {
     companion object {
@@ -115,7 +116,7 @@ open class ApiClient(val baseUrl: String) {
             return null
         }
         return when(mediaType) {
-            JsonMediaType -> Serializer.jacksonObjectMapper.readValue(bodyContent, T::class.java)
+            JsonMediaType -> Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {})
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
