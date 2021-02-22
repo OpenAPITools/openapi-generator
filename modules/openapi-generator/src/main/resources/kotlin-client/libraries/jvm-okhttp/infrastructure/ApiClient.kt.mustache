@@ -41,6 +41,9 @@ import org.threeten.bp.LocalTime
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.OffsetTime
 {{/threetenbp}}
+{{#gson}}
+import com.google.gson.reflect.TypeToken
+{{/gson}}
 {{#jackson}}
 import com.fasterxml.jackson.core.type.TypeReference
 {{/jackson}}
@@ -172,7 +175,7 @@ import com.fasterxml.jackson.core.type.TypeReference
             return null
         }
         return when(mediaType) {
-            JsonMediaType -> {{#moshi}}Serializer.moshi.adapter(T::class.java).fromJson(bodyContent){{/moshi}}{{#gson}}Serializer.gson.fromJson(bodyContent, T::class.java){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}
+            JsonMediaType -> {{#moshi}}Serializer.moshi.adapter(T::class.java).fromJson(bodyContent){{/moshi}}{{#gson}}Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType()){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
