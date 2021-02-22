@@ -31,11 +31,18 @@ public class DartClientCodegen extends AbstractDartCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
 
+    public static final String SERIALIZATION_LIBRARY_CUSTOM = "custom";
+    public static final String SERIALIZATION_LIBRARY_JSON_SERIALIZABLE = "json_serializable";
+
     public DartClientCodegen() {
         super();
 
-        CliOption serializationLibrary = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, "Serialization library, by default uses custom generator");
-        Map<String, String> serializationOptions = new HashMap<>();
+        final CliOption serializationLibrary = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY,
+                "Serialization library, by default uses custom generator");
+        serializationLibrary.setDefault("custom");
+        serializationLibrary.setType("String");
+
+        final Map<String, String> serializationOptions = new HashMap<>();
         serializationOptions.put(SERIALIZATION_LIBRARY_CUSTOM, "Use custom generator as serialization library");
         serializationOptions.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "Use json_serializable as serialization library");
         serializationLibrary.setEnum(serializationOptions);
@@ -82,7 +89,7 @@ public class DartClientCodegen extends AbstractDartCodegen {
 
             case SERIALIZATION_LIBRARY_CUSTOM: // fall trough to default backwards compatible generator
             default:
-                additionalProperties.put(SERIALIZATION_LIBRARY_CUSTOM_SERIALIZATION, "true");
+                additionalProperties.put(SERIALIZATION_LIBRARY_CUSTOM, "true");
 
         }
     }

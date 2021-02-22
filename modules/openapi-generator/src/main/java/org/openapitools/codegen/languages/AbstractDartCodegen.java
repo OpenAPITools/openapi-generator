@@ -36,9 +36,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public static final String PUB_AUTHOR_EMAIL = "pubAuthorEmail";
     public static final String PUB_HOMEPAGE = "pubHomepage";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
-    public static final String SERIALIZATION_LIBRARY_CUSTOM = "custom";
-    public static final String SERIALIZATION_LIBRARY_CUSTOM_SERIALIZATION = "custom_serialization";
-    public static final String SERIALIZATION_LIBRARY_JSON_SERIALIZABLE = "json_serializable";
 
     protected String pubLibrary = "openapi.api";
     protected String pubName = "openapi";
