@@ -59,19 +59,24 @@ String parameterToString(dynamic value) {
     return value.toUtc().toIso8601String();
   }
   if (value is EnumClass) {
-    return EnumClassTypeTransformer().encode(value).toString();
+
+    return _$EnumClassEnumMap[value];
   }
   if (value is OuterEnum) {
-    return OuterEnumTypeTransformer().encode(value).toString();
+
+    return _$OuterEnumEnumMap[value];
   }
   if (value is OuterEnumDefaultValue) {
-    return OuterEnumDefaultValueTypeTransformer().encode(value).toString();
+
+    return _$OuterEnumDefaultValueEnumMap[value];
   }
   if (value is OuterEnumInteger) {
-    return OuterEnumIntegerTypeTransformer().encode(value).toString();
+
+    return _$OuterEnumIntegerEnumMap[value];
   }
   if (value is OuterEnumIntegerDefaultValue) {
-    return OuterEnumIntegerDefaultValueTypeTransformer().encode(value).toString();
+
+    return _$OuterEnumIntegerDefaultValueEnumMap[value];
   }
   return value.toString();
 }
