@@ -271,14 +271,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         if (templateDir == null) {
             embeddedTemplateDir = templateDir = "dart2";
         }
-
-        // handle library not being set
-        if(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY) == null) {
-            this.library = SERIALIZATION_LIBRARY_CUSTOM;
-            LOGGER.debug("Serialization library not set, using default {}", SERIALIZATION_LIBRARY_CUSTOM);
-        } else {
-            this.library = additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY).toString();
-        }
     }
 
     @Override

@@ -31,7 +31,7 @@ public class DartClientCodegen extends AbstractDartCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
 
-    public static final String SERIALIZATION_LIBRARY_CUSTOM = "custom";
+    public static final String SERIALIZATION_LIBRARY_NATIVE = "native";
     public static final String SERIALIZATION_LIBRARY_JSON_SERIALIZABLE = "json_serializable";
 
     public DartClientCodegen() {
@@ -39,11 +39,11 @@ public class DartClientCodegen extends AbstractDartCodegen {
 
         final CliOption serializationLibrary = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY,
                 "Specify serialization library");
-        serializationLibrary.setDefault("custom");
+        serializationLibrary.setDefault(SERIALIZATION_LIBRARY_NATIVE);
         serializationLibrary.setType("String");
 
         final Map<String, String> serializationOptions = new HashMap<>();
-        serializationOptions.put(SERIALIZATION_LIBRARY_CUSTOM, "Use custom generator, backwards compatible");
+        serializationOptions.put(SERIALIZATION_LIBRARY_NATIVE, "Use native serializer, backwards compatible");
         serializationOptions.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "Use json_serializable");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
@@ -52,6 +52,15 @@ public class DartClientCodegen extends AbstractDartCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        // handle library not being set
+        if(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY) == null) {
+            this.library = SERIALIZATION_LIBRARY_NATIVE;
+            LOGGER.debug("Serialization library not set, using default {}", SERIALIZATION_LIBRARY_NATIVE);
+        } else {
+            this.library = additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY).toString();
+        }
+
         this.setSerializationLibrary();
 
         final String libFolder = sourceFolder + File.separator + "lib";
@@ -87,9 +96,9 @@ public class DartClientCodegen extends AbstractDartCodegen {
                         "build.yaml"));
                 break;
 
-            case SERIALIZATION_LIBRARY_CUSTOM: // fall trough to default backwards compatible generator
+            case SERIALIZATION_LIBRARY_NATIVE: // fall trough to default backwards compatible generator
             default:
-                additionalProperties.put(SERIALIZATION_LIBRARY_CUSTOM, "true");
+                additionalProperties.put(SERIALIZATION_LIBRARY_NATIVE, "true");
 
         }
     }
