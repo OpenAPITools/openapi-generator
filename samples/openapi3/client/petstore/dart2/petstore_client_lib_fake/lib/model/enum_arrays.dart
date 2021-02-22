@@ -17,6 +17,7 @@ class EnumArrays {
   });
 
   EnumArraysJustSymbolEnum justSymbol;
+
   List<EnumArraysArrayEnumEnum> arrayEnum;
 
 

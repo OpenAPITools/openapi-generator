@@ -37,7 +37,6 @@ class Model200Response {
   )
   String class_;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is Model200Response &&
      other.name == name &&

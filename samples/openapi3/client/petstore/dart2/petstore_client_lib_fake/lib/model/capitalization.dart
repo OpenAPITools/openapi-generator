@@ -21,10 +21,15 @@ class Capitalization {
   });
 
   String smallCamel;
+
   String capitalCamel;
+
   String smallSnake;
+
   String capitalSnake;
+
   String sCAETHFlowPoints;
+
   /// Name of the pet 
   String ATT_NAME;
 

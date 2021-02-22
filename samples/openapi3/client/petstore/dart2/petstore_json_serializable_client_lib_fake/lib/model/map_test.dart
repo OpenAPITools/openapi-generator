@@ -53,7 +53,6 @@ class MapTest {
   )
   Map<String, bool> indirectMap;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is MapTest &&
      other.mapMapOfString == mapMapOfString &&

@@ -21,11 +21,16 @@ class Order {
   });
 
   int id;
+
   int petId;
+
   int quantity;
+
   DateTime shipDate;
+
   /// Order Status
   OrderStatusEnum status;
+
   bool complete;
 
 

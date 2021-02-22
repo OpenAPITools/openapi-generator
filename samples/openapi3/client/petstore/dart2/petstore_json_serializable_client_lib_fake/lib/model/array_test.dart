@@ -45,7 +45,6 @@ class ArrayTest {
   )
   List<List<ReadOnlyFirst>> arrayArrayOfModel;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is ArrayTest &&
      other.arrayOfString == arrayOfString &&

@@ -117,7 +117,6 @@ class NullableClass {
   )
   Map<String, Object> objectItemsNullable;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is NullableClass &&
      other.integerProp == integerProp &&

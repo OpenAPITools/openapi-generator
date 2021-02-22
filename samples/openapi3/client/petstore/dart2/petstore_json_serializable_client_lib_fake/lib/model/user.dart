@@ -86,7 +86,6 @@ class User {
   )
   int userStatus;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is User &&
      other.id == id &&

@@ -18,7 +18,9 @@ class ArrayTest {
   });
 
   List<String> arrayOfString;
+
   List<List<int>> arrayArrayOfInteger;
+
   List<List<ReadOnlyFirst>> arrayArrayOfModel;
 
 

@@ -45,7 +45,6 @@ class ApiResponse {
   )
   String message;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is ApiResponse &&
      other.code == code &&

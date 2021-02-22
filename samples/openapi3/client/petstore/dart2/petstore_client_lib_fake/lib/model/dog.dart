@@ -18,7 +18,9 @@ class Dog {
   });
 
   String className;
+
   String color;
+
   String breed;
 
 

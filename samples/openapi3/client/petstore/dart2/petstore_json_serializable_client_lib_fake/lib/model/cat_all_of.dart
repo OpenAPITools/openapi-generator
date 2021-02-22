@@ -29,7 +29,6 @@ class CatAllOf {
   )
   bool declawed;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is CatAllOf &&
      other.declawed == declawed;

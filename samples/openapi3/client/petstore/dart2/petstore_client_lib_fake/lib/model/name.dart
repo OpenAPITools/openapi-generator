@@ -19,8 +19,11 @@ class Name {
   });
 
   int name;
+
   int snakeCase;
+
   String property;
+
   int n123number;
 
 

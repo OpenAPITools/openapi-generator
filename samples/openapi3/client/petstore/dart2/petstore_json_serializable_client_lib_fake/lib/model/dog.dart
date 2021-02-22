@@ -45,7 +45,6 @@ class Dog {
   )
   String breed;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is Dog &&
      other.className == className &&

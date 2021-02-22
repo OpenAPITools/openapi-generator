@@ -17,6 +17,7 @@ class Animal {
   });
 
   String className;
+
   String color;
 
 

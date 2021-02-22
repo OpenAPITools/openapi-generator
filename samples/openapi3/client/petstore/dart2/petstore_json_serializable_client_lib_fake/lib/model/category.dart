@@ -37,7 +37,6 @@ class Category {
   )
   String name;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is Category &&
      other.id == id &&

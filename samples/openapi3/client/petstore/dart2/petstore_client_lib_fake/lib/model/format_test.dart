@@ -33,29 +33,44 @@ class FormatTest {
   // minimum: 10
   // maximum: 100
   int integer;
+
   // minimum: 20
   // maximum: 200
   int int32;
+
   int int64;
+
   // minimum: 32.1
   // maximum: 543.2
   num number;
+
   // minimum: 54.3
   // maximum: 987.6
   double float;
+
   // minimum: 67.8
   // maximum: 123.4
   double double_;
+
   double decimal;
+
   String string;
+
   String byte;
+
   MultipartFile binary;
+
   DateTime date;
+
   DateTime dateTime;
+
   String uuid;
+
   String password;
+
   /// A string that is a 10 digit number. Can have leading zeros.
   String patternWithDigits;
+
   /// A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
   String patternWithDigitsAndDelimiter;
 

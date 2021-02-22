@@ -70,7 +70,6 @@ class Order {
   )
   bool complete;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is Order &&
      other.id == id &&

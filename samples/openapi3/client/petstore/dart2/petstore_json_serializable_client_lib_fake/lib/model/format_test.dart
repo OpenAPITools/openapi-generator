@@ -157,7 +157,6 @@ class FormatTest {
   )
   String patternWithDigitsAndDelimiter;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is FormatTest &&
      other.integer == integer &&

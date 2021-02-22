@@ -17,6 +17,7 @@ class HasOnlyReadOnly {
   });
 
   String bar;
+
   String foo;
 
 

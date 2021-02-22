@@ -37,7 +37,6 @@ class ReadOnlyFirst {
   )
   String baz;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is ReadOnlyFirst &&
      other.bar == bar &&

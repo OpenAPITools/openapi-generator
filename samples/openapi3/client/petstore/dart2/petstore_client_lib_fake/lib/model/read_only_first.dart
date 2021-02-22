@@ -17,6 +17,7 @@ class ReadOnlyFirst {
   });
 
   String bar;
+
   String baz;
 
 

@@ -19,8 +19,11 @@ class MapTest {
   });
 
   Map<String, Map<String, String>> mapMapOfString;
+
   Map<String, MapTestMapOfEnumStringEnum> mapOfEnumString;
+
   Map<String, bool> directMap;
+
   Map<String, bool> indirectMap;
 
 

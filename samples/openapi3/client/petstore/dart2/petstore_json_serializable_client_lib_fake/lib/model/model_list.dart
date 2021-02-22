@@ -29,7 +29,6 @@ class ModelList {
   )
   String n123list;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelList &&
      other.n123list == n123list;

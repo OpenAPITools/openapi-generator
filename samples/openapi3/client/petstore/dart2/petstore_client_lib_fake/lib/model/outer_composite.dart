@@ -18,7 +18,9 @@ class OuterComposite {
   });
 
   num myNumber;
+
   String myString;
+
   bool myBoolean;
 
 

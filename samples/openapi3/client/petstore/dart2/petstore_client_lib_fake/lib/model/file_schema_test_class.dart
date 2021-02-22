@@ -17,6 +17,7 @@ class FileSchemaTestClass {
   });
 
   ModelFile file;
+
   List<ModelFile> files;
 
 

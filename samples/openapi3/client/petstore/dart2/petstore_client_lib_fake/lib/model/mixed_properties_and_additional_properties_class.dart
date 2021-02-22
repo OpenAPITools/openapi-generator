@@ -18,7 +18,9 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   });
 
   String uuid;
+
   DateTime dateTime;
+
   Map<String, Animal> map;
 
 

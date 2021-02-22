@@ -45,7 +45,6 @@ class OuterComposite {
   )
   bool myBoolean;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is OuterComposite &&
      other.myNumber == myNumber &&

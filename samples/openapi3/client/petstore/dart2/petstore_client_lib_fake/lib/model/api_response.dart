@@ -18,7 +18,9 @@ class ApiResponse {
   });
 
   int code;
+
   String type;
+
   String message;
 
 

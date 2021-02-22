@@ -18,7 +18,9 @@ class Cat {
   });
 
   String className;
+
   String color;
+
   bool declawed;
 
 

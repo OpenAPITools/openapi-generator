@@ -29,7 +29,6 @@ class Foo {
   )
   String bar;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is Foo &&
      other.bar == bar;

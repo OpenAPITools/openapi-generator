@@ -21,10 +21,15 @@ class Pet {
   });
 
   int id;
+
   Category category;
+
   String name;
+
   Set<String> photoUrls;
+
   List<Tag> tags;
+
   /// pet status in the store
   PetStatusEnum status;
 

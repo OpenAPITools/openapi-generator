@@ -32,6 +32,7 @@ class {{{classname}}} {
     {{/maximum}}
   {{/isEnum}}
   {{{datatypeWithEnum}}} {{{name}}};
+
   {{/vars}}
   {{/json_serializable}}
 
@@ -62,7 +63,6 @@ class {{{classname}}} {
 
 {{/vars}}
 {{/json_serializable}}
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is {{{classname}}} &&
   {{#vars}}
