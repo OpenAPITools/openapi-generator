@@ -790,7 +790,7 @@ public class CodeGenMojo extends AbstractMojo {
         File inputSpecTempFile = inputSpecFile;
 
         if (inputSpecRemoteUrl != null) {
-            inputSpecTempFile = File.createTempFile("openapi-spec", ".tmp");
+            inputSpecTempFile = java.nio.file.Files.createTempFile("openapi-spec", ".tmp").toFile();
 
             URLConnection conn = inputSpecRemoteUrl.openConnection();
             if (isNotEmpty(auth)) {
