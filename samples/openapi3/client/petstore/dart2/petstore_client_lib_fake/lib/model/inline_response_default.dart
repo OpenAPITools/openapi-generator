@@ -17,6 +17,7 @@ class InlineResponseDefault {
 
   Foo string;
 
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is InlineResponseDefault &&
      other.string == string;

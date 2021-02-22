@@ -24,7 +24,7 @@ class HealthCheckResult {
 
   @JsonKey(
     nullable: false,
-    name: r'nullableMessage',
+    name: r'NullableMessage',
     required: false,
   )
   String nullableMessage;

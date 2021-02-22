@@ -19,12 +19,10 @@ class MapTest {
   });
 
   Map<String, Map<String, String>> mapMapOfString;
-
   Map<String, MapTestMapOfEnumStringEnum> mapOfEnumString;
-
   Map<String, bool> directMap;
-
   Map<String, bool> indirectMap;
+
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is MapTest &&
@@ -169,4 +167,5 @@ class MapTestMapOfEnumStringEnumTypeTransformer {
   /// Singleton [MapTestMapOfEnumStringEnumTypeTransformer] instance.
   static MapTestMapOfEnumStringEnumTypeTransformer _instance;
 }
+
 

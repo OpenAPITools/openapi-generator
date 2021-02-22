@@ -17,8 +17,8 @@ class AdditionalPropertiesClass {
   });
 
   Map<String, String> mapProperty;
-
   Map<String, Map<String, String>> mapOfMapProperty;
+
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is AdditionalPropertiesClass &&

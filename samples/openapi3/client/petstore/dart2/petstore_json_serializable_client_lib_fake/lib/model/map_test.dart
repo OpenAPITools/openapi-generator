@@ -27,28 +27,28 @@ class MapTest {
 
   @JsonKey(
     nullable: false,
-    name: r'mapMapOfString',
+    name: r'map_map_of_string',
     required: false,
   )
   Map<String, Map<String, String>> mapMapOfString;
 
   @JsonKey(
     nullable: false,
-    name: r'mapOfEnumString',
+    name: r'map_of_enum_string',
     required: false,
   )
   Map<String, MapTestMapOfEnumStringEnum> mapOfEnumString;
 
   @JsonKey(
     nullable: false,
-    name: r'directMap',
+    name: r'direct_map',
     required: false,
   )
   Map<String, bool> directMap;
 
   @JsonKey(
     nullable: false,
-    name: r'indirectMap',
+    name: r'indirect_map',
     required: false,
   )
   Map<String, bool> indirectMap;

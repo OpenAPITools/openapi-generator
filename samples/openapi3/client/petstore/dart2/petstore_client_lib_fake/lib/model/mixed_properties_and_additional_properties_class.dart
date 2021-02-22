@@ -18,10 +18,9 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   });
 
   String uuid;
-
   DateTime dateTime;
-
   Map<String, Animal> map;
+
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is MixedPropertiesAndAdditionalPropertiesClass &&

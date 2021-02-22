@@ -25,14 +25,14 @@ class EnumArrays {
 
   @JsonKey(
     nullable: false,
-    name: r'justSymbol',
+    name: r'just_symbol',
     required: false,
   )
   EnumArraysJustSymbolEnum justSymbol;
 
   @JsonKey(
     nullable: false,
-    name: r'arrayEnum',
+    name: r'array_enum',
     required: false,
   )
   List<EnumArraysArrayEnumEnum> arrayEnum;

@@ -17,8 +17,8 @@ class FileSchemaTestClass {
   });
 
   ModelFile file;
-
   List<ModelFile> files;
+
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is FileSchemaTestClass &&

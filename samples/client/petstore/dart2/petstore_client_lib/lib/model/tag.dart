@@ -17,8 +17,8 @@ class Tag {
   });
 
   int id;
-
   String name;
+
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Tag &&

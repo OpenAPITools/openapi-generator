@@ -77,3 +77,4 @@ class OuterEnumIntegerTypeTransformer {
   /// Singleton [OuterEnumIntegerTypeTransformer] instance.
   static OuterEnumIntegerTypeTransformer _instance;
 }
+

@@ -24,7 +24,7 @@ class ArrayOfArrayOfNumberOnly {
 
   @JsonKey(
     nullable: false,
-    name: r'arrayArrayNumber',
+    name: r'ArrayArrayNumber',
     required: false,
   )
   List<List<num>> arrayArrayNumber;

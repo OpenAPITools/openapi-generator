@@ -21,17 +21,13 @@ class Capitalization {
   });
 
   String smallCamel;
-
   String capitalCamel;
-
   String smallSnake;
-
   String capitalSnake;
-
   String sCAETHFlowPoints;
-
   /// Name of the pet 
   String ATT_NAME;
+
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Capitalization &&

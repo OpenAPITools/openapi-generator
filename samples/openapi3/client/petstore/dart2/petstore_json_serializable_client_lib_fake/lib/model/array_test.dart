@@ -26,21 +26,21 @@ class ArrayTest {
 
   @JsonKey(
     nullable: false,
-    name: r'arrayOfString',
+    name: r'array_of_string',
     required: false,
   )
   List<String> arrayOfString;
 
   @JsonKey(
     nullable: false,
-    name: r'arrayArrayOfInteger',
+    name: r'array_array_of_integer',
     required: false,
   )
   List<List<int>> arrayArrayOfInteger;
 
   @JsonKey(
     nullable: false,
-    name: r'arrayArrayOfModel',
+    name: r'array_array_of_model',
     required: false,
   )
   List<List<ReadOnlyFirst>> arrayArrayOfModel;

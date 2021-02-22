@@ -26,21 +26,21 @@ class OuterComposite {
 
   @JsonKey(
     nullable: false,
-    name: r'myNumber',
+    name: r'my_number',
     required: false,
   )
   num myNumber;
 
   @JsonKey(
     nullable: false,
-    name: r'myString',
+    name: r'my_string',
     required: false,
   )
   String myString;
 
   @JsonKey(
     nullable: false,
-    name: r'myBoolean',
+    name: r'my_boolean',
     required: false,
   )
   bool myBoolean;

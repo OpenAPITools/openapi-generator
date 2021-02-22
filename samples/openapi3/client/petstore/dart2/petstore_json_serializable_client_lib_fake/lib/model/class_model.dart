@@ -24,7 +24,7 @@ class ClassModel {
 
   @JsonKey(
     nullable: false,
-    name: r'class_',
+    name: r'_class',
     required: false,
   )
   String class_;

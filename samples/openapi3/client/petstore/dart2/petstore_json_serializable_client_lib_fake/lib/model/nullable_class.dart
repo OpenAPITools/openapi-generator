@@ -35,84 +35,84 @@ class NullableClass {
 
   @JsonKey(
     nullable: false,
-    name: r'integerProp',
+    name: r'integer_prop',
     required: false,
   )
   int integerProp;
 
   @JsonKey(
     nullable: false,
-    name: r'numberProp',
+    name: r'number_prop',
     required: false,
   )
   num numberProp;
 
   @JsonKey(
     nullable: false,
-    name: r'booleanProp',
+    name: r'boolean_prop',
     required: false,
   )
   bool booleanProp;
 
   @JsonKey(
     nullable: false,
-    name: r'stringProp',
+    name: r'string_prop',
     required: false,
   )
   String stringProp;
 
   @JsonKey(
     nullable: false,
-    name: r'dateProp',
+    name: r'date_prop',
     required: false,
   )
   DateTime dateProp;
 
   @JsonKey(
     nullable: false,
-    name: r'datetimeProp',
+    name: r'datetime_prop',
     required: false,
   )
   DateTime datetimeProp;
 
   @JsonKey(
     nullable: false,
-    name: r'arrayNullableProp',
+    name: r'array_nullable_prop',
     required: false,
   )
   List<Object> arrayNullableProp;
 
   @JsonKey(
     nullable: false,
-    name: r'arrayAndItemsNullableProp',
+    name: r'array_and_items_nullable_prop',
     required: false,
   )
   List<Object> arrayAndItemsNullableProp;
 
   @JsonKey(
     nullable: false,
-    name: r'arrayItemsNullable',
+    name: r'array_items_nullable',
     required: false,
   )
   List<Object> arrayItemsNullable;
 
   @JsonKey(
     nullable: false,
-    name: r'objectNullableProp',
+    name: r'object_nullable_prop',
     required: false,
   )
   Map<String, Object> objectNullableProp;
 
   @JsonKey(
     nullable: false,
-    name: r'objectAndItemsNullableProp',
+    name: r'object_and_items_nullable_prop',
     required: false,
   )
   Map<String, Object> objectAndItemsNullableProp;
 
   @JsonKey(
     nullable: false,
-    name: r'objectItemsNullable',
+    name: r'object_items_nullable',
     required: false,
   )
   Map<String, Object> objectItemsNullable;

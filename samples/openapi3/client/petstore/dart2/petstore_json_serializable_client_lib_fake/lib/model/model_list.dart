@@ -24,7 +24,7 @@ class ModelList {
 
   @JsonKey(
     nullable: false,
-    name: r'n123list',
+    name: r'123-list',
     required: false,
   )
   String n123list;

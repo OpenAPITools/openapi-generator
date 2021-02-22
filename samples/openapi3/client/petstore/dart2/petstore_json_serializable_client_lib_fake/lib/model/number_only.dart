@@ -24,7 +24,7 @@ class NumberOnly {
 
   @JsonKey(
     nullable: false,
-    name: r'justNumber',
+    name: r'JustNumber',
     required: false,
   )
   num justNumber;

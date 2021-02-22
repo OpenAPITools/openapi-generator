@@ -25,14 +25,14 @@ class AdditionalPropertiesClass {
 
   @JsonKey(
     nullable: false,
-    name: r'mapProperty',
+    name: r'map_property',
     required: false,
   )
   Map<String, String> mapProperty;
 
   @JsonKey(
     nullable: false,
-    name: r'mapOfMapProperty',
+    name: r'map_of_map_property',
     required: false,
   )
   Map<String, Map<String, String>> mapOfMapProperty;

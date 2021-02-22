@@ -36,28 +36,28 @@ class Capitalization {
 
   @JsonKey(
     nullable: false,
-    name: r'capitalCamel',
+    name: r'CapitalCamel',
     required: false,
   )
   String capitalCamel;
 
   @JsonKey(
     nullable: false,
-    name: r'smallSnake',
+    name: r'small_Snake',
     required: false,
   )
   String smallSnake;
 
   @JsonKey(
     nullable: false,
-    name: r'capitalSnake',
+    name: r'Capital_Snake',
     required: false,
   )
   String capitalSnake;
 
   @JsonKey(
     nullable: false,
-    name: r'sCAETHFlowPoints',
+    name: r'SCA_ETH_Flow_Points',
     required: false,
   )
   String sCAETHFlowPoints;

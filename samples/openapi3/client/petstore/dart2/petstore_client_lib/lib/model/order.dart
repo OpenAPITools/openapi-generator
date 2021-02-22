@@ -21,17 +21,13 @@ class Order {
   });
 
   int id;
-
   int petId;
-
   int quantity;
-
   DateTime shipDate;
-
   /// Order Status
   OrderStatusEnum status;
-
   bool complete;
+
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Order &&
@@ -185,4 +181,5 @@ class OrderStatusEnumTypeTransformer {
   /// Singleton [OrderStatusEnumTypeTransformer] instance.
   static OrderStatusEnumTypeTransformer _instance;
 }
+
 

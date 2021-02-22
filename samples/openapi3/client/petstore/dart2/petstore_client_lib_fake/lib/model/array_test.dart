@@ -18,10 +18,9 @@ class ArrayTest {
   });
 
   List<String> arrayOfString;
-
   List<List<int>> arrayArrayOfInteger;
-
   List<List<ReadOnlyFirst>> arrayArrayOfModel;
+
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ArrayTest &&

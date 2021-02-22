@@ -34,7 +34,7 @@ class Name {
 
   @JsonKey(
     nullable: false,
-    name: r'snakeCase',
+    name: r'snake_case',
     required: false,
   )
   int snakeCase;
@@ -48,7 +48,7 @@ class Name {
 
   @JsonKey(
     nullable: false,
-    name: r'n123number',
+    name: r'123Number',
     required: false,
   )
   int n123number;

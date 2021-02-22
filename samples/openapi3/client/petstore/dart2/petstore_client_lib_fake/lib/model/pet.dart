@@ -21,17 +21,13 @@ class Pet {
   });
 
   int id;
-
   Category category;
-
   String name;
-
   Set<String> photoUrls;
-
   List<Tag> tags;
-
   /// pet status in the store
   PetStatusEnum status;
+
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Pet &&
@@ -181,4 +177,5 @@ class PetStatusEnumTypeTransformer {
   /// Singleton [PetStatusEnumTypeTransformer] instance.
   static PetStatusEnumTypeTransformer _instance;
 }
+
 

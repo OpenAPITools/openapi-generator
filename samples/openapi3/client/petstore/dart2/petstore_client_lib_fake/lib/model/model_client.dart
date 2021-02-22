@@ -17,6 +17,7 @@ class ModelClient {
 
   String client;
 
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelClient &&
      other.client == client;

@@ -18,10 +18,9 @@ class OuterComposite {
   });
 
   num myNumber;
-
   String myString;
-
   bool myBoolean;
+
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is OuterComposite &&

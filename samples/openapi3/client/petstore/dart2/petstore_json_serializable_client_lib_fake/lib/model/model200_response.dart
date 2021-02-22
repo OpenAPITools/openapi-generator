@@ -32,7 +32,7 @@ class Model200Response {
 
   @JsonKey(
     nullable: false,
-    name: r'class_',
+    name: r'class',
     required: false,
   )
   String class_;

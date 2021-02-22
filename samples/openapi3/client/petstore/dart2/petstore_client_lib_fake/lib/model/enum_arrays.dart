@@ -17,8 +17,8 @@ class EnumArrays {
   });
 
   EnumArraysJustSymbolEnum justSymbol;
-
   List<EnumArraysArrayEnumEnum> arrayEnum;
+
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is EnumArrays &&
@@ -145,6 +145,7 @@ class EnumArraysJustSymbolEnumTypeTransformer {
 }
 
 
+
 class EnumArraysArrayEnumEnum {
   /// Instantiate a new enum with the provided [value].
   const EnumArraysArrayEnumEnum._(this.value);
@@ -209,4 +210,5 @@ class EnumArraysArrayEnumEnumTypeTransformer {
   /// Singleton [EnumArraysArrayEnumEnumTypeTransformer] instance.
   static EnumArraysArrayEnumEnumTypeTransformer _instance;
 }
+
 

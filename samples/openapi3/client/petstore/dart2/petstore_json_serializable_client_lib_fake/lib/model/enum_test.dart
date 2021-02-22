@@ -31,28 +31,28 @@ class EnumTest {
 
   @JsonKey(
     nullable: false,
-    name: r'enumString',
+    name: r'enum_string',
     required: false,
   )
   EnumTestEnumStringEnum enumString;
 
   @JsonKey(
     nullable: false,
-    name: r'enumStringRequired',
+    name: r'enum_string_required',
     required: true,
   )
   EnumTestEnumStringRequiredEnum enumStringRequired;
 
   @JsonKey(
     nullable: false,
-    name: r'enumInteger',
+    name: r'enum_integer',
     required: false,
   )
   EnumTestEnumIntegerEnum enumInteger;
 
   @JsonKey(
     nullable: false,
-    name: r'enumNumber',
+    name: r'enum_number',
     required: false,
   )
   EnumTestEnumNumberEnum enumNumber;

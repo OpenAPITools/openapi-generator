@@ -24,7 +24,7 @@ class ModelReturn {
 
   @JsonKey(
     nullable: false,
-    name: r'return_',
+    name: r'return',
     required: false,
   )
   int return_;

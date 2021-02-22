@@ -24,7 +24,7 @@ class SpecialModelName {
 
   @JsonKey(
     nullable: false,
-    name: r'dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket',
+    name: r'$special[property.name]',
     required: false,
   )
   int dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;

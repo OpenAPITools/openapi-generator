@@ -17,6 +17,7 @@ class NumberOnly {
 
   num justNumber;
 
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is NumberOnly &&
      other.justNumber == justNumber;

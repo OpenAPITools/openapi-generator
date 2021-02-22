@@ -84,7 +84,7 @@ class FormatTest {
           // maximum: 123.4
   @JsonKey(
     nullable: false,
-    name: r'double_',
+    name: r'double',
     required: false,
   )
   double double_;
@@ -144,7 +144,7 @@ class FormatTest {
       /// A string that is a 10 digit number. Can have leading zeros.
   @JsonKey(
     nullable: false,
-    name: r'patternWithDigits',
+    name: r'pattern_with_digits',
     required: false,
   )
   String patternWithDigits;
@@ -152,7 +152,7 @@ class FormatTest {
       /// A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
   @JsonKey(
     nullable: false,
-    name: r'patternWithDigitsAndDelimiter',
+    name: r'pattern_with_digits_and_delimiter',
     required: false,
   )
   String patternWithDigitsAndDelimiter;

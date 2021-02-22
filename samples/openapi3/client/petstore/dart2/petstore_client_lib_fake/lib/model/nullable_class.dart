@@ -27,28 +27,18 @@ class NullableClass {
   });
 
   int integerProp;
-
   num numberProp;
-
   bool booleanProp;
-
   String stringProp;
-
   DateTime dateProp;
-
   DateTime datetimeProp;
-
   List<Object> arrayNullableProp;
-
   List<Object> arrayAndItemsNullableProp;
-
   List<Object> arrayItemsNullable;
-
   Map<String, Object> objectNullableProp;
-
   Map<String, Object> objectAndItemsNullableProp;
-
   Map<String, Object> objectItemsNullable;
+
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is NullableClass &&

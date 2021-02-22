@@ -23,21 +23,15 @@ class User {
   });
 
   int id;
-
   String username;
-
   String firstName;
-
   String lastName;
-
   String email;
-
   String password;
-
   String phone;
-
   /// User Status
   int userStatus;
+
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is User &&

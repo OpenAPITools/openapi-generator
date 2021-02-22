@@ -17,8 +17,8 @@ class Animal {
   });
 
   String className;
-
   String color;
+
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Animal &&

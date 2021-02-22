@@ -17,8 +17,8 @@ class HasOnlyReadOnly {
   });
 
   String bar;
-
   String foo;
+
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is HasOnlyReadOnly &&
