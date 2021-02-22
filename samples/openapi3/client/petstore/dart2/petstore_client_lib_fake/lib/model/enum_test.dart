@@ -38,7 +38,6 @@ class EnumTest {
 
   OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is EnumTest &&
      other.enumString == enumString &&

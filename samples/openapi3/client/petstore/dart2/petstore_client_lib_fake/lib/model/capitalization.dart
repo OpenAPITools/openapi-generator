@@ -33,7 +33,6 @@ class Capitalization {
   /// Name of the pet 
   String ATT_NAME;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is Capitalization &&
      other.smallCamel == smallCamel &&

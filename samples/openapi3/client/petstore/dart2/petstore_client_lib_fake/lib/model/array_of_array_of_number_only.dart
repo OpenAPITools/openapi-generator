@@ -17,7 +17,6 @@ class ArrayOfArrayOfNumberOnly {
 
   List<List<num>> arrayArrayNumber;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is ArrayOfArrayOfNumberOnly &&
      other.arrayArrayNumber == arrayArrayNumber;

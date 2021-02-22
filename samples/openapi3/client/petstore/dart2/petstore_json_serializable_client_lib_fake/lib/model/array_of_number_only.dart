@@ -21,14 +21,12 @@ class ArrayOfNumberOnly {
     this.arrayNumber = const [],
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'ArrayNumber',
     required: false,
   )
   List<num> arrayNumber;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is ArrayOfNumberOnly &&
      other.arrayNumber == arrayNumber;

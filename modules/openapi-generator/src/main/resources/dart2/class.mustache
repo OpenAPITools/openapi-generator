@@ -18,7 +18,7 @@ class {{{classname}}} {
   {{/vars}}
   });
 
-  {{^json_serializable}}
+{{^json_serializable}}
   {{#vars}}
   {{#description}}
   /// {{{description}}}
@@ -34,8 +34,7 @@ class {{{classname}}} {
   {{{datatypeWithEnum}}} {{{name}}};
 
   {{/vars}}
-  {{/json_serializable}}
-
+{{/json_serializable}}
 {{#json_serializable}}
 {{#vars}}
   {{#description}}
@@ -60,7 +59,6 @@ class {{{classname}}} {
   @JsonKey(ignore: true)
   {{/isBinary}}
   {{{datatypeWithEnum}}} {{{name}}};
-
 {{/vars}}
 {{/json_serializable}}
   @override

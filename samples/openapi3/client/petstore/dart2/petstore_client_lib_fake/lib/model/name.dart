@@ -26,7 +26,6 @@ class Name {
 
   int n123number;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is Name &&
      other.name == name &&

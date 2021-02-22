@@ -26,35 +26,30 @@ class Order {
     this.complete = false,
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'id',
     required: false,
   )
   int id;
-
   @JsonKey(
     nullable: false,
     name: r'petId',
     required: false,
   )
   int petId;
-
   @JsonKey(
     nullable: false,
     name: r'quantity',
     required: false,
   )
   int quantity;
-
   @JsonKey(
     nullable: false,
     name: r'shipDate',
     required: false,
   )
   DateTime shipDate;
-
       /// Order Status
   @JsonKey(
     nullable: false,
@@ -62,14 +57,12 @@ class Order {
     required: false,
   )
   OrderStatusEnum status;
-
   @JsonKey(
     nullable: false,
     name: r'complete',
     required: false,
   )
   bool complete;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is Order &&
      other.id == id &&

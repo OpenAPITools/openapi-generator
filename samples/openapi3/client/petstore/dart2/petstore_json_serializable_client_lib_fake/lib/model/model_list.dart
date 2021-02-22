@@ -21,14 +21,12 @@ class ModelList {
     this.n123list,
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'123-list',
     required: false,
   )
   String n123list;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelList &&
      other.n123list == n123list;

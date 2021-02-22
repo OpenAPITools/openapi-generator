@@ -21,14 +21,12 @@ class HealthCheckResult {
     this.nullableMessage,
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'NullableMessage',
     required: false,
   )
   String nullableMessage;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is HealthCheckResult &&
      other.nullableMessage == nullableMessage;

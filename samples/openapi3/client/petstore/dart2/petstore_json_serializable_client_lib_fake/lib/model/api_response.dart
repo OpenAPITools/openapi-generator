@@ -23,28 +23,24 @@ class ApiResponse {
     this.message,
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'code',
     required: false,
   )
   int code;
-
   @JsonKey(
     nullable: false,
     name: r'type',
     required: false,
   )
   String type;
-
   @JsonKey(
     nullable: false,
     name: r'message',
     required: false,
   )
   String message;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is ApiResponse &&
      other.code == code &&

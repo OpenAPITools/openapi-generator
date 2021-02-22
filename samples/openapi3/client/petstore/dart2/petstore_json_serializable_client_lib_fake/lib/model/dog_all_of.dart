@@ -21,14 +21,12 @@ class DogAllOf {
     this.breed,
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'breed',
     required: false,
   )
   String breed;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is DogAllOf &&
      other.breed == breed;

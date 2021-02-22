@@ -22,21 +22,18 @@ class EnumArrays {
     this.arrayEnum = const [],
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'just_symbol',
     required: false,
   )
   EnumArraysJustSymbolEnum justSymbol;
-
   @JsonKey(
     nullable: false,
     name: r'array_enum',
     required: false,
   )
   List<EnumArraysArrayEnumEnum> arrayEnum;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is EnumArrays &&
      other.justSymbol == justSymbol &&

@@ -22,21 +22,18 @@ class Category {
     this.name = 'default-name',
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'id',
     required: false,
   )
   int id;
-
   @JsonKey(
     nullable: false,
     name: r'name',
     required: true,
   )
   String name;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is Category &&
      other.id == id &&

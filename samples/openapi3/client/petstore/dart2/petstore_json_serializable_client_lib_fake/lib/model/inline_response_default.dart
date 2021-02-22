@@ -21,14 +21,12 @@ class InlineResponseDefault {
     this.string,
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'string',
     required: false,
   )
   Foo string;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is InlineResponseDefault &&
      other.string == string;

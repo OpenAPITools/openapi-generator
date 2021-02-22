@@ -18,7 +18,6 @@ class ModelFile {
   /// Test capitalization
   String sourceURI;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelFile &&
      other.sourceURI == sourceURI;

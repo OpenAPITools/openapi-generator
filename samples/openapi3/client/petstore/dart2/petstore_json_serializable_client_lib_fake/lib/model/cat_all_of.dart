@@ -21,14 +21,12 @@ class CatAllOf {
     this.declawed,
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'declawed',
     required: false,
   )
   bool declawed;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is CatAllOf &&
      other.declawed == declawed;

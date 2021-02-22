@@ -22,21 +22,18 @@ class Model200Response {
     this.class_,
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'name',
     required: false,
   )
   int name;
-
   @JsonKey(
     nullable: false,
     name: r'class',
     required: false,
   )
   String class_;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is Model200Response &&
      other.name == name &&

@@ -22,21 +22,18 @@ class AdditionalPropertiesClass {
     this.mapOfMapProperty = const {},
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'map_property',
     required: false,
   )
   Map<String, String> mapProperty;
-
   @JsonKey(
     nullable: false,
     name: r'map_of_map_property',
     required: false,
   )
   Map<String, Map<String, String>> mapOfMapProperty;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is AdditionalPropertiesClass &&
      other.mapProperty == mapProperty &&

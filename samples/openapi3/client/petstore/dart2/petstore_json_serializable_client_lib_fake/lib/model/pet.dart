@@ -26,42 +26,36 @@ class Pet {
     this.status,
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'id',
     required: false,
   )
   int id;
-
   @JsonKey(
     nullable: false,
     name: r'category',
     required: false,
   )
   Category category;
-
   @JsonKey(
     nullable: false,
     name: r'name',
     required: true,
   )
   String name;
-
   @JsonKey(
     nullable: false,
     name: r'photoUrls',
     required: true,
   )
   Set<String> photoUrls;
-
   @JsonKey(
     nullable: false,
     name: r'tags',
     required: false,
   )
   List<Tag> tags;
-
       /// pet status in the store
   @JsonKey(
     nullable: false,
@@ -69,7 +63,6 @@ class Pet {
     required: false,
   )
   PetStatusEnum status;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is Pet &&
      other.id == id &&

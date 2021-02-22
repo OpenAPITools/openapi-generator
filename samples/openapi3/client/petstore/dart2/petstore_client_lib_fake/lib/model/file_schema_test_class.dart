@@ -20,7 +20,6 @@ class FileSchemaTestClass {
 
   List<ModelFile> files;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is FileSchemaTestClass &&
      other.file == file &&

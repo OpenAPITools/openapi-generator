@@ -21,14 +21,12 @@ class ModelReturn {
     this.return_,
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'return',
     required: false,
   )
   int return_;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelReturn &&
      other.return_ == return_;

@@ -21,14 +21,12 @@ class SpecialModelName {
     this.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'$special[property.name]',
     required: false,
   )
   int dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is SpecialModelName &&
      other.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket == dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;

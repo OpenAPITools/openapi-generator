@@ -21,7 +21,6 @@ class ModelFile {
     this.sourceURI,
   });
 
-
       /// Test capitalization
   @JsonKey(
     nullable: false,
@@ -29,7 +28,6 @@ class ModelFile {
     required: false,
   )
   String sourceURI;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelFile &&
      other.sourceURI == sourceURI;

@@ -23,7 +23,6 @@ class Cat {
 
   bool declawed;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is Cat &&
      other.className == className &&

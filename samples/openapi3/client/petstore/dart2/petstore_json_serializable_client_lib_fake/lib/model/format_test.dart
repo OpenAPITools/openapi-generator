@@ -36,7 +36,6 @@ class FormatTest {
     this.patternWithDigitsAndDelimiter,
   });
 
-
           // minimum: 10
           // maximum: 100
   @JsonKey(
@@ -45,7 +44,6 @@ class FormatTest {
     required: false,
   )
   int integer;
-
           // minimum: 20
           // maximum: 200
   @JsonKey(
@@ -54,14 +52,12 @@ class FormatTest {
     required: false,
   )
   int int32;
-
   @JsonKey(
     nullable: false,
     name: r'int64',
     required: false,
   )
   int int64;
-
           // minimum: 32.1
           // maximum: 543.2
   @JsonKey(
@@ -70,7 +66,6 @@ class FormatTest {
     required: true,
   )
   num number;
-
           // minimum: 54.3
           // maximum: 987.6
   @JsonKey(
@@ -79,7 +74,6 @@ class FormatTest {
     required: false,
   )
   double float;
-
           // minimum: 67.8
           // maximum: 123.4
   @JsonKey(
@@ -88,59 +82,50 @@ class FormatTest {
     required: false,
   )
   double double_;
-
   @JsonKey(
     nullable: false,
     name: r'decimal',
     required: false,
   )
   double decimal;
-
   @JsonKey(
     nullable: false,
     name: r'string',
     required: false,
   )
   String string;
-
   @JsonKey(
     nullable: false,
     name: r'byte',
     required: true,
   )
   String byte;
-
   @JsonKey(ignore: true)
   MultipartFile binary;
-
   @JsonKey(
     nullable: false,
     name: r'date',
     required: true,
   )
   DateTime date;
-
   @JsonKey(
     nullable: false,
     name: r'dateTime',
     required: false,
   )
   DateTime dateTime;
-
   @JsonKey(
     nullable: false,
     name: r'uuid',
     required: false,
   )
   String uuid;
-
   @JsonKey(
     nullable: false,
     name: r'password',
     required: true,
   )
   String password;
-
       /// A string that is a 10 digit number. Can have leading zeros.
   @JsonKey(
     nullable: false,
@@ -148,7 +133,6 @@ class FormatTest {
     required: false,
   )
   String patternWithDigits;
-
       /// A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
   @JsonKey(
     nullable: false,
@@ -156,7 +140,6 @@ class FormatTest {
     required: false,
   )
   String patternWithDigitsAndDelimiter;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is FormatTest &&
      other.integer == integer &&

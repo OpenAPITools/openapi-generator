@@ -22,21 +22,18 @@ class FileSchemaTestClass {
     this.files = const [],
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'file',
     required: false,
   )
   ModelFile file;
-
   @JsonKey(
     nullable: false,
     name: r'files',
     required: false,
   )
   List<ModelFile> files;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is FileSchemaTestClass &&
      other.file == file &&

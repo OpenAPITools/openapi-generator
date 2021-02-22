@@ -21,14 +21,12 @@ class Foo {
     this.bar = 'bar',
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'bar',
     required: false,
   )
   String bar;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is Foo &&
      other.bar == bar;

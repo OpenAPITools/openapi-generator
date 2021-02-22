@@ -32,91 +32,78 @@ class NullableClass {
     this.objectItemsNullable = const {},
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'integer_prop',
     required: false,
   )
   int integerProp;
-
   @JsonKey(
     nullable: false,
     name: r'number_prop',
     required: false,
   )
   num numberProp;
-
   @JsonKey(
     nullable: false,
     name: r'boolean_prop',
     required: false,
   )
   bool booleanProp;
-
   @JsonKey(
     nullable: false,
     name: r'string_prop',
     required: false,
   )
   String stringProp;
-
   @JsonKey(
     nullable: false,
     name: r'date_prop',
     required: false,
   )
   DateTime dateProp;
-
   @JsonKey(
     nullable: false,
     name: r'datetime_prop',
     required: false,
   )
   DateTime datetimeProp;
-
   @JsonKey(
     nullable: false,
     name: r'array_nullable_prop',
     required: false,
   )
   List<Object> arrayNullableProp;
-
   @JsonKey(
     nullable: false,
     name: r'array_and_items_nullable_prop',
     required: false,
   )
   List<Object> arrayAndItemsNullableProp;
-
   @JsonKey(
     nullable: false,
     name: r'array_items_nullable',
     required: false,
   )
   List<Object> arrayItemsNullable;
-
   @JsonKey(
     nullable: false,
     name: r'object_nullable_prop',
     required: false,
   )
   Map<String, Object> objectNullableProp;
-
   @JsonKey(
     nullable: false,
     name: r'object_and_items_nullable_prop',
     required: false,
   )
   Map<String, Object> objectAndItemsNullableProp;
-
   @JsonKey(
     nullable: false,
     name: r'object_items_nullable',
     required: false,
   )
   Map<String, Object> objectItemsNullable;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is NullableClass &&
      other.integerProp == integerProp &&

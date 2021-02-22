@@ -26,42 +26,36 @@ class Capitalization {
     this.ATT_NAME,
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'smallCamel',
     required: false,
   )
   String smallCamel;
-
   @JsonKey(
     nullable: false,
     name: r'CapitalCamel',
     required: false,
   )
   String capitalCamel;
-
   @JsonKey(
     nullable: false,
     name: r'small_Snake',
     required: false,
   )
   String smallSnake;
-
   @JsonKey(
     nullable: false,
     name: r'Capital_Snake',
     required: false,
   )
   String capitalSnake;
-
   @JsonKey(
     nullable: false,
     name: r'SCA_ETH_Flow_Points',
     required: false,
   )
   String sCAETHFlowPoints;
-
       /// Name of the pet 
   @JsonKey(
     nullable: false,
@@ -69,7 +63,6 @@ class Capitalization {
     required: false,
   )
   String ATT_NAME;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is Capitalization &&
      other.smallCamel == smallCamel &&

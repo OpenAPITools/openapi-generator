@@ -21,14 +21,12 @@ class ClassModel {
     this.class_,
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'_class',
     required: false,
   )
   String class_;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is ClassModel &&
      other.class_ == class_;

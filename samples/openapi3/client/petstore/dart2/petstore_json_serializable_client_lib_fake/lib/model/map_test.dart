@@ -24,35 +24,30 @@ class MapTest {
     this.indirectMap = const {},
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'map_map_of_string',
     required: false,
   )
   Map<String, Map<String, String>> mapMapOfString;
-
   @JsonKey(
     nullable: false,
     name: r'map_of_enum_string',
     required: false,
   )
   Map<String, MapTestMapOfEnumStringEnum> mapOfEnumString;
-
   @JsonKey(
     nullable: false,
     name: r'direct_map',
     required: false,
   )
   Map<String, bool> directMap;
-
   @JsonKey(
     nullable: false,
     name: r'indirect_map',
     required: false,
   )
   Map<String, bool> indirectMap;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is MapTest &&
      other.mapMapOfString == mapMapOfString &&

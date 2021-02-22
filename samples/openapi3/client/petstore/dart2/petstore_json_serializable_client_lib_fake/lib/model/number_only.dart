@@ -21,14 +21,12 @@ class NumberOnly {
     this.justNumber,
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'JustNumber',
     required: false,
   )
   num justNumber;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is NumberOnly &&
      other.justNumber == justNumber;

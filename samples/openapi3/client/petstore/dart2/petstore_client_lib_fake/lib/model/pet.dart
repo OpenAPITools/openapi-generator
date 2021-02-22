@@ -33,7 +33,6 @@ class Pet {
   /// pet status in the store
   PetStatusEnum status;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is Pet &&
      other.id == id &&

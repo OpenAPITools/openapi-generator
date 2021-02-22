@@ -23,28 +23,24 @@ class OuterComposite {
     this.myBoolean,
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'my_number',
     required: false,
   )
   num myNumber;
-
   @JsonKey(
     nullable: false,
     name: r'my_string',
     required: false,
   )
   String myString;
-
   @JsonKey(
     nullable: false,
     name: r'my_boolean',
     required: false,
   )
   bool myBoolean;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is OuterComposite &&
      other.myNumber == myNumber &&

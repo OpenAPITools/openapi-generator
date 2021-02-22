@@ -74,7 +74,6 @@ class FormatTest {
   /// A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
   String patternWithDigitsAndDelimiter;
 
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is FormatTest &&
      other.integer == integer &&

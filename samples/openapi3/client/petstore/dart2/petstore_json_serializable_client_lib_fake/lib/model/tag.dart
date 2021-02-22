@@ -22,21 +22,18 @@ class Tag {
     this.name,
   });
 
-
   @JsonKey(
     nullable: false,
     name: r'id',
     required: false,
   )
   int id;
-
   @JsonKey(
     nullable: false,
     name: r'name',
     required: false,
   )
   String name;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is Tag &&
      other.id == id &&
