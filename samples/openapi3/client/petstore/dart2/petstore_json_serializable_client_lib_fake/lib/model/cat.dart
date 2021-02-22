@@ -29,18 +29,21 @@ class Cat {
     required: true,
   )
   String className;
+
   @JsonKey(
     nullable: false,
     name: r'color',
     required: false,
   )
   String color;
+
   @JsonKey(
     nullable: false,
     name: r'declawed',
     required: false,
   )
   bool declawed;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is Cat &&
      other.className == className &&

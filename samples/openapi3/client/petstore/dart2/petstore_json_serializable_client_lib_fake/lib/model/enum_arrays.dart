@@ -28,12 +28,14 @@ class EnumArrays {
     required: false,
   )
   EnumArraysJustSymbolEnum justSymbol;
+
   @JsonKey(
     nullable: false,
     name: r'array_enum',
     required: false,
   )
   List<EnumArraysArrayEnumEnum> arrayEnum;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is EnumArrays &&
      other.justSymbol == justSymbol &&
@@ -57,6 +59,7 @@ class EnumArrays {
 }
 
 
+
 enum EnumArraysJustSymbolEnum {
   greaterThanEqual,
   dollar,
@@ -68,5 +71,4 @@ enum EnumArraysArrayEnumEnum {
   fish,
   crab,
 }
-
 

@@ -29,18 +29,21 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     required: false,
   )
   String uuid;
+
   @JsonKey(
     nullable: false,
     name: r'dateTime',
     required: false,
   )
   DateTime dateTime;
+
   @JsonKey(
     nullable: false,
     name: r'map',
     required: false,
   )
   Map<String, Animal> map;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is MixedPropertiesAndAdditionalPropertiesClass &&
      other.uuid == uuid &&

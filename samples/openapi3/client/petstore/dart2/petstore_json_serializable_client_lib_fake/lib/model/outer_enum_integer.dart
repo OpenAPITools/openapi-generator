@@ -10,6 +10,7 @@
 part of openapi.api;
 
 
+
 enum OuterEnumInteger {
                 number0,
                 number1,

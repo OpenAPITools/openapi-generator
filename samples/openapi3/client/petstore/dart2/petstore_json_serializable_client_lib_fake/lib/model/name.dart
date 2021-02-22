@@ -30,24 +30,28 @@ class Name {
     required: true,
   )
   int name;
+
   @JsonKey(
     nullable: false,
     name: r'snake_case',
     required: false,
   )
   int snakeCase;
+
   @JsonKey(
     nullable: false,
     name: r'property',
     required: false,
   )
   String property;
+
   @JsonKey(
     nullable: false,
     name: r'123Number',
     required: false,
   )
   int n123number;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is Name &&
      other.name == name &&

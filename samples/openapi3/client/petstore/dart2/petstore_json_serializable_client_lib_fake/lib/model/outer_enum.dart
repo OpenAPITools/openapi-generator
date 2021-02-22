@@ -10,6 +10,7 @@
 part of openapi.api;
 
 
+
 enum OuterEnum {
                 placed,
                 approved,

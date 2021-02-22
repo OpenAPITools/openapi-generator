@@ -34,48 +34,56 @@ class EnumTest {
     required: false,
   )
   EnumTestEnumStringEnum enumString;
+
   @JsonKey(
     nullable: false,
     name: r'enum_string_required',
     required: true,
   )
   EnumTestEnumStringRequiredEnum enumStringRequired;
+
   @JsonKey(
     nullable: false,
     name: r'enum_integer',
     required: false,
   )
   EnumTestEnumIntegerEnum enumInteger;
+
   @JsonKey(
     nullable: false,
     name: r'enum_number',
     required: false,
   )
   EnumTestEnumNumberEnum enumNumber;
+
   @JsonKey(
     nullable: false,
     name: r'outerEnum',
     required: false,
   )
   OuterEnum outerEnum;
+
   @JsonKey(
     nullable: false,
     name: r'outerEnumInteger',
     required: false,
   )
   OuterEnumInteger outerEnumInteger;
+
   @JsonKey(
     nullable: false,
     name: r'outerEnumDefaultValue',
     required: false,
   )
   OuterEnumDefaultValue outerEnumDefaultValue;
+
   @JsonKey(
     nullable: false,
     name: r'outerEnumIntegerDefaultValue',
     required: false,
   )
   OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is EnumTest &&
      other.enumString == enumString &&
@@ -111,6 +119,7 @@ class EnumTest {
 }
 
 
+
 enum EnumTestEnumStringEnum {
   UPPER,
   lower,
@@ -138,5 +147,4 @@ enum EnumTestEnumNumberEnum {
   number1Period1,
   numberNegative1Period2,
 }
-
 

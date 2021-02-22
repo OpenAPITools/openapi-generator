@@ -10,6 +10,7 @@
 part of openapi.api;
 
 
+
 enum OuterEnumIntegerDefaultValue {
                 number0,
                 number1,

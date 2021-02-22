@@ -28,12 +28,14 @@ class HasOnlyReadOnly {
     required: false,
   )
   String bar;
+
   @JsonKey(
     nullable: false,
     name: r'foo',
     required: false,
   )
   String foo;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is HasOnlyReadOnly &&
      other.bar == bar &&

@@ -27,6 +27,7 @@ class SpecialModelName {
     required: false,
   )
   int dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is SpecialModelName &&
      other.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket == dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
