@@ -34,7 +34,7 @@ public class IncludeMarkupFilterTest extends LambdaTest {
     @Test
     public void testIncludeMarkupFilterFoundFileOk() throws IOException {
 
-        File tempFile = File.createTempFile("IncludeMarkupFilterTestDummyfile", "-adoc");
+        File tempFile = Files.createTempFile("IncludeMarkupFilterTestDummyfile", "-adoc").toFile();
         tempFile.deleteOnExit();
 
         final AsciidocDocumentationCodegen generator = new AsciidocDocumentationCodegen();
