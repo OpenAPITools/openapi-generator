@@ -19,14 +19,9 @@ package org.openapitools.codegen.languages;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -63,6 +58,8 @@ public class DartClientCodegen extends DefaultCodegen {
     public static final String PUB_AUTHOR_EMAIL = "pubAuthorEmail";
     public static final String PUB_HOMEPAGE = "pubHomepage";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
+    public static final String SERIALIZATION_LIBRARY_CUSTOM = "custom";
+    public static final String SERIALIZATION_LIBRARY_JSON_SERIALIZABLE = "json_serializable";
 
     protected String pubLibrary = "openapi.api";
     protected String pubName = "openapi";
@@ -203,6 +200,13 @@ public class DartClientCodegen extends DefaultCodegen {
         cliOptions.add(new CliOption(PUB_HOMEPAGE, "Homepage in generated pubspec"));
         cliOptions.add(new CliOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums"));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "Source folder for generated code"));
+
+        CliOption serializationLibrary = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, "Serialization library, by default uses custom generator");
+        Map<String, String> serializationOptions = new HashMap<>();
+        serializationOptions.put(SERIALIZATION_LIBRARY_CUSTOM, "Use custom generator as serialization library");
+        serializationOptions.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "Use json_serializable as serialization library");
+        serializationLibrary.setEnum(serializationOptions);
+        cliOptions.add(serializationLibrary);
     }
 
     @Override
@@ -302,6 +306,16 @@ public class DartClientCodegen extends DefaultCodegen {
             embeddedTemplateDir = templateDir = "dart2";
         }
 
+        // handle library not being set
+        if(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY) == null) {
+            this.library = SERIALIZATION_LIBRARY_CUSTOM;
+            LOGGER.debug("Serialization library not set, using default {}", SERIALIZATION_LIBRARY_CUSTOM);
+        } else {
+            this.library = additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY).toString();
+        }
+
+        setSerializationLibrary();
+
         final String libFolder = sourceFolder + File.separator + "lib";
         supportingFiles.add(new SupportingFile("pubspec.mustache", "", "pubspec.yaml"));
         supportingFiles.add(new SupportingFile("api_client.mustache", libFolder, "api_client.dart"));
@@ -319,6 +333,25 @@ public class DartClientCodegen extends DefaultCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
+    }
+
+    private void setSerializationLibrary() {
+        final String serialization_library = getLibrary();
+        LOGGER.error("Using serialization library {}", serialization_library);
+
+        switch (serialization_library) {
+            case SERIALIZATION_LIBRARY_JSON_SERIALIZABLE:
+                additionalProperties.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "true");
+                final String libFolder = "";
+                // json_serializable requires build.yaml
+                supportingFiles.add(new SupportingFile("build.yaml.mustache", libFolder, "build.yaml"));
+                break;
+
+            case SERIALIZATION_LIBRARY_CUSTOM: // fall trough to default backwards compatible generator
+            default:
+                additionalProperties.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "false");
+
+        }
     }
 
     @Override
