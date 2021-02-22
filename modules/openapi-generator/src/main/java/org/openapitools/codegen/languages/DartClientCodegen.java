@@ -59,6 +59,7 @@ public class DartClientCodegen extends DefaultCodegen {
     public static final String PUB_HOMEPAGE = "pubHomepage";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
     public static final String SERIALIZATION_LIBRARY_CUSTOM = "custom";
+    public static final String SERIALIZATION_LIBRARY_CUSTOM_SERIALIZATION = "custom_serialization";
     public static final String SERIALIZATION_LIBRARY_JSON_SERIALIZABLE = "json_serializable";
 
     protected String pubLibrary = "openapi.api";
@@ -342,14 +343,15 @@ public class DartClientCodegen extends DefaultCodegen {
         switch (serialization_library) {
             case SERIALIZATION_LIBRARY_JSON_SERIALIZABLE:
                 additionalProperties.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "true");
-                final String libFolder = "";
                 // json_serializable requires build.yaml
-                supportingFiles.add(new SupportingFile("build.yaml.mustache", libFolder, "build.yaml"));
+                supportingFiles.add(new SupportingFile("build.yaml.mustache",
+                        "" /* main project dir */,
+                        "build.yaml"));
                 break;
 
             case SERIALIZATION_LIBRARY_CUSTOM: // fall trough to default backwards compatible generator
             default:
-                additionalProperties.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "false");
+                additionalProperties.put(SERIALIZATION_LIBRARY_CUSTOM_SERIALIZATION, "true");
 
         }
     }
