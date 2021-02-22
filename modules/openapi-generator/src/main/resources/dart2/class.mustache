@@ -51,7 +51,7 @@ class {{{classname}}} {
   {{^isBinary}}
   @JsonKey(
     nullable: {{#nullable}}true{{/nullable}}{{^nullable}}false{{/nullable}},
-    name: r'{{{name}}}',
+    name: r'{{{baseName}}}',
     required: {{#required}}true{{/required}}{{^required}}false{{/required}},
   )
   {{/isBinary}}
