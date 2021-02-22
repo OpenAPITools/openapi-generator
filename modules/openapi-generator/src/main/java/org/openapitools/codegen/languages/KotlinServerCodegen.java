@@ -36,7 +36,7 @@ import java.util.Map;
 public class KotlinServerCodegen extends AbstractKotlinCodegen {
 
     public static final String DEFAULT_LIBRARY = Constants.KTOR;
-    private static final Logger LOGGER = LoggerFactory.getLogger(KotlinServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(KotlinServerCodegen.class);
     private Boolean autoHeadFeatureEnabled = true;
     private Boolean conditionalHeadersFeatureEnabled = false;
     private Boolean hstsFeatureEnabled = true;

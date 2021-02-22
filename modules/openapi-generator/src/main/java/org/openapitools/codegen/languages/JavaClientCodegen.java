@@ -47,7 +47,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     static final String MEDIA_TYPE = "mediaType";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
 
     public static final String USE_RX_JAVA = "useRxJava";
     public static final String USE_RX_JAVA2 = "useRxJava2";

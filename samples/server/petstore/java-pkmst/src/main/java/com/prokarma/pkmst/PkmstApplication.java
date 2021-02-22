@@ -20,7 +20,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableHystrixDashboard
 public class PkmstApplication {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(PkmstApplication.class);
+  private final Logger LOGGER = LoggerFactory.getLogger(PkmstApplication.class);
 
   public static void main(String[] args) {
     LOGGER.debug("Running spring boot application");

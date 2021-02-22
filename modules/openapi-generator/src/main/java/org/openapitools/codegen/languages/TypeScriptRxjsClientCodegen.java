@@ -34,7 +34,7 @@ import java.util.*;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTypeScriptClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractTypeScriptClientCodegen.class);
 
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_PROGRESS_SUBSCRIBER = "withProgressSubscriber";
