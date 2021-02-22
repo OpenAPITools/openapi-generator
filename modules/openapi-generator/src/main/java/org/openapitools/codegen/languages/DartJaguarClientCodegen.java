@@ -32,7 +32,7 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-public class DartJaguarClientCodegen extends DartClientCodegen {
+public class DartJaguarClientCodegen extends AbstractDartCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartJaguarClientCodegen.class);
 
     private static final String NULLABLE_FIELDS = "nullableFields";
