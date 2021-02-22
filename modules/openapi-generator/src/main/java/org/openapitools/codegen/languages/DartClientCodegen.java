@@ -23,6 +23,7 @@ import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,6 +46,25 @@ public class DartClientCodegen extends AbstractDartCodegen {
     public void processOpts() {
         super.processOpts();
         this.setSerializationLibrary();
+
+        final String libFolder = sourceFolder + File.separator + "lib";
+        supportingFiles.add(new SupportingFile("pubspec.mustache", "", "pubspec.yaml"));
+        supportingFiles.add(new SupportingFile("api_client.mustache", libFolder, "api_client.dart"));
+        supportingFiles.add(new SupportingFile("api_exception.mustache", libFolder, "api_exception.dart"));
+        supportingFiles.add(new SupportingFile("api_helper.mustache", libFolder, "api_helper.dart"));
+        supportingFiles.add(new SupportingFile("apilib.mustache", libFolder, "api.dart"));
+
+        final String authFolder = sourceFolder + File.separator + "lib" + File.separator + "auth";
+        supportingFiles.add(new SupportingFile("auth/authentication.mustache", authFolder, "authentication.dart"));
+        supportingFiles.add(new SupportingFile("auth/http_basic_auth.mustache", authFolder, "http_basic_auth.dart"));
+        supportingFiles.add(new SupportingFile("auth/http_bearer_auth.mustache", authFolder, "http_bearer_auth.dart"));
+        supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
+        supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
+
     }
 
     private void setSerializationLibrary() {
