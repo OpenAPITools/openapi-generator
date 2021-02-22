@@ -35,6 +35,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -181,7 +182,7 @@ public class Generator {
 
     private static File getTmpFolder() {
         try {
-            File outputFolder = File.createTempFile("codegen-", "-tmp");
+            File outputFolder = Files.createTempFile("codegen-", "-tmp").toFile();
             outputFolder.delete();
             outputFolder.mkdir();
             outputFolder.deleteOnExit();
