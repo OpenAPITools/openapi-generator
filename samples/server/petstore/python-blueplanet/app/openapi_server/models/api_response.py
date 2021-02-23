@@ -42,15 +42,17 @@ class ApiResponse(Model):
         self._message = message
 
     @classmethod
-    def from_dict(cls, dikt) -> 'ApiResponse':
+    def from_dict(cls, dikt, attr_map=True) -> 'ApiResponse':
         """Returns the dict as a model
 
         :param dikt: A dict.
         :type: dict
+        :param attr_map: Defines if attribute_map is used in dict.
+        :type: bool
         :return: The ApiResponse of this ApiResponse.  # noqa: E501
         :rtype: ApiResponse
         """
-        return util.deserialize_model(dikt, cls)
+        return util.deserialize_model(dikt, cls, attr_map=attr_map)
 
     @property
     def code(self) -> int:

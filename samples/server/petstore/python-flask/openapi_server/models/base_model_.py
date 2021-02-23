@@ -18,18 +18,22 @@ class Model(object):
     attribute_map = {}
 
     @classmethod
-    def from_dict(cls: typing.Type[T], dikt) -> T:
+    def from_dict(cls: typing.Type[T], dikt, attr_map=True) -> T:
         """Returns the dict as a model"""
-        return util.deserialize_model(dikt, cls)
+        return util.deserialize_model(dikt, cls, attr_map=attr_map)
 
-    def to_dict(self):
+    def to_dict(self, attr_map=True):
         """Returns the model properties as a dict
 
+        :param attr_map: Defines if attribute_map is used in dict.
+        :type: bool
         :rtype: dict
         """
         result = {}
 
         for attr, _ in six.iteritems(self.openapi_types):
+            attr = self.attribute_map[attr] if attr_map else attr
+
             value = getattr(self, attr)
             if isinstance(value, list):
                 result[attr] = list(map(

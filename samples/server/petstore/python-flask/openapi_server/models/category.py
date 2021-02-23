@@ -37,15 +37,17 @@ class Category(Model):
         self._name = name
 
     @classmethod
-    def from_dict(cls, dikt) -> 'Category':
+    def from_dict(cls, dikt, attr_map=True) -> 'Category':
         """Returns the dict as a model
 
         :param dikt: A dict.
         :type: dict
+        :param attr_map: Defines if attribute_map is used in dict.
+        :type: bool
         :return: The Category of this Category.  # noqa: E501
         :rtype: Category
         """
-        return util.deserialize_model(dikt, cls)
+        return util.deserialize_model(dikt, cls, attr_map=attr_map)
 
     @property
     def id(self):

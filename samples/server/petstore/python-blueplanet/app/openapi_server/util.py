@@ -91,12 +91,14 @@ def deserialize_datetime(string):
         return string
 
 
-def deserialize_model(data, klass):
+def deserialize_model(data, klass, attr_map=True):
     """Deserializes list or dict to model.
 
     :param data: dict, list.
     :type data: dict | list
     :param klass: class literal.
+    :param attr_map: defines if attribute_map is used in dict.
+    :type attr_map: bool
     :return: model object.
     """
     instance = klass()
@@ -104,11 +106,13 @@ def deserialize_model(data, klass):
     if not instance.swagger_types:
         return data
 
-    for attr, attr_type in six.iteritems(instance.swagger_types):
+    for attr, attr_type in six.iteritems(instance.openapi_types):
+        attr = instance.attribute_map[attr] if attr_map else attr
+
         if data is not None \
-                and instance.attribute_map[attr] in data \
+                and attr in data \
                 and isinstance(data, (list, dict)):
-            value = data[instance.attribute_map[attr]]
+            value = data[attr]
             setattr(instance, attr, _deserialize(value, attr_type))
 
     return instance
