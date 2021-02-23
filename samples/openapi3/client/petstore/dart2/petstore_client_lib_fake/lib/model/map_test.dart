@@ -170,4 +170,3 @@ class MapTestMapOfEnumStringEnumTypeTransformer {
   static MapTestMapOfEnumStringEnumTypeTransformer _instance;
 }
 
-

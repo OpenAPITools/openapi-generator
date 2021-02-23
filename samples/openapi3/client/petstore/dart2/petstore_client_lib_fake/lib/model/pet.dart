@@ -182,4 +182,3 @@ class PetStatusEnumTypeTransformer {
   static PetStatusEnumTypeTransformer _instance;
 }
 
-
